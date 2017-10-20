@@ -72,9 +72,9 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
     @NonNull
     private HappyFlowContentConfiguration createHappyFlowConfiguration(){
         return new HappyFlowContentConfiguration.Builder()
-                .setEWS_01_Title(R.string.lbl_connectwithdevice)
-                .setEWS02_01_Title(R.string.lbl_ews_02_01_title)
-                .setEWS02_01_Body(R.string.lbl_ews_02_01_body)
+                .setGettingStartedScreenTitle(R.string.lbl_connectwithdevice)
+                .setPlugInScreenTitle(R.string.lbl_ews_02_01_title)
+                .setPlugInScreenBody(R.string.lbl_ews_02_01_body)
                 .build();
     }
 }

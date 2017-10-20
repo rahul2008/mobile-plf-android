@@ -65,7 +65,8 @@ public class EWSActivity extends UiKitActivity {
         EWSTagger.collectLifecycleInfo(this);
 
         //TODO move this initialization.
-        Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()),new ActivityNavigator(this));
+        Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()),
+                new ActivityNavigator(this));
         navigator.navigateToGettingStartedScreen();
     }
 
@@ -98,7 +99,7 @@ public class EWSActivity extends UiKitActivity {
 
         return DaggerEWSComponent.builder()
                 .eWSModule(new EWSModule(EWSActivity.this, getSupportFragmentManager()))
-                .eWSConfigurationModule(new EWSConfigurationModule(contentConfiguration.getBaseContentConfiguration(),
+                .eWSConfigurationModule(new EWSConfigurationModule(getResources(), contentConfiguration.getBaseContentConfiguration(),
                         contentConfiguration.getHappyFlowContentConfiguration()))
                 .build();
     }
