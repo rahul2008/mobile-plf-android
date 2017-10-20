@@ -12,6 +12,7 @@ properties([
 def errors = []
 
 node('Android') {
+sh 'env | sort'
     timestamps {
         try {
             stage('Checkout') {
@@ -60,7 +61,7 @@ node('Android') {
                     sh '''#!/bin/bash -l
                                 chmod -R 755 . 
                                 cd ./Source/Library
-                                ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_NUMBER} clean assembleRelease 
+                                ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_NUMBER} assembleRelease 
                             '''
 
             }
