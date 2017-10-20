@@ -53,7 +53,6 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_confirm_appointment, container, false);
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","appointmentScheduled");
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_confirm), true);
         }

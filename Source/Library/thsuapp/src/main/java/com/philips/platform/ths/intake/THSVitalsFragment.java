@@ -170,7 +170,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         if(mTHSVitals.getWeight()>0){
             tagActions= THSTagUtils.addActions(tagActions,"weight");
         }
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, tagActions);
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,"step2VitalsForVisit", tagActions);
     }
 
     @Override

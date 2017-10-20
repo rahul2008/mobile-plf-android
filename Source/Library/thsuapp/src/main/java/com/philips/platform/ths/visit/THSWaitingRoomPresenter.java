@@ -33,6 +33,7 @@ import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_RESULT_COD
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP_SERVER_DISCONNECTED;
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_PROVIDER_CONNECTED;
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
+import static com.americanwell.sdk.entity.visit.VisitEndReason.PROVIDER_DECLINE;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
@@ -166,6 +167,9 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     @Override
     public void onStartVisitEnded(@NonNull VisitEndReason visitEndReason) {
         AmwellLog.v("call end",visitEndReason.toString());
+        if(visitEndReason == PROVIDER_DECLINE){
+
+        }
 
     }
 
