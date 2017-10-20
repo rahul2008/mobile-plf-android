@@ -116,14 +116,14 @@ publishing {
     }
 }
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
         applicationId "com.philips.platform.mya.demoapp"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        minSdkVersion 21
-        targetSdkVersion 25
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         multiDexEnabled true
         renderscriptTargetApi 25
         renderscriptSupportModeEnabled true
@@ -227,19 +227,27 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:customtabs:25.3.1'
-    compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-        transitive = true
-    }
+    compile "com.android.support:appcompat-v7:${versions.support}"
+    compile "com.android.support:customtabs:${versions.support}"
+    def dp = project.ext.has('useprojectdependencies')
 
-    compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_UserRegistrationUApp + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(dp ? project(':uid') : uidModule)
+            {
+                transitive = true
+            }
+
+    def usrUAppModule = module(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_UserRegistrationUApp + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(dp ? project(':usrUApp') : usrUAppModule)
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-        transitive = true
-        exclude group: 'com.android.support', module: 'customtabs'
-    }
+    def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(dp ? project(':usr') : usrModule)
+            {
+                transitive = true
+                exclude group: 'com.android.support', module: 'customtabs'
+            }
+
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
