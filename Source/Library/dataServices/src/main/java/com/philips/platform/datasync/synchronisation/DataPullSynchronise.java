@@ -89,7 +89,6 @@ public class DataPullSynchronise {
     }
 
     void startSynchronise(@Nullable final DateTime sinceLastModifiedDate, final int referenceId) {
-
         boolean isLoggedIn = userAccessProvider.isLoggedIn();
 
         if (!isLoggedIn) {
