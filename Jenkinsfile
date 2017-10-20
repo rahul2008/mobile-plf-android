@@ -23,10 +23,6 @@ node('Android') {
                    echo "jobBaseName = " + jobBaseName
                    exit 1
                 }
-                sh 'env > env.txt' 
-                for (String i : readFile('env.txt').split("\r?\n")) {
-                println i
-                }
 
             checkout([$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: false, reference: '', shallow: true, timeout: 30],[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch', localBranch: "**"]], recursiveSubmodules: true, submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/ews-android-easywifisetupuapp']]])
             }
@@ -55,7 +51,7 @@ node('Android') {
                     sh '''#!/bin/bash -l
                                 chmod -R 755 . 
                                 cd ./Source/Library 
-                                ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_ID} clean assembleDebug lint
+                                ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_NUMBER} clean assembleDebug lint
                             '''
 
             }
@@ -64,7 +60,7 @@ node('Android') {
                     sh '''#!/bin/bash -l
                                 chmod -R 755 . 
                                 cd ./Source/Library
-                                ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_ID} assembleRelease 
+                                ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_NUMBER} assembleRelease 
                             '''
 
             }
