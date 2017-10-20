@@ -25,7 +25,7 @@ import com.philips.platform.csw.CswBaseFragment;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uid.view.widget.Switch;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static com.janrain.android.engage.JREngage.getApplicationContext;
 
@@ -63,8 +63,9 @@ public class PermissionView extends CswBaseFragment implements
         showProgressDialog();
         ConsentAccessToolKit consentAccessToolKit = new ConsentAccessToolKit();
         consentAccessToolKit.getConsentDetails(getApplicationContext(),new ConsentResponseListener() {
+
             @Override
-            public void onResponseSuccessConsent(ArrayList<ConsentModel> responseData) {
+            public void onResponseSuccessConsent(List<ConsentModel> responseData) {
                 hideProgressDialog();
                 if (responseData.get(0).getStatus().equals(ConsentStatus.active)) {
                     mConsentSwitch.setChecked(true);
