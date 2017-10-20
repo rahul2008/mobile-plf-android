@@ -4,7 +4,7 @@
  */
 package com.philips.cdp2.ews.injections;
 
-import android.content.res.Resources;
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
@@ -17,15 +17,15 @@ import dagger.Provides;
 @Module
 public class EWSConfigurationModule {
 
-    @NonNull private final Resources resources;
+    @NonNull private final Context context;
 
     @NonNull private BaseContentConfiguration baseContentConfiguration;
     @NonNull private HappyFlowContentConfiguration happyFlowContentConfiguration;
 
-    public EWSConfigurationModule(@NonNull Resources resources,
+    public EWSConfigurationModule(@NonNull Context context,
                                   @NonNull BaseContentConfiguration baseContentConfiguration,
                                   @NonNull HappyFlowContentConfiguration happyFlowContentConfiguration){
-        this.resources = resources;
+        this.context = context;
         this.baseContentConfiguration = baseContentConfiguration;
         this.happyFlowContentConfiguration = happyFlowContentConfiguration;
     }
@@ -42,6 +42,6 @@ public class EWSConfigurationModule {
 
     @Provides
     StringProvider provideStringProvider() {
-        return new StringProvider(resources);
+        return new StringProvider(context);
     }
 }

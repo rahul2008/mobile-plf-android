@@ -66,7 +66,7 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
 
     @NonNull
     private BaseContentConfiguration createBaseContentConfiguration(){
-        return new BaseContentConfiguration(R.string.lbl_appname, R.string.lbl_devicename);
+        return new BaseContentConfiguration(R.string.lbl_devicename, R.string.lbl_appname);
     }
 
     @NonNull
