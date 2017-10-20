@@ -1,15 +1,10 @@
 package com.philips.platform.datasync.synchronisation;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.platform.datasync.moments.MomentsClient;
-import com.philips.platform.datasync.moments.MomentsConverter;
 import com.philips.platform.datasync.spy.UserAccessProviderSpy;
 
 import org.joda.time.DateTime;
@@ -66,7 +61,7 @@ public class DataPullSynchroniseTest {
     SynchronisationManager synchronisationManagerMock;
 
     @Mock
-    private AppComponent appComponantMock;
+    private AppComponent appComponentMock;
 
 
     @Before
@@ -75,7 +70,7 @@ public class DataPullSynchroniseTest {
 
         userAccessProviderSpy = new UserAccessProviderSpy();
 
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponant(appComponentMock);
 
         Set set = new HashSet();
         set.add("moment");
