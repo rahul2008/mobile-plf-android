@@ -71,7 +71,7 @@ public class PermissionView extends CswBaseFragment implements
         showProgressDialog();
         NetworkHelper consentObj = new NetworkHelper();
         User user = new User(getApplicationContext());
-        consentObj.getStatusForConsentType(moment, version, user.getCountryCode(), propositionName, applicationName, new ConsentResponseListener() {
+        consentObj.getStatusForConsentType(getApplicationContext(), moment, version, user.getCountryCode(), propositionName, applicationName, new ConsentResponseListener() {
             @Override
             public void onResponseSuccessConsent(List<ConsentModel> responseData) {
                 if (!responseData.isEmpty()) {

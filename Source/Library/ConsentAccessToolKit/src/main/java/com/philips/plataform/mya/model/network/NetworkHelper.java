@@ -50,10 +50,10 @@ public class NetworkHelper {
     private String mHsdpUUID;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
 
-    public void getStatusForConsentType(String consentType, int version, String country, String propositionName, String applicationName, ConsentResponseListener consentListener) {
+    public void getStatusForConsentType(Context context, String consentType, int version, String country, String propositionName, String applicationName, ConsentResponseListener consentListener) {
         String policyRule = buildPolicyRule(consentType, version, country, propositionName, applicationName);
         ConsentStatusConsentResponseListener listner = new ConsentStatusConsentResponseListener();
-        performGetLatestConsentStatus(listner);
+        getLatestConsentStatus(context, listner);
         if (listner.error == null) {
             for (ConsentModel c: listner.result) {
                 if (policyRule.equals(c.getPolicyRule())) {
