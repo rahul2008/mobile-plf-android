@@ -10,7 +10,7 @@ jacoco {
 }
 
 def coverageSourceDirs = [
-        '../ConsentAccessToolKit/src/main/java'
+        projectDir.absolutePath + '/src/main/java'
 ]
 
 buildscript {
@@ -332,7 +332,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     description = "Generate Jacoco coverage reports"
 
     classDirectories = fileTree(
-            dir: '../iap/build/intermediates/classes/debug',
+            dir: projectDir.absolutePath + '/build/intermediates/classes/debug',
     )
 
     additionalSourceDirs = files(coverageSourceDirs)

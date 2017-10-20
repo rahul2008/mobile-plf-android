@@ -229,17 +229,28 @@ android {
 dependencies {
     compile "com.android.support:appcompat-v7:${versions.support}"
     compile "com.android.support:customtabs:${versions.support}"
-    compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-        transitive = true
-    }
+    def dp = project.ext.has('useprojectdependencies')
 
-    compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_UserRegistrationUApp + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(dp ? project(':uid') : uidModule)
+            {
+                transitive = true
+            }
 
+    def usrUAppModule = module(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_UserRegistrationUApp + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(dp ? project(':usrUApp') : usrUAppModule)
+            {
+                transitive = true
+            }
+            
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-        transitive = true
-        exclude group: 'com.android.support', module: 'customtabs'
-    }
+    def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(dp ? project(':usr') : usrModule)
+            {
+                transitive = true
+                exclude group: 'com.android.support', module: 'customtabs'
+            }
+
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
