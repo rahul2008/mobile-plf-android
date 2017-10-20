@@ -27,6 +27,9 @@ abstract public class AbstractUIBasePresenter {
     protected static final int MENU_OPTION_SUPPORT = 6;
     protected static final int MENU_OPTION_ABOUT = 7;
     //protected static final int MENU_OPTION_PR = 9;
+    protected static final int MENU_OPTION_TELEHEALTHSERVICES = 6;
+    protected static final int MENU_OPTION_POWER_SLEEP_CONNECTIVITY = 7;
+    protected static final int MENU_OPTION_MYACCOUNT = 8;
 
     /* event to state map */
     protected static final String HOME_SETTINGS = "settings";
@@ -44,6 +47,8 @@ abstract public class AbstractUIBasePresenter {
     protected static final String HOME_POWER_SLEEP_CONNECTIVITY = "power_sleep_connectivity";
     protected static final String HAMBURGER_LOGIN = "login";
     protected static final String HAMBURGER_LOGOUT = "logout";
+    protected static final String HOME_MYACCOUNT = "my_account";
+
     private UIView uiView;
 
     public AbstractUIBasePresenter(final UIView uiView) {
@@ -113,6 +118,10 @@ abstract public class AbstractUIBasePresenter {
                 final UIStateData powerSleepStateData = new UIStateData();
                 powerSleepStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return powerSleepStateData;
+            case AppStates.MY_ACCOUNT:
+                UIStateData myAccountData = new UIStateData();
+                myAccountData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                return myAccountData;
             default:
                 RALog.d(TAG," default case selected ");
                 homeStateData = new UIStateData();

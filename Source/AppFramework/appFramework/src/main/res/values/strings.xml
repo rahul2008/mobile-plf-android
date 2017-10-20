@@ -17,6 +17,9 @@
     <string name="RA_About_App_Version">Version</string>
     <string name="RA_About_Description">The details for this Page is to be provided by Philips Design</string>
 
+    <!-- MyAccount screen string contants-->
+    <string name="RA_MyAccount_Title">MyAccount</string>
+
     <!--Debug and Test fragment string constants-->
     <string name="RA_DebugScreen_Title">Debug and Test</string>
 
@@ -196,6 +199,7 @@
         <item>@string/RA_ConnectivityScreen_Menu_Title</item>
         <item>@string/RA_Support_Menu_Title</item>
         <item>@string/RA_About_Menu_Title</item>
+        <item>@string/RA_MyAccount_Title</item>
     </string-array>
 
     <array name="hamburger_drawer_items_res">

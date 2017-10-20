@@ -220,6 +220,15 @@
                 "nextState": "settings_registration"
               }
             ]
+          },
+          {
+            "eventId": "my_account",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_account"
+              }
+            ]
           }
         ]
       },
