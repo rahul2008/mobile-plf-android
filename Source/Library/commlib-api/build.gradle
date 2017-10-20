@@ -221,10 +221,13 @@ pitest {
             'com.philips.cdp2.commlib.lan.security.*',
             'com.philips.cdp.dicommclient.request.*',
             'com.philips.cdp.dicommclient.networknode.*',
+            'com.philips.cdp.dicommclient.security.*',
     ]  /* specify target classes to be mutated */
     excludedClasses = [
             'com.philips.cdp2.commlib.core.port.firmware.util.FirmwarePortStateWaiterTest',
             'com.philips.cdp.dicommclient.port.common.PairingHandlerTest',
+            'com.philips.cdp2.commlib.core.appliance.ApplianceTest',
+            'com.philips.cdp2.commlib.core.appliance.ApplianceManagerTest',
     ]
     pitestVersion = versions.pitest
     avoidCallsTo = ['com.philips.cdp.dicommclient.util.DICommLog']
