@@ -2,7 +2,7 @@
  * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
- 
+
 ext.versions = [
 		ail_appInfra               : "1.9.0",
 		bll_shinelib               : "3.3.0",
@@ -10,6 +10,7 @@ ext.versions = [
 		dcc_digitalCare            : "8.1.0",
 		dsc_dataServices           : "2.1.0",
 		dpr_devicePairing          : "1.1.0",
+		mya_myAccount              : "1.0.0",
 		iap_iap                    : "6.1.0",
 		icf_iconFont               : "1.1.0",
 		mya_myAccount              : "1.0.0",

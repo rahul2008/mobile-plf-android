@@ -16,6 +16,7 @@ import com.philips.platform.baseapp.screens.debugtest.DebugTestFragmentState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeState;
+import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
 import com.philips.platform.baseapp.screens.splash.SplashState;
@@ -53,5 +54,6 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.COCO_VERSION_INFO, new CocoVersionState());
         uiStateMap.put(AppStates.TEST_DEVICE_PAIRING, new DemoDevicePairingState());
         uiStateMap.put(AppStates.TELEHEALTHSERVICES, new TeleHealthServicesState());
+        uiStateMap.put(AppStates.MY_ACCOUNT, new MyAccountState());
     }
 }
