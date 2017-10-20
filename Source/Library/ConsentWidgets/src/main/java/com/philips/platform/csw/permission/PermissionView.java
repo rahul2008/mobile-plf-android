@@ -35,8 +35,8 @@ public class PermissionView extends CswBaseFragment implements
 
     public static final String CONSENT_TYPE_MOMENT_SYNC = "momentsync";
 
-    public static final String applicationName = "DataCore";
-    public static final String propositionName = "DataCoreInternal";
+    public static final String applicationName = "OneBackend";
+    public static final String propositionName = "OneBackendInternal";
     public static final String moment = "moment";
     public static final int version = 0;
 
