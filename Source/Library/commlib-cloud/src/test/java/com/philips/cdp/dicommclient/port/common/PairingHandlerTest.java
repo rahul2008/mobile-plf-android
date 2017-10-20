@@ -32,7 +32,7 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -129,8 +129,8 @@ public class PairingHandlerTest {
     public void testGenerateRandomSecretKeyIsHex() {
         PairingHandler manager = new PairingHandler<>(null, (PairingListener<Appliance>) null, cloudControllerMock);
         String randomKey = manager.generateRandomSecretKey();
-        parseLong(randomKey.substring(0,8), 16);
-        parseLong(randomKey.substring(9,16), 16);
+        parseLong(randomKey.substring(0, 8), 16);
+        parseLong(randomKey.substring(9, 16), 16);
     }
 
     @Test
