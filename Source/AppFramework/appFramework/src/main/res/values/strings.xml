@@ -199,7 +199,6 @@
         <item>@string/RA_ConnectivityScreen_Menu_Title</item>
         <item>@string/RA_Support_Menu_Title</item>
         <item>@string/RA_About_Menu_Title</item>
-        <item>@string/RA_MyAccount_Title</item>
     </string-array>
 
     <array name="hamburger_drawer_items_res">

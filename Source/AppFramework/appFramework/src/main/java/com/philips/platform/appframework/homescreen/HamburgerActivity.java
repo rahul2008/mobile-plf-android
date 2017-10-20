@@ -49,6 +49,10 @@ import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SideBar;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * This is the Main activity which host the main hamburger menu
  * This activity is the container of all the other fragment for the app
@@ -67,10 +71,26 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     Handler handler = new Handler();
     private SideBar sideBar;
     private ActionBarDrawerToggle drawerToggle;
-    private LinearLayout hamburgerFooterParent;
+
+    @BindView(R.id.hamburger_menu_footer_container)
+    LinearLayout hamburgerFooterParent;
+
     private URLogoutInterface urLogoutInterface;
-    private Label avatarName;
-    private Label hamburgerLogoutLabel;
+
+    @BindView(R.id.rap_avatar_name)
+    Label avatarName;
+
+    @BindView(R.id.hamburger_log_out)
+    Label hamburgerLogoutLabel;
+
+    @BindView(R.id.hamburger_menu_header_container)
+    LinearLayout hamburgerHeaderParent;
+
+    @BindView(R.id.hamburger_list)
+    RecyclerView hamburgerMenuRecyclerView;
+
+    private HamburgerMenuAdapter hamburgerMenuAdapter;
+
 
    /* private ImageView cartIcon;
     private TextView cartCount;
@@ -91,6 +111,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         presenter = getActivityPresenter();
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
         setContentView(R.layout.af_uikit_hamburger_menu);
+        ButterKnife.bind(this);
         initializeActivityContents();
     }
 
@@ -113,14 +134,10 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         return new URLogout();
     }
 
-    private RecyclerView hamburgerMenuRecyclerView;
-    private HamburgerMenuAdapter hamburgerMenuAdapter;
-
     private void initLeftSidebarRecyclerViews() {
         RecyclerViewSeparatorItemDecoration hamburgerSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(UIDHelper.getContentThemedContext(this));
         ArrayList<HamburgerMenuItem> hamburgerMenuItems = getIconDataHolderView(UIDHelper.getContentThemedContext(this));
 
-        hamburgerMenuRecyclerView = (RecyclerView) findViewById(R.id.hamburger_list);
         hamburgerMenuAdapter = new HamburgerMenuAdapter(hamburgerMenuItems);
         hamburgerMenuAdapter.setMenuItemClickListener(this);
         hamburgerMenuRecyclerView.setAdapter(hamburgerMenuAdapter);
@@ -171,10 +188,8 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
             }
         });
-        hamburgerFooterParent = (LinearLayout) findViewById(R.id.hamburger_menu_footer_container);
-        hamburgerLogoutLabel = (Label) findViewById(R.id.hamburger_log_out);
-        avatarName = (Label) findViewById(R.id.rap_avatar_name);
         hamburgerFooterParent.setOnClickListener(this);
+        hamburgerHeaderParent.setOnClickListener(this);
         setUserNameAndLogoutText();
         initSidebarComponents();
         navigationView = (LinearLayout) findViewById(R.id.navigation_view);
@@ -463,15 +478,20 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     @Override
     public void onClick(View view) {
+        sideBar.closeDrawer(navigationView);
         switch (view.getId()) {
             case R.id.hamburger_menu_footer_container:
-                sideBar.closeDrawer(navigationView);
                 if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this).isUserSignIn()) {
                     showProgressBar();
                     urLogoutInterface.performLogout(this, ((AppFrameworkApplication) getApplicationContext())
                                     .getUserRegistrationState().getUserObject(this));
                 } else {
                     presenter.onEvent(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
+                }
+                break;
+            case R.id.hamburger_menu_header_container:
+                if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this).isUserSignIn()) {
+                    presenter.onEvent(Constants.HAMBURGER_MY_ACCOUNT_CLICK);
                 }
                 break;
         }

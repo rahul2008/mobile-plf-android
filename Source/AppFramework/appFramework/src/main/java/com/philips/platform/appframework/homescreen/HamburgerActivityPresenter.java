@@ -103,7 +103,7 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
                 return HAMBURGER_LOGIN;
             case Constants.LOGOUT_BUTTON_CLICK_CONSTANT:
                 return HAMBURGER_LOGOUT;
-            case MENU_OPTION_MYACCOUNT:
+            case Constants.HAMBURGER_MY_ACCOUNT_CLICK:
                 return HOME_MYACCOUNT;
             default:
                 return HOME_FRAGMENT;

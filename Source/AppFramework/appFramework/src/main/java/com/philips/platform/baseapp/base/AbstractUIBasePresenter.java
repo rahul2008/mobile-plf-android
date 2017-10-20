@@ -27,9 +27,6 @@ abstract public class AbstractUIBasePresenter {
     protected static final int MENU_OPTION_SUPPORT = 6;
     protected static final int MENU_OPTION_ABOUT = 7;
     //protected static final int MENU_OPTION_PR = 9;
-    protected static final int MENU_OPTION_TELEHEALTHSERVICES = 6;
-    protected static final int MENU_OPTION_POWER_SLEEP_CONNECTIVITY = 7;
-    protected static final int MENU_OPTION_MYACCOUNT = 8;
 
     /* event to state map */
     protected static final String HOME_SETTINGS = "settings";
