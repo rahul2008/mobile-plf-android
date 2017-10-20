@@ -4,6 +4,7 @@ package com.philips.plataform.mya.model.network;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.widget.ListViewAutoScrollHelper;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -33,6 +34,7 @@ import com.philips.platform.appinfra.rest.request.GsonCustomRequest;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +49,27 @@ public class NetworkHelper {
     private User mUser;
     private String mHsdpUUID;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
+
+    public void getStatusForConsentType(String consentType, int version, String country, String propositionName, String applicationName, ConsentResponseListener consentListener) {
+        String policyRule = buildPolicyRule(consentType, version, country, propositionName, applicationName);
+        ConsentStatusConsentResponseListener listner = new ConsentStatusConsentResponseListener();
+        performGetLatestConsentStatus(listner);
+        if (listner.error == null) {
+            for (ConsentModel c: listner.result) {
+                if (policyRule.equals(c.getPolicyRule())) {
+                    consentListener.onResponseSuccessConsent(Collections.singletonList(c));
+                    return;
+                }
+            }
+            consentListener.onResponseSuccessConsent(Collections.<ConsentModel>emptyList());
+        } else {
+            consentListener.onResponseFailureConsent(listner.error);
+        }
+    }
+
+    private String buildPolicyRule(String consentType, int version, String country, String propositionName, String applicationName) {
+        return "urn:com.philips.consent:" + consentType + "/" + country + "/" + version + "/" + propositionName + "/" + applicationName;
+    }
 
     public void getLatestConsentStatus(Context context, final ConsentResponseListener consentListener) {
         mContext = context;
@@ -196,5 +219,22 @@ public class NetworkHelper {
                 }
             }
         };
+    }
+
+    public static class ConsentStatusConsentResponseListener implements ConsentResponseListener {
+
+        public List<ConsentModel> result;
+        public ConsentError error;
+
+        @Override
+        public void onResponseSuccessConsent(List<ConsentModel> responseData) {
+            result = responseData;
+        }
+
+        @Override
+        public void onResponseFailureConsent(ConsentError consentError) {
+            error = consentError;
+        }
+
     }
 }
