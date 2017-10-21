@@ -90,13 +90,11 @@ public class DataPullSynchronise {
         }
 
         if (!isSyncStarted()) {
-            synchronized (this) {
-                fetchData(sinceLastModifiedDate, referenceId);
-            }
+            fetchData(sinceLastModifiedDate, referenceId);
         }
     }
 
-    private void fetchData(final DateTime sinceLastModifiedDate, final int referenceId) {
+    private synchronized void fetchData(final DateTime sinceLastModifiedDate, final int referenceId) {
         if (configurableFetchers.size() <= 0) {
             synchronisationManager.dataSyncComplete();
             return;
