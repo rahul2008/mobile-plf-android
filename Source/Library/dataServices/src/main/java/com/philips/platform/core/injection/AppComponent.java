@@ -63,8 +63,6 @@ public interface AppComponent {
 
     void injectDataPullSynchronize(DataPullSynchronise dataPullSynchronise);
 
-    void injectUserAccessProvider(UserAccessProvider userAccessProvider);
-
     void injectAccessProvider(UCoreAccessProvider accessProvider);
 
     void injectMomentsDataFetcher(MomentsDataFetcher momentsDataFetcher);
