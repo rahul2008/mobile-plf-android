@@ -21,10 +21,11 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
-import com.philips.cdp.registration.settings.RegistrationFunction;
+import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.*;
+import com.philips.platform.uid.thememanager.*;
 import com.philips.platform.uid.utils.UIDActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -70,6 +71,13 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (RegistrationHelper.getInstance().getThemeConfiguration() != null) {
+            UIDHelper.init(RegistrationHelper.getInstance().getThemeConfiguration());
+        }
+        if (RegistrationHelper.getInstance().getTheme() != 0) {
+            setTheme(RegistrationHelper.getInstance().getTheme());
+        }
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
