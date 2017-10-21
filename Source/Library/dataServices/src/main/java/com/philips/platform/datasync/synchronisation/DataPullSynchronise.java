@@ -73,15 +73,14 @@ public class DataPullSynchronise {
     @NonNull
     private final AtomicInteger numberOfRunningFetches = new AtomicInteger(0);
 
-    private DataServicesManager mDataServicesManager;
-
     @Inject
     public DataPullSynchronise(@NonNull final List<? extends DataFetcher> fetchers) {
-        mDataServicesManager = DataServicesManager.getInstance();
-        mDataServicesManager.getAppComponant().injectDataPullSynchronize(this);
+        final DataServicesManager dataServicesManager = DataServicesManager.getInstance();
+        dataServicesManager.getAppComponant().injectDataPullSynchronize(this);
+
         this.fetchers = fetchers;
-        configurableFetchers = getFetchers();
-        executor = Executors.newFixedThreadPool(configurableFetchers.size());
+        this.configurableFetchers = getFetchers(dataServicesManager);
+        this.executor = Executors.newFixedThreadPool(configurableFetchers.size());
     }
 
     void startSynchronise(@Nullable final DateTime sinceLastModifiedDate, final int referenceId) {
@@ -162,15 +161,15 @@ public class DataPullSynchronise {
         return numberOfRunningFetches.get() > 0;
     }
 
-    private List<? extends DataFetcher> getFetchers() {
-        Set<String> configurableFetchers = mDataServicesManager.getSyncTypes();
+    private List<? extends DataFetcher> getFetchers(final DataServicesManager dataServicesManager) {
+        Set<String> configurableFetchers = dataServicesManager.getSyncTypes();
 
         if (configurableFetchers == null) {
             return fetchers;
         }
 
         ArrayList<DataFetcher> fetchList = new ArrayList<>();
-        ArrayList<DataFetcher> customFetchers = mDataServicesManager.getCustomFetchers();
+        ArrayList<DataFetcher> customFetchers = dataServicesManager.getCustomFetchers();
 
         if (customFetchers != null && customFetchers.size() != 0) {
             for (DataFetcher customFetcher : customFetchers) {
