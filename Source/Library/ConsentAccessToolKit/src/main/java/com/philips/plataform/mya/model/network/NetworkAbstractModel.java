@@ -3,6 +3,7 @@ package com.philips.plataform.mya.model.network;
 import android.os.Message;
 
 import com.google.gson.JsonArray;
+import com.philips.cdp.registration.User;
 import com.philips.plataform.mya.model.listener.RequestListener;
 import com.philips.plataform.mya.model.response.ConsentModel;
 
@@ -15,14 +16,16 @@ import java.util.Map;
 public abstract class NetworkAbstractModel implements RequestListener {
 
     protected DataLoadListener mDataLoadListener;
+    protected User mUser;
 
     public interface DataLoadListener {
         void onModelDataLoadFinished(Message msg);
         void onModelDataError(Message msg);
     }
 
-    public NetworkAbstractModel(DataLoadListener listener) {
+    public NetworkAbstractModel(User user, DataLoadListener listener) {
         mDataLoadListener = listener;
+        mUser = user;
     }
 
     @Override

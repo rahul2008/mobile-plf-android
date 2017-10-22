@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 
 import com.philips.plataform.mya.model.error.ConsentError;
 import com.philips.plataform.mya.model.listener.ConsentResponseListener;
-import com.philips.plataform.mya.model.network.ConsentAccessToolKit;
+import com.philips.plataform.mya.model.ConsentAccessToolKit;
 import com.philips.plataform.mya.model.response.ConsentModel;
 import com.philips.plataform.mya.model.response.ConsentStatus;
 import com.philips.platform.csw.CswBaseFragment;

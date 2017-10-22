@@ -3,6 +3,7 @@ package com.philips.plataform.mya.model.request;
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.philips.cdp.registration.User;
 import com.philips.plataform.mya.model.network.NetworkAbstractModel;
 import com.philips.plataform.mya.model.response.ConsentModel;
 
@@ -17,9 +18,11 @@ public class ConsentModelRequest extends NetworkAbstractModel {
 
     //This field has to remove later(URL should take from service discovery)
     private String URL = "https://hdc-css-mst.cloud.pcftest.com/consent/";
+    private User mUser;
 
-    public ConsentModelRequest(DataLoadListener dataLoadListener) {
-        super(dataLoadListener);
+    public ConsentModelRequest(User user, DataLoadListener dataLoadListener) {
+        super(user, dataLoadListener);
+        mUser = user;
     }
 
     @Override
@@ -37,6 +40,8 @@ public class ConsentModelRequest extends NetworkAbstractModel {
         Map<String, String> params = new HashMap<String, String>();
         params.put("api-version", "1");
         params.put("content-type", "application/json");
+        params.put("authorization","bearer "+mUser.getHsdpAccessToken());
+        params.put("performerid",mUser.getHsdpUUID());
         params.put("cache-control", "no-cache");
         return params;
     }
@@ -48,6 +53,7 @@ public class ConsentModelRequest extends NetworkAbstractModel {
 
     @Override
     public String getUrl() {
+        URL +=mUser.getHsdpUUID();
         return URL;
     }
 }

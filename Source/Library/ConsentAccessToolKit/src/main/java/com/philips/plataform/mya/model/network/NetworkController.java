@@ -16,8 +16,6 @@ import com.philips.plataform.mya.model.listener.RequestListener;
 import com.philips.plataform.mya.model.request.ConsentRequest;
 import com.philips.plataform.mya.model.utils.ConsentUtil;
 
-import java.util.Map;
-
 /**
  * Created by Maqsood on 10/12/17.
  */
@@ -26,13 +24,9 @@ public class NetworkController {
 
     private Context mContext;
     private User mUser;
-    private String mHsdpUUID;
-
     public void sendConsentRequest(Context context, final int requestCode, final NetworkAbstractModel model, final RequestListener requestListener) {
         mContext = context;
-        mUser = new User(mContext);
-        mHsdpUUID = mUser.getHsdpUUID();
-
+        mUser = new User(context);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -106,16 +100,11 @@ public class NetworkController {
 
     ConsentRequest getConsentJsonRequest(final NetworkAbstractModel model, final Response.ErrorListener error, final Response.Listener<JsonArray> response) {
         String url = model.getUrl();
-        Map<String,String> header = model.requestHeader();
-        header.put("authorization","bearer "+mUser.getHsdpAccessToken());
-        header.put("performerid",mHsdpUUID);
-        url += mHsdpUUID+"?applicationName=OneBackend&propositionName=OneBackendProp";
-        Log.d("sendRequest ","header : "+header);
+        url += "?applicationName=OneBackend&propositionName=OneBackendProp";
+        Log.d("sendRequest ","header : "+model.requestHeader());
         Log.d("sendRequest","url : "+model.getUrl());
         Log.d("sendRequest","method : "+model.getMethod());
-        Log.d("sendRequest","AccessToken : "+mUser.getHsdpAccessToken());
-        Log.d("sendRequest","UUID : "+mHsdpUUID);
         return new ConsentRequest(model.getMethod(), url,
-                header,model.requestBody(), response, error);
+                model.requestHeader(),model.requestBody(), response, error);
     }
 }
