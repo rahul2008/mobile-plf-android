@@ -10,8 +10,7 @@
     "Flow.TermsAndConditionsAcceptanceRequired" : "true",
     "Flow.MinimumAgeLimit" : "{ \"NL\":12 ,\"GB\":16,\"default\": 16}",
     "SigninProviders.default": ["facebook","googleplus"],
-    "SigninProviders.NL": ["facebook","googleplus"],
-    "SigninProviders.CN": [""],
+    "SigninProviders.CN": ["wechat"],
     "weChatAppId" : "wxbdf2ab8822f6022f",
     "weChatAppSecret":"df749e21c43c65a042df6f3f4ebe18f1",
     "ShowCountrySelection":"true"
@@ -20,7 +19,7 @@
   "appinfra": {
     "appidentity.micrositeId" : "77000",
     "appidentity.sector"  : "b2c",
-    "appidentity.appState"  : "Acceptance",
+    "appidentity.appState"  : "Staging",
     "appidentity.serviceDiscoveryEnvironment"  : "Production",
     "abtest.precache": ["DOT-ReceiveMarketingOptIn"],
     "servicediscovery.platformMicrositeId":"70000",

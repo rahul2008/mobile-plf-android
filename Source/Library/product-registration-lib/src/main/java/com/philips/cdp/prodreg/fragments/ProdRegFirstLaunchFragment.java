@@ -86,8 +86,8 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
             resId = dependencies.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
             if (resId != 0) {
                 productImage.setVisibility(View.VISIBLE);
-                setImgageviewwithAspectRation(productImage);
-                productImage.setBackground(getResources().getDrawable(resId, getActivity().getTheme()));
+                productImage.setImageDrawable(getResources().getDrawable(resId, getActivity().getTheme()));
+                productImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 productImage.requestLayout();
             }
         }

@@ -107,7 +107,9 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
             }
         });
         activityLauncher = new ActivityLauncher(ActivityLauncher.
-                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
+        ActivityOrientation.SCREEN_ORIENTATION_SENSOR, ((MainActivity) getActivity()).getThemeConfig(),
+                ((MainActivity) getActivity()).getThemeResourceId(), null);
+
 
         urInterface = new URInterface();
         urInterface.launch(activityLauncher, urLaunchInput);
