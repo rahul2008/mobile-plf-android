@@ -5,7 +5,6 @@
 
 package com.philips.cdp2.ews.view;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -38,6 +37,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
+
 public class EWSActivity extends DynamicThemeApplyingActivity implements ActionBarListener {
 
     public static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
@@ -69,7 +70,7 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
         Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()), new ActivityNavigator(this));
         navigator.navigateToGettingStartedScreen();
 
-        FontIconDrawable drawable = new FontIconDrawable(getBaseContext(), getResources().getString(R.string.dls_cross_24), Typeface.createFromAsset(getBaseContext().getAssets(), "fonts/iconfont.ttf"))
+        FontIconDrawable drawable = new FontIconDrawable(this, getResources().getString(R.string.dls_cross_24), TypefaceUtils.load(getAssets(), "fonts/iconfont.ttf"))
                 .sizeRes(R.dimen.ews_gs_icon_size);
         findViewById(R.id.ic_close).setBackground(drawable);
     }

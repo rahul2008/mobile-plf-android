@@ -5,7 +5,6 @@
 
 package com.philips.cdp2.ews.troubleshooting.homewifi;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -26,6 +25,8 @@ import com.philips.platform.uid.drawable.FontIconDrawable;
 
 import javax.inject.Inject;
 
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
+
 public class TroubleshootHomeWiFiFragment extends EWSBaseFragment<TroubleshootHomeWifiFragmentBinding>
         implements DialogCallback {
 
@@ -41,7 +42,7 @@ public class TroubleshootHomeWiFiFragment extends EWSBaseFragment<TroubleshootHo
 
         String explanation = String.format(DateUtil.getSupportedLocale(), getString(R.string.label_ews_home_network_body), getString(R.string.af_app_name));
         viewDataBinding.labelEwsHomeNetworkBody.setText(TextUtil.getHTMLText(explanation));
-        FontIconDrawable drawable = new FontIconDrawable(getContext(), getResources().getString(R.string.dls_cross_24), Typeface.createFromAsset(getContext().getAssets(), "fonts/iconfont.ttf"))
+        FontIconDrawable drawable = new FontIconDrawable(getContext(), getResources().getString(R.string.dls_cross_24), TypefaceUtils.load(getContext().getAssets(), "fonts/iconfont.ttf"))
                 .sizeRes(R.dimen.ews_gs_icon_size).colorRes(R.color.black);
         viewDataBinding.icClose.setBackground(drawable);
         return view;
