@@ -1,4 +1,4 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
+/* Copyright (c) Koninklijke Philips N.V., 2017
 * All rights are reserved. Reproduction or dissemination
 * in whole or in part is prohibited without the prior written
 * consent of the copyright holder.
@@ -52,16 +52,15 @@ public class MomentsDataFetcher extends DataFetcher {
         DataServicesManager.getInstance().getAppComponant().injectMomentsDataFetcher(this);
     }
 
-    UCoreMomentsHistory momentsHistory;
 
     @Override
     @CheckResult
     @Nullable
     public RetrofitError fetchDataSince(@Nullable final DateTime sinceTimestamp) {
-
         if (isUserInvalid()) {
             return null;
         }
+
         try {
             String momentsLastSyncUrl = accessProvider.getMomentLastSyncTimestamp();
 
@@ -71,7 +70,7 @@ public class MomentsDataFetcher extends DataFetcher {
             if (client == null) return null;
 
             if (client != null) {
-                momentsHistory = client.getMomentsHistory(accessProvider.getUserId(),
+                UCoreMomentsHistory momentsHistory = client.getMomentsHistory(accessProvider.getUserId(),
                         accessProvider.getUserId(), momentsLastSyncUrl);
 
                 accessProvider.saveLastSyncTimeStamp(momentsHistory.getSyncurl(), UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);

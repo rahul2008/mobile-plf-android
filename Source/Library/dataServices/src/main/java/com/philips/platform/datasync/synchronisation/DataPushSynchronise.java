@@ -36,7 +36,6 @@ import javax.inject.Singleton;
 
 import retrofit.RetrofitError;
 
-
 @Singleton
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DataPushSynchronise extends EventMonitor {
@@ -45,10 +44,10 @@ public class DataPushSynchronise extends EventMonitor {
     UCoreAccessProvider accessProvider;
 
     @NonNull
-    protected List<? extends DataSender> senders;
+    List<? extends DataSender> senders;
 
     @NonNull
-    protected Executor executor;
+    Executor executor;
 
     @Inject
     Eventing eventing;
@@ -86,7 +85,7 @@ public class DataPushSynchronise extends EventMonitor {
         configurableSenders = getSenders();
     }
 
-    public void startSynchronise(final int eventId) {
+    void startSynchronise(final int eventId) {
         if (isSyncStarted()) {
             return;
         }
@@ -101,13 +100,13 @@ public class DataPushSynchronise extends EventMonitor {
         }
     }
 
-    public void registerEvent() {
+    private void registerEvent() {
         if (!eventing.isRegistered(this)) {
             eventing.register(this);
         }
     }
 
-    public void unRegisterEvent() {
+    void unRegisterEvent() {
         if (eventing.isRegistered(this)) {
             eventing.unregister(this);
         }
@@ -120,9 +119,7 @@ public class DataPushSynchronise extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(GetNonSynchronizedDataResponse response) {
         synchronized (this) {
-
             startAllSenders(response);
-
         }
     }
 

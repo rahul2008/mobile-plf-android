@@ -1,4 +1,4 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
+/* Copyright (c) Koninklijke Philips N.V., 2017
  * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
@@ -22,12 +22,14 @@ public interface SynchronisationChangeListener {
 
     /**
      * Callback for notifying Data-Pull Failure
+     *
      * @param e Exception (Error) returned from Retrofit response
      */
     void dataPullFail(Exception e);
 
     /**
      * Callback for notifying Data-Push Failure
+     *
      * @param e Exception (Error) returned from Retrofit response
      */
     void dataPushFail(Exception e);

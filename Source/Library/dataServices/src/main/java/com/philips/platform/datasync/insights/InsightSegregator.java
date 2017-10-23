@@ -56,14 +56,15 @@ public class InsightSegregator {
     }
 
     private boolean hasDifferentInsightVersion(final Insight insight, final Insight insightInDatabase) throws SQLException {
-        return insight.getSynchronisationData().getVersion() != insightInDatabase.getSynchronisationData().getVersion();
+        return insight.getSynchronisationData() != null && insightInDatabase.getSynchronisationData() != null
+                && insight.getSynchronisationData().getVersion() != insightInDatabase.getSynchronisationData().getVersion();
     }
 
     private boolean isInsightDeletedFromBackend(final SynchronisationData synchronisationData) {
         return synchronisationData == null || synchronisationData.isInactive();
     }
 
-    protected boolean isInsightDeletedFromApplicationDB(final Insight insightInDatabase) {
+    private boolean isInsightDeletedFromApplicationDB(final Insight insightInDatabase) {
         final SynchronisationData synchronisationData = insightInDatabase.getSynchronisationData();
         return synchronisationData != null && synchronisationData.getGuid().equals(Insight.INSIGHT_NEVER_SYNCED_AND_DELETED_GUID);
     }
@@ -111,19 +112,15 @@ public class InsightSegregator {
             deleteAndSaveInsights(insightsToUpdate, dbRequestListener);
     }
 
-    private void deleteAndSaveInsights(List<Insight> insights, DBRequestListener<Insight> dbRequestListener) {
+    private void deleteAndSaveInsights(List<Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException {
         List<Insight> insightsToDelete = new ArrayList<>();
-        try {
-            for (Insight insight : insights) {
-                final Insight insightInDatabase;
-                insightInDatabase = getOrmInsightFromDatabase(insight);
-                insightsToDelete.add(insightInDatabase);
-            }
-            mDBDeletingInterface.deleteInsights(insightsToDelete, dbRequestListener);
-            mDBSavingInterface.saveInsights(insights, dbRequestListener);
-        } catch (SQLException e) {
-            //Debug Log
+        for (Insight insight : insights) {
+            final Insight insightInDatabase;
+            insightInDatabase = getOrmInsightFromDatabase(insight);
+            insightsToDelete.add(insightInDatabase);
         }
+        mDBDeletingInterface.deleteInsights(insightsToDelete, dbRequestListener);
+        mDBSavingInterface.saveInsights(insights, dbRequestListener);
     }
 
     public Map<Class, List<?>> putInsightForSync(Map<Class, List<?>> dataToSync) {

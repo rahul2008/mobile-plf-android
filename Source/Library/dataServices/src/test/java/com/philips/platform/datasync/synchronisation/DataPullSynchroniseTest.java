@@ -41,7 +41,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DataPullSynchroniseTest {
-//    DateTime DATE_TIME = new DateTime();
+    //    DateTime DATE_TIME = new DateTime();
     private static final int EVENT_ID = 2344;
 
     @Mock
@@ -111,7 +111,7 @@ public class DataPullSynchroniseTest {
 
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
 
-        Set set=new HashSet();
+        Set set = new HashSet();
         set.add("moment");
         set.add("Settings");
         set.add("characteristics");
@@ -124,9 +124,9 @@ public class DataPullSynchroniseTest {
         synchronise = new DataPullSynchronise(
                 Arrays.asList(firstFetcherMock, secondFetcherMock)
         );
-        synchronise.accessProvider = accessProviderMock;
+        synchronise.mUCoreAccessProvider = accessProviderMock;
         synchronise.eventing = eventingMock;
-        synchronise.synchronisationManager=synchronisationManagerMock;
+        synchronise.synchronisationManager = synchronisationManagerMock;
         synchronise.executor = executorMock;
         ArrayList list = new ArrayList();
         list.add(firstFetcherMock);
@@ -137,7 +137,7 @@ public class DataPullSynchroniseTest {
 
     @Test
     public void ShouldReturnError_WhenUserIsNotLoggedIn() {
-         when(accessProviderMock.isLoggedIn()).thenReturn(false);
+        when(accessProviderMock.isLoggedIn()).thenReturn(false);
 
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
 
@@ -177,7 +177,7 @@ public class DataPullSynchroniseTest {
     }*/
 
     private void runExecutor() {
-       // verify(executorMock, atLeastOnce()).execute(runnableCaptor.capture());
+        // verify(executorMock, atLeastOnce()).execute(runnableCaptor.capture());
         for (Runnable runnable : runnableCaptor.getAllValues()) {
             runnable.run();
         }
@@ -221,27 +221,27 @@ public class DataPullSynchroniseTest {
     }
 
     @Test
-    public void Should_Call_performFetch(){
+    public void Should_Call_performFetch() {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
-        synchronise.startSynchronise(new DateTime(),2);
+        synchronise.startSynchronise(new DateTime(), 2);
         runExecutor();
         //TODO: Spoorti - Fix it and see what has to be verified
 //        verify(synchronisationManagerMock).shutdownAndAwaitTermination(executorMock);
     }
 
     @Test
-    public void Should_Call_synchronize_when_user_logged_out(){
+    public void Should_Call_synchronize_when_user_logged_out() {
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
-        synchronise.startSynchronise(new DateTime(),2);
-      //  verify(synchronisationManagerMock).shutdownAndAwaitTermination(executorMock);
+        synchronise.startSynchronise(new DateTime(), 2);
+        //  verify(synchronisationManagerMock).shutdownAndAwaitTermination(executorMock);
         verify(eventingMock).post(isA(BackendResponse.class));
     }
 
     @Test
-    public void Should_Call_synchronize_when_no_sync_type_configured(){
+    public void Should_Call_synchronize_when_no_sync_type_configured() {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         synchronise.configurableFetchers = new ArrayList<>();
-        synchronise.startSynchronise(new DateTime(),2);
+        synchronise.startSynchronise(new DateTime(), 2);
         verifyNoMoreInteractions(executorMock);
     }
 

@@ -4,12 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
 
-/**
- * Created by 310218660 on 11/19/2016.
- */
-
 public class UCoreMeasurementGroupDetail {
-
     @Expose
     private String value;
     @Expose
@@ -30,5 +25,4 @@ public class UCoreMeasurementGroupDetail {
     public void setType(@NonNull final String type) {
         this.type = type;
     }
-
 }

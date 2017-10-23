@@ -1,8 +1,8 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 
 package com.philips.platform.datasync.moments;
 
@@ -14,10 +14,6 @@ import com.google.gson.annotations.Expose;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class UCoreMoment {
 
     @Expose
@@ -26,7 +22,6 @@ public class UCoreMoment {
     @Expose
     @Nullable
     private String expirationDate;
-
 
     @Expose
     private String type;
@@ -39,10 +34,6 @@ public class UCoreMoment {
 
     @Expose
     private int version;
-
-    /*@Expose
-    @Nullable
-    private List<UCoreMeasurement> measurements;*/
 
     @Expose
     @Nullable
@@ -124,26 +115,17 @@ public class UCoreMoment {
         this.expirationDate = expirationDate;
     }
 
-    /*@Nullable
-    public List<UCoreMeasurement> getMeasurements() {
-        return measurements;
-    }*/
-
     @Nullable
     public List<UCoreMeasurementGroups> getMeasurementGroups() {
         return measurementGroups;
     }
-
-    /*public void setMeasurements(@Nullable final List<UCoreMeasurement> measurements) {
-        this.measurements = measurements;
-    }*/
 
     public void setMeasurementGroups(@Nullable final List<UCoreMeasurementGroups> measurementGroups) {
         this.measurementGroups = measurementGroups;
     }
 
     public void addMeasurementGroup(final UCoreMeasurementGroups measurementGroup) {
-        if(measurementGroups == null){
+        if (measurementGroups == null) {
             measurementGroups = new ArrayList<>();
         }
         measurementGroups.add(measurementGroup);

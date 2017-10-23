@@ -1,10 +1,9 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.datasync.insights;
-
-import java.util.List;
 
 import retrofit.client.Response;
 import retrofit.http.DELETE;
@@ -12,7 +11,6 @@ import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.Path;
 import retrofit.http.Query;
-
 
 public interface InsightClient {
 
@@ -24,6 +22,6 @@ public interface InsightClient {
 
     @DELETE("/api/users/{performer_id}/insights/{insight_id}")
     Response deleteInsight(@Path("performer_id") String performerId,
-                       @Path("insight_id") String insightID,
-                       @Header("performerId") String userID);
+                           @Path("insight_id") String insightID,
+                           @Header("performerId") String userID);
 }

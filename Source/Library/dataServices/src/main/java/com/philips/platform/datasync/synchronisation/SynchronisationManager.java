@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.datasync.synchronisation;
 
 import com.philips.platform.core.Eventing;
@@ -16,18 +21,18 @@ public class SynchronisationManager implements SynchronisationChangeListener {
 
     private volatile boolean isSyncComplete = true;
 
-    public SynchronisationManager(){
-        DataServicesManager.getInstance().getAppComponant().injectSynchronisationManager(this);
-    }
-
     @Inject
     Eventing mEventing;
 
-    SynchronisationCompleteListener mSynchronisationCompleteListner;
+    SynchronisationCompleteListener mSynchronisationCompleteListener;
+
+    public SynchronisationManager() {
+        DataServicesManager.getInstance().getAppComponant().injectSynchronisationManager(this);
+    }
 
     public void startSync(SynchronisationCompleteListener synchronisationCompleteListner) {
         synchronized (this) {
-            mSynchronisationCompleteListner = synchronisationCompleteListner;
+            mSynchronisationCompleteListener = synchronisationCompleteListner;
             if (isSyncComplete) {
                 isSyncComplete = false;
                 mEventing.post(new ReadDataFromBackendRequest(null));
@@ -48,46 +53,40 @@ public class SynchronisationManager implements SynchronisationChangeListener {
     @Override
     public void dataPullFail(Exception e) {
         isSyncComplete = true;
-        if (mSynchronisationCompleteListner != null)
-            mSynchronisationCompleteListner.onSyncFailed(e);
-        mSynchronisationCompleteListner = null;
+        if (mSynchronisationCompleteListener != null)
+            mSynchronisationCompleteListener.onSyncFailed(e);
+        mSynchronisationCompleteListener = null;
     }
 
     @Override
     public void dataPushFail(Exception e) {
         isSyncComplete = true;
-        if (mSynchronisationCompleteListner != null)
-            mSynchronisationCompleteListner.onSyncFailed(e);
-        mSynchronisationCompleteListner = null;
+        if (mSynchronisationCompleteListener != null)
+            mSynchronisationCompleteListener.onSyncFailed(e);
+        mSynchronisationCompleteListener = null;
     }
 
     @Override
     public void dataSyncComplete() {
         isSyncComplete = true;
-        if (mSynchronisationCompleteListner != null)
-            mSynchronisationCompleteListner.onSyncComplete();
-        mSynchronisationCompleteListner = null;
+        if (mSynchronisationCompleteListener != null)
+            mSynchronisationCompleteListener.onSyncComplete();
+        mSynchronisationCompleteListener = null;
     }
 
     public void stopSync() {
         isSyncComplete = true;
-        mSynchronisationCompleteListner = null;
+        mSynchronisationCompleteListener = null;
     }
 
     void shutdownAndAwaitTermination(ExecutorService pool) {
-        pool.shutdown(); // Disable new tasks from being submitted
+        pool.shutdown();
         try {
-            // Wait a while for existing tasks to terminate
             if (!pool.awaitTermination(60, TimeUnit.SECONDS)) {
-                pool.shutdownNow(); // Cancel currently executing tasks
-                // Wait a while for tasks to respond to being cancelled
-//                if (!pool.awaitTermination(60, TimeUnit.SECONDS))
-//                    System.err.println("Pool did not terminate");
+                pool.shutdownNow();
             }
         } catch (InterruptedException ie) {
-            // (Re-)Cancel if current thread also interrupted
             pool.shutdownNow();
-            // Preserve interrupt status
             Thread.currentThread().interrupt();
         }
     }
