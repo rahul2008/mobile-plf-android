@@ -396,7 +396,7 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
         themeHelper = new ThemeHelper(this);
         setTheme(themeHelper.getThemeResourceId());
         UIDHelper.init(config);
-        FontIconTypefaceHolder.init(getAssets(),"fonts/iconfont.ttf");
+        //FontIconTypefaceHolder.init(getAssets(),"fonts/iconfont.ttf");
     }
 
     protected void changeTheme(){

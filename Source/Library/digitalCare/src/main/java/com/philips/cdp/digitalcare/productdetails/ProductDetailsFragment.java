@@ -188,7 +188,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             mSmallerResolution = widthPixels;
         }
 
-        isTablet = ((float) mSmallerResolution / density > 360);
+        isTablet = ((float) mSmallerResolution / density > 480);
 
         if (isTablet) {
             return (int) getActivity().getResources().getDimension(R.dimen.view_prod_details_video_height);
@@ -402,10 +402,10 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
                 R.string.dcc_productDownloadManual))) {
             String mFilePath = mViewProductDetailsModel.getManualLink();
-            // creating the name of the manual. So that Same manual should not be downloaded again and again.
-            String pdfName = mFilePath.substring(mFilePath.lastIndexOf("/")+1);
+
             if ((mFilePath != null) && (mFilePath != "")) {
                 if (isConnectionAvailable()) {
+                    String pdfName = mFilePath.substring(mFilePath.lastIndexOf("/")+1);
 
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
                         int hasPermission = getActivity().checkSelfPermission(Manifest.permission.

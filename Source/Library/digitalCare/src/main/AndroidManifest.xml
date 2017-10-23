@@ -36,7 +36,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.philips.cdp.digitalcare.ccpdffilesprovider"
+            android:authorities="@string/DCC_AUTHORITY"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

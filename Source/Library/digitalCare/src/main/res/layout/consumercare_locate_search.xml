@@ -26,7 +26,7 @@
         android:queryHint="Search"
         android:focusable="true"
         android:gravity="center_vertical"
-        android:hint="Search for a location"
+        android:hint="@string/search"
         android:textColorHint="@color/border_disable_color"
         android:layout_centerVertical="true"
         android:textColor="?attr/uidSearchBoxAndroidDefaultNormalInputTextColor"
