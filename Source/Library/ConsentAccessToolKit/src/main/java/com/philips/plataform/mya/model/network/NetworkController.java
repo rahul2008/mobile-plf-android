@@ -22,14 +22,10 @@ import com.philips.plataform.mya.model.utils.ConsentUtil;
 public class NetworkController {
 
     private Context mContext;
+
     public void sendConsentRequest(Context context, final int requestCode, final NetworkAbstractModel model, final RequestListener requestListener) {
         mContext = context;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                sendRequest(requestCode, model, requestListener);
-            }
-        }).start();
+        sendRequest(requestCode, model, requestListener);
     }
 
     private void sendRequest(final int requestCode, final NetworkAbstractModel model, final RequestListener requestListener) {
@@ -37,20 +33,14 @@ public class NetworkController {
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
-                Log.d("sendRequest ","failed : "+error.getMessage());
-                if (model.getUrl() != null && error != null) {
-                    Log.d("Error", "Response from Consent request onError =" + error
-                            .getLocalizedMessage() + " requestCode=" + requestCode + "in " +
-                            requestListener.getClass().getSimpleName() + " " + model.getUrl());
-                }
-                if (requestListener != null) {
+                Log.d("sendRequest ", "failed : " + error.getMessage());
+                if (requestListener != null && error != null) {
                     new ConsentNetworkError(error, requestCode, requestListener);
                 }
             }
         };
 
         Response.Listener<JsonArray> response = new Response.Listener<JsonArray>() {
-
             @Override
             public void onResponse(JsonArray response) {
                 if (requestListener != null) {
@@ -63,11 +53,6 @@ public class NetworkController {
                         msg.obj = model.parseResponse(response);
                     }
                     requestListener.onResponseSuccess(msg);
-
-                    if (model.getUrl() != null) {
-                        Log.d("Response", "Response =" + msg + " requestCode=" + requestCode + "in " +
-                                requestListener.getClass().getSimpleName() + "env = " + " " + model.getUrl());
-                    }
                 }
             }
         };
@@ -77,7 +62,7 @@ public class NetworkController {
     }
 
     ConsentRequest getConsentJsonRequest(final NetworkAbstractModel model, final Response.ErrorListener error, final Response.Listener<JsonArray> response) {
-        return new ConsentRequest(model.getMethod(),model.getUrl(),
-                model.requestHeader(),model.requestBody(), response, error);
+        return new ConsentRequest(model.getMethod(), model.getUrl(),
+                model.requestHeader(), model.requestBody(), response, error);
     }
 }

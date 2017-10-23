@@ -5,10 +5,9 @@ package com.philips.plataform.mya.model.utils;
  */
 
 public class ConsentUtil {
-    public static final int maxRetries = 0;
-    public static final int requestTimeOut = 5000;
     public final static int DEFAULT_TIMEOUT_MS = 30000;
     public static final String EMPTY_RESPONSE = "";
+
     public static final int CONSENT_SUCCESS = 0;
     public static final int CONSENT_ERROR = -1;
     public static final int CONSENT_ERROR_NO_CONNECTION = 2;

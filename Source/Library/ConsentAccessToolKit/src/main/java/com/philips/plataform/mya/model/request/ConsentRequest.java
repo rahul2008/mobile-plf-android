@@ -122,22 +122,17 @@ public class ConsentRequest extends Request<JsonArray> {
 
     private void persistRequestSend() {
         final SynchronizedNetwork synchronizedNetwork = new SynchronizedNetwork(new HurlStack());
-        new Thread(new Runnable() {
+        synchronizedNetwork.performRequest(ConsentRequest.this, new SynchronizedNetworkListener() {
             @Override
-            public void run() {
-                synchronizedNetwork.performRequest(ConsentRequest.this, new SynchronizedNetworkListener() {
-                    @Override
-                    public void onSyncRequestSuccess(final Response<JsonArray> jsonObjectResponse) {
-                        postSuccessResponseOnUIThread(jsonObjectResponse.result);
-                    }
-
-                    @Override
-                    public void onSyncRequestError(final VolleyError volleyError) {
-                        postErrorResponseOnUIThread(volleyError);
-                    }
-                });
+            public void onSyncRequestSuccess(final Response<JsonArray> jsonObjectResponse) {
+                postSuccessResponseOnUIThread(jsonObjectResponse.result);
             }
-        }).start();
+
+            @Override
+            public void onSyncRequestError(final VolleyError volleyError) {
+                postErrorResponseOnUIThread(volleyError);
+            }
+        });
     }
 
     private void postSuccessResponseOnUIThread(final JsonArray jsonArray) {
