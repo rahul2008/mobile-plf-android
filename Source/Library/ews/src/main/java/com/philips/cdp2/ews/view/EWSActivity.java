@@ -99,8 +99,7 @@ public class EWSActivity extends UiKitActivity {
 
         return DaggerEWSComponent.builder()
                 .eWSModule(new EWSModule(EWSActivity.this, getSupportFragmentManager()))
-                .eWSConfigurationModule(new EWSConfigurationModule(this, contentConfiguration.getBaseContentConfiguration(),
-                        contentConfiguration.getHappyFlowContentConfiguration()))
+                .eWSConfigurationModule(new EWSConfigurationModule(this, contentConfiguration))
                 .build();
     }
 
