@@ -1,4 +1,5 @@
-/* Copyright (c) Koninklijke Philips N.V., 2017
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
  * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
@@ -14,6 +15,7 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.PushNotification.PushNotificationMonitor;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.UserAccessProvider;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsConverter;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsMonitor;
