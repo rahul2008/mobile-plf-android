@@ -27,11 +27,9 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
     @BindView(R2.id.country_selection_header_TextView)
     Label country_selection_header_TextView;
 
-
     private CountrySelectionAdapter countryListAdapter;
 
     private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
-
 
     private ArrayList<Country> masterList = new ArrayList<>();
 
@@ -39,15 +37,14 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
 
     private ArrayList<Country> filtredList = new ArrayList<>();
 
-
     private CountrySelectionListener listener;
-
 
     public CountrySelectionFragment() {
     }
 
 
-    public CountrySelectionFragment(CountrySelectionListener listener, ArrayList<Country> rawMasterList, ArrayList<Country> recentList) {
+    public CountrySelectionFragment(CountrySelectionListener listener,
+                                    ArrayList<Country> rawMasterList, ArrayList<Country> recentList) {
         this.listener = listener;
         this.masterList = removeDuplicatesFromArrayList(rawMasterList);
         this.recentList = recentList;
@@ -76,7 +73,7 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_country_region;
+        return R.string.reg_DLS_Country_Selection_Nav_Title_Text;
     }
 
 

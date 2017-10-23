@@ -139,25 +139,16 @@ public class MobileVerifyResendCodePresenter implements HttpClientServiceReceive
     private void handlePhoneNumberChange(String response) {
         try {
             JSONObject jsonObject = new JSONObject(response);
-            RLog.d("CHANGE_NUMBER_REQUEST_CODE", "CHANGE_NUMBER_REQUEST_COwDE" + jsonObject.get(STAT));
+            RLog.d("CHANGE_NUMBER_REQUEST_CODE", "CHANGE_NUMBER_REQUEST_STAT " + jsonObject.get(STAT));
 
             if (jsonObject.get(STAT).equals("ok")) {
                 RLog.d("CHANGE_NUMBER_REQUEST_CODE", "CHANGE_NUMBER_REQUEST_CODE" + response);
                 mobileVerifyCodeContract.refreshUser();
                 mobileVerifyCodeContract.enableResendButton();
-            } else if (jsonObject.has(ERROR_DESC)) {
-                String message =  RegUtility.getErrorMessageFromInvalidField(jsonObject);
-                if(message!=null && !message.isEmpty()){
-                    mobileVerifyCodeContract.showNumberChangeTechincalError(message);
-                }else{
-                    String errorCodeString = jsonObject.get(ERROR_DESC).toString();
-                    mobileVerifyCodeContract.showNumberChangeTechincalError(errorCodeString);
-                }
             } else {
-                String errorCodeString = jsonObject.get(ERROR_MSG).toString();
-                mobileVerifyCodeContract.showNumberChangeTechincalError(errorCodeString);
+                mobileVerifyCodeContract.showNumberChangeTechincalError(jsonObject.getString("errorCode").toString());
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             mobileVerifyCodeContract.showSmsSendFailedError();
 
         }
@@ -170,14 +161,10 @@ public class MobileVerifyResendCodePresenter implements HttpClientServiceReceive
             jsonObject = new JSONObject(response);
             if (jsonObject.getString(ERROR_CODE).toString().equals(OTP_RESEND_SUCCESS)) {
                 mobileVerifyCodeContract.enableResendButtonAndHideSpinner();
-            } else if (jsonObject.has(ERROR_DESC)) {
-                String errorCodeString = jsonObject.get(ERROR_DESC).toString();
-                mobileVerifyCodeContract.showNumberChangeTechincalError(errorCodeString);
             } else {
-                String errorCodeString = jsonObject.get(ERROR_MSG).toString();
-                mobileVerifyCodeContract.showNumberChangeTechincalError(errorCodeString);
+                mobileVerifyCodeContract.showNumberChangeTechincalError(jsonObject.getString("errorCode").toString());
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             mobileVerifyCodeContract.showSmsSendFailedError();
         }
     }

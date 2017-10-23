@@ -18,6 +18,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/reg_dimen_24dp"
+            android:layout_marginBottom="@dimen/reg_dimen_16dp"
             android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.Label
@@ -26,8 +27,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
-                android:text="@string/reg_verify_resend_mail_title"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:text="@string/reg_DLS_Resend_Email_Title_Txt"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/reg_text_size_20"
                 fontPath="fonts/centralesansbold.ttf"/>
 
@@ -36,23 +37,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_12dp"
-                android:text="@string/reg_verify_resend_mail_desc"
-                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                android:text="@string/reg_DLS_Resend_Email_Body_Line1"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 />
 
             <com.philips.platform.uid.view.widget.Label
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_24dp"
-                android:text="@string/reg_verify_resend_mail_desc2"
-                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"/>
+                android:text="@string/reg_DLS_Resend_Email_Body_Line2"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/reg_verify_resend_mail_edittext_label"
+                android:text="@string/reg_DLS_Resend_Email_Textbox_Title"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
-                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"/>
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/usr_activationresend_emailormobile_inputValidationLayout"
@@ -84,7 +85,6 @@
                 android:textSize="@dimen/reg_text_size_16"
                 android:progressDrawable="@drawable/uid_secondary_progress_bar"
                 android:secondaryProgress="100"
-                android:text="@string/no_email_yet"
                 app:uidIsLinearProgressBar="true"
                 app:uidLabelPosition="bottom_left"/>
 
@@ -95,15 +95,15 @@
                 android:layout_marginBottom="@dimen/reg_dimen_12dp"
                 android:enabled="false"
                 app:uidIsIndeterminateProgressIndicator="true"
-                app:uidProgressIndicatorButtonProgressText="@string/reg_verify_resend_mail_button_resend"
-                app:uidProgressIndicatorButtonText="@string/reg_verify_resend_mail_button_resend"/>
+                app:uidProgressIndicatorButtonProgressText="@string/reg_DLS_Resend_The_Email_Button_Title"
+                app:uidProgressIndicatorButtonText="@string/reg_DLS_Resend_The_Email_Button_Title"/>
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/usr_activationresend_return_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_12dp"
-                android:text="@string/reg_verify_resend_mail_button_return"
+                android:text="@string/reg_DLS_Got_It_Now_Button_Title"
                 app:uidComponentType="Secondary"/>
 
             <com.philips.cdp.registration.ui.customviews.XRegError
@@ -112,6 +112,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_margin_bottom"
                 android:visibility="gone"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_dimen_16dp"/>
 
         </LinearLayout>
     </ScrollView>

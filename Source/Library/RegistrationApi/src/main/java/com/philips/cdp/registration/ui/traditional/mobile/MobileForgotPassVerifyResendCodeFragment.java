@@ -9,6 +9,7 @@
 
 package com.philips.cdp.registration.ui.traditional.mobile;
 
+import android.app.*;
 import android.content.*;
 import android.content.res.*;
 import android.os.*;
@@ -134,14 +135,21 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         });
     }
 
+    private ProgressDialog mProgressDialog;
 
     private void showProgressDialog() {
-        if (!getActivity().isFinishing()) resendSMSButton.showProgressIndicator();
+        if (!getActivity().isFinishing()) {
+            if (mProgressDialog == null) {
+                mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
+                mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+                mProgressDialog.setCancelable(false);
+            }
+            mProgressDialog.show();        }
     }
 
     private void hideProgressDialog() {
-        if (resendSMSButton.isShown()) {
-            resendSMSButton.hideProgressIndicator();
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
         }
     }
 
@@ -172,7 +180,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_verify_resend_sms_nav_title;
+        return R.string.reg_Resend_SMS_title;
     }
 
     private void updateUiStatus() {
@@ -182,6 +190,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
             resendSMSButton.setEnabled(false);
         }
         phoneNumberEditText.setEnabled(true);
+        smsReceivedButton.setEnabled(true);
     }
 
     private void handleResendVerificationEmailSuccess() {
@@ -190,7 +199,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 //                context.getResources().getString(R.string.reg_Resend_SMS_Success_Content),
 //                getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
         viewOrHideNotificationBar();
-        resendSMSButton.hideProgressIndicator();
+        hideProgressDialog();
         getRegistrationFragment().startCountDownTimer();
         if(!mobileNumber.equals(phoneNumberEditText.getText().toString())){
             EventBus.getDefault().post(new UpdateMobile(phoneNumberEditText.getText().toString()));
@@ -294,7 +303,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     public void enableResendButton() {
         if (networkUtility.isNetworkAvailable())
             resendSMSButton.setEnabled(true);
-            resendSMSButton.hideProgressIndicator();
+            hideProgressDialog();
     }
 
     public void updateResendTime(long timeLeft) {
@@ -303,7 +312,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
                 ((60 - timeRemaining) * 100) / 60);
         String timeRemainingAsString = Integer.toString(timeRemaining);
         usr_mobileverification_resendsmstimer_progress.setText(
-                String.format(getResources().getString(R.string.no_sms_timer), timeRemainingAsString));
+                String.format(getResources().getString(R.string.reg_DLS_ResendSMS_Progress_View_Progress_Text), timeRemaining));
         disableResendButton();
     }
 
@@ -328,6 +337,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
         phoneNumberEditText.setEnabled(false);
         resendSMSButton.setEnabled(false);
+        smsReceivedButton.setEnabled(false);
     }
 
     @Override
@@ -363,7 +373,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         int progress = 100;
         if (event.equals(RegConstants.COUNTER_FINISH)) {
             usr_mobileverification_resendsmstimer_progress.setSecondaryProgress(progress);
-            usr_mobileverification_resendsmstimer_progress.setText(getResources().getString(R.string.no_sms_yet));
+            usr_mobileverification_resendsmstimer_progress.setText(getResources().getString(R.string.reg_DLS_ResendSMS_Progress_View_Title_Text));
             enableResendButton();
         } else {
             updateResendTime(timeLeft);
