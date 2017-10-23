@@ -5,9 +5,12 @@
 
 package com.philips.cdp2.demouapp.port.brighteyes;
 
+import android.os.Handler;
+
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,12 +31,17 @@ public class WakeUpAlarmPortTest {
     @Mock
     private CommunicationStrategy communicationStrategyMock;
 
+    @Mock
+    private Handler handlerMock;
+
     private WakeUpAlarmPort wakeUpAlarmPort;
 
     @Before
     public void setUp() {
         initMocks(this);
+
         DICommLog.disableLogging();
+        HandlerProvider.enableMockedHandler(handlerMock);
 
         wakeUpAlarmPort = new WakeUpAlarmPort(communicationStrategyMock);
     }

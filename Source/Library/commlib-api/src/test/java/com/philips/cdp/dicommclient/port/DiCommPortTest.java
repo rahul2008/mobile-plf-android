@@ -39,14 +39,14 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DiCommPortTest {
 
-    private final String PORT_NAME = "air";
-    private final int PORT_PRODUCTID = 1;
-    private final String FANSPEED_KEY = "fs";
-    private final String FANSPEED_VALUE = "turbo";
-    private final String POWER_KEY = "pwr";
-    private final String POWER_VALUE = "1";
-    private final String CHILDLOCK_KEY = "childlock";
-    private final String CHILDLOCK_VALUE = "0";
+    private static final int PORT_PRODUCTID = 1;
+    private static final String PORT_NAME = "air";
+    private static final String FANSPEED_KEY = "fs";
+    private static final String FANSPEED_VALUE = "turbo";
+    private static final String POWER_KEY = "pwr";
+    private static final String POWER_VALUE = "1";
+    private static final String CHILDLOCK_KEY = "childlock";
+    private static final String CHILDLOCK_VALUE = "0";
 
     @Mock
     private CommunicationStrategy communicationStrategy;
@@ -72,7 +72,7 @@ public class DiCommPortTest {
         DICommLog.disableLogging();
         HandlerProvider.enableMockedHandler(handlerMock);
 
-        diCommPort = new TestPort(communicationStrategy, handlerMock);
+        diCommPort = new TestPort(communicationStrategy);
     }
 
     @Test
@@ -416,14 +416,14 @@ public class DiCommPortTest {
     }
 
     @Test
-    public void test_ShouldPostRunnable_WhenSubscribeIsCalled() throws Exception {
+    public void test_ShouldPostRunnable_WhenSubscribeIsCalled() {
         diCommPort.subscribe();
 
         verify(handlerMock).postDelayed(any(Runnable.class), eq(SUBSCRIPTION_TTL_MS));
     }
 
     @Test
-    public void test_ShouldNotPostRunnableTwice_WhenSubscribeIsCalledTwice() throws Exception {
+    public void test_ShouldNotPostRunnableTwice_WhenSubscribeIsCalledTwice() {
         diCommPort.subscribe();
         diCommPort.subscribe();
 
@@ -431,7 +431,7 @@ public class DiCommPortTest {
     }
 
     @Test
-    public void test_ShouldPostRunnableAgain_WhenSubscribeIsCalled_AfterSubscribeResponseIsReceived() throws Exception {
+    public void test_ShouldPostRunnableAgain_WhenSubscribeIsCalled_AfterSubscribeResponseIsReceived() {
         diCommPort.subscribe();
         verify(handlerMock, times(1)).postDelayed(any(Runnable.class), eq(SUBSCRIPTION_TTL_MS));
 
@@ -445,21 +445,21 @@ public class DiCommPortTest {
     }
 
     @Test
-    public void test_ShouldSubscribeToCommunicationStrategy_WhenSubscribeIsCalled() throws Exception {
+    public void test_ShouldSubscribeToCommunicationStrategy_WhenSubscribeIsCalled() {
         diCommPort.subscribe();
 
         verifySubscribeCalled(true);
     }
 
     @Test
-    public void test_ShouldUnsubscribeFromCommunicationStrategy_WhenUnsubscribeIsCalled() throws Exception {
+    public void test_ShouldUnsubscribeFromCommunicationStrategy_WhenUnsubscribeIsCalled() {
         diCommPort.unsubscribe();
 
         verifyUnsubscribeCalled(true);
     }
 
     @Test
-    public void test_ShouldRemoveAndAddRunnable_WhenSubscribeIsCalled() throws Exception {
+    public void test_ShouldRemoveAndAddRunnable_WhenSubscribeIsCalled() {
         diCommPort.subscribe();
 
         Runnable runnable = captureResubscribeHandler();
@@ -467,7 +467,7 @@ public class DiCommPortTest {
     }
 
     @Test
-    public void test_ShouldRemoveSubscribeRunnable_WhenStopResubscribeIsCalled() throws Exception {
+    public void test_ShouldRemoveSubscribeRunnable_WhenStopResubscribeIsCalled() {
         diCommPort.subscribe();
         diCommPort.stopResubscribe();
 
@@ -477,7 +477,7 @@ public class DiCommPortTest {
     }
 
     @Test
-    public void test_ShouldRemoveSubscribeRunnable_WhenUnsubscribeIsCalled() throws Exception {
+    public void test_ShouldRemoveSubscribeRunnable_WhenUnsubscribeIsCalled() {
         diCommPort.subscribe();
         diCommPort.unsubscribe();
 
@@ -487,7 +487,7 @@ public class DiCommPortTest {
     }
 
     @Test
-    public void test_ShouldRepostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterSubscribeResponseIsReceived() throws Exception {
+    public void test_ShouldRepostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterSubscribeResponseIsReceived() {
         diCommPort.subscribe();
         verify(handlerMock, times(1)).postDelayed(any(Runnable.class), eq(SUBSCRIPTION_TTL_MS));
 
@@ -502,7 +502,7 @@ public class DiCommPortTest {
     }
 
     @Test
-    public void test_ShouldNotRepostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterStopResubscribeIsCalled() throws Exception {
+    public void test_ShouldNotRepostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterStopResubscribeIsCalled() {
         diCommPort.subscribe();
         verify(handlerMock, times(1)).postDelayed(any(Runnable.class), eq(SUBSCRIPTION_TTL_MS));
 
@@ -519,7 +519,7 @@ public class DiCommPortTest {
     }
 
     @Test
-    public void test_ShouldRePostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterStopResubscribeAndSubscribeIsCalled() throws Exception {
+    public void test_ShouldRePostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterStopResubscribeAndSubscribeIsCalled() {
         diCommPort.stopResubscribe();
 
         diCommPort.subscribe();
@@ -571,6 +571,7 @@ public class DiCommPortTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testRegisterListener() {
         diCommPort.addPortListener(portListener);
         diCommPort.handleResponse("");
@@ -579,6 +580,7 @@ public class DiCommPortTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testUnregisterListener() {
         diCommPort.addPortListener(portListener);
         diCommPort.removePortListener(portListener);
@@ -588,6 +590,7 @@ public class DiCommPortTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testShouldNotCrashIfListenerIsUnregisteredTwice() {
         diCommPort.addPortListener(portListener);
         diCommPort.removePortListener(portListener);
@@ -599,6 +602,7 @@ public class DiCommPortTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testListenerShouldNotBeRegisteredTwice() {
         diCommPort.addPortListener(portListener);
         diCommPort.addPortListener(portListener);
@@ -648,11 +652,8 @@ public class DiCommPortTest {
 
     private class TestPort<P extends PortProperties> extends DICommPort<P> {
 
-        private Handler handler;
-
-        private TestPort(final @NonNull CommunicationStrategy communicationStrategy, Handler handler) {
+        private TestPort(final @NonNull CommunicationStrategy communicationStrategy) {
             super(communicationStrategy);
-            this.handler = handler;
         }
 
         @Override
