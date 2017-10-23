@@ -90,7 +90,9 @@ public class PermissionView extends CswBaseFragment implements
                     Log.d(" Consent : ", "Resource type :" + consentModel.getResourceType());
                     Log.d(" Consent : ", "subject  :" + consentModel.getSubject());
                 } else {
+                    hideProgressDialog();
                     mConsentSwitch.setChecked(false);
+                    Log.d(" Consent : ", "no consent for type found on server");
                 }
             }
 
