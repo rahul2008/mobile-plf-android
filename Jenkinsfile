@@ -1,13 +1,9 @@
-#!/usr/bin/env groovy                                                                                                           
+#!/usr/bin/env groovy
 
 BranchName = env.BRANCH_NAME
 JENKINS_ENV = env.JENKINS_ENV
 
 properties([
-    [$class: 'ParametersDefinitionProperty', parameterDefinitions: [
-        [$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy'],
-        [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Force PSRA build ', name : 'PSRAbuild']
-    ]],
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '5']]
 ])
 
