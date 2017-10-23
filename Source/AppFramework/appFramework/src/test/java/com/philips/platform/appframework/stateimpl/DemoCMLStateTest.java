@@ -9,6 +9,8 @@ import android.content.Context;
 
 import com.philips.cdp2.commlib.core.util.ContextProvider;
 import com.philips.cdp2.demouapp.CommlibUapp;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
@@ -18,6 +20,7 @@ import org.mockito.Mock;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DemoCMLStateTest {
@@ -30,6 +33,12 @@ public class DemoCMLStateTest {
     @Mock
     Context context;
 
+    @Mock
+    AppFrameworkApplication appContext;
+
+    @Mock
+    private AppInfra appInfra;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -41,6 +50,8 @@ public class DemoCMLStateTest {
 
     @Test
     public void navigate() throws Exception {
+        when(context.getApplicationContext()).thenReturn(appContext);
+        when(appContext.getAppInfra()).thenReturn(appInfra);
         demoCMLState.init(context);
         demoCMLState.updateDataModel();
 

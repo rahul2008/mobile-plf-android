@@ -6,9 +6,14 @@
 package com.philips.platform.appframework.connectivity.appliance;
 
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.platform.appframework.ConnectivityDeviceType;
+import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPort;
+import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPortProperties;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 public class BleReferenceAppliance extends Appliance {
@@ -16,14 +21,35 @@ public class BleReferenceAppliance extends Appliance {
     public static final String MODELNAME = "ReferenceNode";
     public static final String TAG = "BleReferenceAppliance";
 
-    private final DeviceMeasurementPort deviceMeasurementPort;
+    private DeviceMeasurementPort deviceMeasurementPort;
+    public static final String MODEL_NAME_HH1600 = "HH1600";
+    public static final String MODEL_NAME_HHS = "HHS";
 
-    public BleReferenceAppliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
+    private static final int PRODUCT_ID = 1;
+
+    @NonNull
+    private SessionDataPort powerSleepSessionDataPort;
+
+    public BleReferenceAppliance(@NonNull NetworkNode networkNode, @NonNull CommunicationStrategy communicationStrategy, ConnectivityDeviceType deviceType) {
         super(networkNode, communicationStrategy);
-        deviceMeasurementPort=new DeviceMeasurementPort(communicationStrategy);
-        addPort(deviceMeasurementPort);
-        RALog.d(TAG,"Adding device Measurement port to appliance");
 
+        initializePorts(deviceType, communicationStrategy);
+
+    }
+
+    private void initializePorts(ConnectivityDeviceType deviceType, CommunicationStrategy communicationStrategy) {
+        switch (deviceType) {
+            case POWER_SLEEP:
+                powerSleepSessionDataPort = new SessionDataPort(communicationStrategy, "session", PRODUCT_ID, SessionDataPortProperties.class);
+                addPort(powerSleepSessionDataPort);
+                break;
+
+            case REFERENCE_NODE:
+                deviceMeasurementPort = new DeviceMeasurementPort(communicationStrategy);
+                addPort(deviceMeasurementPort);
+                RALog.d(TAG, "Adding device Measurement port to appliance");
+                break;
+        }
     }
 
     @Override
@@ -32,7 +58,13 @@ public class BleReferenceAppliance extends Appliance {
     }
 
 
-    public DeviceMeasurementPort getDeviceMeasurementPort(){
+    public DeviceMeasurementPort getDeviceMeasurementPort() {
         return deviceMeasurementPort;
     }
+
+    @NonNull
+    public SessionDataPort getSessionDataPort() {
+        return powerSleepSessionDataPort;
+    }
+
 }

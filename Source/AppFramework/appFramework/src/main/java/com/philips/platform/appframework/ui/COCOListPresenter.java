@@ -44,6 +44,7 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
     public static final String IAP_DEMO_APP="Test In App Purchase Demo";
     public static final String USER_REGISTRATION_COPPA = "User Registration(Coppa)";
     public static final String DS_DEMO_APP="Test Data Services Demo";
+    public static final String MYA_DEMO_APP="Test My Account Service Demo";
     public static final String CC_DEMO_APP = "Test Consumer Care Demo";
     public static final String DLS_DEMO_APP = "Test DLS Demo";
     public static final String UAPP_FRAMEWORK_DEMO = "Test uApp Demo";
@@ -54,6 +55,7 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
     public static final String DEVICE_PAIRING_DEMO_APP="Test Device Pairing Demo";
 
     public static final String TEST_DS_EVENT="TestDataServicesEvent";
+    public static final String TEST_MYA_EVENT="TestMyAccountServiceEvent";
     public static final String TEST_IAP_EVENT="TestInAppPurhcaseEvent";
     public static final String TEST_PR_EVENT="TestProductRegistrationEvent";
     public static final String TEST_CC_EVENT="TestConsumerCareEvent";
@@ -126,6 +128,8 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
                 return TEST_IAP_EVENT;
             case DS_DEMO_APP:
                 return TEST_DS_EVENT;
+            case MYA_DEMO_APP:
+                return TEST_MYA_EVENT;
             case PRODUCT_REGISTRATION:
                 return TEST_PR_EVENT;
             case USER_REGISTRATION_STANDARD:

@@ -19,7 +19,7 @@ buildscript {
 
 allprojects {
 
-    ext.androidAssertJVer = '1.1.1'
+    ext.androidAssertJVer = '1.2.0'
 
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'

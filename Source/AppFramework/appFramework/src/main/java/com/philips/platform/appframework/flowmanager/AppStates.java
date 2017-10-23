@@ -22,6 +22,8 @@ public class AppStates {
     public static final String SETTINGS = "settings";
     public static final String HAMBURGER_HOME = "home";
     public static final String CONNECTIVITY = "connectivity";
+    public static final String POWER_SLEEP_CONNECTIVITY = "power_sleep_connectivity";
+    public static final String INSIGHTS = "insights";
     public static final String TERMSANDCONITIONSSTATE="terms_and_conditions";
     public static final String TEST_MICROAPP="testmicroapp";
     public static final String COCO_VERSION_INFO="coco_version_info";
@@ -37,4 +39,5 @@ public class AppStates {
     public static final String TESTDLS="DLS";
     public static final String TESTBLUELIB="demoBlueLib";
     public static final String TELEHEALTHSERVICES ="telehealthservices";
+    public static final String MY_ACCOUNT="my_account";
 }

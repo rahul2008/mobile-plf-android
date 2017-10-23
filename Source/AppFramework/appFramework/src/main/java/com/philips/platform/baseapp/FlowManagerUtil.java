@@ -6,6 +6,7 @@
 package com.philips.platform.baseapp;
 
 
+import com.philips.platform.appframework.connectivitypowersleep.insights.InsightsFragmentState;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.screens.aboutscreen.AboutScreenState;
@@ -15,6 +16,7 @@ import com.philips.platform.baseapp.screens.debugtest.DebugTestFragmentState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeState;
+import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
 import com.philips.platform.baseapp.screens.splash.SplashState;
@@ -25,6 +27,7 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSet
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.appframework.stateimpl.DemoDevicePairingState;
 import com.philips.platform.modularui.stateimpl.ConnectivityFragmentState;
+import com.philips.platform.modularui.stateimpl.PowerSleepConnectivityFragmentState;
 
 import java.util.Map;
 
@@ -46,8 +49,11 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.SPLASH, new SplashState());
         uiStateMap.put(AppStates.TERMSANDCONITIONSSTATE,new TermsAndConditionsState());
         uiStateMap.put(AppStates.CONNECTIVITY, new ConnectivityFragmentState());
+        uiStateMap.put(AppStates.POWER_SLEEP_CONNECTIVITY, new PowerSleepConnectivityFragmentState());
+        uiStateMap.put(AppStates.INSIGHTS, new InsightsFragmentState());
         uiStateMap.put(AppStates.COCO_VERSION_INFO, new CocoVersionState());
         uiStateMap.put(AppStates.TEST_DEVICE_PAIRING, new DemoDevicePairingState());
         uiStateMap.put(AppStates.TELEHEALTHSERVICES, new TeleHealthServicesState());
+        uiStateMap.put(AppStates.MY_ACCOUNT, new MyAccountState());
     }
 }
