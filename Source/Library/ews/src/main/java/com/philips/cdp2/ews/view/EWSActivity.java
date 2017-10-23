@@ -5,6 +5,7 @@
 
 package com.philips.cdp2.ews.view;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -29,6 +30,7 @@ import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.drawable.FontIconDrawable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -66,6 +68,10 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
         //TODO move this inizialization.
         Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()), new ActivityNavigator(this));
         navigator.navigateToGettingStartedScreen();
+
+        FontIconDrawable drawable = new FontIconDrawable(getBaseContext(), getResources().getString(R.string.dls_cross_24), Typeface.createFromAsset(getBaseContext().getAssets(), "fonts/iconfont.ttf"))
+                .sizeRes(R.dimen.ews_gs_icon_size);
+        findViewById(R.id.ic_close).setBackground(drawable);
     }
 
     private void setUpCancelButton() {

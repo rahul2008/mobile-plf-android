@@ -44,6 +44,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile(group: 'com.philips.cdp', name: 'IconFont', version: "${versionsPhilips.IconFont}")
+
     // Android/Google
     compile "com.android.support:support-annotations:${versionsAndroid.support}"
     compile "com.android.support:design:${versionsAndroid.support}"

@@ -17,7 +17,7 @@
     <dimen name="default_main_helper_top_margin">20dp</dimen>
     <dimen name="default_main_helper_padding">16dp</dimen>
     <dimen name="default_main_helper_bottom_padding">14dp</dimen>
-    <dimen name="default_between_button_margin">8dp</dimen>  // This is made up! Fix when we get missing spec
+    <dimen name="default_between_button_margin">8dp</dimen>
 
     <dimen name="ews_gs_icon_size">24dp</dimen>
     <dimen name="ews_plugin_device_image_height">150dp</dimen>

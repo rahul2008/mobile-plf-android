@@ -42,9 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                android:onClick="@{() -> viewModel.onCloseButtonClicked()}"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
-                android:tint="@color/black"/>
+                android:onClick="@{() -> viewModel.onCloseButtonClicked()}"/>
 
             <TextView
                 android:id="@+id/label_ews_home_network_body"
