@@ -124,13 +124,13 @@ public class DataPullSynchroniseTest {
         synchronise = new DataPullSynchronise(
                 Arrays.asList(firstFetcherMock, secondFetcherMock)
         );
-        synchronise.accessProvider = accessProviderMock;
+        synchronise.mUCoreAccessProvider = accessProviderMock;
         synchronise.eventing = eventingMock;
         synchronise.synchronisationManager=synchronisationManagerMock;
         synchronise.executor = executorMock;
         ArrayList list = new ArrayList();
-        list.add(firstFetcherMock);
-        list.add(secondFetcherMock);
+//        list.add(firstFetcherMock);
+//        list.add(secondFetcherMock);
         synchronise.fetchers = list;
         synchronise.configurableFetchers = list;
     }

@@ -117,8 +117,8 @@ public class DataPushSynchroniseTest {
         dataPushSynchronise.synchronisationManager=synchronisationManagerMock;
         dataPushSynchronise.executor = executorMock;
         ArrayList list = new ArrayList();
-        list.add(firstDataSenderMock);
-        list.add(secondDataSenderMock);
+//        list.add(firstDataSenderMock);
+//        list.add(secondDataSenderMock);
         dataPushSynchronise.senders = list;
         dataPushSynchronise.configurableSenders = list;
     }

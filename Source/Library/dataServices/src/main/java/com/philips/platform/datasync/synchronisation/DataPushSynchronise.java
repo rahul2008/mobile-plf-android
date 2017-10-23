@@ -26,7 +26,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Executor;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -36,19 +36,16 @@ import javax.inject.Singleton;
 
 import retrofit.RetrofitError;
 
-
 @Singleton
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DataPushSynchronise extends EventMonitor {
 
+    ExecutorService executor;
     @Inject
     UCoreAccessProvider accessProvider;
 
     @NonNull
-    protected List<? extends DataSender> senders;
-
-    @NonNull
-    protected Executor executor;
+    List<? extends DataSender> senders;
 
     @Inject
     Eventing eventing;
@@ -76,17 +73,17 @@ public class DataPushSynchronise extends EventMonitor {
 
     List<? extends DataSender> configurableSenders;
 
-    DataServicesManager mDataServicesManager;
+    private DataServicesManager mDataServicesManager;
 
     public DataPushSynchronise(@NonNull final List<? extends DataSender> senders) {
         mDataServicesManager = DataServicesManager.getInstance();
         mDataServicesManager.getAppComponant().injectDataPushSynchronize(this);
         this.senders = senders;
-        executor = Executors.newFixedThreadPool(20);
         configurableSenders = getSenders();
+        executor = Executors.newFixedThreadPool(configurableSenders.size());
     }
 
-    public void startSynchronise(final int eventId) {
+    void startSynchronise(final int eventId) {
         if (isSyncStarted()) {
             return;
         }
@@ -101,13 +98,43 @@ public class DataPushSynchronise extends EventMonitor {
         }
     }
 
-    public void registerEvent() {
+    private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
+        if (configurableSenders.size() <= 0) {
+            synchronisationManager.dataSyncComplete();
+            return;
+        }
+
+        initPush(configurableSenders.size());
+
+        final CountDownLatch countDownLatch = new CountDownLatch(configurableSenders.size());
+
+        for (final DataSender sender : configurableSenders) {
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    boolean response = sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
+                    numberOfRunningSenders.decrementAndGet();
+                    countDownLatch.countDown();
+                }
+            });
+        }
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        postPushComplete();
+    }
+
+    private void registerEvent() {
         if (!eventing.isRegistered(this)) {
             eventing.register(this);
         }
     }
 
-    public void unRegisterEvent() {
+    void unRegisterEvent() {
         if (eventing.isRegistered(this)) {
             eventing.unregister(this);
         }
@@ -120,38 +147,13 @@ public class DataPushSynchronise extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(GetNonSynchronizedDataResponse response) {
         synchronized (this) {
-
             startAllSenders(response);
-
-        }
-    }
-
-    private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
-        if (configurableSenders.size() <= 0) {
-            synchronisationManager.dataSyncComplete();
-            return;
-        }
-
-        initPush(configurableSenders.size());
-        executor = Executors.newFixedThreadPool(20);
-        for (final DataSender sender : configurableSenders) {
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
-                    int jobsRunning = numberOfRunningSenders.decrementAndGet();
-
-                    if (jobsRunning <= 0) {
-                        postPushComplete();
-                    }
-                }
-            });
         }
     }
 
     private void postPushComplete() {
         synchronisationManager.dataSyncComplete();
-        synchronisationManager.shutdownAndAwaitTermination((ExecutorService) executor);
+//        synchronisationManager.shutdownAndAwaitTermination((ExecutorService) executor);
     }
 
     private boolean isSyncStarted() {
@@ -201,3 +203,4 @@ public class DataPushSynchronise extends EventMonitor {
         return dataSenders;
     }
 }
+
