@@ -28,6 +28,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DataPullSynchroniseTest {
     private static final int EVENT_ID = 2344;
+
     private static final DateTime NOW = DateTime.now(DateTimeZone.UTC);
 
     private UserAccessProviderSpy userAccessProviderSpy;
@@ -99,62 +100,29 @@ public class DataPullSynchroniseTest {
     }
 
     @Test
-    public void PostError_WhenUserIsNotLoggedIn() {
+    public void postErrorWhenUserIsNotLoggedIn() {
         givenUserIsNotLoggedIn();
         whenSynchronisationIsStarted(EVENT_ID);
         thenAnErrorWasPostedWithReferenceId(EVENT_ID);
     }
 
     @Test
-    public void ShouldFetchData_WhenUserIsLoggedIn() {
+    public void fetchDataWhenUserIsLoggedIn() {
         givenUserIsLoggedIn();
         whenSynchronisationIsStarted(EVENT_ID);
     }
 
-
-    /*@Test
-    public void ShouldPostSuccess_WhenSyncSucceed() throws Exception {
-        when(firstFetcherMock.fetchDataSince(NOW)).thenReturn(null);
-        when(secondFetcherMock.fetchDataSince(NOW)).thenReturn(null);
-
-        synchronise.onEventAsync(new GetNonSynchronizedConsentssResponse(Collections.singletonList(momentMock), Collections.singletonList(consentDetailMock)));
-
-        synchronise.startSynchronise(NOW, EVENT_ID);
-
-       // runExecutor();
-
-       // verify(eventingMock).post(successCaptor.capture());
-    }*/
-
-
-
-
     private void runExecutor() {
-        // verify(executorMock, atLeastOnce()).execute(runnableCaptor.capture());
         for (Runnable runnable : runnableCaptor.getAllValues()) {
             runnable.run();
         }
     }
-
-   /* @Test
-    public void ShouldNotPostAnything_WhenSyncIsNotFinished() throws Exception {
-
-        synchronise.startSynchronise(NOW, EVENT_ID);
-
-        //final GetNonSynchronizedConsentsRequest event = getEvent(GetNonSynchronizedConsentsRequest.class);
-       // assertThat(event).isNull();
-
-      //  verify(eventingMock).register(synchronise);
-    }
-*/
 
     @Test
     public void Should_Call_performFetch() {
         givenUserIsLoggedIn();
         synchronise.startSynchronise(new DateTime(), 2);
         runExecutor();
-        //TODO: Spoorti - Fix it and see what has to be verified
-//        verify(synchronisationManagerMock).shutdownAndAwaitTermination(executorMock);
     }
 
     @Test
@@ -165,39 +133,12 @@ public class DataPullSynchroniseTest {
         verifyNoMoreInteractions(executorMock);
     }
 
-    //TODO: Spoort -  Not sure Y its giving error, uncomment and check it later
-
-
     @Test
     public void ShouldRunSyncInDifferentThreads() throws Exception {
         givenUserIsLoggedIn();
         whenSynchronisationIsStarted(EVENT_ID);
         runExecutor();
-//        verify(executorMock, times(2)).execute(any(Runnable.class));
     }
-
-    /*   @Test
-       public void Should_Call_synchronize_when_fetchResult_isError(){
-           when(accessProviderMock.isLoggedIn()).thenReturn(true);
-
-           when(retrofitErrorMock.getKind()).thenReturn(RetrofitError.Kind.HTTP);
-           when(firstFetcherMock.fetchDataSince(null)).thenThrow(retrofitErrorMock);
-
-           synchronise.startSynchronise(null,2);
-           runExecutor();
-
-       }*/
-    /*@Test
-    public void ShouldIgnoreSyncStart_WhenSyncIsAlreadyStarted() throws Exception {
-
-        synchronise.onEventAsync(new GetNonSynchronizedConsentssResponse(Collections.singletonList(momentMock), Collections.singletonList(consentDetailMock)));
-        synchronise.startSynchronise(NOW, EVENT_ID);
-        synchronise.startSynchronise(NOW, EVENT_ID);
-        synchronise.startSynchronise(NOW, EVENT_ID);
-        synchronise.startSynchronise(NOW, EVENT_ID);
-
-       // verify(executorMock, times(2)).execute(any(Runnable.class));
-    }*/
 
     private void givenUserIsLoggedIn() {
         userAccessProviderSpy.isLoggedIn = true;
@@ -215,6 +156,4 @@ public class DataPullSynchroniseTest {
     private void thenAnErrorWasPostedWithReferenceId(final int expectedEventId) {
         assertEquals(expectedEventId, eventingSpy.postedEvent.getReferenceId());
     }
-
-
 }
