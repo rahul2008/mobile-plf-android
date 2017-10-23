@@ -9,13 +9,15 @@ import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 
+import com.philips.cdp2.ews.R;
+
 
 public class TroubleShootContentConfiguration implements Parcelable {
 
     @StringRes
-    private final int resetConnTitle;
+    private final int resetConnectionTitle;
     @StringRes
-    private final int resetConnBody;
+    private final int resetConnectionBody;
     @DrawableRes
     private final int resetConnectionImage;
 
@@ -43,8 +45,8 @@ public class TroubleShootContentConfiguration implements Parcelable {
     private final int connectWrongPhoneQuestion;
 
     protected TroubleShootContentConfiguration(Parcel in) {
-        resetConnTitle = in.readInt();
-        resetConnBody = in.readInt();
+        resetConnectionTitle = in.readInt();
+        resetConnectionBody = in.readInt();
         resetConnectionImage = in.readInt();
         resetDeviceTitle = in.readInt();
         resetDeviceBody = in.readInt();
@@ -70,12 +72,12 @@ public class TroubleShootContentConfiguration implements Parcelable {
         }
     };
 
-    public int getResetConnTitle() {
-        return resetConnTitle;
+    public int getResetConnectionTitle() {
+        return resetConnectionTitle;
     }
 
-    public int getResetConnBody() {
-        return resetConnBody;
+    public int getResetConnectionBody() {
+        return resetConnectionBody;
     }
 
     public int getResetConnectionImage() {
@@ -122,9 +124,9 @@ public class TroubleShootContentConfiguration implements Parcelable {
         return connectWrongPhoneQuestion;
     }
 
-    protected TroubleShootContentConfiguration(Parcel in, int resetConnTitle, int resetConnBody, int resetConnectionImage, int resetDeviceTitle, int resetDeviceBody, int resetDeviceImage, int setUpAccessPointTitle, int setUpAccessPointBody, int setUpAccessPointImage, int connectWrongPhoneTitle, int connectWrongPhoneBody, int connectWrongPhoneImage, int connectWrongPhoneQuestion) {
-        this.resetConnTitle = resetConnTitle;
-        this.resetConnBody = resetConnBody;
+    private TroubleShootContentConfiguration(int resetConnectionTitle, int resetConnectionBody, int resetConnectionImage, int resetDeviceTitle, int resetDeviceBody, int resetDeviceImage, int setUpAccessPointTitle, int setUpAccessPointBody, int setUpAccessPointImage, int connectWrongPhoneTitle, int connectWrongPhoneBody, int connectWrongPhoneImage, int connectWrongPhoneQuestion) {
+        this.resetConnectionTitle = resetConnectionTitle;
+        this.resetConnectionBody = resetConnectionBody;
         this.resetConnectionImage = resetConnectionImage;
         this.resetDeviceTitle = resetDeviceTitle;
         this.resetDeviceBody = resetDeviceBody;
@@ -145,8 +147,8 @@ public class TroubleShootContentConfiguration implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(resetConnTitle);
-        dest.writeInt(resetConnBody);
+        dest.writeInt(resetConnectionTitle);
+        dest.writeInt(resetConnectionBody);
         dest.writeInt(resetConnectionImage);
         dest.writeInt(resetDeviceTitle);
         dest.writeInt(resetDeviceBody);
@@ -158,5 +160,131 @@ public class TroubleShootContentConfiguration implements Parcelable {
         dest.writeInt(connectWrongPhoneBody);
         dest.writeInt(connectWrongPhoneImage);
         dest.writeInt(connectWrongPhoneQuestion);
+    }
+
+
+    public static class Builder{
+
+        @StringRes
+        private  int resetConnectionTitle;
+        @StringRes
+        private  int resetConnectionBody;
+        @DrawableRes
+        private  int resetConnectionImage;
+
+        @StringRes
+        private  int resetDeviceTitle;
+        @StringRes
+        private  int resetDeviceBody;
+        @DrawableRes
+        private  int resetDeviceImage;
+
+        @StringRes
+        private  int setUpAccessPointTitle;
+        @StringRes
+        private  int setUpAccessPointBody;
+        @DrawableRes
+        private  int setUpAccessPointImage;
+
+        @StringRes
+        private  int connectWrongPhoneTitle;
+        @StringRes
+        private  int connectWrongPhoneBody;
+        @DrawableRes
+        private  int connectWrongPhoneImage;
+        @StringRes
+        private  int connectWrongPhoneQuestion;
+
+        public Builder(){
+
+            resetConnectionTitle = R.string.label_ews_get_started_title;
+            resetConnectionBody = R.string.label_ews_get_started_title;
+            resetConnectionImage = R.drawable.ic_ews_device_apmode_blinking;
+
+            resetDeviceTitle = R.string.label_ews_get_started_title;
+            resetDeviceBody = R.string.label_ews_get_started_title;
+            resetDeviceImage = R.drawable.ic_ews_device_apmode_blinking;
+
+            setUpAccessPointTitle = R.string.label_ews_get_started_title;
+            setUpAccessPointBody = R.string.label_ews_get_started_title;
+            setUpAccessPointImage = R.drawable.ic_ews_device_apmode_blinking;
+
+            connectWrongPhoneTitle = R.string.label_ews_get_started_title;
+            connectWrongPhoneBody = R.string.label_ews_get_started_title;
+            connectWrongPhoneImage = R.drawable.ic_ews_device_apmode_blinking;
+            connectWrongPhoneQuestion = R.string.label_ews_get_started_title;
+
+        }
+
+        public Builder setResetConnectionTitle(@StringRes int resetConnectionTitle){
+            this.resetConnectionTitle = resetConnectionTitle;
+            return this;
+        }
+
+        public Builder setResetConnectionBody(@StringRes int resetConnectionBody){
+            this.resetConnectionBody = resetConnectionBody;
+            return this;
+        }
+
+        public Builder setResetConnectionImage(@DrawableRes int resetConnectionImage){
+            this.resetConnectionImage = resetConnectionImage;
+            return this;
+        }
+
+        public Builder setResetDeviceTitle(@StringRes int resetDeviceTitle){
+            this.resetDeviceTitle = resetDeviceTitle;
+            return this;
+        }
+
+        public Builder setResetDeviceBody(@StringRes int resetDeviceBody){
+            this.resetDeviceBody = resetDeviceBody;
+            return this;
+        }
+
+        public Builder setResetDeviceImage(@DrawableRes int resetDeviceImage){
+            this.resetDeviceImage = resetDeviceImage;
+            return this;
+        }
+
+        public Builder setSetUpAccessPointTitle(@StringRes int setUpAccessPointTitle) {
+            this.setUpAccessPointTitle = setUpAccessPointTitle;
+            return this;
+        }
+
+        public Builder setSetUpAccessPointBody(@StringRes int setUpAccessPointBody) {
+            this.setUpAccessPointBody = setUpAccessPointBody;
+            return this;
+        }
+
+        public Builder setSetUpAccessPointImage(@DrawableRes int setUpAccessPointImage) {
+            this.setUpAccessPointImage = setUpAccessPointImage;
+            return this;
+        }
+
+        public Builder setConnectWrongPhoneTitle(@StringRes int connectWrongPhoneTitle) {
+            this.connectWrongPhoneTitle = connectWrongPhoneTitle;
+            return this;
+        }
+
+        public Builder setConnectWrongPhoneBody(@StringRes int connectWrongPhoneBody) {
+            this.connectWrongPhoneBody = connectWrongPhoneBody;
+            return this;
+        }
+
+        public Builder setConnectWrongPhoneImage(@DrawableRes int connectWrongPhoneImage) {
+            this.connectWrongPhoneImage = connectWrongPhoneImage;
+            return this;
+        }
+
+        public Builder setConnectWrongPhoneQuestion(@StringRes int connectWrongPhoneQuestion) {
+            this.connectWrongPhoneQuestion = connectWrongPhoneQuestion;
+            return this;
+        }
+
+        public TroubleShootContentConfiguration build(){
+            return new TroubleShootContentConfiguration(resetConnectionTitle, resetDeviceBody, resetConnectionImage, resetDeviceTitle, resetDeviceBody,
+                    resetDeviceImage, setUpAccessPointTitle, setUpAccessPointBody, setUpAccessPointImage, connectWrongPhoneTitle, connectWrongPhoneBody,
+                    connectWrongPhoneImage, connectWrongPhoneQuestion);
+        }
     }
 }

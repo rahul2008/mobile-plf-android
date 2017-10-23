@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
+import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
 import com.philips.cdp2.ews.util.StringProvider;
 
 import dagger.Module;
@@ -21,13 +22,16 @@ public class EWSConfigurationModule {
 
     @NonNull private BaseContentConfiguration baseContentConfiguration;
     @NonNull private HappyFlowContentConfiguration happyFlowContentConfiguration;
+    @NonNull private TroubleShootContentConfiguration troubleShootContentConfiguration ;
 
     public EWSConfigurationModule(@NonNull Context context,
                                   @NonNull BaseContentConfiguration baseContentConfiguration,
-                                  @NonNull HappyFlowContentConfiguration happyFlowContentConfiguration){
+                                  @NonNull HappyFlowContentConfiguration happyFlowContentConfiguration,
+                                  @NonNull TroubleShootContentConfiguration troubleShootContentConfiguration){
         this.context = context;
         this.baseContentConfiguration = baseContentConfiguration;
         this.happyFlowContentConfiguration = happyFlowContentConfiguration;
+        this.troubleShootContentConfiguration = troubleShootContentConfiguration;
     }
 
     @Provides
@@ -38,6 +42,11 @@ public class EWSConfigurationModule {
     @Provides
     HappyFlowContentConfiguration provideHappyFlowContentConfiguration(){
         return happyFlowContentConfiguration;
+    }
+
+    @Provides
+    TroubleShootContentConfiguration provideTroubleShootContentConfiguration(){
+        return troubleShootContentConfiguration;
     }
 
     @Provides

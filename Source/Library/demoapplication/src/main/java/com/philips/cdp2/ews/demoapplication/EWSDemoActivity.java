@@ -8,6 +8,7 @@ import android.view.View;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
+import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSDependencies;
 import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.microapp.EWSLauncherInput;
@@ -54,7 +55,9 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
     private UappDependencies createUappDependencies(AppInfraInterface appInfra,
                                                     Map<String, String> productKeyMap) {
         return new EWSDependencies(appInfra, productKeyMap,
-                new ContentConfiguration(createBaseContentConfiguration(), createHappyFlowConfiguration()));
+                new ContentConfiguration(createBaseContentConfiguration(),
+                                        createHappyFlowConfiguration(),
+                                        createTroubleShootingConfiguration()));
     }
 
     @NonNull
@@ -75,6 +78,15 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
                 .setGettingStartedScreenTitle(R.string.lbl_connectwithdevice)
                 .setPlugInScreenTitle(R.string.lbl_ews_02_01_title)
                 .setPlugInScreenBody(R.string.lbl_ews_02_01_body)
+                .build();
+    }
+
+    @NonNull
+    private TroubleShootContentConfiguration createTroubleShootingConfiguration(){
+        return new TroubleShootContentConfiguration.Builder()
+                .setResetConnectionTitle(R.string.lbl_connectwithdevice)
+                .setResetConnectionBody(R.string.lbl_ews_02_01_title)
+                .setResetDeviceImage(R.drawable.navigation_image)
                 .build();
     }
 }
