@@ -188,4 +188,11 @@ public class RegConstants {
 
     public static final int BAD_RESPONSE_ERROR_CODE = 7008;
 
+    public static final String SOCIAL_PROVIDER_FACEBOOK= "facebook";
+
+    public static final String SOCIAL_PROVIDER_WECHAT= "wechat";
+
+    public static final String SOCIAL_PROVIDER_GOOGLEPLUS= "googleplus";
+
+
 }

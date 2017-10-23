@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 import com.janrain.android.Jump;
 import com.janrain.android.capture.*;
 import com.janrain.android.capture.Capture.InvalidApidChangeException;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.ui.utils.*;
@@ -102,9 +103,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                     RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
                     CaptureRecord updatedUser = Jump.getSignedInUser();
                     JSONObject originalUserInfo = getCurrentUserAsJsonObject();
-                    SharedPreferences myPrefs = mContext.getSharedPreferences(
-                            RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
-                    String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
+                    String microSiteId = RegistrationConfiguration.getInstance().getMicrositeId();
 
                     try {
                         ServerTime.init(timeInterface);
@@ -177,9 +176,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
         if (Jump.getSignedInUser() != null) {
             CaptureRecord updatedUser = Jump.getSignedInUser();
             JSONObject originalUserInfo = getCurrentUserAsJsonObject();
-            SharedPreferences myPrefs = mContext.getSharedPreferences(
-                    RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
-            String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
+            String microSiteId = RegistrationConfiguration.getInstance().getMicrositeId();
             try {
                 ServerTime.init(timeInterface);
                 String currentDate = ServerTime.getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);

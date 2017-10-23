@@ -12,10 +12,10 @@ public interface ApiSigner {
             if (signingKey == null || signingSecret == null)
                 throw new IllegalArgumentException("Missing authentication signing keys");
 
-            if(signingSecret.length() == 128) {
-                return new HSDPApiSigner(signingKey, signingSecret);
+            if(signingSecret.length() != 128) {
+                throw new IllegalArgumentException("Use whitebox api signer");
             }
-            return new DhpApiSigner(signingKey, signingSecret);
+            return new HSDPApiSigner(signingKey, signingSecret);
         }
     }
 }

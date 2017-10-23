@@ -26,8 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="@string/reg_VerifyEmail_VerifyEmail_lbltxt"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:text="@string/reg_DLS_Verify_Email_Title_Txt"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/reg_text_size_20"
                 fontPath="fonts/centralesansbold.ttf"/>
 
@@ -36,24 +36,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="@string/reg_VerifyEmail_EmailSentto_lbltxt"
-                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                android:text="@string/reg_DLS_Verify_Email_Sent_Txt"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 />
 
             <com.philips.platform.uid.view.widget.Label
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="@string/reg_VerifyEmail_ActivateInfo_lbltxt"
-                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                android:text="@string/reg_DLS_Verify_Email_Explainary_Txt"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 />
 
             <com.philips.platform.uid.view.widget.Label
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="@string/Activation_explain_value_to_user"
-                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                android:text="@string/reg_DLS_Verify_Email_Security_Txt"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 />
 
             <com.philips.platform.uid.view.widget.ProgressBarButton
@@ -63,15 +63,15 @@
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
                 android:layout_marginBottom="@dimen/reg_dimen_12dp"
                 app:uidIsIndeterminateProgressIndicator="true"
-                app:uidProgressIndicatorButtonProgressText="@string/reg_VerifyEmail_Activated_btntxt"
-                app:uidProgressIndicatorButtonText="@string/reg_VerifyEmail_Activated_btntxt"/>
+                app:uidProgressIndicatorButtonProgressText="@string/reg_DLS_Verify_Email_Verified_Btn_Title_Txt"
+                app:uidProgressIndicatorButtonText="@string/reg_DLS_Verify_Email_Verified_Btn_Title_Txt"/>
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/usr_activation_emailNotReceived_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_12dp"
-                android:text="@string/reg_Resend_mail_btntxt"
+                android:text="@string/reg_DLS_Verify_Email_Resend_Btn_Title_Txt"
                 app:uidComponentType="Secondary"/>
 
             <com.philips.cdp.registration.ui.customviews.XRegError

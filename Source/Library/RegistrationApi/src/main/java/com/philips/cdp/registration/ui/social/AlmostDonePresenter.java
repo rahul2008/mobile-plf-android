@@ -94,14 +94,13 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
 
     public void updateTermsAndReceiveMarketingOpt() {
         if (mUser.isTermsAndConditionAccepted()) {
-            if (!mUser.getReceiveMarketingEmail()) {
-                almostDoneContract.showMarketingOptCheck();
-            } else {
-                almostDoneContract.hideMarketingOptCheck();
-            }
             almostDoneContract.updateTermsAndConditionView();
-        } else if (mUser.getReceiveMarketingEmail()) {
-            almostDoneContract.updateReceiveMarketingView();
+        }
+
+        if (!mUser.getReceiveMarketingEmail()) {
+            almostDoneContract.showMarketingOptCheck();
+        } else {
+            almostDoneContract.hideMarketingOptCheck();
         }
     }
 
@@ -343,12 +342,12 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
     public void handleSocialTermsAndCondition() {
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && almostDoneContract.isAcceptTermsContainerVisible()) {
             if (almostDoneContract.isAcceptTermsChecked()) {
-                register(almostDoneContract.isMarketingOptChecked(), almostDoneContract.getMobileNumber());
+                register(almostDoneContract.isMarketingOptChecked(), almostDoneContract.getEmailOrMobileNumber());
             } else {
                 almostDoneContract.showTermsAndConditionError();
             }
         } else {
-            register(almostDoneContract.isMarketingOptChecked(), almostDoneContract.getMobileNumber());
+            register(almostDoneContract.isMarketingOptChecked(), almostDoneContract.getEmailOrMobileNumber());
         }
     }
 

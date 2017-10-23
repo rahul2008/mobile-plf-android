@@ -19,6 +19,10 @@ public class RegistrationContentConfiguration implements Serializable {
 
     private String optInBannerText;
 
+    private boolean enableLastName;
+
+    private boolean enableContinueWithouAccount;
+
     public String getValueForRegistrationDescription() {
         return valueForRegistrationDescription;
     }
@@ -78,13 +82,29 @@ public class RegistrationContentConfiguration implements Serializable {
         this.optInDetailDescription = optInDetailDescription;
     }
 
-
     public String getOptInBannerText() {
         return optInBannerText;
     }
 
     public void setOptInBannerText(String optInBannerText) {
         this.optInBannerText = optInBannerText;
+    }
+
+
+    public boolean getEnableLastName() {
+        return enableLastName;
+    }
+
+    public void enableLastName(boolean hideCreateAccountLastName) {
+        this.enableLastName = hideCreateAccountLastName;
+    }
+
+    public boolean getEnableContinueWithouAccount() {
+        return enableContinueWithouAccount;
+    }
+
+    public void enableContinueWithouAccount(boolean hideHomeScreenContinueWithouAccount) {
+        this.enableContinueWithouAccount = hideHomeScreenContinueWithouAccount;
     }
 
 }
