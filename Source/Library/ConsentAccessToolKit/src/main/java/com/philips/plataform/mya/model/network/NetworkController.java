@@ -77,10 +77,7 @@ public class NetworkController {
     }
 
     ConsentRequest getConsentJsonRequest(final NetworkAbstractModel model, final Response.ErrorListener error, final Response.Listener<JsonArray> response) {
-        Log.d("sendRequest ","header : "+model.requestHeader());
-        Log.d("sendRequest","url : "+model.getUrl());
-        Log.d("sendRequest","method : "+model.getMethod());
-        return new ConsentRequest(model.getMethod(), model.getUrl(),
+        return new ConsentRequest(model.getMethod(),model.getUrl(),
                 model.requestHeader(),model.requestBody(), response, error);
     }
 }

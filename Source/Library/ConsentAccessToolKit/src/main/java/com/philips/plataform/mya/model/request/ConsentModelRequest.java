@@ -58,6 +58,6 @@ public class ConsentModelRequest extends NetworkAbstractModel {
     @Override
     public String getUrl() {
         URL.append(mUser.getHsdpUUID()+"?applicationName="+mApplicationName+"&propositionName="+mPropositionName);
-        return new String(URL);
+        return URL.toString();
     }
 }

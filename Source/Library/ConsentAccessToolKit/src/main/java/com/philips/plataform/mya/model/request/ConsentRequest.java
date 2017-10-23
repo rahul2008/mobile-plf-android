@@ -43,7 +43,7 @@ public class ConsentRequest extends Request<JsonArray> {
     private Handler mHandler;
     private Map<String, String> header;
 
-    public ConsentRequest(int method, String url,  Map<String, String> header, Map<String, String> params,
+    public ConsentRequest(int method, String url,Map<String, String> header, Map<String, String> params,
                           Listener<JsonArray> responseListener, ErrorListener errorListener) {
         super(method, url, errorListener);
         this.mResponseListener = responseListener;
