@@ -1,9 +1,10 @@
-#!/usr/bin/env groovy
+#!/usr/bin/env groovy                                                                                                           
 
 BranchName = env.BRANCH_NAME
 JENKINS_ENV = env.JENKINS_ENV
 
 properties([
+    [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Force PSRA build ', name : 'PSRAbuild']]],
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '5']]
 ])
 
@@ -27,7 +28,7 @@ node ('android&&docker') {
                 step([$class: 'StashNotifier'])
             }
 
-            if (BranchName =~ /master|develop|release\/platform_.*/) {
+            if (!params.PSRAbuild && (BranchName =~ /master|develop|release\/platform_.*/)) {
                 stage('Trigger OPA Build'){
                     def committerName = sh (script: "git show -s --format='%an' HEAD", returnStdout: true).trim()
                     if (BranchName =~ "/") {
@@ -45,6 +46,16 @@ node ('android&&docker') {
                     cd ./Source/AppFramework 
                     ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease
                 '''
+                }
+
+                if (params.PSRAbuild || (BranchName =~ /master|release\/platform_.*/))  {
+                    stage ('build PSRA') {
+                        sh '''#!/bin/bash -l
+                            chmod -R 775 .
+                            cd ./Source/AppFramework
+                            ./gradlew -PenvCode=${JENKINS_ENV} assemblePsraRelease
+                       '''
+                    }
                 }
 
                 stage('test') {
