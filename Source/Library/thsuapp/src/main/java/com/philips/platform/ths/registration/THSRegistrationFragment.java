@@ -9,7 +9,6 @@ package com.philips.platform.ths.registration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,12 +35,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_ADD_DETAILS;
+
 public class THSRegistrationFragment extends THSBaseFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     public static final String TAG = THSRegistrationFragment.class.getSimpleName();
     private THSRegistrationPresenter mThsRegistrationPresenter;
     private RelativeLayout mRelativeLayout;
     protected ProgressBarButton mContinueButton;
-    private  EditText mEditTextFirstName;
+    private EditText mEditTextFirstName;
     private EditText mEditTextLastName;
     private EditText mDateOfBirth;
     private EditText mEditTextStateSpinner;
@@ -84,7 +85,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         mEditTextStateSpinner.setOnClickListener(this);
         mCheckBoxMale = (RadioButton) view.findViewById(R.id.ths_checkbox_male);
         mCheckBoxFemale = (RadioButton) view.findViewById(R.id.ths_checkbox_female);
-        mStateSpinner = new CustomSpinner(getContext(),null);
+        mStateSpinner = new CustomSpinner(getContext(), null);
 
         try {
             final List<Country> supportedCountries = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getSupportedCountries();
@@ -104,25 +105,25 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
     private void prePopulateData() {
         final User user = THSManager.getInstance().getUser(getContext());
-        if(user == null)
+        if (user == null)
             return;
-        if(user.getGivenName()!=null) {
+        if (user.getGivenName() != null) {
             mEditTextFirstName.setText(user.getGivenName());
         }
-        if(user.getFamilyName()!=null) {
+        if (user.getFamilyName() != null) {
             mEditTextLastName.setText(user.getFamilyName());
         }
-        if(user.getDateOfBirth()!=null) {
+        if (user.getDateOfBirth() != null) {
             setDate(user.getDateOfBirth());
         }
 
         final com.philips.cdp.registration.ui.utils.Gender gender = user.getGender();
-        if(gender == null)
+        if (gender == null)
             return;
 
-        if(gender == com.philips.cdp.registration.ui.utils.Gender.FEMALE){
+        if (gender == com.philips.cdp.registration.ui.utils.Gender.FEMALE) {
             mCheckBoxFemale.setChecked(true);
-        }else {
+        } else {
             mCheckBoxMale.setSelected(true);
         }
     }
@@ -140,37 +141,39 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if(id == R.id.ths_continue){
-            if(validateUserDetails()){
+        if (id == R.id.ths_continue) {
+            if (validateUserDetails()) {
                 mContinueButton.showProgressIndicator();
-                mThsRegistrationPresenter.enrollUser(mDob,mEditTextFirstName.getText().toString(),
-                        mEditTextLastName.getText().toString(), Gender.MALE,mValidStates.get(mStateSpinner.getSelectedItemPosition()));
+                mThsRegistrationPresenter.enrollUser(mDob, mEditTextFirstName.getText().toString(),
+                        mEditTextLastName.getText().toString(), Gender.MALE, mValidStates.get(mStateSpinner.getSelectedItemPosition()));
             }
 
-        }if(id == R.id.ths_edit_dob){
+        }
+        if (id == R.id.ths_edit_dob) {
             mThsRegistrationPresenter.onEvent(R.id.ths_edit_dob);
-        }if(id == R.id.ths_edit_location_container){
+        }
+        if (id == R.id.ths_edit_location_container) {
             mStateSpinner.performClick();
         }
     }
 
     private boolean validateUserDetails() {
-        if(mEditTextFirstName.getText().toString().isEmpty()){
+        if (mEditTextFirstName.getText().toString().isEmpty()) {
             showToast(getString(R.string.ths_first_name_validation));
             return false;
-        }else if(mEditTextLastName.getText().toString().isEmpty()){
+        } else if (mEditTextLastName.getText().toString().isEmpty()) {
             showToast(getString(R.string.ths_last_name_validation));
             return false;
-        }else if(mDateOfBirth.getText().toString().isEmpty()){
+        } else if (mDateOfBirth.getText().toString().isEmpty()) {
             showToast(getString(R.string.ths_dob_validation));
             return false;
-        }else if(radio_group_single_line.getCheckedRadioButtonId() == -1){
+        } else if (radio_group_single_line.getCheckedRadioButtonId() == -1) {
             showToast(getString(R.string.ths_gender_validation));
             return false;
-        }else if(mEditTextStateSpinner.getText().toString().isEmpty()){
+        } else if (mEditTextStateSpinner.getText().toString().isEmpty()) {
             showToast(getString(R.string.ths_state_validation));
             return false;
-        }else return true;
+        } else return true;
 
     }
 
@@ -192,5 +195,10 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_ADD_DETAILS, null, null);
     }
 }

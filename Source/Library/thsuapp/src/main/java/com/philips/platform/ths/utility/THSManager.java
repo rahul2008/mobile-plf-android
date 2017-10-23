@@ -124,6 +124,7 @@ import com.philips.platform.ths.settings.THSGetAppointmentsCallback;
 import com.philips.platform.ths.settings.THSVisitReportAttachmentCallback;
 import com.philips.platform.ths.settings.THSVisitReportDetailCallback;
 import com.philips.platform.ths.settings.THSVisitReportListCallback;
+import com.philips.platform.ths.uappclasses.THSVisitCompletionListener;
 import com.philips.platform.ths.visit.THSCancelVisitCallBack;
 import com.philips.platform.ths.visit.THSStartVisitCallback;
 import com.philips.platform.ths.visit.THSVisitSummary;
@@ -150,6 +151,16 @@ public class THSManager {
     private boolean isMatchMakingVisit;
 
     private boolean mIsReturningUser = true;
+
+    public THSVisitCompletionListener getThsVisitCompletionListener() {
+        return thsVisitCompletionListener;
+    }
+
+    public void setThsVisitCompletionListener(THSVisitCompletionListener thsVisitCompletionListener) {
+        this.thsVisitCompletionListener = thsVisitCompletionListener;
+    }
+
+    THSVisitCompletionListener thsVisitCompletionListener;
 
 
     @VisibleForTesting

@@ -30,6 +30,10 @@ import com.philips.platform.uid.view.widget.RatingBar;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_WELCOME_BACK;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
+
 public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnClickListener {
 
     public static final String TAG = THSWelcomeBackFragment.class.getSimpleName();
@@ -106,6 +110,7 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
     public void onClick(View view) {
         int id = view.getId();
         if(id == R.id.ths_get_started){
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "videoVisitStarted");
             mThsWelcomeBackPresenter.onEvent(R.id.ths_get_started);
         }
     }
@@ -116,5 +121,11 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
 
     public Provider getProvider() {
         return mProvider;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_WELCOME_BACK,null,null);
     }
 }

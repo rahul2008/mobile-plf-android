@@ -34,6 +34,7 @@ import java.util.Locale;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_APPOINTMENT_CONFIRMED;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 public class THSConfirmAppointmentFragment extends THSBaseFragment implements THSAppointmentInterface, View.OnClickListener {
 
@@ -52,7 +53,6 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_confirm_appointment, container, false);
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","appointmentScheduled");
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_confirm), true);
         }
@@ -127,7 +127,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     @Override
     public void onResume() {
         super.onResume();
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "appointmentScheduled");
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SCHEDULE_APPOINTMENT_CONFIRMED,null,null);
-
     }
 }

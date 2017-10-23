@@ -22,6 +22,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 
 import java.util.Map;
@@ -32,7 +33,10 @@ import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_RESULT_COD
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP_SERVER_DISCONNECTED;
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_PROVIDER_CONNECTED;
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
+import static com.americanwell.sdk.entity.visit.VisitEndReason.PROVIDER_DECLINE;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_VIDEO_CALL;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 
@@ -152,15 +156,20 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
         // notificationManager.notify(ONGOING_NOTIFICATION_ID, builder.build());
         // start activity
 
-
-       mTHSWaitingRoomFragment.startActivityForResult(intent, REQUEST_VIDEO_VISIT);
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VIDEO_CALL,null,null);
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"completeWaitingInstantAppointment");
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,"waitingTimeInstantAppointment",THSTagUtils.getVisitPrepareTime(mTHSWaitingRoomFragment.waitingPeriodStartTime));
+       mTHSWaitingRoomFragment.startActivityForResult(intent, REQUEST_VIDEO_VISIT);
+
 
     }
 
     @Override
     public void onStartVisitEnded(@NonNull VisitEndReason visitEndReason) {
         AmwellLog.v("call end",visitEndReason.toString());
+        if(visitEndReason == PROVIDER_DECLINE){
+
+        }
 
     }
 
@@ -194,6 +203,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     @Override
     public void onResponse(Void aVoid, SDKError sdkError) {
         // must  be cancel visit call back
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"videoVisitCancelledAtQueue");
         abondonCurrentVisit();
     }
 

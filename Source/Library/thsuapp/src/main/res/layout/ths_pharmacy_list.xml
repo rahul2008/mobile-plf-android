@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="@dimen/ths_body_text" />
 
         <com.philips.platform.uid.view.widget.Label
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/pharmacy_name"
-            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/ths_small_body_text" />
 
         <com.philips.platform.uid.view.widget.Label
@@ -38,7 +38,7 @@
             android:layout_alignBaseline="@+id/pharmacy_address_line_one"
             android:layout_alignBottom="@+id/pharmacy_address_line_one"
             android:layout_toEndOf="@+id/pharmacy_address_line_one"
-            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/ths_small_body_text" />
 
         <com.philips.platform.uid.view.widget.Label
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/pharmacy_address_line_one"
-            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/ths_small_body_text" />
 
         <com.philips.platform.uid.view.widget.Label
@@ -56,7 +56,7 @@
             android:layout_alignBaseline="@+id/pharmacy_state"
             android:layout_alignBottom="@+id/pharmacy_state"
             android:layout_toEndOf="@+id/pharmacy_state"
-            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/ths_small_body_text" />
 
         <ImageView

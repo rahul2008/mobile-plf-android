@@ -20,6 +20,7 @@ import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -27,6 +28,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER;
+import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_VISITS;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 public class THSScheduledVisitsFragment extends THSBaseFragment {
     public static final String TAG = THSScheduledVisitsFragment.class.getSimpleName();
@@ -84,5 +90,11 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
     public void refreshList() {
         createCustomProgressBar(mRelativeLayout,BIG);
         getAppointments();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SCHEDULE_VISITS,null,null);
     }
 }

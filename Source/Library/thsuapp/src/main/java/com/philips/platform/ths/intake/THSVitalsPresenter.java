@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback<THSVitals, THSSDKError>, THSUpdateVitalsCallBack {
     private THSBaseFragment mPthBaseFragment;
@@ -35,6 +36,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
         if (componentID == R.id.vitals_continue_btn) {
             if(thsvItalsUIInterface.validate()){
                 thsvItalsUIInterface.updateVitalsData();
+
                 try {
                     THSManager.getInstance().updateVitals(mPthBaseFragment.getContext(), thsvItalsUIInterface.getTHSVitals(), this);
                 } catch (AWSDKInstantiationException e) {
@@ -97,10 +99,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
 
 
     private void tagSuccess(){
-        HashMap<String, String> map= new HashMap<String, String>();
-        map.put("step2VitalsForVisit",((THSVitalsFragment) mPthBaseFragment).tagActions);
-        map.put("specialEvents","step2VitalsAdded");
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, map);
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, "step2VitalsAdded");
 
     }
     int stringToInteger(String value) {

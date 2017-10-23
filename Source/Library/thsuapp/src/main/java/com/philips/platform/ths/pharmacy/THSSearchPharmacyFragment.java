@@ -17,10 +17,13 @@ import android.widget.RelativeLayout;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.List;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_SEARCH_PHARMACY;
 
 public class THSSearchPharmacyFragment extends THSBaseFragment implements SearchBox.ExpandListener,SearchBox.QuerySubmitListener,THSSearchFragmentViewInterface{
 
@@ -62,6 +65,8 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     @Override
     public void onResume() {
         super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SEARCH_PHARMACY,null,null);
+
     }
 
     @Override

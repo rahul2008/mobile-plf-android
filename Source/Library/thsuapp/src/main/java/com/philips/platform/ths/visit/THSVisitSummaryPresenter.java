@@ -1,5 +1,8 @@
 package com.philips.platform.ths.visit;
 
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import com.americanwell.sdk.entity.Address;
@@ -9,11 +12,14 @@ import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.init.THSInitFragment;
 import com.philips.platform.ths.intake.THSSDKCallback;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 
 /**
@@ -34,8 +40,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
         if (componentID == R.id.ths_visit_summary_continue_button) {
             THSManager.getInstance().setVisitContext(null);
             THSManager.getInstance().setMatchMakingVisit(false);
-            mTHSVisitSummaryFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
-
+            mTHSVisitSummaryFragment.exitFromAmWell();
         }
 
     }

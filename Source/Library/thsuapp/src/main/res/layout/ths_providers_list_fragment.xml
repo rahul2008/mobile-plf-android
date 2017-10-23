@@ -19,7 +19,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor" />
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />
 
         <ImageView
             android:id="@+id/dummyDoctorImage"
