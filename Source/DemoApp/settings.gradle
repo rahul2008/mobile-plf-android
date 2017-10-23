@@ -1,4 +1,4 @@
-include ':app',
+include ':app', ':securedblibrary'
 include 'sdb'
 project(':sdb').projectDir =new File('../Library/securedblibrary')
 
