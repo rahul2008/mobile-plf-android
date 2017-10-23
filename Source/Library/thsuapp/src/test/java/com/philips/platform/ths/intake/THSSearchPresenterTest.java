@@ -15,10 +15,8 @@ import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
-import com.americanwell.sdk.entity.pharmacy.PharmacyType;
 import com.americanwell.sdk.entity.practice.OnDemandSpecialty;
 import com.americanwell.sdk.entity.practice.Practice;
-import com.americanwell.sdk.entity.practice.PracticeInfo;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.manager.ConsumerManager;
@@ -35,16 +33,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anySet;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -128,8 +123,9 @@ public class THSSearchPresenterTest {
 
     @Test
     public void onFailure() throws Exception {
+        when(thsSearchFragment.isFragmentAttached()).thenReturn(true);
         mTHSSearchPresenter.onFailure(throwableMock);
-        verify(thsSearchFragment).showToast(anyString());
+        verify(thsSearchFragment).showToast(anyInt());
     }
 
     @Test
@@ -165,8 +161,9 @@ public class THSSearchPresenterTest {
 
     @Test
     public void onProvidersListFetchError() throws Exception {
+        when(thsSearchFragment.isFragmentAttached()).thenReturn(true);
         mTHSSearchPresenter.onProvidersListFetchError(throwableMock);
-        verify(thsSearchFragment).showToast(anyString());
+        verify(thsSearchFragment).showToast(anyInt());
     }
 
     @Test(expected = NullPointerException.class)

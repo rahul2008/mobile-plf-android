@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -153,8 +154,9 @@ public class THSAvailableProviderDetailPresenterTest {
 
     @Test
     public void onProviderDetailsFetchError() throws Exception {
+        when(thsAvailableProviderDetailFragmentMock.isFragmentAttached()).thenReturn(true);
         mThsAvailableProviderDetailPresenter.onProviderDetailsFetchError(throwableMock);
-        verify(thsAvailableProviderDetailFragmentMock).hideProgressBar();
+        verify(thsAvailableProviderDetailFragmentMock).showToast(anyInt());
     }
 
     @Test
@@ -174,8 +176,9 @@ public class THSAvailableProviderDetailPresenterTest {
         verify(thsProviderDetailsDisplayHelperMock).launchConfirmAppointmentFragment(0);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void onFailure() throws Exception {
+        when(thsAvailableProviderDetailFragmentMock.isFragmentAttached()).thenReturn(true);
         mThsAvailableProviderDetailPresenter.onFailure(throwableMock);
         verify(thsAvailableProviderDetailFragmentMock).hideProgressBar();
     }

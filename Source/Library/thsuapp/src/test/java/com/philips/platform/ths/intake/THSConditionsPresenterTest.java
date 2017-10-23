@@ -2,8 +2,6 @@ package com.philips.platform.ths.intake;
 
 import android.app.Activity;
 import android.os.Bundle;
-
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import com.americanwell.sdk.AWSDK;
@@ -22,11 +20,7 @@ import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.robolectric.Robolectric;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +28,7 @@ import java.util.List;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeast;
@@ -139,8 +134,9 @@ public class THSConditionsPresenterTest {
 
     @Test
     public void onFailure() throws Exception {
+        when(pTHBaseViewMock.isFragmentAttached()).thenReturn(true);
         thsMedicalConditionsPresenter.onFailure(throwableMock);
-        verify(pTHBaseViewMock).showToast(anyString());
+        verify(pTHBaseViewMock).showToast(anyInt());
     }
 
     @Test
