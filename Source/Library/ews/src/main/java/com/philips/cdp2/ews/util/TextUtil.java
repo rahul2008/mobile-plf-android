@@ -6,6 +6,7 @@
 package com.philips.cdp2.ews.util;
 
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.text.Html;
 
 public class TextUtil {
@@ -20,5 +21,9 @@ public class TextUtil {
             result = Html.fromHtml(string);
         }
         return result;
+    }
+
+    public static boolean isEmpty(@Nullable CharSequence str) {
+        return str == null || str.length() == 0;
     }
 }

@@ -25,13 +25,18 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DeviceFriendlyNameChangerTest {
 
-    @InjectMocks private DeviceFriendlyNameChanger subject;
+    @InjectMocks
+    private DeviceFriendlyNameChanger subject;
 
-    @Mock private EWSGenericAppliance mockAppliance;
-    @Mock private DevicePort mockDevicePort;
-    @Mock private DeviceFriendlyNameChanger.Callback mockCallback;
+    @Mock
+    private EWSGenericAppliance mockAppliance;
+    @Mock
+    private DevicePort mockDevicePort;
+    @Mock
+    private DeviceFriendlyNameChanger.Callback mockCallback;
 
-    @Captor private ArgumentCaptor<DICommPortListener> portListenerCaptor;
+    @Captor
+    private ArgumentCaptor<DICommPortListener> portListenerCaptor;
 
     @Before
     public void setUp() throws Exception {
@@ -55,11 +60,26 @@ public class DeviceFriendlyNameChangerTest {
     }
 
     @Test
+    public void itShouldNotChangeTheFriendlyNameFromDevicePortWhenChangeIsCalledButNameIsEmpty() throws Exception {
+        subject.changeFriendlyName("", mockCallback);
+
+        verifyZeroInteractions(mockDevicePort);
+    }
+
+    @Test
     public void itShouldPassCorrectNewNameWhenChangingDeviceFriendlyName() throws Exception {
         String newName = "newName";
         subject.changeFriendlyName(newName, mockCallback);
 
         verify(mockDevicePort).setDeviceName(eq(newName));
+    }
+
+    @Test
+    public void itShouldForwardSuccessToCallbackWhenChangeIsSuccessfulButNameIsEmpty() throws Exception {
+        String newName = "";
+        subject.changeFriendlyName(newName, mockCallback);
+
+        verify(mockCallback).onFriendlyNameChangingSuccess();
     }
 
     @Test

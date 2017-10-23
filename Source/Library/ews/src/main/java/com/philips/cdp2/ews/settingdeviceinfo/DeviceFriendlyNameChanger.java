@@ -8,22 +8,19 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.ews.appliance.EWSGenericAppliance;
+import com.philips.cdp2.ews.util.TextUtil;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 public class DeviceFriendlyNameChanger {
 
-    public interface Callback {
-        void onFriendlyNameChangingSuccess();
-        void onFriendlyNameChangingFailed();
-    }
-
-    @NonNull private final EWSGenericAppliance appliance;
-
-    @Nullable private DeviceFriendlyNameChanger.Callback callback;
-
-    @NonNull private final DICommPortListener<DevicePort> portListener = new DICommPortListener<DevicePort>() {
+    @NonNull
+    private final EWSGenericAppliance appliance;
+    @Nullable
+    private DeviceFriendlyNameChanger.Callback callback;
+    @NonNull
+    private final DICommPortListener<DevicePort> portListener = new DICommPortListener<DevicePort>() {
         @Override
         public void onPortUpdate(DevicePort devicePort) {
             notifySuccess();
@@ -42,9 +39,13 @@ public class DeviceFriendlyNameChanger {
 
     public void changeFriendlyName(@NonNull String newFriendlyName, @NonNull DeviceFriendlyNameChanger.Callback callback) {
         this.callback = callback;
-        DevicePort devicePort = appliance.getDevicePort();
-        devicePort.addPortListener(portListener);
-        devicePort.setDeviceName(newFriendlyName);
+        if (!TextUtil.isEmpty(newFriendlyName)) {
+            DevicePort devicePort = appliance.getDevicePort();
+            devicePort.addPortListener(portListener);
+            devicePort.setDeviceName(newFriendlyName);
+        } else {
+            notifySuccess();
+        }
     }
 
     public void clear() {
@@ -56,6 +57,7 @@ public class DeviceFriendlyNameChanger {
             callback.onFriendlyNameChangingSuccess();
         }
     }
+
     private void notifyFailure() {
         if (callback != null) {
             callback.onFriendlyNameChangingFailed();
@@ -66,5 +68,11 @@ public class DeviceFriendlyNameChanger {
     @Nullable
     Callback getCallback() {
         return callback;
+    }
+
+    public interface Callback {
+        void onFriendlyNameChangingSuccess();
+
+        void onFriendlyNameChangingFailed();
     }
 }
