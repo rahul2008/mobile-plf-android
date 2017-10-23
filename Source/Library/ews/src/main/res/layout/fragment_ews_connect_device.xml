@@ -11,10 +11,6 @@
             type="android.view.inputmethod.InputMethodManager" />
 
         <variable
-            name="config"
-            type="com.philips.cdp2.ews.configuration.BaseContentConfiguration" />
-
-        <variable
             name="viewModel"
             type="com.philips.cdp2.ews.viewmodel.EWSWiFiConnectViewModel" />
     </data>
@@ -37,10 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/e"
-                android:text="@{String.format(@string/label_ews_password_title, @string/ews_device_name_default,viewModel.homeWiFiSSID)}"
-                app:arg1="@{config.deviceName}"
-                app:arg2="@{viewModel.homeWiFiSSID}"
-                app:stringFormat="@{@string/label_ews_password_title}" />
+                android:text="@{viewModel.title}" />
 
             <TextView
                 android:id="@+id/ews_connect_to_label"
@@ -84,9 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/e"
-                android:text= "@{String.format(@string/label_ews_password_from_name_title, @string/ews_device_name_default)}"
-                app:stringFormat="@{@string/label_ews_password_from_name_title}"
-                app:content="@{config.deviceName}"/>
+                android:text= "@{viewModel.note}"/>
 
             <EditText
                 android:id="@+id/ews_03_01a_textfield_appliance_name"
@@ -94,9 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/d"
                 android:enabled="false"
-                android:text= "@{String.format(@string/defaultSingleValue, @string/ews_device_name_default)}"
-                app:stringFormat="@{@string/defaultSingleValue}"
-                app:content="@{config.deviceName}" />
+                android:text="@{viewModel.getDeviceName}" />
 
             <Space
                 android:layout_width="match_parent"

@@ -20,9 +20,6 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
     @Inject
     EWSHomeWifiDisplayViewModel viewModel;
 
-    @Inject
-    BaseContentConfiguration contentConfiguration;
-
     @Override
     public int getHierarchyLevel() {
         return 2;
@@ -31,7 +28,6 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
     @Override
     protected void bindViewModel(final FragmentEwsHomeWifiDisplayScreenBinding viewDataBinding) {
         viewDataBinding.setViewModel(viewModel);
-        viewDataBinding.setConfig(contentConfiguration);
     }
 
     @Override

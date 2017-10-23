@@ -16,10 +16,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.powermock.api.mockito.PowerMockito;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -45,28 +45,14 @@ public class EWSGettingStartedViewModelTest {
     @Mock
     private EWSCallbackNotifier ewsCallbackNotifierMock;
 
-    private EWSGettingStartedViewModel viewModel;
+    private EWSGettingStartedViewModel subject;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
 
-        viewModel = new EWSGettingStartedViewModel(navigatorMock, stringProviderMock, happyFlowContentConfigurationMock, baseContentConfigurationMock);
+        subject = new EWSGettingStartedViewModel(navigatorMock, stringProviderMock, happyFlowContentConfigurationMock, baseContentConfigurationMock);
         when(baseContentConfigurationMock.getDeviceName()).thenReturn(123435);
-    }
-
-    @Test
-    public void itShouldGiveTitle() throws Exception {
-        viewModel.getTitle(happyFlowContentConfigurationMock, baseContentConfigurationMock);
-        verify(stringProviderMock).getString(happyFlowContentConfigurationMock.getGettingStartedScreenTitle(),
-                baseContentConfigurationMock.getDeviceName());
-    }
-
-    @Test
-    public void itShouldGiveNote() throws Exception {
-        viewModel.getNote(baseContentConfigurationMock);
-        verify(stringProviderMock).getString(R.string.label_ews_get_started_description,
-                baseContentConfigurationMock.getDeviceName());
     }
 
     @Test
@@ -77,12 +63,26 @@ public class EWSGettingStartedViewModelTest {
     }
 
     private void stubHomeWiFiStatus() {
-        viewModel.onGettingStartedButtonClicked();
+        subject.onGettingStartedButtonClicked();
     }
 
     @Test
-    public void itShouldGoBackWork() throws Exception {
-        viewModel.onBackPressed(ewsCallbackNotifierMock);
+    public void itShouldVerifyBackPressEventWhenCalled() throws Exception {
+        subject.onBackPressed(ewsCallbackNotifierMock);
         verify(ewsCallbackNotifierMock, times(1)).onBackPressed();
+    }
+
+    @Test
+    public void itShouldVerifyTitleForViewModel() throws Exception {
+        subject.getTitle(happyFlowContentConfigurationMock, baseContentConfigurationMock);
+        verify(stringProviderMock).getString(happyFlowContentConfigurationMock.getGettingStartedScreenTitle(),
+                baseContentConfigurationMock.getDeviceName());
+    }
+
+    @Test
+    public void itShouldVerifyNoteForViewModel() throws Exception {
+        subject.getNote(baseContentConfigurationMock);
+        verify(stringProviderMock).getString(R.string.label_ews_get_started_description,
+                baseContentConfigurationMock.getDeviceName());
     }
 }

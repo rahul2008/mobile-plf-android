@@ -4,10 +4,6 @@
     <data>
 
         <variable
-            name="config"
-            type="com.philips.cdp2.ews.configuration.BaseContentConfiguration"/>
-
-        <variable
             name="viewModel"
             type="com.philips.cdp2.ews.viewmodel.EWSWiFIPairedViewModel"/>
 
@@ -41,9 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/e"
-                android:text= "@{String.format(@string/label_ews_succesful_body, @string/ews_device_name_default)}"
-                app:stringFormat="@{@string/label_ews_succesful_body}"
-                app:content="@{config.deviceName}"
+                android:text="@{viewModel.title}"
                 />
 
             <ImageView

@@ -9,9 +9,6 @@
 
     <data>
         <variable
-            name="config"
-            type="com.philips.cdp2.ews.configuration.BaseContentConfiguration" />
-        <variable
             name="viewModel"
             type="com.philips.cdp2.ews.viewmodel.EWSHomeWifiDisplayViewModel"/>
     </data>
@@ -43,9 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/e"
-                android:text= "@{String.format(@string/label_ews_confirm_connection_currently_connected, viewModel.homeWiFiSSID)}"
-                app:stringFormat="@{@string/label_ews_confirm_connection_currently_connected}"
-                app:content="@{viewModel.homeWiFiSSID}"/>
+                android:text= "@{viewModel.title}" />
 
 
             <LinearLayout
@@ -77,10 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/d"
-                android:text= "@{String.format(@string/label_ews_confirm_connection_want_to_connect, @string/ews_device_name_default,viewModel.homeWiFiSSID)}"
-                app:stringFormat="@{@string/label_ews_confirm_connection_want_to_connect}"
-                app:arg1="@{config.deviceName}"
-                app:arg2="@{viewModel.homeWiFiSSID}"/>
+                android:text="@{viewModel.note}"/>
 
             <Button
                 android:id="@+id/ews_01_01_button_confirm_connection_yes"

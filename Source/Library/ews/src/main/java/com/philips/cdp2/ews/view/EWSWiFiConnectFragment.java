@@ -34,7 +34,6 @@ public class EWSWiFiConnectFragment extends EWSBaseFragment<FragmentEwsConnectDe
     @Override
     protected void bindViewModel(final FragmentEwsConnectDeviceBinding viewDataBinding) {
         viewDataBinding.setViewModel(viewModel);
-        viewDataBinding.setConfig(baseContentConfiguration);
         viewDataBinding.setInputMethodManager((InputMethodManager) getActivity().getSystemService(
                 Context.INPUT_METHOD_SERVICE));
     }

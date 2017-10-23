@@ -23,9 +23,6 @@ public class EWSWiFiPairedFragment extends EWSBaseFragment<FragmentEwsWifiPaired
     @Inject
     EWSWiFIPairedViewModel viewModel;
 
-    @Inject
-    BaseContentConfiguration contentConfiguration;
-
     @Override
     public int getHierarchyLevel() {
         return 6;

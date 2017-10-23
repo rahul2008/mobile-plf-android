@@ -7,9 +7,6 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="happyFlowConfiguration"
-            type="com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration"/>
-        <variable
             name="viewModel"
             type="com.philips.cdp2.ews.viewmodel.EWSDevicePowerOnViewModel"/>
 

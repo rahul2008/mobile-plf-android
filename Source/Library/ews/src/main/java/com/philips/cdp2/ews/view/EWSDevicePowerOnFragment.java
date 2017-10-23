@@ -27,9 +27,6 @@ public class EWSDevicePowerOnFragment extends EWSBaseFragment<FragmentEwsPluginD
     @Inject
     EWSDevicePowerOnViewModel viewModel;
 
-    @Inject
-    HappyFlowContentConfiguration happyFlowContentConfiguration;
-
     @Override
     public int getHierarchyLevel() {
         return FRAGMENT_HIERARCHY_LEVEL;
@@ -46,7 +43,6 @@ public class EWSDevicePowerOnFragment extends EWSBaseFragment<FragmentEwsPluginD
     @Override
     protected void bindViewModel(final FragmentEwsPluginDeviceBinding viewDataBinding) {
         viewDataBinding.setViewModel(viewModel);
-        viewDataBinding.setHappyFlowConfiguration(happyFlowContentConfiguration);
     }
 
     @Override
