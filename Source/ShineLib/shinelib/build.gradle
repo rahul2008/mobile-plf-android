@@ -5,9 +5,9 @@
 
 buildscript { bs ->
     apply from: projectDir.absolutePath + '/../../common/gradle/project-build.gradle', to: bs
-	apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
     apply from: projectDir.absolutePath + '/../../common/gradle/module.gradle'
-    
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+
     repositories {
         maven {
             url repos.jcenter
