@@ -28,7 +28,6 @@ import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
 
@@ -37,7 +36,7 @@ import retrofit.RetrofitError;
 @SuppressWarnings("unchecked")
 public class DataPullSynchronise {
 
-    ExecutorService executor;
+    private ExecutorService executor;
 
     @NonNull
     List<? extends DataFetcher> fetchers;
@@ -70,9 +69,6 @@ public class DataPullSynchronise {
 
     List<? extends DataFetcher> configurableFetchers;
 
-    @NonNull
-    private final AtomicInteger numberOfRunningFetches = new AtomicInteger(0);
-
     @Inject
     public DataPullSynchronise(@NonNull final List<? extends DataFetcher> fetchers) {
         final DataServicesManager dataServicesManager = DataServicesManager.getInstance();
@@ -89,9 +85,7 @@ public class DataPullSynchronise {
             return;
         }
 
-        if (!isSyncStarted()) {
-            fetchData(sinceLastModifiedDate, referenceId);
-        }
+        fetchData(sinceLastModifiedDate, referenceId);
     }
 
     private synchronized void fetchData(final DateTime sinceLastModifiedDate, final int referenceId) {
@@ -99,8 +93,6 @@ public class DataPullSynchronise {
             synchronisationManager.dataSyncComplete();
             return;
         }
-
-        initFetch(configurableFetchers.size());
 
         final CountDownLatch countDownLatch = new CountDownLatch(configurableFetchers.size());
 
@@ -110,7 +102,6 @@ public class DataPullSynchronise {
                 public void run() {
                     RetrofitError resultError = fetcher.fetchDataSince(sinceLastModifiedDate);
                     updateResult(resultError);
-                    numberOfRunningFetches.decrementAndGet();
                     countDownLatch.countDown();
                 }
             });
@@ -146,15 +137,6 @@ public class DataPullSynchronise {
     private void postError(final int referenceId, final RetrofitError error) {
         synchronisationManager.dataPullFail(error);
         eventing.post(new BackendResponse(referenceId, error));
-    }
-
-    private void initFetch(int size) {
-        numberOfRunningFetches.set(size);
-        fetchResult = null;
-    }
-
-    private boolean isSyncStarted() {
-        return numberOfRunningFetches.get() > 0;
     }
 
     private List<? extends DataFetcher> getFetchers(final DataServicesManager dataServicesManager) {
