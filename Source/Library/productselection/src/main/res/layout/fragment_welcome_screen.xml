@@ -2,6 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_marginBottom="@dimen/savedscreen_product_image_margin">
 
     <LinearLayout

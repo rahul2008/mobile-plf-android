@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_alignParentTop="true"
     android:orientation="vertical"
-    android:background="@android:color/white"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_height="match_parent">
 
    <com.philips.cdp.productselection.utils.CustomSearchView

@@ -52,11 +52,11 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
-    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.google.code.gson:gson:2.8.1'
 
 	def dp = project.ext.has('useprojectdependencies')
 
-    compile 'com.shamanland:fonticon:0.1.8'
+    compile 'com.shamanland:fonticon:0.1.9'
 
 	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
 	compile(dp ? project(':ufw') : ufwModule) 
