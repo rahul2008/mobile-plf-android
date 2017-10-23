@@ -41,13 +41,6 @@ public class WakeUpAlarmPortFragment extends Fragment {
 
         enableAlarmSwitch = (Switch) rootview.findViewById(R.id.cml_switchWakeup);
 
-        enableAlarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(final CompoundButton compoundButton, final boolean isChecked) {
-                updateWakeUpProperty(isChecked);
-            }
-        });
-
         ((CompoundButton) rootview.findViewById(R.id.cml_switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 
         return rootview;
@@ -106,11 +99,4 @@ public class WakeUpAlarmPortFragment extends Fragment {
             }
         }
     };
-
-    private void updateWakeUpProperty(final boolean isChecked) {
-        if (currentAppliance == null) {
-            return;
-        }
-        currentAppliance.getWakeUpAlarmPort().setEnabled(isChecked);
-    }
 }

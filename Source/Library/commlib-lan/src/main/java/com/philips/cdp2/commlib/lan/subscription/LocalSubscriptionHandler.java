@@ -18,28 +18,31 @@ import java.util.Set;
 public class LocalSubscriptionHandler extends SubscriptionHandler implements UdpEventListener {
 
     private Set<SubscriptionEventListener> subscriptionEventListeners;
-    private UdpEventReceiver mUdpEventReceiver;
+    private UdpEventReceiver udpEventReceiver;
     private NetworkNode networkNode;
     private final DISecurity diSecurity;
 
     public LocalSubscriptionHandler(DISecurity diSecurity, UdpEventReceiver udpEventReceiver) {
         this.diSecurity = diSecurity;
-        mUdpEventReceiver = udpEventReceiver;
+        this.udpEventReceiver = udpEventReceiver;
     }
 
     @Override
     public void enableSubscription(@NonNull NetworkNode networkNode, @NonNull Set<SubscriptionEventListener> subscriptionEventListeners) {
         DICommLog.i(DICommLog.LOCAL_SUBSCRIPTION, "Enabling local subscription (start udp)");
+
         this.networkNode = networkNode;
         this.subscriptionEventListeners = subscriptionEventListeners;
-        mUdpEventReceiver.startReceivingEvents(this);
+
+        udpEventReceiver.startReceivingEvents(this);
     }
 
     @Override
     public void disableSubscription() {
         DICommLog.i(DICommLog.LOCAL_SUBSCRIPTION, "Disabling local subscription (stop udp)");
+
         subscriptionEventListeners = null;
-        mUdpEventReceiver.stopReceivingEvents(this);
+        udpEventReceiver.stopReceivingEvents(this);
     }
 
     @Override
@@ -72,7 +75,7 @@ public class LocalSubscriptionHandler extends SubscriptionHandler implements Udp
         }
 
         if (decryptedData == null) {
-            DICommLog.w(DICommLog.LOCAL_SUBSCRIPTION, "Unable to decrypt data for : " + networkNode.getIpAddress());
+            DICommLog.w(DICommLog.LOCAL_SUBSCRIPTION, "Unable to decrypt data for: " + networkNode.getIpAddress());
 
             postSubscriptionEventDecryptionFailureOnUiThread(portName, subscriptionEventListeners);
         } else {

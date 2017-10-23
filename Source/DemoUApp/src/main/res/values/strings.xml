@@ -90,5 +90,5 @@
     <string name="cml_appliance_modelid">"Model id: "</string>
 
     <string name="cml_wakeup_port">Wake-up</string>
-    <string name="cml_wakeup_alarm_state">Wake-up alarm</string>
+    <string name="cml_wakeup_alarm_state">Wake-up alarm (read only)</string>
 </resources>

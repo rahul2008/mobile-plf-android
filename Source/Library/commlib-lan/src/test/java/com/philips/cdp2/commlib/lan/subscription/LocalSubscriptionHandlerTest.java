@@ -5,11 +5,14 @@
 
 package com.philips.cdp2.commlib.lan.subscription;
 
+import android.os.Handler;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
-import com.philips.cdp.dicommclient.util.WrappedHandler;
+import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
 import org.junit.Test;
 import org.mockito.Mock;
@@ -47,7 +50,7 @@ public class LocalSubscriptionHandlerTest extends RobolectricTest {
     private SubscriptionEventListener subscriptionEventListenerMock;
 
     @Mock
-    private WrappedHandler subscriptionEventResponseHandlerMock;
+    private Handler subscriptionEventResponseHandlerMock;
 
     private LocalSubscriptionHandler localSubscriptionHandler;
 
@@ -56,6 +59,9 @@ public class LocalSubscriptionHandlerTest extends RobolectricTest {
         super.setUp();
 
         initMocks(this);
+        DICommLog.disableLogging();
+
+        HandlerProvider.enableMockedHandler(subscriptionEventResponseHandlerMock);
 
         when(networkNodeMock.getIpAddress()).thenReturn(APPLIANCE_IP);
         when(networkNodeMock.getCppId()).thenReturn(APPLIANCE_CPPID);
@@ -71,12 +77,7 @@ public class LocalSubscriptionHandlerTest extends RobolectricTest {
             }
         }).when(subscriptionEventResponseHandlerMock).post(any(Runnable.class));
 
-        localSubscriptionHandler = new LocalSubscriptionHandler(diSecurityMock, udpEventReceiverMock) {
-            @Override
-            protected WrappedHandler createSubscriptionEventResponseHandler() {
-                return subscriptionEventResponseHandlerMock;
-            }
-        };
+        localSubscriptionHandler = new LocalSubscriptionHandler(diSecurityMock, udpEventReceiverMock);
         localSubscriptionHandler.enableSubscription(networkNodeMock, Collections.singleton(subscriptionEventListenerMock));
     }
 

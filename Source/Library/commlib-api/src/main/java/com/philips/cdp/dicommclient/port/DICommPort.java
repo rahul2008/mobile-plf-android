@@ -5,14 +5,15 @@
 
 package com.philips.cdp.dicommclient.port;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.google.gson.Gson;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp.dicommclient.util.WrappedHandler;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.PortProperties;
@@ -25,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A DiComm Port on an {@link Appliance}.
@@ -41,11 +43,13 @@ public abstract class DICommPort<T extends PortProperties> {
     private final String LOG_TAG = getClass().getSimpleName();
 
     public static final int SUBSCRIPTION_TTL = 300;
-    public static final int SUBSCRIPTION_TTL_MS = SUBSCRIPTION_TTL * 1000;
+
+    @VisibleForTesting
+    static final long SUBSCRIPTION_TTL_MS = TimeUnit.SECONDS.toMillis(SUBSCRIPTION_TTL);
 
     protected final Gson gson = GsonProvider.get();
 
-    private WrappedHandler mResubscriptionHandler;
+    private Handler resubscriptionHandler = HandlerProvider.createHandler();
     private boolean isRequestInProgress;
 
     private boolean mIsApplyingChanges;
@@ -60,6 +64,17 @@ public abstract class DICommPort<T extends PortProperties> {
     private final Set<DICommPortListener> mPortListeners = new CopyOnWriteArraySet<>();
 
     protected CommunicationStrategy communicationStrategy;
+
+    private final Runnable resubscriptionRunnable = new Runnable() {
+        @Override
+        public void run() {
+            synchronized (mResubscribeLock) {
+                if (!mStopResubscribe) {
+                    subscribe();
+                }
+            }
+        }
+    };
 
     private final SubscriptionEventListener subscriptionEventListener = new SubscriptionEventListener() {
         @Override
@@ -140,29 +155,11 @@ public abstract class DICommPort<T extends PortProperties> {
         mSubscribeRequested = true;
         mStopResubscribe = false;
 
-        getResubscriptionHandler().removeCallbacks(mResubscribtionRunnable);
-        getResubscriptionHandler().postDelayed(mResubscribtionRunnable, SUBSCRIPTION_TTL_MS);
+        resubscriptionHandler.removeCallbacks(resubscriptionRunnable);
+        resubscriptionHandler.postDelayed(resubscriptionRunnable, SUBSCRIPTION_TTL_MS);
 
         tryToPerformNextRequest();
     }
-
-    protected WrappedHandler getResubscriptionHandler() {
-        if (mResubscriptionHandler == null) {
-            mResubscriptionHandler = new WrappedHandler(HandlerProvider.createHandler());
-        }
-        return mResubscriptionHandler;
-    }
-
-    private final Runnable mResubscribtionRunnable = new Runnable() {
-        @Override
-        public void run() {
-            synchronized (mResubscribeLock) {
-                if (!mStopResubscribe) {
-                    subscribe();
-                }
-            }
-        }
-    };
 
     public void unsubscribe() {
         DICommLog.d(LOG_TAG, "request unsubscribe");
@@ -176,10 +173,11 @@ public abstract class DICommPort<T extends PortProperties> {
 
     public void stopResubscribe() {
         DICommLog.d(LOG_TAG, "stop resubscribing");
+
         synchronized (mResubscribeLock) {
             mStopResubscribe = true;
         }
-        getResubscriptionHandler().removeCallbacks(mResubscribtionRunnable);
+        resubscriptionHandler.removeCallbacks(resubscriptionRunnable);
     }
 
     public void addPortListener(DICommPortListener listener) {
