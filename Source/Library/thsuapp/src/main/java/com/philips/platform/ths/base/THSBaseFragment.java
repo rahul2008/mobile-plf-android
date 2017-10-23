@@ -200,7 +200,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
         return result;
     }
 
-    public void exitFromAmWell() {
+    public void exitFromAmWell(boolean isSuccess) {
 
         if (this.getActivity() instanceof THSLaunchActivity) {
             THSLaunchActivity thsLaunchActivity = (THSLaunchActivity) this.getActivity();
@@ -221,7 +221,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
             }
         }
         if (THSManager.getInstance().getThsVisitCompletionListener() != null) {
-            THSManager.getInstance().getThsVisitCompletionListener().onTHSVisitComplete(true);
+            THSManager.getInstance().getThsVisitCompletionListener().onTHSVisitComplete(isSuccess);
         }
     }
 }

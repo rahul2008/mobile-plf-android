@@ -30,6 +30,7 @@ import com.philips.platform.ths.uappclasses.THSMicroAppDependencies;
 import com.philips.platform.ths.uappclasses.THSMicroAppInterfaceImpl;
 import com.philips.platform.ths.uappclasses.THSMicroAppLaunchInput;
 import com.philips.platform.ths.uappclasses.THSMicroAppSettings;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -204,8 +205,6 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
 
     @Override
     public void onTHSVisitComplete(boolean isTHSVisitComplete) {
-
-        Toast.makeText(this,"onTHSVisitComplete is Called"+Boolean.toString(isTHSVisitComplete),Toast.LENGTH_LONG).show();
-        Log.d(this.getClass().getName(),Boolean.toString(isTHSVisitComplete));
+        AmwellLog.d(this.getClass().getName(),Boolean.toString(isTHSVisitComplete));
     }
 }
