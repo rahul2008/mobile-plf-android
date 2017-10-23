@@ -55,7 +55,9 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
         if (uiLauncher instanceof ActivityLauncher) {
             Intent intent = new Intent(context, THSLaunchActivity.class);
             intent.putExtra(THSConstants.KEY_ACTIVITY_THEME, ((ActivityLauncher) uiLauncher).getUiKitTheme());
-            intent.putExtras(getThemeConfigsIntent((ActivityLauncher) uiLauncher));
+            if(themeConfigurationExists((ActivityLauncher) uiLauncher)) {
+                intent.putExtras(getThemeConfigsIntent((ActivityLauncher) uiLauncher));
+            }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } else {
@@ -65,6 +67,10 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
             thsBaseFragment = new THSInitFragment();
             lauchFirstFragment(thsBaseFragment,fragmentLauncher,fragmentTransaction);
         }
+    }
+
+    private boolean themeConfigurationExists(ActivityLauncher uiLauncher) {
+        return null != uiLauncher.getDlsThemeConfiguration();
     }
 
     private Intent getThemeConfigsIntent(ActivityLauncher activityLauncher) {
