@@ -49,38 +49,6 @@ public class GridViewSingleLineGradientHeaderTest {
         return intent;
     }
 
-    private ViewInteraction getIconHolder() {
-        return onView(withId(R.id.uid_gridview_icon_holder));
-    }
-
-    @Test
-    public void verifyIconHolderHeight() {
-        int expectedHeight = testResources.getDimensionPixelSize(R.dimen.uid_grid_single_line_text_height);
-        getIconHolder().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
-    }
-
-    @Test
-    public void verifyIconHolderWidth() {
-        int expectedHeight = testResources.getDimensionPixelSize(R.dimen.uid_grid_icon_holder_width);
-        getIconHolder().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
-    }
-
-    private ViewInteraction getStarIcon() {
-        return onView(withId(R.id.uid_gridview_icon));
-    }
-
-    @Test
-    public void verifyIconHeight() {
-        int expectedHeight = testResources.getDimensionPixelSize(R.dimen.uid_grid_icon_size);
-        getStarIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
-    }
-
-    @Test
-    public void verifyIconWidth() {
-        int expectedWidth = testResources.getDimensionPixelSize(R.dimen.uid_grid_icon_size);
-        getStarIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedWidth)));
-    }
-
     private ViewInteraction getTitleText() {
         return onView(withId(com.philips.platform.uid.test.R.id.uid_gridview_title));
     }
@@ -98,16 +66,16 @@ public class GridViewSingleLineGradientHeaderTest {
     }
 
     @Test
-    public void verifyTitleTextPadding() {
+    public void verifyTitleTextStartPadding() {
         waitFor(testResources, 750);
         int expectedStartPadding = testResources.getDimensionPixelSize(R.dimen.uid_grid_title_padding);
         getTitleText().check(matches(ViewPropertiesMatchers.isSameStartPadding(expectedStartPadding)));
     }
 
     @Test
-    public void verifyTitleTextMargin(){
+    public void verifyTitleTextEndPadding(){
         waitFor(testResources, 750);
-        int expectedEndMargin = testResources.getDimensionPixelSize(R.dimen.uid_grid_icon_holder_width);
-        getTitleText().check(matches(ViewPropertiesMatchers.isSameEndMargin(expectedEndMargin)));
+        int expectedEndPadding = testResources.getDimensionPixelSize(R.dimen.uid_grid_title_padding);
+        getTitleText().check(matches(ViewPropertiesMatchers.isSameEndPadding(expectedEndPadding)));
     }
 }

@@ -21,9 +21,7 @@
 
     <dimen name="iconandtextbutton_compoundpadding">8dp</dimen>
 
-
-    <dimen name="quietbutton_left_padding">12dp</dimen>
-    <dimen name="quietbutton_right_padding">12dp</dimen>
+    <dimen name="quietbutton_left_right_padding">24dp</dimen>
 
     <!--TextEditBox dimens-->
     <dimen name="edittext_corner_radius">2dp</dimen>
@@ -167,5 +165,12 @@
     <!--Sidebar dimens -->
     <dimen name="sidebar_elevation">5dp</dimen>
     <dimen name="sidebar_max_width">320dp</dimen>
+
+    <!--About Screen-->
+    <dimen name="uid_about_screen_margin_start_end">16dp</dimen>
+    <dimen name="uid_about_screen_app_name_bottom_margin">40dp</dimen>
+    <dimen name="uid_about_screen_label_bottom_margin">24dp</dimen>
+    <dimen name="uid_about_screen_app_name_size">20sp</dimen>
+    <dimen name="uid_about_screen_label_size">16sp</dimen>
 
 </resources>

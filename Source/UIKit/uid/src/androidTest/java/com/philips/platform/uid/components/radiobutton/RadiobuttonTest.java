@@ -92,10 +92,7 @@ public class RadiobuttonTest extends BaseTest {
 
     @Test
     public void verifyRadioButtonTextTypeface() {
-        ViewGroup parent = (ViewGroup) View.inflate(activity, com.philips.platform.uid.test.R.layout.layout_radiobutton, null);
-        RadioButton radioButton = (RadioButton) parent.findViewById(com.philips.platform.uid.test.R.id.test_radiobutton1);
-        assertTrue(TextViewPropertiesMatchers.isSameTypeface(activity, radioButton.getTypeface(), TestConstants.FONT_PATH_CS_BOOK).matches(radioButton));
-
+        getRadiobutton1().check(matches(TextViewPropertiesMatchers.isSameTypeface(activity, TestConstants.FONT_PATH_CS_BOOK)));
     }
 
     @Test

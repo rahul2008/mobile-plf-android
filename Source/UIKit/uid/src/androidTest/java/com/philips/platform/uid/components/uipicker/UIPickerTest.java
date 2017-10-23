@@ -83,7 +83,7 @@ public class UIPickerTest extends BaseTest {
     public void verifyItemTextTypeface() {
         AppCompatTextView parent = (AppCompatTextView) View.inflate(activity, com.philips.platform.uid.test.R.layout.layout_uipicker_item, null);
         TextView itemTextView = (TextView) parent.findViewById(com.philips.platform.uid.test.R.id.test_text1);
-        assertTrue(TextViewPropertiesMatchers.isSameTypeface(activity, itemTextView.getTypeface(), TestConstants.FONT_PATH_CS_BOOK).matches(itemTextView));
+        assertTrue(TextViewPropertiesMatchers.isSameTypeface(activity, TestConstants.FONT_PATH_CS_BOOK).matches(itemTextView));
     }
 
     @Test

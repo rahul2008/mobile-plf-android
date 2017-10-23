@@ -47,49 +47,13 @@ public class GridViewItemDoubleLineSolidFooterTest {
         return intent;
     }
 
-    private ViewInteraction getIconHolder() {
-        return onView(withId(R.id.uid_gridview_icon_holder));
-    }
-
-    @Test
-    public void verifyIconHolderHeight() {
-        int expectedHeight = testResources.getDimensionPixelSize(R.dimen.uid_grid_two_line_text_height);
-        getIconHolder().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
-    }
-
-    private ViewInteraction getStarIcon() {
-        return onView(withId(R.id.uid_gridview_icon));
-    }
-
-    @Test
-    public void verifyIconHeight() {
-        int expectedHeight = testResources.getDimensionPixelSize(R.dimen.uid_grid_icon_size);
-        getStarIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
-    }
-
-    @Test
-    public void verifyIconWidth() {
-        int expectedWidth = testResources.getDimensionPixelSize(R.dimen.uid_grid_icon_size);
-        getStarIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedWidth)));
-    }
-
-    private ViewInteraction getTextHolder() {
-        return onView(withId(R.id.uid_gridview_two_line_text));
-    }
-
-    @Test
-    public void verifyTextHolderHeight() {
-        int expectedHeight = testResources.getDimensionPixelSize(R.dimen.uid_grid_two_line_text_height);
-        getTextHolder().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
-    }
-
     private ViewInteraction getTitleText() {
         return onView(withId(com.philips.platform.uid.test.R.id.uid_gridview_title));
     }
 
     @Test
     public void verifyTitleTextColor() {
-        int expectedTextColor = UIDTestUtils.getAttributeColor(activity, R.color.uidColorWhite);
+        int expectedTextColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidGridViewDefaultNormalTitleTextColor);
         getTitleText().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedTextColor)));
     }
 
@@ -112,7 +76,7 @@ public class GridViewItemDoubleLineSolidFooterTest {
 
     @Test
     public void verifyDescriptionTextColor() {
-        int expectedTextColor = UIDTestUtils.getAttributeColor(activity, R.color.uidColorWhite);
+        int expectedTextColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidGridViewDefaultNormalSubtitleTextColor);
         getDescriptionText().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedTextColor)));
     }
 
@@ -136,8 +100,7 @@ public class GridViewItemDoubleLineSolidFooterTest {
     @Test
     public void verifySolidFillColor(){
         waitFor(testResources, 750);
-        int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidTrackDetailNormalOnBackgroundColor);
+        int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidGridViewPrimaryNormalHeaderBackgroundColor);
         getSolidFillHolder().check(matches(ViewPropertiesMatchers.hasSameColorDrawableBackgroundColor(expectedColor)));
     }
-
 }

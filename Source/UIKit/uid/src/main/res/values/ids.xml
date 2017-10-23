@@ -57,4 +57,15 @@
     <item name="uid_search_decoy_view" type="id" />
     <item name="uid_search_decoy_hint_icon" type="id" />
     <item name="uid_search_decoy_hint_text" type="id" />
+    <item name="uid_splash_screen" type="id" />
+    <item name="uid_splash_screen_app_name" type="id" />
+    <item name="uid_splash_screen_icon" type="id" />
+    <item name="uid_about_screen" type="id"/>
+    <item name="uid_about_screen_icon" type="id"/>
+    <item name="uid_about_screen_app_name" type="id"/>
+    <item name="uid_about_screen_version" type="id"/>
+    <item name="uid_about_screen_copyright" type="id"/>
+    <item name="uid_about_screen_terms" type="id"/>
+    <item name="uid_about_screen_privacy" type="id"/>
+    <item name="uid_about_screen_disclosure" type="id"/>
 </resources>

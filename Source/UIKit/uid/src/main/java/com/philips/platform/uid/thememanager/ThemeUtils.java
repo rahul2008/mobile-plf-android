@@ -156,7 +156,7 @@ public final class ThemeUtils {
 
     static Context getPopupThemedContext(Context context) {
         String tonalRange = getTonalRangeName(context);
-        if (!(tonalRange.equals(TR_VD) || tonalRange.equals(TR_B))) {
+        if (!(tonalRange.equals(TR_VL) || tonalRange.equals(TR_B))) {
             return context;
         }
 

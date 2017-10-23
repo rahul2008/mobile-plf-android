@@ -19,6 +19,7 @@ import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.NavigationController;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.uid.drawable.SeparatorDrawable;
+import com.philips.platform.uid.view.widget.SplashScreen;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -74,6 +75,8 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
         itemsMap.put(18, getString(R.string.page_title_radiobutton));
         itemsMap.put(19, getString(R.string.page_title_uipicker));
         itemsMap.put(20, getString(R.string.page_title_sidebar));
+        itemsMap.put(21, getString(R.string.page_title_about_screen));
+        itemsMap.put(22, getString(R.string.page_title_splash_screen));
         return sortMap(itemsMap);
     }
 
@@ -161,6 +164,12 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
                 break;
             case 20:
                 navigationController.switchFragment(new SideBarFragment());
+                break;
+            case 21:
+                navigationController.switchFragment(new AboutScreenSelectFragment());
+                break;
+            case 22:
+                navigationController.switchFragment(new SplashScreenSelectFragment());
                 break;
         }
     }

@@ -85,7 +85,7 @@ public class RecyclerViewItemTwoLineTest {
 
     @Test
     public void verifyDescriptionTextColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentItemDefaultNormalDescriptorTextColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentItemTertiaryNormalTextColor);
 
         getDescription().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedColor)));
     }

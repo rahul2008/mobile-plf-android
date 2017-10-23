@@ -57,7 +57,7 @@
                 android:clickable="true"
                 android:contentDescription="@string/date_picker"
                 android:onClick="@{(v) ->fragment.showDatePicker(dateTimePickerDate, false)}"
-                android:tint="?attr/uidContentItemDefaultNormalTitleIconColor"
+                android:tint="?attr/uidContentItemSecondaryNormalTextColor"
                 app:srcCompat="@drawable/ic_calender"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -98,7 +98,7 @@
                 android:clickable="true"
                 android:contentDescription="@string/date_picker"
                 android:onClick="@{(v) ->fragment.showDatePicker(rangePickerStartDate, true)}"
-                android:tint="?attr/uidContentItemDefaultNormalTitleIconColor"
+                android:tint="?attr/uidContentItemSecondaryNormalTextColor"
                 app:srcCompat="@drawable/ic_calender"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -108,7 +108,7 @@
                 android:layout_marginStart="@dimen/uid_date_margin_start"
                 android:onClick="@{(v) ->fragment.showDatePicker(rangePickerStartDate, true)}"
                 android:text="@{fragment.getFormattedDate(fragment.rangePickerStartDate)}"
-                android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor"/>
+                android:textColor="?attr/uidContentItemSecondaryNormalTextColor"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/startTimePicker"
@@ -117,7 +117,7 @@
                 android:gravity="end"
                 android:onClick="@{(v) ->fragment.showTimePicker(rangePickerStartDate, true)}"
                 android:text="@{fragment.getFormattedTime(fragment.rangePickerStartDate)}"
-                android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor"
+                android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
                 android:visibility="@{fragment.disableTimePicker}"/>
         </LinearLayout>
 

@@ -26,7 +26,7 @@
     <item name="uid_button_disabled_alpha" format="float" type="dimen">0.25</item>
 
     <!-- Quiet button-->
-    <dimen name="uid_quiet_button_padding_left_right">12dp</dimen>
+    <dimen name="uid_quiet_button_padding_left_right">24dp</dimen>
     <dimen name="uid_quiet_button_min_size">24dp</dimen>
     <dimen name="uid_quiet_button_max_width">40dp</dimen>
     <dimen name="uid_quiet_icon_only_padding_left_right">8dp</dimen>
@@ -49,13 +49,13 @@
     <dimen name="uid_edittext_text_padding">12dp</dimen>
     <dimen name="uid_edittext_min_width">24dp</dimen>
     <dimen name="uid_edittext_text_size">16sp</dimen>
-    <dimen name="uid_edittext_line_spacing">0dp</dimen>
+    <dimen name="uid_edittext_line_spacing">26sp</dimen>
     <dimen name="uid_edittext_vertical_padding">12dp</dimen>
     <item name="uid_edittext_fill_disabled_alpha" format="float" type="dimen">0.35</item>
     <item name="uid_edittext_border_20_alpha" format="float" type="dimen">0.20</item>
     <item name="uid_edittext_border_25_alpha" format="float" type="dimen">0.25</item>
     <item name="uid_editboxtext_border_35_alpha" format="float" type="dimen">0.35</item>
-    <integer name="uid_edittext_font_spacing_multiplier">1</integer>
+    <integer name="uid_edittext_font_spacing_multiplier">0</integer>
     <dimen name="uid_edittext_password_drawable_touch_area">48dp</dimen>
     <dimen name="uid_edittext_password_right_drawable_left_padding">20dp</dimen>
 
@@ -63,7 +63,7 @@
     <dimen name="uid_alert_dialog_title_icon_padding">8dp</dimen>
     <dimen name="uid_alert_dialog_icon_width_height">24dp</dimen>
     <dimen name="uid_alert_dialog_title_text_size">20sp</dimen>
-    <dimen name="uid_alert_dialog_title_text_line_spacing">4dp</dimen>
+    <dimen name="uid_alert_dialog_title_text_line_spacing">4sp</dimen>
     <dimen name="uid_alert_dialog_title_icon_top_padding">20dp</dimen>
     <dimen name="uid_alert_dialog_positive_button_margin_end">12dp</dimen>
     <dimen name="uid_alert_dialog_positive_button_margin_start">8dp</dimen>
@@ -72,7 +72,7 @@
     <dimen name="uid_alert_dialog_message_top_margin">20dp</dimen>
     <dimen name="uid_alert_dialog_message_top_margin_no_title">24dp</dimen>
     <dimen name="uid_alert_dialog_message_text_size">16sp</dimen>
-    <dimen name="uid_alert_dialog_message_line_spacing">6dp</dimen>
+    <dimen name="uid_alert_dialog_message_line_spacing">6sp</dimen>
     <dimen name="uid_alert_dialog_width">272dp</dimen>
     <dimen name="uid_dialog_padding">12dp</dimen>
     <dimen name="uid_dialog_button_margin">8dp</dimen>
@@ -90,7 +90,7 @@
     <dimen name="uid_navigation_bar_height">56dp</dimen>
     <dimen name="uid_navigation_bar_title_margin_left_right">24dp</dimen>
     <dimen name="uid_navigation_bar_text_size">20sp</dimen>
-    <dimen name="uid_navigation_bar_text_line_spacing_extra">24dp</dimen>
+    <dimen name="uid_navigation_bar_text_line_spacing_extra">24sp</dimen>
     <integer name="uid_navigation_bar_text_line_spacing_multiplier">0</integer>
 
     <!-- ProgressBar -->
@@ -131,13 +131,15 @@
     <dimen name="uid_label_margin_start">12dp</dimen>
     <dimen name="uid_label_margin_bottom_slider">24dp</dimen>
     <dimen name="uid_label_margin_left_control">12dp</dimen>
+    <dimen name="uid_label_line_spacing">6dp</dimen>
+    <integer name="uid_label_font_spacing_multiplier">1</integer>
 
     <!--CheckBox-->
     <dimen name="uid_checkbox_margin_left_right">12dp</dimen>
     <dimen name="uid_checkbox_height">48dp</dimen>
     <dimen name="uid_checkbox_text_size">16sp</dimen>
     <dimen name="uid_checkbox_border_ripple_radius">20dp</dimen>
-    <dimen name="uid_checkbox_line_spacing">0dp</dimen>
+    <dimen name="uid_checkbox_line_spacing">6sp</dimen>
     <integer name="uid_checkbox_font_spacing_multiplier">1</integer>
 
     <!--Linear indeterminate progressbar-->
@@ -184,7 +186,6 @@
     <dimen name="uid_grid_item_size">224dp</dimen>
     <dimen name="uid_grid_icon_size">24dp</dimen>
     <dimen name="uid_grid_icon_padding">12dp</dimen>
-    <dimen name="uid_grid_icon_holder_width">48dp</dimen>
     <dimen name="uid_gridview_margin_left_right">16dp</dimen>
     <dimen name="uid_gridview_header_height">48dp</dimen>
     <dimen name="uid_gridview_header_text_size">14sp</dimen>
@@ -201,7 +202,7 @@
     <dimen name="uid_notification_bar_title_text_size">16dp</dimen>
     <dimen name="uid_notification_bar_content_text_size">14dp</dimen>
     <dimen name="uid_notification_bar_action_btn_height">56dp</dimen>
-    <dimen name="uid_notification_bar_line_spacing">0dp</dimen>
+    <dimen name="uid_notification_bar_line_spacing">6sp</dimen>
     <integer name="uid_notification_bar_line_space_multiplier">1</integer>
 
     <!--Inline Vaidation-->
@@ -246,7 +247,7 @@
     <dimen name="uid_radiobutton_height">48dp</dimen>
     <dimen name="uid_radiobutton_text_size">16sp</dimen>
     <dimen name="uid_radiobutton_border_ripple_radius">20dp</dimen>
-    <dimen name="uid_radiobutton_line_spacing">0dp</dimen>
+    <dimen name="uid_radiobutton_line_spacing">6sp</dimen>
     <integer name="uid_radiobutton_font_spacing_multiplier">1</integer>
 
     <!--UI Picker-->
@@ -263,4 +264,17 @@
     <dimen name="uid_sidebar_sublayout_min_height">56dp</dimen>
     <dimen name="uid_sidebar_max_width">320dp</dimen>
     <dimen name="uid_sidebar_elevation">5dp</dimen>
+
+    <!--Splash Screen-->
+    <dimen name="uid_splash_screen_margin_horizontal">16dp</dimen>
+    <dimen name="uid_splash_screen_app_name_size">24sp</dimen>
+    <dimen name="uid_splash_screen_app_name_spacing">28sp</dimen>
+    <!--About Screen-->
+    <dimen name="uid_about_screen_margin_start_end">16dp</dimen>
+    <dimen name="uid_about_screen_app_name_bottom_margin">40dp</dimen>
+    <dimen name="uid_about_screen_label_bottom_margin">24dp</dimen>
+    <dimen name="uid_about_screen_app_name_size">20sp</dimen>
+    <dimen name="uid_about_screen_label_size">16sp</dimen>
+    <dimen name="uid_about_screen_app_name_spacing">24sp</dimen>
+
 </resources>

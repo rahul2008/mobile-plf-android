@@ -23,7 +23,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.*;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.philips.platform.uid.R;
@@ -42,7 +41,7 @@ import com.philips.platform.uid.utils.UIDInputTextUtils;
  * <BR>Iconified
  * <BR>Expanded Decoy
  * <p>
- *
+ * <p>
  * <P> For usage of Search box please refer to the DLS Catalog app or the confluence page below
  * <p>
  *
@@ -226,13 +225,10 @@ public class SearchBox extends LinearLayout {
         searchTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    if (querySubmitListener != null) {
-                        querySubmitListener.onQuerySubmit(searchTextView.getText());
-                    }
-                    return true;
+                if (querySubmitListener != null) {
+                    querySubmitListener.onQuerySubmit(searchTextView.getText());
                 }
-                return false;
+                return true;
             }
         });
     }
@@ -379,7 +375,7 @@ public class SearchBox extends LinearLayout {
      * The list refresh responsibility still holds with Adapter.
      *
      * @param adapter the adapter holding the list data
-     * @see android.widget.Filterable§
+     * @see android.widget.Filterable
      * @see android.widget.Adapter
      */
     @SuppressWarnings("unused")

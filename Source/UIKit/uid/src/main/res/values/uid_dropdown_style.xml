@@ -14,7 +14,7 @@
         <item name="android:fadeScrollbars">false</item>
     </style>
 
-    <style name="UIDListPopupWindow" parent="android:Widget.Material.ListPopupWindow">
+    <style name="UIDListPopupWindow">
         <item name="android:popupElevation">@dimen/uid_uipicker_popup_elevation</item>
     </style>
 </resources>

@@ -19,6 +19,9 @@ public class TestConstants {
     //Font paths
     public final static String FONT_PATH_CS_BOOK = "fonts/centralesansbook.ttf";
     public final static String FONT_PATH_CS_MEDIUM = "fonts/centralesansmedium.ttf";
+    public final static String FONT_PATH_ICON_FONT = "fonts/iconfont.ttf";
+    public final static String FONT_PATH_CS_LIGHT = "fonts/centralesanslight.ttf";
+    public final static String FONT_PATH_CS_BOLD = "fonts/centralesansbold.ttf";
 
 
     //Circular progress bar ratios

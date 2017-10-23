@@ -13,6 +13,7 @@ import com.philips.platform.catalogapp.databinding.FragmentDialogBinding;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
+import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
 public class DialogComponentFragment extends BaseFragment implements View.OnClickListener {
@@ -20,8 +21,8 @@ public class DialogComponentFragment extends BaseFragment implements View.OnClic
     public static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
 
     public ObservableBoolean isSubtle = new ObservableBoolean(TRUE);
-    public ObservableBoolean isAlertWithTitle = new ObservableBoolean(TRUE);
-    public ObservableBoolean isDialogWithList = new ObservableBoolean(TRUE);
+    public ObservableBoolean isAlertWithTitle = new ObservableBoolean(FALSE);
+    public ObservableBoolean isDialogWithList = new ObservableBoolean(FALSE);
 
     private AlertDialogFragment alertDialogFragment;
     private FragmentDialogBinding fragmentDialogBinding;

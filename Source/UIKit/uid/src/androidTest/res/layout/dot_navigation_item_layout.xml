@@ -9,7 +9,7 @@
         android:id="@+id/page_icon"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:tint="?attr/uidContentItemDefaultNormalDescriptorIconColor"/>
+        android:tint="?attr/uidContentItemTertiaryNormalIconColor"/>
 
     <TextView
         android:id="@+id/page_title"

@@ -104,7 +104,6 @@
         <attr name="uidTextBoxValidationErrorText" format="reference|string"/>
     </declare-styleable>
 
-
     <declare-styleable name="UIDRatingBar">
         <attr name="android:text"/>
         <attr name="uidRatingBarStarOnColor" format="color|reference"/>
@@ -114,5 +113,18 @@
         <attr name="uidSearchInputHintText" format="string|reference" />
         <attr name="uidSearchDecoyHintText" format="string|reference" />
         <attr name="uidSearchInContentArea" format="boolean|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="UIDAboutScreen">
+        <attr name="uidAboutScreenAppName" format="string|reference" />
+        <attr name="uidAboutScreenAppVersion" format="string|reference" />
+        <attr name="uidAboutScreenCopyright" format="string|reference" />
+        <attr name="uidAboutScreenTerms" format="string|reference" />
+        <attr name="uidAboutScreenPrivacy" format="string|reference" />
+        <attr name="uidAboutScreenDisclosure" format="string|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="UIDSplashScreen">
+        <attr name="uidSplashScreenAppName" format="string|reference"/>
     </declare-styleable>
 </resources>

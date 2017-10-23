@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentNotificationBarBinding;
@@ -22,13 +21,15 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public class NotificationBarFragment extends BaseFragment {
 
-    public static final String POP_UP_SHOWING = "popupshowing";
-    public static final String INFO_POPUP_SHOWN = "infoPopupShown";
-    protected boolean wasInfoPopUPShown;
-    private PopupWindow popupWindow;
+    public static final String NOTIFICATION_SHOWING = "notification_showing";
+    public static final String INFO_NOTIFICATION_SHOWN = "info_notification_Shown";
+    protected boolean wasInfoNotificationShown;
     private Button showHideNotification;
-    private boolean wasPopUPShowing;
-    private PopupWindow infoPopupWindow;
+    private boolean wasNotificationShowing;
+    private View notificationView;
+    private View infoNotificationView;
+    private FragmentNotificationBarBinding binding;
+    private TextView gotIButton;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,16 +40,12 @@ public class NotificationBarFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentNotificationBarBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_notification_bar, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_notification_bar, container, false);
         binding.setFragment(this);
 
         showHideNotification = binding.showHideNotification;
-
-        if (savedInstanceState != null) {
-            wasPopUPShowing = savedInstanceState.getBoolean(POP_UP_SHOWING);
-        } else {
-            wasPopUPShowing = false;
-        }
+        wasNotificationShowing = savedInstanceState != null && savedInstanceState.getBoolean(NOTIFICATION_SHOWING);
+        infoNotificationView = getInfoNotificationContentView();
         return binding.getRoot();
     }
 
@@ -56,20 +53,20 @@ public class NotificationBarFragment extends BaseFragment {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                showInfoPopup();
+                showInfoNotificationBar();
             }
-        },100);
+        },300);
     }
 
     @Override
     public void onViewStateRestored(@Nullable final Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null) {
-            wasInfoPopUPShown = savedInstanceState.getBoolean(INFO_POPUP_SHOWN);
+            wasInfoNotificationShown = savedInstanceState.getBoolean(INFO_NOTIFICATION_SHOWN);
         }
-        if (!wasInfoPopUPShown) {
+        if (!wasInfoNotificationShown) {
             showInfoNotification();
-        } else if (wasPopUPShowing) {
+        } else if (wasNotificationShowing) {
             showNotificationBar();
         }
     }
@@ -78,7 +75,7 @@ public class NotificationBarFragment extends BaseFragment {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                alterPopUpState();
+                alterNotificationState();
             }
         }, 300);
     }
@@ -86,15 +83,15 @@ public class NotificationBarFragment extends BaseFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(POP_UP_SHOWING, wasPopUPShowing);
-        outState.putBoolean(INFO_POPUP_SHOWN, wasInfoPopUPShown);
+        outState.putBoolean(NOTIFICATION_SHOWING, wasNotificationShowing);
+        outState.putBoolean(INFO_NOTIFICATION_SHOWN, wasInfoNotificationShown);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        dismissPopUp();
+        dismissNotification();
     }
 
     @Override
@@ -104,7 +101,7 @@ public class NotificationBarFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessage(OptionMenuClickedEvent event) {
-        dismissPopUp();
+        dismissNotification();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -112,13 +109,12 @@ public class NotificationBarFragment extends BaseFragment {
         showNotificationBar();
     }
 
-    private void createPopUpWindow(Context context) {
-        View view = getNotificationContentView(context);
-        popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    private void createNotificationView(Context context) {
+        notificationView = getNotificationContentView();
     }
 
-    private View getNotificationContentView(Context context) {
-        View view = View.inflate(context, R.layout.uid_notification_bg_white, null);
+    private View getNotificationContentView() {
+        View view = binding.getRoot().findViewById(R.id.notification_view);//View.inflate(context, R.layout.uid_notification_bg_white, null);
         ((TextView) view.findViewById(R.id.uid_notification_title)).setText(R.string.notification_bar_title);
         ((TextView) view.findViewById(R.id.uid_notification_content)).setText(R.string.notification_bar_content);
         ((TextView) view.findViewById(R.id.uid_notification_btn_1)).setText(R.string.notification_bar_action_1);
@@ -133,43 +129,17 @@ public class NotificationBarFragment extends BaseFragment {
         view.findViewById(R.id.uid_notification_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alterPopUpState();
+                alterNotificationState();
             }
         });
         return view;
     }
 
-    public void alterPopUpState() {
-        if (popupWindow == null) {
-            createPopUpWindow(getActivity());
-        }
-        if (popupWindow.isShowing()) {
-            popupWindow.dismiss();
-            wasPopUPShowing = false;
-            showHideNotification.setText(R.string.notification_bar_notification_show);
-        } else {
-            wasPopUPShowing = true;
-            popupWindow.showAsDropDown(getActivity().findViewById(R.id.uid_toolbar));
-            showHideNotification.setText(R.string.notification_bar_notification_hide);
-        }
-        showHideNotification.setEnabled(true);
-    }
-
-    public void dismissPopUp() {
-        if (popupWindow != null) {
-            popupWindow.dismiss();
-        }
-        if (infoPopupWindow != null) {
-            infoPopupWindow.dismiss();
-        }
-    }
-
-    protected void showInfoPopup() {
-        wasInfoPopUPShown = false;
-        View view = View.inflate(getContext(), R.layout.uid_notification_bg_white, null);
+    private View getInfoNotificationContentView() {
+        View view = binding.getRoot().findViewById(R.id.info_notification_view);//View.inflate(context, R.layout.uid_notification_bg_white, null);
         ((TextView) view.findViewById(R.id.uid_notification_title)).setText(R.string.info_notification_note);
         ((TextView) view.findViewById(R.id.uid_notification_content)).setText(R.string.info_notification_bar_content);
-        final TextView gotIButton = (TextView) view.findViewById(R.id.uid_notification_btn_1);
+        gotIButton = (TextView) view.findViewById(R.id.uid_notification_btn_1);
 
         gotIButton.setText(R.string.info_notification_got_it);
 
@@ -179,18 +149,53 @@ public class NotificationBarFragment extends BaseFragment {
         view.findViewById(R.id.uid_notification_btn_2).setVisibility(View.GONE);
 
         view.findViewById(R.id.uid_notification_icon).setVisibility(View.GONE);
-        infoPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        infoPopupWindow.showAsDropDown(getActivity().findViewById(R.id.uid_toolbar));
+
+        return view;
+    }
+
+    public void alterNotificationState() {
+        if (notificationView == null) {
+             createNotificationView(getActivity());
+        }
+        if (notificationView.getVisibility() == View.VISIBLE) {
+            notificationView.setVisibility(View.GONE);
+            wasNotificationShowing = false;
+            showHideNotification.setText(R.string.notification_bar_notification_show);
+        } else {
+            wasNotificationShowing = true;
+            notificationView.setVisibility(View.VISIBLE);
+            if(infoNotificationView != null)
+                infoNotificationView.setVisibility(View.GONE);
+
+            showHideNotification.setText(R.string.notification_bar_notification_hide);
+        }
+        showHideNotification.setEnabled(true);
+    }
+
+    public void dismissNotification() {
+        if (notificationView != null) {
+            notificationView.setVisibility(View.GONE);
+        }
+        if (infoNotificationView != null) {
+            infoNotificationView.setVisibility(View.GONE);
+        }
+    }
+
+    protected void showInfoNotificationBar() {
+        wasInfoNotificationShown = false;
+        infoNotificationView.setVisibility(View.VISIBLE);
+
         gotIButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (infoPopupWindow != null && infoPopupWindow.isShowing()) {
-                    infoPopupWindow.dismiss();
-                    wasInfoPopUPShown = true;
+                if (infoNotificationView != null && infoNotificationView.getVisibility() == View.VISIBLE) {
+                    infoNotificationView.setVisibility(View.GONE);
+                    wasInfoNotificationShown = true;
                 }
                 EventBus.getDefault().post(new InfoMessageDismissedEvent("Got It Clicked"));
             }
         });
+
         showHideNotification.setText(R.string.notification_bar_notification_hide);
         showHideNotification.setEnabled(false);
     }

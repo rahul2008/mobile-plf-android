@@ -63,6 +63,7 @@
     <dimen name="radiobutton_margin_left">4dp</dimen>
     <dimen name="radio_button_height">48dp</dimen>
     <dimen name="radio_button_text_padding_left_right">12dp</dimen>
+    <dimen name="splash_radio_button_margin">44dp</dimen>
 
     <dimen name="show_more_icon_size">12dp</dimen>
 
@@ -99,5 +100,14 @@
     <dimen name="sidebar_close_hint_text_size">12sp</dimen>
     <dimen name="sidebar_left_header_height">72dp</dimen>
     <dimen name="sidebar_right_avatar_top_bottom_margin">40dp</dimen>
+
+    <!-- Branding Screens--> 
+    <dimen name="branding_screen_disabled_label">14sp</dimen> 
+    <dimen name="branding_screen_label_disabled_margin">14dp</dimen>
+
+
+    <!-- ListView-->
+    <string name="listview_disabled_item_opacity">0.35</string>
+    <string name="listview_enabled_item_opacity">255.0</string>
 
 </resources>

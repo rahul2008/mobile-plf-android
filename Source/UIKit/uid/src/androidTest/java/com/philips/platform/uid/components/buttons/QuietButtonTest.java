@@ -52,13 +52,13 @@ public class QuietButtonTest {
 
     @Test
     public void verifyQuietButtonLeftPadding() {
-        int expectedLeftPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.quietbutton_left_padding);
+        int expectedLeftPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.quietbutton_left_right_padding);
         getQuietButton().check(matches(ViewPropertiesMatchers.isSameLeftPadding(expectedLeftPadding)));
     }
 
     @Test
     public void verifyQuietButtonRightPadding() {
-        int expectedRightPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.quietbutton_right_padding);
+        int expectedRightPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.quietbutton_left_right_padding);
         getQuietButton().check(matches(ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding)));
     }
 

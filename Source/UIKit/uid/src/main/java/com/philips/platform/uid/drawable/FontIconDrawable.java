@@ -46,6 +46,8 @@ public class FontIconDrawable extends Drawable {
 
     private Rect mRect;
 
+    private Rect tempDrawingRect = new Rect();
+
     private FontIconState mState;
 
     private boolean mMutated;
@@ -213,8 +215,8 @@ public class FontIconDrawable extends Drawable {
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        paint.getTextBounds(icon, 0, 1, mRect);
-        float textBottom = (getBounds().height() - mRect.height()) / 2f + mRect.height() - mRect.bottom;
+        paint.getTextBounds(icon, 0, 1, tempDrawingRect);
+        float textBottom = (getBounds().height() - tempDrawingRect.height()) / 2f + tempDrawingRect.height() - tempDrawingRect.bottom;
         canvas.drawText(icon, getBounds().width() / 2f, textBottom, paint);
     }
 

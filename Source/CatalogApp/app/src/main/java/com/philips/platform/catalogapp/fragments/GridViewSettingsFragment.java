@@ -17,9 +17,6 @@ import com.philips.platform.uid.drawable.SeparatorDrawable;
 
 public class GridViewSettingsFragment extends BaseFragment {
 
-
-    public ObservableBoolean isSecondaryActionEnabled = new ObservableBoolean(Boolean.TRUE);
-    public ObservableBoolean isDarkBackroungEnabled = new ObservableBoolean(Boolean.FALSE);
     public ObservableBoolean isEnlargedGutterEnabled = new ObservableBoolean(Boolean.FALSE);
     public ObservableBoolean isGridDisableEnabled = new ObservableBoolean(Boolean.FALSE);
     public ObservableInt templateSelection = new ObservableInt();
@@ -48,8 +45,6 @@ public class GridViewSettingsFragment extends BaseFragment {
     public void onPause() {
         super.onPause();
         getCheckedRadioButtonTemplate();
-        gridDataHelper.setSecondaryActionEnabled(isSecondaryActionEnabled.get());
-        gridDataHelper.setDarkBackgroundEnabled(isDarkBackroungEnabled.get());
         gridDataHelper.setEnlargedGutterEnabled(isEnlargedGutterEnabled.get());
         gridDataHelper.setSetDisableStateEnabled(isGridDisableEnabled.get());
         gridDataHelper.setTemplateSelection(templateSelection.get());
@@ -57,19 +52,9 @@ public class GridViewSettingsFragment extends BaseFragment {
     }
 
     private void initSavedSettings(){
-        setSecondaryActionEnabled(gridDataHelper.isSecondaryActionEnabled());
-        setDarkBackgroundEnabled(gridDataHelper.isDarkBackgroundEnabled());
         setEnlargedGutterEnabled(gridDataHelper.isEnlargedGutterEnabled());
         setGridDisableEnabled(gridDataHelper.isSetDisableStateEnabled());
         setTemplateSelection(gridDataHelper.getTemplateSelection());
-    }
-
-    public void setSecondaryActionEnabled(boolean isSecondaryActionEnabled){
-        this.isSecondaryActionEnabled.set(isSecondaryActionEnabled);
-    }
-
-    public void setDarkBackgroundEnabled(boolean isDarkBackroundEnabled) {
-        this.isDarkBackroungEnabled.set(isDarkBackroundEnabled);
     }
 
     public void setEnlargedGutterEnabled(boolean isEnlargedGutterEnabled){

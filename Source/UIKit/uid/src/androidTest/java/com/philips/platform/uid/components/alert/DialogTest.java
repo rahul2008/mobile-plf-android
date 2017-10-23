@@ -186,7 +186,7 @@ public class DialogTest extends BaseTest {
      ******************************************************/
     @Test
     public void verifyTextColorOfAlertTitle() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentItemDefaultNormalTitleTextColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentItemPrimaryNormalTextColor);
         getDialogTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 

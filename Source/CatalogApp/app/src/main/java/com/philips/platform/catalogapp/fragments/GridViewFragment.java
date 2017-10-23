@@ -24,6 +24,9 @@ import java.util.ArrayList;
 
 public class GridViewFragment extends BaseFragment {
 
+    private GridDataHelper gridDataHelper;
+    private boolean isGoingToGridViewSettings;
+
     @Override
     public int getPageTitle() {
         return R.string.page_title_gridView;
@@ -36,8 +39,8 @@ public class GridViewFragment extends BaseFragment {
         final FragmentGridviewBinding fragmentGridviewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_gridview, container, false);
         fragmentGridviewBinding.setFragment(this);
 
-        GridDataHelper gridDataHelper = new GridDataHelper(getContext());
-        updateHeaderAndBackground(gridDataHelper, fragmentGridviewBinding);
+        gridDataHelper = new GridDataHelper(getContext());
+
         updateGutterSize(gridDataHelper, fragmentGridviewBinding);
 
         initGridAdapter(fragmentGridviewBinding);
@@ -46,24 +49,8 @@ public class GridViewFragment extends BaseFragment {
     }
 
     public void onSettingsClicked() {
+        isGoingToGridViewSettings = true;
         showFragment(new GridViewSettingsFragment());
-    }
-
-    protected void updateHeaderAndBackground(final GridDataHelper gridDataHelper, final FragmentGridviewBinding fragmentGridviewBinding) {
-        Resources.Theme theme = ThemeUtils.getTheme(fragmentGridviewBinding.gridView.getContext(), null);
-        ColorStateList colorStateList = ThemeUtils.buildColorStateList(UIDContextWrapper.getThemedContext(getContext(),theme)
-                                        , R.color.uid_gridview_background_selector);
-        final int selectedStateColor = colorStateList.getDefaultColor();
-        final boolean darkBackgroundEnabled = gridDataHelper.isDarkBackgroundEnabled();
-        int color = darkBackgroundEnabled ? selectedStateColor : Color.WHITE;
-        fragmentGridviewBinding.gridView.setBackgroundColor(color);
-
-        fragmentGridviewBinding.uidGridviewHeader.setBackgroundColor(color);
-        final TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(
-                new int[]{darkBackgroundEnabled ? R.attr.uidGridViewBackgroundDarkHeaderTextColor : R.attr.uidGridViewBackgroundLightHeaderTextColor});
-
-        fragmentGridviewBinding.uidGridviewHeader.setTextColor(typedArray.getColor(0, Color.WHITE));
-        typedArray.recycle();
     }
 
     protected void updateGutterSize(final GridDataHelper gridDataHelper, final FragmentGridviewBinding fragmentGridviewBinding) {
@@ -100,5 +87,21 @@ public class GridViewFragment extends BaseFragment {
         cardList.add(new GridData(R.drawable.gridview_asset_6, mContext.getString(R.string.gridView_title_short), mContext.getString(R.string.gridView_description_short), false));
         cardList.add(new GridData(R.drawable.gridview_asset_7, mContext.getString(R.string.gridView_title_long), mContext.getString(R.string.gridView_description_long), false));
         return cardList;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(!isGoingToGridViewSettings) {
+            gridDataHelper.setEnlargedGutterEnabled(false);
+            gridDataHelper.setSetDisableStateEnabled(false);
+            gridDataHelper.setTemplateSelection(1);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        isGoingToGridViewSettings = false;
     }
 }

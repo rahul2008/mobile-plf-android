@@ -77,7 +77,7 @@ public class EditTextTest {
     @Test
     public void verifyTextBoxTextTypeface() {
         EditText editText = (EditText) View.inflate(activityContext, com.philips.platform.uid.test.R.layout.edit_text, null);
-        assertTrue(TextViewPropertiesMatchers.isSameTypeface(activityContext, editText.getTypeface(), TestConstants.FONT_PATH_CS_BOOK).matches(editText));
+        assertTrue(TextViewPropertiesMatchers.isSameTypeface(activityContext, TestConstants.FONT_PATH_CS_BOOK).matches(editText));
     }
 
     @Test
