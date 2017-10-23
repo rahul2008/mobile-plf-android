@@ -57,6 +57,9 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
+        maven {
+            url 'https://maven.google.com'
+        }
     }
     apply plugin: 'com.jfrog.artifactory'
     group = 'com.philips.cdp'
@@ -130,12 +133,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -172,10 +175,12 @@ dependencies {
 
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile "org.mockito:mockito-core:1.9.5"
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    compile ('com.android.support:support-annotations:25.3.1')
+    compile 'com.android.support:support-v4:26.0.2'
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.android.support:design:26.0.2'
+    compile ('com.android.support:support-annotations:26.0.2')
+
+
 }
 
 tasks.withType(Test) {
