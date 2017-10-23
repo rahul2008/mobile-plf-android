@@ -3,6 +3,7 @@ package com.philips.platform.verticals;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.DCSync;
+import com.philips.platform.core.datatypes.DSPagination;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
@@ -11,6 +12,7 @@ import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +40,16 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface {
 
     @Override
     public void fetchLatestMomentByType(String type, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
+
+    }
+
+    @Override
+    public void fetchLatestMomentByDateRange(Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
+
+    }
+
+    @Override
+    public void fetchLatestMomentByDateRange(String momentType, Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
 
     }
 
