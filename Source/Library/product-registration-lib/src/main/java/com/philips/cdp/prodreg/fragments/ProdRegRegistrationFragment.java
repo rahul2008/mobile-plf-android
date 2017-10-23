@@ -5,7 +5,7 @@
 */
 package com.philips.cdp.prodreg.fragments;
 
-import android.app.DatePickerDialog;
+import android.app.*;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -265,11 +265,11 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private void showErrorMessageSerialNumber() {
         findSerialTextView.setVisibility(View.VISIBLE);
         if (field_serial.length()==0 &&isRegisterButtonClicked) {
-            registerButton.hideProgressIndicator();
+            hideProgressDialog();
             serial_input_field.showError();
             serial_input_field.setErrorMessage(getString(R.string.PPR_Please_Enter_SerialNum_Txtfldtxt));
         } else if (field_serial.length() != 0) {
-            registerButton.hideProgressIndicator();
+            hideProgressDialog();
             serial_input_field.showError();
             serial_input_field.setErrorMessage(getString(R.string.PPR_Invalid_SerialNum_ErrMsg));
         } else {
@@ -289,7 +289,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     private void showErrorMessageDate() {
         if(date_EditText.length() != 0 || (date_EditText.length()==0 &&isRegisterButtonClicked)) {
-            registerButton.hideProgressIndicator();
+            hideProgressDialog();
             date_input_field.showError();
             date_input_field.setErrorMessage(new ErrorHandler().getError(mActivity,
                     ProdRegError.INVALID_DATE.getCode()).getDescription());
@@ -322,6 +322,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private View.OnTouchListener onClickPurchaseDate() {
         return new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
+                if(datePickerDialog!=null && datePickerDialog.isShowing()){
+                    return  false;
+                }
                 field_serial.setFocusable(false);
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     int mYear;
@@ -368,11 +371,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                registerButton.showProgressIndicator();
+                intiateRegistration();
                 // registerButton.setEnabled(false);
-                isRegisterButtonClicked = true;
-                prodRegRegistrationController.registerProduct(date_EditText.getText().toString(),
-                        field_serial.getText().toString());
+
             }
         };
     }
@@ -520,6 +521,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @SuppressWarnings("deprecation")
     @Override
     public void showSuccessLayout() {
+        hideProgressDialog();
         serialNumberParentLayout.setVisibility(View.GONE);
         dateParentLayout.setVisibility(View.GONE);
         registerButton.setVisibility(View.GONE);
@@ -574,7 +576,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 @Override
                 public void onClick(View v) {
                     alertDialogFragment.dismiss();
-                    registerButton.hideProgressIndicator();
+                    hideProgressDialog();
                 }
             });
         }catch (Exception e) {
@@ -598,5 +600,31 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public void onStop() {
         super.onStop();
         //dismissDialogs();
+    }
+
+    private ProgressDialog mProgressDialog;
+
+
+    private void intiateRegistration() {
+        if (!(getActivity().isFinishing())) {
+            if (mProgressDialog == null) {
+                mProgressDialog = new ProgressDialog(getActivity(), com.philips.cdp.registration.R.style.reg_Custom_loaderTheme);
+                mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+                mProgressDialog.setCancelable(false);
+            }
+            if (!mProgressDialog.isShowing()) {
+                mProgressDialog.show();
+                isRegisterButtonClicked = true;
+                prodRegRegistrationController.registerProduct(date_EditText.getText().toString(),
+                        field_serial.getText().toString());
+            }
+
+        }
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
+        }
     }
 }
