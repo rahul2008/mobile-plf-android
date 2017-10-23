@@ -15,6 +15,7 @@ public interface LanguagePackInterface {
 	 * If should be called everytime when app is launched
 	 *
 	 * @param refreshListener asynchronous callback reporting result of refresh eg {LoadedFromLocalCache, REFRESHED_FROM_SERVER, NO_REFRESH_REQUIRED, REFRESH_FAILED}
+	 * @since 2.1.0
 	 */
 	void refresh(OnRefreshListener refreshListener);
 
@@ -22,6 +23,7 @@ public interface LanguagePackInterface {
 	 *  It activates device matching locale from downloaded overview file
 	 *  Calling activate will return path of Language pack through call back listener
 	 * @param onActivateListener asynchronous callback reporting result of activate
+	 * @since 2.1.0
 	 */
 	void activate(OnActivateListener onActivateListener);
 

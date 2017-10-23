@@ -92,13 +92,14 @@ public interface ServiceDiscoveryInterface {
      * Changing the country automatically clears the cached service list and triggers a refresh.
      *
      * @param listener country code to persistently store, code must be according to ISO 3166-1
+     * @since 1.0.0
      */
     void getHomeCountry(OnGetHomeCountryListener listener);
 
     /**
      * Fetches the Persistently stored Home country, the value is taken from the variable which has been set by setHomeCountry API.
      * Changing the country automatically clears the cached service list and triggers a refresh.
-     *
+     * @since 1.0.0
      */
     String getHomeCountry();
 
@@ -107,6 +108,7 @@ public interface ServiceDiscoveryInterface {
      * Changing the country automatically clears the cached service list and triggers a refresh.
      *
      * @param countryCode country code to persistently store, code must be according to ISO 3166-1
+     * @since 1.0.0
      */
     void setHomeCountry(String countryCode);
 
@@ -116,6 +118,7 @@ public interface ServiceDiscoveryInterface {
      * @param serviceId name of the service for which the URL is to be retrieved
      * @param listener  asynchronously returns using onSuccess the URL of the requested service;
      *                  or returns onError the error code when retrieval failed.
+     * @since 1.0.0
      */
     void getServiceUrlWithLanguagePreference(String serviceId, OnGetServiceUrlListener listener);
 
@@ -126,6 +129,7 @@ public interface ServiceDiscoveryInterface {
      * @param listener    asynchronously returns using onSuccess the URL of the requested service;
      *                    or returns onError the error code when retrieval failed.
      * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #applyURLParameters(URL, Map)}
+     * @since 1.0.0
      */
     void getServiceUrlWithLanguagePreference(String serviceId, OnGetServiceUrlListener listener,
                                              Map<String, String> replacement);
@@ -137,6 +141,7 @@ public interface ServiceDiscoveryInterface {
      * @param serviceId ArrayList of the service for which the URL is to be retrieved
      * @param listener  asynchronously returns using onSuccess the URL of the requested service;
      *                  or returns onError the error code when retrieval failed.
+     * @since 1.0.0
      */
     void getServicesWithLanguagePreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener);
 
@@ -148,6 +153,7 @@ public interface ServiceDiscoveryInterface {
      * @param listener    asynchronously returns using onSuccess the URL of the requested service;
      *                    or returns onError the error code when retrieval failed.
      * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #applyURLParameters(URL, Map)}
+     * @since 1.0.0
      */
     void getServicesWithLanguagePreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener,
                                            Map<String, String> replacement);
@@ -158,6 +164,7 @@ public interface ServiceDiscoveryInterface {
      * @param serviceId name of the service for which the URL is to be retrieved
      * @param listener  asynchronously returns using onSuccess the URL of the requested service;
      *                  or returns onError the error code when retrieval failed.
+     * @since 1.0.0
      */
     void getServiceUrlWithCountryPreference(String serviceId, OnGetServiceUrlListener listener);
 
@@ -169,6 +176,7 @@ public interface ServiceDiscoveryInterface {
      * @param listener    asynchronously returns using onSuccess the URL of the requested service;
      *                    or returns onError the error code when retrieval failed.
      * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #applyURLParameters(URL, Map)}
+     * @since 1.0.0
      */
     void getServiceUrlWithCountryPreference(String serviceId, OnGetServiceUrlListener listener,
                                             Map<String, String> replacement);
@@ -181,6 +189,7 @@ public interface ServiceDiscoveryInterface {
      * @param serviceId List of the services for which the URL is to be retrieved
      * @param listener  asynchronously returns using onSuccess the URL of the requested service;
      *                  or returns onError the error code when retrieval failed.
+     * @since 1.0.0
      */
     void getServicesWithCountryPreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener);
 
@@ -192,6 +201,7 @@ public interface ServiceDiscoveryInterface {
      * @param listener    asynchronously returns using onSuccess the URL of the requested service;
      *                    or returns onError the error code when retrieval failed.
      * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #applyURLParameters(URL, Map)}
+     * @since 1.0.0
      */
     void getServicesWithCountryPreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener,
                                           Map<String, String> replacement);
@@ -203,6 +213,7 @@ public interface ServiceDiscoveryInterface {
      * @param serviceId name of the service for which the URL is to be retrieved
      * @param listener  asynchronously returns using onSuccess the recommended locale for the requested service;
      *                  or returns onError the error code when retrieval failed.
+     * @since 1.0.0
      */
     void getServiceLocaleWithLanguagePreference(String serviceId, OnGetServiceLocaleListener listener);
 
@@ -212,6 +223,7 @@ public interface ServiceDiscoveryInterface {
      * @param serviceId name of the service for which the URL is to be retrieved
      * @param listener  asynchronously returns using onSuccess the recommended locale for the requested service;
      *                  or returns onError the error code when retrieval failed.
+     * @since 1.0.0
      */
     void getServiceLocaleWithCountryPreference(String serviceId, OnGetServiceLocaleListener listener);
 
@@ -239,6 +251,7 @@ public interface ServiceDiscoveryInterface {
      * @param url         url in which to search for the key strings given by replacement
      * @param replacement mapping of placeholder string (key) to the replacement string (value)
      * @return input url with all placeholders keys replaced with the respective value in the replacement table
+     * @since 1.0.0
      */
     URL applyURLParameters(URL url, Map<String, String> replacement);
 
@@ -251,14 +264,27 @@ public interface ServiceDiscoveryInterface {
      *
      * @param listener asynchronously returns using onSuccess when retrieval was successful;
      *                 or returns onError the error code when retrieval failed.
+     * @since 1.0.0
      */
     void refresh(OnRefreshListener listener);
 
+    /**
+     * Start negotiation with cloud service for the list of service for this application. List is based on sector, microsite, home country, and language.
+     * The retrieved list is cached internally (not persistently).
+     * The cached list is automatically refreshed every 24hours.
+     * A refresh is only required, to ensure the very first service request after app start can be processed from the cache quickly, or when a previous sync failed.
+     *
+     * @param listener asynchronously returns using onSuccess when retrieval was successful;
+     *                 or returns onError the error code when retrieval failed.
+     * @param forceRefresh   true or false
+     * @since 1.0.0
+     */
     void refresh(OnRefreshListener listener, boolean forceRefresh);
 
     /**
      * UnRegister for the updating home country .
      * @param receiver BroadcastReceiver
+     * @since 1.0.0
      */
     void unRegisterHomeCountrySet(BroadcastReceiver receiver);
 
@@ -266,6 +292,7 @@ public interface ServiceDiscoveryInterface {
      * Register for the home country update.
      *
      * @param receiver BroadcastReceiver
+     * @since 1.0.0
      */
     void registerOnHomeCountrySet(BroadcastReceiver receiver);
 }

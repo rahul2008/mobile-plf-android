@@ -34,11 +34,13 @@ public interface ContentLoaderInterface<Content extends ContentInterface> {
      * If content is outdated, starts download from server.
      * If content URL has changed (e.g. locale changed) the cached content is automatically cleared and download is started.
      * @param refreshListener asynchronous callback reporting result of refresh
+     * @since 1.1.0
      */
     void refresh(OnRefreshListener refreshListener);
 
     /**
      * Remove all cached content of given content loader
+     * @since 1.1.0
      */
     void clearCache();
 
@@ -51,28 +53,34 @@ public interface ContentLoaderInterface<Content extends ContentInterface> {
      *   CACHED_DATA_OUTDATED: database ready for use, content is outdated refresh should be called
      *   REFRESHING: database ready for use, content is outdated, refresh is in progress
      *   CONFIGURATION_ERROR: database is empty, configuration of content loader is incorrect: unknown service ID or improper content class type
+     *   @since 1.1.0
      */
     STATE getStatus();
 
     /**
      * Returns list of all available content IDs
+     * @since 1.1.0
      */
     void getAllContent(OnResultListener<String> listener);
 
     /**
      * Returns Content object for the given id
+     * @since 1.1.0
      */
     void getContentById(String id, OnResultListener<Content> listener);
     /**
      * Returns list of Content objects for the given array of ids
+     * @since 1.1.0
      */
     void getContentById(String[] ids, OnResultListener<Content> listener);
     /**
      * Returns list of Content objects that have the given tag ID set
+     * @since 1.1.0
      */
     void getContentByTag(String tagID, OnResultListener<Content> listener);
     /**
      * Returns list of Content objects that have the at least one (OR) or all (AND) given tag IDs set
+     * @since 1.1.0
      */
     void getContentByTag(String[] tagIDs, OPERATOR andOr, OnResultListener<Content> listener);
 

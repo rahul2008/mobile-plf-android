@@ -24,6 +24,7 @@ public interface AppConfigurationInterface {
      * if value is array of number then 'array of Integer' Object is returned
      * if value is Map<String,String> then 'HashMap<String,String>' is returned
      * if value is Map<String,Integer> then 'HashMap<String,Integer>' is returned
+     * @since 1.0.0
      */
     Object getPropertyForKey(String key, String group, AppConfigurationError configError) throws
             IllegalArgumentException;
@@ -37,6 +38,7 @@ public interface AppConfigurationInterface {
      *                    /HashMap<String,Integer></>)   null to be passed to delete key
      * @param configError the configError object as OUT parameter
      * @return the set operation status (success/failure)
+     * @since 1.0.0
      */
     boolean setPropertyForKey(String key, String group, Object object, AppConfigurationError
             configError)
@@ -54,6 +56,7 @@ public interface AppConfigurationInterface {
      * if value in number then 'Integer' Object is returned
      * if value is array of literal then 'array of String' Object is returned
      * if value is array of number then 'array of Integer' Object is returned
+     * @since 1.0.0
      */
     Object getDefaultPropertyForKey(String key, String group, AppConfigurationError configError)
             throws IllegalArgumentException;
@@ -61,6 +64,7 @@ public interface AppConfigurationInterface {
 
     /**
      * download app config file from cloud
+     * @since 2.1.0
      */
     void refreshCloudConfig(OnRefreshListener onRefreshListener);
 
@@ -73,6 +77,7 @@ public interface AppConfigurationInterface {
     /**
      * This method clears dynamic config and downloaded cloud config
      * from both local cache and persistence memory.
+     * @since 2.2.0
      */
     void resetConfig();
 

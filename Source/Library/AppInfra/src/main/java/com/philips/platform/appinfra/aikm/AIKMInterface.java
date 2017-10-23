@@ -20,6 +20,7 @@ public interface AIKMInterface {
      * @param onGetServicesListener - call back listener to callee
      * @throws AIKMJsonFileNotFoundException - Exception is thrown when AIKMap.json is not found in assets
      * @throws JSONException - Exception is thrown when Json structure in invalid
+     * @since 3.0.0
      */
     void getValueForServiceIds(ArrayList<String> serviceIds, AISDResponse.AISDPreference aisdPreference,
                                Map<String, String> replacement,

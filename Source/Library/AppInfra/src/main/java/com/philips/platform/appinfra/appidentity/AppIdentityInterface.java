@@ -14,50 +14,50 @@ public interface AppIdentityInterface {
 
     /**
      * Gets app name.
-     *
      * @return the app name
+     * @since 1.0.0
      */
     String getAppName();
 
     /**
      * Gets app version.
-     *
      * @return the app version
+     * @since 1.0.0
      */
     String getAppVersion();
 
     /**
      * Gets app state.
-     *
      * @return the app state
+     * @since 1.0.0
      */
     AppState getAppState();
 
     /**
      * Gets app localized n ame.
-     *
-     * @return the app localized n ame
+     * @return the app localized name
+     * @since 1.0.0
      */
     String getLocalizedAppName();
 
     /**
      * Gets microsite id.
-     *
      * @return the microsite id
+     * @since 1.0.0
      */
     String getMicrositeId();
 
     /**
      * Gets sector.
-     *
      * @return the sector
+     * @since 1.0.0
      */
     String getSector();
 
     /**
      * Gets ServiceDiscoveryEnvironment.
-     *
      * @return the ServiceDiscoveryEnvironment
+     * @since 1.0.0
      */
     String getServiceDiscoveryEnvironment();
 

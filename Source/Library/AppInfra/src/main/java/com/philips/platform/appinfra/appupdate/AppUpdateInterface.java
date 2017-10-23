@@ -21,6 +21,7 @@ public interface AppUpdateInterface {
 	 * appupdate json wil be downloaded when appinfra intialization is done.
 	 * @param refreshListener asynchronous callback reporting result of refresh eg {AppUpdate_REFRESH_SUCCESS,
 	 * AppUpdate_REFRESH_FAILED}.
+	 * @since 2.2.0
 	 */
 	void refresh(OnRefreshListener refreshListener);
 
@@ -43,6 +44,7 @@ public interface AppUpdateInterface {
 	 * true when current application version is less than minimum version
 	 * true when deprecatedVersion is greater than current application version and deprecationDate is crossed.
 	 * @return it will return true if Deprecated else return false
+	 * @since 2.2.0
 	 */
 	boolean isDeprecated();
 
@@ -50,6 +52,7 @@ public interface AppUpdateInterface {
 	 * minimumVersion <= applicationVersion <= tobeDeprecated.
 	 * @return true if application is not already deprecated and current version is
 	 * lessthan equal to deprecated version.
+	 * @since 2.2.0
 	 */
 	boolean isToBeDeprecated();
 
@@ -57,30 +60,35 @@ public interface AppUpdateInterface {
 	 * applicationVersion < CurrentVersion.
 	 * @return true if current version is less than the
 	 * latest verion available in the appstore.
+	 * @since 2.2.0
 	 */
 	boolean isUpdateAvailable();
 
 	/**
 	 * Deprecated Version message string.
 	 * @return It will return Deprecate Message
+	 * @since 2.2.0
 	 */
 	String getDeprecateMessage();
 
 	/**
 	 * To be deprecated message string.
 	 * @return It will return to be Deprecated Message
+	 * @since 2.2.0
 	 */
 	String getToBeDeprecatedMessage();
 
 	/**
 	 * To be deprecated date.
 	 * @return It will return to be Deprecated Date
+	 * @since 2.2.0
 	 */
 	Date getToBeDeprecatedDate();
 
 	/**
 	 * current version message.
 	 * @return It will return Update Message
+	 * @since 2.2.0
 	 */
 	String getUpdateMessage();
 
@@ -88,12 +96,14 @@ public interface AppUpdateInterface {
 	 * This method returns the minimum version
 	 * from the appupdate json.
 	 * @return minimum version.
+	 * @since 2.2.0
 	 */
 	String getMinimumVersion();
 
 	/**
 	 * This method returns the minimumOS version.
 	 * @return  minimumOS version.
+	 * @since 2.2.0
 	 */
 	String getMinimumOSverion();
 

@@ -23,6 +23,7 @@ public interface AppTaggingInterface {
 	 * @param componentId      the component id
 	 * @param componentVersion the component version
 	 * @return the appinfra app tagging interface
+	 * @since 1.0.0
 	 */
 	AppTaggingInterface createInstanceForComponent(String componentId,
 												   String componentVersion);
@@ -31,6 +32,7 @@ public interface AppTaggingInterface {
 	 * Sets previous page.
 	 *
 	 * @param previousPage the previous page
+	 * @since 1.0.0
 	 */
 	void setPreviousPage(String previousPage);
 
@@ -38,6 +40,7 @@ public interface AppTaggingInterface {
 	 * Gets privacy consent.
 	 *
 	 * @return the privacy consent
+	 * @since 1.0.0
 	 */
 	PrivacyStatus getPrivacyConsent();
 
@@ -45,6 +48,7 @@ public interface AppTaggingInterface {
 	 * Sets privacy consent.
 	 *
 	 * @param privacyStatus the privacy status
+	 * @since 1.0.0
 	 */
 	void setPrivacyConsent(PrivacyStatus privacyStatus);
 
@@ -54,6 +58,7 @@ public interface AppTaggingInterface {
 	 * @param pageName the page name
 	 * @param key      the key
 	 * @param value    the value
+	 * @since 1.0.0
 	 */
 	void trackPageWithInfo(String pageName, String key, String value);
 
@@ -62,6 +67,7 @@ public interface AppTaggingInterface {
 	 *
 	 * @param pageName  the page name
 	 * @param paramDict set of key/value pairs to be added to the tracking entry
+	 * @since 1.0.0
 	 */
 	void trackPageWithInfo(String pageName, Map<String, String> paramDict);
 
@@ -71,6 +77,7 @@ public interface AppTaggingInterface {
 	 * @param pageName the page name
 	 * @param key      the key
 	 * @param value    the value
+	 * @since 1.0.0
 	 */
 	void trackActionWithInfo(String pageName, String key, String value);
 
@@ -79,6 +86,7 @@ public interface AppTaggingInterface {
 	 *
 	 * @param pageName  the page name
 	 * @param paramDict set of key/value pairs to be added to the tracking entry
+	 * @since 1.0.0
 	 */
 	void trackActionWithInfo(String pageName, Map<String, String> paramDict);
 
@@ -87,6 +95,7 @@ public interface AppTaggingInterface {
 	 *
 	 * @param context   the page name
 	 * @param paramDict set of key/value pairs to be added to the tracking entry
+	 * @since 1.0.0
 	 */
 	void collectLifecycleInfo(Activity context, Map<String, Object> paramDict);
 
@@ -94,11 +103,13 @@ public interface AppTaggingInterface {
 	 * Collect LifeCycle info.
 	 *
 	 * @param context the page name
+	 * @since 1.0.0
 	 */
 	void collectLifecycleInfo(Activity context);
 
 	/**
 	 * Pause LifeCycle info.
+	 * @since 1.0.0
 	 */
 	void pauseLifecycleInfo();
 
@@ -106,6 +117,7 @@ public interface AppTaggingInterface {
 	 * Track Video started with a videoName.
 	 *
 	 * @param videoName user friendly name of video being played.
+	 * @since 1.0.0
 	 */
 	void trackVideoStart(String videoName);
 
@@ -113,6 +125,7 @@ public interface AppTaggingInterface {
 	 * Track Video End with a videoName.
 	 *
 	 * @param videoName user friendly name of video being ended.
+	 * @since 1.0.0
 	 */
 	void trackVideoEnd(String videoName);
 
@@ -121,6 +134,7 @@ public interface AppTaggingInterface {
 	 *
 	 * @param medium     SocialMedium=enum:{Facebook, Twitter, Mail, AirDrop}
 	 * @param sharedItem sharedItem is the object being shared
+	 * @since 1.0.0
 	 */
 	void trackSocialSharing(SocialMedium medium, String sharedItem);
 
@@ -128,6 +142,7 @@ public interface AppTaggingInterface {
 	 * Track URL destination
 	 *
 	 * @param url url destination.
+	 * @since 1.0.0
 	 */
 	void trackLinkExternal(String url);
 
@@ -135,6 +150,7 @@ public interface AppTaggingInterface {
 	 * Track file being downloaded.
 	 *
 	 * @param filename String filename.
+	 * @since 1.0.0
 	 */
 	void trackFileDownload(String filename);
 
@@ -142,6 +158,7 @@ public interface AppTaggingInterface {
 	 * Track Timed Action Start.
 	 *
 	 * @param actionStart String filename.
+	 * @since 1.0.0
 	 */
 	void trackTimedActionStart(String actionStart);
 
@@ -149,6 +166,7 @@ public interface AppTaggingInterface {
 	 * Track Timed Action end.
 	 *
 	 * @param actionEnd String filename.
+	 * @since 1.0.0
 	 */
 	void trackTimedActionEnd(String actionEnd);
 
@@ -156,6 +174,7 @@ public interface AppTaggingInterface {
 	 * get Privacy Consent For SensitiveData.
 	 *
 	 * @return returns consent value true or false
+	 * @since 1.0.0
 	 */
 	boolean getPrivacyConsentForSensitiveData();
 
@@ -163,6 +182,7 @@ public interface AppTaggingInterface {
 	 * sets Privacy Consent For SensitiveData.
 	 *
 	 * @param valueContent String filename.
+	 * @since 1.0.0
 	 */
 	void setPrivacyConsentForSensitiveData(boolean valueContent);
 
@@ -170,12 +190,14 @@ public interface AppTaggingInterface {
 	 * @return an String value containing the tracking identifier
 	 * @brief Retrieves the analytics tracking identifier
 	 * @note This method can cause a blocking network call and should not be used from a UI thread.
+	 * @since 1.0.0
 	 */
 	String getTrackingIdentifier();
 
 	/**
 	 * UnRegister for the Tagging data .
 	 * @param receiver BroadcastReceiver
+	 * @since 1.0.0
 	 */
 	void unregisterTaggingData(BroadcastReceiver receiver);
 
@@ -183,6 +205,7 @@ public interface AppTaggingInterface {
 	 * Register for the Tagging data.
 	 *
 	 * @param receiver BroadcastReceiver
+	 * @since 1.0.0
 	 */
 	void registerTaggingData(BroadcastReceiver receiver);
 

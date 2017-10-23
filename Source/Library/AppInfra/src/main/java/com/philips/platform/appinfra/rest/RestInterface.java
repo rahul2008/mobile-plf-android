@@ -23,14 +23,16 @@ public interface RestInterface {
     enum NetworkTypes {WIFI,MOBILE_DATA,NO_NETWORK}
 
     /**
- * Get the network  connection and sets the wifiConnected and mobileConnected
- * @return enum WIFI,MOBILE_DATA,NO_NETWORK
+     * Get the network  connection and sets the wifiConnected and mobileConnected
+     * @return enum WIFI,MOBILE_DATA,NO_NETWORK
+     * @since 1.0.0
  */
 NetworkTypes  getNetworkReachabilityStatus();
 
     /**
      * Method to check the network connectivity availability .
      * @return boolean true/false.
+     * @since 1.1.0
      */
     boolean isInternetReachable() ;
 

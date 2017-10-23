@@ -15,6 +15,7 @@ public interface ComponentVersionInfo {
      * Gets component ID.
      *
      * @return component three letter acronym as defined at developer portal
+     * @since 2.1.0
      */
    String getComponentId();
 
@@ -23,6 +24,7 @@ public interface ComponentVersionInfo {
      * Gets component version.
      *
      * @return component version, which may include snapshot indication
+     * @since 2.1.0
      */
    String getVersion();
 

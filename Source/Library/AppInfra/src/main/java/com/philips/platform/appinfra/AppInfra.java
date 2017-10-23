@@ -217,7 +217,11 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     }
 
     /**
-     * The type Builder.
+     * The type Builder,to enable an application developer to create his own implementation for specific App Infra modules and have all components integrated in the app use that alternative module implementation;
+     * App Infra supports a builder pattern. By the use of the builder pattern, it is possible to create an instance of App Infra with alternative module implementations that overwrite one or more of the default module implementations.
+     * The most common use case for providing alternative implementations is for testing purposes where a (component test-) app wants to test its functionality in isolation without having to implicitly test the App Infra implementation or any cloud services abstracted by App Infra.
+     * In such a case, the app developer can create an App Infra instance with dummy implementations.Another use case for implementation replacement is to provide the ability to maintain compatibility with another cloud back-end (version).
+     *
      */
     public static class Builder {
 
@@ -349,11 +353,9 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 
 
         /**
-         * Actual AppInfra object is created here.
-         * Once build is called AppInfra is created in memory and cannot be modified during runtime.
-         *
+         * Actual AppInfra object is created here.Once build is called AppInfra is created in memory and cannot be modified during runtime.
          * @param pContext Application Context
-         * @return the app infra
+         * @return the app infra instance
          */
         public AppInfra build(Context pContext) {
 //            Log.v(AppInfraLogEventID.AI_APPINFRA, "AI Intitialization Starts");
