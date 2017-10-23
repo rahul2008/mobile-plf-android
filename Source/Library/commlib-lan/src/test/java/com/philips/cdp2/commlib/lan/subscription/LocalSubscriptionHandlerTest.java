@@ -61,13 +61,13 @@ public class LocalSubscriptionHandlerTest extends RobolectricTest {
 
     @Test
     public void testUDPEventReceivedDataNull() {
-        mLocalSubscriptionHandler.onUDPEventReceived(null, APPLIANCE_IP);
+        mLocalSubscriptionHandler.onUDPEventReceived(null, "air", APPLIANCE_IP);
         verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
 
     @Test
     public void testUDPEventReceivedDataEmptyString() {
-        mLocalSubscriptionHandler.onUDPEventReceived("", APPLIANCE_IP);
+        mLocalSubscriptionHandler.onUDPEventReceived("", "air", APPLIANCE_IP);
 
         verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
@@ -75,7 +75,7 @@ public class LocalSubscriptionHandlerTest extends RobolectricTest {
     @Test
     public void testUDPEventReceivedDataNonDecryptableString() {
         String expected = "dfjalsjdfl";
-        mLocalSubscriptionHandler.onUDPEventReceived(expected, APPLIANCE_IP);
+        mLocalSubscriptionHandler.onUDPEventReceived(expected, "air", APPLIANCE_IP);
 
         verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
@@ -83,7 +83,7 @@ public class LocalSubscriptionHandlerTest extends RobolectricTest {
     @Test
     public void testUDPEventReceivedIpNull() {
         String expected = VALID_ENCRYPTED_LOCALAIRPORTVENT;
-        mLocalSubscriptionHandler.onUDPEventReceived(expected, null);
+        mLocalSubscriptionHandler.onUDPEventReceived(expected, "air", null);
 
         verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
@@ -91,7 +91,7 @@ public class LocalSubscriptionHandlerTest extends RobolectricTest {
     @Test
     public void testUDPEventReceivedIpEmptyString() {
         String expected = VALID_ENCRYPTED_LOCALAIRPORTVENT;
-        mLocalSubscriptionHandler.onUDPEventReceived(expected, "");
+        mLocalSubscriptionHandler.onUDPEventReceived(expected, "air", "");
 
         verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
@@ -99,7 +99,7 @@ public class LocalSubscriptionHandlerTest extends RobolectricTest {
     @Test
     public void testUDPEventReceivedWrongIp() {
         String expected = VALID_ENCRYPTED_LOCALAIRPORTVENT;
-        mLocalSubscriptionHandler.onUDPEventReceived(expected, "0.0.0.0");
+        mLocalSubscriptionHandler.onUDPEventReceived(expected, "air", "0.0.0.0");
 
         verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
@@ -109,7 +109,7 @@ public class LocalSubscriptionHandlerTest extends RobolectricTest {
         String data = VALID_ENCRYPTED_LOCALAIRPORTVENT;
         when(mDISecurity.decryptData(data)).thenReturn("");
 
-        mLocalSubscriptionHandler.onUDPEventReceived(data, APPLIANCE_IP);
+        mLocalSubscriptionHandler.onUDPEventReceived(data, "air", APPLIANCE_IP);
 
         verify(mSubscriptionEventResponseHandler).post(any(Runnable.class));
     }
@@ -118,7 +118,7 @@ public class LocalSubscriptionHandlerTest extends RobolectricTest {
     public void testUDPEncryptedFWEvent() {
         String data = VALID_ENCRYPTED_LOCALFWEVENT;
         when(mDISecurity.decryptData(data)).thenReturn("");
-        mLocalSubscriptionHandler.onUDPEventReceived(data, APPLIANCE_IP);
+        mLocalSubscriptionHandler.onUDPEventReceived(data, "air", APPLIANCE_IP);
 
         //verify(mSubscriptionEventListener).onSubscriptionEventReceived(VALID_DECRYPTED_LOCALFWEVENT);
         verify(mSubscriptionEventResponseHandler).post(any(Runnable.class));
@@ -128,11 +128,13 @@ public class LocalSubscriptionHandlerTest extends RobolectricTest {
     public void testUDPEncryptedAPEventWrongKey() {
         when(mNetworkNode.getEncryptionKey()).thenReturn("726783627");
         String data = VALID_ENCRYPTED_LOCALAIRPORTVENT;
-        mLocalSubscriptionHandler.onUDPEventReceived(data, APPLIANCE_IP);
+        mLocalSubscriptionHandler.onUDPEventReceived(data, "air", APPLIANCE_IP);
 
         //verify(mSubscriptionEventListener,never()).onSubscriptionEventReceived(VALID_DECRYPTED_LOCALAIRPORTEVENT);
         verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
+
+    // TODO Tests where no port is provided (null or "")
 
     private class LocalSubscriptionHandlerImpl extends LocalSubscriptionHandler {
 

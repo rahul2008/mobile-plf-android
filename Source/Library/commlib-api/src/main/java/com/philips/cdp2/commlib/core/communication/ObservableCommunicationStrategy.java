@@ -34,9 +34,9 @@ public abstract class ObservableCommunicationStrategy implements CommunicationSt
         subscriptionEventListeners.remove(listener);
     }
 
-    protected void notifySubscriptionEventListeners(@NonNull final String data) {
+    protected void notifySubscriptionEventListeners(@NonNull final String portName, @NonNull final String data) {
         for (SubscriptionEventListener listener : subscriptionEventListeners) {
-            listener.onSubscriptionEventReceived(data);
+            listener.onSubscriptionEventReceived(portName, data);
         }
     }
 
