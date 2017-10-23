@@ -37,11 +37,6 @@
             android:layout_height="wrap_content"
             android:hint="@string/moment_type_label" />
 
-        <EditText
-            android:id="@+id/et_moment_orderBY"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/moment_orderBy_label" />
 
         <EditText
             android:id="@+id/et_moment_pageLimit"

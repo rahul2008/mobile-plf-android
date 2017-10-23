@@ -145,6 +145,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
             builder.orderBy("dateTime", true);
         else
             builder.orderBy("dateTime", false);
+         builder.offset((long) paginationModel.getPageNumber()).limit((long) paginationModel.getPageLimit());
         List<OrmMoment> ormMoments = getActiveMoments(momentDao.query(builder.prepare()));
         dbFetchRequestListener.onFetchSuccess((List) ormMoments);
     }
@@ -163,6 +164,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
             builder.orderBy("dateTime", true);
         else
             builder.orderBy("dateTime", false);
+        builder.offset((long) paginationModel.getPageNumber()).limit((long) paginationModel.getPageLimit());
         List<OrmMoment> ormMoments = getActiveMoments(momentDao.query(builder.prepare()));
         dbFetchRequestListener.onFetchSuccess((List) ormMoments);
     }

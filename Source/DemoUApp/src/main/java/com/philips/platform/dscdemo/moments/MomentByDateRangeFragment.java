@@ -51,8 +51,6 @@ public class MomentByDateRangeFragment extends DSBaseFragment
     private MomentAdapter mMomentAdapter;
     private ArrayList<? extends Moment> mMomentList = new ArrayList();
     private String mMomentType;
-    private Pagination mDSPagination;
-    private int mPageLimit;
     private Date mStartDate;
     private Date mEndDate;
 
@@ -60,7 +58,6 @@ public class MomentByDateRangeFragment extends DSBaseFragment
     private EditText mMomentTypeEt;
     private EditText mMomentStartDateEt;
     private EditText mMomentEndDateEt;
-    private EditText mMomentOrderByEt;
     private EditText mMomentPageLimitEt;
     private EditText mPageNumberEt;
     private Button mFetchByDateTypeBtn;
@@ -110,7 +107,6 @@ public class MomentByDateRangeFragment extends DSBaseFragment
         mMomentTypeEt = (EditText) view.findViewById(R.id.et_moment_type);
         mMomentStartDateEt = (EditText) view.findViewById(R.id.et_moment_startDate);
         mMomentEndDateEt = (EditText) view.findViewById(R.id.et_moment_endDate);
-        mMomentOrderByEt = (EditText) view.findViewById(R.id.et_moment_orderBY);
         mMomentPageLimitEt = (EditText) view.findViewById(R.id.et_moment_pageLimit);
         mPageNumberEt = (EditText) view.findViewById(R.id.et_moment_pageNumber);
         mMomentOrdering = (Spinner) view.findViewById(R.id.momentOrdering);
@@ -225,15 +221,25 @@ public class MomentByDateRangeFragment extends DSBaseFragment
     }
 
     private void fetchMomentByDateRangeAndType() {
-        if (mMomentType != null && !mMomentType.isEmpty()) {
-            mMomentPresenter.fetchMomentByDateRangeAndType(mMomentType, mStartDate, mEndDate, createPagination(), this);
-        } else {
+        if (mMomentType == null || mMomentType.isEmpty()) {
             Toast.makeText(mContext, "Please enter the valid moment type", Toast.LENGTH_SHORT).show();
+        } else if (mStartDate == null && mEndDate == null) {
+            Toast.makeText(mContext, "Please enter startDate and endDate", Toast.LENGTH_SHORT).show();
+        } else if (mStartDate !=null && mEndDate != null && mStartDate.after(mEndDate)) {
+            Toast.makeText(mContext, "Please enter the valid startDate and endDate", Toast.LENGTH_SHORT).show();
+        } else {
+            mMomentPresenter.fetchMomentByDateRangeAndType(mMomentType, mStartDate, mEndDate, createPagination(), this);
         }
     }
 
     private void fetchMomentByDateRange() {
-        mMomentPresenter.fetchMomentByDateRange(mStartDate, mEndDate, createPagination(), this);
+        if (mStartDate == null && mEndDate == null) {
+            Toast.makeText(mContext, "Please enter startDate and endDate", Toast.LENGTH_SHORT).show();
+        }else if (mStartDate != null && mEndDate !=null && mStartDate.after(mEndDate)) {
+            Toast.makeText(mContext, "Please enter the valid startDate and endDate", Toast.LENGTH_SHORT).show();
+        } else {
+            mMomentPresenter.fetchMomentByDateRange(mStartDate, mEndDate, createPagination(), this);
+        }
     }
 
     @Override
@@ -255,14 +261,19 @@ public class MomentByDateRangeFragment extends DSBaseFragment
     }
 
     private Pagination createPagination() {
-        mDSPagination = new Pagination();
-        mDSPagination.setOrderBy(mMomentOrderByEt.getText().toString().trim());
+        Pagination mDSPagination = new Pagination();
         if (mMomentOrdering.getSelectedItem().toString().equalsIgnoreCase(DSPagination.DSPaginationOrdering.DESCENDING.toString()))
             mDSPagination.setOrdering(DSPagination.DSPaginationOrdering.DESCENDING);
         else
             mDSPagination.setOrdering(DSPagination.DSPaginationOrdering.ASCENDING);
-        mDSPagination.setPageLimit(Integer.parseInt(mMomentPageLimitEt.getText().toString().trim()));
-        mDSPagination.setPageNumber(Integer.parseInt(mPageNumberEt.getText().toString().trim()));
+
+        if(mMomentPageLimitEt.getText() != null && !mMomentPageLimitEt.getText().toString().equals("")) {
+            mDSPagination.setPageLimit(Integer.parseInt(mMomentPageLimitEt.getText().toString()));
+        }
+
+        if(mPageNumberEt.getText() != null && !mPageNumberEt.getText().toString().equals("")) {
+            mDSPagination.setPageNumber(Integer.parseInt(mPageNumberEt.getText().toString().trim()));
+        }
         return mDSPagination;
     }
 

@@ -10,6 +10,7 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
+import com.philips.platform.core.datatypes.DSPagination;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
@@ -37,6 +38,7 @@ import com.philips.platform.core.events.GetSubjectProfileListRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileRequestEvent;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLatestMomentByTypeRequest;
+import com.philips.platform.core.events.LoadMomentsByDate;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
@@ -75,8 +77,11 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -202,6 +207,9 @@ public class DataServicesManagerTest {
     @Mock
     Settings settingsMock;
 
+    @Mock
+    DSPagination paginationModel;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -246,6 +254,28 @@ public class DataServicesManagerTest {
     public void ShouldPostFetchLatestMomentByType_WhenFetchIsCalled() throws Exception {
         tracker.fetchLatestMomentByType(MomentType.TEMPERATURE, dbFetchRequestListner);
         verify(eventingMock).post(any(LoadLatestMomentByTypeRequest.class));
+    }
+
+    @Test
+    public void ShouldPostFetchMomentByDateType_WhenFetchIsCalled() throws Exception {
+        String myFormat = "MM/dd/yy";
+        tracker.fetchLatestMomentByType(MomentType.TEMPERATURE, dbFetchRequestListner);
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        Date startDate = sdf.parse("10/11/17");
+        Date endDate = sdf.parse("10/23/17");
+        tracker.fetchMomentWith(MomentType.TEMPERATURE,startDate,endDate,paginationModel,dbFetchRequestListner);
+        verify(eventingMock).post(any(LoadMomentsByDate.class));
+    }
+
+    @Test
+    public void ShouldPostFetchMomentByDateRange_WhenFetchIsCalled() throws Exception {
+        String myFormat = "MM/dd/yy";
+        tracker.fetchLatestMomentByType(MomentType.TEMPERATURE, dbFetchRequestListner);
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        Date startDate = sdf.parse("10/11/17");
+        Date endDate = sdf.parse("10/23/17");
+        tracker.fetchMomentWith(startDate,endDate,paginationModel,dbFetchRequestListner);
+        verify(eventingMock).post(any(LoadMomentsByDate.class));
     }
 
     @Test
