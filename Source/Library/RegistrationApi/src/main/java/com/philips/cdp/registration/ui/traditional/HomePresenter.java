@@ -377,10 +377,10 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             homeContract.initSuccess();
             if (deligateFlow == FLOWDELIGATE.LOGIN) {
-                homeContract.navigateToCreateAccount();
+                homeContract.navigateToLogin();
             }
             if (deligateFlow == FLOWDELIGATE.CREATE) {
-                homeContract.navigateToLogin();
+                homeContract.navigateToCreateAccount();
             }
             if (deligateFlow == FLOWDELIGATE.SOCIALPROVIDER) {
                 if (provider.equalsIgnoreCase("wechat")) {
