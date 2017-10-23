@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:text="Reminder"
-            android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="16sp" />
 
         <com.philips.platform.uid.view.widget.Label

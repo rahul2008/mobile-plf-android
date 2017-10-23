@@ -18,7 +18,6 @@ import com.americanwell.sdk.entity.billing.PaymentMethod;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
@@ -30,7 +29,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Map;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -101,6 +99,7 @@ public class THSCreditCardBillingAddressPresenterTest {
         when(thsConsumermock.getConsumer()).thenReturn(consumerMock);
         when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
         mTHSCreditCardBillingAddressPresenter = new THSCreditCardBillingAddressPresenter(thsCreditCardBillingAddressFragment);
+        when(thsCreditCardBillingAddressFragment.isFragmentAttached()).thenReturn(true);
     }
 
     @Test(expected = NullPointerException.class)

@@ -131,12 +131,12 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     @Override
     public void onResume() {
         super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_COST_SUMMARY,null,null);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Cost", true);
         }
         alertDialogFragmentCreateVisit = (AlertDialogFragment) getFragmentManager().findFragmentByTag(THS_COST_SUMMARY_CREATE_VISIT_ERROR);
         alertDialogFragmentCouponCode = (AlertDialogFragment) getFragmentManager().findFragmentByTag(THS_COST_SUMMARY_COUPON_CODE_ERROR);
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_COST_SUMMARY, null, null);
         mPresenter.getPaymentMethod();
         mPresenter.fetchExistingSubscription();
     }

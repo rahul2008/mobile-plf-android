@@ -15,10 +15,14 @@ import android.widget.ImageView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.visit.THSConfirmationDialogFragment;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
+
+
+import static com.philips.platform.ths.utility.THSConstants.THS_INSURANCE_NOT_VERIFIED;
 
 public class THSInsuranceNotVerifiedDialogFragment extends DialogFragment implements View.OnClickListener {
 
@@ -70,5 +74,10 @@ public class THSInsuranceNotVerifiedDialogFragment extends DialogFragment implem
             mPresenter.onEvent(R.id.ths_confirmation_dialog_secondary_button_label);
 
         }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_INSURANCE_NOT_VERIFIED, null, null);
     }
 }

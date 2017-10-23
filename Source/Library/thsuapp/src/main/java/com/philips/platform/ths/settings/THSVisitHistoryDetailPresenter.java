@@ -32,6 +32,7 @@ import java.io.OutputStream;
 import java.util.Date;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisitReportAttachmentCallback<FileAttachment,SDKError> {
 
@@ -57,19 +58,23 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
 
     @Override
     public void onResponse(FileAttachment fileAttachment, SDKError sdkError) {
-        if (sdkError != null) {
-            mThsVisitHistoryDetailFragment.showToast(sdkError.getSDKErrorReason().name());
-            return;
-        }
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","reportDownloaded");
-        THSFileUtils fileUtils = new THSFileUtils();
+        if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
+            if (sdkError != null) {
+                mThsVisitHistoryDetailFragment.showToast(sdkError.getSDKErrorReason().name());
+                return;
+            }
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "reportDownloaded");
+            THSFileUtils fileUtils = new THSFileUtils();
 
-        fileUtils.openAttachment(mThsVisitHistoryDetailFragment.getContext(), fileAttachment);
+            fileUtils.openAttachment(mThsVisitHistoryDetailFragment.getContext(), fileAttachment);
+        }
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        mThsVisitHistoryDetailFragment.showToast(throwable.getMessage());
+        if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
+            mThsVisitHistoryDetailFragment.showToast(throwable.getMessage());
+        }
     }
 
     public void getVisitReportDetail(VisitReport visitReport){
@@ -78,14 +83,18 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
             THSManager.getInstance().getVisitReportDetail(mThsVisitHistoryDetailFragment.getContext(), visitReport, new THSVisitReportDetailCallback<VisitReportDetail, SDKError>() {
                 @Override
                 public void onResponse(VisitReportDetail visitReportDetail, SDKError sdkError) {
-                    mThsVisitHistoryDetailFragment.hideProgressBar();
-                    mThsVisitHistoryDetailFragment.updateView(visitReportDetail);
+                    if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
+                        mThsVisitHistoryDetailFragment.hideProgressBar();
+                        mThsVisitHistoryDetailFragment.updateView(visitReportDetail);
+                    }
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    mThsVisitHistoryDetailFragment.hideProgressBar();
-                    mThsVisitHistoryDetailFragment.showToast("Failed to get the details");
+                    if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
+                        mThsVisitHistoryDetailFragment.hideProgressBar();
+                        mThsVisitHistoryDetailFragment.showToast("Failed to get the details");
+                    }
                 }
             });
         } catch (AWSDKInstantiationException e) {

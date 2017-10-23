@@ -23,6 +23,8 @@ import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.CVV_HELP_TEXT;
 import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 
 public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymentCallback.THSgetPaymentMethodCallBack<THSPaymentMethod, THSSDKError> {
@@ -140,15 +142,15 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
             int year;
 
             try {
-                month=Integer.parseInt(expirationMonth);
-                year=Integer.parseInt(expirationYear);
+                month = Integer.parseInt(expirationMonth);
+                year = Integer.parseInt(expirationYear);
                 bundle.putInt("expirationMonth", month);
                 bundle.putInt("expirationYear", year);
             } catch (Exception e) {
                 mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
                 return;
             }
-            if(month>12){
+            if (month > 12) {
                 mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
                 return;
             }
@@ -166,6 +168,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
                 // if expiration date is invalid
                 mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
             } else {
+                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "paymentMethodsAdded");
                 bundle.putString("CVVcode", CVVcode);
                 if (null != mPaymentMethod && null != mPaymentMethod.getBillingAddress()) {
                     bundle.putParcelable("address", mPaymentMethod.getBillingAddress());
@@ -182,16 +185,20 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
     /////////start of getPaymentMethod callback ////////////
     @Override
     public void onGetPaymentMethodResponse(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError) {
-        mTHSCreditCardDetailFragment.hideProgressBar();
-        if (null != tHSPaymentMethod && null != tHSPaymentMethod.getPaymentMethod()) {
-            mPaymentMethod = tHSPaymentMethod.getPaymentMethod();
-            mTHSCreditCardDetailFragment.mCardHolderNameEditText.setText(mPaymentMethod.getBillingName());
+        if (null != mTHSCreditCardDetailFragment && mTHSCreditCardDetailFragment.isFragmentAttached()) {
+            mTHSCreditCardDetailFragment.hideProgressBar();
+            if (null != tHSPaymentMethod && null != tHSPaymentMethod.getPaymentMethod()) {
+                mPaymentMethod = tHSPaymentMethod.getPaymentMethod();
+                mTHSCreditCardDetailFragment.mCardHolderNameEditText.setText(mPaymentMethod.getBillingName());
+            }
         }
     }
 
     @Override
     public void onGetPaymentFailure(Throwable throwable) {
-        mTHSCreditCardDetailFragment.hideProgressBar();
+        if (null != mTHSCreditCardDetailFragment && mTHSCreditCardDetailFragment.isFragmentAttached()) {
+            mTHSCreditCardDetailFragment.hideProgressBar();
+        }
     }
     /////////end of getPaymentMethod callback ////////////
 

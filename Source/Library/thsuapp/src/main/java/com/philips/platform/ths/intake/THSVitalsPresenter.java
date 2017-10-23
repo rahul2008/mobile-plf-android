@@ -21,6 +21,7 @@ import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback<THSVitals, THSSDKError>, THSUpdateVitalsCallBack {
     private THSBaseFragment mPthBaseFragment;
@@ -36,6 +37,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
         if (componentID == R.id.vitals_continue_btn) {
             if(thsvItalsUIInterface.validate()){
                 thsvItalsUIInterface.updateVitalsData();
+
                 try {
                     THSManager.getInstance().updateVitals(mPthBaseFragment.getContext(), thsvItalsUIInterface.getTHSVitals(), this);
                 } catch (AWSDKInstantiationException e) {
@@ -54,7 +56,9 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
 
     @Override
     public void onResponse(THSVitals thsVitals, THSSDKError var2) {
-        thsvItalsUIInterface.updateUI(thsVitals);
+        if(null!=mPthBaseFragment && mPthBaseFragment.isFragmentAttached()) {
+            thsvItalsUIInterface.updateUI(thsVitals);
+        }
     }
 
     @Override
@@ -64,23 +68,28 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
 
     @Override
     public void onUpdateVitalsValidationFailure(Map<String, ValidationReason> map) {
-        mPthBaseFragment.showToast("Vitals Validation Failure");
+        if(null!=mPthBaseFragment && mPthBaseFragment.isFragmentAttached()) {
+            mPthBaseFragment.showToast("Vitals Validation Failure");
+        }
     }
 
     @Override
     public void onUpdateVitalsResponse(SDKError sdkError) {
-        if (sdkError == null) {
-            tagSuccess();
-            thsvItalsUIInterface.launchMedicationFragment();
-            mPthBaseFragment.showToast("UPDATE SUCCESS");
+        if(null!=mPthBaseFragment && mPthBaseFragment.isFragmentAttached()) {
+            if (sdkError == null) {
+                tagSuccess();
+                thsvItalsUIInterface.launchMedicationFragment();
+                mPthBaseFragment.showToast("UPDATE SUCCESS");
+            } else
+                mPthBaseFragment.showToast("UPDATE FAILED");
         }
-        else
-            mPthBaseFragment.showToast("UPDATE FAILED");
     }
 
     @Override
     public void onUpdateVitalsFailure(Throwable throwable) {
-        mPthBaseFragment.showToast("onUpdateVitalsFailure throwable");
+        if(null!=mPthBaseFragment && mPthBaseFragment.isFragmentAttached()) {
+            mPthBaseFragment.showToast("onUpdateVitalsFailure throwable");
+        }
     }
 
     public boolean checkIfValueEntered(EditText editText) {
@@ -89,10 +98,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
 
 
     private void tagSuccess(){
-        HashMap<String, String> map= new HashMap<String, String>();
-        map.put("step2VitalsForVisit",((THSVitalsFragment) mPthBaseFragment).tagActions);
-        map.put("specialEvents","step2VitalsAdded");
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, map);
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, "step2VitalsAdded");
 
     }
     int stringToInteger(String value) {

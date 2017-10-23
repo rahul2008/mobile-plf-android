@@ -31,6 +31,10 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Map;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_FLOATING_BUTTON;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
+
 public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCallBack<THSVisitContext, THSSDKError>, THSUploadDocumentCallback {
     protected THSBaseFragment thsBaseView;
     protected THSProviderInfo mThsProviderInfo;
@@ -79,6 +83,8 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     public void onEvent(int componentID) {
         if (componentID == R.id.continue_btn) {
             ((THSSymptomsFragment) thsBaseView).updateOtherTopic();
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "step1SymptomsForVisit",  ((THSSymptomsFragment) thsBaseView).tagActions);
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step1SymptomsAdded");
             final THSVitalsFragment fragment = new THSVitalsFragment();
             fragment.setFragmentLauncher(thsBaseView.getFragmentLauncher());
             thsBaseView.addFragment(fragment, THSVitalsFragment.TAG, null, true);
@@ -87,7 +93,9 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
     @Override
     public void onResponse(THSVisitContext THSVisitContext, THSSDKError THSSDKError) {
-        updateSymptoms(THSVisitContext);
+        if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
+            updateSymptoms(THSVisitContext);
+        }
     }
 
     private void updateSymptoms(THSVisitContext THSVisitContext) {
@@ -101,7 +109,9 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
     @Override
     public void onFailure(Throwable throwable) {
-        thsBaseView.hideProgressBar();
+        if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
+            thsBaseView.hideProgressBar();
+        }
     }
 
     void getVisitContext() {
@@ -128,7 +138,9 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         THSManager.getInstance().getVisitContextWithOnDemandSpeciality(thsBaseView.getContext(), onDemandSpecialties, new THSVisitContextCallBack<THSVisitContext, THSSDKError>() {
             @Override
             public void onResponse(THSVisitContext pthVisitContext, THSSDKError thssdkError) {
-                updateSymptoms(pthVisitContext);
+                if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
+                    updateSymptoms(pthVisitContext);
+                }
             }
 
             @Override
@@ -151,23 +163,28 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
     @Override
     public void onUploadValidationFailure(Map<String, ValidationReason> map) {
-        thsBaseView.showToast("validation failure");
+        if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
+            thsBaseView.showToast("validation failure");
+        }
     }
 
     @Override
     public void onUploadDocumentSuccess(DocumentRecord documentRecord, SDKError sdkError) {
-        if (null != documentRecord && null == sdkError) {
-            thsBaseView.showToast("Success with Document name"+documentRecord.getName());
-            ((THSSymptomsFragment)thsBaseView).updateDocumentRecordList(documentRecord);
-        } else {
-            thsBaseView.showToast("upload failed with sdk error"+sdkError.getMessage());
+        if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
+            if (null != documentRecord && null == sdkError) {
+                thsBaseView.showToast("Success with Document name" + documentRecord.getName());
+                ((THSSymptomsFragment) thsBaseView).updateDocumentRecordList(documentRecord);
+            } else {
+                thsBaseView.showToast("upload failed with sdk error" + sdkError.getMessage());
+            }
         }
-
     }
 
     @Override
     public void onError(Throwable throwable) {
-        thsBaseView.showToast("failure : " + throwable.getLocalizedMessage());
-        thsBaseView.hideProgressBar();
+        {
+            thsBaseView.showToast("failure : " + throwable.getLocalizedMessage());
+            thsBaseView.hideProgressBar();
+        }
     }
 }

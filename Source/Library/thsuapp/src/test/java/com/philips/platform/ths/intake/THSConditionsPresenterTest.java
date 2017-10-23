@@ -1,6 +1,9 @@
 package com.philips.platform.ths.intake;
 
+import android.app.Activity;
 import android.os.Bundle;
+
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import com.americanwell.sdk.AWSDK;
@@ -19,8 +22,11 @@ import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.Robolectric;
+import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +40,7 @@ import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 public class THSConditionsPresenterTest {
 
@@ -46,7 +53,12 @@ public class THSConditionsPresenterTest {
     AWSDK awsdkMock;
 
     @Mock
-    FragmentActivity activityMock;
+    FragmentActivity fragmentActivityMock;
+
+
+
+    @Mock
+    Activity mActivity;
 
     @Mock
     ConsumerManager consumerManagerMock;
@@ -78,9 +90,11 @@ public class THSConditionsPresenterTest {
     @Mock
     AppTaggingInterface appTaggingInterface;
 
+
+
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        initMocks(this);
         thsMedicalConditionsPresenter = new THSMedicalConditionsPresenter(pTHBaseViewMock);
         THSManager.getInstance().setAwsdk(awsdkMock);
         THSManager.getInstance().setPTHConsumer(pthConsumerMock);
@@ -90,7 +104,9 @@ public class THSConditionsPresenterTest {
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
         when(pthConsumerMock.getConsumer()).thenReturn(consumerMock);
-        when(pTHBaseViewMock.getFragmentActivity()).thenReturn(activityMock);
+        when(pTHBaseViewMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
+        when(pTHBaseViewMock.isFragmentAttached()).thenReturn(true);
+
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
     }
 

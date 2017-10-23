@@ -30,6 +30,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+
+//import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_APPOINTMENT_PROVIDER_NOT_AVAILABLE;
+
+
 public class THSProviderNotAvailableFragment extends THSAvailableProviderListBasedOnDateFragment implements View.OnClickListener{
     public static final String TAG = THSProviderNotAvailableFragment.class.getSimpleName();
 
@@ -145,4 +149,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
     public void setDate(Date mDate) {
         this.mDate = mDate;
     }
+
+
+
 }

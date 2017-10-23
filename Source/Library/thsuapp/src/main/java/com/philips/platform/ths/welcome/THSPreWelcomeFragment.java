@@ -14,7 +14,10 @@ import android.view.ViewGroup;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_CONFIRM_T_AND_C;
 
 public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnClickListener{
     public static final String TAG = THSPreWelcomeFragment.class.getSimpleName();
@@ -37,5 +40,11 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
         if(viewId == R.id.ths_go_see_provider){
             mThsPreWelcomeScreenPresenter.onEvent(R.id.ths_go_see_provider);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_CONFIRM_T_AND_C,null,null);
     }
 }

@@ -14,7 +14,9 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
@@ -23,10 +25,12 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.ths.uappclasses.THSVisitCompletionListener;
 import com.philips.platform.ths.uappclasses.THSMicroAppDependencies;
 import com.philips.platform.ths.uappclasses.THSMicroAppInterfaceImpl;
 import com.philips.platform.ths.uappclasses.THSMicroAppLaunchInput;
 import com.philips.platform.ths.uappclasses.THSMicroAppSettings;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -41,7 +45,7 @@ import com.philips.platform.uid.utils.UIDActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends UIDActivity implements ActionBarListener, UserRegistrationListener, UserRegistrationUIEventListener {
+public class MainActivity extends UIDActivity implements ActionBarListener, UserRegistrationListener, UserRegistrationUIEventListener,THSVisitCompletionListener {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_Bright;
@@ -153,10 +157,11 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
     }
 
     private void launchAmwell() {
-        PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input");
+        PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input", this);
         PTHMicroAppInterface = new THSMicroAppInterfaceImpl();
         PTHMicroAppInterface.init(new THSMicroAppDependencies(((THSDemoApplication) this.getApplicationContext()).getAppInfra()), new THSMicroAppSettings(this.getApplicationContext()));
         ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT,themeConfiguration,R.style.Theme_DLS_GroupBlue_Bright,null);
+
         PTHMicroAppInterface.launch(activityLauncher, PTHMicroAppLaunchInput);
     }
 
@@ -195,5 +200,12 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);
+    }
+
+    @Override
+    public void onTHSVisitComplete(boolean isTHSVisitComplete) {
+
+        Toast.makeText(this,"onTHSVisitComplete is Called"+Boolean.toString(isTHSVisitComplete),Toast.LENGTH_LONG).show();
+        Log.d(this.getClass().getName(),Boolean.toString(isTHSVisitComplete));
     }
 }

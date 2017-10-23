@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/ths_scedule_appointment"
-        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         style="@style/UIDLabel.GridViewHeaderText"
         android:textSize="16sp"
         android:padding="16dp"
@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:text="@string/ths_no_available_appointments"
-        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         style="@style/UIDLabel.RecyclerViewHeader"
         android:textSize="16sp"
         android:paddingLeft="16dp"
@@ -91,7 +91,7 @@
         android:textSize="@dimen/uid_grid_descrption_size"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor"
+        android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
         android:layout_marginBottom="12dp"
         android:text="@string/ths_select_other_provider"/>
 

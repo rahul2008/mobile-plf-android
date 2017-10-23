@@ -12,11 +12,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -40,6 +42,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static com.philips.platform.ths.utility.THSConstants.THS_MEDICATION_PAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_MEDICATION_SEARCH_PAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_SEARCH_PAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEARCH_PHARMACY;
 
 public class THSSearchFragment extends THSBaseFragment implements SearchBox.QuerySubmitListener, ListView.OnItemClickListener, TextWatcher {
     public static final String TAG = THSSearchFragment.class.getSimpleName();
@@ -105,29 +111,37 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        searchBox = (SearchBox) menu.findItem(R.id.search_pharmacy_menu).getActionView();
-        searchBox.setQuerySubmitListener(this);
-        searchBox.setQuery(searchBox.getQuery());
-        String searchBoxHint = "";
-        switch (searchType) {
-            case THSConstants.MEDICATION_SEARCH_CONSTANT:
-                searchBox.getSearchTextView().addTextChangedListener(this);
-                searchBoxHint = getActivity().getResources().getString(R.string.ths_search_medication);
-                break;
-            case THSConstants.PROVIDER_SEARCH_CONSTANT:
-                searchBox.getSearchTextView().addTextChangedListener(this);
-                searchBoxHint = getActivity().getResources().getString(R.string.ths_search_provider);
-                break;
-            case THSConstants.PHARMACY_SEARCH_CONSTANT:
-                searchBoxHint = getActivity().getResources().getString(R.string.ths_search_pharmacy);
-                break;
+        if(isFragmentAttached()) {
+            super.onPrepareOptionsMenu(menu);
+            MenuItem searchBoxitem = menu.findItem(R.id.search_pharmacy_menu);
+            final View view = new  com.philips.platform.uid.view.widget.SearchBox(getContext());
+            MenuItemCompat.setActionView(searchBoxitem, view);
+
+            searchBox = (SearchBox) menu.findItem(R.id.search_pharmacy_menu).getActionView();
+            searchBox.setQuerySubmitListener(this);
+            searchBox.setQuery(searchBox.getQuery());
+            String searchBoxHint = "";
+            switch (searchType) {
+                case THSConstants.MEDICATION_SEARCH_CONSTANT:
+                    searchBox.getSearchTextView().addTextChangedListener(this);
+                    searchBoxHint = getActivity().getResources().getString(R.string.ths_search_medication);
+                    THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_MEDICATION_SEARCH_PAGE,null,null);
+                    break;
+                case THSConstants.PROVIDER_SEARCH_CONSTANT:
+                    searchBox.getSearchTextView().addTextChangedListener(this);
+                    searchBoxHint = getActivity().getResources().getString(R.string.ths_search_provider);
+                    THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PROVIDER_SEARCH_PAGE,null,null);
+                    break;
+                case THSConstants.PHARMACY_SEARCH_CONSTANT:
+                    searchBoxHint = getActivity().getResources().getString(R.string.ths_search_pharmacy);
+                    THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SEARCH_PHARMACY,null,null);
+                    break;
+            }
+            searchBox.setSearchBoxHint(searchBoxHint);
+            searchBox.setDecoySearchViewHint(searchBoxHint);
+
+
         }
-        searchBox.setSearchBoxHint(searchBoxHint);
-        searchBox.setDecoySearchViewHint(searchBoxHint);
-
-
-
     }
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
