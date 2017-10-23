@@ -4,6 +4,7 @@
  */
 
 def errors = []
+BranchName = env.BRANCH_NAME
 
 node('Android') {
     timestamps {
