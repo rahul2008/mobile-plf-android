@@ -3,7 +3,7 @@
 <resources>
 <string name="PPR_NavBar_Title">Product registreren</string>
 <string name="PPR_RegYourProduct_Lbltxt">Registreer uw product en:</string>
-<string name="PPR_ReceiveUpdates_Lbltxt">- Ontvang belangrijke informatie over uw producten</string>
+<string name="PPR_ReceiveUpdates_Lbltxt">- Ontvang belangrijke informatie over je producten</string>
 <string name="PPR_Yes_Btntxt">Ja</string>
 <string name="PPR_RegLater_Btntxt">Nee, later registreren</string>
 <string name="PPR_AllProducts_Registered_Lbltxt">Alle producten die momenteel zijn gekoppeld aan deze app zijn geregistreerd!</string>

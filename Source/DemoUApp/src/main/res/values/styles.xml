@@ -18,7 +18,7 @@
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
     <style name="ThemeSettingsLabelText">
-        <item name="android:textColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
+        <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
         <item name="android:textSize">10sp</item>
         <item name="android:paddingStart">4dp</item>
         <item name="android:paddingTop">4dp</item>

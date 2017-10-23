@@ -34,7 +34,7 @@ public class ProductRegistrationApplication extends Application {
         UIDHelper.injectCalligraphyFonts();
         initAppInfra();
         initProductRegistration();
-        initRegistration(Configuration.EVALUATION);
+        initRegistration(Configuration.STAGING);
         RLog.enableLogging();
     }
 
