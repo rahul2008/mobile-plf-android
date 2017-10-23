@@ -1,6 +1,6 @@
 package com.philips.plataform.mya.model.listener;
 
-import com.philips.plataform.mya.model.error.ConsentError;
+import com.philips.plataform.mya.model.error.ServerError;
 import com.philips.plataform.mya.model.response.ConsentModel;
 
 import java.util.List;
@@ -11,5 +11,5 @@ import java.util.List;
 
 public interface ConsentResponseListener {
     void onResponseSuccessConsent(List<ConsentModel> responseData);
-    void onResponseFailureConsent(ConsentError consentError);
+    void onResponseFailureConsent(ServerError consentError);
 }

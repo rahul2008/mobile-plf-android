@@ -6,6 +6,7 @@ package com.philips.plataform.mya.model.request;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -18,12 +19,21 @@ import com.android.volley.Response.Listener;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.HurlStack;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
+import com.philips.plataform.mya.model.listener.RefreshTokenListener;
+import com.philips.plataform.mya.model.network.NetworkHelper;
+import com.philips.plataform.mya.model.session.SynchronizedNetwork;
+import com.philips.plataform.mya.model.session.SynchronizedNetworkListener;
 import com.philips.plataform.mya.model.utils.ConsentUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
+
+/**
+ * Created by Maqsood on 10/12/17.
+ */
 
 public class ConsentRequest extends Request<JsonArray> {
 
@@ -62,7 +72,7 @@ public class ConsentRequest extends Request<JsonArray> {
     }
 
     @Override
-    protected Response<JsonArray> parseNetworkResponse(NetworkResponse response) {
+    public Response<JsonArray> parseNetworkResponse(NetworkResponse response) {
         try {
             String jsonString = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers));
@@ -72,8 +82,10 @@ public class ConsentRequest extends Request<JsonArray> {
             return Response.success(jsonArray,
                     HttpHeaderParser.parseCacheHeaders(response));
         }catch (UnsupportedEncodingException e) {
+            postErrorResponseOnUIThread(new ParseError(e));
             return Response.error(new ParseError(e));
         } catch (Exception e) {
+            postErrorResponseOnUIThread(new ParseError(e));
             return Response.error(new ParseError(e));
         }
     }
@@ -84,8 +96,48 @@ public class ConsentRequest extends Request<JsonArray> {
     }
 
     @Override
-    public void deliverError(VolleyError error) {
-        postErrorResponseOnUIThread(error);
+    public void deliverError(final VolleyError error) {
+        Log.d("deliverError","init");
+        if (error instanceof AuthFailureError) {
+            Log.d("deliverError","AuthFailureError");
+            performRefreshToken(error);
+        }else {
+            postErrorResponseOnUIThread(error);
+        }
+    }
+
+    private void performRefreshToken(final VolleyError error) {
+        NetworkHelper.getInstance().refreshAccessToken(new RefreshTokenListener() {
+            @Override
+            public void onRefreshSuccess() {
+                persistRequestSend();
+            }
+
+            @Override
+            public void onRefreshFailed(int errCode) {
+                postErrorResponseOnUIThread(error);
+            }
+        });
+    }
+
+    private void persistRequestSend() {
+        final SynchronizedNetwork synchronizedNetwork = new SynchronizedNetwork(new HurlStack());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                synchronizedNetwork.performRequest(ConsentRequest.this, new SynchronizedNetworkListener() {
+                    @Override
+                    public void onSyncRequestSuccess(final Response<JsonArray> jsonObjectResponse) {
+                        postSuccessResponseOnUIThread(jsonObjectResponse.result);
+                    }
+
+                    @Override
+                    public void onSyncRequestError(final VolleyError volleyError) {
+                        postErrorResponseOnUIThread(volleyError);
+                    }
+                });
+            }
+        }).start();
     }
 
     private void postSuccessResponseOnUIThread(final JsonArray jsonArray) {

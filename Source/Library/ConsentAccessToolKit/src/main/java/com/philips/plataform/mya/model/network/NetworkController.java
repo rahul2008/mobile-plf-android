@@ -10,8 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonArray;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
+import com.philips.plataform.mya.model.error.ConsentNetworkError;
 import com.philips.plataform.mya.model.listener.RequestListener;
 import com.philips.plataform.mya.model.request.ConsentRequest;
 import com.philips.plataform.mya.model.utils.ConsentUtil;
@@ -23,33 +22,12 @@ import com.philips.plataform.mya.model.utils.ConsentUtil;
 public class NetworkController {
 
     private Context mContext;
-    private User mUser;
     public void sendConsentRequest(Context context, final int requestCode, final NetworkAbstractModel model, final RequestListener requestListener) {
         mContext = context;
-        mUser = new User(context);
         new Thread(new Runnable() {
             @Override
             public void run() {
-
-                //Need to change this
-                mUser.refreshLoginSession(new RefreshLoginSessionHandler() {
-                    @Override
-                    public void onRefreshLoginSessionSuccess() {
-                        Log.d("Refresh user","Success : ");
-                        sendRequest(requestCode, model, requestListener);
-                    }
-
-                    @Override
-                    public void onRefreshLoginSessionFailedWithError(int errorCode) {
-                        //Need to handle
-                        Log.d("Refresh user","failed : "+errorCode);
-                    }
-
-                    @Override
-                    public void onRefreshLoginSessionInProgress(String inProgress) {
-                        //Need to handle
-                    }
-                });
+                sendRequest(requestCode, model, requestListener);
             }
         }).start();
     }
@@ -61,13 +39,12 @@ public class NetworkController {
             public void onErrorResponse(final VolleyError error) {
                 Log.d("sendRequest ","failed : "+error.getMessage());
                 if (model.getUrl() != null && error != null) {
-                    //Need to handle
-                }
-                if (error != null && error.getMessage() != null) {
-                    //Need to handle
+                    Log.d("Error", "Response from Consent request onError =" + error
+                            .getLocalizedMessage() + " requestCode=" + requestCode + "in " +
+                            requestListener.getClass().getSimpleName() + " " + model.getUrl());
                 }
                 if (requestListener != null) {
-                    //Need to handle
+                    new ConsentNetworkError(error, requestCode, requestListener);
                 }
             }
         };
@@ -88,7 +65,8 @@ public class NetworkController {
                     requestListener.onResponseSuccess(msg);
 
                     if (model.getUrl() != null) {
-                        //Need to handle
+                        Log.d("Response", "Response =" + msg + " requestCode=" + requestCode + "in " +
+                                requestListener.getClass().getSimpleName() + "env = " + " " + model.getUrl());
                     }
                 }
             }
@@ -99,12 +77,10 @@ public class NetworkController {
     }
 
     ConsentRequest getConsentJsonRequest(final NetworkAbstractModel model, final Response.ErrorListener error, final Response.Listener<JsonArray> response) {
-        String url = model.getUrl();
-        url += "?applicationName=OneBackend&propositionName=OneBackendProp";
         Log.d("sendRequest ","header : "+model.requestHeader());
         Log.d("sendRequest","url : "+model.getUrl());
         Log.d("sendRequest","method : "+model.getMethod());
-        return new ConsentRequest(model.getMethod(), url,
+        return new ConsentRequest(model.getMethod(), model.getUrl(),
                 model.requestHeader(),model.requestBody(), response, error);
     }
 }

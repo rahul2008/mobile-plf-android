@@ -17,12 +17,16 @@ import java.util.Map;
 public class ConsentModelRequest extends NetworkAbstractModel {
 
     //This field has to remove later(URL should take from service discovery)
-    private String URL = "https://hdc-css-mst.cloud.pcftest.com/consent/";
+    private StringBuilder URL = new StringBuilder("https://hdc-css-mst.cloud.pcftest.com/consent/");
     private User mUser;
+    private String mApplicationName;
+    private String mPropositionName;
 
-    public ConsentModelRequest(User user, DataLoadListener dataLoadListener) {
+    public ConsentModelRequest(String applicationName, String propositionName, User user, DataLoadListener dataLoadListener) {
         super(user, dataLoadListener);
         mUser = user;
+        mApplicationName = applicationName;
+        mPropositionName = propositionName;
     }
 
     @Override
@@ -53,7 +57,7 @@ public class ConsentModelRequest extends NetworkAbstractModel {
 
     @Override
     public String getUrl() {
-        URL +=mUser.getHsdpUUID();
-        return URL;
+        URL.append(mUser.getHsdpUUID()+"?applicationName="+mApplicationName+"&propositionName="+mPropositionName);
+        return new String(URL);
     }
 }

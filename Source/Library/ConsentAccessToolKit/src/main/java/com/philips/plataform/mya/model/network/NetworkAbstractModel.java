@@ -20,7 +20,7 @@ public abstract class NetworkAbstractModel implements RequestListener {
 
     public interface DataLoadListener {
         void onModelDataLoadFinished(Message msg);
-        void onModelDataError(Message msg);
+        int onModelDataError(Message msg);
     }
 
     public NetworkAbstractModel(User user, DataLoadListener listener) {

@@ -16,11 +16,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.plataform.mya.model.error.ConsentError;
+import com.philips.plataform.mya.model.error.ServerError;
 import com.philips.plataform.mya.model.listener.ConsentResponseListener;
 import com.philips.plataform.mya.model.ConsentAccessToolKit;
 import com.philips.plataform.mya.model.response.ConsentModel;
 import com.philips.plataform.mya.model.response.ConsentStatus;
+import com.philips.plataform.mya.model.utils.ConsentUtil;
 import com.philips.platform.csw.CswBaseFragment;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uid.view.widget.Switch;
@@ -62,7 +63,7 @@ public class PermissionView extends CswBaseFragment implements
     private void getConsentStatus() {
         showProgressDialog();
         ConsentAccessToolKit consentAccessToolKit = new ConsentAccessToolKit();
-        consentAccessToolKit.getConsentDetails(getApplicationContext(),new ConsentResponseListener() {
+        consentAccessToolKit.getConsentDetails(getApplicationContext(), ConsentUtil.APPLICATION_NAME,ConsentUtil.PROPOSITION_NAME,new ConsentResponseListener() {
 
             @Override
             public void onResponseSuccessConsent(List<ConsentModel> responseData) {
@@ -79,7 +80,7 @@ public class PermissionView extends CswBaseFragment implements
             }
 
             @Override
-            public void onResponseFailureConsent(ConsentError consentError) {
+            public void onResponseFailureConsent(ServerError consentError) {
                 hideProgressDialog();
                 //Need to handle
                 Log.d(" Consent : ", "failed");
