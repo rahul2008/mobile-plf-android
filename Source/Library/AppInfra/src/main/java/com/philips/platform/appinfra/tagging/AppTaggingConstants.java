@@ -17,7 +17,7 @@ package com.philips.platform.appinfra.tagging;
 
    public static final String APPSID_KEY = "appsId";
 
-   public static final String LOCAL_TIMESTAMP_KEY = "localTimestamp";
+   public static final String LOCAL_TIMESTAMP_KEY = "localTimeStamp";
 
    public static final String UTC_TIMESTAMP_KEY = "UTCTimestamp";
 
