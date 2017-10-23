@@ -21,9 +21,12 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.activity.THSApplication;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.init.THSInitFragment;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSNetworkStateListener;
 import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
