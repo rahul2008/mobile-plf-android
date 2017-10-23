@@ -23,7 +23,7 @@ import android.widget.Toast;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.activity.THSApplication;
 import com.philips.platform.ths.utility.AmwellLog;
-import com.philips.platform.ths.utility.NetworkStateListener;
+import com.philips.platform.ths.utility.THSNetworkStateListener;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -34,7 +34,7 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 import static com.philips.platform.ths.utility.THSConstants.THS_USER_NOT_LOGGED_IN;
 
 
-public class THSBaseFragment extends Fragment implements THSBaseView,BackEventListener, NetworkStateListener.ConnectionReceiverListener {
+public class THSBaseFragment extends Fragment implements THSBaseView,BackEventListener, THSNetworkStateListener.ConnectionReceiverListener {
 
 
     public FragmentLauncher mFragmentLauncher;
@@ -43,12 +43,12 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
     protected final int SMALL = 0;
     protected final int MEDIUM = 1;
     protected final int BIG = 2;
-    private NetworkStateListener networkStateListener;
+    private THSNetworkStateListener networkStateListener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        networkStateListener =  new NetworkStateListener();
+        networkStateListener =  new THSNetworkStateListener();
         getActivity().registerReceiver(
                 networkStateListener,
                 new IntentFilter(

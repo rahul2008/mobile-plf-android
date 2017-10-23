@@ -2,7 +2,7 @@ package com.philips.platform.ths.activity;
 
 import android.app.Application;
 
-import com.philips.platform.ths.utility.NetworkStateListener;
+import com.philips.platform.ths.utility.THSNetworkStateListener;
 
 public class THSApplication extends Application {
 
@@ -22,7 +22,7 @@ public class THSApplication extends Application {
         return mInstance;
     }
 
-    public void setConnectionListener(NetworkStateListener.ConnectionReceiverListener listener) {
-        NetworkStateListener.connectionReceiverListener = listener;
+    public void setConnectionListener(THSNetworkStateListener.ConnectionReceiverListener listener) {
+        THSNetworkStateListener.connectionReceiverListener = listener;
     }
 }

@@ -8,7 +8,7 @@ import android.net.NetworkInfo;
 
 import com.philips.platform.ths.activity.THSApplication;
 
-public class NetworkStateListener extends BroadcastReceiver{
+public class THSNetworkStateListener extends BroadcastReceiver{
 
     public static ConnectionReceiverListener connectionReceiverListener;
 
