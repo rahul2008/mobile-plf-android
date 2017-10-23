@@ -121,12 +121,12 @@ android {
     signingConfigs {
         release
     }
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.philips.platform.appinfra.demo"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.5.6"
         resConfigs "en", "nl", "en-rGB", "zh-rCN"
@@ -150,10 +150,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.1.1'
-    compile 'com.android.support:design:25.1.1'
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar')
 
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar')
+    compile 'adobeMobileLibrary:adobeMobileLibrary:4.13.7'
     compile 'com.squareup.leakcanary:leakcanary-android:1.5'
     compile project(':DemoUApp')
 }
