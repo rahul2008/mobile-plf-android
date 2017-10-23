@@ -151,4 +151,10 @@ public class THSConstants {
     // end of tagging constants
 
     public static final String THS_USER_NOT_LOGGED_IN = "THS_USER_NOT_LOGGED_IN";
+
+    public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
+    public static final String KEY_COLOR_RANGE = "KEY_COLOR_RANGE";
+    public static final String KEY_CONTENT_COLOR = "KEY_CONTENT_COLOR";
+    public static final String KEY_NAVIGATION_COLOR = "KEY_NAVIGATION_COLOR";
+    public static final String KEY_ACCENT_RANGE = "KEY_ACCENT_RANGE";
 }

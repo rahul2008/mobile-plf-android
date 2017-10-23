@@ -17,14 +17,21 @@ import android.support.v7.widget.Toolbar;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.init.THSInitFragment;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfig;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -32,7 +39,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class THSLaunchActivity extends UIDActivity implements ActionBarListener {
 
     private FragmentManager fragmentManager;
-    private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_Bright;
     private Toolbar toolbar;
     private FragmentLauncher fragmentLauncher;
@@ -87,12 +93,30 @@ public class THSLaunchActivity extends UIDActivity implements ActionBarListener 
 
 
      public void initTheme() {
-        int themeIndex = getIntent().getIntExtra(KEY_ACTIVITY_THEME, DEFAULT_THEME);
-        if (themeIndex <= 0) {
-            themeIndex = DEFAULT_THEME;
+         int themeIndex = getIntent().getIntExtra(THSConstants.KEY_ACTIVITY_THEME, DEFAULT_THEME);
+         if (themeIndex <= 0) {
+             themeIndex = DEFAULT_THEME;
+         }
+         getTheme().applyStyle(themeIndex, true);
+
+         ColorRange colorRange = (ColorRange) getIntent().getSerializableExtra(THSConstants.KEY_COLOR_RANGE);
+         NavigationColor navigationColor = (NavigationColor) getIntent().getSerializableExtra(THSConstants.KEY_NAVIGATION_COLOR);
+         ContentColor contentColor = (ContentColor) getIntent().getSerializableExtra(THSConstants.KEY_CONTENT_COLOR);
+         AccentRange accentRange = (AccentRange) getIntent().getSerializableExtra(THSConstants.KEY_ACCENT_RANGE);
+
+         ThemeConfig[] configArray = getThemeConfigArray(colorRange, navigationColor, contentColor, accentRange);
+         UIDHelper.init(new ThemeConfiguration(this, configArray));
+     }
+
+    private ThemeConfig[] getThemeConfigArray(ThemeConfig... themeConfigs) {
+        List<ThemeConfig> configList = new ArrayList<>();
+        for (ThemeConfig config : themeConfigs) {
+            if (config != null) {
+                configList.add(config);
+            }
         }
-        getTheme().applyStyle(themeIndex, true);
-        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT));
+        ThemeConfig[] configArray = new ThemeConfig[configList.size()];
+        return configList.toArray(configArray);
     }
 
     @Override
