@@ -5,7 +5,10 @@
 package com.philips.cdp2.ews.viewmodel;
 
 import com.philips.cdp2.ews.BuildConfig;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
+import com.philips.cdp2.ews.util.StringProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,13 +27,22 @@ public class EWSGettingStartedViewModelTest {
     @Mock
     private Navigator navigatorMock;
 
+    @Mock
+    private StringProvider stringProviderMock;
+
+    @Mock
+    private HappyFlowContentConfiguration happyFlowContentConfigurationMock;
+
+    @Mock
+    private BaseContentConfiguration baseContentConfigurationMock;
+
     private EWSGettingStartedViewModel viewModel;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
 
-        viewModel = new EWSGettingStartedViewModel(navigatorMock);
+        viewModel = new EWSGettingStartedViewModel(navigatorMock, stringProviderMock, happyFlowContentConfigurationMock, baseContentConfigurationMock);
     }
 
     @Test

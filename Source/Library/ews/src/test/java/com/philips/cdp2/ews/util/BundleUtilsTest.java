@@ -53,7 +53,7 @@ public class BundleUtilsTest {
         Bundle mockBundle = mockIntent.getExtras();
         when(mockBundle.containsKey("key")).thenReturn(true);
         when(mockBundle.getParcelable("key")).thenReturn(mockBaseContentConfiguration);
-        BundleUtils.extractParcelableFromIntentOrNull(mockIntent, "key");
+        BundleUtils.extractParcelableFromIntentOrNull(mockBundle, "key");
     }
 
     @NonNull
