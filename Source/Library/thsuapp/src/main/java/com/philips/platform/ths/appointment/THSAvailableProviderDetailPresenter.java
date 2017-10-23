@@ -110,7 +110,10 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
 
                                             @Override
                                             public void onFailure(Throwable throwable) {
-                                                mThsBaseFragment.hideProgressBar();
+                                                if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+                                                    mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+                                                    mThsBaseFragment.hideProgressBar();
+                                                }
                                             }
                                         });
                             } catch (AWSDKInstantiationException e) {
@@ -121,6 +124,9 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
 
                         @Override
                         public void onProviderDetailsFetchError(Throwable throwable) {
+                            if(null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()){
+                                mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+                            }
                             mThsBaseFragment.hideProgressBar();
                         }
                     });
@@ -164,7 +170,10 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
 
     @Override
     public void onProviderDetailsFetchError(Throwable throwable) {
-        mThsBaseFragment.hideProgressBar();
+        if(null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()){
+            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mThsBaseFragment.hideProgressBar();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -177,12 +186,12 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
 
     @Override
     public void onResponse(Object o, SDKError sdkError) {
-        if(sdkError == null) {
+        if (sdkError == null) {
             mthsProviderDetailsDisplayHelper.launchConfirmAppointmentFragment(position);
-        }else {
-            if(sdkError.getSDKErrorReason()!=null && sdkError.getSDKErrorReason().name()!=null) {
+        } else {
+            if (sdkError.getSDKErrorReason() != null && sdkError.getSDKErrorReason().name() != null) {
                 mThsBaseFragment.showError(sdkError.getSDKErrorReason().name());
-            }else {
+            } else {
                 mThsBaseFragment.showToast(mThsBaseFragment.getString(R.string.something_went_wrong));
             }
         }
@@ -190,12 +199,10 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
 
     @Override
     public void onFailure(Throwable throwable) {
-        if (throwable!=null && throwable.getMessage()!=null) {
-            mThsBaseFragment.showToast(throwable.getMessage());
-        }else {
-            mThsBaseFragment.showToast(mThsBaseFragment.getString(R.string.something_went_wrong));
+        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mThsBaseFragment.hideProgressBar();
         }
-        mThsBaseFragment.hideProgressBar();
     }
 
     @Override
@@ -205,7 +212,9 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
 
     @Override
     public void onError(Throwable throwable) {
-
+        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+        }
     }
 
     @SuppressWarnings("unchecked")

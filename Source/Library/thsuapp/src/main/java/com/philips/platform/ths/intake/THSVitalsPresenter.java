@@ -19,7 +19,6 @@ import com.philips.platform.uid.view.widget.EditText;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback<THSVitals, THSSDKError>, THSUpdateVitalsCallBack {
@@ -61,7 +60,9 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
 
     @Override
     public void onFailure(Throwable var1) {
-
+        if(null!=mPthBaseFragment && mPthBaseFragment.isFragmentAttached()) {
+            mPthBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+        }
     }
 
     @Override
@@ -86,7 +87,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
     @Override
     public void onUpdateVitalsFailure(Throwable throwable) {
         if(null!=mPthBaseFragment && mPthBaseFragment.isFragmentAttached()) {
-            mPthBaseFragment.showToast("onUpdateVitalsFailure throwable");
+            mPthBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
         }
     }
 

@@ -119,6 +119,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
     public void onGetPaymentFailure(Throwable throwable) {
         if(null !=mTHSBillingAddressFragment && mTHSBillingAddressFragment.isFragmentAttached()) {
             AmwellLog.i("updatePayment", "failed");
+            mTHSBillingAddressFragment.showToast(R.string.ths_se_server_error_toast_message);
         }
     }
 

@@ -32,21 +32,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class THSProviderListPresenter implements THSProvidersListCallback, THSBasePresenter,THSOnDemandSpecialtyCallback<List<THSOnDemandSpeciality>,THSSDKError> {
+public class THSProviderListPresenter implements THSProvidersListCallback, THSBasePresenter, THSOnDemandSpecialtyCallback<List<THSOnDemandSpeciality>, THSSDKError> {
 
     private THSBaseFragment mThsBaseFragment;
     private THSProviderListViewInterface thsProviderListViewInterface;
     private List<THSOnDemandSpeciality> mThsOnDemandSpeciality;
 
 
-    public THSProviderListPresenter(THSBaseFragment uiBaseView, THSProviderListViewInterface thsProviderListViewInterface){
+    public THSProviderListPresenter(THSBaseFragment uiBaseView, THSProviderListViewInterface thsProviderListViewInterface) {
         this.mThsBaseFragment = uiBaseView;
         this.thsProviderListViewInterface = thsProviderListViewInterface;
     }
 
-    public void fetchProviderList(Consumer consumer, Practice practice){
+    public void fetchProviderList(Consumer consumer, Practice practice) {
         try {
-            getPthManager().getProviderList(mThsBaseFragment.getFragmentActivity(), practice,this);
+            getPthManager().getProviderList(mThsBaseFragment.getFragmentActivity(), practice, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -60,7 +60,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
     @Override
     public void onProvidersListReceived(List<THSProviderInfo> providerInfoList, SDKError sdkError) {
-        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             if (null != providerInfoList && providerInfoList.size() > 0 && null == sdkError) {
                 boolean providerAvailable = isProviderAvailable(providerInfoList);
                 updateFragment(providerInfoList, providerAvailable);
@@ -77,9 +77,9 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         thsProviderListViewInterface.updateProviderAdapterList(providerInfoList);
     }
 
-    boolean isProviderAvailable(List<THSProviderInfo> providerInfoList){
-        for (THSProviderInfo thsProviderInfo: providerInfoList) {
-            if(!ProviderVisibility.isOffline(thsProviderInfo.getVisibility())){
+    boolean isProviderAvailable(List<THSProviderInfo> providerInfoList) {
+        for (THSProviderInfo thsProviderInfo : providerInfoList) {
+            if (!ProviderVisibility.isOffline(thsProviderInfo.getVisibility())) {
                 return true;
             }
         }
@@ -88,7 +88,9 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
     @Override
     public void onProvidersListFetchError(Throwable throwable) {
-
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+        }
     }
 
     @Override
@@ -133,7 +135,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
     @Override
     public void onResponse(List<THSOnDemandSpeciality> onDemandSpecialties, THSSDKError sdkError) {
-        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             if (onDemandSpecialties == null || onDemandSpecialties.size() == 0) {
                 mThsBaseFragment.showToast("No OnDemandSpecialities available at present, please try after some time");
                 mThsBaseFragment.hideProgressBar();
@@ -144,13 +146,16 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
             bundle.putParcelable(THSConstants.THS_ON_DEMAND, onDemandSpecialties.get(0));
             final THSSymptomsFragment fragment = new THSSymptomsFragment();
             fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
-            mThsBaseFragment.addFragment(fragment, THSSymptomsFragment.TAG, bundle,true);
+            mThsBaseFragment.addFragment(fragment, THSSymptomsFragment.TAG, bundle, true);
             mThsBaseFragment.hideProgressBar();
         }
     }
 
     @Override
     public void onFailure(Throwable throwable) {
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+        }
 
     }
 }

@@ -84,7 +84,7 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
     @Override
     public void onFailure(Throwable throwable) {
         if(null!=thsPharmacyListViewListener && null!=thsPharmacyListViewListener.getFragmentActivity()) {
-            thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_fetch_error));
+            thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_se_server_error_toast_message));
             thsPharmacyListViewListener.hideProgressBar();
         }
 
@@ -113,6 +113,7 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
     @Override
     public void onUpdateFailure(Throwable throwable) {
         if(null!=thsPharmacyListViewListener && null!=thsPharmacyListViewListener.getFragmentActivity()) {
+            thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getString(R.string.ths_se_server_error_toast_message));
             thsPharmacyListViewListener.hideProgressBar();
         }
 

@@ -194,6 +194,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
     @Override
     public void onGetPaymentFailure(Throwable throwable) {
         if (null != mTHSCreditCardDetailFragment && mTHSCreditCardDetailFragment.isFragmentAttached()) {
+            mTHSCreditCardDetailFragment.showToast(R.string.ths_se_server_error_toast_message);
             mTHSCreditCardDetailFragment.hideProgressBar();
         }
     }

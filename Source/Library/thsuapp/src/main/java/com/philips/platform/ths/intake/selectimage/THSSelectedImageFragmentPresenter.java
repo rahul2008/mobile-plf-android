@@ -6,8 +6,6 @@
 
 package com.philips.platform.ths.intake.selectimage;
 
-import android.widget.Toast;
-
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.DocumentRecord;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -42,11 +40,13 @@ public class THSSelectedImageFragmentPresenter implements THSBasePresenter, THSD
     @Override
     public void onDeleteSuccess(Void voidResponse, SDKError sdkError) {
         thsSelectedImageFragmentViewCallback.updateProgreeDialog(false);
-        Toast.makeText(thsSelectedImageFragmentViewCallback.getFragmentActivity(),"Delete success",Toast.LENGTH_SHORT).show();
+        thsSelectedImageFragmentViewCallback.showToast(thsSelectedImageFragmentViewCallback.getFragmentActivity().getString(R.string.ths_delete_success_string));
+
     }
 
     @Override
     public void onError(Throwable throwable) {
-        Toast.makeText(thsSelectedImageFragmentViewCallback.getFragmentActivity(),"Delete failure"+throwable.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+        thsSelectedImageFragmentViewCallback.updateProgreeDialog(false);
+        thsSelectedImageFragmentViewCallback.showToast(thsSelectedImageFragmentViewCallback.getFragmentActivity().getString(R.string.ths_se_server_error_toast_message));
     }
 }

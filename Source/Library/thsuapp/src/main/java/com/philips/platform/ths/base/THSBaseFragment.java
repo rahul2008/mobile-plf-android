@@ -181,6 +181,13 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
         }
     }
 
+    public void showToast(int stringResource){
+        if (getContext() != null) {
+            //TODO: TO be removed
+            Toast.makeText(getContext(), stringResource, Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public boolean handleBackEvent() {
         return false;

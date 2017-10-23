@@ -104,6 +104,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     @Override
     public void onFailure(Throwable throwable) {
         if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
+            thsBaseView.showToast(R.string.ths_se_server_error_toast_message);
             thsBaseView.hideProgressBar();
         }
     }
@@ -139,7 +140,11 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
             @Override
             public void onFailure(Throwable throwable) {
-                thsBaseView.hideProgressBar();
+                if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
+                    thsBaseView.hideProgressBar();
+                    thsBaseView.showToast(R.string.ths_se_server_error_toast_message);
+                }
+
             }
         });
     }
@@ -177,7 +182,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     @Override
     public void onError(Throwable throwable) {
         {
-            thsBaseView.showToast("failure : " + throwable.getLocalizedMessage());
+            thsBaseView.showToast(R.string.ths_se_server_error_toast_message);
             thsBaseView.hideProgressBar();
         }
     }

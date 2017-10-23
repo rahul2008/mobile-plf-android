@@ -11,9 +11,9 @@ import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.pharmacy.THSGetPharmaciesCallback;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.providerslist.THSProvidersListCallback;
@@ -64,8 +64,8 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
     public void onFailure(Throwable throwable) {
 
         if(null!=uiBaseView && uiBaseView.isFragmentAttached()) {
-            AmwellLog.i("onFetchMedication", "failure");
-            uiBaseView.showToast("Search failure");
+            AmwellLog.i("onFetchMedication", "server failed to fetch");
+            uiBaseView.showToast(R.string.ths_se_server_error_toast_message);
         }
     }
 
@@ -128,7 +128,7 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
     public void onProvidersListFetchError(Throwable throwable) {
         if(null!=uiBaseView && uiBaseView.isFragmentAttached()) {
             AmwellLog.i("onFetchProvider", "failure");
-            ((THSBaseFragment) uiBaseView).showToast("Search failure");
+            ((THSBaseFragment) uiBaseView).showToast(R.string.ths_se_server_error_toast_message);
         }
     }
 

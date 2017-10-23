@@ -11,6 +11,7 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
@@ -59,7 +60,7 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
     @Override
     public void onUpdateFailure(Throwable throwable) {
         if(null!=thsBaseView && null!=thsBaseView.getFragmentActivity()) {
-            ((THSShippingAddressFragment) thsBaseView).showToast("Update Shipping address Failed");
+            ((THSShippingAddressFragment) thsBaseView).showToast(R.string.ths_se_server_error_toast_message);
         }
     }
 }

@@ -54,6 +54,9 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
 
     @Override
     public void onPracticesListFetchError(Throwable throwable) {
+        if(null!=uiBaseView && null!=uiBaseView.getFragmentActivity()) {
+            ((THSPracticeFragment) uiBaseView).showErrorToast();
+        }
     }
 
     void showProviderList(Practice practice){

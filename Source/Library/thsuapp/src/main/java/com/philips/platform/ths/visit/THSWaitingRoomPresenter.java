@@ -181,7 +181,9 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     @Override
     public void onPollFailure(@NonNull Throwable throwable) {
-
+        if(null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()){
+            mTHSWaitingRoomFragment.showToast(R.string.ths_se_server_error_toast_message);
+        }
     }
 
     @Override
@@ -197,6 +199,9 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     @Override
     public void onFailure(Throwable throwable) {
+        if(null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()){
+            mTHSWaitingRoomFragment.showToast(R.string.ths_se_server_error_toast_message);
+        }
         abondonCurrentVisit();
     }
 

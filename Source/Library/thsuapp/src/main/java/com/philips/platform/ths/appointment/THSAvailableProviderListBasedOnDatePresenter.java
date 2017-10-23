@@ -67,7 +67,7 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
 
     @Override
     public void onFailure(Throwable throwable) {
-        mThsBaseFragment.showToast("Available Providers list Failure");
+        mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
     }
 
     public void getAvailableProvidersBasedOnDate() throws AWSDKInstantiationException {

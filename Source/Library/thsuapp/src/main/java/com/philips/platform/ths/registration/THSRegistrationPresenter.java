@@ -75,12 +75,9 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
     public void onFailure(Throwable throwable) {
         if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
-            final String localizedMessage = throwable.getLocalizedMessage();
-            if (localizedMessage == null) {
-                mTHSBaseFragment.showToast(mTHSBaseFragment.getString(R.string.something_went_wrong));
-            } else {
-                mTHSBaseFragment.showToast(localizedMessage);
-            }
+
+                mTHSBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+
         }
     }
 

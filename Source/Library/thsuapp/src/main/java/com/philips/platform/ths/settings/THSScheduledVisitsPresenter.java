@@ -10,6 +10,7 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.AmwellLog;
@@ -77,6 +78,7 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
 
     public void setProgressBarVisibility(boolean isVisible) {
         if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
+            mThsScheduledVisitsFragment.showToast(R.string.ths_se_server_error_toast_message);
             if (!isVisible) {
                 mThsScheduledVisitsFragment.hideProgressBar();
             }

@@ -19,8 +19,6 @@ import android.widget.RelativeLayout;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
-import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -96,7 +94,9 @@ public class THSPracticeFragment extends THSBaseFragment{
                mPresenter.showProviderList(practice);
                }
         });
+    }
 
-
+    public void showErrorToast(){
+     showToast(R.string.ths_se_server_error_toast_message);
     }
 }

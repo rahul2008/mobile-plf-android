@@ -11,6 +11,7 @@ import android.os.Bundle;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.utility.AmwellLog;
@@ -89,6 +90,13 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
             ((THSMedicationFragment) mTHSBaseFragment).showExistingMedicationList(pTHMedication);
         }
 
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+                mTHSBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+        }
     }
     //////////////// end of call backs for get existing medicines//////////////
 

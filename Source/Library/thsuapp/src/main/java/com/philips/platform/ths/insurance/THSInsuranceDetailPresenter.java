@@ -235,6 +235,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
     public void onFailure(Throwable throwable) {
         if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             mTHSBaseFragment.hideProgressBar();
+            mTHSBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
             showInsuranceNotVerifiedDialog();
         }
 

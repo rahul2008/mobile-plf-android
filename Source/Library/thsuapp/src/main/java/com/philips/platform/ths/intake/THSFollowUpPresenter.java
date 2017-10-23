@@ -91,8 +91,10 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
 
     @Override
     public void onUpdateConsumerFailure(Throwable var1) {
-        thsFollowUpViewInterfaces.hideProgressButton();
-        mTHSFollowUpFragment.showToast(var1.getMessage());
+        if(null != mTHSFollowUpFragment && mTHSFollowUpFragment.isFragmentAttached()){
+            mTHSFollowUpFragment.showToast(R.string.ths_se_server_error_toast_message);
+            thsFollowUpViewInterfaces.hideProgressButton();
+        }
     }
 
 }

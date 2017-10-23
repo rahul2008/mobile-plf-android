@@ -7,7 +7,6 @@
 package com.philips.platform.ths.appointment;
 
 import android.app.DatePickerDialog;
-import android.os.Bundle;
 import android.widget.DatePicker;
 
 import com.americanwell.sdk.entity.practice.Practice;
@@ -20,7 +19,6 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBasePresenterHelper;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSDateEnum;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -88,7 +86,9 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter{
 
                 @Override
                 public void onFailure(Throwable throwable) {
-
+                    if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+                            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+                    }
                 }
             });
         } catch (AWSDKInstantiationException e) {
