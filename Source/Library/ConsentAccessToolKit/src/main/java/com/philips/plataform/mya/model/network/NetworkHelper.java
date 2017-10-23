@@ -61,6 +61,7 @@ public class NetworkHelper {
                             consentListener.onResponseSuccessConsent(Collections.singletonList(consent));
                             return;
                         }
+                        consentListener.onResponseSuccessConsent(null);
                     }
                 }
 

@@ -74,7 +74,7 @@ public class PermissionView extends CswBaseFragment implements
         consentObj.getStatusForConsentType(getApplicationContext(), moment, version, user.getCountryCode(), propositionName, applicationName, new ConsentResponseListener() {
             @Override
             public void onResponseSuccessConsent(List<ConsentModel> responseData) {
-                if (!responseData.isEmpty()) {
+                if (responseData != null && !responseData.isEmpty()) {
                     ConsentModel consentModel = responseData.get(0);
 
                     hideProgressDialog();
@@ -89,6 +89,8 @@ public class PermissionView extends CswBaseFragment implements
                     Log.d(" Consent : ", "policyRule :" + consentModel.getPolicyRule());
                     Log.d(" Consent : ", "Resource type :" + consentModel.getResourceType());
                     Log.d(" Consent : ", "subject  :" + consentModel.getSubject());
+                } else {
+                    mConsentSwitch.setChecked(false);
                 }
             }
 
