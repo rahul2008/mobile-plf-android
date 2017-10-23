@@ -8,6 +8,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.util.StringProvider;
 
@@ -19,25 +20,22 @@ public class EWSConfigurationModule {
 
     @NonNull private final Context context;
 
-    @NonNull private BaseContentConfiguration baseContentConfiguration;
-    @NonNull private HappyFlowContentConfiguration happyFlowContentConfiguration;
+    @NonNull private ContentConfiguration  contentConfiguration;
 
     public EWSConfigurationModule(@NonNull Context context,
-                                  @NonNull BaseContentConfiguration baseContentConfiguration,
-                                  @NonNull HappyFlowContentConfiguration happyFlowContentConfiguration){
+                                  @NonNull ContentConfiguration contentConfiguration){
         this.context = context;
-        this.baseContentConfiguration = baseContentConfiguration;
-        this.happyFlowContentConfiguration = happyFlowContentConfiguration;
+        this.contentConfiguration = contentConfiguration;
     }
 
     @Provides
     BaseContentConfiguration provideEWSConfigurationContent(){
-        return baseContentConfiguration;
+        return contentConfiguration.getBaseContentConfiguration();
     }
 
     @Provides
     HappyFlowContentConfiguration provideHappyFlowContentConfiguration(){
-        return happyFlowContentConfiguration;
+        return contentConfiguration.getHappyFlowContentConfiguration();
     }
 
     @Provides

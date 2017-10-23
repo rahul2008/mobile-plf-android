@@ -14,7 +14,6 @@ public class StringProvider {
 
     @NonNull
     public String getString(@StringRes int id, @StringRes int param) {
-        String raw = context.getString(id);
         return context.getString(id, context.getString(param));
     }
 
