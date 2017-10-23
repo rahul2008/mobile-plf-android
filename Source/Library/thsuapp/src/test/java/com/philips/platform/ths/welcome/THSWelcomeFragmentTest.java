@@ -1,6 +1,9 @@
 package com.philips.platform.ths.welcome;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import com.americanwell.sdk.AWSDK;
@@ -74,6 +77,9 @@ public class THSWelcomeFragmentTest {
 
     @Mock
     THSConsumer thsConsumerMock;
+
+    @Mock
+    FragmentActivity activityMock;
 
 
     @Before
@@ -195,5 +201,21 @@ public class THSWelcomeFragmentTest {
         assertThat(viewById.isEnabled());
         viewById = mWelcomeFragment.getView().findViewById(R.id.visit_history);
         assertThat(viewById.isEnabled());
+    }
+
+    @Test
+    public void testFinishAffinity(){
+        SupportFragmentTestUtil.startFragment(mWelcomeFragment);
+        mWelcomeFragment.finishActivityAffinity();
+        boolean isAlive  = mWelcomeFragment.getActivity().isDestroyed();
+        assertThat(isAlive);
+    }
+
+    @Test
+    public void testDestroy(){
+        SupportFragmentTestUtil.startFragment(mWelcomeFragment);
+        mWelcomeFragment.onDestroy();
+        boolean isAlive  = mWelcomeFragment.getActivity().isDestroyed();
+        assertThat(isAlive);
     }
 }

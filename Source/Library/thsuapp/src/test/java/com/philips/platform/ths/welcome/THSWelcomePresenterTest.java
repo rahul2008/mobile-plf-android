@@ -45,6 +45,7 @@ import javax.net.ssl.HttpsURLConnection;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.atLeast;
@@ -318,6 +319,18 @@ public class THSWelcomePresenterTest {
         verify(awsdk.getConsumerManager(), atLeast(1)).completeEnrollment(any(Authentication.class), any(State.class), anyString(), anyString(), any(SDKCallback.class));
     }
 
+    @Test
+    public void onLoginResponseisRefreshTokenRequestedBeforetrue() throws Exception {
+        pthWelcomePresenter.isRefreshTokenRequestedBefore = true;
+        when(THSAuthenticationMock.getAuthentication()).thenReturn(authenticationMock);
+        when(awsdk.getConsumerManager()).thenReturn(ConsumerManagerMock);
+        when(THSSDKError.getSdkError()).thenReturn(sdkErrorMock);
+        when(sdkErrorMock.getHttpResponseCode()).thenReturn(401);
+        when(THSSDKError.getHttpResponseCode()).thenReturn(401);
+        pthWelcomePresenter.onLoginResponse(THSAuthenticationMock, THSSDKError);
+        verifyNoMoreInteractions(userMock);
+    }
+
      @Test
     public void getConsumerThrowsAWSDKInstantiationException() throws Exception {
         when(THSAuthenticationMock.getAuthentication()).thenReturn(authenticationMock);
@@ -554,6 +567,13 @@ public class THSWelcomePresenterTest {
         pthWelcomePresenter.onEvent(R.id.appointments);
         verifyNoMoreInteractions(consumerManagerMock);
         //verify(con).checkConsumerExists(eq("1234"), any(SDKCallback.class));
+    }
+
+    @Test
+    public void testAuthenticate(){
+        doThrow(AWSDKInstantiationException.class).when(awsdk).authenticateMutual(anyString(),any(SDKCallback.class));
+        pthWelcomePresenter.getStarted();
+        verify(awsdk).authenticateMutual(anyString(),any(SDKCallback.class));
     }
 
    /* @Test

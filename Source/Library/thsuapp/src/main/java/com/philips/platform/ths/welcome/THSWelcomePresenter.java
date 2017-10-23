@@ -141,7 +141,9 @@ class THSWelcomePresenter implements THSBasePresenter,
         if(isRefreshTokenRequestedBefore){
             isRefreshTokenRequestedBefore = false;
             uiBaseView.hideProgressBar();
-            uiBaseView.showError(uiBaseView.getString(R.string.ths_user_not_authenticated));
+            if(uiBaseView.getActivity()!=null) {
+                uiBaseView.showError(uiBaseView.getString(R.string.ths_user_not_authenticated));
+            }
             return true;
         }
         return false;
