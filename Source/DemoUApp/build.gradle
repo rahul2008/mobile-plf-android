@@ -8,9 +8,9 @@ buildscript { bs ->
     project.ext.common = projectDir.absolutePath + '/../common/gradle'
 
     apply from: "$project.common/project-build.gradle", to: bs
+	apply from: projectDir.absolutePath + '/../../ci-build-support/gradle/versions.gradle'
     apply from: "$project.common/module.gradle"
-    apply from: projectDir.absolutePath + '/../../ci-build-support/gradle/versions.gradle'
-
+    
     repositories {
         maven {
             url repos.jcenter
