@@ -28,6 +28,7 @@ import com.philips.platform.uid.view.widget.Label;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
+import static com.philips.platform.ths.utility.THSConstants.THS_VIDEO_CALL_ENDS;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_SUMMARY;
 
@@ -107,6 +108,17 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
         thsRatingDialogFragment.show(getFragmentManager(),"TAG");
         mImageProviderImage = (CircularImageView) view.findViewById(R.id.details_providerImage);
 
+
+        //
+        Fragment mFragment = getFragmentManager().findFragmentByTag(THSWelcomeBackFragment.TAG);
+        if (mFragment instanceof THSWelcomeBackFragment){
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,THS_VIDEO_CALL_ENDS);
+        }else{
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"completeInstantAppointment");
+
+        }
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VISIT_SUMMARY,null,null);
+        //
         return  view;
     }
 
@@ -124,14 +136,6 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
     @Override
     public void onResume() {
         super.onResume();
-        Fragment mFragment = getFragmentManager().findFragmentByTag(THSWelcomeBackFragment.TAG);
-        if (mFragment instanceof THSWelcomeBackFragment){
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"videoVisitCompleted");
-        }else{
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"completeInstantAppointment");
-
-        }
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VISIT_SUMMARY,null,null);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Thank you", true);
         }

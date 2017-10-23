@@ -93,7 +93,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     private EditText additional_comments_edittext;
     private String UPLOAD_DOC_IMAGE_LIST = "UPLOAD_DOC_IMAGE_LIST";
     private Provider mProvider;
-    private String tagActions="";
+    protected String tagActions="";
     public static long visitStartTime;
 
     @Nullable
@@ -207,7 +207,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         int i = view.getId();
         if (i == R.id.continue_btn) {
             THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_FLOATING_BUTTON, "symptomContinue");
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "step1SymptomsForVisit", tagActions);
             thsSymptomsPresenter.onEvent(R.id.continue_btn);
         } else if (i == R.id.camera_click_button) {
             selectImage();
