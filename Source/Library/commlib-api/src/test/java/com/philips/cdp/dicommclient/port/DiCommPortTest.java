@@ -98,7 +98,7 @@ public class DiCommPortTest {
     }
 
     @Test
-    public void testPeformSubscribeAfterPutPropertiesSuccess() {
+    public void testPerformSubscribeAfterPutPropertiesSuccess() {
         diCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
 
@@ -148,7 +148,7 @@ public class DiCommPortTest {
     }
 
     @Test
-    public void testPeformSubscribeAfterPutPropertiesError() {
+    public void testPerformSubscribeAfterPutPropertiesError() {
         diCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
 
@@ -674,17 +674,17 @@ public class DiCommPortTest {
         }
     }
 
-    private class TestPortListener implements DICommPortListener<DICommPort<?>> {
+    private final class TestPortListener implements DICommPortListener {
 
         private boolean isApplyingChangesOnCallback = false;
 
         @Override
-        public void onPortUpdate(DICommPort<?> port) {
+        public void onPortUpdate(DICommPort port) {
             isApplyingChangesOnCallback = port.isApplyingChanges();
         }
 
         @Override
-        public void onPortError(DICommPort<?> port, Error error, String errorData) {
+        public void onPortError(DICommPort port, Error error, String errorData) {
             isApplyingChangesOnCallback = port.isApplyingChanges();
         }
     }

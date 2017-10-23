@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import com.google.gson.Gson;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
@@ -59,6 +60,26 @@ public abstract class DICommPort<T extends PortProperties> {
     private final Set<DICommPortListener> mPortListeners = new CopyOnWriteArraySet<>();
 
     protected CommunicationStrategy communicationStrategy;
+
+    private final SubscriptionEventListener subscriptionEventListener = new SubscriptionEventListener() {
+        @Override
+        public void onSubscriptionEventReceived(String portName, String data) {
+            if (getDICommPortName().equals(portName)) {
+                DICommLog.d(LOG_TAG, "Handling subscription event: " + data);
+
+                handleResponse(data);
+            }
+        }
+
+        @Override
+        public void onSubscriptionEventDecryptionFailed(String portName) {
+            if (getDICommPortName().equals(portName)) {
+                DICommLog.w(LOG_TAG, "Subscription event decryption failed, scheduling a reload instead.");
+
+                reloadProperties();
+            }
+        }
+    };
 
     public DICommPort(@NonNull final CommunicationStrategy communicationStrategy) {
         this.communicationStrategy = communicationStrategy;
@@ -114,6 +135,8 @@ public abstract class DICommPort<T extends PortProperties> {
         if (mSubscribeRequested) return;
         DICommLog.d(LOG_TAG, "request subscribe");
 
+        this.communicationStrategy.addSubscriptionEventListener(subscriptionEventListener);
+
         mSubscribeRequested = true;
         mStopResubscribe = false;
 
@@ -143,6 +166,9 @@ public abstract class DICommPort<T extends PortProperties> {
 
     public void unsubscribe() {
         DICommLog.d(LOG_TAG, "request unsubscribe");
+
+        this.communicationStrategy.removeSubscriptionEventListener(subscriptionEventListener);
+
         mUnsubscribeRequested = true;
         stopResubscribe();
         tryToPerformNextRequest();
@@ -164,12 +190,14 @@ public abstract class DICommPort<T extends PortProperties> {
         mPortListeners.remove(listener);
     }
 
+    @SuppressWarnings("unchecked")
     private void notifyPortListenersOnUpdate() {
         for (DICommPortListener listener : mPortListeners) {
             listener.onPortUpdate(this);
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void notifyPortListenersOnError(Error error, String errorData) {
         for (DICommPortListener listener : mPortListeners) {
             listener.onPortError(this, error, errorData);
@@ -202,7 +230,7 @@ public abstract class DICommPort<T extends PortProperties> {
         this.mIsApplyingChanges = isApplyingChanges;
     }
 
-    public boolean isApplyingChanges() {
+    boolean isApplyingChanges() {
         return mIsApplyingChanges;
     }
 
@@ -227,7 +255,7 @@ public abstract class DICommPort<T extends PortProperties> {
         tryToPerformNextRequest();
     }
 
-    public void handleResponse(String data) {
+    void handleResponse(String data) {
         mGetPropertiesRequested = false;
         processResponse(data);
         notifyPortListenersOnUpdate();

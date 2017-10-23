@@ -35,12 +35,12 @@ public class UdpEventReceiver {
         };
     }
 
-    public void startReceivingEvents(UdpEventListener udpEventListener) {
+    void startReceivingEvents(UdpEventListener udpEventListener) {
         startUdpThreadIfNecessary();
         addUdpEventListener(udpEventListener);
     }
 
-    public void stopReceivingEvents(UdpEventListener udpEventListener) {
+    void stopReceivingEvents(UdpEventListener udpEventListener) {
         removeUdpEventListener(udpEventListener);
         stopUdpThreadIfNecessary();
     }
@@ -71,7 +71,7 @@ public class UdpEventReceiver {
         }
     }
 
-    public void removeUdpEventListener(UdpEventListener udpEventListener) {
+    private void removeUdpEventListener(UdpEventListener udpEventListener) {
         if (udpEventListeners.remove(udpEventListener)) {
             DICommLog.i(DICommLog.UDPRECEIVER, "Removed UDP event listener.");
         }

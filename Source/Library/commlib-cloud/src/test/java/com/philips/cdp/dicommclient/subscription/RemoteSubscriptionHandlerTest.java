@@ -5,8 +5,8 @@
 
 package com.philips.cdp.dicommclient.subscription;
 
-import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
+import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
@@ -162,7 +162,7 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
     private RemoteSubscriptionHandler createMockedRemoteSubscriptionHandler() {
         return new RemoteSubscriptionHandler(mMockCloudController) {
             @Override
-            protected WrappedHandler getSubscriptionEventResponseHandler() {
+            protected WrappedHandler createSubscriptionEventResponseHandler() {
                 return mSubscriptionEventResponseHandler;
             }
         };
