@@ -8,26 +8,28 @@ import android.support.v4.app.Fragment;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiFragment;
+import com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiFragment;
 import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulFragment;
+import com.philips.cdp2.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingFragment;
+import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingFragment;
+import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WifiConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
-import com.philips.cdp2.ews.view.ConnectToWrongPhoneTroubleshootingFragment;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
 import com.philips.cdp2.ews.view.EWSGettingStartedFragment;
 import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
 import com.philips.cdp2.ews.view.EWSWiFiConnectFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
-import com.philips.cdp2.ews.view.ResetConnectionTroubleshootingFragment;
-import com.philips.cdp2.ews.view.ResetDeviceTroubleshootingFragment;
-import com.philips.cdp2.ews.view.SetupAccessPointModeTroubleshootingFragment;
 import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
 
 public class Navigator {
 
-    @NonNull private final FragmentNavigator fragmentNavigator;
-    @NonNull private final ActivityNavigator activityNavigator;
+    @NonNull
+    private final FragmentNavigator fragmentNavigator;
+    @NonNull
+    private final ActivityNavigator activityNavigator;
 
     public Navigator(@NonNull final FragmentNavigator fragmentNavigator, @NonNull final ActivityNavigator activityNavigator) {
         this.fragmentNavigator = fragmentNavigator;
@@ -94,8 +96,8 @@ public class Navigator {
         pushFragment(new TroubleshootConnectionUnsuccessfulFragment());
     }
 
-    public void navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(@NonNull String deviceName) {
-        pushFragment(WifiConnectionUnsuccessfulFragment.newInstance(deviceName));
+    public void navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(@NonNull String deviceName, @NonNull String wifiSSID) {
+        pushFragment(WifiConnectionUnsuccessfulFragment.newInstance(deviceName, wifiSSID));
     }
 
     public void navigateToConnectingPhoneToHotspotWifiScreen() {
@@ -110,7 +112,8 @@ public class Navigator {
     public void navigateToConnectingDeviceWithWifiScreen(@NonNull final String homeWiFiSSID, @NonNull final String homeWiFiPassword, @NonNull final String deviceName) {
         pushFragment(ConnectingDeviceWithWifiFragment.newInstance(homeWiFiSSID, homeWiFiPassword, deviceName));
     }
-    public void navigateToConnectingDeviceWithWifiScreen(@Nullable Bundle bundle){
+
+    public void navigateToConnectingDeviceWithWifiScreen(@Nullable Bundle bundle) {
         boolean isPresentInStack = fragmentNavigator.popToFragment(ConnectingDeviceWithWifiFragment.class.getCanonicalName());
         if (!isPresentInStack) {
             pushFragment(ConnectingDeviceWithWifiFragment.newInstance(bundle));

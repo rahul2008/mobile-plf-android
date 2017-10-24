@@ -18,52 +18,51 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:padding="@dimen/e">
-
-        <TextView
-            android:id="@+id/ews_01_01b_label_select_network_title"
-            style="@style/EWS.Txt.Title"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/ic_close"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:text="@string/label_ews_home_network_title"/>
+            android:paddingBottom="@dimen/default_screen_bottom_margin"
+            android:paddingEnd="@dimen/default_screen_side_margin"
+            android:paddingStart="@dimen/default_screen_side_margin"
+            android:paddingTop="@dimen/default_screen_top_margin">
 
-        <ImageView
-            android:id="@+id/ic_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/ews_01_01b_label_select_network_title"
-            android:tint="@color/black"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:onClick="@{() -> viewModel.onCloseButtonClicked()}"/>
+            <TextView
+                android:id="@+id/ews_01_01b_label_select_network_title"
+                style="@style/Txt.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/ic_close"
+                android:text="@string/label_ews_home_network_title"/>
 
-        <TextView
-            android:id="@+id/label_ews_home_network_body"
-            style="@style/EWS.Txt.HtmlBody"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ews_01_01b_label_select_network_title"
-            android:layout_marginTop="@dimen/e"
-            tools:text="@string/label_ews_home_network_body"
-            />
+            <ImageView
+                android:id="@+id/ic_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:onClick="@{() -> viewModel.onCloseButtonClicked()}"/>
 
-        <ImageView
-            style="@style/EWS.ImageScale"
-            android:id="@+id/ews_paired_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/label_ews_home_network_body"
-            android:layout_marginTop="@dimen/d"
-            app:srcCompat="@drawable/ews_home_network"
-            tools:ignore="ContentDescription"/>
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/label_ews_home_network_body"
+                style="@style/Txt.Body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ews_01_01b_label_select_network_title"
+                android:layout_marginTop="@dimen/default_body_labels_margin"
+                tools:text="@string/label_ews_home_network_body"/>
+
+            <ImageView
+                android:id="@+id/ews_paired_image"
+                style="@style/EWS.ImageScale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/label_ews_home_network_body"
+                android:layout_marginTop="@dimen/default_image_top_margin"
+                app:srcCompat="@drawable/ews_home_network"
+                tools:ignore="ContentDescription"/>
+        </RelativeLayout>
 
     </android.support.v4.widget.NestedScrollView>
 

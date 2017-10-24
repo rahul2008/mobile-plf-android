@@ -1,40 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_marginLeft="@dimen/d"
-              android:layout_marginRight="@dimen/d"
-              android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/ews_H_03_04_label_title"
-        style="@style/EWS.Txt.Title"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/e"
-        android:text="Try setting up regardless"/>
+        android:paddingBottom="@dimen/default_screen_bottom_margin"
+        android:paddingEnd="@dimen/default_screen_side_margin"
+        android:paddingStart="@dimen/default_screen_side_margin"
+        android:paddingTop="@dimen/default_screen_top_margin"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/ews_connect_to_label"
-        style="@style/EWS.Txt.Body"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/e"
-        android:text="Usually you can setup the device in this state. Please try setting it up. Otherwise, try to enable setup mode again."/>
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ews_H_03_04_label_title"
+            style="@style/Txt.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_ews_support_setup_access_point_title_default"/>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/e"
-        android:layout_marginTop="@dimen/e"
-        android:src="@drawable/ews_product_reset_device"/>
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ews_connect_to_label"
+            style="@style/Txt.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_body_labels_margin"
+            android:text="@string/label_ews_support_setup_access_point_body_default"/>
 
-    <Button
-        android:id="@+id/ews_H_03_04_button_done"
-        style="@style/Btn.Primary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/b"
-        android:text="DONE"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_image_top_margin"
+            android:src="@drawable/ews_product_reset_device"
+            android:contentDescription="@null"/>
 
-</LinearLayout>
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/ews_H_03_04_button_done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:uidComponentType="Primary"
+            android:layout_marginTop="@dimen/default_main_button_top_margin"
+            android:text="@string/button_ews_support_setup_access_point_done"/>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

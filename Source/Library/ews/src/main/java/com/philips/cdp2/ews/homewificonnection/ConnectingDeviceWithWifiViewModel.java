@@ -33,27 +33,28 @@ import static com.philips.cdp2.ews.wifi.WiFiUtil.UNKNOWN_WIFI;
 
 public class ConnectingDeviceWithWifiViewModel {
 
-    public interface ConnectingDeviceToWifiCallback {
-        void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
-        void unregisterReceiver(@NonNull BroadcastReceiver receiver);
-        Bundle getBundle();
-        void showCancelDialog();
-    }
-
     private static final String TAG = ConnectingDeviceWithWifiViewModel.class.getCanonicalName();
     private static final int WIFI_SET_PROPERTIES_TIME_OUT = 60000;
-
-    @NonNull private final ApplianceAccessManager applianceAccessManager;
-    @NonNull private final Navigator navigator;
-    @NonNull private final WiFiConnectivityManager wiFiConnectivityManager;
-    @NonNull private final WiFiUtil wiFiUtil;
-    @NonNull private final Handler handler;
-    @NonNull private final DiscoveryHelper discoveryHelper;
-
-    @Nullable private ConnectingDeviceToWifiCallback fragmentCallback;
-    @Nullable private String deviceName;
-
-    @NonNull private DiscoveryHelper.DiscoveryCallback discoveryCallback = new DiscoveryHelper.DiscoveryCallback() {
+    @NonNull
+    private final ApplianceAccessManager applianceAccessManager;
+    @NonNull
+    private final Navigator navigator;
+    @NonNull
+    private final WiFiConnectivityManager wiFiConnectivityManager;
+    @NonNull
+    private final WiFiUtil wiFiUtil;
+    @NonNull
+    private final Handler handler;
+    @NonNull
+    private final DiscoveryHelper discoveryHelper;
+    @Nullable
+    private ConnectingDeviceToWifiCallback fragmentCallback;
+    @Nullable
+    private String deviceName;
+    @Nullable
+    private String homeWiFiSSID;
+    @NonNull
+    private DiscoveryHelper.DiscoveryCallback discoveryCallback = new DiscoveryHelper.DiscoveryCallback() {
         @Override
         public void onApplianceFound(Appliance appliance) {
             removeTimeoutRunnable();
@@ -61,8 +62,8 @@ public class ConnectingDeviceWithWifiViewModel {
             onDeviceConnectedToWifi();
         }
     };
-
-    @NonNull private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    @NonNull
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             final NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
@@ -74,13 +75,13 @@ public class ConnectingDeviceWithWifiViewModel {
                 } else if (currentWifiState != UNKNOWN_WIFI) {
                     unregisterBroadcastReceiver();
                     removeTimeoutRunnable();
-                    navigator.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(deviceName);
+                    navigator.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(deviceName, homeWiFiSSID);
                 }
             }
         }
     };
-
-    @NonNull private final Runnable timeoutRunnable = new Runnable() {
+    @NonNull
+    private final Runnable timeoutRunnable = new Runnable() {
         @Override
         public void run() {
             showConnectionUnsuccessful();
@@ -109,6 +110,7 @@ public class ConnectingDeviceWithWifiViewModel {
 
     public void startConnecting(@NonNull final String homeWiFiSSID, @NonNull String homeWiFiPassword, @NonNull final String deviceName) {
         this.deviceName = deviceName;
+        this.homeWiFiSSID = homeWiFiSSID;
         tagConnectionStart();
         applianceAccessManager.connectApplianceToHomeWiFiEvent(homeWiFiSSID, homeWiFiPassword, new ApplianceAccessManager.SetPropertiesCallback() {
             @Override
@@ -119,7 +121,7 @@ public class ConnectingDeviceWithWifiViewModel {
             @Override
             public void onFailedToSetProperties() {
                 removeTimeoutRunnable();
-                navigator.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(deviceName);
+                navigator.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(deviceName, homeWiFiSSID);
             }
         });
         handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
@@ -178,5 +180,15 @@ public class ConnectingDeviceWithWifiViewModel {
         if (fragmentCallback != null) {
             fragmentCallback.unregisterReceiver(broadcastReceiver);
         }
+    }
+
+    public interface ConnectingDeviceToWifiCallback {
+        void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
+
+        void unregisterReceiver(@NonNull BroadcastReceiver receiver);
+
+        Bundle getBundle();
+
+        void showCancelDialog();
     }
 }

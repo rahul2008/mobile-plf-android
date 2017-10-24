@@ -29,10 +29,10 @@ import com.philips.cdp2.ews.view.TroubleshootWrongWiFiFragment;
 import com.philips.cdp2.ews.view.dialog.CancelDialogFragment;
 import com.philips.cdp2.ews.view.dialog.TroubleshootDeviceAPModeFragment;
 import com.philips.cdp2.ews.viewmodel.BaseTroubleShootingViewModel;
-import com.philips.cdp2.ews.viewmodel.ConnectToWrongPhoneTroubleshootingViewModel;
-import com.philips.cdp2.ews.viewmodel.ResetConnectionTroubleshootingViewModel;
-import com.philips.cdp2.ews.viewmodel.ResetDeviceTroubleshootingViewModel;
-import com.philips.cdp2.ews.viewmodel.SetupAccessPointModeTroubleshootingViewModel;
+import com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingViewModel;
+import com.philips.cdp2.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingViewModel;
+import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingViewModel;
+import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingViewModel;
 
 import javax.inject.Singleton;
 

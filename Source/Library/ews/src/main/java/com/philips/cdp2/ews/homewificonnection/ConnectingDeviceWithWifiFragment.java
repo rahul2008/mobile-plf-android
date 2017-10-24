@@ -21,6 +21,7 @@ import com.philips.cdp2.ews.view.EWSActivity;
 
 public class ConnectingDeviceWithWifiFragment extends BaseFragment implements ConnectingDeviceWithWifiViewModel.ConnectingDeviceToWifiCallback {
     public final static String HOME_WIFI_SSID = "homeWiFiSSID";
+    public final static String APP_NAME = "appName";
     private final static String HOME_WIFI_PWD = "homeWiFiPassword";
     private final static String DEVICE_NAME = "deviceName";
     @Nullable
@@ -107,7 +108,8 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment implements Co
     public void unregisterReceiver(@NonNull BroadcastReceiver receiver) {
         try {
             getActivity().unregisterReceiver(receiver);
-        } catch (IllegalArgumentException ignored) {}
+        } catch (IllegalArgumentException ignored) {
+        }
     }
 
     @Override

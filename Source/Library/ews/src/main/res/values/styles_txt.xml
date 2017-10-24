@@ -13,6 +13,7 @@
   <dimen name="extra_small_text_size">12sp</dimen>
   <dimen name="large_text_size">24sp</dimen>
   <dimen name="extra_large_text_size">68sp</dimen>
+  <dimen name="helper_text_size">12sp</dimen>
 
   <dimen name="line_spacing_extra">8dp</dimen>
   <dimen name="small_line_spacing_extra">6dp</dimen>
@@ -29,15 +30,6 @@
     <item name="textSize">@dimen/title_text_size</item>
   </style>
 
-  <style name="Txt">
-    <item name="fontPath">@string/centrale_sans_book</item>
-    <item name="android:textSize">@dimen/body_text_size</item>
-    <item name="android:lineSpacingExtra">@dimen/line_spacing_extra</item>
-  </style>
-  <style name="Txt.Title">
-    <item name="fontPath">@string/centrale_sans_bold</item>
-    <item name="android:textSize">@dimen/title_text_size</item>
-  </style>
   <style name="Txt.Title.Light">
     <item name="fontPath">@string/centrale_sans_book</item>
     <item name="android:textSize">@dimen/title_text_size</item>
@@ -45,7 +37,6 @@
   <style name="Txt.Title.Dark">
     <item name="android:textColor">@color/colorPrimary</item>
   </style>
-  <style name="Txt.Body"></style>
   <style name="Txt.Body.Link">
     <item name="android:textColor">@color/colorAccent</item>
     <item name="android:textSize">@dimen/body_link_text_size</item>
@@ -96,6 +87,32 @@
     <item name="android:lineSpacingExtra">@dimen/line_spacing_extra</item>
     <item name="android:paddingStart">@dimen/b</item>
     <item name="android:paddingEnd">@dimen/b</item>
+  </style>
+
+
+
+
+  ///////////
+
+  <style name="Txt" parent="@android:style/Widget.TextView">
+    <item name="fontPath">@string/centrale_sans_book</item>
+    <item name="android:lineSpacingExtra">@dimen/line_spacing_extra</item>
+  </style>
+
+  <style name="Txt.Title">
+    <item name="fontPath">@string/ews_sans_bold</item>
+    <item name="android:textSize">@dimen/ews_title_text_size</item>
+    <item name="android:textColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
+  </style>
+
+  <style name="Txt.Body">
+    <item name="android:textSize">@dimen/body_text_size</item>
+    <item name="android:textColor">?attr/uidContentItemDefaultNormalBodyTextColor</item>
+  </style>
+
+  <style name="Txt.Helper">
+    <item name="android:textSize">@dimen/helper_text_size</item>
+    <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtleBodyTextColor</item>
   </style>
 
 </resources>
