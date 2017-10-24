@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulViewModel"/>
+            type="com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulViewModel" />
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/label_ews_connection_unsuccesful_title"/>
+                android:text="@string/label_ews_connection_unsuccesful_title" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/connection_unsuccessful_body"
@@ -39,30 +39,40 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_body_labels_margin"
                 android:gravity="center|top"
-                android:text="@string/label_ews_connection_unsuccesful_body"/>
+                android:text="@string/label_ews_connection_unsuccesful_body" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/connection_unsuccessful_note"
+                style="@style/Txt.Body"
+                android:background="?attr/uidContentTertiaryBackgroundColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_screen_side_margin"
+                android:gravity="center|top"
+                android:text="@string/label_ews_phone_not_found_on_network_note" />
 
             <android.support.v4.widget.Space
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/ews_H_03_00_a_button_yes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_main_button_top_margin"
-                app:uidComponentType="Primary"
                 android:onClick="@{() -> viewModel.onNeedHelpButtonClicked()}"
-                android:text="@string/button_ews_connection_unsuccesful_yes"/>
+                android:text="@string/button_ews_connection_unsuccesful_yes"
+                app:uidComponentType="Primary" />
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/ews_H_03_00_a_button_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:uidComponentType="Secondary"
                 android:layout_marginTop="@dimen/default_between_button_margin"
                 android:onClick="@{() -> viewModel.onNoHelpNeededButtonClicked()}"
-                android:text="@string/button_ews_connection_unsuccesful_no"/>
+                android:text="@string/button_ews_connection_unsuccesful_no"
+                app:uidComponentType="Secondary" />
 
         </LinearLayout>
 
