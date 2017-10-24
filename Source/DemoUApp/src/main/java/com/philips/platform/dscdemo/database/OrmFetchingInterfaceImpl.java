@@ -156,9 +156,10 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         QueryBuilder<OrmMoment, Integer> builder = momentDao.queryBuilder();
 
         Where where = builder.where();
-        where.eq("type_id", MomentType.getIDFromDescription(momentType));
-        where.and();
-        where.between("dateTime", new DateTime(startDate), new DateTime(endDate));
+   //     where.eq("type_id", MomentType.getIDFromDescription(momentType));
+        where.and(where.eq("type_id", MomentType.getIDFromDescription(momentType)),
+                where.between("dateTime", new DateTime(startDate), new DateTime(endDate)));
+      //  where.between("dateTime", new DateTime(startDate), new DateTime(endDate));
 
         if (paginationModel.getOrdering().equals(DSPagination.DSPaginationOrdering.ASCENDING))
             builder.orderBy("dateTime", true);
