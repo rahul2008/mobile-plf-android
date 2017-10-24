@@ -10,8 +10,6 @@
 # Gson specific classes
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
--keep class com.philips.cdp.prxclient.** {*;}
--keep class com.philips.cdp.prxclient.prxdatamodels.** { *; }
 -keep class com.google.gson.examples.android.model.** { *; }
 
 
@@ -20,7 +18,6 @@
 #Tagging
 
 -keep public class com.adobe.mobile.** {*;}
--keep public class com.philips.cdp.tagging.** {*;}
 
 
 #Network
@@ -31,9 +28,6 @@
 -keep class com.shamanland.** {*;}
 -keep class uk.co.chrisjenx.** {*;}
 
-
-#ConsumerCare
-#-keep class com.philips.cdp.digitalcare.** {*;}
 
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
@@ -96,19 +90,14 @@
 -keep interface android.support.v13.app.** { *; }
 -keep public class * extends android.support.v13.**
 -keep public class * extends android.app.Fragment
--keep class com.philips.cdp.uikit.customviews.**
 
-#-keep class com.google.android.gms.** { *; }
 -dontwarn com.google.android.gms.**
 
 -dontwarn  org.w3c.dom.bootstrap.DOMImplementationRegistry
-#-dontwarn  com.philips.cdp.productselection.R$id
 -dontwarn android.view.**
 -dontwarn android.media.session
 -dontwarn android.app.**
 
-#-dontwarn com.philips.cdp.digitalcare.**
-#-dontwarn com.philips.cdp.productselection.**
 -dontwarn android.support.**
 -dontwarn com.adobe.mobile.**
 -dontwarn org.apache.**
@@ -173,8 +162,6 @@
 # platform version.  We know about them, and they are safe.
 -dontwarn android.support.**
 
-##-keep public class pack.com.progard.** {*;}
-##Registration API specific
 ##General network
 -keep public class javax.net.ssl.**
 -keepclassmembers public class javax.net.ssl.** {*;}
@@ -184,31 +171,5 @@
 -dontwarn org.apache.**
 -keep class org.apache.http.** { *; }
 
-
-
-#Tagging lib and jar
--keep public class com.adobe.mobile.** {*;}
 -keep class com.android.volley.** { *; }
 -keep interface com.android.volley.** { *; }
-
-
-#appinfra
-#-keep public class com.philips.platform.appinfra.**{*;}
-#-keep interface com.philips.platform.appinfra.**{*;}
-
-
-#appinfra
-#-keep public interface com.philips.platform.appinfra.AppInfraInterface.** { *; }
-#-keep public interface com.philips.platform.appinfra.logging.LoggingInterface.** { *; }
-#-keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
-#-keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
-#-keep public interface com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.** { *; }
-#-keep public interface com.philips.platform.appinfra.securestorage.SecureStorageInterface.** { *; }
-
-#appinfra
--keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
--keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
-
-#uid
--keep public class com.philips.platform.uid.** { *; }
--dontwarn com.philips.platform.uid.**
