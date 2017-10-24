@@ -1,8 +1,11 @@
 package com.philips.cdp2.ews.util;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
 
 public class StringProvider {
 
@@ -21,4 +24,10 @@ public class StringProvider {
     public String getString(@StringRes int id, @StringRes int param, String param2) {
         return context.getString(id, context.getString(param), param2);
     }
+
+    @NonNull
+    public Drawable getImageResource(@DrawableRes int id) {
+        return ContextCompat.getDrawable(context, id);
+    }
+
 }

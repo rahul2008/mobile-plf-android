@@ -196,7 +196,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
         private  int connectWrongPhoneQuestion;
 
         public Builder(){
-
+            //Todo : need to change default text on base on ui
             resetConnectionTitle = R.string.label_ews_get_started_title;
             resetConnectionBody = R.string.label_ews_get_started_title;
             resetConnectionImage = R.drawable.ic_ews_device_apmode_blinking;

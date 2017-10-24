@@ -1,4 +1,4 @@
-package com.philips.cdp2.ews.troubleshooting.setupaccesspointmode;
+package com.philips.cdp2.ews.troubleshooting;
 
 import android.databinding.ObservableField;
 import android.graphics.drawable.Drawable;
@@ -13,44 +13,29 @@ import com.philips.cdp2.ews.util.StringProvider;
 
 import javax.inject.Inject;
 
-public class SetupAccessPointModeTroubleshootingViewModel {
-
-    @NonNull
-    private final Navigator navigator;
-
-
+/*
+ * Copyright (c) Mobiquityinc, 2017.
+ * All rights reserved.
+ */
+public class TroubleShootBaseViewModel {
 
     @NonNull public final ObservableField<String> title;
     @NonNull public final ObservableField<String> description;
     @NonNull private StringProvider stringProvider;
-    @NonNull public final Drawable setupAccessPointImage;
+    @NonNull public final Drawable resetConnectionImage;
 
-    @Inject
-    public SetupAccessPointModeTroubleshootingViewModel(@NonNull Navigator navigator, @NonNull StringProvider stringProvider, @NonNull BaseContentConfiguration contentConfiguration,
+    public TroubleShootBaseViewModel(@NonNull StringProvider stringProvider, @NonNull BaseContentConfiguration contentConfiguration,
                                                    @NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
-        this.navigator = navigator;
         this.stringProvider = stringProvider;
         this.title = new ObservableField<>(getTitle(troubleShootContentConfiguration, contentConfiguration));
         this.description = new ObservableField<>(getNote(contentConfiguration));
-        this.setupAccessPointImage = getSetupAccessPointImage(troubleShootContentConfiguration);
-    }
-
-    public void onDoneButtonClicked() {
-        navigator.navigateToCompletingDeviceSetupScreen();
+        this.resetConnectionImage = getResetConnectionImage(troubleShootContentConfiguration);
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     @NonNull
-    Drawable getSetupAccessPointImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
+    Drawable getResetConnectionImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
         return stringProvider.getImageResource(troubleShootContentConfiguration.getResetConnectionImage());
-    }
-
-    public void onYesButtonClicked() {
-        navigator.navigateToResetDeviceTroubleShootingScreen();
-    }
-
-    public void onNoButtonClicked() {
-        navigator.navigateToConnectToWrongPhoneTroubleShootingScreen();
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -64,8 +49,24 @@ public class SetupAccessPointModeTroubleshootingViewModel {
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     @NonNull
     String getNote(@NonNull BaseContentConfiguration baseConfig) {
-        return stringProvider.getString(R.string.label_ews_support_setup_access_point_body_default,
+        return stringProvider.getString(R.string.label_ews_support_reset_connection_title_default,
                 baseConfig.getDeviceName());
     }
-}
 
+    /*@NonNull
+    public ObservableField<String> getTitle() {
+        return title;
+    }
+
+    @NonNull
+    public ObservableField<String> getDescription() {
+        return description;
+    }
+
+    @NonNull
+    public Drawable getResetConnectionImage() {
+        return resetConnectionImage;
+    }*/
+
+
+}
