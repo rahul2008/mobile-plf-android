@@ -26,7 +26,8 @@ public class EWSHomeWifiDisplayViewModelTest {
     private WiFiUtil wifiUtilMock;
     @Mock
     private Navigator navigatorMock;
-
+    @Mock
+    private EWSHomeWifiDisplayViewModel.ViewCallback mockViewCallback;
     private EWSHomeWifiDisplayViewModel viewModel;
     @Mock
     private Observable.OnPropertyChangedCallback callbackListenerMock;
@@ -36,6 +37,7 @@ public class EWSHomeWifiDisplayViewModelTest {
         initMocks(this);
 
         viewModel = new EWSHomeWifiDisplayViewModel(navigatorMock, wifiUtilMock);
+        viewModel.setViewCallback(mockViewCallback);
     }
 
     @Test
@@ -58,7 +60,7 @@ public class EWSHomeWifiDisplayViewModelTest {
     public void shouldShowNetworkTroubleShootingScreenOnNoButtonClicked() throws Exception {
         viewModel.onNoButtonClicked();
 
-        verify(navigatorMock).navigateToWifiTroubleShootingScreen();
+        verify(mockViewCallback).showTroubleshootHomeWifiDialog();
     }
 
     @Test
@@ -75,7 +77,7 @@ public class EWSHomeWifiDisplayViewModelTest {
 
         viewModel.refresh();
 
-        verify(navigatorMock).navigateToWifiTroubleShootingScreen();
+        verify(mockViewCallback).showTroubleshootHomeWifiDialog();
     }
 
     @Test
@@ -84,6 +86,6 @@ public class EWSHomeWifiDisplayViewModelTest {
 
         viewModel.refresh();
 
-        verify(navigatorMock, never()).navigateToWifiTroubleShootingScreen();
+        verify(mockViewCallback, never()).showTroubleshootHomeWifiDialog();
     }
 }

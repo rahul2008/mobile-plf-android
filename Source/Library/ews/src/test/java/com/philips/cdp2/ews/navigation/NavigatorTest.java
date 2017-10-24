@@ -8,7 +8,6 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiFragment;
 import com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingFragment;
-import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiFragment;
 import com.philips.cdp2.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingFragment;
@@ -94,13 +93,6 @@ public class NavigatorTest {
         subject.navigateToPairingSuccessScreen();
 
         verifyFragmentPushed(EWSWiFiPairedFragment.class);
-    }
-
-    @Test
-    public void itShouldPushWifiTroubleShootingScreenWhenNavigating() throws Exception {
-        subject.navigateToWifiTroubleShootingScreen();
-
-        verify(mockActivityNavigator).showFragment(TroubleshootHomeWiFiFragment.class.getCanonicalName());
     }
 
     @Test

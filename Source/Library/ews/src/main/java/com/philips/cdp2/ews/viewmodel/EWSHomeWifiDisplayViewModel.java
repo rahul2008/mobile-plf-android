@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.cdp2.ews.BR;
-import com.philips.cdp2.ews.common.callbacks.DialogHelper;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
@@ -18,10 +17,14 @@ import javax.inject.Inject;
 
 public class EWSHomeWifiDisplayViewModel extends BaseObservable {
 
+    public interface ViewCallback {
+        void showTroubleshootHomeWifiDialog();
+    }
+
     @NonNull private final Navigator navigator;
     @NonNull private final WiFiUtil wiFiUtil;
 
-    @Nullable private DialogHelper dialogHelper;
+    @Nullable private ViewCallback viewCallback;
 
     @Inject
     public EWSHomeWifiDisplayViewModel(@NonNull final Navigator navigator,
@@ -30,8 +33,8 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
         this.wiFiUtil = wiFiUtil;
     }
 
-    public void setDialogHelper(@Nullable DialogHelper dialogHelper) {
-        this.dialogHelper = dialogHelper;
+    public void setViewCallback(@Nullable ViewCallback viewCallback) {
+        this.viewCallback = viewCallback;
     }
 
     @Bindable
@@ -41,16 +44,16 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
 
     public void refresh() {
         notifyPropertyChanged(BR.homeWiFiSSID);
-        if (dialogHelper != null && !wiFiUtil.isHomeWiFiEnabled()) {
+        if (viewCallback != null && !wiFiUtil.isHomeWiFiEnabled()) {
 //            navigator.navigateToWifiTroubleShootingScreen();
-            dialogHelper.showTroubleshootHomeWifi();
+            viewCallback.showTroubleshootHomeWifiDialog();
         }
     }
 
     public void onNoButtonClicked() {
 //        navigator.navigateToWifiTroubleShootingScreen();
-        if (dialogHelper != null) {
-            dialogHelper.showTroubleshootHomeWifi();
+        if (viewCallback != null) {
+            viewCallback.showTroubleshootHomeWifiDialog();
         }
     }
 
