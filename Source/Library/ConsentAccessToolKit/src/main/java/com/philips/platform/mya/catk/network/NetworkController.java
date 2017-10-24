@@ -31,7 +31,6 @@ public class NetworkController {
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
-                Log.d("sendRequest ", "failed : " + error + "  message :  "+new ConsentNetworkError(error, requestCode, requestListener));
                 if (requestListener != null && error != null) {
                     new ConsentNetworkError(error, requestCode, requestListener);
                 }
