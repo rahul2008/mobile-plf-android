@@ -307,9 +307,8 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         } else {
             if (isEmailAvailable()) {
                 homeContract.naviagteToAccountActivationScreen();
-            } else if(isMobileVerified()){
+            } else if(!isMobileVerified()){
                 homeContract.naviagteToMobileAccountActivationScreen();
-
             }
         }
 

@@ -32,7 +32,7 @@ public class AppConfiguration extends BaseConfiguration {
     }
 
     public String getMicrositeId() {
-        Object micrositeIdObject = appInfraWrapper.getAppInfraProperty(MICROSITE_ID_KEY);
+        Object micrositeIdObject = appInfraWrapper.getAppIdentity().getMicrositeId();
         return getConfigPropertyValue(micrositeIdObject);
     }
 

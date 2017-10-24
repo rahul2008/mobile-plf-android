@@ -207,8 +207,8 @@ dependencies {
     annotationProcessor 'org.immutables:value:2.4.4'
 
 
-    compile 'com.google.dagger:dagger:2.0'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.0'
+    compile 'com.google.dagger:dagger:2.11'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
     annotationProcessor 'com.github.frankiesardo:android-auto-value-processor:0.1'
     androidTestCompile 'com.github.frankiesardo:android-auto-value:0.1'
     annotationProcessor 'com.github.frankiesardo:android-auto-value-processor:0.1'

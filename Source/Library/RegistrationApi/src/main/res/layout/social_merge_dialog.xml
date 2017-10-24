@@ -8,6 +8,6 @@
                                             style="@style/UIDAlertDialogMessageTextStyle"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:text="@string/social_merge_dialog_message"
+                                            android:text="@string/reg_DLS_Merge_Accounts_Logout_Dialog_Message"
                                             android:paddingBottom="@dimen/uid_page_margin_left_right"
     />

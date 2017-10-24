@@ -14,6 +14,7 @@ import com.philips.cdp.registration.ui.traditional.*;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.*;
 import com.philips.platform.uappframework.uappinput.*;
+import com.philips.platform.uid.thememanager.*;
 
 public class URInterface implements UappInterface {
 
@@ -94,7 +95,12 @@ public class URInterface implements UappInterface {
                 RegistrationConfiguration.getInstance().setPrioritisedFunction
                         (registrationFunction);
             }
-
+            ThemeConfiguration themeConfiguration = uiLauncher.getDlsThemeConfiguration();
+            if(themeConfiguration != null) {
+                RegistrationHelper.getInstance().setThemeConfiguration(themeConfiguration);
+            }
+            int themeResId = uiLauncher.getUiKitTheme();
+            RegistrationHelper.getInstance().setTheme(themeResId);
             RegistrationContentConfiguration registrationContentConfiguration = ((URLaunchInput) uappLaunchInput).
                     getRegistrationContentConfiguration();
 
