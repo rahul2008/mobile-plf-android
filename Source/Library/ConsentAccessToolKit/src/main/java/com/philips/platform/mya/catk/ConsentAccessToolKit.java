@@ -24,8 +24,17 @@ public class ConsentAccessToolKit {
 
     private NetworkHelper networkHelper;
     private User user;
+    private Context context;
+    private String applicationName;
+    private String propositionName;
 
-    public void getConsentDetails(Context context,String applicationName,String propositionName,final ConsentResponseListener consentListener){
+    public ConsentAccessToolKit(Context context,String applicationName,String propositionName){
+        this.context = context;
+        this.applicationName = applicationName;
+        this.propositionName = propositionName;
+    }
+
+    public void getConsentDetails(final ConsentResponseListener consentListener){
         user = new User(context);
         GetConsentsModelRequest model = new GetConsentsModelRequest(applicationName,propositionName,user,new NetworkAbstractModel.DataLoadListener() {
             @Override
