@@ -261,22 +261,20 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostFetchMomentByDateType_WhenFetchIsCalled() throws Exception {
         String myFormat = "MM/dd/yy";
-        tracker.fetchLatestMomentByType(MomentType.TEMPERATURE, dbFetchRequestListner);
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         Date startDate = sdf.parse("10/11/17");
         Date endDate = sdf.parse("10/23/17");
-        tracker.fetchMomentWith(MomentType.TEMPERATURE,startDate,endDate,createPagination(),dbFetchRequestListner);
+        tracker.fetchMomentsWithTypeAndTimeLine(MomentType.TEMPERATURE,startDate,endDate,createPagination(),dbFetchRequestListner);
         verify(eventingMock).post(any(LoadMomentsByDate.class));
     }
 
     @Test
     public void ShouldPostFetchMomentByDateRange_WhenFetchIsCalled() throws Exception {
         String myFormat = "MM/dd/yy";
-        tracker.fetchLatestMomentByType(MomentType.TEMPERATURE, dbFetchRequestListner);
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         Date startDate = sdf.parse("10/11/17");
         Date endDate = sdf.parse("10/23/17");
-        tracker.fetchMomentWith(startDate,endDate,createPagination(),dbFetchRequestListner);
+        tracker.fetchMomentsWithTimeLine(startDate,endDate,createPagination(),dbFetchRequestListner);
         verify(eventingMock).post(any(LoadMomentsByDate.class));
     }
 

@@ -11,11 +11,6 @@ public class DSPaginationSpy implements DSPagination {
 	private DSPaginationOrdering sortOrder;
 
 	@Override
-	public String getOrderBy() {
-		return orderBy;
-	}
-
-	@Override
 	public int getPageNumber() {
 		return pageNumber;
 	}
@@ -23,11 +18,6 @@ public class DSPaginationSpy implements DSPagination {
 	@Override
 	public int getPageLimit() {
 		return pageLimit;
-	}
-
-	@Override
-	public void setOrderBy(String orderBy) {
-		this.orderBy = orderBy;
 	}
 
 	@Override

@@ -337,11 +337,11 @@ public class DataServicesManager {
         mEventing.post(new LoadMomentsRequest(dbFetchRequestListner));
     }
 
-	public void fetchMomentWith(Date startDate, Date endDate,DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
+	public void fetchMomentsWithTimeLine(Date startDate, Date endDate,DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
        mEventing.post(new LoadMomentsByDate(startDate,endDate,dsPagination,dbFetchRequestListener));
 	}
 
-	public void fetchMomentWith(String momentType, Date startDate, Date endDate,DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
+	public void fetchMomentsWithTypeAndTimeLine(String momentType, Date startDate, Date endDate,DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
 		mEventing.post(new LoadMomentsByDate(momentType,startDate,endDate,dsPagination,dbFetchRequestListener));
 	}
 
