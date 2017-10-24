@@ -8,6 +8,7 @@ package com.philips.platform.ths.utility;
 
 public class THSConstants {
     public static final String THS_APPLICATION_ID = "ths";
+    public static final String THS_SDK_SERVICE_ID = "Telehealth.sdkURL";
     public static final String PTH_BASE_SERVICE_URL = "https://ec2-54-172-152-160.compute-1.amazonaws.com";
     public static final String PTH_API_KEY = "3c0f99bf";
     public static final String WELCOME_FRAGMENT = "Welcome Fragment";
