@@ -117,8 +117,8 @@ public class DataPushSynchroniseTest {
         dataPushSynchronise.synchronisationManager=synchronisationManagerMock;
         dataPushSynchronise.executor = executorMock;
         ArrayList list = new ArrayList();
-//        list.add(firstDataSenderMock);
-//        list.add(secondDataSenderMock);
+        list.add(firstDataSenderMock);
+        list.add(secondDataSenderMock);
         dataPushSynchronise.senders = list;
         dataPushSynchronise.configurableSenders = list;
     }
@@ -152,7 +152,7 @@ public class DataPushSynchroniseTest {
         dataPushSynchronise.onEventAsync(responseEventMock);
         runExecutor();
         //TODO: Spoorti - Fix it and see what has to be verified
-       // verify(synchronisationManagerMock).shutdownAndAwaitTermination(executorMock);
+        // verify(synchronisationManagerMock).shutdownAndAwaitTermination(executorMock);
     }
 
     @Test
@@ -164,7 +164,7 @@ public class DataPushSynchroniseTest {
     }
 
     private void runExecutor() {
-       // verify(executorMock, atLeastOnce()).execute(runnableCaptor.capture());
+        // verify(executorMock, atLeastOnce()).execute(runnableCaptor.capture());
 
         for (Runnable runnable : runnableCaptor.getAllValues()) {
             runnable.run();
