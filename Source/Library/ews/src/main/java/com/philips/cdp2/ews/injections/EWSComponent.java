@@ -29,7 +29,6 @@ import com.philips.cdp2.ews.view.TroubleshootCheckRouterSettingsFragment;
 import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.view.TroubleshootIncorrectPasswordFragment;
 import com.philips.cdp2.ews.view.TroubleshootWrongWiFiFragment;
-import com.philips.cdp2.ews.view.dialog.CancelDialogFragment;
 import com.philips.cdp2.ews.view.dialog.TroubleshootDeviceAPModeFragment;
 import com.philips.cdp2.ews.viewmodel.BaseTroubleShootingViewModel;
 
@@ -54,8 +53,6 @@ public interface EWSComponent {
     void inject(EWSWiFiConnectFragment ewsWiFiConnectFragment);
 
     void inject(EWSWiFiPairedFragment ewsWiFiPairedFragment);
-
-    void inject(CancelDialogFragment cancelDialogFragment);
 
     void inject(TroubleshootDeviceAPModeFragment troubleshootDeviceAPModeFragment);
 
