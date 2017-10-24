@@ -45,6 +45,7 @@ Version {next}
 * CommLib - \#84930 CommLib responses should include port being subscribed to
 	* CommLib now determines for which port incoming data is.
 	* Ports are no longer required to determine if JSON matches their port properties.
+* CommLib - \#81027 Subscriptions continue to work when security key changes.
 
 
 ### Residual anomalies
