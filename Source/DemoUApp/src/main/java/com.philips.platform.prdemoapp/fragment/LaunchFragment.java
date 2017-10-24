@@ -107,7 +107,9 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
             }
         });
         activityLauncher = new ActivityLauncher(ActivityLauncher.
-                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
+        ActivityOrientation.SCREEN_ORIENTATION_SENSOR, ((MainActivity) getActivity()).getThemeConfig(),
+                ((MainActivity) getActivity()).getThemeResourceId(), null);
+
 
         urInterface = new URInterface();
         urInterface.launch(activityLauncher, urLaunchInput);
@@ -128,21 +130,21 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         return 0;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    Log.e("gif--","fragment back key is clicked");
-                    getActivity().getSupportFragmentManager().popBackStack("LaunchFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
+//    @Override
+//    public void onActivityCreated(Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//        getView().setFocusableInTouchMode(true);
+//        getView().requestFocus();
+//        getView().setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+//                    Log.e("gif--","fragment back key is clicked");
+//                    getActivity().getSupportFragmentManager().popBackStack("LaunchFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
+//    }
 }

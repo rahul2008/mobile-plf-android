@@ -134,23 +134,23 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
         mPurchaseDate.setOnClickListener(this);
         toggleButton.setOnClickListener(this);
     }
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    Log.e("gif--","fragment back key is clicked");
-                    getActivity().getSupportFragmentManager().popBackStack("ManualRegistrationFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
+//    @Override
+//    public void onActivityCreated(Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//        getView().setFocusableInTouchMode(true);
+//        getView().requestFocus();
+//        getView().setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+//                    Log.e("gif--","fragment back key is clicked");
+//                    getActivity().getSupportFragmentManager().popBackStack("ManualRegistrationFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
+//    }
 
     @Override
     public void onClick(View v) {
