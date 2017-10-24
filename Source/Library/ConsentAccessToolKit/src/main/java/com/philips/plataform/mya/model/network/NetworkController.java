@@ -5,15 +5,14 @@ import android.content.Context;
 import android.os.Message;
 import android.util.Log;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonArray;
 import com.philips.plataform.mya.model.error.ConsentNetworkError;
 import com.philips.plataform.mya.model.listener.RequestListener;
 import com.philips.plataform.mya.model.request.ConsentRequest;
 import com.philips.plataform.mya.model.utils.ConsentUtil;
+import com.philips.platform.appinfra.AppInfra;
 
 /**
  * Created by Maqsood on 10/12/17.
@@ -29,7 +28,6 @@ public class NetworkController {
     }
 
     private void sendRequest(final int requestCode, final NetworkAbstractModel model, final RequestListener requestListener) {
-        RequestQueue queue = Volley.newRequestQueue(mContext);
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
@@ -58,7 +56,19 @@ public class NetworkController {
         };
 
         ConsentRequest consentRequest = getConsentJsonRequest(model, error, response);
-        queue.add(consentRequest);
+        addRequestToQueue(consentRequest,mContext);
+    }
+
+    private void addRequestToQueue(ConsentRequest consentRequest, Context context){
+        AppInfra ai = new AppInfra.Builder().build(context);
+        if (consentRequest != null) {
+            if (ai.getRestClient() != null) {
+                ai.getRestClient().getRequestQueue().add(consentRequest);
+            } else {
+                Log.d("Rest client", "Couldn't initialise REST Client");
+
+            }
+        }
     }
 
     ConsentRequest getConsentJsonRequest(final NetworkAbstractModel model, final Response.ErrorListener error, final Response.Listener<JsonArray> response) {
