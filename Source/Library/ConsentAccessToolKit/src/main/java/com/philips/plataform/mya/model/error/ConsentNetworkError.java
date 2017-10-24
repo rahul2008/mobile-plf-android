@@ -110,7 +110,7 @@ public class ConsentNetworkError implements NetworkErrorListener {
                 checkInsufficientStockError(mServerError);
             }
         } catch (Exception e) {
-            Log.e(e.getMessage(), "Network error");
+            Log.e("Network error",e.getMessage());
         }
     }
 

@@ -38,7 +38,7 @@ public class ConsentAccessToolKit {
             @Override
             public int onModelDataError(Message msg) {
                 if (msg.obj instanceof ConsentNetworkError) {
-                    return ((ConsentNetworkError) msg.obj).getErrorCode();
+                   return consentListener.onResponseFailureConsent(((ConsentNetworkError) msg.obj).getErrorCode());
                 }
                 return ConsentUtil.CONSENT_ERROR_UNKNOWN;
             }

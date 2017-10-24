@@ -16,9 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.plataform.mya.model.error.ServerError;
-import com.philips.plataform.mya.model.listener.ConsentResponseListener;
 import com.philips.plataform.mya.model.ConsentAccessToolKit;
+import com.philips.plataform.mya.model.listener.ConsentResponseListener;
 import com.philips.plataform.mya.model.response.ConsentModel;
 import com.philips.plataform.mya.model.response.ConsentStatus;
 import com.philips.plataform.mya.model.utils.ConsentUtil;
@@ -80,10 +79,10 @@ public class PermissionView extends CswBaseFragment implements
             }
 
             @Override
-            public void onResponseFailureConsent(ServerError consentError) {
+            public int onResponseFailureConsent(int errCode) {
                 hideProgressDialog();
-                //Need to handle
-                Log.d(" Consent : ", "failed");
+                Log.d(" Consent failed  : ", "onResponseFailureConsent : "+errCode);
+                return errCode;
             }
         });
     }

@@ -14,6 +14,8 @@ import com.philips.plataform.mya.model.request.ConsentRequest;
 import com.philips.plataform.mya.model.utils.ConsentUtil;
 import com.philips.platform.appinfra.AppInfra;
 
+import java.util.HashMap;
+
 /**
  * Created by Maqsood on 10/12/17.
  */
@@ -31,7 +33,7 @@ public class NetworkController {
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
-                Log.d("sendRequest ", "failed : " + error.getMessage());
+                Log.d("sendRequest ", "failed : " + error + "  message :  "+new ConsentNetworkError(error, requestCode, requestListener));
                 if (requestListener != null && error != null) {
                     new ConsentNetworkError(error, requestCode, requestListener);
                 }
@@ -73,6 +75,6 @@ public class NetworkController {
 
     ConsentRequest getConsentJsonRequest(final NetworkAbstractModel model, final Response.ErrorListener error, final Response.Listener<JsonArray> response) {
         return new ConsentRequest(model.getMethod(), model.getUrl(),
-                model.requestHeader(), model.requestBody(), response, error);
+                new HashMap<String, String>(), model.requestBody(), response, error);
     }
 }
