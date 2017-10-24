@@ -29,6 +29,8 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_USER_NOT_LOGGED_IN;
 
 
@@ -221,6 +223,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
             }
         }
         if (THSManager.getInstance().getThsVisitCompletionListener() != null) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,"exitToUgrow","toUgrowPage");
             THSManager.getInstance().getThsVisitCompletionListener().onTHSVisitComplete(true);
         }
     }
