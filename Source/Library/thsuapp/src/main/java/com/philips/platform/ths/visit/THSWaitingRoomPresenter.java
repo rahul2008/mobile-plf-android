@@ -9,6 +9,7 @@ package com.philips.platform.ths.visit;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
@@ -23,6 +24,7 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +36,7 @@ import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_PROVIDER_CONNECTED;
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
 import static com.americanwell.sdk.entity.visit.VisitEndReason.PROVIDER_DECLINE;
+import static com.philips.platform.ths.utility.THSConstants.CVV_HELP_TEXT;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
@@ -53,10 +56,10 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     @Override
     public void onEvent(int componentID) {
+
         if (componentID == R.id.ths_confirmation_dialog_primary_button) {
             mTHSWaitingRoomFragment.mProgressBarWithLabel.setText("Cancelling Visit");
             cancelVisit();
-
         }
     }
 
@@ -161,8 +164,9 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     @Override
     public void onStartVisitEnded(@NonNull VisitEndReason visitEndReason) {
-        AmwellLog.v("call end", visitEndReason.toString());
-        if (visitEndReason == PROVIDER_DECLINE) {
+        AmwellLog.v("call end",visitEndReason.toString());
+        if(visitEndReason == PROVIDER_DECLINE){
+            showVisitUnSuccess(true,true,false);
 
         }
 
@@ -207,6 +211,26 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     @Override
     public void onFailure(Throwable throwable) {
         abondonCurrentVisit();
+    }
+
+
+    void showVisitUnSuccess(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSWaitingRoomFragment.getFragmentActivity())
+                .setMessage(showLargeContent ? mTHSWaitingRoomFragment.getFragmentActivity().getResources().getString(R.string.visit_not_successful) : mTHSWaitingRoomFragment.getFragmentActivity().getResources().getString(R.string.visit_not_successful)).
+                        setPositiveButton(" Ok ", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mTHSWaitingRoomFragment.exitFromAmWell(false);
+                            }
+                        });
+
+        if (isWithTitle) {
+            builder.setTitle("Error");
+
+        }
+        mTHSWaitingRoomFragment.alertDialogFragment = builder.setCancelable(false).create();
+        mTHSWaitingRoomFragment.alertDialogFragment.show(mTHSWaitingRoomFragment.getFragmentManager(), CVV_HELP_TEXT);
+
     }
 
 
