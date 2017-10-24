@@ -44,6 +44,7 @@
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/connection_unsuccessful_note"
                 style="@style/Txt.Body"
+                android:padding="@dimen/default_screen_bottom_margin"
                 android:background="?attr/uidContentTertiaryBackgroundColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
