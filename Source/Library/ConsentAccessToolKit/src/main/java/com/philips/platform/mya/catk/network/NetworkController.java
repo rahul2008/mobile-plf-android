@@ -1,4 +1,4 @@
-package com.philips.plataform.mya.model.network;
+package com.philips.platform.mya.catk.network;
 
 
 import android.content.Context;
@@ -8,13 +8,11 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.JsonArray;
-import com.philips.plataform.mya.model.error.ConsentNetworkError;
-import com.philips.plataform.mya.model.listener.RequestListener;
-import com.philips.plataform.mya.model.request.ConsentRequest;
-import com.philips.plataform.mya.model.utils.ConsentUtil;
 import com.philips.platform.appinfra.AppInfra;
-
-import java.util.HashMap;
+import com.philips.platform.mya.catk.error.ConsentNetworkError;
+import com.philips.platform.mya.catk.listener.RequestListener;
+import com.philips.platform.mya.catk.request.ConsentRequest;
+import com.philips.platform.mya.catk.utils.ConsentUtil;
 
 /**
  * Created by Maqsood on 10/12/17.
@@ -75,6 +73,6 @@ public class NetworkController {
 
     ConsentRequest getConsentJsonRequest(final NetworkAbstractModel model, final Response.ErrorListener error, final Response.Listener<JsonArray> response) {
         return new ConsentRequest(model.getMethod(), model.getUrl(),
-                new HashMap<String, String>(), model.requestBody(), response, error);
+                model.requestHeader(), model.requestBody(), response, error);
     }
 }

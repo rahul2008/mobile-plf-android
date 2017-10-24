@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.plataform.mya.model.session;
+package com.philips.platform.mya.catk.session;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;

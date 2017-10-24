@@ -1,17 +1,17 @@
-package com.philips.plataform.mya.model;
+package com.philips.platform.mya.catk;
 
 import android.content.Context;
 import android.os.Message;
 
 import com.android.volley.Request;
 import com.philips.cdp.registration.User;
-import com.philips.plataform.mya.model.error.ConsentNetworkError;
-import com.philips.plataform.mya.model.listener.ConsentResponseListener;
-import com.philips.plataform.mya.model.network.NetworkAbstractModel;
-import com.philips.plataform.mya.model.network.NetworkHelper;
-import com.philips.plataform.mya.model.request.ConsentModelRequest;
-import com.philips.plataform.mya.model.response.ConsentModel;
-import com.philips.plataform.mya.model.utils.ConsentUtil;
+import com.philips.platform.mya.catk.error.ConsentNetworkError;
+import com.philips.platform.mya.catk.listener.ConsentResponseListener;
+import com.philips.platform.mya.catk.model.GetConsentsModel;
+import com.philips.platform.mya.catk.network.NetworkAbstractModel;
+import com.philips.platform.mya.catk.network.NetworkHelper;
+import com.philips.platform.mya.catk.model.GetConsentsModelRequest;
+import com.philips.platform.mya.catk.utils.ConsentUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,11 +27,11 @@ public class ConsentAccessToolKit {
 
     public void getConsentDetails(Context context,String applicationName,String propositionName,final ConsentResponseListener consentListener){
         user = new User(context);
-        ConsentModelRequest model = new ConsentModelRequest(applicationName,propositionName,user,new NetworkAbstractModel.DataLoadListener() {
+        GetConsentsModelRequest model = new GetConsentsModelRequest(applicationName,propositionName,user,new NetworkAbstractModel.DataLoadListener() {
             @Override
             public void onModelDataLoadFinished(Message msg) {
-                ConsentModel[] modelResults = (ConsentModel[]) msg.obj;
-                ArrayList<ConsentModel> consentModels = new ArrayList<>(Arrays.asList(modelResults));
+                GetConsentsModel[] modelResults = (GetConsentsModel[]) msg.obj;
+                ArrayList<GetConsentsModel> consentModels = new ArrayList<>(Arrays.asList(modelResults));
                 consentListener.onResponseSuccessConsent(consentModels);
             }
 

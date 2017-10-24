@@ -1,11 +1,11 @@
-package com.philips.plataform.mya.model.network;
+package com.philips.platform.mya.catk.network;
 
 import android.os.Message;
 
 import com.google.gson.JsonArray;
 import com.philips.cdp.registration.User;
-import com.philips.plataform.mya.model.listener.RequestListener;
-import com.philips.plataform.mya.model.response.ConsentModel;
+import com.philips.platform.mya.catk.listener.RequestListener;
+import com.philips.platform.mya.catk.model.GetConsentsModel;
 
 import java.util.Map;
 
@@ -50,7 +50,7 @@ public abstract class NetworkAbstractModel implements RequestListener {
         }
     }
 
-    public abstract ConsentModel[] parseResponse(JsonArray response);
+    public abstract GetConsentsModel[] parseResponse(JsonArray response);
 
     public abstract int getMethod();
 

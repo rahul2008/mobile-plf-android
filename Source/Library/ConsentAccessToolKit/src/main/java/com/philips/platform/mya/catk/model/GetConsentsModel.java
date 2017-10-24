@@ -1,13 +1,14 @@
-package com.philips.plataform.mya.model.response;
+package com.philips.platform.mya.catk.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.philips.platform.mya.catk.response.ConsentStatus;
 
 /**
  * Created by Maqsood on 10/13/17.
  */
 
-public class ConsentModel {
+public class GetConsentsModel {
 
     @SerializedName("dateTime")
     @Expose

@@ -1,4 +1,4 @@
-package com.philips.plataform.mya.model.error;
+package com.philips.platform.mya.catk.error;
 
 import java.util.List;
 

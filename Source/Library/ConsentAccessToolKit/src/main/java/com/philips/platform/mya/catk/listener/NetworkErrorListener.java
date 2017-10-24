@@ -1,4 +1,4 @@
-package com.philips.plataform.mya.model.listener;
+package com.philips.platform.mya.catk.listener;
 
 /**
  * Created by Maqsood on 10/12/17.

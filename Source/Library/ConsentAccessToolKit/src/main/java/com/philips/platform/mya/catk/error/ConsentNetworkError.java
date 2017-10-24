@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.plataform.mya.model.error;
+package com.philips.platform.mya.catk.error;
 
 import android.os.Message;
 import android.util.Log;
@@ -12,9 +12,9 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.philips.plataform.mya.model.listener.NetworkErrorListener;
-import com.philips.plataform.mya.model.listener.RequestListener;
-import com.philips.plataform.mya.model.utils.ConsentUtil;
+import com.philips.platform.mya.catk.listener.NetworkErrorListener;
+import com.philips.platform.mya.catk.listener.RequestListener;
+import com.philips.platform.mya.catk.utils.ConsentUtil;
 
 /**
  * Created by Maqsood on 10/12/17.

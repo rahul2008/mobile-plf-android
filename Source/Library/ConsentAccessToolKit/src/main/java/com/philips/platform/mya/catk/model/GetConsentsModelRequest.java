@@ -1,11 +1,10 @@
-package com.philips.plataform.mya.model.request;
+package com.philips.platform.mya.catk.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.philips.cdp.registration.User;
-import com.philips.plataform.mya.model.network.NetworkAbstractModel;
-import com.philips.plataform.mya.model.response.ConsentModel;
+import com.philips.platform.mya.catk.network.NetworkAbstractModel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +13,7 @@ import java.util.Map;
  * Created by Maqsood on 10/13/17.
  */
 
-public class ConsentModelRequest extends NetworkAbstractModel {
+public class GetConsentsModelRequest extends NetworkAbstractModel {
 
     //This field has to remove later(URL should take from service discovery)
     private StringBuilder URL = new StringBuilder("https://hdc-css-mst.cloud.pcftest.com/consent/");
@@ -22,7 +21,7 @@ public class ConsentModelRequest extends NetworkAbstractModel {
     private String mApplicationName;
     private String mPropositionName;
 
-    public ConsentModelRequest(String applicationName, String propositionName, User user, DataLoadListener dataLoadListener) {
+    public GetConsentsModelRequest(String applicationName, String propositionName, User user, DataLoadListener dataLoadListener) {
         super(user, dataLoadListener);
         mUser = user;
         mApplicationName = applicationName;
@@ -30,8 +29,8 @@ public class ConsentModelRequest extends NetworkAbstractModel {
     }
 
     @Override
-    public ConsentModel[] parseResponse(JsonArray response) {
-        return new Gson().fromJson(response, ConsentModel[].class);
+    public GetConsentsModel[] parseResponse(JsonArray response) {
+        return new Gson().fromJson(response, GetConsentsModel[].class);
     }
 
     @Override

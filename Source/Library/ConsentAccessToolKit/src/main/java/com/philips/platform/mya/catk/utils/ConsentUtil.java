@@ -1,4 +1,4 @@
-package com.philips.plataform.mya.model.utils;
+package com.philips.platform.mya.catk.utils;
 
 /**
  * Created by Maqsood on 10/13/17.

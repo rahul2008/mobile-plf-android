@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.plataform.mya.model.session;
+package com.philips.platform.mya.catk.session;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
@@ -10,7 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HurlStack;
 import com.google.gson.JsonArray;
-import com.philips.plataform.mya.model.request.ConsentRequest;
+import com.philips.platform.mya.catk.request.ConsentRequest;
 
 /**
  * Created by Maqsood on 10/12/17.

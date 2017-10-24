@@ -1,4 +1,4 @@
-package com.philips.plataform.mya.model.listener;
+package com.philips.platform.mya.catk.listener;
 
 import android.os.Message;
 

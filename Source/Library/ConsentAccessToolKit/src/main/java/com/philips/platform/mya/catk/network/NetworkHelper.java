@@ -1,11 +1,11 @@
-package com.philips.plataform.mya.model.network;
+package com.philips.platform.mya.catk.network;
 
 import android.content.Context;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.plataform.mya.model.listener.RefreshTokenListener;
-import com.philips.plataform.mya.model.listener.RequestListener;
+import com.philips.platform.mya.catk.listener.RefreshTokenListener;
+import com.philips.platform.mya.catk.listener.RequestListener;
 
 /**
  * Created by Maqsood on 10/18/17.

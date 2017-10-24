@@ -16,12 +16,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.plataform.mya.model.ConsentAccessToolKit;
-import com.philips.plataform.mya.model.listener.ConsentResponseListener;
-import com.philips.plataform.mya.model.response.ConsentModel;
-import com.philips.plataform.mya.model.response.ConsentStatus;
-import com.philips.plataform.mya.model.utils.ConsentUtil;
 import com.philips.platform.csw.CswBaseFragment;
+import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.catk.listener.ConsentResponseListener;
+import com.philips.platform.mya.catk.model.GetConsentsModel;
+import com.philips.platform.mya.catk.response.ConsentStatus;
+import com.philips.platform.mya.catk.utils.ConsentUtil;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uid.view.widget.Switch;
 
@@ -65,7 +65,7 @@ public class PermissionView extends CswBaseFragment implements
         consentAccessToolKit.getConsentDetails(getApplicationContext(), ConsentUtil.APPLICATION_NAME,ConsentUtil.PROPOSITION_NAME,new ConsentResponseListener() {
 
             @Override
-            public void onResponseSuccessConsent(List<ConsentModel> responseData) {
+            public void onResponseSuccessConsent(List<GetConsentsModel> responseData) {
                 hideProgressDialog();
                 if (responseData.get(0).getStatus().equals(ConsentStatus.active)) {
                     mConsentSwitch.setChecked(true);

@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.plataform.mya.model.request;
+package com.philips.platform.mya.catk.request;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -22,11 +22,11 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.HurlStack;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
-import com.philips.plataform.mya.model.listener.RefreshTokenListener;
-import com.philips.plataform.mya.model.network.NetworkHelper;
-import com.philips.plataform.mya.model.session.SynchronizedNetwork;
-import com.philips.plataform.mya.model.session.SynchronizedNetworkListener;
-import com.philips.plataform.mya.model.utils.ConsentUtil;
+import com.philips.platform.mya.catk.listener.RefreshTokenListener;
+import com.philips.platform.mya.catk.network.NetworkHelper;
+import com.philips.platform.mya.catk.session.SynchronizedNetwork;
+import com.philips.platform.mya.catk.session.SynchronizedNetworkListener;
+import com.philips.platform.mya.catk.utils.ConsentUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -122,17 +122,22 @@ public class ConsentRequest extends Request<JsonArray> {
 
     private void persistRequestSend() {
         final SynchronizedNetwork synchronizedNetwork = new SynchronizedNetwork(new HurlStack());
-        synchronizedNetwork.performRequest(ConsentRequest.this, new SynchronizedNetworkListener() {
+        new Thread(new Runnable() {
             @Override
-            public void onSyncRequestSuccess(final Response<JsonArray> jsonObjectResponse) {
-                postSuccessResponseOnUIThread(jsonObjectResponse.result);
-            }
+            public void run() {
+                synchronizedNetwork.performRequest(ConsentRequest.this, new SynchronizedNetworkListener() {
+                    @Override
+                    public void onSyncRequestSuccess(final Response<JsonArray> jsonObjectResponse) {
+                        postSuccessResponseOnUIThread(jsonObjectResponse.result);
+                    }
 
-            @Override
-            public void onSyncRequestError(final VolleyError volleyError) {
-                postErrorResponseOnUIThread(volleyError);
+                    @Override
+                    public void onSyncRequestError(final VolleyError volleyError) {
+                        postErrorResponseOnUIThread(volleyError);
+                    }
+                });
             }
-        });
+        }).start();
     }
 
     private void postSuccessResponseOnUIThread(final JsonArray jsonArray) {
