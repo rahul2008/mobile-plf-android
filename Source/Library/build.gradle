@@ -2,6 +2,7 @@
 
 buildscript {
     apply from: "scripts/versions.gradle"
+    apply from: "../../ci-build-support/gradle/versions.gradle"
 
     repositories {
         maven {
@@ -11,11 +12,20 @@ buildscript {
                 password "123qweasdzxc"
             }
         }
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local'
+            credentials {
+                username "readonly"
+                password "123qweasdzxc"
+            }
+        }
+
         mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:${versionsExternal.dexCount}"
+        classpath(builddeps.cdpSCM)
     }
 }
 
@@ -33,7 +43,7 @@ allprojects {
         }
 
         companyMaven( "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote" ) // new JCenter (now working yet?)
-        companyMaven( "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local" ) // Adobe
+        companyMaven( "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local" ) // build-support
         companyMaven( "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-release-local") // CoCo's
         companyMaven( "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-stage-local") // For platform 2.2.2
     }
