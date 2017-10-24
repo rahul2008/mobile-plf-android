@@ -23,7 +23,7 @@ public class SetupAccessPointModeTroubleshootingViewModel {
     @NonNull public final ObservableField<String> title;
     @NonNull public final ObservableField<String> description;
     @NonNull private StringProvider stringProvider;
-    @NonNull public final Drawable setupAccessPointImage;
+    @NonNull public final int setupAccessPointImage;
 
     @Inject
     public SetupAccessPointModeTroubleshootingViewModel(@NonNull Navigator navigator, @NonNull StringProvider stringProvider, @NonNull BaseContentConfiguration contentConfiguration,
@@ -31,8 +31,8 @@ public class SetupAccessPointModeTroubleshootingViewModel {
         this.navigator = navigator;
         this.stringProvider = stringProvider;
         this.title = new ObservableField<>(getTitle(troubleShootContentConfiguration, contentConfiguration));
-        this.description = new ObservableField<>(getNote(contentConfiguration));
-        this.setupAccessPointImage = getSetupAccessPointImage(troubleShootContentConfiguration);
+        this.description = new ObservableField<>(getNote(troubleShootContentConfiguration, contentConfiguration));
+        this.setupAccessPointImage = troubleShootContentConfiguration.getSetUpAccessPointImage();
     }
 
     public void onDoneButtonClicked() {
@@ -57,14 +57,15 @@ public class SetupAccessPointModeTroubleshootingViewModel {
     @NonNull
     String getTitle(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
                     @NonNull BaseContentConfiguration baseConfig) {
-        return stringProvider.getString(troubleShootContentConfiguration.getResetConnectionTitle(),
+        return stringProvider.getString(troubleShootContentConfiguration.getSetUpAccessPointTitle(),
                 baseConfig.getDeviceName());
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     @NonNull
-    String getNote(@NonNull BaseContentConfiguration baseConfig) {
-        return stringProvider.getString(R.string.label_ews_support_setup_access_point_body_default,
+    String getNote(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
+                    @NonNull BaseContentConfiguration baseConfig) {
+        return stringProvider.getString(troubleShootContentConfiguration.getSetUpAccessPointBody(),
                 baseConfig.getDeviceName());
     }
 }

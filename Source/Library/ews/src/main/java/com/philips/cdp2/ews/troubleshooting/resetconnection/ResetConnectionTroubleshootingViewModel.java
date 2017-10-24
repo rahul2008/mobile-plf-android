@@ -3,13 +3,10 @@ package com.philips.cdp2.ews.troubleshooting.resetconnection;
 import android.databinding.ObservableField;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.content.ContextCompat;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
-import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.util.StringProvider;
@@ -59,7 +56,7 @@ public class ResetConnectionTroubleshootingViewModel {
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     @NonNull
     String getNote(@NonNull BaseContentConfiguration baseConfig) {
-        return stringProvider.getString(R.string.label_ews_support_reset_connection_title_default,
+        return stringProvider.getString(R.string.label_ews_support_reset_connection_body_default,
                 baseConfig.getDeviceName());
     }
 }

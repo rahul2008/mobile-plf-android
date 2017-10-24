@@ -27,7 +27,7 @@ public class ResetDeviceTroubleshootingViewModel {
         this.navigator = navigator;
         this.stringProvider = stringProvider;
         title = new ObservableField<>(getTitle(troubleShootContentConfiguration, contentConfiguration));
-        description = new ObservableField<>(getNote(contentConfiguration));
+        description = new ObservableField<>(getNote(troubleShootContentConfiguration, contentConfiguration));
         resetDeviceImage = getResetDeviceImage(troubleShootContentConfiguration);
     }
 
@@ -51,8 +51,11 @@ public class ResetDeviceTroubleshootingViewModel {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     @NonNull
-    String getNote(@NonNull BaseContentConfiguration baseConfig) {
-        return stringProvider.getString(R.string.label_ews_support_reset_device_body_default,
+    String getNote (@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
+                    @NonNull BaseContentConfiguration baseConfig) {
+        return stringProvider.getString(troubleShootContentConfiguration.getResetDeviceBody(),
                 baseConfig.getDeviceName());
     }
+
+
 }

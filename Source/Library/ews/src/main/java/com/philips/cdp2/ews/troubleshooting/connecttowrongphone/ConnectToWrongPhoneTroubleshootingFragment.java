@@ -32,7 +32,7 @@ public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShoot
 
         final ConnectToWrongPhoneTroubleshootingViewModel viewModel = ((EWSActivity) getActivity()).getEWSComponent()
                 .connectToWrongPhoneTroubleshootingViewModel();
-        connectToWrongPhoneTroubleshootingLayoutBinding.setViewModel(viewModel);
+        connectToWrongPhoneTroubleshootingLayoutBinding.setViewmodel(viewModel);
 
         view.findViewById(R.id.ews_H_03_01_button_yes)
                 .setOnClickListener(new View.OnClickListener() {

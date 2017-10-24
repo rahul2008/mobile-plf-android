@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewmodel"
             type="com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingViewModel" />
@@ -27,14 +28,14 @@
                 style="@style/Txt.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/label_ews_support_wrong_phone_title_default"/>
+                android:text="@{viewmodel.title}" />
 
             <com.philips.platform.uid.view.widget.Label
                 style="@style/Txt.Body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_body_labels_margin"
-                android:text="@string/label_ews_support_wrong_phone_body_default" />
+                android:text="@{viewmodel.description}" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -47,14 +48,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:contentDescription="@null"
-                    android:src="@drawable/ews_product_reset_device" />
+                    android:src="@{viewmodel.connectWrongImage}" />
 
                 <com.philips.platform.uid.view.widget.Label
                     style="@style/Txt.Body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_body_labels_margin"
-                    android:text="@string/label_ews_support_wrong_phone_question_default" />
+                    android:text="@{viewmodel.questions}" />
             </LinearLayout>
 
             <android.support.v4.widget.Space

@@ -201,22 +201,22 @@ public class TroubleShootContentConfiguration implements Parcelable {
 
         public Builder(){
             //Todo : need to change default text on base on ui
-            resetConnectionTitle = R.string.label_ews_get_started_title;
-            resetConnectionBody = R.string.label_ews_get_started_title;
-            resetConnectionImage = R.drawable.ic_ews_device_apmode_blinking;
+            resetConnectionTitle = R.string.label_ews_support_reset_connection_title_default;
+            resetConnectionBody = R.string.label_ews_support_reset_connection_body_default;
+            resetConnectionImage = R.drawable.ic_ews_wrong_phone_connected;
 
-            resetDeviceTitle = R.string.label_ews_get_started_title;
-            resetDeviceBody = R.string.label_ews_get_started_title;
-            resetDeviceImage = R.drawable.ic_ews_device_apmode_blinking;
+            resetDeviceTitle = R.string.label_ews_support_reset_device_title_default;
+            resetDeviceBody = R.string.label_ews_support_reset_device_body_default;
+            resetDeviceImage = R.drawable.ic_ews_wrong_phone_connected;
 
-            setUpAccessPointTitle = R.string.label_ews_get_started_title;
-            setUpAccessPointBody = R.string.label_ews_get_started_title;
-            setUpAccessPointImage = R.drawable.ic_ews_device_apmode_blinking;
+            setUpAccessPointTitle = R.string.label_ews_support_setup_access_point_title_default;
+            setUpAccessPointBody = R.string.label_ews_support_setup_access_point_body_default;
+            setUpAccessPointImage = R.drawable.ic_ews_wrong_phone_connected;
 
-            connectWrongPhoneTitle = R.string.label_ews_get_started_title;
-            connectWrongPhoneBody = R.string.label_ews_get_started_title;
-            connectWrongPhoneImage = R.drawable.ic_ews_device_apmode_blinking;
-            connectWrongPhoneQuestion = R.string.label_ews_get_started_title;
+            connectWrongPhoneTitle = R.string.label_ews_support_wrong_phone_title_default;
+            connectWrongPhoneBody = R.string.label_ews_support_wrong_phone_body_default;
+            connectWrongPhoneImage = R.drawable.ic_ews_wrong_phone_connected;
+            connectWrongPhoneQuestion = R.string.label_ews_support_wrong_phone_question_default;
 
         }
 
