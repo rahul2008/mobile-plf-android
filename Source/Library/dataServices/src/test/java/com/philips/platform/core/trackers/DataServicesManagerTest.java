@@ -65,6 +65,7 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.verticals.VerticalCreater;
 import com.philips.platform.verticals.VerticalUCoreAccessProvider;
 import com.philips.platform.verticals.VerticalUserRegistrationInterface;
+import com.philips.spy.DSPaginationSpy;
 import com.philips.testing.verticals.datatyes.MomentType;
 
 import org.json.JSONObject;
@@ -91,6 +92,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class DataServicesManagerTest {
+
     public static final int TEST_REFERENCE_ID = 111;
     public static final String TEST_USER_ID = "TEST_USER_ID";
     public static final String TEST_BABY_ID = "TEST_BABY_ID";
@@ -108,6 +110,7 @@ public class DataServicesManagerTest {
 
     @Mock
     DataFetcher dataFetcherMock;
+
     @Mock
     private Eventing eventingMock;
 
@@ -207,8 +210,7 @@ public class DataServicesManagerTest {
     @Mock
     Settings settingsMock;
 
-    @Mock
-    DSPagination paginationModel;
+    DSPaginationSpy mDSPagination;
 
     @Before
     public void setUp() {
@@ -220,7 +222,7 @@ public class DataServicesManagerTest {
         baseAppDataCreator = new VerticalCreater();
         userRegistrationInterface = new VerticalUserRegistrationInterface();
         uCoreAccessProvider = new VerticalUCoreAccessProvider(userRegistrationInterface);
-
+        mDSPagination = new DSPaginationSpy();
         tracker.mEventing = eventingMock;
         tracker.mDataCreater = baseAppDataCreator;
         tracker.mBackendIdProvider = uCoreAccessProvider;
@@ -263,7 +265,7 @@ public class DataServicesManagerTest {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         Date startDate = sdf.parse("10/11/17");
         Date endDate = sdf.parse("10/23/17");
-        tracker.fetchMomentWith(MomentType.TEMPERATURE,startDate,endDate,paginationModel,dbFetchRequestListner);
+        tracker.fetchMomentWith(MomentType.TEMPERATURE,startDate,endDate,createPagination(),dbFetchRequestListner);
         verify(eventingMock).post(any(LoadMomentsByDate.class));
     }
 
@@ -274,7 +276,7 @@ public class DataServicesManagerTest {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         Date startDate = sdf.parse("10/11/17");
         Date endDate = sdf.parse("10/23/17");
-        tracker.fetchMomentWith(startDate,endDate,paginationModel,dbFetchRequestListner);
+        tracker.fetchMomentWith(startDate,endDate,createPagination(),dbFetchRequestListner);
         verify(eventingMock).post(any(LoadMomentsByDate.class));
     }
 
@@ -589,5 +591,12 @@ public class DataServicesManagerTest {
     public void getPairedDevicesTest() throws Exception {
         tracker.getPairedDevices(null);
         verify(eventingMock).post(any(GetPairedDeviceRequestEvent.class));
+    }
+
+    private DSPaginationSpy createPagination() {
+        mDSPagination.setOrdering(DSPagination.DSPaginationOrdering.DESCENDING);
+        mDSPagination.setPageLimit(1);
+        mDSPagination.setPageNumber(1);
+        return mDSPagination;
     }
 }

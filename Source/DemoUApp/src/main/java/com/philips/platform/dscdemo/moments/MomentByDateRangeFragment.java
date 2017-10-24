@@ -182,27 +182,31 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 
     @Override
     public void onFetchFailure(Exception exception) {
-
+        showErrorOnFailure(exception);
     }
 
     @Override
     public void onSuccess(List<? extends Moment> data) {
-
+        fetchMomentByDateRangeAndType();
+        fetchMomentByDateRange();
     }
 
     @Override
     public void onFailure(Exception exception) {
+        showErrorOnFailure(exception);
 
     }
 
     @Override
     public void dBChangeSuccess(SyncType type) {
-
+        if (type != SyncType.MOMENT) return;
+        fetchMomentByDateRangeAndType();
+        fetchMomentByDateRange();
     }
 
     @Override
-    public void dBChangeFailed(Exception e) {
-
+    public void dBChangeFailed(Exception exception) {
+        showErrorOnFailure(exception);
     }
 
     @Override
@@ -293,6 +297,17 @@ public class MomentByDateRangeFragment extends DSBaseFragment
                         mMomentsRecyclerView.setVisibility(View.GONE);
                         mNoMomentInDateRange.setVisibility(View.VISIBLE);
                     }
+                }
+            });
+        }
+    }
+
+    private void showErrorOnFailure(final Exception exception) {
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
