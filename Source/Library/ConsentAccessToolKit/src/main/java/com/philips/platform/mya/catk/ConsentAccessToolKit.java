@@ -15,6 +15,8 @@ import com.philips.platform.mya.catk.utils.ConsentUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Maqsood on 10/17/17.
@@ -32,10 +34,10 @@ public class ConsentAccessToolKit {
         this.context = context;
         this.applicationName = applicationName;
         this.propositionName = propositionName;
+        this.user = new User(context);
     }
 
     public void getConsentDetails(final ConsentResponseListener consentListener){
-        user = new User(context);
         GetConsentsModelRequest model = new GetConsentsModelRequest(applicationName,propositionName,user,new NetworkAbstractModel.DataLoadListener() {
             @Override
             public void onModelDataLoadFinished(Message msg) {
@@ -54,6 +56,33 @@ public class ConsentAccessToolKit {
         });
         getNetworkHelper().sendRequest(context,Request.Method.GET, model, model);
     }
+
+    public void getStatusForConsentType(String consentType, int version, final ConsentResponseListener consentListener) {
+        final String policyRule = buildPolicyRule(consentType, version, user.getCountryCode(), propositionName, applicationName);
+        getConsentDetails(new ConsentResponseListener() {
+
+            @Override
+            public void onResponseSuccessConsent(List<GetConsentsModel> responseData) {
+                for (GetConsentsModel consent: responseData) {
+                    if (policyRule.equals(consent.getPolicyRule())) {
+                        consentListener.onResponseSuccessConsent(Collections.singletonList(consent));
+                        return;
+                    }
+                    consentListener.onResponseSuccessConsent(null);
+                }
+            }
+
+            @Override
+            public int onResponseFailureConsent(int consentError) {
+                return consentListener.onResponseFailureConsent(consentError);
+            }
+        });
+    }
+
+    private String buildPolicyRule(String consentType, int version, String country, String propositionName, String applicationName) {
+        return "urn:com.philips.consent:" + consentType + "/" + country + "/" + version + "/" + propositionName + "/" + applicationName;
+    }
+
 
     private NetworkHelper getNetworkHelper() {
         if (networkHelper == null) {

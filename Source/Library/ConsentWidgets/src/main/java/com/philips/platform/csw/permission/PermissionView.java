@@ -17,8 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp.registration.User;
-import com.philips.plataform.mya.model.network.NetworkHelper;
 import com.philips.platform.csw.CswBaseFragment;
+import com.philips.platform.mya.catk.ConsentAccessToolKit;
 import com.philips.platform.mya.catk.listener.ConsentResponseListener;
 import com.philips.platform.mya.catk.model.GetConsentsModel;
 import com.philips.platform.mya.catk.response.ConsentStatus;
@@ -36,7 +36,7 @@ public class PermissionView extends CswBaseFragment implements
 
     public static final String applicationName = "OneBackend";
     public static final String propositionName = "OneBackendProp";
-    public static final String moment = "moment";
+    public static final String CONSENT_TYPE_MOMENT = "moment";
     public static final int version = 0;
 
     private PermissionPresenter permissionPresenter;
@@ -68,9 +68,9 @@ public class PermissionView extends CswBaseFragment implements
 
     private void getConsentStatus() {
         showProgressDialog();
-        NetworkHelper consentObj = new NetworkHelper();
+        ConsentAccessToolKit cat = new ConsentAccessToolKit(getApplicationContext(), applicationName, propositionName);
         User user = new User(getApplicationContext());
-        consentObj.getStatusForConsentType(getApplicationContext(), moment, version, user.getCountryCode(), propositionName, applicationName, new ConsentResponseListener() {
+        cat.getStatusForConsentType(CONSENT_TYPE_MOMENT, version, new ConsentResponseListener() {
             @Override
             public void onResponseSuccessConsent(List<GetConsentsModel> responseData) {
                 if (responseData != null && !responseData.isEmpty()) {
