@@ -8,15 +8,9 @@ import com.philips.platform.core.datatypes.DSPagination;
 
 public class Pagination implements DSPagination {
 
-    private String orderBy;
     private int pageNumber;
     private int pageLimit;
     private DSPaginationOrdering sortOrder;
-
-    @Override
-    public String getOrderBy() {
-        return orderBy;
-    }
 
     @Override
     public int getPageNumber() {
@@ -26,11 +20,6 @@ public class Pagination implements DSPagination {
     @Override
     public int getPageLimit() {
         return pageLimit;
-    }
-
-    @Override
-    public void setOrderBy(String orderBy) {
-        this.orderBy = orderBy;
     }
 
     @Override
