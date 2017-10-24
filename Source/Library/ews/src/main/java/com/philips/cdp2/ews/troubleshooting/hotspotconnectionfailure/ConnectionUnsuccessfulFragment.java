@@ -10,9 +10,13 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.configuration.ContentConfiguration;
+import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.databinding.EwsDeviceConnUnsuccessfulBinding;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSComponent;
+import com.philips.cdp2.ews.injections.EWSConfigurationModule;
 import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.cdp2.ews.view.EWSBaseFragment;
 
@@ -60,7 +64,8 @@ public class ConnectionUnsuccessfulFragment extends EWSBaseFragment<EwsDeviceCon
 
     @Override
     protected EWSComponent getEwsComponent() {
-        return DaggerEWSComponent.builder().eWSModule(new EWSModule(getContext(), getFragmentManager())).build();
+        return DaggerEWSComponent.builder().eWSModule(new EWSModule(getContext(), getFragmentManager()))
+                .eWSConfigurationModule(new EWSConfigurationModule(getContext(), new ContentConfiguration())).build();
     }
 
     @Override

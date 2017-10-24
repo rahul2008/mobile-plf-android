@@ -126,28 +126,28 @@ public class HappyFlowContentConfiguration implements Parcelable {
     public static class Builder {
         @StringRes private int gettingStartedScreenTitle;
 
-        @StringRes private int plugInScreenTitle;
-        @StringRes private int plugInScreenBody;
-        @DrawableRes private int plugInScreenImage;
+        @StringRes private int setUpScreenTitle;
+        @StringRes private int setUpScreenBody;
+        @DrawableRes private int setUpScreenImage;
 
-        @StringRes private int verifyReadyScreenTitle;
-        @StringRes private int verifyReadyScreenQuestion;
-        @StringRes private int verifyReadyScreenYesButton;
-        @StringRes private int verifyReadyScreenNoButton;
-        @DrawableRes private int verifyReadyScreenImage;
+        @StringRes private int setUpVerifyScreenTitle;
+        @StringRes private int setUpVerifyScreenQuestion;
+        @StringRes private int setUpVerifyScreenYesButton;
+        @StringRes private int setUpVerifyScreenNoButton;
+        @DrawableRes private int setUpVerifyScreenImage;
 
         public Builder() {
             gettingStartedScreenTitle = R.string.label_ews_get_started_title;
 
-            plugInScreenTitle = R.string.label_ews_plug_in_title_default;
-            plugInScreenBody = R.string.label_ews_plug_in_body_default;
-            plugInScreenImage = R.drawable.ic_ews_device_apmode_blinking;
+            setUpScreenTitle = R.string.label_ews_plug_in_title_default;
+            setUpScreenBody = R.string.label_ews_plug_in_body_default;
+            setUpScreenImage = R.drawable.ic_ews_device_apmode_blinking;
 
-            verifyReadyScreenTitle = R.string.label_ews_verify_ready_title_default;
-            verifyReadyScreenQuestion = R.string.label_ews_verify_ready_question_default;
-            verifyReadyScreenYesButton = R.string.button_ews_verify_ready_yes_default;
-            verifyReadyScreenNoButton = R.string.button_ews_verify_ready_no_default;
-            verifyReadyScreenImage = R.drawable.ic_ews_device_apmode_blinking;
+            setUpVerifyScreenTitle = R.string.label_ews_verify_ready_title_default;
+            setUpVerifyScreenQuestion = R.string.label_ews_verify_ready_question_default;
+            setUpVerifyScreenYesButton = R.string.button_ews_verify_ready_yes_default;
+            setUpVerifyScreenNoButton = R.string.button_ews_verify_ready_no_default;
+            setUpVerifyScreenImage = R.drawable.ic_ews_device_apmode_blinking;
         }
 
         public Builder setGettingStartedScreenTitle(@StringRes int gettingStartedScreenTitle) {
@@ -155,51 +155,51 @@ public class HappyFlowContentConfiguration implements Parcelable {
             return this;
         }
 
-        public Builder setPlugInScreenTitle(@StringRes int plugInScreenTitle) {
-            this.plugInScreenTitle = plugInScreenTitle;
+        public Builder setSetUpScreenTitle(@StringRes int plugInScreenTitle) {
+            this.setUpScreenTitle = plugInScreenTitle;
             return this;
         }
 
-        public Builder setPlugInScreenBody(@StringRes int plugInScreenBody) {
-            this.plugInScreenBody = plugInScreenBody;
+        public Builder setSetUpScreenBody(@StringRes int setUpScreenBody) {
+            this.setUpScreenBody = setUpScreenBody;
             return this;
         }
 
-        public Builder setPlugInScreenImage(@DrawableRes int plugInScreenImage) {
-            this.plugInScreenImage = plugInScreenImage;
+        public Builder setSetUpScreenImage(@DrawableRes int setUpScreenImage) {
+            this.setUpScreenImage = setUpScreenImage;
             return this;
         }
 
-        public Builder setVerifyReadyScreenTitle(@StringRes int verifyReadyScreenTitle) {
-            this.verifyReadyScreenTitle = verifyReadyScreenTitle;
+        public Builder setSetUpVerifyScreenTitle(@StringRes int setUpVerifyScreenTitle) {
+            this.setUpVerifyScreenTitle = setUpVerifyScreenTitle;
             return this;
         }
 
-        public Builder setVerifyReadyScreenQuestion(@StringRes int verifyReadyScreenQuestion) {
-            this.verifyReadyScreenQuestion = verifyReadyScreenQuestion;
+        public Builder setSetUpVerifyScreenQuestion(@StringRes int setUpVerifyScreenQuestion) {
+            this.setUpVerifyScreenQuestion = setUpVerifyScreenQuestion;
             return this;
         }
 
-        public Builder setVerifyReadyScreenYesButton(@StringRes int verifyReadyScreenYesButton) {
-            this.verifyReadyScreenYesButton = verifyReadyScreenYesButton;
+        public Builder setSetUpVerifyScreenYesButton(@StringRes int setUpVerifyScreenYesButton) {
+            this.setUpVerifyScreenYesButton = setUpVerifyScreenYesButton;
             return this;
         }
 
-        public Builder setVerifyReadyScreenNoButton(@StringRes int verifyReadyScreenNoButton) {
-            this.verifyReadyScreenNoButton = verifyReadyScreenNoButton;
+        public Builder setSetUpVerifyScreenNoButton(@StringRes int setUpVerifyScreenNoButton) {
+            this.setUpVerifyScreenNoButton = setUpVerifyScreenNoButton;
             return this;
         }
 
-        public Builder setVerifyReadyScreenImage(@DrawableRes int verifyReadyScreenImage) {
-            this.verifyReadyScreenImage = verifyReadyScreenImage;
+        public Builder setSetUpVerifyScreenImage(@DrawableRes int setUpVerifyScreenImage) {
+            this.setUpVerifyScreenImage = setUpVerifyScreenImage;
             return this;
         }
 
         public HappyFlowContentConfiguration build() {
-            return new HappyFlowContentConfiguration(gettingStartedScreenTitle, plugInScreenTitle,
-                    plugInScreenBody, plugInScreenImage, verifyReadyScreenTitle,
-                    verifyReadyScreenQuestion, verifyReadyScreenYesButton, verifyReadyScreenNoButton,
-                    verifyReadyScreenImage);
+            return new HappyFlowContentConfiguration(gettingStartedScreenTitle, setUpScreenTitle,
+                    setUpScreenBody, setUpScreenImage, setUpVerifyScreenTitle,
+                    setUpVerifyScreenQuestion, setUpVerifyScreenYesButton, setUpVerifyScreenNoButton,
+                    setUpVerifyScreenImage);
         }
     }
 }
