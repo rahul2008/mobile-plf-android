@@ -15,12 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 
 public class ConnectingDeviceWithWifiFragment extends BaseFragment implements ConnectingDeviceWithWifiViewModel.ConnectingDeviceToWifiCallback {
     public final static String HOME_WIFI_SSID = "homeWiFiSSID";
+    private final static String TAG = "ConnectingDeviceWithWifiFragment";
     private final static String HOME_WIFI_PWD = "homeWiFiPassword";
     private final static String DEVICE_NAME = "deviceName";
     @Nullable
@@ -59,17 +61,24 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment implements Co
                              @Nullable Bundle savedInstanceState) {
         String homeWiFiSSID = BundleUtils.extractStringFromBundleOrThrow(getBundle(), HOME_WIFI_SSID);
         if (viewModel == null) {
-            viewModel = createViewModel();
+            invokeViewModel();
             viewModel.startConnecting(
                     homeWiFiSSID, BundleUtils.extractStringFromBundleOrThrow(getBundle(), HOME_WIFI_PWD),
                     BundleUtils.extractStringFromBundleOrThrow(getBundle(), DEVICE_NAME));
         } else {
+            invokeViewModel();
             viewModel.connectToHomeWifi(homeWiFiSSID);
         }
-        viewModel.setFragmentCallback(this);
 
         return inflater.inflate(R.layout.fragment_connecting_phone_to_hotspot_layout, container,
                 false);
+    }
+
+    private void invokeViewModel() {
+        if (viewModel == null) {
+            viewModel = createViewModel();
+        }
+        viewModel.setFragmentCallback(this);
     }
 
     @Override
@@ -107,7 +116,9 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment implements Co
     public void unregisterReceiver(@NonNull BroadcastReceiver receiver) {
         try {
             getActivity().unregisterReceiver(receiver);
-        } catch (IllegalArgumentException ignored) {}
+        } catch (IllegalArgumentException ignored) {
+            EWSLogger.d(TAG, ignored.getLocalizedMessage());
+        }
     }
 
     @Override
