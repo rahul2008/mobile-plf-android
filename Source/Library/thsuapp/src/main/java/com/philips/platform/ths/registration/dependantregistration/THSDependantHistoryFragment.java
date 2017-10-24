@@ -36,7 +36,7 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
     private RecyclerView mPracticeRecyclerView;
     private THSDependentListAdapter thsDependentListAdapter;
     private ActionBarListener actionBarListener;
-    private THSDependentPresenter mThsDependentPresenter;
+    protected THSDependentPresenter mThsDependentPresenter;
     private RelativeLayout mParentContainer;
     private Label mLabelParentName;
     private ImageView mImageViewLogo;
@@ -50,7 +50,9 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
 
         mRelativeLayoutContainer = (RelativeLayout) view.findViewById(R.id.activity_main);
 
-        mLaunchInput = getArguments().getInt(THSConstants.THS_LAUNCH_INPUT);
+        if(getArguments()!=null) {
+            mLaunchInput = getArguments().getInt(THSConstants.THS_LAUNCH_INPUT);
+        }
 
         thsDependentListAdapter = new THSDependentListAdapter(getContext());
         mPracticeRecyclerView = (RecyclerView)view.findViewById(R.id.ths_recycler_view_dependent_list);
