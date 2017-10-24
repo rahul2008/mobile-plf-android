@@ -14,6 +14,7 @@ import com.philips.cdp2.ews.R;
 
 public class TroubleShootContentConfiguration implements Parcelable {
 
+    // configuration for EWS_H_03.2 reset connnection screen.
     @StringRes
     private final int resetConnectionTitle;
     @StringRes
@@ -21,6 +22,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
     @DrawableRes
     private final int resetConnectionImage;
 
+    // configuration for EWS_H_03.3 reset device screen.
     @StringRes
     private final int resetDeviceTitle;
     @StringRes
@@ -28,6 +30,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
     @DrawableRes
     private final int resetDeviceImage;
 
+    // configuration for EWS_H_03.4 setup access point screen
     @StringRes
     private final int setUpAccessPointTitle;
     @StringRes
@@ -35,6 +38,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
     @DrawableRes
     private final int setUpAccessPointImage;
 
+    // configuration for EWS_H_03.1 connect to wrong phone screen
     @StringRes
     private final int connectWrongPhoneTitle;
     @StringRes
@@ -43,6 +47,22 @@ public class TroubleShootContentConfiguration implements Parcelable {
     private final int connectWrongPhoneImage;
     @StringRes
     private final int connectWrongPhoneQuestion;
+
+    private TroubleShootContentConfiguration(int resetConnectionTitle, int resetConnectionBody, int resetConnectionImage, int resetDeviceTitle, int resetDeviceBody, int resetDeviceImage, int setUpAccessPointTitle, int setUpAccessPointBody, int setUpAccessPointImage, int connectWrongPhoneTitle, int connectWrongPhoneBody, int connectWrongPhoneImage, int connectWrongPhoneQuestion) {
+        this.resetConnectionTitle = resetConnectionTitle;
+        this.resetConnectionBody = resetConnectionBody;
+        this.resetConnectionImage = resetConnectionImage;
+        this.resetDeviceTitle = resetDeviceTitle;
+        this.resetDeviceBody = resetDeviceBody;
+        this.resetDeviceImage = resetDeviceImage;
+        this.setUpAccessPointTitle = setUpAccessPointTitle;
+        this.setUpAccessPointBody = setUpAccessPointBody;
+        this.setUpAccessPointImage = setUpAccessPointImage;
+        this.connectWrongPhoneTitle = connectWrongPhoneTitle;
+        this.connectWrongPhoneBody = connectWrongPhoneBody;
+        this.connectWrongPhoneImage = connectWrongPhoneImage;
+        this.connectWrongPhoneQuestion = connectWrongPhoneQuestion;
+    }
 
     protected TroubleShootContentConfiguration(Parcel in) {
         resetConnectionTitle = in.readInt();
@@ -122,22 +142,6 @@ public class TroubleShootContentConfiguration implements Parcelable {
 
     public int getConnectWrongPhoneQuestion() {
         return connectWrongPhoneQuestion;
-    }
-
-    private TroubleShootContentConfiguration(int resetConnectionTitle, int resetConnectionBody, int resetConnectionImage, int resetDeviceTitle, int resetDeviceBody, int resetDeviceImage, int setUpAccessPointTitle, int setUpAccessPointBody, int setUpAccessPointImage, int connectWrongPhoneTitle, int connectWrongPhoneBody, int connectWrongPhoneImage, int connectWrongPhoneQuestion) {
-        this.resetConnectionTitle = resetConnectionTitle;
-        this.resetConnectionBody = resetConnectionBody;
-        this.resetConnectionImage = resetConnectionImage;
-        this.resetDeviceTitle = resetDeviceTitle;
-        this.resetDeviceBody = resetDeviceBody;
-        this.resetDeviceImage = resetDeviceImage;
-        this.setUpAccessPointTitle = setUpAccessPointTitle;
-        this.setUpAccessPointBody = setUpAccessPointBody;
-        this.setUpAccessPointImage = setUpAccessPointImage;
-        this.connectWrongPhoneTitle = connectWrongPhoneTitle;
-        this.connectWrongPhoneBody = connectWrongPhoneBody;
-        this.connectWrongPhoneImage = connectWrongPhoneImage;
-        this.connectWrongPhoneQuestion = connectWrongPhoneQuestion;
     }
 
     @Override
