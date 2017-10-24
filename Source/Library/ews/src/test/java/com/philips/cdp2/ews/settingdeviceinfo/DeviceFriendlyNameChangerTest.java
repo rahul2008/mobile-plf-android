@@ -47,21 +47,21 @@ public class DeviceFriendlyNameChangerTest {
 
     @Test
     public void itShouldAddListenerToDevicePortWhenChangeIsCalled() throws Exception {
-        subject.changeFriendlyName("anyName", mockCallback);
+        subject.changeFriendlyName("anyName");
 
         verify(mockDevicePort).addPortListener(any(DICommPortListener.class));
     }
 
     @Test
     public void itShouldChangeTheFriendlyNameFromDevicePortWhenChangeIsCalled() throws Exception {
-        subject.changeFriendlyName("anyName", mockCallback);
+        subject.changeFriendlyName("anyName");
 
         verify(mockDevicePort).setDeviceName(anyString());
     }
 
     @Test
     public void itShouldNotChangeTheFriendlyNameFromDevicePortWhenChangeIsCalledButNameIsEmpty() throws Exception {
-        subject.changeFriendlyName("", mockCallback);
+        subject.changeFriendlyName("");
 
         verifyZeroInteractions(mockDevicePort);
     }
@@ -69,7 +69,7 @@ public class DeviceFriendlyNameChangerTest {
     @Test
     public void itShouldPassCorrectNewNameWhenChangingDeviceFriendlyName() throws Exception {
         String newName = "newName";
-        subject.changeFriendlyName(newName, mockCallback);
+        changeFriendlyName(newName);
 
         verify(mockDevicePort).setDeviceName(eq(newName));
     }
@@ -77,8 +77,7 @@ public class DeviceFriendlyNameChangerTest {
     @Test
     public void itShouldForwardSuccessToCallbackWhenChangeIsSuccessfulButNameIsEmpty() throws Exception {
         String newName = "";
-        subject.changeFriendlyName(newName, mockCallback);
-
+        changeFriendlyName(newName);
         verify(mockCallback).onFriendlyNameChangingSuccess();
     }
 
@@ -112,21 +111,28 @@ public class DeviceFriendlyNameChangerTest {
 
     @Test
     public void itShouldClearCallback() throws Exception {
-        subject.changeFriendlyName("anyName", mockCallback);
+        subject.changeFriendlyName("anyName");
 
         subject.clear();
 
         assertNull(subject.getCallback());
     }
 
+    private void changeFriendlyName(String newName) {
+        subject.setNameChangerCallback(mockCallback);
+        subject.changeFriendlyName(newName);
+    }
+
     private void simulatePutPropsSuccess(@Nullable DeviceFriendlyNameChanger.Callback mockCallback) {
-        subject.changeFriendlyName("anyName", mockCallback);
+        subject.changeFriendlyName("anyName");
+        subject.setNameChangerCallback(mockCallback);
         verify(mockDevicePort).addPortListener(portListenerCaptor.capture());
         portListenerCaptor.getValue().onPortUpdate(mockDevicePort);
     }
 
     private void simulatePutPropsFailure(@Nullable DeviceFriendlyNameChanger.Callback mockCallback) {
-        subject.changeFriendlyName("anyName", mockCallback);
+        subject.changeFriendlyName("anyName");
+        subject.setNameChangerCallback(mockCallback);
         verify(mockDevicePort).addPortListener(portListenerCaptor.capture());
         portListenerCaptor.getValue().onPortError(mockDevicePort, Error.CANNOT_CONNECT, "error!!");
     }

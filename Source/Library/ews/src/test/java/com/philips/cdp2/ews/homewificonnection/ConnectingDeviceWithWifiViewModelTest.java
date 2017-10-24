@@ -102,8 +102,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Test
     public void itShouldSendDeviceNameWhenStartingConnection() throws Exception {
         subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME));
-        verify(mockDeviceFriendlyNameChanger).changeFriendlyName(eq(DEVICE_FRIENDLY_NAME),
-                any(DeviceFriendlyNameChanger.Callback.class));
+        verify(mockDeviceFriendlyNameChanger).changeFriendlyName(eq(DEVICE_FRIENDLY_NAME));
     }
 
     @Test
@@ -362,7 +361,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
     }
 
     private void simulatePutPropsSucceeded() {
-       simulateChangeFriendlyDeviceNameSucceeded();
+        simulateChangeFriendlyDeviceNameSucceeded();
         verify(mockApplianceAccessManager).connectApplianceToHomeWiFiEvent(anyString(), anyString(),
                 putPropsCallbackCaptor.capture());
         putPropsCallbackCaptor.getValue().onPropertiesSet();
@@ -377,15 +376,15 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
     private void simulateChangeFriendlyDeviceNameSucceeded() {
         subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME));
-        verify(mockDeviceFriendlyNameChanger).changeFriendlyName(anyString(),
-                putDeviceFriendlyNameChangerCaptor.capture());
+        verify(mockDeviceFriendlyNameChanger).setNameChangerCallback(putDeviceFriendlyNameChangerCaptor.capture());
+        verify(mockDeviceFriendlyNameChanger).changeFriendlyName(anyString());
         putDeviceFriendlyNameChangerCaptor.getValue().onFriendlyNameChangingSuccess();
     }
 
     private void simulateChangeFriendlyDeviceNameFailed() {
         subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME));
-        verify(mockDeviceFriendlyNameChanger).changeFriendlyName(anyString(),
-                putDeviceFriendlyNameChangerCaptor.capture());
+        verify(mockDeviceFriendlyNameChanger).setNameChangerCallback(putDeviceFriendlyNameChangerCaptor.capture());
+        verify(mockDeviceFriendlyNameChanger).changeFriendlyName(anyString());
         putDeviceFriendlyNameChangerCaptor.getValue().onFriendlyNameChangingFailed();
     }
 }

@@ -15,6 +15,12 @@ import javax.inject.Named;
 
 public class DeviceFriendlyNameChanger {
 
+    public interface Callback {
+        void onFriendlyNameChangingSuccess();
+
+        void onFriendlyNameChangingFailed();
+    }
+
     @NonNull
     private final EWSGenericAppliance appliance;
     @Nullable
@@ -37,8 +43,7 @@ public class DeviceFriendlyNameChanger {
         this.appliance = appliance;
     }
 
-    public void changeFriendlyName(@NonNull String newFriendlyName, @NonNull DeviceFriendlyNameChanger.Callback callback) {
-        this.callback = callback;
+    public void changeFriendlyName(@NonNull String newFriendlyName) {
         if (!TextUtil.isEmpty(newFriendlyName)) {
             DevicePort devicePort = appliance.getDevicePort();
             devicePort.addPortListener(portListener);
@@ -64,15 +69,13 @@ public class DeviceFriendlyNameChanger {
         }
     }
 
+    public void setNameChangerCallback(@NonNull DeviceFriendlyNameChanger.Callback callback) {
+        this.callback = callback;
+    }
+
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     @Nullable
     Callback getCallback() {
         return callback;
-    }
-
-    public interface Callback {
-        void onFriendlyNameChangingSuccess();
-
-        void onFriendlyNameChangingFailed();
     }
 }

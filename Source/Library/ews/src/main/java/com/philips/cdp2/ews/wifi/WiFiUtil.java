@@ -11,9 +11,9 @@ import android.net.wifi.WifiManager;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 
 import com.philips.cdp2.ews.logger.EWSLogger;
+import com.philips.cdp2.ews.util.TextUtil;
 
 import java.util.List;
 
@@ -46,6 +46,7 @@ public class WiFiUtil {
         this.wifiManager = wifiManager;
     }
 
+    @Nullable
     public String getHomeWiFiSSD() {
         return lastWifiSSid;
     }
@@ -74,7 +75,7 @@ public class WiFiUtil {
     }
 
     public boolean isWifiConnectedToNetwork() {
-        return getConnectedWiFiSSID() != null && !TextUtils.isEmpty(getConnectedWiFiSSID());
+        return getConnectedWiFiSSID() != null && !TextUtil.isEmpty(getConnectedWiFiSSID());
     }
 
     public boolean isConnectedToPhilipsSetup() {

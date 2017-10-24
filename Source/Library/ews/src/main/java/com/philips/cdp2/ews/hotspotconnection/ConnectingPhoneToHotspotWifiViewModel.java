@@ -15,8 +15,7 @@ import android.util.Log;
 
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameFetcher;
-import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure
-        .ConnectionUnsuccessfulViewModel;
+import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulViewModel;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
@@ -25,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-public class ConnectingPhoneToHotspotWifiViewModel {
+public class ConnectingPhoneToHotspotWifiViewModel implements DeviceFriendlyNameFetcher.Callback {
 
     public interface ConnectingPhoneToHotSpotCallback {
         void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
@@ -78,21 +77,16 @@ public class ConnectingPhoneToHotspotWifiViewModel {
         }
     };
 
-    @Inject
-    ConnectingPhoneToHotspotWifiViewModel(@NonNull WiFiConnectivityManager wiFiConnectivityManager,
-                                          @NonNull DeviceFriendlyNameFetcher deviceFriendlyNameFetcher,
-                                          @NonNull WiFiUtil wiFiUtil,
-                                          @NonNull Navigator navigator,
-                                          @NonNull @Named("mainLooperHandler") Handler handler) {
+    @Inject ConnectingPhoneToHotspotWifiViewModel(@NonNull WiFiConnectivityManager wiFiConnectivityManager,
+                                                  @NonNull DeviceFriendlyNameFetcher deviceFriendlyNameFetcher,
+                                                  @NonNull WiFiUtil wiFiUtil,
+                                                  @NonNull Navigator navigator,
+                                                  @NonNull @Named("mainLooperHandler") Handler handler) {
         this.wiFiConnectivityManager = wiFiConnectivityManager;
         this.deviceFriendlyNameFetcher = deviceFriendlyNameFetcher;
         this.wiFiUtil = wiFiUtil;
         this.navigator = navigator;
         this.handler = handler;
-    }
-
-    public void setFragmentCallback(@Nullable ConnectingPhoneToHotSpotCallback fragmentCallback) {
-        this.fragmentCallback = fragmentCallback;
     }
 
     public void connectToHotSpot() {
@@ -124,19 +118,8 @@ public class ConnectingPhoneToHotspotWifiViewModel {
     }
 
     private void onPhoneConnectedToHotspotWifi() {
-        deviceFriendlyNameFetcher.fetchFriendlyName(new DeviceFriendlyNameFetcher.Callback() {
-            @Override
-            public void onFriendlyNameFetchingSuccess(@NonNull String friendlyName) {
-                Log.d("CONNECT", "onDeviceInfoReceived: " + friendlyName);
-                navigator.navigateToConnectToDeviceWithPasswordScreen(friendlyName);
-            }
-
-            @Override
-            public void onFriendlyNameFetchingFailed() {
-                Log.d("CONNECT", "onFailedToFetchDeviceInfo");
-                showUnsuccessfulDialog();
-            }
-        });
+        deviceFriendlyNameFetcher.setNameFetcherCallback(this);
+        deviceFriendlyNameFetcher.fetchFriendlyName();
     }
 
     private void showUnsuccessfulDialog() {
@@ -160,9 +143,21 @@ public class ConnectingPhoneToHotspotWifiViewModel {
         }
     }
 
+    @Override public void onFriendlyNameFetchingSuccess(@NonNull String friendlyName) {
+        navigator.navigateToConnectToDeviceWithPasswordScreen(friendlyName);
+    }
+
+    @Override public void onFriendlyNameFetchingFailed() {
+        showUnsuccessfulDialog();
+    }
+
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     @Nullable
     ConnectingPhoneToHotSpotCallback getFragmentCallback() {
         return fragmentCallback;
+    }
+
+    public void setFragmentCallback(@Nullable ConnectingPhoneToHotSpotCallback fragmentCallback) {
+        this.fragmentCallback = fragmentCallback;
     }
 }

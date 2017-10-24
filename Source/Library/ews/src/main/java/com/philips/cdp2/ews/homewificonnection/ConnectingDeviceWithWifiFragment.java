@@ -15,22 +15,25 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 
 public class ConnectingDeviceWithWifiFragment extends BaseFragment
         implements ConnectingDeviceWithWifiViewModel.ConnectingDeviceToWifiCallback {
+
     public final static String HOME_WIFI_SSID = "homeWiFiSSID";
+    private final static String TAG = "ConnectingDeviceWithWifiFragment";
     private final static String HOME_WIFI_PWD = "homeWiFiPassword";
     private final static String DEVICE_NAME = "deviceName";
     private final static String DEVICE_FRIENDLY_NAME = "deviceFriendlyName";
     @Nullable
     ConnectingDeviceWithWifiViewModel viewModel;
 
-    public static Fragment newInstance(@Nullable String homeWiFiSSID,
-                                       @Nullable String homeWiFiPassword,
-                                       @Nullable String deviceName,
+    public static Fragment newInstance(@NonNull String homeWiFiSSID,
+                                       @NonNull String homeWiFiPassword,
+                                       @NonNull String deviceName,
                                        @NonNull String deviceFriendlyName) {
         Bundle data = new Bundle();
         data.putString(HOME_WIFI_SSID, homeWiFiSSID);
@@ -119,7 +122,8 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
     public void unregisterReceiver(@NonNull BroadcastReceiver receiver) {
         try {
             getActivity().unregisterReceiver(receiver);
-        } catch (IllegalArgumentException ignored) {
+        } catch (IllegalArgumentException e) {
+            EWSLogger.e(TAG, e.toString());
         }
     }
 

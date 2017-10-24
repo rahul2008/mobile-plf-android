@@ -44,14 +44,14 @@ public class DeviceFriendlyNameFetcherTest {
 
     @Test
     public void itShouldAddListenerToDevicePortWhenFetchIsCalled() throws Exception {
-        subject.fetchFriendlyName(mockCallback);
+        subject.fetchFriendlyName();
 
         verify(mockDevicePort).addPortListener(any(DICommPortListener.class));
     }
 
     @Test
     public void itShouldGetTheFriendlyNameFromDevicePortWhenFetchIsCalled() throws Exception {
-        subject.fetchFriendlyName(mockCallback);
+        subject.fetchFriendlyName();
 
         verify(mockDevicePort).reloadProperties();
     }
@@ -112,7 +112,7 @@ public class DeviceFriendlyNameFetcherTest {
 
     @Test
     public void itShouldClearCallback() throws Exception {
-        subject.fetchFriendlyName(mockCallback);
+        subject.fetchFriendlyName();
 
         subject.clear();
 
@@ -120,13 +120,15 @@ public class DeviceFriendlyNameFetcherTest {
     }
 
     private void simulateGetPropsSuccess(@Nullable DevicePort port, @Nullable DeviceFriendlyNameFetcher.Callback callback) {
-        subject.fetchFriendlyName(callback);
+        subject.setNameFetcherCallback(callback);
+        subject.fetchFriendlyName();
         verify(mockDevicePort).addPortListener(portListenerCaptor.capture());
         portListenerCaptor.getValue().onPortUpdate(port);
     }
 
     private void simulateGetPropsFailed(@Nullable DeviceFriendlyNameFetcher.Callback callback) {
-        subject.fetchFriendlyName(callback);
+        subject.setNameFetcherCallback(callback);
+        subject.fetchFriendlyName();
         verify(mockDevicePort).addPortListener(portListenerCaptor.capture());
         portListenerCaptor.getValue().onPortError(mockDevicePort, Error.CANNOT_CONNECT, "error!");
     }

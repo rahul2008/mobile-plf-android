@@ -9,12 +9,10 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
-import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel
-        .ConnectingPhoneToHotSpotCallback;
+import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel.ConnectingPhoneToHotSpotCallback;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameFetcher;
-import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure
-        .ConnectionUnsuccessfulViewModel;
+import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulViewModel;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
@@ -103,7 +101,7 @@ public class ConnectingPhoneToHotspotWifiViewModelTest {
         simulateConnectionToDeviceHotspot(NetworkInfo.State.CONNECTED,
                 WiFiUtil.DEVICE_HOTSPOT_WIFI);
 
-        verify(mockDeviceFriendlyNameFetcher).fetchFriendlyName(any(DeviceFriendlyNameFetcher.Callback.class));
+        verify(mockDeviceFriendlyNameFetcher).fetchFriendlyName();
     }
 
     @Test
@@ -112,7 +110,7 @@ public class ConnectingPhoneToHotspotWifiViewModelTest {
                 WiFiUtil.DEVICE_HOTSPOT_WIFI);
 
         verify(mockDeviceFriendlyNameFetcher, never())
-                .fetchFriendlyName(any(DeviceFriendlyNameFetcher.Callback.class));
+                .fetchFriendlyName();
     }
 
     @Test
@@ -121,7 +119,7 @@ public class ConnectingPhoneToHotspotWifiViewModelTest {
         simulateConnectionToDeviceHotspot(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
 
         verify(mockDeviceFriendlyNameFetcher, never())
-                .fetchFriendlyName(any(DeviceFriendlyNameFetcher.Callback.class));
+                .fetchFriendlyName();
     }
 
     @Test
@@ -145,26 +143,18 @@ public class ConnectingPhoneToHotspotWifiViewModelTest {
     }
 
     @Test
-    public void itShouldNavigateToConnectToDeviceWithPasswordScreenWhenFetchingIsSuccessful()
-            throws Exception {
-        simulateConnectionToDeviceHotspot(NetworkInfo.State.CONNECTED,
-                WiFiUtil.DEVICE_HOTSPOT_WIFI);
-
-        verify(mockDeviceFriendlyNameFetcher)
-                .fetchFriendlyName(fetchDevicePortProperties.capture());
+    public void itShouldNavigateToConnectToDeviceWithPasswordScreenWhenFetchingIsSuccessful() throws Exception {
+        simulateConnectionToDeviceHotspot(NetworkInfo.State.CONNECTED, WiFiUtil.DEVICE_HOTSPOT_WIFI);
+        fetchFriendlyName();
         fetchDevicePortProperties.getValue().onFriendlyNameFetchingSuccess(anyString());
 
         verify(mockNavigator).navigateToConnectToDeviceWithPasswordScreen(anyString());
     }
 
     @Test
-    public void itShouldNotNavigateToConnectToDeviceWithPasswordScreenWhenFetchingIsNotSuccessful
-            () throws Exception {
-        simulateConnectionToDeviceHotspot(NetworkInfo.State.CONNECTED,
-                WiFiUtil.DEVICE_HOTSPOT_WIFI);
-
-        verify(mockDeviceFriendlyNameFetcher)
-                .fetchFriendlyName(fetchDevicePortProperties.capture());
+    public void itShouldNotNavigateToConnectToDeviceWithPasswordScreenWhenFetchingIsNotSuccessful() throws Exception {
+        simulateConnectionToDeviceHotspot(NetworkInfo.State.CONNECTED, WiFiUtil.DEVICE_HOTSPOT_WIFI);
+        fetchFriendlyName();
         fetchDevicePortProperties.getValue().onFriendlyNameFetchingFailed();
 
         verify(mockNavigator).navigateToUnsuccessfulConnectionDialog(any(Fragment.class), anyInt());
@@ -211,6 +201,11 @@ public class ConnectingPhoneToHotspotWifiViewModelTest {
         subject.onResultReceived(unknownResult);
 
         verifyZeroInteractions(mockNavigator);
+    }
+
+    private void fetchFriendlyName() {
+        verify(mockDeviceFriendlyNameFetcher).setNameFetcherCallback(fetchDevicePortProperties.capture());
+        verify(mockDeviceFriendlyNameFetcher).fetchFriendlyName();
     }
 
     private void mockNetworkChange(NetworkInfo.State networkState,

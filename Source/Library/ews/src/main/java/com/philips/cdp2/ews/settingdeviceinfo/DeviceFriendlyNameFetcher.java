@@ -16,6 +16,7 @@ public class DeviceFriendlyNameFetcher {
 
     public interface Callback {
         void onFriendlyNameFetchingSuccess(@NonNull String friendlyName);
+
         void onFriendlyNameFetchingFailed();
     }
 
@@ -40,8 +41,7 @@ public class DeviceFriendlyNameFetcher {
         this.appliance = appliance;
     }
 
-    public void fetchFriendlyName(@NonNull DeviceFriendlyNameFetcher.Callback callback) {
-        this.callback = callback;
+    public void fetchFriendlyName() {
         DevicePort devicePort = appliance.getDevicePort();
         devicePort.addPortListener(portListener);
         devicePort.reloadProperties();
@@ -64,6 +64,10 @@ public class DeviceFriendlyNameFetcher {
         } else {
             callback.onFriendlyNameFetchingFailed();
         }
+    }
+
+    public void setNameFetcherCallback(@NonNull DeviceFriendlyNameFetcher.Callback callback) {
+        this.callback = callback;
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)

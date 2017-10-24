@@ -29,20 +29,20 @@ import com.philips.cdp2.ews.wifi.WiFiUtil;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import static com.philips.cdp2.ews.tagging.Tag.KEY.PRODUCT_NAME;
-import static com.philips.cdp2.ews.wifi.WiFiUtil.UNKNOWN_WIFI;
 
-public class ConnectingDeviceWithWifiViewModel {
-
-    private static final int WIFI_SET_PROPERTIES_TIME_OUT = 60000;
+public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChanger.Callback {
 
     public interface ConnectingDeviceToWifiCallback {
         void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
+
         void unregisterReceiver(@NonNull BroadcastReceiver receiver);
+
         Bundle getBundle();
+
         void showCancelDialog();
     }
 
+    private static final int WIFI_SET_PROPERTIES_TIME_OUT = 60000;
     @NonNull private final ApplianceAccessManager applianceAccessManager;
     @NonNull private final Navigator navigator;
     @NonNull private final WiFiConnectivityManager wiFiConnectivityManager;
@@ -53,7 +53,6 @@ public class ConnectingDeviceWithWifiViewModel {
 
     @Nullable private ConnectingDeviceToWifiCallback fragmentCallback;
     @Nullable private StartConnectionModel startConnectionModel;
-
     @NonNull private DiscoveryHelper.DiscoveryCallback discoveryCallback =
             new DiscoveryHelper.DiscoveryCallback() {
                 @Override
@@ -63,7 +62,6 @@ public class ConnectingDeviceWithWifiViewModel {
                     onDeviceConnectedToWifi();
                 }
             };
-
     @NonNull private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -73,14 +71,13 @@ public class ConnectingDeviceWithWifiViewModel {
                 if (currentWifiState == WiFiUtil.HOME_WIFI) {
                     unregisterBroadcastReceiver();
                     discoveryHelper.startDiscovery(discoveryCallback);
-                } else if (currentWifiState != UNKNOWN_WIFI) {
+                } else if (currentWifiState != WiFiUtil.UNKNOWN_WIFI) {
                     unregisterBroadcastReceiver();
                     handleFailure();
                 }
             }
         }
     };
-
     @NonNull private final Runnable timeoutRunnable = new Runnable() {
         @Override
         public void run() {
@@ -88,19 +85,6 @@ public class ConnectingDeviceWithWifiViewModel {
             clear();
         }
     };
-
-    @NonNull private final DeviceFriendlyNameChanger.Callback nameChangingCallback = new DeviceFriendlyNameChanger.Callback() {
-        @Override
-        public void onFriendlyNameChangingSuccess() {
-            sendNetworkInfoToDevice(startConnectionModel);
-        }
-
-        @Override
-        public void onFriendlyNameChangingFailed() {
-            handleFailure();
-        }
-    };
-
     @NonNull private final ApplianceAccessManager.SetPropertiesCallback sendingNetworkInfoCallback = new ApplianceAccessManager.SetPropertiesCallback() {
         @Override
         public void onPropertiesSet() {
@@ -137,8 +121,8 @@ public class ConnectingDeviceWithWifiViewModel {
     public void startConnecting(@NonNull final StartConnectionModel startConnectionModel) {
         this.startConnectionModel = startConnectionModel;
         tagConnectionStart();
-        deviceFriendlyNameChanger.changeFriendlyName(startConnectionModel.getDeviceFriendlyName(),
-                nameChangingCallback);
+        deviceFriendlyNameChanger.setNameChangerCallback(this);
+        deviceFriendlyNameChanger.changeFriendlyName(startConnectionModel.getDeviceFriendlyName());
         handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
     }
 
@@ -166,7 +150,7 @@ public class ConnectingDeviceWithWifiViewModel {
 
     private void tagConnectionStart() {
         EWSTagger.startTimedAction(Tag.ACTION.TIME_TO_CONNECT);
-        EWSTagger.trackAction(Tag.ACTION.CONNECTION_START, PRODUCT_NAME,
+        EWSTagger.trackAction(Tag.ACTION.CONNECTION_START, Tag.KEY.PRODUCT_NAME,
                 EWSDependencyProvider.getInstance().getProductName());
     }
 
@@ -207,5 +191,13 @@ public class ConnectingDeviceWithWifiViewModel {
                 startConnectionModel.getHomeWiFiSSID(),
                 startConnectionModel.getHomeWiFiPassword(),
                 sendingNetworkInfoCallback);
+    }
+
+    @Override public void onFriendlyNameChangingSuccess() {
+        sendNetworkInfoToDevice(startConnectionModel);
+    }
+
+    @Override public void onFriendlyNameChangingFailed() {
+        handleFailure();
     }
 }

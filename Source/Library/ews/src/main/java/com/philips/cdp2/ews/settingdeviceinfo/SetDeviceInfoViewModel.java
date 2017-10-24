@@ -8,6 +8,7 @@ package com.philips.cdp2.ews.settingdeviceinfo;
 import android.databinding.BaseObservable;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -21,17 +22,12 @@ import javax.inject.Inject;
 @SuppressWarnings("WeakerAccess")
 public class SetDeviceInfoViewModel extends BaseObservable {
 
-    @NonNull
-    private final ApplianceSessionDetailsInfo sessionDetailsInfo;
-    @NonNull
-    private final WiFiUtil wiFiUtil;
-    @NonNull
-    private final Navigator navigator;
-    @NonNull
-    private final ConnectionEstablishDialogFragment connectingDialog;
-
     @NonNull public final ObservableField<String> deviceFriendlyName;
     @NonNull public final ObservableField<String> password;
+    @NonNull private final ApplianceSessionDetailsInfo sessionDetailsInfo;
+    @NonNull private final WiFiUtil wiFiUtil;
+    @NonNull private final Navigator navigator;
+    @NonNull private final ConnectionEstablishDialogFragment connectingDialog;
 
     @Inject
     public SetDeviceInfoViewModel(@NonNull final WiFiUtil wiFiUtil,
@@ -46,6 +42,7 @@ public class SetDeviceInfoViewModel extends BaseObservable {
         this.deviceFriendlyName = new ObservableField<>("");
     }
 
+    @Nullable
     public String getHomeWiFiSSID() {
         return wiFiUtil.getHomeWiFiSSD();
     }

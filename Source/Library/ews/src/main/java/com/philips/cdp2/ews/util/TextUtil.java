@@ -9,7 +9,7 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.text.Html;
 
-public class TextUtil {
+public final class TextUtil {
 
     public static CharSequence getHTMLText(String string) {
         CharSequence result;
