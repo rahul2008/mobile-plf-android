@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.view;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.common.callbacks.DialogHelper;
 import com.philips.cdp2.ews.databinding.FragmentEwsHomeWifiDisplayScreenBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
@@ -27,6 +28,13 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
     @Override
     protected void bindViewModel(final FragmentEwsHomeWifiDisplayScreenBinding viewDataBinding) {
         viewDataBinding.setViewModel(viewModel);
+        viewModel.setDialogHelper(new DialogHelper(this));
+    }
+
+    @Override
+    public void onDestroyView() {
+        viewModel.setDialogHelper(null);
+        super.onDestroyView();
     }
 
     @Override
