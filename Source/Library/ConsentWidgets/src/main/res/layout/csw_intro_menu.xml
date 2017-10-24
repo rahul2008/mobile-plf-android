@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/launch_permissions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/csw_btn_permission"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/appversion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal" />
+
+</LinearLayout>

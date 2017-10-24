@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
+import com.philips.platform.csw.intro.IntroMenuView;
 import com.philips.platform.csw.permission.PermissionView;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -36,6 +37,8 @@ public class CswFragment extends Fragment implements
         View view = inflater.inflate(R.layout.csw_fragment_consent_widget_root, container, false);
         mFragmentManager = getChildFragmentManager();
         if (mFragmentManager.getBackStackEntryCount() < 1) {
+            inflateIntroView();
+        } else {
             inflatePermissionView();
         }
         return view;
@@ -60,6 +63,16 @@ public class CswFragment extends Fragment implements
         return false;
     }
 
+    public void inflateIntroView() {
+        try {
+            if (null != mFragmentManager) {
+                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.csw_frame_layout_view_container, new IntroMenuView());
+                fragmentTransaction.commitAllowingStateLoss();
+            }
+        } catch (IllegalStateException ignore) {
+        }
+    }
 
     public void inflatePermissionView() {
         try {
