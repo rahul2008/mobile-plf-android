@@ -80,7 +80,7 @@ public class THSDependentListAdapter extends RecyclerView.Adapter<THSDependentLi
         return mDependents.size();
     }
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
+    public static class CustomViewHolder extends RecyclerView.ViewHolder {
         protected ImageView logo;
         protected TextView label;
         protected RelativeLayout relativeLayout;
