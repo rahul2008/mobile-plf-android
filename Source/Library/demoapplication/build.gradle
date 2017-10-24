@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply from: "../scripts/versions.gradle"
 
 android {
     compileSdkVersion 25
@@ -8,15 +9,15 @@ android {
         applicationId "com.philips.cdp2.ews.demoapplication"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 1
+        versionCode getMyVersionCode()
         versionName "1.0"
     }
     dataBinding {
         enabled = true
     }
 
-    signingConfigs{
-        release{
+    signingConfigs {
+        release {
             storeFile file("demoapp-keystore.jks")
             storePassword "philips"
             keyAlias "philips"
@@ -35,6 +36,30 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def appName = "ews_demo_app_"
+            def buildType = variant.variantData.variantConfiguration.buildType.name
+            def newName = "${appName}${gitBranch()}_${buildType}_${getMyVersionCode()}.apk"
+            output.outputFile = new File(output.outputFile.parent, newName)
+        }
+    }
+}
+
+def gitBranch() {
+    def branch = ""
+    def proc = "git rev-parse --abbrev-ref HEAD".execute()
+    proc.in.eachLine { line -> branch += line }
+    proc.err.eachLine { line -> println line }
+    proc.waitFor()
+    branch.replaceAll("/","-")
+}
+
+def getMyVersionCode() {
+    def code = project.hasProperty('envCode') ? envCode.toInteger() : 1
+    println "VersionCode is set to $code"
+    code
 }
 
 dependencies {
@@ -54,3 +79,5 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
+
+
