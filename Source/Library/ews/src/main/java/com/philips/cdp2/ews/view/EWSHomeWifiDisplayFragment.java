@@ -5,6 +5,7 @@
 package com.philips.cdp2.ews.view;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,12 +60,6 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
         return R.layout.fragment_ews_home_wifi_display_screen;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        viewModel.refresh();
-    }
-
     @NonNull
     @Override
     protected String getPageName() {
@@ -84,6 +79,7 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
                 .setCancelable(true);
         final AlertDialogFragment alertDialogFragment = builder.create();
         alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
+        getChildFragmentManager().executePendingTransactions();
 
         TextView textView = (TextView) view.findViewById(R.id.label_ews_home_network_body);
         ImageView imageView = (ImageView) view.findViewById(R.id.ic_close);
@@ -99,5 +95,12 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
                 alertDialogFragment.dismissAllowingStateLoss();
             }
         });
+        alertDialogFragment.getDialog().setOnDismissListener(
+                new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        viewModel.refresh();
+                    }
+                });
     }
 }
