@@ -27,8 +27,6 @@ import com.philips.platform.uid.view.widget.Switch;
 
 import java.util.List;
 
-import static com.janrain.android.engage.JREngage.getApplicationContext;
-
 public class PermissionView extends CswBaseFragment implements
         PermissionInterface {
 
@@ -68,8 +66,8 @@ public class PermissionView extends CswBaseFragment implements
 
     private void getConsentStatus() {
         showProgressDialog();
-        ConsentAccessToolKit cat = new ConsentAccessToolKit(getApplicationContext(), applicationName, propositionName);
-        User user = new User(getApplicationContext());
+        ConsentAccessToolKit cat = new ConsentAccessToolKit(this.getActivity().getApplicationContext(), applicationName, propositionName);
+        User user = new User(this.getActivity().getApplicationContext());
         cat.getStatusForConsentType(CONSENT_TYPE_MOMENT, version, new ConsentResponseListener() {
             @Override
             public void onResponseSuccessConsent(List<GetConsentsModel> responseData) {
