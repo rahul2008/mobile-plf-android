@@ -21,4 +21,9 @@ public class StringProvider {
     public String getString(@StringRes int id, @StringRes int param, String param2) {
         return context.getString(id, context.getString(param), param2);
     }
+
+    @NonNull
+    public String getString(@StringRes int id, String param) {
+        return context.getString(id, param);
+    }
 }
