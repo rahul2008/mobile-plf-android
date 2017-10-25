@@ -36,7 +36,7 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
         this.navigator = navigator;
         this.wiFiUtil = wiFiUtil;
         this.stringProvider = stringProvider;
-        title = new ObservableField<>(getTitle(baseConfig));
+        title = new ObservableField<>(getTitle());
         note = new ObservableField<>(getNote(baseConfig));
     }
 
@@ -62,7 +62,7 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     @NonNull
-    String getTitle(@NonNull BaseContentConfiguration baseConfig) {
+    String getTitle() {
         return stringProvider.getString(R.string.label_ews_confirm_connection_currently_connected, getHomeWiFiSSID());
     }
 

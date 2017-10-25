@@ -18,7 +18,6 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.powermock.api.mockito.PowerMockito;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.never;
@@ -101,18 +100,10 @@ public class EWSHomeWifiDisplayViewModelTest {
     }
 
     @Test
-    public void itShouldCallGetStringWhenTitleIsCalledForViewModel() throws Exception {
-        viewModel.getTitle(mockBaseContentConfig);
-        verify(mockStringProvider).getString(R.string.label_ews_confirm_connection_currently_connected,
-                mockBaseContentConfig.getDeviceName(), viewModel.getHomeWiFiSSID());
-
-    }
-
-    @Test
     public void itShouldVerifyTitleForViewMatches() throws Exception{
         when(mockStringProvider.getString(R.string.label_ews_confirm_connection_currently_connected,
-                mockBaseContentConfig.getDeviceName(), viewModel.getHomeWiFiSSID())).thenReturn("device name");
-        Assert.assertEquals("device name", viewModel.getTitle(mockBaseContentConfig));
+                 viewModel.getHomeWiFiSSID())).thenReturn("device name");
+        Assert.assertEquals("device name", viewModel.getTitle());
     }
 
     @Test
