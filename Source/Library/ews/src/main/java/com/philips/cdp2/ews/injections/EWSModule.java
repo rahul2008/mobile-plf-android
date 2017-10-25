@@ -145,10 +145,9 @@ public class EWSModule {
 
     @Provides
     SetDeviceInfoViewModel providesWiFiConnectViewModel(@NonNull final WiFiUtil wifiUtil,
-                                                        @NonNull final
-                                                        ApplianceSessionDetailsInfo sessionInfo,
+                                                        @NonNull final ApplianceSessionDetailsInfo sessionInfo,
                                                         @NonNull final Navigator navigator
-                                                       ) {
+    ) {
         final ConnectionEstablishDialogFragment dialogFragment =
                 ConnectionEstablishDialogFragment
                         .getInstance(R.string.label_ews_establishing_connection_body);
@@ -183,8 +182,7 @@ public class EWSModule {
     }
 
     @Provides
-    ProductSupportViewModel productSupportViewModel(
-            @NonNull final ScreenFlowController screenFlowController) {
+    ProductSupportViewModel productSupportViewModel(@NonNull final ScreenFlowController screenFlowController) {
         final CcLaunchInput ccLaunchInput = new CcLaunchInput();
         final CcInterface ccInterface = new CcInterface();
         final UappDependencies dependencies =

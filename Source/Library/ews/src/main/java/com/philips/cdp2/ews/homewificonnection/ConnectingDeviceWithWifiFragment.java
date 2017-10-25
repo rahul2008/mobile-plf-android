@@ -6,6 +6,7 @@ package com.philips.cdp2.ews.homewificonnection;
 
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.databinding.FragmentConnectingDeviceWithWifiBinding;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
@@ -28,8 +30,8 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
     private final static String HOME_WIFI_PWD = "homeWiFiPassword";
     private final static String DEVICE_NAME = "deviceName";
     private final static String DEVICE_FRIENDLY_NAME = "deviceFriendlyName";
-    @Nullable
-    ConnectingDeviceWithWifiViewModel viewModel;
+
+    @Nullable ConnectingDeviceWithWifiViewModel viewModel;
 
     public static Fragment newInstance(@NonNull String homeWiFiSSID,
                                        @NonNull String homeWiFiPassword,
@@ -63,6 +65,9 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        FragmentConnectingDeviceWithWifiBinding viewDataBinding =
+                DataBindingUtil.inflate(inflater, R.layout.fragment_connecting_device_with_wifi,
+                        container, false);
 
         if (viewModel == null) {
             viewModel = createViewModel();
@@ -73,8 +78,9 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
         }
         viewModel.setFragmentCallback(this);
 
-        return inflater.inflate(R.layout.fragment_connecting_phone_to_hotspot_layout, container,
-                false);
+        viewDataBinding.setViewModel(viewModel);
+
+        return viewDataBinding.getRoot();
     }
 
     @NonNull
@@ -84,19 +90,6 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
                 BundleUtils.extractStringFromBundleOrThrow(bundle, HOME_WIFI_PWD),
                 BundleUtils.extractStringFromBundleOrThrow(bundle, DEVICE_NAME),
                 BundleUtils.extractStringFromBundleOrThrow(bundle, DEVICE_FRIENDLY_NAME));
-    }
-
-    @Override
-    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        view.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (viewModel != null) {
-                    viewModel.onCancelButtonClicked();
-                }
-            }
-        });
     }
 
     @Override
