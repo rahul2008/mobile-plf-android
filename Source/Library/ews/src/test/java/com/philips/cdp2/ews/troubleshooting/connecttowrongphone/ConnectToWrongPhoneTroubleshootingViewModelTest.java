@@ -1,4 +1,4 @@
-package com.philips.cdp2.ews.viewmodel;
+package com.philips.cdp2.ews.troubleshooting.connecttowrongphone;
 
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingViewModel;

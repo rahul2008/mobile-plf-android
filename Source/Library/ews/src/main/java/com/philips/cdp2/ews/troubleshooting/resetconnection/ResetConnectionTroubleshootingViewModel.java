@@ -31,8 +31,9 @@ public class ResetConnectionTroubleshootingViewModel {
         this.resetConnectionImage = getResetConnectionImage(troubleShootContentConfiguration);
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+
     @NonNull
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     Drawable getResetConnectionImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
         return stringProvider.getImageResource(troubleShootContentConfiguration.getResetConnectionImage());
     }

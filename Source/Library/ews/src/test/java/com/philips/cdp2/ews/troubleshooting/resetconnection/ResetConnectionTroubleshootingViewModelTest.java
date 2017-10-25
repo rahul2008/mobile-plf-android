@@ -1,7 +1,12 @@
-package com.philips.cdp2.ews.viewmodel;
+package com.philips.cdp2.ews.troubleshooting.resetconnection;
 
+import android.graphics.drawable.Drawable;
+
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingViewModel;
+import com.philips.cdp2.ews.util.StringProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,13 +18,23 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ResetConnectionTroubleshootingViewModelTest {
 
-    @InjectMocks private ResetConnectionTroubleshootingViewModel subject;
+    private ResetConnectionTroubleshootingViewModel subject;
+
+    @Mock
+    TroubleShootContentConfiguration mockTroubleShootContentConfiguration;
+
+    @Mock
+    BaseContentConfiguration mockBaseContentConfiguration;
+
+    @Mock
+    StringProvider mockStringProvider;
 
     @Mock private Navigator mockNavigator;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        subject = new ResetConnectionTroubleshootingViewModel(mockNavigator, mockStringProvider, mockBaseContentConfiguration, mockTroubleShootContentConfiguration);
     }
 
     @Test
@@ -34,5 +49,10 @@ public class ResetConnectionTroubleshootingViewModelTest {
         subject.onNoButtonClicked();
 
         verify(mockNavigator).navigateToConnectToWrongPhoneTroubleShootingScreen();
+    }
+
+    @Test
+    public void itShouldGiveResetConnectionImage() throws Exception {
+        subject.getResetConnectionImage(mockTroubleShootContentConfiguration);
     }
 }
