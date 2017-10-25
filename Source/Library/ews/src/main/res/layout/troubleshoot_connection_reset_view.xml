@@ -22,6 +22,7 @@
 
         <TextView
             style="@style/EWS.Txt.Title"
+            android:id="@+id/ews_H_03_03_label_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/label_ews_reset_connection_settings_title"/>
@@ -43,7 +44,7 @@
             app:srcCompat="@drawable/ic_ews_connection_reset"/>
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/ews_H_03_03_button_done"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/d"

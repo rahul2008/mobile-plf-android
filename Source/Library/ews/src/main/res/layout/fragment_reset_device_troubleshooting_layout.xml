@@ -7,7 +7,7 @@
               android:orientation="vertical">
 
     <TextView
-        android:id="@+id/ews_connect_title"
+        android:id="@+id/ews_H_03_03_label_title"
         style="@style/EWS.Txt.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,11 +30,11 @@
         android:src="@drawable/ews_product_reset_device"/>
 
     <Button
-        android:id="@+id/reset_connection_done_button"
+        android:id="@+id/ews_H_03_03_button_done"
         style="@style/Btn.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/b"
-        android:text="DONE"/>
+        android:text="DONE" />
 
 </LinearLayout>

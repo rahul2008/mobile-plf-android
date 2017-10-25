@@ -61,8 +61,13 @@ public abstract class EWSBaseFragment<T extends ViewDataBinding> extends BaseFra
     }
 
     @NonNull
+    protected EWSActivity getEwsActivity() {
+        return ((EWSActivity) getActivity());
+    }
+
+    @NonNull
     protected EWSComponent getEwsComponent() {
-        return ((EWSActivity) getActivity()).getEWSComponent();
+        return getEwsActivity().getEWSComponent();
     }
 
     protected abstract void bindViewModel(final T viewDataBinding);

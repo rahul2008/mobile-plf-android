@@ -16,7 +16,7 @@ public class BaseTroubleShootingViewModel {
     }
 
     public void onCancelButtonClicked() {
-        navigator.navigateToDevicePoweredOnConfirmationScreen();
+        navigator.navigateToCompletingDeviceSetupScreen();
     }
 
 }

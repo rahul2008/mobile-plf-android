@@ -21,6 +21,7 @@
 
         <TextView
             style="@style/EWS.Txt.Title"
+            android:id="@+id/ews_H_03_04_label_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/label_ews_put_into_access_point_title"/>
@@ -48,6 +49,7 @@
             android:text="@string/label_ews_put_into_access_point_body_complete"/>
 
         <Button
+            android:id="@+id/ews_H_03_04_button_done"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/d"

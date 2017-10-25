@@ -21,6 +21,7 @@
 
         <TextView
             style="@style/EWS.Txt.Title"
+            android:id="@+id/ews_H_03_02_label_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/label_ews_full_menu_title"/>
@@ -42,6 +43,7 @@
             app:srcCompat="@drawable/ic_ews_troubleshoot_full_menu"/>
 
         <Button
+            android:id="@+id/ews_H_03_02_button_yes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/d"

@@ -26,8 +26,7 @@ import static com.philips.cdp2.ews.wifi.WiFiUtil.DEVICE_SSID;
 public class WiFiConnectivityManager {
 
     private static final int DELAY_IN_EACH_NEW_SCAN = 500;
-    private static final int INVALID_NETWORK_ID = -1;
-    private static int maxAttempts = 6;
+    private static int maxAttempts = 10;
     private final WifiManager wifiManager;
     private Wifi wifi;
     private WiFiUtil wiFiUtil;
@@ -47,30 +46,12 @@ public class WiFiConnectivityManager {
     }
 
     public void connectToApplianceHotspotNetwork(final String deviceHotspotSSID) {
-        if (INVALID_NETWORK_ID == getDeviceHotspotNetworkId(wiFiUtil.getFormattedSSID(deviceHotspotSSID))) {
-            configureOpenNetwork();
-        }
-
-        // Store the SSID of the hotspot that we are about to connect to, to be able to forget it after logic is done.
-        wiFiUtil.setHotSpotWiFiSSID(deviceHotspotSSID);
+        wiFiUtil.forgetHotSpotNetwork(deviceHotspotSSID);
+        configureOpenNetwork();
 
         if (!TextUtils.isEmpty(wiFiUtil.getCurrentWiFiSSID())) {
             connectToNetwork(DEVICE_SSID);
         }
-    }
-
-    private int getDeviceHotspotNetworkId(@NonNull final String hotspotSSID) {
-        List<WifiConfiguration> wifiConfigurationList = wifiManager.getConfiguredNetworks();
-
-        if (wifiConfigurationList != null) {
-            for (WifiConfiguration wifiConfiguration : wifiConfigurationList) {
-                if (wiFiUtil.getFormattedSSID(wifiConfiguration.SSID).equals(hotspotSSID)) {
-                    return wifiConfiguration.networkId;
-                }
-            }
-        }
-
-        return INVALID_NETWORK_ID;
     }
 
     private void configureOpenNetwork() {
@@ -91,6 +72,7 @@ public class WiFiConnectivityManager {
         wfc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
 
         wifiManager.addNetwork(wfc);
+        wifiManager.saveConfiguration();
     }
 
     private void connectToNetwork(@NonNull final String ssid) {
@@ -136,10 +118,6 @@ public class WiFiConnectivityManager {
 
         EWSLogger.e(EWS_STEPS, "Access point not found ");
         return null;
-    }
-
-    public void forgetApplianceNetwork() {
-        wiFiUtil.forgetHotSpotNetwork();
     }
 
     @VisibleForTesting

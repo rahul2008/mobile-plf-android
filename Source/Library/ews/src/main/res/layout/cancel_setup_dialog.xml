@@ -23,7 +23,7 @@
         android:padding="@dimen/d">
 
         <TextView
-            android:id="@+id/ews_verify_device_title"
+            android:id="@+id/ews_04_02_label_cancel_setup_title"
             style="@style/EWS.Txt.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             android:text="@string/label_ews_cancel_setup_body"/>
 
         <Button
-            android:id="@+id/ews_verify_device_confirm"
+            android:id="@+id/ews_04_02_button_cancel_setup_yes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/d"
@@ -48,7 +48,7 @@
 
         <Button
             style="@style/Btn.Secondary"
-            android:id="@+id/ews_verify_device_cancel"
+            android:id="@+id/ews_04_02_button_cancel_setup_no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/c"
