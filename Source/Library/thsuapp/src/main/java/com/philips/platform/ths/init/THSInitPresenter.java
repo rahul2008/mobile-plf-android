@@ -68,7 +68,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     public void onInitializationFailure(Throwable var1) {
         mThsInitFragment.hideProgressBar();
         if (mThsInitFragment.getContext() != null) {
-            (mThsInitFragment).showToast("Init Failed!!!!!");
+            (mThsInitFragment).showToast("Init Failed!!!!! " +var1.getMessage());
         }
     }
 

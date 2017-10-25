@@ -89,7 +89,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
                         android:text="Visit cost"
-                        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                         android:textSize="16dp" />
 
                     <com.philips.platform.uid.view.widget.Label
@@ -98,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/visitCostLabel"
                         android:text="Price before insurance"
-                        android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+                        android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                         android:textSize="14dp" />
 
                     <com.philips.platform.uid.view.widget.Label
@@ -148,7 +148,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="Rating"
-                    android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                     android:textSize="16sp" />
 
                 <com.philips.platform.uid.view.widget.RatingBar
@@ -183,7 +183,7 @@
                     android:paddingStart="@dimen/uid_grid_title_padding"
                     android:paddingTop="@dimen/uid_grid_title_padding"
                     android:text="Spoken Language"
-                    android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                     android:textSize="16sp" />
 
                 <com.philips.platform.uid.view.widget.Label
@@ -194,7 +194,7 @@
                     android:paddingBottom="@dimen/uid_grid_title_padding"
                     android:paddingEnd="@dimen/uid_grid_title_padding"
                     android:paddingStart="@dimen/uid_grid_title_padding"
-                    android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                     android:textSize="14sp" />
 
                 <View
@@ -214,7 +214,7 @@
                     android:paddingStart="@dimen/uid_grid_title_padding"
                     android:paddingTop="@dimen/uid_grid_title_padding"
                     android:text="Years of experience"
-                    android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                     android:textSize="16sp" />
 
                 <com.philips.platform.uid.view.widget.Label
@@ -225,7 +225,7 @@
                     android:paddingBottom="@dimen/uid_grid_title_padding"
                     android:paddingEnd="@dimen/uid_grid_title_padding"
                     android:paddingStart="@dimen/uid_grid_title_padding"
-                    android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                     android:textSize="14sp" />
 
                 <View
@@ -245,7 +245,7 @@
                     android:paddingStart="@dimen/uid_grid_title_padding"
                     android:paddingTop="@dimen/uid_grid_title_padding"
                     android:text="Graduated"
-                    android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                     android:textSize="16sp" />
 
                 <com.philips.platform.uid.view.widget.Label
@@ -256,7 +256,7 @@
                     android:paddingBottom="@dimen/uid_grid_title_padding"
                     android:paddingEnd="@dimen/uid_grid_title_padding"
                     android:paddingStart="@dimen/uid_grid_title_padding"
-                    android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                     android:textSize="14sp" />
 
                 <View
@@ -287,7 +287,7 @@
                     android:paddingEnd="@dimen/uid_grid_title_padding"
                     android:paddingStart="@dimen/uid_grid_title_padding"
                     android:paddingTop="@dimen/uid_grid_title_padding"
-                    android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                     android:textSize="16sp" />
             </RelativeLayout>
         </ScrollView>

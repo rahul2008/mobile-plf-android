@@ -65,6 +65,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
@@ -124,6 +125,7 @@ import com.philips.platform.ths.settings.THSGetAppointmentsCallback;
 import com.philips.platform.ths.settings.THSVisitReportAttachmentCallback;
 import com.philips.platform.ths.settings.THSVisitReportDetailCallback;
 import com.philips.platform.ths.settings.THSVisitReportListCallback;
+import com.philips.platform.ths.uappclasses.THSVisitCompletionListener;
 import com.philips.platform.ths.visit.THSCancelVisitCallBack;
 import com.philips.platform.ths.visit.THSStartVisitCallback;
 import com.philips.platform.ths.visit.THSVisitSummary;
@@ -133,6 +135,7 @@ import com.philips.platform.ths.welcome.THSInitializeCallBack;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -140,6 +143,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static com.philips.platform.ths.utility.THSConstants.THS_SDK_SERVICE_ID;
 
 
 public class THSManager {
@@ -151,6 +155,16 @@ public class THSManager {
     private THSConsumer mThsConsumer;
     private THSConsumer mThsParentConsumer;
     private boolean mIsReturningUser = true;
+
+    public THSVisitCompletionListener getThsVisitCompletionListener() {
+        return thsVisitCompletionListener;
+    }
+
+    public void setThsVisitCompletionListener(THSVisitCompletionListener thsVisitCompletionListener) {
+        this.thsVisitCompletionListener = thsVisitCompletionListener;
+    }
+
+    THSVisitCompletionListener thsVisitCompletionListener;
 
 
     @VisibleForTesting
@@ -192,7 +206,6 @@ public class THSManager {
        return mTHSConsumerWrapper;
     }
 
-    @VisibleForTesting
     public void setPTHConsumer(THSConsumerWrapper mTHSConsumerWrapper) {
         this.mTHSConsumerWrapper = mTHSConsumerWrapper;
     }
@@ -396,7 +409,7 @@ public class THSManager {
     }
 
 
-    public void initializeTeleHealth(Context context, final THSInitializeCallBack<Void, THSSDKError> THSInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
+    public void initializeTeleHealth(final Context context, final THSInitializeCallBack<Void, THSSDKError> THSInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
        /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
         initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
@@ -404,25 +417,46 @@ public class THSManager {
        /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://stagingOC169.mytelehealth.com");
         initParams.put(AWSDK.InitParam.ApiKey, "dc573250"); //client key*/
 
-        initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://iot11.amwellintegration.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
+        AppConfigurationInterface.AppConfigurationError getConfigError= new AppConfigurationInterface.AppConfigurationError();
+        final String APIKey = (String) getAppInfra().getConfigInterface().getPropertyForKey("apiKey","ths",getConfigError);
 
-        AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
-        getAwsdk(context).initialize(
-                initParams, new SDKCallback<Void, SDKError>() {
-                    @Override
-                    public void onResponse(Void aVoid, SDKError sdkError) {
-                        AmwellLog.i(AmwellLog.LOG,"Initialize - onGetPaymentMethodResponse from Amwell SDK");
-                        THSSDKError THSSDKError = new THSSDKError();
-                        THSSDKError.setSdkError(sdkError);
-                        THSInitializeCallBack.onInitializationResponse(aVoid, THSSDKError);
-                    }
+        getAppInfra().getServiceDiscovery().getServiceUrlWithCountryPreference(THS_SDK_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            @Override
+            public void onSuccess(URL url) {
+                initParams.put(AWSDK.InitParam.BaseServiceUrl, url.toString());
+                initParams.put(AWSDK.InitParam.ApiKey, APIKey); //client key
 
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        THSInitializeCallBack.onInitializationFailure(throwable);
-                    }
-                });
+                AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
+                try {
+                    getAwsdk(context).initialize(
+                            initParams, new SDKCallback<Void, SDKError>() {
+                                @Override
+                                public void onResponse(Void aVoid, SDKError sdkError) {
+                                    AmwellLog.i(AmwellLog.LOG,"Initialize - onGetPaymentMethodResponse from Amwell SDK");
+                                    THSSDKError THSSDKError = new THSSDKError();
+                                    THSSDKError.setSdkError(sdkError);
+                                    THSInitializeCallBack.onInitializationResponse(aVoid, THSSDKError);
+                                }
+
+                                @Override
+                                public void onFailure(Throwable throwable) {
+                                    THSInitializeCallBack.onInitializationFailure(throwable);
+                                }
+                            });
+                }catch (Exception e){
+                    THSInitializeCallBack.onInitializationFailure(e);
+                }
+            }
+
+            @Override
+            public void onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String s) {
+                Throwable serviceDiscoveryError= new Throwable(s);
+                THSInitializeCallBack.onInitializationFailure(serviceDiscoveryError);
+            }
+        });
+
+
+
     }
 
     public boolean isSDKInitialized(Context context) throws AWSDKInstantiationException {

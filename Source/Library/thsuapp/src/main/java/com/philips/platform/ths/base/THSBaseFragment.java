@@ -18,7 +18,10 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.activity.THSLaunchActivity;
+import com.philips.platform.ths.init.THSInitFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -26,10 +29,12 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_USER_NOT_LOGGED_IN;
 
 
-public class THSBaseFragment extends Fragment implements THSBaseView,BackEventListener {
+public class THSBaseFragment extends Fragment implements THSBaseView, BackEventListener {
 
 
     public FragmentLauncher mFragmentLauncher;
@@ -55,18 +60,18 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
     }
 
     public void setFragmentLauncher(FragmentLauncher fragmentLauncher) {
-     this.mFragmentLauncher = fragmentLauncher;
+        this.mFragmentLauncher = fragmentLauncher;
     }
 
-    public FragmentLauncher getFragmentLauncher(){
+    public FragmentLauncher getFragmentLauncher() {
         return mFragmentLauncher;
     }
 
-    public void setActionBarListener(ActionBarListener actionBarListener){
+    public void setActionBarListener(ActionBarListener actionBarListener) {
         this.actionBarListener = actionBarListener;
     }
 
-    public ActionBarListener getActionBarListener(){
+    public ActionBarListener getActionBarListener() {
         return actionBarListener;
     }
 
@@ -81,16 +86,16 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
         //TODO: The try catch block will be removed when the loading will not be done on Back press
         try {
             fragment.setArguments(bundle);
-            if(null == getFragmentLauncher()){
+            if (null == getFragmentLauncher()) {
                 popFragmentByTag(THSWelcomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
             fragment.setFragmentLauncher(getFragmentLauncher());
             fragment.setActionBarListener(getActionBarListener());
             FragmentTransaction fragmentTransaction;
             fragmentTransaction = getFragmentActivity().getSupportFragmentManager().beginTransaction();
-            if(isReplace) {
+            if (isReplace) {
                 fragmentTransaction.replace(getContainerID(), fragment, fragmentTag);
-            }else {
+            } else {
                 fragmentTransaction.add(getContainerID(), fragment, fragmentTag);
             }
             fragmentTransaction.addToBackStack(fragmentTag);
@@ -101,18 +106,18 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
     }
 
     @Override
-    public void popFragmentByTag(String fragmentTag,int flag) {
-        getFragmentActivity().getSupportFragmentManager().popBackStack(fragmentTag,flag);
+    public void popFragmentByTag(String fragmentTag, int flag) {
+        getFragmentActivity().getSupportFragmentManager().popBackStack(fragmentTag, flag);
     }
 
     public void createCustomProgressBar(ViewGroup group, int size) {
         ViewGroup parentView = (ViewGroup) getView();
         ViewGroup layoutViewGroup = group;
-        if(parentView != null){
+        if (parentView != null) {
             group = parentView;
         }
 
-        switch (size){
+        switch (size) {
             case BIG:
                 getContext().getTheme().applyStyle(R.style.PTHCircularPBBig, true);
                 break;
@@ -134,7 +139,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
 
         try {
             group.addView(mPTHBaseFragmentProgressBar);
-        }catch (Exception e){
+        } catch (Exception e) {
             layoutViewGroup.addView(mPTHBaseFragmentProgressBar);
         }
 
@@ -144,7 +149,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
     }
 
     //TODO: Toast to be removed
-    public void showToast(String message){
+    public void showToast(String message) {
         if (getContext() != null) {
             //TODO: TO be removed
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
@@ -157,7 +162,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
     }
 
     public void showError(String message) {
-        if(isFragmentAttached()) {
+        if (isFragmentAttached()) {
             AlertDialogFragment alertDialogFragmentUserNotLoggedIn = (AlertDialogFragment) getFragmentManager().findFragmentByTag(THS_USER_NOT_LOGGED_IN);
             if (null != alertDialogFragmentUserNotLoggedIn) {
                 alertDialogFragmentUserNotLoggedIn.dismiss();
@@ -185,15 +190,41 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
         };
     }
 
-    public boolean isFragmentAttached(){
+    public boolean isFragmentAttached() {
         boolean result = false;
         try {
-            if (null != getActivity() && null!=getContext() && isAdded()) {
-                result =  true;
+            if (null != getActivity() && null != getContext() && isAdded()) {
+                result = true;
             }
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
         return result;
+    }
+
+    public void exitFromAmWell(boolean isSuccess) {
+
+        if (this.getActivity() instanceof THSLaunchActivity) {
+            THSLaunchActivity thsLaunchActivity = (THSLaunchActivity) this.getActivity();
+            thsLaunchActivity.finish();
+        } else {
+
+            FragmentManager fragmentManager = getFragmentManager();
+            Fragment welComeFragment = fragmentManager.findFragmentByTag(THSWelcomeFragment.TAG);
+            Fragment welComeBackFragment = fragmentManager.findFragmentByTag(THSWelcomeBackFragment.TAG);
+            Fragment tHSInitFragment = fragmentManager.findFragmentByTag(THSInitFragment.TAG);
+
+            if (welComeFragment != null) {
+                fragmentManager.popBackStack(THSWelcomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            } else if (welComeBackFragment != null) {
+                fragmentManager.popBackStack(THSWelcomeBackFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            } else if (tHSInitFragment != null) {
+                fragmentManager.popBackStack(THSInitFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
+        }
+        if (THSManager.getInstance().getThsVisitCompletionListener() != null) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,"exitToUgrow","toUgrowPage");
+            THSManager.getInstance().getThsVisitCompletionListener().onTHSVisitComplete(isSuccess);
+        }
     }
 }

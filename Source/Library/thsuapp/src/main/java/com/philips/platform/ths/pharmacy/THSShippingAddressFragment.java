@@ -28,6 +28,8 @@ import com.philips.platform.uid.view.widget.EditText;
 
 import java.util.List;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_SHIPPING_ADDRESS;
+
 public class THSShippingAddressFragment extends THSBaseFragment implements View.OnClickListener {
 
     public static String TAG = THSShippingAddressFragment.class.getSimpleName();
@@ -101,5 +103,11 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
             }
 
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SHIPPING_ADDRESS,null,null);
     }
 }

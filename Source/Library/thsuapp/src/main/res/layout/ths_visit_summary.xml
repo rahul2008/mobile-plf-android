@@ -22,7 +22,7 @@
             android:layout_marginTop="24dp"
             android:lineSpacingExtra="6sp"
             android:text="This concludes your visit with"
-            android:textColor="?attr/uidContentItemDefaultDisabledSubtitleTextColor"
+            android:textColor="?attr/uidContentItemSecondaryDisabledTextColor"
 
 
             android:textSize="@dimen/ths_body_text" />
@@ -113,7 +113,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ths_wrap_up_visit_report_title_label"
-            android:textColor="?attr/uidContentItemDefaultDisabledSubtitleTextColor"
+            android:textColor="?attr/uidContentItemSecondaryDisabledTextColor"
             android:background="?attr/uidSeparatorContentNormalBackgroundColor"
             android:layout_width="match_parent"
             android:layout_height="@dimen/ths_list_item_height"

@@ -223,15 +223,19 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'uid', version: '1.1.0-SNAPSHOT.20171012141750', ext: 'aar'){
-        exclude group: 'com.android.support'
-        transitive = true
-    }
+    def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(dp ? project(':uid') : uidModule)
+            {
+                exclude group: 'com.android.support'
+                transitive = true
+            }
 
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '11.1.0-SNAPSHOT.20171010183249', ext: 'aar'){
-        exclude group: 'com.android.support'
-        transitive = true
-    }
+    def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar')
+    compile(dp ? project(':usr') : usrModule)
+            {
+                exclude group: 'com.android.support'
+                transitive = true
+            }
 
     compile(group: 'com.americanwell', name: 'awsdk', version: '3.1.1', ext: 'aar'){
         transitive = true

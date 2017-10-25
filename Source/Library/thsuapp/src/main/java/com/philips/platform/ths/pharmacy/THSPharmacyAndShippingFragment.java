@@ -24,6 +24,8 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_PHARMACY_SUMMARY;
+
 public class THSPharmacyAndShippingFragment extends THSBaseFragment implements THSPharmacyShippingViewInterface, View.OnClickListener {
 
     public static String TAG = THSPharmacyAndShippingFragment.class.getSimpleName();
@@ -123,5 +125,9 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         thsPharmacyAndShippingPresenter.onEvent(v.getId());
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PHARMACY_SUMMARY,null,null);
+    }
 }

@@ -36,6 +36,7 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
             }
 
         } else if (componentID == R.id.conditions_skip) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,"stepsSkipped","medicalConditions");
             launchFollowUpFragment();
         }
     }

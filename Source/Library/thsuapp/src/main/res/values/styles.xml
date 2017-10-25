@@ -48,7 +48,7 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:textSize">@dimen/ths_body_text</item>
         <item name="android:spacing">@dimen/ths_body_text_line_spacing_extra</item>
-        <item name="android:textColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
+        <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
     </style>
 
     <style name="ths_list_header">
@@ -61,7 +61,7 @@
         <item name="android:paddingBottom">@dimen/ths_title_padding</item>
         <item name="android:paddingTop">@dimen/ths_title_padding</item>
         <item name="android:spacing">@dimen/ths_body_text_line_spacing_extra</item>
-        <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtitleTextColor</item>
+        <item name="android:textColor">?attr/uidContentItemSecondaryNormalTextColor</item>
     </style>
 
     <style name="ths_body_text">
@@ -73,7 +73,7 @@
         <item name="android:textSize">@dimen/ths_body_text</item>
         <item name="android:paddingBottom">@dimen/ths_body_text_padding</item>
         <item name="android:paddingTop">@dimen/ths_body_text_padding</item>
-        <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtleBodyTextColor</item>
+        <item name="android:textColor">?attr/uidContentItemSecondaryNormalTextColor</item>
     </style>
 
     <style name="ths_body_text_pre_welcome">
@@ -115,7 +115,7 @@
         <item name="android:textSize">@dimen/ths_body_text</item>
         <item name="android:paddingBottom">@dimen/ths_body_text_padding</item>
         <item name="android:paddingTop">@dimen/ths_body_text_padding</item>
-        <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtleBodyTextColor</item>
+        <item name="android:textColor">?attr/uidContentItemSecondaryNormalTextColor</item>
     </style>
 
     <style name="ths_skip_text">
@@ -141,7 +141,7 @@
         <item name="android:textSize">@dimen/ths_title_text</item>
         <item name="android:paddingBottom">@dimen/ths_title_padding</item>
         <item name="android:paddingTop">@dimen/ths_title_padding</item>
-        <item name="android:textColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
+        <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
     </style>
 
     <style name="ths_title_text_medium">
@@ -208,7 +208,7 @@
     <style name="ths_list_item_header">
         <item name="android:minHeight">@dimen/ths_list_item_height</item>
         <item name="android:textSize">@dimen/ths_body_text</item>
-        <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtitleTextColor</item>
+        <item name="android:textColor">?attr/uidContentItemSecondaryNormalTextColor</item>
         <item name="android:background">?attr/uidContentSecondaryBackgroundColor</item>
     </style>
 

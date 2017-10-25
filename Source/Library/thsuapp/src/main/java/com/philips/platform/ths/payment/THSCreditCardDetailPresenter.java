@@ -23,6 +23,7 @@ import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.CVV_HELP_TEXT;
 import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 
 public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymentCallback.THSgetPaymentMethodCallBack<THSPaymentMethod, THSSDKError> {
@@ -166,6 +167,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
                 // if expiration date is invalid
                 mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
             } else {
+
                 bundle.putString("CVVcode", CVVcode);
                 if (null != mPaymentMethod && null != mPaymentMethod.getBillingAddress()) {
                     bundle.putParcelable("address", mPaymentMethod.getBillingAddress());

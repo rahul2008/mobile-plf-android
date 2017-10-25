@@ -32,6 +32,8 @@ import com.philips.platform.ths.uappclasses.THSMicroAppDependencies;
 import com.philips.platform.ths.uappclasses.THSMicroAppInterfaceImpl;
 import com.philips.platform.ths.uappclasses.THSMicroAppLaunchInput;
 import com.philips.platform.ths.uappclasses.THSMicroAppSettings;
+import com.philips.platform.ths.uappclasses.THSVisitCompletionListener;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -46,14 +48,12 @@ import com.philips.platform.uid.utils.UIDActivity;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends UIDActivity implements ActionBarListener, UserRegistrationListener, UserRegistrationUIEventListener {
+public class MainActivity extends UIDActivity implements ActionBarListener, UserRegistrationListener, UserRegistrationUIEventListener,THSVisitCompletionListener {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_Bright;
@@ -165,7 +165,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
     }
 
     private void launchAmwell() {
-        PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input");
+        PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input", this);
         PTHMicroAppInterface = new THSMicroAppInterfaceImpl();
 
         Drawable drawable = getResources().getDrawable(R.mipmap.ths_pre_welcome_image);
@@ -235,6 +235,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         uappDependencies.setThsConsumer(thsConsumer);
         PTHMicroAppInterface.init(uappDependencies, new THSMicroAppSettings(this.getApplicationContext()));
         PTHMicroAppInterface.launch(fragmentLauncher, PTHMicroAppLaunchInput);
+
     }
 
     @Override
@@ -272,5 +273,10 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);
+    }
+
+    @Override
+    public void onTHSVisitComplete(boolean isTHSVisitComplete) {
+        AmwellLog.d(this.getClass().getName(),Boolean.toString(isTHSVisitComplete));
     }
 }
