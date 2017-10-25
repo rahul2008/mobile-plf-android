@@ -3,7 +3,7 @@
  * All rights are reserved. Reproduction or dissemination in whole or in part
  * is prohibited without the prior written consent of the copyright holder.
  */
-package com.philips.platform.appinfra.servicediscovery;
+package com.philips.platform.appinfra.aikm;
 
 import android.content.Context;
 import android.util.Log;
@@ -25,13 +25,18 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class SDGroomHelperTest extends AppInfraInstrumentation {
+public class AIKMHelperTest extends AppInfraInstrumentation {
 
-    private SDGroomHelper groomHelper;
+    private AIKMHelper AIKMHelper;
     private AppInfra mAppInfraMock;
     private InputStream inputStream;
 
@@ -48,24 +53,24 @@ public class SDGroomHelperTest extends AppInfraInstrumentation {
             Log.e("error "," while reading json");
         }
 
-        groomHelper = new SDGroomHelper() {
+        AIKMHelper = new AIKMHelper(mAppInfraMock) {
             @Override
             InputStream getInputStream(Context mContext, String fileName) throws AIKMJsonFileNotFoundException {
                 return inputStream;
             }
         };
-        groomHelper.init(mAppInfraMock);
+        AIKMHelper.init(mAppInfraMock);
     }
 
     public void testGettingSeed() throws NoSuchAlgorithmException {
         String groupId = "appinfra.languagePack2";
         int index = 1;
         String key = "client_id";
-        assertNull(groomHelper.getValue("", 0, "test"));
-        assertNull(groomHelper.getValue("test", 0, ""));
-        assertNull(groomHelper.getValue(null, 0, ""));
-        assertNull(groomHelper.getValue("test", 0, null));
-        String seed = groomHelper.getValue(groupId, index, key);
+        assertNull(AIKMHelper.getValue("", 0, "test"));
+        assertNull(AIKMHelper.getValue("test", 0, ""));
+        assertNull(AIKMHelper.getValue(null, 0, ""));
+        assertNull(AIKMHelper.getValue("test", 0, null));
+        String seed = AIKMHelper.getValue(groupId, index, key);
         assertTrue(seed.length() == 4);
     }
 
@@ -74,18 +79,18 @@ public class SDGroomHelperTest extends AppInfraInstrumentation {
         URL url;
         try {
             url = new URL(indexData);
-            assertEquals(groomHelper.getGroomIndexWithSplit(url.toString()), "0");
+            assertEquals(AIKMHelper.getGroomIndex(url.toString()), "0");
         } catch (MalformedURLException e) {
             Log.e("error "," while fetching url");
         }
 
         indexData = "https://philips.com/22";
-        assertEquals(groomHelper.getGroomIndexWithSplit(indexData), "22");
+        assertEquals(AIKMHelper.getGroomIndex(indexData), "22");
         indexData = "https://philips.com/";
-        assertNull(groomHelper.getGroomIndexWithSplit(indexData));
+        assertNull(AIKMHelper.getGroomIndex(indexData));
         indexData = "";
-        assertNull(groomHelper.getGroomIndexWithSplit(indexData));
-        assertNull(groomHelper.getGroomIndexWithSplit(null));
+        assertNull(AIKMHelper.getGroomIndex(indexData));
+        assertNull(AIKMHelper.getGroomIndex(null));
     }
 
     public void testGettingIndexWithSplit() {
@@ -93,23 +98,23 @@ public class SDGroomHelperTest extends AppInfraInstrumentation {
         URL url;
         try {
             url = new URL(indexData);
-            assertEquals(groomHelper.getGroomIndexWithSplit(url.toString()), "0");
+            assertEquals(AIKMHelper.getGroomIndexWithSplit(url.toString()), "0");
         } catch (MalformedURLException e) {
             Log.e("error "," while fetching url");
         }
 
         indexData = "https://philips.com/22";
-        assertEquals(groomHelper.getGroomIndexWithSplit(indexData), "22");
+        assertEquals(AIKMHelper.getGroomIndexWithSplit(indexData), "22");
         indexData = "https://philips.com/";
-        assertNull(groomHelper.getGroomIndexWithSplit(indexData));
+        assertNull(AIKMHelper.getGroomIndexWithSplit(indexData));
         indexData = "";
-        assertNull(groomHelper.getGroomIndexWithSplit(indexData));
-        assertNull(groomHelper.getGroomIndexWithSplit(null));
+        assertNull(AIKMHelper.getGroomIndexWithSplit(indexData));
+        assertNull(AIKMHelper.getGroomIndexWithSplit(null));
     }
 
     public void testGettingMd5ValueInHex() throws NoSuchAlgorithmException {
-        assertNull(groomHelper.getAilGroomInHex(null));
-        assertNotNull(groomHelper.getAilGroomInHex("testing"));
+        assertNull(AIKMHelper.getAilGroomInHex(null));
+        assertNotNull(AIKMHelper.getAilGroomInHex("testing"));
     }
 
     public void testInit() {
@@ -118,7 +123,7 @@ public class SDGroomHelperTest extends AppInfraInstrumentation {
         thrown.expectMessage("AIKeyBag.json file not found in assets folder");
         try {
             try {
-                groomHelper.init(mAppInfraMock);
+                AIKMHelper.init(mAppInfraMock);
             } catch (JSONException e) {
                 assertEquals(e.getMessage(), AIKMService.AIKMapError.INVALID_JSON.name());
             }
@@ -130,24 +135,33 @@ public class SDGroomHelperTest extends AppInfraInstrumentation {
 
     public void testConvertingToHex() {
         String hexString = "52616a612052616d204d6f68616e20526f79";
-        assertEquals(groomHelper.convertData(hexString), "Raja Ram Mohan Roy");
-        String testString = groomHelper.convertData("c2b3c2a5085a2dc3a91672c29fc28e55c2955bc2a4c282656cc3bc");
+        assertEquals(AIKMHelper.convertData(hexString), "Raja Ram Mohan Roy");
+        String testString = AIKMHelper.convertData("c2b3c2a5085a2dc3a91672c29fc28e55c2955bc2a4c282656cc3bc");
         assertNotNull(testString);
     }
 
     public void testObfuscate() {
-        String obfuscate = groomHelper.ailGroom("Raja Ram Mohan Roy", 0XAEF7);
+        String obfuscate = AIKMHelper.ailGroom("Raja Ram Mohan Roy", 0XAEF7);
         assertFalse(obfuscate.equals("Raja Ram Mohan Roy"));
-        assertEquals(groomHelper.ailGroom(obfuscate, 0XAEF7), "Raja Ram Mohan Roy");
-        assertFalse(groomHelper.ailGroom(obfuscate, 0XAEF7).equals("Raja Ram Mohan Roy xxx"));
+        assertEquals(AIKMHelper.ailGroom(obfuscate, 0XAEF7), "Raja Ram Mohan Roy");
+        assertFalse(AIKMHelper.ailGroom(obfuscate, 0XAEF7).equals("Raja Ram Mohan Roy xxx"));
+    }
+
+    public void testGetAppendedServiceIds() {
+        String[] serviceIds = {"serviceId1", "serviceId2", "", null};
+        ArrayList<String> appendedServiceIds = AIKMHelper.getAppendedGrooms(Arrays.asList(serviceIds));
+        for (int i = 0; i < appendedServiceIds.size(); i++) {
+            assertTrue(appendedServiceIds.get(i).contains(".kindex"));
+            assertNotNull(appendedServiceIds.get(i));
+        }
     }
 
     public void testMappingData() throws Exception {
-        assertNotNull(groomHelper.mapData(new JSONObject(), 0, "service_id"));
+        assertNotNull(AIKMHelper.mapData(new JSONObject(), 0, "service_id"));
     }
 
     public void testMapAndValidateKey() throws AIKMJsonFileNotFoundException {
-        groomHelper = new SDGroomHelper() {
+        AIKMHelper = new AIKMHelper(mAppInfraMock) {
             @Override
             Object getAilGroomProperties(String serviceId) {
                 return new JSONArray();
@@ -159,44 +173,63 @@ public class SDGroomHelperTest extends AppInfraInstrumentation {
             }
         };
         try {
-            groomHelper.init(mAppInfraMock);
+            AIKMHelper.init(mAppInfraMock);
         } catch (JSONException e) {
            assertEquals(e.getMessage(),AIKMService.AIKMapError.INVALID_JSON.name());
         }
         ServiceDiscoveryService serviceDiscovery = new ServiceDiscoveryService();
         serviceDiscovery.setmError("something went wrong");
         AIKMService aikmService = new AIKMService();
-        groomHelper.mapAndValidateGroom(aikmService, null, "0");
+        AIKMHelper.mapAndValidateGroom(aikmService, null, "0");
         assertEquals(aikmService.getAIKMapError(), AIKMService.AIKMapError.NO_SERVICE_FOUND);
 
-        groomHelper.mapAndValidateGroom(aikmService, "service_id", "string");
+        AIKMHelper.mapAndValidateGroom(aikmService, "service_id", "string");
         assertEquals(AIKMService.AIKMapError.INVALID_INDEX_URL, aikmService.getAIKMapError());
 
-        groomHelper = new SDGroomHelper() {
+        AIKMHelper = new AIKMHelper(mAppInfraMock) {
             @Override
             Object getAilGroomProperties(String serviceId) {
                 return new JSONObject();
             }
         };
-        groomHelper.mapAndValidateGroom(aikmService, "service_id", "1");
+        AIKMHelper.mapAndValidateGroom(aikmService, "service_id", "1");
         assertEquals(AIKMService.AIKMapError.INVALID_JSON, aikmService.getAIKMapError());
 
         JSONObject someJsonObject = new JSONObject();
         try {
             someJsonObject.put("clientId", "4c73b365");
             final JSONArray someJsonArray = new JSONArray(someJsonObject);
-            groomHelper = new SDGroomHelper() {
+            AIKMHelper = new AIKMHelper(mAppInfraMock) {
                 @Override
                 Object getAilGroomProperties(String serviceId) {
                     return someJsonArray;
                 }
             };
-            groomHelper.mapAndValidateGroom(aikmService, "service_id", "1");
+            AIKMHelper.mapAndValidateGroom(aikmService, "service_id", "1");
             assertTrue(aikmService.getAIKMap() != null);
             assertEquals(aikmService.getAIKMap().get("clientId"), "test");
         } catch (JSONException e) {
             Log.e("error "," in json structure");
         }
     }
+
+    public void testMapResponse() {
+        Map<String, ServiceDiscoveryService> stringServiceDiscoveryServiceMap = new HashMap<>();
+        List<AIKMService> aiKmServices = new ArrayList<>();
+        ServiceDiscoveryService serviceDiscoveryService = new ServiceDiscoveryService();
+
+        serviceDiscoveryService.init("en_GB", "some_url");
+        stringServiceDiscoveryServiceMap.put("service_id", serviceDiscoveryService);
+        Map<String, ServiceDiscoveryService> map = new HashMap<>();
+        map.put("service_id.kindex", null);
+        AIKMHelper.mapResponse(map, aiKmServices, stringServiceDiscoveryServiceMap);
+        assertEquals(aiKmServices.get(0).getAIKMapError(), AIKMService.AIKMapError.NO_SERVICE_FOUND);
+        ServiceDiscoveryService serviceDiscoveryServiceKindex = new ServiceDiscoveryService();
+        map.put("service_id.kindex", serviceDiscoveryServiceKindex);
+        aiKmServices = new ArrayList<>();
+        AIKMHelper.mapResponse(map, aiKmServices, stringServiceDiscoveryServiceMap);
+        assertEquals(aiKmServices.get(0).getAIKMapError(), AIKMService.AIKMapError.NO_URL_FOUND);
+    }
+
 
 }

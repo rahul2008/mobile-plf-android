@@ -34,5 +34,32 @@ public class AIKMService extends ServiceDiscoveryService {
         this.serviceId = serviceId;
     }
 
+    public AIKMapError getAIKMapError() {
+        return aiKMapError;
+    }
+
+    public void setAIKMapError(AIKMapError AIKMapError) {
+        this.aiKMapError = AIKMapError;
+    }
+
+    public enum AIKMapError {
+
+        INVALID_INDEX_URL("Invalid index url found from service discovery"),
+        INDEX_NOT_FOUND("Index not found exception"),
+        INVALID_JSON("AIKMap.json is an invalid JSON"),
+        NO_SERVICE_FOUND("No Service Found From ServiceDiscovery"),
+        NO_URL_FOUND("No URL found"),
+        CONVERT_ERROR("Error while converting the value");
+
+        private final String description;
+
+        AIKMapError(final String description) {
+            this.description = description;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
 
 }

@@ -443,7 +443,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
                 }
             }).start();
 
-            if (AIKManager.isAiKmServiceEnabled(appConfigurationManager, ai)) {
+//            if (AIKManager.isAiKmServiceEnabled(appConfigurationManager, ai)) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -452,7 +452,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
                         ai.setAiKmInterface(aikmInterface == null ? aikManager : aikmInterface);
                     }
                 }).start();
-            }
+//            }
 
 //            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppInfra Initialization ENDS");
             postLog(ai, startTime, "App-infra initialization ends with ");

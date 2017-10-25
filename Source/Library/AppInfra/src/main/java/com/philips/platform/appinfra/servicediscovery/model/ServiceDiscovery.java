@@ -9,10 +9,8 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
-import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.RequestManager;
-import com.philips.platform.appinfra.servicediscovery.SDGroomHelper;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 
@@ -35,7 +33,6 @@ import static com.philips.platform.appinfra.servicediscovery.model.AISDResponse.
  */
 public class ServiceDiscovery {
 
-	private SDGroomHelper sdGroomHelper;
 	private boolean success = false;
 	String httpStatus;
 	String country;
@@ -50,12 +47,6 @@ public class ServiceDiscovery {
 
 	public ServiceDiscovery(AppInfra mAppInfra) {
 		this.mAppInfra = mAppInfra;
-		this.sdGroomHelper = new SDGroomHelper();
-		try {
-			sdGroomHelper.init(mAppInfra);
-		} catch (AIKMJsonFileNotFoundException | JSONException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public static class Error {
@@ -385,7 +376,8 @@ public class ServiceDiscovery {
 									final URL replacedUrl = mServiceDiscoveryManager.applyURLParameters(new URL(serviceUrlval), replacement);
 									if (replacedUrl != null) {
 										sdService.init(modelLocale, replacedUrl.toString());
-										sdGroomHelper.validateGroom(serviceIds.get(i), urls.get(serviceIds.get(i).concat(".kindex")), sdService);
+										AIKMResponse aikmResponse = mAppInfra.getAiKmInterface().getKeySet(serviceIds.get(i), urls.get(serviceIds.get(i).concat(".kindex")));
+										mapKeyBagData(sdService, aikmResponse);
 										responseMap.put(serviceIds.get(i), sdService);
 									}
 								} catch (MalformedURLException e) {
@@ -396,7 +388,8 @@ public class ServiceDiscovery {
 								}
 							} else {
 								sdService.init(modelLocale, serviceUrlval);
-								sdGroomHelper.validateGroom(serviceIds.get(i), urls.get(serviceIds.get(i).concat(".kindex")), sdService);
+								AIKMResponse aikmResponse = mAppInfra.getAiKmInterface().getKeySet(serviceIds.get(i), urls.get(serviceIds.get(i).concat(".kindex")));
+								mapKeyBagData(sdService, aikmResponse);
 								responseMap.put(serviceIds.get(i), sdService);
 							}
 
@@ -416,6 +409,11 @@ public class ServiceDiscovery {
 			}
 		}
 		return responseMap;
+	}
+
+	private void mapKeyBagData(ServiceDiscoveryService sdService, AIKMResponse aikmResponse) {
+		sdService.setKMap(aikmResponse.getkMap());
+		sdService.setKError(aikmResponse.getkError());
 	}
 
 	protected String getLocaleWithPreference(AISDResponse.AISDPreference preference) {
