@@ -30,6 +30,7 @@ import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties;
 import com.philips.cdp2.commlib.demouapp.R;
+import com.philips.cdp2.demouapp.appliance.reference.BleReferenceAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.ReferenceAppliance;
 import com.philips.cdp2.demouapp.util.SelectorDialog;
 
@@ -239,7 +240,6 @@ public class FirmwareUpgradeFragment extends Fragment {
         currentAppliance.getFirmwarePort().reloadProperties();
 
         currentAppliance.getFirmwarePort().addFirmwarePortListener(firmwarePortListener);
-        currentAppliance.enableCommunication();
 
         checkUpgradeSupport();
     }
@@ -283,7 +283,6 @@ public class FirmwareUpgradeFragment extends Fragment {
 
         currentAppliance.getFirmwarePort().removePortListener(portListener);
         currentAppliance.getFirmwarePort().removeFirmwarePortListener(firmwarePortListener);
-        currentAppliance.disableCommunication();
     }
 
     private void updateButtons(boolean isUploadEnabled, boolean isDeployEnabled, boolean isCancelEnabled) {

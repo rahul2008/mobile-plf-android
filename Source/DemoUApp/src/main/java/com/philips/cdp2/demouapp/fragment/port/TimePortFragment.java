@@ -74,11 +74,15 @@ public class TimePortFragment extends Fragment {
         }
 
         @Override
-        public void onPortError(TimePort port, Error error, @Nullable String errorData) {
+        public void onPortError(TimePort timePort, Error error, @Nullable String errorData) {
             DICommLog.e(TAG, String.format(Locale.US, "Time port error: [%s], data: [%s]", error.getErrorMessage(), errorData));
 
             if (isAdded()) {
                 updateResult(getString(R.string.cml_lblResultPortError, error.getErrorMessage()));
+
+                if (switchLoopGet.isChecked()) {
+                    timePort.reloadProperties();
+                }
             }
         }
     };

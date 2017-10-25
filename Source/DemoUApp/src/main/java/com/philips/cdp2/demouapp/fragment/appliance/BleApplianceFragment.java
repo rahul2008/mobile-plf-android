@@ -30,7 +30,7 @@ public class BleApplianceFragment extends Fragment {
         currentAppliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
 
         switchContinuousConnection = ((CompoundButton) rootView.findViewById(R.id.cml_switch_continuous_connection));
-        handleContinuousConnectionChanged();
+        switchContinuousConnection.setChecked(true);
 
         switchContinuousConnection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -40,6 +40,13 @@ public class BleApplianceFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        handleContinuousConnectionChanged();
     }
 
     private void handleContinuousConnectionChanged() {
