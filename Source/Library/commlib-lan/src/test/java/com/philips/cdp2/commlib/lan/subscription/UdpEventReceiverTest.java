@@ -2,6 +2,7 @@
  * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp2.commlib.lan.subscription;
 
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
@@ -21,7 +22,7 @@ public class UdpEventReceiverTest extends RobolectricTest {
     }
 
     @Test
-    public void givenSingletonAvailable_whenSingletonCalled_thenShouldNotBeNull() throws Exception{
+    public void givenSingletonAvailable_whenSingletonCalled_thenShouldNotBeNull() {
         // Boyscout rule FTW
         assertNotNull(receiver);
     }
