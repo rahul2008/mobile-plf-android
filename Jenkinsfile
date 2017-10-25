@@ -69,12 +69,18 @@ node ('android&&device') {
             }
 
             stage ('reporting') {
-                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
-                // junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/*/*.xml'
-                junit allowEmptyResults: false, testResults: 'Source/Library/**/build/outputs/androidTest-results/*/*.xml'
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/productselection/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage debug']) 
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/productselection/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests']) 
-                archiveArtifacts '**/*dependencies*.lock'
+                if (BranchName =~ /master|develop|release\/platform_.*/) {
+                    echo "Nothing to Report, OPA build is started"
+                }
+                else
+                {
+                    androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
+                    // junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/*/*.xml'
+                    junit allowEmptyResults: false, testResults: 'Source/Library/**/build/outputs/androidTest-results/*/*.xml'
+                    publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/productselection/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage debug']) 
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/productselection/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests']) 
+                    archiveArtifacts '**/*dependencies*.lock'
+                }
             }
 
             stage('informing') {
