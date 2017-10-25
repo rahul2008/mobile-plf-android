@@ -2,6 +2,8 @@ package com.philips.platform.csw.injection;
 
 import android.content.Context;
 
+import com.philips.platform.appinfra.logging.LoggingInterface;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -10,4 +12,6 @@ import dagger.Component;
 @Singleton
 public interface CswComponent {
     Context context();
+
+    LoggingInterface getLoggingInterface();
 }

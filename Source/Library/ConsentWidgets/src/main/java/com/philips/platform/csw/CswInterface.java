@@ -8,6 +8,7 @@ import com.philips.platform.csw.injection.AppInfraModule;
 import com.philips.platform.csw.injection.CswComponent;
 import com.philips.platform.csw.injection.CswModule;
 import com.philips.platform.csw.injection.DaggerCswComponent;
+import com.philips.platform.csw.utils.CswLogger;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -69,6 +70,7 @@ public class CswInterface implements UappInterface {
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         cswComponent = initDaggerCoponents(uappDependencies, uappSettings);
+        CswLogger.init();
     }
 
     private CswComponent initDaggerCoponents(UappDependencies uappDependencies, UappSettings uappSettings) {
