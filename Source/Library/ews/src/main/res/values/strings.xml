@@ -9,7 +9,7 @@
     <string name="label_ews_get_started_title">Let’s connect your %1$s to your Wi-Fi so you can enjoy all features enabled by the app.</string>
     <string name="label_ews_get_started_description">Tip: For successful Wi-Fi connection, position your %1$s within reach of your router.\nObstacles such walls may affect the Wi-Fi performance.</string>
     <string name="button_ews_get_started_get_started">Get started</string>
-    <!--EWS_01_01 con rm wi network -->
+    <!--EWS_01_01 confirm wi network -->
     <string name="label_ews_confirm_connection_title">1. Confirm your Wi-Fi</string>
     <string name="label_ews_confirm_connection_currently_connected">You are currently connected to:\n %1$s</string>
     <string name="label_ews_confirm_connection_tip">Tip: We recommend that you use your home Wi-Fi network nearest to the %1$s.\nYour %2$s does not support 5Ghz Wi-Fi networks.</string>
