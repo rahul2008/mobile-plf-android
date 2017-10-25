@@ -43,6 +43,9 @@ public class EWSActivity extends UiKitActivity {
     @Inject
     EventingChannel<EventingChannel.ChannelCallback> ewsEventingChannel;
 
+    @Inject
+    Navigator navigator;
+
     EWSComponent ewsComponent;
 
     @Override
@@ -62,14 +65,10 @@ public class EWSActivity extends UiKitActivity {
 
         EWSTagger.collectLifecycleInfo(this);
 
-        //TODO move this inizialization.
-        Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()),new ActivityNavigator(this));
-
-        if (savedInstanceState != null) {
-            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        if (savedInstanceState == null) {
+            navigator.navigateToGettingStartedScreen();
         }
 
-        navigator.navigateToGettingStartedScreen();
     }
 
     private void setUpCancelButton() {
@@ -147,8 +146,8 @@ public class EWSActivity extends UiKitActivity {
     }
 
     protected void handleCancelButtonClicked() {
-       BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-       baseFragment.handleCancelButtonClicked();
+        BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        baseFragment.handleCancelButtonClicked();
     }
 
 }
