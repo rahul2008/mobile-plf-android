@@ -26,7 +26,7 @@ public class THSSDKSpecificError implements THSErrorHandlerInterface {
             errorMessage = "Email is already in use";
             return true;
         }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.VALIDATION_REQ_PARAM_TOO_SHORT.name())){
-            errorMessage = "";
+            errorMessage = "Search string less than 3 chars";
             return true;
         }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.VALIDATION_BAD_COORDINATE_FORMAT.name())){
             errorMessage = "Improperly formatted longitude and/or latitude";
@@ -42,6 +42,15 @@ public class THSSDKSpecificError implements THSErrorHandlerInterface {
             return true;
         }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.VALIDATION_INVALID_COUPON.name())){
             errorMessage = "Invalid coupon code";
+            return true;
+        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.PROVIDER_NOT_AVAILABLE.name())){
+            errorMessage = "Provider not available";
+            return true;
+        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.WAITING_ROOM_ACCESS_DENIED.name())){
+            errorMessage = "Provider does not accept waiting room requests from consumer";
+            return true;
+        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.PROVIDER_NOT_LICENSED_FOR_MEMBER_STATE.name())){
+            errorMessage = "Provider is not licensed for consumer’s state";
             return true;
         }else {
             return false;

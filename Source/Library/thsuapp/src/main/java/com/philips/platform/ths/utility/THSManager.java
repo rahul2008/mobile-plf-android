@@ -368,7 +368,6 @@ public class THSManager {
         return newConsumerEnrollment;
     }
 
-    //TODO: Error code
     public void initializeTeleHealth(Context context, final THSInitializeCallBack<Void, THSSDKError> THSInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
        /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
@@ -480,7 +479,7 @@ public class THSManager {
     }
 
 
-    //TODO: Error handling
+    //TODO: No SDKError is sent by backend.
     //TODO: What happens when getConsumer is null
     public void getVitals(Context context, final THSVitalSDKCallback<THSVitals, THSSDKError> thsVitalCallBack) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getVitals(getPTHConsumer().getConsumer(),getPthVisitContext().getVisitContext(), new SDKCallback<Vitals, SDKError>() {
@@ -525,7 +524,7 @@ public class THSManager {
         });
     }*/
 
-    //TODO: Error codes
+    //TODO: No SDKError is sent by backend.
     public void getAppointments(Context context, SDKLocalDate sdkLocalDate, final THSGetAppointmentsCallback<List<Appointment>, THSSDKError> thsGetAppointmentsCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getAppointments(getPTHConsumer().getConsumer(),sdkLocalDate,new SDKCallback<List< Appointment >, SDKError>(){
 
@@ -543,7 +542,7 @@ public class THSManager {
     }
 
 
-    //TODO: Error codes
+    //TODO: No SDKError is sent by backend.
     public void getConsumerObject(Context context,Authentication authentication,final THSGetConsumerObjectCallBack THSGetConsumerObjectCallBack) throws AWSDKInstantiationException {
 
         getAwsdk(context).getConsumerManager().getConsumer(authentication, new SDKCallback<Consumer, SDKError>() {
@@ -562,7 +561,7 @@ public class THSManager {
         });
     }
 
-    //TODO: Error codes
+    //TODO: No SDKError is sent by backend.
     public void getConditions(Context context, final THSConditionsCallBack<THSConditionsList,THSSDKError> thsConditionsCallBack) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getConditions(getPTHConsumer().getConsumer(), new SDKCallback<List<Condition>, SDKError>() {
             @Override

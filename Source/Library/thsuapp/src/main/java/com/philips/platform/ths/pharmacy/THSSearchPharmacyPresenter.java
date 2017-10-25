@@ -15,26 +15,28 @@ import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.List;
 import java.util.Map;
 
-public class THSSearchPharmacyPresenter implements THSBasePresenter,THSGetPharmaciesCallback {
+public class THSSearchPharmacyPresenter implements THSBasePresenter, THSGetPharmaciesCallback {
 
     private Context context;
     private THSSearchFragmentViewInterface uiView;
 
-    public THSSearchPharmacyPresenter(Context context,THSSearchFragmentViewInterface uiView){
+    public THSSearchPharmacyPresenter(Context context, THSSearchFragmentViewInterface uiView) {
         this.context = context;
         this.uiView = uiView;
     }
+
     @Override
     public void onEvent(int componentID) {
 
-        if(componentID == THSSearchPharmacyFragment.SEARCH_EVENT_ID){
+        if (componentID == THSSearchPharmacyFragment.SEARCH_EVENT_ID) {
             try {
-                THSManager.getInstance().getPharmacies(context,THSManager.getInstance().getPTHConsumer(),null,null,uiView.getZipCode(),this);
+                THSManager.getInstance().getPharmacies(context, THSManager.getInstance().getPTHConsumer(), null, null, uiView.getZipCode(), this);
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
@@ -49,9 +51,13 @@ public class THSSearchPharmacyPresenter implements THSBasePresenter,THSGetPharma
     @Override
     public void onPharmacyListReceived(List<Pharmacy> pharmacies, SDKError sdkError) {
         uiView.hideProgressBar();
-        if(null != sdkError && sdkError.getSDKErrorReason() != null) {
-            uiView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-        }else {
+        if (null != sdkError) {
+            if (sdkError.getSDKErrorReason() != null) {
+                uiView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+            } else {
+                uiView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+            }
+        } else {
             uiView.setPharmacyList(pharmacies);
         }
     }

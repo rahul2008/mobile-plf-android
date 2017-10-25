@@ -19,6 +19,7 @@ import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.providerslist.THSProvidersListCallback;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.List;
@@ -119,10 +120,15 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
                     ((THSSearchFragment) uiBaseView).providerInfoList = providerInfoList;
                     ((THSSearchFragment) uiBaseView).mTHSSearchListAdapter.setData(((THSSearchFragment) uiBaseView).providerInfoList);
                 }
-            } else if (null != sdkError && sdkError.getSDKErrorReason() != null) {
-                uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                AmwellLog.i("onFetchMedication", "failure");
-                //((THSSearchFragment) uiBaseView).showToast("No match found");
+            } else if (null != sdkError) {
+                if (null != sdkError.getSDKErrorReason()) {
+                    uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    AmwellLog.i("onFetchMedication", "failure");
+                    //((THSSearchFragment) uiBaseView).showToast("No match found");
+                } else {
+                    uiBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                }
+
             }
         }
     }
@@ -139,8 +145,12 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
     @Override
     public void onPharmacyListReceived(List<Pharmacy> pharmacies, SDKError sdkError) {
         if (null != uiBaseView && uiBaseView.isFragmentAttached()) {
-            if (null != sdkError && sdkError.getSDKErrorReason() != null) {
-                uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+            if (null != sdkError) {
+                if (sdkError.getSDKErrorReason() != null) {
+                    uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                } else {
+                    uiBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                }
             } else {
                 if (null != pharmacies && !pharmacies.isEmpty()) {
                     if (((THSSearchFragment) uiBaseView).searchBox.getSearchTextView().getText().length() > 2) {

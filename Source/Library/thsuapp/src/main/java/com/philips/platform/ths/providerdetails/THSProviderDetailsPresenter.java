@@ -80,8 +80,12 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
     @Override
     public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-            if (null != sdkError && sdkError.getSDKErrorReason() != null) {
-                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+            if (null != sdkError) {
+                if (sdkError.getSDKErrorReason() != null) {
+                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                } else {
+                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                }
             } else {
                 THSConsumer thsConsumer = new THSConsumer();
                 thsConsumer.setConsumer(viewInterface.getConsumerInfo());
@@ -192,6 +196,8 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                             if (null != sdkError) {
                                 if (sdkError.getSDKErrorReason() != null) {
                                     mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                                } else {
+                                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
                                 }
                             } else {
                                 ((THSProviderDetailsFragment) mThsBaseFragment).setProvider(provider);
@@ -204,6 +210,8 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                                                         if (null != sdkError.getSDKErrorReason()) {
                                                             mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
                                                             return;
+                                                        } else {
+                                                            mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
                                                         }
 
                                                     } else {
@@ -361,11 +369,11 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
     @Override
     public void onMatchMakingResponse(Void aVoid, SDKError sdkError) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-            if(null != sdkError){
-                if(null != sdkError.getSDKErrorReason()){
+            if (null != sdkError) {
+                if (null != sdkError.getSDKErrorReason()) {
                     mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
                 }
-            }else {
+            } else {
                 showMatchmakingError(true, true);
             }
         }

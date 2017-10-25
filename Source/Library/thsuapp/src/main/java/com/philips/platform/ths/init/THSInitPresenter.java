@@ -101,10 +101,13 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     @Override
     public void onResponse(Boolean aBoolean, THSSDKError thssdkError) {
         SDKError sdkError = thssdkError.getSdkError();
+        mThsInitFragment.hideProgressBar();
         if (null != sdkError) {
-            mThsInitFragment.hideProgressBar();
             if (null != sdkError.getSDKErrorReason()) {
                 mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+            }
+            else if(sdkError.getHttpResponseCode() > 0){
+                mThsInitFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
             }
             return;
         }

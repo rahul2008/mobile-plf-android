@@ -21,6 +21,7 @@ import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -97,11 +98,13 @@ class THSWelcomePresenter implements THSBasePresenter,
 
     @Override
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
+        uiBaseView.hideProgressBar();
         if(sdkError == null) {
-            uiBaseView.hideProgressBar();
             ((THSWelcomeFragment) uiBaseView).updateView();
         }else if(null != sdkError.getSDKErrorReason()){
             uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+        }else {
+            uiBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
         }
     }
 

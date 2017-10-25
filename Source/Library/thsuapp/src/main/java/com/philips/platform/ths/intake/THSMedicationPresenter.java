@@ -84,23 +84,23 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
 
     //////////////// start of call backs for get existing medicines//////////////
     @Override
-    public void onGetMedicationReceived(THSMedication pTHMedication, SDKError sDKError) {
-        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
-           if(null != sDKError && sDKError.getSDKErrorReason() != null){
-               mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(sDKError.getSDKErrorReason()));
-           }else {
-               mTHSBaseFragment.hideProgressBar();
-               AmwellLog.i("onGetMedicationReceived", "Success");
-               ((THSMedicationFragment) mTHSBaseFragment).showExistingMedicationList(pTHMedication);
-           }
+    public void onGetMedicationReceived(THSMedication thsMedication, SDKError sDKError) {
+        if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            mTHSBaseFragment.hideProgressBar();
+            if (null != sDKError && sDKError.getSDKErrorReason() != null) {
+                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(sDKError.getSDKErrorReason()));
+            } else {
+                AmwellLog.i("onGetMedicationReceived", "Success");
+                ((THSMedicationFragment) mTHSBaseFragment).showExistingMedicationList(thsMedication);
+            }
         }
 
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
-                mTHSBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+        if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            mTHSBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
         }
     }
     //////////////// end of call backs for get existing medicines//////////////
@@ -112,12 +112,16 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
     @Override
     public void onUpdateMedicationSent(Void pVoid, SDKError sDKError) {
 
-        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
-            if(null != sDKError && sDKError.getSDKErrorReason() != null){
-                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(sDKError.getSDKErrorReason()));
-            }
-            else {
-                mTHSBaseFragment.hideProgressBar();
+        if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            mTHSBaseFragment.hideProgressBar();
+            if (null != sDKError) {
+                if (sDKError.getSDKErrorReason() != null) {
+                    mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(sDKError.getSDKErrorReason()));
+                } else {
+                    mTHSBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                }
+            } else {
+
                 THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", "step3MedicationsAdded");
                 AmwellLog.i("onUpdateMedication", "success");
                 // addF

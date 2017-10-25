@@ -95,6 +95,8 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
                                                     if (sdkError.getSDKErrorReason() != null) {
                                                         mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
                                                         return;
+                                                    } else {
+                                                        mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
                                                     }
                                                 } else {
                                                     if (dates == null || dates.size() == 0) {
@@ -159,8 +161,12 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
     @Override
     public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-            if (null != sdkError && sdkError.getSDKErrorReason() != null) {
-                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+            if (null != sdkError) {
+                if (null != sdkError.getSDKErrorReason()) {
+                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                } else {
+                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                }
             } else {
                 ((THSAvailableProviderDetailFragment) mThsBaseFragment).setProvider(provider);
                 try {
@@ -194,15 +200,18 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
     @Override
     public void onResponse(List<Date> dates, THSSDKError sdkError) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            mThsBaseFragment.hideProgressBar();
             if (null != sdkError.getSdkError()) {
                 if (null != sdkError.getSDKErrorReason()) {
                     mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    return;
+                }else {
+                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
                 }
             } else {
                 mthsProviderDetailsDisplayHelper.updateView(((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider(), dates);
                 dateList = dates;
             }
-            mThsBaseFragment.hideProgressBar();
         }
     }
 

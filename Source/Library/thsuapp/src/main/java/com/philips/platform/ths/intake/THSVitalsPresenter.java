@@ -14,6 +14,7 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.EditText;
 
@@ -81,8 +82,13 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
                 tagSuccess();
                 thsvItalsUIInterface.launchMedicationFragment();
                 mPthBaseFragment.showToast("UPDATE SUCCESS");
-            } else
-                mPthBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+            } else if(null != sdkError) {
+                if(null != sdkError.getSDKErrorReason()) {
+                    mPthBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                }else {
+                    mPthBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                }
+            }
         }
     }
 

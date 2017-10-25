@@ -23,6 +23,7 @@ import com.philips.platform.ths.intake.THSSDKValidatedCallback;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.HashMap;
@@ -159,6 +160,8 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
             if (null != tHSSDKError.getSdkError()) {
                 if (null != tHSSDKError.getSDKErrorReason()) {
                     mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(tHSSDKError.getSDKErrorReason()));
+                }else {
+                    mTHSBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
                 }
             } else {
                 ((THSInsuranceDetailFragment) mTHSBaseFragment).thsSubscriptionExisting = tHSSubscription;

@@ -13,6 +13,7 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
     @Override
     public void onResponse(THSConditionsList thsConditions, THSSDKError THSSDKError) {
         if (null != thsBaseFragment && thsBaseFragment.isFragmentAttached()) {
+
             final List<Condition> conditions = thsConditions.getConditions();
 
             List<THSCondition> THSConditionsList = new ArrayList<>();
@@ -62,8 +64,6 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
                 THSConditions.setCondition(condition);
                 THSConditionsList.add(THSConditions);
             }
-
-
             ((THSMedicalConditionsFragment) thsBaseFragment).setConditions(THSConditionsList);
         }
     }
@@ -78,19 +78,23 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
 
     @Override
     public void onUpdateConditonResponse(Void aVoid, THSSDKError sdkError) {
-
-        if(null != sdkError && sdkError.getSDKErrorReason() != null) {
-            if(null != thsBaseFragment && thsBaseFragment.isFragmentAttached()){
-                thsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+        if (null != thsBaseFragment && thsBaseFragment.isFragmentAttached()) {
+            if (null != sdkError.getSdkError()) {
+                if (sdkError.getSDKErrorReason() != null) {
+                    thsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                }else {
+                    thsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                }
+            } else {
+                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", "step4MedicalConditionsAdded");
+                //Spoorti - This has no implementation as the UI would have got updated and we are sending the result to server.
+                //On response, as of now no need to handle
+                //Keeping this for future use
+                launchFollowUpFragment();
             }
-        }else {
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", "step4MedicalConditionsAdded");
-            //Spoorti - This has no implementation as the UI would have got updated and we are sending the result to server.
-            //On response, as of now no need to handle
-            //Keeping this for future use
 
-            launchFollowUpFragment();
         }
+
     }
 
     @Override

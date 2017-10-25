@@ -84,7 +84,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
         }
         else {
             thsFollowUpViewInterfaces.hideProgressButton();
-            //update signleton THSManager THSConsumer member
+            //update singleton THSManager THSConsumer member
             THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step5PhoneNumberAdded");
 
             THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "TImePrepareYourVisit", THSTagUtils.getVisitPrepareTime(THSSymptomsFragment.visitStartTime));

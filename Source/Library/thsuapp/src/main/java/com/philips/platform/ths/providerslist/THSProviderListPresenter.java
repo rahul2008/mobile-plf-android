@@ -64,7 +64,11 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                 boolean providerAvailable = isProviderAvailable(providerInfoList);
                 updateFragment(providerInfoList, providerAvailable);
             } else if (null != sdkError) {
-                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                if(null != sdkError.getSDKErrorReason()) {
+                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                }else {
+                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                }
             } else {
                 thsProviderListViewInterface.showNoProviderErrorDialog();
             }
@@ -135,18 +139,28 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
     @Override
     public void onResponse(List<THSOnDemandSpeciality> onDemandSpecialties, THSSDKError sdkError) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-            if (onDemandSpecialties == null || onDemandSpecialties.size() == 0) {
-                mThsBaseFragment.showToast("No OnDemandSpecialities available at present, please try after some time");
+            if (null != sdkError.getSdkError()) {
+                if (null != sdkError.getSDKErrorReason()) {
+                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    return;
+                } else {
+                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                    return;
+                }
+            } else {
+                if (onDemandSpecialties == null || onDemandSpecialties.size() == 0) {
+                    mThsBaseFragment.showToast("No OnDemandSpecialities available at present, please try after some time");
+                    mThsBaseFragment.hideProgressBar();
+                    return;
+                }
+                mThsOnDemandSpeciality = onDemandSpecialties;
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(THSConstants.THS_ON_DEMAND, onDemandSpecialties.get(0));
+                final THSSymptomsFragment fragment = new THSSymptomsFragment();
+                fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
+                mThsBaseFragment.addFragment(fragment, THSSymptomsFragment.TAG, bundle, true);
                 mThsBaseFragment.hideProgressBar();
-                return;
             }
-            mThsOnDemandSpeciality = onDemandSpecialties;
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(THSConstants.THS_ON_DEMAND, onDemandSpecialties.get(0));
-            final THSSymptomsFragment fragment = new THSSymptomsFragment();
-            fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
-            mThsBaseFragment.addFragment(fragment, THSSymptomsFragment.TAG, bundle, true);
-            mThsBaseFragment.hideProgressBar();
         }
     }
 

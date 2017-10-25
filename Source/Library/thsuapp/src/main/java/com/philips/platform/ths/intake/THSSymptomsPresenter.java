@@ -23,6 +23,7 @@ import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -83,7 +84,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     public void onEvent(int componentID) {
         if (componentID == R.id.continue_btn) {
             ((THSSymptomsFragment) thsBaseView).updateOtherTopic();
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "step1SymptomsForVisit",  ((THSSymptomsFragment) thsBaseView).tagActions);
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "step1SymptomsForVisit", ((THSSymptomsFragment) thsBaseView).tagActions);
             THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step1SymptomsAdded");
             final THSVitalsFragment fragment = new THSVitalsFragment();
             fragment.setFragmentLauncher(thsBaseView.getFragmentLauncher());
@@ -92,12 +93,15 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     }
 
     @Override
-    public void onResponse(THSVisitContext THSVisitContext, THSSDKError THSSDKError) {
-        if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
-            if(null != THSSDKError && THSSDKError.getSDKErrorReason().name() != null){
-                thsBaseView.showError(THSSDKErrorFactory.getErrorType(THSSDKError.getSDKErrorReason()));
-            }
-            else {
+    public void onResponse(THSVisitContext THSVisitContext, THSSDKError thssdkError) {
+        if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
+            if (null != thssdkError.getSdkError()) {
+                if (thssdkError.getSDKErrorReason().name() != null) {
+                    thsBaseView.showError(THSSDKErrorFactory.getErrorType(thssdkError.getSDKErrorReason()));
+                }else {
+                    thsBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                }
+            } else {
                 updateSymptoms(THSVisitContext);
             }
         }
@@ -114,14 +118,14 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
     @Override
     public void onFailure(Throwable throwable) {
-        if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
+        if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
             thsBaseView.showToast(R.string.ths_se_server_error_toast_message);
             thsBaseView.hideProgressBar();
         }
     }
 
     void getVisitContext() {
-        if(mThsProviderInfo == null){
+        if (mThsProviderInfo == null) {
             final Provider provider = ((THSSymptomsFragment) thsBaseView).getProvider();
             THSProviderInfo thsProviderInfo = new THSProviderInfo();
             thsProviderInfo.setTHSProviderInfo(provider);
@@ -144,11 +148,14 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         THSManager.getInstance().getVisitContextWithOnDemandSpeciality(thsBaseView.getContext(), onDemandSpecialties, new THSVisitContextCallBack<THSVisitContext, THSSDKError>() {
             @Override
             public void onResponse(THSVisitContext pthVisitContext, THSSDKError thssdkError) {
-                if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
-                    if(null != thssdkError && thssdkError.getSDKErrorReason().name() != null){
-                        thsBaseView.showError(THSSDKErrorFactory.getErrorType(thssdkError.getSDKErrorReason()));
-                    }
-                    else {
+                if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
+                    if (null != thssdkError.getSdkError()) {
+                        if (thssdkError.getSDKErrorReason().name() != null) {
+                            thsBaseView.showError(THSSDKErrorFactory.getErrorType(thssdkError.getSDKErrorReason()));
+                        }else {
+                            thsBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                        }
+                    } else {
                         updateSymptoms(pthVisitContext);
                     }
                 }
@@ -156,7 +163,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
             @Override
             public void onFailure(Throwable throwable) {
-                if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
+                if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
                     thsBaseView.hideProgressBar();
                     thsBaseView.showToast(R.string.ths_se_server_error_toast_message);
                 }
@@ -178,20 +185,22 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
     @Override
     public void onUploadValidationFailure(Map<String, ValidationReason> map) {
-        if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
+        if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
             thsBaseView.showToast("validation failure");
         }
     }
 
     @Override
     public void onUploadDocumentSuccess(DocumentRecord documentRecord, SDKError sdkError) {
-        if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
+        if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
             if (null != documentRecord && null == sdkError) {
                 thsBaseView.showToast("Success with Document name" + documentRecord.getName());
                 ((THSSymptomsFragment) thsBaseView).updateDocumentRecordList(documentRecord);
-            } else if(null != sdkError){
-                if(null != sdkError.getSDKErrorReason()){
+            } else if (null != sdkError) {
+                if (null != sdkError.getSDKErrorReason()) {
                     thsBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                }else {
+                    thsBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
                 }
                 thsBaseView.showToast("upload failed with sdk error" + sdkError.getMessage());
             }
