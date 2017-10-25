@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/launch_permissions"
+        android:id="@+id/mya_account_permissions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/csw_btn_permission"/>
+        android:text="@string/mya_permissions" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/mya_account_launch_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@string/mya_launch_activity" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/appversion"

@@ -53,7 +53,7 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener,
             }
         }
 
-        setContentView(R.layout.mya_activity_myaccount);
+        setContentView(R.layout.mya_activity_account);
 
         ivBack = (TextView) findViewById(R.id.mya_textview_back);
         FontLoader.getInstance().setTypeface(ivBack, iconFontAssetName);
@@ -90,10 +90,19 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener,
     }
 
     private void initUI() {
-        launchCswFragment();
+        launchAccountFragment();
     }
 
-    private void launchCswFragment() {
+    private void launchAccountFragment() {
+        MyaLaunchInput myaLaunchInput = new MyaLaunchInput();
+        FragmentLauncher fragmentLauncher = new FragmentLauncher
+                (this, R.id.mya_frame_layout_fragment_container, this);
+        MyaInterface myaInterface = new MyaInterface();
+        myaInterface.launch(fragmentLauncher, myaLaunchInput);
+    }
+
+
+   private void launchCswFragment() {
         CswLaunchInput cswLaunchInput = new CswLaunchInput();
         FragmentLauncher fragmentLauncher = new FragmentLauncher
                 (this, R.id.mya_frame_layout_fragment_container, this);

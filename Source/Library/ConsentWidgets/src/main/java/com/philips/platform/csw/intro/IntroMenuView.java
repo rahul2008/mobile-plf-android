@@ -4,7 +4,8 @@
  *  * in whole or in part is prohibited without the prior written
  *  * consent of the copyright holder.
  * /
- */
+ *//*
+
 
 package com.philips.platform.csw.intro;
 
@@ -55,3 +56,4 @@ public class IntroMenuView extends CswBaseFragment implements View.OnClickListen
         ((CswFragment)getParentFragment()).inflatePermissionView();
     }
 }
+*/

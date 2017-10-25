@@ -6,7 +6,7 @@
  * /
  */
 
-package com.philips.platform.csw;
+package com.philips.platform.mya;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,30 +17,28 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
-import com.philips.platform.csw.permission.PermissionView;
-import com.philips.platform.mya.consentwidgets.R;
+import com.philips.platform.mya.account.AccountView;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 
-public class CswFragment extends Fragment implements
+public class MyaFragment extends Fragment implements
         OnClickListener, BackEventListener {
     private FragmentManager mFragmentManager;
     private ActionBarListener mActionBarListener;
 
-    static String BACK_STACK_ID = CswFragment.class.getSimpleName();
+    static String BACK_STACK_ID = MyaFragment.class.getSimpleName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.csw_fragment_consent_widget_root, container, false);
+        View view = inflater.inflate(R.layout.mya_fragment_my_account_root, container, false);
         mFragmentManager = getChildFragmentManager();
         if (mFragmentManager.getBackStackEntryCount() < 1) {
-            inflatePermissionView();
+            inflateAccountView();
         }
         return view;
     }
-
 
 
     public boolean onBackPressed() {
@@ -71,11 +69,11 @@ public class CswFragment extends Fragment implements
         }
     }*/
 
-    public void inflatePermissionView() {
+    public void inflateAccountView() {
         try {
             if (null != mFragmentManager) {
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.csw_frame_layout_view_container, new PermissionView());
+                fragmentTransaction.replace(R.id.csw_frame_layout_view_container, new AccountView());
                 fragmentTransaction.commitAllowingStateLoss();
             }
         } catch (IllegalStateException ignore) {
@@ -105,6 +103,7 @@ public class CswFragment extends Fragment implements
     }
 
     private int titleResourceID = -99;
+
     public void setResourceID(int titleResourceId) {
         titleResourceID = titleResourceId;
     }
