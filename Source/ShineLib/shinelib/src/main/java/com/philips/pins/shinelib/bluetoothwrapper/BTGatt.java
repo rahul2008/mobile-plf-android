@@ -326,11 +326,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
             }
         };
 
-        if (Workaround.SERVICE_DISCOVERED_DELAY.isRequiredOnThisDevice()) {
-            handler.postDelayed(runnable, DELAY_AFTER_SERVICE_DISCOVERY_MILLIS);
-        } else {
-            handler.post(runnable);
-        }
+        handler.post(runnable);
     }
 
     @Override
