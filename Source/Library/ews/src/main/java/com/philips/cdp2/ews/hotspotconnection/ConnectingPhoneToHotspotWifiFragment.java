@@ -1,8 +1,7 @@
 package com.philips.cdp2.ews.hotspotconnection;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
-import android.content.Intent;
+import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,20 +12,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel
-        .ConnectingPhoneToHotSpotCallback;
+import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel.ConnectingPhoneToHotSpotCallback;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
-
-import static com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure
-        .ConnectionUnsuccessfulFragment.UNSUCCESSFUL_CONNECTION_RESULT;
+import com.philips.platform.uid.utils.DialogConstants;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
+import com.philips.platform.uid.view.widget.Button;
 
 public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implements
         ConnectingPhoneToHotSpotCallback {
 
     private static final int REQUEST_CODE = 100;
 
-    @Nullable private ConnectingPhoneToHotspotWifiViewModel viewModel;
+    @Nullable
+    private ConnectingPhoneToHotspotWifiViewModel viewModel;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -75,7 +74,43 @@ public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implement
     public void unregisterReceiver(@NonNull BroadcastReceiver receiver) {
         try {
             getActivity().unregisterReceiver(receiver);
-        } catch (IllegalArgumentException ignored) {}
+        } catch (IllegalArgumentException ignored) {
+        }
+    }
+
+    @Override
+    public void showTroubleshootHomeWifiDialog() {
+        Context context = getContext();
+        View view = LayoutInflater.from(context).inflate(R.layout.ews_device_conn_unsuccessful_dialog,
+                null, false);
+
+        AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context)
+                .setDialogView(view)
+                .setDialogType(DialogConstants.TYPE_DIALOG)
+                .setDimLayer(DialogConstants.DIM_STRONG)
+                .setCancelable(false);
+        final AlertDialogFragment alertDialogFragment = builder.create();
+        alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
+        getChildFragmentManager().executePendingTransactions();
+        Button yesButton = (Button) view.findViewById(R.id.ews_H_03_00_a_button_yes);
+        Button noButton = (Button) view.findViewById(R.id.ews_H_03_00_a_button_no);
+        yesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (viewModel != null) {
+                    viewModel.onHelpNeeded();
+                }
+            }
+        });
+
+        noButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (viewModel != null) {
+                    viewModel.onHelpNotNeeded();
+                }
+            }
+        });
     }
 
     @Override
@@ -88,16 +123,6 @@ public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implement
         return REQUEST_CODE;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
-            int result = data.getIntExtra(UNSUCCESSFUL_CONNECTION_RESULT, -1);
-            if (viewModel != null) {
-                viewModel.onResultReceived(result);
-            }
-        }
-    }
 
     @Override
     public boolean handleBackEvent() {

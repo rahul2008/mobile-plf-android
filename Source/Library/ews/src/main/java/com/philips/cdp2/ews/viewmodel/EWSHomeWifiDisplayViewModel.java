@@ -45,13 +45,11 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
     public void refresh() {
         notifyPropertyChanged(BR.homeWiFiSSID);
         if (viewCallback != null && !wiFiUtil.isHomeWiFiEnabled()) {
-//            navigator.navigateToWifiTroubleShootingScreen();
             viewCallback.showTroubleshootHomeWifiDialog();
         }
     }
 
     public void onNoButtonClicked() {
-//        navigator.navigateToWifiTroubleShootingScreen();
         if (viewCallback != null) {
             viewCallback.showTroubleshootHomeWifiDialog();
         }

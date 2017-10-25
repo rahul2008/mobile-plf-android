@@ -16,7 +16,6 @@ import android.util.Log;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
 import com.philips.cdp2.ews.navigation.Navigator;
-import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulViewModel;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
@@ -30,6 +29,7 @@ public class ConnectingPhoneToHotspotWifiViewModel {
     public interface ConnectingPhoneToHotSpotCallback {
         void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
         void unregisterReceiver(@NonNull BroadcastReceiver receiver);
+        void showTroubleshootHomeWifiDialog();
         Fragment getFragment();
         int requestCode();
     }
@@ -105,12 +105,11 @@ public class ConnectingPhoneToHotspotWifiViewModel {
         navigator.navigateBack();
     }
 
-    public void onResultReceived(int result) {
-        if (result == ConnectionUnsuccessfulViewModel.HELP_NEEDED_RESULT) {
-            navigator.navigateToResetConnectionTroubleShootingScreen();
-        } else if (result == ConnectionUnsuccessfulViewModel.HELP_NOT_NEEDED_RESULT) {
-            navigator.navigateToCompletingDeviceSetupScreen();
-        }
+    public void onHelpNeeded(){
+        navigator.navigateToResetConnectionTroubleShootingScreen();
+    }
+    public void onHelpNotNeeded(){
+        navigator.navigateToCompletingDeviceSetupScreen();
     }
 
     public void clear() {
@@ -139,8 +138,7 @@ public class ConnectingPhoneToHotspotWifiViewModel {
 
     private void showUnsuccessfulDialog() {
         if (fragmentCallback != null) {
-            navigator.navigateToUnsuccessfulConnectionDialog(fragmentCallback.getFragment(),
-                    fragmentCallback.requestCode());
+            fragmentCallback.showTroubleshootHomeWifiDialog();
         }
     }
 
