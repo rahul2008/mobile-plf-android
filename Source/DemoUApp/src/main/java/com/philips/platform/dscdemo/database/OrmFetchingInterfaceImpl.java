@@ -14,6 +14,7 @@ import com.j256.ormlite.stmt.Where;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.DCSync;
+import com.philips.platform.core.datatypes.DSPagination;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
@@ -30,8 +31,11 @@ import com.philips.platform.dscdemo.database.table.OrmSettings;
 import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
 import com.philips.platform.dscdemo.utility.NotifyDBRequestListener;
 
+import org.joda.time.DateTime;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -130,6 +134,38 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         }
 
         dbFetchRequestListener.onFetchSuccess((List) moments);
+    }
+
+    @Override
+    public void fetchMomentsWithTimeLine(Date startDate, Date endDate, DSPagination paginationModel,
+                                             DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
+        QueryBuilder<OrmMoment, Integer> builder = momentDao.queryBuilder();
+        builder.where().between("dateTime", new DateTime(startDate), new DateTime(endDate));
+        if (paginationModel.getOrdering().equals(DSPagination.DSPaginationOrdering.ASCENDING))
+            builder.orderBy("dateTime", true);
+        else
+            builder.orderBy(paginationModel.getOrderBy(), false);
+
+         builder.offset((long) paginationModel.getPageNumber()).limit((long) paginationModel.getPageLimit());
+        List<OrmMoment> ormMoments = getActiveMoments(momentDao.query(builder.prepare()));
+        dbFetchRequestListener.onFetchSuccess((List) ormMoments);
+    }
+
+    @Override
+    public void fetchMomentsWithTypeAndTimeLine(String momentType, Date startDate, Date endDate, DSPagination paginationModel,
+                                             DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
+        QueryBuilder<OrmMoment, Integer> builder = momentDao.queryBuilder();
+
+        Where where = builder.where();
+        where.and(where.eq("type_id", MomentType.getIDFromDescription(momentType)),
+                where.between("dateTime", new DateTime(startDate), new DateTime(endDate)));
+        if (paginationModel.getOrdering().equals(DSPagination.DSPaginationOrdering.ASCENDING))
+            builder.orderBy(paginationModel.getOrderBy(), true);
+        else
+            builder.orderBy(paginationModel.getOrderBy(), false);
+        builder.offset((long) paginationModel.getPageNumber()).limit((long) paginationModel.getPageLimit());
+        List<OrmMoment> ormMoments = getActiveMoments(momentDao.query(builder.prepare()));
+        dbFetchRequestListener.onFetchSuccess((List) ormMoments);
     }
 
     @Override

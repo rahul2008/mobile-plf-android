@@ -1,5 +1,4 @@
-/*
- * Copyright (c) 2017 Koninklijke Philips N.V.
+/* Copyright (c) Koninklijke Philips N.V., 2017
  * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
@@ -32,8 +31,6 @@ import com.philips.platform.datasync.OkClientFactory;
 import com.philips.platform.datasync.PushNotification.PushNotificationMonitor;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.platform.datasync.UserAccessProvider;
-import com.philips.platform.datasync.UserAccessProviderInteractor;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsMonitor;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
@@ -305,10 +302,5 @@ public class BackendModule {
     @Singleton
     public SynchronisationManager providesSynchronisationManager() {
         return new SynchronisationManager();
-    }
-
-    @Provides
-    public UserAccessProvider providesUserAccessProvider(@NonNull final UCoreAccessProvider uCoreAccessProvider) {
-        return new UserAccessProviderInteractor(uCoreAccessProvider);
     }
 }

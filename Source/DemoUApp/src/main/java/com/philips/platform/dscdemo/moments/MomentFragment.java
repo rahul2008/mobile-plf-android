@@ -60,6 +60,7 @@ public class MomentFragment extends DSBaseFragment
     private TextView mTvCharacteristics;
     private TextView mTvSettings;
     private TextView mTvInsights;
+    private TextView mTvMomentByDateRange;
     private ImageButton mAddButton;
 
     private MomentAdapter mMomentAdapter;
@@ -118,6 +119,7 @@ public class MomentFragment extends DSBaseFragment
 
         mTvAddMomentType = (TextView) view.findViewById(R.id.tv_add_moment_with_type);
         mTvLatestMoment = (TextView) view.findViewById(R.id.tv_last_moment);
+        mTvMomentByDateRange = (TextView) view.findViewById(R.id.tv_moment_by_date_range);
         mTvConsents = (TextView) view.findViewById(R.id.tv_set_consents);
         mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
         mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
@@ -127,6 +129,7 @@ public class MomentFragment extends DSBaseFragment
 
         mTvAddMomentType.setOnClickListener(this);
         mTvLatestMoment.setOnClickListener(this);
+        mTvMomentByDateRange.setOnClickListener(this);
         mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
         mTvSettings.setOnClickListener(this);
@@ -151,6 +154,7 @@ public class MomentFragment extends DSBaseFragment
             Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
             mTvAddMomentType.setVisibility(View.VISIBLE);
             mTvLatestMoment.setVisibility(View.INVISIBLE);
+            mTvMomentByDateRange.setVisibility(View.INVISIBLE);
             mAddButton.setVisibility(View.INVISIBLE);
             mTvConsents.setVisibility(View.INVISIBLE);
             mTvInsights.setVisibility(View.INVISIBLE);
@@ -226,6 +230,9 @@ public class MomentFragment extends DSBaseFragment
         } else if (i == R.id.tv_last_moment) {
             LatestMomentFragment latestMomentFragment = new LatestMomentFragment();
             showFragment(latestMomentFragment);
+        } else if(i == R.id.tv_moment_by_date_range) {
+            MomentByDateRangeFragment momentByDateRangeFragment = new MomentByDateRangeFragment();
+            showFragment(momentByDateRangeFragment);
         } else if (i == R.id.tv_add_moment_with_type) {
             mMomentPresenter.addOrUpdateMoment(MomentPresenter.ADD, null, true);
         }

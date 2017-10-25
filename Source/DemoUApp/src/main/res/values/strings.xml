@@ -42,8 +42,21 @@
     <string name="save">Add</string>
 
     <string name="fetch_last_moment">Latest moment by type</string>
-    <string name="moment_type_label">Moment Type</string>
+
+    <!-- Moment by data range-->
+    <string name="fetch_moment_by_date_range">Moment by Date Range</string>
+    <string name="moment_type_label">Enter Moment Type</string>
+    <string name="moment_start_dateRange">Enter Moment Start Date</string>
+    <string name="moment_end_dateRange">Enter Moment End Date</string>
+    <string name="moment_orderBy_label">Enter Order By Type</string>
+    <string name="moment_pageLimit_label">Enter Page Limit</string>
+    <string name="moment_pageNumber_label">Enter Page Number</string>
+    <string name="fetch_moment_by_date_type">Fetch Moment By Type</string>
+    <string name="fetch_moment_by_data_range">Fetch Moment By Date Range</string>
+
+
     <string name="no_active_latest_moment_text">No Active Latest Moment</string>
+    <string name="no_moment_date_range">No Moment within date range</string>
     <string name="add_moment_with_type">Add moment of type</string>
     <string name="moment_case_sensitive">Moment type is case sensitive</string>
     <string name="please_note">Please note: Moment type is case sensitive</string>
@@ -102,4 +115,8 @@
         <item>"en_ZA"</item>
     </string-array>
 
+    <string-array name="sort">
+        <item>Ascending</item>
+        <item>Descending</item>
+    </string-array>
 </resources>

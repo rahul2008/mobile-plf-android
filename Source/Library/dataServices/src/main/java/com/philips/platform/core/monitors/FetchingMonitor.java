@@ -18,6 +18,7 @@ import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadLatestMomentByTypeRequest;
+import com.philips.platform.core.events.LoadMomentsByDate;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
@@ -107,6 +108,20 @@ public class FetchingMonitor extends EventMonitor {
             }
         } catch (SQLException e) {
             dbInterface.postError(e, event.getDbFetchRequestListener());
+        }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onEventAsync(LoadMomentsByDate event) {
+        try {
+            if(event.getMomentType() == null || event.getMomentType().isEmpty()) {
+                dbInterface.fetchMomentsWithTimeLine(event.getStartDate(),event.getEndDate(),event.getPaginationModel(),event.getDbFetchRequestListner());
+            } else {
+                dbInterface.fetchMomentsWithTypeAndTimeLine(event.getMomentType(),event.getStartDate(),event.getEndDate(),event.getPaginationModel(),event.getDbFetchRequestListner());
+            }
+        } catch (SQLException e) {
+            dbInterface.postError(e, event.getDbFetchRequestListner());
         }
     }
 

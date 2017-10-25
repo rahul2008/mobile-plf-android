@@ -5,7 +5,6 @@
 */
 package com.philips.platform.datasync.moments;
 
-import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -15,10 +14,7 @@ import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
-import org.joda.time.DateTime;
-
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,20 +31,20 @@ public class MomentsSegregator {
     DBDeletingInterface dbDeletingInterface;
     @Inject
     DBSavingInterface dbSavingInterface;
-    @Inject
-    BaseAppDataCreator mBaseAppDataCreator;
 
     public MomentsSegregator() {
         DataServicesManager.getInstance().getAppComponant().injectMomentsSegregator(this);
     }
 
-    public int processMomentsReceivedFromBackend(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
+    public int processMomentsReceivedFromBackend(final List<? extends Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         int updatedCount = 0;
-        updatedCount = processMoments(moments, dbRequestListener);
+        for (final Moment moment : moments) {
+            updatedCount = processMoment(updatedCount, moment, dbRequestListener);
+        }
         return updatedCount;
     }
 
-    private Moment getOrmMomentFromDatabase(Moment moment) throws SQLException {
+    private Moment getOrmMomentFromDatabase(Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         Moment momentInDatabase = null;
         final SynchronisationData synchronisationData = moment.getSynchronisationData();
 
@@ -82,58 +78,60 @@ public class MomentsSegregator {
         return isVersionDifferent;
     }
 
-    private boolean isMomentDeletedFromBackend(final SynchronisationData synchronisationData) {
-        return synchronisationData == null || synchronisationData.isInactive();
+    private boolean isActive(final SynchronisationData synchronisationData) {
+        return synchronisationData == null || !synchronisationData.isInactive();
     }
 
-    private boolean isMomentDeletedFromApplicationDB(final Moment momentInDatabase) {
-        final SynchronisationData synchronisationData = momentInDatabase.getSynchronisationData();
-        return synchronisationData != null && synchronisationData.getGuid().equals(Moment.MOMENT_NEVER_SYNCED_AND_DELETED_GUID);
+    private void deleteMomentInDatabaseIfExists(final Moment momentInDatabase, DBRequestListener<Moment> dbRequestListener)
+            throws SQLException {
+        if (momentInDatabase != null) {
+            dbDeletingInterface.deleteMoment(momentInDatabase, dbRequestListener);
+        }
     }
 
-    private boolean isMomentUpdatedFromBackend(final Moment moment, final Moment momentInDatabase) {
-        return momentInDatabase != null && !moment.getDateTime().equals(momentInDatabase.getDateTime());
+    protected void deleteMomentsInDatabaseIfExists(final List<Moment> momentsInDatabase, DBRequestListener<Moment> dbRequestListener)
+            throws SQLException {
+        dbDeletingInterface.deleteMoments(momentsInDatabase, dbRequestListener);
     }
 
-    public int processMoments(final List<Moment> momentList, DBRequestListener<Moment> dbRequestListener) throws SQLException {
-        List<Moment> momentsToCreate = new ArrayList<>();
-        List<Moment> momentsToUpdate = new ArrayList<>();
-        List<Moment> momentsToDelete = new ArrayList<>();
-
-        for (Moment moment : momentList) {
-            final Moment momentInDatabase = getOrmMomentFromDatabase(moment);
-            if (momentInDatabase == null) {
-                if (moment.getSynchronisationData() != null && !(moment.getSynchronisationData().isInactive())) {
-                    SynchronisationData synchronisationData =
-                            mBaseAppDataCreator.createSynchronisationData(moment.getSynchronisationData().getGuid(), moment.getSynchronisationData().isInactive(),
-                                    new DateTime(moment.getDateTime()), moment.getSynchronisationData().getVersion());
-                    moment.setSynchronisationData(synchronisationData);
-                    moment.setSynced(true);
-                    momentsToCreate.add(moment);
-                }
-            } else if (hasDifferentMomentVersion(moment, momentInDatabase)) {
-                if (isMomentDeletedFromBackend(moment.getSynchronisationData())) {
-                    momentsToDelete.add(momentInDatabase);
-                } else if (isMomentDeletedFromApplicationDB(momentInDatabase)) {
-                    moment.setSynced(false);
-                    moment.getSynchronisationData().setInactive(true);
-                    moment.setId(moment.getId());
-                    momentsToUpdate.add(moment);
-                } else if (!isMomentUpdatedFromBackend(moment, momentInDatabase)) {
-                    moment.setSynced(true);
-                    moment.setId(momentInDatabase.getId());
-                    momentsToUpdate.add(moment);
-                }
+    protected boolean MomentDeletedLocallyDuringSync(final Moment momentInDatabase) {
+        if (momentInDatabase != null) {
+            final SynchronisationData synchronisationData = momentInDatabase.getSynchronisationData();
+            if (synchronisationData != null) {
+                return synchronisationData.getGuid().
+                        equals(Moment.MOMENT_NEVER_SYNCED_AND_DELETED_GUID);
             }
         }
-        if (momentsToCreate.size() > 0)
-            dbSavingInterface.saveMoments(momentsToCreate, dbRequestListener);
-        if (momentsToDelete.size() > 0)
-            dbDeletingInterface.deleteMoments(momentsToDelete, dbRequestListener);
-        if (momentsToUpdate.size() > 0)
-            deleteAndSaveMoments(momentsToUpdate, dbRequestListener);
+        return false;
+    }
 
-        return momentsToCreate.size() + momentsToDelete.size() + momentsToUpdate.size();
+    public int processMoment(int count, final Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
+        final Moment momentInDatabase = getOrmMomentFromDatabase(moment, dbRequestListener);
+        if (hasDifferentMomentVersion(moment, momentInDatabase)) {
+            if (!isActive(moment.getSynchronisationData())) {
+                deleteMomentInDatabaseIfExists(momentInDatabase, dbRequestListener);
+            } else if (MomentDeletedLocallyDuringSync(momentInDatabase)) {
+                moment.setSynced(false);
+                moment.getSynchronisationData().setInactive(true);
+                deleteAndSaveMoment(momentInDatabase, moment, dbRequestListener);
+            } else {
+                if (!isMomentModifiedLocallyDuringSync(momentInDatabase, moment)) {
+                    moment.setSynced(true);
+                }
+                //This is required for deleting duplicate
+                // measurements, measurementDetails and momentDetails
+                deleteAndSaveMoment(momentInDatabase, moment, dbRequestListener);
+            }
+            count++;
+        } else {
+        }
+        return count;
+    }
+
+    private boolean isMomentModifiedLocallyDuringSync(final Moment momentInDatabase,
+                                                      final Moment ormMoment) {
+        return momentInDatabase != null &&
+                !ormMoment.getDateTime().equals(momentInDatabase.getDateTime());
     }
 
     private void deleteMeasurementAndMomentDetailsAndSetId(final Moment momentInDatabase, Moment ormMoment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
@@ -143,10 +141,20 @@ public class MomentsSegregator {
         }
     }
 
+    private void deleteAndSaveMoment(final Moment momentInDatabase,
+                                     final Moment ormMoment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
+
+        if (momentInDatabase != null) {
+            ormMoment.setId(momentInDatabase.getId());
+        }
+        deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase, ormMoment, dbRequestListener);
+        dbSavingInterface.saveMoment(ormMoment, dbRequestListener);
+    }
+
     protected void deleteAndSaveMoments(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
 
         for (Moment moment : moments) {
-            final Moment momentInDatabase = getOrmMomentFromDatabase(moment);
+            final Moment momentInDatabase = getOrmMomentFromDatabase(moment, dbRequestListener);
             deleteMeasurementAndMomentDetailsAndSetId(momentInDatabase, moment, dbRequestListener);
         }
         dbSavingInterface.saveMoments(moments, null);

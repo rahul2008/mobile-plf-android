@@ -99,11 +99,22 @@
         android:id="@+id/tv_last_moment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/tv_insights"
+        android:layout_above="@+id/tv_moment_by_date_range"
         android:layout_gravity="end"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
         android:text="@string/fetch_last_moment"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/tv_moment_by_date_range"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_insights"
+        android:layout_gravity="end"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/fetch_moment_by_date_range"
         android:textSize="20dp"/>
 
     <TextView

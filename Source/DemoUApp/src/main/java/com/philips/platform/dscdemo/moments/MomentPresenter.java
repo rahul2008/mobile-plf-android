@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
+import com.philips.platform.core.datatypes.DSPagination;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -41,6 +42,7 @@ import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 class MomentPresenter {
@@ -121,6 +123,14 @@ class MomentPresenter {
 
     void fetchLatestMoment(String type, DBFetchRequestListner<Moment> dbFetchRequestListener) {
         mDataServices.fetchLatestMomentByType(type, dbFetchRequestListener);
+    }
+
+    void fetchMomentByDateRange(Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) {
+        mDataServices.fetchMomentsWithTimeLine(startDate, endDate,paginationModel, dbFetchRequestListener);
+    }
+
+    void fetchMomentByDateRangeAndType(String momentType, Date startDate, Date endDate,DSPagination paginationModel,DBFetchRequestListner<Moment> dbFetchRequestListener){
+        mDataServices.fetchMomentsWithTypeAndTimeLine(momentType,startDate,endDate,paginationModel,dbFetchRequestListener);
     }
 
     private void saveRequest(Moment moment) {

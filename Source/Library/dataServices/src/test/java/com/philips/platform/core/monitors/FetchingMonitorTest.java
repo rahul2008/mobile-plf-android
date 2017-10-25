@@ -2,6 +2,7 @@ package com.philips.platform.core.monitors;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.DSPagination;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
@@ -13,6 +14,7 @@ import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadLatestMomentByTypeRequest;
+import com.philips.platform.core.events.LoadMomentsByDate;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
@@ -24,6 +26,7 @@ import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.insights.InsightSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.platform.datasync.settings.SettingsSegregator;
+import com.philips.spy.DSPaginationSpy;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -33,8 +36,11 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static org.mockito.Mockito.doThrow;
@@ -109,6 +115,9 @@ public class FetchingMonitorTest {
     @Mock
     InsightSegregator insightSegregatorMock;
 
+    DSPaginationSpy mDSPagination;
+
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -120,6 +129,7 @@ public class FetchingMonitorTest {
         fetchingMonitor.settingsSegregator = settingsSegregatorMock;
         fetchingMonitor.insightSegregator = insightSegregatorMock;
         uGrowDateTime = new DateTime();
+        mDSPagination = new DSPaginationSpy();
         fetchingMonitor.start(eventingMock);
     }
 
@@ -143,6 +153,26 @@ public class FetchingMonitorTest {
     public void fetchingMomentsLoadLastMomentRequest() throws Exception {
         fetchingMonitor.onEventAsync(new LoadLastMomentRequest("temperature", dbFetchRequestListner));
         verify(fetching).fetchLastMoment("temperature", dbFetchRequestListner);
+    }
+
+    @Test
+    public void fetchingMomentsLoadMomentsByDateRange() throws Exception {
+        String myFormat = "MM/dd/yy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        Date startDate = sdf.parse("10/11/17");
+        Date endDate = sdf.parse("10/23/17");
+        fetchingMonitor.onEventAsync(new LoadMomentsByDate(startDate,endDate,createPagination(),dbFetchRequestListner));
+        verify(fetching).fetchMomentsWithTimeLine(startDate,endDate,createPagination(),dbFetchRequestListner);
+    }
+
+    @Test
+    public void fetchingMomentLaodMomentByDateType() throws Exception {
+        String myFormat = "MM/dd/yy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        Date startDate = sdf.parse("10/11/17");
+        Date endDate = sdf.parse("10/23/17");
+        fetchingMonitor.onEventAsync(new LoadMomentsByDate("temperature",startDate,endDate,createPagination(),dbFetchRequestListner));
+        verify(fetching).fetchMomentsWithTypeAndTimeLine("temperature",startDate,endDate,createPagination(),dbFetchRequestListner);
     }
 
     @Test
@@ -296,5 +326,13 @@ public class FetchingMonitorTest {
         // doThrow(SQLException.class).when(fetching).fetchActiveInsights(dbFetchRequestListner);
         fetchingMonitor.onEventAsync(new FetchInsightsFromDB(dbFetchRequestListner));
         verify(fetching).fetchActiveInsights(dbFetchRequestListner);
+    }
+
+    private DSPaginationSpy createPagination() {
+        mDSPagination.setOrdering(DSPagination.DSPaginationOrdering.DESCENDING);
+        mDSPagination.setPageLimit(1);
+        mDSPagination.setPageNumber(1);
+        mDSPagination.setOrderBy("timestamp");
+        return mDSPagination;
     }
 }

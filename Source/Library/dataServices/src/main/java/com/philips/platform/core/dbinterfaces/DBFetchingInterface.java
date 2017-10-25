@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.DCSync;
+import com.philips.platform.core.datatypes.DSPagination;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
@@ -18,6 +19,7 @@ import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +72,11 @@ public interface DBFetchingInterface {
      * @throws SQLException throws exception if DataBase operation fails
      */
     void fetchLatestMomentByType(final String type, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException;
+
+
+    void fetchMomentsWithTimeLine(final Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException;
+
+    void fetchMomentsWithTypeAndTimeLine(String momentType, Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException;
 
     /**
      * Fetches the Moment with the given guid
@@ -236,4 +243,5 @@ public interface DBFetchingInterface {
      * @param dbFetchRequestListner Callback for notifying the exception to the propositions
      */
     void postError(Exception e, DBFetchRequestListner dbFetchRequestListner);
+
 }
