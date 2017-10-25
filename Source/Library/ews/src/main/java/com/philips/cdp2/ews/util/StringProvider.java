@@ -30,4 +30,7 @@ public class StringProvider {
         return ContextCompat.getDrawable(context, id);
     }
 
+    public String getString(@StringRes int id, String param) {
+        return context.getString(id, param);
+    }
 }

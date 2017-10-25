@@ -63,8 +63,7 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     @NonNull
     String getTitle(@NonNull BaseContentConfiguration baseConfig) {
-        return stringProvider.getString(R.string.label_ews_confirm_connection_currently_connected,
-                baseConfig.getDeviceName(), getHomeWiFiSSID());
+        return stringProvider.getString(R.string.label_ews_confirm_connection_currently_connected, getHomeWiFiSSID());
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
