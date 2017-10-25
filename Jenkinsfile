@@ -4,7 +4,6 @@ BranchName = env.BRANCH_NAME
 JENKINS_ENV = env.JENKINS_ENV
 
 properties([
-    [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]],
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]
 ])
 
@@ -12,8 +11,8 @@ def MailRecipient = 'DL_CDP2_Callisto@philips.com, DL_CDP2_MobileUIToolkit@phili
 def errors = []
 
 node ('android&&docker') {
-	timestamps {
-		try {
+    timestamps {
+        try {
             stage ('Checkout') {
                 def jobBaseName = "${env.JOB_BASE_NAME}".replace('%2F', '/')
                 if (env.BRANCH_NAME != jobBaseName)
@@ -27,16 +26,19 @@ node ('android&&docker') {
                 checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch', localBranch: "**"]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/icf-android']]])
                 step([$class: 'StashNotifier'])
             }
+
             if (BranchName =~ /master|develop|release\/platform_.*/) {
-                stage ('build') {
-                sh '''#!/bin/bash -l
-                    chmod -R 775 .
-                    cd ./Source/Library/IconFont
-                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
-                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test zipDocuments artifactoryPublish
-                '''
+                stage('Trigger OPA Build'){
+                    def committerName = sh (script: "git show -s --format='%an' HEAD", returnStdout: true).trim()
+                    if (BranchName =~ "/") {
+                        BranchName = BranchName.replaceAll('/','%2F')
+                        echo "BranchName changed to ${BranchName}"
+                    }
+                    build job: "Platform-Infrastructure/opa-android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'committerName', value:committerName]], wait: false
                 }
-            } else {
+            }
+            else
+            {
                 stage ('build') {
                 sh '''#!/bin/bash -l
                     chmod -R 775 .
@@ -45,22 +47,13 @@ node ('android&&docker') {
                     ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test
                 '''
                 }
-            }
-			stage ('save dependencies list') {
-            sh '''#!/bin/bash -l
-            	chmod -R 775 .
-                cd ./Source/Library/IconFont
-                ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
-            '''
-            }
 
-            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release\/platform_.*/)) {
-                stage ('callIntegrationPipeline') {
-                    if (BranchName =~ "/") {
-                        BranchName = BranchName.replaceAll('/','%2F')
-                        echo "BranchName changed to ${BranchName}"
-                    }
-                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'icf'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+                stage ('save dependencies list') {
+                    sh '''#!/bin/bash -l
+                        chmod -R 775 .
+                        cd ./Source/Library/IconFont
+                        ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
+                    '''
                 }
             }
         } catch(err) {
@@ -74,24 +67,27 @@ node ('android&&docker') {
                     }
                 }
             }
+
             stage ('reporting') {
                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
                 junit allowEmptyResults: false, testResults: 'Source/Library/**/build/test-results/**/*.xml'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/IconFont/icf/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'unit test debug'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/IconFont/icf/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release'])
-		if(fileExists('**/*dependencies*.lock')) {
+                if(fileExists('**/*dependencies*.lock')) {
                     archiveArtifacts '**/*dependencies*.lock'
-		}
+               }
             }
+
             stage('informing') {
                 step([$class: 'StashNotifier'])
                 step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
             }
+
             stage('Cleaning workspace') {
                 step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
             }
         }
-	} // end timestamps
+    } // end timestamps
 } // end node ('android')
 
 node('master') {
