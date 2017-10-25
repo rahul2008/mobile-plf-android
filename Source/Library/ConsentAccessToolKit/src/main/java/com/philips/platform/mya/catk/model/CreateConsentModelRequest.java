@@ -13,29 +13,31 @@ import java.util.Map;
  * Created by Maqsood on 10/13/17.
  */
 
-public class GetConsentsModelRequest extends NetworkAbstractModel {
+public class CreateConsentModelRequest extends NetworkAbstractModel {
 
     //This field has to remove later(URL should take from service discovery)
-    private StringBuilder URL = new StringBuilder("https://hdc-css-mst.cloud.pcftest.com/consent/");
+    private String URL = "https://hdc-css-mst.cloud.pcftest.com/consent";
     private User mUser;
     private String mApplicationName;
     private String mPropositionName;
+    private String consentStatus;
 
-    public GetConsentsModelRequest(String applicationName, String propositionName, User user, DataLoadListener dataLoadListener) {
+    public CreateConsentModelRequest(String applicationName, String consentStatus,String propositionName, User user, DataLoadListener dataLoadListener) {
         super(user, dataLoadListener);
         mUser = user;
         mApplicationName = applicationName;
         mPropositionName = propositionName;
+        this.consentStatus = consentStatus;
     }
 
     @Override
     public GetConsentsModel[] parseResponse(JsonArray response) {
-        return new Gson().fromJson(response, GetConsentsModel[].class);
+        return null;
     }
 
     @Override
     public int getMethod() {
-       return Request.Method.GET;
+        return Request.Method.POST;
     }
 
     @Override
@@ -51,12 +53,22 @@ public class GetConsentsModelRequest extends NetworkAbstractModel {
 
     @Override
     public String requestBody() {
-        return null;
+        CreateConsentModel model = new CreateConsentModel();
+        model.setResourceType("Consent");
+        model.setLanguage("af-ZA");
+        model.setStatus(consentStatus);
+        model.setSubject(mUser.getHsdpUUID());
+        model.setPolicyRule("urn:com.philips.consent:moment/IN/0/OneBackendProp/OneBackend");
+        return getJsonString(model);
     }
 
     @Override
     public String getUrl() {
-        URL.append(mUser.getHsdpUUID()+"?applicationName="+mApplicationName+"&propositionName="+mPropositionName);
-        return URL.toString();
+        return URL;
+    }
+
+    private String getJsonString(CreateConsentModel model) {
+        Gson gson = new Gson();
+        return gson.toJson(model);
     }
 }

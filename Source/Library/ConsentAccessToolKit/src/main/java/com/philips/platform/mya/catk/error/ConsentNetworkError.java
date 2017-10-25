@@ -105,8 +105,6 @@ public class ConsentNetworkError implements NetworkErrorListener {
             if (error.networkResponse != null) {
                 String errorString = new String(error.networkResponse.data);
                 mServerError = new Gson().fromJson(errorString, ServerError.class);
-                if (getMessage() != null) {
-                }
                 checkInsufficientStockError(mServerError);
             }
         } catch (Exception e) {
