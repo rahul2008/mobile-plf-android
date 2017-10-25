@@ -95,7 +95,7 @@ public class THSDependentPresenter implements THSBasePresenter {
 
         for(Consumer consumer: server){
             for(THSConsumer thsConsumer:local){
-                if(thsConsumer.getFirstName().equalsIgnoreCase(consumer.getFirstName())){
+                if(thsConsumer.getFirstName()!=null && thsConsumer.getFirstName().equalsIgnoreCase(consumer.getFirstName())){
                     thsConsumer.setConsumer(consumer);
                     newObject.add(thsConsumer);
                 }else {
@@ -127,7 +127,9 @@ public class THSDependentPresenter implements THSBasePresenter {
         }
 
         final SDKLocalDate dob = consumer.getDob();
-        baby.setDob(dob.toDate());
+        if(dob!=null) {
+            baby.setDob(dob.toDate());
+        }
 
         baby.setDependent(true);
         baby.setBloodPressureSystolic("80");
