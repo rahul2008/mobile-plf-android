@@ -18,4 +18,25 @@ public class CswLaunchInput extends UappLaunchInput {
     public void setContext(Context context) {
         this.context = context;
     }
+
+    /**
+     * Get status of is current fragment need to add to backstack or no.
+     *
+     * @return true if need to add to fragment back stack
+     */
+    public boolean isAddtoBackStack() {
+        return isAddToBackStack;
+    }
+
+
+    /**
+     * Enable  add to back stack for current fragment.
+     *
+     * @param isAddToBackStack
+     */
+    public void addToBackStack(boolean isAddToBackStack) {
+        this.isAddToBackStack = isAddToBackStack;
+    }
+
+    private boolean isAddToBackStack;
 }

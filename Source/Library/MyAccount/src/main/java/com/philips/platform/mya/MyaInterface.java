@@ -41,11 +41,16 @@ public class MyaInterface implements UappInterface {
     }
 
     private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
+        CswLaunchInput cswLaunchInput = new CswLaunchInput();
+        cswLaunchInput.setContext(((MyaLaunchInput) uappLaunchInput).getContext());
+        CswInterface cswInterface = new CswInterface();
+        cswInterface.launch(uiLauncher, cswLaunchInput);
+/*
         if (null != uiLauncher && uappLaunchInput != null) {
             Intent registrationIntent = new Intent(((MyaLaunchInput) uappLaunchInput).getContext(), MyAccountActivity.class);
             registrationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             ((MyaLaunchInput) uappLaunchInput).getContext().startActivity(registrationIntent);
-        }
+        }*/
     }
 
     /**

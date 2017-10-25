@@ -1,6 +1,7 @@
 package com.philips.platform.csw;
 
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
@@ -48,7 +49,12 @@ public class CswInterface implements UappInterface {
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
                     cswFragment,
-                    CswConstants.CSWFRAGMENT).addToBackStack(CswConstants.CSWFRAGMENT);
+                    CswConstants.CSWFRAGMENT);
+
+            if (((CswLaunchInput)
+                    uappLaunchInput).isAddtoBackStack()) {
+                fragmentTransaction.addToBackStack(CswConstants.CSWFRAGMENT);
+            }
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException ignore) {
 
@@ -58,7 +64,11 @@ public class CswInterface implements UappInterface {
     }
 
     private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-
+        if (null != uiLauncher && uappLaunchInput != null) {
+            Intent cswIntent = new Intent(((CswLaunchInput) uappLaunchInput).getContext(), CswActivity.class);
+            cswIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+            ((CswLaunchInput) uappLaunchInput).getContext().startActivity(cswIntent);
+        }
     }
 
     /**

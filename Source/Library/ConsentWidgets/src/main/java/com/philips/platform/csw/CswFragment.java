@@ -37,8 +37,6 @@ public class CswFragment extends Fragment implements
         View view = inflater.inflate(R.layout.csw_fragment_consent_widget_root, container, false);
         mFragmentManager = getChildFragmentManager();
         if (mFragmentManager.getBackStackEntryCount() < 1) {
-            inflateIntroView();
-        } else {
             inflatePermissionView();
         }
         return view;
@@ -63,7 +61,7 @@ public class CswFragment extends Fragment implements
         return false;
     }
 
-    public void inflateIntroView() {
+/*    public void inflateIntroView() {
         try {
             if (null != mFragmentManager) {
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
@@ -72,7 +70,7 @@ public class CswFragment extends Fragment implements
             }
         } catch (IllegalStateException ignore) {
         }
-    }
+    }*/
 
     public void inflatePermissionView() {
         try {
