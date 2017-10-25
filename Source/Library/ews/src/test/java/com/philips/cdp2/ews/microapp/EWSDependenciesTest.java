@@ -4,6 +4,7 @@
  */
 package com.philips.cdp2.ews.microapp;
 
+import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.platform.appinfra.AppInfraInterface;
 
 import org.junit.Test;
@@ -19,9 +20,11 @@ public class EWSDependenciesTest {
     public void shouldInitEWSDependencies() throws Exception {
         final AppInfraInterface appInfraMock = mock(AppInfraInterface.class);
         final Map<String, String> productKeyMap = mock(Map.class);
+        final ContentConfiguration config = new ContentConfiguration();
 
-        EWSDependencies dependencies = new EWSDependencies(appInfraMock, productKeyMap);
+        EWSDependencies dependencies = new EWSDependencies(appInfraMock, productKeyMap, config);
         assertSame(appInfraMock, dependencies.getAppInfra());
         assertSame(productKeyMap, dependencies.getProductKeyMap());
+        assertSame(config, dependencies.getContentConfiguration());
     }
 }

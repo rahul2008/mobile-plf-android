@@ -6,10 +6,12 @@
 package com.philips.cdp2.ews.view;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentEwsGettingStartedBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
+import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.viewmodel.EWSGettingStartedViewModel;
 
@@ -19,6 +21,9 @@ public class EWSGettingStartedFragment extends EWSBaseFragment<FragmentEwsGettin
 
     @Inject
     EWSGettingStartedViewModel viewModel;
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    EWSCallbackNotifier ewsCallbackNotifier = EWSCallbackNotifier.getInstance();
 
     @Override
     protected int getLayoutId() {
@@ -53,7 +58,7 @@ public class EWSGettingStartedFragment extends EWSBaseFragment<FragmentEwsGettin
 
     @Override
     public boolean onBackPressed() {
-        viewModel.onBackPressed();
+        viewModel.onBackPressed(ewsCallbackNotifier);
         return true;
     }
 }

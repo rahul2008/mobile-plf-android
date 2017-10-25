@@ -1,6 +1,7 @@
 package com.philips.cdp2.ews.util;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -13,4 +14,9 @@ public abstract class BundleUtils {
         return bundle.getString(key);
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T extends Parcelable> T extractParcelableFromIntentOrNull(@Nullable Bundle extras,
+                                                                             @NonNull String key) {
+        return extras == null ? null : (T) extras.getParcelable(key);
+    }
 }

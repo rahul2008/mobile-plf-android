@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/e"
-                android:text="@string/label_ews_succesful_body"
+                android:text="@{viewModel.title}"
                 />
 
             <ImageView
