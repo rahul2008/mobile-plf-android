@@ -73,7 +73,7 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
             final String portName = extractPortName(data);
             final String payload = extractData(data);
 
-            postSubscriptionEventOnUIThread(portName, payload, subscriptionEventListeners);
+            postSubscriptionEventOnUiThread(portName, payload, subscriptionEventListeners);
         } catch (JSONException e) {
             DICommLog.e(DICommLog.REMOTE_SUBSCRIPTION, "Error parsing DCS event data: " + e.getMessage());
         }

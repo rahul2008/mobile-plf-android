@@ -5,23 +5,26 @@
 
 package com.philips.cdp.dicommclient.subscription;
 
+import android.os.Handler;
+
 import com.philips.cdp.cloudcontroller.api.CloudController;
-import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
-import com.philips.cdp.dicommclient.util.WrappedHandler;
+import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.mockito.Mock;
 
 import static java.util.Collections.singleton;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 @SuppressWarnings("ConstantConditions")
 public class RemoteSubscriptionHandlerTest extends RobolectricTest {
@@ -31,141 +34,138 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
 
     private static final String dcsData = "{\"testKey\":\"testValue\"}";
 
-    private RemoteSubscriptionHandler mRemoteSubscriptionHandler;
-    private SubscriptionEventListener mSubscriptionEventListener;
-    private NetworkNode mMockNetworkNode;
-    private WrappedHandler mSubscriptionEventResponseHandler;
-    private CloudController mMockCloudController;
+    @Mock
+    private SubscriptionEventListener subscriptionEventListenerMock;
+
+    @Mock
+    private NetworkNode networkNodeMock;
+
+    @Mock
+    private CloudController cloudControllerMock;
+
+    @Mock
+    private Handler subscriptionEventResponseHandler;
 
     @Captor
     ArgumentCaptor<Runnable> runnableCaptor;
+
+    private RemoteSubscriptionHandler remoteSubscriptionHandler;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
 
-        mSubscriptionEventListener = mock(SubscriptionEventListener.class);
-        mMockCloudController = mock(DefaultCloudController.class);
-        mMockNetworkNode = mock(NetworkNode.class);
-        when(mMockNetworkNode.getIpAddress()).thenReturn(APPLIANCE_IP);
-        when(mMockNetworkNode.getCppId()).thenReturn(APPLIANCE_CPPID);
+        initMocks(this);
+        HandlerProvider.enableMockedHandler(subscriptionEventResponseHandler);
+        DICommLog.disableLogging();
 
-        mRemoteSubscriptionHandler = createMockedRemoteSubscriptionHandler();
+        when(networkNodeMock.getIpAddress()).thenReturn(APPLIANCE_IP);
+        when(networkNodeMock.getCppId()).thenReturn(APPLIANCE_CPPID);
 
-        mSubscriptionEventResponseHandler = mock(WrappedHandler.class);
-
-        mRemoteSubscriptionHandler.enableSubscription(mMockNetworkNode, singleton(mSubscriptionEventListener));
+        remoteSubscriptionHandler = new RemoteSubscriptionHandler(cloudControllerMock);
+        remoteSubscriptionHandler.enableSubscription(networkNodeMock, singleton(subscriptionEventListenerMock));
     }
 
     @Test
     public void testDCSEventReceivedDataEmptyString() {
-        mRemoteSubscriptionHandler.onDCSEventReceived("", APPLIANCE_CPPID, null);
+        remoteSubscriptionHandler.onDCSEventReceived("", APPLIANCE_CPPID, null);
 
-        verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
+        verify(subscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
 
     @Test
     public void testDCSEventReceivedEui64EmptyString() {
         String dcsPayload = createDcsEvent("1", "air", dcsData);
-        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, "", null);
+        remoteSubscriptionHandler.onDCSEventReceived(dcsPayload, "", null);
 
-        verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
+        verify(subscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
 
     @Test
     public void testDCSEventReceivedWrongEui64() {
         String dcsPayload = createDcsEvent("1", "air", dcsData);
-        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, "0.0.0.0", null);
+        remoteSubscriptionHandler.onDCSEventReceived(dcsPayload, "0.0.0.0", null);
 
-        verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
+        verify(subscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
 
     @Test
     public void testDCSEventReceivedRightEui64() {
         String dcsPayload = createDcsEvent("1", "air", dcsData);
-        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
+        remoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
-        verify(mSubscriptionEventResponseHandler).post(runnableCaptor.capture());
+        verify(subscriptionEventResponseHandler).post(runnableCaptor.capture());
     }
 
     @Test
     public void testShouldContainCorrectData_WhenRunnableIsExecuted() {
         String dcsPayload = createDcsEvent("1", "air", dcsData);
-        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
+        remoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
-        verify(mSubscriptionEventResponseHandler).post(any(Runnable.class));
+        verify(subscriptionEventResponseHandler).post(any(Runnable.class));
     }
 
     @Test
     public void testDCSEventReceivedDataValidString() {
         String dcsPayload = createDcsEvent("1", "air", dcsData);
-        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
+        remoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
-        verify(mSubscriptionEventResponseHandler).post(runnableCaptor.capture());
+        verify(subscriptionEventResponseHandler).post(runnableCaptor.capture());
         runnableCaptor.getValue().run();
 
-        verify(mSubscriptionEventListener).onSubscriptionEventReceived(eq("air"), eq(dcsData));
+        verify(subscriptionEventListenerMock).onSubscriptionEventReceived(eq("air"), eq(dcsData));
     }
 
     @Test
     public void testDCSEventReceivedDataValidErrorString() {
         String dcsPayload = this.createErrorDcsEvent("1", "air", dcsData);
-        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
+        remoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
         // Handler shouldn't be called if invalid data is provided
-        verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
+        verify(subscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
 
     @Test
     public void testDCSEventReceivedDataContentNullString() {
         String dcsPayload = createDcsEvent("1", "air", null);
-        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
+        remoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
         // Handler shouldn't be called if invalid data is provided
-        verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
+        verify(subscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
 
     @Test
     public void givenHandlerCreated_whenEmptyPortNameAndDataValidString_thenShouldNotCallListener() {
         String dcsPayload = createDcsEvent("1", "", dcsData);
-        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
+        remoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
-        verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
+        verify(subscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
 
     @Test
     public void givenHandlerCreated_whenEmptyPortNameAndDataInvalidString_thenShouldNotCallListener() {
         String dcsPayload = this.createErrorDcsEvent("1", "", dcsData);
-        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
+        remoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
         // Handler shouldn't be called if invalid data is provided
-        verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
+        verify(subscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
 
     @Test
     public void givenHandlerCreated_whenEmptyPortNameAndDataNull_thenShouldNotCallListener() {
         String dcsPayload = createDcsEvent("1", "", null);
-        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
+        remoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
         // Handler shouldn't be called if invalid data is provided
-        verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
+        verify(subscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
 
     private String createDcsEvent(String productId, String port, String data) {
-        return "{ \"product\": \""+productId+"\", \"port\":\""+port+"\", \"data\": "+data+"}";
+        return "{ \"product\": \"" + productId + "\", \"port\":\"" + port + "\", \"data\": " + data + "}";
     }
 
     private String createErrorDcsEvent(String productId, String port, String data) {
-        return "{ \"product\": \""+productId+"\", \"port\":\""+port+"\", \"noData\": "+data+"}";
-    }
-
-    private RemoteSubscriptionHandler createMockedRemoteSubscriptionHandler() {
-        return new RemoteSubscriptionHandler(mMockCloudController) {
-            @Override
-            protected WrappedHandler getSubscriptionEventResponseHandler() {
-                return mSubscriptionEventResponseHandler;
-            }
-        };
+        return "{ \"product\": \"" + productId + "\", \"port\":\"" + port + "\", \"noData\": " + data + "}";
     }
 }
 

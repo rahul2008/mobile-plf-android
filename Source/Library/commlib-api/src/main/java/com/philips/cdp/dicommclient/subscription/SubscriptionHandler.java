@@ -1,49 +1,44 @@
 /*
- * © Koninklijke Philips N.V., 2015.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.subscription;
 
+import android.os.Handler;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp.dicommclient.util.WrappedHandler;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
 import java.util.Set;
 
 public abstract class SubscriptionHandler {
 
-    private Set<SubscriptionEventListener> mSubscriptionEventListeners;
-    private WrappedHandler mSubscriptionEventResponseHandler;
+    private Handler mSubscriptionEventResponseHandler = HandlerProvider.createHandler();
 
     public abstract void enableSubscription(NetworkNode networkNode, Set<SubscriptionEventListener> subscriptionEventListeners);
 
     public abstract void disableSubscription();
 
-    protected void postSubscriptionEventOnUIThread(final String portName, final String decryptedData, Set<SubscriptionEventListener> subscriptionEventListeners) {
-
-        mSubscriptionEventListeners = subscriptionEventListeners;
-        mSubscriptionEventResponseHandler = getSubscriptionEventResponseHandler();
-
-        Runnable responseRunnable = new Runnable() {
+    protected void postSubscriptionEventOnUiThread(final String portName, final String decryptedData, final Set<SubscriptionEventListener> subscriptionEventListeners) {
+        mSubscriptionEventResponseHandler.post(new Runnable() {
             @Override
             public void run() {
-                DICommLog.d(DICommLog.REQUESTQUEUE, "Processing response from request");
-                for (SubscriptionEventListener subscriptionEventListener : mSubscriptionEventListeners) {
+                for (SubscriptionEventListener subscriptionEventListener : subscriptionEventListeners) {
                     subscriptionEventListener.onSubscriptionEventReceived(portName, decryptedData);
                 }
             }
-        };
-
-        mSubscriptionEventResponseHandler.post(responseRunnable);
+        });
     }
 
-    protected WrappedHandler getSubscriptionEventResponseHandler() {
-        if (mSubscriptionEventResponseHandler == null) {
-            mSubscriptionEventResponseHandler = new WrappedHandler(HandlerProvider.createHandler());
-        }
-        return mSubscriptionEventResponseHandler;
+    protected void postSubscriptionEventDecryptionFailureOnUiThread(final String portName, final Set<SubscriptionEventListener> subscriptionEventListeners) {
+        mSubscriptionEventResponseHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                for (SubscriptionEventListener subscriptionEventListener : subscriptionEventListeners) {
+                    subscriptionEventListener.onSubscriptionEventDecryptionFailed(portName);
+                }
+            }
+        });
     }
-
 }
