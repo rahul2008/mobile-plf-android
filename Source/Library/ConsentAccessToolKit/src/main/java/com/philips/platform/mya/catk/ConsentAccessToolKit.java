@@ -2,7 +2,6 @@ package com.philips.platform.mya.catk;
 
 import android.content.Context;
 import android.os.Message;
-import android.util.Log;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
@@ -67,7 +66,6 @@ public class ConsentAccessToolKit {
                 if(msg.arg1==0){
                     consentListener.onSuccess(ConsentUtil.CONSENT_SUCCESS);
                 }
-                Log.d("createConsent","success :"+msg.arg1);
             }
 
             @Override

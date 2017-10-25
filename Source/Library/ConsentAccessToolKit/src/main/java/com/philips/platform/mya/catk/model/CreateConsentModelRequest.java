@@ -18,15 +18,15 @@ public class CreateConsentModelRequest extends NetworkAbstractModel {
     //This field has to remove later(URL should take from service discovery)
     private String URL = "https://hdc-css-mst.cloud.pcftest.com/consent";
     private User mUser;
-    private String mApplicationName;
-    private String mPropositionName;
+    private String applicationName;
+    private String propositionName;
     private String consentStatus;
 
     public CreateConsentModelRequest(String applicationName, String consentStatus,String propositionName, User user, DataLoadListener dataLoadListener) {
         super(user, dataLoadListener);
         mUser = user;
-        mApplicationName = applicationName;
-        mPropositionName = propositionName;
+        this.applicationName = applicationName;
+        this.propositionName = propositionName;
         this.consentStatus = consentStatus;
     }
 
@@ -58,7 +58,7 @@ public class CreateConsentModelRequest extends NetworkAbstractModel {
         model.setLanguage("af-ZA");
         model.setStatus(consentStatus);
         model.setSubject(mUser.getHsdpUUID());
-        model.setPolicyRule("urn:com.philips.consent:moment/IN/0/OneBackendProp/OneBackend");
+        model.setPolicyRule("urn:com.philips.consent:moment/IN/0/"+propositionName+"/"+applicationName);
         return getJsonString(model);
     }
 
