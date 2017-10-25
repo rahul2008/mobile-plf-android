@@ -6,7 +6,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 
-@Component(modules={CswModule.class})
+@Component(modules={CswModule.class,AppInfraModule.class})
 @Singleton
 public interface CswComponent {
     Context context();

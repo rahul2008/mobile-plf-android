@@ -4,7 +4,10 @@ package com.philips.platform.csw;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.philips.platform.csw.injection.AppInfraModule;
 import com.philips.platform.csw.injection.CswComponent;
+import com.philips.platform.csw.injection.CswModule;
+import com.philips.platform.csw.injection.DaggerCswComponent;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -65,7 +68,13 @@ public class CswInterface implements UappInterface {
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        //cswComponent = Da
+        cswComponent = initDaggerCoponents(uappDependencies, uappSettings);
+    }
+
+    private CswComponent initDaggerCoponents(UappDependencies uappDependencies, UappSettings uappSettings) {
+        return DaggerCswComponent.builder()
+                .cswModule(new CswModule(uappSettings.getContext()))
+                .appInfraModule(new AppInfraModule(uappDependencies.getAppInfra())).build();
     }
 
     public static CswComponent getCswComponent() {
