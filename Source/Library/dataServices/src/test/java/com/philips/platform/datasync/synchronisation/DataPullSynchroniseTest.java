@@ -2,6 +2,11 @@ package com.philips.platform.datasync.synchronisation;
 
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
+import com.philips.platform.datasync.consent.ConsentsDataFetcher;
+import com.philips.platform.datasync.insights.InsightDataFetcher;
+import com.philips.platform.datasync.moments.MomentsDataFetcher;
+import com.philips.platform.datasync.settings.SettingsDataFetcher;
 import com.philips.platform.datasync.spy.EventingSpy;
 import com.philips.platform.datasync.spy.UserAccessProviderSpy;
 
@@ -48,6 +53,21 @@ public class DataPullSynchroniseTest {
     @Mock
     private AppComponent appComponentMock;
 
+    @Mock
+    MomentsDataFetcher momentsDataFetcherMock;
+
+    @Mock
+    ConsentsDataFetcher consentsDataFetcherMock;
+
+    @Mock
+    UserCharacteristicsFetcher userCharacteristicsFetcherMock;
+
+    @Mock
+    SettingsDataFetcher settingsDataFetcherMock;
+
+    @Mock
+    InsightDataFetcher insightDataFetcherMock;
+
 
     @Before
     public void setUp() {
@@ -58,6 +78,10 @@ public class DataPullSynchroniseTest {
 
         DataServicesManager.getInstance().setAppComponant(appComponentMock);
 
+        synchronise = new DataPullSynchronise(
+                Arrays.asList(firstFetcherMock, secondFetcherMock)
+        );
+
         Set<String> set = new HashSet<>();
         set.add("moment");
         set.add("Settings");
@@ -66,9 +90,11 @@ public class DataPullSynchroniseTest {
         set.add("insight");
         DataServicesManager.getInstance().configureSyncDataType(set);
 
-        synchronise = new DataPullSynchronise(
-                Arrays.asList(firstFetcherMock, secondFetcherMock)
-        );
+        synchronise.momentsDataFetcher = momentsDataFetcherMock;
+        synchronise.consentsDataFetcher = consentsDataFetcherMock;
+        synchronise.insightDataFetcher = insightDataFetcherMock;
+        synchronise.userCharacteristicsFetcher = userCharacteristicsFetcherMock;
+        synchronise.settingsDataFetcher = settingsDataFetcherMock;
 
         synchronise.userAccessProvider = userAccessProviderSpy;
         synchronise.eventing = eventingSpy;
@@ -85,15 +111,24 @@ public class DataPullSynchroniseTest {
     @Test
     public void postSyncCompleteWhenNoFetchers() {
         givenUserIsLoggedIn();
+        givenNoConfigurableFetcherList();
         givenNoFetchers();
         whenSynchronisationIsStarted(EVENT_ID);
         thenDataSyncIsCompleted();
     }
 
     @Test
-    public void postOkWhenDataPullSuccess() {
+    public void postOkWhenConfigurableFetchers() {
         givenUserIsLoggedIn();
-        givenFetcherList();
+        givenConfigurableFetcherList();
+        whenSynchronisationIsStarted(EVENT_ID);
+        thenDataPullIsCompleted();
+    }
+
+    @Test
+    public void postOkWhenNoConfigurableFetchers(){
+        givenUserIsLoggedIn();
+        givenNoConfigurableFetcherList();;
         whenSynchronisationIsStarted(EVENT_ID);
         thenDataPullIsCompleted();
     }
@@ -101,7 +136,7 @@ public class DataPullSynchroniseTest {
     @Test
     public void postErrorWhenDataPullFails() {
         givenUserIsLoggedIn();
-        givenFetcherList();
+        givenConfigurableFetcherList();
         givenRetrofitErrorWhileFetchingData();
         whenSynchronisationIsStarted(EVENT_ID);
         thenDataPullIsFailed();
@@ -110,7 +145,7 @@ public class DataPullSynchroniseTest {
 
     private RetrofitError givenRetrofitErrorWhileFetchingData() {
         error = mock(RetrofitError.class);
-        Mockito.when(secondFetcherMock.fetchDataSince(NOW)).thenReturn(error);
+        Mockito.when(momentsDataFetcherMock.fetchDataSince(NOW)).thenReturn(error);
         return error;
     }
 
@@ -122,18 +157,20 @@ public class DataPullSynchroniseTest {
         userAccessProviderSpy.isLoggedIn = false;
     }
 
-    private void givenFetcherList() {
+    private void givenConfigurableFetcherList() {
         ArrayList<DataFetcher> fetcherArrayList = new ArrayList<>();
         fetcherArrayList.add(firstFetcherMock);
         fetcherArrayList.add(secondFetcherMock);
         synchronise.fetchers = fetcherArrayList;
-        synchronise.configurableFetchers = fetcherArrayList;
     }
 
-    private void givenNoFetchers() {
-        ArrayList<DataFetcher> fetcherArrayList = new ArrayList<>();
-        synchronise.fetchers = fetcherArrayList;
-        synchronise.configurableFetchers = fetcherArrayList;
+    private void givenNoConfigurableFetcherList() {
+        DataServicesManager.getInstance().configureSyncDataType(new HashSet<String>());
+        synchronise.configurableFetchers = new ArrayList<>();
+    }
+
+    private void givenNoFetchers(){
+        synchronise.fetchers = new ArrayList<>();
     }
 
     private void whenSynchronisationIsStarted(final int eventId) {

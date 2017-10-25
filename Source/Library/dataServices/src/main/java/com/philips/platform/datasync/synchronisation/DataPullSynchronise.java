@@ -69,14 +69,15 @@ public class DataPullSynchronise {
 
     List<? extends DataFetcher> configurableFetchers;
 
+    DataServicesManager dataServicesManager;
+
     @Inject
     public DataPullSynchronise(@NonNull final List<? extends DataFetcher> fetchers) {
-        final DataServicesManager dataServicesManager = DataServicesManager.getInstance();
+        dataServicesManager = DataServicesManager.getInstance();
         dataServicesManager.getAppComponant().injectDataPullSynchronize(this);
 
         this.fetchers = fetchers;
-        this.configurableFetchers = getFetchers(dataServicesManager);
-        this.executor = Executors.newFixedThreadPool(configurableFetchers.size());
+
     }
 
     void startSynchronise(@Nullable final DateTime sinceLastModifiedDate, final int referenceId) {
@@ -85,7 +86,19 @@ public class DataPullSynchronise {
             return;
         }
 
+        initializeConfigurableFetchers();
+
+        if (configurableFetchers.isEmpty()) {
+            synchronisationManager.dataSyncComplete();
+            return;
+        }
+
+        this.executor = Executors.newFixedThreadPool(configurableFetchers.size());
         fetchData(sinceLastModifiedDate, referenceId);
+    }
+
+    private void initializeConfigurableFetchers() {
+        this.configurableFetchers = getFetchers(dataServicesManager);
     }
 
     private synchronized void fetchData(final DateTime sinceLastModifiedDate, final int referenceId) {
@@ -142,7 +155,7 @@ public class DataPullSynchronise {
     private List<? extends DataFetcher> getFetchers(final DataServicesManager dataServicesManager) {
         Set<String> configurableFetchers = dataServicesManager.getSyncTypes();
 
-        if (configurableFetchers == null) {
+        if (configurableFetchers == null | (configurableFetchers != null && configurableFetchers.isEmpty())){
             return fetchers;
         }
 
