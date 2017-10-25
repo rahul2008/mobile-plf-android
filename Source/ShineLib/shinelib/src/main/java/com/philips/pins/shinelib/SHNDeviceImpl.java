@@ -46,6 +46,7 @@ import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.pins.shinelib.workarounds.Workaround;
 import com.philips.pins.shinelib.wrappers.SHNCapabilityWrapperFactory;
 
 import java.security.InvalidParameterException;
@@ -59,7 +60,6 @@ import java.util.UUID;
  */
 public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, SHNCentral.SHNBondStatusListener, SHNCentral.SHNCentralListener, SHNService.CharacteristicDiscoveryListener {
 
-    public static final long MINIMUM_CONNECTION_IDLE_TIME = 1000L;
     public static final int GATT_ERROR = 0x0085;
 
     public enum SHNBondInitiator {
@@ -77,6 +77,8 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private static final long DISCONNECT_TIMEOUT = 1000L;
     private static final long BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS = 1000L; // Prevent either the Thermometer or the BT stack on some devices from getting in a error state
     private static final long WAIT_UNTIL_BONDED_TIMEOUT_IN_MS = 10000L;
+
+    public final long minimumConnectionIdleTime;
 
     private final BTDevice btDevice;
     private final SHNCentral shnCentral;
@@ -139,6 +141,12 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         this.deviceTypeName = deviceTypeName;
         this.shnBondInitiator = shnBondInitiator;
         this.name = btDevice.getName();
+
+        if(Workaround.EXTENDED_MINIMUM_CONNECTION_IDLE_TIME.isRequiredOnThisDevice()) {
+            this.minimumConnectionIdleTime = 2000L;
+        } else {
+            this.minimumConnectionIdleTime = 1000L;
+        }
 
         SHNLogger.i(TAG, "Created new instance of SHNDevice for type: " + deviceTypeName + " address: " + btDevice.getAddress());
     }
@@ -416,17 +424,17 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     private boolean stackNeedsTimeToPrepareForConnect(long timeDiff) {
-        return lastDisconnectedTimeMillis != 0L && timeDiff < MINIMUM_CONNECTION_IDLE_TIME;
+        return lastDisconnectedTimeMillis != 0L && timeDiff < minimumConnectionIdleTime;
     }
 
     private void postponeConnectCall(final boolean withTimeout, final long timeoutInMS, long timeDiff) {
-        SHNLogger.w(TAG, "Postponing connect with " + (MINIMUM_CONNECTION_IDLE_TIME - timeDiff) + "ms to allow the stack to properly disconnect");
+        SHNLogger.w(TAG, "Postponing connect with " + (minimumConnectionIdleTime - timeDiff) + "ms to allow the stack to properly disconnect");
         shnCentral.getInternalHandler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 connect(withTimeout, timeoutInMS);
             }
-        }, MINIMUM_CONNECTION_IDLE_TIME - timeDiff);
+        }, minimumConnectionIdleTime - timeDiff);
     }
 
     @Override
