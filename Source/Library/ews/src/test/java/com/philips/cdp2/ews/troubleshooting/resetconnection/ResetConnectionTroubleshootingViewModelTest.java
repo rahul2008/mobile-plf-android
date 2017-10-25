@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ResetConnectionTroubleshootingViewModelTest {
@@ -35,6 +36,7 @@ public class ResetConnectionTroubleshootingViewModelTest {
     public void setUp() throws Exception {
         initMocks(this);
         subject = new ResetConnectionTroubleshootingViewModel(mockNavigator, mockStringProvider, mockBaseContentConfiguration, mockTroubleShootContentConfiguration);
+        when(mockBaseContentConfiguration.getDeviceName()).thenReturn(124234);
     }
 
     @Test
@@ -53,6 +55,24 @@ public class ResetConnectionTroubleshootingViewModelTest {
 
     @Test
     public void itShouldGiveResetConnectionImage() throws Exception {
+        when(mockTroubleShootContentConfiguration.getResetConnectionImage()).thenReturn(234234);
         subject.getResetConnectionImage(mockTroubleShootContentConfiguration);
+        verify(mockStringProvider).getImageResource(mockTroubleShootContentConfiguration.getResetConnectionImage());
     }
+
+    @Test
+    public void itShouldGiveResetConnectionTitle() throws Exception {
+        when(mockTroubleShootContentConfiguration.getResetConnectionTitle()).thenReturn(234234);
+        subject.getTitle(mockTroubleShootContentConfiguration, mockBaseContentConfiguration);
+        verify(mockStringProvider).getString(mockTroubleShootContentConfiguration.getResetConnectionTitle(), mockBaseContentConfiguration.getDeviceName());
+    }
+
+    @Test
+    public void itShouldGiveResetConnectionBody() throws Exception {
+        when(mockTroubleShootContentConfiguration.getResetConnectionBody()).thenReturn(234234);
+        subject.getNote(mockTroubleShootContentConfiguration, mockBaseContentConfiguration);
+        verify(mockStringProvider).getString(mockTroubleShootContentConfiguration.getResetConnectionBody(), mockBaseContentConfiguration.getDeviceName());
+    }
+
+
 }
