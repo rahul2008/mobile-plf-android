@@ -70,22 +70,27 @@ node ('android&&docker') {
                 }
             }
             stage ('reporting') {
-                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
-                // junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/*/*.xml'
-                // publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/UiKit/uikitlib/build/reports/tests/debug', reportFiles: 'index.html', reportName: 'unit test debug']) 
-                archiveArtifacts '**/*dependencies*.lock'
-             }
+                if (BranchName =~ /master|develop|release\/platform_.*/) {
+                    echo "Nothing to Report, OPA build is started"
+                }
+                else
+                {
+                    androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
+                    // junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/*/*.xml'
+                    // publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/UiKit/uikitlib/build/reports/tests/debug', reportFiles: 'index.html', reportName: 'unit test debug']) 
+                    archiveArtifacts '**/*dependencies*.lock'
+                }
+            }
 
-             stage('informing') {
+            stage('informing') {
                 step([$class: 'StashNotifier'])
                 step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
-             }
+            }
 
-             stage('Cleaning workspace') {
+            stage('Cleaning workspace') {
                 step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
-             }
+            }
         }
-
     }
 }
 
