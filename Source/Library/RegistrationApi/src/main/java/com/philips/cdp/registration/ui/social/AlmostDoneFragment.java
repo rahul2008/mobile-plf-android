@@ -226,6 +226,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         public void onClick(View widget) {
             getRegistrationFragment().addPhilipsNewsFragment();
             trackPage(AppTaggingPages.PHILIPS_ANNOUNCEMENT);
+            marketingOptCheck.setChecked(
+                    !marketingOptCheck.isChecked());
         }
     };
 
