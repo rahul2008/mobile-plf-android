@@ -29,11 +29,11 @@ import java.util.Map;
 public class AIKManager implements AIKMInterface {
 
     private final AppInfra appInfra;
-    private final AIKMHelper AIKMHelper;
+    private final AiKmHelper aiKmHelper;
 
     public AIKManager(AppInfra mAppInfra) {
         this.appInfra = mAppInfra;
-        AIKMHelper = new AIKMHelper(mAppInfra);
+        aiKmHelper = new AiKmHelper(mAppInfra);
     }
 
     @Override
@@ -41,15 +41,15 @@ public class AIKManager implements AIKMInterface {
                                       Map<String, String> replacement,
                                       @NonNull final OnGetServicesListener onGetServicesListener) throws AIKMJsonFileNotFoundException, JSONException {
 
-        getAIKMHelper().init(appInfra);
+        getAiKmHelper().init(appInfra);
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
         ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = getSDUrlsListener(serviceIds, aiKmServices, aiSdPreference, onGetServicesListener);
         getServiceDiscoveryUrlMap(serviceIds, aiSdPreference, replacement, serviceUrlMapListener);
     }
 
     @NonNull
-    AIKMHelper getAIKMHelper() {
-        return AIKMHelper;
+    AiKmHelper getAiKmHelper() {
+        return aiKmHelper;
     }
 
     @NonNull
@@ -57,7 +57,7 @@ public class AIKManager implements AIKMInterface {
         return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                AIKMHelper.mapResponse(urlMap, aikmServices, serviceDiscoveryUrlMap);
+                aiKmHelper.mapResponse(urlMap, aikmServices, serviceDiscoveryUrlMap);
                 onGetServicesListener.onSuccess(aikmServices);
             }
 
@@ -76,7 +76,7 @@ public class AIKManager implements AIKMInterface {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = getKMappedGroomListener(onGetServicesListener, aiKmServices, urlMap);
-                ArrayList<String> appendedServiceIds = AIKMHelper.getAppendedGrooms(serviceIds);
+                ArrayList<String> appendedServiceIds = aiKmHelper.getAppendedGrooms(serviceIds);
                 getServiceDiscoveryUrlMap(appendedServiceIds, aiSdPreference, null, onGetServiceUrlMapListener);
             }
 
@@ -127,12 +127,12 @@ public class AIKManager implements AIKMInterface {
     public AIKMResponse getKeySet(String serviceId, String url) {
         AIKMResponse aikmResponse = new AIKMResponse();
         try {
-            getAIKMHelper().init(appInfra);
+            getAiKmHelper().init(appInfra);
         } catch (AIKMJsonFileNotFoundException | JSONException e) {
             aikmResponse.setkError(KError.JSON_FILE_NOT_FOUND);
             return aikmResponse;
         }
-        return AIKMHelper.getKeySet(serviceId, url, aikmResponse);
+        return aiKmHelper.getKeySet(serviceId, url, aikmResponse);
     }
 
 }

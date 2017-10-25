@@ -33,13 +33,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-public class AIKMHelper {
+public class AiKmHelper {
 
     private final GroomLib groomLib;
     private JSONObject rootJsonObject;
     private AppInfra mAppInfra;
 
-    AIKMHelper(AppInfra appInfra) {
+    AiKmHelper(AppInfra appInfra) {
         groomLib = new GroomLib();
         this.mAppInfra = appInfra;
     }
@@ -238,7 +238,7 @@ public class AIKMHelper {
 
     private AIKMResponse validateGroom(String key, String configUrls, AIKMResponse aikmResponse) {
         if (!TextUtils.isEmpty(configUrls)) {
-            String groomIndex = getGroomIndex(configUrls);
+            String groomIndex = getGroomIndexWithSplit(configUrls);
             mapAndValidateGroom(key, groomIndex, aikmResponse);
         } else {
             aikmResponse.setkError(KError.NO_URL_FOUND);
