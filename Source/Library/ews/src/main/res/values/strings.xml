@@ -141,7 +141,4 @@
     <string name="label_ews_phone_reconnected_different_network_body">Your phone has connected to a different network. \n\nPlease reconnect your phone to %1$s.\nPlease read all the 4 steps before leaving the application.\n1. Tap Wi-Fi in your phone settings \n2. Make sure your Wi-Fi is turned on \n3. Select your home network\n4. Return to the app</string>
     <string name="button_ews_phone_reconnected_different_network_confirm">Ok, I did it</string>
 
-    <string name="label_ews_connecting_device_title">Establishing connection between %1$s and home network</string>
-
-    
 </resources>
