@@ -3,11 +3,8 @@ package com.philips.platform.ths.insurance;
 
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.insurance.HealthPlan;
 import com.americanwell.sdk.entity.insurance.Relationship;
@@ -15,32 +12,22 @@ import com.americanwell.sdk.entity.insurance.Subscription;
 import com.americanwell.sdk.entity.insurance.SubscriptionUpdateRequest;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.ValidationReason;
-import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-
-import org.junit.runner.RunWith;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
-
 import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-
-import static junit.framework.Assert.assertNotNull;
-
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-
+import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
@@ -70,7 +57,7 @@ public class THSInsuranceDetailPresenterTest {
     Consumer consumerMoxk;
 
     @Mock
-    THSConsumer thsConsumerMock;
+    THSConsumerWrapper thsConsumerMock;
 
     @Mock
     ConsumerManager consumerManagerMock;

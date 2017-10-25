@@ -23,6 +23,7 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.pharmacy.THSSpinnerAdapter;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.EditText;
@@ -53,6 +54,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     private List<State> mValidStates = null;
     private Date mDob;
     private RadioGroup radio_group_single_line;
+    protected int mLaunchInput;
 
     @Nullable
     @Override
@@ -63,6 +65,10 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
             getActionBarListener().updateActionBar(getString(R.string.ths_your_details), true);
         }
 
+        Bundle bundle = getArguments();
+        if(bundle!=null){
+            mLaunchInput = bundle.getInt(THSConstants.THS_LAUNCH_INPUT,-1);
+        }
         setView(view);
         mThsRegistrationPresenter = new THSRegistrationPresenter(this);
         return view;
@@ -104,17 +110,19 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     }
 
     private void prePopulateData() {
-        final User user = THSManager.getInstance().getUser(getContext());
-        if (user == null)
-            return;
-        if (user.getGivenName() != null) {
-            mEditTextFirstName.setText(user.getGivenName());
+
+        THSConsumer user = THSManager.getInstance().getThsConsumer();
+
+        if(user.getFirstName()!=null) {
+            mEditTextFirstName.setText(user.getFirstName());
         }
-        if (user.getFamilyName() != null) {
-            mEditTextLastName.setText(user.getFamilyName());
+        if(user.getLastName()!=null) {
+            mEditTextLastName.setText(user.getLastName());
         }
-        if (user.getDateOfBirth() != null) {
-            setDate(user.getDateOfBirth());
+        if(user.getDob()!=null) {
+            mDob = user.getDob();
+            setDate(user.getDob());
+
         }
 
         final com.philips.cdp.registration.ui.utils.Gender gender = user.getGender();
@@ -144,8 +152,15 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         if (id == R.id.ths_continue) {
             if (validateUserDetails()) {
                 mContinueButton.showProgressIndicator();
-                mThsRegistrationPresenter.enrollUser(mDob, mEditTextFirstName.getText().toString(),
-                        mEditTextLastName.getText().toString(), Gender.MALE, mValidStates.get(mStateSpinner.getSelectedItemPosition()));
+
+                if(THSManager.getInstance().getThsConsumer().isDependent()){
+                    mThsRegistrationPresenter.enrollDependent(mDob, mEditTextFirstName.getText().toString(),
+                            mEditTextLastName.getText().toString(), Gender.MALE, mValidStates.get(mStateSpinner.getSelectedItemPosition()));
+                }else {
+                    mThsRegistrationPresenter.enrollUser(mDob, mEditTextFirstName.getText().toString(),
+                            mEditTextLastName.getText().toString(), Gender.MALE, mValidStates.get(mStateSpinner.getSelectedItemPosition()));
+                }
+
             }
 
         }

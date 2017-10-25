@@ -12,7 +12,7 @@ import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.intake.THSVisitContext;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -41,7 +41,7 @@ public class THSPharmacyAndShippingFragmentTest {
     Pharmacy pharmacy;
 
     @Mock
-    THSConsumer thsConsumer;
+    THSConsumerWrapper thsConsumerWrapper;
 
     @Mock
     AWSDK awsdkMock;
@@ -87,10 +87,10 @@ public class THSPharmacyAndShippingFragmentTest {
 
 
         THSManager.getInstance().setAwsdk(awsdkMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumer);
+        THSManager.getInstance().setPTHConsumer(thsConsumerWrapper);
         THSManager.getInstance().setVisitContext(pthVisitContext);
 
-        when(thsConsumer.getConsumer()).thenReturn(consumerMock);
+        when(thsConsumerWrapper.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(address.getState()).thenReturn(stateMock);
         when(stateMock.getCode()).thenReturn("12121");

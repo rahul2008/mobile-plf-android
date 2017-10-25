@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.view.widget.Button;
@@ -78,7 +79,26 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
+
+        prepopulateData();
+
         return view;
+    }
+
+    private void prepopulateData() {
+        final THSConsumer thsConsumer = THSManager.getInstance().getThsConsumer();
+        if(thsConsumer==null){
+            return;
+        }
+
+        if(thsConsumer.getBloodPressureSystolic()!=null) {
+            mSystolic.setText(thsConsumer.getBloodPressureSystolic());
+        }
+        if(thsConsumer.getBloodPressureDiastolic()!=null){
+            mDiastolic.setText(thsConsumer.getBloodPressureDiastolic());
+        }
+        mWeight.setText(String.valueOf(thsConsumer.getWeight()));
+        mTemperature.setText(String.valueOf(thsConsumer.getTemperature()));
     }
 
     @Override

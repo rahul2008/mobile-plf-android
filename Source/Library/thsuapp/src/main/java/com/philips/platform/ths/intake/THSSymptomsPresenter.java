@@ -86,7 +86,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
             ((THSSymptomsFragment) thsBaseView).addTags();
             final THSVitalsFragment fragment = new THSVitalsFragment();
             fragment.setFragmentLauncher(thsBaseView.getFragmentLauncher());
-            thsBaseView.addFragment(fragment, THSVitalsFragment.TAG, null, true);
+            thsBaseView.addFragment(fragment, THSVitalsFragment.TAG, null, false);
         }
     }
 

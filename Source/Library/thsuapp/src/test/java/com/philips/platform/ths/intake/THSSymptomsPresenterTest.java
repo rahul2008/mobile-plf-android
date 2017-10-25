@@ -23,7 +23,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
@@ -65,7 +65,7 @@ public class THSSymptomsPresenterTest {
     ConsumerManager consumerManagerMock;
 
     @Mock
-    THSConsumer pthConsumer;
+    THSConsumerWrapper pthConsumer;
 
     @Mock
     AWSDK awsdk;

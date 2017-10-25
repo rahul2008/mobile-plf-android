@@ -18,7 +18,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -75,7 +75,7 @@ public class THSFollowUpPresenterTest {
     Consumer consumerMock;
 
     @Mock
-    THSConsumer thsConsumerMock;
+    THSConsumerWrapper thsConsumerWrapperMock;
 
     @Mock
     ConsumerManager consumerManagerMock;
@@ -94,13 +94,13 @@ public class THSFollowUpPresenterTest {
         MockitoAnnotations.initMocks(this);
         THSManager.getInstance().setVisitContext(thsVisitContextMock);
         THSManager.getInstance().setAwsdk(awsdkMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumerMock);
+        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
 
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
-        when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         List list = new ArrayList();
         list.add(legalTextMock);
         when(visitContextMock.getLegalTexts()).thenReturn(list);
@@ -133,7 +133,7 @@ public class THSFollowUpPresenterTest {
     @Test
     public void onUpdateConsumerResponse() throws Exception {
         when(thssdkPasswordErrorMock.getSdkPasswordError()).thenReturn(sdkPasswordErrorMock);
-        mTHSFollowUpPresenter.onUpdateConsumerResponse(thsConsumerMock,thssdkPasswordErrorMock);
+        mTHSFollowUpPresenter.onUpdateConsumerResponse(thsConsumerWrapperMock,thssdkPasswordErrorMock);
         verifyNoMoreInteractions(thsFollowUpFragmentMock);
     }
 

@@ -15,10 +15,8 @@ import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
-import com.americanwell.sdk.entity.pharmacy.PharmacyType;
 import com.americanwell.sdk.entity.practice.OnDemandSpecialty;
 import com.americanwell.sdk.entity.practice.Practice;
-import com.americanwell.sdk.entity.practice.PracticeInfo;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.manager.ConsumerManager;
@@ -26,7 +24,7 @@ import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
@@ -35,11 +33,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anySet;
@@ -80,7 +76,7 @@ public class THSSearchPresenterTest {
     SDKError sdkErrorMock;
 
     @Mock
-    THSConsumer thsConsumerMock;
+    THSConsumerWrapper thsConsumerWrapperMock;
 
     @Mock
     Consumer consumerMock;
@@ -107,9 +103,9 @@ public class THSSearchPresenterTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         when(thsSearchFragment.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumerMock);
+        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
         THSManager.getInstance().setAwsdk(awsdkMock);
-        when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiceProvidersManager);
         mTHSSearchPresenter = new THSSearchPresenter(thsSearchFragment);

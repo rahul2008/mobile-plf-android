@@ -15,7 +15,7 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.SDKCallback;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
@@ -23,7 +23,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -45,7 +44,7 @@ public class THSCheckPharmacyConditionsPresenterTest {
     Consumer consumerMock;
 
     @Mock
-    THSConsumer thsConsumer;
+    THSConsumerWrapper thsConsumerWrapper;
 
     @Mock
     Context context;
@@ -66,8 +65,8 @@ public class THSCheckPharmacyConditionsPresenterTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         THSManager.getInstance().setAwsdk(awsdkMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumer);
-        when(thsConsumer.getConsumer()).thenReturn(consumerMock);
+        THSManager.getInstance().setPTHConsumer(thsConsumerWrapper);
+        when(thsConsumerWrapper.getConsumer()).thenReturn(consumerMock);
         when(thsCheckPharmacyConditionsFragmentMock.getContext()).thenReturn(context);
         mTHSCheckPharmacyConditionsPresenter = new THSCheckPharmacyConditionsPresenter(thsCheckPharmacyConditionsFragmentMock);
     }

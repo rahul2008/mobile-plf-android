@@ -47,7 +47,7 @@ import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 import com.philips.platform.ths.intake.THSSearchFragment;
 import com.philips.platform.ths.pharmacy.customtoggle.SegmentControl;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -64,6 +64,7 @@ import java.util.List;
 import static android.app.Activity.RESULT_OK;
 import static com.philips.platform.ths.utility.THSConstants.PHARMACY_SEARCH_CONSTANT;
 import static com.philips.platform.ths.utility.THSConstants.THS_YOUR_PHARMACY;
+
 
 
 public class THSPharmacyListFragment extends THSBaseFragment implements OnMapReadyCallback, View.OnClickListener,
@@ -88,7 +89,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     private boolean isListSelected = false;
     private Button choosePharmacyButton;
     private Pharmacy pharmacy;
-    protected THSConsumer thsConsumer;
+    protected THSConsumerWrapper thsConsumerWrapper;
     protected Address address;
     private Location location;
     private ActionBarListener actionBarListener;
@@ -112,7 +113,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         }
         if (null != location && !isSearched) {
             createCustomProgressBar(pharmacy_list_fragment_container, BIG);
-            thsPharmacyListPresenter.fetchPharmacyList(thsConsumer, Double.valueOf(location.getLatitude()).floatValue(), Double.valueOf(location.getLongitude()).floatValue(), 5);
+            thsPharmacyListPresenter.fetchPharmacyList(thsConsumerWrapper, Double.valueOf(location.getLatitude()).floatValue(), Double.valueOf(location.getLongitude()).floatValue(), 5);
         }
         return view;
     }
@@ -156,8 +157,8 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     }
 
 
-    public void setConsumerAndAddress(THSConsumer thsConsumer, Address address) {
-        this.thsConsumer = thsConsumer;
+    public void setConsumerAndAddress(THSConsumerWrapper thsConsumerWrapper, Address address) {
+        this.thsConsumerWrapper = thsConsumerWrapper;
         this.address = address;
     }
 
@@ -400,7 +401,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
 
     public void showShippingFragment() {
         THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
-        thsShippingAddressFragment.setConsumerAndAddress(thsConsumer, address);
+        thsShippingAddressFragment.setConsumerAndAddress(thsConsumerWrapper, address);
         addFragment(thsShippingAddressFragment, THSShippingAddressFragment.TAG, null, true);
     }
 

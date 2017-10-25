@@ -44,7 +44,7 @@ import com.philips.platform.ths.intake.selectimage.THSSelectedImageFragment;
 import com.philips.platform.ths.intake.selectimage.THSSelectedImagePojo;
 import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
@@ -86,7 +86,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     private Uri mCapturedImageURI;
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
-    private THSConsumer thsConsumer;
+    private THSConsumerWrapper thsConsumerWrapper;
     private THSSelectedImageFragment thsSelectedImageFragment;
     private List<DocumentRecord> documentRecordList;
     private THSFileUtils thsFileUtils;
@@ -147,8 +147,8 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         return view;
     }
 
-    public void setConsumerObject(THSConsumer thsConsumer) {
-        this.thsConsumer = thsConsumer;
+    public void setConsumerObject(THSConsumerWrapper thsConsumerWrapper) {
+        this.thsConsumerWrapper = thsConsumerWrapper;
     }
 
     @Override
