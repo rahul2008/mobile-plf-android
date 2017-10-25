@@ -81,7 +81,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private final BTDevice btDevice;
     private final SHNCentral shnCentral;
     private final SHNBondInitiator shnBondInitiator;
-    private final long minimumConnectionIdleTime;
     private BTGatt btGatt;
     private SHNDeviceListener shnDeviceListener;
     private DiscoveryListener discoveryListener;
@@ -91,6 +90,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private long timeOut;
     private long startTimerTime;
     private long lastDisconnectedTimeMillis;
+    private final long minimumConnectionIdleTime;
 
     private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();
     private Map<Class<? extends SHNCapability>, SHNCapability> registeredByClassCapabilities = new HashMap<>();
@@ -610,7 +610,8 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
                     if (btGatt.getServices().size() == 0) {
                         SHNLogger.i(TAG, "No services found, rediscovery the services");
-                        btGatt.discoverServices();
+                        setInternalStateReportStateUpdateAndSetTimers(InternalState.GattConnecting);
+                        btGatt.disconnect();
                         return;
                     }
 

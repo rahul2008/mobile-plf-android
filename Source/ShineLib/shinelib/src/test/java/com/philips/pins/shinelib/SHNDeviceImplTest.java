@@ -479,7 +479,7 @@ public class SHNDeviceImplTest {
     }
 
     @Test
-    public void whenServicesAreDiscoveredAndNoServiceAreFoundThenRetryDiscoverServices() {
+    public void whenServicesAreDiscoveredAndNoServiceAreFoundThenReconnectWithTheDevice() {
         connectTillGATTConnected();
 
         List emptyServices = new ArrayList<>();
@@ -487,7 +487,11 @@ public class SHNDeviceImplTest {
 
         btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
 
-        verify(mockedBTGatt, times(2)).discoverServices();
+        verify(mockedBTGatt).disconnect();
+
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothProfile.STATE_DISCONNECTED);
+
+        verify(mockedBTDevice).connectGatt(isA(Context.class), isA(Boolean.class), isA(SHNCentral.class), isA(BTGatt.BTGattCallback.class));
     }
 
     @Test

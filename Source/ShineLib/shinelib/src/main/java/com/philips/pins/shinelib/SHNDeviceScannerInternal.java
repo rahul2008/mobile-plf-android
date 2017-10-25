@@ -54,6 +54,8 @@ public class SHNDeviceScannerInternal {
     }
 
     public boolean startScanning(@NonNull final SHNInternalScanRequest SHNInternalScanRequest) {
+        SHNLogger.i(TAG, "Start scanning");
+
         if (leScanCallbackProxy == null) {
             leScanCallbackProxy = createLeScanCallbackProxy();
             leScanCallbackProxy.startLeScan(leScanCallback);
