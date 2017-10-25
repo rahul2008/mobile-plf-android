@@ -25,11 +25,11 @@ import com.philips.platform.ths.utility.THSManager;
 import javax.net.ssl.HttpsURLConnection;
 
 class THSWelcomePresenter implements THSBasePresenter,
-        THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack{
+        THSLoginCallBack<THSAuthentication, THSSDKError>, THSGetConsumerObjectCallBack {
     private THSBaseFragment uiBaseView;
     boolean isRefreshTokenRequestedBefore;
 
-    THSWelcomePresenter(THSBaseFragment uiBaseView){
+    THSWelcomePresenter(THSBaseFragment uiBaseView) {
         isRefreshTokenRequestedBefore = false;
         this.uiBaseView = uiBaseView;
     }
@@ -43,7 +43,7 @@ class THSWelcomePresenter implements THSBasePresenter,
         } else if (componentID == R.id.how_it_works) {
             uiBaseView.showToast("Coming Soon!!!");
         } else if (componentID == R.id.ths_start) {
-            uiBaseView.addFragment( new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
+            uiBaseView.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
         }
     }
 
@@ -96,7 +96,7 @@ class THSWelcomePresenter implements THSBasePresenter,
     @Override
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
         uiBaseView.hideProgressBar();
-        ((THSWelcomeFragment)uiBaseView).updateView();
+        ((THSWelcomeFragment) uiBaseView).updateView();
     }
 
     @Override
@@ -106,19 +106,26 @@ class THSWelcomePresenter implements THSBasePresenter,
 
 
     public void getStarted() {
-        authenticateUser();
+        //authenticateUser();
+
+        try {
+            THSManager.getInstance().authenticate(uiBaseView.getContext(), "rohit.nihal@philips.com", "Philips@123", null, this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void authenticateUser() {
         try {
-            THSManager.getInstance().authenticateMutualAuthToken(uiBaseView.getContext(),this);
+            THSManager.getInstance().authenticateMutualAuthToken(uiBaseView.getContext(), this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
     }
 
     private boolean checkIfRefreshTokenWasTriedBefore() {
-        if(isRefreshTokenRequestedBefore){
+        if (isRefreshTokenRequestedBefore) {
             isRefreshTokenRequestedBefore = false;
             uiBaseView.hideProgressBar();
             uiBaseView.showError(uiBaseView.getString(R.string.ths_user_not_authenticated));

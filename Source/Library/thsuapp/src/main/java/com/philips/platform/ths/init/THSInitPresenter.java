@@ -61,7 +61,8 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     @Override
 
     public void onInitializationResponse(Void aVoid, THSSDKError sdkError) {
-        checkForUserExisitance();
+       // checkForUserExisitance();
+        launchWelcomeScreen();
     }
 
     @Override

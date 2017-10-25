@@ -34,7 +34,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunnerAmwel.class)
-public class THSWelcomeFragmentTest {
+public class THSOnBoardingTourFragmentTest {
     private THSLaunchActivity mActivity;
     private WelcomeFragmentMock mWelcomeFragment;
 

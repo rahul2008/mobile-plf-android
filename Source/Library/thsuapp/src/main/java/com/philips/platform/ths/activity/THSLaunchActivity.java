@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.init.THSInitFragment;
+import com.philips.platform.ths.onboarding.OnBoardingFragment;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;

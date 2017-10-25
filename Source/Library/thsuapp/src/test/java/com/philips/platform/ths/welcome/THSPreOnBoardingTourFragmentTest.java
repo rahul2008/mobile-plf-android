@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 
 @RunWith(CustomRobolectricRunnerAmwel.class)
-public class THSPreWelcomeFragmentTest {
+public class THSPreOnBoardingTourFragmentTest {
     THSPreWelcomeFragment mTHSPreWelcomeFragment;
 
     @Mock
