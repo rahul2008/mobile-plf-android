@@ -49,7 +49,7 @@ public class EWSInterface implements UappInterface {
         Intent intent = new Intent(context, EWSActivity.class);
         intent.putExtra(SCREEN_ORIENTATION, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT);
         intent.putExtra(EWSActivity.KEY_CONTENT_CONFIGURATION, contentConfiguration);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
         context.startActivity(intent);
     }

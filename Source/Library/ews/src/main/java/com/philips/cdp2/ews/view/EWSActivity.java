@@ -107,10 +107,7 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
 
         return DaggerEWSComponent.builder()
                 .eWSModule(new EWSModule(EWSActivity.this, getSupportFragmentManager()))
-                .eWSConfigurationModule(new EWSConfigurationModule(this,
-                        contentConfiguration.getBaseContentConfiguration(),
-                        contentConfiguration.getHappyFlowContentConfiguration(),
-                        contentConfiguration.getTroubleShootContentConfiguration()))
+                .eWSConfigurationModule(new EWSConfigurationModule(this,contentConfiguration))
                 .build();
     }
 

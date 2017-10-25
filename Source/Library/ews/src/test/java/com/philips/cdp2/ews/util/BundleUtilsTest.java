@@ -49,8 +49,7 @@ public class BundleUtilsTest {
 
     @Test
     public void itShouldExtractParcelableFromBundleWhenPresent() throws Exception{
-        Intent mockIntent = getMockIntentWithBundle();
-        Bundle mockBundle = mockIntent.getExtras();
+        Bundle mockBundle = mock(Bundle.class);
         when(mockBundle.containsKey("key")).thenReturn(true);
         when(mockBundle.getParcelable("key")).thenReturn(mockBaseContentConfiguration);
         BundleUtils.extractParcelableFromIntentOrNull(mockBundle, "key");

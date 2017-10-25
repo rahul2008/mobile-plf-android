@@ -76,8 +76,8 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
     private HappyFlowContentConfiguration createHappyFlowConfiguration(){
         return new HappyFlowContentConfiguration.Builder()
                 .setGettingStartedScreenTitle(R.string.lbl_connectwithdevice)
-                .setPlugInScreenTitle(R.string.lbl_ews_02_01_title)
-                .setPlugInScreenBody(R.string.lbl_ews_02_01_body)
+                .setSetUpScreenTitle(R.string.lbl_ews_02_01_title)
+                .setSetUpScreenBody(R.string.lbl_ews_02_01_body)
                 .build();
     }
 

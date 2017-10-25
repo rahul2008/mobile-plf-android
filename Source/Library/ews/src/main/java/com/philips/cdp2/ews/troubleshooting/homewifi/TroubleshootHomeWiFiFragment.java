@@ -14,9 +14,13 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.common.callbacks.DialogCallback;
 import com.philips.cdp2.ews.common.util.DateUtil;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.configuration.ContentConfiguration;
+import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.databinding.TroubleshootHomeWifiFragmentBinding;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSComponent;
+import com.philips.cdp2.ews.injections.EWSConfigurationModule;
 import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.util.TextUtil;
@@ -82,7 +86,8 @@ public class TroubleshootHomeWiFiFragment extends EWSBaseFragment<TroubleshootHo
 
     @Override
     protected EWSComponent getEwsComponent() {
-        return DaggerEWSComponent.builder().eWSModule(new EWSModule(getContext(), getFragmentManager())).build();
+        return DaggerEWSComponent.builder().eWSModule(new EWSModule(getContext(), getFragmentManager()))
+                .eWSConfigurationModule(new EWSConfigurationModule(getContext(), new ContentConfiguration())).build();
     }
 
     @Override
