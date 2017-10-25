@@ -102,7 +102,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_symptoms, container, false);
         visitStartTime=THSTagUtils.getCurrentTime();
         THSManager.getInstance().getThsTagging().trackTimedActionStart("totalPreparationTimePreVisit");
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "totalPrepartationTimeStart");
+        THSManager.getInstance().getThsTagging().trackActionWithInfo( "totalPrepartationTimeStart",null,null);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -232,6 +232,13 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             tagActions= THSTagUtils.addActions(tagActions,"commentAdded");
 
             THSManager.getInstance().setVisitContext(mThsVisitContext);
+        }
+    }
+
+    protected void addTags(){
+        if(!(tagActions.isEmpty())) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "step1SymptomsForVisit", tagActions);
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step1SymptomsAdded");
         }
     }
 

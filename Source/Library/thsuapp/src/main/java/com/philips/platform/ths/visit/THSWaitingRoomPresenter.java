@@ -200,11 +200,8 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     @Override
     public void onResponse(Void aVoid, SDKError sdkError) {
         // must  be cancel visit call back
-        THSManager.getInstance().getThsTagging().trackTimedActionEnd("totalWaitingTimeInstantAppointment");
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put(THS_SPECIAL_EVENT, "waitingTimeEndForInstantAppointment");
-        map.put(THS_SPECIAL_EVENT, "videoVisitCancelledAtQueue");
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, map);
+        THSManager.getInstance().getThsTagging().trackActionWithInfo("waitingTimeEndForInstantAppointment", null,null);
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT,"videoVisitCancelledAtQueue");
         abondonCurrentVisit();
     }
 

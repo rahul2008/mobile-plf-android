@@ -14,6 +14,8 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.RadioGroup;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_REMINDER;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 public class THSSetReminderDialogFragment extends DialogFragment implements View.OnClickListener {
 
@@ -70,6 +72,7 @@ public class THSSetReminderDialogFragment extends DialogFragment implements View
                 reminderValue = THSConstants.THS_ONE_WEEK_REMINDER;
             }
             thsDialogFragmentCallback.onPostData(reminderValue);
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"reminderSet");
             getDialog().dismiss();
         }
     }
