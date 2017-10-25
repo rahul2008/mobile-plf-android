@@ -6,11 +6,11 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 jacoco {
-    toolVersion = "0.7.1.201405082137"
+    toolVersion = versions.jacoco
 }
 
 def coverageSourceDirs = [
-        '../ConsentAccessToolKit/src/main/java'
+        projectDir.absolutePath + '/src/main/java'
 ]
 
 buildscript {
@@ -147,8 +147,8 @@ publishing {
 }
 
 android {
-    compileSdkVersion 6
-    buildToolsVersion "26.0.2"
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     lintOptions {
         abortOnError false
@@ -159,8 +159,8 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 1
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
@@ -332,7 +332,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     description = "Generate Jacoco coverage reports"
 
     classDirectories = fileTree(
-            dir: '../iap/build/intermediates/classes/debug',
+            dir: projectDir.absolutePath + '/build/intermediates/classes/debug',
     )
 
     additionalSourceDirs = files(coverageSourceDirs)

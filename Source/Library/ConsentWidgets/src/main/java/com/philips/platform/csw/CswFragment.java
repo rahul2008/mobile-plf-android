@@ -28,6 +28,8 @@ public class CswFragment extends Fragment implements
     private FragmentManager mFragmentManager;
     private ActionBarListener mActionBarListener;
 
+    static String BACK_STACK_ID = CswFragment.class.getSimpleName();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -107,5 +109,8 @@ public class CswFragment extends Fragment implements
         return !(onBackPressed());
     }
 
+    protected void setChildFragmentManager(FragmentManager fragmentManager) {
+        mFragmentManager = fragmentManager;
+    }
 
 }

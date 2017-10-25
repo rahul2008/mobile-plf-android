@@ -16,21 +16,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.plataform.mya.model.error.ConsentError;
-import com.philips.plataform.mya.model.listener.ConsentResponseListener;
-import com.philips.plataform.mya.model.network.NetworkHelper;
-import com.philips.plataform.mya.model.response.ConsentModel;
-import com.philips.plataform.mya.model.response.ConsentStatus;
+import com.philips.cdp.registration.User;
 import com.philips.platform.csw.CswBaseFragment;
+import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.catk.listener.ConsentResponseListener;
+import com.philips.platform.mya.catk.model.GetConsentsModel;
+import com.philips.platform.mya.catk.response.ConsentStatus;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uid.view.widget.Switch;
 
 import java.util.List;
 
-import static com.janrain.android.engage.JREngage.getApplicationContext;
-
 public class PermissionView extends CswBaseFragment implements
         PermissionInterface {
+
+    public static final String CONSENT_TYPE_MOMENT_SYNC = "momentsync";
+
+    public static final String applicationName = "OneBackend";
+    public static final String propositionName = "OneBackendProp";
+    public static final String CONSENT_TYPE_MOMENT = "moment";
+    public static final int version = 0;
 
     private PermissionPresenter permissionPresenter;
     private Switch mConsentSwitch;
@@ -61,28 +66,38 @@ public class PermissionView extends CswBaseFragment implements
 
     private void getConsentStatus() {
         showProgressDialog();
-        NetworkHelper consentObj = new NetworkHelper();
-        consentObj.getLatestConsentStatus(getApplicationContext(), new ConsentResponseListener() {
+        ConsentAccessToolKit cat = new ConsentAccessToolKit(this.getActivity().getApplicationContext(), applicationName, propositionName);
+        User user = new User(this.getActivity().getApplicationContext());
+        cat.getStatusForConsentType(CONSENT_TYPE_MOMENT, version, new ConsentResponseListener() {
             @Override
-            public void onResponseSuccessConsent(List<ConsentModel> responseData) {
-                hideProgressDialog();
-                if (responseData.get(0).getStatus().equals(ConsentStatus.active)) {
-                    mConsentSwitch.setChecked(true);
+            public void onResponseSuccessConsent(List<GetConsentsModel> responseData) {
+                if (responseData != null && !responseData.isEmpty()) {
+                    GetConsentsModel consentModel = responseData.get(0);
+
+                    hideProgressDialog();
+                    if (consentModel.getStatus().equals(ConsentStatus.active)) {
+                        mConsentSwitch.setChecked(true);
+                    } else {
+                        mConsentSwitch.setChecked(false);
+                    }
+                    Log.d(" Consent : ", "getDateTime :" + consentModel.getDateTime());
+                    Log.d(" Consent : ", "getLanguage :" + consentModel.getLanguage());
+                    Log.d(" Consent : ", "status :" + consentModel.getStatus());
+                    Log.d(" Consent : ", "policyRule :" + consentModel.getPolicyRule());
+                    Log.d(" Consent : ", "Resource type :" + consentModel.getResourceType());
+                    Log.d(" Consent : ", "subject  :" + consentModel.getSubject());
                 } else {
+                    hideProgressDialog();
                     mConsentSwitch.setChecked(false);
+                    Log.d(" Consent : ", "no consent for type found on server");
                 }
-                Log.d(" Consent : ", "getDateTime :" + responseData.get(0).getDateTime());
-                Log.d(" Consent : ", "getLanguage :" + responseData.get(0).getLanguage());
-                Log.d(" Consent : ", "status :" + responseData.get(0).getStatus());
-                Log.d(" Consent : ", "policyRule :" + responseData.get(0).getPolicyRule());
-                Log.d(" Consent : ", "Resource type :" + responseData.get(0).getResourceType());
-                Log.d(" Consent : ", "subject  :" + responseData.get(0).getSubject());
             }
 
             @Override
-            public void onResponseFailureConsent(ConsentError consentError) {
+            public int onResponseFailureConsent(int consentError) {
                 hideProgressDialog();
-                Log.d(" Consent : ", "fail  :" + consentError.getDescription());
+                Log.d(" Consent : ", "fail  :" + consentError);
+                return consentError;
             }
         });
     }

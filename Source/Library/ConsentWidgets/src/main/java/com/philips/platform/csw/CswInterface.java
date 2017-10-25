@@ -43,7 +43,7 @@ public class CswInterface implements UappInterface {
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
                     cswFragment,
-                    CswConstants.CSWFRAGMENT);
+                    CswConstants.CSWFRAGMENT).addToBackStack(CswConstants.CSWFRAGMENT);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException ignore) {
 
