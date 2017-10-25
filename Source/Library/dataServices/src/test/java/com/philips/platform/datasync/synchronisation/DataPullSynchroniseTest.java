@@ -34,6 +34,8 @@ public class DataPullSynchroniseTest {
 
     private DataPullSynchronise synchronise;
 
+    private RetrofitError error;
+
     @Mock
     private DataFetcher secondFetcherMock;
 
@@ -77,7 +79,7 @@ public class DataPullSynchroniseTest {
     public void postErrorWhenUserIsNotLoggedIn() {
         givenUserIsNotLoggedIn();
         whenSynchronisationIsStarted(EVENT_ID);
-        thenAnErrorWasPostedWithReferenceId(EVENT_ID);
+        thenAnErrorIsPostedWithReferenceId(EVENT_ID);
     }
 
     @Test
@@ -85,7 +87,7 @@ public class DataPullSynchroniseTest {
         givenUserIsLoggedIn();
         givenNoFetchers();
         whenSynchronisationIsStarted(EVENT_ID);
-        Mockito.verify(synchronisationManagerMock).dataSyncComplete();
+        thenDataSyncIsCompleted();
     }
 
     @Test
@@ -93,18 +95,23 @@ public class DataPullSynchroniseTest {
         givenUserIsLoggedIn();
         givenFetcherList();
         whenSynchronisationIsStarted(EVENT_ID);
-        Mockito.verify(synchronisationManagerMock).dataPullSuccess();
+        thenDataPullIsCompleted();
     }
 
     @Test
     public void postErrorWhenDataPullFails() {
         givenUserIsLoggedIn();
         givenFetcherList();
-        RetrofitError error = mock(RetrofitError.class);
-        Mockito.when(secondFetcherMock.fetchDataSince(NOW)).thenReturn(error);
+        givenRetrofitErrorWhileFetchingData();
         whenSynchronisationIsStarted(EVENT_ID);
-        Mockito.verify(synchronisationManagerMock).dataPullFail(error);
-        thenAnErrorWasPostedWithReferenceId(EVENT_ID);
+        thenDataPullIsFailed();
+        thenAnErrorIsPostedWithReferenceId(EVENT_ID);
+    }
+
+    private RetrofitError givenRetrofitErrorWhileFetchingData() {
+        error = mock(RetrofitError.class);
+        Mockito.when(secondFetcherMock.fetchDataSince(NOW)).thenReturn(error);
+        return error;
     }
 
     private void givenUserIsLoggedIn() {
@@ -115,16 +122,7 @@ public class DataPullSynchroniseTest {
         userAccessProviderSpy.isLoggedIn = false;
     }
 
-
-    private void whenSynchronisationIsStarted(final int eventId) {
-        synchronise.startSynchronise(NOW, eventId);
-    }
-
-    private void thenAnErrorWasPostedWithReferenceId(final int expectedEventId) {
-        assertEquals(expectedEventId, eventingSpy.postedEvent.getReferenceId());
-    }
-
-    private void givenFetcherList(){
+    private void givenFetcherList() {
         ArrayList<DataFetcher> fetcherArrayList = new ArrayList<>();
         fetcherArrayList.add(firstFetcherMock);
         fetcherArrayList.add(secondFetcherMock);
@@ -132,9 +130,31 @@ public class DataPullSynchroniseTest {
         synchronise.configurableFetchers = fetcherArrayList;
     }
 
-    private void givenNoFetchers(){
+    private void givenNoFetchers() {
         ArrayList<DataFetcher> fetcherArrayList = new ArrayList<>();
         synchronise.fetchers = fetcherArrayList;
         synchronise.configurableFetchers = fetcherArrayList;
     }
+
+    private void whenSynchronisationIsStarted(final int eventId) {
+        synchronise.startSynchronise(NOW, eventId);
+    }
+
+
+    private void thenDataSyncIsCompleted() {
+        Mockito.verify(synchronisationManagerMock).dataSyncComplete();
+    }
+
+    private void thenDataPullIsCompleted() {
+        Mockito.verify(synchronisationManagerMock).dataPullSuccess();
+    }
+
+    private void thenDataPullIsFailed() {
+        Mockito.verify(synchronisationManagerMock).dataPullFail(error);
+    }
+
+    private void thenAnErrorIsPostedWithReferenceId(final int expectedEventId) {
+        assertEquals(expectedEventId, eventingSpy.postedEvent.getReferenceId());
+    }
+
 }
