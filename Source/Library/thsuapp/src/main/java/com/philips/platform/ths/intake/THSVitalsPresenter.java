@@ -13,10 +13,10 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.EditText;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
@@ -82,7 +82,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
                 thsvItalsUIInterface.launchMedicationFragment();
                 mPthBaseFragment.showToast("UPDATE SUCCESS");
             } else
-                mPthBaseFragment.showToast("UPDATE FAILED");
+                mPthBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
         }
     }
 

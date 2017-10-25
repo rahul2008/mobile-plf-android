@@ -14,6 +14,7 @@ import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.List;
@@ -74,10 +75,15 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
     public void onPharmacyListReceived(List<Pharmacy> pharmacies, SDKError sdkError) {
         if(null!=thsPharmacyListViewListener && null!=thsPharmacyListViewListener.getFragmentActivity()) {
             thsPharmacyListViewListener.hideProgressBar();
-            if (null == pharmacies || pharmacies.size() == 0) {
-                thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_fetch_error));
+            if(null != sdkError && sdkError.getSDKErrorReason() != null){
+                thsPharmacyListViewListener.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
             }
-            thsPharmacyListViewListener.updatePharmacyListView(pharmacies);
+            else {
+                if (null == pharmacies || pharmacies.size() == 0) {
+                    thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_fetch_error));
+                }
+                thsPharmacyListViewListener.updatePharmacyListView(pharmacies);
+            }
         }
     }
 

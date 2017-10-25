@@ -157,4 +157,7 @@ public class THSConstants {
     public static final String KEY_CONTENT_COLOR = "KEY_CONTENT_COLOR";
     public static final String KEY_NAVIGATION_COLOR = "KEY_NAVIGATION_COLOR";
     public static final String KEY_ACCENT_RANGE = "KEY_ACCENT_RANGE";
+
+    public static final String THS_GENERIC_USER_ERROR = "Oops! Something went wrong, please check your details and try again";
+    public static final String THS_GENERIC_SERVER_ERROR = "Oops! Something went wrong, please try after sometime";
 }

@@ -35,6 +35,7 @@ import com.philips.platform.ths.practice.THSPracticeCallback;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSDateEnum;
 import com.philips.platform.ths.utility.THSManager;
@@ -78,21 +79,25 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
 
     @Override
     public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
-        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-            THSConsumer thsConsumer = new THSConsumer();
-            thsConsumer.setConsumer(viewInterface.getConsumerInfo());
-            try {
-                THSManager.getInstance().fetchEstimatedVisitCost(viewInterface.getContext(), provider, this);
-            } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            if (null != sdkError && sdkError.getSDKErrorReason() != null) {
+                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+            } else {
+                THSConsumer thsConsumer = new THSConsumer();
+                thsConsumer.setConsumer(viewInterface.getConsumerInfo());
+                try {
+                    THSManager.getInstance().fetchEstimatedVisitCost(viewInterface.getContext(), provider, this);
+                } catch (AWSDKInstantiationException e) {
+                    e.printStackTrace();
+                }
+                viewInterface.updateView(provider);
             }
-            viewInterface.updateView(provider);
         }
     }
 
     @Override
     public void onProviderDetailsFetchError(Throwable throwable) {
-        if(null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()){
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
             mThsBaseFragment.hideProgressBar();
         }
@@ -101,7 +106,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.detailsButtonOne) {
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"startInstantAppointment");
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "startInstantAppointment");
             if (THSManager.getInstance().isMatchMakingVisit()) {
                 // go to pharmacy and shipping if DOD
                 mThsBaseFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null, true);
@@ -184,53 +189,73 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                     thsProviderInfo, new THSProviderDetailsCallback() {
                         @Override
                         public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
-                            ((THSProviderDetailsFragment) mThsBaseFragment).setProvider(provider);
-                            try {
-                                THSManager.getInstance().getProviderAvailability(mThsBaseFragment.getContext(), provider,
-                                        date, new THSAvailableProviderCallback<List<Date>, THSSDKError>() {
-                                            @Override
-                                            public void onResponse(final List<Date> dates, THSSDKError sdkError) {
-                                                if (viewInterface.getPractice() == null) {
-                                                    try {
-                                                        THSManager.getInstance().getPractice(mThsBaseFragment.getContext(), viewInterface.getPracticeInfo(), new THSPracticeCallback<Practice, SDKError>() {
-                                                            @Override
-                                                            public void onResponse(Practice practice, SDKError practiceSdkError) {
-                                                                launchFragmentBasedOnAvailibity(practice, dates, date);
-                                                            }
+                            if (null != sdkError) {
+                                if (sdkError.getSDKErrorReason() != null) {
+                                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                                }
+                            } else {
+                                ((THSProviderDetailsFragment) mThsBaseFragment).setProvider(provider);
+                                try {
+                                    THSManager.getInstance().getProviderAvailability(mThsBaseFragment.getContext(), provider,
+                                            date, new THSAvailableProviderCallback<List<Date>, THSSDKError>() {
+                                                @Override
+                                                public void onResponse(final List<Date> dates, THSSDKError sdkError) {
+                                                    if (null != sdkError.getSdkError()) {
+                                                        if (null != sdkError.getSDKErrorReason()) {
+                                                            mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                                                            return;
+                                                        }
 
-                                                            @Override
-                                                            public void onFailure(Throwable throwable) {
-                                                                if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-                                                                    mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
-                                                                    mThsBaseFragment.hideProgressBar();
-                                                                }
+                                                    } else {
+                                                        if (viewInterface.getPractice() == null) {
+                                                            try {
+                                                                THSManager.getInstance().getPractice(mThsBaseFragment.getContext(), viewInterface.getPracticeInfo(), new THSPracticeCallback<Practice, SDKError>() {
+                                                                    @Override
+                                                                    public void onResponse(Practice practice, SDKError practiceSdkError) {
+                                                                        if (null != practiceSdkError) {
+                                                                            if (null != practiceSdkError.getSDKErrorReason()) {
+                                                                                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(practiceSdkError.getSDKErrorReason()));
+                                                                            }
+                                                                        } else {
+                                                                            launchFragmentBasedOnAvailibity(practice, dates, date);
+                                                                        }
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onFailure(Throwable throwable) {
+                                                                        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+                                                                            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+                                                                            mThsBaseFragment.hideProgressBar();
+                                                                        }
+                                                                    }
+                                                                });
+                                                            } catch (AWSDKInstantiationException e) {
+                                                                e.printStackTrace();
                                                             }
-                                                        });
-                                                    } catch (AWSDKInstantiationException e) {
-                                                        e.printStackTrace();
+                                                            return;
+                                                        }
+                                                        launchFragmentBasedOnAvailibity(viewInterface.getPractice(), dates, date);
                                                     }
-                                                    return;
                                                 }
-                                                launchFragmentBasedOnAvailibity(viewInterface.getPractice(), dates, date);
-                                            }
 
-                                            @Override
-                                            public void onFailure(Throwable throwable) {
-                                                if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-                                                    mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
-                                                    mThsBaseFragment.hideProgressBar();
+                                                @Override
+                                                public void onFailure(Throwable throwable) {
+                                                    if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+                                                        mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+                                                        mThsBaseFragment.hideProgressBar();
+                                                    }
                                                 }
-                                            }
-                                        });
-                            } catch (AWSDKInstantiationException e) {
-                                e.printStackTrace();
-                                mThsBaseFragment.hideProgressBar();
+                                            });
+                                } catch (AWSDKInstantiationException e) {
+                                    e.printStackTrace();
+                                    mThsBaseFragment.hideProgressBar();
+                                }
                             }
                         }
 
                         @Override
                         public void onProviderDetailsFetchError(Throwable throwable) {
-                            if(null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()){
+                            if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
                                 mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
                             }
                             mThsBaseFragment.hideProgressBar();
@@ -261,14 +286,14 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
 
     @Override
     public void onEstimatedCostFetchSuccess(EstimatedVisitCost estimatedVisitCost, SDKError sdkError) {
-        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             viewInterface.updateEstimatedCost(estimatedVisitCost);
         }
     }
 
     @Override
     public void onError(Throwable throwable) {
-        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
         }
     }
@@ -304,7 +329,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
 
     @Override
     public void onMatchMakingProviderFound(Provider provider, VisitContext visitContext) {
-        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             mThsBaseFragment.hideProgressBar();
             ((THSProviderDetailsFragment) mThsBaseFragment).mProgressBarWithLabelContainer.setVisibility(View.GONE);
             THSManager.getInstance().getPthVisitContext().setVisitContext(visitContext); // update visit context, now this visit containd providerInfo
@@ -320,7 +345,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
 
     @Override
     public void onMatchMakingProviderListExhausted() {
-        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             mThsBaseFragment.hideProgressBar();
             showMatchmakingError(true, true);
         }
@@ -328,22 +353,27 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
 
     @Override
     public void onMatchMakingRequestGone() {
-        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             showMatchmakingError(true, true);
         }
     }
 
     @Override
     public void onMatchMakingResponse(Void aVoid, SDKError sdkError) {
-        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-            showMatchmakingError(true, true);
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            if(null != sdkError){
+                if(null != sdkError.getSDKErrorReason()){
+                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                }
+            }else {
+                showMatchmakingError(true, true);
+            }
         }
-
     }
 
     @Override
     public void onMatchMakingFailure(Throwable throwable) {
-        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             showMatchmakingError(true, true);
             mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
         }
@@ -351,7 +381,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
     }
 
     private void showMatchmakingError(final boolean showLargeContent, final boolean isWithTitle) {
-        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mThsBaseFragment.getFragmentActivity())
                     .setMessage(showLargeContent ? mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error_text) : mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error_text)).
                             setPositiveButton(mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_ok_button), ((THSProviderDetailsFragment) mThsBaseFragment));

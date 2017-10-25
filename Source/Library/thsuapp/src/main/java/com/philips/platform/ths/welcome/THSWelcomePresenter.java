@@ -18,6 +18,7 @@ import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
 import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.ths.utility.THSManager;
@@ -91,22 +92,33 @@ class THSWelcomePresenter implements THSBasePresenter,
     @Override
     public void onLoginFailure(Throwable var1) {
         uiBaseView.hideProgressBar();
+        uiBaseView.showToast(R.string.ths_se_server_error_toast_message);
     }
 
     @Override
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
-        uiBaseView.hideProgressBar();
-        ((THSWelcomeFragment)uiBaseView).updateView();
+        if(sdkError == null) {
+            uiBaseView.hideProgressBar();
+            ((THSWelcomeFragment) uiBaseView).updateView();
+        }else if(null != sdkError.getSDKErrorReason()){
+            uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+        }
     }
 
     @Override
     public void onError(Throwable throwable) {
         uiBaseView.hideProgressBar();
+        uiBaseView.showToast(R.string.ths_se_server_error_toast_message);
     }
 
 
     public void getStarted() {
-        authenticateUser();
+        //authenticateUser();
+        try {
+            THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
     }
 
     private void authenticateUser() {

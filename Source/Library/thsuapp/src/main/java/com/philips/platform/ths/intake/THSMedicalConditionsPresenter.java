@@ -12,6 +12,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.ArrayList;
@@ -78,11 +79,18 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
     @Override
     public void onUpdateConditonResponse(Void aVoid, THSSDKError sdkError) {
 
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", "step4MedicalConditionsAdded");
-        //Spoorti - This has no implementation as the UI would have got updated and we are sending the result to server.
-        //On response, as of now no need to handle
-        //Keeping this for future use
-        launchFollowUpFragment();
+        if(null != sdkError && sdkError.getSDKErrorReason() != null) {
+            if(null != thsBaseFragment && thsBaseFragment.isFragmentAttached()){
+                thsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+            }
+        }else {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", "step4MedicalConditionsAdded");
+            //Spoorti - This has no implementation as the UI would have got updated and we are sending the result to server.
+            //On response, as of now no need to handle
+            //Keeping this for future use
+
+            launchFollowUpFragment();
+        }
     }
 
     @Override

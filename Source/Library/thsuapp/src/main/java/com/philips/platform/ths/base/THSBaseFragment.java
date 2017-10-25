@@ -38,7 +38,7 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 import static com.philips.platform.ths.utility.THSConstants.THS_USER_NOT_LOGGED_IN;
 
 
-public class THSBaseFragment extends Fragment implements THSBaseView,BackEventListener, THSNetworkStateListener.ConnectionReceiverListener {
+public class THSBaseFragment extends Fragment implements THSBaseView, BackEventListener, THSNetworkStateListener.ConnectionReceiverListener {
 
 
     public FragmentLauncher mFragmentLauncher;
@@ -52,7 +52,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        networkStateListener =  new THSNetworkStateListener();
+        networkStateListener = new THSNetworkStateListener();
         getActivity().registerReceiver(
                 networkStateListener,
                 new IntentFilter(
@@ -185,7 +185,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
         }
     }
 
-    public void showToast(int stringResource){
+    public void showToast(int stringResource) {
         if (getContext() != null) {
             //TODO: TO be removed
             Toast.makeText(getContext(), stringResource, Toast.LENGTH_SHORT).show();
@@ -233,7 +233,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
                 result = true;
             }
         } catch (Exception e) {
-            AmwellLog.e(THSBaseFragment.class.getSimpleName(),e.getMessage());
+            AmwellLog.e(THSBaseFragment.class.getSimpleName(), e.getMessage());
         }
         return result;
     }
@@ -265,7 +265,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
-        if(!isConnected) {
+        if (!isConnected) {
             showToast(getString(R.string.ths_internet_disconnected_message));
         }
     }

@@ -24,6 +24,7 @@ import com.philips.platform.ths.providerdetails.THSProviderDetailsCallback;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsDisplayHelper;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSDateEnum;
 import com.philips.platform.ths.utility.THSManager;
@@ -90,27 +91,34 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
                                         ((THSAvailableProviderDetailFragment) mThsBaseFragment).getDate(), new THSAvailableProviderCallback<List<Date>, THSSDKError>() {
                                             @Override
                                             public void onResponse(List<Date> dates, THSSDKError sdkError) {
-                                                if (dates == null || dates.size() == 0) {
-
-                                                    final THSProviderNotAvailableFragment fragment = new THSProviderNotAvailableFragment();
-                                                    fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
-                                                    Bundle bundle = new Bundle();
-                                                    bundle.putSerializable(THSConstants.THS_DATE, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getDate());
-                                                    bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getPractice());
-                                                    bundle.putParcelable(THSConstants.THS_PROVIDER, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider());
-                                                    bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProviderEntitiy());
-                                                    mThsBaseFragment.addFragment(fragment, THSProviderNotAvailableFragment.TAG, bundle, true);
-                                                    mThsBaseFragment.hideProgressBar();
+                                                if (sdkError.getSdkError() != null) {
+                                                    if (sdkError.getSDKErrorReason() != null) {
+                                                        mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                                                        return;
+                                                    }
                                                 } else {
-                                                    dateList = dates;
-                                                    mthsProviderDetailsDisplayHelper.updateView(((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider(), dates);
-                                                    mThsBaseFragment.hideProgressBar();
+                                                    if (dates == null || dates.size() == 0) {
+
+                                                        final THSProviderNotAvailableFragment fragment = new THSProviderNotAvailableFragment();
+                                                        fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
+                                                        Bundle bundle = new Bundle();
+                                                        bundle.putSerializable(THSConstants.THS_DATE, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getDate());
+                                                        bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getPractice());
+                                                        bundle.putParcelable(THSConstants.THS_PROVIDER, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider());
+                                                        bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProviderEntitiy());
+                                                        mThsBaseFragment.addFragment(fragment, THSProviderNotAvailableFragment.TAG, bundle, true);
+                                                        mThsBaseFragment.hideProgressBar();
+                                                    } else {
+                                                        dateList = dates;
+                                                        mthsProviderDetailsDisplayHelper.updateView(((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider(), dates);
+                                                        mThsBaseFragment.hideProgressBar();
+                                                    }
                                                 }
                                             }
 
                                             @Override
                                             public void onFailure(Throwable throwable) {
-                                                if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+                                                if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
                                                     mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
                                                     mThsBaseFragment.hideProgressBar();
                                                 }
@@ -124,7 +132,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
 
                         @Override
                         public void onProviderDetailsFetchError(Throwable throwable) {
-                            if(null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()){
+                            if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
                                 mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
                             }
                             mThsBaseFragment.hideProgressBar();
@@ -150,13 +158,19 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
 
     @Override
     public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
-        ((THSAvailableProviderDetailFragment) mThsBaseFragment).setProvider(provider);
-        try {
-            THSManager.getInstance().fetchEstimatedVisitCost(mThsBaseFragment.getContext(), provider, this);
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            if (null != sdkError && sdkError.getSDKErrorReason() != null) {
+                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+            } else {
+                ((THSAvailableProviderDetailFragment) mThsBaseFragment).setProvider(provider);
+                try {
+                    THSManager.getInstance().fetchEstimatedVisitCost(mThsBaseFragment.getContext(), provider, this);
+                } catch (AWSDKInstantiationException e) {
+                    e.printStackTrace();
+                }
+                getProviderAvailability(provider);
+            }
         }
-        getProviderAvailability(provider);
     }
 
     private void getProviderAvailability(Provider provider) {
@@ -170,7 +184,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
 
     @Override
     public void onProviderDetailsFetchError(Throwable throwable) {
-        if(null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()){
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
             mThsBaseFragment.hideProgressBar();
         }
@@ -179,9 +193,17 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
     @SuppressWarnings("unchecked")
     @Override
     public void onResponse(List<Date> dates, THSSDKError sdkError) {
-        mthsProviderDetailsDisplayHelper.updateView(((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider(), dates);
-        dateList = dates;
-        mThsBaseFragment.hideProgressBar();
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            if (null != sdkError.getSdkError()) {
+                if (null != sdkError.getSDKErrorReason()) {
+                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                }
+            } else {
+                mthsProviderDetailsDisplayHelper.updateView(((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider(), dates);
+                dateList = dates;
+            }
+            mThsBaseFragment.hideProgressBar();
+        }
     }
 
     @Override
@@ -189,17 +211,19 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
         if (sdkError == null) {
             mthsProviderDetailsDisplayHelper.launchConfirmAppointmentFragment(position);
         } else {
-            if (sdkError.getSDKErrorReason() != null && sdkError.getSDKErrorReason().name() != null) {
-                mThsBaseFragment.showError(sdkError.getSDKErrorReason().name());
-            } else {
-                mThsBaseFragment.showToast(mThsBaseFragment.getString(R.string.something_went_wrong));
+            if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+                if (sdkError.getSDKErrorReason() != null && sdkError.getSDKErrorReason().name() != null) {
+                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                } else {
+                    mThsBaseFragment.showToast(mThsBaseFragment.getString(R.string.something_went_wrong));
+                }
             }
         }
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
             mThsBaseFragment.hideProgressBar();
         }
@@ -212,7 +236,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
 
     @Override
     public void onError(Throwable throwable) {
-        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
         }
     }

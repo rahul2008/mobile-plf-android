@@ -16,6 +16,7 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Map;
@@ -38,7 +39,8 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
 
     @Override
     public void onAddressValidationFailure(Map<String, ValidationReason> map) {
-        ((THSBaseFragment)thsBaseView).showToast("Shipping Address validation failure");
+
+        ((THSBaseFragment)thsBaseView).showError(THSConstants.THS_GENERIC_USER_ERROR);
     }
 
     @Override

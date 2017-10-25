@@ -17,6 +17,7 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBasePresenterHelper;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSDateEnum;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -58,11 +59,21 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
 
     @Override
     public void onResponse(THSAvailableProviderList availableProviders, THSSDKError sdkError) {
-        mThsBaseFragment.showToast("Available Providers list Success");
-        if(mThsBaseFragment instanceof THSProviderNotAvailableFragment){
-            ((THSProviderNotAvailableFragment)mThsBaseFragment).updateProviderDetails(availableProviders);
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            if (sdkError.getSdkError() != null) {
+                if (sdkError.getSdkError().getSDKErrorReason() != null) {
+                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    return;
+                }
+            }else {
+                mThsBaseFragment.showToast("Available Providers list Success");
+                if(mThsBaseFragment instanceof THSProviderNotAvailableFragment){
+                    ((THSProviderNotAvailableFragment)mThsBaseFragment).updateProviderDetails(availableProviders);
+                }
+                ((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).updateProviderAdapterList(availableProviders);
+            }
         }
-        ((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).updateProviderAdapterList(availableProviders);
+
     }
 
     @Override

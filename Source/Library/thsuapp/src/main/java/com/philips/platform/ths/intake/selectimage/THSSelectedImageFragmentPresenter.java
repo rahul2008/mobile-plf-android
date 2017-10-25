@@ -40,7 +40,14 @@ public class THSSelectedImageFragmentPresenter implements THSBasePresenter, THSD
     @Override
     public void onDeleteSuccess(Void voidResponse, SDKError sdkError) {
         thsSelectedImageFragmentViewCallback.updateProgreeDialog(false);
-        thsSelectedImageFragmentViewCallback.showToast(thsSelectedImageFragmentViewCallback.getFragmentActivity().getString(R.string.ths_delete_success_string));
+        if(null != sdkError){
+            if(null != sdkError.getMessage()){
+                thsSelectedImageFragmentViewCallback.showToast(sdkError.getMessage().toString());
+            }
+        }
+        else {
+            thsSelectedImageFragmentViewCallback.showToast(thsSelectedImageFragmentViewCallback.getFragmentActivity().getString(R.string.ths_delete_success_string));
+        }
 
     }
 

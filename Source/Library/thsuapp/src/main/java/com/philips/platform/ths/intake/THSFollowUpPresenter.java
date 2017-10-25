@@ -12,11 +12,11 @@ import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -78,18 +78,24 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
 
     @Override
     public void onUpdateConsumerResponse(THSConsumer thsConsumer, THSSDKPasswordError sdkPasswordError) {
-        thsFollowUpViewInterfaces.hideProgressButton();
-        //update signleton THSManager THSConsumer member
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT,"step5PhoneNumberAdded");
 
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "TImePrepareYourVisit", THSTagUtils.getVisitPrepareTime(THSSymptomsFragment.visitStartTime));
-        THSManager.getInstance().setPTHConsumer(thsConsumer);
-        if (THSManager.getInstance().isMatchMakingVisit()) { // if DOD flow
-            thsFollowUpViewInterfaces.showProviderDetailsFragment();
-        } else {
-            thsFollowUpViewInterfaces.showConditionsFragment();
+        if(null != sdkPasswordError.getSdkPasswordError().getSDKErrorReason()) {
+            thsFollowUpViewInterfaces.showError(THSSDKErrorFactory.getErrorType(sdkPasswordError.getSdkPasswordError().getSDKErrorReason()));
         }
-        //update singleton THSManager THSConsumer member
+        else {
+            thsFollowUpViewInterfaces.hideProgressButton();
+            //update signleton THSManager THSConsumer member
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step5PhoneNumberAdded");
+
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "TImePrepareYourVisit", THSTagUtils.getVisitPrepareTime(THSSymptomsFragment.visitStartTime));
+            THSManager.getInstance().setPTHConsumer(thsConsumer);
+            if (THSManager.getInstance().isMatchMakingVisit()) { // if DOD flow
+                thsFollowUpViewInterfaces.showProviderDetailsFragment();
+            } else {
+                thsFollowUpViewInterfaces.showConditionsFragment();
+            }
+            //update singleton THSManager THSConsumer member
+        }
 
 
     }

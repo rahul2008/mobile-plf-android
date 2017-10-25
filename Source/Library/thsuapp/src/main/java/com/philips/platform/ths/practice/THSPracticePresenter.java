@@ -13,15 +13,15 @@ import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.providerslist.THSProvidersListFragment;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 
 public class THSPracticePresenter implements THSBasePresenter, THSPracticesListCallback {
 
-    private THSBaseView uiBaseView;
+    private THSPracticeListViewInterface uiBaseView;
 
 
 
@@ -47,7 +47,12 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
     @Override
     public void onPracticesListReceived(THSPracticeList practices, SDKError sdkError) {
         if(null!=uiBaseView && null!=uiBaseView.getFragmentActivity()) {
-            ((THSPracticeFragment) uiBaseView).showPracticeList(practices);
+            if(null != sdkError && sdkError.getSDKErrorReason() != null) {
+                uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+            }
+            else {
+                ((THSPracticeFragment) uiBaseView).showPracticeList(practices);
+            }
         }
 
     }

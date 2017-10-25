@@ -22,6 +22,7 @@ import com.philips.platform.ths.intake.selectimage.THSUploadDocumentCallback;
 import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -31,7 +32,6 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Map;
 
-import static com.philips.platform.ths.utility.THSConstants.THS_FLOATING_BUTTON;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
@@ -94,7 +94,12 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     @Override
     public void onResponse(THSVisitContext THSVisitContext, THSSDKError THSSDKError) {
         if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
-            updateSymptoms(THSVisitContext);
+            if(null != THSSDKError && THSSDKError.getSDKErrorReason().name() != null){
+                thsBaseView.showError(THSSDKErrorFactory.getErrorType(THSSDKError.getSDKErrorReason()));
+            }
+            else {
+                updateSymptoms(THSVisitContext);
+            }
         }
     }
 
@@ -140,7 +145,12 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
             @Override
             public void onResponse(THSVisitContext pthVisitContext, THSSDKError thssdkError) {
                 if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
-                    updateSymptoms(pthVisitContext);
+                    if(null != thssdkError && thssdkError.getSDKErrorReason().name() != null){
+                        thsBaseView.showError(THSSDKErrorFactory.getErrorType(thssdkError.getSDKErrorReason()));
+                    }
+                    else {
+                        updateSymptoms(pthVisitContext);
+                    }
                 }
             }
 
@@ -179,7 +189,10 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
             if (null != documentRecord && null == sdkError) {
                 thsBaseView.showToast("Success with Document name" + documentRecord.getName());
                 ((THSSymptomsFragment) thsBaseView).updateDocumentRecordList(documentRecord);
-            } else {
+            } else if(null != sdkError){
+                if(null != sdkError.getSDKErrorReason()){
+                    thsBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                }
                 thsBaseView.showToast("upload failed with sdk error" + sdkError.getMessage());
             }
         }

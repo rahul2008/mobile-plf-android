@@ -19,6 +19,7 @@ import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSDateEnum;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
@@ -63,8 +64,8 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
     public void onResponse(THSConsumer thsConsumer, SDKPasswordError sdkPasswordError) {
         if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
-            if (sdkPasswordError != null) {
-                mTHSBaseFragment.showToast(sdkPasswordError.getSDKErrorReason().name());
+            if (sdkPasswordError.getSDKErrorReason() != null) {
+                mTHSBaseFragment.showToast(THSSDKErrorFactory.getErrorType(sdkPasswordError.getSDKErrorReason()));
                 return;
             }
             mTHSBaseFragment.addFragment(new THSWelcomeFragment(), THSWelcomeFragment.TAG, null, true);

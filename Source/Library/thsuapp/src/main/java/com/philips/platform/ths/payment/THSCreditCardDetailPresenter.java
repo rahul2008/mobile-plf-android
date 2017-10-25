@@ -15,6 +15,7 @@ import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
@@ -190,6 +191,10 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
             if (null != tHSPaymentMethod && null != tHSPaymentMethod.getPaymentMethod()) {
                 mPaymentMethod = tHSPaymentMethod.getPaymentMethod();
                 mTHSCreditCardDetailFragment.mCardHolderNameEditText.setText(mPaymentMethod.getBillingName());
+            }else if(tHSSDKError.getSdkError() != null){
+                if(tHSSDKError.getSDKErrorReason() != null){
+                    mTHSCreditCardDetailFragment.showError(THSSDKErrorFactory.getErrorType(tHSSDKError.getSDKErrorReason()));
+                }
             }
         }
     }

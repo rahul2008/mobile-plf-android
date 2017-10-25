@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.philips.platform.ths.activity.THSApplication;
+import static com.janrain.android.engage.JREngage.getApplicationContext;
 
 public class THSNetworkStateListener extends BroadcastReceiver{
 
@@ -27,7 +27,7 @@ public class THSNetworkStateListener extends BroadcastReceiver{
 
     public static boolean isConnected() {
         ConnectivityManager
-                cm = (ConnectivityManager) THSApplication.getInstance().getApplicationContext()
+                cm = (ConnectivityManager) getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null

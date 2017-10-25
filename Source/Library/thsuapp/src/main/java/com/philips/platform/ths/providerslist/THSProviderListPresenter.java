@@ -21,9 +21,8 @@ import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
-import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
-import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSDateEnum;
 import com.philips.platform.ths.utility.THSManager;
@@ -65,7 +64,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                 boolean providerAvailable = isProviderAvailable(providerInfoList);
                 updateFragment(providerInfoList, providerAvailable);
             } else if (null != sdkError) {
-                AmwellLog.e(THSProviderDetailsFragment.TAG, sdkError.getMessage());
+                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
             } else {
                 thsProviderListViewInterface.showNoProviderErrorDialog();
             }

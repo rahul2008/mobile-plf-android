@@ -14,6 +14,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.List;
@@ -48,7 +49,11 @@ public class THSSearchPharmacyPresenter implements THSBasePresenter,THSGetPharma
     @Override
     public void onPharmacyListReceived(List<Pharmacy> pharmacies, SDKError sdkError) {
         uiView.hideProgressBar();
-        uiView.setPharmacyList(pharmacies);
+        if(null != sdkError && sdkError.getSDKErrorReason() != null) {
+            uiView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+        }else {
+            uiView.setPharmacyList(pharmacies);
+        }
     }
 
     @Override

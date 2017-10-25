@@ -19,6 +19,7 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBasePresenterHelper;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSDateEnum;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -26,10 +27,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class THSProviderNotAvailablePresenter implements THSBasePresenter{
+public class THSProviderNotAvailablePresenter implements THSBasePresenter {
     private THSBaseFragment mThsBaseFragment;
 
-    THSProviderNotAvailablePresenter(THSBaseFragment thsBaseFragment){
+    THSProviderNotAvailablePresenter(THSBaseFragment thsBaseFragment) {
         mThsBaseFragment = thsBaseFragment;
     }
 
@@ -45,14 +46,14 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter{
                     thsDatePickerFragmentUtility.setCalendar(year, month, day);
 
                     Calendar calendar = Calendar.getInstance();
-                    calendar.set(year,month,day);
+                    calendar.set(year, month, day);
                     final Date date = new Date();
                     date.setTime(calendar.getTimeInMillis());
 
-                    ((THSProviderNotAvailableFragment)mThsBaseFragment).setDate(date);
+                    ((THSProviderNotAvailableFragment) mThsBaseFragment).setDate(date);
 
-                   launchProviderDetailsBasedOnAvailibilty(((THSProviderNotAvailableFragment)mThsBaseFragment).getPractice(),
-                           ((THSProviderNotAvailableFragment)mThsBaseFragment).mDate,((THSProviderNotAvailableFragment)mThsBaseFragment).getThsProviderEntity());
+                    launchProviderDetailsBasedOnAvailibilty(((THSProviderNotAvailableFragment) mThsBaseFragment).getPractice(),
+                            ((THSProviderNotAvailableFragment) mThsBaseFragment).mDate, ((THSProviderNotAvailableFragment) mThsBaseFragment).getThsProviderEntity());
 
                 }
             };
@@ -65,29 +66,30 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter{
             THSManager.getInstance().getAvailableProvidersBasedOnDate(mThsBaseFragment.getContext(), practice, null, null, date, null, new THSAvailableProvidersBasedOnDateCallback<THSAvailableProviderList, THSSDKError>() {
                 @Override
                 public void onResponse(THSAvailableProviderList availableProviders, THSSDKError sdkError) {
-                    if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-                        final THSAvailableProvider availableListContainsProviderChosen = isAvailableListContainsProviderChosen(availableProviders);
-
-                        if (availableProviders.getAvailableProvidersList() == null || availableProviders.getAvailableProvidersList().size() == 0 || availableListContainsProviderChosen == null) {
-                            ((THSProviderNotAvailableFragment) mThsBaseFragment).updateProviderDetails(availableProviders);
+                    if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+                        if (sdkError.getSdkError() != null) {
+                            if (sdkError.getSdkError().getSDKErrorReason() != null) {
+                                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                                return;
+                            }
                         } else {
-                            new THSBasePresenterHelper().launchAvailableProviderDetailFragment(mThsBaseFragment, availableListContainsProviderChosen, date, practice);
-                        } /*else {
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable(THSConstants.THS_AVAILABLE_PROVIDER_LIST, availableProviders);
-                        bundle.putSerializable(THSConstants.THS_DATE, date);
-                        bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, practice);
-                        THSAvailableProviderListBasedOnDateFragment thsAvailableProviderListBasedOnDateFragment = new THSAvailableProviderListBasedOnDateFragment();
-                        mThsBaseFragment.addFragment(thsAvailableProviderListBasedOnDateFragment, THSAvailableProviderListBasedOnDateFragment.TAG, bundle);
-                    }*/
+
+                            final THSAvailableProvider availableListContainsProviderChosen = isAvailableListContainsProviderChosen(availableProviders);
+                            if (availableProviders.getAvailableProvidersList() == null || availableProviders.getAvailableProvidersList().size() == 0 || availableListContainsProviderChosen == null) {
+                                ((THSProviderNotAvailableFragment) mThsBaseFragment).updateProviderDetails(availableProviders);
+                            } else {
+                                new THSBasePresenterHelper().launchAvailableProviderDetailFragment(mThsBaseFragment, availableListContainsProviderChosen, date, practice);
+                            }
+
+                        }
                     }
                 }
 
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-                            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+                    if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+                        mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
                     }
                 }
             });
@@ -101,8 +103,8 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter{
         final List<AvailableProvider> availableProvidersList = availableProviders.getAvailableProviders().getAvailableProviders();
         final Provider providerSelected = ((THSProviderNotAvailableFragment) mThsBaseFragment).getProvider();
 
-        for (AvailableProvider provider: availableProvidersList) {
-            if(provider.getProviderInfo().getFirstName().equalsIgnoreCase(providerSelected.getFirstName())){
+        for (AvailableProvider provider : availableProvidersList) {
+            if (provider.getProviderInfo().getFirstName().equalsIgnoreCase(providerSelected.getFirstName())) {
                 THSAvailableProvider thsAvailableProvider = new THSAvailableProvider();
                 thsAvailableProvider.setAvailableProvider(provider);
                 return thsAvailableProvider;

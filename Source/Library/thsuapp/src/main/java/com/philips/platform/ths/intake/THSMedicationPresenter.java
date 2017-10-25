@@ -14,6 +14,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -85,9 +86,13 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
     @Override
     public void onGetMedicationReceived(THSMedication pTHMedication, SDKError sDKError) {
         if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
-            ((THSMedicationFragment) mTHSBaseFragment).hideProgressBar();
-            AmwellLog.i("onGetMedicationReceived", "Success");
-            ((THSMedicationFragment) mTHSBaseFragment).showExistingMedicationList(pTHMedication);
+           if(null != sDKError && sDKError.getSDKErrorReason() != null){
+               mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(sDKError.getSDKErrorReason()));
+           }else {
+               mTHSBaseFragment.hideProgressBar();
+               AmwellLog.i("onGetMedicationReceived", "Success");
+               ((THSMedicationFragment) mTHSBaseFragment).showExistingMedicationList(pTHMedication);
+           }
         }
 
     }
@@ -108,13 +113,18 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
     public void onUpdateMedicationSent(Void pVoid, SDKError sDKError) {
 
         if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
-            ((THSMedicationFragment) mTHSBaseFragment).hideProgressBar();
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","step3MedicationsAdded");
-            AmwellLog.i("onUpdateMedication", "success");
-            // addF
-            final THSMedicalConditionsFragment fragment = new THSMedicalConditionsFragment();
-            fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-            ((THSMedicationFragment) mTHSBaseFragment).addFragment(fragment, THSMedicalConditionsFragment.TAG, null, true);
+            if(null != sDKError && sDKError.getSDKErrorReason() != null){
+                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(sDKError.getSDKErrorReason()));
+            }
+            else {
+                mTHSBaseFragment.hideProgressBar();
+                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", "step3MedicationsAdded");
+                AmwellLog.i("onUpdateMedication", "success");
+                // addF
+                final THSMedicalConditionsFragment fragment = new THSMedicalConditionsFragment();
+                fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
+                mTHSBaseFragment.addFragment(fragment, THSMedicalConditionsFragment.TAG, null, true);
+            }
         }
     }
     //////////////// end of call backs for update medicines//////////////

@@ -27,7 +27,7 @@ import com.philips.platform.uid.view.widget.Label;
 import static com.philips.platform.ths.utility.THSConstants.THS_PRACTICE_PAGE;
 
 
-public class THSPracticeFragment extends THSBaseFragment{
+public class THSPracticeFragment extends THSBaseFragment implements THSPracticeListViewInterface{
 
     public static final String TAG = THSPracticeFragment.class.getSimpleName();
 
