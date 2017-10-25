@@ -19,23 +19,16 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ResetConnectionTroubleshootingViewModelTest {
 
-    private ResetConnectionTroubleshootingViewModel subject;
-
-    @Mock
-    TroubleShootContentConfiguration mockTroubleShootContentConfiguration;
-
-    @Mock
-    BaseContentConfiguration mockBaseContentConfiguration;
-
-    @Mock
-    StringProvider mockStringProvider;
+    @InjectMocks private ResetConnectionTroubleshootingViewModel subject;
 
     @Mock private Navigator mockNavigator;
+    @Mock private TroubleShootContentConfiguration mockTroubleShootContentConfiguration;
+    @Mock private BaseContentConfiguration mockBaseContentConfiguration;
+    @Mock private StringProvider mockStringProvider;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        subject = new ResetConnectionTroubleshootingViewModel(mockNavigator, mockStringProvider, mockBaseContentConfiguration, mockTroubleShootContentConfiguration);
         when(mockBaseContentConfiguration.getDeviceName()).thenReturn(124234);
     }
 
