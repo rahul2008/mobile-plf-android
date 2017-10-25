@@ -4,10 +4,10 @@
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.philips.cdp2.ews.viewmodel.EWSGettingStartedViewModel"/>
@@ -40,8 +40,9 @@
                 android:layout_marginEnd="@dimen/e"
                 android:layout_marginStart="@dimen/e"
                 android:layout_marginTop="@dimen/e"
-                android:text="@string/label_ews_get_started_title"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/colorPrimary"
+                android:text="@{viewModel.title}"
+                tools:text="@string/label_ews_get_started_title"/>
 
             <LinearLayout
                 android:id="@+id/ews_gs_text"
@@ -68,9 +69,9 @@
                     android:layout_marginStart="@dimen/d"
                     android:layout_marginTop="@dimen/d"
                     android:layout_weight="1"
-                    android:text="@string/label_ews_get_started_description"
+                    android:text="@{viewModel.note}"
                     android:textColor="@color/colorPrimary"
-                    />
+                    tools:text="@string/label_ews_get_started_description"/>
 
             </LinearLayout>
 

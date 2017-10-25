@@ -8,7 +8,6 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.philips.cdp2.ews.viewmodel.EWSHomeWifiDisplayViewModel"/>
@@ -41,8 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/e"
-                android:text="@string/label_ews_confirm_connection_currently_connected"
-                />
+                android:text= "@{viewModel.title}" />
 
 
             <LinearLayout
@@ -74,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/d"
-                android:text="@string/label_ews_confirm_connection_want_to_connect"/>
+                android:text="@{viewModel.note}"/>
 
             <Button
                 android:id="@+id/ews_01_01_button_confirm_connection_yes"
