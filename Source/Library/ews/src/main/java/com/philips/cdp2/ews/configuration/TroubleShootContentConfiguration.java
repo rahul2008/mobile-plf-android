@@ -286,7 +286,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
         }
 
         public TroubleShootContentConfiguration build(){
-            return new TroubleShootContentConfiguration(resetConnectionTitle, resetDeviceBody, resetConnectionImage, resetDeviceTitle, resetDeviceBody,
+            return new TroubleShootContentConfiguration(resetConnectionTitle, resetConnectionBody, resetConnectionImage, resetDeviceTitle, resetDeviceBody,
                     resetDeviceImage, setUpAccessPointTitle, setUpAccessPointBody, setUpAccessPointImage, connectWrongPhoneTitle, connectWrongPhoneBody,
                     connectWrongPhoneImage, connectWrongPhoneQuestion);
         }

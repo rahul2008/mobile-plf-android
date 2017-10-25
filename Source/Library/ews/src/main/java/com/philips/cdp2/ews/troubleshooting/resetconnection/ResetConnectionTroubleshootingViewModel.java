@@ -27,7 +27,7 @@ public class ResetConnectionTroubleshootingViewModel {
         this.navigator = navigator;
         this.stringProvider = stringProvider;
         this.title = new ObservableField<>(getTitle(troubleShootContentConfiguration, contentConfiguration));
-        this.description = new ObservableField<>(getNote(contentConfiguration));
+        this.description = new ObservableField<>(getNote(troubleShootContentConfiguration,contentConfiguration));
         this.resetConnectionImage = getResetConnectionImage(troubleShootContentConfiguration);
     }
 
@@ -56,8 +56,8 @@ public class ResetConnectionTroubleshootingViewModel {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     @NonNull
-    String getNote(@NonNull BaseContentConfiguration baseConfig) {
-        return stringProvider.getString(R.string.label_ews_support_reset_connection_body_default,
+    String getNote(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,@NonNull BaseContentConfiguration baseConfig) {
+        return stringProvider.getString(troubleShootContentConfiguration.getResetConnectionBody(),
                 baseConfig.getDeviceName());
     }
 }

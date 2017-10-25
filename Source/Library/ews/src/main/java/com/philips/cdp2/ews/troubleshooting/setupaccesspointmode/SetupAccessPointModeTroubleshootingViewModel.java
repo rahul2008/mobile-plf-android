@@ -23,7 +23,7 @@ public class SetupAccessPointModeTroubleshootingViewModel {
     @NonNull public final ObservableField<String> title;
     @NonNull public final ObservableField<String> description;
     @NonNull private StringProvider stringProvider;
-    @NonNull public final int setupAccessPointImage;
+    @NonNull public final Drawable setupAccessPointImage;
 
     @Inject
     public SetupAccessPointModeTroubleshootingViewModel(@NonNull Navigator navigator, @NonNull StringProvider stringProvider, @NonNull BaseContentConfiguration contentConfiguration,
@@ -32,11 +32,17 @@ public class SetupAccessPointModeTroubleshootingViewModel {
         this.stringProvider = stringProvider;
         this.title = new ObservableField<>(getTitle(troubleShootContentConfiguration, contentConfiguration));
         this.description = new ObservableField<>(getNote(troubleShootContentConfiguration, contentConfiguration));
-        this.setupAccessPointImage = troubleShootContentConfiguration.getSetUpAccessPointImage();
+        this.setupAccessPointImage = getsetupAccessPointImage(troubleShootContentConfiguration);
     }
 
     public void onDoneButtonClicked() {
         navigator.navigateToCompletingDeviceSetupScreen();
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @NonNull
+    Drawable getsetupAccessPointImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
+        return stringProvider.getImageResource(troubleShootContentConfiguration.getSetUpAccessPointImage());
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
