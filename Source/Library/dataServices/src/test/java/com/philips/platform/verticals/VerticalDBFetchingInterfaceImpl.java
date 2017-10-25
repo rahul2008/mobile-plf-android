@@ -44,12 +44,12 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public void fetchLatestMomentByDateRange(Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
+    public void fetchMomentsWithTimeLine(Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
 
     }
 
     @Override
-    public void fetchLatestMomentByDateRange(String momentType, Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
+    public void fetchMomentsWithTypeAndTimeLine(String momentType, Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
 
     }
 
