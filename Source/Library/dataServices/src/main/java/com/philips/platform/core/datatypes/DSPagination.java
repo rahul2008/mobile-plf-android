@@ -16,9 +16,13 @@ public interface DSPagination extends Serializable {
 
 	int getPageLimit();
 
+	String getOrderBy();
+
 	void setPageNumber(int pageNumber);
 
 	void setPageLimit(int pageLimit);
+
+	void setOrderBy(String orderBy);
 
 	enum DSPaginationOrdering {ASCENDING, DESCENDING}
 

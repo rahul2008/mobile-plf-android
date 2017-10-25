@@ -74,9 +74,9 @@ public interface DBFetchingInterface {
     void fetchLatestMomentByType(final String type, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException;
 
 
-    void fetchLatestMomentByDateRange(final Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException;
+    void fetchMomentsWithTimeLine(final Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException;
 
-    void fetchLatestMomentByDateRange(String momentType, Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException;
+    void fetchMomentsWithTypeAndTimeLine(String momentType, Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException;
 
     /**
      * Fetches the Moment with the given guid

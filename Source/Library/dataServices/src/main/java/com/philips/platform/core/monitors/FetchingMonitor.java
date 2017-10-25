@@ -116,9 +116,9 @@ public class FetchingMonitor extends EventMonitor {
     public void onEventAsync(LoadMomentsByDate event) {
         try {
             if(event.getMomentType() == null || event.getMomentType().isEmpty()) {
-                dbInterface.fetchLatestMomentByDateRange(event.getStartDate(),event.getEndDate(),event.getPaginationModel(),event.getDbFetchRequestListner());
+                dbInterface.fetchMomentsWithTimeLine(event.getStartDate(),event.getEndDate(),event.getPaginationModel(),event.getDbFetchRequestListner());
             } else {
-                dbInterface.fetchLatestMomentByDateRange(event.getMomentType(),event.getStartDate(),event.getEndDate(),event.getPaginationModel(),event.getDbFetchRequestListner());
+                dbInterface.fetchMomentsWithTypeAndTimeLine(event.getMomentType(),event.getStartDate(),event.getEndDate(),event.getPaginationModel(),event.getDbFetchRequestListner());
             }
         } catch (SQLException e) {
             dbInterface.postError(e, event.getDbFetchRequestListner());

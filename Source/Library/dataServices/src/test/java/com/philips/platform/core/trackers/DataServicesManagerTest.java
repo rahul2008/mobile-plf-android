@@ -595,6 +595,7 @@ public class DataServicesManagerTest {
         mDSPagination.setOrdering(DSPagination.DSPaginationOrdering.DESCENDING);
         mDSPagination.setPageLimit(1);
         mDSPagination.setPageNumber(1);
+        mDSPagination.setOrderBy("timestamp");
         return mDSPagination;
     }
 }

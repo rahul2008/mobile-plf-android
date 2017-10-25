@@ -162,7 +162,7 @@ public class FetchingMonitorTest {
         Date startDate = sdf.parse("10/11/17");
         Date endDate = sdf.parse("10/23/17");
         fetchingMonitor.onEventAsync(new LoadMomentsByDate(startDate,endDate,createPagination(),dbFetchRequestListner));
-        verify(fetching).fetchLatestMomentByDateRange(startDate,endDate,createPagination(),dbFetchRequestListner);
+        verify(fetching).fetchMomentsWithTimeLine(startDate,endDate,createPagination(),dbFetchRequestListner);
     }
 
     @Test
@@ -172,7 +172,7 @@ public class FetchingMonitorTest {
         Date startDate = sdf.parse("10/11/17");
         Date endDate = sdf.parse("10/23/17");
         fetchingMonitor.onEventAsync(new LoadMomentsByDate("temperature",startDate,endDate,createPagination(),dbFetchRequestListner));
-        verify(fetching).fetchLatestMomentByDateRange("temperature",startDate,endDate,createPagination(),dbFetchRequestListner);
+        verify(fetching).fetchMomentsWithTypeAndTimeLine("temperature",startDate,endDate,createPagination(),dbFetchRequestListner);
     }
 
     @Test
@@ -332,6 +332,7 @@ public class FetchingMonitorTest {
         mDSPagination.setOrdering(DSPagination.DSPaginationOrdering.DESCENDING);
         mDSPagination.setPageLimit(1);
         mDSPagination.setPageNumber(1);
+        mDSPagination.setOrderBy("timestamp");
         return mDSPagination;
     }
 }

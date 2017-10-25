@@ -31,6 +31,7 @@ import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.R;
+import com.philips.platform.dscdemo.database.datatypes.MomentType;
 import com.philips.platform.dscdemo.pojo.Pagination;
 
 import java.text.ParseException;
@@ -232,7 +233,7 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 			Toast.makeText(mContext, "Please enter startDate and endDate", Toast.LENGTH_SHORT).show();
 		} else if (mStartDate != null && mEndDate != null && mStartDate.after(mEndDate)) {
 			Toast.makeText(mContext, "Please enter the valid startDate and endDate", Toast.LENGTH_SHORT).show();
-		} else if (mPageLimit == 0) {
+		} else if (mPageLimit == 0 || mPageLimit < 0 || mPageNumber < 0) {
 			Toast.makeText(mContext, "Please enter the Page Limit", Toast.LENGTH_SHORT).show();
 		} else {
 			mMomentPresenter.fetchMomentByDateRangeAndType(mMomentType, mStartDate, mEndDate, createPagination(), this);
@@ -244,8 +245,8 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 			Toast.makeText(mContext, "Please enter startDate and endDate", Toast.LENGTH_SHORT).show();
 		} else if (mStartDate != null && mEndDate != null && mStartDate.after(mEndDate)) {
 			Toast.makeText(mContext, "Please enter the valid startDate and endDate", Toast.LENGTH_SHORT).show();
-		} else if (mPageLimit == 0) {
-			Toast.makeText(mContext, "Please enter the Page Limit", Toast.LENGTH_SHORT).show();
+		} else if (mPageLimit == 0 || mPageLimit < 0 || mPageNumber < 0) {
+			Toast.makeText(mContext, "Please enter the Page Limit/Page Number", Toast.LENGTH_SHORT).show();
 		} else {
 			mMomentPresenter.fetchMomentByDateRange(mStartDate, mEndDate, createPagination(), this);
 		}
@@ -289,6 +290,7 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 			mDSPagination.setOrdering(DSPagination.DSPaginationOrdering.ASCENDING);
 		mDSPagination.setPageLimit(mPageLimit);
 		mDSPagination.setPageNumber(mPageNumber);
+		mDSPagination.setOrderBy("dateTime");
 		return mDSPagination;
 	}
 

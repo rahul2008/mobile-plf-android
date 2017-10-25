@@ -137,34 +137,32 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public void fetchLatestMomentByDateRange(Date startDate, Date endDate, DSPagination paginationModel,
+    public void fetchMomentsWithTimeLine(Date startDate, Date endDate, DSPagination paginationModel,
                                              DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
         QueryBuilder<OrmMoment, Integer> builder = momentDao.queryBuilder();
         builder.where().between("dateTime", new DateTime(startDate), new DateTime(endDate));
         if (paginationModel.getOrdering().equals(DSPagination.DSPaginationOrdering.ASCENDING))
             builder.orderBy("dateTime", true);
         else
-            builder.orderBy("dateTime", false);
+            builder.orderBy(paginationModel.getOrderBy(), false);
+
          builder.offset((long) paginationModel.getPageNumber()).limit((long) paginationModel.getPageLimit());
         List<OrmMoment> ormMoments = getActiveMoments(momentDao.query(builder.prepare()));
         dbFetchRequestListener.onFetchSuccess((List) ormMoments);
     }
 
     @Override
-    public void fetchLatestMomentByDateRange(String momentType, Date startDate, Date endDate, DSPagination paginationModel,
+    public void fetchMomentsWithTypeAndTimeLine(String momentType, Date startDate, Date endDate, DSPagination paginationModel,
                                              DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
         QueryBuilder<OrmMoment, Integer> builder = momentDao.queryBuilder();
 
         Where where = builder.where();
-   //     where.eq("type_id", MomentType.getIDFromDescription(momentType));
         where.and(where.eq("type_id", MomentType.getIDFromDescription(momentType)),
                 where.between("dateTime", new DateTime(startDate), new DateTime(endDate)));
-      //  where.between("dateTime", new DateTime(startDate), new DateTime(endDate));
-
         if (paginationModel.getOrdering().equals(DSPagination.DSPaginationOrdering.ASCENDING))
-            builder.orderBy("dateTime", true);
+            builder.orderBy(paginationModel.getOrderBy(), true);
         else
-            builder.orderBy("dateTime", false);
+            builder.orderBy(paginationModel.getOrderBy(), false);
         builder.offset((long) paginationModel.getPageNumber()).limit((long) paginationModel.getPageLimit());
         List<OrmMoment> ormMoments = getActiveMoments(momentDao.query(builder.prepare()));
         dbFetchRequestListener.onFetchSuccess((List) ormMoments);
