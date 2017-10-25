@@ -78,11 +78,10 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private static final long BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS = 1000L; // Prevent either the Thermometer or the BT stack on some devices from getting in a error state
     private static final long WAIT_UNTIL_BONDED_TIMEOUT_IN_MS = 10000L;
 
-    public final long minimumConnectionIdleTime;
-
     private final BTDevice btDevice;
     private final SHNCentral shnCentral;
     private final SHNBondInitiator shnBondInitiator;
+    private final long minimumConnectionIdleTime;
     private BTGatt btGatt;
     private SHNDeviceListener shnDeviceListener;
     private DiscoveryListener discoveryListener;

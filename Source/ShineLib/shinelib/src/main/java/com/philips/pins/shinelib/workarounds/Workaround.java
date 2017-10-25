@@ -33,12 +33,11 @@ public enum Workaround {
             new OS[]            { OS.NOUGAT}
     ),
     /**
-     * Wait some time before executing a BLE read/write action after service discovery is completed.
-     * Otherwise the action is stated as successfully started but no callback is ever received from the OS.
-     * This causes BlueLib to wait infinitely and the connect timeout will occur.
+     * Extend the minimum connection idle time.
+     * This gives the BLE stack more time to prepare for a new connection.
      */
-    SERVICE_DISCOVERED_DELAY(
-            new Phone[]         { Phone.SAMSUNG_S7, Phone.SAMSUNG_S4, Phone.NEXUS_6P},
+    EXTENDED_MINIMUM_CONNECTION_IDLE_TIME(
+            new Phone[]         { Phone.SAMSUNG_S4, Phone.NEXUS_6P},
             new Manufacturer[]  { },
             new OS[]            { }
     );
