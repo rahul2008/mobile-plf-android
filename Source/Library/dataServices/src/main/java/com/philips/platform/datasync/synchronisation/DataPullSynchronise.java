@@ -85,27 +85,23 @@ public class DataPullSynchronise {
             postError(referenceId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in")));
             return;
         }
-
-        initializeConfigurableFetchers();
-
-        if (configurableFetchers.isEmpty()) {
+        initializeFetchersAndExecutor();
+        if (executor == null) {
             synchronisationManager.dataSyncComplete();
-            return;
+        } else {
+            fetchData(sinceLastModifiedDate, referenceId);
         }
-
-        this.executor = Executors.newFixedThreadPool(configurableFetchers.size());
-        fetchData(sinceLastModifiedDate, referenceId);
     }
 
-    private void initializeConfigurableFetchers() {
+    private void initializeFetchersAndExecutor() {
         this.configurableFetchers = getFetchers(dataServicesManager);
+        if (configurableFetchers != null && !configurableFetchers.isEmpty()) {
+            this.executor = Executors.newFixedThreadPool(configurableFetchers.size());
+        }
     }
 
     private synchronized void fetchData(final DateTime sinceLastModifiedDate, final int referenceId) {
-        if (configurableFetchers.size() <= 0) {
-            synchronisationManager.dataSyncComplete();
-            return;
-        }
+
 
         final CountDownLatch countDownLatch = new CountDownLatch(configurableFetchers.size());
 
@@ -155,7 +151,7 @@ public class DataPullSynchronise {
     private List<? extends DataFetcher> getFetchers(final DataServicesManager dataServicesManager) {
         Set<String> configurableFetchers = dataServicesManager.getSyncTypes();
 
-        if (configurableFetchers == null | (configurableFetchers != null && configurableFetchers.isEmpty())){
+        if (configurableFetchers == null | (configurableFetchers != null && configurableFetchers.isEmpty())) {
             return fetchers;
         }
 
