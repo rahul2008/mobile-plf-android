@@ -70,7 +70,22 @@ public class TestConfigManager {
             InputStream is = context.getAssets().open("json/TestFwConfig.json");
             int size = is.available();
             byte[] buffer = new byte[size];
-            is.read(buffer);
+            int bRead = 0;
+
+            /*
+             * PSRA: Story 83645: The method loadJSONFromAsset() in TestConfigManager.java
+             * ignores the value returned by read() on line 73, which could
+             * cause the program to overlook unexpected states and conditions.
+             */
+            while (bRead < size) {
+                int rd = is.read(buffer, bRead, size - bRead);
+                if (rd == -1) {
+                    throw new IOException("file is unusually small");
+                }
+                bRead += rd;
+            }
+
+            // could add check to see if file is too large here
             is.close();
             json = new String(buffer, "UTF-8");
         } catch (IOException ex) {

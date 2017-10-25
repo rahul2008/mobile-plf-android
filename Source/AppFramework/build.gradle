@@ -38,6 +38,10 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
+        maven {
+            url 'https://maven.google.com'
+        }
+
     }
 
     tasks.withType(Test) {
