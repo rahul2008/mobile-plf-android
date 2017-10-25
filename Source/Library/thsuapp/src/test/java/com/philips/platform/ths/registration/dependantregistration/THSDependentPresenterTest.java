@@ -111,7 +111,7 @@ public class THSDependentPresenterTest {
         when(THSManager.getInstance().getThsParentConsumer().getConsumer().getDependents()).thenReturn(list);
         mTHSDependentPresenter.updateDependents();
 
-        assert THSManager.getInstance().getThsParentConsumer().getDependents().size() == 3;
+        assert THSManager.getInstance().getThsParentConsumer().getDependents().size() > 1;
 
     }
 
@@ -143,7 +143,7 @@ public class THSDependentPresenterTest {
         when(THSManager.getInstance().getThsParentConsumer().getConsumer().getDependents()).thenReturn(list);
         mTHSDependentPresenter.updateDependents();
 
-        assert THSManager.getInstance().getThsParentConsumer().getDependents().size() == 3;
+        assert THSManager.getInstance().getThsParentConsumer().getDependents().size() > 1;
 
     }
 
