@@ -195,7 +195,16 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
                 ((AlmostDoneFragment) (fragment)).clearUserData();
             }
             trackHandler();
-            mFragmentManager.popBackStack();
+            try {
+                mFragmentManager.popBackStack();
+            } catch (IllegalStateException e) {
+                /**
+                 * Ignore - No way to avoid this if some action is performed
+                 * and the fragment is put into background before that action is completed
+                 * See defect - 92539
+                 */
+
+            }
             if (fragment instanceof AccountActivationFragment) {
                 RegUtility.setCreateAccountStartTime(System.currentTimeMillis());
             }
