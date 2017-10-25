@@ -89,7 +89,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
             THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_FLOATING_BUTTON,"vitalsContinue");
             mThsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
         } else if (i == R.id.vitals_skip) {
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_FLOATING_BUTTON,"vitalsSkip");
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,"stepsSkipped","vitals");
             mThsVitalsPresenter.onEvent(R.id.vitals_skip);
         }
     }

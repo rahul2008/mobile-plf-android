@@ -30,6 +30,7 @@ import static android.app.Activity.RESULT_OK;
 import static com.philips.platform.ths.utility.THSConstants.MEDICATION_ON_ACTIVITY_RESULT;
 import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_MEDICATION_PAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 
 public class THSMedicationFragment extends THSBaseFragment implements View.OnClickListener {
@@ -141,6 +142,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
         } else if (id == R.id.ths_existing_medicine_footer_relative_layout) {
             mPresenter.onEvent(R.id.ths_existing_medicine_footer_relative_layout);
         } else if (id == R.id.ths_intake_medication_skip_step_label) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,"stepsSkipped","medications");
             mPresenter.onEvent(R.id.ths_intake_medication_skip_step_label);
         }
     }

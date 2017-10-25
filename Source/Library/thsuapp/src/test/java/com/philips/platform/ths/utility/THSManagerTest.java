@@ -266,7 +266,7 @@ public class THSManagerTest {
         verify(THSLoginCallBackMock).onLoginFailure(throwable);
     }
 
-    @Test
+    /*@Test
     public void initializeTeleHealthOnFailure() throws MalformedURLException, AWSDKInstantiationException, AWSDKInitializationException, URISyntaxException {
         THSManager.initializeTeleHealth(contextMock, THSInitializeCallBack);
 
@@ -286,7 +286,7 @@ public class THSManagerTest {
         value.onResponse(any(Object.class), any(SDKError.class));
 
         verify(THSInitializeCallBack).onInitializationResponse(any(Object.class), any(THSSDKError.class));
-    }
+    }*/
 
     @Test
     public void getVisitContext() throws MalformedURLException, AWSDKInstantiationException, AWSDKInitializationException, URISyntaxException {
