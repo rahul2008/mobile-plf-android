@@ -33,10 +33,10 @@ public class OnBoardingTourPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (!isValidPosition(position)) {
+       /* if (!isValidPosition(position)) {
             return null;
         }
-
+*/
         return OnBoardingTourPageFragment.newInstance(onBoardingTourContentModelList.get(position).getTourTitleId(),
                 onBoardingTourContentModelList.get(position).getTourBackgroundDrawable());
     }

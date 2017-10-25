@@ -2,6 +2,7 @@ package com.philips.platform.ths.onboarding;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.onboardingtour.OnBoardingTourFragment;
 import com.philips.platform.ths.onboardingtour.OnBoardingTourPageFragment;
 import com.philips.platform.ths.practice.THSPracticeFragment;
 
@@ -25,7 +26,7 @@ public class OnBoardingPresenter implements THSBasePresenter {
 
         }
         if(componentID==R.id.btn_take_tour){
-            onBoardingFragment.addFragment(new OnBoardingTourPageFragment(), OnBoardingTourPageFragment.TAG, null, false);
+            onBoardingFragment.addFragment(new OnBoardingTourFragment(), OnBoardingTourFragment.TAG, null, false);
         }
     }
 }

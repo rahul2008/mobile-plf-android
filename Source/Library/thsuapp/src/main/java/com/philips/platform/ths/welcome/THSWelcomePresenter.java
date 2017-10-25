@@ -16,6 +16,7 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
+import com.philips.platform.ths.onboarding.OnBoardingFragment;
 import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
@@ -37,7 +38,7 @@ class THSWelcomePresenter implements THSBasePresenter,
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.appointments) {
-            uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
+            uiBaseView.addFragment(new OnBoardingFragment(), OnBoardingFragment.TAG, null, false);
         } else if (componentID == R.id.visit_history) {
             uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
         } else if (componentID == R.id.how_it_works) {
