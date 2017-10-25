@@ -25,7 +25,7 @@ import static com.philips.cdp2.ews.wifi.WiFiUtil.DEVICE_SSID;
 @Singleton
 public class WiFiConnectivityManager {
 
-    private static final int DELAY_IN_EACH_NEW_SCAN = 500;
+    private static final int DELAY_IN_EACH_NEW_SCAN = 100;
     private static int maxAttempts = 10;
     private final WifiManager wifiManager;
     private Wifi wifi;
