@@ -67,9 +67,6 @@ public class EWSPressPlayAndFollowSetupViewModelTest {
     private Handler handlerMock;
 
     @Mock
-    private ConnectionUnsuccessfulFragment unsuccessfulDialogMock;
-
-    @Mock
     private GPSEnableDialogFragment gpsEnableDialogFragmentMock;
 
     private EWSPressPlayAndFollowSetupViewModel viewModel;

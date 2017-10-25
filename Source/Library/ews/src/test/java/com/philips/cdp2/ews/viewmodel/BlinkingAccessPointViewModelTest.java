@@ -68,9 +68,6 @@ public class BlinkingAccessPointViewModelTest {
     private Handler handlerMock;
 
     @Mock
-    private ConnectionUnsuccessfulFragment unsuccessfulDialogMock;
-
-    @Mock
     private GPSEnableDialogFragment gpsEnableDialogFragmentMock;
 
     private BlinkingAccessPointViewModel viewModel;

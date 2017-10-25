@@ -176,16 +176,6 @@ public class NavigatorTest {
     }
 
     @Test
-    public void itShouldNavigateToUnsuccessfulConnectionDialog() throws Exception {
-        Fragment mockFragment = new Fragment();
-        int requestCode = 85;
-        subject.navigateToUnsuccessfulConnectionDialog(mockFragment, requestCode);
-
-        verify(mockActivityNavigator).showFragmentWithResult(any(Fragment.class),
-                anyString(), eq(requestCode));
-    }
-
-    @Test
     public void itShouldNavigateToConnectingDeviceWithWifiScreenWithArgs() throws Exception {
         subject.navigateToConnectingDeviceWithWifiScreen("homeWifiSssid",
                 "password", "deviceName");

@@ -124,13 +124,11 @@ public class ConnectingPhoneToHotspotWifiViewModel {
                 new ApplianceAccessManager.FetchCallback() {
                     @Override
                     public void onDeviceInfoReceived(WifiPortProperties properties) {
-                        Log.d("CONNECT", "onDeviceInfoReceived: " + properties.getSsid());
                         navigator.navigateToConnectToDeviceWithPasswordScreen();
                     }
 
                     @Override
                     public void onFailedToFetchDeviceInfo() {
-                        Log.d("CONNECT", "onFailedToFetchDeviceInfo");
                         showUnsuccessfulDialog();
                     }
                 });
