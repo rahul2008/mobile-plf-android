@@ -1,4 +1,4 @@
-#!/usr/bin/env groovy                                                                                                           
+#!/usr/bin/env groovy
 
 /* please see ReadMe.md for explanation */ 
 
@@ -64,12 +64,18 @@ node ('android&&docker') {
             }
 
             stage ('reporting') {
-                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
-                junit allowEmptyResults: true, testResults: 'Source/DemoApp/app/build/reports/lint-results.xml'
-                junit allowEmptyResults: true, testResults: 'Source/DemoUApp/DemoUApp/build/reports/lint-results.xml'
-                junit allowEmptyResults: true, testResults: 'Source/Library/MyAccount/build/test-results/**/*.xml'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/MyAccount/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release'])
-                archiveArtifacts '**/*dependencies*.lock'
+                if (BranchName =~ /master|develop|release\/platform_.*/) {
+                    echo "Nothing to Report, OPA build is started"
+                }
+                else
+                {
+                    androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
+                    junit allowEmptyResults: true, testResults: 'Source/DemoApp/app/build/reports/lint-results.xml'
+                    junit allowEmptyResults: true, testResults: 'Source/DemoUApp/DemoUApp/build/reports/lint-results.xml'
+                    junit allowEmptyResults: true, testResults: 'Source/Library/MyAccount/build/test-results/**/*.xml'
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/MyAccount/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release'])
+                    archiveArtifacts '**/*dependencies*.lock'
+                }
             }
 
             stage('informing') {
