@@ -84,7 +84,7 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
     @NonNull
     private TroubleShootContentConfiguration createTroubleShootingConfiguration(){
         return new TroubleShootContentConfiguration.Builder()
-                /*.setConnectWrongPhoneTitle(R.string.lbl_ews_H_03_01_title)
+                .setConnectWrongPhoneTitle(R.string.lbl_ews_H_03_01_title)
                 .setConnectWrongPhoneBody(R.string.lbl_ews_H_03_01_body)
                 .setConnectWrongPhoneImage(R.drawable.navigation_image)
                 .setConnectWrongPhoneQuestion(R.string.lbl_ews_H_03_01_question)
@@ -99,7 +99,7 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
 
                 .setSetUpAccessPointTitle(R.string.lbl_ews_H_03_04_title)
                 .setSetUpAccessPointBody(R.string.lbl_ews_H_03_04_body)
-                .setSetUpAccessPointImage(R.drawable.navigation_image)*/
+                .setSetUpAccessPointImage(R.drawable.navigation_image)
                 .build();
     }
 }

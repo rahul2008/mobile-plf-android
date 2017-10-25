@@ -31,19 +31,18 @@ public class ResetConnectionTroubleshootingViewModel {
         this.resetConnectionImage = getResetConnectionImage(troubleShootContentConfiguration);
     }
 
-
-    @NonNull
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    Drawable getResetConnectionImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
-        return stringProvider.getImageResource(troubleShootContentConfiguration.getResetConnectionImage());
-    }
-
     public void onYesButtonClicked() {
         navigator.navigateToResetDeviceTroubleShootingScreen();
     }
 
     public void onNoButtonClicked() {
         navigator.navigateToConnectToWrongPhoneTroubleShootingScreen();
+    }
+
+    @NonNull
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    Drawable getResetConnectionImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
+        return stringProvider.getImageResource(troubleShootContentConfiguration.getResetConnectionImage());
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
