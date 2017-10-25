@@ -15,22 +15,24 @@ import com.philips.cdp2.commlib.devicetest.appliance.BleReferenceApplianceFactor
 
 public class TestApplication extends Application {
 
-    private CommCentral commCentral;
+    private static CommCentral commCentral;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(this, null);
+        if (commCentral == null) {
+            final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(this, null);
 
-        final BleTransportContext bleTransportContext = new BleTransportContext(runtimeConfiguration, false);
-        final ApplianceFactory applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
+            final BleTransportContext bleTransportContext = new BleTransportContext(runtimeConfiguration, false);
+            final ApplianceFactory applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
 
-        this.commCentral = new CommCentral(applianceFactory, bleTransportContext);
+            commCentral = new CommCentral(applianceFactory, bleTransportContext);
+        }
     }
 
     public CommCentral getCommCentral() {
-        return this.commCentral;
+        return commCentral;
     }
 
 }
