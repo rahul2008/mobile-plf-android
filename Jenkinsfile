@@ -48,7 +48,7 @@ node('Android') {
                     for (lib in ["commlib-testutils", "cloudcontroller-api", "cloudcontroller", "commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud", "commlib"]) {
                         def libgradle = "cd Source/Library/$lib && ./gradlew -u -PenvCode=\${JENKINS_ENV}"
                         stage("Publish $lib") {
-                            sh "$libgradle $lib:dependencies assembleRelease saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish"
+                            sh "$libgradle assembleRelease saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish"
                         }
                     }
 
