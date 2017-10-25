@@ -59,7 +59,7 @@ public class ConsentAccessToolKit {
     }
 
 
-    public void createConsent(Context context, String consentStatus, String applicationName, String propositionName, final CreateConsentListener consentListener){
+    public void createConsent(String consentStatus,final CreateConsentListener consentListener){
          CreateConsentModelRequest model = new CreateConsentModelRequest(applicationName,consentStatus,propositionName,user,new NetworkAbstractModel.DataLoadListener() {
             @Override
             public void onModelDataLoadFinished(Message msg) {

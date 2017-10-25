@@ -33,9 +33,6 @@ public class PermissionView extends CswBaseFragment implements
         PermissionInterface,CompoundButton.OnCheckedChangeListener {
 
     public static final String CONSENT_TYPE_MOMENT_SYNC = "momentsync";
-
-    public static final String applicationName = "OneBackend";
-    public static final String propositionName = "OneBackendProp";
     public static final String CONSENT_TYPE_MOMENT = "moment";
     public static final int version = 0;
 
@@ -68,7 +65,7 @@ public class PermissionView extends CswBaseFragment implements
 
     private void getConsentStatus() {
         showProgressDialog();
-        ConsentAccessToolKit cat = new ConsentAccessToolKit(this.getActivity().getApplicationContext(), applicationName, propositionName);
+        ConsentAccessToolKit cat = new ConsentAccessToolKit(this.getActivity().getApplicationContext(),ConsentUtil.APPLICATION_NAME, ConsentUtil.PROPOSITION_NAME);
         cat.getStatusForConsentType(CONSENT_TYPE_MOMENT, version, new ConsentResponseListener() {
 
             @Override
@@ -107,7 +104,7 @@ public class PermissionView extends CswBaseFragment implements
         showProgressDialog();
         ConsentStatus status = isChecked?ConsentStatus.active:ConsentStatus.inactive;
         ConsentAccessToolKit consentAccessToolKit = new ConsentAccessToolKit(getActivity().getApplicationContext(), ConsentUtil.APPLICATION_NAME,ConsentUtil.PROPOSITION_NAME);
-        consentAccessToolKit.createConsent(getActivity().getApplicationContext(), String.valueOf(status),ConsentUtil.APPLICATION_NAME,ConsentUtil.PROPOSITION_NAME, new CreateConsentListener() {
+        consentAccessToolKit.createConsent(String.valueOf(status),new CreateConsentListener() {
 
             @Override
             public void onSuccess(int code) {
