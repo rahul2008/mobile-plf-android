@@ -98,8 +98,6 @@ public class THSWelcomeFragmentTest {
         mWelcomeFragment.setActionBarListener(actionBarListenerMock);
         mWelcomeFragment.mPTHBaseFragmentProgressBar = progressBar;
 
-
-
         THSManager.getInstance().TEST_FLAG = true;
         THSManager.getInstance().setUser(userMock);
 
