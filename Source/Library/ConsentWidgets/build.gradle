@@ -147,8 +147,8 @@ publishing {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     lintOptions {
         abortOnError false
@@ -160,7 +160,7 @@ android {
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
