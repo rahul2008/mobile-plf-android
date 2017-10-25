@@ -13,7 +13,7 @@ import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.UCoreAccessProvider;
+import com.philips.platform.datasync.UserAccessProvider;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
 import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.insights.InsightDataSender;
@@ -26,10 +26,9 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Executor;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -40,23 +39,16 @@ import retrofit.RetrofitError;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DataPushSynchronise extends EventMonitor {
 
+    private ExecutorService executor;
+
     @Inject
-    UCoreAccessProvider accessProvider;
-
-    @NonNull
-    List<? extends DataSender> senders;
-
-    @NonNull
-    Executor executor;
+    UserAccessProvider userAccessProvider;
 
     @Inject
     Eventing eventing;
 
     @Inject
     SynchronisationManager synchronisationManager;
-
-    @NonNull
-    private final AtomicInteger numberOfRunningSenders = new AtomicInteger(0);
 
     @Inject
     MomentsDataSender momentsDataSender;
@@ -73,42 +65,66 @@ public class DataPushSynchronise extends EventMonitor {
     @Inject
     UserCharacteristicsSender userCharacteristicsSender;
 
+    @NonNull
+    List<? extends DataSender> senders;
+
     List<? extends DataSender> configurableSenders;
 
-    DataServicesManager mDataServicesManager;
+    private DataServicesManager mDataServicesManager;
 
     public DataPushSynchronise(@NonNull final List<? extends DataSender> senders) {
         mDataServicesManager = DataServicesManager.getInstance();
         mDataServicesManager.getAppComponant().injectDataPushSynchronize(this);
         this.senders = senders;
-        executor = Executors.newFixedThreadPool(20);
-        configurableSenders = getSenders();
     }
 
     void startSynchronise(final int eventId) {
-        if (isSyncStarted()) {
+        if (!userAccessProvider.isLoggedIn()) {
+            eventing.post(new BackendResponse(eventId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in"))));
             return;
         }
 
-        boolean isLoggedIn = accessProvider.isLoggedIn();
-
-        if (isLoggedIn) {
+        initializeSendersAndExecutor();
+        if (executor == null) {
+            synchronisationManager.dataSyncComplete();
+        } else {
             registerEvent();
             fetchNonSynchronizedData(eventId);
-        } else {
-            eventing.post(new BackendResponse(eventId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in"))));
         }
+    }
+
+    private void initializeSendersAndExecutor() {
+        this.configurableSenders = getSenders();
+        if (configurableSenders != null && !configurableSenders.isEmpty()) {
+            this.executor = Executors.newFixedThreadPool(configurableSenders.size());
+        }
+    }
+
+    private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
+        final CountDownLatch countDownLatch = new CountDownLatch(configurableSenders.size());
+
+        for (final DataSender sender : configurableSenders) {
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    boolean response = sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
+                    countDownLatch.countDown();
+                }
+            });
+        }
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            //Debug log
+        }
+
+        postPushComplete();
     }
 
     private void registerEvent() {
         if (!eventing.isRegistered(this)) {
             eventing.register(this);
-        }
-    }
-
-    void unRegisterEvent() {
-        if (eventing.isRegistered(this)) {
-            eventing.unregister(this);
         }
     }
 
@@ -123,40 +139,8 @@ public class DataPushSynchronise extends EventMonitor {
         }
     }
 
-    private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
-        if (configurableSenders.size() <= 0) {
-            synchronisationManager.dataSyncComplete();
-            return;
-        }
-
-        initPush(configurableSenders.size());
-        executor = Executors.newFixedThreadPool(20);
-        for (final DataSender sender : configurableSenders) {
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
-                    int jobsRunning = numberOfRunningSenders.decrementAndGet();
-
-                    if (jobsRunning <= 0) {
-                        postPushComplete();
-                    }
-                }
-            });
-        }
-    }
-
     private void postPushComplete() {
         synchronisationManager.dataSyncComplete();
-        synchronisationManager.shutdownAndAwaitTermination((ExecutorService) executor);
-    }
-
-    private boolean isSyncStarted() {
-        return numberOfRunningSenders.get() > 0;
-    }
-
-    private void initPush(int size) {
-        numberOfRunningSenders.set(size);
     }
 
     private List<? extends DataSender> getSenders() {

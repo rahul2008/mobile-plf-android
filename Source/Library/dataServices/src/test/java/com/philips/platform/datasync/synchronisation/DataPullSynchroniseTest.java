@@ -68,7 +68,6 @@ public class DataPullSynchroniseTest {
     @Mock
     InsightDataFetcher insightDataFetcherMock;
 
-
     @Before
     public void setUp() {
         initMocks(this);
@@ -120,7 +119,7 @@ public class DataPullSynchroniseTest {
     @Test
     public void postOkWhenConfigurableFetchers() {
         givenUserIsLoggedIn();
-        givenConfigurableFetcherList();
+        givenFetcherList();
         whenSynchronisationIsStarted(EVENT_ID);
         thenDataPullIsCompleted();
     }
@@ -136,7 +135,7 @@ public class DataPullSynchroniseTest {
     @Test
     public void postErrorWhenDataPullFails() {
         givenUserIsLoggedIn();
-        givenConfigurableFetcherList();
+        givenFetcherList();
         givenRetrofitErrorWhileFetchingData();
         whenSynchronisationIsStarted(EVENT_ID);
         thenDataPullIsFailed();
@@ -157,7 +156,7 @@ public class DataPullSynchroniseTest {
         userAccessProviderSpy.isLoggedIn = false;
     }
 
-    private void givenConfigurableFetcherList() {
+    private void givenFetcherList() {
         ArrayList<DataFetcher> fetcherArrayList = new ArrayList<>();
         fetcherArrayList.add(firstFetcherMock);
         fetcherArrayList.add(secondFetcherMock);
