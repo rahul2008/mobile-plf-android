@@ -80,17 +80,17 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_WAITING, null, null);
 
         THSManager.getInstance().getThsTagging().trackTimedActionEnd("totalPreparationTimePreVisit");
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "totalPrepartationTimeEnd");
+        THSManager.getInstance().getThsTagging().trackActionWithInfo( "totalPrepartationTimeEnd",null,null);
 
         THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "waitInLineInstantAppointment");
 
         THSManager.getInstance().getThsTagging().trackTimedActionStart("totalWaitingTimeInstantAppointment");
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "waitingTimeStartForInstantAppointment");
+        THSManager.getInstance().getThsTagging().trackActionWithInfo( "waitingTimeStartForInstantAppointment",null,null);
     }
 
     protected void doTaggingUponStopWaiting() {
         THSManager.getInstance().getThsTagging().trackTimedActionEnd("totalWaitingTimeInstantAppointment");
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "waitingTimeEndForInstantAppointment");
+        THSManager.getInstance().getThsTagging().trackActionWithInfo( "waitingTimeEndForInstantAppointment",null,null);
 
         THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "completeWaitingInstantAppointment");
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VIDEO_CALL, null, null);

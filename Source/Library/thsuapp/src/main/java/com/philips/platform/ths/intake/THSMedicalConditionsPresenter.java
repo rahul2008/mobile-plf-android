@@ -76,8 +76,9 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
 
     @Override
     public void onUpdateConditonResponse(Void aVoid, THSSDKError sdkError) {
-
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","step4MedicalConditionsAdded");
+        if(((THSMedicalConditionsFragment) thsBaseFragment).NumberOfConditionSelected>0) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", "step4MedicalConditionsAdded");
+        }
         //Spoorti - This has no implementation as the UI would have got updated and we are sending the result to server.
         //On response, as of now no need to handle
         //Keeping this for future use

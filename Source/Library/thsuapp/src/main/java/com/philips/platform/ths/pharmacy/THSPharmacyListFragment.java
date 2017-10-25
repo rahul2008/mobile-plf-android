@@ -63,7 +63,7 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static com.philips.platform.ths.utility.THSConstants.PHARMACY_SEARCH_CONSTANT;
-import static com.philips.platform.ths.utility.THSConstants.THS_CHOSE_PHARMACY;
+import static com.philips.platform.ths.utility.THSConstants.THS_YOUR_PHARMACY;
 
 
 public class THSPharmacyListFragment extends THSBaseFragment implements OnMapReadyCallback, View.OnClickListener,
@@ -562,6 +562,6 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_CHOSE_PHARMACY,null,null);
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_YOUR_PHARMACY,null,null);
     }
 }
