@@ -74,23 +74,7 @@
 -keep class org.apache.http.** { *; }
 
 
-
-#Tagging lib and jar
--keep public class com.adobe.mobile.** {*;}
-
-
--keep public class com.philips.platform.appframework.flowmanager.models.** { *; }
-
-#uikit
--keep class com.philips.cdp.uikit.** { *; }
--dontwarn com.philips.cdp.uikit.**
-
-#uid
--keep class com.philips.platform.uid.** { *; }
--dontwarn com.philips.platform.uid.**
-
 #GMS
 -keep  class com.google.android.gms.* { public *; }
 -dontwarn com.google.android.gms.**
--dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
 
