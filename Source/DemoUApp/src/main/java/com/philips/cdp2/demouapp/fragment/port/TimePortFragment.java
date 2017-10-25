@@ -79,10 +79,6 @@ public class TimePortFragment extends Fragment {
 
             if (isAdded()) {
                 updateResult(getString(R.string.cml_lblResultPortError, error.getErrorMessage()));
-
-                if (switchLoopGet.isChecked()) {
-                    timePort.reloadProperties();
-                }
             }
         }
     };
