@@ -52,7 +52,7 @@ public class MyaInterface implements UappInterface {
      * Entry point for User registration. Please make sure no User registration components are being used before MyaInterface$init.
      *
      * @param uappDependencies - With an AppInfraInterface instance.
-     * @param uappSettings     - With an application context.
+     * @param uappSettings     - With an application provideAppContext.
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {

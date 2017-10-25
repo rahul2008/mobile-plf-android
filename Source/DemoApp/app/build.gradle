@@ -118,7 +118,9 @@ publishing {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
-
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:2.0.1'
+    }
     defaultConfig {
         applicationId "com.philips.platform.mya.demoapp"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -246,6 +248,7 @@ dependencies {
             {
                 transitive = true
                 exclude group: 'com.android.support', module: 'customtabs'
+                exclude group:  'com.google.dagger'
             }
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'

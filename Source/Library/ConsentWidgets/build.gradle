@@ -230,6 +230,15 @@ dependencies {
     //3rd party
     compile 'com.google.code.gson:gson:2.2.4'
 
+
+    def daggerVer = 2.11
+
+    compile "com.google.dagger:dagger:$daggerVer"
+    compile "com.google.dagger:dagger-android-support:$daggerVer"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVer"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVer"
+
+
     //Coco
     def dp = project.ext.has('useprojectdependencies')
 
