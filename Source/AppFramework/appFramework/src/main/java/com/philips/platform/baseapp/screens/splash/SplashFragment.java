@@ -127,7 +127,6 @@ public class SplashFragment extends AbstractOnboardingBaseFragment implements Ba
     public void onStop() {
         RALog.d(TAG, " onMultiWindowModeChanged called");
         super.onStop();
-        isVisible = false;
     }
 
     @Override
