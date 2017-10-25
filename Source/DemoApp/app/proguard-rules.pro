@@ -104,10 +104,3 @@
 -keep interface com.android.volley.** { *; }
 
 
-#appinfra
--keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
--keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
-
-#uid
--keep public class com.philips.platform.uid.** { *; }
--dontwarn com.philips.platform.uid.**
