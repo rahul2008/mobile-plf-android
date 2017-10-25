@@ -15,29 +15,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
-import com.philips.cdp.registration.User;
-import com.philips.plataform.mya.model.error.ConsentError;
-import com.philips.plataform.mya.model.listener.ConsentResponseListener;
-import com.philips.plataform.mya.model.network.NetworkHelper;
-import com.philips.plataform.mya.model.response.ConsentModel;
-import com.philips.plataform.mya.model.response.ConsentStatus;
 import com.philips.platform.csw.CswBaseFragment;
+import com.philips.platform.mya.catk.ConsentAccessToolKit;
+import com.philips.platform.mya.catk.listener.ConsentResponseListener;
+import com.philips.platform.mya.catk.listener.CreateConsentListener;
+import com.philips.platform.mya.catk.model.GetConsentsModel;
+import com.philips.platform.mya.catk.response.ConsentStatus;
+import com.philips.platform.mya.catk.utils.ConsentUtil;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uid.view.widget.Switch;
 
 import java.util.List;
 
-import static com.janrain.android.engage.JREngage.getApplicationContext;
-
 public class PermissionView extends CswBaseFragment implements
-        PermissionInterface {
+        PermissionInterface,CompoundButton.OnCheckedChangeListener {
 
     public static final String CONSENT_TYPE_MOMENT_SYNC = "momentsync";
-
-    public static final String applicationName = "OneBackend";
-    public static final String propositionName = "OneBackendProp";
-    public static final String moment = "moment";
+    public static final String CONSENT_TYPE_MOMENT = "moment";
     public static final int version = 0;
 
     private PermissionPresenter permissionPresenter;
@@ -69,14 +65,13 @@ public class PermissionView extends CswBaseFragment implements
 
     private void getConsentStatus() {
         showProgressDialog();
-        NetworkHelper consentObj = new NetworkHelper();
-        User user = new User(getApplicationContext());
-        consentObj.getStatusForConsentType(getApplicationContext(), moment, version, user.getCountryCode(), propositionName, applicationName, new ConsentResponseListener() {
-            @Override
-            public void onResponseSuccessConsent(List<ConsentModel> responseData) {
-                if (responseData != null && !responseData.isEmpty()) {
-                    ConsentModel consentModel = responseData.get(0);
+        ConsentAccessToolKit cat = new ConsentAccessToolKit(this.getActivity().getApplicationContext(),ConsentUtil.APPLICATION_NAME, ConsentUtil.PROPOSITION_NAME);
+        cat.getStatusForConsentType(CONSENT_TYPE_MOMENT, version, new ConsentResponseListener() {
 
+            @Override
+            public void onResponseSuccessConsent(List<GetConsentsModel> responseData) {
+                if (responseData != null && !responseData.isEmpty()) {
+                    GetConsentsModel consentModel = responseData.get(0);
                     hideProgressDialog();
                     if (consentModel.getStatus().equals(ConsentStatus.active)) {
                         mConsentSwitch.setChecked(true);
@@ -97,9 +92,31 @@ public class PermissionView extends CswBaseFragment implements
             }
 
             @Override
-            public void onResponseFailureConsent(ConsentError consentError) {
+            public int onResponseFailureConsent(int consentError) {
                 hideProgressDialog();
-                Log.d(" Consent : ", "fail  :" + consentError.getDescription());
+                Log.d(" Consent : ", "fail  :" + consentError);
+                return consentError;
+            }
+        });
+    }
+
+    private void createConsentStatus(boolean isChecked) {
+        showProgressDialog();
+        ConsentStatus status = isChecked?ConsentStatus.active:ConsentStatus.inactive;
+        ConsentAccessToolKit consentAccessToolKit = new ConsentAccessToolKit(getActivity().getApplicationContext(), ConsentUtil.APPLICATION_NAME,ConsentUtil.PROPOSITION_NAME);
+        consentAccessToolKit.createConsent(String.valueOf(status),new CreateConsentListener() {
+
+            @Override
+            public void onSuccess(int code) {
+                Log.d(" Create Consent: ", "Success : "+code);
+                hideProgressDialog();
+            }
+
+            @Override
+            public int onFailure(int errCode) {
+                Log.d(" Create Consent: ", "Failed : "+errCode);
+                hideProgressDialog();
+                return errCode;
             }
         });
     }
@@ -112,8 +129,8 @@ public class PermissionView extends CswBaseFragment implements
 
     private void initUI(View view) {
         mConsentSwitch = (Switch) view.findViewById(R.id.toggleicon);
+        mConsentSwitch.setOnCheckedChangeListener(this);
     }
-
     private void showProgressDialog() {
         if (!(getActivity().isFinishing())) {
             if (mProgressDialog == null) {
@@ -128,6 +145,14 @@ public class PermissionView extends CswBaseFragment implements
     private void hideProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.cancel();
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(mConsentSwitch.isPressed()){
+            showProgressDialog();
+            createConsentStatus(isChecked);
         }
     }
 }
