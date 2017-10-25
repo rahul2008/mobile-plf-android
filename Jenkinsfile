@@ -77,10 +77,16 @@ node('android && device') {
                 }
             }
             stage ('reporting') {
-                publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'Unit Tests'])
-                publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'Code Coverage'])
-                step([$class: 'ArtifactArchiver', artifacts: 'Source/UIKit/uid/build/reports/coverage/debug/report.xml', excludes: null, fingerprint: true, onlyIfSuccessful: true])
-                archiveArtifacts '**/*dependencies*.lock'
+                if (BranchName =~ /master|develop|release\/platform_.*/) {
+                    echo "Nothing to Report, OPA build is started"
+                }
+                else
+                {
+                    publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'Unit Tests'])
+                    publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'Code Coverage'])
+                    step([$class: 'ArtifactArchiver', artifacts: 'Source/UIKit/uid/build/reports/coverage/debug/report.xml', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+                    archiveArtifacts '**/*dependencies*.lock'
+                }
             }
             stage('informing') {
                 step([$class: 'StashNotifier'])
