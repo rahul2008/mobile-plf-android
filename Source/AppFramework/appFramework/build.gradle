@@ -68,6 +68,9 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
+        maven {
+            url 'https://maven.google.com'
+        }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
     }
@@ -363,6 +366,7 @@ repositories {
 configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
 
     resolutionStrategy.force 'com.android.support:support-annotations:26.0.2'
     exclude group: 'commons-codec', module: 'commons-codec'
@@ -410,13 +414,13 @@ dependencies {
 		transitive = true
 	}
 
-	def commlibModule = module(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar')
+	def commlibModule = module(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
 	compile(dp ? project(':commlib') : commlibModule) {
 		exclude group: 'com.android.support'
 		transitive = true
 	}
 
-    def commlibUAppModule = module(group: 'com.philips.cdp', name: 'commlib-demouapp', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar')
+    def commlibUAppModule = module(group: 'com.philips.cdp', name: 'commlib-demouapp', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     compile(dp ? project(':commlibUApp') : commlibUAppModule) {
         exclude group: 'com.android.support'
         transitive = true
@@ -475,14 +479,14 @@ dependencies {
             transitive = true
     }
 
-    compile ("com.crittercism:crittercism-android-agent:5.8.1")
+    compile ("com.crittercism:crittercism-android-agent:5.8.7")
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
-    testCompile 'org.robolectric:robolectric:3.3.1'
-    testCompile 'org.robolectric:shadows-multidex:3.3.1'
-    testCompile 'org.robolectric:shadows-support-v4:3.3.1'
-    testCompile 'org.mockito:mockito-all:1.10.17'
+    testCompile 'org.robolectric:robolectric:3.4.2'
+    testCompile 'org.robolectric:shadows-multidex:3.3.2'
+    testCompile 'org.robolectric:shadows-support-v4:3.3.2'
+    testCompile 'org.mockito:mockito-all:2.0.2-beta'
     testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
 
     testCompile 'org.powermock:powermock-core:1.6.6'

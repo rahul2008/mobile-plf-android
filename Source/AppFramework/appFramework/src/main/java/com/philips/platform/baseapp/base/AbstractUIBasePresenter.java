@@ -26,6 +26,7 @@ abstract public class AbstractUIBasePresenter {
     protected static final int MENU_OPTION_TEST_MICROAPP = 5;
     //protected static final int MENU_OPTION_PR = 9;
     protected static final int MENU_OPTION_TELEHEALTHSERVICES = 6;
+    protected static final int MENU_OPTION_POWER_SLEEP_CONNECTIVITY = 7;
 
     /* event to state map */
     protected static final String HOME_SETTINGS = "settings";
@@ -40,7 +41,7 @@ abstract public class AbstractUIBasePresenter {
     protected static final String HOME_COCO_VERSION_INFO="coco_version_info";
     protected static final String HOME_DEBUG="debug";
     protected static final String HOME_TELEHEALTHSERVICES = "telehealthservices";
-
+    protected static final String HOME_POWER_SLEEP_CONNECTIVITY = "power_sleep_connectivity";
 
     private UIView uiView;
 
@@ -107,6 +108,10 @@ abstract public class AbstractUIBasePresenter {
                 final UIStateData teleHealthData = new UIStateData();
                 teleHealthData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return teleHealthData;
+            case AppStates.POWER_SLEEP_CONNECTIVITY:
+                final UIStateData powerSleepStateData = new UIStateData();
+                powerSleepStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                return powerSleepStateData;
             default:
                 RALog.d(TAG," default case selected ");
                 homeStateData = new UIStateData();

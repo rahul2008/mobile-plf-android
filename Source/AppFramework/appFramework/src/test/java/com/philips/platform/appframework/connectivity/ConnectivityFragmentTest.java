@@ -17,6 +17,7 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
+import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
 import com.philips.platform.appframework.R;
 
 import junit.framework.Assert;
@@ -37,9 +38,6 @@ import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowDialog;
 import org.robolectric.shadows.ShadowToast;
 
-import static com.philips.platform.appframework.connectivity.ConnectivityFragment.MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION;
-import static com.philips.platform.appframework.connectivity.ConnectivityFragment.MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
-import static com.philips.platform.appframework.connectivity.ConnectivityFragment.REQUEST_ENABLE_BT;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
@@ -149,9 +147,9 @@ public class ConnectivityFragmentTest {
     @Test
     public void onRequestPermissionsResultTest() {
         int[] permission = {PackageManager.PERMISSION_DENIED};
-        connectivityFragment.onRequestPermissionsResult(MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION, null, permission);
+        connectivityFragment.onRequestPermissionsResult(AbstractConnectivityBaseFragment.MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION, null, permission);
         assertEquals("Need permission", ShadowToast.getTextOfLatestToast());
-        connectivityFragment.onRequestPermissionsResult(MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION, null, permission);
+        connectivityFragment.onRequestPermissionsResult(AbstractConnectivityBaseFragment.MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION, null, permission);
         assertEquals("Need permission", ShadowToast.getTextOfLatestToast());
     }
 
@@ -163,7 +161,7 @@ public class ConnectivityFragmentTest {
 
     @Test
     public void onActivityResultTest() {
-        connectivityFragment.onActivityResult(REQUEST_ENABLE_BT, Activity.RESULT_CANCELED, new Intent());
+        connectivityFragment.onActivityResult(AbstractConnectivityBaseFragment.REQUEST_ENABLE_BT, Activity.RESULT_CANCELED, new Intent());
         assertEquals("Please enable bluetooth", ShadowToast.getTextOfLatestToast());
     }
 

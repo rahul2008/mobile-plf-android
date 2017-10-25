@@ -25,11 +25,6 @@ public class DeviceMeasurementPort extends DICommPort<DeviceMeasurementPortPrope
     }
 
     @Override
-    public boolean isResponseForThisPort(String jsonResponse) {
-        return (parseResponse(jsonResponse) != null);
-    }
-
-    @Override
     protected void processResponse(String jsonResponse) {
         DeviceMeasurementPortProperties deviceMeasurementPortProperties = parseResponse(jsonResponse);
         if (deviceMeasurementPortProperties != null) {
@@ -39,7 +34,7 @@ public class DeviceMeasurementPort extends DICommPort<DeviceMeasurementPortPrope
     }
 
     @Override
-    protected String getDICommPortName() {
+    public String getDICommPortName() {
         return DEVICE_MEASUREMENT_PORT_NAME;
     }
 
