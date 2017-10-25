@@ -36,7 +36,7 @@ public class ConnectToWrongPhoneTroubleshootingViewModel {
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     @NonNull
     Drawable getWrongPhoneImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
-        return stringProvider.getImageResource(troubleShootContentConfiguration.getResetConnectionImage());
+        return stringProvider.getImageResource(troubleShootContentConfiguration.getConnectWrongPhoneImage());
     }
 
     public void onYesButtonClicked() {
