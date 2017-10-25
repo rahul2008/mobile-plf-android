@@ -16,14 +16,6 @@
 -dontwarn com.google.android.gms.**
 
 
-#gson
--keep interface com.google.gson.** { *; }
--keep  class com.google.gson.** { *; }
-
-
-#prxclient model class
--keep class com.philips.cdp.prxclient.datamodels.** { *; }
-
 
 #appinfra
 -keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
