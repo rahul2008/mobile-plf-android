@@ -12,7 +12,6 @@ import android.text.TextUtils;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
 import com.philips.platform.appinfra.aikm.model.AIKMService;
-import com.philips.platform.appinfra.servicediscovery.KError;
 import com.philips.platform.appinfra.servicediscovery.model.AIKMResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
@@ -33,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-public class AiKmHelper {
+class AiKmHelper {
 
     private final GroomLib groomLib;
     private JSONObject rootJsonObject;
@@ -241,7 +240,7 @@ public class AiKmHelper {
             String groomIndex = getGroomIndexWithSplit(configUrls);
             mapAndValidateGroom(key, groomIndex, aikmResponse);
         } else {
-            aikmResponse.setkError(KError.NO_URL_FOUND);
+            aikmResponse.setkError(AIKManager.KError.NO_KINDEX_URL_FOUND);
         }
         return aikmResponse;
     }
@@ -252,7 +251,7 @@ public class AiKmHelper {
             try {
                 index = Integer.parseInt(groomIndex);
             } catch (NumberFormatException e) {
-                aikmResponse.setkError(KError.INVALID_INDEX_URL);
+                aikmResponse.setkError(AIKManager.KError.INVALID_INDEX_URL);
                 return aikmResponse;
             }
             try {
@@ -263,22 +262,22 @@ public class AiKmHelper {
                     try {
                         jsonObject = (JSONObject) jsonArray.get(index);
                     } catch (JSONException e) {
-                        aikmResponse.setkError(KError.INDEX_NOT_FOUND);
+                        aikmResponse.setkError(AIKManager.KError.INDEX_NOT_FOUND);
                         return aikmResponse;
                     }
                     Map map = mapData(jsonObject, index, serviceId);
                     aikmResponse.setkMap(map);
                 } else {
-                    aikmResponse.setkError(KError.INVALID_JSON);
+                    aikmResponse.setkError(AIKManager.KError.INVALID_JSON);
                 }
             } catch (Exception e) {
                 if (e instanceof JSONException)
-                    aikmResponse.setkError(KError.INVALID_JSON);
+                    aikmResponse.setkError(AIKManager.KError.INVALID_JSON);
                 else
-                    aikmResponse.setkError(KError.CONVERT_ERROR);
+                    aikmResponse.setkError(AIKManager.KError.CONVERT_ERROR);
             }
         } else {
-            aikmResponse.setkError(KError.NO_SERVICE_FOUND);
+            aikmResponse.setkError(AIKManager.KError.NO_SERVICE_FOUND);
         }
         return aikmResponse;
     }

@@ -9,14 +9,14 @@
 package com.philips.platform.appinfra.servicediscovery.model;
 
 
-import com.philips.platform.appinfra.servicediscovery.KError;
+import com.philips.platform.appinfra.aikm.AIKManager;
 
 import java.util.Map;
 
 public class AIKMResponse {
 
     private Map kMap;
-    private KError kError;
+    private AIKManager.KError kError;
 
     public Map getkMap() {
         return kMap;
@@ -26,11 +26,11 @@ public class AIKMResponse {
         this.kMap = kMap;
     }
 
-    public KError getkError() {
+    public AIKManager.KError getkError() {
         return kError;
     }
 
-    public void setkError(KError kError) {
+    public void setkError(AIKManager.KError kError) {
         this.kError = kError;
     }
 }

@@ -13,7 +13,6 @@ import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
 import com.philips.platform.appinfra.aikm.model.AIKMService;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.servicediscovery.KError;
 import com.philips.platform.appinfra.servicediscovery.model.AIKMResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
@@ -254,10 +253,10 @@ public class AiKmHelperTest extends AppInfraInstrumentation {
         serviceDiscovery.setmError("something went wrong");
         AIKMResponse aikmResponse = new AIKMResponse();
         aiKmHelper.mapAndValidateGroom(null, "0", aikmResponse);
-        assertEquals(aikmResponse.getkError(), KError.NO_SERVICE_FOUND);
+        assertEquals(aikmResponse.getkError(), AIKManager.KError.NO_SERVICE_FOUND);
 
         aiKmHelper.mapAndValidateGroom( "service_id","string", aikmResponse);
-        assertEquals(KError.INVALID_INDEX_URL, aikmResponse.getkError());
+        assertEquals(AIKManager.KError.INVALID_INDEX_URL, aikmResponse.getkError());
 
         aiKmHelper = new AiKmHelper(mAppInfraMock) {
             @Override
@@ -266,7 +265,7 @@ public class AiKmHelperTest extends AppInfraInstrumentation {
             }
         };
         aiKmHelper.mapAndValidateGroom("service_id", "1",aikmResponse);
-        assertEquals(KError.INVALID_JSON, aikmResponse.getkError());
+        assertEquals(AIKManager.KError.INVALID_JSON, aikmResponse.getkError());
 
         JSONObject someJsonObject = new JSONObject();
         try {

@@ -38,7 +38,6 @@
     "LANGUAGEPACK.SERVICEID":"appinfra.languagepack",
     "servicediscovery.countryMapping":{"LU":"BE","MO":"HK"},
     "appUpdate.serviceId":"appinfra.testing.version",
-    "aiKmService.enabled": true,
     "appUpdate.autoRefresh": true,
     "enableAdobeLogs":true,
     "logging.releaseConfig":{
