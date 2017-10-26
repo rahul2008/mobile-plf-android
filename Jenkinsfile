@@ -4,15 +4,16 @@ BranchName = env.BRANCH_NAME
 JENKINS_ENV = env.JENKINS_ENV
 
 properties([
+    [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]],
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]
 ])
 
-def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_App_chassis@philips.com,amit.mohanty@philips.com'
+def MailRecipient = 'DL_CDP2_Callisto@philips.com, DL_CDP2_MobileUIToolkit@philips.com'
 def errors = []
 
-node ('android&&device') {
-    timestamps {
-            try {
+node ('android&&docker') {
+	timestamps {
+		try {
             stage ('Checkout') {
                 def jobBaseName = "${env.JOB_BASE_NAME}".replace('%2F', '/')
                 if (env.BRANCH_NAME != jobBaseName)
@@ -23,37 +24,43 @@ node ('android&&device') {
                    exit 1
                 }
 
-                checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch', localBranch: "**"]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/ail-android-secure-db']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch', localBranch: "**"]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/icf-android']]])
                 step([$class: 'StashNotifier'])
             }
-
             if (BranchName =~ /master|develop|release\/platform_.*/) {
-                stage('Trigger OPA Build'){
-                    def committerName = sh (script: "git show -s --format='%an' HEAD", returnStdout: true).trim()
+                stage ('build') {
+                sh '''#!/bin/bash -l
+                    chmod -R 775 .
+                    cd ./Source/Library/IconFont
+                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
+                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test zipDocuments artifactoryPublish
+                '''
+                }
+            } else {
+                stage ('build') {
+                sh '''#!/bin/bash -l
+                    chmod -R 775 .
+                    cd ./Source/Library/IconFont
+                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
+                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test
+                '''
+                }
+            }
+			stage ('save dependencies list') {
+            sh '''#!/bin/bash -l
+            	chmod -R 775 .
+                cd ./Source/Library/IconFont
+                ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
+            '''
+            }
+
+            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release\/platform_.*/)) {
+                stage ('callIntegrationPipeline') {
                     if (BranchName =~ "/") {
                         BranchName = BranchName.replaceAll('/','%2F')
                         echo "BranchName changed to ${BranchName}"
                     }
-                    build job: "Platform-Infrastructure/opa-android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'committerName', value:committerName]], wait: false
-                }
-            }
-            else
-            {
-                stage ('build') {
-                    sh '''#!/bin/bash -l
-                        chmod -R 775 . 
-                        cd ./Source/DemoApp 
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
-                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC 
-                    '''
-                }
-
-                stage ('save dependencies list') {
-                    sh '''#!/bin/bash -l
-                        chmod -R 775 . 
-                        cd ./Source/DemoApp && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
-                        cd ../Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
-                    '''
+                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'icf'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
                 }
             }
         } catch(err) {
@@ -67,32 +74,24 @@ node ('android&&device') {
                     }
                 }
             }
-
             stage ('reporting') {
-                if (BranchName =~ /master|develop|release\/platform_.*/) {
-                    echo "Nothing to Report, OPA build is started"
-                }
-                else
-                {
-                    androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
-                    // junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/*/*.xml'
-                    junit allowEmptyResults: false, testResults: 'Source/Library/**/build/outputs/androidTest-results/*/*.xml'
-                    publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/securedblibrary/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage debug']) 
-                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/securedblibrary/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests']) 
+                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
+                junit allowEmptyResults: false, testResults: 'Source/Library/**/build/test-results/**/*.xml'
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/IconFont/icf/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'unit test debug'])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/IconFont/icf/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release'])
+		if(fileExists('**/*dependencies*.lock')) {
                     archiveArtifacts '**/*dependencies*.lock'
-                }
+		}
             }
-
             stage('informing') {
                 step([$class: 'StashNotifier'])
                 step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
             }
-
             stage('Cleaning workspace') {
                 step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
             }
         }
-    } // end timestamps
+	} // end timestamps
 } // end node ('android')
 
 node('master') {
