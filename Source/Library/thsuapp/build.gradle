@@ -54,7 +54,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "telehealth"
+archivesBaseName = "ths"
 
 allprojects {
     repositories {
@@ -217,7 +217,7 @@ dependencies {
 
 	def dp = project.ext.has('useprojectdependencies')
 	
-	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar')
+	def ailModule = module(group: 'com.philips.cdp', name: 'ail', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar')
 	compile(dp ? project(':ail') : ailModule) {
         exclude group: 'com.android.support'
         transitive = true
@@ -230,7 +230,7 @@ dependencies {
 		transitive = true
 	}
 
-	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar')
+	def usrModule = module(group: 'com.philips.cdp', name: 'usr', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar')
 	compile(dp ? project(':usr') : usrModule) 
 	{
         exclude group: 'com.android.support'

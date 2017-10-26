@@ -48,7 +48,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = rootProject.name + "App"
+archivesBaseName = "thsDemoApp"
 
 allprojects {
     repositories {
@@ -268,7 +268,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.0.2'
     
     def dp = project.ext.has('useprojectdependencies')
-    def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix())
+    def ailModule = module(group: 'com.philips.cdp', name: 'ail', version: versions.ail_appInfra + objcdp.getVersionSuffix())
 	compile(dp ? project(':ail') : ailModule)
     {
         exclude group: 'com.android.support'
