@@ -1,5 +1,5 @@
 /*
- * (C) Koninklijke Philips N.V., 2017.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp2.commlib.core.appliance;
@@ -8,7 +8,6 @@ import android.os.Handler;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
-import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import org.junit.Before;
@@ -18,8 +17,6 @@ import org.mockito.Mock;
 import static com.philips.cdp2.commlib.core.util.HandlerProvider.enableMockedHandler;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ApplianceTest {
@@ -49,11 +46,6 @@ public class ApplianceTest {
                 return null;
             }
         };
-    }
-
-    @Test
-    public void whenConstructedThenRegistersAsSubscriptionEventListener() throws Exception {
-        verify(mockCommunicationStrategy).addSubscriptionEventListener(isA(SubscriptionEventListener.class));
     }
 
     @Test

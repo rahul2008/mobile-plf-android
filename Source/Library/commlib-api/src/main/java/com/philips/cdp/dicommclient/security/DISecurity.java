@@ -1,14 +1,17 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.security;
 
-import java.nio.charset.Charset;
+import android.support.annotation.Nullable;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
+
+import java.nio.charset.Charset;
+import java.security.GeneralSecurityException;
 
 public class DISecurity {
 
@@ -30,6 +33,7 @@ public class DISecurity {
         this.mEncryptionDecryptionFailedListener = encryptionDecryptionFailedListener;
     }
 
+    @Nullable
     public String encryptData(String data) {
         if (networkNode == null) {
             DICommLog.i(DICommLog.SECURITY, "Did not encrypt data - NetworkNode is null");
@@ -51,13 +55,14 @@ public class DISecurity {
             byte[] encrypDatas = EncryptionUtil.aesEncryptData(data, key);
             encryptedBase64Str = ByteUtil.encodeToBase64(encrypDatas);
             DICommLog.i(DICommLog.SECURITY, "Encrypted data: " + encryptedBase64Str);
-        } catch (Exception e) {
+        } catch (GeneralSecurityException e) {
             e.printStackTrace();
             DICommLog.i(DICommLog.SECURITY, "Failed to encrypt data with key - " + "Error: " + e.getMessage());
         }
         return encryptedBase64Str;
     }
 
+    @Nullable
     public String decryptData(String data) {
         DICommLog.i(DICommLog.SECURITY, "decryptData data:  " + data);
 
@@ -87,15 +92,15 @@ public class DISecurity {
         try {
             byte[] bytesEncData = ByteUtil.decodeFromBase64(data.trim());
             byte[] bytesDecData = EncryptionUtil.aesDecryptData(bytesEncData, key);
-            //For remove random bytes
+            // For remove random bytes
             byte[] bytesDecData1 = ByteUtil.removeRandomBytes(bytesDecData);
 
             decryptData = new String(bytesDecData1, Charset.defaultCharset());
 
             DICommLog.i(DICommLog.SECURITY, "Decrypted data: " + decryptData);
-        } catch (Exception e) {
+        } catch (GeneralSecurityException e) {
             e.printStackTrace();
-            DICommLog.i(DICommLog.SECURITY, "Failed to decrypt data");
+            DICommLog.e(DICommLog.SECURITY, "Failed to decrypt data.");
         }
 
         if (decryptData == null) {

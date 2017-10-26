@@ -34,7 +34,7 @@ public class ByteUtil {
             + "D662A4D18E73AFA32D779D5918D08BC8858F4DCEF97C2A24"
             + "855E6EEB22B3B2E5";
 
-    public static String encodeToBase64(byte[] data) throws Exception {
+    public static String encodeToBase64(byte[] data) {
         String strEncodeBase64 = null;
         if (data != null && data.length > 0) {
             strEncodeBase64 = Base64.encodeToString(data, Base64.DEFAULT);

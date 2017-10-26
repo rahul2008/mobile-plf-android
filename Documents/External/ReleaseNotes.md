@@ -46,6 +46,7 @@ Version {next}
 	* CommLib now determines for which port incoming data is.
 	* Ports are no longer required to determine if JSON matches their port properties.
 * CommLib - \#91908 NPE in LanCommunicationStrategy fixed. 
+* CommLib - \#81027 Subscriptions continue to work when security key changes.
 
 
 ### Residual anomalies
