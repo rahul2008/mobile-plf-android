@@ -144,7 +144,7 @@ android {
         compile 'com.android.support:design:25.1.1'
         
         def useProjectDependencies = project.ext.has('useprojectdependencies')
-        def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
+        def ufwModule = module(group: 'com.philips.cdp', name: 'ufw', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
         compile(useProjectDependencies ? project(':ufw') : ufwModule)
 
         
