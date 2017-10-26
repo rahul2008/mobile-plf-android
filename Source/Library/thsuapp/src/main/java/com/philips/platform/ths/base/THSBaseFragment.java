@@ -20,7 +20,6 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.activity.THSApplication;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.init.THSInitFragment;
 import com.philips.platform.ths.utility.AmwellLog;
@@ -64,13 +63,13 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(networkStateListener);
-        THSApplication.getInstance().setConnectionListener(null);
+        setConnectionListener(null);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        THSApplication.getInstance().setConnectionListener(this);
+        setConnectionListener(this);
 
     }
 
@@ -176,6 +175,10 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
         if (mPTHBaseFragmentProgressBar != null) {
             mPTHBaseFragmentProgressBar.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void setConnectionListener(THSNetworkStateListener.ConnectionReceiverListener listener) {
+        THSNetworkStateListener.connectionReceiverListener = listener;
     }
 
     //TODO: Toast to be removed

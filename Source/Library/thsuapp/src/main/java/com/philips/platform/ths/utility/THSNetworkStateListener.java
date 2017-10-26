@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import static com.janrain.android.engage.JREngage.getApplicationContext;
-
 public class THSNetworkStateListener extends BroadcastReceiver{
 
     public static ConnectionReceiverListener connectionReceiverListener;
@@ -23,15 +21,6 @@ public class THSNetworkStateListener extends BroadcastReceiver{
         if (connectionReceiverListener != null) {
             connectionReceiverListener.onNetworkConnectionChanged(isConnected);
         }
-    }
-
-    public static boolean isConnected() {
-        ConnectivityManager
-                cm = (ConnectivityManager) getApplicationContext()
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null
-                && activeNetwork.isConnectedOrConnecting();
     }
 
     public interface ConnectionReceiverListener {
