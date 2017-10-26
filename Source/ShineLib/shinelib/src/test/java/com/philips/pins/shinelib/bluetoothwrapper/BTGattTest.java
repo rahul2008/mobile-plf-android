@@ -363,15 +363,4 @@ public class BTGattTest {
         verify(mockedCallback).onServicesDiscovered(btGatt, BluetoothGatt.GATT_SUCCESS);
     }
 
-    @Test
-    public void whenServicesAreDiscoveredOnDeviceThatNeedsWorkaroundThenCallbackIsNotifiedWithADelay() {
-        ReflectionHelpers.setStaticField(Build.class, "MANUFACTURER", Manufacturer.HUAWEI.getName());
-        ReflectionHelpers.setStaticField(Build.class, "MODEL", Phone.NEXUS_6P.getModelName());
-
-        btGatt.onServicesDiscovered(mockedBluetoothGatt, BluetoothGatt.GATT_SUCCESS);
-        assertEquals(1, mockedUserHandler.getScheduledExecutionCount());
-        mockedUserHandler.executeFirstScheduledExecution();
-        verify(mockedCallback).onServicesDiscovered(btGatt, BluetoothGatt.GATT_SUCCESS);
-    }
-
 }
