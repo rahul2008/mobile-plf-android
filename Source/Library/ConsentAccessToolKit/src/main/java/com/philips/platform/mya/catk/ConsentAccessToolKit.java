@@ -60,7 +60,8 @@ public class ConsentAccessToolKit {
 
 
     public void createConsent(String consentStatus,final CreateConsentListener consentListener){
-         CreateConsentModelRequest model = new CreateConsentModelRequest(applicationName,consentStatus,propositionName,user,new NetworkAbstractModel.DataLoadListener() {
+         CreateConsentModelRequest model = new CreateConsentModelRequest(applicationName,consentStatus,propositionName,user,
+                 new NetworkAbstractModel.DataLoadListener() {
             @Override
             public void onModelDataLoadFinished(Message msg) {
                 if(msg.arg1==0){
@@ -104,7 +105,6 @@ public class ConsentAccessToolKit {
     private String buildPolicyRule(String consentType, int version, String country, String propositionName, String applicationName) {
         return "urn:com.philips.consent:" + consentType + "/" + country + "/" + version + "/" + propositionName + "/" + applicationName;
     }
-
 
     private NetworkHelper getNetworkHelper() {
         if (networkHelper == null) {

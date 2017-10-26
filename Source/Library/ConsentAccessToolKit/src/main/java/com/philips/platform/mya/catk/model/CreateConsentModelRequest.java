@@ -42,13 +42,13 @@ public class CreateConsentModelRequest extends NetworkAbstractModel {
 
     @Override
     public Map<String, String> requestHeader() {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("api-version", "1");
-        params.put("content-type", "application/json");
-        params.put("authorization","bearer "+mUser.getHsdpAccessToken());
-        params.put("performerid",mUser.getHsdpUUID());
-        params.put("cache-control", "no-cache");
-        return params;
+        Map<String, String> header = new HashMap<String, String>();
+        header.put("api-version", "1");
+        header.put("content-type", "application/json");
+        header.put("authorization","bearer "+mUser.getHsdpAccessToken());
+        header.put("performerid",mUser.getHsdpUUID());
+        header.put("cache-control", "no-cache");
+        return header;
     }
 
     @Override
