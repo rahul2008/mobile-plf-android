@@ -126,7 +126,17 @@ public class FragmentManagerMock extends FragmentManager {
     }
 
     @Override
+    public Fragment getPrimaryNavigationFragment() {
+        return null;
+    }
+
+    @Override
     public void dump(String s, FileDescriptor fileDescriptor, PrintWriter printWriter, String[] strings) {
 
+    }
+
+    @Override
+    public boolean isStateSaved() {
+        return false;
     }
 }

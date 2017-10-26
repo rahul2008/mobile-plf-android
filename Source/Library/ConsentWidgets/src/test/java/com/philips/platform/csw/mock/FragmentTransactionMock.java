@@ -66,6 +66,11 @@ public class FragmentTransactionMock extends FragmentTransaction {
     }
 
     @Override
+    public FragmentTransaction setPrimaryNavigationFragment(Fragment fragment) {
+        return null;
+    }
+
+    @Override
     public boolean isEmpty() {
         return false;
     }
@@ -132,7 +137,17 @@ public class FragmentTransactionMock extends FragmentTransaction {
     }
 
     @Override
+    public FragmentTransaction setReorderingAllowed(boolean reorderingAllowed) {
+        return null;
+    }
+
+    @Override
     public FragmentTransaction setAllowOptimization(boolean allowOptimization) {
+        return null;
+    }
+
+    @Override
+    public FragmentTransaction runOnCommit(Runnable runnable) {
         return null;
     }
 
