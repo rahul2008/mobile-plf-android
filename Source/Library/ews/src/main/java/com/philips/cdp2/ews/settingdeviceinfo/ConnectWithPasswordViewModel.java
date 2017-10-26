@@ -24,7 +24,7 @@ import com.philips.cdp2.ews.wifi.WiFiUtil;
 import javax.inject.Inject;
 
 @SuppressWarnings("WeakerAccess")
-public class SetDeviceInfoViewModel extends BaseObservable {
+public class ConnectWithPasswordViewModel extends BaseObservable {
 
     @NonNull public final ObservableField<String> deviceFriendlyName;
     @NonNull public final ObservableField<String> password;
@@ -38,12 +38,12 @@ public class SetDeviceInfoViewModel extends BaseObservable {
     @NonNull private final StringProvider stringProvider;
 
     @Inject
-    public SetDeviceInfoViewModel(@NonNull final WiFiUtil wiFiUtil,
-                                  @NonNull final ApplianceSessionDetailsInfo sessionDetailsInfo,
-                                  @NonNull final Navigator navigator,
-                                  @NonNull final ConnectionEstablishDialogFragment connectingDialog,
-                                  @NonNull BaseContentConfiguration baseConfig,
-                                  @NonNull StringProvider stringProvider) {
+    public ConnectWithPasswordViewModel(@NonNull final WiFiUtil wiFiUtil,
+                                        @NonNull final ApplianceSessionDetailsInfo sessionDetailsInfo,
+                                        @NonNull final Navigator navigator,
+                                        @NonNull final ConnectionEstablishDialogFragment connectingDialog,
+                                        @NonNull BaseContentConfiguration baseConfig,
+                                        @NonNull StringProvider stringProvider) {
         this.wiFiUtil = wiFiUtil;
         this.sessionDetailsInfo = sessionDetailsInfo;
         this.navigator = navigator;

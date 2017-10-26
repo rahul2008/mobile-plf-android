@@ -21,19 +21,20 @@ import com.philips.cdp2.ews.view.EWSActivity;
 
 public class WifiConnectionUnsuccessfulFragment extends BaseFragment {
     private final static String WIFI_SSID = "wifi_ssid";
-
-    public static Fragment newInstance(String wifiSSID) {
-        WifiConnectionUnsuccessfulFragment fragment = new WifiConnectionUnsuccessfulFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(WIFI_SSID, wifiSSID);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
+    private final static String DEVICE_NAME = "deviceName";
     @Nullable
     WIFIConnectionUnsuccessfulViewModel viewModel;
     @Nullable
     FragmentWifiConnectionUnsuccessfulBinding binding;
+
+    public static Fragment newInstance(String deviceName, String wifiSSID) {
+        WifiConnectionUnsuccessfulFragment fragment = new WifiConnectionUnsuccessfulFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(DEVICE_NAME, deviceName);
+        bundle.putString(WIFI_SSID, wifiSSID);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -42,8 +43,10 @@ public class WifiConnectionUnsuccessfulFragment extends BaseFragment {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_wifi_connection_unsuccessful, container, false);
         viewModel = createViewModel();
-        String ssid = BundleUtils.extractStringFromBundleOrThrow(getArguments(), WIFI_SSID);
-        viewModel.setDescription(getString(R.string.label_ews_phone_not_found_on_network_body, ssid, ssid));
+        String deviceName = BundleUtils.extractStringFromBundleOrThrow(getArguments(), DEVICE_NAME);
+        String wifiSSID = BundleUtils.extractStringFromBundleOrThrow(getArguments(), WIFI_SSID);
+        viewModel.setDescription(getString(R.string.label_ews_phone_not_found_on_network_body, deviceName, wifiSSID));
+        viewModel.setNotes(getString(R.string.label_ews_phone_not_found_on_network_note, deviceName));
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }

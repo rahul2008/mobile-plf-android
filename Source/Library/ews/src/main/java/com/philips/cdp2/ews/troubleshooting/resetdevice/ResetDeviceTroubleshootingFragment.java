@@ -1,4 +1,4 @@
-package com.philips.cdp2.ews.view;
+package com.philips.cdp2.ews.troubleshooting.resetdevice;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,7 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.viewmodel.ResetDeviceTroubleshootingViewModel;
+import com.philips.cdp2.ews.view.BaseTroubleShootingFragment;
+import com.philips.cdp2.ews.view.EWSActivity;
 
 public class ResetDeviceTroubleshootingFragment extends BaseTroubleShootingFragment {
 
