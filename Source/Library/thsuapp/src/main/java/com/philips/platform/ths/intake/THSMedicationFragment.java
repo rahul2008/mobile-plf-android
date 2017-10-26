@@ -46,6 +46,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     private Button updateMedicationButton;
     private Button mSkipLabel;
     boolean existingMedicineFetched = false; // flag to know if medication is fetched which can be null also
+    protected String tagAction="";
 
 
     @Nullable
@@ -122,7 +123,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
         }
         if (null != mExistingMedication.getMedicationList() && !mExistingMedication.getMedicationList().contains(searchedMedication)) {
             mExistingMedication.getMedicationList().add(searchedMedication);
-
+            tagAction="step3MedicationsAdded";
         }
 
     }

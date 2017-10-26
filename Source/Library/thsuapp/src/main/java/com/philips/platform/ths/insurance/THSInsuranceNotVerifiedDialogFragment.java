@@ -22,7 +22,7 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
 
-import static com.philips.platform.ths.utility.THSConstants.THS_INSURANCE_NOT_VERIFIED;
+
 
 public class THSInsuranceNotVerifiedDialogFragment extends DialogFragment implements View.OnClickListener {
 
@@ -75,9 +75,5 @@ public class THSInsuranceNotVerifiedDialogFragment extends DialogFragment implem
 
         }
     }
-    @Override
-    public void onResume() {
-        super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_INSURANCE_NOT_VERIFIED, null, null);
-    }
+
 }

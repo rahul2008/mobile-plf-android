@@ -6,6 +6,8 @@
 
 package com.philips.platform.ths.welcome;
 
+import android.os.Bundle;
+
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -16,35 +18,52 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
-import com.philips.platform.ths.onboarding.OnBoardingFragment;
 import com.philips.platform.ths.practice.THSPracticeFragment;
+import com.philips.platform.ths.registration.dependantregistration.THSDependantHistoryFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import javax.net.ssl.HttpsURLConnection;
 
 class THSWelcomePresenter implements THSBasePresenter,
-        THSLoginCallBack<THSAuthentication, THSSDKError>, THSGetConsumerObjectCallBack {
+        THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack{
     private THSBaseFragment uiBaseView;
     boolean isRefreshTokenRequestedBefore;
 
-    THSWelcomePresenter(THSBaseFragment uiBaseView) {
+    THSWelcomePresenter(THSBaseFragment uiBaseView){
         isRefreshTokenRequestedBefore = false;
         this.uiBaseView = uiBaseView;
     }
 
     @Override
     public void onEvent(int componentID) {
+        Bundle bundle = new Bundle();
         if (componentID == R.id.appointments) {
-            uiBaseView.addFragment(new OnBoardingFragment(), OnBoardingFragment.TAG, null, false);
+            bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_SCHEDULED_VISITS);
+            if(THSManager.getInstance().getThsParentConsumer().getDependents()!=null && THSManager.getInstance().getThsParentConsumer().getDependents().size()>0){
+                uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
+            }else {
+                uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
+            }
         } else if (componentID == R.id.visit_history) {
-            uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
+            bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_VISITS_HISTORY);
+            if(THSManager.getInstance().getThsParentConsumer().getDependents()!=null && THSManager.getInstance().getThsParentConsumer().getDependents().size()>0){
+                uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
+            }else {
+                uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
+            }
         } else if (componentID == R.id.how_it_works) {
             uiBaseView.showToast("Coming Soon!!!");
         } else if (componentID == R.id.ths_start) {
-            uiBaseView.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
+            bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_PRACTICES);
+            if(THSManager.getInstance().getThsParentConsumer().getDependents()!=null && THSManager.getInstance().getThsParentConsumer().getDependents().size()>0){
+                uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
+            }else {
+                uiBaseView.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
+            }
         }
     }
 
@@ -129,7 +148,9 @@ class THSWelcomePresenter implements THSBasePresenter,
         if (isRefreshTokenRequestedBefore) {
             isRefreshTokenRequestedBefore = false;
             uiBaseView.hideProgressBar();
-            uiBaseView.showError(uiBaseView.getString(R.string.ths_user_not_authenticated));
+            if(uiBaseView.getActivity()!=null) {
+                uiBaseView.showError(uiBaseView.getString(R.string.ths_user_not_authenticated));
+            }
             return true;
         }
         return false;

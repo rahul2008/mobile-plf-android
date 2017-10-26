@@ -42,6 +42,7 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
     private RelativeLayout conditionsRelativeLayout;
     private boolean isMedicalConditionChecked = false;
     private List<CheckBox> checkBoxList;
+    protected int NumberOfConditionSelected=0;
 
     @Nullable
     @Override
@@ -125,6 +126,11 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(isChecked){
+                            NumberOfConditionSelected++;
+                        }else{
+                            NumberOfConditionSelected--;
+                        }
                         condition.setCurrent(isChecked);
                         validateCheckBox();
                     }

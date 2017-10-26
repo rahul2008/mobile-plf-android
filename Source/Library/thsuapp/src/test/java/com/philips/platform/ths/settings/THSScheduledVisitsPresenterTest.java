@@ -18,7 +18,7 @@ import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -30,14 +30,9 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.internal.observers.ConsumerSingleObserver;
-
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyList;
-import static org.mockito.Matchers.anyMap;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -61,7 +56,7 @@ public class THSScheduledVisitsPresenterTest {
     Consumer consumerMock;
 
     @Mock
-    THSConsumer thsConsumer;
+    THSConsumerWrapper thsConsumerWrapper;
 
     @Mock
     ConsumerManager consumerManagerMock;
@@ -93,8 +88,8 @@ public class THSScheduledVisitsPresenterTest {
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
-        THSManager.getInstance().setPTHConsumer(thsConsumer);
-        when(thsConsumer.getConsumer()).thenReturn(consumerMock);
+        THSManager.getInstance().setPTHConsumer(thsConsumerWrapper);
+        when(thsConsumerWrapper.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(thsScheduledVisitsFragmentMock.getContext()).thenReturn(contextMock);
         when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);
