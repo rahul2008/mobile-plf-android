@@ -43,7 +43,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "dataServicesUApp"
+archivesBaseName = "dscUApp"
 
 allprojects {
     repositories {
@@ -118,12 +118,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName version
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -155,13 +155,13 @@ dependencies {
     //Coco
 	def dp = project.ext.has('useprojectdependencies')
 	
-	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	def usrModule = module(group: 'com.philips.cdp', name: 'usr', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
 	compile(dp ? project(':usr') : usrModule) 
 	{
 		transitive true
 	}	
 
-    def sdbModule = module(group: 'com.philips.cdp', name: 'securedblibrary', version: versions.sdb_securedblibrary + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+    def sdbModule = module(group: 'com.philips.cdp', name: 'sdb', version: versions.sdb_securedblibrary + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
     compile(dp ? project(':sdb') : sdbModule) 
     {
         transitive true
@@ -169,7 +169,7 @@ dependencies {
 
     //3rd Party
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:appcompat-v7:26.0.2'
     compile 'com.j256.ormlite:ormlite-core:5.0'
     compile 'com.j256.ormlite:ormlite-android:5.0'  
 	
