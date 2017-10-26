@@ -154,8 +154,7 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 	}
 
 	private void updateStartDate() throws ParseException {
-		String myFormat = "MM/dd/yy";
-
+		String myFormat = "yyyy-MM-dd'T' K mm:ss.SSS Z";
 		SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 		String dateAsString = sdf.format(myCalendar.getTime());
 		mMomentStartDateEt.setText(dateAsString);
@@ -163,8 +162,7 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 	}
 
 	private void updateEndDate() throws ParseException {
-		String myFormat = "MM/dd/yy";
-
+		String myFormat = "yyyy-MM-dd'T' K mm:ss.SSS Z";
 		SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 		String dateAsString = sdf.format(myCalendar.getTime());
 		mMomentEndDateEt.setText(dateAsString);

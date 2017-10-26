@@ -108,6 +108,7 @@ public class DataPushSynchroniseTest {
         thenAnErrorIsPostedWithReferenceId(EVENT_ID);
     }
 
+
     @Test
     public void postSyncCompleteWhenNoSenders() {
         givenUserIsLoggedIn();
@@ -128,6 +129,7 @@ public class DataPushSynchroniseTest {
     }
 
     @Test
+
     public void postSyncCompleteWhenConfigurableSenders() {
         givenUserIsLoggedIn();
         givenConfigurableSenderList();

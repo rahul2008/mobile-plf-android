@@ -15,14 +15,20 @@ import java.util.List;
 
 public class BackendMomentListSaveRequest extends ListEvent<Moment> {
 
-    final DBChangeListener dbChangeListener;
+    private final DBChangeListener dbChangeListener;
+    private final List<Moment> mMomentList;
 
-    public BackendMomentListSaveRequest(@NonNull final List<? extends Moment> dataList, DBChangeListener dbChangeListener) {
+    public BackendMomentListSaveRequest(@NonNull final List<Moment> dataList, DBChangeListener dbChangeListener) {
         super(dataList);
         this.dbChangeListener = dbChangeListener;
+        mMomentList = dataList;
     }
 
     public DBChangeListener getDbChangeListener() {
         return dbChangeListener;
+    }
+
+    public List<Moment> getMomentList() {
+        return mMomentList;
     }
 }
