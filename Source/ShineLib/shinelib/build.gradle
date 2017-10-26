@@ -164,7 +164,7 @@ dependencies {
     testCompile deps.powermock_mockito
     testCompile deps.powermock_junit
 
-    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    testCompile deps.assertj
 
     testCompile 'com.nitorcreations:junit-runners:1.3'
 
