@@ -39,7 +39,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "MyAccountDemoapp"
+archivesBaseName = "myaDemoApp"
 
 group = 'com.philips.cdp'
 version = objcdp.getVersion(versions.mya_myAccount)
@@ -237,11 +237,11 @@ dependencies {
                 transitive = true
             }
 
-    def usrUAppModule = module(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    def usrUAppModule = module(group: 'com.philips.cdp', name: 'usrUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     compile(dp ? project(':usrUApp') : usrUAppModule)
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    def usrModule = module(group: 'com.philips.cdp', name: 'usr', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     compile(dp ? project(':usr') : usrModule)
             {
                 transitive = true

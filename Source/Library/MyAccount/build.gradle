@@ -51,7 +51,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "MyAccount"
+archivesBaseName = "mya"
 
 allprojects {
     repositories {
@@ -233,7 +233,7 @@ dependencies {
     //Coco
     def dp = project.ext.has('useprojectdependencies')
 
-    def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar')
+    def uitModule = module(group: 'com.philips.cdp', name: 'uit', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar')
     compile(dp ? project(':uit') : uitModule)
             {
                 transitive = true
@@ -247,7 +247,7 @@ dependencies {
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
-    def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    def usrModule = module(group: 'com.philips.cdp', name: 'usr', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     compile(dp ? project(':usr') : usrModule)
             {
                 transitive = true
