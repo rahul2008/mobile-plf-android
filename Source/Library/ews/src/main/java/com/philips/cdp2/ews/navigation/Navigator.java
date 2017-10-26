@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiFragment;
+import com.philips.cdp2.ews.settingdeviceinfo.SetDeviceInfoFragment;
 import com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingFragment;
@@ -18,9 +19,7 @@ import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
 import com.philips.cdp2.ews.view.EWSGettingStartedFragment;
 import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
-import com.philips.cdp2.ews.view.EWSWiFiConnectFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
-import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
 
 public class Navigator {
 
@@ -36,28 +35,31 @@ public class Navigator {
     }
 
     public void navigateToHomeNetworkConfirmationScreen() {
-        boolean isPresentInStack = fragmentNavigator.popToFragment(EWSHomeWifiDisplayFragment.class.getCanonicalName());
+        boolean isPresentInStack = fragmentNavigator
+                .popToFragment(EWSHomeWifiDisplayFragment.class.getCanonicalName());
         if (!isPresentInStack) {
             pushFragment(new EWSHomeWifiDisplayFragment());
         }
     }
 
     public void navigateToDevicePoweredOnConfirmationScreen() {
-        boolean isPresentInStack = fragmentNavigator.popToFragment(EWSDevicePowerOnFragment.class.getCanonicalName());
+        boolean isPresentInStack =
+                fragmentNavigator.popToFragment(EWSDevicePowerOnFragment.class.getCanonicalName());
         if (!isPresentInStack) {
             pushFragment(new EWSDevicePowerOnFragment());
         }
     }
 
     public void navigateToCompletingDeviceSetupScreen() {
-        boolean isPresentInStack = fragmentNavigator.popToFragment(EWSPressPlayAndFollowSetupFragment.class.getCanonicalName());
+        boolean isPresentInStack = fragmentNavigator
+                .popToFragment(EWSPressPlayAndFollowSetupFragment.class.getCanonicalName());
         if (!isPresentInStack) {
             pushFragment(new EWSPressPlayAndFollowSetupFragment());
         }
     }
 
-    public void navigateToConnectToDeviceWithPasswordScreen() {
-        pushFragment(new EWSWiFiConnectFragment());
+    public void navigateToConnectToDeviceWithPasswordScreen(String friendlyName) {
+        pushFragment(SetDeviceInfoFragment.newInstance(friendlyName));
     }
 
     public void navigateToPairingSuccessScreen() {
@@ -65,7 +67,8 @@ public class Navigator {
     }
 
     public void navigateToResetConnectionTroubleShootingScreen() {
-        boolean isPresentInStack = fragmentNavigator.popToFragment(ResetConnectionTroubleshootingFragment.class.getCanonicalName());
+        boolean isPresentInStack = fragmentNavigator
+                .popToFragment(ResetConnectionTroubleshootingFragment.class.getCanonicalName());
         if (!isPresentInStack) {
             pushFragment(new ResetConnectionTroubleshootingFragment());
         }
@@ -83,10 +86,6 @@ public class Navigator {
         pushFragment(new SetupAccessPointModeTroubleshootingFragment());
     }
 
-    public void navigateToConnectionUnsuccessfulTroubleShootingScreen() {
-        pushFragment(new TroubleshootConnectionUnsuccessfulFragment());
-    }
-
     public void navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(@NonNull String deviceName, @NonNull String wifiSSID) {
         pushFragment(WifiConnectionUnsuccessfulFragment.newInstance(deviceName, wifiSSID));
     }
@@ -95,8 +94,8 @@ public class Navigator {
         pushFragment(new ConnectingPhoneToHotspotWifiFragment());
     }
 
-    public void navigateToConnectingDeviceWithWifiScreen(@NonNull final String homeWiFiSSID, @NonNull final String homeWiFiPassword, @NonNull final String deviceName) {
-        pushFragment(ConnectingDeviceWithWifiFragment.newInstance(homeWiFiSSID, homeWiFiPassword, deviceName));
+    public void navigateToConnectingDeviceWithWifiScreen(@NonNull final String homeWiFiSSID, @NonNull final String homeWiFiPassword, @NonNull final String deviceName,@NonNull final String deviceFriendlyName) {
+        pushFragment(ConnectingDeviceWithWifiFragment.newInstance(homeWiFiSSID, homeWiFiPassword, deviceName,deviceFriendlyName));
     }
 
     public void navigateToConnectingDeviceWithWifiScreen(@Nullable Bundle bundle) {

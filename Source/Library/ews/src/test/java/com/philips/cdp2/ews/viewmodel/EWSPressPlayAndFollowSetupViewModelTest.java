@@ -120,7 +120,7 @@ public class EWSPressPlayAndFollowSetupViewModelTest {
     public void shouldShowNextPasswordEntryScreenWhenPhoneIsConnectedToApplianceHotspot() throws Exception {
         sendEventToShowPasswordEntryScreen();
 
-//        verify(navigatorMock).showFragment(isA(EWSWiFiConnectFragment.class));
+//        verify(navigatorMock).showFragment(isA(SetDeviceInfoFragment.class));
     }
 
 

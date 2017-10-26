@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.injections;
 
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiViewModel;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel;
+import com.philips.cdp2.ews.settingdeviceinfo.SetDeviceInfoFragment;
 import com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingViewModel;
 import com.philips.cdp2.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingViewModel;
 import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingViewModel;
@@ -22,7 +23,6 @@ import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
 import com.philips.cdp2.ews.view.EWSProductSupportFragment;
 import com.philips.cdp2.ews.view.EWSResetDeviceFragment;
-import com.philips.cdp2.ews.view.EWSWiFiConnectFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
 import com.philips.cdp2.ews.view.TroubleshootCheckRouterSettingsFragment;
 import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
@@ -49,7 +49,7 @@ public interface EWSComponent {
 
     void inject(EWSPressPlayAndFollowSetupFragment ewsPressPlayAndFollowSetupFragment);
 
-    void inject(EWSWiFiConnectFragment ewsWiFiConnectFragment);
+    void inject(SetDeviceInfoFragment setDeviceInfoFragment);
 
     void inject(EWSWiFiPairedFragment ewsWiFiPairedFragment);
 

@@ -8,10 +8,9 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
-import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
-import com.philips.cdp2.ews.appliance.ApplianceAccessManager.FetchCallback;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel.ConnectingPhoneToHotSpotCallback;
 import com.philips.cdp2.ews.navigation.Navigator;
+import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameFetcher;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
@@ -40,19 +39,18 @@ public class ConnectingPhoneToHotspotWifiViewModelTest {
     @InjectMocks private ConnectingPhoneToHotspotWifiViewModel subject;
 
     @Mock private WiFiConnectivityManager mockWiFiConnectivityManager;
-    @Mock private ApplianceAccessManager mockApplianceAccessManager;
     @Mock private WiFiUtil mockWiFiUtil;
     @Mock private Navigator mockNavigator;
     @Mock private Handler mockHandler;
     @Mock private ConnectingPhoneToHotSpotCallback mockFragmentCallback;
-
+    @Mock private DeviceFriendlyNameFetcher mockDeviceFriendlyNameFetcher;
     @Mock private Context mockContext;
     @Mock private Intent mockIntent;
     @Mock private NetworkInfo mockNetworkInfo;
     @Mock private WifiPortProperties mockWifiPortProperties;
 
     @Captor private ArgumentCaptor<BroadcastReceiver> receiverArgumentCaptor;
-    @Captor private ArgumentCaptor<FetchCallback> fetchCallbackArgumentCaptor;
+    @Captor private ArgumentCaptor<DeviceFriendlyNameFetcher.Callback> fetchDevicePortProperties;
     @Captor private ArgumentCaptor<Runnable> timeoutArgumentCaptor;
 
     @Before
@@ -66,16 +64,19 @@ public class ConnectingPhoneToHotspotWifiViewModelTest {
     public void itShouldRegisterBroadcastReceiverWhenConnectionToHotspot() throws Exception {
         subject.connectToHotSpot();
 
-        verify(mockFragmentCallback).registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
+        verify(mockFragmentCallback)
+                .registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
     }
 
     @Test
-    public void itShouldNotRegisterBroadcastReceiverWhenConnectionToHotspotWhenCallbackIsNull() throws Exception {
+    public void itShouldNotRegisterBroadcastReceiverWhenConnectionToHotspotWhenCallbackIsNull()
+            throws Exception {
         subject.setFragmentCallback(null);
 
         subject.connectToHotSpot();
 
-        verify(mockFragmentCallback, never()).registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
+        verify(mockFragmentCallback, never())
+                .registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
     }
 
     @Test
@@ -93,39 +94,47 @@ public class ConnectingPhoneToHotspotWifiViewModelTest {
     }
 
     @Test
-    public void itShouldFetchDeviceInfoWhenConnectedToCorrectHotspot() throws Exception {
-        simulateConnectionToDeviceHotspot(NetworkInfo.State.CONNECTED, WiFiUtil.DEVICE_HOTSPOT_WIFI);
+    public void itShouldFetchDeviceFriendlyNameWhenConnectedToCorrectHotspot() throws Exception {
+        simulateConnectionToDeviceHotspot(NetworkInfo.State.CONNECTED,
+                WiFiUtil.DEVICE_HOTSPOT_WIFI);
 
-        verify(mockApplianceAccessManager).fetchDevicePortProperties(any(FetchCallback.class));
+        verify(mockDeviceFriendlyNameFetcher).fetchFriendlyName();
     }
 
     @Test
     public void itShouldNotFetchDeviceInfoWhenNetworkNotConnected() throws Exception {
-        simulateConnectionToDeviceHotspot(NetworkInfo.State.DISCONNECTED, WiFiUtil.DEVICE_HOTSPOT_WIFI);
+        simulateConnectionToDeviceHotspot(NetworkInfo.State.DISCONNECTED,
+                WiFiUtil.DEVICE_HOTSPOT_WIFI);
 
-        verify(mockApplianceAccessManager, never()).fetchDevicePortProperties(any(FetchCallback.class));
+        verify(mockDeviceFriendlyNameFetcher, never())
+                .fetchFriendlyName();
     }
 
     @Test
-    public void itShouldNotFetchDeviceInfoWhenNetworkIsConnectedButToWrongWifiNetwork() throws Exception {
+    public void itShouldNotFetchDeviceInfoWhenNetworkIsConnectedButToWrongWifiNetwork() throws
+            Exception {
         simulateConnectionToDeviceHotspot(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
 
-        verify(mockApplianceAccessManager, never()).fetchDevicePortProperties(any(FetchCallback.class));
+        verify(mockDeviceFriendlyNameFetcher, never())
+                .fetchFriendlyName();
     }
 
     @Test
     public void itShouldUnregisterReceiverAndSetCallbackToNullWhenCleared() throws Exception {
-        simulateConnectionToDeviceHotspot(NetworkInfo.State.CONNECTED, WiFiUtil.DEVICE_HOTSPOT_WIFI);
+        simulateConnectionToDeviceHotspot(NetworkInfo.State.CONNECTED,
+                WiFiUtil.DEVICE_HOTSPOT_WIFI);
 
         subject.clear();
 
-        verify(mockFragmentCallback, atLeastOnce()).unregisterReceiver(any(BroadcastReceiver.class));
+        verify(mockFragmentCallback, atLeastOnce())
+                .unregisterReceiver(any(BroadcastReceiver.class));
         assertNull(subject.getFragmentCallback());
     }
 
     @Test
     public void itShouldUnregisterReceiverWhenConnectedToCorrectHotSpot() throws Exception {
-        simulateConnectionToDeviceHotspot(NetworkInfo.State.CONNECTED, WiFiUtil.DEVICE_HOTSPOT_WIFI);
+        simulateConnectionToDeviceHotspot(NetworkInfo.State.CONNECTED,
+                WiFiUtil.DEVICE_HOTSPOT_WIFI);
 
         verify(mockFragmentCallback).unregisterReceiver(any(BroadcastReceiver.class));
     }
@@ -133,21 +142,20 @@ public class ConnectingPhoneToHotspotWifiViewModelTest {
     @Test
     public void itShouldNavigateToConnectToDeviceWithPasswordScreenWhenFetchingIsSuccessful() throws Exception {
         simulateConnectionToDeviceHotspot(NetworkInfo.State.CONNECTED, WiFiUtil.DEVICE_HOTSPOT_WIFI);
+        fetchFriendlyName();
+        fetchDevicePortProperties.getValue().onFriendlyNameFetchingSuccess(anyString());
 
-        verify(mockApplianceAccessManager).fetchDevicePortProperties(fetchCallbackArgumentCaptor.capture());
-        fetchCallbackArgumentCaptor.getValue().onDeviceInfoReceived(mockWifiPortProperties);
-
-        verify(mockNavigator).navigateToConnectToDeviceWithPasswordScreen();
+        verify(mockNavigator).navigateToConnectToDeviceWithPasswordScreen(anyString());
     }
 
     @Test
     public void itShouldNotNavigateToConnectToDeviceWithPasswordScreenWhenFetchingIsNotSuccessful() throws Exception {
         simulateConnectionToDeviceHotspot(NetworkInfo.State.CONNECTED, WiFiUtil.DEVICE_HOTSPOT_WIFI);
+        fetchFriendlyName();
+        fetchDevicePortProperties.getValue().onFriendlyNameFetchingFailed();
 
-        verify(mockApplianceAccessManager).fetchDevicePortProperties(fetchCallbackArgumentCaptor.capture());
-        fetchCallbackArgumentCaptor.getValue().onFailedToFetchDeviceInfo();
-
-        verify(mockNavigator, never()).navigateToConnectToDeviceWithPasswordScreen();
+        verify(mockFragmentCallback).showTroubleshootHomeWifiDialog();
+        verify(mockNavigator, never()).navigateToConnectToDeviceWithPasswordScreen(anyString());
     }
 
     @Test
@@ -166,16 +174,23 @@ public class ConnectingPhoneToHotspotWifiViewModelTest {
         verify(mockNavigator).navigateBack();
     }
 
+    private void fetchFriendlyName() {
+        verify(mockDeviceFriendlyNameFetcher).setNameFetcherCallback(fetchDevicePortProperties.capture());
+        verify(mockDeviceFriendlyNameFetcher).fetchFriendlyName();
+    }
+
     private void mockNetworkChange(NetworkInfo.State networkState, @WiFiUtil.WiFiState int wifiState) {
         when(mockIntent.getParcelableExtra(anyString())).thenReturn(mockNetworkInfo);
         when(mockNetworkInfo.getState()).thenReturn(networkState);
         when(mockWiFiUtil.getCurrentWifiState()).thenReturn(wifiState);
     }
 
-    private void simulateConnectionToDeviceHotspot(NetworkInfo.State networkState, @WiFiUtil.WiFiState int wifiState) {
+    private void simulateConnectionToDeviceHotspot(NetworkInfo.State networkState,
+                                                   @WiFiUtil.WiFiState int wifiState) {
         mockNetworkChange(networkState, wifiState);
         subject.connectToHotSpot();
-        verify(mockFragmentCallback).registerReceiver(receiverArgumentCaptor.capture(), any(IntentFilter.class));
+        verify(mockFragmentCallback)
+                .registerReceiver(receiverArgumentCaptor.capture(), any(IntentFilter.class));
         receiverArgumentCaptor.getValue().onReceive(mockContext, mockIntent);
     }
 }
