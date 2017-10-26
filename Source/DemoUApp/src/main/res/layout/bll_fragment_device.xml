@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2015-2017 Koninklijke Philips N.V.
+  ~ All rights reserved.
+  -->
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".fragment.device.DeviceDetailActivity"
+    tools:ignore="MergeRootFrame">
+
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:background="?android:attr/colorBackground">
+
+        <LinearLayout
+            android:id="@+id/bll_capabilities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="?android:attr/colorBackground" />
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/bll_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|start"
+        android:layout_margin="@dimen/bll_fab_margin"
+        android:src="@android:drawable/stat_sys_data_bluetooth"
+        app:layout_anchor="@+id/bll_device_detail_container"
+        app:layout_anchorGravity="top|end"
+        app:rippleColor="@android:color/white" />
+
+</android.support.design.widget.CoordinatorLayout>

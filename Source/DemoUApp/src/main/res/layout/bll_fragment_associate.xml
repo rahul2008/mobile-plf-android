@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".associate.AssociatedDevicesFragment">
+    tools:context=".fragment.associate.AssociatedDevicesFragment">
 
     <TextView
         android:id="@+id/bll_deviceDefinitionsHeader"

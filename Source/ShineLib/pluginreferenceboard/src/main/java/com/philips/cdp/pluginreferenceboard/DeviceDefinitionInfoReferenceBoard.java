@@ -13,6 +13,7 @@ import com.philips.pins.shinelib.SHNDeviceDefinitionInfo;
 import com.philips.pins.shinelib.associationprocedures.SHNAssociationProcedureNearestDevice;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.services.SHNServiceDiCommStreaming;
+import com.philips.pins.shinelib.services.SHNServiceMoonshineStreaming;
 import com.philips.pins.shinelib.utility.BleScanRecord;
 
 import java.util.HashSet;
@@ -37,7 +38,7 @@ public class DeviceDefinitionInfoReferenceBoard implements SHNDeviceDefinitionIn
     public Set<UUID> getPrimaryServiceUUIDs() {
         if (primaryServiceUUIDs == null) {
             primaryServiceUUIDs = new HashSet<>();
-            primaryServiceUUIDs.add(SHNServiceDiCommStreaming.SERVICE_UUID);
+            primaryServiceUUIDs.add(UUID.fromString("477ea600-a260-11e4-ae37-0002a5d50001"));
         }
         return primaryServiceUUIDs;
     }
