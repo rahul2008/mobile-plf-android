@@ -27,6 +27,9 @@ public class MyaFragment extends Fragment implements
     private FragmentManager mFragmentManager;
     private ActionBarListener mActionBarListener;
 
+    public String applicationName;
+    public String propositionName;
+
     static String BACK_STACK_ID = MyaFragment.class.getSimpleName();
 
     @Override
@@ -122,4 +125,13 @@ public class MyaFragment extends Fragment implements
         mFragmentManager = fragmentManager;
     }
 
+    private static final String BUNDLE_KEY_APPLICATION_NAME = "appName";
+    private static final String BUNDLE_KEY_PROPOSITION_NAME = "propName";
+
+    public static Bundle buildBundle(String applicationName, String propositionName) {
+        Bundle b = new Bundle();
+        b.putString(BUNDLE_KEY_APPLICATION_NAME, applicationName);
+        b.putString(BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        return b;
+    }
 }
