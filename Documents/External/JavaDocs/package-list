@@ -1,8 +1,9 @@
 android.net
-com.philips.platform.aildemo
-com.philips.platform.aildemolaunch
 com.philips.platform.appinfra
 com.philips.platform.appinfra.abtestclient
+com.philips.platform.appinfra.aikm
+com.philips.platform.appinfra.aikm.exception
+com.philips.platform.appinfra.aikm.model
 com.philips.platform.appinfra.apisigning
 com.philips.platform.appinfra.appconfiguration
 com.philips.platform.appinfra.appidentity
