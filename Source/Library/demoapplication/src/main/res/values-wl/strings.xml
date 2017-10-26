@@ -2,10 +2,10 @@
 <resources>
 
     <!-- happy flow configuration -->
-    <string name="lbl_appname">No solution</string>
-    <string name="lbl_devicename">Just device</string>
+    <string name="lbl_appname">Healthy sleep solution</string>
+    <string name="lbl_devicename">BrightEyes</string>
 
-    <string name="label_ews_get_started_title">Connect with your device</string>
+    <string name="label_ews_get_started_title">WL, Connect with your device</string>
 
     <string name="lbl_setup_screen_title">2. Make sure your device is powered on </string>
     <string name="lbl_setup_screen_body">Proposition specific instructions to power the device.</string>
