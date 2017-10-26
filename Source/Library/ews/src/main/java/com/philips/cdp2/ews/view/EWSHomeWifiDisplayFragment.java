@@ -101,12 +101,5 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
                 viewModel.refresh();
             }
         });
-//        alertDialogFragment.getDialog().setOnDismissListener(
-//                new DialogInterface.OnDismissListener() {
-//                    @Override
-//                    public void onDismiss(DialogInterface dialog) {
-//                        viewModel.refresh();
-//                    }
-//                });
     }
 }

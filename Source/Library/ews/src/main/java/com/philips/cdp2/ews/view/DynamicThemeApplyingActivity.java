@@ -21,6 +21,7 @@ public class DynamicThemeApplyingActivity extends UIDActivity {
         setTheme(R.style.Theme_DLS_GroupBlue_UltraLight);
         UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, NavigationColor.BRIGHT,
                 ContentColor.ULTRA_LIGHT));
+        UIDHelper.injectCalligraphyFonts();
         super.onCreate(savedInstanceState);
     }
 
