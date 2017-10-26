@@ -191,7 +191,7 @@ dependencies {
         debugCompile project(path: ':bluelib', configuration: 'debug')
         releaseCompile project(path: ':bluelib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'shinelib', version: versions.bll_shinelib + objcdp.getVersionSuffix())
+        compile(group: 'com.philips.cdp', name: 'shinelib', version: versions.bll_shinelib + objcdp.getVersionSuffix(), changing: true)
     }
 
     for (dep in [':commlib-api']) {
@@ -202,6 +202,11 @@ dependencies {
             compile("$group$dep:$versions.cml_commlib$suffix") { changing = true }
         }
     }
+
+    def dp = project.ext.has('useprojectdependencies')
+
+	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix())
+	compile(dp ? project(':ail') : ailModule)
 
     testCompile deps.junit
     testCompile deps.mockito

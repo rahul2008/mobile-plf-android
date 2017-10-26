@@ -74,20 +74,23 @@ public class ByteUtilTest extends RobolectricTest {
     }
 
     @Test
-    public void testGetRandomBytes() {
-        byte[] byteArr1 = ByteUtil.getRandomByteArray(16);
-        byte[] byteArr2 = ByteUtil.getRandomByteArray(16);
-
-        assertFalse(Arrays.equals(byteArr1, byteArr2));
-    }
-
-    @Test
     public void testAddRandomBytesCaseOne() {
         String testStr = "Hello Security";
         byte[] testBytes = testStr.getBytes();
         byte[] testRandomBytes = ByteUtil.addRandomBytes(testBytes);
 
         assertEquals(testRandomBytes.length, testBytes.length + ByteUtil.RANDOM_BYTE_ARR_SIZE);
+    }
+
+    @Test
+    public void whenAddingRandomBytes_thenNotEqual() {
+        String testStr = "Hello Security";
+
+        byte[] testBytes = testStr.getBytes();
+        byte[] testRandomBytes1 = ByteUtil.addRandomBytes(testBytes);
+        byte[] testRandomBytes2 = ByteUtil.addRandomBytes(testBytes);
+
+        assertFalse(Arrays.equals(testRandomBytes1, testRandomBytes2));
     }
 
     @Test
@@ -157,5 +160,15 @@ public class ByteUtilTest extends RobolectricTest {
         String testStr1 = new String(afterRemoveBytes, Charset.defaultCharset());
 
         assertEquals(data, testStr1);
+    }
+
+    @Test
+    public void whenEncodingNull_thenReturnsNull() {
+        assertNull(ByteUtil.encodeToBase64(null));
+    }
+
+    @Test
+    public void whenDecodingNull_thenReturnNull() {
+        assertNull(ByteUtil.decodeFromBase64(null));
     }
 }

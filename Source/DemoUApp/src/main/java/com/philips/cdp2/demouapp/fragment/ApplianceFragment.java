@@ -60,16 +60,18 @@ public class ApplianceFragment extends Fragment {
             addFragment(new AirPortFragment());
         }
 
-        if (currentAppliance instanceof BleReferenceAppliance) {
-            addFragment(new BleApplianceFragment());
-        }
-
-        if (currentAppliance instanceof WifiReferenceAppliance) {
-            addFragment(new PairingPortFragment());
-        }
-
         if (currentAppliance instanceof ReferenceAppliance) {
+
+            if (currentAppliance instanceof WifiReferenceAppliance) {
+                addFragment(new PairingPortFragment());
+            }
+
             addFragment(new TimePortFragment());
+
+            if (currentAppliance instanceof BleReferenceAppliance) {
+                addFragment(new BleApplianceFragment());
+            }
+
             addFragment(new FirmwareUpgradeFragment());
         }
 

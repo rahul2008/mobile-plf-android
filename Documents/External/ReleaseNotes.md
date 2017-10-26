@@ -37,16 +37,22 @@ Version {next}
 
 ### Defects solved
 * CommLib - \#72227 Timeout callback not called
+* CommLib - \#73361 XML parser vulnerability during SSDP discovery
 * CommLib - \#85583 Use injectable AppInfra
+* CommLib - \#73511 Use secure random for encryption (reported by HP Fortify)
 * CommLib BLE - \#76117 Let BlueLib make connect() calls without timeout
 * CommLib BLE - \#75429 Not registering SHNLogger when app configured having `AppIdentityInterface.AppState.PRODUCTION`
 * CloudController - \#55808 BufferUnderflowException while reading download data
+* CommLib - \#84930 CommLib responses should include port being subscribed to
+	* CommLib now determines for which port incoming data is.
+	* Ports are no longer required to determine if JSON matches their port properties.
 * CommLib BLE - \#87558 Devices are no longer listed multiple times in device discovery
 * CommLib - \#84930 CommLib responses should include port being subscribed to
 	* CommLib now determines for which port incoming data is.
 	* Ports are no longer required to determine if JSON matches their port properties.
 * CommLib - \#91908 NPE in LanCommunicationStrategy fixed. 
 * CommLib - \#81027 Subscriptions continue to work when security key changes.
+
 
 
 ### Residual anomalies
