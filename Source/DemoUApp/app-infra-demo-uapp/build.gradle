@@ -41,7 +41,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "AppInfraUApp"
+archivesBaseName = "ailUApp"
 
 allprojects {
     repositories {
@@ -51,6 +51,9 @@ allprojects {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
+        }
+        maven {
+            url 'https://maven.google.com'
         }
         maven {
             url objcdp.getArtifactoryUrl()
@@ -120,13 +123,13 @@ publishing {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
 
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
 
         versionName "1.5.6"
@@ -146,9 +149,8 @@ android {
 
         
         compile 'com.squareup.leakcanary:leakcanary-android:1.5'
-
+        compile 'com.google.code.gson:gson:2.8.1'
 		def dp = project.ext.has('useprojectdependencies')
-        
         compile(dp ? project(':ail') : project(':AppInfra'))
     }
 }
