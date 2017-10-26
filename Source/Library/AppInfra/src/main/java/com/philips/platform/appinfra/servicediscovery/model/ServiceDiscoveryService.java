@@ -1,6 +1,7 @@
 package com.philips.platform.appinfra.servicediscovery.model;
 
-import com.philips.platform.appinfra.servicediscovery.KError;
+
+import com.philips.platform.appinfra.aikm.AIKManager;
 
 import java.util.Map;
 
@@ -14,7 +15,7 @@ public class ServiceDiscoveryService {
     private String mConfigUrl;
     private String mError;
     private Map kMap;
-    private KError kError;
+    private AIKManager.KError kError;
 
     public void init(String localeParam, String configUrlParam) {
         mLocale = localeParam;
@@ -49,11 +50,11 @@ public class ServiceDiscoveryService {
         this.kMap = kMap;
     }
 
-    public KError getKError() {
+    public AIKManager.KError getKError() {
         return kError;
     }
 
-    public void setKError(KError kError) {
+    public void setKError(AIKManager.KError kError) {
         this.kError = kError;
     }
 }
