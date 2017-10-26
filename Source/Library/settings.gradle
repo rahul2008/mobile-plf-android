@@ -1,7 +1,6 @@
 include ':hsdp', ':HockeySDK-3.0.2'
 include ':jump'
-include ':usr' 
-project(':usr').projectDir =new File('../Library/RegistrationApi')
+include ':usr'
 include ':coppa'
 include ':RegistrationCoppaSampleApp'
 
