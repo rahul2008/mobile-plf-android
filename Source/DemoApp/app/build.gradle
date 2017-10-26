@@ -39,7 +39,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "dprDemoApp"
+archivesBaseName = "devicepairingApp"
 
 
 allprojects {
@@ -230,7 +230,7 @@ dependencies {
 	//Coco
 	def dp = project.ext.has('useprojectdependencies')
 
-	def usrModule = module(group: 'com.philips.cdp', name: 'usr', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
 	compile(dp ? project(':usr') : usrModule) 
 	{
 		transitive true

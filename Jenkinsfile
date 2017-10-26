@@ -1,9 +1,10 @@
-#!/usr/bin/env groovy
+#!/usr/bin/env groovy																											
 
 BranchName = env.BRANCH_NAME
 JENKINS_ENV = env.JENKINS_ENV
 
 properties([
+    [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]],
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]
 ])
 
@@ -11,8 +12,8 @@ def MailRecipient = 'DL_CDP2_Callisto@philips.com'
 def errors = []
 
 node ('android&&docker') {
-    timestamps {
-        try {
+	timestamps {
+    	try {
             stage ('Checkout') {
                 def jobBaseName = "${env.JOB_BASE_NAME}".replace('%2F', '/')
                 if (env.BRANCH_NAME != jobBaseName)
@@ -27,36 +28,44 @@ node ('android&&docker') {
                 step([$class: 'StashNotifier'])
             }
 
-            if (BranchName =~ /master|develop|release\/platform_.*/) {
-                stage('Trigger OPA Build'){
-                    def committerName = sh (script: "git show -s --format='%an' HEAD", returnStdout: true).trim()
-                    if (BranchName =~ "/") {
-                        BranchName = BranchName.replaceAll('/','%2F')
-                        echo "BranchName changed to ${BranchName}"
-                    }
-                    build job: "Platform-Infrastructure/opa-android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'committerName', value:committerName]], wait: false
-                }
-            }
-            else
-            {
-                stage ('build') {
+    		if (BranchName =~ /master|develop|release\/platform_.*/) {
+    			stage ('build') {
                     sh '''#!/bin/bash -l
                         chmod -R 775 .
                         cd ./Source/DemoApp
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test artifactoryPublish
+                    '''
+			    }
+			} else {
+                stage ('build') {
+                	sh '''#!/bin/bash -l
+    				    chmod -R 775 .
+    				    cd ./Source/DemoApp
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
                         ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test
-                    '''
-                }
+    				'''
+    			}
+			}
 
-                stage ('save dependencies list') {
-                    sh '''#!/bin/bash -l
-                        cd ./Source/DemoApp
-                        ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat                   
-                    '''
-                }
+			stage ('save dependencies list') {
+            	sh '''#!/bin/bash -l
+            	    cd ./Source/DemoApp
+            	    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat                   
+            	'''
+            }
+
+            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release\/platform_.*/)) {
+                stage ('callIntegrationPipeline') {
+                    if (BranchName =~ "/") {
+                        BranchName = BranchName.replaceAll('/','%2F')
+                        echo "BranchName changed to ${BranchName}"
+                    }
+                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'dpr'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+                }            
             }
         } catch(err) {
-            errors << "errors found: ${err}"
+            errors << "errors found: ${err}"      
         } finally {
             if (errors.size() > 0) {
                 stage ('error reporting') {
@@ -64,34 +73,25 @@ node ('android&&docker') {
                     for (int i = 0; i < errors.size(); i++) {
                         echo errors[i]; 
                     }
-                }
-            }
-
+                }                
+            }  
             stage ('reporting') {
-                if (BranchName =~ /master|develop|release\/platform_.*/) {
-                    echo "Nothing to Report, OPA build is started"
-                }
-                else
-                {
-                    androidLint canComputeNew: true, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
-                    junit allowEmptyResults: true, testResults: 'Source/DemoApp/*/build/test-results/*/*.xml'
-                    junit allowEmptyResults: true, testResults: 'Source/DemoUApp/*/build/test-results/*/*.xml'
-                    publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/DemoApp/app/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'unit test debug'])
-                    publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/DemoApp/app/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release'])
-                    archiveArtifacts '**/*dependencies*.lock'
-                }
-            }
-
+                androidLint canComputeNew: true, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
+                junit allowEmptyResults: true, testResults: 'Source/DemoApp/*/build/test-results/*/*.xml'
+                junit allowEmptyResults: true, testResults: 'Source/DemoUApp/*/build/test-results/*/*.xml'
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/DemoApp/app/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'unit test debug'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/DemoApp/app/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release'])
+                archiveArtifacts '**/*dependencies*.lock'
+            }   
             stage('informing') {
-                step([$class: 'StashNotifier'])
-                step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
+            	step([$class: 'StashNotifier'])
+            	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
             }
-
             stage('Cleaning workspace') {
                 step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
             }
         }
-    } // end timestamps
+	} // end timestamps
 } // end node ('android')
 
 node('master') {
