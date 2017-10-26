@@ -135,7 +135,7 @@ class THSWelcomePresenter implements THSBasePresenter,
 
 
     public void getStarted() {
-        //authenticateUser();
+        authenticateUser();
         try {
             THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
         } catch (AWSDKInstantiationException e) {

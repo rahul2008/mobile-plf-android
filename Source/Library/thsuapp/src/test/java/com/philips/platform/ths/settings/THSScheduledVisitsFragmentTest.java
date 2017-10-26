@@ -77,8 +77,8 @@ public class THSScheduledVisitsFragmentTest {
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
-        THSManager.getInstance().setPTHConsumer(thsConsumerMock);
-        when(thsConsumerMock.getConsumer()).thenReturn(consumerMoxk);
+        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
+        when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMoxk);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         mTHSScheduledVisitsFragment = new  TestTHSScheduledVisitsFragmentMock();
         mTHSScheduledVisitsFragment.setActionBarListener(actionBarListenerMock);

@@ -12,7 +12,10 @@ public class THSSDKErrorFactory {
 
 
     public static String getErrorType(SDKErrorReason sdkErrorReason) {
-        List<THSErrorHandlerInterface> errorList = weakReference.get();
+        List<THSErrorHandlerInterface> errorList = null;
+        if (weakReference != null) {
+            errorList = weakReference.get();
+        }
         if (errorList == null) {
             errorList = new ArrayList<>();
             addErrorTypes(errorList);
