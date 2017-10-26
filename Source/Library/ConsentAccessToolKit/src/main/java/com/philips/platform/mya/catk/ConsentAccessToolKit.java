@@ -91,8 +91,8 @@ public class ConsentAccessToolKit {
                         consentListener.onResponseSuccessConsent(Collections.singletonList(consent));
                         return;
                     }
-                    consentListener.onResponseSuccessConsent(null);
                 }
+                consentListener.onResponseSuccessConsent(null);
             }
 
             @Override
