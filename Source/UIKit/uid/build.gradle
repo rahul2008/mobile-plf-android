@@ -178,7 +178,7 @@ dependencies {
 	
 	def dp = project.ext.has('useprojectdependencies')
 
-	def icfModule = module(group: 'com.philips.cdp', name: 'IconFont', version: versions.icf_iconFont + objcdp.getVersionSuffix(), ext: 'aar') 
+	def icfModule = module(group: 'com.philips.cdp', name: 'icf', version: versions.icf_iconFont + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':icf') : icfModule) 
 	{
         transitive = true
