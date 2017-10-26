@@ -43,7 +43,7 @@ public class WifiConnectionUnsuccessfulFragment extends BaseFragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_wifi_connection_unsuccessful, container, false);
         viewModel = createViewModel();
         String ssid = BundleUtils.extractStringFromBundleOrThrow(getArguments(), WIFI_SSID);
-        viewModel.setDescription(getString(R.string.label_ews_phone_not_found_on_network_body, ssid));
+        viewModel.setDescription(getString(R.string.label_ews_phone_not_found_on_network_body, ssid, ssid));
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }

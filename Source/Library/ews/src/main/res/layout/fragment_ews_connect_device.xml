@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -12,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.philips.cdp2.ews.settingdeviceinfo.SetDeviceInfoViewModel"/>
+            type="com.philips.cdp2.ews.settingdeviceinfo.SetDeviceInfoViewModel" />
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -70,24 +69,23 @@
                 android:hint="@string/label_ews_password_password_placeholder"
                 android:onFocusChange="@{(v,hasFocus) -> viewModel.onPasswordFocusChange(v,inputMethodManager,hasFocus)}"
                 android:onTextChanged="@{viewModel::onPasswordTextChanged}"
-                android:text="@{viewModel.password}"/>
+                android:text="@{viewModel.password}" />
 
             <TextView
                 android:id="@+id/ews_label_password_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/e"
-                android:text= "@{viewModel.note}"/>
+                android:text="@{viewModel.note}" />
 
             <EditText
                 android:id="@+id/ews_03_01a_textfield_appliance_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/d"
-                android:enabled="false"
                 android:onFocusChange="@{(v,hasFocus) -> viewModel.onDeviceNameFocusChange(v,inputMethodManager,hasFocus)}"
                 android:onTextChanged="@{viewModel::onDeviceNameTextChanged}"
-                android:text="@{viewModel.deviceFriendlyName}"/>
+                android:text="@{viewModel.deviceFriendlyName}" />
 
 
             <Space
@@ -103,7 +101,7 @@
                 android:layout_marginBottom="@dimen/e"
                 android:layout_marginTop="@dimen/c"
                 android:onClick="@{() -> viewModel.onConnectButtonClicked()}"
-                android:text="@string/button_next"/>
+                android:text="@string/button_next" />
 
         </LinearLayout>
 

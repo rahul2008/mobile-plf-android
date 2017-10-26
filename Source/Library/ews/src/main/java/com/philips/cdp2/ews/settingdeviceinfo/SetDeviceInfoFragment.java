@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.view.inputmethod.InputMethodManager;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentEwsConnectDeviceBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
@@ -35,9 +34,6 @@ public class SetDeviceInfoFragment extends EWSBaseFragment<FragmentEwsConnectDev
         fragment.setArguments(data);
         return fragment;
     }
-
-    @Inject
-    BaseContentConfiguration baseContentConfiguration;
 
     @Override
     public int getHierarchyLevel() {

@@ -37,13 +37,12 @@ import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.cdp2.ews.permission.PermissionHandler;
-import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.settingdeviceinfo.SetDeviceInfoViewModel;
+import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.view.dialog.GPSEnableDialogFragment;
 import com.philips.cdp2.ews.viewmodel.BlinkingAccessPointViewModel;
 import com.philips.cdp2.ews.viewmodel.EWSPressPlayAndFollowSetupViewModel;
-import com.philips.cdp2.ews.viewmodel.EWSWiFiConnectViewModel;
 import com.philips.cdp2.ews.viewmodel.ProductSupportViewModel;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
@@ -154,37 +153,15 @@ public class EWSModule {
 
     @Provides
     SetDeviceInfoViewModel providesSetDeviceConnectViewModel(@NonNull final WiFiUtil wifiUtil,
-                                                        @NonNull final ApplianceSessionDetailsInfo sessionInfo,
-                                                        @NonNull final Navigator navigator
-    ) {
+                                                             @NonNull final ApplianceSessionDetailsInfo sessionInfo,
+                                                             @NonNull final Navigator navigator,
+                                                             @NonNull BaseContentConfiguration baseContentConfiguration,
+                                                             @NonNull StringProvider stringProvider) {
         final ConnectionEstablishDialogFragment dialogFragment =
                 ConnectionEstablishDialogFragment
                         .getInstance(R.string.label_ews_establishing_connection_body);
         return new SetDeviceInfoViewModel(wifiUtil, sessionInfo, navigator,
-                dialogFragment);
-    }
-
-
-    @Provides
-    EWSWiFiConnectViewModel providesWiFiConnectViewModel(@NonNull final WiFiUtil wifiUtil,
-                                                         @NonNull final ApplianceSessionDetailsInfo sessionInfo,
-                                                         @NonNull final Navigator navigator,
-                                                         @NonNull BaseContentConfiguration baseContentConfiguration,
-                                                         @NonNull StringProvider stringProvider) {
-        final ConnectionEstablishDialogFragment dialogFragment =
-                ConnectionEstablishDialogFragment.getInstance(R.string.label_ews_establishing_connection_body);
-        return new EWSWiFiConnectViewModel(wifiUtil, sessionInfo, navigator,
                 dialogFragment, baseContentConfiguration, stringProvider);
-    }
-
-    @Provides
-    EWSWiFiConnectViewModel providesWiFiConnectViewModel(@NonNull final WiFiUtil wifiUtil,
-                                                         @NonNull final ApplianceSessionDetailsInfo sessionInfo,
-                                                         @NonNull final Navigator navigator) {
-        final ConnectionEstablishDialogFragment dialogFragment =
-                ConnectionEstablishDialogFragment.getInstance(R.string.label_ews_establishing_connection_body);
-        return new EWSWiFiConnectViewModel(wifiUtil, sessionInfo, navigator,
-                dialogFragment);
     }
 
     @Provides
