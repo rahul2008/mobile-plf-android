@@ -3,8 +3,10 @@
  * All rights reserved.
  */
 
+/* following line is mandatory for the platform CI pipeline integration */
+properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name: 'triggerBy']]]])
+
 def errors = []
-BranchName = env.BRANCH_NAME
 
 node('Android') {
     timestamps {
@@ -13,52 +15,48 @@ node('Android') {
                 checkout scm
             }
 
-            if (BranchName =~ /master|develop|release\/platform_.*/) {
-                stage('Trigger OPA Build'){
-                    def committerName = sh (script: "git show -s --format='%an' HEAD", returnStdout: true).trim()
-                    if (BranchName =~ "/") {
-                        BranchName = BranchName.replaceAll('/','%2F')
-                        echo "BranchName changed to ${BranchName}"
-                    }
-                    build job: "Platform-Infrastructure/opa-android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'committerName', value:committerName]], wait: false
+            Pipeline = load "Source/common/jenkins/Pipeline.groovy"
+            Slack = load "Source/common/jenkins/Slack.groovy"
+            def gradle = 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV}'
+
+            Slack.notify('#conartists') {
+                stage('Build') {
+                    sh "$gradle --refresh-dependencies assembleRelease saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat assembleDebug saveResDep generateJavadoc"
                 }
-            }
-            else
-            {
-                Pipeline = load "Source/common/jenkins/Pipeline.groovy"
-                Slack = load "Source/common/jenkins/Slack.groovy"
-                def gradle = 'cd ./Source/ShineLib && ./gradlew -PenvCode=${JENKINS_ENV}'
 
-                Slack.notify('#conartists') {
-                    stage('Build') {
-                        sh "$gradle --refresh-dependencies assembleRelease saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat assembleDebug saveResDep generateJavadoc"
-                    }
+                stage('Unit test') {
+                    sh 'find . -path "**build/test-results" -exec rm -r "{}" \\;'
+                    sh "$gradle test lintDebug || true"
+                }
 
-                    stage('Unit test') {
-                        sh 'find . -path "**build/test-results" -exec rm -r "{}" \\;'
-                        sh "$gradle test lintDebug || true"
-                    }
+                stage('Mutation testing') {
+                    sh "$gradle pitestDebug"
+                }
 
-                    stage('Mutation testing') {
-                        sh "$gradle pitestDebug"
-                    }
+                stage("Gather reports") {
+                    step([$class: 'JUnitResultArchiver', testResults: '**/testDebugUnitTest/*.xml'])
+                    step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
+                    step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'Source/ShineLib/build/report/shinelib/pitest/debug/', reportFiles: 'index.html', reportName: 'Pitest'])
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'Documents/External/shinelib-api', reportFiles: 'index.html', reportName: 'Bluelib Public API'])
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'Documents/External/shinelib-plugin-api', reportFiles: 'index.html', reportName: 'Bluelib Plugin API'])
+                }
 
-                    stage("Gather reports") {
-                        step([$class: 'JUnitResultArchiver', testResults: '**/testDebugUnitTest/*.xml'])
-                        step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
-                        step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
-                        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'Source/ShineLib/build/report/shinelib/pitest/debug/', reportFiles: 'index.html', reportName: 'Pitest'])
-                        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'Documents/External/shinelib-api', reportFiles: 'index.html', reportName: 'Bluelib Public API'])
-                        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'Documents/External/shinelib-plugin-api', reportFiles: 'index.html', reportName: 'Bluelib Plugin API'])
-                    }
+                stage('Archive artifacts') {
+                    archiveArtifacts artifacts: '**/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
+                    archiveArtifacts artifacts: '**/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
+                    archiveArtifacts '**/*dependencies*.lock'
+                }
 
-                    stage('Archive artifacts') {
-                        archiveArtifacts artifacts: '**/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
-                        archiveArtifacts artifacts: '**/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
-                        archiveArtifacts '**/*dependencies*.lock'
+                boolean publishing = (env.BRANCH_NAME.startsWith("develop") || env.BRANCH_NAME.startsWith("release/platform_") || env.BRANCH_NAME.startsWith("master"))
+                if (publishing) {
+                    stage('Publish') {
+                        sh "$gradle zipDocuments artifactoryPublish"
                     }
                 }
             }
+            Pipeline.trigger(env.triggerBy, env.BRANCH_NAME, "BlueLib", "bll")
+
         } catch(err) {
             errors << "errors found: ${err}"
         } finally {
