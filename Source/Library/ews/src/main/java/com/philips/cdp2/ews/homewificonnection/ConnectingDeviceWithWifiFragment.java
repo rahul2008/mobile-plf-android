@@ -71,17 +71,24 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
                         container, false);
 
         if (viewModel == null) {
-            viewModel = createViewModel();
+            invokeViewModel();
             viewModel.startConnecting(createStartConnectionModel(getArguments()));
         } else {
+            invokeViewModel();
             viewModel.connectToHomeWifi(
                     BundleUtils.extractStringFromBundleOrThrow(getBundle(), HOME_WIFI_SSID));
         }
-        viewModel.setFragmentCallback(this);
 
         viewDataBinding.setViewModel(viewModel);
 
         return viewDataBinding.getRoot();
+    }
+
+    private void invokeViewModel() {
+        if (viewModel == null) {
+            viewModel = createViewModel();
+        }
+        viewModel.setFragmentCallback(this);
     }
 
     @NonNull
@@ -117,7 +124,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
         try {
             getActivity().unregisterReceiver(receiver);
         } catch (IllegalArgumentException e) {
-            EWSLogger.e(TAG, e.toString());
+            EWSLogger.d(TAG, e.toString());
         }
     }
 
