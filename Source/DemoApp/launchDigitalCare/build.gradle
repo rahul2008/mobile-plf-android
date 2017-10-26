@@ -39,7 +39,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "digitalCareApp"
+archivesBaseName = "dccDemoApp"
 
 allprojects {
     repositories {
@@ -118,17 +118,17 @@ publishing {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         //applicationId "com.philips.cdp.sampledigitalcare"
         applicationId "com.philips.cl.di.dev.pa"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         generatedDensities = []
         multiDexEnabled true
-        renderscriptTargetApi 25
+        renderscriptTargetApi 26
         renderscriptSupportModeEnabled true
         generatedDensities = []
 
@@ -210,10 +210,10 @@ calabash {
 }
 
 dependencies {
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:support-v4:25.3.1'
-    /*compile(group: 'com.philips.cdp', name: 'digitalCare', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile 'com.android.support:recyclerview-v7:26.0.2'
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.android.support:support-v4:26.0.2'
+    /*compile(group: 'com.philips.cdp', name: 'dcc', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
             {
                 transitive true
             }*/
@@ -229,7 +229,7 @@ dependencies {
     }
     compile project(':dccUApp')
 
-    androidTestCompile "com.android.support:support-annotations:25.3.1"
+    androidTestCompile "com.android.support:support-annotations:26.0.2"
     androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'

@@ -44,7 +44,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "digitalCare"
+archivesBaseName = "dcc"
 
 allprojects {
     repositories {
@@ -142,12 +142,12 @@ publishing {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
         generatedDensities = []
@@ -226,7 +226,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     def dp = project.ext.has('useprojectdependencies')
 
-    def pseModule = module(group: 'com.philips.cdp', name: 'productselection', version: versions.pse_productselection + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    def pseModule = module(group: 'com.philips.cdp', name: 'pse', version: versions.pse_productselection + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
         compile(dp ? project(':pse') : pseModule)
         {
             transitive = true

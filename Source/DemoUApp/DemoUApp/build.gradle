@@ -40,7 +40,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "digitalCareUApp"
+archivesBaseName = "dccUApp"
 
 allprojects {
     repositories {
@@ -122,13 +122,13 @@ publishing {
 
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
 
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName version
 
@@ -143,19 +143,19 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:design:26.0.2'
 
 	def dp = project.ext.has('useprojectdependencies')
 
-	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) 
+	def ufwModule = module(group: 'com.philips.cdp', name: 'ufw', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) 
 	compile(dp ? project(':ufw') : ufwModule) 
 	
-	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+	def ailModule = module(group: 'com.philips.cdp', name: 'ail', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
 	compile(dp ? project(':ail') : ailModule) 
 	
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:recyclerview-v7:26.0.2'
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.android.support:support-v4:26.0.2'
 	
 	compile(dp ? project(':dcc') : project(':digitalCare')) 
 }
