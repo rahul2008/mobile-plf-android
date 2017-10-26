@@ -3,14 +3,15 @@ package com.philips.platform.mya.catk;
 import android.content.Context;
 import android.os.Message;
 
-import com.android.volley.Request;
 import com.philips.cdp.registration.User;
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
 import com.philips.platform.mya.catk.listener.ConsentResponseListener;
+import com.philips.platform.mya.catk.listener.CreateConsentListener;
+import com.philips.platform.mya.catk.model.CreateConsentModelRequest;
 import com.philips.platform.mya.catk.model.GetConsentsModel;
+import com.philips.platform.mya.catk.model.GetConsentsModelRequest;
 import com.philips.platform.mya.catk.network.NetworkAbstractModel;
 import com.philips.platform.mya.catk.network.NetworkHelper;
-import com.philips.platform.mya.catk.model.GetConsentsModelRequest;
 import com.philips.platform.mya.catk.utils.ConsentUtil;
 
 import java.util.ArrayList;
@@ -54,7 +55,29 @@ public class ConsentAccessToolKit {
                 return ConsentUtil.CONSENT_ERROR_UNKNOWN;
             }
         });
-        getNetworkHelper().sendRequest(context,Request.Method.GET, model, model);
+        getNetworkHelper().sendRequest(context,model.getMethod(), model, model);
+    }
+
+
+    public void createConsent(String consentStatus,final CreateConsentListener consentListener){
+         CreateConsentModelRequest model = new CreateConsentModelRequest(applicationName,consentStatus,propositionName,user,
+                 new NetworkAbstractModel.DataLoadListener() {
+            @Override
+            public void onModelDataLoadFinished(Message msg) {
+                if(msg.arg1==0){
+                    consentListener.onSuccess(ConsentUtil.CONSENT_SUCCESS);
+                }
+            }
+
+            @Override
+            public int onModelDataError(Message msg) {
+                if (msg.obj instanceof ConsentNetworkError) {
+                    return consentListener.onFailure(((ConsentNetworkError) msg.obj).getErrorCode());
+                }
+                return ConsentUtil.CONSENT_ERROR_UNKNOWN;
+            }
+        });
+        getNetworkHelper().sendRequest(context,model.getMethod(), model, model);
     }
 
     public void getStatusForConsentType(String consentType, int version, final ConsentResponseListener consentListener) {
@@ -82,7 +105,6 @@ public class ConsentAccessToolKit {
     private String buildPolicyRule(String consentType, int version, String country, String propositionName, String applicationName) {
         return "urn:com.philips.consent:" + consentType + "/" + country + "/" + version + "/" + propositionName + "/" + applicationName;
     }
-
 
     private NetworkHelper getNetworkHelper() {
         if (networkHelper == null) {

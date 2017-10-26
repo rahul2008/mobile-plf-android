@@ -50,7 +50,7 @@ public class GetConsentsModelRequest extends NetworkAbstractModel {
     }
 
     @Override
-    public Map<String, String> requestBody() {
+    public String requestBody() {
         return null;
     }
 

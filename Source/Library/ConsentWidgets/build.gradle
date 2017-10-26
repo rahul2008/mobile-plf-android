@@ -230,6 +230,15 @@ dependencies {
     //3rd party
     compile 'com.google.code.gson:gson:2.2.4'
 
+
+    def daggerVer = 2.10
+
+    compile "com.google.dagger:dagger:$daggerVer"
+    compile "com.google.dagger:dagger-android-support:$daggerVer"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVer"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVer"
+
+
     //Coco
     def dp = project.ext.has('useprojectdependencies')
 
@@ -247,12 +256,12 @@ dependencies {
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
-    def usrModule = module(group: 'com.philips.cdp', name: 'usr', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+  /*  def usrModule = module(group: 'com.philips.cdp', name: 'usr', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     compile(dp ? project(':usr') : usrModule)
             {
                 exclude group: 'com.android.support', module: 'customtabs'
                 transitive = true
-            }
+            }*/
 
     // Tests
     testCompile 'junit:junit:4.12'

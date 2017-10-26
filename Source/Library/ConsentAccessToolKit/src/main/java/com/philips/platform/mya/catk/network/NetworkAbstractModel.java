@@ -56,7 +56,7 @@ public abstract class NetworkAbstractModel implements RequestListener {
 
     public abstract Map<String, String> requestHeader();
 
-    public abstract Map<String, String> requestBody();
+    public abstract String requestBody();
 
     public abstract String getUrl();
 

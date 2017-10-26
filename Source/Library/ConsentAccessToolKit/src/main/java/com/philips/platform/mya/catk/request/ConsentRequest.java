@@ -6,7 +6,6 @@ package com.philips.platform.mya.catk.request;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -39,17 +38,18 @@ public class ConsentRequest extends Request<JsonArray> {
 
     private Listener<JsonArray> mResponseListener;
     private ErrorListener mErrorListener;
-    private Map<String, String> params;
+    private String body;
     private Handler mHandler;
     private Map<String, String> header;
+    private static final int POST_SUCCESS_CODE = 201;
 
-    public ConsentRequest(int method, String url,Map<String, String> header, Map<String, String> params,
+    public ConsentRequest(int method, String url, Map<String, String> header, String params,
                           Listener<JsonArray> responseListener, ErrorListener errorListener) {
         super(method, url, errorListener);
         this.mResponseListener = responseListener;
         mErrorListener = errorListener;
         mHandler = new Handler(Looper.getMainLooper());
-        this.params = params;
+        this.body = params;
         this.header = header;
     }
 
@@ -63,7 +63,7 @@ public class ConsentRequest extends Request<JsonArray> {
 
     @Override
     public Map<String, String> getParams() {
-        return params;
+        return null;
     }
 
     @Override
@@ -72,16 +72,27 @@ public class ConsentRequest extends Request<JsonArray> {
     }
 
     @Override
+    public byte[] getBody() throws AuthFailureError {
+        return body.getBytes();
+    }
+
+    @Override
     public Response<JsonArray> parseNetworkResponse(NetworkResponse response) {
         try {
+            if (response.statusCode == POST_SUCCESS_CODE) {
+                JsonArray postResultArray = new JsonArray();
+                postResultArray.add(POST_SUCCESS_CODE);
+                return Response.success(postResultArray,
+                        HttpHeaderParser.parseCacheHeaders(response));
+            }
             String jsonString = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers));
             JsonParser parser = new JsonParser();
-            JsonArray jsonArray = (JsonArray)parser.parse(jsonString);
+            JsonArray jsonArray = (JsonArray) parser.parse(jsonString);
 
             return Response.success(jsonArray,
                     HttpHeaderParser.parseCacheHeaders(response));
-        }catch (UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException e) {
             postErrorResponseOnUIThread(new ParseError(e));
             return Response.error(new ParseError(e));
         } catch (Exception e) {
@@ -97,11 +108,9 @@ public class ConsentRequest extends Request<JsonArray> {
 
     @Override
     public void deliverError(final VolleyError error) {
-        Log.d("deliverError","init");
         if (error instanceof AuthFailureError) {
-            Log.d("deliverError","AuthFailureError");
             performRefreshToken(error);
-        }else {
+        } else {
             postErrorResponseOnUIThread(error);
         }
     }

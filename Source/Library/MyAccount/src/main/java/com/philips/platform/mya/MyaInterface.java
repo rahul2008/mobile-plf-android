@@ -5,10 +5,6 @@ import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.philips.platform.csw.CswConstants;
-import com.philips.platform.csw.CswFragment;
-import com.philips.platform.csw.CswInterface;
-import com.philips.platform.csw.CswLaunchInput;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -35,16 +31,33 @@ public class MyaInterface implements UappInterface {
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher,
                                   UappLaunchInput uappLaunchInput) {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput();
-        CswInterface cswInterface = new CswInterface();
-        cswInterface.launch(fragmentLauncher, cswLaunchInput);
+        try {
+            FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
+                    getSupportFragmentManager();
+            MyaFragment myaFragment = new MyaFragment();
+            myaFragment.setOnUpdateTitleListener(fragmentLauncher.
+                    getActionbarListener());
+
+            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
+                    myaFragment,
+                    MyaConstants.MYAFRAGMENT);
+
+            if (((MyaLaunchInput)
+                    uappLaunchInput).isAddtoBackStack()) {
+                fragmentTransaction.addToBackStack(MyaConstants.MYAFRAGMENT);
+            }
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (IllegalStateException ignore) {
+
+        }
     }
 
     private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         if (null != uiLauncher && uappLaunchInput != null) {
-            Intent registrationIntent = new Intent(((MyaLaunchInput) uappLaunchInput).getContext(), MyAccountActivity.class);
-            registrationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-            ((MyaLaunchInput) uappLaunchInput).getContext().startActivity(registrationIntent);
+            Intent myAccountIntent = new Intent(((MyaLaunchInput) uappLaunchInput).getContext(), MyAccountActivity.class);
+            myAccountIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+            ((MyaLaunchInput) uappLaunchInput).getContext().startActivity(myAccountIntent);
         }
     }
 
@@ -52,7 +65,7 @@ public class MyaInterface implements UappInterface {
      * Entry point for User registration. Please make sure no User registration components are being used before MyaInterface$init.
      *
      * @param uappDependencies - With an AppInfraInterface instance.
-     * @param uappSettings     - With an application context.
+     * @param uappSettings     - With an application provideAppContext.
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {

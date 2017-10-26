@@ -6,7 +6,7 @@
  * /
  */
 
-package com.philips.platform.mya;
+package com.philips.platform.csw;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -19,8 +19,7 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
-import com.philips.platform.csw.CswInterface;
-import com.philips.platform.csw.CswLaunchInput;
+import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -28,7 +27,7 @@ import com.philips.platform.uid.utils.UIDActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MyAccountActivity extends UIDActivity implements OnClickListener,
+public class CswActivity extends UIDActivity implements OnClickListener,
         ActionBarListener {
 
     final String iconFontAssetName = "PUIIcon.ttf";
@@ -53,9 +52,9 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener,
             }
         }
 
-        setContentView(R.layout.mya_activity_account);
+        setContentView(R.layout.csw_activity);
 
-        ivBack = (TextView) findViewById(R.id.mya_textview_back);
+        ivBack = (TextView) findViewById(R.id.csw_textview_back);
         FontLoader.getInstance().setTypeface(ivBack, iconFontAssetName);
         ivBack.setText(com.philips.cdp.registration.R.string.ic_reg_left);
         ivBack.setOnClickListener(this);
@@ -77,35 +76,23 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener,
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager
-                .findFragmentById(R.id.mya_frame_layout_fragment_container);
+                .findFragmentById(R.id.csw_frame_layout_fragment_container);
         if (fragment != null && fragment instanceof BackEventListener) {
             boolean isConsumed = ((BackEventListener) fragment).handleBackEvent();
             if (isConsumed)
                 return;
-
-            super.onBackPressed();
         }
-
-
+        super.onBackPressed();
     }
 
     private void initUI() {
-        launchAccountFragment();
+        launchCswFragment();
     }
 
-    private void launchAccountFragment() {
-        MyaLaunchInput myaLaunchInput = new MyaLaunchInput();
-        FragmentLauncher fragmentLauncher = new FragmentLauncher
-                (this, R.id.mya_frame_layout_fragment_container, this);
-        MyaInterface myaInterface = new MyaInterface();
-        myaInterface.launch(fragmentLauncher, myaLaunchInput);
-    }
-
-
-   private void launchCswFragment() {
+    private void launchCswFragment() {
         CswLaunchInput cswLaunchInput = new CswLaunchInput();
         FragmentLauncher fragmentLauncher = new FragmentLauncher
-                (this, R.id.mya_frame_layout_fragment_container, this);
+                (this, R.id.csw_frame_layout_fragment_container, this);
         CswInterface cswInterface = new CswInterface();
         cswInterface.launch(fragmentLauncher, cswLaunchInput);
     }
@@ -113,14 +100,14 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener,
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.mya_textview_back) {
+        if (v.getId() == R.id.csw_textview_back) {
             onBackPressed();
         }
     }
 
     @Override
     public void updateActionBar(int titleResourceID, boolean isShowBack) {
-        TextView tvTitle = ((TextView) findViewById(R.id.mya_textview_header_title));
+        TextView tvTitle = ((TextView) findViewById(R.id.csw_textview_header_title));
         tvTitle.setText(getString(titleResourceID));
         if (isShowBack) {
             ivBack.setVisibility(View.VISIBLE);
@@ -131,7 +118,7 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener,
 
     @Override
     public void updateActionBar(String titleResourceText, boolean isShowBack) {
-        TextView tvTitle = ((TextView) findViewById(R.id.mya_textview_header_title));
+        TextView tvTitle = ((TextView) findViewById(R.id.csw_textview_header_title));
         tvTitle.setText(titleResourceText);
         if (isShowBack) {
             ivBack.setVisibility(View.VISIBLE);

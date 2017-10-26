@@ -118,7 +118,9 @@ publishing {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
-
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:2.0.1'
+    }
     defaultConfig {
         applicationId "com.philips.platform.mya.demoapp"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -241,13 +243,15 @@ dependencies {
     compile(dp ? project(':usrUApp') : usrUAppModule)
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    def usrModule = module(group: 'com.philips.cdp', name: 'usr', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+
+   /* def usrModule = module(group: 'com.philips.cdp', name: 'usr', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     compile(dp ? project(':usr') : usrModule)
             {
                 transitive = true
                 exclude group: 'com.android.support', module: 'customtabs'
+                exclude group:  'com.google.dagger'
             }
-
+*/
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'

@@ -245,10 +245,18 @@ dependencies {
                 transitive = true
             }
 
+    def daggerVer = 2.10
+
+    compile "com.google.dagger:dagger:$daggerVer"
+    compile "com.google.dagger:dagger-android-support:$daggerVer"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVer"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVer"
+
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     def usrModule = module(group: 'com.philips.cdp', name: 'usr', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         exclude group: 'com.android.support', module: 'customtabs'
+        exclude group:  'com.google.dagger'
     }
     compile(dp ? project(':usr') : usrModule)
             {

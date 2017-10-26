@@ -10,6 +10,7 @@ public class ConsentUtil {
 
     public static final int CONSENT_SUCCESS = 0;
     public static final int CONSENT_ERROR = -1;
+
     public static final int CONSENT_ERROR_NO_CONNECTION = 2;
     public static final int CONSENT_ERROR_CONNECTION_TIME_OUT = 3;
     public static final int CONSENT_ERROR_AUTHENTICATION_FAILURE = 4;

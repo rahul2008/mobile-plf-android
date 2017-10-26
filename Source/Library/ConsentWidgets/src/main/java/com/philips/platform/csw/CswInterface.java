@@ -1,10 +1,15 @@
 package com.philips.platform.csw;
 
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.csw.injection.AppInfraModule;
+import com.philips.platform.csw.injection.CswComponent;
+import com.philips.platform.csw.injection.CswModule;
+import com.philips.platform.csw.injection.DaggerCswComponent;
+import com.philips.platform.csw.utils.CswLogger;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -15,8 +20,9 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class CswInterface implements UappInterface {
 
+
     /**
-     * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
+     * Launches the CswInterface interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
      *
      * @param uiLauncher      - ActivityLauncher or FragmentLauncher
      * @param uappLaunchInput - CswLaunchInput
@@ -43,7 +49,12 @@ public class CswInterface implements UappInterface {
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
                     cswFragment,
-                    CswConstants.CSWFRAGMENT).addToBackStack(CswConstants.CSWFRAGMENT);
+                    CswConstants.CSWFRAGMENT);
+
+            if (((CswLaunchInput)
+                    uappLaunchInput).isAddtoBackStack()) {
+                fragmentTransaction.addToBackStack(CswConstants.CSWFRAGMENT);
+            }
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException ignore) {
 
@@ -53,17 +64,36 @@ public class CswInterface implements UappInterface {
     }
 
     private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-
+        if (null != uiLauncher && uappLaunchInput != null) {
+            Intent cswIntent = new Intent(((CswLaunchInput) uappLaunchInput).getContext(), CswActivity.class);
+            cswIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+            ((CswLaunchInput) uappLaunchInput).getContext().startActivity(cswIntent);
+        }
     }
 
     /**
      * Entry point for User registration. Please make sure no User registration components are being used before CswInterface$init.
      *
      * @param uappDependencies - With an AppInfraInterface instance.
-     * @param uappSettings     - With an application context.
+     * @param uappSettings     - With an application provideAppContext.
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-
+        cswComponent = initDaggerCoponents(uappDependencies, uappSettings);
+        CswLogger.init();
     }
+
+    private CswComponent initDaggerCoponents(UappDependencies uappDependencies, UappSettings uappSettings) {
+        return DaggerCswComponent.builder()
+                .cswModule(new CswModule(uappSettings.getContext()))
+                .appInfraModule(new AppInfraModule(uappDependencies.getAppInfra())).build();
+    }
+
+    public static CswComponent getCswComponent() {
+        return cswComponent;
+    }
+
+    private static CswComponent cswComponent;
+
+
 }
