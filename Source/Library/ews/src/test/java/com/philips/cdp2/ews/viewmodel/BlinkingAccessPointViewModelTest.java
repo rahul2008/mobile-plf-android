@@ -16,7 +16,6 @@ import com.philips.cdp2.ews.communication.events.ShowPasswordEntryScreenEvent;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
-import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.util.GpsUtil;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.view.dialog.GPSEnableDialogFragment;
@@ -67,9 +66,6 @@ public class BlinkingAccessPointViewModelTest {
 
     @Mock
     private Handler handlerMock;
-
-    @Mock
-    private ConnectionUnsuccessfulFragment unsuccessfulDialogMock;
 
     @Mock
     private GPSEnableDialogFragment gpsEnableDialogFragmentMock;
@@ -125,7 +121,7 @@ public class BlinkingAccessPointViewModelTest {
     public void shouldShowNextPasswordEntryScreenWhenPhoneIsConnectedToApplianceHotspot() throws Exception {
         sendEventToShowPasswordEntryScreen();
 
-//        verify(screenFlowControllerMock).showFragment(isA(SetDeviceInfoFragment.class));
+//        verify(screenFlowControllerMock).showFragment(isA(ConnectWithPasswordFragment.class));
     }
 
     @Test

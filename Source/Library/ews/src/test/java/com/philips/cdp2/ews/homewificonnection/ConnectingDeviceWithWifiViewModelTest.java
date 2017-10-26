@@ -67,9 +67,12 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
     @Mock private DeviceFriendlyNameChanger mockDeviceFriendlyNameChanger;
 
-    @Mock private Intent mockIntent;
-    @Mock private NetworkInfo mockNetworkInfo;
-    @Mock private Appliance mockAppliance;
+    @Mock
+    private Intent mockIntent;
+    @Mock
+    private NetworkInfo mockNetworkInfo;
+    @Mock
+    private Appliance mockAppliance;
 
     @Captor private ArgumentCaptor<ApplianceAccessManager.SetPropertiesCallback>
             putPropsCallbackCaptor;
@@ -134,7 +137,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
         simulateChangeFriendlyDeviceNameFailed();
 
         verify(mockNavigator)
-                .navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString());
+                .navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(),anyString());
     }
 
     @Test
@@ -144,7 +147,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
         simulatePutPropsFailed();
 
         verify(mockNavigator)
-                .navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString());
+                .navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(),anyString());
     }
 
     @Test
@@ -233,7 +236,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.WRONG_WIFI);
 
         verify(mockNavigator)
-                .navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(DEVICE_NAME);
+                .navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(),anyString());
     }
 
     @Test
