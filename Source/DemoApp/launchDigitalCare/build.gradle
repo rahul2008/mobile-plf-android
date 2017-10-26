@@ -39,7 +39,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "digitalCareApp"
+archivesBaseName = "dccDemoApp"
 
 allprojects {
     repositories {
@@ -213,7 +213,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.0.2'
     compile 'com.android.support:appcompat-v7:26.0.2'
     compile 'com.android.support:support-v4:26.0.2'
-    /*compile(group: 'com.philips.cdp', name: 'digitalCare', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    /*compile(group: 'com.philips.cdp', name: 'dcc', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
             {
                 transitive true
             }*/
