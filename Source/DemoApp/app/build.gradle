@@ -179,12 +179,12 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-    compile project(':securedblibrary')
+    compile project(':sdb')
     compile 'com.android.support:support-v4:26.0.2'
     compile 'com.android.support:appcompat-v7:26.0.2'
     compile 'com.android.support:design:26.0.2'
     compile ('com.android.support:support-annotations:26.0.2')
-}
+    }
 
 tasks.withType(Test) {
   ignoreFailures = true
