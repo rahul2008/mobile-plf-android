@@ -3,6 +3,7 @@ package com.philips.platform.mya.catk;
 import android.content.Context;
 import android.os.Message;
 
+import com.janrain.android.utils.StringUtils;
 import com.philips.cdp.registration.User;
 import com.philips.platform.mya.catk.error.ConsentNetworkError;
 import com.philips.platform.mya.catk.listener.ConsentResponseListener;
@@ -42,8 +43,13 @@ public class ConsentAccessToolKit {
         GetConsentsModelRequest model = new GetConsentsModelRequest(applicationName,propositionName,user,new NetworkAbstractModel.DataLoadListener() {
             @Override
             public void onModelDataLoadFinished(Message msg) {
-                GetConsentsModel[] modelResults = (GetConsentsModel[]) msg.obj;
-                ArrayList<GetConsentsModel> consentModels = new ArrayList<>(Arrays.asList(modelResults));
+                ArrayList<GetConsentsModel> consentModels;
+                if (StringUtils.trim(msg.obj.toString()) != "") {
+                    GetConsentsModel[] modelResults = (GetConsentsModel[]) msg.obj;
+                    consentModels = new ArrayList<>(Arrays.asList(modelResults));
+                } else{
+                    consentModels = new ArrayList<>();
+                }
                 consentListener.onResponseSuccessConsent(consentModels);
             }
 
@@ -91,8 +97,9 @@ public class ConsentAccessToolKit {
                         consentListener.onResponseSuccessConsent(Collections.singletonList(consent));
                         return;
                     }
-                    consentListener.onResponseSuccessConsent(null);
                 }
+                consentListener.onResponseSuccessConsent(null);
+
             }
 
             @Override
