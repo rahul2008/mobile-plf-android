@@ -13,10 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.aikm.AIKManager;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.appinfra.servicediscovery.KError;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
@@ -366,7 +366,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
                 keyBagTextView.setText(stringBuilder.toString());
             }
         }
-        KError keyBagError = service.getKError();
+        AIKManager.KError keyBagError = service.getKError();
         if (null != keyBagError) {
             stringBuilder.append("error while fetching key bag -- ");
             stringBuilder.append(keyBagError.getDescription());
