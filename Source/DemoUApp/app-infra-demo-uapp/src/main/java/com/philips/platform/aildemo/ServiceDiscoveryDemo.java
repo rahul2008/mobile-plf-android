@@ -122,7 +122,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         editTextData = idEditText.getText().toString();
 
         resultView = (TextView) findViewById(R.id.textView2);
-        keyBagTextView = findViewById(R.id.keyBagData);
+        keyBagTextView = (TextView) findViewById(R.id.keyBagData);
 
 
         receiver = new HomeCountryUpdateReceiver();
