@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-def support_version = '25.3.1'
+def support_version = '26.0.2'
 buildscript {
     apply from: projectDir.absolutePath + '/../../ci-build-support/gradle/versions.gradle'
 
@@ -20,6 +20,9 @@ buildscript {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
+        }
+        maven {
+            url 'https://maven.google.com'
         }
     }
 
@@ -40,7 +43,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "uAppFwLibUApp"
+archivesBaseName = "ufwUApp"
 
 allprojects {
     repositories {
@@ -57,6 +60,9 @@ allprojects {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
+        }
+        maven {
+            url 'https://maven.google.com'
         }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
@@ -120,13 +126,13 @@ publishing {
 
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
 
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName version
 
@@ -154,7 +160,7 @@ dependencies {
 
 	def dp = project.ext.has('useprojectdependencies')
 	
-	def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar') 
+	def uitModule = module(group: 'com.philips.cdp', name: 'uit', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':uit') : uitModule) {
         exclude group: 'com.android.support'
         transitive = true

@@ -44,7 +44,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "uAppFwLib"
+archivesBaseName = "ufw"
 
 allprojects {
     repositories {
@@ -61,6 +61,9 @@ allprojects {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
+        }
+        maven {
+            url 'https://maven.google.com'
         }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
@@ -146,12 +149,12 @@ publishing {
 //=======To zip and upload "Documents/External" ==ENDS=============
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -182,7 +185,7 @@ dependencies {
 
 	def dp = project.ext.has('useprojectdependencies')
 	
-	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+	def ailModule = module(group: 'com.philips.cdp', name: 'ail', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
 	compile(dp ? project(':ail') : ailModule) {
         exclude group: 'com.android.support'
         transitive = true
@@ -198,8 +201,8 @@ dependencies {
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile 'org.robolectric:robolectric:3.1.1'
     compile 'com.google.code.gson:gson:2.2.4'
-    compile ('com.android.support:support-annotations:25.3.1')
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile ('com.android.support:support-annotations:26.0.2')
+    compile 'com.android.support:appcompat-v7:26.0.2'
 }
 
 task copyToLib(type: Copy) {
