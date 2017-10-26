@@ -16,7 +16,6 @@ import com.philips.cdp2.ews.communication.events.ShowPasswordEntryScreenEvent;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
-import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.util.GpsUtil;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.view.dialog.GPSEnableDialogFragment;
@@ -41,6 +40,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -67,9 +67,6 @@ public class ConnectPhoneToDeviceAPModeViewModelTest {
 
     @Mock
     private Handler handlerMock;
-
-    @Mock
-    private ConnectionUnsuccessfulFragment unsuccessfulDialogMock;
 
     @Mock
     private GPSEnableDialogFragment gpsEnableDialogFragmentMock;
@@ -124,7 +121,7 @@ public class ConnectPhoneToDeviceAPModeViewModelTest {
     public void shouldShowNextPasswordEntryScreenWhenPhoneIsConnectedToApplianceHotspot() throws Exception {
         sendEventToShowPasswordEntryScreen();
 
-        verify(navigatorMock).navigateToConnectToDeviceWithPasswordScreen();
+        verify(navigatorMock).navigateToConnectToDeviceWithPasswordScreen(anyString());
     }
 
     @Test

@@ -25,7 +25,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -79,12 +78,6 @@ public class EWSHomeWifiDisplayFragmentTest {
     @Test
     public void shouldNotHandleBackPressWhenAsked() throws Exception {
         assertFalse(fragment.onBackPressed());
-    }
-
-    @Test
-    public void shouldUpdateHomeWiFISSIDOnResume() throws Exception {
-        fragment.onResume();
-        verify(viewModelMock).refresh();
     }
 
     @Test

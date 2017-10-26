@@ -13,18 +13,28 @@ import javax.inject.Inject;
 
 public class WIFIConnectionUnsuccessfulViewModel {
 
-    @NonNull public final ObservableField<String> description;
+    @NonNull
+    public final ObservableField<String> description;
 
-    @NonNull private final Navigator navigator;
+    @NonNull
+    public final ObservableField<String> notes;
+
+    @NonNull
+    private final Navigator navigator;
 
     @Inject
     public WIFIConnectionUnsuccessfulViewModel(@NonNull Navigator navigator) {
         this.navigator = navigator;
         description = new ObservableField<>();
+        notes = new ObservableField<>();
     }
 
     public void setDescription(@NonNull String description) {
         this.description.set(description);
+    }
+
+    public void setNotes(@NonNull String notes) {
+        this.notes.set(notes);
     }
 
     public void onTryAgainClicked() {

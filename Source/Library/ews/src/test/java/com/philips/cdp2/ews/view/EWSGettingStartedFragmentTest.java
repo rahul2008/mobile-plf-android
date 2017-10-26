@@ -6,6 +6,7 @@ package com.philips.cdp2.ews.view;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.injections.EWSComponent;
+import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.viewmodel.EWSGettingStartedViewModel;
@@ -31,6 +32,9 @@ public class EWSGettingStartedFragmentTest {
     @Mock
     private EWSGettingStartedViewModel viewModelMock;
 
+    @Mock
+    EWSCallbackNotifier ewsCallbackNotifierMock;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -44,6 +48,7 @@ public class EWSGettingStartedFragmentTest {
             @Override
             public Object answer(final InvocationOnMock invocation) throws Throwable {
                 fragment.viewModel = viewModelMock;
+                fragment.ewsCallbackNotifier = ewsCallbackNotifierMock;
                 return null;
             }
         }).when(ewsComponentMock).inject(fragment);
@@ -63,8 +68,7 @@ public class EWSGettingStartedFragmentTest {
     @Test
     public void shouldHandleBackPressWhenAsked() throws Exception {
         assertTrue(fragment.onBackPressed());
-
-        verify(viewModelMock).onBackPressed();
+        verify(viewModelMock).onBackPressed(ewsCallbackNotifierMock);
     }
 
     @Test

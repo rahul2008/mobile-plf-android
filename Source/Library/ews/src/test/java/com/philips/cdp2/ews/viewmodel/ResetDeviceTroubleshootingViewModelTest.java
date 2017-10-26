@@ -1,6 +1,7 @@
 package com.philips.cdp2.ews.viewmodel;
 
 import com.philips.cdp2.ews.navigation.Navigator;
+import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingViewModel;
 
 import org.junit.Before;
 import org.junit.Test;
