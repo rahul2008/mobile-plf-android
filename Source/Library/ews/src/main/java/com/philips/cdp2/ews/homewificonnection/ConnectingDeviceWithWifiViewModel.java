@@ -18,6 +18,7 @@ import android.support.annotation.Nullable;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
+import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameChanger;
@@ -104,6 +105,8 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         public void onPropertiesSet() {
             if (startConnectionModel != null) {
                 connectToHomeWifiInternal(startConnectionModel.getHomeWiFiSSID());
+            } else {
+                EWSLogger.e(TAG, "startConnectionModel cannot be null");
             }
         }
 
@@ -215,6 +218,8 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     public void onFriendlyNameChangingSuccess() {
         if (startConnectionModel != null) {
             sendNetworkInfoToDevice(startConnectionModel);
+        } else {
+            EWSLogger.e(TAG, "startConnectionModel cannot be null");
         }
     }
 
