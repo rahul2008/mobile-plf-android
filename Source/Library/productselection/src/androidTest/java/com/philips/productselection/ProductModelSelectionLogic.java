@@ -3,6 +3,7 @@ package com.philips.productselection;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.v4.app.Fragment;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
@@ -190,8 +191,18 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
             }
 
             @Override
+            public Fragment getPrimaryNavigationFragment() {
+                return null;
+            }
+
+            @Override
             public void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args) {
 
+            }
+
+            @Override
+            public boolean isStateSaved() {
+                return false;
             }
         };
 
@@ -310,8 +321,18 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
             }
 
             @Override
+            public Fragment getPrimaryNavigationFragment() {
+                return null;
+            }
+
+            @Override
             public void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args) {
 
+            }
+
+            @Override
+            public boolean isStateSaved() {
+                return false;
             }
         };
 
@@ -430,8 +451,18 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
             }
 
             @Override
+            public Fragment getPrimaryNavigationFragment() {
+                return null;
+            }
+
+            @Override
             public void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args) {
 
+            }
+
+            @Override
+            public boolean isStateSaved() {
+                return false;
             }
         };
 
@@ -549,8 +580,18 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
             }
 
             @Override
+            public Fragment getPrimaryNavigationFragment() {
+                return null;
+            }
+
+            @Override
             public void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args) {
 
+            }
+
+            @Override
+            public boolean isStateSaved() {
+                return false;
             }
         };
 
