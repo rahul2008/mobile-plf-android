@@ -10,7 +10,6 @@ import android.app.DatePickerDialog;
 import android.widget.DatePicker;
 
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.SDKPasswordError;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -21,10 +20,10 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
 import com.philips.platform.ths.practice.THSPracticeFragment;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.ths.utility.THSConstants;
-import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSDateEnum;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
@@ -67,25 +66,26 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
 
     @Override
     public void onResponse(THSConsumerWrapper thsConsumerWrapper, SDKError sdkPasswordError) {
-        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+        if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
             if (sdkPasswordError.getSDKErrorReason() != null) {
                 mTHSBaseFragment.showToast(THSSDKErrorFactory.getErrorType(sdkPasswordError.getSDKErrorReason()));
                 return;
             }
-            switch (((THSRegistrationFragment) mTHSBaseFragment).mLaunchInput){
+            switch (((THSRegistrationFragment) mTHSBaseFragment).mLaunchInput) {
                 case THSConstants.THS_PRACTICES:
-                    mTHSBaseFragment.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG,null,false);
+                    mTHSBaseFragment.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
                     break;
                 case THSConstants.THS_SCHEDULED_VISITS:
-                    mTHSBaseFragment.addFragment(new THSScheduledVisitsFragment(),THSScheduledVisitsFragment.TAG,null,false);
+                    mTHSBaseFragment.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
                     break;
                 case THSConstants.THS_VISITS_HISTORY:
                     mTHSBaseFragment.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
                     break;
                 default:
-                    mTHSBaseFragment.addFragment(new THSWelcomeFragment(), THSWelcomeFragment.TAG,null, true);
+                    mTHSBaseFragment.addFragment(new THSWelcomeFragment(), THSWelcomeFragment.TAG, null, true);
                     break;
+            }
         }
     }
 

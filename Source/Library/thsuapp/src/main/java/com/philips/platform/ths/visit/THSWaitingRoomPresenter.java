@@ -28,7 +28,6 @@ import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT;
@@ -125,7 +124,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     void abondonCurrentVisit() {
         try {
-            THSManager.getInstance().abondonCurrentVisit(mTHSWaitingRoomFragment.getFragmentActivity());
+            THSManager.getInstance().abandonCurrentVisit(mTHSWaitingRoomFragment.getFragmentActivity());
             mTHSWaitingRoomFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();

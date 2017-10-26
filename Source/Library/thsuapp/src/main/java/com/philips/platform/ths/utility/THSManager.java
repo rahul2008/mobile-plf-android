@@ -117,7 +117,6 @@ import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.providerslist.THSProvidersListCallback;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
-import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
