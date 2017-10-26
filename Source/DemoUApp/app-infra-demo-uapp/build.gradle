@@ -41,7 +41,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "AppInfraUApp"
+archivesBaseName = "ailUApp"
 
 allprojects {
     repositories {
@@ -140,7 +140,7 @@ android {
 
     dependencies {
         compile fileTree(dir: 'libs', include: ['*.jar'])
-        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar')
+        compile(group: 'com.philips.cdp', name: 'ufw', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar')
         compile 'com.squareup.leakcanary:leakcanary-android:1.5'
         compile 'com.google.code.gson:gson:2.8.1'
 		def dp = project.ext.has('useprojectdependencies')

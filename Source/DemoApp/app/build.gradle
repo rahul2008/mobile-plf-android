@@ -38,7 +38,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = 'AppInfraApp'
+archivesBaseName = 'ailDemoApp'
 
 
 allprojects {
@@ -151,7 +151,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'ufw', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar')
     compile 'adobeMobileLibrary:adobeMobileLibrary:4.13.7'
     compile 'com.squareup.leakcanary:leakcanary-android:1.5'
     compile project(':DemoUApp')
