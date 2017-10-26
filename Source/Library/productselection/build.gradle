@@ -41,7 +41,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "pse"
+archivesBaseName = "productselection"
 
 configurations.all {
     // check for updates every build
@@ -58,7 +58,7 @@ dependencies {
 
     compile 'com.shamanland:fonticon:0.1.9'
 
-	def ufwModule = module(group: 'com.philips.cdp', name: 'ufw', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
+	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
 	compile(dp ? project(':ufw') : ufwModule) 
 	{
 		transitive = true
