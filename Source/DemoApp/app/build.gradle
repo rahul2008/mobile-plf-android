@@ -38,7 +38,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = 'ailDemoApp'
+archivesBaseName = 'AppInfraApp'
 
 
 allprojects {
@@ -157,6 +157,10 @@ dependencies {
 	def ufwModule = module(group: 'com.philips.cdp', name: 'ufw', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) 
 	compile(dp ? project(':ufw') : ufwModule) 
 
+<<<<<<< HEAD
+=======
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar')
+>>>>>>> parent of 57fee1d7... Fixing Opa issue
     compile 'adobeMobileLibrary:adobeMobileLibrary:4.13.7'
     compile 'com.squareup.leakcanary:leakcanary-android:1.5'
     compile project(':DemoUApp')
