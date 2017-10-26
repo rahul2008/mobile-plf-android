@@ -19,7 +19,6 @@ import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
 import com.philips.cdp2.ews.view.EWSWiFiConnectFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
-import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,8 +44,6 @@ public class NavigatorTest {
 
     @Mock
     private FragmentNavigator mockFragmentNavigator;
-    @Mock
-    private ActivityNavigator mockActivityNavigator;
 
     @Before
     public void setUp() throws Exception {
@@ -114,13 +111,6 @@ public class NavigatorTest {
         subject.navigateSetupAccessPointModeScreen();
 
         verifyFragmentPushed(SetupAccessPointModeTroubleshootingFragment.class);
-    }
-
-    @Test
-    public void itShouldPushConnectionUnsucessfulTroubleShootingScreenWhenNavigating() throws Exception {
-        subject.navigateToConnectionUnsuccessfulTroubleShootingScreen(null);
-
-        verifyFragmentPushed(TroubleshootConnectionUnsuccessfulFragment.class);
     }
 
     @Test

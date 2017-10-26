@@ -32,7 +32,6 @@ import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.communication.WiFiEventMonitor;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
-import com.philips.cdp2.ews.navigation.ActivityNavigator;
 import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
@@ -188,7 +187,7 @@ public class EWSModule {
 
     @Provides
     Navigator provideNavigator() {
-        return new Navigator(new FragmentNavigator(fragmentManager), new ActivityNavigator(context));
+        return new Navigator(new FragmentNavigator(fragmentManager));
     }
 
     @Provides

@@ -26,12 +26,9 @@ public class Navigator {
 
     @NonNull
     private final FragmentNavigator fragmentNavigator;
-    @NonNull
-    private final ActivityNavigator activityNavigator;
 
-    public Navigator(@NonNull final FragmentNavigator fragmentNavigator, @NonNull final ActivityNavigator activityNavigator) {
+    public Navigator(@NonNull final FragmentNavigator fragmentNavigator) {
         this.fragmentNavigator = fragmentNavigator;
-        this.activityNavigator = activityNavigator;
     }
 
     public void navigateToGettingStartedScreen() {
@@ -86,7 +83,7 @@ public class Navigator {
         pushFragment(new SetupAccessPointModeTroubleshootingFragment());
     }
 
-    public void navigateToConnectionUnsuccessfulTroubleShootingScreen(@NonNull String deviceName) {
+    public void navigateToConnectionUnsuccessfulTroubleShootingScreen() {
         pushFragment(new TroubleshootConnectionUnsuccessfulFragment());
     }
 
@@ -97,11 +94,6 @@ public class Navigator {
     public void navigateToConnectingPhoneToHotspotWifiScreen() {
         pushFragment(new ConnectingPhoneToHotspotWifiFragment());
     }
-
-//    public void navigateToUnsuccessfulConnectionDialog(@NonNull Fragment currentFragment, int requestCode) {
-//        activityNavigator.showFragmentWithResult(currentFragment,
-//                ConnectionUnsuccessfulFragment.class.getCanonicalName(), requestCode);
-//    }
 
     public void navigateToConnectingDeviceWithWifiScreen(@NonNull final String homeWiFiSSID, @NonNull final String homeWiFiPassword, @NonNull final String deviceName) {
         pushFragment(ConnectingDeviceWithWifiFragment.newInstance(homeWiFiSSID, homeWiFiPassword, deviceName));

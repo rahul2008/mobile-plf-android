@@ -18,7 +18,6 @@ import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.communication.events.ApplianceConnectErrorEvent;
 import com.philips.cdp2.ews.communication.events.PairingSuccessEvent;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
-import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.Navigator;
@@ -120,7 +119,7 @@ public class EWSWiFiConnectViewModel extends BaseObservable {
 
     private void showConnectionUnsuccessful() {
         dismissDialog();
-        navigator.navigateToConnectionUnsuccessfulTroubleShootingScreen("");
+        navigator.navigateToConnectionUnsuccessfulTroubleShootingScreen();
     }
 
     protected void dismissDialog() {
