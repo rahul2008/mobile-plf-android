@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,11 +29,12 @@ import java.util.Map;
 
 import static com.philips.platform.uappframework.launcher.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT;
 
-public class EWSDemoActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-
-    private static final String[] configurationOptions = { "Default", "Wakeup Light", "Air Purifier"};
+public class EWSDemoActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Spinner configSpinner;
+    private static final String WAKEUP_LIGHT = "wl";
+    private static final String AIRPURIFIER = "ap";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +42,10 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.launchEWS).setOnClickListener(this);
 
         configSpinner = (Spinner) findViewById(R.id.spinner);
-        configSpinner.setOnItemSelectedListener(this);
-        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,configurationOptions);
+        configSpinner.setOnItemSelectedListener(itemSelectedListener);
+
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,
+                getResources().getStringArray(R.array.configurations));
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         configSpinner.setAdapter(aa);
     }
@@ -80,46 +84,63 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
 
     @NonNull
     private BaseContentConfiguration createBaseContentConfiguration(){
-        return new BaseContentConfiguration(R.string.lbl_devicename, R.string.lbl_appname);
+        if (isDefaultValueSelected()){
+            return new BaseContentConfiguration();
+        }else{
+            return new BaseContentConfiguration(R.string.lbl_devicename, R.string.lbl_appname);
+        }
     }
 
     @NonNull
     private HappyFlowContentConfiguration createHappyFlowConfiguration(){
-        return new HappyFlowContentConfiguration.Builder()
-                .setGettingStartedScreenTitle(R.string.label_ews_get_started_title)
-                .setSetUpScreenTitle(R.string.lbl_setup_screen_title)
-                .setSetUpScreenBody(R.string.lbl_setup_screen_body)
-                .build();
+        if(isDefaultValueSelected()){
+            return new HappyFlowContentConfiguration.Builder().build();
+        }else{
+            return new HappyFlowContentConfiguration.Builder()
+                    .setGettingStartedScreenTitle(R.string.label_ews_get_started_title)
+                    .setSetUpScreenTitle(R.string.lbl_setup_screen_title)
+                    .setSetUpScreenBody(R.string.lbl_setup_screen_body)
+                    .build();
+        }
     }
 
-    public void updateCurrentContent(String currentContent) {
+    private void updateCurrentContent(String currentContent) {
         try {
             Configuration config = new Configuration(getResources().getConfiguration());
             config.setLocale(new Locale(currentContent));
             getResources().getConfiguration().updateFrom(config);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(EWSDemoActivity.class.getName(), e.toString());
         }
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (position){
-            case 0:
-                updateCurrentContent("");
-                break;
-            case 1:
-                updateCurrentContent("wl");
-                break;
-            case 2:
-                updateCurrentContent("ap");
-                break;
+    private boolean isDefaultValueSelected(){
+        if (configSpinner.getSelectedItem().equals(getResources().getString(R.string.default_value))){
+            return true;
+        }
+        return false;
+    }
+
+    private AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            switch (position){
+                case 1:
+                    updateCurrentContent(WAKEUP_LIGHT);
+                    break;
+                case 2:
+                    updateCurrentContent(AIRPURIFIER);
+                    break;
+                case 0:
+                default:
+                    updateCurrentContent("");
+                    break;
+            }
         }
 
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+            // do nothing
+        }
+    };
 }
