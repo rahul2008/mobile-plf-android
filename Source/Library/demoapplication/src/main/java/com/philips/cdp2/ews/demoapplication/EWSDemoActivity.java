@@ -95,8 +95,8 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
     public void updateCurrentContent(String currentContent) {
         try {
             Configuration config = new Configuration(getResources().getConfiguration());
-            config.locale = new Locale(currentContent);
-            getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+            config.setLocale(new Locale(currentContent));
+            getResources().getConfiguration().updateFrom(config);
         } catch (Exception e) {
             e.printStackTrace();
         }
