@@ -55,10 +55,10 @@ public class CreateConsentModelRequest extends NetworkAbstractModel {
     public String requestBody() {
         CreateConsentModel model = new CreateConsentModel();
         model.setResourceType("Consent");
-        model.setLanguage(mUser.getLanguageCode());
+        model.setLanguage("af-ZA");
         model.setStatus(consentStatus);
         model.setSubject(mUser.getHsdpUUID());
-        model.setPolicyRule("urn:com.philips.consent:moment/"+ mUser.getCountryCode() +"/0/"+propositionName+"/"+applicationName);
+        model.setPolicyRule("urn:com.philips.consent:moment/IN/0/"+propositionName+"/"+applicationName);
         return getJsonString(model);
     }
 
