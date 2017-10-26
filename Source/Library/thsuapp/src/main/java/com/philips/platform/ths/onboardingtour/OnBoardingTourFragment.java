@@ -95,23 +95,21 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
             @Override
             public void onPageSelected(int position) {
 
-                if(position == 0 ){
+                if (position == 0) {
                     skipButton.setVisibility(View.VISIBLE);
                     leftArrow.setVisibility(View.GONE);
                     rightArrow.setVisibility(View.VISIBLE);
-                }else {
+                } else {
+                    if (position == (pager.getAdapter().getCount() - 1)) {
+                        rightArrow.setVisibility(View.GONE);
+                        doneButton.setVisibility(View.VISIBLE);
+                    } else {
+                        rightArrow.setVisibility(View.VISIBLE);
+                        doneButton.setVisibility(View.GONE);
+                    }
                     skipButton.setVisibility(View.GONE);
                     leftArrow.setVisibility(View.VISIBLE);
                 }
-
-                if (position == (pager.getAdapter().getCount() - 1)) {
-                    rightArrow.setVisibility(View.GONE);
-                    doneButton.setVisibility(View.VISIBLE);
-                } else {
-                    rightArrow.setVisibility(View.VISIBLE);
-                    doneButton.setVisibility(View.GONE);
-                }
-
                 setEnviromentSelectionVisibility(position);
             }
 
@@ -139,19 +137,19 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
     @Override
     public void onClick(View v) {
 
-        int componentID =v.getId();
+        int componentID = v.getId();
 
-        if(componentID == R.id.welcome_rightarrow){
+        if (componentID == R.id.welcome_rightarrow) {
             pager.arrowScroll(View.FOCUS_RIGHT);
         }
-        if(componentID == R.id.welcome_leftarrow){
+        if (componentID == R.id.welcome_leftarrow) {
             pager.arrowScroll(View.FOCUS_LEFT);
         }
-        if(componentID == R.id.welcome_start_registration_button){
+        if (componentID == R.id.welcome_start_registration_button) {
             //Start a amwell Fragment
 
         }
-        if(componentID == R.id.welcome_skip_button){
+        if (componentID == R.id.welcome_skip_button) {
             //start Amwell Fragemnt .
         }
     }
