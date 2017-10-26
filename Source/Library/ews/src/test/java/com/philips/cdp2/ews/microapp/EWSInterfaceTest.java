@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -104,7 +103,7 @@ public class EWSInterfaceTest {
     @Test
     public void shouldLaunchEWSActivityIfLauncherConfigurationIsValid() throws Exception {
         initEWS();
-        ewsInterface.launch(activityLauncherMock, new EWSLauncherInput(mock(EWSCallback.class)));
+        ewsInterface.launch(activityLauncherMock, new EWSLauncherInput());
 
         verify(contextMock).startActivity(isA(Intent.class));
     }

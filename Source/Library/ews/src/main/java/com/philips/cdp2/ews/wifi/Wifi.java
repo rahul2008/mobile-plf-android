@@ -28,7 +28,8 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
+
+import com.philips.cdp2.ews.util.TextUtil;
 
 import java.util.Comparator;
 import java.util.List;
@@ -46,7 +47,7 @@ public class Wifi {
     }
 
     public static String convertToQuotedString(String string) {
-        if (TextUtils.isEmpty(string)) {
+        if (TextUtil.isEmpty(string)) {
             return "";
         }
 

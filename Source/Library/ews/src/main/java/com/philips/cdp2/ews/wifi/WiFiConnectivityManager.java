@@ -10,9 +10,9 @@ import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.text.TextUtils;
 
 import com.philips.cdp2.ews.logger.EWSLogger;
+import com.philips.cdp2.ews.util.TextUtil;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class WiFiConnectivityManager {
         wiFiUtil.forgetHotSpotNetwork(deviceHotspotSSID);
         configureOpenNetwork();
 
-        if (!TextUtils.isEmpty(wiFiUtil.getCurrentWiFiSSID())) {
+        if (!TextUtil.isEmpty(wiFiUtil.getCurrentWiFiSSID())) {
             connectToNetwork(DEVICE_SSID);
         }
     }

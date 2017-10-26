@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">DemoApplication</string>
+
+    <string name="lbl_appname">Healthy sleep solution</string>
+    <string name="lbl_devicename">BrightEyes</string>
+    <string name="lbl_connectwithdevice">Connect with your </string>
+    <string name="lbl_ews_02_01_title">Make sure your device is powered on </string>
+    <string name="lbl_ews_02_01_body">Proposition specific instructions to power the device.</string>
+
 </resources>
