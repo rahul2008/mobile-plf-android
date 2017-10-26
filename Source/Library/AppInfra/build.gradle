@@ -164,6 +164,7 @@ android {
         versionName version + "(" + objcdp.getCommitHash() + ")"
         testApplicationId "com.philips.platform.appinfra.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        consumerProguardFiles 'proguard-rules-ail.pro'
     }
 
     sourceSets.main
@@ -190,9 +191,6 @@ android {
     }
 
     buildTypes {
-        release {
-            proguardFiles 'proguard-rules-ail.pro'
-        }
         debug {
             testCoverageEnabled true
         }
