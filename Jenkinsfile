@@ -4,6 +4,7 @@ BranchName = env.BRANCH_NAME
 JENKINS_ENV = env.JENKINS_ENV
 
 properties([
+    [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]],
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]
 ])
 
@@ -11,8 +12,8 @@ def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_ph_cdp2_iap@philips.com'
 def errors = []
 
 node ('android&&docker') {
-    timestamps {
-        try {
+	timestamps {
+		try {
             stage ('Checkout') {
                 def jobBaseName = "${env.JOB_BASE_NAME}".replace('%2F', '/')
                 if (env.BRANCH_NAME != jobBaseName)
@@ -26,44 +27,48 @@ node ('android&&docker') {
                 checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch', localBranch: "**"]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/ths-android-telehealth-app']]])
                 step([$class: 'StashNotifier'])
             }
-
+            stage ('build') {
+                sh '''#!/bin/bash -l
+                    chmod -R 775 .
+                    cd ./Source/DemoApp
+                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease
+                '''
+            }
+            stage('test') {
+                echo "lint & unit test"
+               sh '''#!/bin/bash -l
+                    chmod -R 755 .
+                    cd ./Source/DemoApp
+                    ./gradlew -PenvCode=${JENKINS_ENV} lintRelease testReleaseUnitTest
+                '''
+            }
             if (BranchName =~ /master|develop|release\/platform_.*/) {
-                stage('Trigger OPA Build'){
-                    def committerName = sh (script: "git show -s --format='%an' HEAD", returnStdout: true).trim()
+                stage ('publish') {
+                    echo "publish to artifactory"
+                    sh '''#!/bin/bash -l
+                        chmod -R 775 .
+                        cd ./Source/DemoApp
+                        ./gradlew -PenvCode=${JENKINS_ENV} zipDocuments artifactoryPublish
+                    '''
+                }
+            }
+			stage ('save dependencies list') {
+                sh '''#!/bin/bash -l
+                    chmod -R 775 .
+                    cd ./Source/DemoApp
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
+                    cd ../Library
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
+                '''
+            }
+
+            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release\/platform_.*/)) {
+                stage ('callIntegrationPipeline') {
                     if (BranchName =~ "/") {
                         BranchName = BranchName.replaceAll('/','%2F')
                         echo "BranchName changed to ${BranchName}"
                     }
-                    build job: "Platform-Infrastructure/opa-android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'committerName', value:committerName]], wait: false
-                }
-            }
-            else
-            {
-                stage ('build') {
-                    sh '''#!/bin/bash -l
-                        chmod -R 775 .
-                        cd ./Source/DemoApp
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease
-                    '''
-                }
-
-                stage('test') {
-                    echo "lint & unit test"
-                    sh '''#!/bin/bash -l
-                        chmod -R 755 .
-                        cd ./Source/DemoApp
-                        ./gradlew -PenvCode=${JENKINS_ENV} lintRelease testReleaseUnitTest
-                    '''
-                }
-
-                stage ('save dependencies list') {
-                    sh '''#!/bin/bash -l
-                        chmod -R 775 .
-                        cd ./Source/DemoApp
-                        ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
-                        cd ../Library
-                        ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
-                    '''
+                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ths'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
                 }
             }
         } catch(err) {
@@ -77,30 +82,21 @@ node ('android&&docker') {
                     }
                 }
             }
-
             stage ('reporting') {
-                if (BranchName =~ /master|develop|release\/platform_.*/) {
-                    echo "Nothing to Report, OPA build is started"
-                }
-                else
-                {
-                    androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
-                    junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/**/*.xml'
-                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/thsuapp/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release'])
-                    archiveArtifacts '**/*dependencies*.lock'
-                }
+                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
+                junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/**/*.xml'
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/thsuapp/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release'])
+                archiveArtifacts '**/*dependencies*.lock'
             }
-
             stage('informing') {
                 step([$class: 'StashNotifier'])
                 step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
             }
-
             stage('Cleaning workspace') {
                 step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
             }
         }
-    } // end timestamps
+	} // end timestamps
 } // end node ('android')
 
 node('master') {
