@@ -130,9 +130,9 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
             mTHSCostSummaryFragment.hideProgressBar();
             if (null != tHSSDKError.getSdkError()) {
                 if (null != tHSSDKError.getSDKErrorReason()) {
-                    mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(tHSSDKError.getSDKErrorReason()));
+                    mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(tHSSDKError.getSDKErrorReason()),true);
                 }else {
-                    mTHSCostSummaryFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                    mTHSCostSummaryFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR,true);
                 }
             } else if (null != tHSVisit) {
                 String couponCode = null;

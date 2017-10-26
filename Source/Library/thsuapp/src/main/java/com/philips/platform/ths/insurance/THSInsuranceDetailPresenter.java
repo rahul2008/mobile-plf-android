@@ -159,9 +159,9 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
             mTHSBaseFragment.hideProgressBar();
             if (null != tHSSDKError.getSdkError()) {
                 if (null != tHSSDKError.getSDKErrorReason()) {
-                    mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(tHSSDKError.getSDKErrorReason()));
+                    mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(tHSSDKError.getSDKErrorReason()),true);
                 }else {
-                    mTHSBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                    mTHSBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR,true);
                 }
             } else {
                 ((THSInsuranceDetailFragment) mTHSBaseFragment).thsSubscriptionExisting = tHSSubscription;

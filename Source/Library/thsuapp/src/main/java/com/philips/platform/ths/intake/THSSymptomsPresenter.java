@@ -97,9 +97,9 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
             if (null != thssdkError.getSdkError()) {
                 if (thssdkError.getSDKErrorReason().name() != null) {
-                    thsBaseView.showError(THSSDKErrorFactory.getErrorType(thssdkError.getSDKErrorReason()));
+                    thsBaseView.showError(THSSDKErrorFactory.getErrorType(thssdkError.getSDKErrorReason()), true);
                 }else {
-                    thsBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                    thsBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR, true);
                 }
             } else {
                 updateSymptoms(THSVisitContext);
@@ -151,9 +151,9 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
                 if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
                     if (null != thssdkError.getSdkError()) {
                         if (thssdkError.getSDKErrorReason().name() != null) {
-                            thsBaseView.showError(THSSDKErrorFactory.getErrorType(thssdkError.getSDKErrorReason()));
+                            thsBaseView.showError(THSSDKErrorFactory.getErrorType(thssdkError.getSDKErrorReason()), true);
                         }else {
-                            thsBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                            thsBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR, true);
                         }
                     } else {
                         updateSymptoms(pthVisitContext);

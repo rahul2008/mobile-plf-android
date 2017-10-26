@@ -145,7 +145,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     public void onFailure(Throwable throwable) {
         AmwellLog.d("Send rating", "failure");
         if (null != mTHSVisitSummaryFragment && mTHSVisitSummaryFragment.isFragmentAttached()) {
-            mTHSVisitSummaryFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mTHSVisitSummaryFragment.showError(mTHSVisitSummaryFragment.getResources().getString(R.string.ths_se_server_error_toast_message),true);
         }
     }
 

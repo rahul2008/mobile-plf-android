@@ -22,6 +22,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
@@ -40,10 +41,6 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_VIDEO_CALL;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
-
-/**
- * Created by philips on 7/26/17.
- */
 
 public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitCallback, THSCancelVisitCallBack.SDKCallback<Void, SDKError> {
 
@@ -220,7 +217,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     @Override
     public void onFailure(Throwable throwable) {
         if(null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()){
-            mTHSWaitingRoomFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mTHSWaitingRoomFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR,true);
         }
         abondonCurrentVisit();
     }

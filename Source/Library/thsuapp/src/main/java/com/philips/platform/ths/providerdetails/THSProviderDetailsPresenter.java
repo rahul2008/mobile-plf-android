@@ -82,9 +82,9 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             if (null != sdkError) {
                 if (sdkError.getSDKErrorReason() != null) {
-                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()), true);
                 } else {
-                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR, true);
                 }
             } else {
                 THSConsumer thsConsumer = new THSConsumer();

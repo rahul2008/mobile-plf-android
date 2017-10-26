@@ -65,9 +65,9 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                 updateFragment(providerInfoList, providerAvailable);
             } else if (null != sdkError) {
                 if(null != sdkError.getSDKErrorReason()) {
-                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()),true);
                 }else {
-                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR,true);
                 }
             } else {
                 thsProviderListViewInterface.showNoProviderErrorDialog();

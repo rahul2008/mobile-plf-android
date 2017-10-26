@@ -48,9 +48,9 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
         if (null != uiBaseView && null != uiBaseView.getFragmentActivity()) {
             if (null != sdkError) {
                 if (sdkError.getSDKErrorReason() != null) {
-                    uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()),true);
                 }else {
-                    uiBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                    uiBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR,true);
                 }
             } else {
                 ((THSPracticeFragment) uiBaseView).showPracticeList(practices);
