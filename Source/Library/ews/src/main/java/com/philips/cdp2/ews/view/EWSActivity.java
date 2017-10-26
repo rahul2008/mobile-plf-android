@@ -63,9 +63,7 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
         setUpToolBar();
         setUpCancelButton();
 
-        ewsComponent = DaggerEWSComponent.
-                builder().
-                eWSModule(new EWSModule(EWSActivity.this, getSupportFragmentManager())).build();
+        ewsComponent = createEWSComponent(getBundle(savedInstanceState));
         ewsComponent.inject(this);
         ewsEventingChannel.start();
 

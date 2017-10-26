@@ -46,8 +46,8 @@ public class EWSHomeWifiDisplayViewModelTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-
         viewModel = new EWSHomeWifiDisplayViewModel(navigatorMock, wifiUtilMock, mockBaseContentConfig, mockStringProvider);
+        viewModel.setViewCallback(mockViewCallback);
         when(mockBaseContentConfig.getDeviceName()).thenReturn(R.string.ews_device_name_default);
     }
 
