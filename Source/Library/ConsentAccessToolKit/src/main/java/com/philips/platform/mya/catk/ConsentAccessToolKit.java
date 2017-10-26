@@ -99,7 +99,6 @@ public class ConsentAccessToolKit {
                     }
                 }
                 consentListener.onResponseSuccessConsent(null);
-
             }
 
             @Override

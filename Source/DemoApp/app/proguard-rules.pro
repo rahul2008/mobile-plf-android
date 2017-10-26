@@ -257,3 +257,6 @@
 -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
     <init>(java.lang.Throwable);
 }
+
+# from dagger.android.DispatchingAndroidInjector
+-dontwarn com.google.errorprone.annotations.*
