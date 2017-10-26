@@ -2,12 +2,11 @@
  * Copyright (c) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdp2.ews.view;
+package com.philips.cdp2.ews.settingdeviceinfo;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
-import com.philips.cdp2.ews.viewmodel.EWSWiFiConnectViewModel;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,20 +19,20 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class EWSWiFiConnectFragmentTest {
+public class ConnectWithPasswordFragmentTest {
 
-    private EWSWiFiConnectFragment fragment;
+    private ConnectWithPasswordFragment fragment;
 
     @Mock
     private EWSComponent ewsComponentMock;
 
     @Mock
-    private EWSWiFiConnectViewModel viewModelMock;
+    private ConnectWithPasswordViewModel viewModelMock;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        fragment = new EWSWiFiConnectFragment();
+        fragment = new ConnectWithPasswordFragment();
         injectMembers();
     }
 

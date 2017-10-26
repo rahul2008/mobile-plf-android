@@ -18,10 +18,6 @@
             android:name=".view.EWSActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity
-            android:name=".troubleshooting.base.BaseDialogActivity"
-            android:screenOrientation="portrait">
-        </activity>
     </application>
 
 </manifest>

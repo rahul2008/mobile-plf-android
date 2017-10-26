@@ -24,7 +24,6 @@ import com.philips.cdp2.ews.injections.EWSConfigurationModule;
 import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.microapp.EWSInterface;
-import com.philips.cdp2.ews.navigation.ActivityNavigator;
 import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.Actions;
@@ -69,8 +68,8 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
 
         EWSTagger.collectLifecycleInfo(this);
 
-        //TODO move this inizialization.
-        Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()), new ActivityNavigator(this));
+        //TODO move this initialization.
+        Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()));
         navigator.navigateToGettingStartedScreen();
 
         FontIconDrawable drawable = new FontIconDrawable(this, getResources().getString(R.string.dls_cross_24), TypefaceUtils.load(getAssets(), "fonts/iconfont.ttf"))

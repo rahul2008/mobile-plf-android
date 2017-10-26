@@ -18,10 +18,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:paddingTop="@dimen/default_screen_top_margin"
             android:paddingBottom="@dimen/default_screen_bottom_margin"
             android:paddingEnd="@dimen/default_screen_side_margin"
-            android:paddingStart="@dimen/default_screen_side_margin"
-            android:paddingTop="@dimen/default_screen_top_margin">
+            android:paddingStart="@dimen/default_screen_side_margin">
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ews_04_00b_label_phone_not_found_on_network_title"
@@ -38,14 +38,13 @@
                 android:layout_marginTop="@dimen/default_body_labels_margin"
                 android:text="@{viewModel.description}" />
 
-            <!--Background color for label note later need to be changed-->
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/wrong_wifi_note"
                 style="@style/Txt.Helper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_main_helper_top_margin"
-                android:background="@color/dls_aqua_50_opacity_25"
+                android:background="?attr/uidContentTertiaryBackgroundColor"
                 android:paddingBottom="@dimen/default_main_helper_bottom_padding"
                 android:paddingEnd="@dimen/default_main_helper_padding"
                 android:paddingStart="@dimen/default_main_helper_padding"

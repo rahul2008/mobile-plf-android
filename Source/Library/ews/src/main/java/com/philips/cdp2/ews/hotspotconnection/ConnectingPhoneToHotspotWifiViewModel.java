@@ -13,10 +13,8 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
-import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
-import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
 import com.philips.cdp2.ews.navigation.Navigator;
-import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulViewModel;
+import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameFetcher;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
@@ -25,12 +23,15 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-public class ConnectingPhoneToHotspotWifiViewModel {
+public class ConnectingPhoneToHotspotWifiViewModel implements DeviceFriendlyNameFetcher.Callback {
 
     public interface ConnectingPhoneToHotSpotCallback {
         void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
+
         void unregisterReceiver(@NonNull BroadcastReceiver receiver);
+        void showTroubleshootHomeWifiDialog();
         Fragment getFragment();
+
         int requestCode();
     }
 
@@ -40,7 +41,7 @@ public class ConnectingPhoneToHotspotWifiViewModel {
     private final WiFiConnectivityManager wiFiConnectivityManager;
 
     @NonNull
-    private final ApplianceAccessManager applianceAccessManager;
+    private final DeviceFriendlyNameFetcher deviceFriendlyNameFetcher;
     @NonNull
     private final WiFiUtil wiFiUtil;
     @NonNull
@@ -75,21 +76,16 @@ public class ConnectingPhoneToHotspotWifiViewModel {
         }
     };
 
-    @Inject
-    ConnectingPhoneToHotspotWifiViewModel(@NonNull WiFiConnectivityManager wiFiConnectivityManager,
-                                          @NonNull ApplianceAccessManager applianceAccessManager,
-                                          @NonNull WiFiUtil wiFiUtil,
-                                          @NonNull Navigator navigator,
-                                          @NonNull @Named("mainLooperHandler") Handler handler) {
+    @Inject ConnectingPhoneToHotspotWifiViewModel(@NonNull WiFiConnectivityManager wiFiConnectivityManager,
+                                                  @NonNull DeviceFriendlyNameFetcher deviceFriendlyNameFetcher,
+                                                  @NonNull WiFiUtil wiFiUtil,
+                                                  @NonNull Navigator navigator,
+                                                  @NonNull @Named("mainLooperHandler") Handler handler) {
         this.wiFiConnectivityManager = wiFiConnectivityManager;
-        this.applianceAccessManager = applianceAccessManager;
+        this.deviceFriendlyNameFetcher = deviceFriendlyNameFetcher;
         this.wiFiUtil = wiFiUtil;
         this.navigator = navigator;
         this.handler = handler;
-    }
-
-    public void setFragmentCallback(@Nullable ConnectingPhoneToHotSpotCallback fragmentCallback) {
-        this.fragmentCallback = fragmentCallback;
     }
 
     public void connectToHotSpot() {
@@ -105,12 +101,11 @@ public class ConnectingPhoneToHotspotWifiViewModel {
         navigator.navigateBack();
     }
 
-    public void onResultReceived(int result) {
-        if (result == ConnectionUnsuccessfulViewModel.HELP_NEEDED_RESULT) {
-            navigator.navigateToResetConnectionTroubleShootingScreen();
-        } else if (result == ConnectionUnsuccessfulViewModel.HELP_NOT_NEEDED_RESULT) {
-            navigator.navigateToCompletingDeviceSetupScreen();
-        }
+    public void onHelpNeeded(){
+        navigator.navigateToResetConnectionTroubleShootingScreen();
+    }
+    public void onHelpNotNeeded(){
+        navigator.navigateToCompletingDeviceSetupScreen();
     }
 
     public void clear() {
@@ -121,26 +116,13 @@ public class ConnectingPhoneToHotspotWifiViewModel {
     }
 
     private void onPhoneConnectedToHotspotWifi() {
-        applianceAccessManager.fetchDevicePortProperties(
-                new ApplianceAccessManager.FetchCallback() {
-                    @Override
-                    public void onDeviceInfoReceived(WifiPortProperties properties) {
-                        Log.d("CONNECT", "onDeviceInfoReceived: " + properties.getSsid());
-                        navigator.navigateToConnectToDeviceWithPasswordScreen();
-                    }
-
-                    @Override
-                    public void onFailedToFetchDeviceInfo() {
-                        Log.d("CONNECT", "onFailedToFetchDeviceInfo");
-                        showUnsuccessfulDialog();
-                    }
-                });
+        deviceFriendlyNameFetcher.setNameFetcherCallback(this);
+        deviceFriendlyNameFetcher.fetchFriendlyName();
     }
 
     private void showUnsuccessfulDialog() {
         if (fragmentCallback != null) {
-            navigator.navigateToUnsuccessfulConnectionDialog(fragmentCallback.getFragment(),
-                    fragmentCallback.requestCode());
+            fragmentCallback.showTroubleshootHomeWifiDialog();
         }
     }
 
@@ -158,9 +140,21 @@ public class ConnectingPhoneToHotspotWifiViewModel {
         }
     }
 
+    @Override public void onFriendlyNameFetchingSuccess(@NonNull String friendlyName) {
+        navigator.navigateToConnectToDeviceWithPasswordScreen(friendlyName);
+    }
+
+    @Override public void onFriendlyNameFetchingFailed() {
+        showUnsuccessfulDialog();
+    }
+
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     @Nullable
     ConnectingPhoneToHotSpotCallback getFragmentCallback() {
         return fragmentCallback;
+    }
+
+    public void setFragmentCallback(@Nullable ConnectingPhoneToHotSpotCallback fragmentCallback) {
+        this.fragmentCallback = fragmentCallback;
     }
 }
