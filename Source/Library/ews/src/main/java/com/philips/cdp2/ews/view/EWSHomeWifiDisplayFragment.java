@@ -5,7 +5,6 @@
 package com.philips.cdp2.ews.view;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +38,12 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.refresh();
+    }
+
+    @Override
     protected void bindViewModel(final FragmentEwsHomeWifiDisplayScreenBinding viewDataBinding) {
         viewDataBinding.setViewModel(viewModel);
         viewModel.setViewCallback(this);
@@ -69,14 +74,14 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
     @Override
     public void showTroubleshootHomeWifiDialog() {
         Context context = getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.troubleshoot_home_wifi_fragment,
+        final View view = LayoutInflater.from(context).inflate(R.layout.troubleshoot_home_wifi_fragment,
                 null, false);
 
         AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context)
                 .setDialogView(view)
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDimLayer(DialogConstants.DIM_STRONG)
-                .setCancelable(true);
+                .setCancelable(false);
         final AlertDialogFragment alertDialogFragment = builder.create();
         alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
         getChildFragmentManager().executePendingTransactions();
@@ -92,15 +97,16 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialogFragment.dismissAllowingStateLoss();
+                alertDialogFragment.dismiss();
+                viewModel.refresh();
             }
         });
-        alertDialogFragment.getDialog().setOnDismissListener(
-                new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        viewModel.refresh();
-                    }
-                });
+//        alertDialogFragment.getDialog().setOnDismissListener(
+//                new DialogInterface.OnDismissListener() {
+//                    @Override
+//                    public void onDismiss(DialogInterface dialog) {
+//                        viewModel.refresh();
+//                    }
+//                });
     }
 }
