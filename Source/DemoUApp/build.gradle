@@ -48,7 +48,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "commlibUApp"
+archivesBaseName = "commlib-demouapp"
 version = objcdp.getVersion(versions.cml_commlib)
 
 repositories {
@@ -183,7 +183,7 @@ dependencies {
 
     def useProjectDependencies = project.ext.has('useprojectdependencies')
 
-    def ufwModule = module(group: 'com.philips.cdp', name: 'ufw', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
+    def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
     compile(useProjectDependencies ? project(':ufw') : ufwModule)
 
     if (useProjectDependencies) {

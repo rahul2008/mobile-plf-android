@@ -191,7 +191,7 @@ dependencies {
         debugCompile project(path: ':bluelib', configuration: 'debug')
         releaseCompile project(path: ':bluelib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'bluelib', version: versions.bll_shinelib + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'shinelib', version: versions.bll_shinelib + objcdp.getVersionSuffix(), changing: true)
     }
 
     for (dep in [':commlib-api']) {

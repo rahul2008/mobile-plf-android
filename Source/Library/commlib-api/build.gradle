@@ -196,7 +196,11 @@ dependencies {
 
 	def dp = project.ext.has('useprojectdependencies')
 	
+<<<<<<< HEAD
 	def ailModule = module(group: 'com.philips.cdp', name: 'ail', version: versions.ail_appInfra + objcdp.getVersionSuffix(), changing: true)
+=======
+	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+>>>>>>> parent of f50da3784... Fixing Opa issue
 	compile(dp ? project(':ail') : ailModule) 
 	{
         exclude group: 'com.android.support'
