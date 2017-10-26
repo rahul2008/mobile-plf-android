@@ -194,6 +194,10 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
             if (fragment instanceof AlmostDoneFragment) {
                 ((AlmostDoneFragment) (fragment)).clearUserData();
             }
+
+            if (fragment instanceof ForgotPasswordFragment) {
+                ((ForgotPasswordFragment)(fragment)).backPressed();
+            }
             trackHandler();
             try {
                 mFragmentManager.popBackStack();
