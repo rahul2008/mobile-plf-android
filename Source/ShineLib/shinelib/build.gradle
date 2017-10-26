@@ -49,7 +49,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "bluelib"
+archivesBaseName = "shinelib"
 
 version = objcdp.getVersion(versions.bll_shinelib)
 
