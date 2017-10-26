@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.view;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentEwsHomeWifiDisplayScreenBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,19 +14,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel
-        .ConnectingPhoneToHotSpotCallback;
+import com.philips.cdp2.ews.databinding.FragmentConnectingPhoneToHotspotLayoutBinding;
+import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel.ConnectingPhoneToHotSpotCallback;
+import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 
-import static com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure
-        .ConnectionUnsuccessfulFragment.UNSUCCESSFUL_CONNECTION_RESULT;
+import static com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulFragment.UNSUCCESSFUL_CONNECTION_RESULT;
 
 public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implements
         ConnectingPhoneToHotSpotCallback {
 
     private static final int REQUEST_CODE = 100;
-
+    private static final String TAG = "ConnectingPhoneToHotspotWifiFragment";
     @Nullable private ConnectingPhoneToHotspotWifiViewModel viewModel;
 
     @Override
@@ -39,23 +40,14 @@ public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implement
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        FragmentConnectingPhoneToHotspotLayoutBinding viewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_connecting_phone_to_hotspot_layout,
+                container, false);
         viewModel = createViewModel();
         viewModel.setFragmentCallback(this);
         viewModel.connectToHotSpot();
-        return inflater.inflate(R.layout.fragment_connecting_phone_to_hotspot_layout, container,
-                false);
-    }
+        viewDataBinding.setViewModel(viewModel);
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        view.findViewById(R.id.cancel_button)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        cancelButtonClicked();
-                    }
-                });
+        return viewDataBinding.getRoot();
     }
 
     @Override
@@ -75,7 +67,9 @@ public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implement
     public void unregisterReceiver(@NonNull BroadcastReceiver receiver) {
         try {
             getActivity().unregisterReceiver(receiver);
-        } catch (IllegalArgumentException ignored) {}
+        } catch (IllegalArgumentException e) {
+            EWSLogger.e(TAG, e.toString());
+        }
     }
 
     @Override
@@ -103,12 +97,6 @@ public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implement
     public boolean handleBackEvent() {
         // Do nothing, back disabled in this screen
         return true;
-    }
-
-    private void cancelButtonClicked() {
-        if (viewModel != null) {
-            viewModel.handleCancelButtonClicked();
-        }
     }
 
     private ConnectingPhoneToHotspotWifiViewModel createViewModel() {

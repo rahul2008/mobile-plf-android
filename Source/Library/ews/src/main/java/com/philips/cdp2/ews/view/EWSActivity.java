@@ -7,8 +7,8 @@ package com.philips.cdp2.ews.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -16,16 +16,17 @@ import android.view.View;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.communication.EventingChannel;
+import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSComponent;
+import com.philips.cdp2.ews.injections.EWSConfigurationModule;
 import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.microapp.EWSInterface;
-import com.philips.cdp2.ews.navigation.ActivityNavigator;
-import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.Actions;
 import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -39,6 +40,7 @@ public class EWSActivity extends UiKitActivity {
 
     public static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
     public static final String EWS_STEPS = "EWS_STEPS";
+    public static final String KEY_CONTENT_CONFIGURATION = "contentConfiguration";
 
     @Inject
     EventingChannel<EventingChannel.ChannelCallback> ewsEventingChannel;
@@ -57,9 +59,7 @@ public class EWSActivity extends UiKitActivity {
         setUpToolBar();
         setUpCancelButton();
 
-        ewsComponent = DaggerEWSComponent.
-                builder().
-                eWSModule(new EWSModule(EWSActivity.this, getSupportFragmentManager())).build();
+        ewsComponent = createEWSComponent(getBundle(savedInstanceState));
         ewsComponent.inject(this);
         ewsEventingChannel.start();
 
@@ -69,6 +69,39 @@ public class EWSActivity extends UiKitActivity {
             navigator.navigateToGettingStartedScreen();
         }
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        ContentConfiguration contentConfiguration =
+                BundleUtils.extractParcelableFromIntentOrNull(getIntent().getExtras(), KEY_CONTENT_CONFIGURATION);
+        outState.putParcelable(KEY_CONTENT_CONFIGURATION, contentConfiguration);
+    }
+
+    private Bundle getBundle(Bundle savedInstanceState) {
+        Bundle bundle;
+        if (savedInstanceState == null) {
+            bundle = getIntent().getExtras();
+        } else {
+            bundle = savedInstanceState;
+        }
+        return bundle;
+    }
+
+    private EWSComponent createEWSComponent(@Nullable Bundle bundle) {
+        ContentConfiguration contentConfiguration =
+                BundleUtils.extractParcelableFromIntentOrNull(bundle, KEY_CONTENT_CONFIGURATION);
+
+        // TODO Handle null config object
+        if (contentConfiguration == null) {
+            contentConfiguration = new ContentConfiguration();
+        }
+
+        return DaggerEWSComponent.builder()
+                .eWSModule(new EWSModule(EWSActivity.this, getSupportFragmentManager()))
+                .eWSConfigurationModule(new EWSConfigurationModule(this, contentConfiguration))
+                .build();
     }
 
     private void setUpCancelButton() {
