@@ -14,16 +14,21 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.philips.cdp2.ews.BuildConfig;
+import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.annotations.ConnectionErrorType;
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.communication.events.ApplianceConnectErrorEvent;
 import com.philips.cdp2.ews.communication.events.PairingSuccessEvent;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
+
+import junit.framework.Assert;
 
 import org.greenrobot.eventbus.EventBus;
 import org.junit.Before;
@@ -84,6 +89,12 @@ public class EWSWiFiConnectViewModelTest {
     @Mock
     private EWSCallbackNotifier ewsCallbackNotifier;
 
+    @Mock
+    private BaseContentConfiguration mockBaseContentConfig;
+
+    @Mock
+    private StringProvider mockStringProvider;
+
     @Rule
     public PowerMockRule rule = new PowerMockRule();
 
@@ -103,7 +114,8 @@ public class EWSWiFiConnectViewModelTest {
         when(EWSCallbackNotifier.getInstance()).thenReturn(ewsCallbackNotifier);
 
         viewModel = new EWSWiFiConnectViewModel(wifiUtilMock, sessionInfoMock, navigatorMock,
-                dialogFragmentMock);
+                dialogFragmentMock, mockBaseContentConfig, mockStringProvider);
+        when(mockBaseContentConfig.getDeviceName()).thenReturn(123435);
         viewModel.setFragment(fragmentMock);
     }
 
@@ -256,6 +268,30 @@ public class EWSWiFiConnectViewModelTest {
         viewModel.onStart();
 
         verify(dialogFragmentMock).show(any(FragmentManager.class), any(String.class));
+    }
+
+    @Test
+    public void itShouldVerifyTitleForViewModel() throws Exception {
+        viewModel.getTitle(mockBaseContentConfig);
+        verify(mockStringProvider).getString(R.string.label_ews_password_title, mockBaseContentConfig.getDeviceName(), viewModel.getHomeWiFiSSID());
+    }
+
+    @Test
+    public void itShouldVerifyTitleForViewMatches() throws Exception{
+        when(mockStringProvider.getString(R.string.label_ews_password_title, mockBaseContentConfig.getDeviceName(), viewModel.getHomeWiFiSSID())).thenReturn("device name");
+        Assert.assertEquals("device name", viewModel.getTitle(mockBaseContentConfig));
+    }
+
+    @Test
+    public void itShouldVerifyNoteForScreen() throws Exception {
+        viewModel.getNote(mockBaseContentConfig);
+        verify(mockStringProvider).getString(R.string.label_ews_password_from_name_title, mockBaseContentConfig.getDeviceName());
+    }
+
+    @Test
+    public void itShouldVerifyNoteForViewMatches() throws Exception{
+        when(mockStringProvider.getString(R.string.label_ews_password_from_name_title, mockBaseContentConfig.getDeviceName())).thenReturn("device name");
+        Assert.assertEquals("device name", viewModel.getNote(mockBaseContentConfig));
     }
 
 }

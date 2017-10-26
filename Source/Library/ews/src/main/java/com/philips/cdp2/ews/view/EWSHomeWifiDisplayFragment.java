@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.common.util.DateUtil;
 import com.philips.cdp2.ews.databinding.FragmentEwsHomeWifiDisplayScreenBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;

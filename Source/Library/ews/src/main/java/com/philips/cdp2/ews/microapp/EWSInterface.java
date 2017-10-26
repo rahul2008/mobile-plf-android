@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.microapp;
 import android.content.Context;
 import android.content.Intent;
 
+import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.view.EWSActivity;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -25,12 +26,14 @@ public class EWSInterface implements UappInterface {
     public static final String PRODUCT_NAME = "productName";
 
     private Context context;
+    private ContentConfiguration contentConfiguration;
 
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         EWSDependencies ewsDependencies = (EWSDependencies) uappDependencies;
         EWSDependencyProvider.getInstance().initDependencies(uappDependencies.getAppInfra(), ewsDependencies.getProductKeyMap());
         context = uappSettings.getContext();
+        contentConfiguration = ewsDependencies.getContentConfiguration();
     }
 
     @Override
@@ -43,10 +46,10 @@ public class EWSInterface implements UappInterface {
             throw new UnsupportedOperationException(ERROR_MSG_INVALID_CALL);
         }
 
-        EWSCallbackNotifier.getInstance().setCallback(((EWSLauncherInput) uappLaunchInput).getCallback());
         Intent intent = new Intent(context, EWSActivity.class);
         intent.putExtra(SCREEN_ORIENTATION, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.putExtra(EWSActivity.KEY_CONTENT_CONFIGURATION, contentConfiguration);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
         context.startActivity(intent);
     }
