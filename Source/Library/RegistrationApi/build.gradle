@@ -44,7 +44,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "usr"
+archivesBaseName = "registrationApi"
 
 allprojects {
     repositories {
@@ -217,7 +217,7 @@ dependencies {
 
     compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
 	
-	def ufwModule = module(group: 'com.philips.cdp', name: 'ufw', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) 
+	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) 
 	compile(dp ? project(':ufw') : ufwModule) 
 	{
 		transitive = true
