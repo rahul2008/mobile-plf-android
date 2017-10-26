@@ -2,11 +2,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-def supportLibraryVer = '25.3.1'
+def supportLibraryVer = '26.0.2'
 def minSdkVer = 21
-def compileSdkVer = 25
-def targetSdkVer = 25
-def buildToolsVer = "25.0.2"
+def compileSdkVer = 26
+def targetSdkVer = 26
+def buildToolsVer = "26.0.2"
 def jUnitVer = 4.12
 
 buildscript {
@@ -178,7 +178,7 @@ dependencies {
 	
 	def dp = project.ext.has('useprojectdependencies')
 
-	def icfModule = module(group: 'com.philips.cdp', name: 'IconFont', version: versions.icf_iconFont + objcdp.getVersionSuffix(), ext: 'aar') 
+	def icfModule = module(group: 'com.philips.cdp', name: 'icf', version: versions.icf_iconFont + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':icf') : icfModule) 
 	{
         transitive = true
