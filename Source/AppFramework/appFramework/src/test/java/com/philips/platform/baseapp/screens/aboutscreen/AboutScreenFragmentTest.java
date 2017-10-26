@@ -5,79 +5,96 @@
 */
 package com.philips.platform.baseapp.screens.aboutscreen;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.platform.CustomRobolectricRunner;
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
+import com.philips.platform.baseapp.screens.termsandconditions.TermsAndPrivacyStateData;
 
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+import org.robolectric.Robolectric;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
+import static org.mockito.Mockito.verify;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class AboutScreenFragmentTest {
+
+    private ActivityController<TestActivity> activityController;
     private HamburgerActivity hamburgerActivity = null;
-    private AboutScreenFragmentMock aboutScreenFragment;
+    private AboutScreenFragment aboutScreenFragment;
+
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
+
+    @Mock
+    private static AboutScreenContract.Action aboutScreenActionListener;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         aboutScreenFragment = new AboutScreenFragmentMock();
-        SupportFragmentTestUtil.startFragment(aboutScreenFragment);
+        activityController = Robolectric.buildActivity(TestActivity.class);
+        hamburgerActivity = activityController.create().start().get();
+        hamburgerActivity.getSupportFragmentManager().beginTransaction().add(aboutScreenFragment, null).commit();
     }
 
     @Test
-    public void testAboutScreenFragment(){
-
-        assertNotNull(aboutScreenFragment);
+    public void testVersion() {
+        TextView version = (TextView) aboutScreenFragment.getView().findViewById(R.id.uid_about_screen_version);
+        assertEquals(version.getText(), aboutScreenFragment.getResources().getString(R.string.RA_About_App_Version) + BuildConfig.VERSION_NAME);
     }
 
     @Test
-    public void testVersion(){
-        TextView  version =(TextView)aboutScreenFragment.view.findViewById(R.id.about_version);
-        assertEquals(version.getText(),aboutScreenFragment.getResources().getString(R.string.RA_About_App_Version) +BuildConfig.VERSION_NAME);
+    public void testDescription() {
+        TextView content = (TextView) aboutScreenFragment.getView().findViewById(R.id.uid_about_screen_disclosure);
+        assertEquals(content.getText(), aboutScreenFragment.getResources().getString(R.string.RA_DLS_about_description));
     }
 
     @Test
-    public void testDescription(){
-        TextView  content =(TextView)aboutScreenFragment.view.findViewById(R.id.about_content);
-        assertEquals(content.getText(),aboutScreenFragment.getResources().getString(R.string.RA_About_Description));
+    public void testTermsClick() {
+        aboutScreenFragment.getView().findViewById(R.id.uid_about_screen_terms).performClick();
+        verify(aboutScreenActionListener).loadTermsAndPrivacy(TermsAndPrivacyStateData.TermsAndPrivacyEnum.TERMS_CLICKED);
+    }
+
+    @Test
+    public void testPrivacyClick() {
+        aboutScreenFragment.getView().findViewById(R.id.uid_about_screen_privacy).performClick();
+        verify(aboutScreenActionListener).loadTermsAndPrivacy(TermsAndPrivacyStateData.TermsAndPrivacyEnum.PRIVACY_CLICKED);
+    }
+
+    @Test
+    public void testTitle() {
+        assertEquals(hamburgerActivity.getString(R.string.RA_AboutScreen_Title), aboutScreenFragment.getActionbarTitle());
+    }
+
+    @After
+    public void tearDown() {
+        activityController.pause().stop().destroy();
+        hamburgerActivity = null;
+        aboutScreenActionListener = null;
+        aboutScreenFragment = null;
+        activityController = null;
     }
 
     public static class AboutScreenFragmentMock extends AboutScreenFragment {
-       View view;
-//       @Override
-//       protected void startAppTagging() {
-//
-//       }
 
-       @Override
-       public void onResume() {
-            super.onResume();
-       }
-
-       @Override
-       public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-           view = super.onCreateView(inflater, container, savedInstanceState);
-           return view;
-       }
-
-       @Override
-       protected void updateActionBar() {
-
-       }
-   }
+        @Override
+        protected AboutScreenContract.Action getPresenter() {
+            return aboutScreenActionListener;
+        }
+    }
 }
