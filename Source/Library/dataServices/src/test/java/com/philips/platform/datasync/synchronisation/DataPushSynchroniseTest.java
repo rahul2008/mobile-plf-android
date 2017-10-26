@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +31,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class DataPushSynchroniseTest {
 
     private final int EVENT_ID = 1;
+
+    private final String REGISTERED_CLASS = "DataPushSynchronise";
 
     private DataPushSynchronise synchronise;
 
@@ -59,7 +62,7 @@ public class DataPushSynchroniseTest {
     private ArgumentCaptor<BackendResponse> backendResponseArgumentCaptor;
 
     @Mock
-    private AppComponent appComponantMock;
+    private AppComponent appComponentMock;
 
     @Mock
     MomentsDataSender momentsDataSenderMock;
@@ -83,7 +86,7 @@ public class DataPushSynchroniseTest {
         userAccessProviderSpy = new UserAccessProviderSpy();
         eventingSpy = new EventingSpy();
 
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponant(appComponentMock);
 
         synchronise = new DataPushSynchronise(Arrays.asList(firstDataSenderMock, secondDataSenderMock));
 
@@ -103,6 +106,35 @@ public class DataPushSynchroniseTest {
         givenUserIsNotLoggedIn();
         whenSynchronisationIsStarted(EVENT_ID);
         thenAnErrorIsPostedWithReferenceId(EVENT_ID);
+    }
+
+    @Test
+    public void postSyncCompleteWhenNoSenders() {
+        givenUserIsLoggedIn();
+        givenNoConfigurableSenderList();
+        givenNoSenders();
+        whenSynchronisationIsStarted(EVENT_ID);
+        thenDataSyncIsCompleted();
+    }
+
+    @Test
+    public void postSyncCompleteWhenNoConfigurableSenders() {
+        givenUserIsLoggedIn();
+        givenNoConfigurableSenderList();
+        whenSynchronisationIsStarted(EVENT_ID);
+        thenAnEventIsRegisteredWithClass(REGISTERED_CLASS);
+        thenAnEventIsPostedWithReferenceId(EVENT_ID);
+        thenDataSyncIsCompleted();
+    }
+
+    @Test
+    public void postSyncCompleteWhenConfigurableSenders() {
+        givenUserIsLoggedIn();
+        givenConfigurableSenderList();
+        whenSynchronisationIsStarted(EVENT_ID);
+        thenAnEventIsRegisteredWithClass(REGISTERED_CLASS);
+        thenAnEventIsPostedWithReferenceId(EVENT_ID);
+        thenDataSyncIsCompleted();
     }
 
     private void givenUserIsLoggedIn() {
@@ -147,4 +179,15 @@ public class DataPushSynchroniseTest {
         assertEquals(expectedEventId, eventingSpy.postedEvent.getReferenceId());
     }
 
+    private void thenDataSyncIsCompleted() {
+        Mockito.verify(synchronisationManagerMock).dataSyncComplete();
+    }
+
+    private void thenAnEventIsRegisteredWithClass(String expectedClass) {
+        assertEquals(expectedClass, eventingSpy.registeredClass.getClass().getSimpleName());
+    }
+
+    private void thenAnEventIsPostedWithReferenceId(int expectedEventId) {
+        assertEquals(expectedEventId, eventingSpy.postedEvent.getReferenceId());
+    }
 }

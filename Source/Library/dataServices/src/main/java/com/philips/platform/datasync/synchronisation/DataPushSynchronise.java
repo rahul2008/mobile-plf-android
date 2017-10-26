@@ -146,7 +146,7 @@ public class DataPushSynchronise extends EventMonitor {
     private List<? extends DataSender> getSenders() {
         Set<String> configurableSenders = mDataServicesManager.getSyncTypes();
 
-        if (configurableSenders == null) {
+        if (configurableSenders == null || (configurableSenders != null && configurableSenders.isEmpty())) {
             return senders;
         }
 
