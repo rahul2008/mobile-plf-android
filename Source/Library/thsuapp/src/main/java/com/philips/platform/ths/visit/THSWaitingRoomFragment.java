@@ -18,7 +18,6 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -29,6 +28,7 @@ import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
+import static com.philips.platform.ths.utility.THSConstants.THS_VIDEO_CALL;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 import static com.philips.platform.ths.utility.THSConstants.THS_WAITING;
 
@@ -52,9 +52,9 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_waiting_room, container, false);
-        waitingPeriodStartTime= THSTagUtils.getCurrentTime();
+        //waitingPeriodStartTime= THSTagUtils.getCurrentTime();
         Bundle bundle = getArguments();
-        mVisit=bundle.getParcelable(THS_VISIT_ARGUMENT_KEY);
+        mVisit = bundle.getParcelable(THS_VISIT_ARGUMENT_KEY);
         mTHSWaitingRoomPresenter = new THSWaitingRoomPresenter(this);
         mProviderNameLabel = (Label) view.findViewById(R.id.details_providerNameLabel);
         mProviderPracticeLabel = (Label) view.findViewById(R.id.details_practiceNameLabel);
@@ -72,8 +72,29 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         super.onActivityCreated(savedInstanceState);
         //setRetainInstance(true);
         actionBarListener = getActionBarListener();
-
+        doTaggingUponStartWaiting();
         mTHSWaitingRoomPresenter.startVisit();
+    }
+
+    private void doTaggingUponStartWaiting() {
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_WAITING, null, null);
+
+        THSManager.getInstance().getThsTagging().trackTimedActionEnd("totalPreparationTimePreVisit");
+        THSManager.getInstance().getThsTagging().trackActionWithInfo( "totalPrepartationTimeEnd",null,null);
+
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "waitInLineInstantAppointment");
+
+        THSManager.getInstance().getThsTagging().trackTimedActionStart("totalWaitingTimeInstantAppointment");
+        THSManager.getInstance().getThsTagging().trackActionWithInfo( "waitingTimeStartForInstantAppointment",null,null);
+    }
+
+    protected void doTaggingUponStopWaiting() {
+        THSManager.getInstance().getThsTagging().trackTimedActionEnd("totalWaitingTimeInstantAppointment");
+        THSManager.getInstance().getThsTagging().trackActionWithInfo( "waitingTimeEndForInstantAppointment",null,null);
+
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "completeWaitingInstantAppointment");
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VIDEO_CALL, null, null);
+        //THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,"waitingTimeInstantAppointment",THSTagUtils.getVisitPrepareTime(mTHSWaitingRoomFragment.waitingPeriodStartTime));
     }
 
     @Override
@@ -91,8 +112,6 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_WAITING,null,null);
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"waitInLineInstantAppointment");
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Waiting", true);
         }
@@ -111,10 +130,10 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         if (resultCode == 1001 && requestCode == REQUEST_VIDEO_VISIT) { // 1001 is Successfull video completion
             //  todo getPresenter().setResult(resultCode, data);
             Bundle bundle = new Bundle();
-            bundle.putParcelable(THS_VISIT_ARGUMENT_KEY,mVisit);
+            bundle.putParcelable(THS_VISIT_ARGUMENT_KEY, mVisit);
             THSVisitSummaryFragment thsVisitSummaryFragment = new THSVisitSummaryFragment();
             addFragment(thsVisitSummaryFragment, THSVisitSummaryFragment.TAG, bundle, true);
-        }else{
+        } else {
             // video call does completed succesfully so sending back user is
             THSManager.getInstance().setVisitContext(null);
             THSManager.getInstance().setMatchMakingVisit(false);
@@ -153,8 +172,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
      */
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.ths_waiting_room_cancel_button)
-        {
+        if (v.getId() == R.id.ths_waiting_room_cancel_button) {
             // mTHSWaitingRoomPresenter.onEvent(R.id.ths_waiting_room_cancel_button);
             if (v.getId() == R.id.uid_dialog_negative_button) {
                 alertDialogFragment.dismiss();
@@ -165,9 +183,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
 
                 THSConfirmationDialogFragment tHSConfirmationDialogFragment = new THSConfirmationDialogFragment();
                 tHSConfirmationDialogFragment.setPresenter(mTHSWaitingRoomPresenter);
-                tHSConfirmationDialogFragment.show(getFragmentManager(),THSConfirmationDialogFragment.TAG);
-
-
+                tHSConfirmationDialogFragment.show(getFragmentManager(), THSConfirmationDialogFragment.TAG);
 
 
             }

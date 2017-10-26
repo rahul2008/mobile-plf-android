@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +37,13 @@ public class THSPreWelcomePresenterTest {
 
     @Test
     public void onEvent() throws Exception {
+        mTHSPreWelcomePresenter.onEvent(R.id.ths_go_see_provider);
+        verify(thsPreWelcomeFragment).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), anyBoolean());
+    }
+
+    @Test
+    public void onEventIsReurtuningUser() throws Exception {
+        THSManager.getInstance().setIsReturningUser(false);
         mTHSPreWelcomePresenter.onEvent(R.id.ths_go_see_provider);
         verify(thsPreWelcomeFragment).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), anyBoolean());
     }

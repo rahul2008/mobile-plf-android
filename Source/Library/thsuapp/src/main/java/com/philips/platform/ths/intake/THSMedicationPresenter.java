@@ -101,7 +101,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
 
         if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSMedicationFragment) mTHSBaseFragment).hideProgressBar();
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","step3MedicationsAdded");
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", ((THSMedicationFragment) mTHSBaseFragment).tagAction);
             AmwellLog.i("onUpdateMedication", "success");
             // addF
             final THSMedicalConditionsFragment fragment = new THSMedicalConditionsFragment();
