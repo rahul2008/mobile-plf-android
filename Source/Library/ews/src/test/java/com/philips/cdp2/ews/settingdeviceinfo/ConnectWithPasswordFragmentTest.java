@@ -19,20 +19,20 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class SetDeviceInfoFragmentTest {
+public class ConnectWithPasswordFragmentTest {
 
-    private SetDeviceInfoFragment fragment;
+    private ConnectWithPasswordFragment fragment;
 
     @Mock
     private EWSComponent ewsComponentMock;
 
     @Mock
-    private SetDeviceInfoViewModel viewModelMock;
+    private ConnectWithPasswordViewModel viewModelMock;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        fragment = new SetDeviceInfoFragment();
+        fragment = new ConnectWithPasswordFragment();
         injectMembers();
     }
 

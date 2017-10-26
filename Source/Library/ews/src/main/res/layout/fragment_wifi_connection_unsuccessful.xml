@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -10,60 +11,60 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/default_screen_top_margin"
+            android:paddingBottom="@dimen/default_screen_bottom_margin"
+            android:paddingEnd="@dimen/default_screen_side_margin"
+            android:paddingStart="@dimen/default_screen_side_margin">
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ews_04_00b_label_phone_not_found_on_network_title"
-                style="@style/EWS.Txt.Body"
+                style="@style/Txt.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/e"
-                android:layout_marginEnd="@dimen/d"
-                android:layout_marginStart="@dimen/d"
-                android:layout_marginTop="@dimen/d"
-                android:text="@string/label_ews_phone_not_found_on_network_title"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:text="@string/label_ews_phone_not_found_on_network_title" />
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/wrong_wifi_body"
-                style="@style/EWS.Txt.Body"
+                style="@style/Txt.Body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/e"
-                android:layout_marginEnd="@dimen/d"
-                android:layout_marginStart="@dimen/d"
-                android:layout_marginTop="@dimen/d"
-                android:text="@{viewModel.description}"
-                android:textColor="@color/black" />
+                android:layout_marginTop="@dimen/default_body_labels_margin"
+                android:text="@{viewModel.description}" />
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/wrong_wifi_note"
-                style="@style/EWS.Txt.Body"
+                style="@style/Txt.Helper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/e"
-                android:layout_marginEnd="@dimen/d"
-                android:layout_marginStart="@dimen/d"
-                android:layout_marginTop="@dimen/d"
-                android:background="@color/dls_aqua_50_opacity_25"
-                android:padding="@dimen/b"
-                android:text="@string/label_ews_phone_not_found_on_network_note"
-                android:textColor="@color/black" />
+                android:layout_marginTop="@dimen/default_main_helper_top_margin"
+                android:background="?attr/uidContentTertiaryBackgroundColor"
+                android:paddingBottom="@dimen/default_main_helper_bottom_padding"
+                android:paddingEnd="@dimen/default_main_helper_padding"
+                android:paddingStart="@dimen/default_main_helper_padding"
+                android:paddingTop="@dimen/default_main_helper_padding"
+                android:text="@{viewModel.notes}" />
 
-            <Button
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/ews_04_00b_button_try_again"
-                style="@style/Btn.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/d"
+                android:layout_marginTop="@dimen/default_main_button_top_margin"
                 android:onClick="@{()->viewModel.onTryAgainClicked()}"
-                android:text="@string/button_ews_phone_not_found_on_network_try_again" />
+                android:text="@string/button_ews_phone_not_found_on_network_try_again"
+                app:uidComponentType="Primary" />
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </layout>

@@ -7,9 +7,11 @@ package com.philips.cdp2.ews.injections;
 
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiViewModel;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel;
-import com.philips.cdp2.ews.settingdeviceinfo.SetDeviceInfoFragment;
-import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiFragment;
-import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulFragment;
+import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordFragment;
+import com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingViewModel;
+import com.philips.cdp2.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingViewModel;
+import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingViewModel;
+import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingViewModel;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WIFIConnectionUnsuccessfulViewModel;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkViewModel;
 import com.philips.cdp2.ews.view.BlinkingAccessPointFragment;
@@ -26,13 +28,8 @@ import com.philips.cdp2.ews.view.TroubleshootCheckRouterSettingsFragment;
 import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.view.TroubleshootIncorrectPasswordFragment;
 import com.philips.cdp2.ews.view.TroubleshootWrongWiFiFragment;
-import com.philips.cdp2.ews.view.dialog.CancelDialogFragment;
 import com.philips.cdp2.ews.view.dialog.TroubleshootDeviceAPModeFragment;
 import com.philips.cdp2.ews.viewmodel.BaseTroubleShootingViewModel;
-import com.philips.cdp2.ews.viewmodel.ConnectToWrongPhoneTroubleshootingViewModel;
-import com.philips.cdp2.ews.viewmodel.ResetConnectionTroubleshootingViewModel;
-import com.philips.cdp2.ews.viewmodel.ResetDeviceTroubleshootingViewModel;
-import com.philips.cdp2.ews.viewmodel.SetupAccessPointModeTroubleshootingViewModel;
 
 import javax.inject.Singleton;
 
@@ -52,17 +49,11 @@ public interface EWSComponent {
 
     void inject(EWSPressPlayAndFollowSetupFragment ewsPressPlayAndFollowSetupFragment);
 
-    void inject(SetDeviceInfoFragment setDeviceInfoFragment);
+    void inject(ConnectWithPasswordFragment connectWithPasswordFragment);
 
     void inject(EWSWiFiPairedFragment ewsWiFiPairedFragment);
 
-    void inject(CancelDialogFragment cancelDialogFragment);
-
-    void inject(TroubleshootHomeWiFiFragment troubleshootHomeWiFiFragment);
-
     void inject(TroubleshootDeviceAPModeFragment troubleshootDeviceAPModeFragment);
-
-    void inject(ConnectionUnsuccessfulFragment unsuccessfulDialog);
 
     void inject(TroubleshootIncorrectPasswordFragment troubleshootIncorrectPasswordFragment);
 
