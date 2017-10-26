@@ -14,10 +14,10 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.uid.view.widget.Label;
 
 /**
  * Welcome fragment contains the screens for onboarding , as of now it supports 3 screens
@@ -60,18 +60,18 @@ public class OnBoardingTourPageFragment extends THSBaseFragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_on_boarding_tour_slide_fragment, null);
 
-        Label largeText = (Label) view.findViewById(R.id.welcome_slide_large_text);
-       // Label smallText = (Label) view.findViewById(R.id.welcome_slide_small_text);
+        TextView tvOnBoaringText = (TextView) view.findViewById(R.id.onboarding_page_text);
         View background = view.findViewById(R.id.welcome_slide_fragment_layout);
 
-        largeText.setText(titleId);
+        tvOnBoaringText.setText(titleId);
+        background.setBackground(ContextCompat.getDrawable(getActivity(), backgroundId));
 
        /* if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             smallText.setText(Html.fromHtml(getString(subtitleId), Html.FROM_HTML_MODE_LEGACY));
         } else {
             smallText.setText(Html.fromHtml(getString(subtitleId)));
         }*/
-        background.setBackground(ContextCompat.getDrawable(getActivity(), backgroundId));
+
 
         return view;
     }

@@ -6,32 +6,21 @@ package com.philips.platform.ths.onboardingtour;
 
 public class OnBoardingTourContentModel {
 
-    private int tourTitleId;
+    private int tourPageTextId;
     private int tourBackgroundDrawable;
 
-    public int getTourPageTitleId() {
-        return tourPageTitleId;
-    }
-
-    public void setTourPageTitleId(int tourPageTitleId) {
-        this.tourPageTitleId = tourPageTitleId;
-    }
-
-    private int tourPageTitleId;
-
-    public OnBoardingTourContentModel(int tourTitleId, int tourBackgroundDrawable, int tourPageTitleId) {
-        this.tourTitleId = tourTitleId;
+    public OnBoardingTourContentModel(int tourPageTextId, int tourBackgroundDrawable) {
+        this.tourPageTextId = tourPageTextId;
         this.tourBackgroundDrawable = tourBackgroundDrawable;
-        this.tourPageTitleId = tourPageTitleId;
     }
 
 
-    public int getTourTitleId() {
-        return tourTitleId;
+    public int getTourPageTextId() {
+        return tourPageTextId;
     }
 
-    public void setTourTitleId(int tourTitleId) {
-        this.tourTitleId = tourTitleId;
+    public void setTourPageTextId(int tourPageTextId) {
+        this.tourPageTextId = tourPageTextId;
     }
 
     public int getTourBackgroundDrawable() {

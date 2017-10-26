@@ -5,6 +5,7 @@
 */
 package com.philips.platform.ths.onboardingtour;
 
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 
 
@@ -24,6 +25,23 @@ public class OnBoardingTourPresenter implements THSBasePresenter {
     @Override
     public void onEvent(final int componentID) {
 
+        /*rightArrow = (ImageView) view.findViewById(R.id.welcome_rightarrow);
+        leftArrow = (ImageView) view.findViewById(R.id.welcome_leftarrow);
+        doneButton = (Label) view.findViewById(R.id.welcome_start_registration_button);
+        skipButton = (Label) view.findViewById(R.id.welcome_skip_button);*/
+
+        if(componentID == R.id.welcome_rightarrow){
+
+        }
+        if(componentID == R.id.welcome_leftarrow){
+
+        }
+        if(componentID == R.id.welcome_start_registration_button){
+
+        }
+        if(componentID == R.id.welcome_skip_button){
+
+        }
     }
 
 

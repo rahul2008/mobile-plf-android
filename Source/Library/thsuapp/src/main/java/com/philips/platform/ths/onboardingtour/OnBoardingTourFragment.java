@@ -34,13 +34,13 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
 
     public static String TAG = OnBoardingTourFragment.class.getSimpleName();
 
-    private ImageView rightArrow;
+    private ImageView rightArrow, leftArrow;
     private Label doneButton;
     private Label skipButton;
     private DotNavigationIndicator indicator;
     private OnBoardingTourPresenter presenter;
     private ViewPager pager;
-    private Button environmentSelection;
+    //private Button environmentSelection;
 
     List<OnBoardingTourContentModel> onBoardingTourContentModelList;
 
@@ -51,13 +51,17 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
         presenter = new OnBoardingTourPresenter(this);
 
         //Just for testing
-        OnBoardingTourContentModel onBoardingTourContentModel1=new OnBoardingTourContentModel(R.string.ths_appointment_fill_details,R.drawable.philips_one,R.string.ths_appointment_fill_details);
-        OnBoardingTourContentModel onBoardingTourContentModel2=new OnBoardingTourContentModel(R.string.ths_appointment_fill_details,R.drawable.philips_two,R.string.ths_appointment_fill_details);
-        OnBoardingTourContentModel onBoardingTourContentModel3=new OnBoardingTourContentModel(R.string.ths_appointment_fill_details,R.drawable.philips_thres,R.string.ths_appointment_fill_details);
-        onBoardingTourContentModelList=new ArrayList<>();
+        OnBoardingTourContentModel onBoardingTourContentModel1 = new OnBoardingTourContentModel(R.string.onboarding_one_text, R.mipmap.onboarding_tour_one);
+        OnBoardingTourContentModel onBoardingTourContentModel2 = new OnBoardingTourContentModel(R.string.onboarding_two_text, R.mipmap.onboarding_tour_two);
+        OnBoardingTourContentModel onBoardingTourContentModel3 = new OnBoardingTourContentModel(R.string.onboarding_three_text, R.mipmap.onboarding_tour_three);
+        OnBoardingTourContentModel onBoardingTourContentModel4 = new OnBoardingTourContentModel(R.string.onboarding_four_text, R.mipmap.onboarding_tour_four);
+
+        onBoardingTourContentModelList = new ArrayList<>();
         onBoardingTourContentModelList.add(onBoardingTourContentModel1);
         onBoardingTourContentModelList.add(onBoardingTourContentModel2);
         onBoardingTourContentModelList.add(onBoardingTourContentModel3);
+        onBoardingTourContentModelList.add(onBoardingTourContentModel1);
+
     }
 
 
@@ -68,14 +72,17 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
         View view = inflater.inflate(R.layout.ths_on_boarding_tour_fragment, container, false);
 
         pager = (ViewPager) view.findViewById(R.id.welcome_pager);
-        pager.setAdapter(new OnBoardingTourPagerAdapter(getActivity().getSupportFragmentManager(),onBoardingTourContentModelList,getActivity()));
+        pager.setAdapter(new OnBoardingTourPagerAdapter(getActivity().getSupportFragmentManager(), onBoardingTourContentModelList, getActivity()));
+
         rightArrow = (ImageView) view.findViewById(R.id.welcome_rightarrow);
+        leftArrow = (ImageView) view.findViewById(R.id.welcome_leftarrow);
         doneButton = (Label) view.findViewById(R.id.welcome_start_registration_button);
         skipButton = (Label) view.findViewById(R.id.welcome_skip_button);
-        environmentSelection = (Button) view.findViewById(R.id.environment_selection);
+
         doneButton.setOnClickListener(this);
         skipButton.setOnClickListener(this);
-        environmentSelection.setOnLongClickListener(this);
+        leftArrow.setOnClickListener(this);
+        rightArrow.setOnClickListener(this);
 
         indicator = (DotNavigationIndicator) view.findViewById(R.id.welcome_indicator);
         indicator.setViewPager(pager);
@@ -88,15 +95,22 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
             @Override
             public void onPageSelected(int position) {
 
-             /*   if (position == (pager.getAdapter().getCount() -1)) {
-                    rightArrow.setVisibility(FontIconView.INVISIBLE);
-                    skipButton.setVisibility(TextView.GONE);
-                    doneButton.setVisibility(TextView.VISIBLE);
+                if(position == 0 ){
+                    skipButton.setVisibility(View.VISIBLE);
+                    leftArrow.setVisibility(View.GONE);
+                    rightArrow.setVisibility(View.VISIBLE);
+                }else {
+                    skipButton.setVisibility(View.GONE);
+                    leftArrow.setVisibility(View.VISIBLE);
+                }
+
+                if (position == (pager.getAdapter().getCount() - 1)) {
+                    rightArrow.setVisibility(View.GONE);
+                    doneButton.setVisibility(View.VISIBLE);
                 } else {
-                    rightArrow.setVisibility(FontIconView.VISIBLE);
-                    skipButton.setVisibility(TextView.VISIBLE);
-                    doneButton.setVisibility(TextView.GONE);
-                }*/
+                    rightArrow.setVisibility(View.VISIBLE);
+                    doneButton.setVisibility(View.GONE);
+                }
 
                 setEnviromentSelectionVisibility(position);
             }
@@ -105,19 +119,13 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
             public void onPageScrollStateChanged(int state) {
             }
         });
-        rightArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pager.arrowScroll(View.FOCUS_RIGHT);
-            }
-        });
 
         startAppTagging();
         return view;
     }
 
     private void setEnviromentSelectionVisibility(int position) {
-        environmentSelection.setVisibility(position == 0 ? View.VISIBLE : View.GONE);
+
     }
 
     protected void startAppTagging() {
@@ -130,15 +138,23 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        if (presenter != null) {
-            presenter.onEvent(v.getId());
-            // Fix for Bug 63728:Reference app crashed after the app has launched and we tap on skip button
-            v.setOnClickListener(null);
+
+        int componentID =v.getId();
+
+        if(componentID == R.id.welcome_rightarrow){
+            pager.arrowScroll(View.FOCUS_RIGHT);
+        }
+        if(componentID == R.id.welcome_leftarrow){
+            pager.arrowScroll(View.FOCUS_LEFT);
+        }
+        if(componentID == R.id.welcome_start_registration_button){
+            //Start a amwell Fragment
+
+        }
+        if(componentID == R.id.welcome_skip_button){
+            //start Amwell Fragemnt .
         }
     }
-
-
-
 
 
     @Override

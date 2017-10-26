@@ -11,6 +11,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.philips.platform.ths.R;
+
 import java.util.List;
 
 /**
@@ -33,11 +35,8 @@ public class OnBoardingTourPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-       /* if (!isValidPosition(position)) {
-            return null;
-        }
-*/
-        return OnBoardingTourPageFragment.newInstance(onBoardingTourContentModelList.get(position).getTourTitleId(),
+
+        return OnBoardingTourPageFragment.newInstance(onBoardingTourContentModelList.get(position).getTourPageTextId(),
                 onBoardingTourContentModelList.get(position).getTourBackgroundDrawable());
     }
 
@@ -52,6 +51,6 @@ public class OnBoardingTourPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return context.getString(onBoardingTourContentModelList.get(position).getTourPageTitleId());
+        return context.getString(R.string.ths_welcome);
     }
 }
