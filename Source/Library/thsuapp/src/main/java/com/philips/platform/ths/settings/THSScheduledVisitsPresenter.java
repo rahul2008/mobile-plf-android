@@ -60,7 +60,7 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
     @Override
     public void onFailure(Throwable throwable) {
         if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
-            AmwellLog.i(AmwellLog.LOG, "appoint throwable");
+            mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.ths_se_server_error_toast_message),true);
             setProgressBarVisibility(false);
         }
     }
@@ -89,7 +89,6 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
 
     public void setProgressBarVisibility(boolean isVisible) {
         if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
-            mThsScheduledVisitsFragment.showToast(R.string.ths_se_server_error_toast_message);
             if (!isVisible) {
                 mThsScheduledVisitsFragment.hideProgressBar();
             }
