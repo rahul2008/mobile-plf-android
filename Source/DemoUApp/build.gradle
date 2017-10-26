@@ -44,7 +44,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "devicepairingUApp"
+archivesBaseName = "dprUApp"
 
 allprojects {
     repositories {
@@ -157,19 +157,19 @@ dependencies {
 
 	def dp = project.ext.has('useprojectdependencies')
 
-	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	def usrModule = module(group: 'com.philips.cdp', name: 'usr', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
 	compile(dp ? project(':usr') : usrModule)
 	{
 		transitive true 
     }
 
-	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) 
+	def ufwModule = module(group: 'com.philips.cdp', name: 'ufw', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) 
 	compile(dp ? project(':ufw') : ufwModule) 
 	{
 		transitive true 
     }
 	
-	def dscModule = module(group: 'com.philips.cdp', name: 'dataServicesUApp', version: versions.dsc_dataServices + objcdp.getVersionSuffix(), ext: 'aar') 
+	def dscModule = module(group: 'com.philips.cdp', name: 'dscUApp', version: versions.dsc_dataServices + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':dscUApp') : dscModule) 	
 	{
         exclude group: 'com.android.support'
