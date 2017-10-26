@@ -24,7 +24,7 @@ import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
@@ -75,7 +75,7 @@ public class THSSearchPresenterTest {
     SDKError sdkErrorMock;
 
     @Mock
-    THSConsumer thsConsumerMock;
+    THSConsumerWrapper thsConsumerWrapperMock;
 
     @Mock
     Consumer consumerMock;
@@ -102,9 +102,9 @@ public class THSSearchPresenterTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         when(thsSearchFragment.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumerMock);
+        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
         THSManager.getInstance().setAwsdk(awsdkMock);
-        when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiceProvidersManager);
         mTHSSearchPresenter = new THSSearchPresenter(thsSearchFragment);

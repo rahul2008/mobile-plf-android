@@ -108,6 +108,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
             if (null == tHSSDKError.getSdkError()) {
                 AmwellLog.i("updatePayment", "success");
                 //mTHSBillingAddressFragment.addFragment(new THSWaitingRoomFragment(), THSWaitingRoomFragment.TAG, null);
+                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "paymentMethodsAdded");
                 THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "billingAddressAdded");
                 mTHSBillingAddressFragment.getFragmentActivity().getSupportFragmentManager().popBackStack(THSCostSummaryFragment.TAG, 0);
 

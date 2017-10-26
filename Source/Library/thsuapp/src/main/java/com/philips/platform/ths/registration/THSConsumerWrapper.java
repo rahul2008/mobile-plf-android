@@ -15,26 +15,26 @@ import com.americanwell.sdk.entity.insurance.Subscription;
 
 import java.util.List;
 
-public class THSConsumer implements Parcelable{
+public class THSConsumerWrapper implements Parcelable{
     private Consumer consumer;
 
-    public THSConsumer(){
+    public THSConsumerWrapper(){
 
     }
 
-    protected THSConsumer(Parcel in) {
+    protected THSConsumerWrapper(Parcel in) {
         consumer = in.readParcelable(Consumer.class.getClassLoader());
     }
 
-    public static final Creator<THSConsumer> CREATOR = new Creator<THSConsumer>() {
+    public static final Creator<THSConsumerWrapper> CREATOR = new Creator<THSConsumerWrapper>() {
         @Override
-        public THSConsumer createFromParcel(Parcel in) {
-            return new THSConsumer(in);
+        public THSConsumerWrapper createFromParcel(Parcel in) {
+            return new THSConsumerWrapper(in);
         }
 
         @Override
-        public THSConsumer[] newArray(int size) {
-            return new THSConsumer[size];
+        public THSConsumerWrapper[] newArray(int size) {
+            return new THSConsumerWrapper[size];
         }
     };
 

@@ -10,7 +10,7 @@ import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -46,7 +46,7 @@ public class THSPharmacyListPresenterTest {
     @Mock
     ActionBarListener actionBarListenerMock;
     @Mock
-    THSConsumer pthConsumerMock;
+    THSConsumerWrapper pthConsumerMock;
 
     @Mock
     FragmentActivity activityMock;

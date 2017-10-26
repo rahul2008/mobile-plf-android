@@ -24,9 +24,13 @@ import android.widget.TextView;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.settings.THSVisitHistoryDetailPresenter;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 public class THSDownloadReportPrivacyNoticeFragment extends DialogFragment implements View.OnClickListener {
     public static final String TAG = THSDownloadReportPrivacyNoticeFragment.class.getSimpleName();
@@ -87,6 +91,7 @@ public class THSDownloadReportPrivacyNoticeFragment extends DialogFragment imple
         if (v.getId() == R.id.ths_download_report_privacy_notice_button) {
             //todo
             dismiss();
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "reportDownloadAttempted");
             mThsVisitHistoryPresenter.downloadReport();
         }
 

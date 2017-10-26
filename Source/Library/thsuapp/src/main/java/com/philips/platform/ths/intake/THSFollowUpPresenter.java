@@ -11,7 +11,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.utility.THSManager;
@@ -23,7 +23,7 @@ import java.util.Map;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
-public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumerCallback<THSConsumer, THSSDKPasswordError> {
+public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumerCallback<THSConsumerWrapper, THSSDKPasswordError> {
     private THSFollowUpFragment mTHSFollowUpFragment;
     private THSFollowUpViewInterface thsFollowUpViewInterfaces;
 
@@ -77,8 +77,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     }
 
     @Override
-    public void onUpdateConsumerResponse(THSConsumer thsConsumer, THSSDKPasswordError sdkPasswordError) {
-
+    public void onUpdateConsumerResponse(THSConsumerWrapper thsConsumer, THSSDKPasswordError sdkPasswordError) {
         if(null != sdkPasswordError.getSdkPasswordError().getSDKErrorReason()) {
             thsFollowUpViewInterfaces.showError(THSSDKErrorFactory.getErrorType(sdkPasswordError.getSdkPasswordError().getSDKErrorReason()));
         }
@@ -86,7 +85,6 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
             thsFollowUpViewInterfaces.hideProgressButton();
             //update singleton THSManager THSConsumer member
             THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step5PhoneNumberAdded");
-
             THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "TImePrepareYourVisit", THSTagUtils.getVisitPrepareTime(THSSymptomsFragment.visitStartTime));
             THSManager.getInstance().setPTHConsumer(thsConsumer);
             if (THSManager.getInstance().isMatchMakingVisit()) { // if DOD flow

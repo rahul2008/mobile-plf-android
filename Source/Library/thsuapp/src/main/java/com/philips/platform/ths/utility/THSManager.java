@@ -30,6 +30,7 @@ import com.americanwell.sdk.entity.consumer.DocumentRecord;
 import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.entity.consumer.RemindOptions;
 import com.americanwell.sdk.entity.enrollment.ConsumerEnrollment;
+import com.americanwell.sdk.entity.enrollment.DependentEnrollment;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.insurance.HealthPlan;
@@ -64,6 +65,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
@@ -114,7 +116,9 @@ import com.philips.platform.ths.providerslist.THSOnDemandSpecialtyCallback;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.providerslist.THSProvidersListCallback;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.THSRegistrationFragment;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.settings.THSGetAppointmentsCallback;
@@ -131,6 +135,7 @@ import com.philips.platform.ths.welcome.THSInitializeCallBack;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -138,15 +143,17 @@ import java.util.List;
 import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static com.philips.platform.ths.utility.THSConstants.THS_SDK_SERVICE_ID;
 
 
 public class THSManager {
     private static THSManager sTHSManager = null;
     private AWSDK mAwsdk = null;
-    private THSConsumer mTHSConsumer = null;
+    private THSConsumerWrapper mTHSConsumerWrapper = new THSConsumerWrapper();
     private THSVisitContext mVisitContext = null;
     private boolean isMatchMakingVisit;
-
+    private THSConsumer mThsConsumer;
+    private THSConsumer mThsParentConsumer;
     private boolean mIsReturningUser = true;
 
     public THSVisitCompletionListener getThsVisitCompletionListener() {
@@ -194,12 +201,13 @@ public class THSManager {
     }
 
 
-    public THSConsumer getPTHConsumer() {
-        return mTHSConsumer;
+    public THSConsumerWrapper getPTHConsumer() {
+        mTHSConsumerWrapper.setConsumer(getThsConsumer().getConsumer());
+       return mTHSConsumerWrapper;
     }
 
-    public void setPTHConsumer(THSConsumer mTHSConsumer) {
-        this.mTHSConsumer = mTHSConsumer;
+    public void setPTHConsumer(THSConsumerWrapper mTHSConsumerWrapper) {
+        this.mTHSConsumerWrapper = mTHSConsumerWrapper;
     }
 
 
@@ -218,8 +226,7 @@ public class THSManager {
         return mAwsdk;
     }
 
-    //Done error code
-    public void authenticate(final Context context, String username, String password, String variable, final THSLoginCallBack<THSAuthentication, THSSDKError> THSLoginCallBack) throws AWSDKInstantiationException {
+    public void authenticate(Context context, String username, String password, String variable, final THSLoginCallBack<THSAuthentication, THSSDKError> THSLoginCallBack) throws AWSDKInstantiationException {
         AmwellLog.i(AmwellLog.LOG,"Login - SDK API Called");
         getAwsdk(context).authenticate(username, password, variable, new SDKCallback<Authentication, SDKError>() {
             @Override
@@ -240,10 +247,8 @@ public class THSManager {
         });
     }
 
-    //Done error code
     public void authenticateMutualAuthToken(Context context,final THSLoginCallBack<THSAuthentication, THSSDKError> THSLoginCallBack) throws AWSDKInstantiationException {
-        User user = getUser(context);
-        String token = user.getHsdpUUID()+":" + getAppName() +":"+ user.getHsdpAccessToken();
+        String token = getThsConsumer().getHsdpUUID()+":" + getAppName() +":"+ getThsConsumer().getHsdoToken();
         getAwsdk(context).authenticateMutual(token, new SDKCallback<Authentication, SDKError>() {
             @Override
             public void onResponse(Authentication authentication, SDKError sdkError) {
@@ -264,14 +269,12 @@ public class THSManager {
         });
     }
 
-    //Done error code
     public void completeEnrollment(Context context,final THSAuthentication thsAuthentication, final THSGetConsumerObjectCallBack thsGetConsumerObjectCallBack) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().completeEnrollment(thsAuthentication.getAuthentication(),null,null,null, new SDKCallback<Consumer, SDKPasswordError>() {
             @Override
             public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
-                THSConsumer thsConsumer = new THSConsumer();
-                thsConsumer.setConsumer(consumer);
-                setPTHConsumer(thsConsumer);
+                mTHSConsumerWrapper.setConsumer(consumer);
+                getThsParentConsumer().setConsumer(consumer);
                 thsGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkPasswordError);
             }
 
@@ -282,14 +285,14 @@ public class THSManager {
         });
     }
 
-
-    //TODO: Error code
     public void checkConsumerExists(final Context context, final THSCheckConsumerExistsCallback<Boolean, THSSDKError> thsCheckConsumerExistsCallback) throws AWSDKInstantiationException {
 
-        getAwsdk(context).getConsumerManager().checkConsumerExists(getUser(context).getHsdpUUID(), new SDKCallback<Boolean, SDKError>() {
+        getAwsdk(context).getConsumerManager().checkConsumerExists(getThsConsumer().getHsdpUUID(), new SDKCallback<Boolean, SDKError>() {
             @Override
             public void onResponse(Boolean aBoolean, SDKError sdkError) {
-                setIsReturningUser(aBoolean);
+                if(!getThsConsumer().isDependent()) {
+                    setIsReturningUser(aBoolean);
+                }
                 THSSDKError thssdkError = new THSSDKError();
                 thssdkError.setSdkError(sdkError);
                 thsCheckConsumerExistsCallback.onResponse(aBoolean,thssdkError);
@@ -310,53 +313,45 @@ public class THSManager {
         return new User(context);
     }
 
-    //Done error code
-    public void enrollConsumer(final Context context, Date dateOfBirth,String firstName,String lastName,Gender gender,State state,final THSSDKValidatedCallback<THSConsumer, SDKPasswordError> thssdkValidatedCallback) throws AWSDKInstantiationException {
+    public void enrollConsumer(final Context context, Date dateOfBirth,String firstName,String lastName,Gender gender,State state,final THSSDKValidatedCallback<THSConsumerWrapper, SDKError> thssdkValidatedCallback) throws AWSDKInstantiationException {
         final ConsumerEnrollment newConsumerEnrollment = getConsumerEnrollment(context, dateOfBirth, firstName, lastName, gender, state);
 
         getAwsdk(context).getConsumerManager().enrollConsumer(newConsumerEnrollment,
                 new SDKValidatedCallback<Consumer, SDKPasswordError>() {
-            @Override
-            public void onValidationFailure(Map<String, ValidationReason> map) {
-                AmwellLog.i(AmwellLog.LOG,"validationFail");
-                thssdkValidatedCallback.onValidationFailure(map);
-            }
+                    @Override
+                    public void onValidationFailure(Map<String, ValidationReason> map) {
+                        AmwellLog.i(AmwellLog.LOG,"validationFail");
+                        thssdkValidatedCallback.onValidationFailure(map);
+                    }
 
-            @Override
-            public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
-                setIsReturningUser(true);
-                THSConsumer thsConsumer = new THSConsumer();
-                thsConsumer.setConsumer(consumer);
-                setPTHConsumer(thsConsumer);
-                AmwellLog.i(AmwellLog.LOG,"onGetPaymentMethodResponse");
-                thssdkValidatedCallback.onResponse(thsConsumer,sdkPasswordError);
+                    @Override
+                    public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
+                        setIsReturningUser(true);
+                        getThsParentConsumer().setConsumer(consumer);
+                        AmwellLog.i(AmwellLog.LOG,"onGetPaymentMethodResponse");
+                        mTHSConsumerWrapper.setConsumer(consumer);
+                        thssdkValidatedCallback.onResponse(mTHSConsumerWrapper,sdkPasswordError);
 
-            }
+                    }
 
-            @Override
-            public void onFailure(Throwable throwable) {
-                AmwellLog.i(AmwellLog.LOG,"onFail");
-                thssdkValidatedCallback.onFailure(throwable);
-            }
-        });
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        AmwellLog.i(AmwellLog.LOG,"onFail");
+                        thssdkValidatedCallback.onFailure(throwable);
+                    }
+                });
     }
 
-    //Done error code
     @NonNull
     private ConsumerEnrollment getConsumerEnrollment(Context context, Date dateOfBirth, String firstName, String lastName, Gender gender, State state) throws AWSDKInstantiationException {
         final ConsumerEnrollment newConsumerEnrollment = getAwsdk(context).getConsumerManager().getNewConsumerEnrollment();
         newConsumerEnrollment.setAcceptedDisclaimer(true);
-        final User user = getUser(context);
-        newConsumerEnrollment.setSourceId(user.getHsdpUUID());
-        newConsumerEnrollment.setConsumerAuthKey(user.getHsdpUUID());
 
-        newConsumerEnrollment.setEmail(user.getEmail());
+        newConsumerEnrollment.setSourceId(getThsConsumer().getHsdpUUID());
+        newConsumerEnrollment.setConsumerAuthKey(getThsConsumer().getHsdpUUID());
 
-        if(user.getPassword()!=null) {
-            newConsumerEnrollment.setPassword(user.getPassword());
-        }else {
-            newConsumerEnrollment.setPassword("Password123*");
-        }
+        newConsumerEnrollment.setEmail(getThsConsumer().getEmail());
+        newConsumerEnrollment.setPassword("Password123*");
 
         newConsumerEnrollment.setDob(SDKLocalDate.valueOf(dateOfBirth));
 
@@ -368,40 +363,106 @@ public class THSManager {
         return newConsumerEnrollment;
     }
 
-    public void initializeTeleHealth(Context context, final THSInitializeCallBack<Void, THSSDKError> THSInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
+    public void enrollDependent(Context context, Date dateOfBirth, String firstName, String lastName, Gender gender, State state, final THSSDKValidatedCallback<THSConsumerWrapper, SDKError> thssdkValidatedCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().enrollDependent(getDependantEnrollment(context, dateOfBirth, firstName, lastName, gender), new SDKValidatedCallback<Consumer, SDKError>() {
+            @Override
+            public void onValidationFailure(Map<String, ValidationReason> map) {
+                thssdkValidatedCallback.onValidationFailure(map);
+            }
+
+            @Override
+            public void onResponse(Consumer consumer, SDKError sdkError) {
+                mTHSConsumerWrapper.setConsumer(consumer);
+
+                THSSDKError thssdkError = new THSSDKError();
+                thssdkError.setSdkError(sdkError);
+                mTHSConsumerWrapper.setConsumer(consumer);
+
+                getThsConsumer().setConsumer(consumer);
+                thssdkValidatedCallback.onResponse(mTHSConsumerWrapper,sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+               thssdkValidatedCallback.onFailure(throwable);
+            }
+        });
+    }
+
+    @NonNull
+    private DependentEnrollment getDependantEnrollment(Context context, Date dateOfBirth, String firstName, String lastName, Gender gender) throws AWSDKInstantiationException {
+        final DependentEnrollment newConsumerEnrollment = getAwsdk(context).getConsumerManager().getNewDependentEnrollment(getThsParentConsumer().getConsumer());
+
+        newConsumerEnrollment.setSourceId(getThsConsumer().getHsdpUUID());
+
+
+
+
+        newConsumerEnrollment.setDob(SDKLocalDate.valueOf(dateOfBirth));
+
+        newConsumerEnrollment.setFirstName(firstName);
+        newConsumerEnrollment.setGender(gender);
+        newConsumerEnrollment.setLastName(lastName);
+
+
+        return newConsumerEnrollment;
+    }
+
+
+    public void initializeTeleHealth(final Context context, final THSInitializeCallBack<Void, THSSDKError> THSInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
        /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
         initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
 
-       /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://stagingOC169.mytelehealth.com/");
+       /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://stagingOC169.mytelehealth.com");
         initParams.put(AWSDK.InitParam.ApiKey, "dc573250"); //client key*/
 
-        initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://iot11.amwellintegration.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
+        AppConfigurationInterface.AppConfigurationError getConfigError= new AppConfigurationInterface.AppConfigurationError();
+        final String APIKey = (String) getAppInfra().getConfigInterface().getPropertyForKey("apiKey","ths",getConfigError);
 
-        AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
-        getAwsdk(context).initialize(
-                initParams, new SDKCallback<Void, SDKError>() {
-                    @Override
-                    public void onResponse(Void aVoid, SDKError sdkError) {
-                        AmwellLog.i(AmwellLog.LOG,"Initialize - onGetPaymentMethodResponse from Amwell SDK");
-                        THSSDKError THSSDKError = new THSSDKError();
-                        THSSDKError.setSdkError(sdkError);
-                        THSInitializeCallBack.onInitializationResponse(aVoid, THSSDKError);
-                    }
+        getAppInfra().getServiceDiscovery().getServiceUrlWithCountryPreference(THS_SDK_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            @Override
+            public void onSuccess(URL url) {
+                initParams.put(AWSDK.InitParam.BaseServiceUrl, url.toString());
+                initParams.put(AWSDK.InitParam.ApiKey, APIKey); //client key
 
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        THSInitializeCallBack.onInitializationFailure(throwable);
-                    }
-                });
+                AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
+                try {
+                    getAwsdk(context).initialize(
+                            initParams, new SDKCallback<Void, SDKError>() {
+                                @Override
+                                public void onResponse(Void aVoid, SDKError sdkError) {
+                                    AmwellLog.i(AmwellLog.LOG,"Initialize - onGetPaymentMethodResponse from Amwell SDK");
+                                    THSSDKError THSSDKError = new THSSDKError();
+                                    THSSDKError.setSdkError(sdkError);
+                                    THSInitializeCallBack.onInitializationResponse(aVoid, THSSDKError);
+                                }
+
+                                @Override
+                                public void onFailure(Throwable throwable) {
+                                    THSInitializeCallBack.onInitializationFailure(throwable);
+                                }
+                            });
+                }catch (Exception e){
+                    THSInitializeCallBack.onInitializationFailure(e);
+                }
+            }
+
+            @Override
+            public void onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String s) {
+                Throwable serviceDiscoveryError= new Throwable(s);
+                THSInitializeCallBack.onInitializationFailure(serviceDiscoveryError);
+            }
+        });
+
+
+
     }
 
     public boolean isSDKInitialized(Context context) throws AWSDKInstantiationException {
         return getAwsdk(context).getConfiguration().isServiceKeyCollected();
     }
 
-    //Done error codes
     public void getOnDemandSpecialities(Context context, PracticeInfo practiceInfo, String searchItem, final THSOnDemandSpecialtyCallback<List<THSOnDemandSpeciality>, THSSDKError> thsOnDemandSpecialtyCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getPracticeProvidersManager().getOnDemandSpecialties(getPTHConsumer().getConsumer(), practiceInfo, searchItem, new SDKCallback<List<OnDemandSpecialty>, SDKError>() {
             @Override
@@ -430,7 +491,6 @@ public class THSManager {
         });
     }
 
-    //Done error code
     public void getVisitContextWithOnDemandSpeciality(Context context, final THSOnDemandSpeciality thsOnDemandSpeciality, final THSVisitContextCallBack<THSVisitContext, THSSDKError> thsVisitContextCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getVisitManager().getVisitContext(getPTHConsumer().getConsumer(), thsOnDemandSpeciality.getOnDemandSpecialty(), new SDKCallback<VisitContext, SDKError>() {
             @Override
@@ -453,7 +513,6 @@ public class THSManager {
         });
     }
 
-    //Done error code
     public void getVisitContext(Context context, final THSProviderInfo thsProviderInfo, final THSVisitContextCallBack<THSVisitContext, THSSDKError> THSVisitContextCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
 
         getAwsdk(context).getVisitManager().getVisitContext(getPTHConsumer().getConsumer(), thsProviderInfo.getProviderInfo(), new SDKCallback<VisitContext, SDKError>() {
@@ -479,7 +538,6 @@ public class THSManager {
     }
 
 
-    //TODO: No SDKError is sent by backend.
     //TODO: What happens when getConsumer is null
     public void getVitals(Context context, final THSVitalSDKCallback<THSVitals, THSSDKError> thsVitalCallBack) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getVitals(getPTHConsumer().getConsumer(),getPthVisitContext().getVisitContext(), new SDKCallback<Vitals, SDKError>() {
@@ -548,9 +606,10 @@ public class THSManager {
         getAwsdk(context).getConsumerManager().getConsumer(authentication, new SDKCallback<Consumer, SDKError>() {
             @Override
             public void onResponse(Consumer consumer, SDKError sdkError) {
-                THSConsumer thsConsumer = new THSConsumer();
-                thsConsumer.setConsumer(consumer);
-                setPTHConsumer(thsConsumer);
+                mTHSConsumerWrapper.setConsumer(consumer);
+                //The mThsConsumer object is set to Parent as when-ever the control is in welcome screen, only the parent is the active person
+                setThsConsumer(getThsParentConsumer());
+                getThsConsumer().setConsumer(consumer);
                 THSGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkError);
             }
 
@@ -644,32 +703,34 @@ public class THSManager {
         });
     }
 
-    //Done error codes
-    public void updateConsumer(Context context, String updatedPhone, final THSUpdateConsumerCallback<THSConsumer, THSSDKPasswordError> thsUpdateConsumer) throws AWSDKInstantiationException {
-        ConsumerUpdate consumerUpdate = getAwsdk(context).getConsumerManager().getNewConsumerUpdate(getPTHConsumer().getConsumer());
-        consumerUpdate.setPhone(updatedPhone);
+    public void updateConsumer(Context context, String updatedPhone, final THSUpdateConsumerCallback<THSConsumerWrapper, THSSDKPasswordError> pthUpdateConsumer) throws AWSDKInstantiationException {
+        ConsumerUpdate consumerUpdate;
+        if(getPTHConsumer().isDependent()){
+            consumerUpdate = getAwsdk(context).getConsumerManager().getNewConsumerUpdate(getThsParentConsumer().getConsumer());
+            consumerUpdate.setPhone(updatedPhone);
+        }else {
+            consumerUpdate = getAwsdk(context).getConsumerManager().getNewConsumerUpdate(getPTHConsumer().getConsumer());
+            consumerUpdate.setPhone(updatedPhone);
+        }
         getAwsdk(context).getConsumerManager().updateConsumer(consumerUpdate, new SDKValidatedCallback<Consumer, SDKPasswordError>() {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
-                thsUpdateConsumer.onUpdateConsumerValidationFailure(map);
+                pthUpdateConsumer.onUpdateConsumerValidationFailure(map);
             }
 
             @Override
             public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
-
-                THSConsumer thsConsumer = new THSConsumer();
-                thsConsumer.setConsumer(consumer);
-                setPTHConsumer(thsConsumer);
-
+                mTHSConsumerWrapper.setConsumer(consumer);
+                getThsParentConsumer().setConsumer(consumer);
                 THSSDKPasswordError pthSDKError = new THSSDKPasswordError();
                 pthSDKError.setSdkPasswordError(sdkPasswordError);
 
-                thsUpdateConsumer.onUpdateConsumerResponse(thsConsumer,pthSDKError);
+                pthUpdateConsumer.onUpdateConsumerResponse(mTHSConsumerWrapper,pthSDKError);
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                thsUpdateConsumer.onUpdateConsumerFailure(throwable);
+                pthUpdateConsumer.onUpdateConsumerFailure(throwable);
             }
         });
     }
@@ -748,7 +809,6 @@ public class THSManager {
         });
     }
 
-    //Done error codes
     public void updateConditions(Context context, List<THSCondition> pthConditionList, final THSUpdateConditionsCallback<Void, THSSDKError> thsUpdateConditionsCallback) throws AWSDKInstantiationException {
 
         List<Condition> conditionList = new ArrayList<>();
@@ -806,10 +866,8 @@ public class THSManager {
         });
     }
 */
-
-    //Done error codes
-    public void getPharmacies(Context context, final THSConsumer thsConsumer, String city, State state, String zipCode, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getPharmacies(thsConsumer.getConsumer(), null,city, state, zipCode, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
+    public void getPharmacies(Context context, final THSConsumerWrapper thsConsumerWrapper, String city, State state, String zipCode, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getPharmacies(thsConsumerWrapper.getConsumer(), null,city, state, zipCode, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
                 thsGetPharmaciesCallback.onValidationFailure(map);
@@ -827,9 +885,8 @@ public class THSManager {
         });
     }
 
-    //Done error codes
-    public void getPharmacies(Context context, final THSConsumer thsConsumer, float latitude, float longitude, int radius, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getPharmacies(thsConsumer.getConsumer(), latitude, longitude, radius, true, new SDKCallback<List<Pharmacy>, SDKError>() {
+    public void getPharmacies(Context context, final THSConsumerWrapper thsConsumerWrapper, float latitude, float longitude, int radius, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getPharmacies(thsConsumerWrapper.getConsumer(), latitude, longitude, radius, true, new SDKCallback<List<Pharmacy>, SDKError>() {
             @Override
             public void onResponse(List<Pharmacy> pharmacies, SDKError sdkError) {
                 thsGetPharmaciesCallback.onPharmacyListReceived(pharmacies,sdkError);
@@ -927,9 +984,6 @@ public class THSManager {
         });
     }
 
-
-
-    //Done error codes
     public void getAvailableProvidersBasedOnDate(Context context, Practice thsPractice,
                                                  String searchItem, Language languageSpoken, Date appointmentDate,
                                                  Integer maxresults,
@@ -997,8 +1051,6 @@ public class THSManager {
     }
 
 
-
-    //Done error codes
     public void getExistingSubscription(Context context, final THSInsuranceCallback.THSgetInsuranceCallBack<THSSubscription, THSSDKError> tHSSDKCallBack) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getInsuranceSubscription(getPTHConsumer().getConsumer(), new SDKCallback<Subscription, SDKError>() {
             @Override
@@ -1026,7 +1078,6 @@ public class THSManager {
         return thsSubscriptionUpdateRequest;
     }
 
-    //Done error handled
     public void updateInsuranceSubscription(Context context, THSSubscriptionUpdateRequest thsSubscriptionUpdateRequest, final THSSDKValidatedCallback<Void, SDKError> tHSSDKValidatedCallback) throws AWSDKInstantiationException {
 
         getAwsdk(context).getConsumerManager().updateInsuranceSubscription(thsSubscriptionUpdateRequest.getSubscriptionUpdateRequest(), new SDKValidatedCallback<Void, SDKError>() {
@@ -1054,7 +1105,6 @@ public class THSManager {
         getAwsdk(context).getConsumerManager().validateSubscriptionUpdateRequest(thsSubscriptionUpdateRequest.getSubscriptionUpdateRequest(), errors);
     }
 
-    //Done error codes
     public void createVisit(Context context, THSVisitContext thsVisitContext, final CreateVisitCallback<THSVisit, THSSDKError> createVisitCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getVisitManager().createVisit(thsVisitContext.getVisitContext(), new SDKValidatedCallback<Visit, SDKError>() {
             @Override
@@ -1079,7 +1129,6 @@ public class THSManager {
 
     }
 
-    //Done error codes
     public void getPaymentMethod(Context context, final THSPaymentCallback.THSgetPaymentMethodCallBack<THSPaymentMethod, THSSDKError> tHSSDKCallBack) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getPaymentMethod(getPTHConsumer().getConsumer(), new SDKCallback<PaymentMethod, SDKError>() {
             @Override
@@ -1128,8 +1177,6 @@ public class THSManager {
 
 
     }
-
-    //Done error codes
     public void updatePaymentMethod(Context context, THSCreatePaymentRequest thsCreatePaymentRequest, final THSPaymentCallback.THSgetPaymentMethodValidatedCallback<THSPaymentMethod, THSSDKError> tHSSDKValidatedCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().updatePaymentMethod(thsCreatePaymentRequest.getCreatePaymentRequest(), new SDKValidatedCallback<PaymentMethod, SDKError>() {
             @Override
@@ -1153,7 +1200,6 @@ public class THSManager {
         });
     }
 
-    //Done error codes
     public void scheduleAppointment(Context context, final THSProviderInfo thsProviderInfo, Date appointmentDate,final RemindOptions consumerRemindOptions, final THSSDKValidatedCallback<Void, SDKError> thssdkValidatedCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().scheduleAppointment(getPTHConsumer().getConsumer(), thsProviderInfo.getProviderInfo(),
                 appointmentDate, null,consumerRemindOptions, RemindOptions.FIFTEEN_MIN, new SDKValidatedCallback<Void, SDKError>() {
@@ -1175,7 +1221,6 @@ public class THSManager {
 
     }
 
-    //Done error codes
     public void uploadHealthDocument(Context context, UploadAttachment uploadAttachment, final THSUploadDocumentCallback thsUploadDocumentCallback) throws AWSDKInstantiationException, IOException {
 
         getAwsdk(context).getConsumerManager().addHealthDocument(getPTHConsumer().getConsumer(), uploadAttachment, new SDKValidatedCallback<DocumentRecord, SDKError>() {
@@ -1196,7 +1241,6 @@ public class THSManager {
         });
     }
 
-    //Done error codes
     public void deletedHealthDocument(Context context, DocumentRecord documentRecord, final THSDeleteDocumentCallback thsDeleteDocumentCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().removeHealthDocumentRecord(getPTHConsumer().getConsumer(), documentRecord, new SDKCallback<Void, SDKError>() {
             @Override
@@ -1211,8 +1255,6 @@ public class THSManager {
         });
 
     }
-
-    //Done error codes
     public void startVisit(Context context ,Visit visit,  final Intent intent,final THSStartVisitCallback thsStartVisitCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getVisitManager().startVisit(visit, visit.getConsumer().getAddress(), intent,new StartVisitCallback() {
             @Override
@@ -1262,8 +1304,6 @@ public class THSManager {
         });
     }
 
-
-    //Done error code
     public void cancelVisit(Context context,Visit visit, final THSCancelVisitCallBack.SDKCallback <Void, SDKError> tHSSDKCallback)  throws AWSDKInstantiationException {
         getAwsdk(context).getVisitManager().cancelVisit(visit, new SDKCallback<Void, SDKError>() {
             @Override
@@ -1279,7 +1319,6 @@ public class THSManager {
 
     }
 
-    //Done error codes
     public void cancelAppointment(Context context, Appointment appointment, final THSInitializeCallBack<Void, THSSDKError> thsInitializeCallBack) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().cancelAppointment(getPTHConsumer().getConsumer(), appointment, new SDKCallback<Void, SDKError>() {
             @Override
@@ -1417,7 +1456,6 @@ public class THSManager {
 
     }
 
-    //Done error codes
     public void sendRatings(Context context,Visit visit, Integer providerRating, Integer visitRating,final THSSDKCallback<Void, SDKError> thssdkCallback)throws AWSDKInstantiationException{
         getAwsdk(context).getVisitManager().sendRatings(visit, providerRating, visitRating, new SDKCallback<Void, SDKError>() {
             @Override
@@ -1433,7 +1471,6 @@ public class THSManager {
         });
     }
 
-    //Done error codes
     public void getPractice(Context context, PracticeInfo practiceInfo, final THSPracticeCallback<Practice, SDKError> thsPracticeCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getPracticeProvidersManager().getPractice(practiceInfo, new SDKCallback<Practice, SDKError>() {
             @Override
@@ -1448,7 +1485,6 @@ public class THSManager {
         });
     }
 
-    //Done error codes
     public void doMatchMaking(Context context, THSVisitContext thsVisitContext, final THSMatchMakingCallback thsMatchMakingCallback)throws AWSDKInstantiationException {
         getAwsdk(context).getVisitManager().startMatchmaking(thsVisitContext.getVisitContext(), new MatchmakerCallback() {
             @Override
@@ -1500,8 +1536,6 @@ public class THSManager {
         }
 
     }
-
-    //Done error codes
     public void applyCouponCode(Context context, THSVisit thsVisit, String couponCode, final ApplyCouponCallback<Void, THSSDKError> applyCouponCallback) throws AWSDKInstantiationException{
         getAwsdk(context).getVisitManager().applyCouponCode(thsVisit.getVisit(), couponCode, new SDKCallback<Void, SDKError>() {
             @Override
@@ -1525,5 +1559,22 @@ public class THSManager {
 
     public void setIsReturningUser(boolean firstTimeUser) {
         mIsReturningUser = firstTimeUser;
+    }
+
+    public THSConsumer getThsConsumer() {
+        return mThsConsumer;
+    }
+
+    public void setThsConsumer(THSConsumer mThsConsumer) {
+        this.mThsConsumer = mThsConsumer;
+    }
+
+    public THSConsumer getThsParentConsumer() {
+        return mThsParentConsumer;
+    }
+
+    public void setThsParentConsumer(THSConsumer mThsParentConsumer) {
+        this.mThsParentConsumer = mThsParentConsumer;
+        this.mThsConsumer = mThsParentConsumer;
     }
 }

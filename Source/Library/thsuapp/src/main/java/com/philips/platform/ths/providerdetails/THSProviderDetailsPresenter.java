@@ -33,7 +33,7 @@ import com.philips.platform.ths.intake.THSCheckPharmacyConditionsFragment;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
 import com.philips.platform.ths.practice.THSPracticeCallback;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSConstants;
@@ -87,7 +87,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                     mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR, true);
                 }
             } else {
-                THSConsumer thsConsumer = new THSConsumer();
+                THSConsumerWrapper thsConsumer = new THSConsumerWrapper();
                 thsConsumer.setConsumer(viewInterface.getConsumerInfo());
                 try {
                     THSManager.getInstance().fetchEstimatedVisitCost(viewInterface.getContext(), provider, this);
@@ -115,7 +115,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                 // go to pharmacy and shipping if DOD
                 mThsBaseFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null, true);
             } else {
-                THSConsumer THSConsumer = new THSConsumer();
+                THSConsumerWrapper THSConsumer = new THSConsumerWrapper();
                 THSConsumer.setConsumer(viewInterface.getConsumerInfo());
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, viewInterface.getTHSProviderInfo());

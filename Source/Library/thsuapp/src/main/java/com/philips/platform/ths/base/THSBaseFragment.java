@@ -35,6 +35,9 @@ import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
+import static com.philips.platform.ths.utility.THSConstants.THS_USER_NOT_LOGGED_IN;
 
 public class THSBaseFragment extends Fragment implements THSBaseView, BackEventListener, THSNetworkStateListener.ConnectionReceiverListener {
 
@@ -235,7 +238,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
         return result;
     }
 
-    public void exitFromAmWell() {
+    public void exitFromAmWell(boolean isSuccess) {
 
         if (this.getActivity() instanceof THSLaunchActivity) {
             THSLaunchActivity thsLaunchActivity = (THSLaunchActivity) this.getActivity();
@@ -256,7 +259,8 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
             }
         }
         if (THSManager.getInstance().getThsVisitCompletionListener() != null) {
-            THSManager.getInstance().getThsVisitCompletionListener().onTHSVisitComplete(true);
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,"exitToUgrow","toUgrowPage");
+            THSManager.getInstance().getThsVisitCompletionListener().onTHSVisitComplete(isSuccess);
         }
     }
 

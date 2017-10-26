@@ -14,7 +14,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -62,7 +62,7 @@ public class THSConditionsPresenterTest {
     Consumer consumerMock;
 
     @Mock
-    THSConsumer pthConsumerMock;
+    THSConsumerWrapper pthConsumerMock;
 
     @Mock
     THSConditionsList thsConditions;

@@ -18,6 +18,9 @@ import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_PRACTICE_PAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+
 
 public class THSPracticePresenter implements THSBasePresenter, THSPracticesListCallback {
 
@@ -67,6 +70,7 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
     }
 
     void showProviderList(Practice practice) {
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SEND_DATA,"visitSubject",practice.getName());
         THSProvidersListFragment providerListFragment = new THSProvidersListFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(THSConstants.PRACTICE_FRAGMENT, practice);

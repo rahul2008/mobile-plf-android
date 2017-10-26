@@ -86,9 +86,10 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
             ((THSSymptomsFragment) thsBaseView).updateOtherTopic();
             THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "step1SymptomsForVisit", ((THSSymptomsFragment) thsBaseView).tagActions);
             THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step1SymptomsAdded");
+            ((THSSymptomsFragment) thsBaseView).addTags();
             final THSVitalsFragment fragment = new THSVitalsFragment();
             fragment.setFragmentLauncher(thsBaseView.getFragmentLauncher());
-            thsBaseView.addFragment(fragment, THSVitalsFragment.TAG, null, true);
+            thsBaseView.addFragment(fragment, THSVitalsFragment.TAG, null, false);
         }
     }
 

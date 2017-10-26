@@ -18,7 +18,7 @@
             android:layout_width="@dimen/ths_image_size"
             android:layout_height="@dimen/ths_image_size" />
     </RelativeLayout>
-
+  
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_practice_name"

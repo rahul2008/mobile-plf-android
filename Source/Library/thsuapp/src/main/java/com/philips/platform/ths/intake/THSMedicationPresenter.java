@@ -122,12 +122,12 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
                 }
             } else {
 
-                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", "step3MedicationsAdded");
+                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", ((THSMedicationFragment) mTHSBaseFragment).tagAction);
                 AmwellLog.i("onUpdateMedication", "success");
                 // addF
                 final THSMedicalConditionsFragment fragment = new THSMedicalConditionsFragment();
                 fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-                mTHSBaseFragment.addFragment(fragment, THSMedicalConditionsFragment.TAG, null, true);
+                ((THSMedicationFragment) mTHSBaseFragment).addFragment(fragment, THSMedicalConditionsFragment.TAG, null, true);
             }
         }
     }

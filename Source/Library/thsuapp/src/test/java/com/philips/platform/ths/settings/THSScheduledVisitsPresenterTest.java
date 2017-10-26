@@ -20,7 +20,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -59,7 +59,7 @@ public class THSScheduledVisitsPresenterTest {
     Consumer consumerMock;
 
     @Mock
-    THSConsumer thsConsumer;
+    THSConsumerWrapper thsConsumerWrapper;
 
     @Mock
     ConsumerManager consumerManagerMock;
@@ -91,8 +91,8 @@ public class THSScheduledVisitsPresenterTest {
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
-        THSManager.getInstance().setPTHConsumer(thsConsumer);
-        when(thsConsumer.getConsumer()).thenReturn(consumerMock);
+        THSManager.getInstance().setPTHConsumer(thsConsumerWrapper);
+        when(thsConsumerWrapper.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(thsScheduledVisitsFragmentMock.getContext()).thenReturn(contextMock);
         when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);

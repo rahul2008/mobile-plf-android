@@ -17,6 +17,11 @@ import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
+import java.util.HashMap;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
+
 /**
  * Created by philips on 8/4/17.
  */
@@ -35,7 +40,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
         if (componentID == R.id.ths_visit_summary_continue_button) {
             THSManager.getInstance().setVisitContext(null);
             THSManager.getInstance().setMatchMakingVisit(false);
-            mTHSVisitSummaryFragment.exitFromAmWell();
+            mTHSVisitSummaryFragment.exitFromAmWell(true);
         }
 
     }
@@ -53,7 +58,19 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
 
         try {
             int providerRatingInt = Math.round(providerRating);
+            if(providerRatingInt>0){
+                HashMap<String, String > map = new HashMap<String, String >();
+                map.put("ratingType","doctor");
+                map.put("rating",""+providerRatingInt);
+                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,map);
+            }
             int visitRatingInt = Math.round(visitRating);
+            if(visitRatingInt>0){
+                HashMap<String, String > map = new HashMap<String, String >();
+                map.put("ratingType","overallExperience");
+                map.put("rating",""+visitRatingInt);
+                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,map);
+            }
             THSManager.getInstance().sendRatings(mTHSVisitSummaryFragment.getFragmentActivity(), mTHSVisitSummaryFragment.mVisit, providerRatingInt, visitRatingInt, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();

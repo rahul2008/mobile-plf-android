@@ -172,7 +172,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_see_provider">See <b>a provider online,</b> anytime</string>
     <string name="ths_quick_visit">The easiest way to get a quick visit with a licensed provider.</string>
     <string name="ths_this_services_is_provided_by">This service is provided by</string>
-    <string name="ths_see_doctor">Go to see a provider</string>
+    <string name="ths_see_doctor">Go see a provider</string>
     <string name="ths_appointments">Appointments</string>
     <string name="ths_visit_history">Visit history</string>
     <string name="ths_how_it_works">How it works</string>
@@ -250,6 +250,17 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="early_for_appointment">Too early for the appointment. Please try 15 minutes before the appointment time</string>
     <string name="late_for_appointment">late for the appointment. Please schedule the appointment again for consultation</string>
     <string name="ths_user_not_authenticated">Authentication Failed!! Try again later.</string>
+
+
+    <!-- Dependent-->
+    <string name="ths_visit_for">Who is the visit for?</string>
+    <string name="ths_select_name">Select the name of the person who needs the consult. For instance, if you are a mother and your baby has an war ache, choose your baby\'s name</string>
+    <string name="ths_select_patient">Select patient</string>
+
+    <!--Waiting Room String -->
+
+    <string name="visit_not_successful"> Your visit was not successful.</string>
+
 
     <string name="ths_internet_disconnected_message">Oops! Please check your network connection</string>
 
