@@ -4,6 +4,7 @@ BranchName = env.BRANCH_NAME
 JENKINS_ENV = env.JENKINS_ENV
 
 properties([
+    [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]],
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '50']]
 ])
 
@@ -29,17 +30,29 @@ node('android && device') {
             }
 
             if (BranchName =~ /master|develop|release\/platform_.*/) {
-                stage('Trigger OPA Build'){
-                    def committerName = sh (script: "git show -s --format='%an' HEAD", returnStdout: true).trim()
-                    if (BranchName =~ "/") {
-                        BranchName = BranchName.replaceAll('/','%2F')
-                        echo "BranchName changed to ${BranchName}"
-                    }
-                    build job: "Platform-Infrastructure/opa-android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'committerName', value:committerName]], wait: false
+                stage ('build') {
+                    sh '''#!/bin/bash -l
+                        chmod -R 755 .
+                        cd ./Source/CatalogApp
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease artifactoryPublish
+                    '''
                 }
-            }
-            else
-            {
+                stage('Unit Tests') {
+                 sh '''#!/bin/bash -l
+                        chmod -R 755 .
+                        cd ./Source/UIKit
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean createDebugCoverageReport
+                    '''
+                }
+                stage('HockeyApp upload') {
+                    echo "Uploading to HockeyApp"
+                    sh '''#!/bin/bash -l
+                        chmod -R 755 .
+                        cd ./Source/CatalogApp
+                        ./gradlew -PenvCode=${JENKINS_ENV} uploadReleaseToHockeyApp
+                    '''
+                }
+            } else {
                 stage ('build') {
                     sh '''#!/bin/bash -l
                         chmod -R 755 .
@@ -47,7 +60,6 @@ node('android && device') {
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease
                     '''
                 }
-
                 stage('Unit Tests') {
                     sh '''#!/bin/bash -l
                         chmod -R 755 .
@@ -56,7 +68,6 @@ node('android && device') {
                     '''
                 }
             }
-
             stage ('save dependencies list') {
                 sh '''#!/bin/bash -l
                     cd ./Source/CatalogApp
@@ -65,6 +76,17 @@ node('android && device') {
                     ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
                 '''
             }
+
+            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release\/platform_.*/)) {
+                stage ('callIntegrationPipeline') {
+                    if (BranchName =~ "/") {
+                        BranchName = BranchName.replaceAll('/','%2F')
+                        echo "BranchName changed to ${BranchName}"
+                    }
+                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'uid'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+                }
+            }
+
         } catch(err) {
             errors << "errors found: ${err}"
         } finally {
@@ -74,19 +96,13 @@ node('android && device') {
                     for (int i = 0; i < errors.size(); i++) {
                         echo errors[i]; 
                     }
-                }
+                }                
             }
             stage ('reporting') {
-                if (BranchName =~ /master|develop|release\/platform_.*/) {
-                    echo "Nothing to Report, OPA build is started"
-                }
-                else
-                {
-                    publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'Unit Tests'])
-                    publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'Code Coverage'])
-                    step([$class: 'ArtifactArchiver', artifacts: 'Source/UIKit/uid/build/reports/coverage/debug/report.xml', excludes: null, fingerprint: true, onlyIfSuccessful: true])
-                    archiveArtifacts '**/*dependencies*.lock'
-                }
+                publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'Unit Tests'])
+                publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'Code Coverage'])
+                step([$class: 'ArtifactArchiver', artifacts: 'Source/UIKit/uid/build/reports/coverage/debug/report.xml', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+                archiveArtifacts '**/*dependencies*.lock'
             }
             stage('informing') {
                 step([$class: 'StashNotifier'])
