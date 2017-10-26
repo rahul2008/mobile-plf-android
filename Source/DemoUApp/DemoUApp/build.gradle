@@ -179,7 +179,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
 	
-    compile(dp ? project(':usr') : project(':RegistrationApi')) 	
+    compile(project(':usr')) 	
 
     def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
     compile(dp ? project(':uid') : uidModule) 
