@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class SetDeviceInfoViewModelTest {
+public class ConnectWithPasswordViewModelTest {
 
     private static final String PRODUCT = "product 001";
     @Mock
@@ -41,13 +41,13 @@ public class SetDeviceInfoViewModelTest {
     private BaseContentConfiguration mockBaseContentConfig;
     @Mock
     private StringProvider mockStringProvider;
-    private SetDeviceInfoViewModel viewModel;
+    private ConnectWithPasswordViewModel viewModel;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
 
-        viewModel = new SetDeviceInfoViewModel(wifiUtilMock, sessionInfoMock, navigatorMock,
+        viewModel = new ConnectWithPasswordViewModel(wifiUtilMock, sessionInfoMock, navigatorMock,
                 dialogFragmentMock, mockBaseContentConfig, mockStringProvider);
         when(mockBaseContentConfig.getDeviceName()).thenReturn(123435);
     }

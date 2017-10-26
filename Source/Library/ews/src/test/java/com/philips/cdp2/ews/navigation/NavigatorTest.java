@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiFragment;
-import com.philips.cdp2.ews.settingdeviceinfo.SetDeviceInfoFragment;
+import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordFragment;
 import com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingFragment;
@@ -82,7 +82,7 @@ public class NavigatorTest {
     public void itShouldPushConnectToDeviceWithPasswordScreenWhenNavigating() throws Exception {
         subject.navigateToConnectToDeviceWithPasswordScreen("deviceFriendlyName");
 
-        verifyFragmentPushed(SetDeviceInfoFragment.class);
+        verifyFragmentPushed(ConnectWithPasswordFragment.class);
     }
 
     @Test

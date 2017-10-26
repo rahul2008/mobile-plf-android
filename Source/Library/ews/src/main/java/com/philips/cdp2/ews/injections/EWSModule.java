@@ -36,7 +36,7 @@ import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.cdp2.ews.permission.PermissionHandler;
-import com.philips.cdp2.ews.settingdeviceinfo.SetDeviceInfoViewModel;
+import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordViewModel;
 import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.view.dialog.GPSEnableDialogFragment;
@@ -151,15 +151,15 @@ public class EWSModule {
 
 
     @Provides
-    SetDeviceInfoViewModel providesSetDeviceConnectViewModel(@NonNull final WiFiUtil wifiUtil,
-                                                             @NonNull final ApplianceSessionDetailsInfo sessionInfo,
-                                                             @NonNull final Navigator navigator,
-                                                             @NonNull BaseContentConfiguration baseContentConfiguration,
-                                                             @NonNull StringProvider stringProvider) {
+    ConnectWithPasswordViewModel providesSetDeviceConnectViewModel(@NonNull final WiFiUtil wifiUtil,
+                                                                   @NonNull final ApplianceSessionDetailsInfo sessionInfo,
+                                                                   @NonNull final Navigator navigator,
+                                                                   @NonNull BaseContentConfiguration baseContentConfiguration,
+                                                                   @NonNull StringProvider stringProvider) {
         final ConnectionEstablishDialogFragment dialogFragment =
                 ConnectionEstablishDialogFragment
                         .getInstance(R.string.label_ews_establishing_connection_body);
-        return new SetDeviceInfoViewModel(wifiUtil, sessionInfo, navigator,
+        return new ConnectWithPasswordViewModel(wifiUtil, sessionInfo, navigator,
                 dialogFragment, baseContentConfiguration, stringProvider);
     }
 

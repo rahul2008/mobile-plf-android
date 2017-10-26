@@ -12,7 +12,7 @@ import com.philips.cdp2.ews.communication.events.DiscoverApplianceEvent;
 import com.philips.cdp2.ews.communication.events.PairingSuccessEvent;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
-import com.philips.cdp2.ews.settingdeviceinfo.SetDeviceInfoFragment;
+import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordFragment;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
 import com.philips.cdp2.ews.view.TroubleshootCheckRouterSettingsFragment;
@@ -67,7 +67,7 @@ public class TroubleshootWrongWiFiViewModel {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public  void showWifiConnectionScreen(@NonNull final DiscoverApplianceEvent event) {
         if(isVisible && !pairingSuccess) {
-            screenFlowController.showFragment(new SetDeviceInfoFragment());
+            screenFlowController.showFragment(new ConnectWithPasswordFragment());
         }
     }
 

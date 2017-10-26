@@ -121,7 +121,7 @@ public class BlinkingAccessPointViewModelTest {
     public void shouldShowNextPasswordEntryScreenWhenPhoneIsConnectedToApplianceHotspot() throws Exception {
         sendEventToShowPasswordEntryScreen();
 
-//        verify(screenFlowControllerMock).showFragment(isA(SetDeviceInfoFragment.class));
+//        verify(screenFlowControllerMock).showFragment(isA(ConnectWithPasswordFragment.class));
     }
 
     @Test
