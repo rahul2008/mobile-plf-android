@@ -1,4 +1,2 @@
 include ':usr' 
 project(':usr').projectDir =new File('../../Library/RegistrationApi')
-
-can you please detect me
