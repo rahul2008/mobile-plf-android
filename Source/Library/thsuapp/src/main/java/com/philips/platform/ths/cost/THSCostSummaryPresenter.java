@@ -33,6 +33,7 @@ import java.util.Map;
 import static com.philips.platform.ths.utility.THSConstants.IS_LAUNCHED_FROM_COST_SUMMARY;
 import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_COUPON_CODE_ERROR;
 import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_CREATE_VISIT_ERROR;
+import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
@@ -300,7 +301,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
         mTHSCostSummaryFragment.alertDialogFragmentCouponCode = builder.setCancelable(false).create();
         mTHSCostSummaryFragment.alertDialogFragmentCouponCode.setPositiveButtonListener(alertDialogFragmentCouponListener);
         mTHSCostSummaryFragment.alertDialogFragmentCouponCode.show(mTHSCostSummaryFragment.getFragmentManager(), THS_COST_SUMMARY_COUPON_CODE_ERROR);
-
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_IN_APP_NOTIFICATION, "estimatedCostError");
     }
 
     private void showCreateVisitError(final boolean showLargeContent, final boolean isWithTitle, final String message) {

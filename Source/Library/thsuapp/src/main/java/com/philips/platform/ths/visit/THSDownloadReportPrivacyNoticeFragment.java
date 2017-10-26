@@ -29,6 +29,7 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
@@ -74,6 +75,7 @@ public class THSDownloadReportPrivacyNoticeFragment extends DialogFragment imple
         //hippaNoticeLabel.setHighlightColor(Color.TRANSPARENT);
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_IN_APP_NOTIFICATION, "privacyNotice");
         return view;
     }
 
