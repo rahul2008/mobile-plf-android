@@ -3,28 +3,37 @@
  * All rights reserved.
  */
 
-package com.philips.cdp2.ews.view;
+package com.philips.cdp2.ews.settingdeviceinfo;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.view.inputmethod.InputMethodManager;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentEwsConnectDeviceBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
-import com.philips.cdp2.ews.viewmodel.EWSWiFiConnectViewModel;
+import com.philips.cdp2.ews.util.BundleUtils;
+import com.philips.cdp2.ews.view.EWSBaseFragment;
 
 import javax.inject.Inject;
 
-public class EWSWiFiConnectFragment extends EWSBaseFragment<FragmentEwsConnectDeviceBinding> {
+public class SetDeviceInfoFragment extends EWSBaseFragment<FragmentEwsConnectDeviceBinding> {
 
+    private static String DEVICE_FRIENDLY_NAME = "deviceFriendlyName";
     @Inject
-    EWSWiFiConnectViewModel viewModel;
+    SetDeviceInfoViewModel viewModel;
 
-    @Inject
-    BaseContentConfiguration baseContentConfiguration;
+
+    public static Fragment newInstance(@NonNull String deviceFriendlyName) {
+        Bundle data = new Bundle();
+        data.putString(DEVICE_FRIENDLY_NAME, deviceFriendlyName);
+        SetDeviceInfoFragment fragment = new SetDeviceInfoFragment();
+        fragment.setArguments(data);
+        return fragment;
+    }
 
     @Override
     public int getHierarchyLevel() {
@@ -36,12 +45,14 @@ public class EWSWiFiConnectFragment extends EWSBaseFragment<FragmentEwsConnectDe
         viewDataBinding.setViewModel(viewModel);
         viewDataBinding.setInputMethodManager((InputMethodManager) getActivity().getSystemService(
                 Context.INPUT_METHOD_SERVICE));
+
+        viewModel.setDeviceFriendlyName(BundleUtils
+                .extractStringFromBundleOrThrow(getArguments(), DEVICE_FRIENDLY_NAME));
     }
 
     @Override
     protected void inject(final EWSComponent ewsComponent) {
         ewsComponent.inject(this);
-        viewModel.setFragment(this);
     }
 
     @NonNull
@@ -68,12 +79,6 @@ public class EWSWiFiConnectFragment extends EWSBaseFragment<FragmentEwsConnectDe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        viewModel.onStart();
     }
 
     @Override

@@ -37,12 +37,12 @@ import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.cdp2.ews.permission.PermissionHandler;
+import com.philips.cdp2.ews.settingdeviceinfo.SetDeviceInfoViewModel;
 import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.view.dialog.GPSEnableDialogFragment;
 import com.philips.cdp2.ews.viewmodel.BlinkingAccessPointViewModel;
 import com.philips.cdp2.ews.viewmodel.EWSPressPlayAndFollowSetupViewModel;
-import com.philips.cdp2.ews.viewmodel.EWSWiFiConnectViewModel;
 import com.philips.cdp2.ews.viewmodel.ProductSupportViewModel;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
@@ -94,16 +94,20 @@ public class EWSModule {
     @SuppressWarnings("unchecked")
     @Singleton
     @Provides
-    EventingChannel<EventingChannel.ChannelCallback> providesEWSEventingChannel(@NonNull final ApplianceAccessEventMonitor applianceAccessEventMonitor,
-                                                                                @NonNull final WiFiEventMonitor wiFiEventMonitor) {
-        return new EventingChannel<>(Arrays.<EventingChannel.ChannelCallback>asList(applianceAccessEventMonitor, wiFiEventMonitor));
+    EventingChannel<EventingChannel.ChannelCallback> providesEWSEventingChannel(
+            @NonNull final ApplianceAccessEventMonitor applianceAccessEventMonitor,
+            @NonNull final WiFiEventMonitor wiFiEventMonitor) {
+        return new EventingChannel<>(
+                Arrays.<EventingChannel.ChannelCallback>asList(applianceAccessEventMonitor,
+                        wiFiEventMonitor));
     }
 
     @Provides
     @Named("ews.temporary.appliance")
     EWSGenericAppliance provideTemporaryAppliance() {
         NetworkNode fakeNetworkNode = createFakeNetworkNodeForHotSpot();
-        ConnectivityMonitor monitor = ConnectivityMonitor.forNetworkTypes(context, ConnectivityManager.TYPE_WIFI);
+        ConnectivityMonitor monitor =
+                ConnectivityMonitor.forNetworkTypes(context, ConnectivityManager.TYPE_WIFI);
         LanDeviceCache lanDeviceCache = createLanCache();
         injectFakeNodeIntoDeviceCache(lanDeviceCache, fakeNetworkNode);
         // We are intentionally not creating the strategy from the transport context!
@@ -124,7 +128,8 @@ public class EWSModule {
     }
 
     private LanDeviceCache createLanCache() {
-        LanDeviceCache lanDeviceCache = new LanDeviceCache(Executors.newSingleThreadScheduledExecutor());
+        LanDeviceCache lanDeviceCache =
+                new LanDeviceCache(Executors.newSingleThreadScheduledExecutor());
 
         return lanDeviceCache;
     }
@@ -141,38 +146,47 @@ public class EWSModule {
 
     @Provides
     DiscoveryHelper providesDiscoverHelper() {
-        return new DiscoveryHelper(((EWSApplication) context.getApplicationContext()).getCommCentral());
+        return new DiscoveryHelper(
+                ((EWSApplication) context.getApplicationContext()).getCommCentral());
     }
 
+
     @Provides
-    EWSWiFiConnectViewModel providesWiFiConnectViewModel(@NonNull final WiFiUtil wifiUtil,
-                                                         @NonNull final ApplianceSessionDetailsInfo sessionInfo,
-                                                         @NonNull final Navigator navigator,
-                                                         @NonNull BaseContentConfiguration baseContentConfiguration,
-                                                         @NonNull StringProvider stringProvider) {
+    SetDeviceInfoViewModel providesSetDeviceConnectViewModel(@NonNull final WiFiUtil wifiUtil,
+                                                             @NonNull final ApplianceSessionDetailsInfo sessionInfo,
+                                                             @NonNull final Navigator navigator,
+                                                             @NonNull BaseContentConfiguration baseContentConfiguration,
+                                                             @NonNull StringProvider stringProvider) {
         final ConnectionEstablishDialogFragment dialogFragment =
-                ConnectionEstablishDialogFragment.getInstance(R.string.label_ews_establishing_connection_body);
-        return new EWSWiFiConnectViewModel(wifiUtil, sessionInfo, navigator,
+                ConnectionEstablishDialogFragment
+                        .getInstance(R.string.label_ews_establishing_connection_body);
+        return new SetDeviceInfoViewModel(wifiUtil, sessionInfo, navigator,
                 dialogFragment, baseContentConfiguration, stringProvider);
     }
 
     @Provides
-    EWSPressPlayAndFollowSetupViewModel providesEWSPressPlayAndFollowSetupViewModel(@NonNull final Navigator navigator,
-                                                                                    @NonNull final @Named("ews.event.bus") EventBus eventBus,
-                                                                                    @NonNull final PermissionHandler permissionHandler) {
+    EWSPressPlayAndFollowSetupViewModel providesEWSPressPlayAndFollowSetupViewModel(
+            @NonNull final Navigator navigator,
+            @NonNull final @Named("ews.event.bus") EventBus eventBus,
+            @NonNull final PermissionHandler permissionHandler) {
         final ConnectionEstablishDialogFragment dialogFragment =
-                ConnectionEstablishDialogFragment.getInstance(R.string.label_ews_establishing_connection_body);
-        return new EWSPressPlayAndFollowSetupViewModel(navigator, eventBus, permissionHandler, dialogFragment,
+                ConnectionEstablishDialogFragment
+                        .getInstance(R.string.label_ews_establishing_connection_body);
+        return new EWSPressPlayAndFollowSetupViewModel(navigator, eventBus, permissionHandler,
+                dialogFragment,
                 null, new GPSEnableDialogFragment(), new Handler(context.getMainLooper()));
     }
 
     @Provides
-    BlinkingAccessPointViewModel providesBlinkingAccessPointViewModel(@NonNull final Navigator navigator,
-                                                                      @NonNull final @Named("ews.event.bus") EventBus eventBus,
-                                                                      @NonNull final PermissionHandler permissionHandler) {
+    BlinkingAccessPointViewModel providesBlinkingAccessPointViewModel(
+            @NonNull final Navigator navigator,
+            @NonNull final @Named("ews.event.bus") EventBus eventBus,
+            @NonNull final PermissionHandler permissionHandler) {
         final ConnectionEstablishDialogFragment dialogFragment =
-                ConnectionEstablishDialogFragment.getInstance(R.string.label_ews_establishing_connection_body);
-        return new BlinkingAccessPointViewModel(navigator, eventBus, permissionHandler, dialogFragment,
+                ConnectionEstablishDialogFragment
+                        .getInstance(R.string.label_ews_establishing_connection_body);
+        return new BlinkingAccessPointViewModel(navigator, eventBus, permissionHandler,
+                dialogFragment,
                 null, new GPSEnableDialogFragment(), new Handler(context.getMainLooper()));
     }
 
@@ -180,15 +194,18 @@ public class EWSModule {
     ProductSupportViewModel productSupportViewModel(@NonNull final ScreenFlowController screenFlowController) {
         final CcLaunchInput ccLaunchInput = new CcLaunchInput();
         final CcInterface ccInterface = new CcInterface();
-        final UappDependencies dependencies = new CcDependencies(EWSDependencyProvider.getInstance().getAppInfra());
+        final UappDependencies dependencies =
+                new CcDependencies(EWSDependencyProvider.getInstance().getAppInfra());
         final UappSettings settings = new CcSettings(context);
 
-        return new ProductSupportViewModel(ccLaunchInput, ccInterface, dependencies, settings, screenFlowController);
+        return new ProductSupportViewModel(ccLaunchInput, ccInterface, dependencies, settings,
+                screenFlowController);
     }
 
     @Provides
     Navigator provideNavigator() {
-        return new Navigator(new FragmentNavigator(fragmentManager), new ActivityNavigator(context));
+        return new Navigator(new FragmentNavigator(fragmentManager),
+                new ActivityNavigator(context));
     }
 
     @Provides
