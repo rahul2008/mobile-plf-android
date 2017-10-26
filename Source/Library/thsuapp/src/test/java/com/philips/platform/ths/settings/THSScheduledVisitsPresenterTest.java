@@ -7,6 +7,7 @@
 package com.philips.platform.ths.settings;
 
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.SDKError;
@@ -18,6 +19,7 @@ import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
@@ -26,18 +28,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.internal.observers.ConsumerSingleObserver;
-
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyList;
-import static org.mockito.Matchers.anyMap;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -128,8 +126,14 @@ public class THSScheduledVisitsPresenterTest {
         verify(thsScheduledVisitsFragmentMock).updateList(anyList());
     }
 
-    @Test
+    @Mock
+    Resources resourcesMock;
+    @Test(expected = NullPointerException.class)
     public void onFailure() throws Exception {
+        SupportFragmentTestUtil.startFragment(thsScheduledVisitsFragmentMock);
+        when(thsScheduledVisitsFragmentMock.isFragmentAttached()).thenReturn(false);
+        when(thsScheduledVisitsFragmentMock.getResources()).thenReturn(resourcesMock);
+        when(thsScheduledVisitsFragmentMock.getString(R.string.ths_se_server_error_toast_message)).thenReturn("Something");
         mTHSScheduledVisitsPresenter.onFailure(throwableMock);
         verify(thsScheduledVisitsFragmentMock).hideProgressBar();
     }

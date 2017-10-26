@@ -101,6 +101,8 @@ public class THSAvailableProviderListBasedOnDatePresenterTest {
 
     @Test
     public void onResponse() throws Exception {
+        when(thsAvailableProviderListBasedOnDateFragmentMock.isFragmentAttached()).thenReturn(true);
+        when(thssdkError.getSdkError()).thenReturn(null);
         mThsAvailableProviderListBasedOnDatePresenter.onResponse(thsAvailableProviderListMock,thssdkError);
         verify(thsAvailableProviderListBasedOnDateFragmentMock).updateProviderAdapterList(thsAvailableProviderListMock);
     }

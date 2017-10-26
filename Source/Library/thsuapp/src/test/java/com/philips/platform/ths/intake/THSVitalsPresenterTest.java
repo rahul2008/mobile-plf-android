@@ -168,8 +168,10 @@ public class THSVitalsPresenterTest {
 
     @Test
     public void onUpdateVitalsResponse() throws Exception {
+        sdkErrorMock = null;
+        when(pTHBaseViewMock.isFragmentAttached()).thenReturn(true);
         thsVitalsPresenter.onUpdateVitalsResponse(sdkErrorMock);
-        verify(pTHBaseViewMock).showToast(anyString());
+        verify(thsvItalsUIInterface).launchMedicationFragment();
     }
 
     @Test

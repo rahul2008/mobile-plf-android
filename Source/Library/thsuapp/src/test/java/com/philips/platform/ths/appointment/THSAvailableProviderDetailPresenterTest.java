@@ -148,6 +148,8 @@ public class THSAvailableProviderDetailPresenterTest {
 
     @Test
     public void onProviderDetailsReceived() throws Exception {
+        when(thsAvailableProviderDetailFragmentMock.isFragmentAttached()).thenReturn(true);
+        sdkErrorMock = null;
         mThsAvailableProviderDetailPresenter.onProviderDetailsReceived(providerMock,sdkErrorMock);
         verify(practiceProvidersManagerMock).getEstimatedVisitCost(any(Consumer.class),any(Provider.class),any(SDKCallback.class));
     }
@@ -164,14 +166,16 @@ public class THSAvailableProviderDetailPresenterTest {
         List list = new ArrayList();
         list.add(dateMock);
         when(thssdkError.getSdkError()).thenReturn(sdkErrorMock);
+        when(thsAvailableProviderDetailFragmentMock.isFragmentAttached()).thenReturn(true);
         mThsAvailableProviderDetailPresenter.onResponse((List<Date>)list,thssdkError);
         verify(thsAvailableProviderDetailFragmentMock).hideProgressBar();
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void onResponse() throws Exception {
         List list = new ArrayList();
         list.add(dateMock);
+        sdkErrorMock = null;
         mThsAvailableProviderDetailPresenter.onResponse(list,sdkErrorMock);
         verify(thsProviderDetailsDisplayHelperMock).launchConfirmAppointmentFragment(0);
     }

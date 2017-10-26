@@ -166,10 +166,11 @@ public class THSSearchPresenterTest {
         verify(thsSearchFragment).showToast(anyInt());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void onPharmacyListReceived() throws Exception {
         List list = new ArrayList();
         list.add(pharmacyMock);
+        when(thsSearchFragment.isFragmentAttached()).thenReturn(true);
         mTHSSearchPresenter.onPharmacyListReceived(list,sdkErrorMock);
     }
 

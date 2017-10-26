@@ -137,6 +137,8 @@ public class THSProviderDetailsPresenterTest {
 
     @Test
     public void onProviderDetailsReceived(){
+        when(thsBaseFragmentMock.isFragmentAttached()).thenReturn(true);
+        sdkErrorMock =null;
         providerDetailsPresenter.onProviderDetailsReceived(providerMock,sdkErrorMock);
         verify(thsProviderDetailsViewInterface).updateView(providerMock);
     }
