@@ -31,7 +31,7 @@ public class ResetDeviceTroubleshootingViewModel {
         resetDeviceImage = getResetDeviceImage(troubleShootContentConfiguration);
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @NonNull
     Drawable getResetDeviceImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
         return stringProvider.getImageResource(troubleShootContentConfiguration.getResetDeviceImage());
@@ -41,7 +41,7 @@ public class ResetDeviceTroubleshootingViewModel {
         navigator.navigateToCompletingDeviceSetupScreen();
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @NonNull
     String getTitle(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
                     @NonNull BaseContentConfiguration baseConfig) {
@@ -49,7 +49,7 @@ public class ResetDeviceTroubleshootingViewModel {
                 baseConfig.getDeviceName());
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @NonNull
     String getNote (@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
                     @NonNull BaseContentConfiguration baseConfig) {

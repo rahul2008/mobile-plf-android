@@ -39,13 +39,13 @@ public class SetupAccessPointModeTroubleshootingViewModel {
         navigator.navigateToCompletingDeviceSetupScreen();
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @NonNull
     Drawable getsetupAccessPointImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
         return stringProvider.getImageResource(troubleShootContentConfiguration.getSetUpAccessPointImage());
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @NonNull
     Drawable getSetupAccessPointImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
         return stringProvider.getImageResource(troubleShootContentConfiguration.getResetConnectionImage());
@@ -59,7 +59,7 @@ public class SetupAccessPointModeTroubleshootingViewModel {
         navigator.navigateToConnectToWrongPhoneTroubleShootingScreen();
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @NonNull
     String getTitle(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
                     @NonNull BaseContentConfiguration baseConfig) {
@@ -67,7 +67,7 @@ public class SetupAccessPointModeTroubleshootingViewModel {
                 baseConfig.getDeviceName());
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @NonNull
     String getNote(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
                     @NonNull BaseContentConfiguration baseConfig) {

@@ -40,12 +40,12 @@ public class ResetConnectionTroubleshootingViewModel {
     }
 
     @NonNull
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     Drawable getResetConnectionImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
         return stringProvider.getImageResource(troubleShootContentConfiguration.getResetConnectionImage());
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @NonNull
     String getTitle(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
                     @NonNull BaseContentConfiguration baseConfig) {
@@ -53,7 +53,7 @@ public class ResetConnectionTroubleshootingViewModel {
                 baseConfig.getDeviceName());
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @NonNull
     String getNote(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,@NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(troubleShootContentConfiguration.getResetConnectionBody(),

@@ -168,7 +168,7 @@ public abstract class DateUtil {
      *
      * @see #getNoonBefore(DateTime)
      */
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     static DateTime getNoonBefore(final DateTime date, final DateTimeZone timeZone) {
         DateTime noon = date.withZone(timeZone).withTimeAtStartOfDay().withHourOfDay(12);
 

@@ -42,7 +42,7 @@ public class EWSWiFIPairedViewModel {
         }
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @NonNull
     String getTitle(@NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(R.string.label_ews_succesful_body,
