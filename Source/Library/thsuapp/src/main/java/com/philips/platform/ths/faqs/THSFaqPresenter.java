@@ -6,34 +6,46 @@
 
 package com.philips.platform.ths.faqs;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSRestClient;
 
-import java.net.URL;
+import org.json.JSONArray;
 
-import static com.philips.platform.ths.utility.THSConstants.THS_SDK_SERVICE_ID;
+import java.lang.reflect.Type;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_FAQ_SERVICE_ID;
 
 
 public class THSFaqPresenter implements THSBasePresenter{
     THSFaqFragment mThsFaqFragment;
+    THSRestClient mTHSRestClient;
 
     public THSFaqPresenter(THSFaqFragment thsFaqFragment) {
         mThsFaqFragment = thsFaqFragment;
+
     }
 
     protected void getFaq(){
-        THSManager.getInstance().getAppInfra().getServiceDiscovery().getServiceUrlWithCountryPreference(THS_SDK_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+        THSManager.getInstance().getAppInfra().getServiceDiscovery().getServiceUrlWithCountryPreference(THS_FAQ_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-
+                mThsFaqFragment.showError("Service discovery failed - >" + s);
             }
 
             @Override
             public void onSuccess(URL url) {
-                new THSRestClient().execute("https://stg.philips.com/dam/b2c/apps/70000/en_US/thsfaq.json");
+                mTHSRestClient = new THSRestClient(THSFaqPresenter.this);
+                //TODO: Spoorti - Remove the hardcoding after the service discovery starts returning the right value
+                //mTHSRestClient.execute(url.toString());
+                mTHSRestClient.execute("https://www.philips.com/dam/b2c/apps/70000/en_US/thsfaq.json");
             }
         });
     }
@@ -41,6 +53,19 @@ public class THSFaqPresenter implements THSBasePresenter{
     @Override
     public void onEvent(int componentID) {
 
+    }
+
+    public void parseJson(JSONArray jsonArray) {
+        HashMap map = new HashMap();
+        if(jsonArray!=null) {
+            Type listType = new TypeToken<ArrayList<THSFaqPojo>>() {
+            }.getType();
+            ArrayList<THSFaqPojo> fags = new GsonBuilder().create().fromJson(jsonArray.toString(), listType);
+            for (THSFaqPojo thsfaq: fags) {
+                map.put(thsfaq.getSection(),thsfaq.getFaq());
+            }
+        }
+        mThsFaqFragment.updateFaqs(map);
     }
 
     /*public void api(){

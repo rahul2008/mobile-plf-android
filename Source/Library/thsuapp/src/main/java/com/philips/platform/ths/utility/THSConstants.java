@@ -157,4 +157,7 @@ public class THSConstants {
 
     public static final String THS_GENERIC_USER_ERROR = "Oops! Something went wrong, please check your details and try again";
     public static final String THS_GENERIC_SERVER_ERROR = "Oops! Something went wrong, please try after sometime";
+
+    //Faqs constants
+    public static final String THS_FAQ_SERVICE_ID = "Telehealth.FAQURL";
 }
