@@ -2,6 +2,8 @@ package com.philips.cdp2.ews.troubleshooting.wificonnectionfailure;
 
 import android.os.Bundle;
 
+import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
 
 import org.junit.Before;
@@ -14,6 +16,7 @@ import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class WrongWifiNetworkViewModelTest {
@@ -21,6 +24,8 @@ public class WrongWifiNetworkViewModelTest {
     @InjectMocks private WrongWifiNetworkViewModel subject;
 
     @Mock private Navigator mockNavigator;
+
+    @Mock private BaseContentConfiguration mockBaseContentConfiguration;
 
     @Before
     public void setUp() throws Exception {
@@ -48,5 +53,11 @@ public class WrongWifiNetworkViewModelTest {
         subject.setBundle(mock(Bundle.class));
 
         assertNotNull(subject.getBundle());
+    }
+
+    @Test
+    public void itShouldReturnIntForAppName() throws Exception {
+        when(mockBaseContentConfiguration.getAppName()).thenReturn(R.string.app_name);
+        assertEquals(R.string.app_name, subject.getAppName());
     }
 }

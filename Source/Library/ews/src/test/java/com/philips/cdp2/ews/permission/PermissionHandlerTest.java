@@ -13,11 +13,14 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.util.StringProvider;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
@@ -27,6 +30,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import static com.philips.cdp2.ews.viewmodel.EWSPressPlayAndFollowSetupViewModel.ACCESS_COARSE_LOCATION;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -38,10 +42,17 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @PrepareForTest({ContextCompat.class, Snackbar.class, Fragment.class})
 public class PermissionHandlerTest {
 
-    private PermissionHandler permissionHandler;
+    @InjectMocks PermissionHandler permissionHandler;
 
     @Mock
     private Context contextMock;
+
+    @Mock
+    BaseContentConfiguration mockBaseContentConfiguration;
+
+    @Mock
+    StringProvider mockStringProvider;
+
 
     @Before
     public void setUp() throws Exception {
@@ -50,8 +61,8 @@ public class PermissionHandlerTest {
         PowerMockito.mockStatic(ContextCompat.class);
         PowerMockito.mockStatic(Snackbar.class);
         PowerMockito.mockStatic(Fragment.class);
-
-        permissionHandler = new PermissionHandler();
+        when(mockBaseContentConfiguration.getAppName()).thenReturn(123234);
+        when(mockStringProvider.getString(R.string.label_location_permission_required, mockBaseContentConfiguration.getAppName())).thenReturn("appname");
     }
 
     @Test
@@ -92,9 +103,10 @@ public class PermissionHandlerTest {
 
         Mockito.when(fragmentMock.getView()).thenReturn(viewMock);
         Mockito.when(fragmentMock.getResources()).thenReturn(resMock);
-        String value = "Location Permission Is Require";
-        Mockito.when(resMock.getString(anyInt(), anyString())).thenReturn(value);
-        Mockito.when(Snackbar.make(viewMock, value, Snackbar.LENGTH_INDEFINITE)).thenReturn(snackBarMock);
+
+        when(Snackbar.make(viewMock,
+                mockStringProvider.getString(R.string.label_location_permission_required, mockBaseContentConfiguration.getAppName()),
+                Snackbar.LENGTH_INDEFINITE)).thenReturn(snackBarMock);
 
         permissionHandler.requestPermission(fragmentMock, R.string.label_location_permission_required,
                 ACCESS_COARSE_LOCATION, requestCode);

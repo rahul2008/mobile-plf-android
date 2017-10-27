@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
+import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
 import com.philips.cdp2.ews.util.StringProvider;
 
 import dagger.Module;
@@ -36,6 +37,11 @@ public class EWSConfigurationModule {
     @Provides
     HappyFlowContentConfiguration provideHappyFlowContentConfiguration(){
         return contentConfiguration.getHappyFlowContentConfiguration();
+    }
+
+    @Provides
+    TroubleShootContentConfiguration provideTroubleShootContentConfiguration(){
+        return contentConfiguration.getTroubleShootContentConfiguration();
     }
 
     @Provides

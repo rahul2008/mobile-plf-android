@@ -1,21 +1,29 @@
-package com.philips.cdp2.ews.view;
+package com.philips.cdp2.ews.troubleshooting.resetconnection;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.viewmodel.ResetConnectionTroubleshootingViewModel;
+import com.philips.cdp2.ews.databinding.FragmentResetConnectionTroubleshootingLayoutBinding;
+import com.philips.cdp2.ews.view.BaseTroubleShootingFragment;
+import com.philips.cdp2.ews.view.EWSActivity;
 
 public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingFragment {
+
+    @NonNull
+    FragmentResetConnectionTroubleshootingLayoutBinding fragmentResetConnectionTroubleshootingLayoutBinding;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_reset_connection_troubleshooting_layout, container, false);
+        fragmentResetConnectionTroubleshootingLayoutBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_reset_connection_troubleshooting_layout, container, false);
+        return fragmentResetConnectionTroubleshootingLayoutBinding.getRoot();
     }
 
     @Override
@@ -24,6 +32,7 @@ public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingF
 
         final ResetConnectionTroubleshootingViewModel viewModel = ((EWSActivity) getActivity()).getEWSComponent()
                         .resetConnectionTroubleshootingViewModel();
+        fragmentResetConnectionTroubleshootingLayoutBinding.setViewModel(viewModel);
 
         view.findViewById(R.id.ews_H_03_02_button_yes)
                 .setOnClickListener(new View.OnClickListener() {

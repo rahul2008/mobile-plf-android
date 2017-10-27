@@ -20,17 +20,17 @@ import com.philips.cdp2.ews.view.EWSBaseFragment;
 
 import javax.inject.Inject;
 
-public class SetDeviceInfoFragment extends EWSBaseFragment<FragmentEwsConnectDeviceBinding> {
+public class ConnectWithPasswordFragment extends EWSBaseFragment<FragmentEwsConnectDeviceBinding> {
 
     private static String DEVICE_FRIENDLY_NAME = "deviceFriendlyName";
     @Inject
-    SetDeviceInfoViewModel viewModel;
+    ConnectWithPasswordViewModel viewModel;
 
 
     public static Fragment newInstance(@NonNull String deviceFriendlyName) {
         Bundle data = new Bundle();
         data.putString(DEVICE_FRIENDLY_NAME, deviceFriendlyName);
-        SetDeviceInfoFragment fragment = new SetDeviceInfoFragment();
+        ConnectWithPasswordFragment fragment = new ConnectWithPasswordFragment();
         fragment.setArguments(data);
         return fragment;
     }

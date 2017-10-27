@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="lbl_appname">Healthy sleep solution</string>
+    <string name="lbl_devicename">BrightEyes</string>
+    <string name="lbl_connectwithdevice">Connect with your </string>
+    <string name="lbl_connectwithdevice_name">Connect with your %1$s </string>
+    <string name="lbl_ews_02_01_title">Make sure your device is powered on </string>
+    <string name="lbl_ews_02_01_body">Proposition specific instructions to power the device.</string>
+    
+    <string name="lbl_ews_H_03_01_title">EWS_H_03.01 connect to wrong phone title</string>
+    <string name="lbl_ews_H_03_01_body">EWS_H_03.01 connect to wrong phone body</string>
+    <string name="lbl_ews_H_03_01_question">EWS_H_03.01 connect to wrong phone question</string>
 
+    <string name="lbl_ews_H_03_02_title">EWS_H_03.02 reset connection title</string>
+    <string name="lbl_ews_H_03_02_body">EWS_H_03.02 reset connection body</string>
+
+    <string name="lbl_ews_H_03_03_title">EWS_H_03.03 reset device title</string>
+    <string name="lbl_ews_H_03_03_body">EWS_H_03.03 reset device body</string>
+
+    <string name="lbl_ews_H_03_04_title">EWS_H_03.04 setup access point mode title</string>
+    <string name="lbl_ews_H_03_04_body">EWS_H_03.04 setup access point mode body</string>
 </resources>

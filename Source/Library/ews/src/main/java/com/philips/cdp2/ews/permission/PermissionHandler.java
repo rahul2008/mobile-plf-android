@@ -16,15 +16,21 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.util.StringProvider;
 
 import javax.inject.Inject;
 
 @SuppressWarnings("WeakerAccess")
 public class PermissionHandler {
 
-    @Inject
-    public PermissionHandler() {
+    @NonNull BaseContentConfiguration baseContentConfiguration;
+    @NonNull StringProvider stringProvider;
 
+    @Inject
+    public PermissionHandler(@NonNull BaseContentConfiguration baseContentConfiguration, @NonNull StringProvider stringProvider) {
+        this.baseContentConfiguration = baseContentConfiguration;
+        this.stringProvider = stringProvider;
     }
 
     public boolean areAllPermissionsGranted(int[] grantResults) {
@@ -42,10 +48,10 @@ public class PermissionHandler {
     public void requestPermission(@NonNull final Fragment fragment,
                                   @StringRes final int title,
                                   @NonNull final String permission, final int requestCode) {
-        final Resources resources = fragment.getResources();
         //noinspection ConstantConditions
-        final Snackbar snack = Snackbar.make(fragment.getView(), resources.getString(title,
-                resources.getString(R.string.af_app_name)), Snackbar.LENGTH_INDEFINITE);
+        final Snackbar snack = Snackbar.make(fragment.getView(),
+                stringProvider.getString(title, baseContentConfiguration.getAppName()),
+                Snackbar.LENGTH_INDEFINITE);
 
         snack.setAction(android.R.string.ok, new View.OnClickListener() {
             @Override

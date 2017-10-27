@@ -1,5 +1,6 @@
-package com.philips.cdp2.ews.view;
+package com.philips.cdp2.ews.troubleshooting.resetdevice;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -7,15 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.viewmodel.ResetDeviceTroubleshootingViewModel;
+import com.philips.cdp2.ews.databinding.FragmentResetDeviceTroubleshootingLayoutBinding;
+import com.philips.cdp2.ews.view.BaseTroubleShootingFragment;
+import com.philips.cdp2.ews.view.EWSActivity;
 
 public class ResetDeviceTroubleshootingFragment extends BaseTroubleShootingFragment {
+
+    @Nullable
+    FragmentResetDeviceTroubleshootingLayoutBinding resetDeviceTroubleshootingLayoutBinding;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_reset_device_troubleshooting_layout, container, false);
+        resetDeviceTroubleshootingLayoutBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_reset_device_troubleshooting_layout, container, false);
+        return resetDeviceTroubleshootingLayoutBinding.getRoot();
     }
 
     @Override
@@ -25,6 +32,7 @@ public class ResetDeviceTroubleshootingFragment extends BaseTroubleShootingFragm
         final ResetDeviceTroubleshootingViewModel viewModel =
                 ((EWSActivity) getActivity()).getEWSComponent()
                         .resetDeviceTroubleshootingViewModel();
+        resetDeviceTroubleshootingLayoutBinding.setViewModel(viewModel);
 
         view.findViewById(R.id.ews_H_03_03_button_done)
                 .setOnClickListener(new View.OnClickListener() {

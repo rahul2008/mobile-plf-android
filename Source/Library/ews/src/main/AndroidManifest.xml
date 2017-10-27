@@ -13,17 +13,10 @@
         android:name=".EWSApplication"
         android:allowBackup="true"
         android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:supportsRtl="true">
         <activity
             android:name=".view.EWSActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/EWS">
-        </activity>
-        <activity
-            android:name=".troubleshooting.base.BaseDialogActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/EWSDialogActivity">
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

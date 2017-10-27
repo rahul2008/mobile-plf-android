@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
 
 import javax.inject.Inject;
@@ -22,10 +23,13 @@ public class WrongWifiNetworkViewModel {
 
     @Nullable public Bundle bundle;
 
+    @NonNull private BaseContentConfiguration baseContentConfiguration;
+
     @Inject
-    public WrongWifiNetworkViewModel(@NonNull Navigator navigator) {
+    public WrongWifiNetworkViewModel(@NonNull Navigator navigator, @NonNull BaseContentConfiguration baseContentConfiguration) {
         this.navigator = navigator;
         description = new ObservableField<>();
+        this.baseContentConfiguration = baseContentConfiguration;
     }
 
     void setDescription(@NonNull String name) {
@@ -43,5 +47,9 @@ public class WrongWifiNetworkViewModel {
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     Bundle getBundle() {
         return bundle;
+    }
+
+    public int getAppName(){
+        return baseContentConfiguration.getAppName();
     }
 }

@@ -8,6 +8,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.BR;
@@ -21,12 +22,19 @@ import javax.inject.Inject;
 
 public class EWSHomeWifiDisplayViewModel extends BaseObservable {
 
+    public interface ViewCallback {
+        void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
+    }
+
     @NonNull private final Navigator navigator;
     @NonNull private final WiFiUtil wiFiUtil;
 
     @NonNull private final StringProvider stringProvider;
     @NonNull public final ObservableField<String> title;
     @NonNull public final ObservableField<String> note;
+
+    @Nullable private ViewCallback viewCallback;
+    @NonNull private BaseContentConfiguration baseContentConfiguration;
 
     @Inject
     public EWSHomeWifiDisplayViewModel(@NonNull final Navigator navigator,
@@ -36,8 +44,13 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
         this.navigator = navigator;
         this.wiFiUtil = wiFiUtil;
         this.stringProvider = stringProvider;
+        this.baseContentConfiguration = baseConfig;
         title = new ObservableField<>(getTitle());
         note = new ObservableField<>(getNote(baseConfig));
+    }
+
+    public void setViewCallback(@Nullable ViewCallback viewCallback) {
+        this.viewCallback = viewCallback;
     }
 
     @Bindable
@@ -47,13 +60,15 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
 
     public void refresh() {
         notifyPropertyChanged(BR.homeWiFiSSID);
-        if (!wiFiUtil.isHomeWiFiEnabled()) {
-            navigator.navigateToWifiTroubleShootingScreen();
+        if (viewCallback != null && !wiFiUtil.isHomeWiFiEnabled()) {
+            viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration);
         }
     }
 
     public void onNoButtonClicked() {
-        navigator.navigateToWifiTroubleShootingScreen();
+        if (viewCallback != null) {
+            viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration);
+        }
     }
 
     public void onYesButtonClicked() {
