@@ -121,7 +121,7 @@ public class AIKManager implements AIKMInterface {
 
 
     @Override
-    public AIKMResponse getKeySet(String serviceId, String url) {
+    public AIKMResponse getServiceExtension(String serviceId, String url) {
         AIKMResponse aikmResponse = new AIKMResponse();
         try {
             aiKmHelper.init(appInfra);

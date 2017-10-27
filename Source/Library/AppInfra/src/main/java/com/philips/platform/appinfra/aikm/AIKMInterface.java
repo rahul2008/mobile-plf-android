@@ -27,5 +27,5 @@ public interface AIKMInterface {
                                Map<String, String> replacement,
                                OnGetServicesListener onGetServicesListener) throws AIKMJsonFileNotFoundException, JSONException;
 
-    AIKMResponse getKeySet(String serviceId, String url);
+    AIKMResponse getServiceExtension(String serviceId, String url);
 }

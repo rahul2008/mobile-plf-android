@@ -279,12 +279,14 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     @Override
     public void onSuccess(String services) {
         Log.i("OnGetServicesListener", "" + services);
+        keyBagTextView.setVisibility(View.GONE);
         resultView.setText(services);
     }
 
     @Override
     public void onError(ERRORVALUES error, String message) {
         Log.i("onError", "" + message);
+        keyBagTextView.setVisibility(View.GONE);
         resultView.setText(message);
     }
 
@@ -299,6 +301,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 //
 //            url = new URL("https://acc.philips.com/prx/product/%sector%/ar_RW/%catalog%/products/%ctn%.assets");
 //            URL newURl = mServiceDiscoveryInterface.replacePlaceholders(url, parameters);
+            keyBagTextView.setVisibility(View.GONE);
             resultView.setText("" + url);
 
         } catch (Exception e) {
@@ -308,6 +311,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     @Override
     public void onSuccess(String countryCode, SOURCE source) {
         resultView.setText("Country Code : " + countryCode + " Source : " + source);
+        keyBagTextView.setVisibility(View.GONE);
     }
 
     @Override
