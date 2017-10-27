@@ -51,6 +51,9 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
     @Inject
     EventingChannel<EventingChannel.ChannelCallback> ewsEventingChannel;
 
+    @Inject
+    Navigator navigator;
+
     EWSComponent ewsComponent;
 
     @Override
@@ -68,9 +71,9 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
 
         EWSTagger.collectLifecycleInfo(this);
 
-        //TODO move this initialization.
-        Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()));
-        navigator.navigateToGettingStartedScreen();
+        if (savedInstanceState == null) {
+            navigator.navigateToGettingStartedScreen();
+        }
 
         FontIconDrawable drawable = new FontIconDrawable(this, getResources().getString(R.string.dls_cross_24), TypefaceUtils.load(getAssets(), "fonts/iconfont.ttf"))
                 .sizeRes(R.dimen.ews_gs_icon_size);
