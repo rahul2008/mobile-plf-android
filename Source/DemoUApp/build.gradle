@@ -186,6 +186,7 @@ dependencies {
     }
 
     compile deps.support.design
+    compile "com.android.support:cardview-v7:${versions.support}"
 
     testCompile deps.junit
 }

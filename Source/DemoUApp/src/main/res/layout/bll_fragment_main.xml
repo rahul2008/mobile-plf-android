@@ -1,34 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2015-2017 Koninklijke Philips N.V.
+  ~ All rights reserved.
+  -->
+
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                  xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 xmlns:tools="http://schemas.android.com/tools"
-                                                 android:id="@+id/bll_main_content"
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
-                                                 android:fitsSystemWindows="true"
-                                                 tools:context=".BlueLibExampleActivity">
+                                                 android:orientation="vertical"
+                                                 android:background="?android:attr/colorBackground">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/bll_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/bll_appbar_padding_top"
         android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/bll_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/bll_action_bar_size"
-            android:background="@color/bll_colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-
-        </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/bll_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager

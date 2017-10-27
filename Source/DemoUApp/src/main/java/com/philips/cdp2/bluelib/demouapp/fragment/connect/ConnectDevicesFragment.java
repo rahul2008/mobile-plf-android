@@ -5,7 +5,6 @@
 
 package com.philips.cdp2.bluelib.demouapp.fragment.connect;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -18,10 +17,10 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.bluelib.demouapp.BluelibUapp;
 import com.philips.cdp2.bluelib.demouapp.R;
-import com.philips.cdp2.bluelib.demouapp.fragment.device.BaseDeviceAdapter;
-import com.philips.cdp2.bluelib.demouapp.fragment.device.DeviceDetailActivity;
+import com.philips.cdp2.bluelib.demouapp.adapter.BaseDeviceAdapter;
+import com.philips.cdp2.bluelib.demouapp.adapter.ConnectDeviceAdapter;
 import com.philips.cdp2.bluelib.demouapp.fragment.device.DeviceFragment;
-import com.philips.cdp2.bluelib.demouapp.fragment.device.DeviceScanner;
+import com.philips.cdp2.bluelib.demouapp.util.DeviceScanner;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 
 import java.util.ArrayList;

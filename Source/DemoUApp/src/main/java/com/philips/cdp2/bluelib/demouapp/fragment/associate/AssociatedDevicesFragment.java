@@ -5,7 +5,6 @@
 
 package com.philips.cdp2.bluelib.demouapp.fragment.associate;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -15,9 +14,9 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.bluelib.demouapp.BluelibUapp;
 import com.philips.cdp2.bluelib.demouapp.R;
-import com.philips.cdp2.bluelib.demouapp.fragment.device.BaseDeviceAdapter;
-import com.philips.cdp2.bluelib.demouapp.fragment.device.DeviceDefinitionAdapter;
-import com.philips.cdp2.bluelib.demouapp.fragment.device.DeviceDetailActivity;
+import com.philips.cdp2.bluelib.demouapp.adapter.AssociatedDeviceAdapter;
+import com.philips.cdp2.bluelib.demouapp.adapter.BaseDeviceAdapter;
+import com.philips.cdp2.bluelib.demouapp.adapter.DeviceDefinitionAdapter;
 import com.philips.cdp2.bluelib.demouapp.fragment.device.DeviceFragment;
 import com.philips.cdp2.bluelib.demouapp.util.UiUtils;
 import com.philips.pins.shinelib.SHNAssociationProcedure;

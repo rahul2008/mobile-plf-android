@@ -32,13 +32,11 @@ public class MainFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.bll_activity_main, container, false);
+        View rootview = inflater.inflate(R.layout.bll_fragment_main, container, false);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
-
-
 
         // Set up the ViewPager with the sections adapter.
         ViewPager viewPager = rootview.findViewById(R.id.bll_container);

@@ -7,5 +7,5 @@ package com.philips.cdp2.bluelib.demoapp;
 
 import android.app.Application;
 
-public class BleExampleApplication extends Application {
+public class MainApplication extends Application {
 }
