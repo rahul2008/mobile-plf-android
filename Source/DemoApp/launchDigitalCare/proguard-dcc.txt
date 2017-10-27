@@ -15,6 +15,7 @@
 
 #Tagging
 
+-keep public class com.adobe.mobile.** {*;}
 -dontwarn com.adobe.mobile.** {*;}
 
 
