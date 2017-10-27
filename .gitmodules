@@ -1,9 +1,0 @@
-[submodule "Source/common"]
-	path = Source/common
-	url = ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/connectivity-other-common
-[submodule "Source/Library/commlib-integration-tests/src/androidTest/assets/features"]
-	path = Source/Library/commlib-integration-tests/src/androidTest/assets/features
-	url = ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/cml-other-commlib-bdd
-[submodule "Source/bluelib"]
-	path = Source/bluelib
-	url = ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/bll-android-bluelib
