@@ -245,7 +245,7 @@ dependencies {
                 transitive = true
             }
 
-    def daggerVer = 2.10
+    def daggerVer = 2.11
 
     compile "com.google.dagger:dagger:$daggerVer"
     compile "com.google.dagger:dagger-android-support:$daggerVer"
