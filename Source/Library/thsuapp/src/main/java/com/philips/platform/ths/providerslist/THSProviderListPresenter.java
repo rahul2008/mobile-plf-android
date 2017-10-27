@@ -21,9 +21,8 @@ import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
-import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
-import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSDateEnum;
 import com.philips.platform.ths.utility.THSManager;
@@ -32,21 +31,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class THSProviderListPresenter implements THSProvidersListCallback, THSBasePresenter,THSOnDemandSpecialtyCallback<List<THSOnDemandSpeciality>,THSSDKError> {
+public class THSProviderListPresenter implements THSProvidersListCallback, THSBasePresenter, THSOnDemandSpecialtyCallback<List<THSOnDemandSpeciality>, THSSDKError> {
 
     private THSBaseFragment mThsBaseFragment;
     private THSProviderListViewInterface thsProviderListViewInterface;
     private List<THSOnDemandSpeciality> mThsOnDemandSpeciality;
 
 
-    public THSProviderListPresenter(THSBaseFragment uiBaseView, THSProviderListViewInterface thsProviderListViewInterface){
+    public THSProviderListPresenter(THSBaseFragment uiBaseView, THSProviderListViewInterface thsProviderListViewInterface) {
         this.mThsBaseFragment = uiBaseView;
         this.thsProviderListViewInterface = thsProviderListViewInterface;
     }
 
-    public void fetchProviderList(Consumer consumer, Practice practice){
+    public void fetchProviderList(Consumer consumer, Practice practice) {
         try {
-            getPthManager().getProviderList(mThsBaseFragment.getFragmentActivity(), practice,this);
+            getPthManager().getProviderList(mThsBaseFragment.getFragmentActivity(), practice, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -60,12 +59,16 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
     @Override
     public void onProvidersListReceived(List<THSProviderInfo> providerInfoList, SDKError sdkError) {
-        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             if (null != providerInfoList && providerInfoList.size() > 0 && null == sdkError) {
                 boolean providerAvailable = isProviderAvailable(providerInfoList);
                 updateFragment(providerInfoList, providerAvailable);
             } else if (null != sdkError) {
-                AmwellLog.e(THSProviderDetailsFragment.TAG, sdkError.getMessage());
+                if(null != sdkError.getSDKErrorReason()) {
+                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()),true);
+                }else {
+                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR,true);
+                }
             } else {
                 thsProviderListViewInterface.showNoProviderErrorDialog();
             }
@@ -77,9 +80,9 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         thsProviderListViewInterface.updateProviderAdapterList(providerInfoList);
     }
 
-    boolean isProviderAvailable(List<THSProviderInfo> providerInfoList){
-        for (THSProviderInfo thsProviderInfo: providerInfoList) {
-            if(!ProviderVisibility.isOffline(thsProviderInfo.getVisibility())){
+    boolean isProviderAvailable(List<THSProviderInfo> providerInfoList) {
+        for (THSProviderInfo thsProviderInfo : providerInfoList) {
+            if (!ProviderVisibility.isOffline(thsProviderInfo.getVisibility())) {
                 return true;
             }
         }
@@ -88,7 +91,9 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
     @Override
     public void onProvidersListFetchError(Throwable throwable) {
-
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+        }
     }
 
     @Override
@@ -133,24 +138,37 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
     @Override
     public void onResponse(List<THSOnDemandSpeciality> onDemandSpecialties, THSSDKError sdkError) {
-        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-            if (onDemandSpecialties == null || onDemandSpecialties.size() == 0) {
-                mThsBaseFragment.showToast("No OnDemandSpecialities available at present, please try after some time");
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            if (null != sdkError.getSdkError()) {
+                if (null != sdkError.getSDKErrorReason()) {
+                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    return;
+                } else {
+                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                    return;
+                }
+            } else {
+                if (onDemandSpecialties == null || onDemandSpecialties.size() == 0) {
+                    mThsBaseFragment.showToast("No OnDemandSpecialities available at present, please try after some time");
+                    mThsBaseFragment.hideProgressBar();
+                    return;
+                }
+                mThsOnDemandSpeciality = onDemandSpecialties;
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(THSConstants.THS_ON_DEMAND, onDemandSpecialties.get(0));
+                final THSSymptomsFragment fragment = new THSSymptomsFragment();
+                fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
+                mThsBaseFragment.addFragment(fragment, THSSymptomsFragment.TAG, bundle, true);
                 mThsBaseFragment.hideProgressBar();
-                return;
             }
-            mThsOnDemandSpeciality = onDemandSpecialties;
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(THSConstants.THS_ON_DEMAND, onDemandSpecialties.get(0));
-            final THSSymptomsFragment fragment = new THSSymptomsFragment();
-            fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
-            mThsBaseFragment.addFragment(fragment, THSSymptomsFragment.TAG, bundle,true);
-            mThsBaseFragment.hideProgressBar();
         }
     }
 
     @Override
     public void onFailure(Throwable throwable) {
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+        }
 
     }
 }

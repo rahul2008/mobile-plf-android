@@ -150,6 +150,11 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
         }
     }
 
+    @Override
+    public void showToast(String toastMessange) {
+
+    }
+
     class CustomPagerAdapter extends PagerAdapter {
 
         Context mContext;

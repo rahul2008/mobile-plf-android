@@ -10,16 +10,18 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
 
 import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
-import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppointmentsCallback<List<Appointment>, THSSDKError>, THSInitializeCallBack<Void, THSSDKError> {
 
@@ -58,7 +60,7 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
     @Override
     public void onFailure(Throwable throwable) {
         if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
-            AmwellLog.i(AmwellLog.LOG, "appoint throwable");
+            mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.ths_se_server_error_toast_message),true);
             setProgressBarVisibility(false);
         }
     }
@@ -66,8 +68,17 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
     @Override
     public void onInitializationResponse(Void var1, THSSDKError var2) {
         if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", "appointmentsCancelled");
-            mThsScheduledVisitsFragment.refreshList();
+            if(var2.getSdkError() != null){
+                if(var2.getSDKErrorReason() != null){
+                    mThsScheduledVisitsFragment.showError(THSSDKErrorFactory.getErrorType(var2.getSDKErrorReason()));
+                    return;
+                }else {
+                    mThsScheduledVisitsFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                }
+            }else {
+                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", "appointmentsCancelled");
+                mThsScheduledVisitsFragment.refreshList();
+            }
         }
     }
 

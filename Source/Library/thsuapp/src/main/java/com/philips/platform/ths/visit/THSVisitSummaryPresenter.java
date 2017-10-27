@@ -1,30 +1,21 @@
 package com.philips.platform.ths.visit;
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
-import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.init.THSInitFragment;
 import com.philips.platform.ths.intake.THSSDKCallback;
-import com.philips.platform.ths.practice.THSPracticeFragment;
-import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
-import com.philips.platform.ths.welcome.THSWelcomeFragment;
 
 import java.util.HashMap;
 
@@ -154,12 +145,25 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
 
     @Override
     public void onResponse(Void var1, SDKError var2) {
+        if (null != mTHSVisitSummaryFragment && mTHSVisitSummaryFragment.isFragmentAttached()) {
+            if (null != var2) {
+                if (null != var2.getSDKErrorReason()) {
+                    mTHSVisitSummaryFragment.showError(THSSDKErrorFactory.getErrorType(var2.getSDKErrorReason()));
+                    return;
+                }else {
+                    mTHSVisitSummaryFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                }
+            }
+        }
         AmwellLog.d("Send rating", "success");
     }
 
     @Override
     public void onFailure(Throwable throwable) {
         AmwellLog.d("Send rating", "failure");
+        if (null != mTHSVisitSummaryFragment && mTHSVisitSummaryFragment.isFragmentAttached()) {
+            mTHSVisitSummaryFragment.showError(mTHSVisitSummaryFragment.getResources().getString(R.string.ths_se_server_error_toast_message),true);
+        }
     }
 
 

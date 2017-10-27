@@ -9,6 +9,7 @@ package com.philips.platform.ths.settings;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.visit.VisitReport;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -39,7 +40,7 @@ public class THSVisitHistoryPresenter implements THSBasePresenter, THSVisitRepor
     public void onResponse(List<VisitReport> visitReports, SDKError sdkError) {
         if(null!= mThsVisitHistoryFragment && mThsVisitHistoryFragment.isFragmentAttached()) {
             if (sdkError != null) {
-                mThsVisitHistoryFragment.showToast(sdkError.getSDKErrorReason().name());
+                mThsVisitHistoryFragment.showError(mThsVisitHistoryFragment.getString(R.string.ths_se_server_error_toast_message), true);
                 return;
             }
             mThsVisitHistoryFragment.updateVisitHistoryView(visitReports);
@@ -49,7 +50,9 @@ public class THSVisitHistoryPresenter implements THSBasePresenter, THSVisitRepor
 
     @Override
     public void onFailure(Throwable throwable) {
-
+        if(null!= mThsVisitHistoryFragment && mThsVisitHistoryFragment.isFragmentAttached()) {
+            mThsVisitHistoryFragment.showError(mThsVisitHistoryFragment.getString(R.string.ths_se_server_error_toast_message), true);
+        }
     }
 }
 

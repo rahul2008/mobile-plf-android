@@ -25,6 +25,7 @@ import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
@@ -40,7 +41,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anySet;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -99,12 +99,18 @@ public class THSSearchPresenterTest {
     @Mock
     Pharmacy pharmacyMock;
 
+    @Mock
+    THSConsumer thsConsumer;
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         when(thsSearchFragment.getFragmentActivity()).thenReturn(fragmentActivityMock);
         THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
         THSManager.getInstance().setAwsdk(awsdkMock);
+
+        THSManager.getInstance().setThsConsumer(thsConsumer);
+        when(thsConsumer.getConsumer()).thenReturn(consumerMock);
+        THSManager.getInstance().setThsParentConsumer(thsConsumer);
         when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiceProvidersManager);
@@ -124,8 +130,9 @@ public class THSSearchPresenterTest {
 
     @Test
     public void onFailure() throws Exception {
+        when(thsSearchFragment.isFragmentAttached()).thenReturn(true);
         mTHSSearchPresenter.onFailure(throwableMock);
-        verify(thsSearchFragment).showToast(anyString());
+        verify(thsSearchFragment).showToast(anyInt());
     }
 
     @Test
@@ -161,14 +168,16 @@ public class THSSearchPresenterTest {
 
     @Test
     public void onProvidersListFetchError() throws Exception {
+        when(thsSearchFragment.isFragmentAttached()).thenReturn(true);
         mTHSSearchPresenter.onProvidersListFetchError(throwableMock);
-        verify(thsSearchFragment).showToast(anyString());
+        verify(thsSearchFragment).showToast(anyInt());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void onPharmacyListReceived() throws Exception {
         List list = new ArrayList();
         list.add(pharmacyMock);
+        when(thsSearchFragment.isFragmentAttached()).thenReturn(true);
         mTHSSearchPresenter.onPharmacyListReceived(list,sdkErrorMock);
     }
 

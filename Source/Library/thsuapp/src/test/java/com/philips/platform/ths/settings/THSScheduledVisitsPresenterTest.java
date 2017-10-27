@@ -7,6 +7,7 @@
 package com.philips.platform.ths.settings;
 
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.SDKError;
@@ -18,6 +19,7 @@ import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
@@ -26,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -123,8 +126,14 @@ public class THSScheduledVisitsPresenterTest {
         verify(thsScheduledVisitsFragmentMock).updateList(anyList());
     }
 
-    @Test
+    @Mock
+    Resources resourcesMock;
+    @Test(expected = NullPointerException.class)
     public void onFailure() throws Exception {
+        SupportFragmentTestUtil.startFragment(thsScheduledVisitsFragmentMock);
+        when(thsScheduledVisitsFragmentMock.isFragmentAttached()).thenReturn(false);
+        when(thsScheduledVisitsFragmentMock.getResources()).thenReturn(resourcesMock);
+        when(thsScheduledVisitsFragmentMock.getString(R.string.ths_se_server_error_toast_message)).thenReturn("Something");
         mTHSScheduledVisitsPresenter.onFailure(throwableMock);
         verify(thsScheduledVisitsFragmentMock).hideProgressBar();
     }

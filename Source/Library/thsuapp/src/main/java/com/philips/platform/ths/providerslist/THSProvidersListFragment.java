@@ -38,8 +38,6 @@ import com.philips.platform.uid.view.widget.Label;
 import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_LIST;
-import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
-import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 public class THSProvidersListFragment extends THSBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, THSProviderListViewInterface {
     public static final String TAG = THSProvidersListFragment.class.getSimpleName();
@@ -184,7 +182,13 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     public void showNoProviderErrorDialog() {
         alertDialogFragment = new AlertDialogFragment.Builder(UIDHelper.getPopupThemedContext(getContext())).setDialogType(DialogConstants.TYPE_ALERT).setTitle(R.string.ths_provider_fetch_error)
                 .setMessage(R.string.ths_provider_fetch_error_text).
-                        setPositiveButton(R.string.ths_insurance_not_verified_confirm_primary_button_text, this).setCancelable(false).create();
+                        setPositiveButton(R.string.ths_insurance_not_verified_confirm_primary_button_text, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alertDialogFragment.dismiss();
+                                getActivity().getSupportFragmentManager().popBackStack();
+                            }
+                        }).setCancelable(false).create();
         alertDialogFragment.show(getActivity().getSupportFragmentManager(),DIALOG_TAG);
 
     }
@@ -205,10 +209,6 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
             Bundle bundle = new Bundle();
             bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING,THSConstants.PROVIDER_SEARCH_CONSTANT);
             addFragment(thsSearchFragment,THSSearchFragment.TAG,bundle, true);
-        }
-        else if(i == R.id.uid_dialog_positive_button){
-            alertDialogFragment.dismiss();
-            getActivity().getSupportFragmentManager().popBackStack();
         }
     }
 

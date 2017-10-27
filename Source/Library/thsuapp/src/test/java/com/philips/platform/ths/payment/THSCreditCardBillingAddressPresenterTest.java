@@ -17,6 +17,9 @@ import com.americanwell.sdk.entity.billing.CreatePaymentRequest;
 import com.americanwell.sdk.entity.billing.PaymentMethod;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.manager.ConsumerManager;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
@@ -29,6 +32,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Map;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -89,11 +93,22 @@ public class THSCreditCardBillingAddressPresenterTest {
     @Mock
     CreatePaymentRequest createPaymentRequestMock;
 
+    @Mock
+    AppInfraInterface appInfraInterface;
+
+    @Mock
+    AppTaggingInterface appTaggingInterface;
+
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         THSManager.getInstance().setAwsdk(awsdk);
+
+        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        THSManager.getInstance().setAppInfra(appInfraInterface);
+
         when(thsCreditCardBillingAddressFragment.getFragmentActivity()).thenReturn(fragmentActivityMock);
         THSManager.getInstance().setPTHConsumer(thsConsumermock);
         when(thsConsumermock.getConsumer()).thenReturn(consumerMock);

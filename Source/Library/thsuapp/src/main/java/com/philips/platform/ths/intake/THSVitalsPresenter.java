@@ -13,13 +13,13 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.EditText;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
@@ -63,7 +63,9 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
 
     @Override
     public void onFailure(Throwable var1) {
-
+        if(null!=mPthBaseFragment && mPthBaseFragment.isFragmentAttached()) {
+            mPthBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+        }
     }
 
     @Override
@@ -80,15 +82,20 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
                 tagSuccess();
                 thsvItalsUIInterface.launchMedicationFragment();
                 mPthBaseFragment.showToast("UPDATE SUCCESS");
-            } else
-                mPthBaseFragment.showToast("UPDATE FAILED");
+            } else if(null != sdkError) {
+                if(null != sdkError.getSDKErrorReason()) {
+                    mPthBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                }else {
+                    mPthBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                }
+            }
         }
     }
 
     @Override
     public void onUpdateVitalsFailure(Throwable throwable) {
         if(null!=mPthBaseFragment && mPthBaseFragment.isFragmentAttached()) {
-            mPthBaseFragment.showToast("onUpdateVitalsFailure throwable");
+            mPthBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
         }
     }
 

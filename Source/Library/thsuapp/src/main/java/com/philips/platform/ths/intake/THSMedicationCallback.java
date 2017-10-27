@@ -12,12 +12,14 @@ public interface THSMedicationCallback {
 
     interface PTHGetMedicationCallback {
         void onGetMedicationReceived(THSMedication pTHMedication, SDKError sDKError);
+        void onFailure(Throwable throwable);
 
     }
 
 
     interface PTHUpdateMedicationCallback {
         void onUpdateMedicationSent(Void pVoid, SDKError sDKError);
+        void onFailure(Throwable throwable);
 
     }
 }

@@ -11,8 +11,10 @@ import android.os.Bundle;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -82,13 +84,24 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
 
     //////////////// start of call backs for get existing medicines//////////////
     @Override
-    public void onGetMedicationReceived(THSMedication pTHMedication, SDKError sDKError) {
-        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
-            ((THSMedicationFragment) mTHSBaseFragment).hideProgressBar();
-            AmwellLog.i("onGetMedicationReceived", "Success");
-            ((THSMedicationFragment) mTHSBaseFragment).showExistingMedicationList(pTHMedication);
+    public void onGetMedicationReceived(THSMedication thsMedication, SDKError sDKError) {
+        if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            mTHSBaseFragment.hideProgressBar();
+            if (null != sDKError && sDKError.getSDKErrorReason() != null) {
+                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(sDKError.getSDKErrorReason()));
+            } else {
+                AmwellLog.i("onGetMedicationReceived", "Success");
+                ((THSMedicationFragment) mTHSBaseFragment).showExistingMedicationList(thsMedication);
+            }
         }
 
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+        if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            mTHSBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+        }
     }
     //////////////// end of call backs for get existing medicines//////////////
 
@@ -99,14 +112,23 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
     @Override
     public void onUpdateMedicationSent(Void pVoid, SDKError sDKError) {
 
-        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
-            ((THSMedicationFragment) mTHSBaseFragment).hideProgressBar();
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", ((THSMedicationFragment) mTHSBaseFragment).tagAction);
-            AmwellLog.i("onUpdateMedication", "success");
-            // addF
-            final THSMedicalConditionsFragment fragment = new THSMedicalConditionsFragment();
-            fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-            ((THSMedicationFragment) mTHSBaseFragment).addFragment(fragment, THSMedicalConditionsFragment.TAG, null, true);
+        if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            mTHSBaseFragment.hideProgressBar();
+            if (null != sDKError) {
+                if (sDKError.getSDKErrorReason() != null) {
+                    mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(sDKError.getSDKErrorReason()));
+                } else {
+                    mTHSBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                }
+            } else {
+
+                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", ((THSMedicationFragment) mTHSBaseFragment).tagAction);
+                AmwellLog.i("onUpdateMedication", "success");
+                // addF
+                final THSMedicalConditionsFragment fragment = new THSMedicalConditionsFragment();
+                fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
+                ((THSMedicationFragment) mTHSBaseFragment).addFragment(fragment, THSMedicalConditionsFragment.TAG, null, true);
+            }
         }
     }
     //////////////// end of call backs for update medicines//////////////

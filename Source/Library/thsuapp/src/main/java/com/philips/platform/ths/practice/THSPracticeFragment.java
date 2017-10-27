@@ -27,7 +27,7 @@ import com.philips.platform.uid.view.widget.Label;
 import static com.philips.platform.ths.utility.THSConstants.THS_PRACTICE_PAGE;
 
 
-public class THSPracticeFragment extends THSBaseFragment{
+public class THSPracticeFragment extends THSBaseFragment implements THSPracticeListViewInterface{
 
     public static final String TAG = THSPracticeFragment.class.getSimpleName();
 
@@ -82,7 +82,9 @@ public class THSPracticeFragment extends THSBaseFragment{
                mPresenter.showProviderList(practice);
                }
         });
+    }
 
-
+    public void showErrorToast(){
+     showToast(R.string.ths_se_server_error_toast_message);
     }
 }

@@ -4,6 +4,7 @@ import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.pharmacy.THSConsumerShippingAddressCallback;
 import com.philips.platform.ths.pharmacy.THSPreferredPharmacyCallback;
@@ -58,6 +59,8 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
 
     @Override
     public void onFailure(Throwable throwable) {
-
+        if(null!=thsCheckPharmacyConditonsView && null!=thsCheckPharmacyConditonsView.getFragmentActivity()) {
+            thsCheckPharmacyConditonsView.showToast(thsCheckPharmacyConditonsView.getFragmentActivity().getResources().getString(R.string.ths_se_server_error_toast_message));
+        }
     }
 }
