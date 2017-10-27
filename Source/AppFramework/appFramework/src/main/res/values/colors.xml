@@ -9,14 +9,4 @@
     <color name="overlay_background">#343434</color>
     <color name="overlay_got_it_button_bg">#696969</color>
     <color name="colorAccentBright">#57f2e6</color>
-    <color name="uidContentItemDefaultNormalTitleTextColor">@color/black</color>
-    <color name="uidContentItemDefaultNormalDescriptorTextColor">@color/black</color>
-    <color name="uidContentItemDefaultNormalDescriptorIconColor">@color/black</color>
-    <color name="uidContentItemDefaultNormalBodyTextColor">@color/black</color>
-    <color name="uidContentItemDefaultNormalSubtitleTextColor">@color/black</color>
-    <color name="uidContentItemDefaultNormalSubtleBodyTextColor">@color/black</color>
-    <color name="uidContentItemDefaultDisabledSubtitleTextColor">@color/black</color>
-
-
-
 </resources>
