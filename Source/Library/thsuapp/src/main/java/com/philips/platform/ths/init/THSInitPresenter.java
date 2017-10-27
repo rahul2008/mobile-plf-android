@@ -73,8 +73,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
                 }
             }
         }else {
-            //checkForUserExisitance();
-            launchWelcomeScreen();
+            checkForUserExisitance();
         }
     }
 

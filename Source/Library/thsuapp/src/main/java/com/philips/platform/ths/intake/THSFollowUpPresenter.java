@@ -78,8 +78,10 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
 
     @Override
     public void onUpdateConsumerResponse(THSConsumerWrapper thsConsumer, THSSDKPasswordError sdkPasswordError) {
-        if(null != sdkPasswordError.getSdkPasswordError().getSDKErrorReason()) {
-            thsFollowUpViewInterfaces.showError(THSSDKErrorFactory.getErrorType(sdkPasswordError.getSdkPasswordError().getSDKErrorReason()));
+        if(null != sdkPasswordError.getSdkPasswordError()) {
+                if(null != sdkPasswordError.getSdkPasswordError().getSDKErrorReason()) {
+                    thsFollowUpViewInterfaces.showError(THSSDKErrorFactory.getErrorType(sdkPasswordError.getSdkPasswordError().getSDKErrorReason()));
+                }
         }
         else {
             thsFollowUpViewInterfaces.hideProgressButton();
