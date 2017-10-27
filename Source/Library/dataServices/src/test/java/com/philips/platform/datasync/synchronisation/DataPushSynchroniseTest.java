@@ -129,7 +129,6 @@ public class DataPushSynchroniseTest {
     }
 
     @Test
-
     public void postSyncCompleteWhenConfigurableSenders() {
         givenUserIsLoggedIn();
         givenConfigurableSenderList();
