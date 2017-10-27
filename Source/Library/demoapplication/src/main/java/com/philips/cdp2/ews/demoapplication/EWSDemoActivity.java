@@ -35,6 +35,7 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
     private Spinner configSpinner;
     private static final String WAKEUP_LIGHT = "wl";
     private static final String AIRPURIFIER = "ap";
+    private static final String DEFAULT = "Default";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +119,7 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private boolean isDefaultValueSelected(){
-        if (configSpinner.getSelectedItem().equals(getResources().getString(R.string.default_value))){
+        if (configSpinner.getSelectedItem().equals(DEFAULT)){
             return true;
         }
         return false;

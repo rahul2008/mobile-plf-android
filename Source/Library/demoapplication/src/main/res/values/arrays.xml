@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="configurations">
-        <item>@string/default_value</item>
-        <item>@string/wakeuplight</item>
-        <item>@string/airpurifier</item>
+    <string-array name="configurations" translatable="false">
+        <item>Default</item>
+        <item>Wakeup Light</item>
+        <item>Air Purifier</item>
     </string-array>
+
 </resources>
