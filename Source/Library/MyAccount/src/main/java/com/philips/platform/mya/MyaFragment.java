@@ -27,8 +27,8 @@ public class MyaFragment extends Fragment implements
     private FragmentManager mFragmentManager;
     private ActionBarListener mActionBarListener;
 
-    public String applicationName;
-    public String propositionName;
+    private String applicationName;
+    private String propositionName;
 
     static String BACK_STACK_ID = MyaFragment.class.getSimpleName();
 
@@ -40,9 +40,19 @@ public class MyaFragment extends Fragment implements
         if (mFragmentManager.getBackStackEntryCount() < 1) {
             inflateAccountView();
         }
+
+        Bundle state = savedInstanceState != null ? savedInstanceState : getArguments();
+        applicationName = state.getString(BUNDLE_KEY_APPLICATION_NAME);
+        propositionName = state.getString(BUNDLE_KEY_PROPOSITION_NAME);
+
         return view;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        bundle.putString(BUNDLE_KEY_APPLICATION_NAME, applicationName);
+        bundle.putString(BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+    }
 
     public boolean onBackPressed() {
         return handleBackStack();
@@ -72,17 +82,22 @@ public class MyaFragment extends Fragment implements
         }
     }*/
 
-    public void inflateAccountView() {
+    private void inflateAccountView() {
         try {
             if (null != mFragmentManager) {
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.csw_frame_layout_view_container, new AccountView());
+                fragmentTransaction.replace(R.id.csw_frame_layout_view_container, buildAccountView());
                 fragmentTransaction.commitAllowingStateLoss();
             }
         } catch (IllegalStateException ignore) {
         }
     }
 
+    private AccountView buildAccountView() {
+        AccountView accountView = new AccountView();
+        accountView.setArguments(applicationName, propositionName);
+        return accountView;
+    }
 
     @Override
     public void onClick(View v) {
@@ -128,10 +143,10 @@ public class MyaFragment extends Fragment implements
     private static final String BUNDLE_KEY_APPLICATION_NAME = "appName";
     private static final String BUNDLE_KEY_PROPOSITION_NAME = "propName";
 
-    public static Bundle buildBundle(String applicationName, String propositionName) {
+    public void setArguments(String applicationName, String propositionName) {
         Bundle b = new Bundle();
         b.putString(BUNDLE_KEY_APPLICATION_NAME, applicationName);
         b.putString(BUNDLE_KEY_PROPOSITION_NAME, propositionName);
-        return b;
+        this.setArguments(b);
     }
 }

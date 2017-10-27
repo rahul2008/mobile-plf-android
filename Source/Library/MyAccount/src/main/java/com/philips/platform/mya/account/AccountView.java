@@ -10,6 +10,7 @@ package com.philips.platform.mya.account;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +26,18 @@ import com.philips.platform.uid.view.widget.Button;
 public class AccountView extends MyaBaseFragment implements
         AccountInterface, View.OnClickListener {
 
+    private static final String BUNDLE_KEY_APPLICATION_NAME = "appName";
+    private static final String BUNDLE_KEY_PROPOSITION_NAME = "propName";
+
     private Button myaFragmentLaunch;
     private Button myaActivityLaunch;
 
     private AccountPresenter accountPresenter;
+
+    private String applicationName;
+    private String propositionName;
+
+    public AccountView() {}
 
     @Override
     protected void setViewParams(Configuration config, int width) {
@@ -47,13 +56,26 @@ public class AccountView extends MyaBaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mya_fragment_account, container, false);
+
+        Bundle state = savedInstanceState != null ? savedInstanceState : getArguments();
+        applicationName = state.getString(BUNDLE_KEY_APPLICATION_NAME);
+        propositionName = state.getString(BUNDLE_KEY_PROPOSITION_NAME);
+
+        Log.i("onCreateView", "applicationName:" + applicationName + "propositionsName:" + propositionName);
+
         return view;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        bundle.putString(BUNDLE_KEY_APPLICATION_NAME, applicationName);
+        bundle.putString(BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         accountPresenter = new AccountPresenter(this, getContext());
 
         myaFragmentLaunch = (Button) getView().findViewById(R.id.mya_account_permissions);
@@ -90,6 +112,13 @@ public class AccountView extends MyaBaseFragment implements
         CswLaunchInput cswLaunchInput = new CswLaunchInput();
         cswLaunchInput.setContext(getContext());
         uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), cswLaunchInput);
+    }
+
+    public void setArguments(String applicationName, String propositionName) {
+        Bundle b = new Bundle();
+        b.putString(BUNDLE_KEY_APPLICATION_NAME, applicationName);
+        b.putString(BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        this.setArguments(b);
     }
 
 }

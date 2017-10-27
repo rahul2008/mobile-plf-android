@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
+import com.philips.platform.mya.catk.utils.ConsentUtil;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -37,6 +39,7 @@ public class MyaInterface implements UappInterface {
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher,
                                   UappLaunchInput uappLaunchInput) {
+        Log.i("launchAsFragment", "LaunchInput: " + uappLaunchInput.getClass().toString());
         try {
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
                     getSupportFragmentManager();
@@ -59,8 +62,9 @@ public class MyaInterface implements UappInterface {
 
     private MyaFragment buildFragment(ActionBarListener listener) {
         MyaFragment myaFragment = new MyaFragment();
-        Bundle bundle = MyaFragment.buildBundle(myaSettings.applicationName, myaSettings.propositionName);
-        myaFragment.setArguments(bundle);
+        String applicationName = myaSettings.applicationName != null ? myaSettings.applicationName : ConsentUtil.APPLICATION_NAME;
+        String propositionName = myaSettings.propositionName != null ? myaSettings.propositionName : ConsentUtil.PROPOSITION_NAME;
+        myaFragment.setArguments(applicationName, propositionName);
         myaFragment.setOnUpdateTitleListener(listener);
         return myaFragment;
     }
