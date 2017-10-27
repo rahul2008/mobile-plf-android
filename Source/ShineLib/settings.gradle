@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-include ':shinelib', ':pluginreferenceboard', ':bluelibtestapp'
+include ':shinelib', ':pluginreferenceboard'
 
 def commonDir = '../common'
 include ':common'
