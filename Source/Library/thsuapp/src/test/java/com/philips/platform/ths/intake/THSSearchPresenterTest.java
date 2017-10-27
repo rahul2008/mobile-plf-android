@@ -25,6 +25,7 @@ import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
@@ -98,12 +99,18 @@ public class THSSearchPresenterTest {
     @Mock
     Pharmacy pharmacyMock;
 
+    @Mock
+    THSConsumer thsConsumer;
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         when(thsSearchFragment.getFragmentActivity()).thenReturn(fragmentActivityMock);
         THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
         THSManager.getInstance().setAwsdk(awsdkMock);
+
+        THSManager.getInstance().setThsConsumer(thsConsumer);
+        when(thsConsumer.getConsumer()).thenReturn(consumerMock);
+        THSManager.getInstance().setThsParentConsumer(thsConsumer);
         when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiceProvidersManager);
