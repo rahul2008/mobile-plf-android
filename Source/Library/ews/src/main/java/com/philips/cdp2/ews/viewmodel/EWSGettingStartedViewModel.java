@@ -37,7 +37,7 @@ public class EWSGettingStartedViewModel {
         note = new ObservableField<>(getNote(baseConfig));
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @NonNull
     String getTitle(@NonNull HappyFlowContentConfiguration happyFlowConfig,
                             @NonNull BaseContentConfiguration baseConfig) {
@@ -45,7 +45,7 @@ public class EWSGettingStartedViewModel {
                 baseConfig.getDeviceName());
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @NonNull
     String getNote(@NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(R.string.label_ews_get_started_description,

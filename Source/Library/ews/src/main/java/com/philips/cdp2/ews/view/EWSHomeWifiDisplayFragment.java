@@ -73,7 +73,7 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
     }
 
     @Override
-    public void showTroubleshootHomeWifiDialog() {
+    public void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration) {
         Context context = getContext();
         final View view = LayoutInflater.from(context).inflate(R.layout.troubleshoot_home_wifi_fragment,
                 null, false);
@@ -89,7 +89,8 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
 
         TextView textView = (TextView) view.findViewById(R.id.label_ews_home_network_body);
         ImageView imageView = (ImageView) view.findViewById(R.id.ic_close);
-        String explanation = String.format(DateUtil.getSupportedLocale(), context.getString(R.string.label_ews_home_network_body), context.getString(R.string.af_app_name));
+        String explanation = String.format(DateUtil.getSupportedLocale(), context.getString(R.string.label_ews_home_network_body),
+                context.getString(baseContentConfiguration.getAppName()));
         textView.setText(TextUtil.getHTMLText(explanation));
         FontIconDrawable drawable = new FontIconDrawable(context, context.getResources().getString(R.string.dls_cross_24), TypefaceUtils
                 .load(context.getAssets(), "fonts/iconfont.ttf"))

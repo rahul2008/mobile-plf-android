@@ -1,22 +1,29 @@
 package com.philips.cdp2.ews.troubleshooting.connecttowrongphone;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.databinding.FragmentConnectToWrongPhoneTroubleshootingLayoutBinding;
 import com.philips.cdp2.ews.view.BaseTroubleShootingFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 
 public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShootingFragment {
 
+    @NonNull
+    FragmentConnectToWrongPhoneTroubleshootingLayoutBinding connectToWrongPhoneTroubleshootingLayoutBinding;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_connect_to_wrong_phone_troubleshooting_layout, container, false);
+        connectToWrongPhoneTroubleshootingLayoutBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_connect_to_wrong_phone_troubleshooting_layout, container, false);
+        return connectToWrongPhoneTroubleshootingLayoutBinding.getRoot();
     }
 
     @Override
@@ -25,6 +32,7 @@ public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShoot
 
         final ConnectToWrongPhoneTroubleshootingViewModel viewModel = ((EWSActivity) getActivity()).getEWSComponent()
                 .connectToWrongPhoneTroubleshootingViewModel();
+        connectToWrongPhoneTroubleshootingLayoutBinding.setViewmodel(viewModel);
 
         view.findViewById(R.id.ews_H_03_01_button_yes)
                 .setOnClickListener(new View.OnClickListener() {
