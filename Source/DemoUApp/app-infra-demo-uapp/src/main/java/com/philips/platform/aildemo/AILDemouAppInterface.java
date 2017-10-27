@@ -53,4 +53,8 @@ public class AILDemouAppInterface implements UappInterface {
     public AppInfraInterface getAppInfra() {
         return mAppInfra;
     }
+
+    public void setAppInfra(AppInfraInterface mAppInfra) {
+        this.mAppInfra = mAppInfra;
+    }
 }
