@@ -99,6 +99,9 @@
 -keepattributes Signature
 -keepattributes InnerClasses,EnclosingMethod
 
+#dagger
+-dontwarn com.google.errorprone.annotations.**
+
 #-------------------------Registration Ends -------------------------
 
 
@@ -394,5 +397,4 @@ public static <fields>;
 -dontwarn android.support.v7.view.menu.**
 -dontwarn android.support.customtabs.**
 
--dontwarn com.google.errorprone.annotations.**
 #------------------------------Application specific rules end  here------------------------------------
