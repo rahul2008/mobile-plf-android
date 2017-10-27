@@ -18,6 +18,7 @@ import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
@@ -67,10 +68,16 @@ public class THSMedicationPresenterTest {
     @Mock
     SDKError sdkErrormock;
 
+    @Mock
+    THSConsumer thsConsumer;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         THSManager.getInstance().setAwsdk(awsdkMock);
+        THSManager.getInstance().setThsConsumer(thsConsumer);
+        when(thsConsumer.getConsumer()).thenReturn(consumer);
+        THSManager.getInstance().setThsParentConsumer(thsConsumer);
         THSManager.getInstance().setPTHConsumer(thsConsumerWrapper);
         mTHSMedicationPresenter = new THSMedicationPresenter(thsMedicationFragmentMock);
         thsMedicationFragmentMock.mExistingMedication = thsMedicationMock;
