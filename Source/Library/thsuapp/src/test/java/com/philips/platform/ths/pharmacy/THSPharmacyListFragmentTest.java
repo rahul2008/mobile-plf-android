@@ -1,6 +1,7 @@
 package com.philips.platform.ths.pharmacy;
 
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.Address;
@@ -14,7 +15,7 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.intake.THSVisitContext;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -32,6 +33,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -42,7 +44,7 @@ public class THSPharmacyListFragmentTest {
     AWSDK awsdkMock;
 
     @Mock
-    THSConsumer thsConsumer;
+    THSConsumerWrapper thsConsumerWrapper;
 
     @Mock
     THSVisitContext pthVisitContext;
@@ -84,13 +86,16 @@ public class THSPharmacyListFragmentTest {
 
     THSPharmacyListFragment thsPharmacyListFragment;
 
+    @Mock
+    FragmentManager fragmentManagerMock;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
         THSManager.getInstance().setAwsdk(awsdkMock);
 
-        when(thsConsumer.getConsumer()).thenReturn(consumerMock);
+        when(thsConsumerWrapper.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
 
 
@@ -100,7 +105,7 @@ public class THSPharmacyListFragmentTest {
 
         thsShippingAddressFragment = new THSShippingAddressFragment();
         thsShippingAddressFragment.setActionBarListener(actionBarListenerMock);
-        thsShippingAddressFragment.setConsumerAndAddress(thsConsumer,address);
+        thsShippingAddressFragment.setConsumerAndAddress(thsConsumerWrapper,address);
         thsShippingAddressFragment.setFragmentLauncher(fragmentLauncherMock);
 
         thsPharmacyListFragment = new THSPharmacyListFragment();
@@ -153,5 +158,11 @@ public class THSPharmacyListFragmentTest {
     public void testShowSelectedPharmacyDetails(){
         thsPharmacyListFragmentMock.showSelectedPharmacyDetails(pharmacy);
         verify(thsPharmacyListFragmentMock).showSelectedPharmacyDetails(Matchers.eq(pharmacy));
+    }
+
+    @Test
+    public void testSwtichView(){
+        thsPharmacyListFragmentMock.switchView();
+        verify(thsPharmacyListFragmentMock,atLeastOnce()).switchView();
     }
 }

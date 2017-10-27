@@ -15,12 +15,16 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.visit.VisitReport;
 import com.americanwell.sdk.entity.visit.VisitSchedule;
 import com.americanwell.sdk.manager.ConsumerManager;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.pharmacy.THSPharmacyListFragment;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Label;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,9 +35,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyByte;
-import static org.mockito.Matchers.anyList;
+import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -63,7 +65,7 @@ public class THSVisitHistoryAdapterTest {
     AWSDK awsdkMock;
 
     @Mock
-    THSConsumer thsConsumerMock;
+    THSConsumerWrapper thsConsumerWrapperMock;
 
     @Mock
     View.OnClickListener onClickMock;
@@ -72,10 +74,21 @@ public class THSVisitHistoryAdapterTest {
     ConsumerManager consumerManagerMock;
 
     @Mock
+    THSConsumer thsConsumer;
+
+    @Mock
     Consumer consumerMock;
 
     @Mock
     ViewGroup viewGroupMock;
+
+    @Mock
+    AppInfraInterface appInfraInterface;
+
+    @Mock
+    AppTaggingInterface appTaggingInterface;
+
+    THSPharmacyListFragment thsPharmacyListFragment;
 
     @Before
     public void setUp() throws Exception {
@@ -83,12 +96,18 @@ public class THSVisitHistoryAdapterTest {
         List list = new ArrayList();
         list.add(thsVisitReportMock);
         THSManager.getInstance().setAwsdk(awsdkMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumerMock);
-        when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        THSManager.getInstance().setAppInfra(appInfraInterface);
+        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
+        when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+        THSManager.getInstance().setThsParentConsumer(thsConsumer);
+        THSManager.getInstance().setThsConsumer(thsConsumer);
+        when(thsConsumer.getConsumer()).thenReturn(consumerMock);
         thsVisitHistoryFragment = new THSVisitHistoryFragmentMock();
-        SupportFragmentTestUtil.startFragment(thsVisitHistoryFragment);
         mTHSVisitHistoryAdapter = new THSVisitHistoryAdapter(list,thsVisitHistoryFragment);
+        SupportFragmentTestUtil.startFragment(thsVisitHistoryFragment);
     }
 
     @Test

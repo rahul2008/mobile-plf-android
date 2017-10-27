@@ -146,13 +146,18 @@ public class THSConstants {
     public static final String THS_COST_SUMMARY_COUPON_CODE_ERROR = "Cost_summary_coupon_code_error";
 
     public static final String THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE = "createPaymentRequest.creditCardYear";
+    public static final String THS_USER_NOT_LOGGED_IN = "THS_USER_NOT_LOGGED_IN";
     // end of tagging constants
 
-    public static final String THS_USER_NOT_LOGGED_IN = "THS_USER_NOT_LOGGED_IN";
+    public static final String THS_CONSUMER = "THS_CONSUMER";
 
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
     public static final String KEY_COLOR_RANGE = "KEY_COLOR_RANGE";
     public static final String KEY_CONTENT_COLOR = "KEY_CONTENT_COLOR";
     public static final String KEY_NAVIGATION_COLOR = "KEY_NAVIGATION_COLOR";
     public static final String KEY_ACCENT_RANGE = "KEY_ACCENT_RANGE";
+
+
+    public static final String THS_GENERIC_USER_ERROR = "Oops! Something went wrong, please check your details and try again";
+    public static final String THS_GENERIC_SERVER_ERROR = "Oops! Something went wrong, please try after sometime";
 }

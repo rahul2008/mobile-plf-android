@@ -21,6 +21,7 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.login.THSAuthentication;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
@@ -34,7 +35,9 @@ import org.mockito.MockitoAnnotations;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -42,6 +45,7 @@ import javax.net.ssl.HttpsURLConnection;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.atLeast;
@@ -111,6 +115,9 @@ public class THSWelcomePresenterTest {
     @Mock
     AppTaggingInterface appTaggingInterface;
 
+    @Mock
+    THSConsumer thsConsumerMock;
+
 
     @Before
     public void setUp() {
@@ -118,7 +125,8 @@ public class THSWelcomePresenterTest {
         pthWelcomePresenter = new THSWelcomePresenter(pTHBaseViewMock);
         THSManager.getInstance().setAwsdk(awsdk);
         THSManager.getInstance().setUser(userMock);
-
+        THSManager.getInstance().setThsConsumer(thsConsumerMock);
+        THSManager.getInstance().setThsParentConsumer(thsConsumerMock);
         when(appInfraInterfaceMock.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterfaceMock.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         THSManager.getInstance().setAppInfra(appInfraInterfaceMock);
@@ -126,6 +134,11 @@ public class THSWelcomePresenterTest {
         THSManager.getInstance().TEST_FLAG = true;
         when(userMock.getHsdpUUID()).thenReturn("abc");
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(activityMock);
+        when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
+        List list = new ArrayList();
+        list.add(thsConsumerMock);
+        when(thsConsumerMock.getDependents()).thenReturn(list);
+        when(thsConsumerMock.getDependents()).thenReturn(list);
     }
 
     @Test
@@ -304,6 +317,18 @@ public class THSWelcomePresenterTest {
         when(THSAuthenticationMock.needsToCompleteEnrollment()).thenReturn(true);
         pthWelcomePresenter.onLoginResponse(THSAuthenticationMock, THSSDKError);
         verify(awsdk.getConsumerManager(), atLeast(1)).completeEnrollment(any(Authentication.class), any(State.class), anyString(), anyString(), any(SDKCallback.class));
+    }
+
+    @Test
+    public void onLoginResponseisRefreshTokenRequestedBeforetrue() throws Exception {
+        pthWelcomePresenter.isRefreshTokenRequestedBefore = true;
+        when(THSAuthenticationMock.getAuthentication()).thenReturn(authenticationMock);
+        when(awsdk.getConsumerManager()).thenReturn(ConsumerManagerMock);
+        when(THSSDKError.getSdkError()).thenReturn(sdkErrorMock);
+        when(sdkErrorMock.getHttpResponseCode()).thenReturn(401);
+        when(THSSDKError.getHttpResponseCode()).thenReturn(401);
+        pthWelcomePresenter.onLoginResponse(THSAuthenticationMock, THSSDKError);
+        verifyNoMoreInteractions(userMock);
     }
 
      @Test
@@ -542,6 +567,13 @@ public class THSWelcomePresenterTest {
         pthWelcomePresenter.onEvent(R.id.appointments);
         verifyNoMoreInteractions(consumerManagerMock);
         //verify(con).checkConsumerExists(eq("1234"), any(SDKCallback.class));
+    }
+
+    @Test
+    public void testAuthenticate(){
+        doThrow(AWSDKInstantiationException.class).when(awsdk).authenticateMutual(anyString(),any(SDKCallback.class));
+        pthWelcomePresenter.getStarted();
+        verify(awsdk).authenticateMutual(anyString(),any(SDKCallback.class));
     }
 
    /* @Test

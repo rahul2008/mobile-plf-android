@@ -17,6 +17,8 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBasePresenterHelper;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSDateEnum;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -58,16 +60,28 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
 
     @Override
     public void onResponse(THSAvailableProviderList availableProviders, THSSDKError sdkError) {
-        mThsBaseFragment.showToast("Available Providers list Success");
-        if(mThsBaseFragment instanceof THSProviderNotAvailableFragment){
-            ((THSProviderNotAvailableFragment)mThsBaseFragment).updateProviderDetails(availableProviders);
+        if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            if (sdkError.getSdkError() != null) {
+                if (sdkError.getSdkError().getSDKErrorReason() != null) {
+                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    return;
+                }else {
+                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                }
+            }else {
+                mThsBaseFragment.showToast("Available Providers list Success");
+                if(mThsBaseFragment instanceof THSProviderNotAvailableFragment){
+                    ((THSProviderNotAvailableFragment)mThsBaseFragment).updateProviderDetails(availableProviders);
+                }
+                ((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).updateProviderAdapterList(availableProviders);
+            }
         }
-        ((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).updateProviderAdapterList(availableProviders);
+
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        mThsBaseFragment.showToast("Available Providers list Failure");
+        mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
     }
 
     public void getAvailableProvidersBasedOnDate() throws AWSDKInstantiationException {

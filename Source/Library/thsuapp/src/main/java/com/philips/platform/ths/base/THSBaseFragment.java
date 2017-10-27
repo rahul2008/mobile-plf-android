@@ -6,8 +6,10 @@
 
 package com.philips.platform.ths.base;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -20,12 +22,16 @@ import android.widget.Toast;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.init.THSInitFragment;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSNetworkStateListener;
 import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
@@ -33,8 +39,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_USER_NOT_LOGGED_IN;
 
-
-public class THSBaseFragment extends Fragment implements THSBaseView, BackEventListener {
+public class THSBaseFragment extends Fragment implements THSBaseView, BackEventListener, THSNetworkStateListener.ConnectionReceiverListener {
 
 
     public FragmentLauncher mFragmentLauncher;
@@ -43,6 +48,33 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
     protected final int SMALL = 0;
     protected final int MEDIUM = 1;
     protected final int BIG = 2;
+    private THSNetworkStateListener networkStateListener;
+    public AlertDialogFragment alertDialogFragment;
+    public static final String ALERT_DIALOG_TAG = THSBaseFragment.class.getSimpleName() + "Dialog";
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        networkStateListener = new THSNetworkStateListener();
+        getActivity().registerReceiver(
+                networkStateListener,
+                new IntentFilter(
+                        ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(networkStateListener);
+        setConnectionListener(null);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setConnectionListener(this);
+
+    }
 
     @Override
     public void finishActivityAffinity() {
@@ -148,11 +180,22 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
         }
     }
 
+    public void setConnectionListener(THSNetworkStateListener.ConnectionReceiverListener listener) {
+        THSNetworkStateListener.connectionReceiverListener = listener;
+    }
+
     //TODO: Toast to be removed
     public void showToast(String message) {
         if (getContext() != null) {
             //TODO: TO be removed
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void showToast(int stringResource) {
+        if (getContext() != null) {
+            //TODO: TO be removed
+            Toast.makeText(getContext(), stringResource, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -162,32 +205,25 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
     }
 
     public void showError(String message) {
-        if (isFragmentAttached()) {
-            AlertDialogFragment alertDialogFragmentUserNotLoggedIn = (AlertDialogFragment) getFragmentManager().findFragmentByTag(THS_USER_NOT_LOGGED_IN);
-            if (null != alertDialogFragmentUserNotLoggedIn) {
-                alertDialogFragmentUserNotLoggedIn.dismiss();
-            }
-
-            final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getFragmentActivity());
-            builder.setMessage(message);
-            builder.setTitle(getResources().getString(R.string.ths_matchmaking_error));
-
-            alertDialogFragmentUserNotLoggedIn = builder.setCancelable(false).create();
-            View.OnClickListener onClickListener = getOnClickListener(alertDialogFragmentUserNotLoggedIn);
-            builder.setPositiveButton(getResources().getString(R.string.ths_matchmaking_ok_button), onClickListener);
-            alertDialogFragmentUserNotLoggedIn.setPositiveButtonListener(onClickListener);
-            alertDialogFragmentUserNotLoggedIn.show(getFragmentManager(), THS_USER_NOT_LOGGED_IN);
-        }
+        showError(message, false);
     }
 
-    @NonNull
-    private View.OnClickListener getOnClickListener(final AlertDialogFragment finalAlertDialogFragmentStartVisit) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finalAlertDialogFragmentStartVisit.dismiss();
-            }
-        };
+    public void showError(String message, final boolean shouldGoBack) {
+        if (isFragmentAttached()) {
+            alertDialogFragment = new AlertDialogFragment.Builder(UIDHelper.getPopupThemedContext(getContext())).setDialogType(DialogConstants.TYPE_ALERT).setTitle(R.string.ths_matchmaking_error)
+                    .setMessage(message).
+                            setPositiveButton(R.string.ths_matchmaking_ok_button, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    alertDialogFragment.dismiss();
+                                    if (shouldGoBack) {
+                                        getActivity().getSupportFragmentManager().popBackStack();
+                                    }
+                                }
+                            }).setCancelable(false).create();
+            alertDialogFragment.show(getActivity().getSupportFragmentManager(), ALERT_DIALOG_TAG);
+        }
+
     }
 
     public boolean isFragmentAttached() {
@@ -197,7 +233,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 result = true;
             }
         } catch (Exception e) {
-
+            AmwellLog.e(THSBaseFragment.class.getSimpleName(), e.getMessage());
         }
         return result;
     }
@@ -225,6 +261,13 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
         if (THSManager.getInstance().getThsVisitCompletionListener() != null) {
             THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,"exitToUgrow","toUgrowPage");
             THSManager.getInstance().getThsVisitCompletionListener().onTHSVisitComplete(isSuccess);
+        }
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        if (!isConnected) {
+            showToast(getString(R.string.ths_internet_disconnected_message));
         }
     }
 }

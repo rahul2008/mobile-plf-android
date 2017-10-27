@@ -23,7 +23,8 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsDisplayHelper;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -40,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -76,10 +78,13 @@ public class THSAvailableProviderDetailPresenterTest {
     PracticeProvidersManager practiceProvidersManagerMock;
 
     @Mock
-    THSConsumer thsConsumerMock;
+    THSConsumerWrapper thsConsumerWrapperMock;
 
     @Mock
     Consumer consumerMock;
+
+    @Mock
+    THSConsumer thsConsumerMock;
 
     @Mock
     AWSDK awsdkMock;
@@ -106,11 +111,14 @@ public class THSAvailableProviderDetailPresenterTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         THSManager.getInstance().setAwsdk(awsdkMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumerMock);
-        when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
+        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
+        when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(thsProviderInfoMock.getProviderInfo()).thenReturn(providerInfo);
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiceProvidersManagerMock);
         when(thsAvailableProviderDetailFragmentMock.getContext()).thenReturn(contextMock);
+        THSManager.getInstance().setThsConsumer(thsConsumerMock);
+        when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
+
        // when(thsAvailableProviderDetailFragmentMock.getString(R.string.something_went_wrong)).thenReturn("123");
         mThsAvailableProviderDetailPresenter = new THSAvailableProviderDetailPresenter(thsAvailableProviderDetailFragmentMock,thsProviderDetailsDisplayHelperMock);
     }
@@ -147,14 +155,17 @@ public class THSAvailableProviderDetailPresenterTest {
 
     @Test
     public void onProviderDetailsReceived() throws Exception {
+        when(thsAvailableProviderDetailFragmentMock.isFragmentAttached()).thenReturn(true);
+        sdkErrorMock = null;
         mThsAvailableProviderDetailPresenter.onProviderDetailsReceived(providerMock,sdkErrorMock);
         verify(practiceProvidersManagerMock).getEstimatedVisitCost(any(Consumer.class),any(Provider.class),any(SDKCallback.class));
     }
 
     @Test
     public void onProviderDetailsFetchError() throws Exception {
+        when(thsAvailableProviderDetailFragmentMock.isFragmentAttached()).thenReturn(true);
         mThsAvailableProviderDetailPresenter.onProviderDetailsFetchError(throwableMock);
-        verify(thsAvailableProviderDetailFragmentMock).hideProgressBar();
+        verify(thsAvailableProviderDetailFragmentMock).showToast(anyInt());
     }
 
     @Test
@@ -162,20 +173,23 @@ public class THSAvailableProviderDetailPresenterTest {
         List list = new ArrayList();
         list.add(dateMock);
         when(thssdkError.getSdkError()).thenReturn(sdkErrorMock);
+        when(thsAvailableProviderDetailFragmentMock.isFragmentAttached()).thenReturn(true);
         mThsAvailableProviderDetailPresenter.onResponse((List<Date>)list,thssdkError);
         verify(thsAvailableProviderDetailFragmentMock).hideProgressBar();
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void onResponse() throws Exception {
         List list = new ArrayList();
         list.add(dateMock);
+        sdkErrorMock = null;
         mThsAvailableProviderDetailPresenter.onResponse(list,sdkErrorMock);
         verify(thsProviderDetailsDisplayHelperMock).launchConfirmAppointmentFragment(0);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void onFailure() throws Exception {
+        when(thsAvailableProviderDetailFragmentMock.isFragmentAttached()).thenReturn(true);
         mThsAvailableProviderDetailPresenter.onFailure(throwableMock);
         verify(thsAvailableProviderDetailFragmentMock).hideProgressBar();
     }

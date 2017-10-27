@@ -12,7 +12,7 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -28,7 +28,7 @@ import org.robolectric.shadows.ShadowLog;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
@@ -43,7 +43,7 @@ public class THSVitalsFragmentTest {
     ActionBarListener actionBarListenerMock;
 
     @Mock
-    THSConsumer pthConsumerMock;
+    THSConsumerWrapper pthConsumerMock;
 
     @Mock
     Consumer consumerMock;

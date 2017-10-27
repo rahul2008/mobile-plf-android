@@ -19,11 +19,14 @@ import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.VisitManager;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
@@ -42,6 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -65,7 +69,7 @@ public class THSSymptomsPresenterTest {
     ConsumerManager consumerManagerMock;
 
     @Mock
-    THSConsumer pthConsumer;
+    THSConsumerWrapper pthConsumer;
 
     @Mock
     AWSDK awsdk;
@@ -124,11 +128,20 @@ public class THSSymptomsPresenterTest {
     @Mock
     SDKError sdkErrorMock;
 
+    @Mock
+    AppInfraInterface appInfraInterface;
+
+    @Mock
+    AppTaggingInterface appTaggingInterface;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         pthSymptomsPresenter = new THSSymptomsPresenter(pTHBaseViewMock,pthProviderInfo);
         THSManager.getInstance().setAwsdk(awsdk);
+        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        THSManager.getInstance().setAppInfra(appInfraInterface);
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(activityMock);
         when(pTHBaseViewMock.isFragmentAttached()).thenReturn(true);
     }

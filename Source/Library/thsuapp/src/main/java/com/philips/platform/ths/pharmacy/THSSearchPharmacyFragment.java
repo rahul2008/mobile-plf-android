@@ -113,4 +113,6 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     public void onSearchCollapsed() {
 
     }
+
+
 }

@@ -6,30 +6,15 @@
 
 package com.philips.platform.ths.settings;
 
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Environment;
-import android.support.v4.content.ContextCompat;
-
 import com.americanwell.sdk.entity.FileAttachment;
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.visit.VisitReport;
 import com.americanwell.sdk.entity.visit.VisitReportDetail;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Date;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
@@ -73,7 +58,7 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
     @Override
     public void onFailure(Throwable throwable) {
         if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
-            mThsVisitHistoryDetailFragment.showToast(throwable.getMessage());
+            mThsVisitHistoryDetailFragment.showToast(R.string.ths_se_server_error_toast_message);
         }
     }
 
@@ -93,7 +78,7 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
                 public void onFailure(Throwable throwable) {
                     if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
                         mThsVisitHistoryDetailFragment.hideProgressBar();
-                        mThsVisitHistoryDetailFragment.showToast("Failed to get the details");
+                        mThsVisitHistoryDetailFragment.showToast(R.string.ths_se_server_error_toast_message);
                     }
                 }
             });

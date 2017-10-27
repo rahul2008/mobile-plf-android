@@ -21,12 +21,13 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT;
@@ -41,10 +42,6 @@ import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
-
-/**
- * Created by philips on 7/26/17.
- */
 
 public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitCallback, THSCancelVisitCallBack.SDKCallback<Void, SDKError> {
 
@@ -127,7 +124,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     void abondonCurrentVisit() {
         try {
-            THSManager.getInstance().abondonCurrentVisit(mTHSWaitingRoomFragment.getFragmentActivity());
+            THSManager.getInstance().abandonCurrentVisit(mTHSWaitingRoomFragment.getFragmentActivity());
             mTHSWaitingRoomFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
@@ -189,7 +186,9 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     @Override
     public void onPollFailure(@NonNull Throwable throwable) {
-
+        if(null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()){
+            mTHSWaitingRoomFragment.showToast(R.string.ths_se_server_error_toast_message);
+        }
     }
 
     @Override
@@ -199,14 +198,26 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     @Override
     public void onResponse(Void aVoid, SDKError sdkError) {
-        // must  be cancel visit call back
-        THSManager.getInstance().getThsTagging().trackActionWithInfo("waitingTimeEndForInstantAppointment", null,null);
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT,"videoVisitCancelledAtQueue");
-        abondonCurrentVisit();
+        if(null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
+            if (null != sdkError) {
+                if (null != sdkError.getSDKErrorReason()) {
+                    mTHSWaitingRoomFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    return;
+                }
+            }else {
+                // must  be cancel visit call back
+                THSManager.getInstance().getThsTagging().trackActionWithInfo("waitingTimeEndForInstantAppointment", null,null);
+                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "videoVisitCancelledAtQueue");
+                abondonCurrentVisit();
+            }
+        }
     }
 
     @Override
     public void onFailure(Throwable throwable) {
+        if(null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()){
+            mTHSWaitingRoomFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR,true);
+        }
         abondonCurrentVisit();
     }
 

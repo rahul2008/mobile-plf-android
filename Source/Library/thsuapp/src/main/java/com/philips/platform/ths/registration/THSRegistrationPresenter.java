@@ -9,7 +9,7 @@ package com.philips.platform.ths.registration;
 import android.app.DatePickerDialog;
 import android.widget.DatePicker;
 
-import com.americanwell.sdk.entity.SDKPasswordError;
+import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -19,6 +19,11 @@ import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
+import com.philips.platform.ths.practice.THSPracticeFragment;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
+import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
+import com.philips.platform.ths.settings.THSVisitHistoryFragment;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSDateEnum;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
@@ -27,7 +32,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
-public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidatedCallback <THSConsumer, SDKPasswordError>{
+public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidatedCallback <THSConsumerWrapper, SDKError>{
 
     private THSBaseFragment mTHSBaseFragment;
 
@@ -60,14 +65,27 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
     }
 
     @Override
-    public void onResponse(THSConsumer thsConsumer, SDKPasswordError sdkPasswordError) {
-        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+    public void onResponse(THSConsumerWrapper thsConsumerWrapper, SDKError sdkPasswordError) {
+        if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
-            if (sdkPasswordError != null) {
-                mTHSBaseFragment.showToast(sdkPasswordError.getSDKErrorReason().name());
+            if (sdkPasswordError.getSDKErrorReason() != null) {
+                mTHSBaseFragment.showToast(THSSDKErrorFactory.getErrorType(sdkPasswordError.getSDKErrorReason()));
                 return;
             }
-            mTHSBaseFragment.addFragment(new THSWelcomeFragment(), THSWelcomeFragment.TAG, null, true);
+            switch (((THSRegistrationFragment) mTHSBaseFragment).mLaunchInput) {
+                case THSConstants.THS_PRACTICES:
+                    mTHSBaseFragment.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
+                    break;
+                case THSConstants.THS_SCHEDULED_VISITS:
+                    mTHSBaseFragment.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
+                    break;
+                case THSConstants.THS_VISITS_HISTORY:
+                    mTHSBaseFragment.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
+                    break;
+                default:
+                    mTHSBaseFragment.addFragment(new THSWelcomeFragment(), THSWelcomeFragment.TAG, null, true);
+                    break;
+            }
         }
     }
 
@@ -75,12 +93,9 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
     public void onFailure(Throwable throwable) {
         if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
-            final String localizedMessage = throwable.getLocalizedMessage();
-            if (localizedMessage == null) {
-                mTHSBaseFragment.showToast(mTHSBaseFragment.getString(R.string.something_went_wrong));
-            } else {
-                mTHSBaseFragment.showToast(localizedMessage);
-            }
+
+                mTHSBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+
         }
     }
 
@@ -95,6 +110,14 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
     public void enrollUser(Date date, String firstname, String lastname, Gender gender, State state) {
         try {
             THSManager.getInstance().enrollConsumer(mTHSBaseFragment.getContext(), date,firstname,lastname,gender,state,this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void enrollDependent(Date date, String firstname, String lastname, Gender gender, State state) {
+        try {
+            THSManager.getInstance().enrollDependent(mTHSBaseFragment.getContext(), date, firstname, lastname, gender, state, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

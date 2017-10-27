@@ -16,6 +16,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Map;
@@ -44,9 +45,9 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSS
 
         } else if (componentID == R.id.pth_insurance_confirmation_radio_option_no) {
             Subscription currentSubscription = THSManager.getInstance().getPTHConsumer().getConsumer().getSubscription();
-            if(null==currentSubscription) {
+            if (null == currentSubscription) {
                 showCostSummary();
-            }else{
+            } else {
                 //remove previous insurance detail
                 THSSubscriptionUpdateRequest thsSubscriptionUpdateRequest = getSubscriptionUpdateRequestWithoutVistContext();
                 updateInsurance(thsSubscriptionUpdateRequest); // empty SubscriptionUpdateRequest
@@ -65,8 +66,8 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSS
         return tHSSubscriptionUpdateRequest;
     }
 
-    private void showCostSummary(){
-        if(null!=mTHSInsuranceConfirmationFragment && mTHSInsuranceConfirmationFragment.isFragmentAttached()) {
+    private void showCostSummary() {
+        if (null != mTHSInsuranceConfirmationFragment && mTHSInsuranceConfirmationFragment.isFragmentAttached()) {
             if (mTHSInsuranceConfirmationFragment.isLaunchedFromCostSummary) {
                 mTHSInsuranceConfirmationFragment.getActivity().getSupportFragmentManager().popBackStack(THSCostSummaryFragment.TAG, 0);
             } else {
@@ -79,7 +80,7 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSS
         }
     }
 
-    private void updateInsurance( THSSubscriptionUpdateRequest tHSSubscriptionUpdateRequest){
+    private void updateInsurance(THSSubscriptionUpdateRequest tHSSubscriptionUpdateRequest) {
         try {
             mTHSInsuranceConfirmationFragment.showProgressbar();
             THSManager.getInstance().updateInsuranceSubscription(mTHSInsuranceConfirmationFragment.getFragmentActivity(), tHSSubscriptionUpdateRequest, this);
@@ -96,13 +97,24 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSS
 
     @Override
     public void onResponse(Void aVoid, SDKError sdkError) {
-        mTHSInsuranceConfirmationFragment.hideProgressBar();
-        showCostSummary();
+        if (null != mTHSInsuranceConfirmationFragment && mTHSInsuranceConfirmationFragment.isFragmentAttached()) {
+            mTHSInsuranceConfirmationFragment.hideProgressBar();
+            if (null != sdkError) {
+                if (null != sdkError.getSDKErrorReason()) {
+                    mTHSInsuranceConfirmationFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                }
+            } else {
+                showCostSummary();
+            }
+        }
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        mTHSInsuranceConfirmationFragment.hideProgressBar();
+        if (null != mTHSInsuranceConfirmationFragment && mTHSInsuranceConfirmationFragment.isFragmentAttached()) {
+            mTHSInsuranceConfirmationFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mTHSInsuranceConfirmationFragment.hideProgressBar();
+        }
 
     }
 }

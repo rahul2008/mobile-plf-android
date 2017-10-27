@@ -7,6 +7,7 @@
 package com.philips.platform.ths.appointment;
 
 import android.app.DatePickerDialog;
+import android.widget.ImageView;
 
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSDateEnum;

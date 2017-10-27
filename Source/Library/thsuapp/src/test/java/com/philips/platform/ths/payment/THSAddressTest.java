@@ -16,7 +16,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.List;
 
 import static com.philips.platform.ths.R.string.conditions;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
 public class THSAddressTest {

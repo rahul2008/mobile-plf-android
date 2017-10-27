@@ -13,8 +13,8 @@ import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.providerslist.THSProvidersListFragment;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -24,11 +24,10 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 public class THSPracticePresenter implements THSBasePresenter, THSPracticesListCallback {
 
-    private THSBaseView uiBaseView;
+    private THSPracticeListViewInterface uiBaseView;
 
 
-
-     THSPracticePresenter(THSPracticeFragment tHSPracticeFragment){
+    THSPracticePresenter(THSPracticeFragment tHSPracticeFragment) {
         this.uiBaseView = tHSPracticeFragment;
 
     }
@@ -38,7 +37,7 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
 
     }
 
-    protected void fetchPractices(){
+    protected void fetchPractices() {
         try {
             THSManager.getInstance().getPractices(uiBaseView.getFragmentActivity(), this);
         } catch (AWSDKInstantiationException e) {
@@ -49,26 +48,37 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
 
     @Override
     public void onPracticesListReceived(THSPracticeList practices, SDKError sdkError) {
-        if(null!=uiBaseView && null!=uiBaseView.getFragmentActivity()) {
-            ((THSPracticeFragment) uiBaseView).showPracticeList(practices);
+        if (null != uiBaseView && null != uiBaseView.getFragmentActivity()) {
+            if (null != sdkError) {
+                if (sdkError.getSDKErrorReason() != null) {
+                    uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()),true);
+                }else {
+                    uiBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR,true);
+                }
+            } else {
+                ((THSPracticeFragment) uiBaseView).showPracticeList(practices);
+            }
         }
 
     }
 
     @Override
     public void onPracticesListFetchError(Throwable throwable) {
+        if (null != uiBaseView && null != uiBaseView.getFragmentActivity()) {
+            ((THSPracticeFragment) uiBaseView).showErrorToast();
+        }
     }
 
-    void showProviderList(Practice practice){
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,"visitSubject",practice.getName());
+    void showProviderList(Practice practice) {
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SEND_DATA,"visitSubject",practice.getName());
         THSProvidersListFragment providerListFragment = new THSProvidersListFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(THSConstants.PRACTICE_FRAGMENT,practice);
+        bundle.putParcelable(THSConstants.PRACTICE_FRAGMENT, practice);
 
 
-       // providerListFragment.setPracticeAndConsumer(practice,mConsumer);
-        providerListFragment.setFragmentLauncher(((THSBaseFragment)uiBaseView).getFragmentLauncher());
-        ((THSPracticeFragment)uiBaseView).addFragment(providerListFragment,THSProvidersListFragment.TAG,bundle, false);
+        // providerListFragment.setPracticeAndConsumer(practice,mConsumer);
+        providerListFragment.setFragmentLauncher(((THSBaseFragment) uiBaseView).getFragmentLauncher());
+        ((THSPracticeFragment) uiBaseView).addFragment(providerListFragment, THSProvidersListFragment.TAG, bundle, false);
        /* providerListFragment.setActionBarListener(getActionBarListener());
 
          getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), providerListFragment,"ProviderListFragment").addToBackStack(null).commit();

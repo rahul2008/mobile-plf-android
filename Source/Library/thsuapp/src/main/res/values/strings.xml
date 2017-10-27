@@ -251,7 +251,20 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="late_for_appointment">late for the appointment. Please schedule the appointment again for consultation</string>
     <string name="ths_user_not_authenticated">Authentication Failed!! Try again later.</string>
 
+
+    <!-- Dependent-->
+    <string name="ths_visit_for">Who is the visit for?</string>
+    <string name="ths_select_name">Select the name of the person who needs the consult. For instance, if you are a mother and your baby has an war ache, choose your baby\'s name</string>
+    <string name="ths_select_patient">Select patient</string>
+
     <!--Waiting Room String -->
 
     <string name="visit_not_successful"> Your visit was not successful.</string>
+
+
+    <string name="ths_internet_disconnected_message">Oops! Please check your network connection</string>
+
+
+    <string name="ths_se_server_error_toast_message">"Oops! Something went wrong, please try after sometime"</string>
+    <string name="ths_delete_success_string">"Delete success</string>
 </resources>

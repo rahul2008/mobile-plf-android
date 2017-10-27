@@ -47,7 +47,7 @@ import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 import com.philips.platform.ths.intake.THSSearchFragment;
 import com.philips.platform.ths.pharmacy.customtoggle.SegmentControl;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -67,6 +67,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_PHARMACY_MAP;
 
 
 
+
 public class THSPharmacyListFragment extends THSBaseFragment implements OnMapReadyCallback, View.OnClickListener,
         THSPharmacyListViewListener {
 
@@ -74,7 +75,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     private UIDNavigationIconToggler navIconToggler;
     private GoogleMap map;
     private ImageButton switchViewImageButton;
-    private SupportMapFragment mapFragment;
+    protected SupportMapFragment mapFragment;
     private RecyclerView pharmacyListRecyclerView;
     private THSPharmacyListAdapter thsPharmacyListAdapter;
     protected THSPharmacyListPresenter thsPharmacyListPresenter;
@@ -89,12 +90,11 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     private boolean isListSelected = false;
     private Button choosePharmacyButton;
     private Pharmacy pharmacy;
-    protected THSConsumer thsConsumer;
+    protected THSConsumerWrapper thsConsumerWrapper;
     protected Address address;
     private Location location;
     private ActionBarListener actionBarListener;
     private List<Pharmacy> pharmaciesList = null;
-    private Pharmacy searchedPharmacy;
     private boolean isSearched = false;
 
     @Nullable
@@ -113,7 +113,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         }
         if (null != location && !isSearched) {
             createCustomProgressBar(pharmacy_list_fragment_container, BIG);
-            thsPharmacyListPresenter.fetchPharmacyList(thsConsumer, Double.valueOf(location.getLatitude()).floatValue(), Double.valueOf(location.getLongitude()).floatValue(), 5);
+            thsPharmacyListPresenter.fetchPharmacyList(thsConsumerWrapper, Double.valueOf(location.getLatitude()).floatValue(), Double.valueOf(location.getLongitude()).floatValue(), 5);
         }
         return view;
     }
@@ -147,18 +147,13 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         addFragment(thsSearchFragment, THSSearchFragment.TAG, bundle, true);
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     public void setPharmaciesList(List<Pharmacy> pharmaciesList) {
         this.pharmaciesList = pharmaciesList;
     }
 
 
-    public void setConsumerAndAddress(THSConsumer thsConsumer, Address address) {
-        this.thsConsumer = thsConsumer;
+    public void setConsumerAndAddress(THSConsumerWrapper thsConsumerWrapper, Address address) {
+        this.thsConsumerWrapper = thsConsumerWrapper;
         this.address = address;
     }
 
@@ -297,21 +292,37 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
 
 
     /**
-     * This method handles the swtich between map view and the list view indicated by the map/list icon.
+     * This method handles the switch between map view and the list view indicated by the map/list icon.
      */
     public void switchView() {
+        switchView(false);
+    }
 
-        if (mapFragment.isHidden()) {
-            getActivity().getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
-            switchViewImageButton.setImageDrawable(getResources().getDrawable(R.mipmap.list_icon, getActivity().getTheme()));
-            pharmacyListRecyclerView.setVisibility(View.GONE);
-            isListSelected = false;
-        } else {
-            getActivity().getSupportFragmentManager().beginTransaction().hide(mapFragment).commit();
-            switchViewImageButton.setImageDrawable(getResources().getDrawable(R.mipmap.gps_icon, getActivity().getTheme()));
-            pharmacyListRecyclerView.setVisibility(View.VISIBLE);
-            isListSelected = true;
+    public void switchView(boolean isSearched) {
+
+        if (isSearched && mapFragment.isHidden()) {
+            hideMapFragment();
+        } else if (isSearched && !mapFragment.isHidden()) {
+            showMapFragment();
+        } else if (!isSearched && mapFragment.isHidden()) {
+            showMapFragment();
+        } else if (!isSearched && !mapFragment.isHidden()) {
+            hideMapFragment();
         }
+    }
+
+    public void showMapFragment() {
+        getActivity().getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
+        switchViewImageButton.setImageDrawable(getResources().getDrawable(R.mipmap.list_icon, getActivity().getTheme()));
+        pharmacyListRecyclerView.setVisibility(View.INVISIBLE);
+        isListSelected = false;
+    }
+
+    public void hideMapFragment() {
+        getActivity().getSupportFragmentManager().beginTransaction().hide(mapFragment).commit();
+        switchViewImageButton.setImageDrawable(getResources().getDrawable(R.mipmap.gps_icon, getActivity().getTheme()));
+        pharmacyListRecyclerView.setVisibility(View.VISIBLE);
+        isListSelected = true;
     }
 
     private List<Pharmacy> pharmacyRetailList, pharmacyMailOrderList;
@@ -326,6 +337,10 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             showRetailView();
         } else if (pharmacyMailOrderList.size() > 0 && pharmacyRetailList.size() > 0) {
             showRetailView();
+        }
+
+        if (isSearched) {
+            switchView(true);
         }
     }
 
@@ -344,7 +359,10 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
                 map.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(pharmacy.getLatitude(), pharmacy.getLongitude())));
             }
         });
+
         pharmacyListRecyclerView.setAdapter(thsPharmacyListAdapter);
+        thsPharmacyListAdapter.notifyDataSetChanged();
+
         if (null != pharmacies && pharmacies.size() > 0) {
             setMarkerOnMap(pharmacies);
         }
@@ -401,7 +419,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
 
     public void showShippingFragment() {
         THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
-        thsShippingAddressFragment.setConsumerAndAddress(thsConsumer, address);
+        thsShippingAddressFragment.setConsumerAndAddress(thsConsumerWrapper, address);
         addFragment(thsShippingAddressFragment, THSShippingAddressFragment.TAG, null, true);
     }
 
@@ -546,6 +564,12 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
 
     }
 
+    /**
+     * Result received from THSSearchFragment when searched for pharmacy list from this fragment
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
@@ -554,8 +578,9 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
                 pharmaciesList = data.getParcelableArrayListExtra(THSConstants.THS_SEARCH_PHARMACY_SELECTED);
                 if (null == pharmaciesList || pharmaciesList.size() == 0) {
                     showToast(getString(R.string.ths_pharmacy_fetch_error));
+                } else {
+                    setPharmaciesList(pharmaciesList);
                 }
-                updatePharmacyListView(pharmaciesList);
             }
         }
     }

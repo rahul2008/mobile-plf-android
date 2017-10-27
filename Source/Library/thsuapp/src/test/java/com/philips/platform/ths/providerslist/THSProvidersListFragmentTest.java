@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.ths.providerslist;
 
 
@@ -34,7 +39,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.base.THSBaseView;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.NotificationBadge;
 import com.philips.platform.uid.view.widget.RatingBar;
@@ -102,7 +107,7 @@ public class THSProvidersListFragmentTest {
     SwipeRefreshLayout swipeRL;
 
     @Mock
-    THSConsumer thsConsumerMock;
+    THSConsumerWrapper thsConsumerMock;
 
     @Mock
     THSProviderListPresenter thsProviderListPresenterMock;
