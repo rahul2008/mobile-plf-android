@@ -15,6 +15,7 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -85,7 +86,8 @@ public class THSConditionsPresenterTest {
     @Mock
     AppTaggingInterface appTaggingInterface;
 
-
+    @Mock
+    THSConsumer thsConsumerMock;
 
     @Before
     public void setUp() throws Exception {
@@ -99,6 +101,9 @@ public class THSConditionsPresenterTest {
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
         when(pthConsumerMock.getConsumer()).thenReturn(consumerMock);
+        THSManager.getInstance().setThsConsumer(thsConsumerMock);
+        when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
+        THSManager.getInstance().setThsParentConsumer(thsConsumerMock);
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
         when(pTHBaseViewMock.isFragmentAttached()).thenReturn(true);
 
