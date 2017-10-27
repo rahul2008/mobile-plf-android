@@ -11,23 +11,20 @@ import android.os.AsyncTask;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.faqs.THSFaqPresenter;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class THSRestClient extends AsyncTask<String, Void, JSONArray> {
+public class THSRestClient extends AsyncTask<String, Void, String> {
     THSBasePresenter mThsBasePresenter;
 
     public THSRestClient(THSFaqPresenter thsFaqPresenter) {
         mThsBasePresenter = thsFaqPresenter;
     }
 
-    protected JSONArray doInBackground(String... urls) {
-        JSONArray jsonArray;
+    protected String doInBackground(String... urls) {
+        String jsonString;
         try {
             HttpURLConnection urlConnection = null;
             URL url = new URL(urls[0]);
@@ -47,20 +44,20 @@ public class THSRestClient extends AsyncTask<String, Void, JSONArray> {
             }
             br.close();
 
-            String jsonString = sb.toString();
-            System.out.println("JSON: " + jsonString);
+            jsonString = sb.toString();
+           // System.out.println("JSON: " + jsonString);
 
-            jsonArray = new JSONArray(jsonString);
+          //  jsonArray = new JSONArray(jsonString);
 
         } catch (Exception e) {
 
 
             return null;
         }
-        return jsonArray;
+        return jsonString;
     }
 
-    protected void onPostExecute(JSONArray feed) {
+    protected void onPostExecute(String feed) {
         ((THSFaqPresenter)mThsBasePresenter).parseJson(feed);
     }
 

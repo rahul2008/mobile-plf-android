@@ -14,6 +14,7 @@ import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSRestClient;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.lang.reflect.Type;
 import java.net.URL;
@@ -55,9 +56,15 @@ public class THSFaqPresenter implements THSBasePresenter{
 
     }
 
-    public void parseJson(JSONArray jsonArray) {
+    public void parseJson(String jsonString) {
         HashMap map = new HashMap();
-        if(jsonArray!=null) {
+        if(jsonString!=null) {
+            JSONArray jsonArray = null;
+            try {
+                jsonArray = new JSONArray(jsonString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             Type listType = new TypeToken<ArrayList<THSFaqPojo>>() {
             }.getType();
             ArrayList<THSFaqPojo> fags = new GsonBuilder().create().fromJson(jsonArray.toString(), listType);
