@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -154,14 +155,17 @@ public class THSAvailableProviderDetailPresenterTest {
 
     @Test
     public void onProviderDetailsReceived() throws Exception {
+        when(thsAvailableProviderDetailFragmentMock.isFragmentAttached()).thenReturn(true);
+        sdkErrorMock = null;
         mThsAvailableProviderDetailPresenter.onProviderDetailsReceived(providerMock,sdkErrorMock);
         verify(practiceProvidersManagerMock).getEstimatedVisitCost(any(Consumer.class),any(Provider.class),any(SDKCallback.class));
     }
 
     @Test
     public void onProviderDetailsFetchError() throws Exception {
+        when(thsAvailableProviderDetailFragmentMock.isFragmentAttached()).thenReturn(true);
         mThsAvailableProviderDetailPresenter.onProviderDetailsFetchError(throwableMock);
-        verify(thsAvailableProviderDetailFragmentMock).hideProgressBar();
+        verify(thsAvailableProviderDetailFragmentMock).showToast(anyInt());
     }
 
     @Test
@@ -169,20 +173,23 @@ public class THSAvailableProviderDetailPresenterTest {
         List list = new ArrayList();
         list.add(dateMock);
         when(thssdkError.getSdkError()).thenReturn(sdkErrorMock);
+        when(thsAvailableProviderDetailFragmentMock.isFragmentAttached()).thenReturn(true);
         mThsAvailableProviderDetailPresenter.onResponse((List<Date>)list,thssdkError);
         verify(thsAvailableProviderDetailFragmentMock).hideProgressBar();
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void onResponse() throws Exception {
         List list = new ArrayList();
         list.add(dateMock);
+        sdkErrorMock = null;
         mThsAvailableProviderDetailPresenter.onResponse(list,sdkErrorMock);
         verify(thsProviderDetailsDisplayHelperMock).launchConfirmAppointmentFragment(0);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void onFailure() throws Exception {
+        when(thsAvailableProviderDetailFragmentMock.isFragmentAttached()).thenReturn(true);
         mThsAvailableProviderDetailPresenter.onFailure(throwableMock);
         verify(thsAvailableProviderDetailFragmentMock).hideProgressBar();
     }

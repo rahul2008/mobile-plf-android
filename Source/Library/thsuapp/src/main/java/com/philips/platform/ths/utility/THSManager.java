@@ -117,7 +117,6 @@ import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.providerslist.THSProvidersListCallback;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
-import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
@@ -486,7 +485,7 @@ public class THSManager {
 
             @Override
             public void onFailure(Throwable throwable) {
-
+                thsOnDemandSpecialtyCallback.onFailure(throwable);
             }
         });
     }
@@ -582,6 +581,7 @@ public class THSManager {
         });
     }*/
 
+    //TODO: No SDKError is sent by backend.
     public void getAppointments(Context context, SDKLocalDate sdkLocalDate, final THSGetAppointmentsCallback<List<Appointment>, THSSDKError> thsGetAppointmentsCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getAppointments(getPTHConsumer().getConsumer(),sdkLocalDate,new SDKCallback<List< Appointment >, SDKError>(){
 
@@ -599,6 +599,7 @@ public class THSManager {
     }
 
 
+    //TODO: No SDKError is sent by backend.
     public void getConsumerObject(Context context,Authentication authentication,final THSGetConsumerObjectCallBack THSGetConsumerObjectCallBack) throws AWSDKInstantiationException {
 
         getAwsdk(context).getConsumerManager().getConsumer(authentication, new SDKCallback<Consumer, SDKError>() {
@@ -618,6 +619,7 @@ public class THSManager {
         });
     }
 
+    //TODO: No SDKError is sent by backend.
     public void getConditions(Context context, final THSConditionsCallBack<THSConditionsList,THSSDKError> thsConditionsCallBack) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getConditions(getPTHConsumer().getConsumer(), new SDKCallback<List<Condition>, SDKError>() {
             @Override
@@ -639,6 +641,7 @@ public class THSManager {
     }
 
 
+    //Done error codes
     public void getPractices(Context context, final THSPracticesListCallback THSPracticesListCallback) throws AWSDKInstantiationException {
 
 
@@ -658,6 +661,7 @@ public class THSManager {
     }
 
 
+    //Done error codes
     public void getProviderList(Context context, Practice practice, String searchTerm, final THSProvidersListCallback THSProvidersListCallback) throws AWSDKInstantiationException{
         getAwsdk(context).getPracticeProvidersManager().findProviders(getPTHConsumer().getConsumer(), practice, null, searchTerm, null, null, null, null, null, new SDKCallback<List<ProviderInfo>, SDKError>() {
             @Override
@@ -681,6 +685,8 @@ public class THSManager {
         getProviderList(context, practice,null,THSProvidersListCallback);
     }
 
+
+    //Done error codes
     public void getProviderDetails(Context context, THSProviderInfo thsProviderInfo, final THSProviderDetailsCallback THSProviderDetailsCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getPracticeProvidersManager().getProvider(thsProviderInfo.getProviderInfo(), getPTHConsumer().getConsumer(), new SDKCallback<Provider, SDKError>() {
             @Override
@@ -733,31 +739,34 @@ public class THSManager {
         this.mAwsdk = awsdk;
     }
 
-    public void getMedication(Context context ,  final THSMedicationCallback.PTHGetMedicationCallback pTHGetMedicationCallback ) throws AWSDKInstantiationException{
+    //Done error codes
+    public void getMedication(Context context ,  final THSMedicationCallback.PTHGetMedicationCallback thsGetMedicationCallback ) throws AWSDKInstantiationException{
         getAwsdk(context).getConsumerManager().getMedications(getPTHConsumer().getConsumer(), new SDKCallback<List<Medication>, SDKError>() {
             @Override
             public void onResponse(List<Medication> medications, SDKError sdkError) {
                 AmwellLog.i("onGetMedicationReceived", "success");
 
-                THSMedication pTHMedication = new THSMedication();
-                pTHMedication.setMedicationList(medications);
-                pTHGetMedicationCallback.onGetMedicationReceived(pTHMedication, sdkError);
+                THSMedication thsMedication = new THSMedication();
+                thsMedication.setMedicationList(medications);
+                thsGetMedicationCallback.onGetMedicationReceived(thsMedication, sdkError);
 
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 AmwellLog.i("onGetMedicationReceived", "failure");
+                thsGetMedicationCallback.onFailure(throwable);
             }
         });
 
     }
 
-    public void searchMedication(Context context, String medicineName, final THSSDKValidatedCallback<THSMedication, SDKError> pTHSDKValidatedCallback) throws AWSDKInstantiationException {
+    //Done error codes
+    public void searchMedication(Context context, String medicineName, final THSSDKValidatedCallback<THSMedication, SDKError> thsSDKValidatedCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().searchMedications(getPTHConsumer().getConsumer(), medicineName, new SDKValidatedCallback<List<Medication>, SDKError>() {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
-                pTHSDKValidatedCallback.onValidationFailure(map);
+                thsSDKValidatedCallback.onValidationFailure(map);
             }
 
             @Override
@@ -765,20 +774,21 @@ public class THSManager {
 
                 THSMedication pTHMedication = new THSMedication();
                 pTHMedication.setMedicationList(medications);
-                pTHSDKValidatedCallback.onResponse(pTHMedication, sdkError);
+                thsSDKValidatedCallback.onResponse(pTHMedication, sdkError);
 
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 AmwellLog.i("onSearchMedication", "failure");
-                pTHSDKValidatedCallback.onFailure(throwable);
+                thsSDKValidatedCallback.onFailure(throwable);
             }
         });
 
 
     }
 
+    //Done error codes
     public void updateVitals(Context context, THSVitals thsVitals, final THSUpdateVitalsCallBack thsUpdateVitalsCallBack) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().updateVitals(getPTHConsumer().getConsumer(), thsVitals.getVitals(), null , new SDKValidatedCallback<Void, SDKError>() {
             @Override
@@ -822,18 +832,20 @@ public class THSManager {
         });
     }
 
-    public void updateMedication(Context context , THSMedication pTHMedication, final THSMedicationCallback.PTHUpdateMedicationCallback pTHUpdateMedicationCallback) throws AWSDKInstantiationException{
+    //Done error codes
+    public void updateMedication(Context context , THSMedication pTHMedication, final THSMedicationCallback.PTHUpdateMedicationCallback thsUpdateMedicationCallback) throws AWSDKInstantiationException{
         getAwsdk(context).getConsumerManager().updateMedications(getPTHConsumer().getConsumer(), pTHMedication.getMedicationList(), new SDKCallback<Void, SDKError>() {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
                 // sdkError comes null even after successfully updating the medication
                 AmwellLog.i("onUpdateMedication","success");
-                pTHUpdateMedicationCallback.onUpdateMedicationSent(aVoid,sdkError);
+                thsUpdateMedicationCallback.onUpdateMedicationSent(aVoid,sdkError);
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 AmwellLog.i("onUpdateMedication","failure");
+                thsUpdateMedicationCallback.onFailure(throwable);
 
             }
         });
@@ -886,6 +898,10 @@ public class THSManager {
         });
     }
 
+    /**
+    Error handling not done here. If there is not pharmacy returned, then the logic of the app takes to suer to select a pharmacy. Heance SDK error which
+    throws Primary pharmacy not found is not required.*/
+
     public void getConsumerPreferredPharmacy(Context context, final THSPreferredPharmacyCallback thsPreferredPharmacyCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getConsumerPharmacy(getPTHConsumer().getConsumer(), new SDKCallback<Pharmacy, SDKError>() {
             @Override
@@ -900,6 +916,13 @@ public class THSManager {
         });
     }
 
+    /**
+     * Error handling not done here as the sdk error returned here has no ENUM from Amwell server.
+     * @param context
+     * @param pharmacy
+     * @param thsUpdatePharmacyCallback
+     * @throws AWSDKInstantiationException
+     */
     public void updateConsumerPreferredPharmacy(Context context, final Pharmacy pharmacy, final THSUpdatePharmacyCallback thsUpdatePharmacyCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().updateConsumerPharmacy(getPTHConsumer().getConsumer(), pharmacy, new SDKCallback<Void, SDKError>() {
             @Override
@@ -914,6 +937,12 @@ public class THSManager {
         });
     }
 
+    /**
+     ** Error handling not done here as the sdk error returned here has no ENUM from Amwell server
+     * @param context
+     * @param thsConsumerShippingAddressCallback
+     * @throws AWSDKInstantiationException
+     */
     public void getConsumerShippingAddress(Context context, final THSConsumerShippingAddressCallback thsConsumerShippingAddressCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getShippingAddress(getPTHConsumer().getConsumer(), new SDKCallback<Address, SDKError>() {
             @Override
@@ -928,6 +957,13 @@ public class THSManager {
         });
     }
 
+    /**
+     ** Error handling not done here as the sdk error returned here has no ENUM from Amwell server
+     * @param context
+     * @param address
+     * @param thsUpdateShippingAddressCallback
+     * @throws AWSDKInstantiationException
+     */
     public void updatePreferredShippingAddress(Context context,final Address address,final THSUpdateShippingAddressCallback thsUpdateShippingAddressCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().updateShippingAddress(getPTHConsumer().getConsumer(), address, new SDKValidatedCallback<Address, SDKError>() {
             @Override
@@ -1298,11 +1334,12 @@ public class THSManager {
         });
     }
 
-    public void abondonCurrentVisit(Context context)throws AWSDKInstantiationException{
+    public void abandonCurrentVisit(Context context)throws AWSDKInstantiationException{
         getAwsdk(context).getVisitManager().abandonCurrentVisit();
     }
 
 
+    //TODO : error code :No enum sent by amwell for sdkerror code handling
     public void fetchEstimatedVisitCost(Context context, Provider provider, final THSFetchEstimatedCostCallback thsFetchEstimatedCostCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getPracticeProvidersManager().getEstimatedVisitCost(getPTHConsumer().getConsumer(), provider, new SDKCallback<EstimatedVisitCost, SDKError>() {
             @Override
@@ -1351,6 +1388,7 @@ public class THSManager {
         this.mAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME);// initialize tagging for ths
     }
 
+    //TODO : error code :No enum sent by amwell for sdkerror code handling
     public void getVisitHistory(final Context context, SDKLocalDate date, final THSVisitReportListCallback<List<VisitReport>, SDKError> visitReportListCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getVisitReports(getPTHConsumer().getConsumer(), date, null, new SDKCallback<List<VisitReport>, SDKError>() {
 
@@ -1361,11 +1399,12 @@ public class THSManager {
 
             @Override
             public void onFailure(Throwable throwable) {
-
+                visitReportListCallback.onFailure(throwable);
             }
         });
     }
 
+    //TODO : error code :No enum sent by amwell for sdkerror code handling
     public void getVisitReportDetail(Context context, VisitReport visitReport, final THSVisitReportDetailCallback<VisitReportDetail, SDKError> thsVisitReportDetailCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getVisitReportDetail(getPTHConsumer().getConsumer(), visitReport, new SDKCallback<VisitReportDetail, SDKError>() {
             @Override
@@ -1379,6 +1418,7 @@ public class THSManager {
             }
         });
     }
+    //TODO : error code :No enum sent by amwell for sdkerror code handling
 
     public void getVisitSummary(Context context,Visit visit, final THSVisitSummaryCallbacks.THSVisitSummaryCallback<THSVisitSummary, THSSDKError> thsVisitSummaryCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getVisitManager().getVisitSummary(visit, new SDKCallback<VisitSummary, SDKError>() {
@@ -1399,7 +1439,7 @@ public class THSManager {
     }
 
 
-
+    //TODO : error code :No enum sent by amwell for sdkerror code handling
     public void getVisitReportAttachment(Context context, VisitReport visitReport, final THSVisitReportAttachmentCallback<FileAttachment, SDKError> thsVisitReportAttachmentCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getVisitReportAttachment(getPTHConsumer().getConsumer(), visitReport, new SDKCallback<FileAttachment, SDKError>() {
             @Override

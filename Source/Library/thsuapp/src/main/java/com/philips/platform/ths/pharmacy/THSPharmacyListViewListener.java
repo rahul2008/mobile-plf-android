@@ -22,4 +22,5 @@ public interface THSPharmacyListViewListener extends THSBaseView{
     void setPreferredPharmacy();
     void hideProgressBar();
     void showErrorToast(String errorMessage);
+    void showError(String errorMessage);
 }

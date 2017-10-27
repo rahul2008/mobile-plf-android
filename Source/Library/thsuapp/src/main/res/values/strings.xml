@@ -261,4 +261,10 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <string name="visit_not_successful"> Your visit was not successful.</string>
 
+
+    <string name="ths_internet_disconnected_message">Oops! Please check your network connection</string>
+
+
+    <string name="ths_se_server_error_toast_message">"Oops! Something went wrong, please try after sometime"</string>
+    <string name="ths_delete_success_string">"Delete success</string>
 </resources>

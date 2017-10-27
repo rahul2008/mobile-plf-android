@@ -15,6 +15,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -114,7 +115,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
             } else {
                 AmwellLog.i("updatePayment", "failed");
                 if (null != tHSSDKError.getSDKErrorReason() && null != tHSSDKError.getSDKErrorReason().toString()) {
-                    mTHSBillingAddressFragment.showToast(tHSSDKError.getSDKErrorReason().toString());
+                    mTHSBillingAddressFragment.showError(THSSDKErrorFactory.getErrorType(tHSSDKError.getSDKErrorReason()));
                 }
             }
         }
@@ -124,6 +125,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
     public void onGetPaymentFailure(Throwable throwable) {
         if(null !=mTHSBillingAddressFragment && mTHSBillingAddressFragment.isFragmentAttached()) {
             AmwellLog.i("updatePayment", "failed");
+            mTHSBillingAddressFragment.showToast(R.string.ths_se_server_error_toast_message);
         }
     }
 

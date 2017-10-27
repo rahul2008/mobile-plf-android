@@ -10,7 +10,6 @@ import android.os.Bundle;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.SDKErrorReason;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.Gender;
@@ -20,6 +19,7 @@ import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
@@ -32,6 +32,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Date;
 import java.util.Map;
 
+import static com.americanwell.sdk.entity.SDKErrorReason.AUTH_SCHEDULED_DOWNTIME;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -87,6 +88,8 @@ public class THSRegistrationPresenterTest {
     @Mock
     THSConsumer thsConsumerMock;
 
+    @Mock
+    THSSDKErrorFactory thssdkErrorFactory;
 
     @Before
     public void setUp() throws Exception {
@@ -113,36 +116,45 @@ public class THSRegistrationPresenterTest {
     @Test
     public void onResponseError() throws Exception {
         when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);
-        when(sdkErrorMock.getSDKErrorReason()).thenReturn(SDKErrorReason.ATTACHMENT_NOT_FOUND);
+        when(thsRegistrationFragmentMock.isFragmentAttached()).thenReturn(true);
+        when(sdkErrorMock.getSDKErrorReason()).thenReturn(AUTH_SCHEDULED_DOWNTIME);
         mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,sdkErrorMock);
         verify(thsRegistrationFragmentMock).showToast(anyString());
     }
 
     @Test
     public void onResponseSuccessDefault() throws Exception {
-        mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,null);
+        when(thsRegistrationFragmentMock.isFragmentAttached()).thenReturn(true);
+        when(sdkErrorMock.getSDKErrorReason()).thenReturn(null);
+        mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,sdkErrorMock);
         verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
     }
 
     @Test
     public void onResponseSuccessTHS_PRACTICES() throws Exception {
+        when(thsRegistrationFragmentMock.isFragmentAttached()).thenReturn(true);
         thsRegistrationFragmentMock.mLaunchInput = THSConstants.THS_PRACTICES;
-        mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,null);
+        when(sdkErrorMock.getSDKErrorReason()).thenReturn(null);
+        mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,sdkErrorMock);
         verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
     }
 
     @Test
     public void onResponseSuccessTHS_SCHEDULED_VISITS() throws Exception {
+        when(thsRegistrationFragmentMock.isFragmentAttached()).thenReturn(true);
         thsRegistrationFragmentMock.mLaunchInput = THSConstants.THS_SCHEDULED_VISITS;
-        mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,null);
+        when(sdkErrorMock.getSDKErrorReason()).thenReturn(null);
+        mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,sdkErrorMock);
         verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
     }
 
     @Test
     public void onResponseSuccessTHS_VISITS_HISTORY() throws Exception {
+        when(thsRegistrationFragmentMock.isFragmentAttached()).thenReturn(true);
+        when(sdkErrorMock.getSDKErrorReason()).thenReturn(null);
         thsRegistrationFragmentMock.mLaunchInput = THSConstants.THS_VISITS_HISTORY;
 
-        mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,null);
+        mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,sdkErrorMock);
         verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
     }
 

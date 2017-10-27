@@ -34,6 +34,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
@@ -167,8 +168,10 @@ public class THSVitalsPresenterTest {
 
     @Test
     public void onUpdateVitalsResponse() throws Exception {
+        sdkErrorMock = null;
+        when(pTHBaseViewMock.isFragmentAttached()).thenReturn(true);
         thsVitalsPresenter.onUpdateVitalsResponse(sdkErrorMock);
-        verify(pTHBaseViewMock).showToast(anyString());
+        verify(thsvItalsUIInterface).launchMedicationFragment();
     }
 
     @Test
@@ -180,7 +183,8 @@ public class THSVitalsPresenterTest {
     @Test
     public void onUpdateVitalsFailure() throws Exception {
         thsVitalsPresenter.onUpdateVitalsFailure(throwableMock);
-        verify(pTHBaseViewMock).showToast(anyString());
+        when(pTHBaseViewMock.isFragmentAttached()).thenReturn(true);
+        verify(pTHBaseViewMock).showToast(anyInt());
     }
 
     @Test

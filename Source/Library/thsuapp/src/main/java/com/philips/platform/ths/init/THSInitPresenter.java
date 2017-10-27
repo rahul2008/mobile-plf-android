@@ -15,7 +15,9 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
 import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
 import com.philips.platform.ths.welcome.THSPreWelcomeFragment;
@@ -61,14 +63,27 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     @Override
 
     public void onInitializationResponse(Void aVoid, THSSDKError sdkError) {
-        checkForUserExisitance();
+        if(sdkError.getSdkError() != null){
+            if(null!=mThsInitFragment && mThsInitFragment.isFragmentAttached()) {
+                if(sdkError.getSDKErrorReason() != null) {
+                    mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    return;
+                }else {
+                    mThsInitFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                }
+            }
+        }else {
+            checkForUserExisitance();
+        }
     }
 
     @Override
     public void onInitializationFailure(Throwable var1) {
-        mThsInitFragment.hideProgressBar();
-        if (mThsInitFragment.getContext() != null) {
-            (mThsInitFragment).showToast("Init Failed!!!!! " +var1.getMessage());
+        if(null!=mThsInitFragment && mThsInitFragment.isFragmentAttached()) {
+            mThsInitFragment.hideProgressBar();
+            if (mThsInitFragment.getContext() != null) {
+                (mThsInitFragment).showToast(R.string.ths_se_server_error_toast_message);
+            }
         }
     }
 
@@ -85,10 +100,13 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     @Override
     public void onResponse(Boolean aBoolean, THSSDKError thssdkError) {
         SDKError sdkError = thssdkError.getSdkError();
+        mThsInitFragment.hideProgressBar();
         if (null != sdkError) {
-            mThsInitFragment.hideProgressBar();
             if (null != sdkError.getSDKErrorReason()) {
-                mThsInitFragment.showToast(sdkError.getSDKErrorReason().name());
+                mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+            }
+            else if(sdkError.getHttpResponseCode() > 0){
+                mThsInitFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
             }
             return;
         }
@@ -104,6 +122,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     @Override
     public void onFailure(Throwable throwable) {
         mThsInitFragment.hideProgressBar();
+        mThsInitFragment.showToast(R.string.ths_se_server_error_toast_message);
     }
 
 

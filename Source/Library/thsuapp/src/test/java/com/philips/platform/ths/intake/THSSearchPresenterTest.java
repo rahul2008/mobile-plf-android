@@ -40,7 +40,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anySet;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -124,8 +123,9 @@ public class THSSearchPresenterTest {
 
     @Test
     public void onFailure() throws Exception {
+        when(thsSearchFragment.isFragmentAttached()).thenReturn(true);
         mTHSSearchPresenter.onFailure(throwableMock);
-        verify(thsSearchFragment).showToast(anyString());
+        verify(thsSearchFragment).showToast(anyInt());
     }
 
     @Test
@@ -161,14 +161,16 @@ public class THSSearchPresenterTest {
 
     @Test
     public void onProvidersListFetchError() throws Exception {
+        when(thsSearchFragment.isFragmentAttached()).thenReturn(true);
         mTHSSearchPresenter.onProvidersListFetchError(throwableMock);
-        verify(thsSearchFragment).showToast(anyString());
+        verify(thsSearchFragment).showToast(anyInt());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void onPharmacyListReceived() throws Exception {
         List list = new ArrayList();
         list.add(pharmacyMock);
+        when(thsSearchFragment.isFragmentAttached()).thenReturn(true);
         mTHSSearchPresenter.onPharmacyListReceived(list,sdkErrorMock);
     }
 

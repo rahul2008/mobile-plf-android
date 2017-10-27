@@ -31,6 +31,7 @@ import java.util.Date;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
@@ -100,6 +101,8 @@ public class THSAvailableProviderListBasedOnDatePresenterTest {
 
     @Test
     public void onResponse() throws Exception {
+        when(thsAvailableProviderListBasedOnDateFragmentMock.isFragmentAttached()).thenReturn(true);
+        when(thssdkError.getSdkError()).thenReturn(null);
         mThsAvailableProviderListBasedOnDatePresenter.onResponse(thsAvailableProviderListMock,thssdkError);
         verify(thsAvailableProviderListBasedOnDateFragmentMock).updateProviderAdapterList(thsAvailableProviderListMock);
     }
@@ -107,7 +110,7 @@ public class THSAvailableProviderListBasedOnDatePresenterTest {
     @Test
     public void onFailure() throws Exception {
         mThsAvailableProviderListBasedOnDatePresenter.onFailure(throwable);
-        verify(thsAvailableProviderListBasedOnDateFragmentMock).showToast(anyString());
+        verify(thsAvailableProviderListBasedOnDateFragmentMock).showToast(anyInt());
     }
 
     @Test

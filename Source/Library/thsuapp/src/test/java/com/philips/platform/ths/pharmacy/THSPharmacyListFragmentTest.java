@@ -1,6 +1,7 @@
 package com.philips.platform.ths.pharmacy;
 
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.Address;
@@ -32,6 +33,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -83,6 +85,9 @@ public class THSPharmacyListFragmentTest {
     AppTaggingInterface appTaggingInterface;
 
     THSPharmacyListFragment thsPharmacyListFragment;
+
+    @Mock
+    FragmentManager fragmentManagerMock;
 
     @Before
     public void setUp() throws Exception {
@@ -153,5 +158,11 @@ public class THSPharmacyListFragmentTest {
     public void testShowSelectedPharmacyDetails(){
         thsPharmacyListFragmentMock.showSelectedPharmacyDetails(pharmacy);
         verify(thsPharmacyListFragmentMock).showSelectedPharmacyDetails(Matchers.eq(pharmacy));
+    }
+
+    @Test
+    public void testSwtichView(){
+        thsPharmacyListFragmentMock.switchView();
+        verify(thsPharmacyListFragmentMock,atLeastOnce()).switchView();
     }
 }
