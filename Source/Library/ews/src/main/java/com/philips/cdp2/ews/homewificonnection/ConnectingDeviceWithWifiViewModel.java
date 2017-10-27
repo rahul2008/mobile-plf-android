@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
@@ -59,19 +60,22 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private final DiscoveryHelper discoveryHelper;
     @NonNull
     private final DeviceFriendlyNameChanger deviceFriendlyNameChanger;
-
     @Nullable
     private ConnectingDeviceToWifiCallback fragmentCallback;
     @Nullable
     private StartConnectionModel startConnectionModel;
     @NonNull
+    private String cppId;
+    @NonNull
     private DiscoveryHelper.DiscoveryCallback discoveryCallback =
             new DiscoveryHelper.DiscoveryCallback() {
                 @Override
                 public void onApplianceFound(Appliance appliance) {
-                    removeTimeoutRunnable();
-                    discoveryHelper.stopDiscovery();
-                    onDeviceConnectedToWifi();
+                    if (appliance.getNetworkNode().getCppId().equalsIgnoreCase(cppId)) {
+                        removeTimeoutRunnable();
+                        discoveryHelper.stopDiscovery();
+                        onDeviceConnectedToWifi();
+                    }
                 }
             };
     @NonNull
@@ -101,9 +105,11 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     };
     @NonNull
     private final ApplianceAccessManager.SetPropertiesCallback sendingNetworkInfoCallback = new ApplianceAccessManager.SetPropertiesCallback() {
+
         @Override
-        public void onPropertiesSet() {
+        public void onPropertiesSet(WifiPortProperties wifiPortProperties) {
             if (startConnectionModel != null) {
+                cppId = wifiPortProperties.getCppid();
                 connectToHomeWifiInternal(startConnectionModel.getHomeWiFiSSID());
             } else {
                 EWSLogger.e(TAG, "startConnectionModel cannot be null");

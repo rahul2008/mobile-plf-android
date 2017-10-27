@@ -40,7 +40,7 @@ public class ApplianceAccessManager {
     }
 
     public interface SetPropertiesCallback {
-        void onPropertiesSet();
+        void onPropertiesSet(@NonNull WifiPortProperties wifiPortProperties);
         void onFailedToSetProperties();
     }
 
@@ -72,7 +72,7 @@ public class ApplianceAccessManager {
                     case ApplianceRequestType.PUT_WIFI_PROPS:
                         EWSLogger.d(EWS_STEPS, "Step 4.1 : Setting the wifi properties to the device succesfull");
                         if (putCallback != null) {
-                            putCallback.onPropertiesSet();
+                            putCallback.onPropertiesSet(wifiPortProperties);
                         }
                         break;
                     default:
