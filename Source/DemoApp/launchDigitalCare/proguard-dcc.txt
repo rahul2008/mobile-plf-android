@@ -1,6 +1,4 @@
 
--dontusemixedcaseclassnames
--dontskipnonpubliclibraryclasses
 -dontskipnonpubliclibraryclassmembers
 -dontpreverify
 -keepattributes *Annotation*
@@ -17,7 +15,7 @@
 
 #Tagging
 
--keep public class com.adobe.mobile.** {*;}
+-dontwarn com.adobe.mobile.** {*;}
 
 
 #Network
@@ -91,15 +89,13 @@
 -keep public class * extends android.support.v13.**
 -keep public class * extends android.app.Fragment
 
--dontwarn com.google.android.gms.**
-
 -dontwarn  org.w3c.dom.bootstrap.DOMImplementationRegistry
 -dontwarn android.view.**
 -dontwarn android.media.session
 -dontwarn android.app.**
 
 -dontwarn android.support.**
--dontwarn com.adobe.mobile.**
+
 -dontwarn org.apache.**
 
 
@@ -169,7 +165,6 @@
 -keepattributes InnerClasses,Exceptions
 
 -dontwarn org.apache.**
--keep class org.apache.http.** { *; }
 
 -keep class com.android.volley.** { *; }
 -keep interface com.android.volley.** { *; }
