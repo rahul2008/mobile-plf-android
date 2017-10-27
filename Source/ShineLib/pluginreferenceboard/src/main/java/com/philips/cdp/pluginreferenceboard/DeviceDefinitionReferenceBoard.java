@@ -23,7 +23,6 @@ import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolByteStr
 import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshineStreaming;
 import com.philips.pins.shinelib.services.SHNServiceDeviceInformation;
 import com.philips.pins.shinelib.services.SHNServiceDiCommStreaming;
-import com.philips.pins.shinelib.services.SHNServiceMoonshineUnencryptedStreaming;
 import com.philips.pins.shinelib.utility.DeviceInformationCache;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
@@ -62,7 +61,7 @@ class DeviceDefinitionReferenceBoard implements SHNDeviceDefinitionInfo.SHNDevic
     }
 
     private void registerFirmwareUpdateCapability(Handler internalHandler, SHNDeviceImpl device) {
-        SHNServiceMoonshineUnencryptedStreaming shnServiceDiCommStreaming = new SHNServiceMoonshineUnencryptedStreaming();
+        SHNServiceDiCommStreaming shnServiceDiCommStreaming = new SHNServiceDiCommStreaming();
         // it is important to register the service for SHNDeviceImpl. SHNDeviceImpl is waiting for all registered services to indicate 'ready' before changing state to 'Connected'
         device.registerService(shnServiceDiCommStreaming);
 
