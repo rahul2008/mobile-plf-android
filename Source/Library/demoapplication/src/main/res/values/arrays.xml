@@ -5,8 +5,4 @@
         <item>@string/wakeuplight</item>
         <item>@string/airpurifier</item>
     </string-array>
-
-    <string name="default_value">Default</string>
-    <string name="wakeuplight">Wakeup Light</string>
-    <string name="airpurifier">Air Purifier</string>
 </resources>
