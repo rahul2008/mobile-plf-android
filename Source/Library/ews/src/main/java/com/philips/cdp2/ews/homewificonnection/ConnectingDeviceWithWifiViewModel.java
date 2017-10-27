@@ -71,8 +71,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
             new DiscoveryHelper.DiscoveryCallback() {
                 @Override
                 public void onApplianceFound(Appliance appliance) {
-                    if(appliance.getNetworkNode().getCppId().equalsIgnoreCase(cppId)) // checking discovered appliance is the one we are configuring
-                    {
+                    if (appliance.getNetworkNode().getCppId().equalsIgnoreCase(cppId)) {
                         removeTimeoutRunnable();
                         discoveryHelper.stopDiscovery();
                         onDeviceConnectedToWifi();
@@ -110,7 +109,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         @Override
         public void onPropertiesSet(WifiPortProperties wifiPortProperties) {
             if (startConnectionModel != null) {
-                cppId = wifiPortProperties.getCppid(); // saving CppID for future reference Ex. : next time search for same device on home network.
+                cppId = wifiPortProperties.getCppid();
                 connectToHomeWifiInternal(startConnectionModel.getHomeWiFiSSID());
             } else {
                 EWSLogger.e(TAG, "startConnectionModel cannot be null");
