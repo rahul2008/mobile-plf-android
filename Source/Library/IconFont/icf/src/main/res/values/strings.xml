@@ -48,4 +48,11 @@
   <string name="dls_navigationright" translatable="false">\uF02E</string>
   <string name="dls_exclamationcircle" translatable="false">\uF02F</string>
   <string name="dls_infocircle" translatable="false">\uF030</string>
+  <string name="dls_calendar" translatable="false">\uF031</string>
+  <string name="dls_checkmark_24" translatable="false">\uF032</string>
+  <string name="dls_edit" translatable="false">\uF033</string>
+  <string name="dls_listview" translatable="false">\uF034</string>
+  <string name="dls_navigationright_bold_24" translatable="false">\uF035</string>
+  <string name="dls_personportrait" translatable="false">\uF036</string>
+  <string name="dls_search" translatable="false">\uF037</string>
 </resources>
