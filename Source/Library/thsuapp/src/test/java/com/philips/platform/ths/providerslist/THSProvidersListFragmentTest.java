@@ -40,6 +40,7 @@ import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.NotificationBadge;
 import com.philips.platform.uid.view.widget.RatingBar;
@@ -186,6 +187,12 @@ public class THSProvidersListFragmentTest {
     @Mock
     AppTaggingInterface appTaggingInterface;
 
+    @Mock
+    THSConsumer thsConsumer;
+
+    @Mock
+    Consumer consumerMock;
+
 
     @Before
     public void setUp() throws Exception {
@@ -193,6 +200,10 @@ public class THSProvidersListFragmentTest {
         ShadowLog.stream = System.out;
         THSManager.getInstance().setAwsdk(awsdkMock);
         THSManager.getInstance().setPTHConsumer(thsConsumerMock);
+
+        com.philips.platform.ths.utility.THSManager.getInstance().setThsConsumer(thsConsumer);
+        com.philips.platform.ths.utility.THSManager.getInstance().setThsParentConsumer(thsConsumer);
+        when(thsConsumer.getConsumer()).thenReturn(consumerMock);
 
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
