@@ -39,9 +39,9 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ewsdemo);
-        findViewById(R.id.launchEWS).setOnClickListener(this);
+        findViewById(R.id.btnLaunchEws).setOnClickListener(this);
 
-        configSpinner = (Spinner) findViewById(R.id.spinner);
+        configSpinner = (Spinner) findViewById(R.id.configurationSelection);
         configSpinner.setOnItemSelectedListener(itemSelectedListener);
 
         ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,
@@ -53,7 +53,7 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.launchEWS:
+            case R.id.btnLaunchEws:
                 launchEwsUApp();
                 break;
             default:
