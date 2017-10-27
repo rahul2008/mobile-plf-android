@@ -30,9 +30,8 @@ public class AIKManager implements AIKMInterface {
     public enum KError {
 
         INVALID_INDEX_URL("Invalid index url found from service discovery"),
-        INDEX_NOT_FOUND("Index not found exception"),
+        DATA_NOT_FOUND("Data not found for provided index in AIKMAP.json"),
         INVALID_JSON("AIKMap.json is an invalid JSON"),
-        NO_SERVICE_FOUND("No Service Found From ServiceDiscovery"),
         NO_KINDEX_URL_FOUND("No Kindex URL found"),
         CONVERT_ERROR("Error while converting the value"),
         JSON_FILE_NOT_FOUND("AIKMap.json file not found in assets folder");
@@ -129,7 +128,7 @@ public class AIKManager implements AIKMInterface {
             aikmResponse.setkError(KError.JSON_FILE_NOT_FOUND);
             return aikmResponse;
         }
-        return aiKmHelper.getKeySet(serviceId, url, aikmResponse);
+        return aiKmHelper.getServiceExtension(serviceId, url, aikmResponse);
     }
 
 }

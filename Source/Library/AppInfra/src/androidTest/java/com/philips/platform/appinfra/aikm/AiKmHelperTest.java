@@ -253,7 +253,7 @@ public class AiKmHelperTest extends AppInfraInstrumentation {
         serviceDiscovery.setmError("something went wrong");
         AIKMResponse aikmResponse = new AIKMResponse();
         aiKmHelper.mapAndValidateGroom(null, "0", aikmResponse);
-        assertEquals(aikmResponse.getkError(), AIKManager.KError.NO_SERVICE_FOUND);
+        assertEquals(aikmResponse.getkError(), AIKManager.KError.DATA_NOT_FOUND);
 
         aiKmHelper.mapAndValidateGroom( "service_id","string", aikmResponse);
         assertEquals(AIKManager.KError.INVALID_INDEX_URL, aikmResponse.getkError());

@@ -231,7 +231,7 @@ class AiKmHelper {
         return appendedServiceIds;
     }
 
-    AIKMResponse getKeySet(String serviceId, String url, AIKMResponse aikmResponse) {
+    AIKMResponse getServiceExtension(String serviceId, String url, AIKMResponse aikmResponse) {
         return validateGroom(serviceId, url, aikmResponse);
     }
 
@@ -246,7 +246,7 @@ class AiKmHelper {
     }
 
     AIKMResponse mapAndValidateGroom(String serviceId, String groomIndex, AIKMResponse aikmResponse) {
-        if (serviceId != null && !TextUtils.isEmpty(groomIndex)) {
+        if (!TextUtils.isEmpty(groomIndex)) {
             int index;
             try {
                 index = Integer.parseInt(groomIndex);
@@ -262,7 +262,7 @@ class AiKmHelper {
                     try {
                         jsonObject = (JSONObject) jsonArray.get(index);
                     } catch (JSONException e) {
-                        aikmResponse.setkError(AIKManager.KError.INDEX_NOT_FOUND);
+                        aikmResponse.setkError(AIKManager.KError.DATA_NOT_FOUND);
                         return aikmResponse;
                     }
                     Map map = mapData(jsonObject, index, serviceId);
@@ -277,7 +277,7 @@ class AiKmHelper {
                     aikmResponse.setkError(AIKManager.KError.CONVERT_ERROR);
             }
         } else {
-            aikmResponse.setkError(AIKManager.KError.NO_SERVICE_FOUND);
+            aikmResponse.setkError(AIKManager.KError.INVALID_INDEX_URL);
         }
         return aikmResponse;
     }
