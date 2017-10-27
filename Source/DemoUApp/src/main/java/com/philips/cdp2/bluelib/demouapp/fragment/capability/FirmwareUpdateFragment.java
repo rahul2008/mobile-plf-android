@@ -184,37 +184,49 @@ public class FirmwareUpdateFragment extends Fragment {
         @Override
         public void onStateChanged(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate) {
             SHNLogger.w(TAG, "onStateChanged ");
-            textViewUploadState.setText((shnCapabilityFirmwareUpdate).getState().name().replace("SHNFirmwareUpdateState", ""));
+            if (textViewUploadState != null) {
+                textViewUploadState.setText((shnCapabilityFirmwareUpdate).getState().name().replace("SHNFirmwareUpdateState", ""));
+            }
         }
 
         @Override
         public void onProgressUpdate(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, float v) {
             SHNLogger.w(TAG, "onProgressUpdate " + v);
-            progressBar.setProgress((int) (v * 100));
+            if (progressBar != null) {
+                progressBar.setProgress((int) (v * 100));
+            }
         }
 
         @Override
         public void onUploadFailed(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, SHNResult shnResult) {
             SHNLogger.w(TAG, "onUploadFailed " + shnResult);
-            textViewResult.setText(String.format("%s%s", getResources().getString(R.string.bll_upload_failed), shnResult));
+            if (textViewResult != null) {
+                textViewResult.setText(String.format("%s%s", getResources().getString(R.string.bll_upload_failed), shnResult));
+            }
         }
 
         @Override
         public void onUploadFinished(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate) {
             SHNLogger.w(TAG, "onUploadFinished ");
-            textViewResult.setText(R.string.bll_finished);
+            if (textViewResult != null) {
+                textViewResult.setText(R.string.bll_finished);
+            }
         }
 
         @Override
         public void onDeployFailed(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, SHNResult shnResult) {
             SHNLogger.w(TAG, "onDeployFailed ");
-            textViewResult.setText(String.format("%s%s", getResources().getString(R.string.bll_deploy_failed), shnResult));
+            if (textViewResult != null) {
+                textViewResult.setText(String.format("%s%s", getResources().getString(R.string.bll_deploy_failed), shnResult));
+            }
         }
 
         @Override
         public void onDeployFinished(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, SHNResult shnResult) {
             SHNLogger.w(TAG, "onDeployFinished: " + shnResult);
-            textViewResult.setText(String.format("%s%s", getResources().getString(R.string.bll_deploy_finished), shnResult));
+            if (textViewResult != null) {
+                textViewResult.setText(String.format("%s%s", getResources().getString(R.string.bll_deploy_finished), shnResult));
+            }
         }
     };
 }

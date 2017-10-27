@@ -28,6 +28,7 @@ public class DeviceInformationFragment extends Fragment {
 
     private static final String TAG = "DeviceInformationFragment";
 
+    private View rootView;
     private SHNDevice mDevice;
     private SHNDevice.SHNDeviceListener mDeviceListener = new SHNDevice.SHNDeviceListener() {
 
@@ -54,7 +55,7 @@ public class DeviceInformationFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.bll_fragment_device_information, container, false);
+        rootView = inflater.inflate(R.layout.bll_fragment_device_information, container, false);
 
         mDevice = BluelibUapp.get().getSelectedDevice();
         if (mDevice != null) {
@@ -63,7 +64,7 @@ public class DeviceInformationFragment extends Fragment {
 
         showDeviceInformation();
 
-        return rootview;
+        return rootView;
     }
 
     private void showDeviceInformation() {
@@ -103,7 +104,11 @@ public class DeviceInformationFragment extends Fragment {
     }
 
     private void setTextByViewId(final String text, final int textViewId) {
-        final TextView tv = (TextView) getView().findViewById(textViewId);
+        if(rootView == null) {
+            return;
+        }
+
+        final TextView tv = rootView.findViewById(textViewId);
         if (tv == null) {
             return;
         }
