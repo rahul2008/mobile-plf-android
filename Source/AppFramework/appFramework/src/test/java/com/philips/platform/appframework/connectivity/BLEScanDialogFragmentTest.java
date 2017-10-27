@@ -41,7 +41,7 @@ import static junit.framework.Assert.assertFalse;
  * Test for BLEScanDialogFragment
  */
 @RunWith(CustomRobolectricRunner.class)
-@Config(application = TestAppFrameworkApplication.class)
+@Config(application = TestAppFrameworkApplication.class, sdk=25)
 public class BLEScanDialogFragmentTest {
 
     private BLEScanDialogFragment bleScanDialogFragment;

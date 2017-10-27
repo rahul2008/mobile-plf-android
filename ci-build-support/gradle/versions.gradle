@@ -27,11 +27,11 @@ ext.versions = [
 		usr_jump                   : "7.1.0",
 		usr_hsdp                   : "2.1.0",
 		usr_coppa                  : "2.1.0",
-		sdk                        : 25,
-		target                     : 25,
+		sdk                        : 26,
+		target                     : 26,
 		minsdk                     : 21,
-		buildtools                 : "25.0.2",
-		support                    : "25.3.1",
+		buildtools                 : "26.0.2",
+		support                    : "26.0.2",
 		jacoco                     : "0.7.6.201602180812"
 ]
 

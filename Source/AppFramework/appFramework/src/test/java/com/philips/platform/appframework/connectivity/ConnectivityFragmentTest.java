@@ -48,7 +48,7 @@ import static org.robolectric.Shadows.shadowOf;
  * Test for ConnectivityFragment
  */
 @RunWith(CustomRobolectricRunner.class)
-@Config(application = TestAppFrameworkApplication.class)
+@Config(application = TestAppFrameworkApplication.class, sdk=25)
 public class ConnectivityFragmentTest {
     private ConnectivityFragment connectivityFragment;
 
