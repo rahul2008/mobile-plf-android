@@ -23,7 +23,7 @@ import javax.inject.Inject;
 public class EWSHomeWifiDisplayViewModel extends BaseObservable {
 
     public interface ViewCallback {
-        void showTroubleshootHomeWifiDialog();
+        void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
     }
 
     @NonNull private final Navigator navigator;
@@ -34,6 +34,7 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
     @NonNull public final ObservableField<String> note;
 
     @Nullable private ViewCallback viewCallback;
+    @NonNull private BaseContentConfiguration baseContentConfiguration;
 
     @Inject
     public EWSHomeWifiDisplayViewModel(@NonNull final Navigator navigator,
@@ -43,6 +44,7 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
         this.navigator = navigator;
         this.wiFiUtil = wiFiUtil;
         this.stringProvider = stringProvider;
+        this.baseContentConfiguration = baseConfig;
         title = new ObservableField<>(getTitle());
         note = new ObservableField<>(getNote(baseConfig));
     }
@@ -59,13 +61,13 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
     public void refresh() {
         notifyPropertyChanged(BR.homeWiFiSSID);
         if (viewCallback != null && !wiFiUtil.isHomeWiFiEnabled()) {
-            viewCallback.showTroubleshootHomeWifiDialog();
+            viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration);
         }
     }
 
     public void onNoButtonClicked() {
         if (viewCallback != null) {
-            viewCallback.showTroubleshootHomeWifiDialog();
+            viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration);
         }
     }
 

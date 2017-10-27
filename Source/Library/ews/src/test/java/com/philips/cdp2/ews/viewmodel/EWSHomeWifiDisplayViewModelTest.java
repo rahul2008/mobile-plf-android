@@ -71,7 +71,7 @@ public class EWSHomeWifiDisplayViewModelTest {
     public void shouldShowNetworkTroubleShootingScreenOnNoButtonClicked() throws Exception {
         viewModel.onNoButtonClicked();
 
-        verify(mockViewCallback).showTroubleshootHomeWifiDialog();
+        verify(mockViewCallback).showTroubleshootHomeWifiDialog(mockBaseContentConfig);
     }
 
     @Test
@@ -88,7 +88,7 @@ public class EWSHomeWifiDisplayViewModelTest {
 
         viewModel.refresh();
 
-        verify(mockViewCallback).showTroubleshootHomeWifiDialog();
+        verify(mockViewCallback).showTroubleshootHomeWifiDialog(mockBaseContentConfig);
     }
 
     @Test
@@ -97,7 +97,7 @@ public class EWSHomeWifiDisplayViewModelTest {
 
         viewModel.refresh();
 
-        verify(mockViewCallback, never()).showTroubleshootHomeWifiDialog();
+        verify(mockViewCallback, never()).showTroubleshootHomeWifiDialog(mockBaseContentConfig);
     }
 
     @Test
