@@ -201,8 +201,8 @@ public class THSProvidersListFragmentTest {
         THSManager.getInstance().setAwsdk(awsdkMock);
         THSManager.getInstance().setPTHConsumer(thsConsumerMock);
 
-        com.philips.platform.ths.utility.THSManager.getInstance().setThsConsumer(thsConsumer);
-        com.philips.platform.ths.utility.THSManager.getInstance().setThsParentConsumer(thsConsumer);
+        THSManager.getInstance().setThsConsumer(thsConsumer);
+        THSManager.getInstance().setThsParentConsumer(thsConsumer);
         when(thsConsumer.getConsumer()).thenReturn(consumerMock);
 
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);

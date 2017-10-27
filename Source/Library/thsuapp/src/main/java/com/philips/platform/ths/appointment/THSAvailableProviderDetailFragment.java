@@ -158,6 +158,9 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
 
 
     public RemindOptions getReminderOptions(){
+        if(remindOptions!=RemindOptions.NO_REMINDER){
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"reminderSet");
+        }
         return remindOptions;
     }
 
