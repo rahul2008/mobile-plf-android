@@ -44,4 +44,5 @@
     <!-- Pre Welcome Screen -->
     <dimen name="ths_32sp">32sp</dimen>
     <dimen name="ths_title_padding_pre_welcome_screen">2dp</dimen>
+    <dimen name="ths_2_dp">2dp</dimen>
 </resources>

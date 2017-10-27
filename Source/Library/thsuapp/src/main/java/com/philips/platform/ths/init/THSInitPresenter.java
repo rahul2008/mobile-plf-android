@@ -12,6 +12,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.cdp.registration.User;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.onboarding.OnBoardingFragment;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
 import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
@@ -107,6 +108,11 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         mThsInitFragment.hideProgressBar();
     }
 
+
+    private void launchOnBoardingScreen() {
+        OnBoardingFragment thsOnBoardingFragment = new OnBoardingFragment();
+        mThsInitFragment.addFragment(thsOnBoardingFragment, OnBoardingFragment.TAG, null, false);
+    }
 
 
     private void launchPreWelcomeScreen() {

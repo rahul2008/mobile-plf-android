@@ -7,14 +7,15 @@ package com.philips.platform.ths.onboardingtour;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.registration.THSRegistrationFragment;
+import com.philips.platform.ths.welcome.THSPreWelcomeFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class OnBoardingTourPresenter implements THSBasePresenter {
     public static String TAG = OnBoardingTourPresenter.class.getSimpleName();
-
-    private String WELCOME_SKIP = "welcome_skip";
-    private String WELCOME_DONE = "welcome_done";
-    private String WELCOME_HOME = "welcome_home";
 
     private OnBoardingTourFragment onBoardingTourFragment;
 
@@ -25,10 +26,6 @@ public class OnBoardingTourPresenter implements THSBasePresenter {
     @Override
     public void onEvent(final int componentID) {
 
-        /*rightArrow = (ImageView) view.findViewById(R.id.welcome_rightarrow);
-        leftArrow = (ImageView) view.findViewById(R.id.welcome_leftarrow);
-        doneButton = (Label) view.findViewById(R.id.welcome_start_registration_button);
-        skipButton = (Label) view.findViewById(R.id.welcome_skip_button);*/
 
         if(componentID == R.id.welcome_rightarrow){
 
@@ -37,17 +34,31 @@ public class OnBoardingTourPresenter implements THSBasePresenter {
 
         }
         if(componentID == R.id.welcome_start_registration_button){
-
+            launchPreWelcomeScreen();
         }
         if(componentID == R.id.welcome_skip_button){
-
+            launchPreWelcomeScreen();
         }
     }
 
+    public  List<OnBoardingTourContentModel> createOnBoardingContent() {
 
-    protected String getEventState(final int componentID) {
+        List<OnBoardingTourContentModel> onBoardingTourContentModelList=new ArrayList<>();
+        OnBoardingTourContentModel onBoardingTourContentModel1 = new OnBoardingTourContentModel(R.string.onboarding_one_text, R.mipmap.onboarding_tour_one);
+        OnBoardingTourContentModel onBoardingTourContentModel2 = new OnBoardingTourContentModel(R.string.onboarding_two_text, R.mipmap.onboarding_tour_two);
+        OnBoardingTourContentModel onBoardingTourContentModel3 = new OnBoardingTourContentModel(R.string.onboarding_three_text, R.mipmap.onboarding_tour_three);
+        OnBoardingTourContentModel onBoardingTourContentModel4 = new OnBoardingTourContentModel(R.string.onboarding_four_text, R.mipmap.onboarding_tour_four);
 
-        return WELCOME_HOME;
+        onBoardingTourContentModelList.add(onBoardingTourContentModel1);
+        onBoardingTourContentModelList.add(onBoardingTourContentModel2);
+        onBoardingTourContentModelList.add(onBoardingTourContentModel3);
+        onBoardingTourContentModelList.add(onBoardingTourContentModel4);
+
+        return onBoardingTourContentModelList;
     }
 
+    private void launchPreWelcomeScreen() {
+        THSPreWelcomeFragment thsPreWelcomeFragment = new THSPreWelcomeFragment();
+        onBoardingTourFragment.addFragment(thsPreWelcomeFragment, THSRegistrationFragment.TAG, null, false);
+    }
 }

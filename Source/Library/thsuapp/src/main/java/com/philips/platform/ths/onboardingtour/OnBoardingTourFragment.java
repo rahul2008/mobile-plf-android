@@ -16,11 +16,9 @@ import android.widget.ImageView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.Label;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +28,7 @@ import java.util.List;
  * <b>To use the Introduction screen flow, start the mActivity with IntroudctionScreenActivity as the Intent</b><br>
  * <pre>&lt;To make the start , skip ,left and right button visibility in each screen, please use the onPageSelected
  */
-public class OnBoardingTourFragment extends THSBaseFragment implements View.OnClickListener, View.OnLongClickListener {
+public class OnBoardingTourFragment extends THSBaseFragment implements View.OnClickListener {
 
     public static String TAG = OnBoardingTourFragment.class.getSimpleName();
 
@@ -40,9 +38,9 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
     private DotNavigationIndicator indicator;
     private OnBoardingTourPresenter presenter;
     private ViewPager pager;
-    //private Button environmentSelection;
 
     List<OnBoardingTourContentModel> onBoardingTourContentModelList;
+    private OnBoardingTourPagerAdapter onBoardingTourPagerAdapter;
 
 
     @Override
@@ -50,29 +48,18 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
         super.onCreate(savedInstanceState);
         presenter = new OnBoardingTourPresenter(this);
 
-        //Just for testing
-        OnBoardingTourContentModel onBoardingTourContentModel1 = new OnBoardingTourContentModel(R.string.onboarding_one_text, R.mipmap.onboarding_tour_one);
-        OnBoardingTourContentModel onBoardingTourContentModel2 = new OnBoardingTourContentModel(R.string.onboarding_two_text, R.mipmap.onboarding_tour_two);
-        OnBoardingTourContentModel onBoardingTourContentModel3 = new OnBoardingTourContentModel(R.string.onboarding_three_text, R.mipmap.onboarding_tour_three);
-        OnBoardingTourContentModel onBoardingTourContentModel4 = new OnBoardingTourContentModel(R.string.onboarding_four_text, R.mipmap.onboarding_tour_four);
-
-        onBoardingTourContentModelList = new ArrayList<>();
-        onBoardingTourContentModelList.add(onBoardingTourContentModel1);
-        onBoardingTourContentModelList.add(onBoardingTourContentModel2);
-        onBoardingTourContentModelList.add(onBoardingTourContentModel3);
-        onBoardingTourContentModelList.add(onBoardingTourContentModel1);
-
+        onBoardingTourContentModelList = presenter.createOnBoardingContent();
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        startLogging();
         View view = inflater.inflate(R.layout.ths_on_boarding_tour_fragment, container, false);
 
         pager = (ViewPager) view.findViewById(R.id.welcome_pager);
-        pager.setAdapter(new OnBoardingTourPagerAdapter(getActivity().getSupportFragmentManager(), onBoardingTourContentModelList, getActivity()));
+        onBoardingTourPagerAdapter = new OnBoardingTourPagerAdapter(getActivity().getSupportFragmentManager(), onBoardingTourContentModelList, getActivity());
+        pager.setAdapter(onBoardingTourPagerAdapter);
 
         rightArrow = (ImageView) view.findViewById(R.id.welcome_rightarrow);
         leftArrow = (ImageView) view.findViewById(R.id.welcome_leftarrow);
@@ -110,7 +97,8 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
                     skipButton.setVisibility(View.GONE);
                     leftArrow.setVisibility(View.VISIBLE);
                 }
-                setEnviromentSelectionVisibility(position);
+
+                startAppTagging(position);
             }
 
             @Override
@@ -118,20 +106,12 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
             }
         });
 
-        startAppTagging();
+
         return view;
     }
 
-    private void setEnviromentSelectionVisibility(int position) {
-
-    }
-
-    protected void startAppTagging() {
-
-    }
-
-    protected void startLogging() {
-
+    protected void startAppTagging(int position) {
+        onBoardingTourPagerAdapter.getPageTitle(position);
     }
 
     @Override
@@ -146,20 +126,13 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
             pager.arrowScroll(View.FOCUS_LEFT);
         }
         if (componentID == R.id.welcome_start_registration_button) {
-            //Start a amwell Fragment
+            presenter.onEvent(v.getId());
 
         }
         if (componentID == R.id.welcome_skip_button) {
-            //start Amwell Fragemnt .
+            presenter.onEvent(v.getId());
         }
     }
 
 
-    @Override
-    public boolean onLongClick(View view) {
-        switch (view.getId()) {
-
-        }
-        return false;
-    }
 }

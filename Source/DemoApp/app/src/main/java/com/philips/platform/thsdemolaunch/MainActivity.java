@@ -28,6 +28,7 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.ths.onboarding.OnBoardingFragment;
 import com.philips.platform.ths.onboardingtour.OnBoardingTourFragment;
 import com.philips.platform.ths.uappclasses.THSVisitCompletionListener;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
@@ -79,20 +80,11 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         UIDHelper.setTitle(this, "Am well");
         fragmentLauncher = new FragmentLauncher(this, R.id.uappFragmentLayout, this);
 
-        Fragment fragment=new OnBoardingTourFragment();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.uappFragmentLayout, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-
-
         User user = new User(this);
         if(user!=null && !user.isUserSignIn()) {
             startRegistrationFragment();
         }else {
-           // launchAmwell();
+            launchAmwell();
         }
        // launchAmwell();
     }

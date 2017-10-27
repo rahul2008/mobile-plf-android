@@ -9,6 +9,7 @@ public class OnBoardingTourContentModel {
     private int tourPageTextId;
     private int tourBackgroundDrawable;
 
+
     public OnBoardingTourContentModel(int tourPageTextId, int tourBackgroundDrawable) {
         this.tourPageTextId = tourPageTextId;
         this.tourBackgroundDrawable = tourBackgroundDrawable;

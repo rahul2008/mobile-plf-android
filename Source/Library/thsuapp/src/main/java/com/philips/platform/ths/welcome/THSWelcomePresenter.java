@@ -18,6 +18,7 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
+import com.philips.platform.ths.onboarding.OnBoardingFragment;
 import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.registration.dependantregistration.THSDependantHistoryFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
@@ -42,12 +43,13 @@ class THSWelcomePresenter implements THSBasePresenter,
     public void onEvent(int componentID) {
         Bundle bundle = new Bundle();
         if (componentID == R.id.appointments) {
-            bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_SCHEDULED_VISITS);
+            uiBaseView.addFragment(new OnBoardingFragment(), OnBoardingFragment.TAG, null, true);
+           /* bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_SCHEDULED_VISITS);
             if(THSManager.getInstance().getThsParentConsumer().getDependents()!=null && THSManager.getInstance().getThsParentConsumer().getDependents().size()>0){
                 uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
             }else {
                 uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
-            }
+            }*/
         } else if (componentID == R.id.visit_history) {
             bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_VISITS_HISTORY);
             if(THSManager.getInstance().getThsParentConsumer().getDependents()!=null && THSManager.getInstance().getThsParentConsumer().getDependents().size()>0){
