@@ -5,9 +5,15 @@
     android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_height="match_parent">
 
-    <ExpandableListView
-        android:id="@+id/expanded"
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_question"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </ExpandableListView>
+        android:layout_height="wrap_content" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_ans"
+        android:layout_below="@id/ths_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </RelativeLayout>

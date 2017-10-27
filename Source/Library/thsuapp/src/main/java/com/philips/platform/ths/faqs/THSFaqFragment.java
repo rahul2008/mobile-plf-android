@@ -10,6 +10,7 @@ import android.widget.ExpandableListView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +37,11 @@ public class THSFaqFragment extends THSBaseFragment{
         // get the listview
         expListView = (ExpandableListView) view.findViewById(R.id.lv_expand);
 
+        ActionBarListener actionBarListener = getActionBarListener();
+        if(null != actionBarListener){
+            actionBarListener.updateActionBar(getString(R.string.ths_how_it_works),true);
+        }
+
         return view;
     }
 
@@ -46,7 +52,7 @@ public class THSFaqFragment extends THSBaseFragment{
         listDataChild = new HashMap();
         listDataChild = map;
 
-        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
+        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);

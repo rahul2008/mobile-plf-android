@@ -7,7 +7,9 @@
 package com.philips.platform.ths.faqs;
 
 
-public class FaqBean {
+import java.io.Serializable;
+
+public class FaqBean implements Serializable{
 
     private String question;
     private String answer;

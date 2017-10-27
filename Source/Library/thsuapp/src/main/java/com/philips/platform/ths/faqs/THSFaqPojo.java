@@ -6,9 +6,10 @@
 
 package com.philips.platform.ths.faqs;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class THSFaqPojo {
+public class THSFaqPojo implements Serializable{
 
     private String section;
     private List<FaqBean> faq;

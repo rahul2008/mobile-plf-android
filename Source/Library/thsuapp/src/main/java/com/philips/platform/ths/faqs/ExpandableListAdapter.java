@@ -2,6 +2,7 @@ package com.philips.platform.ths.faqs;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.utility.THSConstants;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,18 +25,21 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> listDataHeader; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<FaqBean>> listDataChild;
+    private THSFaqFragment mTHSFaqFragment;
 
-    public ExpandableListAdapter(Context context, List<String> listDataHeader,
+    public ExpandableListAdapter(THSFaqFragment thsFaqFragment, List<String> listDataHeader,
                                  HashMap<String, List<FaqBean>> listChildData) {
-        this.context = context;
+        this.mTHSFaqFragment = thsFaqFragment;
+        this.context = mTHSFaqFragment.getContext();
         this.listDataHeader = listDataHeader;
         this.listDataChild = listChildData;
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        return this.listDataChild.get(this.listDataHeader.get(groupPosition))
+        final FaqBean faqBean = this.listDataChild.get(this.listDataHeader.get(groupPosition))
                 .get(childPosititon);
+        return faqBean;
     }
 
     @Override
@@ -46,7 +51,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final String childText = (String) getChild(groupPosition, childPosition);
+        final FaqBean childObject = (FaqBean)getChild(groupPosition, childPosition);
+        final String childText = childObject.getQuestion();
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
@@ -54,14 +60,18 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.ths_faqs_expandable_list_group_item, null);
         }
 
-        TextView txtListChild = (TextView) convertView
+        TextView txtListChild = convertView
                 .findViewById(R.id.lblListItem);
 
         txtListChild.setText(childText);
         txtListChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Bundle bundle = new Bundle();
+                bundle.putString(THSConstants.THS_FAQ_HEADER,listDataHeader.get(childPosition).toString());
+                bundle.putSerializable(THSConstants.THS_FAQ_ITEM,childObject);
+                THSFaqAnswerFragment thsFaqAnswerFragment = new THSFaqAnswerFragment();
+                mTHSFaqFragment.addFragment(thsFaqAnswerFragment,THSFaqAnswerFragment.TAG,bundle,false);
             }
         });
 
