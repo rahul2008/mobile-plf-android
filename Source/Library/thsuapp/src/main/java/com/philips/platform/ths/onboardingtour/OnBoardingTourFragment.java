@@ -41,8 +41,7 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
 
     List<OnBoardingTourContentModel> onBoardingTourContentModelList;
     private OnBoardingTourPagerAdapter onBoardingTourPagerAdapter;
-
-
+    
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
