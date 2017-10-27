@@ -16,6 +16,7 @@ import android.support.annotation.StringRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -27,6 +28,7 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.ths.faqs.THSFaqFragment;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.uappclasses.THSMicroAppDependencies;
 import com.philips.platform.ths.uappclasses.THSMicroAppInterfaceImpl;
@@ -79,9 +81,16 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         if(user!=null && !user.isUserSignIn()) {
             startRegistrationFragment();
         }else {
-            launchAmwell();
+            //launchAmwell();
         }
        // launchAmwell();
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        THSFaqFragment llf = new THSFaqFragment();
+        ft.replace(R.id.uappFragmentLayout, llf);
+        ft.commit();
     }
 
 

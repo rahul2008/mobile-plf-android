@@ -33,7 +33,7 @@ public class THSFaqPresenter implements THSBasePresenter{
 
             @Override
             public void onSuccess(URL url) {
-                new THSRestClient().execute("https://stg.philips.com/dam/b2c/apps/70000/en_US/thsfaq.json");
+                //new THSRestClient().execute("https://stg.philips.com/dam/b2c/apps/70000/en_US/thsfaq.json");
             }
         });
     }
@@ -71,5 +71,8 @@ public class THSFaqPresenter implements THSBasePresenter{
             mRestInterface.getRequestQueue().add(jsonRequest);
         }
     }*/
+
+
+
 
 }

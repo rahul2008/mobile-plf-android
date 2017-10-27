@@ -61,7 +61,7 @@ public class THSRestClient extends AsyncTask<String, Void, JSONArray> {
     }
 
     protected void onPostExecute(JSONArray feed) {
-        ((THSFaqPresenter)mThsBasePresenter).parseJson(feed);
+       // ((THSFaqPresenter)mThsBasePresenter).parseJson(feed);
     }
 
 }
