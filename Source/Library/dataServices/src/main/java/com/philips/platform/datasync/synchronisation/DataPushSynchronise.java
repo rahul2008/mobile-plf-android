@@ -13,7 +13,7 @@ import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.UCoreAccessProvider;
+import com.philips.platform.datasync.UserAccessProvider;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
 import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.insights.InsightDataSender;
@@ -29,7 +29,6 @@ import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -40,22 +39,16 @@ import retrofit.RetrofitError;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DataPushSynchronise extends EventMonitor {
 
-    ExecutorService executor;
+    private ExecutorService executor;
 
     @Inject
-    UCoreAccessProvider accessProvider;
-
-    @NonNull
-    List<? extends DataSender> senders;
+    UserAccessProvider userAccessProvider;
 
     @Inject
     Eventing eventing;
 
     @Inject
     SynchronisationManager synchronisationManager;
-
-    @NonNull
-    private final AtomicInteger numberOfRunningSenders = new AtomicInteger(0);
 
     @Inject
     MomentsDataSender momentsDataSender;
@@ -72,6 +65,9 @@ public class DataPushSynchronise extends EventMonitor {
     @Inject
     UserCharacteristicsSender userCharacteristicsSender;
 
+    @NonNull
+    List<? extends DataSender> senders;
+
     List<? extends DataSender> configurableSenders;
 
     private DataServicesManager mDataServicesManager;
@@ -80,34 +76,31 @@ public class DataPushSynchronise extends EventMonitor {
         mDataServicesManager = DataServicesManager.getInstance();
         mDataServicesManager.getAppComponant().injectDataPushSynchronize(this);
         this.senders = senders;
-        configurableSenders = getSenders();
-        executor = Executors.newFixedThreadPool(configurableSenders.size());
     }
 
     void startSynchronise(final int eventId) {
-        if (isSyncStarted()) {
+        if (!userAccessProvider.isLoggedIn()) {
+            eventing.post(new BackendResponse(eventId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in"))));
             return;
         }
 
-        boolean isLoggedIn = accessProvider.isLoggedIn();
-
-        if (isLoggedIn) {
+        initializeSendersAndExecutor();
+        if (executor == null) {
+            synchronisationManager.dataSyncComplete();
+        } else {
             registerEvent();
             fetchNonSynchronizedData(eventId);
-        } else {
-            eventing.post(new BackendResponse(eventId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in"))));
+        }
+    }
+
+    private void initializeSendersAndExecutor() {
+        this.configurableSenders = getSenders();
+        if (configurableSenders != null && !configurableSenders.isEmpty()) {
+            this.executor = Executors.newFixedThreadPool(configurableSenders.size());
         }
     }
 
     private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
-
-        if (configurableSenders.size() <= 0) {
-            synchronisationManager.dataSyncComplete();
-            return;
-        }
-
-        initPush(configurableSenders.size());
-
         final CountDownLatch countDownLatch = new CountDownLatch(configurableSenders.size());
 
         for (final DataSender sender : configurableSenders) {
@@ -115,7 +108,6 @@ public class DataPushSynchronise extends EventMonitor {
                 @Override
                 public void run() {
                     boolean response = sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
-                    numberOfRunningSenders.decrementAndGet();
                     countDownLatch.countDown();
                 }
             });
@@ -136,12 +128,6 @@ public class DataPushSynchronise extends EventMonitor {
         }
     }
 
-    void unRegisterEvent() {
-        if (eventing.isRegistered(this)) {
-            eventing.unregister(this);
-        }
-    }
-
     private void fetchNonSynchronizedData(int eventId) {
         eventing.post(new GetNonSynchronizedDataRequest(eventId));
     }
@@ -157,18 +143,10 @@ public class DataPushSynchronise extends EventMonitor {
         synchronisationManager.dataSyncComplete();
     }
 
-    private boolean isSyncStarted() {
-        return numberOfRunningSenders.get() > 0;
-    }
-
-    private void initPush(int size) {
-        numberOfRunningSenders.set(size);
-    }
-
     private List<? extends DataSender> getSenders() {
         Set<String> configurableSenders = mDataServicesManager.getSyncTypes();
 
-        if (configurableSenders == null) {
+        if (configurableSenders == null || (configurableSenders != null && configurableSenders.isEmpty())) {
             return senders;
         }
 

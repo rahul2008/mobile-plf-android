@@ -69,7 +69,7 @@ public class DataPullSynchronise {
 
     List<? extends DataFetcher> configurableFetchers;
 
-    DataServicesManager dataServicesManager;
+    private DataServicesManager dataServicesManager;
 
     @Inject
     public DataPullSynchronise(@NonNull final List<? extends DataFetcher> fetchers) {
@@ -101,8 +101,6 @@ public class DataPullSynchronise {
     }
 
     private synchronized void fetchData(final DateTime sinceLastModifiedDate, final int referenceId) {
-
-
         final CountDownLatch countDownLatch = new CountDownLatch(configurableFetchers.size());
 
         for (final DataFetcher fetcher : configurableFetchers) {

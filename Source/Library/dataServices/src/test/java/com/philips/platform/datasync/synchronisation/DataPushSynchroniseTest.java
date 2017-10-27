@@ -1,56 +1,44 @@
 package com.philips.platform.datasync.synchronisation;
 
-import android.app.Application;
-import android.os.Handler;
-import android.os.Looper;
-import android.support.annotation.NonNull;
-
-import com.philips.platform.core.BaseAppDataCreator;
-import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.UuidGenerator;
-import com.philips.platform.datasync.UCoreAccessProvider;
-import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
-import com.philips.testing.verticals.ErrorHandlerImplTest;
-import com.philips.testing.verticals.OrmCreatorTest;
+import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
+import com.philips.platform.datasync.consent.ConsentDataSender;
+import com.philips.platform.datasync.insights.InsightDataSender;
+import com.philips.platform.datasync.moments.MomentsDataSender;
+import com.philips.platform.datasync.settings.SettingsDataSender;
+import com.philips.platform.datasync.spy.EventingSpy;
+import com.philips.platform.datasync.spy.UserAccessProviderSpy;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.robolectric.RuntimeEnvironment;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DataPushSynchroniseTest {
 
-    private final int TEST_REFERENCE_ID = 1;
+    private final int EVENT_ID = 1;
 
-    private DataPushSynchronise dataPushSynchronise;
+    private final String REGISTERED_CLASS = "DataPushSynchronise";
 
-    @Mock
-    private Eventing eventingMock;
+    private DataPushSynchronise synchronise;
 
-    @Mock
-    private UCoreAccessProvider accessProviderMock;
+    private UserAccessProviderSpy userAccessProviderSpy;
 
-    @Mock
-    private ExecutorService executorMock;
+    private EventingSpy eventingSpy;
 
     @Mock
     private GetNonSynchronizedDataResponse getNonSynchronizedEventMock;
@@ -64,15 +52,6 @@ public class DataPushSynchroniseTest {
     @Mock
     private GetNonSynchronizedDataResponse responseEventMock;
 
-//    @Captor
-//    private ArgumentCaptor<WriteDataToBackendResponse> successCaptor;
-
-    @Captor
-    private ArgumentCaptor<Runnable> runnableCaptor;
-
-    @Captor
-    private ArgumentCaptor<BackendResponse> errorEventArgumentCaptor;
-
     @Mock
     SynchronisationManager synchronisationManagerMock;
 
@@ -82,93 +61,134 @@ public class DataPushSynchroniseTest {
     @Captor
     private ArgumentCaptor<BackendResponse> backendResponseArgumentCaptor;
 
-    private BaseAppDataCreator verticalDataCreater;
-    private UserRegistrationInterface errorHandlerImpl;
+    @Mock
+    private AppComponent appComponentMock;
 
     @Mock
-    private AppComponent appComponantMock;
+    MomentsDataSender momentsDataSenderMock;
 
-    @NonNull
-    private Handler getHandler() {
-        final Application application = RuntimeEnvironment.application;
-        final Looper mainLooper = application.getMainLooper();
-        return new Handler(mainLooper);
-    }
+    @Mock
+    ConsentDataSender consentDataSenderMock;
+
+    @Mock
+    UserCharacteristicsSender userCharacteristicsSenderMock;
+
+    @Mock
+    InsightDataSender insightDataSenderMock;
+
+    @Mock
+    SettingsDataSender settingsDataSenderMock;
 
     @Before
     public void setUp() {
         initMocks(this);
 
-        verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
-        errorHandlerImpl = new ErrorHandlerImplTest();
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
-        Set set=new HashSet();
+        userAccessProviderSpy = new UserAccessProviderSpy();
+        eventingSpy = new EventingSpy();
+
+        DataServicesManager.getInstance().setAppComponant(appComponentMock);
+
+        synchronise = new DataPushSynchronise(Arrays.asList(firstDataSenderMock, secondDataSenderMock));
+
+        synchronise.momentsDataSender = momentsDataSenderMock;
+        synchronise.consentsDataSender = consentDataSenderMock;
+        synchronise.insightDataSender = insightDataSenderMock;
+        synchronise.userCharacteristicsSender = userCharacteristicsSenderMock;
+        synchronise.settingsDataSender = settingsDataSenderMock;
+
+        synchronise.userAccessProvider = userAccessProviderSpy;
+        synchronise.eventing = eventingSpy;
+        synchronise.synchronisationManager = synchronisationManagerMock;
+    }
+
+    @Test
+    public void postErrorWhenUserIsNotLoggedIn() {
+        givenUserIsNotLoggedIn();
+        whenSynchronisationIsStarted(EVENT_ID);
+        thenAnErrorIsPostedWithReferenceId(EVENT_ID);
+    }
+
+
+    @Test
+    public void postSyncCompleteWhenNoSenders() {
+        givenUserIsLoggedIn();
+        givenNoConfigurableSenderList();
+        givenNoSenders();
+        whenSynchronisationIsStarted(EVENT_ID);
+        thenDataSyncIsCompleted();
+    }
+
+    @Test
+    public void postSyncCompleteWhenNoConfigurableSenders() {
+        givenUserIsLoggedIn();
+        givenNoConfigurableSenderList();
+        whenSynchronisationIsStarted(EVENT_ID);
+        thenAnEventIsRegisteredWithClass(REGISTERED_CLASS);
+        thenAnEventIsPostedWithReferenceId(EVENT_ID);
+        thenDataSyncIsCompleted();
+    }
+
+    @Test
+    public void postSyncCompleteWhenConfigurableSenders() {
+        givenUserIsLoggedIn();
+        givenConfigurableSenderList();
+        whenSynchronisationIsStarted(EVENT_ID);
+        thenAnEventIsRegisteredWithClass(REGISTERED_CLASS);
+        thenAnEventIsPostedWithReferenceId(EVENT_ID);
+        thenDataSyncIsCompleted();
+    }
+
+    private void givenUserIsLoggedIn() {
+        userAccessProviderSpy.isLoggedIn = true;
+    }
+
+    private void givenUserIsNotLoggedIn() {
+        userAccessProviderSpy.isLoggedIn = false;
+    }
+
+    private void givenConfigurableSenderList() {
+        Set<String> set = new HashSet<>();
         set.add("moment");
         set.add("Settings");
         set.add("characteristics");
         set.add("consent");
-
+        set.add("insight");
         DataServicesManager.getInstance().configureSyncDataType(set);
-
-        dataPushSynchronise = new DataPushSynchronise(Arrays.asList(firstDataSenderMock, secondDataSenderMock));
-        dataPushSynchronise.accessProvider = accessProviderMock;
-        dataPushSynchronise.eventing = eventingMock;
-
-        dataPushSynchronise.synchronisationManager=synchronisationManagerMock;
-        dataPushSynchronise.executor = executorMock;
-        ArrayList list = new ArrayList();
-//        list.add(firstDataSenderMock);
-//        list.add(secondDataSenderMock);
-        dataPushSynchronise.senders = list;
-        dataPushSynchronise.configurableSenders = list;
     }
 
-    @Test
-    public void ShouldPostError_WhenUserIsNotLoggedIn() throws Exception {
-        when(accessProviderMock.isLoggedIn()).thenReturn(false);
-        dataPushSynchronise.startSynchronise(TEST_REFERENCE_ID);
-        verify(eventingMock).post(errorEventArgumentCaptor.capture());
-        assertThat(errorEventArgumentCaptor.getValue().getReferenceId()).isEqualTo(TEST_REFERENCE_ID);
+    private void givenNoConfigurableSenderList() {
+        DataServicesManager.getInstance().configureSyncDataType(new HashSet<String>());
+        synchronise.configurableSenders = new ArrayList<>();
     }
 
-    @Test
-    public void ShouldPostGetNonSynchronizedEvent_WhenUserIsLoggedIn() throws Exception {
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
-        dataPushSynchronise.startSynchronise(TEST_REFERENCE_ID);
-        verify(eventingMock).post(getNonSynchronizedDataRequestArgumentCaptor.capture());
-        assertThat(getNonSynchronizedDataRequestArgumentCaptor.getValue().getReferenceId()).isEqualTo(TEST_REFERENCE_ID);
+    private void givenSenderList() {
+        ArrayList<DataSender> senderArrayList = new ArrayList<>();
+        senderArrayList.add(firstDataSenderMock);
+        senderArrayList.add(secondDataSenderMock);
+        synchronise.senders = senderArrayList;
     }
 
-    @Test
-    public void ShouldPostGetNonSynchronizedEvent_WhenUserIsNotLoggedIn() throws Exception {
-        when(accessProviderMock.isLoggedIn()).thenReturn(false);
-        dataPushSynchronise.startSynchronise(TEST_REFERENCE_ID);
-        verify(eventingMock).post(isA(BackendResponse.class));
+    private void givenNoSenders() {
+        synchronise.senders = new ArrayList<>();
     }
 
-    @Test
-    public void ShouldCallInExecutor_WhenSyncSucceed() throws Exception {
-        when(responseEventMock.getReferenceId()).thenReturn(TEST_REFERENCE_ID);
-        dataPushSynchronise.onEventAsync(responseEventMock);
-        runExecutor();
-        //TODO: Spoorti - Fix it and see what has to be verified
-       // verify(synchronisationManagerMock).shutdownAndAwaitTermination(executorMock);
+    private void whenSynchronisationIsStarted(final int eventId) {
+        synchronise.startSynchronise(eventId);
     }
 
-    @Test
-    public void ShouldUnRegister_WhenUnRegisterEventWhenTrue() throws Exception {
-        when(eventingMock.isRegistered(dataPushSynchronise)).thenReturn(true);
-        dataPushSynchronise.unRegisterEvent();
-        verify(eventingMock).unregister(dataPushSynchronise);
-        //runExecutor();
+    private void thenAnErrorIsPostedWithReferenceId(final int expectedEventId) {
+        assertEquals(expectedEventId, eventingSpy.postedEvent.getReferenceId());
     }
 
-    private void runExecutor() {
-       // verify(executorMock, atLeastOnce()).execute(runnableCaptor.capture());
-
-        for (Runnable runnable : runnableCaptor.getAllValues()) {
-            runnable.run();
-        }
+    private void thenDataSyncIsCompleted() {
+        Mockito.verify(synchronisationManagerMock).dataSyncComplete();
     }
 
+    private void thenAnEventIsRegisteredWithClass(String expectedClass) {
+        assertEquals(expectedClass, eventingSpy.registeredClass.getClass().getSimpleName());
+    }
+
+    private void thenAnEventIsPostedWithReferenceId(int expectedEventId) {
+        assertEquals(expectedEventId, eventingSpy.postedEvent.getReferenceId());
+    }
 }
