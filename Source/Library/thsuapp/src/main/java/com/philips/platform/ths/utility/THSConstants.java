@@ -79,6 +79,7 @@ public class THSConstants {
 
 
     // start of tags
+    public static final String THS_INIT_PAGE = "TH_00_00a Welcome";
     public static final String THS_WELCOME = "TH_00_00 Welcome";
     public static final String THS_ADD_DETAILS = "TH_00_01 Add details";
     public static final String THS_CONFIRM_T_AND_C = "TH_00_02 Confirm T&C";
