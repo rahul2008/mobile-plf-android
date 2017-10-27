@@ -109,7 +109,10 @@
     <string name="label_ews_check_router_settings_body">In order to establish a connection, the router settings for your home network must be set to 2.4 GHz bandwidth, allow new devices to connect, and allow network devices to communicate with each another.</string>
     <string name="ews_08c_label">More questions?</string>
     <string name="ews_08c_body">We’d be happy to help with any questions you still might have.</string>
-    <string name="label_location_permission_required">Somneo requires location permission</string>
+
+    <!-- ToDo: need to update permission text after consulting design team -->
+    <string name="label_location_permission_required">%1$s requires location permission</string>
+
     <string name="label_ews_cancel_setup_title">Are you sure you want to skip WiFi setup?</string>
     <string name="label_ews_cancel_setup_body">If you skip WiFi setup now, you will not be able to control your device using your app.\n\nTo connect at a later time, go to the \"More section\" tab in your app and select \"Add a device\".</string>
     <string name="button_ews_cancel_setup_yes">Yes</string>
