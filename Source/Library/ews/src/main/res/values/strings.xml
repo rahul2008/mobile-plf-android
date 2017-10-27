@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">EWSMicroApp</string>
-    <string name="af_app_name">SleepMapper</string>
     <string name="ews_title">WiFi setup</string>
     <string name="defaultSingleValue">%1$s</string>
     <string name="ews_app_name_default">name</string>

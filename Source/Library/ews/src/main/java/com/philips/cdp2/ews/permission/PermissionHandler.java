@@ -45,7 +45,7 @@ public class PermissionHandler {
         final Resources resources = fragment.getResources();
         //noinspection ConstantConditions
         final Snackbar snack = Snackbar.make(fragment.getView(), resources.getString(title,
-                resources.getString(R.string.af_app_name)), Snackbar.LENGTH_INDEFINITE);
+                resources.getString(R.string.ews_app_name_default)), Snackbar.LENGTH_INDEFINITE);
 
         snack.setAction(android.R.string.ok, new View.OnClickListener() {
             @Override
