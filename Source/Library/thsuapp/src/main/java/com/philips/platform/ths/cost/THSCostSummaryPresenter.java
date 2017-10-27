@@ -356,6 +356,8 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     public void onApplyCouponResponse(Void aVoid, THSSDKError thssdkError) {
         if (null != mTHSCostSummaryFragment && mTHSCostSummaryFragment.isFragmentAttached()) {
             if(null != thssdkError.getSdkError()){
+                mTHSCostSummaryFragment.mCouponCodeButton.setEnabled(true);
+                mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(true);
                 if(null != thssdkError.getSDKErrorReason()){
                     mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(thssdkError.getSDKErrorReason()));
                 }else {

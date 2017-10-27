@@ -61,7 +61,7 @@ public class THSVisitHistoryFragment extends THSBaseFragment{
     public void updateVisitHistoryView(List<VisitReport> visitReports) {
         if(getContext()!=null) {
             mNumberOfAppointmentsLabel.setVisibility(View.VISIBLE);
-            String text = getString(R.string.ths_number_of_visits_scheduled, visitReports.size());
+            String text = getString(R.string.ths_number_of_visits_report, visitReports.size());
             mNumberOfAppointmentsLabel.setText(text);
             mThsVisitHistoryAdapter = new THSVisitHistoryAdapter(visitReports, this);
             mRecyclerView.setAdapter(mThsVisitHistoryAdapter);
