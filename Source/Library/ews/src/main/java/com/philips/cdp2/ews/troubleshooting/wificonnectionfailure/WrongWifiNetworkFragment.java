@@ -15,12 +15,10 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentWrongWifiNetworkBinding;
+import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
-
-import static com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment.APP_NAME;
-import static com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment.HOME_WIFI_SSID;
 
 public class WrongWifiNetworkFragment extends BaseFragment {
 
@@ -41,8 +39,8 @@ public class WrongWifiNetworkFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_wrong_wifi_network, container, false);
         viewModel = createViewModel();
-        String wifiSSID = BundleUtils.extractStringFromBundleOrThrow(getArguments(), HOME_WIFI_SSID);
-        viewModel.setDescription(getString(R.string.label_ews_phone_reconnected_different_network_body, wifiSSID, APP_NAME));
+        String wifiSSID = BundleUtils.extractStringFromBundleOrThrow(getArguments(), ConnectingDeviceWithWifiFragment.HOME_WIFI_SSID);
+        viewModel.setDescription(getString(R.string.label_ews_phone_reconnected_different_network_body, wifiSSID, wifiSSID, getString(viewModel.getAppName())));
         viewModel.setBundle(getArguments());
         binding.setViewModel(viewModel);
         return binding.getRoot();
