@@ -1379,7 +1379,7 @@ public class THSManager {
         }
     }
 
-    private AppInfraInterface getAppInfra() {
+    public AppInfraInterface getAppInfra() {
         return mAppInfra;
     }
 
