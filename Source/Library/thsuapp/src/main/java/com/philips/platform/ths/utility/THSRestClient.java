@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.faqs.THSFaqPresenter;
-import com.philips.platform.ths.intake.THSNoticeOfPrivacyPracticesFragment;
 import com.philips.platform.ths.intake.THSNoticeOfPrivacyPracticesPresenter;
 
 import java.io.BufferedReader;
