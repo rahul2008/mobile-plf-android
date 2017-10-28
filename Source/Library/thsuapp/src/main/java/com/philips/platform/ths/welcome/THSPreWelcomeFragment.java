@@ -6,11 +6,14 @@
 
 package com.philips.platform.ths.welcome;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -26,6 +29,7 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
     private Button mBtnGoSeeProvider;
     private Label mLabelSeeHowItWorks;
     private Label mLabelTermsAndConditions;
+    private RelativeLayout mRelativeLayoutContainer;
 
     @Nullable
     @Override
@@ -35,6 +39,7 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
         mBtnGoSeeProvider = (Button) view.findViewById(R.id.ths_go_see_provider);
         mLabelSeeHowItWorks = (Label) view.findViewById(R.id.ths_video_consults);
         mLabelTermsAndConditions = (Label) view.findViewById(R.id.ths_licence);
+        mRelativeLayoutContainer = (RelativeLayout) view.findViewById(R.id.ths_pre_welcome_screen);
         mLabelTermsAndConditions.setOnClickListener(this);
         mLabelSeeHowItWorks.setOnClickListener(this);
         mBtnGoSeeProvider.setOnClickListener(this);
@@ -49,6 +54,7 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
         }else if(viewId == R.id.ths_video_consults){
             mThsPreWelcomeScreenPresenter.onEvent(R.id.ths_video_consults);
         }else if(viewId == R.id.ths_licence){
+            createCustomProgressBar(mRelativeLayoutContainer,BIG);
             mThsPreWelcomeScreenPresenter.onEvent(R.id.ths_licence);
         }
     }
@@ -57,5 +63,11 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
     public void onResume() {
         super.onResume();
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_CONFIRM_T_AND_C,null,null);
+    }
+
+    public void showTermsAndConditions(String url) {
+        hideProgressBar();
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(browserIntent);
     }
 }

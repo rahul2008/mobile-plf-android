@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.faqs.THSFaqPresenter;
-import com.philips.platform.ths.intake.THSNoticeOfPrivacyPracticesPresenter;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -46,9 +45,6 @@ public class THSRestClient extends AsyncTask<String, Void, String> {
             br.close();
 
             jsonString = sb.toString();
-           // System.out.println("JSON: " + jsonString);
-
-          //  jsonArray = new JSONArray(jsonString);
 
         } catch (Exception e) {
 
@@ -59,10 +55,8 @@ public class THSRestClient extends AsyncTask<String, Void, String> {
     }
 
     protected void onPostExecute(String feed) {
-        if(mThsBasePresenter instanceof THSFaqPresenter) {
+        if (mThsBasePresenter instanceof THSFaqPresenter) {
             ((THSFaqPresenter) mThsBasePresenter).parseJson(feed);
-        }if (mThsBasePresenter instanceof THSNoticeOfPrivacyPracticesPresenter){
-            ((THSNoticeOfPrivacyPracticesPresenter) mThsBasePresenter).setText(feed);
         }
     }
 

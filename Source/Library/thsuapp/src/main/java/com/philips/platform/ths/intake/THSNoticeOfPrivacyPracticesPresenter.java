@@ -10,22 +10,16 @@ import android.os.Build;
 import android.text.Html;
 import android.text.Spanned;
 
-import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.legal.LegalText;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.base.THSBaseView;
-import com.philips.platform.ths.faqs.THSFaqPresenter;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSRestClient;
-import com.philips.platform.ths.welcome.THSTermsAndConditionsFragment;
 
 import java.net.URL;
 import java.util.List;
 
 import static android.text.Html.FROM_HTML_MODE_LEGACY;
-import static com.philips.platform.ths.utility.THSConstants.THS_FAQ_SERVICE_ID;
 import static com.philips.platform.ths.utility.THSConstants.THS_TERMS_AND_CONDITIONS;
 
 public class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter {
@@ -89,25 +83,5 @@ public class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter {
         ((THSNoticeOfPrivacyPracticesFragment) uiBaseView).hideProgressBar();
     }*/
 
-    public void getTermsAndConditions(){
-        THSManager.getInstance().getAppInfra().getServiceDiscovery().getServiceUrlWithCountryPreference(THS_TERMS_AND_CONDITIONS, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                uiBaseView.showError("Service discovery failed - >" + s);
-            }
-
-            @Override
-            public void onSuccess(URL url) {
-                mTHSRestClient = new THSRestClient(THSNoticeOfPrivacyPracticesPresenter.this);
-
-                mTHSRestClient.execute(url.toString());
-              //  ((THSTermsAndConditionsFragment) uiBaseView).showTermsAndConditions(url.toString());
-            }
-        });
-    }
-
-    public void setText(String feed) {
-        ((THSTermsAndConditionsFragment) uiBaseView).showTermsAndConditions(feed);
-    }
 }
