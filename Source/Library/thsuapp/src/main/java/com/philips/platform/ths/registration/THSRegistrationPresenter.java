@@ -68,7 +68,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
     public void onResponse(THSConsumerWrapper thsConsumerWrapper, SDKError sdkPasswordError) {
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
-            if (sdkPasswordError.getSDKErrorReason() != null) {
+            if (sdkPasswordError!=null && sdkPasswordError.getSDKErrorReason() != null) {
                 mTHSBaseFragment.showToast(THSSDKErrorFactory.getErrorType(sdkPasswordError.getSDKErrorReason()));
                 return;
             }

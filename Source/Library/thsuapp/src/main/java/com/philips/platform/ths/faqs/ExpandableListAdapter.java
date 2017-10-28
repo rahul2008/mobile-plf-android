@@ -48,7 +48,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition,
+    public View getChildView(final int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
         final FaqBean childObject = (FaqBean)getChild(groupPosition, childPosition);
@@ -68,7 +68,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString(THSConstants.THS_FAQ_HEADER,listDataHeader.get(childPosition).toString());
+                bundle.putString(THSConstants.THS_FAQ_HEADER,listDataHeader.get(groupPosition).toString());
                 bundle.putSerializable(THSConstants.THS_FAQ_ITEM,childObject);
                 THSFaqAnswerFragment thsFaqAnswerFragment = new THSFaqAnswerFragment();
                 mTHSFaqFragment.addFragment(thsFaqAnswerFragment,THSFaqAnswerFragment.TAG,bundle,false);

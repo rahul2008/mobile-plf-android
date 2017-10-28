@@ -55,5 +55,9 @@ public class THSFaqFragment extends THSBaseFragment{
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
+
+        for(int i=0;i<listDataHeader.size();i++){
+            expListView.expandGroup(i);
+        }
     }
 }
