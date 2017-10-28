@@ -56,7 +56,7 @@ public class THSRestClient extends AsyncTask<String, Void, String> {
 
             return null;
         }
-        return jsounString;
+        return jsonString;
     }
 
     protected void onPostExecute(String feed) {
