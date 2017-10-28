@@ -193,7 +193,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
                 mTHSCreditCardDetailFragment.mCardHolderNameEditText.setText(mPaymentMethod.getBillingName());
             }else if(tHSSDKError.getSdkError() != null){
                 if(tHSSDKError.getMessage() != null){
-                    mTHSCreditCardDetailFragment.showError(tHSSDKError.getMessage().toString());
+                    mTHSCreditCardDetailFragment.showError(tHSSDKError.getMessage());
                 }else if(tHSSDKError.getSDKErrorReason() != null){
                     mTHSCreditCardDetailFragment.showError(THSSDKErrorFactory.getErrorType(tHSSDKError.getSDKErrorReason()));
                 }else {
