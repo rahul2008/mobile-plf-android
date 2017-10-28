@@ -37,20 +37,15 @@ public class THSNoticeOfPrivacyPracticesFragment extends THSBaseFragment {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_nopp_fragment, container, false);
         legalTextsLabel = (Label) view.findViewById(R.id.ths_intake_nopp_agreement_text);
         mRelativeLayoutNopContainer = (RelativeLayout) view.findViewById(R.id.nop_container);
-        mTHSNoppPresenter = new THSNoticeOfPrivacyPracticesPresenter(this);
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        actionBarListener = getActionBarListener();
         ((THSNoticeOfPrivacyPracticesPresenter) mTHSNoppPresenter).showLegalTextForNOPP();
+        return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        mTHSNoppPresenter = new THSNoticeOfPrivacyPracticesPresenter(this);
+        actionBarListener = getActionBarListener();
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_NOPP_PAGE,null,null);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("NOPP", true);
