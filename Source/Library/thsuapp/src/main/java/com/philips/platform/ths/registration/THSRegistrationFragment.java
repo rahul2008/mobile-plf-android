@@ -180,7 +180,6 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
                     mThsRegistrationPresenter.enrollUser(mDob, mEditTextFirstName.getText().toString(),
                             mEditTextLastName.getText().toString(), Gender.MALE, mValidStates.get(mStateSpinner.getSelectedItemPosition()));
                 }
-
             }
 
         }

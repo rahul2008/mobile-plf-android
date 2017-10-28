@@ -162,7 +162,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
 
     public boolean validateLocation(String text) {
         if(null != text){
-            return !(text.length() < 0 || text.isEmpty());
+            return (text.length() < 0 || text.isEmpty());
         }else {
             return false;
         }
