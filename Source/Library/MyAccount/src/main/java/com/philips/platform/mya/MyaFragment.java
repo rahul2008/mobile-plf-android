@@ -41,17 +41,30 @@ public class MyaFragment extends Fragment implements
             inflateAccountView();
         }
 
-        Bundle state = savedInstanceState != null ? savedInstanceState : getArguments();
-        applicationName = state.getString(BUNDLE_KEY_APPLICATION_NAME);
-        propositionName = state.getString(BUNDLE_KEY_PROPOSITION_NAME);
+        if (getArguments() != null) {
+            applicationName = getArguments().getString(BUNDLE_KEY_APPLICATION_NAME);
+            propositionName = getArguments().getString(BUNDLE_KEY_PROPOSITION_NAME);
+        }
 
         return view;
     }
 
     @Override
-    public void onSaveInstanceState(Bundle bundle) {
-        bundle.putString(BUNDLE_KEY_APPLICATION_NAME, applicationName);
-        bundle.putString(BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+    public void onViewStateRestored(Bundle state) {
+        super.onViewStateRestored(state);
+        if (state != null) {
+            applicationName = state.getString(BUNDLE_KEY_APPLICATION_NAME);
+            propositionName = state.getString(BUNDLE_KEY_PROPOSITION_NAME);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        if (state != null) {
+            state.putString(BUNDLE_KEY_APPLICATION_NAME, applicationName);
+            state.putString(BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        }
     }
 
     public boolean onBackPressed() {

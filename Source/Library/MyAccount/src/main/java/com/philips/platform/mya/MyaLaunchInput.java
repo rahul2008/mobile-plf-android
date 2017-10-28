@@ -14,6 +14,26 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
  */
 
 public class MyaLaunchInput extends UappLaunchInput {
+
+    private String applicationName;
+    private String propositionName;
+
+    public String getApplicationName() {
+        return applicationName;
+    }
+
+    public void setApplicationName(String applicationName) {
+        this.applicationName = applicationName;
+    }
+
+    public String getPropositionName() {
+        return propositionName;
+    }
+
+    public void setPropositionName(String propositionName) {
+        this.propositionName = propositionName;
+    }
+
     public Context getContext() {
         return context;
     }

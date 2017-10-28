@@ -16,13 +16,15 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
  */
 public class MyaDemouAppInterface implements UappInterface {
 
+    private MyaInterface myaInterface;
+
     /**
      * @param uappDependencies - App dependencies
      * @param uappSettings     - App settings
      */
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
-        MyaInterface myaInterface = new MyaInterface();
+        myaInterface = new MyaInterface();
         MyaDependencies myaDependencies = new MyaDependencies(uappDependencies.getAppInfra());
         MyaSettings myaSettings = new MyaSettings(uappSettings.getContext());
         myaInterface.init(myaDependencies, myaSettings);
@@ -35,7 +37,6 @@ public class MyaDemouAppInterface implements UappInterface {
      */
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
-        MyaInterface myaInterface = new MyaInterface();
         MyaLaunchInput myaLaunchInput = new MyaLaunchInput();
         myaLaunchInput.setContext(((MyaDemouAppLaunchInput)uappLaunchInput).getContext());
         myaInterface.launch(uiLauncher, myaLaunchInput);

@@ -57,9 +57,10 @@ public class AccountView extends MyaBaseFragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mya_fragment_account, container, false);
 
-        Bundle state = savedInstanceState != null ? savedInstanceState : getArguments();
-        applicationName = state.getString(BUNDLE_KEY_APPLICATION_NAME);
-        propositionName = state.getString(BUNDLE_KEY_PROPOSITION_NAME);
+        if (getArguments() != null) {
+            applicationName = getArguments().getString(BUNDLE_KEY_APPLICATION_NAME);
+            propositionName = getArguments().getString(BUNDLE_KEY_PROPOSITION_NAME);
+        }
 
         Log.i("onCreateView", "applicationName:" + applicationName + "propositionsName:" + propositionName);
 
@@ -67,9 +68,21 @@ public class AccountView extends MyaBaseFragment implements
     }
 
     @Override
-    public void onSaveInstanceState(Bundle bundle) {
-        bundle.putString(BUNDLE_KEY_APPLICATION_NAME, applicationName);
-        bundle.putString(BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+    public void onViewStateRestored(Bundle state) {
+        super.onViewStateRestored(state);
+        if (state != null) {
+            applicationName = state.getString(BUNDLE_KEY_APPLICATION_NAME);
+            propositionName = state.getString(BUNDLE_KEY_PROPOSITION_NAME);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        if (state != null) {
+            state.putString(BUNDLE_KEY_APPLICATION_NAME, applicationName);
+            state.putString(BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        }
     }
 
     @Override

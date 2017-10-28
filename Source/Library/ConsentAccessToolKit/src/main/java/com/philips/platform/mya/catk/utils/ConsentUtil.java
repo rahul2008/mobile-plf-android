@@ -21,4 +21,7 @@ public class ConsentUtil {
     public static final String APPLICATION_NAME = "OneBackend";
     public static final String PROPOSITION_NAME = "OneBackendProp";
 
+    public static final String BUNDLE_KEY_APPLICATION_NAME = "appName";
+    public static final String BUNDLE_KEY_PROPOSITION_NAME = "propName";
+
 }

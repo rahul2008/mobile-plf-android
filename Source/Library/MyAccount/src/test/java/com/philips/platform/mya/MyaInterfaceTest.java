@@ -1,12 +1,16 @@
 package com.philips.platform.mya;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.mya.mock.ActivityLauncherMock;
 import com.philips.platform.mya.mock.AppInfraInterfaceMock;
 import com.philips.platform.mya.mock.FragmentActivityMock;
 import com.philips.platform.mya.mock.FragmentLauncherMock;
 import com.philips.platform.mya.mock.FragmentManagerMock;
 import com.philips.platform.mya.mock.FragmentTransactionMock;
+import com.philips.platform.mya.mock.LaunchInputMock;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,12 +26,13 @@ public class MyaInterfaceTest {
         fragmentManager = new FragmentManagerMock(fragmentTransaction);
         fragmentActivity = new FragmentActivityMock(fragmentManager);
         appInfra = new AppInfraInterfaceMock();
+        launchInput = new LaunchInputMock();
     }
 
     @Test
-    public void launchWithFragmentLauncher_CorrectFragmentIsReplacedInContainer() {
+    public void launchWithFragmentLauncher_correctFragmentIsReplacedInContainer() {
         givenFragmentLauncher(fragmentActivity, A_SPECIFIC_CONTAINER_ID, actionBarListener);
-        givenSettings("applicationName1", "propositionName");
+        givenLaunchInput("applicationName1", "propositionName");
         whenCallingLaunchWithAddToBackstack();
         thenReplaceWasCalledWith(A_SPECIFIC_CONTAINER_ID, MyaFragment.class, MYAFRAGMENT);
         thenAddToBackStackWasCalled(MYAFRAGMENT);
@@ -38,7 +43,7 @@ public class MyaInterfaceTest {
     @Test
     public void launchWithFragmentLauncher_dontCallAddToBackStackWhenNotDemanded() {
         givenFragmentLauncher(fragmentActivity, A_SPECIFIC_CONTAINER_ID, actionBarListener);
-        givenSettings("applicationName1", "propositionName");
+        givenLaunchInput("applicationName1", "propositionName");
         whenCallingLaunchWithoutAddToBackstack();
         thenReplaceWasCalledWith(A_SPECIFIC_CONTAINER_ID, MyaFragment.class, MYAFRAGMENT);
         thenAddToBackStackWasNotCalled();
@@ -46,29 +51,48 @@ public class MyaInterfaceTest {
         thenFragmentHasBundle();
     }
 
-    private void thenFragmentHasBundles(String expectedApplicationName, String expectedPropositionName) {
-        assertEquals(expectedApplicationName, fragmentTransaction.replace_fragment.getArguments().getString("appName"));
-        assertEquals(expectedPropositionName, fragmentTransaction.replace_fragment.getArguments().getString("propName"));
+    @Test
+    public void launchWithActivityLauncher_correctFragmentIsReplacedInContainer() {
+        givenActivityLauncher();
+        givenLaunchInput(launchInput);
+        whenCallingLaunchWithoutAddToBackstack();
+        thenStartActivityWasCalledWithIntent();
     }
 
-    private void givenSettings(String applicationName, String propositionName) {
-        myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(null, applicationName, propositionName));
+    private void thenStartActivityWasCalledWithIntent() {
+        assertNotNull(launchInput.context.startActivity_intent);
+    }
+
+    private void givenLaunchInput(String applicationName, String propositionName) {
+        givenLaunchInput = new MyaLaunchInput();
+        givenLaunchInput.setApplicationName(applicationName);
+        givenLaunchInput.setPropositionName(propositionName);
+    }
+
+    private void givenLaunchInput(MyaLaunchInput launchInput) {
+        givenLaunchInput = launchInput;
     }
 
     private void givenFragmentLauncher(FragmentActivityMock fragmentActivity, int containerId, ActionBarListener actionBarListener) {
         givenFragmentLauncher = new FragmentLauncherMock(fragmentActivity, containerId, actionBarListener);
+        givenUiLauncher = givenFragmentLauncher;
+    }
+
+    private void givenActivityLauncher() {
+        givenActivityLauncher = new ActivityLauncherMock(null, null, 0, null);
+        givenUiLauncher = givenActivityLauncher;
     }
 
     private void whenCallingLaunchWithAddToBackstack() {
-        MyaLaunchInput myaLaunchInput = new MyaLaunchInput();
-        myaLaunchInput.addToBackStack(true);
-        myaInterface.launch(givenFragmentLauncher, myaLaunchInput);
+        myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(null));
+        givenLaunchInput.addToBackStack(true);
+        myaInterface.launch(givenUiLauncher, givenLaunchInput);
     }
 
     private void whenCallingLaunchWithoutAddToBackstack() {
-        MyaLaunchInput myaLaunchInput = new MyaLaunchInput();
-        myaLaunchInput.addToBackStack(false);
-        myaInterface.launch(givenFragmentLauncher, myaLaunchInput);
+        myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(null));
+        givenLaunchInput.addToBackStack(false);
+        myaInterface.launch(givenUiLauncher, givenLaunchInput);
     }
 
     private void thenReplaceWasCalledWith(int expectedParentContainerId, Class<?> expectedFragmentClass, String expectedTag) {
@@ -95,7 +119,10 @@ public class MyaInterfaceTest {
 
     private MyaInterface myaInterface;
 
+    private UiLauncher givenUiLauncher;
+    private ActivityLauncherMock givenActivityLauncher;
     private FragmentLauncherMock givenFragmentLauncher;
+    private MyaLaunchInput givenLaunchInput;
     private MyaSettings myaSettings;
 
     private int containerId = 12345678;
@@ -103,6 +130,7 @@ public class MyaInterfaceTest {
     private FragmentActivityMock fragmentActivity;
     private FragmentTransactionMock fragmentTransaction;
     private FragmentManagerMock fragmentManager;
+    private LaunchInputMock launchInput;
     private AppInfraInterface appInfra;
 
     private final int A_SPECIFIC_CONTAINER_ID = 12345678;

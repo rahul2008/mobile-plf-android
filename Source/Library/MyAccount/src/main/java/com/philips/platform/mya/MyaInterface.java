@@ -19,9 +19,6 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class MyaInterface implements UappInterface {
 
-
-    private MyaSettings myaSettings;
-
     /**
      * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
      *
@@ -31,19 +28,19 @@ public class MyaInterface implements UappInterface {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
-            launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput);
+            launchAsActivity(((ActivityLauncher) uiLauncher), (MyaLaunchInput) uappLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
-            launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
+            launchAsFragment((FragmentLauncher) uiLauncher, (MyaLaunchInput) uappLaunchInput);
         }
     }
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher,
-                                  UappLaunchInput uappLaunchInput) {
-        Log.i("launchAsFragment", "LaunchInput: " + uappLaunchInput.getClass().toString());
+                                  MyaLaunchInput myaLaunchInput) {
+        Log.i("launchAsFragment", "LaunchInput: " + myaLaunchInput.getClass().toString());
         try {
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
                     getSupportFragmentManager();
-            MyaFragment myaFragment = buildFragment(fragmentLauncher.getActionbarListener());
+            MyaFragment myaFragment = buildFragment(fragmentLauncher.getActionbarListener(), myaLaunchInput);
 
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
@@ -51,7 +48,7 @@ public class MyaInterface implements UappInterface {
                     MyaConstants.MYAFRAGMENT);
 
             if (((MyaLaunchInput)
-                    uappLaunchInput).isAddtoBackStack()) {
+                    myaLaunchInput).isAddtoBackStack()) {
                 fragmentTransaction.addToBackStack(MyaConstants.MYAFRAGMENT);
             }
             fragmentTransaction.commitAllowingStateLoss();
@@ -60,21 +57,29 @@ public class MyaInterface implements UappInterface {
         }
     }
 
-    private MyaFragment buildFragment(ActionBarListener listener) {
+    private MyaFragment buildFragment(ActionBarListener listener, MyaLaunchInput myaLaunchInput) {
         MyaFragment myaFragment = new MyaFragment();
-        String applicationName = myaSettings.applicationName != null ? myaSettings.applicationName : ConsentUtil.APPLICATION_NAME;
-        String propositionName = myaSettings.propositionName != null ? myaSettings.propositionName : ConsentUtil.PROPOSITION_NAME;
-        myaFragment.setArguments(applicationName, propositionName);
+        myaFragment.setArguments(getApplication(myaLaunchInput), getProposition(myaLaunchInput));
         myaFragment.setOnUpdateTitleListener(listener);
         return myaFragment;
     }
 
-    private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-        if (null != uiLauncher && uappLaunchInput != null) {
-            Intent myAccountIntent = new Intent(((MyaLaunchInput) uappLaunchInput).getContext(), MyAccountActivity.class);
+    private void launchAsActivity(ActivityLauncher uiLauncher, MyaLaunchInput myaLaunchInput) {
+        if (null != uiLauncher && myaLaunchInput != null) {
+            Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyAccountActivity.class);
+            myAccountIntent.putExtra(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME, getApplication(myaLaunchInput));
+            myAccountIntent.putExtra(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME, getProposition(myaLaunchInput));
             myAccountIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-            ((MyaLaunchInput) uappLaunchInput).getContext().startActivity(myAccountIntent);
+            myaLaunchInput.getContext().startActivity(myAccountIntent);
         }
+    }
+
+    private String getProposition(MyaLaunchInput myaLaunchInput) {
+        return myaLaunchInput.getPropositionName() != null ? myaLaunchInput.getPropositionName() : ConsentUtil.PROPOSITION_NAME;
+    }
+
+    private String getApplication(MyaLaunchInput myaLaunchInput) {
+        return myaLaunchInput.getApplicationName() != null ? myaLaunchInput.getApplicationName() : ConsentUtil.APPLICATION_NAME;
     }
 
     /**
@@ -85,6 +90,5 @@ public class MyaInterface implements UappInterface {
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        myaSettings = (MyaSettings)uappSettings;
     }
 }
