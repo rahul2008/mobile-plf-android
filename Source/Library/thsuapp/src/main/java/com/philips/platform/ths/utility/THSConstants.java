@@ -165,4 +165,5 @@ public class THSConstants {
 
     //Terms & Conditions
     public static final String THS_TERMS_AND_CONDITIONS = "TeleHealth.TermsConditionURL_small";
+    public static final String THS_HIPPA_NOTICE = "TeleHealth.hipaaURL_small";
 }
