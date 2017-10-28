@@ -20,6 +20,7 @@ import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class THSShippingAddressPresenter implements THSUpdateShippingAddressCallback {
 
@@ -28,6 +29,8 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
     public THSShippingAddressPresenter(THSBaseView thsBaseView){
         this.thsBaseView = thsBaseView;
     }
+    String regex = "^[0-9]{5}(?:-[0-9]{4})?$";
+    Pattern pattern = Pattern.compile(regex);
 
     public void updateShippingAddress(Address address){
         try {
@@ -43,6 +46,10 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
         ((THSBaseFragment)thsBaseView).showError(THSConstants.THS_GENERIC_USER_ERROR);
     }
 
+    public boolean validateZip(String zipCode){
+        return pattern.matcher(zipCode).matches();
+
+    }
     @Override
     public void onUpdateSuccess(Address address, SDKError sdkErro) {
         //TODO: check this immediately

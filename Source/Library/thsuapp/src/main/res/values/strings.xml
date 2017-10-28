@@ -10,7 +10,7 @@
     <string name="vitals">Step 2 of 5: Vitals</string>
     <string name="conditions">Step 4 of 5: Medical conditions</string>
     <string name="ths_vitals_follow_up_step_5">Step 5 of 5: Follow up</string>
-    <string name="ths_invalid_phone_number">Please enter valid phone number</string>
+    <string name="ths_invalid_phone_number">Please enter 10 digits phone number</string>
     <string name="ths_vitals_follow_up_step_5_description_text">Where can the provider
         call you, for a follow up, if needed?</string>
     <string name="ths_vitals_notice_privacy_policy_check_box_text">I have read and agree to the</string>
@@ -278,4 +278,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_vitals_systolic_error">Enter values between 1 and 250</string>
     <string name="ths_vitals_diastolic_error">Enter values between 0 and 249,diastolic value should be more than systolic</string>
     <string name="ths_vitals_temperature_error">Enter values between 0 and 120</string>
+
+    <string name="ths_pharmacy_search_hint">Type zip code</string>
+    <string name="ths_pharmacy_search_error">Please enter a valid zip code in the format 12345 or 12345–6789</string>
 </resources>

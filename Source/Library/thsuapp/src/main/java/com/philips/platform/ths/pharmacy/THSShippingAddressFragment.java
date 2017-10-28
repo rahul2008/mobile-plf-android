@@ -25,6 +25,7 @@ import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
+import com.philips.platform.uid.view.widget.InputValidationLayout;
 
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
     private THSSpinnerAdapter spinnerAdapter;
     private List<State> stateList = null;
     private ActionBarListener actionBarListener;
+    private InputValidationLayout inputValidationLayout;
 
     @Nullable
     @Override
@@ -65,11 +67,13 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
         spinner.setSelection(0);
         addressLineOne = (EditText) view.findViewById(R.id.sa_shipping_address_line_one);
         addressLineTwo = (EditText) view.findViewById(R.id.sa_shipping_address_line_two);
-        postalCode = (EditText) view.findViewById(R.id.sa_postal_code);
+        postalCode = (EditText) view.findViewById(R.id.sa_postal_code_edittext);
         town = (EditText) view.findViewById(R.id.sa_town);
+        inputValidationLayout = (InputValidationLayout) view.findViewById(R.id.sa_postal_code);
         updateAddressButton = (Button) view.findViewById(R.id.update_shipping_address);
         updateAddressButton.setOnClickListener(this);
         thsShippingAddressPresenter = new THSShippingAddressPresenter(this);
+
         return view;
     }
 
@@ -90,16 +94,24 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.update_shipping_address) {
-            try {
-                Address address1 = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getNewAddress();
-                address1.setAddress1(addressLineOne.getText().toString());
-                address1.setAddress2(addressLineTwo.getText().toString());
-                address1.setCity(town.getText().toString());
-                address1.setZipCode(postalCode.getText().toString());
-                address1.setState(stateList.get(spinner.getSelectedItemPosition()));
-                thsShippingAddressPresenter.updateShippingAddress(address1);
-            } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+            if(thsShippingAddressPresenter.validateZip(postalCode.getText().toString())) {
+                if(inputValidationLayout.isShowingError()){
+                    inputValidationLayout.hideError();
+                }
+                try {
+                    Address address1 = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getNewAddress();
+                    address1.setAddress1(addressLineOne.getText().toString());
+                    address1.setAddress2(addressLineTwo.getText().toString());
+                    address1.setCity(town.getText().toString());
+                    address1.setZipCode(postalCode.getText().toString());
+                    address1.setState(stateList.get(spinner.getSelectedItemPosition()));
+                    thsShippingAddressPresenter.updateShippingAddress(address1);
+                } catch (AWSDKInstantiationException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                inputValidationLayout.setErrorMessage(R.string.ths_pharmacy_search_error);
+                inputValidationLayout.showError();
             }
 
         }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/shipping_address_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -83,16 +84,26 @@
         android:layout_below="@id/sa_town"
         android:text="Postal code" />
 
-    <com.philips.platform.uid.view.widget.EditText
+
+    <com.philips.platform.uid.view.widget.InputValidationLayout
         android:id="@+id/sa_postal_code"
-        style="@style/UIDEditTextBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:imeOptions="actionDone"
         android:layout_below="@id/sa_postal_code_text"
-        android:layout_marginBottom="16dp"
-        android:hint="Enter ZIP or postal code"
-        android:inputType="number" />
+        android:layout_marginBottom="@dimen/ths_fab_margin"
+        app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+        app:uidTextBoxValidationErrorText="@string/inline_error_message_systolic_value">
+
+        <com.philips.platform.uid.view.widget.ValidationEditText
+            android:id="@+id/sa_postal_code_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:imeOptions="actionDone"
+            android:hint="@string/ths_pharmacy_search_hint"
+            android:inputType="number"
+            style="@style/UIDEditTextBox"/>
+    </com.philips.platform.uid.view.widget.InputValidationLayout>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/sa_state_text"
