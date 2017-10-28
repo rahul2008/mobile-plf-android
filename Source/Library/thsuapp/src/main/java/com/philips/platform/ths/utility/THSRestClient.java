@@ -10,6 +10,8 @@ import android.os.AsyncTask;
 
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.faqs.THSFaqPresenter;
+import com.philips.platform.ths.intake.THSNoticeOfPrivacyPracticesFragment;
+import com.philips.platform.ths.intake.THSNoticeOfPrivacyPracticesPresenter;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -19,7 +21,7 @@ import java.net.URL;
 public class THSRestClient extends AsyncTask<String, Void, String> {
     THSBasePresenter mThsBasePresenter;
 
-    public THSRestClient(THSFaqPresenter thsFaqPresenter) {
+    public THSRestClient(THSBasePresenter thsFaqPresenter) {
         mThsBasePresenter = thsFaqPresenter;
     }
 
@@ -54,11 +56,15 @@ public class THSRestClient extends AsyncTask<String, Void, String> {
 
             return null;
         }
-        return jsonString;
+        return jsounString;
     }
 
     protected void onPostExecute(String feed) {
-        ((THSFaqPresenter)mThsBasePresenter).parseJson(feed);
+        if(mThsBasePresenter instanceof THSFaqPresenter) {
+            ((THSFaqPresenter) mThsBasePresenter).parseJson(feed);
+        }if (mThsBasePresenter instanceof THSNoticeOfPrivacyPracticesPresenter){
+            ((THSNoticeOfPrivacyPracticesPresenter) mThsBasePresenter).setText(feed);
+        }
     }
 
 }

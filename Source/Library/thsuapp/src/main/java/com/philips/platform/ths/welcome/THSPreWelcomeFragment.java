@@ -16,6 +16,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.Label;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_CONFIRM_T_AND_C;
 
@@ -23,6 +24,8 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
     public static final String TAG = THSPreWelcomeFragment.class.getSimpleName();
     protected THSPreWelcomePresenter mThsPreWelcomeScreenPresenter;
     private Button mBtnGoSeeProvider;
+    private Label mLabelSeeHowItWorks;
+    private Label mLabelTermsAndConditions;
 
     @Nullable
     @Override
@@ -30,6 +33,10 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_pre_welcome_screen, container, false);
         mThsPreWelcomeScreenPresenter = new THSPreWelcomePresenter(this);
         mBtnGoSeeProvider = (Button) view.findViewById(R.id.ths_go_see_provider);
+        mLabelSeeHowItWorks = (Label) view.findViewById(R.id.ths_video_consults);
+        mLabelTermsAndConditions = (Label) view.findViewById(R.id.ths_licence);
+        mLabelTermsAndConditions.setOnClickListener(this);
+        mLabelSeeHowItWorks.setOnClickListener(this);
         mBtnGoSeeProvider.setOnClickListener(this);
         return view;
     }
@@ -39,6 +46,10 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
         int viewId = view.getId();
         if(viewId == R.id.ths_go_see_provider){
             mThsPreWelcomeScreenPresenter.onEvent(R.id.ths_go_see_provider);
+        }else if(viewId == R.id.ths_video_consults){
+            mThsPreWelcomeScreenPresenter.onEvent(R.id.ths_video_consults);
+        }else if(viewId == R.id.ths_licence){
+            mThsPreWelcomeScreenPresenter.onEvent(R.id.ths_licence);
         }
     }
 

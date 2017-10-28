@@ -162,4 +162,7 @@ public class THSConstants {
     public static final String THS_FAQ_SERVICE_ID = "Telehealth.FAQURL";
     public static final String THS_FAQ_HEADER = "THS_FAQ_HEADER";
     public static final String THS_FAQ_ITEM = "THS_FAQ_ITEM";
+
+    //Terms & Conditions
+    public static final String THS_TERMS_AND_CONDITIONS = "TeleHealth.TermsConditionURL_small";
 }

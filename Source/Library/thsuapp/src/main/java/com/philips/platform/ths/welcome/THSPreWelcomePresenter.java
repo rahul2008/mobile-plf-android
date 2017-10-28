@@ -8,6 +8,7 @@ package com.philips.platform.ths.welcome;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.faqs.THSFaqFragment;
 import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -27,6 +28,12 @@ public class THSPreWelcomePresenter implements THSBasePresenter{
                 THSRegistrationFragment thsRegistrationFragment = new THSRegistrationFragment();
                 mThsPreWelcomeFragment.addFragment(thsRegistrationFragment,THSRegistrationFragment.TAG,null, false);
             }
+        }else if(componentID == R.id.ths_video_consults){
+            THSFaqFragment thsFaqFragment = new THSFaqFragment();
+            mThsPreWelcomeFragment.addFragment(thsFaqFragment,THSFaqFragment.TAG,null,false);
+        }else if(componentID == R.id.ths_licence){
+            THSTermsAndConditionsFragment thsTermsAndConditionsFragment = new THSTermsAndConditionsFragment();
+            mThsPreWelcomeFragment.addFragment(thsTermsAndConditionsFragment,THSTermsAndConditionsFragment.TAG,null,false);
         }
     }
 }
