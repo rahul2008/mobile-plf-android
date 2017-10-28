@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp"
-    android:background="#000000">
+    >
 
 
     <com.philips.platform.uid.view.widget.Label
@@ -13,6 +13,17 @@
         android:layout_height="wrap_content"
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
         android:textSize="17dp"
-        android:textColor="#f9f93d" />
+        android:text="Hellllooo"
+        android:layout_alignParentStart="true"
+         />
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/lblshowAll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/show_all"
+        android:layout_alignParentEnd="true"
+        android:paddingRight="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:textSize="17dp"
+        />
 
-</LinearLayout>
+</RelativeLayout>

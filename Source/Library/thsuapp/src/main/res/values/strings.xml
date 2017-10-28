@@ -267,4 +267,5 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <string name="ths_se_server_error_toast_message">"Oops! Something went wrong, please try after sometime"</string>
     <string name="ths_delete_success_string">"Delete success</string>
+    <string name="show_all"><u>Show all</u></string>
 </resources>

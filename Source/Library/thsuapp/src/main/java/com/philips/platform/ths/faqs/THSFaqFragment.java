@@ -34,7 +34,6 @@ public class THSFaqFragment extends THSBaseFragment{
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_faqs_expandable_list_layout, container, false);
         mThsFaqPresenter = new THSFaqPresenter(this);
         mThsFaqPresenter.getFaq();
-        // get the listview
         expListView = (ExpandableListView) view.findViewById(R.id.lv_expand);
 
         ActionBarListener actionBarListener = getActionBarListener();
