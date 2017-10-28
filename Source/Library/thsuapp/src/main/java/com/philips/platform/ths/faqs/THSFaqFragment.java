@@ -12,21 +12,15 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 
-public class THSFaqFragment extends THSBaseFragment{
+public class THSFaqFragment extends THSBaseFragment {
     public static final String TAG = THSFaqFragment.class.getSimpleName();
 
     THSFaqPresenter mThsFaqPresenter;
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
-    List<String> listDataHeader;
-    HashMap<String, List<FaqBean>> listDataChild;
-
 
     @Nullable
     @Override
@@ -37,23 +31,20 @@ public class THSFaqFragment extends THSBaseFragment{
         expListView = (ExpandableListView) view.findViewById(R.id.lv_expand);
 
         ActionBarListener actionBarListener = getActionBarListener();
-        if(null != actionBarListener){
-            actionBarListener.updateActionBar(getString(R.string.ths_how_it_works),true);
+        if (null != actionBarListener) {
+            actionBarListener.updateActionBar(getString(R.string.ths_how_it_works), true);
         }
 
         return view;
     }
 
-    protected void updateFaqs(HashMap map){
-        final Set set = map.keySet();
+    protected void updateFaqs(HashMap map) {
 
-        listDataHeader = new ArrayList<>(set);
-        listDataChild = new HashMap();
-        listDataChild = map;
-
-        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
-
+        listAdapter = new ExpandableListAdapter(this, map);
         // setting list adapter
         expListView.setAdapter(listAdapter);
+        for (int i = 0; i < map.size(); i++) {
+            expListView.expandGroup(i);
+        }
     }
 }

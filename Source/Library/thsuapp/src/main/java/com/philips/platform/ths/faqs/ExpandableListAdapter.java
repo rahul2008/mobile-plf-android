@@ -12,8 +12,10 @@ import android.widget.TextView;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.utility.THSConstants;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by philips on 10/27/17.
@@ -27,12 +29,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private HashMap<String, List<FaqBean>> listDataChild;
     private THSFaqFragment mTHSFaqFragment;
 
-    public ExpandableListAdapter(THSFaqFragment thsFaqFragment, List<String> listDataHeader,
-                                 HashMap<String, List<FaqBean>> listChildData) {
+    public ExpandableListAdapter(THSFaqFragment thsFaqFragment, HashMap map) {
         this.mTHSFaqFragment = thsFaqFragment;
         this.context = mTHSFaqFragment.getContext();
-        this.listDataHeader = listDataHeader;
-        this.listDataChild = listChildData;
+
+        final Set set = map.keySet();
+        this.listDataHeader = new ArrayList<>(set);
+        this.listDataChild = map;
     }
 
     @Override
@@ -48,10 +51,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition,
+    public View getChildView(final int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final FaqBean childObject = (FaqBean)getChild(groupPosition, childPosition);
+        final FaqBean childObject = (FaqBean) getChild(groupPosition, childPosition);
         final String childText = childObject.getQuestion();
 
         if (convertView == null) {
@@ -68,10 +71,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString(THSConstants.THS_FAQ_HEADER,listDataHeader.get(childPosition).toString());
-                bundle.putSerializable(THSConstants.THS_FAQ_ITEM,childObject);
+                bundle.putString(THSConstants.THS_FAQ_HEADER, listDataHeader.get(groupPosition).toString());
+                bundle.putSerializable(THSConstants.THS_FAQ_ITEM, childObject);
                 THSFaqAnswerFragment thsFaqAnswerFragment = new THSFaqAnswerFragment();
-                mTHSFaqFragment.addFragment(thsFaqAnswerFragment,THSFaqAnswerFragment.TAG,bundle,false);
+                mTHSFaqFragment.addFragment(thsFaqAnswerFragment, THSFaqAnswerFragment.TAG, bundle, false);
             }
         });
 
