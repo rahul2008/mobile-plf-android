@@ -8,6 +8,7 @@ package com.philips.platform.ths.faqs;
 
 import android.widget.ExpandableListView;
 
+import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -56,6 +57,9 @@ public class THSFaqFragmentTest {
     ServiceDiscoveryInterface serviceDiscoveryMock;
 
     @Mock
+    ConsumerManager consumerManagerMock;
+
+    @Mock
     HashMap mapMock;
 
     @Before
@@ -66,6 +70,7 @@ public class THSFaqFragmentTest {
         when(appInfraInterfaceMock.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         THSManager.getInstance().setAppInfra(appInfraInterfaceMock);
         when(appInfraInterfaceMock.getConfigInterface()).thenReturn(appConfigurationInterface);
+
 
         mThsFaqFragment = new THSFaqFragment();
         mThsFaqFragment.setActionBarListener(actionBarListenerMock);
