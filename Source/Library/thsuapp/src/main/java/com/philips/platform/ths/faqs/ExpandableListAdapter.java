@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.faqs;
 
 import android.content.Context;
@@ -16,10 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-
-/**
- * Created by philips on 10/27/17.
- */
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 

@@ -32,17 +32,18 @@ public class THSFaqAnswerFragment extends THSBaseFragment{
         mLabelAnswer = (Label) view.findViewById(R.id.ths_ans);
 
         Bundle bundle = getArguments();
-        FaqBean faqBean = (FaqBean) bundle.getSerializable(THSConstants.THS_FAQ_ITEM);
-        String header = bundle.getString(THSConstants.THS_FAQ_HEADER);
+        if(bundle!=null) {
+            FaqBean faqBean = (FaqBean) bundle.getSerializable(THSConstants.THS_FAQ_ITEM);
+            String header = bundle.getString(THSConstants.THS_FAQ_HEADER);
 
-        mLabelQuestion.setText(faqBean.getQuestion());
-        mLabelAnswer.setText(faqBean.getAnswer());
+            mLabelQuestion.setText(faqBean.getQuestion());
+            mLabelAnswer.setText(faqBean.getAnswer());
 
-        ActionBarListener actionBarListener = getActionBarListener();
-        if(null != actionBarListener){
-            actionBarListener.updateActionBar(header,true);
+            ActionBarListener actionBarListener = getActionBarListener();
+            if (null != actionBarListener) {
+                actionBarListener.updateActionBar(header, true);
+            }
         }
-
         return view;
     }
 }
