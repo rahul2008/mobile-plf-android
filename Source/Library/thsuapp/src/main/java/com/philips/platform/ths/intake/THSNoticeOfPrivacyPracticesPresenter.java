@@ -10,25 +10,23 @@ import android.os.Build;
 import android.text.Html;
 import android.text.Spanned;
 
+import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.legal.LegalText;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.ths.utility.THSRestClient;
 
-import java.net.URL;
 import java.util.List;
 
 import static android.text.Html.FROM_HTML_MODE_LEGACY;
-import static com.philips.platform.ths.utility.THSConstants.THS_TERMS_AND_CONDITIONS;
 
-public class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter {
-    private THSNoticeOfPrivacyPracticesFragment uiBaseView;
+class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter {
+    private THSBaseView uiBaseView;
     protected THSVisitContext mTHSVisitContext;
     private StringBuilder mStringBuilder;
-    private THSRestClient mTHSRestClient;
 
-    public THSNoticeOfPrivacyPracticesPresenter(THSNoticeOfPrivacyPracticesFragment uiBaseView) {
+    THSNoticeOfPrivacyPracticesPresenter(THSBaseView uiBaseView) {
 
         this.uiBaseView = uiBaseView;
         mTHSVisitContext = THSManager.getInstance().getPthVisitContext();
@@ -82,6 +80,4 @@ public class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter {
     public void onNoticeOfPrivacyPracticesReceivedFailure(Throwable throwable) {
         ((THSNoticeOfPrivacyPracticesFragment) uiBaseView).hideProgressBar();
     }*/
-
-
 }
