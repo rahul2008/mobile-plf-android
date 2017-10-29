@@ -33,6 +33,9 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Map;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_CREATE_VISIT_CONTEXT;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_ON_DEMAND_SPECIALITIES;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
@@ -98,9 +101,9 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
             if (null != thssdkError.getSdkError()) {
                 if (thssdkError.getSDKErrorReason().name() != null) {
-                    thsBaseView.showError(THSSDKErrorFactory.getErrorType(thssdkError.getSDKErrorReason()), true);
+                    thsBaseView.showError(ANALYTICS_CREATE_VISIT_CONTEXT,THSSDKErrorFactory.getErrorType(thssdkError.getSDKErrorReason()), true);
                 }else {
-                    thsBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR, true);
+                    thsBaseView.showError(ANALYTICS_CREATE_VISIT_CONTEXT,THSConstants.THS_GENERIC_SERVER_ERROR, true);
                 }
             } else {
                 updateSymptoms(THSVisitContext);
@@ -152,9 +155,9 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
                 if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
                     if (null != thssdkError.getSdkError()) {
                         if (thssdkError.getSDKErrorReason().name() != null) {
-                            thsBaseView.showError(THSSDKErrorFactory.getErrorType(thssdkError.getSDKErrorReason()), true);
+                            thsBaseView.showError(ANALYTICS_ON_DEMAND_SPECIALITIES,THSSDKErrorFactory.getErrorType(thssdkError.getSDKErrorReason()), true);
                         }else {
-                            thsBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR, true);
+                            thsBaseView.showError(ANALYTICS_ON_DEMAND_SPECIALITIES,THSConstants.THS_GENERIC_SERVER_ERROR, true);
                         }
                     } else {
                         updateSymptoms(pthVisitContext);
@@ -199,9 +202,9 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
                 ((THSSymptomsFragment) thsBaseView).updateDocumentRecordList(documentRecord);
             } else if (null != sdkError) {
                 if (null != sdkError.getSDKErrorReason()) {
-                    thsBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    thsBaseView.showError(ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
                 }else {
-                    thsBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                    thsBaseView.showError(ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT,THSConstants.THS_GENERIC_SERVER_ERROR);
                 }
                 thsBaseView.showToast("upload failed with sdk error" + sdkError.getMessage());
             }

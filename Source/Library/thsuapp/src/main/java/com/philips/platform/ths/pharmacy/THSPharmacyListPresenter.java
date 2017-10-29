@@ -21,6 +21,8 @@ import com.philips.platform.ths.utility.THSManager;
 import java.util.List;
 import java.util.Map;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_PHARMACY;
+
 
 public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUpdatePharmacyCallback, THSBasePresenter {
 
@@ -79,9 +81,9 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
             thsPharmacyListViewListener.hideProgressBar();
             if (null != sdkError) {
                 if (sdkError.getSDKErrorReason() != null) {
-                    thsPharmacyListViewListener.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    thsPharmacyListViewListener.showError(ANALYTICS_FETCH_PHARMACY,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
                 } else {
-                    thsPharmacyListViewListener.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                    thsPharmacyListViewListener.showError(ANALYTICS_FETCH_PHARMACY,THSConstants.THS_GENERIC_SERVER_ERROR);
                 }
             } else {
                 if (null == pharmacies || pharmacies.size() == 0) {

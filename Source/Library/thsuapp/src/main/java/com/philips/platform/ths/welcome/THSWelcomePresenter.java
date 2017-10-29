@@ -29,6 +29,9 @@ import com.philips.platform.ths.utility.THSManager;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_CONSUMER_DETAILS;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_LOGIN;
+
 class THSWelcomePresenter implements THSBasePresenter,
         THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack{
     private THSBaseFragment uiBaseView;
@@ -121,9 +124,9 @@ class THSWelcomePresenter implements THSBasePresenter,
         if(sdkError == null) {
             ((THSWelcomeFragment) uiBaseView).updateView();
         }else if(null != sdkError.getSDKErrorReason()){
-            uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+            uiBaseView.showError(ANALYTICS_CONSUMER_DETAILS,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
         }else {
-            uiBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+            uiBaseView.showError(ANALYTICS_CONSUMER_DETAILS,THSConstants.THS_GENERIC_SERVER_ERROR);
         }
     }
 
@@ -151,7 +154,7 @@ class THSWelcomePresenter implements THSBasePresenter,
             isRefreshTokenRequestedBefore = false;
             uiBaseView.hideProgressBar();
             if(uiBaseView.getActivity()!=null) {
-                uiBaseView.showError(uiBaseView.getString(R.string.ths_user_not_authenticated));
+                uiBaseView.showError(ANALYTIC_LOGIN,uiBaseView.getString(R.string.ths_user_not_authenticated));
             }
             return true;
         }

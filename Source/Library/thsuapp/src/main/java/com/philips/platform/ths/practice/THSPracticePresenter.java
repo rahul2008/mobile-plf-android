@@ -18,6 +18,7 @@ import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PRACTICE;
 import static com.philips.platform.ths.utility.THSConstants.THS_PRACTICE_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
@@ -51,9 +52,9 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
         if (null != uiBaseView && null != uiBaseView.getFragmentActivity()) {
             if (null != sdkError) {
                 if (sdkError.getSDKErrorReason() != null) {
-                    uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()),true);
+                    uiBaseView.showError(ANALYTIC_FETCH_PRACTICE,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()),true);
                 }else {
-                    uiBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR,true);
+                    uiBaseView.showError(ANALYTIC_FETCH_PRACTICE,THSConstants.THS_GENERIC_SERVER_ERROR,true);
                 }
             } else {
                 ((THSPracticeFragment) uiBaseView).showPracticeList(practices);

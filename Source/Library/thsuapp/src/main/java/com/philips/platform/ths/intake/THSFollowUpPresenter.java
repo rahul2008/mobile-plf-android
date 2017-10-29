@@ -20,6 +20,7 @@ import com.philips.platform.ths.utility.THSTagUtils;
 import java.util.List;
 import java.util.Map;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_UPDATE_CONSUMER;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
@@ -80,7 +81,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     public void onUpdateConsumerResponse(THSConsumerWrapper thsConsumer, THSSDKPasswordError sdkPasswordError) {
         if(null != sdkPasswordError.getSdkPasswordError()) {
                 if(null != sdkPasswordError.getSdkPasswordError().getSDKErrorReason()) {
-                    thsFollowUpViewInterfaces.showError(THSSDKErrorFactory.getErrorType(sdkPasswordError.getSdkPasswordError().getSDKErrorReason()));
+                    thsFollowUpViewInterfaces.showError(ANALYTIC_UPDATE_CONSUMER,THSSDKErrorFactory.getErrorType(sdkPasswordError.getSdkPasswordError().getSDKErrorReason()));
                 }
         }
         else {

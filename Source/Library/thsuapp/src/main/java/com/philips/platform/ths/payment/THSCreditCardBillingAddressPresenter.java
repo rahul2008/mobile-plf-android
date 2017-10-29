@@ -22,6 +22,7 @@ import com.philips.platform.ths.utility.THSManager;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_PAYMENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
@@ -115,7 +116,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
             } else {
                 AmwellLog.i("updatePayment", "failed");
                 if (null != tHSSDKError.getSDKErrorReason() && null != tHSSDKError.getSDKErrorReason().toString()) {
-                    mTHSBillingAddressFragment.showError(THSSDKErrorFactory.getErrorType(tHSSDKError.getSDKErrorReason()));
+                    mTHSBillingAddressFragment.showError(ANALYTICS_FETCH_PAYMENT,THSSDKErrorFactory.getErrorType(tHSSDKError.getSDKErrorReason()));
                 }
             }
         }

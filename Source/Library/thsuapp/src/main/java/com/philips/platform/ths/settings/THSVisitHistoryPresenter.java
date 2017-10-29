@@ -15,6 +15,8 @@ import com.philips.platform.ths.utility.THSManager;
 
 import java.util.List;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_VISIT_HISTORY;
+
 public class THSVisitHistoryPresenter implements THSBasePresenter, THSVisitReportListCallback<List<VisitReport>,SDKError>{
 
     THSVisitHistoryFragment mThsVisitHistoryFragment;
@@ -40,7 +42,7 @@ public class THSVisitHistoryPresenter implements THSBasePresenter, THSVisitRepor
     public void onResponse(List<VisitReport> visitReports, SDKError sdkError) {
         if(null!= mThsVisitHistoryFragment && mThsVisitHistoryFragment.isFragmentAttached()) {
             if (sdkError != null) {
-                mThsVisitHistoryFragment.showError(mThsVisitHistoryFragment.getString(R.string.ths_se_server_error_toast_message), true);
+                mThsVisitHistoryFragment.showError(ANALYTIC_FETCH_VISIT_HISTORY,mThsVisitHistoryFragment.getString(R.string.ths_se_server_error_toast_message), true);
                 return;
             }
             mThsVisitHistoryFragment.updateVisitHistoryView(visitReports);
@@ -51,7 +53,7 @@ public class THSVisitHistoryPresenter implements THSBasePresenter, THSVisitRepor
     @Override
     public void onFailure(Throwable throwable) {
         if(null!= mThsVisitHistoryFragment && mThsVisitHistoryFragment.isFragmentAttached()) {
-            mThsVisitHistoryFragment.showError(mThsVisitHistoryFragment.getString(R.string.ths_se_server_error_toast_message), true);
+            mThsVisitHistoryFragment.showError(ANALYTIC_FETCH_VISIT_HISTORY,mThsVisitHistoryFragment.getString(R.string.ths_se_server_error_toast_message), true);
         }
     }
 }

@@ -31,6 +31,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_ON_DEMAND_SPECIALITIES;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PROVIDER_LIST;
+
 public class THSProviderListPresenter implements THSProvidersListCallback, THSBasePresenter, THSOnDemandSpecialtyCallback<List<THSOnDemandSpeciality>, THSSDKError> {
 
     private THSBaseFragment mThsBaseFragment;
@@ -65,9 +68,9 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                 updateFragment(providerInfoList, providerAvailable);
             } else if (null != sdkError) {
                 if(null != sdkError.getSDKErrorReason()) {
-                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()),true);
+                    mThsBaseFragment.showError(ANALYTIC_FETCH_PROVIDER_LIST,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()),true);
                 }else {
-                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR,true);
+                    mThsBaseFragment.showError(ANALYTIC_FETCH_PROVIDER_LIST,THSConstants.THS_GENERIC_SERVER_ERROR,true);
                 }
             } else {
                 thsProviderListViewInterface.showNoProviderErrorDialog();
@@ -141,10 +144,10 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             if (null != sdkError.getSdkError()) {
                 if (null != sdkError.getSDKErrorReason()) {
-                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    mThsBaseFragment.showError(ANALYTICS_ON_DEMAND_SPECIALITIES,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
                     return;
                 } else {
-                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                    mThsBaseFragment.showError(ANALYTICS_ON_DEMAND_SPECIALITIES,THSConstants.THS_GENERIC_SERVER_ERROR);
                     return;
                 }
             } else {

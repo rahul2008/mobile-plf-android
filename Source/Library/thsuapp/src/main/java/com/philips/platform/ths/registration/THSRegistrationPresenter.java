@@ -74,7 +74,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
             }
             switch (((THSRegistrationFragment) mTHSBaseFragment).mLaunchInput) {
                 case THSConstants.THS_PRACTICES:
-                    mTHSBaseFragment.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
+                    mTHSBaseFragment.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, true);
                     break;
                 case THSConstants.THS_SCHEDULED_VISITS:
                     mTHSBaseFragment.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);

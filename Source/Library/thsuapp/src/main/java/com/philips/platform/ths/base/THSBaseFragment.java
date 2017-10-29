@@ -23,8 +23,10 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.init.THSInitFragment;
 import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSNetworkStateListener;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -36,6 +38,7 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_USER_NOT_LOGGED_IN;
 
@@ -204,12 +207,19 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
         return false;
     }
 
-    public void showError(String message) {
-        showError(message, false);
+    public void showError(String module, String message) {
+        showError(module, message, false);
     }
 
-    public void showError(String message, final boolean shouldGoBack) {
+    public void showError(String module, String message, final boolean shouldGoBack) {
         if (isFragmentAttached()) {
+            if(null==message){  // if message is not identified make it THS_GENERIC_SERVER_ERROR
+                message = THSConstants.THS_GENERIC_SERVER_ERROR;
+            }
+            if(THSConstants.THS_GENERIC_SERVER_ERROR.equalsIgnoreCase(message)){
+                final String errorTag= THSTagUtils.createErrorTag(module,getString(R.string.ths_se_server_error_toast_message));
+                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA ,THS_SERVER_ERROR,errorTag);
+            }
             alertDialogFragment = new AlertDialogFragment.Builder(UIDHelper.getPopupThemedContext(getContext())).setDialogType(DialogConstants.TYPE_ALERT).setTitle(R.string.ths_matchmaking_error)
                     .setMessage(message).
                             setPositiveButton(R.string.ths_matchmaking_ok_button, new View.OnClickListener() {

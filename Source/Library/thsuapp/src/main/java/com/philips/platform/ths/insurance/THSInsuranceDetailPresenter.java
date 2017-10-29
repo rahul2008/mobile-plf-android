@@ -31,6 +31,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_HEALTH_SUBSCRIPTION;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPDATE_HEALTH_PLAN;
+
 class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallback.THSgetInsuranceCallBack<THSSubscription, THSSDKError>, THSSDKValidatedCallback<Void, SDKError> {
     protected THSBaseFragment mTHSBaseFragment;
 
@@ -159,9 +162,9 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
             mTHSBaseFragment.hideProgressBar();
             if (null != tHSSDKError.getSdkError()) {
                 if (null != tHSSDKError.getSDKErrorReason()) {
-                    mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(tHSSDKError.getSDKErrorReason()),true);
+                    mTHSBaseFragment.showError(ANALYTICS_FETCH_HEALTH_SUBSCRIPTION,THSSDKErrorFactory.getErrorType(tHSSDKError.getSDKErrorReason()),true);
                 }else {
-                    mTHSBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR,true);
+                    mTHSBaseFragment.showError(ANALYTICS_FETCH_HEALTH_SUBSCRIPTION,THSConstants.THS_GENERIC_SERVER_ERROR,true);
                 }
             } else {
                 ((THSInsuranceDetailFragment) mTHSBaseFragment).thsSubscriptionExisting = tHSSubscription;
@@ -238,7 +241,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
             mTHSBaseFragment.hideProgressBar();
             if (null != sdkError) {
                 if (null != sdkError.getSDKErrorReason()) {
-                    mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    mTHSBaseFragment.showError(ANALYTICS_UPDATE_HEALTH_PLAN,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
                 }
             } else {
                 showCostSummaryFragment();

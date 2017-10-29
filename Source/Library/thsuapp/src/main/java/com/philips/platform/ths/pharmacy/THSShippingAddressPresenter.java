@@ -21,6 +21,8 @@ import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Map;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPDATE_SHIPPING_ADDRESS;
+
 public class THSShippingAddressPresenter implements THSUpdateShippingAddressCallback {
 
     private THSBaseView thsBaseView;
@@ -40,7 +42,7 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
     @Override
     public void onAddressValidationFailure(Map<String, ValidationReason> map) {
 
-        ((THSBaseFragment)thsBaseView).showError(THSConstants.THS_GENERIC_USER_ERROR);
+        ((THSBaseFragment)thsBaseView).showError(ANALYTICS_UPDATE_SHIPPING_ADDRESS,THSConstants.THS_GENERIC_USER_ERROR);
     }
 
     @Override

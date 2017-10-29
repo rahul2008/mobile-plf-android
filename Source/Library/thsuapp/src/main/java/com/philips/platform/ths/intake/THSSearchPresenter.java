@@ -25,6 +25,10 @@ import com.philips.platform.ths.utility.THSManager;
 import java.util.List;
 import java.util.Map;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PROVIDER;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_PHARMACY;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_SEARCH_MEDICATION;
+
 
 class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<THSMedication, SDKError>, THSProvidersListCallback, THSGetPharmaciesCallback {
 
@@ -48,7 +52,7 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
         if (null != uiBaseView && uiBaseView.isFragmentAttached()) {
             if (null != sdkError) {
                 if (null != sdkError.getSDKErrorReason()) {
-                    uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    uiBaseView.showError(ANALYTICS_SEARCH_MEDICATION,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
                 }
             } else if (null != THSMedication && null != THSMedication.getMedicationList() && !THSMedication.getMedicationList().isEmpty()) {
                 AmwellLog.i("onFetchMedication", "success");
@@ -122,11 +126,11 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
                 }
             } else if (null != sdkError) {
                 if (null != sdkError.getSDKErrorReason()) {
-                    uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    uiBaseView.showError(ANALYTIC_FETCH_PROVIDER,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
                     AmwellLog.i("onFetchMedication", "failure");
                     //((THSSearchFragment) uiBaseView).showToast("No match found");
                 } else {
-                    uiBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                    uiBaseView.showError(ANALYTIC_FETCH_PROVIDER,THSConstants.THS_GENERIC_SERVER_ERROR);
                 }
 
             }
@@ -147,9 +151,9 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
         if (null != uiBaseView && uiBaseView.isFragmentAttached()) {
             if (null != sdkError) {
                 if (sdkError.getSDKErrorReason() != null) {
-                    uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    uiBaseView.showError(ANALYTICS_FETCH_PHARMACY,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
                 } else {
-                    uiBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                    uiBaseView.showError(ANALYTICS_FETCH_PHARMACY,THSConstants.THS_GENERIC_SERVER_ERROR);
                 }
             } else {
                 if (null != pharmacies && !pharmacies.isEmpty()) {

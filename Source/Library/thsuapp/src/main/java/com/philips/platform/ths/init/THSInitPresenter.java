@@ -26,6 +26,9 @@ import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_INITIALIZATION;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_CONSUMER_EXIST_CHECK;
+
 public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack<Void,THSSDKError>, THSCheckConsumerExistsCallback<Boolean, THSSDKError>{
 
     THSInitFragment mThsInitFragment;
@@ -43,7 +46,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         User user = new User(mThsInitFragment.getContext());
         if (user == null || !user.isUserSignIn()) {
             mThsInitFragment.hideProgressBar();
-            mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_user_not_logged_in));
+            mThsInitFragment.showError(ANALYTICS_INITIALIZATION,mThsInitFragment.getString(R.string.ths_user_not_logged_in));
             return;
         }
         try {
@@ -66,10 +69,10 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         if(sdkError.getSdkError() != null){
             if(null!=mThsInitFragment && mThsInitFragment.isFragmentAttached()) {
                 if(sdkError.getSDKErrorReason() != null) {
-                    mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    mThsInitFragment.showError(ANALYTICS_INITIALIZATION,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
                     return;
                 }else {
-                    mThsInitFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                    mThsInitFragment.showError(ANALYTICS_INITIALIZATION,THSConstants.THS_GENERIC_SERVER_ERROR);
                 }
             }
         }else {
@@ -103,10 +106,10 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         mThsInitFragment.hideProgressBar();
         if (null != sdkError) {
             if (null != sdkError.getSDKErrorReason()) {
-                mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                mThsInitFragment.showError(ANALYTIC_CONSUMER_EXIST_CHECK,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
             }
             else if(sdkError.getHttpResponseCode() > 0){
-                mThsInitFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                mThsInitFragment.showError(ANALYTIC_CONSUMER_EXIST_CHECK,THSConstants.THS_GENERIC_SERVER_ERROR);
             }
             return;
         }

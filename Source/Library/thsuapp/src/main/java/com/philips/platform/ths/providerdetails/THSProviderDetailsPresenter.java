@@ -46,6 +46,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_APPOINTMENTS;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_START_MATCHING;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PRACTICE;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PROVIDER;
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_ALERT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
@@ -82,9 +86,9 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             if (null != sdkError) {
                 if (sdkError.getSDKErrorReason() != null) {
-                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()), true);
+                    mThsBaseFragment.showError(ANALYTIC_FETCH_PROVIDER,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()), true);
                 } else {
-                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR, true);
+                    mThsBaseFragment.showError(ANALYTIC_FETCH_PROVIDER,THSConstants.THS_GENERIC_SERVER_ERROR, true);
                 }
             } else {
                 THSConsumerWrapper thsConsumer = new THSConsumerWrapper();
@@ -195,9 +199,9 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                         public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
                             if (null != sdkError) {
                                 if (sdkError.getSDKErrorReason() != null) {
-                                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                                    mThsBaseFragment.showError(ANALYTIC_FETCH_PROVIDER,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
                                 } else {
-                                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                                    mThsBaseFragment.showError(ANALYTIC_FETCH_PROVIDER,THSConstants.THS_GENERIC_SERVER_ERROR);
                                 }
                             } else {
                                 ((THSProviderDetailsFragment) mThsBaseFragment).setProvider(provider);
@@ -208,10 +212,10 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                                                 public void onResponse(final List<Date> dates, THSSDKError sdkError) {
                                                     if (null != sdkError.getSdkError()) {
                                                         if (null != sdkError.getSDKErrorReason()) {
-                                                            mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                                                            mThsBaseFragment.showError(ANALYTICS_FETCH_APPOINTMENTS,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
                                                             return;
                                                         } else {
-                                                            mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                                                            mThsBaseFragment.showError(ANALYTICS_FETCH_APPOINTMENTS,THSConstants.THS_GENERIC_SERVER_ERROR);
                                                         }
 
                                                     } else {
@@ -222,7 +226,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                                                                     public void onResponse(Practice practice, SDKError practiceSdkError) {
                                                                         if (null != practiceSdkError) {
                                                                             if (null != practiceSdkError.getSDKErrorReason()) {
-                                                                                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(practiceSdkError.getSDKErrorReason()));
+                                                                                mThsBaseFragment.showError(ANALYTIC_FETCH_PRACTICE,THSSDKErrorFactory.getErrorType(practiceSdkError.getSDKErrorReason()));
                                                                             }
                                                                         } else {
                                                                             launchFragmentBasedOnAvailibity(practice, dates, date);
@@ -371,7 +375,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             if (null != sdkError) {
                 if (null != sdkError.getSDKErrorReason()) {
-                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    mThsBaseFragment.showError(ANALYTICS_START_MATCHING,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
                 }
             } else {
                 showMatchmakingError(true, true);

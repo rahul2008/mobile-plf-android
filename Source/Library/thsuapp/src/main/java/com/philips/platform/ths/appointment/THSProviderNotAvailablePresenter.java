@@ -28,6 +28,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_APPOINTMENTS;
+
 public class THSProviderNotAvailablePresenter implements THSBasePresenter {
     private THSBaseFragment mThsBaseFragment;
 
@@ -70,10 +72,10 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter {
                     if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
                         if (sdkError.getSdkError() != null) {
                             if (sdkError.getSdkError().getSDKErrorReason() != null) {
-                                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                                mThsBaseFragment.showError(ANALYTICS_FETCH_APPOINTMENTS,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
                                 return;
                             }else {
-                                mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                                mThsBaseFragment.showError(ANALYTICS_FETCH_APPOINTMENTS,THSConstants.THS_GENERIC_SERVER_ERROR);
                             }
                         } else {
 

@@ -19,6 +19,7 @@ import com.philips.platform.ths.utility.THSManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_SAVE_MEDICAL_CONDITION;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 public class THSMedicalConditionsPresenter implements THSBasePresenter, THSConditionsCallBack<THSConditionsList, THSSDKError>, THSUpdateConditionsCallback<Void, THSSDKError> {
@@ -82,9 +83,9 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
         if (null != thsBaseFragment && thsBaseFragment.isFragmentAttached()) {
             if (null != sdkError.getSdkError()) {
                 if (sdkError.getSDKErrorReason() != null) {
-                    thsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    thsBaseFragment.showError(ANALYTICS_SAVE_MEDICAL_CONDITION,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
                 }else {
-                    thsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+                    thsBaseFragment.showError(ANALYTICS_SAVE_MEDICAL_CONDITION,THSConstants.THS_GENERIC_SERVER_ERROR);
                 }
             } else {
                 if(((THSMedicalConditionsFragment) thsBaseFragment).NumberOfConditionSelected>0) {
