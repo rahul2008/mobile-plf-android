@@ -10,10 +10,8 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.faqs.THSFaqFragment;
-import com.philips.platform.ths.intake.THSNoticeOfPrivacyPracticesPresenter;
 import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.ths.utility.THSRestClient;
 
 import java.net.URL;
 
