@@ -35,7 +35,7 @@ public class THSDependentListAdapter extends RecyclerView.Adapter<THSDependentLi
     }
 
     public THSDependentListAdapter(Context activity) {
-        mDependents = THSManager.getInstance().getThsParentConsumer().getDependents();
+        mDependents = THSManager.getInstance().getThsParentConsumer(activity).getDependents();
         context = activity;
     }
 

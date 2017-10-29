@@ -406,7 +406,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     }
 
     public void launchInsuranceCostSummary() {
-        Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
+        Consumer consumer = THSManager.getInstance().getPTHConsumer(getContext()).getConsumer();
         if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
             final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
             addFragment(fragment, THSCostSummaryFragment.TAG, null, true);

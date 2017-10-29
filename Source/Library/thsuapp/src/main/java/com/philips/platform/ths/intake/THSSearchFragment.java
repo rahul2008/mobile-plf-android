@@ -42,7 +42,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-import static com.philips.platform.ths.utility.THSConstants.THS_MEDICATION_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_MEDICATION_SEARCH_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_SEARCH_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEARCH_PHARMACY;
@@ -227,7 +226,7 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
         THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
         pthProviderDetailsFragment.setActionBarListener(getActionBarListener());
         pthProviderDetailsFragment.setTHSProviderEntity(providerInfoList.get(position));
-        pthProviderDetailsFragment.setConsumerAndPractice(THSManager.getInstance().getPTHConsumer().getConsumer(), practice);
+        pthProviderDetailsFragment.setConsumerAndPractice(THSManager.getInstance().getPTHConsumer(getContext()).getConsumer(), practice);
         pthProviderDetailsFragment.setFragmentLauncher(getFragmentLauncher());
         addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, null, true);
 

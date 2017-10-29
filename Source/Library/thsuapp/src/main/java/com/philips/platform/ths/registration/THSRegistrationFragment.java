@@ -19,7 +19,6 @@ import com.americanwell.sdk.entity.Country;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.philips.cdp.registration.User;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.pharmacy.THSSpinnerAdapter;
@@ -111,7 +110,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
     private void prePopulateData() {
 
-        THSConsumer user = THSManager.getInstance().getThsConsumer();
+        THSConsumer user = THSManager.getInstance().getThsConsumer(getContext());
 
         if(user.getFirstName()!=null) {
             mEditTextFirstName.setText(user.getFirstName());
@@ -153,7 +152,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
             if (validateUserDetails()) {
                 mContinueButton.showProgressIndicator();
 
-                if(THSManager.getInstance().getThsConsumer().isDependent()){
+                if(THSManager.getInstance().getThsConsumer(getContext()).isDependent()){
                     mThsRegistrationPresenter.enrollDependent(mDob, mEditTextFirstName.getText().toString(),
                             mEditTextLastName.getText().toString(), Gender.MALE, mValidStates.get(mStateSpinner.getSelectedItemPosition()));
                 }else {
