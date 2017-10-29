@@ -386,11 +386,7 @@ dependencies {
     leakCanaryCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     psraReleaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.google.dagger'
-        exclude group: 'com.google.code.findbugs'
-    }
+
     debugCompile 'com.facebook.stetho:stetho:1.2.0'
     compile 'com.j256.ormlite:ormlite-core:5.0'
     compile 'com.j256.ormlite:ormlite-android:5.0'
