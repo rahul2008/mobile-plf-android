@@ -19,6 +19,7 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.platform.mya.catk.utils.ConsentUtil;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -34,14 +35,20 @@ public class CswActivity extends UIDActivity implements OnClickListener,
 
     private TextView ivBack;
 
+    private String applicationName;
+    private String propositionName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            int orientation = 0;
-            if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+            applicationName = bundle.getString(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME);
+            propositionName = bundle.getString(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME);
+
+            /*if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -49,7 +56,7 @@ public class CswActivity extends UIDActivity implements OnClickListener,
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
             } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-            }
+            }*/
         }
 
         setContentView(R.layout.csw_activity);
@@ -63,13 +70,25 @@ public class CswActivity extends UIDActivity implements OnClickListener,
 
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle state) {
+        super.onRestoreInstanceState(state);
+        applicationName = state.getString(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME, applicationName);
+        propositionName = state.getString(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        state.putString(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME, applicationName);
+        state.putString(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+    }
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
 
     }
-
 
     @Override
     public void onBackPressed() {
@@ -90,13 +109,15 @@ public class CswActivity extends UIDActivity implements OnClickListener,
     }
 
     private void launchCswFragment() {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput();
-        FragmentLauncher fragmentLauncher = new FragmentLauncher
-                (this, R.id.csw_frame_layout_fragment_container, this);
-        CswInterface cswInterface = new CswInterface();
-        cswInterface.launch(fragmentLauncher, cswLaunchInput);
+        new CswInterface().launch(new FragmentLauncher(this, R.id.csw_frame_layout_fragment_container, this), buildLaunchInput());
     }
 
+    private CswLaunchInput buildLaunchInput() {
+        CswLaunchInput cswLaunchInput = new CswLaunchInput();
+        cswLaunchInput.setApplicationName(applicationName);
+        cswLaunchInput.setPropositionName(propositionName);
+        return cswLaunchInput;
+    }
 
     @Override
     public void onClick(View v) {

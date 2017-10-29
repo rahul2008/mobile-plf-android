@@ -18,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.philips.platform.csw.permission.PermissionView;
+import com.philips.platform.mya.catk.utils.ConsentUtil;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -28,20 +29,46 @@ public class CswFragment extends Fragment implements
     private FragmentManager mFragmentManager;
     private ActionBarListener mActionBarListener;
 
+    private String applicationName;
+    private String propositionName;
+
     static String BACK_STACK_ID = CswFragment.class.getSimpleName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.csw_fragment_consent_widget_root, container, false);
+
+        if (getArguments() != null) {
+            applicationName = getArguments().getString(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME);
+            propositionName = getArguments().getString(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME);
+        }
+
         mFragmentManager = getChildFragmentManager();
         if (mFragmentManager.getBackStackEntryCount() < 1) {
             inflatePermissionView();
         }
+
         return view;
     }
 
+    @Override
+    public void onViewStateRestored(Bundle state) {
+        super.onViewStateRestored(state);
+        if (state != null) {
+            applicationName = state.getString(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME);
+            propositionName = state.getString(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME);
+        }
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        if (state != null) {
+            state.putString(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME, applicationName);
+            state.putString(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        }
+    }
 
     public boolean onBackPressed() {
         return handleBackStack();
@@ -59,17 +86,6 @@ public class CswFragment extends Fragment implements
         }
         return false;
     }
-
-/*    public void inflateIntroView() {
-        try {
-            if (null != mFragmentManager) {
-                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.csw_frame_layout_view_container, new IntroMenuView());
-                fragmentTransaction.commitAllowingStateLoss();
-            }
-        } catch (IllegalStateException ignore) {
-        }
-    }*/
 
     public void inflatePermissionView() {
         try {
@@ -121,6 +137,13 @@ public class CswFragment extends Fragment implements
 
     protected void setChildFragmentManager(FragmentManager fragmentManager) {
         mFragmentManager = fragmentManager;
+    }
+
+    public void setArguments(String applicationName, String propositionName) {
+        Bundle b = new Bundle();
+        b.putString(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME, applicationName);
+        b.putString(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        this.setArguments(b);
     }
 
 }

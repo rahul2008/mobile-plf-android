@@ -10,6 +10,7 @@ import com.philips.platform.csw.injection.CswComponent;
 import com.philips.platform.csw.injection.CswModule;
 import com.philips.platform.csw.injection.DaggerCswComponent;
 import com.philips.platform.csw.utils.CswLogger;
+import com.philips.platform.mya.catk.utils.ConsentUtil;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -45,6 +46,7 @@ public class CswInterface implements UappInterface {
             CswFragment cswFragment = new CswFragment();
             cswFragment.setOnUpdateTitleListener(fragmentLauncher.
                     getActionbarListener());
+            cswFragment.setArguments(uappLaunchInput.getApplicationName(), uappLaunchInput.getPropositionName());
 
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
@@ -59,12 +61,13 @@ public class CswInterface implements UappInterface {
 
         }
 
-
     }
 
     private void launchAsActivity(ActivityLauncher uiLauncher, CswLaunchInput uappLaunchInput) {
         if (null != uiLauncher && uappLaunchInput != null) {
             Intent cswIntent = new Intent(((CswLaunchInput) uappLaunchInput).getContext(), CswActivity.class);
+            cswIntent.putExtra(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME, uappLaunchInput.getApplicationName());
+            cswIntent.putExtra(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME, uappLaunchInput.getPropositionName());
             cswIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             uappLaunchInput.getContext().startActivity(cswIntent);
         }
