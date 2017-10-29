@@ -18,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.philips.platform.mya.account.AccountView;
+import com.philips.platform.mya.catk.utils.ConsentUtil;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -42,8 +43,8 @@ public class MyaFragment extends Fragment implements
         }
 
         if (getArguments() != null) {
-            applicationName = getArguments().getString(BUNDLE_KEY_APPLICATION_NAME);
-            propositionName = getArguments().getString(BUNDLE_KEY_PROPOSITION_NAME);
+            applicationName = getArguments().getString(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME);
+            propositionName = getArguments().getString(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME);
         }
 
         return view;
@@ -53,8 +54,8 @@ public class MyaFragment extends Fragment implements
     public void onViewStateRestored(Bundle state) {
         super.onViewStateRestored(state);
         if (state != null) {
-            applicationName = state.getString(BUNDLE_KEY_APPLICATION_NAME);
-            propositionName = state.getString(BUNDLE_KEY_PROPOSITION_NAME);
+            applicationName = state.getString(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME);
+            propositionName = state.getString(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME);
         }
     }
 
@@ -62,8 +63,8 @@ public class MyaFragment extends Fragment implements
     public void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
         if (state != null) {
-            state.putString(BUNDLE_KEY_APPLICATION_NAME, applicationName);
-            state.putString(BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+            state.putString(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME, applicationName);
+            state.putString(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
         }
     }
 
@@ -153,13 +154,10 @@ public class MyaFragment extends Fragment implements
         mFragmentManager = fragmentManager;
     }
 
-    private static final String BUNDLE_KEY_APPLICATION_NAME = "appName";
-    private static final String BUNDLE_KEY_PROPOSITION_NAME = "propName";
-
     public void setArguments(String applicationName, String propositionName) {
         Bundle b = new Bundle();
-        b.putString(BUNDLE_KEY_APPLICATION_NAME, applicationName);
-        b.putString(BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        b.putString(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME, applicationName);
+        b.putString(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
         this.setArguments(b);
     }
 }

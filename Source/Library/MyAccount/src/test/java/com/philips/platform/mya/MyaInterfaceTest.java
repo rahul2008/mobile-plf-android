@@ -59,10 +59,6 @@ public class MyaInterfaceTest {
         thenStartActivityWasCalledWithIntent();
     }
 
-    private void thenStartActivityWasCalledWithIntent() {
-        assertNotNull(launchInput.context.startActivity_intent);
-    }
-
     private void givenLaunchInput(String applicationName, String propositionName) {
         givenLaunchInput = new MyaLaunchInput();
         givenLaunchInput.setApplicationName(applicationName);
@@ -115,6 +111,10 @@ public class MyaInterfaceTest {
 
     private void thenCommitAllowingStateLossWasCalled() {
         assertTrue(fragmentTransaction.commitAllowingStateLossWasCalled);
+    }
+
+    private void thenStartActivityWasCalledWithIntent() {
+        assertNotNull(launchInput.context.startActivity_intent);
     }
 
     private MyaInterface myaInterface;
