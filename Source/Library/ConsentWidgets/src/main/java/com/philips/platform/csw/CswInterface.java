@@ -30,14 +30,14 @@ public class CswInterface implements UappInterface {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
-            launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput);
+            launchAsActivity(((ActivityLauncher) uiLauncher), (CswLaunchInput)uappLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
-            launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
+            launchAsFragment((FragmentLauncher) uiLauncher, (CswLaunchInput)uappLaunchInput);
         }
     }
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher,
-                                  UappLaunchInput uappLaunchInput) {
+                                  CswLaunchInput uappLaunchInput) {
 
         try {
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
@@ -51,8 +51,7 @@ public class CswInterface implements UappInterface {
                     cswFragment,
                     CswConstants.CSWFRAGMENT);
 
-            if (((CswLaunchInput)
-                    uappLaunchInput).isAddtoBackStack()) {
+            if (uappLaunchInput.isAddtoBackStack()) {
                 fragmentTransaction.addToBackStack(CswConstants.CSWFRAGMENT);
             }
             fragmentTransaction.commitAllowingStateLoss();
@@ -63,11 +62,11 @@ public class CswInterface implements UappInterface {
 
     }
 
-    private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
+    private void launchAsActivity(ActivityLauncher uiLauncher, CswLaunchInput uappLaunchInput) {
         if (null != uiLauncher && uappLaunchInput != null) {
             Intent cswIntent = new Intent(((CswLaunchInput) uappLaunchInput).getContext(), CswActivity.class);
             cswIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-            ((CswLaunchInput) uappLaunchInput).getContext().startActivity(cswIntent);
+            uappLaunchInput.getContext().startActivity(cswIntent);
         }
     }
 

@@ -29,6 +29,9 @@ public class AccountView extends MyaBaseFragment implements
     private static final String BUNDLE_KEY_APPLICATION_NAME = "appName";
     private static final String BUNDLE_KEY_PROPOSITION_NAME = "propName";
 
+    private static final boolean ADD_TO_BACKSTACK = true;
+    private static final boolean DONT_ADD_TO_BACKSTACK = false;
+
     private Button myaFragmentLaunch;
     private Button myaActivityLaunch;
 
@@ -110,21 +113,23 @@ public class AccountView extends MyaBaseFragment implements
     }
 
     private void launchCswFragment() {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput();
-        cswLaunchInput.addToBackStack(true);
         FragmentLauncher fragmentLauncher =
                 new FragmentLauncher(getActivity(),
                         R.id.mya_frame_layout_fragment_container, getMyaFragment().getUpdateTitleListener());
-        CswInterface cswInterface = new CswInterface();
-        cswInterface.launch(fragmentLauncher, cswLaunchInput);
+        new CswInterface().launch(fragmentLauncher, buildLaunchInput(ADD_TO_BACKSTACK));
     }
 
     private void launchCswActivity() {
-        CswInterface uAppInterface;
-        uAppInterface = new CswInterface();
+        new CswInterface().launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), buildLaunchInput(DONT_ADD_TO_BACKSTACK));
+    }
+
+    private CswLaunchInput buildLaunchInput(boolean addToBackStack) {
         CswLaunchInput cswLaunchInput = new CswLaunchInput();
+        cswLaunchInput.setPropositionName(propositionName);
+        cswLaunchInput.setApplicationName(applicationName);
+        cswLaunchInput.addToBackStack(addToBackStack);
         cswLaunchInput.setContext(getContext());
-        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), cswLaunchInput);
+        return cswLaunchInput;
     }
 
     public void setArguments(String applicationName, String propositionName) {
