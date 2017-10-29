@@ -21,7 +21,9 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
-
+import static com.philips.platform.ths.utility.THSConstants.THS_INSURANCE_DETAIL;
+import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 
 public class THSInsuranceNotVerifiedDialogFragment extends DialogFragment implements View.OnClickListener {
@@ -53,6 +55,7 @@ public class THSInsuranceNotVerifiedDialogFragment extends DialogFragment implem
         mSecondaryButtonLabel = (Label) view.findViewById(R.id.ths_confirmation_dialog_secondary_button_label);
         mSecondaryButtonLabel.setText(getResources().getString(R.string.ths_insurance_not_verified_confirm_secondary_button_label_text));
         mSecondaryButtonLabel.setOnClickListener(this);
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_IN_APP_NOTIFICATION, "InsuranceNotVerified");
         return view;
     }
     public void setPresenter(THSBasePresenter presenter){

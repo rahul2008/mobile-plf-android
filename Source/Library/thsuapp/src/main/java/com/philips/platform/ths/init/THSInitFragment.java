@@ -6,30 +6,19 @@
 
 package com.philips.platform.ths.init;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.faqs.THSFaqPojo;
-import com.philips.platform.ths.faqs.THSFaqPresenter;
-import com.philips.platform.ths.utility.THSRestClient;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import static com.philips.platform.ths.utility.THSConstants.THS_INIT_PAGE;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class THSInitFragment extends THSBaseFragment{
     public static final String TAG = THSInitFragment.class.getSimpleName();
@@ -61,5 +50,11 @@ public class THSInitFragment extends THSBaseFragment{
         }catch (IllegalStateException exception){
 
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_INIT_PAGE, null, null);
     }
 }

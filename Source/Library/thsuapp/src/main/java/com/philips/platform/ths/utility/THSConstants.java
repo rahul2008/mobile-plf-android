@@ -71,6 +71,7 @@ public class THSConstants {
     // start of tagging constants
     public static final String THS_SEND_DATA = "sendData";
     public static final String THS_SPECIAL_EVENT = "specialEvents";
+    public static final String THS_IN_APP_NOTIFICATION = "inAppNotification";
     public static final String THS_FLOATING_BUTTON = "floatingButton";
     public static final String THS_USER_ERROR = "userError";
 
@@ -78,6 +79,7 @@ public class THSConstants {
 
 
     // start of tags
+    public static final String THS_INIT_PAGE = "TH_00_00a Welcome";
     public static final String THS_WELCOME = "TH_00_00 Welcome";
     public static final String THS_ADD_DETAILS = "TH_00_01 Add details";
     public static final String THS_CONFIRM_T_AND_C = "TH_00_02 Confirm T&C";
@@ -108,9 +110,10 @@ public class THSConstants {
     public static final String THS_FOLLOW_UP_PAGE = "TH_04_07 add phone & confirm";
     public static final String THS_NOPP_PAGE = "TH_04_08 NOPP";
 
-    public static final String THS_YOUR_PHARMACY = "TH_05_01 Search pharmacy"; // first screen for new user where search box is in body
-    public static final String THS_SEARCH_PHARMACY = "TH_05_03 Choose pharmacy";
+    public static final String THS_SEARCH_PHARMACY = "TH_05_01 Search pharmacy"; // first screen for new user where search box is in body
     public static final String THS_PHARMACY_MAP = "TH_05_02 Pharmacy map";
+    public static final String THS_PHARMACY_SEARCH = "TH_05_02a Search pharmacy";
+
     public static final String THS_PHARMACY_SUMMARY = "TH_05_07 Pharmacy summary";
     public static final String THS_SHIPPING_ADDRESS = "TH_05_06 Shipping address";
 
@@ -128,7 +131,7 @@ public class THSConstants {
     public static final String THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER = "TH_03_02 Available provider";
     public static final String THS_SCHEDULE_APPOINTMENT_PICK_TIME = "TH_03_03a Pick a time" ;
     public static final String THS_SCHEDULE_APPOINTMENT_CONFIRMED = "TH_03_06b Appointment confirmed";
-    public static final String THS_SCHEDULE_REMINDER = "TH_03_07 Set a reminder";
+
 
    // end of tags
 

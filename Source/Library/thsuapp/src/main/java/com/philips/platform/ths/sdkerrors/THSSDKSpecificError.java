@@ -52,6 +52,22 @@ public class THSSDKSpecificError implements THSErrorHandlerInterface {
         }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.PROVIDER_NOT_LICENSED_FOR_MEMBER_STATE.name())){
             errorMessage = "Provider is not licensed for consumer’s state";
             return true;
+        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.CREDIT_CARD_VALIDATION_ERROR.name())){
+            errorMessage = "Invalid credit card";
+            return true;
+        }
+        else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.CREDIT_CARD_INCORRECT_CVV.name())){
+            errorMessage = "Invalid credit card";
+            return true;
+        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.CREDIT_CARD_DECLINED_ERROR.name())){
+            errorMessage = "Invalid credit card";
+            return true;
+        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.CREDIT_CARD_INVALID_ZIP.name())){
+            errorMessage = "Invalid credit card";
+            return true;
+        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.CREDIT_CARD_RESIDENCY_CHECK_FAILED.name())){
+            errorMessage = "Invalid credit card";
+            return true;
         }else {
             return false;
         }
