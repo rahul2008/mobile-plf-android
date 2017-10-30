@@ -31,7 +31,7 @@ ext.versions = [
 		minsdk                     : 21,
 		buildtools                 : "26.0.2",
 		support                    : "26.0.2",
-		jacoco                     : "0.7.6.201602180812"
+		jacoco                     : "0.7.1.201405082137"
 ]
 
 ext.builddeps = [
