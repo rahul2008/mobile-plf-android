@@ -32,15 +32,14 @@
                 android:src="@drawable/ews_onboarding_image"
                 />
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ews_01_00_label_get_started_title"
-                style="@style/EWS.Txt.Title"
+                style="@style/Txt.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/e"
                 android:layout_marginStart="@dimen/e"
                 android:layout_marginTop="@dimen/e"
-                android:textColor="@color/colorPrimary"
                 android:text="@{viewModel.title}"
                 tools:text="@string/label_ews_get_started_title"/>
 
@@ -60,8 +59,8 @@
                     android:layout_marginStart="@dimen/e"
                     app:srcCompat="@drawable/dls_wificonnection"/>
 
-                <TextView
-                    style="@style/EWS.Txt.Small.Extra"
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/Txt.Body"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/d"
@@ -70,7 +69,6 @@
                     android:layout_marginTop="@dimen/d"
                     android:layout_weight="1"
                     android:text="@{viewModel.note}"
-                    android:textColor="@color/colorPrimary"
                     tools:text="@string/label_ews_get_started_description"/>
 
             </LinearLayout>

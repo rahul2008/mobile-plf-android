@@ -107,12 +107,12 @@
 
   <style name="Txt.Body">
     <item name="android:textSize">@dimen/body_text_size</item>
-    <item name="android:textColor">?attr/uidContentItemDefaultNormalBodyTextColor</item>
+    <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
   </style>
 
   <style name="Txt.Helper">
     <item name="android:textSize">@dimen/helper_text_size</item>
-    <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtleBodyTextColor</item>
+    <item name="android:textColor">?attr/uidContentItemSecondaryNormalTextColor</item>
   </style>
 
 </resources>
