@@ -4,18 +4,19 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.ths.welcome;
+package com.philips.platform.ths.faqs;
 
-import android.view.View;
+import android.widget.ExpandableListView;
 
+import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
-import com.philips.platform.ths.R;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,17 +25,24 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.junit.Assert.*;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunnerAmwel.class)
-public class THSPreWelcomeFragmentTest {
-    THSPreWelcomeFragment mTHSPreWelcomeFragment;
+public class THSFaqFragmentTest {
+
+    THSFaqFragment mThsFaqFragment;
 
     @Mock
-    THSPreWelcomePresenter thsPreWelcomePresenter;
+    ExpandableListView expandableListViewMock;
+
+    @Mock
+    ActionBarListener actionBarListenerMock;
 
     @Mock
     AppConfigurationInterface appConfigurationInterface;
@@ -48,6 +56,12 @@ public class THSPreWelcomeFragmentTest {
     @Mock
     ServiceDiscoveryInterface serviceDiscoveryMock;
 
+    @Mock
+    ConsumerManager consumerManagerMock;
+
+    @Mock
+    HashMap mapMock;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -55,35 +69,21 @@ public class THSPreWelcomeFragmentTest {
         when(appInfraInterfaceMock.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
         when(appInfraInterfaceMock.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         THSManager.getInstance().setAppInfra(appInfraInterfaceMock);
-        mTHSPreWelcomeFragment = new THSPreWelcomeFragmentTestMock();
-        SupportFragmentTestUtil.startFragment(mTHSPreWelcomeFragment);
-        mTHSPreWelcomeFragment.mThsPreWelcomeScreenPresenter = thsPreWelcomePresenter;
+        when(appInfraInterfaceMock.getConfigInterface()).thenReturn(appConfigurationInterface);
+
+
+        mThsFaqFragment = new THSFaqFragment();
+        mThsFaqFragment.setActionBarListener(actionBarListenerMock);
+        SupportFragmentTestUtil.startFragment(mThsFaqFragment);
     }
 
     @Test
-    public void onClick() throws Exception {
-        final View viewById = mTHSPreWelcomeFragment.getView().findViewById(R.id.ths_go_see_provider);
-        viewById.performClick();
-        verify(thsPreWelcomePresenter).onEvent(R.id.ths_go_see_provider);
-    }
+    public void updateFaqs() throws Exception {
+        mThsFaqFragment.expListView = expandableListViewMock;
+        when(mapMock.size()).thenReturn(1);
+        mThsFaqFragment.updateFaqs(mapMock);
+        verify(expandableListViewMock).expandGroup(anyInt());
 
-    @Test
-    public void onClickths_video_consults() throws Exception {
-        final View viewById = mTHSPreWelcomeFragment.getView().findViewById(R.id.ths_video_consults);
-        viewById.performClick();
-        verify(thsPreWelcomePresenter).onEvent(R.id.ths_video_consults);
-    }
-
-    @Test
-    public void onClickths_ths_licence() throws Exception {
-        final View viewById = mTHSPreWelcomeFragment.getView().findViewById(R.id.ths_licence);
-        viewById.performClick();
-        verify(thsPreWelcomePresenter).onEvent(R.id.ths_licence);
-    }
-
-    @Test
-    public void showTermsAndConditions(){
-        mTHSPreWelcomeFragment.showTermsAndConditions("ssss");
     }
 
 }

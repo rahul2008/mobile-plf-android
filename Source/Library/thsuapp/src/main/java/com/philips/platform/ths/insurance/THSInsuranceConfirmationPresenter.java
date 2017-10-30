@@ -44,7 +44,7 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSS
             mTHSInsuranceConfirmationFragment.addFragment(fragment, THSInsuranceDetailFragment.TAG, bundle, true);
 
         } else if (componentID == R.id.pth_insurance_confirmation_radio_option_no) {
-            Subscription currentSubscription = THSManager.getInstance().getPTHConsumer().getConsumer().getSubscription();
+            Subscription currentSubscription = THSManager.getInstance().getPTHConsumer(mTHSInsuranceConfirmationFragment.getContext()).getConsumer().getSubscription();
             if (null == currentSubscription) {
                 showCostSummary();
             } else {

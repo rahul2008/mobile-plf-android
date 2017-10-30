@@ -1,6 +1,7 @@
 package com.philips.platform.ths.welcome;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.americanwell.sdk.AWSDK;
@@ -20,6 +21,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
@@ -44,6 +46,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
@@ -187,7 +190,7 @@ public class THSWelcomePresenterTest {
         when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
         when(userMock.getHsdpUUID()).thenReturn("1234");
         pthWelcomePresenter.onEvent(R.id.how_it_works);
-        verify(pTHBaseViewMock).showToast(anyString());
+        verify(pTHBaseViewMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
     }
 
     @Test
@@ -196,7 +199,7 @@ public class THSWelcomePresenterTest {
         when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
         when(userMock.getHsdpUUID()).thenReturn("1234");
         pthWelcomePresenter.onEvent(R.id.how_it_works);
-        verify(pTHBaseViewMock).showToast(anyString());
+        verify(pTHBaseViewMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
     }
 
     @Test

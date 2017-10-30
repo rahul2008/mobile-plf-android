@@ -453,7 +453,7 @@ public class THSManagerTest {
     @Test
     public void getConsumerTest(){
         thsManager.setPTHConsumer(mTHSConsumerWrapper);
-        THSConsumerWrapper consumer = thsManager.getPTHConsumer();
+        THSConsumerWrapper consumer = thsManager.getPTHConsumer(contextMock);
         assertThat(consumer).isNotNull();
         assertThat(consumer).isInstanceOf(THSConsumerWrapper.class);
     }
