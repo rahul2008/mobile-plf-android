@@ -64,7 +64,7 @@ public class THSCreditCardBillingAddressFragment extends THSBaseFragment impleme
         mAddressOneEditText = (EditText) view.findViewById(R.id.sa_shipping_address_line_one);
         mAddressTwoEditText = (EditText) view.findViewById(R.id.sa_shipping_address_line_two);
         mCityEditText = (EditText) view.findViewById(R.id.sa_town);
-        mZipcodeEditText = (EditText) view.findViewById(R.id.sa_postal_code);
+        mZipcodeEditText = (EditText) view.findViewById(R.id.sa_postal_code_edittext);
         mContinueButton = (Button) view.findViewById(R.id.update_shipping_address);
         mContinueButton.setOnClickListener(this);
         mTHSCreditCardBillingAddressPresenter = new THSCreditCardBillingAddressPresenter(this);
