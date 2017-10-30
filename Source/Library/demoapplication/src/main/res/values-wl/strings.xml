@@ -27,21 +27,6 @@
 
     <string name="label_ews_connect_to_wrongphone_title">Accidently connected with wrong phone?</string>
     <string name="label_ews_connect_to_wrongphone_body">If your device has been connected to another phone by accident, then you can try to set it up again with the correct phone.</string>
-
-    <string name="lbl_ews_02_01_title">Make sure your device is powered on </string>
-    <string name="lbl_ews_02_01_body">Proposition specific instructions to power the device.</string>
-
-    <string name="lbl_ews_H_03_01_title">EWS_H_03.01 connect to wrong phone title</string>
-    <string name="lbl_ews_H_03_01_body">EWS_H_03.01 connect to wrong phone body</string>
-    <string name="lbl_ews_H_03_01_question">EWS_H_03.01 connect to wrong phone question</string>
-
-    <string name="lbl_ews_H_03_02_title">EWS_H_03.02 reset connection title</string>
-    <string name="lbl_ews_H_03_02_body">EWS_H_03.02 reset connection body</string>
-
-    <string name="lbl_ews_H_03_03_title">EWS_H_03.03 reset device title</string>
-    <string name="lbl_ews_H_03_03_body">EWS_H_03.03 reset device body</string>
-
-    <string name="lbl_ews_H_03_04_title">EWS_H_03.04 setup access point mode title</string>
-    <string name="lbl_ews_H_03_04_body">EWS_H_03.04 setup access point mode body</string>
+    <string name="label_ews_connect_to_wrongphone_question">Do you see this screen?</string>
 
 </resources>

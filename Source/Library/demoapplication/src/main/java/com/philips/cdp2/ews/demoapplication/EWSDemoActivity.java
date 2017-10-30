@@ -150,22 +150,22 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
     @NonNull
     private TroubleShootContentConfiguration createTroubleShootingConfiguration(){
         return new TroubleShootContentConfiguration.Builder()
-                .setConnectWrongPhoneTitle(R.string.lbl_ews_H_03_01_title)
-                .setConnectWrongPhoneBody(R.string.lbl_ews_H_03_01_body)
-                .setConnectWrongPhoneImage(R.drawable.navigation_image)
-                .setConnectWrongPhoneQuestion(R.string.lbl_ews_H_03_01_question)
-
-                .setResetConnectionTitle(R.string.lbl_ews_H_03_02_title)
-                .setResetConnectionBody(R.string.lbl_ews_H_03_02_body)
+                .setResetConnectionTitle(R.string.label_ews_support_reset_connection_title)
+                .setResetConnectionBody(R.string.label_ews_support_reset_connection_body)
                 .setResetConnectionImage(R.drawable.navigation_image)
 
-                .setResetDeviceTitle(R.string.lbl_ews_H_03_03_title)
-                .setResetDeviceBody(R.string.lbl_ews_H_03_03_body)
+                .setResetDeviceTitle(R.string.label_ews_support_reset_device_title)
+                .setResetDeviceBody(R.string.label_ews_support_reset_device_body)
                 .setResetDeviceImage(R.drawable.navigation_image)
 
-                .setSetUpAccessPointTitle(R.string.lbl_ews_H_03_04_title)
-                .setSetUpAccessPointBody(R.string.lbl_ews_H_03_04_body)
+                .setSetUpAccessPointTitle(R.string.label_ews_setup_access_point_mode_title)
+                .setSetUpAccessPointBody(R.string.label_ews_setup_access_point_mode_body)
                 .setSetUpAccessPointImage(R.drawable.navigation_image)
+
+                .setConnectWrongPhoneTitle(R.string.label_ews_connect_to_wrongphone_title)
+                .setConnectWrongPhoneBody(R.string.label_ews_connect_to_wrongphone_body)
+                .setConnectWrongPhoneImage(R.drawable.navigation_image)
+                .setConnectWrongPhoneQuestion(R.string.label_ews_connect_to_wrongphone_question)
                 .build();
     }
 }
