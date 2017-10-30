@@ -15,7 +15,8 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 
 /**
- * The interface App infra interface.
+ * App Infra provides a range of modules that are the basis for any mobile application
+ * App Infra provides various utility services for the application such as Logging, Tagging, Service discovery etc..
  */
 public interface AppInfraInterface {
     /**

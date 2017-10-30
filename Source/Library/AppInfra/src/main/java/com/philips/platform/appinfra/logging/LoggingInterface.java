@@ -23,6 +23,7 @@ public interface LoggingInterface {
      * @param componentId      the base package name of component
      * @param componentVersion the component version
      * @return the logging interface
+     * @since 1.0.0
      */
     LoggingInterface createInstanceForComponent(String componentId, String componentVersion);
 
@@ -31,6 +32,7 @@ public interface LoggingInterface {
      * @param level   the level {VERBOSE, DEBUG, INFO, WARNING, ERROR}
      * @param eventId the Event name or Tag
      * @param message the message
+     * @since 1.0.0
      */
     void log(LogLevel level, String eventId, String message);
 
@@ -40,6 +42,7 @@ public interface LoggingInterface {
      * @param eventId the Event name or Tag
      * @param message the message
      * @param map the dictionary
+     * @since 1.0.0
      */
     void log(LogLevel level, String eventId, String message, Map<String, ?> map);
 

@@ -18,6 +18,7 @@ public interface InternationalizationInterface {
      * Gets country.
      *
      * @return the country
+     * @since 1.1.0
      */
 //    public String getCountry();
 
@@ -26,6 +27,7 @@ public interface InternationalizationInterface {
      * Gets String locale value .
      *
      * @return the String with Concatenated format
+     * @since 1.1.0
      */
     String getUILocaleString();
 

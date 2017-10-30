@@ -14,12 +14,13 @@ import java.util.Map;
 
 public interface ApiSigningInterface {
     /**
-     * Calculates a signature string for the given REST request
-     * @param requestMethod
-     * @param queryString
-     * @param headers
-     * @param dhpUrl
-     * @param requestbody
+     * Creates an API signer instance according to HSDP specification
+     * @param requestMethod Type of method(POST, GET)
+     * @param queryString Request URL query.
+     * @param headers Request http header fields. Current date is passed as http header value.
+     * @param dhpUrl Request URL
+     * @param requestbody Request body
+     * @since 1.1.0
      */
     String createSignature(String requestMethod, String queryString, Map<String, String> headers, String dhpUrl, String requestbody);
 }
