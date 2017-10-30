@@ -96,6 +96,23 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_pharmacy_fetch_validation_error">Pharmacy list fetch validation error</string>
     <string name="ths_pharmacy_fetch_error">Unable to fetch pharmacy list</string>
 
+    //Shipping address layout strings
+    <string name="ths_address_shipping_address_string">Shipping address</string>
+    <string name="ths_address_address_line_one">Address line 1</string>
+    <string name="ths_address_enter_first_address_line">Enter first address line</string>
+    <string name="ths_address_address_line_two">Address line 2</string>
+    <string name="ths_address_optional_string">(optional)</string>
+    <string name="ths_address_town_city_string">Town/City</string>
+    <string name="ths_address_enter_town_city">Enter your town or city</string>
+    <string name="ths_address_postal_code_string">Postal code</string>
+    <string name="ths_address_state_string">State</string>
+    <string name="ths_ok_continue_button_string">Ok,continue</string>
+    <string name="ths_address_validation_empty_string">Address line cannot be empty</string>
+    <string name="ths_address_validation_length_string">Address should contain between 2 and 25 characters</string>
+    <string name="ths_address_validation_city_empty_string">City cannot be empty</string>
+    <string name="ths_address_validation_city_length_string">City should contain between 2 and 25 characters</string>
+    <string name="ths_address_billing_address_string">Billing Address</string>
+
     //Provider list screens strings
     <string name="provider_available">Available now</string>
     <string name="provider_offline">Schedule appointment</string>
@@ -281,4 +298,5 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <string name="ths_pharmacy_search_hint">Type zip code</string>
     <string name="ths_pharmacy_search_error">Please enter a valid zip code in the format 12345 or 12345–6789</string>
+
 </resources>
