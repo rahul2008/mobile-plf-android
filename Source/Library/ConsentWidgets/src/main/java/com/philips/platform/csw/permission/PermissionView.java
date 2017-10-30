@@ -18,12 +18,12 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
 import com.philips.platform.csw.CswBaseFragment;
-import com.philips.platform.mya.catk.ConsentAccessToolKit;
-import com.philips.platform.mya.catk.listener.ConsentResponseListener;
-import com.philips.platform.mya.catk.listener.CreateConsentListener;
-import com.philips.platform.mya.catk.model.GetConsentsModel;
-import com.philips.platform.mya.catk.response.ConsentStatus;
-import com.philips.platform.mya.catk.utils.ConsentUtil;
+import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.listener.ConsentResponseListener;
+import com.philips.platform.catk.listener.CreateConsentListener;
+import com.philips.platform.catk.model.GetConsentsModel;
+import com.philips.platform.catk.response.ConsentStatus;
+import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uid.view.widget.Switch;
 
@@ -65,7 +65,7 @@ public class PermissionView extends CswBaseFragment implements
 
     private void getConsentStatus() {
         showProgressDialog();
-        ConsentAccessToolKit cat = new ConsentAccessToolKit(this.getActivity().getApplicationContext(),ConsentUtil.APPLICATION_NAME, ConsentUtil.PROPOSITION_NAME);
+        ConsentAccessToolKit cat = new ConsentAccessToolKit(this.getActivity().getApplicationContext(), CatkConstants.APPLICATION_NAME, CatkConstants.PROPOSITION_NAME);
         cat.getStatusForConsentType(CONSENT_TYPE_MOMENT, version, new ConsentResponseListener() {
 
             @Override
@@ -103,7 +103,7 @@ public class PermissionView extends CswBaseFragment implements
     private void createConsentStatus(boolean isChecked) {
         showProgressDialog();
         ConsentStatus status = isChecked?ConsentStatus.active:ConsentStatus.inactive;
-        ConsentAccessToolKit consentAccessToolKit = new ConsentAccessToolKit(getActivity().getApplicationContext(), ConsentUtil.APPLICATION_NAME,ConsentUtil.PROPOSITION_NAME);
+        ConsentAccessToolKit consentAccessToolKit = new ConsentAccessToolKit(getActivity().getApplicationContext(), CatkConstants.APPLICATION_NAME, CatkConstants.PROPOSITION_NAME);
         consentAccessToolKit.createConsent(String.valueOf(status),new CreateConsentListener() {
 
             @Override

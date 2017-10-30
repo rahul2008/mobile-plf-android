@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.philips.platform.catk.CatkDependencies;
+import com.philips.platform.catk.CatkInterface;
+import com.philips.platform.catk.CatkSettings;
 import com.philips.platform.csw.injection.AppInfraModule;
 import com.philips.platform.csw.injection.CswComponent;
 import com.philips.platform.csw.injection.CswModule;
 import com.philips.platform.csw.injection.DaggerCswComponent;
 import com.philips.platform.csw.utils.CswLogger;
-import com.philips.platform.mya.catk.utils.ConsentUtil;
+import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -66,8 +69,8 @@ public class CswInterface implements UappInterface {
     private void launchAsActivity(ActivityLauncher uiLauncher, CswLaunchInput uappLaunchInput) {
         if (null != uiLauncher && uappLaunchInput != null) {
             Intent cswIntent = new Intent(((CswLaunchInput) uappLaunchInput).getContext(), CswActivity.class);
-            cswIntent.putExtra(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME, uappLaunchInput.getApplicationName());
-            cswIntent.putExtra(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME, uappLaunchInput.getPropositionName());
+            cswIntent.putExtra(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, uappLaunchInput.getApplicationName());
+            cswIntent.putExtra(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, uappLaunchInput.getPropositionName());
             cswIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             uappLaunchInput.getContext().startActivity(cswIntent);
         }
@@ -81,10 +84,18 @@ public class CswInterface implements UappInterface {
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
+
+        initConsentToolKit(uappDependencies, uappSettings);
         cswComponent = initDaggerCoponents(uappDependencies, uappSettings);
         CswLogger.init();
         CswLogger.enableLogging();
-        CswLogger.i("log00","log");
+    }
+
+    private void initConsentToolKit(UappDependencies uappDependencies, UappSettings uappSettings) {
+        CatkDependencies catkDependencies = new CatkDependencies(uappDependencies.getAppInfra());
+        CatkSettings catkSettings = new CatkSettings(uappSettings.getContext());
+        CatkInterface catkInterface = new CatkInterface();
+        catkInterface.init(catkDependencies,catkSettings);
     }
 
     private CswComponent initDaggerCoponents(UappDependencies uappDependencies, UappSettings uappSettings) {

@@ -18,7 +18,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.philips.platform.csw.permission.PermissionView;
-import com.philips.platform.mya.catk.utils.ConsentUtil;
+import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -40,8 +40,8 @@ public class CswFragment extends Fragment implements
         View view = inflater.inflate(R.layout.csw_fragment_consent_widget_root, container, false);
 
         if (getArguments() != null) {
-            applicationName = getArguments().getString(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME);
-            propositionName = getArguments().getString(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME);
+            applicationName = getArguments().getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
+            propositionName = getArguments().getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
         }
 
         mFragmentManager = getChildFragmentManager();
@@ -56,8 +56,8 @@ public class CswFragment extends Fragment implements
     public void onViewStateRestored(Bundle state) {
         super.onViewStateRestored(state);
         if (state != null) {
-            applicationName = state.getString(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME);
-            propositionName = state.getString(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME);
+            applicationName = state.getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
+            propositionName = state.getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
         }
     }
 
@@ -65,8 +65,8 @@ public class CswFragment extends Fragment implements
     public void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
         if (state != null) {
-            state.putString(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME, applicationName);
-            state.putString(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+            state.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
+            state.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
         }
     }
 
@@ -141,8 +141,8 @@ public class CswFragment extends Fragment implements
 
     public void setArguments(String applicationName, String propositionName) {
         Bundle b = new Bundle();
-        b.putString(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME, applicationName);
-        b.putString(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        b.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
+        b.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
         this.setArguments(b);
     }
 

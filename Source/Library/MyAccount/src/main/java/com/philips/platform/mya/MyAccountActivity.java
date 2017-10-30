@@ -9,9 +9,7 @@
 package com.philips.platform.mya;
 
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -20,11 +18,9 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswLaunchInput;
-import com.philips.platform.mya.catk.utils.ConsentUtil;
+import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -51,8 +47,8 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener,
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
-            applicationName = bundle.getString(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME);
-            propositionName = bundle.getString(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME);
+            applicationName = bundle.getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
+            propositionName = bundle.getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
 
 /*            int orientation = 0;
             if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
@@ -79,15 +75,15 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener,
     @Override
     protected void onRestoreInstanceState(Bundle state) {
         super.onRestoreInstanceState(state);
-        applicationName = state.getString(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME, applicationName);
-        propositionName = state.getString(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        applicationName = state.getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
+        propositionName = state.getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
-        state.putString(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME, applicationName);
-        state.putString(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        state.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
+        state.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
     }
 
     @Override

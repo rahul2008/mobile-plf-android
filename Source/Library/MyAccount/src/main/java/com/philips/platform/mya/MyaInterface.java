@@ -2,7 +2,6 @@ package com.philips.platform.mya;
 
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -10,7 +9,7 @@ import android.util.Log;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswSettings;
-import com.philips.platform.mya.catk.utils.ConsentUtil;
+import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -70,19 +69,19 @@ public class MyaInterface implements UappInterface {
     private void launchAsActivity(ActivityLauncher uiLauncher, MyaLaunchInput myaLaunchInput) {
         if (null != uiLauncher && myaLaunchInput != null) {
             Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyAccountActivity.class);
-            myAccountIntent.putExtra(ConsentUtil.BUNDLE_KEY_APPLICATION_NAME, getApplication(myaLaunchInput));
-            myAccountIntent.putExtra(ConsentUtil.BUNDLE_KEY_PROPOSITION_NAME, getProposition(myaLaunchInput));
+            myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, getApplication(myaLaunchInput));
+            myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, getProposition(myaLaunchInput));
             myAccountIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             myaLaunchInput.getContext().startActivity(myAccountIntent);
         }
     }
 
     private String getProposition(MyaLaunchInput myaLaunchInput) {
-        return myaLaunchInput.getPropositionName() != null ? myaLaunchInput.getPropositionName() : ConsentUtil.PROPOSITION_NAME;
+        return myaLaunchInput.getPropositionName() != null ? myaLaunchInput.getPropositionName() : CatkConstants.PROPOSITION_NAME;
     }
 
     private String getApplication(MyaLaunchInput myaLaunchInput) {
-        return myaLaunchInput.getApplicationName() != null ? myaLaunchInput.getApplicationName() : ConsentUtil.APPLICATION_NAME;
+        return myaLaunchInput.getApplicationName() != null ? myaLaunchInput.getApplicationName() : CatkConstants.APPLICATION_NAME;
     }
 
     /**
