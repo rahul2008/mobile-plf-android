@@ -83,6 +83,8 @@ public class CswInterface implements UappInterface {
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         cswComponent = initDaggerCoponents(uappDependencies, uappSettings);
         CswLogger.init();
+        CswLogger.enableLogging();
+        CswLogger.i("log00","log");
     }
 
     private CswComponent initDaggerCoponents(UappDependencies uappDependencies, UappSettings uappSettings) {

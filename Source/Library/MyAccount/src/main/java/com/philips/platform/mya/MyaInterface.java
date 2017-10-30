@@ -7,6 +7,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
+import com.philips.platform.csw.CswDependencies;
+import com.philips.platform.csw.CswInterface;
+import com.philips.platform.csw.CswSettings;
 import com.philips.platform.mya.catk.utils.ConsentUtil;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -90,5 +93,9 @@ public class MyaInterface implements UappInterface {
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
+        CswDependencies cswDependencies = new CswDependencies(uappDependencies.getAppInfra());
+        CswSettings cswSettings = new CswSettings(uappSettings.getContext());
+        CswInterface cswInterface = new CswInterface();
+        cswInterface.init(cswDependencies,cswSettings);
     }
 }
