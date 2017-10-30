@@ -34,7 +34,7 @@ public class NetworkHelper {
     public void sendRequest(Context context, int requestCode, NetworkAbstractModel model, final RequestListener
             requestListener) {
         mContext = context;
-        getNetworkController().sendConsentRequest(context,requestCode, model, requestListener);
+        getNetworkController().sendConsentRequest(requestCode, model, requestListener);
     }
 
     public void refreshAccessToken(final RefreshTokenListener refreshTokenListener){

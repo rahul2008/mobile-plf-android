@@ -1,33 +1,39 @@
 package com.philips.platform.catk.network;
 
 
-import android.content.Context;
 import android.os.Message;
 import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.JsonArray;
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.catk.CatkInterface;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.listener.RequestListener;
 import com.philips.platform.catk.request.ConsentRequest;
-import com.philips.platform.catk.CatkConstants;
 
-/**
- * Created by Maqsood on 10/12/17.
- */
+import javax.inject.Inject;
 
 public class NetworkController {
 
-    private Context mContext;
+    @Inject
+    RestInterface restInterface;
 
-    public void sendConsentRequest(Context context, final int requestCode, final NetworkAbstractModel model, final RequestListener requestListener) {
-        mContext = context;
+    public NetworkController(){
+        init();
+    }
+
+    protected void init() {
+        CatkInterface.getCatkComponent().inject(this);
+    }
+
+    public void sendConsentRequest(final int requestCode, final NetworkAbstractModel model, final RequestListener requestListener) {
         sendRequest(requestCode, model, requestListener);
     }
 
-    private void sendRequest(final int requestCode, final NetworkAbstractModel model, final RequestListener requestListener) {
+    private void sendRequest(final int requestCode,final NetworkAbstractModel model, final RequestListener requestListener) {
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
@@ -55,22 +61,22 @@ public class NetworkController {
         };
 
         ConsentRequest consentRequest = getConsentJsonRequest(model, error, response);
-        addRequestToQueue(consentRequest,mContext);
+        addRequestToQueue(consentRequest);
     }
 
-    private void addRequestToQueue(ConsentRequest consentRequest, Context context){
-        AppInfra ai = new AppInfra.Builder().build(context);
+    public void addRequestToQueue(ConsentRequest consentRequest){
         if (consentRequest != null) {
-            if (ai.getRestClient() != null) {
-                ai.getRestClient().getRequestQueue().add(consentRequest);
+            if (restInterface != null) {
+                restInterface.getRequestQueue().add(consentRequest);
             } else {
+                //Need to error handle
                 Log.d("Rest client", "Couldn't initialise REST Client");
 
             }
         }
     }
 
-    ConsentRequest getConsentJsonRequest(final NetworkAbstractModel model, final Response.ErrorListener error, final Response.Listener<JsonArray> response) {
+    protected ConsentRequest getConsentJsonRequest(final NetworkAbstractModel model, final Response.ErrorListener error, final Response.Listener<JsonArray> response) {
         return new ConsentRequest(model.getMethod(), model.getUrl(),
                 model.requestHeader(), model.requestBody(), response, error);
     }
