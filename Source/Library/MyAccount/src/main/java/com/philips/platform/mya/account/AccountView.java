@@ -113,9 +113,7 @@ public class AccountView extends MyaBaseFragment implements
     }
 
     private void launchCswFragment() {
-        FragmentLauncher fragmentLauncher =
-                new FragmentLauncher(getActivity(),
-                        R.id.mya_frame_layout_fragment_container, getMyaFragment().getUpdateTitleListener());
+        FragmentLauncher fragmentLauncher = new FragmentLauncher(getActivity(), this.getParentFragment().getView().getId(), getMyaFragment().getUpdateTitleListener());
         new CswInterface().launch(fragmentLauncher, buildLaunchInput(ADD_TO_BACKSTACK));
     }
 
