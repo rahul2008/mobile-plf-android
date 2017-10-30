@@ -82,11 +82,7 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
     public void onUpdateConditonResponse(Void aVoid, THSSDKError sdkError) {
         if (null != thsBaseFragment && thsBaseFragment.isFragmentAttached()) {
             if (null != sdkError.getSdkError()) {
-                if (sdkError.getSDKErrorReason() != null) {
-                    thsBaseFragment.showError(ANALYTICS_SAVE_MEDICAL_CONDITION,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                }else {
-                    thsBaseFragment.showError(ANALYTICS_SAVE_MEDICAL_CONDITION,THSConstants.THS_GENERIC_SERVER_ERROR);
-                }
+                thsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_SAVE_MEDICAL_CONDITION,sdkError.getSdkError()));
             } else {
                 if(((THSMedicalConditionsFragment) thsBaseFragment).NumberOfConditionSelected>0) {
                     THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", "step4MedicalConditionsAdded");

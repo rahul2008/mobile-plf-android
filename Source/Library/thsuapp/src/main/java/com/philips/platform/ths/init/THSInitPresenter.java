@@ -17,7 +17,6 @@ import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
 import com.philips.platform.ths.welcome.THSPreWelcomeFragment;
@@ -29,7 +28,7 @@ import java.net.URISyntaxException;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_INITIALIZATION;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_CONSUMER_EXIST_CHECK;
 
-public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack<Void,THSSDKError>, THSCheckConsumerExistsCallback<Boolean, THSSDKError>{
+public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack<Void, THSSDKError>, THSCheckConsumerExistsCallback<Boolean, THSSDKError> {
 
     THSInitFragment mThsInitFragment;
 
@@ -46,7 +45,8 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         User user = new User(mThsInitFragment.getContext());
         if (user == null || !user.isUserSignIn()) {
             mThsInitFragment.hideProgressBar();
-            mThsInitFragment.showError(ANALYTICS_INITIALIZATION,mThsInitFragment.getString(R.string.ths_user_not_logged_in));
+            mThsInitFragment.doTagging(ANALYTICS_INITIALIZATION, mThsInitFragment.getString(R.string.ths_user_not_logged_in), false);
+            mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_user_not_logged_in));
             return;
         }
         try {
@@ -66,14 +66,9 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     @Override
 
     public void onInitializationResponse(Void aVoid, THSSDKError sdkError) {
-        if(sdkError.getSdkError() != null){
-            if(null!=mThsInitFragment && mThsInitFragment.isFragmentAttached()) {
-                if(sdkError.getSDKErrorReason() != null) {
-                    mThsInitFragment.showError(ANALYTICS_INITIALIZATION,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                    return;
-                }else {
-                    mThsInitFragment.showError(ANALYTICS_INITIALIZATION,THSConstants.THS_GENERIC_SERVER_ERROR);
-                }
+        if (sdkError.getSdkError() != null) {
+            if (null != mThsInitFragment && mThsInitFragment.isFragmentAttached()) {
+                mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_INITIALIZATION, sdkError.getSdkError()));
             }
         }else {
             checkForUserExisitance();
@@ -82,7 +77,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
 
     @Override
     public void onInitializationFailure(Throwable var1) {
-        if(null!=mThsInitFragment && mThsInitFragment.isFragmentAttached()) {
+        if (null != mThsInitFragment && mThsInitFragment.isFragmentAttached()) {
             mThsInitFragment.hideProgressBar();
             if (mThsInitFragment.getContext() != null) {
                 (mThsInitFragment).showToast(R.string.ths_se_server_error_toast_message);
@@ -105,12 +100,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         SDKError sdkError = thssdkError.getSdkError();
         mThsInitFragment.hideProgressBar();
         if (null != sdkError) {
-            if (null != sdkError.getSDKErrorReason()) {
-                mThsInitFragment.showError(ANALYTIC_CONSUMER_EXIST_CHECK,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-            }
-            else if(sdkError.getHttpResponseCode() > 0){
-                mThsInitFragment.showError(ANALYTIC_CONSUMER_EXIST_CHECK,THSConstants.THS_GENERIC_SERVER_ERROR);
-            }
+            mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_CONSUMER_EXIST_CHECK, sdkError));
             return;
         }
         if (aBoolean) {
@@ -127,7 +117,6 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         mThsInitFragment.hideProgressBar();
         mThsInitFragment.showToast(R.string.ths_se_server_error_toast_message);
     }
-
 
 
     private void launchPreWelcomeScreen() {

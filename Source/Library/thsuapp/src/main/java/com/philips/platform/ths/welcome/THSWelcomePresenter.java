@@ -30,10 +30,11 @@ import com.philips.platform.ths.utility.THSManager;
 import javax.net.ssl.HttpsURLConnection;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_CONSUMER_DETAILS;
-import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_LOGIN;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_INITIALIZATION;
+
 
 class THSWelcomePresenter implements THSBasePresenter,
-        THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack{
+        THSLoginCallBack<THSAuthentication, THSSDKError>, THSGetConsumerObjectCallBack {
     private THSBaseFragment uiBaseView;
     boolean isRefreshTokenRequestedBefore;
 
@@ -46,26 +47,26 @@ class THSWelcomePresenter implements THSBasePresenter,
     public void onEvent(int componentID) {
         Bundle bundle = new Bundle();
         if (componentID == R.id.appointments) {
-            bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_SCHEDULED_VISITS);
-            if(THSManager.getInstance().getThsParentConsumer().getDependents()!=null && THSManager.getInstance().getThsParentConsumer().getDependents().size()>0){
-                uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
-            }else {
+            bundle.putInt(THSConstants.THS_LAUNCH_INPUT, THSConstants.THS_SCHEDULED_VISITS);
+            if (THSManager.getInstance().getThsParentConsumer().getDependents() != null && THSManager.getInstance().getThsParentConsumer().getDependents().size() > 0) {
+                uiBaseView.addFragment(new THSDependantHistoryFragment(), THSDependantHistoryFragment.TAG, bundle, false);
+            } else {
                 uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
             }
         } else if (componentID == R.id.visit_history) {
-            bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_VISITS_HISTORY);
-            if(THSManager.getInstance().getThsParentConsumer().getDependents()!=null && THSManager.getInstance().getThsParentConsumer().getDependents().size()>0){
-                uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
-            }else {
+            bundle.putInt(THSConstants.THS_LAUNCH_INPUT, THSConstants.THS_VISITS_HISTORY);
+            if (THSManager.getInstance().getThsParentConsumer().getDependents() != null && THSManager.getInstance().getThsParentConsumer().getDependents().size() > 0) {
+                uiBaseView.addFragment(new THSDependantHistoryFragment(), THSDependantHistoryFragment.TAG, bundle, false);
+            } else {
                 uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
             }
         } else if (componentID == R.id.how_it_works) {
             uiBaseView.showToast("Coming Soon!!!");
         } else if (componentID == R.id.ths_start) {
-            bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_PRACTICES);
-            if(THSManager.getInstance().getThsParentConsumer().getDependents()!=null && THSManager.getInstance().getThsParentConsumer().getDependents().size()>0){
-                uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
-            }else {
+            bundle.putInt(THSConstants.THS_LAUNCH_INPUT, THSConstants.THS_PRACTICES);
+            if (THSManager.getInstance().getThsParentConsumer().getDependents() != null && THSManager.getInstance().getThsParentConsumer().getDependents().size() > 0) {
+                uiBaseView.addFragment(new THSDependantHistoryFragment(), THSDependantHistoryFragment.TAG, bundle, false);
+            } else {
                 uiBaseView.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
             }
         }
@@ -121,13 +122,12 @@ class THSWelcomePresenter implements THSBasePresenter,
     @Override
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
         uiBaseView.hideProgressBar();
-        if(sdkError == null) {
+        if (sdkError == null) {
             ((THSWelcomeFragment) uiBaseView).updateView();
-        }else if(null != sdkError.getSDKErrorReason()){
-            uiBaseView.showError(ANALYTICS_CONSUMER_DETAILS,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-        }else {
-            uiBaseView.showError(ANALYTICS_CONSUMER_DETAILS,THSConstants.THS_GENERIC_SERVER_ERROR);
+        } else {
+            uiBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CONSUMER_DETAILS, sdkError));
         }
+
     }
 
     @Override
@@ -150,11 +150,11 @@ class THSWelcomePresenter implements THSBasePresenter,
     }
 
     private boolean checkIfRefreshTokenWasTriedBefore() {
-        if(isRefreshTokenRequestedBefore){
+        if (isRefreshTokenRequestedBefore) {
             isRefreshTokenRequestedBefore = false;
             uiBaseView.hideProgressBar();
-            if(uiBaseView.getActivity()!=null) {
-                uiBaseView.showError(ANALYTIC_LOGIN,uiBaseView.getString(R.string.ths_user_not_authenticated));
+            if (uiBaseView.getActivity() != null) {
+                uiBaseView.doTagging(ANALYTICS_INITIALIZATION, uiBaseView.getString(R.string.ths_user_not_authenticated), false);
             }
             return true;
         }

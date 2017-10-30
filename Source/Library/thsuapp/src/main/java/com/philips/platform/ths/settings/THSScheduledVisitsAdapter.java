@@ -108,9 +108,11 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
                 Long utcScheduledMilliseconds = scheduledCalendar.getTime().getTime();
 
                 if(utcCurrentMilliseconds>utcScheduledMilliseconds){
-                    mThsScheduledVisitsFragment.showError(ANALYTICS_SCHEDULE_APPOINTMENT,mThsScheduledVisitsFragment.getString(R.string.late_for_appointment));
+                    mThsScheduledVisitsFragment.doTagging(ANALYTICS_SCHEDULE_APPOINTMENT,mThsScheduledVisitsFragment.getString(R.string.late_for_appointment),false);
+                    mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.late_for_appointment));
                 }else if(isUserArrivedEarly(utcCurrentMilliseconds, utcScheduledMilliseconds)){
-                    mThsScheduledVisitsFragment.showError(ANALYTICS_SCHEDULE_APPOINTMENT,mThsScheduledVisitsFragment.getString(R.string.early_for_appointment));
+                    mThsScheduledVisitsFragment.doTagging(ANALYTICS_SCHEDULE_APPOINTMENT,mThsScheduledVisitsFragment.getString(R.string.late_for_appointment),false);
+                    mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.late_for_appointment));
                 }else {
                     Bundle bundle = new Bundle();
                     bundle.putLong(THSConstants.THS_DATE, scheduledStartTime);

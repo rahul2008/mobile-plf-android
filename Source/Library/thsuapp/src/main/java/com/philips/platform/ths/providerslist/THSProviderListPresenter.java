@@ -67,11 +67,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                 boolean providerAvailable = isProviderAvailable(providerInfoList);
                 updateFragment(providerInfoList, providerAvailable);
             } else if (null != sdkError) {
-                if(null != sdkError.getSDKErrorReason()) {
-                    mThsBaseFragment.showError(ANALYTIC_FETCH_PROVIDER_LIST,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()),true);
-                }else {
-                    mThsBaseFragment.showError(ANALYTIC_FETCH_PROVIDER_LIST,THSConstants.THS_GENERIC_SERVER_ERROR,true);
-                }
+                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_FETCH_PROVIDER_LIST, sdkError), true);
             } else {
                 thsProviderListViewInterface.showNoProviderErrorDialog();
             }
@@ -143,13 +139,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
     public void onResponse(List<THSOnDemandSpeciality> onDemandSpecialties, THSSDKError sdkError) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             if (null != sdkError.getSdkError()) {
-                if (null != sdkError.getSDKErrorReason()) {
-                    mThsBaseFragment.showError(ANALYTICS_ON_DEMAND_SPECIALITIES,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                    return;
-                } else {
-                    mThsBaseFragment.showError(ANALYTICS_ON_DEMAND_SPECIALITIES,THSConstants.THS_GENERIC_SERVER_ERROR);
-                    return;
-                }
+                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_ON_DEMAND_SPECIALITIES, sdkError.getSdkError()));
             } else {
                 if (onDemandSpecialties == null || onDemandSpecialties.size() == 0) {
                     mThsBaseFragment.showToast("No OnDemandSpecialities available at present, please try after some time");

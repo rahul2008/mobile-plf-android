@@ -161,11 +161,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             mTHSBaseFragment.hideProgressBar();
             if (null != tHSSDKError.getSdkError()) {
-                if (null != tHSSDKError.getSDKErrorReason()) {
-                    mTHSBaseFragment.showError(ANALYTICS_FETCH_HEALTH_SUBSCRIPTION,THSSDKErrorFactory.getErrorType(tHSSDKError.getSDKErrorReason()),true);
-                }else {
-                    mTHSBaseFragment.showError(ANALYTICS_FETCH_HEALTH_SUBSCRIPTION,THSConstants.THS_GENERIC_SERVER_ERROR,true);
-                }
+                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_FETCH_HEALTH_SUBSCRIPTION,tHSSDKError.getSdkError()),true);
             } else {
                 ((THSInsuranceDetailFragment) mTHSBaseFragment).thsSubscriptionExisting = tHSSubscription;
                 Subscription subscription = tHSSubscription.getSubscription();
@@ -241,7 +237,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
             mTHSBaseFragment.hideProgressBar();
             if (null != sdkError) {
                 if (null != sdkError.getSDKErrorReason()) {
-                    mTHSBaseFragment.showError(ANALYTICS_UPDATE_HEALTH_PLAN,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPDATE_HEALTH_PLAN,sdkError));
                 }
             } else {
                 showCostSummaryFragment();

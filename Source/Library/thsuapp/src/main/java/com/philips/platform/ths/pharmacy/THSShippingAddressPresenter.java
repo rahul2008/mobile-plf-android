@@ -41,8 +41,8 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
 
     @Override
     public void onAddressValidationFailure(Map<String, ValidationReason> map) {
-
-        ((THSBaseFragment)thsBaseView).showError(ANALYTICS_UPDATE_SHIPPING_ADDRESS,THSConstants.THS_GENERIC_USER_ERROR);
+        ((THSBaseFragment)thsBaseView).doTagging(ANALYTICS_UPDATE_SHIPPING_ADDRESS,THSConstants.THS_GENERIC_USER_ERROR,false);
+        ((THSBaseFragment)thsBaseView).showError(null);
     }
 
     @Override

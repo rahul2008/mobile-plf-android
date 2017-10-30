@@ -90,7 +90,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             mTHSBaseFragment.hideProgressBar();
             if (null != sDKError && sDKError.getSDKErrorReason() != null) {
-                mTHSBaseFragment.showError(ANALYTICS_FETCH_MEDICATION,THSSDKErrorFactory.getErrorType(sDKError.getSDKErrorReason()));
+                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_FETCH_MEDICATION,sDKError));
             } else {
                 AmwellLog.i("onGetMedicationReceived", "Success");
                 ((THSMedicationFragment) mTHSBaseFragment).showExistingMedicationList(thsMedication);
@@ -117,11 +117,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             mTHSBaseFragment.hideProgressBar();
             if (null != sDKError) {
-                if (sDKError.getSDKErrorReason() != null) {
-                    mTHSBaseFragment.showError(ANALYTICS_SAVE_MEDICATION,THSSDKErrorFactory.getErrorType(sDKError.getSDKErrorReason()));
-                } else {
-                    mTHSBaseFragment.showError(ANALYTICS_SAVE_MEDICATION,THSConstants.THS_GENERIC_SERVER_ERROR);
-                }
+                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_SAVE_MEDICATION,sDKError));
             } else {
 
                 THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", ((THSMedicationFragment) mTHSBaseFragment).tagAction);

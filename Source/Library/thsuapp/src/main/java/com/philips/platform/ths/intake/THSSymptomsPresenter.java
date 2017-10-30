@@ -100,11 +100,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     public void onResponse(THSVisitContext THSVisitContext, THSSDKError thssdkError) {
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
             if (null != thssdkError.getSdkError()) {
-                if (thssdkError.getSDKErrorReason().name() != null) {
-                    thsBaseView.showError(ANALYTICS_CREATE_VISIT_CONTEXT,THSSDKErrorFactory.getErrorType(thssdkError.getSDKErrorReason()), true);
-                }else {
-                    thsBaseView.showError(ANALYTICS_CREATE_VISIT_CONTEXT,THSConstants.THS_GENERIC_SERVER_ERROR, true);
-                }
+                thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CREATE_VISIT_CONTEXT,thssdkError.getSdkError()), true);
             } else {
                 updateSymptoms(THSVisitContext);
             }
@@ -154,11 +150,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
             public void onResponse(THSVisitContext pthVisitContext, THSSDKError thssdkError) {
                 if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
                     if (null != thssdkError.getSdkError()) {
-                        if (thssdkError.getSDKErrorReason().name() != null) {
-                            thsBaseView.showError(ANALYTICS_ON_DEMAND_SPECIALITIES,THSSDKErrorFactory.getErrorType(thssdkError.getSDKErrorReason()), true);
-                        }else {
-                            thsBaseView.showError(ANALYTICS_ON_DEMAND_SPECIALITIES,THSConstants.THS_GENERIC_SERVER_ERROR, true);
-                        }
+                        thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_ON_DEMAND_SPECIALITIES,thssdkError.getSdkError()), true);
                     } else {
                         updateSymptoms(pthVisitContext);
                     }
@@ -201,11 +193,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
                 thsBaseView.showToast("Success with Document name" + documentRecord.getName());
                 ((THSSymptomsFragment) thsBaseView).updateDocumentRecordList(documentRecord);
             } else if (null != sdkError) {
-                if (null != sdkError.getSDKErrorReason()) {
-                    thsBaseView.showError(ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                }else {
-                    thsBaseView.showError(ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT,THSConstants.THS_GENERIC_SERVER_ERROR);
-                }
+                thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT,sdkError));
                 thsBaseView.showToast("upload failed with sdk error" + sdkError.getMessage());
             }
         }

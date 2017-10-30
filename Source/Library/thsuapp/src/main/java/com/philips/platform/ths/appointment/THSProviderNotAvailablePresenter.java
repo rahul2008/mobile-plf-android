@@ -71,12 +71,7 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter {
                 public void onResponse(THSAvailableProviderList availableProviders, THSSDKError sdkError) {
                     if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
                         if (sdkError.getSdkError() != null) {
-                            if (sdkError.getSdkError().getSDKErrorReason() != null) {
-                                mThsBaseFragment.showError(ANALYTICS_FETCH_APPOINTMENTS,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                                return;
-                            }else {
-                                mThsBaseFragment.showError(ANALYTICS_FETCH_APPOINTMENTS,THSConstants.THS_GENERIC_SERVER_ERROR);
-                            }
+                            mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_FETCH_APPOINTMENTS,sdkError.getSdkError()));
                         } else {
 
                             final THSAvailableProvider availableListContainsProviderChosen = isAvailableListContainsProviderChosen(availableProviders);

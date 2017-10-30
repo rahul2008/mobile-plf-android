@@ -32,6 +32,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_ENROLLMENT_MANGER;
+
 public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidatedCallback <THSConsumerWrapper, SDKError>{
 
     private THSBaseFragment mTHSBaseFragment;
@@ -69,7 +71,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
             if (sdkPasswordError.getSDKErrorReason() != null) {
-                mTHSBaseFragment.showToast(THSSDKErrorFactory.getErrorType(sdkPasswordError.getSDKErrorReason()));
+                mTHSBaseFragment.showToast(THSSDKErrorFactory.getErrorType(ANALYTICS_ENROLLMENT_MANGER,sdkPasswordError));
                 return;
             }
             switch (((THSRegistrationFragment) mTHSBaseFragment).mLaunchInput) {

@@ -64,12 +64,7 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
     public void onResponse(THSAvailableProviderList availableProviders, THSSDKError sdkError) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             if (sdkError.getSdkError() != null) {
-                if (sdkError.getSdkError().getSDKErrorReason() != null) {
-                    mThsBaseFragment.showError(ANALYTIC_FETCH_PROVIDER_LIST,THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                    return;
-                }else {
-                    mThsBaseFragment.showError(ANALYTIC_FETCH_PROVIDER_LIST,THSConstants.THS_GENERIC_SERVER_ERROR);
-                }
+                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_FETCH_PROVIDER_LIST,sdkError.getSdkError()));
             }else {
                 mThsBaseFragment.showToast("Available Providers list Success");
                 if(mThsBaseFragment instanceof THSProviderNotAvailableFragment){

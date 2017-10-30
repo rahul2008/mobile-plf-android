@@ -148,12 +148,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     public void onResponse(Void var1, SDKError var2) {
         if (null != mTHSVisitSummaryFragment && mTHSVisitSummaryFragment.isFragmentAttached()) {
             if (null != var2) {
-                if (null != var2.getSDKErrorReason()) {
-                    mTHSVisitSummaryFragment.showError(ANALYTICS_RATING,THSSDKErrorFactory.getErrorType(var2.getSDKErrorReason()));
-                    return;
-                }else {
-                    mTHSVisitSummaryFragment.showError(ANALYTICS_RATING,THSConstants.THS_GENERIC_SERVER_ERROR);
-                }
+                mTHSVisitSummaryFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_RATING,var2));
             }
         }
         AmwellLog.d("Send rating", "success");
@@ -163,7 +158,8 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     public void onFailure(Throwable throwable) {
         AmwellLog.d("Send rating", "failure");
         if (null != mTHSVisitSummaryFragment && mTHSVisitSummaryFragment.isFragmentAttached()) {
-            mTHSVisitSummaryFragment.showError(ANALYTICS_RATING,mTHSVisitSummaryFragment.getResources().getString(R.string.ths_se_server_error_toast_message),true);
+            mTHSVisitSummaryFragment.doTagging(ANALYTICS_RATING,mTHSVisitSummaryFragment.getResources().getString(R.string.ths_se_server_error_toast_message),true);
+            mTHSVisitSummaryFragment.showError(mTHSVisitSummaryFragment.getResources().getString(R.string.ths_se_server_error_toast_message),true);
         }
     }
 

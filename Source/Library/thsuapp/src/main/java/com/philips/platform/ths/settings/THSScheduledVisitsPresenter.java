@@ -62,7 +62,8 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
     @Override
     public void onFailure(Throwable throwable) {
         if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
-            mThsScheduledVisitsFragment.showError(ANALYTICS_FETCH_APPOINTMENTS,mThsScheduledVisitsFragment.getString(R.string.ths_se_server_error_toast_message),true);
+            mThsScheduledVisitsFragment.doTagging( ANALYTICS_FETCH_APPOINTMENTS,mThsScheduledVisitsFragment.getString(R.string.ths_se_server_error_toast_message),false);
+            mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.ths_se_server_error_toast_message),true);
             setProgressBarVisibility(false);
         }
     }
@@ -72,10 +73,10 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
         if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
             if(var2.getSdkError() != null){
                 if(var2.getSDKErrorReason() != null){
-                    mThsScheduledVisitsFragment.showError(ANALYTICS_CANCEL_APPOINTMENT,THSSDKErrorFactory.getErrorType(var2.getSDKErrorReason()));
+                    mThsScheduledVisitsFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CANCEL_APPOINTMENT, var2.getSdkError()));
                     return;
                 }else {
-                    mThsScheduledVisitsFragment.showError(ANALYTICS_CANCEL_APPOINTMENT,THSConstants.THS_GENERIC_SERVER_ERROR);
+                    mThsScheduledVisitsFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CANCEL_APPOINTMENT,var2.getSdkError()));
                 }
             }else {
                 THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", "appointmentsCancelled");
