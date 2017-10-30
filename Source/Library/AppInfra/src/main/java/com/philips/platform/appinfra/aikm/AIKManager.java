@@ -8,13 +8,11 @@ package com.philips.platform.appinfra.aikm;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
 import com.philips.platform.appinfra.aikm.model.AIKMService;
 import com.philips.platform.appinfra.aikm.model.OnGetServicesListener;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.AIKMResponse;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
@@ -27,11 +25,31 @@ import java.util.Map;
 public class AIKManager implements AIKMInterface {
 
     private final AppInfra appInfra;
-    private final GroomHelper groomHelper;
+    private final AiKmHelper aiKmHelper;
+
+    public enum KError {
+
+        INVALID_INDEX_URL("Invalid index url found from service discovery"),
+        DATA_NOT_FOUND("Data not found for provided index in AIKMAP.json"),
+        INVALID_JSON("AIKMap.json is an invalid JSON"),
+        NO_KINDEX_URL_FOUND("No Kindex URL found"),
+        CONVERT_ERROR("Error while converting the value"),
+        JSON_FILE_NOT_FOUND("AIKMap.json file not found in assets folder");
+
+        private final String description;
+
+        KError(final String description) {
+            this.description = description;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
 
     public AIKManager(AppInfra mAppInfra) {
         this.appInfra = mAppInfra;
-        groomHelper = new GroomHelper(mAppInfra);
+        aiKmHelper = new AiKmHelper(mAppInfra);
     }
 
     @Override
@@ -39,15 +57,10 @@ public class AIKManager implements AIKMInterface {
                                       Map<String, String> replacement,
                                       @NonNull final OnGetServicesListener onGetServicesListener) throws AIKMJsonFileNotFoundException, JSONException {
 
-        getGroomHelper().init(appInfra);
+        aiKmHelper.init(appInfra);
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
         ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = getSDUrlsListener(serviceIds, aiKmServices, aiSdPreference, onGetServicesListener);
         getServiceDiscoveryUrlMap(serviceIds, aiSdPreference, replacement, serviceUrlMapListener);
-    }
-
-    @NonNull
-    GroomHelper getGroomHelper() {
-        return groomHelper;
     }
 
     @NonNull
@@ -55,7 +68,7 @@ public class AIKManager implements AIKMInterface {
         return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                groomHelper.mapResponse(urlMap, aikmServices, serviceDiscoveryUrlMap);
+                aiKmHelper.mapResponse(urlMap, aikmServices, serviceDiscoveryUrlMap);
                 onGetServicesListener.onSuccess(aikmServices);
             }
 
@@ -74,7 +87,7 @@ public class AIKManager implements AIKMInterface {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = getKMappedGroomListener(onGetServicesListener, aiKmServices, urlMap);
-                ArrayList<String> appendedServiceIds = groomHelper.getAppendedGrooms(serviceIds);
+                ArrayList<String> appendedServiceIds = aiKmHelper.getAppendedGrooms(serviceIds);
                 getServiceDiscoveryUrlMap(appendedServiceIds, aiSdPreference, null, onGetServiceUrlMapListener);
             }
 
@@ -83,21 +96,6 @@ public class AIKManager implements AIKMInterface {
                 onGetServicesListener.onError(error, message);
             }
         };
-    }
-
-    public static boolean isAiKmServiceEnabled(AppConfigurationInterface appConfigurationManager, AppInfra ai) {
-       String IS_AIKM_SERVICE_ENABLED ="aiKmService.enabled";
-        try {
-            final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
-                    .AppConfigurationError();
-            Object propertyForKey = appConfigurationManager.getPropertyForKey
-                    (IS_AIKM_SERVICE_ENABLED, "APPINFRA", configError);
-            return propertyForKey != null && (boolean) propertyForKey;
-        } catch (IllegalArgumentException exception) {
-            ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                    AppInfraLogEventID.AI_APPINFRA, "Error in reading aiKm service config ");
-        }
-        return false;
     }
 
     void getServiceDiscoveryUrlMap(ArrayList<String> serviceIds, AISDResponse.AISDPreference aiSdPreference,
@@ -119,5 +117,19 @@ public class AIKManager implements AIKMInterface {
     ServiceDiscoveryInterface getServiceDiscovery() {
         return appInfra.getServiceDiscovery();
     }
+
+
+    @Override
+    public AIKMResponse getServiceExtension(String serviceId, String url) {
+        AIKMResponse aikmResponse = new AIKMResponse();
+        try {
+            aiKmHelper.init(appInfra);
+        } catch (AIKMJsonFileNotFoundException | JSONException e) {
+            aikmResponse.setkError(KError.JSON_FILE_NOT_FOUND);
+            return aikmResponse;
+        }
+        return aiKmHelper.getServiceExtension(serviceId, url, aikmResponse);
+    }
+
 }
 

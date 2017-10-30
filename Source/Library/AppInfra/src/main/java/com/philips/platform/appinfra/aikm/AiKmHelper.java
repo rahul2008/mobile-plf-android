@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
 import com.philips.platform.appinfra.aikm.model.AIKMService;
+import com.philips.platform.appinfra.servicediscovery.model.AIKMResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import org.json.JSONArray;
@@ -31,13 +32,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-public class GroomHelper {
+class AiKmHelper {
 
     private final GroomLib groomLib;
     private JSONObject rootJsonObject;
     private AppInfra mAppInfra;
 
-    GroomHelper(AppInfra appInfra) {
+    AiKmHelper(AppInfra appInfra) {
         groomLib = new GroomLib();
         this.mAppInfra = appInfra;
     }
@@ -228,5 +229,56 @@ public class GroomHelper {
                 appendedServiceIds.add(serviceId.concat(".kindex"));
         }
         return appendedServiceIds;
+    }
+
+    AIKMResponse getServiceExtension(String serviceId, String url, AIKMResponse aikmResponse) {
+        return validateGroom(serviceId, url, aikmResponse);
+    }
+
+    private AIKMResponse validateGroom(String key, String configUrls, AIKMResponse aikmResponse) {
+        if (!TextUtils.isEmpty(configUrls)) {
+            String groomIndex = getGroomIndexWithSplit(configUrls);
+            mapAndValidateGroom(key, groomIndex, aikmResponse);
+        } else {
+            aikmResponse.setkError(AIKManager.KError.NO_KINDEX_URL_FOUND);
+        }
+        return aikmResponse;
+    }
+
+    AIKMResponse mapAndValidateGroom(String serviceId, String groomIndex, AIKMResponse aikmResponse) {
+        if (!TextUtils.isEmpty(groomIndex)) {
+            int index;
+            try {
+                index = Integer.parseInt(groomIndex);
+            } catch (NumberFormatException e) {
+                aikmResponse.setkError(AIKManager.KError.INVALID_INDEX_URL);
+                return aikmResponse;
+            }
+            try {
+                Object propertiesForKey = getAilGroomProperties(serviceId);
+                if (propertiesForKey instanceof JSONArray) {
+                    JSONArray jsonArray = (JSONArray) propertiesForKey;
+                    JSONObject jsonObject;
+                    try {
+                        jsonObject = (JSONObject) jsonArray.get(index);
+                    } catch (JSONException e) {
+                        aikmResponse.setkError(AIKManager.KError.DATA_NOT_FOUND);
+                        return aikmResponse;
+                    }
+                    Map map = mapData(jsonObject, index, serviceId);
+                    aikmResponse.setkMap(map);
+                } else {
+                    aikmResponse.setkError(AIKManager.KError.INVALID_JSON);
+                }
+            } catch (Exception e) {
+                if (e instanceof JSONException)
+                    aikmResponse.setkError(AIKManager.KError.INVALID_JSON);
+                else
+                    aikmResponse.setkError(AIKManager.KError.CONVERT_ERROR);
+            }
+        } else {
+            aikmResponse.setkError(AIKManager.KError.INVALID_INDEX_URL);
+        }
+        return aikmResponse;
     }
 }

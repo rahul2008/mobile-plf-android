@@ -28,7 +28,7 @@ public class ServiceDiscoveryModelTest extends AppInfraInstrumentation {
         assertNotNull(mAppInfra);
         ServiceDiscoveryInterface mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
         ServiceDiscoveryManager mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
-        mServiceDiscoveryModel = new ServiceDiscovery();
+        mServiceDiscoveryModel = new ServiceDiscovery(mAppInfra);
         assertNotNull(mServiceDiscoveryInterface);
         assertNotNull(mServiceDiscoveryManager);
         assertNotNull(mServiceDiscoveryModel);

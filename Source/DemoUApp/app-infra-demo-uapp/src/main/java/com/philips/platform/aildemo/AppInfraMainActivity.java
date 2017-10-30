@@ -207,7 +207,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 break;
             case 5:
                 Intent intentServiceDiscoveryActivity = new Intent(AppInfraMainActivity.this,
-                        ServiceDiscoveryDemo.class);
+                        ServiceDiscoverySelectionActivity.class);
                 startActivity(intentServiceDiscoveryActivity);
 
                 break;

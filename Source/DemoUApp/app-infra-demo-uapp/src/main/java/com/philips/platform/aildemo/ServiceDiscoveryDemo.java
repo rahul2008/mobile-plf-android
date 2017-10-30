@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.aikm.AIKManager;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -45,7 +46,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     ServiceDiscoveryInterface.OnGetServiceUrlMapListener mOnGetServiceUrlMapListener = null;
     AppInfraInterface appInfra;
 
-    TextView resultView;
+    TextView resultView, keyBagTextView;
     EditText idEditText;
     EditText idEditTextCountry;
     String editTextData;
@@ -86,24 +87,24 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         String enc = "4324332423432432432435425435435346465464547657567.000343242342";
 
         try {
-            plainByte= enc.getBytes("UTF-8");
+            plainByte = enc.getBytes("UTF-8");
         } catch (UnsupportedEncodingException e) {
         }
 
         SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
-        encryptedByte=mSecureStorage.encryptData(plainByte,sseStore);
+        encryptedByte = mSecureStorage.encryptData(plainByte, sseStore);
         try {
             String encBytesString = new String(encryptedByte, "UTF-8");
-            Log.e("Encrypted Data",encBytesString);
+            Log.e("Encrypted Data", encBytesString);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-        byte[] plainData= mSecureStorage.decryptData(encryptedByte,sseStore);
-        String  result = Arrays.equals(plainByte,plainData)?"True":"False";
+        byte[] plainData = mSecureStorage.decryptData(encryptedByte, sseStore);
+        String result = Arrays.equals(plainByte, plainData) ? "True" : "False";
         try {
             String decBytesString = new String(plainByte, "UTF-8");
-            Log.e("Decrypted Data",decBytesString);
+            Log.e("Decrypted Data", decBytesString);
         } catch (UnsupportedEncodingException e) {
         }
 
@@ -121,6 +122,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         editTextData = idEditText.getText().toString();
 
         resultView = (TextView) findViewById(R.id.textView2);
+        keyBagTextView = (TextView) findViewById(R.id.keyBagData);
 
 
         receiver = new HomeCountryUpdateReceiver();
@@ -216,12 +218,12 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 
                         @Override
                         public void onError(ERRORVALUES error, String message) {
-                            resultView.setText("SD REFRESH Error:  "+ message);
+                            resultView.setText("SD REFRESH Error:  " + message);
                             Log.i("SD REFRESH", "Error");
                         }
                     });
 
-                } else if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get home country Synchronous")){
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get home country Synchronous")) {
                     String homeCountry = mServiceDiscoveryInterface.getHomeCountry();
                     Toast.makeText(ServiceDiscoveryDemo.this, "Home country is " + homeCountry, Toast.LENGTH_SHORT).show();
                 }
@@ -277,12 +279,14 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     @Override
     public void onSuccess(String services) {
         Log.i("OnGetServicesListener", "" + services);
+        keyBagTextView.setVisibility(View.GONE);
         resultView.setText(services);
     }
 
     @Override
     public void onError(ERRORVALUES error, String message) {
         Log.i("onError", "" + message);
+        keyBagTextView.setVisibility(View.GONE);
         resultView.setText(message);
     }
 
@@ -297,6 +301,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 //
 //            url = new URL("https://acc.philips.com/prx/product/%sector%/ar_RW/%catalog%/products/%ctn%.assets");
 //            URL newURl = mServiceDiscoveryInterface.replacePlaceholders(url, parameters);
+            keyBagTextView.setVisibility(View.GONE);
             resultView.setText("" + url);
 
         } catch (Exception e) {
@@ -306,6 +311,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     @Override
     public void onSuccess(String countryCode, SOURCE source) {
         resultView.setText("Country Code : " + countryCode + " Source : " + source);
+        keyBagTextView.setVisibility(View.GONE);
     }
 
     @Override
@@ -327,10 +333,10 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             locale = service.getLocale();
             configUrl = service.getConfigUrls();
 
-            if(configUrl != null) {
+            if (configUrl != null) {
                 dataMap.put(locale, configUrl);
             } else {
-                dataMap.put(locale,service.getmError());
+                dataMap.put(locale, service.getmError());
             }
             mMap.put(key, dataMap);
             it.remove(); // avoids a ConcurrentModificationException
@@ -343,6 +349,34 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 //        }
         resultView.setText(" URL Model   : " + mMap);
 
+        displayKeyBagData(service);
+
+
+    }
+
+    private void displayKeyBagData(ServiceDiscoveryService service) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (service.getKMap() != null) {
+            for (Object object : service.getKMap().entrySet()) {
+                Map.Entry pair = (Map.Entry) object;
+                String keyBagKey = (String) pair.getKey();
+                String value = (String) pair.getValue();
+                stringBuilder.append("KeyBag Data --- ");
+                stringBuilder.append(keyBagKey);
+                stringBuilder.append(":");
+                stringBuilder.append(value);
+                stringBuilder.append("  ");
+                keyBagTextView.setVisibility(View.VISIBLE);
+                keyBagTextView.setText(stringBuilder.toString());
+            }
+        }
+        AIKManager.KError keyBagError = service.getKError();
+        if (null != keyBagError) {
+            stringBuilder.append("error while fetching key bag -- ");
+            stringBuilder.append(keyBagError.getDescription());
+            keyBagTextView.setVisibility(View.VISIBLE);
+            keyBagTextView.setText(stringBuilder.toString());
+        }
     }
 
     @Override

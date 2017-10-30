@@ -59,16 +59,17 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 		super.setUp();
 		context = getInstrumentation().getContext();
 		assertNotNull(context);
-		serviceDiscovery = new ServiceDiscovery();
+
 
 		mAppInfra = new AppInfra.Builder().build(context);
 		assertNotNull(mAppInfra);
+		serviceDiscovery = new ServiceDiscovery(mAppInfra);
 		testConfig();
 		mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
 		mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
 		RequestManager mRequestItemManager = new RequestManager(context, mAppInfra);
 		assertNotNull(mRequestItemManager);
-		mserviceDiscovery = new ServiceDiscovery();
+		mserviceDiscovery = new ServiceDiscovery(mAppInfra);
 		mserviceDiscovery = loadServiceDiscoveryModel();
 		mMatchByCountryOrLanguage = new MatchByCountryOrLanguage();
 		assertNotNull(mserviceDiscovery);
@@ -500,7 +501,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 	}
 
 	private ServiceDiscovery loadServiceDiscoveryModel() {
-		ServiceDiscovery serviceDiscovery = new ServiceDiscovery();
+		ServiceDiscovery serviceDiscovery = new ServiceDiscovery(mAppInfra);
 		serviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(true));
 		serviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(true));
 		serviceDiscovery.setSuccess(true);
@@ -779,7 +780,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 	}
 
 	private ServiceDiscovery parseResponse(JSONObject response) {
-		ServiceDiscovery result = new ServiceDiscovery();
+		ServiceDiscovery result = new ServiceDiscovery(mAppInfra);
 		result.setSuccess(response.optBoolean("success"));
 		if (!result.isSuccess()) {
 			ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server reports failure");
@@ -885,7 +886,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 
 	public void testprocessRequest() {
 		String url = "https://www.philips.com/api/v1/discovery/b2c/77001?locale=en_IN&tags=apps%2b%2benv%2bdev&country=IN";
-		ServiceDiscovery service = new ServiceDiscovery();
+		ServiceDiscovery service = new ServiceDiscovery(mAppInfra);
 		try {
 			method = ServiceDiscoveryManager.class.getDeclaredMethod("processRequest", String.class,
 					ServiceDiscovery.class, ServiceDiscoveryManager.AISDURLType.class);

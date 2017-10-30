@@ -55,7 +55,7 @@ public class RequestManager {
 		request.setShouldCache(true);
 		mAppInfra.getRestClient().getRequestQueue().add(request);
 
-		final ServiceDiscovery result = new ServiceDiscovery();
+		final ServiceDiscovery result = new ServiceDiscovery(mAppInfra);
 		try {
 			final JSONObject response = future.get(10, TimeUnit.SECONDS);
 			cacheServiceDiscovery(response, url, urlType);
@@ -97,7 +97,7 @@ public class RequestManager {
 	}
 
 	private ServiceDiscovery parseResponse(JSONObject response) {
-		final ServiceDiscovery result = new ServiceDiscovery();
+		final ServiceDiscovery result = new ServiceDiscovery(mAppInfra);
 		result.setSuccess(response.optBoolean("success"));
 		if (!result.isSuccess()) {
 			final ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server reports failure");

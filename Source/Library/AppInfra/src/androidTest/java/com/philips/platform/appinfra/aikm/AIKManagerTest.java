@@ -54,21 +54,10 @@ public class AIKManagerTest extends AppInfraInstrumentation {
         when(appInfraMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);
         when(appInfraMock.getLogging()).thenReturn(loggingInterfaceMock);
         OnGetServicesListener onGetServicesListenerMock = mock(OnGetServicesListener.class);
-        final ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListenerMock = mock(ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class);
-        final GroomHelper groomHelperMock = mock(GroomHelper.class);
         ArrayList<String> serviceIds = new ArrayList<>();
         serviceIds.add("service_id");
-        aikManager = new AIKManager(appInfraMock) {
-            @NonNull
-            @Override
-            GroomHelper getGroomHelper() {
-                return groomHelperMock;
-            }
-
-        };
-
+        aikManager = new AIKManager(appInfraMock);
         aikManager.getValueForServiceIds(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, onGetServicesListenerMock);
-//        verify(groomHelperMock).getServiceDiscoveryUrlMap(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, serviceUrlMapListenerMock);
     }
 
 

@@ -43,6 +43,11 @@ public class ServiceDiscovery {
 	private ServiceDiscoveryManager mServiceDiscoveryManager;
 	Error error = null;
 
+	public ServiceDiscovery() {}
+
+	public ServiceDiscovery(AppInfra mAppInfra) {
+		this.mAppInfra = mAppInfra;
+	}
 
 	public static class Error {
 		private String message;
@@ -371,6 +376,8 @@ public class ServiceDiscovery {
 									final URL replacedUrl = mServiceDiscoveryManager.applyURLParameters(new URL(serviceUrlval), replacement);
 									if (replacedUrl != null) {
 										sdService.init(modelLocale, replacedUrl.toString());
+										AIKMResponse aikmResponse = mAppInfra.getAiKmInterface().getServiceExtension(serviceIds.get(i), urls.get(serviceIds.get(i).concat(".kindex")));
+										mapKeyBagData(sdService, aikmResponse);
 										responseMap.put(serviceIds.get(i), sdService);
 									}
 								} catch (MalformedURLException e) {
@@ -381,8 +388,12 @@ public class ServiceDiscovery {
 								}
 							} else {
 								sdService.init(modelLocale, serviceUrlval);
+								AIKMResponse aikmResponse = mAppInfra.getAiKmInterface().getServiceExtension(serviceIds.get(i), urls.get(serviceIds.get(i).concat(".kindex")));
+								mapKeyBagData(sdService, aikmResponse);
 								responseMap.put(serviceIds.get(i), sdService);
 							}
+
+
 						} else {
 							sdService.init(modelLocale, null);
 							sdService.setmError("ServiceDiscovery cannot find the URL for serviceId" + " " + serviceIds.get(i));
@@ -398,6 +409,11 @@ public class ServiceDiscovery {
 			}
 		}
 		return responseMap;
+	}
+
+	private void mapKeyBagData(ServiceDiscoveryService sdService, AIKMResponse aikmResponse) {
+		sdService.setKMap(aikmResponse.getkMap());
+		sdService.setKError(aikmResponse.getkError());
 	}
 
 	protected String getLocaleWithPreference(AISDResponse.AISDPreference preference) {

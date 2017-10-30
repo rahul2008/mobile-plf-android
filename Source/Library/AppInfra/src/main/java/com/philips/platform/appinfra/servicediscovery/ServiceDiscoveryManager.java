@@ -173,7 +173,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     response.setPlatformURLs(platformService);
                     response.setPropositionURLs(propositionService);
                 } else {
-                    final ServiceDiscovery error = new ServiceDiscovery();
+                    final ServiceDiscovery error = new ServiceDiscovery(mAppInfra);
                     error.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "DOWNLOAD FAILED"));
                     error.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.SERVER_ERROR, "DOWNLOAD FAILED"));
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "DOWNLOAD FAILED");
@@ -203,7 +203,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     private ServiceDiscovery downloadPlatformService() {
         final String platformURL = getSDURLForType(AISDURLType.AISDURLTypePlatform);
-        ServiceDiscovery platformService = new ServiceDiscovery();
+        ServiceDiscovery platformService = new ServiceDiscovery(mAppInfra);
         if (platformURL != null) {
             platformService = processRequest(platformURL, platformService, AISDURLType.AISDURLTypePlatform);
         }
@@ -212,7 +212,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     private ServiceDiscovery downloadPropositionService() {
         final String propositionURL = getSDURLForType(AISDURLTypeProposition);
-        ServiceDiscovery propositionService = new ServiceDiscovery();
+        ServiceDiscovery propositionService = new ServiceDiscovery(mAppInfra);
         if (propositionURL != null) {
             propositionService = processRequest(propositionURL, propositionService, AISDURLTypeProposition);
         }
