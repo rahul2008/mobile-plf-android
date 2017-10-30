@@ -20,6 +20,7 @@ import com.philips.platform.ths.utility.THSManager;
 
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_PHARMACY;
 
@@ -27,6 +28,9 @@ public class THSSearchPharmacyPresenter implements THSBasePresenter, THSGetPharm
 
     private Context context;
     private THSSearchFragmentViewInterface uiView;
+
+    String regex = "^[0-9]{5}(?:-[0-9]{4})?$";
+    Pattern pattern = Pattern.compile(regex);
 
     public THSSearchPharmacyPresenter(Context context, THSSearchFragmentViewInterface uiView) {
         this.context = context;
@@ -43,6 +47,11 @@ public class THSSearchPharmacyPresenter implements THSBasePresenter, THSGetPharm
                 e.printStackTrace();
             }
         }
+    }
+
+    public boolean validateZip(String zipCode){
+        return pattern.matcher(zipCode).matches();
+
     }
 
     @Override

@@ -41,7 +41,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
                 acceptLegalText();
                 updateConsumer(thsFollowUpViewInterfaces.getConsumerPhoneNumber());
             } else {
-                thsFollowUpViewInterfaces.showInvalidPhoneNumberToast(mTHSFollowUpFragment.getString(R.string.ths_invalid_phone_number));
+                thsFollowUpViewInterfaces.showError(mTHSFollowUpFragment.getString(R.string.ths_invalid_phone_number));
             }
 
         } else if (componentID == R.id.pth_intake_follow_up_i_agree_link_text) {
