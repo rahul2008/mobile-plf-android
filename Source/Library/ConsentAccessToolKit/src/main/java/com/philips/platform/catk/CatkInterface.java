@@ -1,10 +1,12 @@
 package com.philips.platform.catk;
 
 
+import com.philips.cdp.registration.User;
 import com.philips.platform.catk.injection.AppInfraModule;
 import com.philips.platform.catk.injection.CatkComponent;
 import com.philips.platform.catk.injection.CatkModule;
 import com.philips.platform.catk.injection.DaggerCatkComponent;
+import com.philips.platform.catk.injection.UserModule;
 import com.philips.platform.catk.utils.CatkLogger;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -44,6 +46,7 @@ public class CatkInterface implements UappInterface {
     private CatkComponent initDaggerCoponents(UappDependencies uappDependencies, UappSettings uappSettings) {
         return DaggerCatkComponent.builder()
                 .catkModule(new CatkModule(uappSettings.getContext()))
+                .userModule(new UserModule(new User(uappSettings.getContext())))
                 .appInfraModule(new AppInfraModule(uappDependencies.getAppInfra())).build();
     }
 
@@ -52,6 +55,4 @@ public class CatkInterface implements UappInterface {
     }
 
     private static CatkComponent catkComponent;
-
-
 }

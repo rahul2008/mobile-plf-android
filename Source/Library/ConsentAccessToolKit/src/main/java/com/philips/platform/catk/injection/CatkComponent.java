@@ -5,13 +5,15 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.catk.model.CreateConsentModelRequest;
+import com.philips.platform.catk.model.GetConsentsModelRequest;
 import com.philips.platform.catk.network.NetworkController;
 
 import javax.inject.Singleton;
 
 import dagger.Component;
 
-@Component(modules = {CatkModule.class, AppInfraModule.class})
+@Component(modules = {CatkModule.class, AppInfraModule.class,UserModule.class})
 @Singleton
 public interface CatkComponent {
     Context context();
@@ -20,7 +22,9 @@ public interface CatkComponent {
 
     RestInterface getRestInterface();
 
-   // User getUser();
-
     void inject(NetworkController networkController);
+
+    void inject(CreateConsentModelRequest createConsentModelRequest);
+
+    void inject(GetConsentsModelRequest getConsentsModelRequest);
 }

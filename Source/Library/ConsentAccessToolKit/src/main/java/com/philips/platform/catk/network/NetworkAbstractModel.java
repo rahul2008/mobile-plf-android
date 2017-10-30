@@ -3,7 +3,6 @@ package com.philips.platform.catk.network;
 import android.os.Message;
 
 import com.google.gson.JsonArray;
-import com.philips.cdp.registration.User;
 import com.philips.platform.catk.listener.RequestListener;
 import com.philips.platform.catk.model.GetConsentsModel;
 
@@ -16,16 +15,14 @@ import java.util.Map;
 public abstract class NetworkAbstractModel implements RequestListener {
 
     protected DataLoadListener mDataLoadListener;
-    protected User mUser;
 
     public interface DataLoadListener {
         void onModelDataLoadFinished(Message msg);
         int onModelDataError(Message msg);
     }
 
-    public NetworkAbstractModel(User user, DataLoadListener listener) {
+    public NetworkAbstractModel(DataLoadListener listener) {
         mDataLoadListener = listener;
-        mUser = user;
     }
 
     @Override

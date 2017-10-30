@@ -50,14 +50,13 @@ public class NetworkControllerTest {
     @Mock
     NetworkController mockNetworkController;
 
-    //Cache cache, Network network
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         networkController = new NetworkControllerCustom();
         when(mockUser.getHsdpAccessToken()).thenReturn("x73ywf56h46h5p25");
         when(mockUser.getHsdpUUID()).thenReturn("17f7ce85-403c-4824-a17f-3b551f325ce0");
-        consentsModelRequest = new GetConsentsModelRequest(CatkConstants.APPLICATION_NAME,CatkConstants.PROPOSITION_NAME,mockUser,mockDataLoadListener);
+        consentsModelRequest = new GetConsentsModelRequest(CatkConstants.APPLICATION_NAME,CatkConstants.PROPOSITION_NAME,mockDataLoadListener);
         when(mockConsentRequest.getMethod()).thenReturn(0);
         final String url = consentsModelRequest.getUrl();
         when(mockConsentRequest.getUrl()).thenReturn(url);

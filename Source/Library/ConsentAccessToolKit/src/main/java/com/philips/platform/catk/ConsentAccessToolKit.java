@@ -39,7 +39,7 @@ public class ConsentAccessToolKit {
     }
 
     public void getConsentDetails(final ConsentResponseListener consentListener){
-        GetConsentsModelRequest model = new GetConsentsModelRequest(applicationName,propositionName,user,new NetworkAbstractModel.DataLoadListener() {
+        GetConsentsModelRequest model = new GetConsentsModelRequest(applicationName,propositionName,new NetworkAbstractModel.DataLoadListener() {
             @Override
             public void onModelDataLoadFinished(Message msg) {
                 ArrayList<GetConsentsModel> consentModels;
@@ -65,7 +65,7 @@ public class ConsentAccessToolKit {
 
 
     public void createConsent(String consentStatus,final CreateConsentListener consentListener){
-         CreateConsentModelRequest model = new CreateConsentModelRequest(applicationName,consentStatus,propositionName,user,
+         CreateConsentModelRequest model = new CreateConsentModelRequest(applicationName,consentStatus,propositionName,
                  new NetworkAbstractModel.DataLoadListener() {
             @Override
             public void onModelDataLoadFinished(Message msg) {
