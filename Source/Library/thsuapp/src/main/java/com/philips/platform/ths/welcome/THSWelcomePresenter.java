@@ -6,6 +6,7 @@
 
 package com.philips.platform.ths.welcome;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.americanwell.sdk.entity.SDKError;
@@ -15,6 +16,7 @@ import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.faqs.THSFaqFragment;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
@@ -41,26 +43,27 @@ class THSWelcomePresenter implements THSBasePresenter,
 
     @Override
     public void onEvent(int componentID) {
+        final Context context = uiBaseView.getContext();
         Bundle bundle = new Bundle();
         if (componentID == R.id.appointments) {
             bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_SCHEDULED_VISITS);
-            if(THSManager.getInstance().getThsParentConsumer().getDependents()!=null && THSManager.getInstance().getThsParentConsumer().getDependents().size()>0){
+            if(THSManager.getInstance().getThsParentConsumer(context).getDependents()!=null && THSManager.getInstance().getThsParentConsumer(context).getDependents().size()>0){
                 uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
             }else {
                 uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
             }
         } else if (componentID == R.id.visit_history) {
             bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_VISITS_HISTORY);
-            if(THSManager.getInstance().getThsParentConsumer().getDependents()!=null && THSManager.getInstance().getThsParentConsumer().getDependents().size()>0){
+            if(THSManager.getInstance().getThsParentConsumer(context).getDependents()!=null && THSManager.getInstance().getThsParentConsumer(context).getDependents().size()>0){
                 uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
             }else {
                 uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
             }
         } else if (componentID == R.id.how_it_works) {
-            uiBaseView.showToast("Coming Soon!!!");
+            uiBaseView.addFragment(new THSFaqFragment(), THSFaqFragment.TAG, null, false);
         } else if (componentID == R.id.ths_start) {
             bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_PRACTICES);
-            if(THSManager.getInstance().getThsParentConsumer().getDependents()!=null && THSManager.getInstance().getThsParentConsumer().getDependents().size()>0){
+            if(THSManager.getInstance().getThsParentConsumer(context).getDependents()!=null && THSManager.getInstance().getThsParentConsumer(context).getDependents().size()>0){
                 uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
             }else {
                 uiBaseView.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
@@ -135,26 +138,20 @@ class THSWelcomePresenter implements THSBasePresenter,
 
 
     public void getStarted() {
-        //authenticateUser();
-
-        try {
-            THSManager.getInstance().authenticate(uiBaseView.getContext(), "rohit.nihal@philips.com", "Philips@123", null, this);
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        }
-
+        authenticateUser();
     }
 
     private void authenticateUser() {
         try {
-            THSManager.getInstance().authenticateMutualAuthToken(uiBaseView.getContext(), this);
+            THSManager.getInstance().authenticateMutualAuthToken(uiBaseView.getContext(),this);
+           // THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
     }
 
     private boolean checkIfRefreshTokenWasTriedBefore() {
-        if (isRefreshTokenRequestedBefore) {
+        if(isRefreshTokenRequestedBefore){
             isRefreshTokenRequestedBefore = false;
             uiBaseView.hideProgressBar();
             if(uiBaseView.getActivity()!=null) {

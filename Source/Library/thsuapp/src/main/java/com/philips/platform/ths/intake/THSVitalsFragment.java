@@ -27,7 +27,6 @@ import static com.philips.platform.ths.R.id.systolic;
 import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_FLOATING_BUTTON;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
-import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 public class THSVitalsFragment extends THSBaseFragment implements View.OnClickListener,THSVItalsUIInterface {
 
@@ -86,7 +85,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     }
 
     private void prepopulateData() {
-        final THSConsumer thsConsumer = THSManager.getInstance().getThsConsumer();
+        final THSConsumer thsConsumer = THSManager.getInstance().getThsConsumer(getContext());
         if(thsConsumer==null){
             return;
         }

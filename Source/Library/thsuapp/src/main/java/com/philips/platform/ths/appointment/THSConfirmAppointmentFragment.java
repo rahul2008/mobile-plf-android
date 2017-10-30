@@ -83,7 +83,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
 
         mProviderFullName.setText(mThsProviderInfo.getProviderInfo().getFullName());
         mPracticeNameLabel.setText(mThsProviderInfo.getProviderInfo().getSpecialty().getName());
-        mEmailSentMessage.setText(getString(R.string.ths_email_sent) + " " + THSManager.getInstance().getPTHConsumer().getConsumer().getEmail());
+        mEmailSentMessage.setText(getString(R.string.ths_email_sent) + " " + THSManager.getInstance().getPTHConsumer(getContext()).getConsumer().getEmail());
         String appointmentDateTiem = null;
         appointmentDateTiem = new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).format(mAppointmentDate);
         appointmentDateTiem = appointmentDateTiem + " " + getString(R.string.ths_at_text) + " " + new SimpleDateFormat(THSConstants.TIME_FORMATTER, Locale.getDefault()).format(mAppointmentDate);

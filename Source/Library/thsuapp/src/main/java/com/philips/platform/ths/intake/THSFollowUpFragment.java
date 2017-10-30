@@ -68,7 +68,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        THSConsumerWrapper THSConsumerWrapper = THSManager.getInstance().getPTHConsumer();
+        THSConsumerWrapper THSConsumerWrapper = THSManager.getInstance().getPTHConsumer(getContext());
         if (null != THSConsumerWrapper && null != THSConsumerWrapper.getConsumer() && null != THSConsumerWrapper.getConsumer().getPhone() && !THSConsumerWrapper.getConsumer().getPhone().isEmpty()) {
             mPhoneNumberEditText.setText(THSConsumerWrapper.getConsumer().getPhone());
         }

@@ -6,6 +6,7 @@
 
 package com.philips.platform.ths.registration.dependantregistration;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.americanwell.sdk.entity.SDKLocalDate;
@@ -55,6 +56,9 @@ public class THSDependentPresenterTest {
     @Mock
     SDKLocalDate dob;
 
+    @Mock
+    Context contextMock;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -66,12 +70,12 @@ public class THSDependentPresenterTest {
 
         THSManager.getInstance().setThsParentConsumer(parentMock);
         THSManager.getInstance().setThsConsumer(thsConsumer1);
-        THSManager.getInstance().getThsParentConsumer().setConsumer(consumerMock);
+        THSManager.getInstance().getThsParentConsumer(contextMock).setConsumer(consumerMock);
 
-        when(THSManager.getInstance().getThsParentConsumer().getConsumer()).thenReturn(consumerMock);
+        when(THSManager.getInstance().getThsParentConsumer(contextMock).getConsumer()).thenReturn(consumerMock);
 
-        when(THSManager.getInstance().getThsConsumer().getConsumer()).thenReturn(consumerMock);
-        when(THSManager.getInstance().getThsConsumer().getConsumer()).thenReturn(consumerMock);
+        when(THSManager.getInstance().getThsConsumer(contextMock).getConsumer()).thenReturn(consumerMock);
+        when(THSManager.getInstance().getThsConsumer(contextMock).getConsumer()).thenReturn(consumerMock);
 
         mTHSDependentPresenter = new THSDependentPresenter(thsDependantHistoryFragmentMock);
     }
@@ -89,16 +93,16 @@ public class THSDependentPresenterTest {
 
     @Test
     public void checkIfUserExistsWhenUserIsADependent() throws Exception {
-        when(THSManager.getInstance().getThsConsumer().isDependent()).thenReturn(true);
-        when(THSManager.getInstance().getThsConsumer().getConsumer().isDependent()).thenReturn(true);
+        when(THSManager.getInstance().getThsConsumer(contextMock).isDependent()).thenReturn(true);
+        when(THSManager.getInstance().getThsConsumer(contextMock).getConsumer().isDependent()).thenReturn(true);
         mTHSDependentPresenter.checkIfUserExists();
         verify(thsDependantHistoryFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
     }
 
     @Test
     public void checkIfUserExistsWhenConsumerIsADependent() throws Exception {
-        when(THSManager.getInstance().getThsConsumer().isDependent()).thenReturn(true);
-        when(THSManager.getInstance().getThsConsumer().getConsumer().isDependent()).thenReturn(false);
+        when(THSManager.getInstance().getThsConsumer(contextMock).isDependent()).thenReturn(true);
+        when(THSManager.getInstance().getThsConsumer(contextMock).getConsumer().isDependent()).thenReturn(false);
         mTHSDependentPresenter.checkIfUserExists();
         verify(thsDependantHistoryFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
     }
@@ -108,10 +112,10 @@ public class THSDependentPresenterTest {
         List list = new ArrayList();
         list.add(consumer1);
         list.add(consumer2);
-        when(THSManager.getInstance().getThsParentConsumer().getConsumer().getDependents()).thenReturn(list);
+        when(THSManager.getInstance().getThsParentConsumer(contextMock).getConsumer().getDependents()).thenReturn(list);
         mTHSDependentPresenter.updateDependents();
 
-        assert THSManager.getInstance().getThsParentConsumer().getDependents().size() > 1;
+        assert THSManager.getInstance().getThsParentConsumer(contextMock).getDependents().size() > 1;
 
     }
 
@@ -124,10 +128,10 @@ public class THSDependentPresenterTest {
         list.add(consumer2);
         when(consumer1.getDob()).thenReturn(dob);
         when(consumer1.getGender()).thenReturn(com.americanwell.sdk.entity.consumer.Gender.MALE);
-        when(THSManager.getInstance().getThsParentConsumer().getConsumer().getDependents()).thenReturn(list);
+        when(THSManager.getInstance().getThsParentConsumer(contextMock).getConsumer().getDependents()).thenReturn(list);
         mTHSDependentPresenter.updateDependents();
 
-        assert THSManager.getInstance().getThsParentConsumer().getDependents().size() == 2;
+        assert THSManager.getInstance().getThsParentConsumer(contextMock).getDependents().size() == 2;
 
     }
 
@@ -140,10 +144,10 @@ public class THSDependentPresenterTest {
         list.add(consumer2);
         when(consumer1.getDob()).thenReturn(dob);
         when(consumer1.getGender()).thenReturn(com.americanwell.sdk.entity.consumer.Gender.MALE);
-        when(THSManager.getInstance().getThsParentConsumer().getConsumer().getDependents()).thenReturn(list);
+        when(THSManager.getInstance().getThsParentConsumer(contextMock).getConsumer().getDependents()).thenReturn(list);
         mTHSDependentPresenter.updateDependents();
 
-        assert THSManager.getInstance().getThsParentConsumer().getDependents().size() > 1;
+        assert THSManager.getInstance().getThsParentConsumer(contextMock).getDependents().size() > 1;
 
     }
 
