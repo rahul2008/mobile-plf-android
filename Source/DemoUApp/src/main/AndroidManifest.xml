@@ -5,28 +5,18 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.cdpp.bluelibexampleapp">
+    package="com.philips.cdp2.bluelib.demouapp">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity
-            android:name=".BlueLibExampleActivity"
-            android:label="@string/bll_app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".BluelibUappActivity" />
 
-        <activity
-            android:name=".device.DeviceDetailActivity"
-            android:label="@string/bll_device_detail_title"
-            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

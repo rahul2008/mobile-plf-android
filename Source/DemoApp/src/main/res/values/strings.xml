@@ -4,6 +4,11 @@
   -->
 
 <resources>
-    <string name="app_name">BleExampleDemo</string>
-    <string name="launch_ble_example_app">Launch Ble Example App</string>
+    <string name="app_name">Bluelib DemoApp</string>
+
+    <string name="launch_uapp_as_fragment">Launch uApp as fragment</string>
+    <string name="launch_uapp_as_activity">Launch uApp as activity</string>
+
+    <string name="menu_action_versions">Versions</string>
+    <string name="about_versions_string" formatted="false">uApp version: %s\n\nBlueLib version: %s</string>
 </resources>

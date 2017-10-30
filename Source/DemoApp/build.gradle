@@ -62,7 +62,7 @@ android {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
 
-        applicationId "com.philips.platform.bleexampledemo"
+        applicationId "com.philips.cdp2.bluelib.demoapp"
         versionCode 1
         versionName "0.2.0"
     }
