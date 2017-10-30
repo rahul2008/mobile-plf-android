@@ -73,11 +73,8 @@ public class PermissionView extends CswBaseFragment implements
                 if (responseData != null && !responseData.isEmpty()) {
                     GetConsentsModel consentModel = responseData.get(0);
                     hideProgressDialog();
-                    if (consentModel.getStatus().equals(ConsentStatus.active)) {
-                        mConsentSwitch.setChecked(true);
-                    } else {
-                        mConsentSwitch.setChecked(false);
-                    }
+                    mConsentSwitch.setChecked(consentModel.getStatus().equals(ConsentStatus.active));
+
                     Log.d(" Consent : ", "getDateTime :" + consentModel.getDateTime());
                     Log.d(" Consent : ", "getLanguage :" + consentModel.getLanguage());
                     Log.d(" Consent : ", "status :" + consentModel.getStatus());
@@ -102,9 +99,9 @@ public class PermissionView extends CswBaseFragment implements
 
     private void createConsentStatus(boolean isChecked) {
         showProgressDialog();
-        ConsentStatus status = isChecked?ConsentStatus.active:ConsentStatus.inactive;
+        ConsentStatus status = isChecked?ConsentStatus.active:ConsentStatus.rejected;
         ConsentAccessToolKit consentAccessToolKit = new ConsentAccessToolKit(getActivity().getApplicationContext(), CatkConstants.APPLICATION_NAME, CatkConstants.PROPOSITION_NAME);
-        consentAccessToolKit.createConsent(String.valueOf(status),new CreateConsentListener() {
+        consentAccessToolKit.createConsent(status,new CreateConsentListener() {
 
             @Override
             public void onSuccess(int code) {

@@ -13,6 +13,7 @@ import com.philips.platform.catk.model.GetConsentsModel;
 import com.philips.platform.catk.model.GetConsentsModelRequest;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkHelper;
+import com.philips.platform.catk.response.ConsentStatus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,8 +65,8 @@ public class ConsentAccessToolKit {
     }
 
 
-    public void createConsent(String consentStatus,final CreateConsentListener consentListener){
-         CreateConsentModelRequest model = new CreateConsentModelRequest(applicationName,consentStatus,propositionName,
+    public void createConsent(ConsentStatus consentStatus, final CreateConsentListener consentListener){
+         CreateConsentModelRequest model = new CreateConsentModelRequest(applicationName,String.valueOf(consentStatus),propositionName,
                  new NetworkAbstractModel.DataLoadListener() {
             @Override
             public void onModelDataLoadFinished(Message msg) {
