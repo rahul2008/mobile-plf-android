@@ -65,14 +65,14 @@
         <item name="android:textSize">@dimen/ews_title_text_size</item>
     </style>
 
-    <style name="EWS.Txt.Title.Dark">
-        <item name="android:textColor">@color/colorPrimary</item>
-    </style>
+    <!--<style name="EWS.Txt.Title.Dark">-->
+        <!--<item name="android:textColor">@color/colorPrimary</item>-->
+    <!--</style>-->
 
     <style name="EWS.Txt.Body"></style>
 
     <style name="EWS.Txt.Body.Link">
-        <item name="android:textColor">@color/colorAccent</item>
+        <!--<item name="android:textColor">@color/colorAccent</item>-->
         <item name="android:textSize">@dimen/ews_body_link_text_size</item>
         <item name="android:autoLink">web</item>
     </style>

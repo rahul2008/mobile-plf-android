@@ -4,13 +4,14 @@
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.philips.cdp2.ews.viewmodel.EWSGettingStartedViewModel"/>
+            type="com.philips.cdp2.ews.viewmodel.EWSGettingStartedViewModel" />
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -24,13 +25,12 @@
             android:orientation="vertical">
 
             <ImageView
-                style="@style/EWS.ImageScale"
-                android:contentDescription="@null"
                 android:id="@+id/ews_gs_image_header"
+                style="@style/EWS.ImageScale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ews_onboarding_image"
-                />
+                android:contentDescription="@null"
+                android:src="@drawable/ews_onboarding_image" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ews_01_00_label_get_started_title"
@@ -41,7 +41,7 @@
                 android:layout_marginStart="@dimen/e"
                 android:layout_marginTop="@dimen/e"
                 android:text="@{viewModel.title}"
-                tools:text="@string/label_ews_get_started_title"/>
+                tools:text="@string/label_ews_get_started_title" />
 
             <LinearLayout
                 android:id="@+id/ews_gs_text"
@@ -51,13 +51,13 @@
                 android:background="@color/color_panel">
 
                 <ImageView
-                    android:contentDescription="@null"
                     android:layout_width="@dimen/ews_gs_icon_size"
                     android:layout_height="@dimen/ews_gs_icon_size"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="@dimen/d"
                     android:layout_marginStart="@dimen/e"
-                    app:srcCompat="@drawable/dls_wificonnection"/>
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/dls_wificonnection" />
 
                 <com.philips.platform.uid.view.widget.Label
                     style="@style/Txt.Body"
@@ -69,26 +69,24 @@
                     android:layout_marginTop="@dimen/d"
                     android:layout_weight="1"
                     android:text="@{viewModel.note}"
-                    tools:text="@string/label_ews_get_started_description"/>
+                    tools:text="@string/label_ews_get_started_description" />
 
             </LinearLayout>
 
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
-            <Button
+            <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/ews_01_00_button_get_started_get_started"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginBottom="@dimen/e"
-                android:layout_marginEnd="@dimen/e"
-                android:layout_marginStart="@dimen/e"
-                android:layout_marginTop="@dimen/d"
+                android:layout_marginTop="@dimen/default_main_button_top_margin"
                 android:onClick="@{() -> viewModel.onGettingStartedButtonClicked()}"
-                android:text="@string/button_ews_get_started_get_started"/>
+                android:text="@string/button_ews_get_started_get_started"
+                app:uidComponentType="Primary" />
 
         </LinearLayout>
 

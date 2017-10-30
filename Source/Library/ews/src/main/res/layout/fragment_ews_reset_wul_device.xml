@@ -63,7 +63,7 @@
                 android:onClick="@{() -> viewModel.onContinueButtonClicked()}"
                 android:text="@string/ews_12_button"/>
 
-            <Button
+            <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/ews_02_02_button_verify_ready_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,7 +71,6 @@
                 android:layout_marginTop="@dimen/c"
                 android:background="@drawable/button_secondary"
                 android:text="@string/button_ews_connection_unsuccesful_still_issue"
-                android:textColor="@color/colorAccent"
                 android:visibility="invisible"/>
 
         </LinearLayout>
