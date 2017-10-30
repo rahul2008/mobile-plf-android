@@ -113,8 +113,8 @@
     <!-- ToDo: need to update permission text after consulting design team -->
     <string name="label_location_permission_required">%1$s requires location permission</string>
 
-    <string name="label_ews_cancel_setup_title">Are you sure you want to skip WiFi setup?</string>
-    <string name="label_ews_cancel_setup_body">If you skip WiFi setup now, you will not be able to control your device using your app.\n\nTo connect at a later time, go to the \"More section\" tab in your app and select \"Add a device\".</string>
+    <string name="label_ews_cancel_setup_title">Are you sure you want to cancel setup?</string>
+    <string name="label_ews_cancel_setup_body">If you cancel your setup now, you will not be able to control your %1$s using your app.</string>
     <string name="button_ews_cancel_setup_yes">Yes</string>
     <string name="button_ews_cancel_setup_no">No</string>
     <string name="label_ews_enable_gps_settings_title">Enable GPS Settings</string>
