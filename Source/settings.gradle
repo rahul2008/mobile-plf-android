@@ -33,11 +33,9 @@ project(':commlib-demouapp').projectDir = new File('DemoUApp')
 include ':bluelib',
         ':bluelib-demoapp',
         ':bluelib-demouapp',
-        ':bluelib-testapp',
         ':pluginreferenceboard'
 
 project(':bluelib').projectDir = new File('bluelib/Source/ShineLib/shinelib')
 project(':bluelib-demoapp').projectDir = new File('bluelib/Source/DemoApp')
 project(':bluelib-demouapp').projectDir = new File('bluelib/Source/DemoUApp')
-project(':bluelib-testapp').projectDir = new File('bluelib/Source/ShineLib/bluelibtestapp/')
 project(':pluginreferenceboard').projectDir = new File('bluelib/Source/ShineLib/pluginreferenceboard')
