@@ -4,9 +4,7 @@
  */
 package com.philips.cdp2.ews.viewmodel;
 
-import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.cdp2.ews.view.TroubleshootIncorrectPasswordFragment;
-import com.philips.cdp2.ews.view.TroubleshootWrongWiFiFragment;
 
 import org.junit.Before;
 import org.junit.Test;

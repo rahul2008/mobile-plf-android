@@ -4,7 +4,6 @@
  */
 package com.philips.cdp2.ews.viewmodel;
 
-import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
 
 import org.junit.Before;

@@ -4,10 +4,6 @@
  */
 package com.philips.cdp2.ews.viewmodel;
 
-import com.philips.cdp2.ews.navigation.ScreenFlowController;
-import com.philips.cdp2.ews.view.BlinkingAccessPointFragment;
-import com.philips.cdp2.ews.view.EWSResetDeviceFragment;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

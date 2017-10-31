@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.view.EWSBaseFragment;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
-import com.philips.cdp2.ews.view.EWSProductSupportFragment;
 
 import org.junit.Before;
 import org.junit.Test;

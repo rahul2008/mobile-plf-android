@@ -6,10 +6,8 @@ package com.philips.cdp2.ews.viewmodel;
 
 import com.philips.cdp2.ews.common.util.Tagger;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
-import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
-import com.philips.cdp2.ews.view.TroubleshootCheckRouterSettingsFragment;
 
 import org.junit.Before;
 import org.junit.Test;

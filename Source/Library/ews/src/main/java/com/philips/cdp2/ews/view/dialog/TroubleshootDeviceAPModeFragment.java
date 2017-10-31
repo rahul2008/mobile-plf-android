@@ -14,7 +14,6 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.TroubleshootApModeViewBinding;
 import com.philips.cdp2.ews.databinding.TroubleshootConnectionResetViewBinding;
 import com.philips.cdp2.ews.databinding.TroubleshootEnableApModeViewBinding;
-import com.philips.cdp2.ews.databinding.TroubleshootFullMenuViewBinding;
 import com.philips.cdp2.ews.databinding.TroubleshootWrongPhoneConnectedViewBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 
@@ -46,7 +45,7 @@ public class TroubleshootDeviceAPModeFragment extends BaseDialogFragment<Trouble
 
     @Override
     public void showFullMenuGuidelineView() {
-        this.<TroubleshootFullMenuViewBinding>addView(R.layout.troubleshoot_full_menu_view).setListener(this);
+        this.<TroubleshootWrongPhoneConnectedViewBinding>addView(R.layout.troubleshoot_wrong_phone_connected_view).setListener(this);
     }
 
     @Override

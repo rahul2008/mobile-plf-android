@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply from: "../scripts/versions.gradle"
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "com.philips.cdp2.ews.demoapplication"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode getMyVersionCode()
         versionName "1.0"
     }

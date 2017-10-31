@@ -8,7 +8,6 @@ import com.philips.cdp.digitalcare.CcInterface;
 import com.philips.cdp.digitalcare.CcLaunchInput;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;

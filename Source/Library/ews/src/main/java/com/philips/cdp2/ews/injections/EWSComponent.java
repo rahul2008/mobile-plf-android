@@ -14,20 +14,12 @@ import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshooti
 import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingViewModel;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WIFIConnectionUnsuccessfulViewModel;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkViewModel;
-import com.philips.cdp2.ews.view.BlinkingAccessPointFragment;
-import com.philips.cdp2.ews.view.ChooseSetupStateFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
 import com.philips.cdp2.ews.view.EWSGettingStartedFragment;
 import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
-import com.philips.cdp2.ews.view.EWSProductSupportFragment;
-import com.philips.cdp2.ews.view.EWSResetDeviceFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
-import com.philips.cdp2.ews.view.TroubleshootCheckRouterSettingsFragment;
-import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
-import com.philips.cdp2.ews.view.TroubleshootIncorrectPasswordFragment;
-import com.philips.cdp2.ews.view.TroubleshootWrongWiFiFragment;
 import com.philips.cdp2.ews.view.dialog.TroubleshootDeviceAPModeFragment;
 import com.philips.cdp2.ews.viewmodel.BaseTroubleShootingViewModel;
 
@@ -54,22 +46,6 @@ public interface EWSComponent {
     void inject(EWSWiFiPairedFragment ewsWiFiPairedFragment);
 
     void inject(TroubleshootDeviceAPModeFragment troubleshootDeviceAPModeFragment);
-
-    void inject(TroubleshootIncorrectPasswordFragment troubleshootIncorrectPasswordFragment);
-
-    void inject(TroubleshootCheckRouterSettingsFragment troubleshootCheckRouterSettingsFragment);
-
-    void inject(EWSProductSupportFragment ewsProductSupportFragment);
-
-    void inject(TroubleshootWrongWiFiFragment troubleshootWrongWiFiFragment);
-
-    void inject(TroubleshootConnectionUnsuccessfulFragment connectionUnsuccessfulFragment);
-
-    void inject(EWSResetDeviceFragment ewsResetDeviceFragment);
-
-    void inject(ChooseSetupStateFragment chooseSetupStateFragment);
-
-    void inject(BlinkingAccessPointFragment blinkingAccessPointFragment);
 
     ResetConnectionTroubleshootingViewModel resetConnectionTroubleshootingViewModel();
 

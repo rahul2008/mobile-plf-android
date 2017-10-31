@@ -94,7 +94,7 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
         textView.setText(TextUtil.getHTMLText(explanation));
         FontIconDrawable drawable = new FontIconDrawable(context, context.getResources().getString(R.string.dls_cross_24), TypefaceUtils
                 .load(context.getAssets(), "fonts/iconfont.ttf"))
-                .sizeRes(R.dimen.ews_gs_icon_size).colorRes(R.color.black);
+                .sizeRes(R.dimen.ews_gs_icon_size).colorRes(android.R.color.black); //TODO remove this color using properly uiKit color
         imageView.setBackground(drawable);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
-import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentEwsWifiPairedBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
@@ -66,11 +65,6 @@ public class EWSWiFiPairedFragment extends EWSBaseFragment<FragmentEwsWifiPaired
     @Override
     protected boolean hasMenu() {
         return false;
-    }
-
-    @Override
-    public int getNavigationIconId() {
-        return 0;//don't show
     }
 
     @Override

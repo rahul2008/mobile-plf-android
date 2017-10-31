@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'jacoco-android'
 apply from: "../../../ci-build-support/gradle/versions.gradle"
-apply from: "../scripts/versions.gradle"
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
 
@@ -18,14 +17,15 @@ buildscript {
 }
 
 android {
-    compileSdkVersion config.targetSdk
-    buildToolsVersion config.buildTools
+    println("Version: " + versions.sdk)
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
     publishNonDefault true
     defaultConfig {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi config.targetSdk
+        renderscriptTargetApi versions.target
         renderscriptSupportModeEnabled true
         multiDexEnabled true
         versionName version + "(" + objcdp.getCommitHash() + ")"
@@ -69,12 +69,11 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // Android/Google
-    compile "com.android.support:support-annotations:${versionsAndroid.support}"
-    compile "com.android.support:design:${versionsAndroid.support}"
-    compile "com.android.support:appcompat-v7:${versionsAndroid.support}"
-    compile "com.android.support:animated-vector-drawable:${versionsAndroid.support}"
-    compile "com.android.support:cardview-v7:${versionsAndroid.support}"
-    compile "com.android.support:multidex:${versionsAndroid.multidex}"
+    compile "com.android.support:support-annotations:${versions.support}"
+    compile "com.android.support:design:${versions.support}"
+    compile "com.android.support:appcompat-v7:${versions.support}"
+    compile "com.android.support:animated-vector-drawable:${versions.support}"
+    compile "com.android.support:cardview-v7:${versions.support}"
 
     // Philips Dependencies
     def dp = project.ext.has('useprojectdependencies')
@@ -86,14 +85,15 @@ dependencies {
                 transitive = true
 
             }
-
-    def commliblan = module(group: 'com.philips.cdp', name: 'commlib-lan', version:"8.1.0" + objcdp.getVersionSuffix(), changing: true)
+//    def commliblan = module(group: 'com.philips.cdp', name: 'commlib-lan', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
+    def commliblan = module(group: 'com.philips.cdp', name: 'commlib-lan', version: '2017.5.+' , changing: true)
     compile(dp ? project(':commlib-lan') : commliblan)
             {
 
                 transitive = true
 
             }
+
     def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     compile(dp ? project(':uid') : uidModule)
             {
@@ -107,6 +107,9 @@ dependencies {
             {
                 transitive = true
             }
+
+    def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
+    compile(dp ? project(':uAppFwLib') : ufwModule)
 
     // External
     compile "com.google.dagger:dagger:${versionsExternal.dagger}"

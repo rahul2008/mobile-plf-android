@@ -8,7 +8,6 @@ import com.philips.cdp2.ews.BuildConfig;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
-import com.philips.cdp2.ews.viewmodel.TroubleshootWrongWiFiViewModel;
 
 import org.junit.Before;
 import org.junit.Test;
