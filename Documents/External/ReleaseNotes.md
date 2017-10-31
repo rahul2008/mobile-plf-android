@@ -1,5 +1,8 @@
 # Release Notes MobileUitoolkit Android
 
+SPRINT - MUITK.PI17.5.Sprint3
+Story 93663: Android Horizontal Slider
+
 SPRINT - MUITK.PI17.5.Sprint1
 Story 81965: Android About Screen
 Story 85248: Android Splash Screen

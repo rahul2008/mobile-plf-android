@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ (C) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  ~
+  -->
+
+<resources>
+    <style name="UIDSliderStyle" parent="Base.Widget.AppCompat.SeekBar">
+        <item name="android:thumb">@drawable/uid_slider_thumb_selector</item>
+        <item name="android:background">@drawable/uid_slider_background</item>
+        <item name="android:splitTrack">false</item>
+        <item name="android:progressDrawable">@drawable/uid_slider_progress_indicator</item>
+        <item name="android:minWidth">@dimen/uid_slider_min_width</item>
+    </style>
+</resources>

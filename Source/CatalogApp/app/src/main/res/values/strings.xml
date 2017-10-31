@@ -335,5 +335,9 @@
     <string name="about_dialog_button_text">Got it</string>
     <string name="about_dialog_text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
 
+    <!--Sliders-->
+    <string name="page_title_slider">Slider</string>
+    <string name="slider_icon_start_label">Min</string>
+    <string name="slider_icon_end_label">Max</string>
 
 </resources>

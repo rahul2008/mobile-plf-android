@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ (C) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  ~
+  -->
+
+<resources>
+    <style name="UIDAboutScreenStyle">
+        <item name="android:fillViewport">true</item>
+    </style>
+</resources>

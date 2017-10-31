@@ -110,4 +110,12 @@
     <string name="listview_disabled_item_opacity">0.35</string>
     <string name="listview_enabled_item_opacity">255.0</string>
 
+    <!--Slider margins-->
+    <dimen name="slider_top_bottom_margin">24dp</dimen>
+    <dimen name="slider_start_end_margin">20dp</dimen>
+    <dimen name="slider_icon_margin">16dp</dimen>
+    <dimen name="slider_label_size">16sp</dimen>
+    <dimen name="slider_temporary_horizontal_margin">6dp</dimen>
+    <dimen name="slider_temporary_vertical_margin">12dp</dimen>
+
 </resources>

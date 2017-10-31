@@ -277,4 +277,9 @@
     <dimen name="uid_about_screen_label_size">16sp</dimen>
     <dimen name="uid_about_screen_app_name_spacing">24sp</dimen>
 
+    <!--Slider-->
+    <dimen name="uid_slider_border_ripple_radius">20dp</dimen>
+    <dimen name="uid_slider_progress_bar_height">4dp</dimen>
+    <dimen name="uid_slider_min_width">96dp</dimen>
+
 </resources>

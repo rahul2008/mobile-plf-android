@@ -9,7 +9,7 @@ public class TestConstants {
     public final static String FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST = "getBackgroundTintList";
     public final static String FUNCTION_GET_SWITCH_THUMB_TINT_LIST = "getThumbTintList";
     public final static String FUNCTION_GET_SWITCH_TRACK_TINT_LIST = "getTrackTintList";
-    public final static String FUNCTION_GET_THUMB_DRAWABLE = "getThumbDrawable";
+    public final static String FUNCTION_GET_THUMB_DRAWABLE = "getThumb";
     public final static String FUNCTION_GET_UID_TRACK_DRAWABLE = "getUIDTrackDrawable";
     public final static String FUNCTION_GET_PROGRESS_DRAWABLE = "getProgressDrawable";
     public final static String FUNCTION_GET_UID_ALERT = "getAlert";

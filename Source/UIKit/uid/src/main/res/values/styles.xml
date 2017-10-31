@@ -58,6 +58,8 @@
         <item name="uidEditTextStyle">@style/UIDEditTextBox</item>
         <item name="uidRatingBarStyle">@style/UIDRatingBarStyle</item>
         <item name="uidLabelStyle">@style/UIDLabel</item>
+        <item name="uidSliderStyle">@style/UIDSliderStyle</item>
+        <item name="uidAboutScreenStyle">@style/UIDAboutScreenStyle</item>
 
         <item name="uidIndeterminateLinearPBStyle">@style/UIDIndeterminateLinearProgress</item>
 

@@ -10,4 +10,6 @@
     <attr name="uidRatingBarStyle" format="reference" />
     <attr name="uidLabelStyle" format="reference" />
     <attr name="uidRadioButtonStyle" format="reference"/>
+    <attr name="uidSliderStyle" format="reference"/>
+    <attr name="uidAboutScreenStyle" format="reference"/>
 </resources>

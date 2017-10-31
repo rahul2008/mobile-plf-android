@@ -10,7 +10,8 @@
     android:background="?attr/uidAboutScreenFullScreenBackgroundColor"
     android:orientation="vertical"
     android:paddingEnd="@dimen/uid_about_screen_margin_start_end"
-    android:paddingStart="@dimen/uid_about_screen_margin_start_end">
+    android:paddingStart="@dimen/uid_about_screen_margin_start_end"
+    android:paddingBottom="@dimen/uid_about_screen_margin_start_end">
 
     <ImageView
         android:id="@id/uid_about_screen_icon"

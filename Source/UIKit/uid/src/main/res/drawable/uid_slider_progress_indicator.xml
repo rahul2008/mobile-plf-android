@@ -1,0 +1,19 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@android:id/background">
+        <shape android:shape="line">
+            <stroke
+                android:width="@dimen/uid_slider_progress_bar_height"
+                android:color="?attr/uidTrackDefaultNormalOffBackgroundColor"/>
+        </shape>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape android:shape="line">
+                <stroke
+                    android:width="@dimen/uid_slider_progress_bar_height"
+                    android:color="?attr/uidTrackDefaultNormalOnBackgroundColor"/>
+            </shape>
+        </clip>
+    </item>
+</layer-list>

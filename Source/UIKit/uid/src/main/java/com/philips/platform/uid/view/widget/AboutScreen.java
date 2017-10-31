@@ -56,11 +56,15 @@ public class AboutScreen extends ScrollView {
     private Label disclosure;
 
     public AboutScreen(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public AboutScreen(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, R.attr.uidAboutScreenStyle);
+    }
+
+    public AboutScreen(Context context, @Nullable AttributeSet attrs, int defStyleAttr){
+        super(context, attrs, defStyleAttr);
         initializeViews(context, attrs);
     }
 
