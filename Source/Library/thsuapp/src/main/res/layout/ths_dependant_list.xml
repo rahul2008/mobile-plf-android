@@ -20,7 +20,7 @@
         android:textSize="@dimen/ths_body_text" />
 
     <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/chhose_person"
+        android:id="@+id/choose_person"
         android:layout_marginLeft="@dimen/ths_fab_margin"
         android:layout_marginRight="@dimen/ths_fab_margin"
         android:layout_below="@id/ths_visit_for"
