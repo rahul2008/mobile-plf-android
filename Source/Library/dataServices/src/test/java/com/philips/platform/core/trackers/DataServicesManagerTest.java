@@ -6,6 +6,7 @@ import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
+import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
@@ -65,7 +66,6 @@ import com.philips.platform.verticals.VerticalCreater;
 import com.philips.platform.verticals.VerticalUCoreAccessProvider;
 import com.philips.platform.verticals.VerticalUserRegistrationInterface;
 import com.philips.spy.DSPaginationSpy;
-import com.philips.spy.EventingSpy;
 import com.philips.testing.verticals.datatyes.MomentType;
 
 import org.joda.time.DateTime;
@@ -112,7 +112,8 @@ public class DataServicesManagerTest {
     @Mock
     DataFetcher dataFetcherMock;
 
-    private EventingSpy eventingSpy;
+    @Mock
+    private Eventing eventingMock;
 
     @Mock
     JSONObject jsonObject;
@@ -216,8 +217,6 @@ public class DataServicesManagerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        eventingSpy = new EventingSpy();
-
         tracker = DataServicesManager.getInstance();
         tracker.setAppComponant(appComponantMock);
 
@@ -225,7 +224,7 @@ public class DataServicesManagerTest {
         userRegistrationInterface = new VerticalUserRegistrationInterface();
         uCoreAccessProvider = new VerticalUCoreAccessProvider(userRegistrationInterface);
         mDSPagination = new DSPaginationSpy();
-        tracker.mEventing = eventingSpy;
+        tracker.mEventing = eventingMock;
         tracker.mDataCreater = baseAppDataCreator;
         tracker.mBackendIdProvider = uCoreAccessProvider;
         tracker.mCore = coreMock;
@@ -239,25 +238,25 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostSaveEvent_WhenSaveIsCalled() throws Exception {
         tracker.saveMoment(momentMock, dbRequestListener);
-        verify(eventingSpy).post(any(MomentSaveRequest.class));
+        verify(eventingMock).post(any(MomentSaveRequest.class));
     }
 
     @Test
     public void ShouldPostUpdateEvent_WhenUpdateIsCalled() throws Exception {
         tracker.updateMoment(momentMock, dbRequestListener);
-        verify(eventingSpy).post(any(MomentUpdateRequest.class));
+        verify(eventingMock).post(any(MomentUpdateRequest.class));
     }
 
     @Test
     public void ShouldPostFetchEvent_WhenFetchIsCalled() throws Exception {
         tracker.fetchMomentWithType(dbFetchRequestListner, MomentType.TEMPERATURE);
-        verify(eventingSpy).post(any(LoadMomentsRequest.class));
+        verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
 
     @Test
     public void ShouldPostFetchLatestMomentByType_WhenFetchIsCalled() throws Exception {
         tracker.fetchLatestMomentByType(MomentType.TEMPERATURE, dbFetchRequestListner);
-        verify(eventingSpy).post(any(LoadLatestMomentByTypeRequest.class));
+        verify(eventingMock).post(any(LoadLatestMomentByTypeRequest.class));
     }
 
     @Test
@@ -267,7 +266,7 @@ public class DataServicesManagerTest {
         Date startDate = sdf.parse("10/11/17");
         Date endDate = sdf.parse("10/23/17");
         tracker.fetchMomentsWithTypeAndTimeLine(MomentType.TEMPERATURE, startDate, endDate, createPagination(), dbFetchRequestListner);
-        verify(eventingSpy).post(any(LoadMomentsByDate.class));
+        verify(eventingMock).post(any(LoadMomentsByDate.class));
     }
 
     @Test
@@ -277,25 +276,25 @@ public class DataServicesManagerTest {
         Date startDate = sdf.parse("10/11/17");
         Date endDate = sdf.parse("10/23/17");
         tracker.fetchMomentsWithTimeLine(startDate, endDate, createPagination(), dbFetchRequestListner);
-        verify(eventingSpy).post(any(LoadMomentsByDate.class));
+        verify(eventingMock).post(any(LoadMomentsByDate.class));
     }
 
     @Test
     public void ShouldPostFetchMomentByIdEvent_WhenFetchMomentByIdIsCalled() throws Exception {
         tracker.fetchMomentForMomentID(1, dbFetchRequestListner);
-        verify(eventingSpy).post(any(LoadMomentsRequest.class));
+        verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
 
     @Test
     public void ShouldPostFetchConsentEvent_WhenFetchConsentIsCalled() throws Exception {
         tracker.fetchConsentDetail(dbFetchRequestListner);
-        verify(eventingSpy).post(any(LoadConsentsRequest.class));
+        verify(eventingMock).post(any(LoadConsentsRequest.class));
     }
 
     @Test
     public void ShouldPostFetchSettingsEvent_WhenFetchSettingsIsCalled() throws Exception {
         tracker.fetchUserSettings(dbFetchRequestListner);
-        verify(eventingSpy).post(any(LoadSettingsRequest.class));
+        verify(eventingMock).post(any(LoadSettingsRequest.class));
     }
 
     @Test
@@ -311,13 +310,13 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostSaveConsentEvent_WhenSaveConsentIsCalled() throws Exception {
         tracker.saveConsentDetails(anyListOf(ConsentDetail.class), dbRequestListener);
-        verify(eventingSpy).post(any(DatabaseConsentSaveRequest.class));
+        verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
     }
 
     @Test
     public void ShouldPostUpdateSettingsEvent_WhenUpdateSettingsIsCalled() throws Exception {
         tracker.updateUserSettings(any(Settings.class), dbRequestListener);
-        verify(eventingSpy).post(any(DatabaseSettingsUpdateRequest.class));
+        verify(eventingMock).post(any(DatabaseSettingsUpdateRequest.class));
     }
 
     @Test
@@ -333,13 +332,13 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostUpdateConsentEvent_WhenUpdateConsentIsCalled() throws Exception {
         tracker.updateConsentDetails(anyListOf(ConsentDetail.class), dbRequestListener);
-        verify(eventingSpy).post(any(DatabaseConsentSaveRequest.class));
+        verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
     }
 
     @Test
     public void ShouldPostdeleteAllMomentEvent_WhendeleteAllMomentIsCalled() throws Exception {
         tracker.deleteAllMoments(dbRequestListener);
-        verify(eventingSpy).post(any(DataClearRequest.class));
+        verify(eventingMock).post(any(DataClearRequest.class));
     }
 
     //TODO: Spoorti - revisit this
@@ -392,7 +391,7 @@ public class DataServicesManagerTest {
     @Test
     public void Should_fetchAllMoment_called() throws Exception {
         tracker.fetchAllMoment(dbFetchRequestListner);
-        verify(eventingSpy).post(any(LoadMomentsRequest.class));
+        verify(eventingMock).post(any(LoadMomentsRequest.class));
     }
 
     @Test
@@ -405,7 +404,7 @@ public class DataServicesManagerTest {
     @Test
     public void Should_createsaveUserSettings_called() throws Exception {
         tracker.saveUserSettings(settingsMock, dbRequestListener);
-        verify(eventingSpy).post(any(DatabaseSettingsSaveRequest.class));
+        verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
     }
 
     @Test
@@ -413,7 +412,7 @@ public class DataServicesManagerTest {
         tracker.mDataCreater = dataCreatorMock;
         when(dataCreatorMock.createMomentDetail("Temperature", momentMock)).thenReturn(momentDetailMock);
         MomentDetail detail = tracker.createMomentDetail("Temperature", "23", momentMock);
-        //verify(eventingSpy).post(any(DatabaseSettingsSaveRequest.class));
+        //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
         assertThat(detail).isInstanceOf(MomentDetail.class);
         assertThat(detail).isNotNull();
     }
@@ -423,7 +422,7 @@ public class DataServicesManagerTest {
         tracker.mDataCreater = dataCreatorMock;
         when(dataCreatorMock.createMeasurement("Temperature", measurementGroupMock)).thenReturn(measurementMock);
         Measurement measurement = tracker.createMeasurement("Temperature", "23", "celcius", measurementGroupMock);
-        //verify(eventingSpy).post(any(DatabaseSettingsSaveRequest.class));
+        //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
         assertThat(measurement).isInstanceOf(Measurement.class);
         assertThat(measurement).isNotNull();
     }
@@ -433,7 +432,7 @@ public class DataServicesManagerTest {
         tracker.mDataCreater = dataCreatorMock;
         when(dataCreatorMock.createMeasurementDetail("Temperature", measurementMock)).thenReturn(measurementDetailMock);
         MeasurementDetail measurementDetail = tracker.createMeasurementDetail("Temperature", "23", measurementMock);
-        //verify(eventingSpy).post(any(DatabaseSettingsSaveRequest.class));
+        //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
         assertThat(measurementDetail).isInstanceOf(MeasurementDetail.class);
         assertThat(measurementDetail).isNotNull();
     }
@@ -441,7 +440,7 @@ public class DataServicesManagerTest {
     @Test
     public void Should_deleteMoment_called() throws Exception {
         tracker.deleteMoment(momentMock, dbRequestListener);
-        verify(eventingSpy).post(any(MomentDeleteRequest.class));
+        verify(eventingMock).post(any(MomentDeleteRequest.class));
     }
 
     @Test
@@ -449,7 +448,7 @@ public class DataServicesManagerTest {
         List list = new ArrayList();
         list.add(momentMock);
         tracker.deleteMoments(list, dbRequestListener);
-        verify(eventingSpy).post(any(MomentsDeleteRequest.class));
+        verify(eventingMock).post(any(MomentsDeleteRequest.class));
     }
 
     @Test
@@ -457,13 +456,13 @@ public class DataServicesManagerTest {
         List list = new ArrayList();
         list.add(momentMock);
         tracker.updateMoments(list, dbRequestListener);
-        verify(eventingSpy).post(any(MomentsUpdateRequest.class));
+        verify(eventingMock).post(any(MomentsUpdateRequest.class));
     }
 
     @Test
     public void Should_deleteAll_called() throws Exception {
         tracker.deleteAll(dbRequestListener);
-        verify(eventingSpy).post(any(DataClearRequest.class));
+        verify(eventingMock).post(any(DataClearRequest.class));
     }
 
     @Test
@@ -471,7 +470,7 @@ public class DataServicesManagerTest {
         tracker.mDataCreater = dataCreatorMock;
         when(dataCreatorMock.createMeasurementGroupDetail("Temperature", measurementGroupMock)).thenReturn(measurementGroupDetailMock);
         MeasurementGroupDetail measurementGroupDetail = tracker.createMeasurementGroupDetail("Temperature", "23", measurementGroupMock);
-        //verify(eventingSpy).post(any(DatabaseSettingsSaveRequest.class));
+        //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
         assertThat(measurementGroupDetail).isInstanceOf(MeasurementGroupDetail.class);
         assertThat(measurementGroupDetail).isNotNull();
     }
@@ -481,7 +480,7 @@ public class DataServicesManagerTest {
         List list = new ArrayList();
         list.add(consentDetailMock);
         tracker.saveUserCharacteristics(list, dbRequestListener);
-        verify(eventingSpy).post(any(UserCharacteristicsSaveRequest.class));
+        verify(eventingMock).post(any(UserCharacteristicsSaveRequest.class));
     }
 
     @Test
@@ -502,7 +501,7 @@ public class DataServicesManagerTest {
         List list = new ArrayList();
         list.add(momentMock);
         tracker.saveMoments(list, dbRequestListener);
-        verify(eventingSpy).post(any(UserCharacteristicsSaveRequest.class));
+        verify(eventingMock).post(any(UserCharacteristicsSaveRequest.class));
     }
 
     @Test
@@ -514,7 +513,7 @@ public class DataServicesManagerTest {
     @Test
     public void Should_fetchInsights_called() throws Exception {
         tracker.fetchInsights(dbFetchRequestListner);
-        verify(eventingSpy).post(any(FetchInsightsFromDB.class));
+        verify(eventingMock).post(any(FetchInsightsFromDB.class));
     }
 
     @Test
@@ -522,26 +521,26 @@ public class DataServicesManagerTest {
         List list = new ArrayList();
         list.add(insightMock);
         tracker.deleteInsights(list, dbRequestListener);
-        verify(eventingSpy).post(any(DeleteInsightFromDB.class));
+        verify(eventingMock).post(any(DeleteInsightFromDB.class));
     }
 
     @Test
     public void Should_ClearExpiredMoments_called() {
         tracker.clearExpiredMoments(dbRequestListener);
-        verify(eventingSpy).post(any(DeleteExpiredMomentRequest.class));
+        verify(eventingMock).post(any(DeleteExpiredMomentRequest.class));
     }
 
     //Push Notification test
     @Test
     public void unRegisterDeviceTokenTest() throws Exception {
         tracker.unRegisterDeviceToken("token", "variant", null);
-        verify(eventingSpy).post(any(UnRegisterDeviceToken.class));
+        verify(eventingMock).post(any(UnRegisterDeviceToken.class));
     }
 
     @Test
     public void registerDeviceTokenTest() throws Exception {
         tracker.registerDeviceToken("token", "variant", "protocol provider", null);
-        verify(eventingSpy).post(any(RegisterDeviceToken.class));
+        verify(eventingMock).post(any(RegisterDeviceToken.class));
     }
 
     @Test
@@ -553,44 +552,44 @@ public class DataServicesManagerTest {
     @Test
     public void createSubjectProfileTest() throws Exception {
         tracker.createSubjectProfile("test user", "2013-05-05", "female", 78.88, "2015-10-01T12:11:10.123+0100", null);
-        verify(eventingSpy).post(any(CreateSubjectProfileRequestEvent.class));
+        verify(eventingMock).post(any(CreateSubjectProfileRequestEvent.class));
     }
 
     @Test
     public void getSubjectProfilesTest() throws Exception {
         tracker.getSubjectProfiles(null);
-        verify(eventingSpy).post(any(GetSubjectProfileListRequestEvent.class));
+        verify(eventingMock).post(any(GetSubjectProfileListRequestEvent.class));
     }
 
     @Test
     public void getSubjectProfileTest() throws Exception {
         tracker.getSubjectProfile("39989890000898989", null);
-        verify(eventingSpy).post(any(GetSubjectProfileRequestEvent.class));
+        verify(eventingMock).post(any(GetSubjectProfileRequestEvent.class));
     }
 
     @Test
     public void deleteSubjectProfileTest() throws Exception {
         tracker.deleteSubjectProfile("78798089987868789", null);
-        verify(eventingSpy).post(any(DeleteSubjectProfileRequestEvent.class));
+        verify(eventingMock).post(any(DeleteSubjectProfileRequestEvent.class));
     }
 
     //Device Pairing test
     @Test
     public void pairDevicesTest() throws Exception {
         tracker.pairDevices("77908787878978", "RefNode", null, null, "rxd", null);
-        verify(eventingSpy).post(any(PairDevicesRequestEvent.class));
+        verify(eventingMock).post(any(PairDevicesRequestEvent.class));
     }
 
     @Test
     public void unPairDeviceTest() throws Exception {
         tracker.unPairDevice("7867697879787", null);
-        verify(eventingSpy).post(any(UnPairDeviceRequestEvent.class));
+        verify(eventingMock).post(any(UnPairDeviceRequestEvent.class));
     }
 
     @Test
     public void getPairedDevicesTest() throws Exception {
         tracker.getPairedDevices(null);
-        verify(eventingSpy).post(any(GetPairedDeviceRequestEvent.class));
+        verify(eventingMock).post(any(GetPairedDeviceRequestEvent.class));
     }
 
     private DSPaginationSpy createPagination() {
@@ -615,7 +614,7 @@ public class DataServicesManagerTest {
 
     private void thenVerifyMonitorsAreInitialized() {
         verify(coreMock).start();
-        verify(synchronisationMonitorMock).start(eventingSpy);
+        verify(synchronisationMonitorMock).start(eventingMock);
     }
 
 
