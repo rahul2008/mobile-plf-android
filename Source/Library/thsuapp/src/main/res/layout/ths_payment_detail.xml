@@ -30,11 +30,11 @@
         android:id="@+id/ths_payment_detail_card_holder_name_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ths_payment_detail_card_owner_name_label"
-        android:layout_marginBottom="@dimen/ths_margin_between_ui_control"
         android:inputType="text"
         android:maxLines="1"
-        android:hint="Enter card owner's name" />
+        android:hint="Enter card owner's name"
+        android:layout_below="@+id/ths_payment_detail_card_owner_name_label"
+        android:layout_alignParentStart="true" />
 
 
     <com.philips.platform.uid.view.widget.Label
@@ -52,6 +52,7 @@
         android:layout_below="@+id/ths_payment_detail_card_number_label"
         android:layout_marginBottom="@dimen/ths_margin_between_ui_control"
         android:digits="0123456789"
+        android:imeOptions="actionNext"
         android:hint="0000 0000 0000 0000"
         android:inputType="number|none" />
 
@@ -80,6 +81,7 @@
             android:layout_alignParentLeft="true"
             android:digits="0123456789"
             android:hint=" MM "
+            android:imeOptions="actionNext"
             android:inputType="number|none"
             android:maxLength="2" />
 
@@ -99,6 +101,7 @@
             android:layout_toRightOf="@+id/ths_payment_detail_card_expiration_month_year_seperator"
             android:digits="0123456789"
             android:hint=" YYYY "
+            android:imeOptions="actionNext"
             android:inputType="number|none"
             android:maxLength="4" />
     </RelativeLayout>
@@ -118,6 +121,7 @@
         android:layout_below="@+id/ths_payment_detail_card_cvc_label"
         android:layout_marginBottom="@dimen/ths_margin_between_ui_control"
         android:digits="0123456789"
+        android:imeOptions="actionDone"
         android:hint=" 000 "
         android:inputType="number|none"
         android:maxLength="4" />

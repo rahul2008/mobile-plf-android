@@ -179,7 +179,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/ths_fab_margin"
-        android:background="@drawable/ths_shadow_drawable"
         android:paddingEnd="@dimen/ths_fab_margin"
         android:paddingStart="@dimen/ths_fab_margin"
         android:paddingTop="@dimen/ths_fab_margin">

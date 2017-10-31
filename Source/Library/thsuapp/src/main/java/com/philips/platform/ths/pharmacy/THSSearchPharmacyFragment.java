@@ -52,8 +52,8 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
         searchPharmacy.setExpandListener(this);
         searchPharmacy.setQuerySubmitListener(this);
         searchPharmacy.setQuery(searchPharmacy.getQuery());
-        searchPharmacy.setSearchBoxHint("Search for pharmacy");
-        searchPharmacy.setDecoySearchViewHint("Search for pharmacy");
+        searchPharmacy.setSearchBoxHint(R.string.ths_pharmacy_search_hint);
+        searchPharmacy.setDecoySearchViewHint(R.string.ths_pharmacy_search_hint);
         actionBarListener = getActionBarListener();
         if(null != actionBarListener){
             actionBarListener.updateActionBar(R.string.search_pharmacy_fragment_name,true);
@@ -79,7 +79,11 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     public void onQuerySubmit(CharSequence charSequence) {
         zipSearchString = String.valueOf(charSequence);
         createCustomProgressBar(linearLayout,SMALL);
-        thsSearchPharmacyPresenter.onEvent(SEARCH_EVENT_ID);
+        if(thsSearchPharmacyPresenter.validateZip(zipSearchString)) {
+            thsSearchPharmacyPresenter.onEvent(SEARCH_EVENT_ID);
+        }else {
+            showError(getString(R.string.ths_pharmacy_search_error));
+        }
     }
 
     @Override

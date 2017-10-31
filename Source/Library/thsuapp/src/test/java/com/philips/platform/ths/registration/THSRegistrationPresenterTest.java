@@ -113,19 +113,21 @@ public class THSRegistrationPresenterTest {
         thsRegistrationFragmentMock.mContinueButton = buttonMock;
     }
 
+    @Mock
+    THSBaseFragment thsBaseFragment;
     @Test
     public void onResponseError() throws Exception {
         when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);
         when(thsRegistrationFragmentMock.isFragmentAttached()).thenReturn(true);
         when(sdkErrorMock.getSDKErrorReason()).thenReturn(AUTH_SCHEDULED_DOWNTIME);
         mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,sdkErrorMock);
-        verify(thsRegistrationFragmentMock).showToast(anyString());
+        verify(thsRegistrationFragmentMock).showError(THSSDKErrorFactory.getErrorType(sdkErrorMock.getSDKErrorReason()));
     }
 
     @Test
     public void onResponseSuccessDefault() throws Exception {
         when(thsRegistrationFragmentMock.isFragmentAttached()).thenReturn(true);
-        when(sdkErrorMock.getSDKErrorReason()).thenReturn(null);
+        sdkErrorMock = null;
         mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,sdkErrorMock);
         verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
     }
@@ -134,7 +136,7 @@ public class THSRegistrationPresenterTest {
     public void onResponseSuccessTHS_PRACTICES() throws Exception {
         when(thsRegistrationFragmentMock.isFragmentAttached()).thenReturn(true);
         thsRegistrationFragmentMock.mLaunchInput = THSConstants.THS_PRACTICES;
-        when(sdkErrorMock.getSDKErrorReason()).thenReturn(null);
+        sdkErrorMock = null;
         mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,sdkErrorMock);
         verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
     }
@@ -143,7 +145,7 @@ public class THSRegistrationPresenterTest {
     public void onResponseSuccessTHS_SCHEDULED_VISITS() throws Exception {
         when(thsRegistrationFragmentMock.isFragmentAttached()).thenReturn(true);
         thsRegistrationFragmentMock.mLaunchInput = THSConstants.THS_SCHEDULED_VISITS;
-        when(sdkErrorMock.getSDKErrorReason()).thenReturn(null);
+        sdkErrorMock = null;
         mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,sdkErrorMock);
         verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
     }
@@ -151,9 +153,8 @@ public class THSRegistrationPresenterTest {
     @Test
     public void onResponseSuccessTHS_VISITS_HISTORY() throws Exception {
         when(thsRegistrationFragmentMock.isFragmentAttached()).thenReturn(true);
-        when(sdkErrorMock.getSDKErrorReason()).thenReturn(null);
+        sdkErrorMock = null;
         thsRegistrationFragmentMock.mLaunchInput = THSConstants.THS_VISITS_HISTORY;
-
         mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,sdkErrorMock);
         verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
     }

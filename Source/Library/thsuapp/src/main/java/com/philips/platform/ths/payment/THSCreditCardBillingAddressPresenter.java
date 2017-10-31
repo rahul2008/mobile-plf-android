@@ -21,6 +21,7 @@ import com.philips.platform.ths.utility.THSManager;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
@@ -30,6 +31,8 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
 
     private THSCreditCardBillingAddressFragment mTHSBillingAddressFragment;
     protected THSCreatePaymentRequest mTHSCreatePaymentRequest;
+    String regex = "^[0-9]{5}(?:-[0-9]{4})?$";
+    Pattern pattern = Pattern.compile(regex);
 
 
     public THSCreditCardBillingAddressPresenter(THSCreditCardBillingAddressFragment thsBillingAddressFragment) {
@@ -98,6 +101,11 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
                 }
             }
         }
+
+    }
+
+    public boolean validateZip(String zipCode){
+        return pattern.matcher(zipCode).matches();
 
     }
 
