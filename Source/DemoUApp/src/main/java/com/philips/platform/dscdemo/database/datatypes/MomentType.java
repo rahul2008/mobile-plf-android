@@ -16,7 +16,8 @@ public class MomentType {
     public static final String PHOTO = "PHOTO";
     public static final String NOTE = "NOTE";
     public static final String TEMPERATURE = "Temperature";
-    public static final String SLEEP = "SLEEP";
+    public static final String SLEEP_SESSION = "sleepSession";
+
 
     public static int getIDFromDescription(String description) {
         if (description == null) {
@@ -35,7 +36,7 @@ public class MomentType {
                 return 23;
             case TEMPERATURE:
                 return 24;
-            case SLEEP:
+            case SLEEP_SESSION:
                 return 25;
             default:
                 return -1;
@@ -57,7 +58,7 @@ public class MomentType {
             case 24:
                 return TEMPERATURE;
             case 25:
-                return SLEEP;
+                return SLEEP_SESSION;
             default:
                 return UNKNOWN;
         }
@@ -71,7 +72,7 @@ public class MomentType {
         momentTypes.add(PHOTO);
         momentTypes.add(NOTE);
         momentTypes.add(TEMPERATURE);
-        momentTypes.add(SLEEP);
+        momentTypes.add(SLEEP_SESSION);
         return momentTypes;
     }
 }
