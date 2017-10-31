@@ -354,9 +354,12 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
                 mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(true);
                 mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_APPLY_PROMOCODE,thssdkError.getSdkError()));
             }else {
-                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "promoCodeAppliedSuccessfully");
+                if(mTHSCostSummaryFragment.isPromoCodeAlreadyApplied.compareAndSet(false,true)) {
+                    THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "promoCodeAppliedSuccessfully");
+                }
                 mTHSCostSummaryFragment.thsVisit.setCouponCodeApplied(mTHSCostSummaryFragment.mCouponCodeEdittext.getText().toString().trim());
                 updateCost(mTHSCostSummaryFragment.thsVisit);
+
             }
         }
     }
