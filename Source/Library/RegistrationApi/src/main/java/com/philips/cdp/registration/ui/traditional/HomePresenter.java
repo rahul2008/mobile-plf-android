@@ -256,7 +256,6 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     @Override
     public void onContinueSocialProviderLoginFailure(
             final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
         EventBus.getDefault().post(new LoginFailureNotification());
         homeContract.SocialLoginFailure(userRegistrationFailureInfo);
 
@@ -307,8 +306,10 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         } else {
             if (isEmailAvailable()) {
                 homeContract.naviagteToAccountActivationScreen();
-            } else if(!isMobileVerified()){
+            } else if (isMobileNoAvailable() && !isMobileVerified()){
                 homeContract.naviagteToMobileAccountActivationScreen();
+            } else {
+                homeContract.genericError();
             }
         }
 

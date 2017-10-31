@@ -76,4 +76,6 @@ interface HomeContract {
     void localeServiceDiscoveryFailed();
 
     void countryChangeStarted();
+
+    void genericError();
 }
