@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.util.Xml;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.lan.security.SslPinTrustManager;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -19,8 +20,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import static com.philips.cdp.dicommclient.util.DICommLog.SSDP;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
@@ -243,9 +257,9 @@ public final class SSDPDevice {
     @Nullable
     static SSDPDevice createFromUrl(final @NonNull URL descriptionUrl) {
         try {
-            final InputStream in = descriptionUrl.openStream();
+            URLConnection conn = getConnectionWithoutSSLValidation(descriptionUrl);
 
-            return PARSER.parseDevice(in);
+            return PARSER.parseDevice(conn.getInputStream());
         } catch (IOException e) {
             DICommLog.e(SSDP, "Error opening description from URL: " + e.getMessage());
         }
@@ -403,5 +417,49 @@ public final class SSDPDevice {
             }
         }
         return builder.toString();
+    }
+
+    private static URLConnection getConnectionWithoutSSLValidation(URL url) throws IOException {
+        URLConnection connection = url.openConnection();
+
+        if (connection instanceof HttpsURLConnection) {
+            try {
+                SSLContext sslContext = createSSLContext();
+
+                HostnameVerifier allHostsValid = new HostnameVerifier() {
+                    public boolean verify(String hostname, SSLSession session) {
+                        return true;
+                    }
+                };
+                ((HttpsURLConnection) connection).setSSLSocketFactory(sslContext.getSocketFactory());
+                ((HttpsURLConnection) connection).setHostnameVerifier(allHostsValid);
+            } catch(NoSuchAlgorithmException | KeyManagementException e) {
+                DICommLog.e(SSDP, "Error opening description from URL: " + e.getMessage());
+            }
+        }
+
+        return connection;
+    }
+
+    private static SSLContext createSSLContext() throws NoSuchAlgorithmException, KeyManagementException {
+        SSLContext context = SSLContext.getInstance("TLS");
+
+        TrustManager[] trustAllCerts = new TrustManager[]{
+                new X509TrustManager() {
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                        return null;
+                    }
+
+                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                    }
+
+                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                    }
+                }
+        };
+
+        context.init(null, trustAllCerts, new SecureRandom());
+
+        return context;
     }
 }
