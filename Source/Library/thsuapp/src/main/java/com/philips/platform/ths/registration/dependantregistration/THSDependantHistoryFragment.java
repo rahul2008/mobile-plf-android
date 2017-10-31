@@ -35,7 +35,7 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
     private ActionBarListener actionBarListener;
     protected THSDependentPresenter mThsDependentPresenter;
     private RelativeLayout mParentContainer;
-    private Label mLabelParentName,visitForLabel,choose_person;
+    protected Label mLabelParentName,visitForLabel,choose_person;
     private ImageView mImageViewLogo;
     protected int mLaunchInput = -1;
     private RelativeLayout mRelativeLayoutContainer;
@@ -73,7 +73,7 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
         return view;
     }
 
-    private void updateUIBasedOnLaunchInput() {
+    protected void updateUIBasedOnLaunchInput() {
         switch (mLaunchInput) {
             case THSConstants.THS_PRACTICES:
                 visitForLabel.setText(R.string.ths_visit_for);
