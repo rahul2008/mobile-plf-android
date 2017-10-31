@@ -484,4 +484,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SYMPTOMS_PAGE,null,null);
 
     }
+
+
 }
