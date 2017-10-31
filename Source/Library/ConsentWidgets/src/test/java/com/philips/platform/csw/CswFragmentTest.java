@@ -1,14 +1,26 @@
 package com.philips.platform.csw;
 
+import android.os.Bundle;
+
+
 import com.philips.platform.csw.mock.FragmentManagerMock;
 import com.philips.platform.csw.mock.FragmentTransactionMock;
+import com.philips.platform.csw.mock.LayoutInflatorMock;
+import com.philips.platform.csw.utils.CustomRobolectricRunner;
 import com.philips.platform.csw.wrapper.CswFragmentWrapper;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.annotation.Config;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
+@RunWith(CustomRobolectricRunner.class)
+@Config(constants = com.philips.platform.mya.consentaccesstoolkit.BuildConfig.class, sdk = 25)
 public class CswFragmentTest {
 
     @Before
@@ -17,7 +29,33 @@ public class CswFragmentTest {
         fragmentManagerMock = new FragmentManagerMock(fragmentTransactionMock);
         fragment = new CswFragmentWrapper();
         fragment.setChildFragmentManager(fragmentManagerMock);
+    }
 
+    @Test
+    public void onCreateView_setsApplicationAndPropositionName() throws Exception {
+        givenArgumentsAre(APPLICATION_NAME,PROPOSITION_NAME);
+        whenOnCreateViewIsInvoked();
+        thenApplicationNameIs(APPLICATION_NAME);
+        thenPropositionNameIs(PROPOSITION_NAME);
+    }
+
+    private void thenPropositionNameIs(String propositionName) {
+        Assert.assertEquals(propositionName, fragment.getPropositionName());
+    }
+
+    private void thenApplicationNameIs(String applicationName) {
+        Assert.assertEquals(applicationName, fragment.getApplicationName());
+    }
+
+    private void whenOnCreateViewIsInvoked() {
+        fragment.onCreateView(mockLayoutInflater, null, null);
+    }
+
+    private void givenArgumentsAre(String applicationName, String propositionName) {
+        Bundle mockBundle = new Bundle();
+        mockBundle.putString("appName",applicationName);
+        mockBundle.putString("propName",propositionName);
+        fragment.setArguments(mockBundle);
     }
 
     @Test
@@ -82,4 +120,8 @@ public class CswFragmentTest {
     private boolean handleBackEvent_return;
     private FragmentTransactionMock fragmentTransactionMock;
     private CswFragmentWrapper fragment;
+    private static final String PROPOSITION_NAME = "PROPOSITION_NAME";
+    private static final String APPLICATION_NAME = "APPLICATION_NAME";
+
+    LayoutInflatorMock mockLayoutInflater = LayoutInflatorMock.createMock();
 }
