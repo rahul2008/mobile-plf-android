@@ -30,6 +30,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class ParentalConsentFragment extends RegistrationCoppaBaseFragment
         implements OnClickListener, NetworkStateListener {
@@ -46,8 +47,11 @@ public class ParentalConsentFragment extends RegistrationCoppaBaseFragment
     private ClickableSpan privacyLinkClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            getRegistrationFragment().getUserRegistrationUIEventListener().
-                    onPrivacyPolicyClick(getActivity());
+            if(getRegistrationFragment().getUserRegistrationUIEventListener()!=null){
+                getRegistrationFragment().getUserRegistrationUIEventListener().
+                        onPrivacyPolicyClick(getActivity());
+            }
+
         }
     };
     private ProgressDialog mProgressDialog;

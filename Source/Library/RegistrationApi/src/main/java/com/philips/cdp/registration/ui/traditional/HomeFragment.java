@@ -377,8 +377,12 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     private void handlePrivacyPolicy() {
-        getRegistrationFragment().getUserRegistrationUIEventListener().
-                onPrivacyPolicyClick(getRegistrationFragment().getParentActivity());
+        if(getRegistrationFragment().getUserRegistrationUIEventListener()!=null) {
+            getRegistrationFragment().getUserRegistrationUIEventListener().
+                    onPrivacyPolicyClick(getRegistrationFragment().getParentActivity());
+        }else {
+                RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
+            }
     }
 
     private void handleLoginSuccess() {
