@@ -32,8 +32,6 @@ public class CswFragment extends Fragment implements
     private String applicationName;
     private String propositionName;
 
-    static String BACK_STACK_ID = CswFragment.class.getSimpleName();
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

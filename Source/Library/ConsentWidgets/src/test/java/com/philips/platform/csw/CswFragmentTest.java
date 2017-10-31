@@ -1,6 +1,5 @@
 package com.philips.platform.csw;
 
-import com.philips.platform.csw.mock.FragmentActivityMock;
 import com.philips.platform.csw.mock.FragmentManagerMock;
 import com.philips.platform.csw.mock.FragmentTransactionMock;
 import com.philips.platform.csw.wrapper.CswFragmentWrapper;
