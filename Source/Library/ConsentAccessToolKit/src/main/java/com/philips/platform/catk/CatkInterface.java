@@ -16,6 +16,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class CatkInterface implements UappInterface {
 
+    private static CatkComponent catkComponent;
 
     /**
      * Launches the CswInterface interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
@@ -54,5 +55,7 @@ public class CatkInterface implements UappInterface {
         return catkComponent;
     }
 
-    private static CatkComponent catkComponent;
+    public static void setCatkComponent(CatkComponent component){
+        catkComponent = component;
+    }
 }

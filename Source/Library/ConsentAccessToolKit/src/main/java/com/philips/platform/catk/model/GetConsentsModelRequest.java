@@ -40,7 +40,7 @@ public class GetConsentsModelRequest extends NetworkAbstractModel {
 
     @Override
     public int getMethod() {
-       return Request.Method.GET;
+        return Request.Method.GET;
     }
 
     @Override
