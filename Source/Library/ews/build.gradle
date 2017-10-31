@@ -86,8 +86,9 @@ dependencies {
                 transitive = true
 
             }
-    def commlibLanModule = module(group: 'com.philips.cdp', name: 'commlib-lan', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    compile(dp ? project(':commlib-lan') : commlibLanModule)
+
+    def commliblan = module(group: 'com.philips.cdp', name: 'commlib-lan', version:"8.1.0" + objcdp.getVersionSuffix(), changing: true)
+    compile(dp ? project(':commlib-lan') : commliblan)
             {
 
                 transitive = true
@@ -106,11 +107,7 @@ dependencies {
             {
                 transitive = true
             }
-//    def digitalCareModule = module(group: 'com.philips.cdp', name: 'digitalCare', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-//    compile(dp ? project(':digitalCare') : digitalCareModule)
-//            {
-//                transitive = true
-//            }
+
     // External
     compile "com.google.dagger:dagger:${versionsExternal.dagger}"
     annotationProcessor "com.google.dagger:dagger-compiler:${versionsExternal.dagger}"

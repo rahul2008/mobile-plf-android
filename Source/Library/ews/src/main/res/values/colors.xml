@@ -19,9 +19,6 @@
 
     <color name="color_primary_dark_opacity_50">@color/primary_opacity_50</color>
 
-    <color name="tabBarBackground">@color/colorPrimary</color>
-
-    <color name="text_color_solid">@color/colorPrimary</color>
     <color name="dls_aqua_30">#5cbcb7</color>
 
     <color name="dls_aqua_40">#299f8f</color>

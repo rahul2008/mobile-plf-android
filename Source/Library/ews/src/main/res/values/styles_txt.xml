@@ -34,17 +34,6 @@
     <item name="fontPath">@string/centrale_sans_book</item>
     <item name="android:textSize">@dimen/title_text_size</item>
   </style>
-  <style name="Txt.Title.Dark">
-    <item name="android:textColor">@color/colorPrimary</item>
-  </style>
-  <style name="Txt.Body.Link">
-    <item name="android:textColor">@color/colorAccent</item>
-    <item name="android:textSize">@dimen/body_link_text_size</item>
-    <item name="android:autoLink">web</item>
-  </style>
-  <style name="Txt.Body.Dark">
-    <item name="android:textColor">@color/colorPrimary</item>
-  </style>
   <style name="Txt.Small">
     <item name="android:textSize">@dimen/small_text_size</item>
     <item name="android:lineSpacingExtra">@dimen/small_line_spacing_extra</item>
