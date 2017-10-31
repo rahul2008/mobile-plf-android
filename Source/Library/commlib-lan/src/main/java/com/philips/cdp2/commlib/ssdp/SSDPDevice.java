@@ -5,6 +5,7 @@
 
 package com.philips.cdp2.commlib.ssdp;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Xml;
@@ -97,6 +98,14 @@ public final class SSDPDevice {
     private String presentationUrl;
     private String serialNumber;
     private String udn;
+
+    private static HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+        @SuppressLint("BadHostnameVerifier")
+        @Override
+        public boolean verify(String hostname, SSLSession session) {
+            return true; // Just accept everything
+        }
+    };
 
     private static class DescriptionParser {
 
@@ -426,13 +435,8 @@ public final class SSDPDevice {
             try {
                 SSLContext sslContext = createSSLContext();
 
-                HostnameVerifier allHostsValid = new HostnameVerifier() {
-                    public boolean verify(String hostname, SSLSession session) {
-                        return true;
-                    }
-                };
                 ((HttpsURLConnection) connection).setSSLSocketFactory(sslContext.getSocketFactory());
-                ((HttpsURLConnection) connection).setHostnameVerifier(allHostsValid);
+                ((HttpsURLConnection) connection).setHostnameVerifier(hostnameVerifier);
             } catch(NoSuchAlgorithmException | KeyManagementException e) {
                 DICommLog.e(SSDP, "Error opening description from URL: " + e.getMessage());
             }
