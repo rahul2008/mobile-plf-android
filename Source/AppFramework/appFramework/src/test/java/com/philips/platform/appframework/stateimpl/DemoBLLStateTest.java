@@ -8,14 +8,15 @@ package com.philips.platform.appframework.stateimpl;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppInterface;
-import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppSettings;
-import com.example.cdpp.bluelibexampleapp.uapp.DefaultBleDemoMicroAppDependencies;
+import com.philips.cdp2.bluelib.demouapp.BluelibUapp;
+import com.philips.cdp2.bluelib.demouapp.BluelibUappAppDependencies;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
-import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
+import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.UiLauncher;
+import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import org.junit.After;
 import org.junit.Before;
@@ -32,7 +33,7 @@ public class DemoBLLStateTest {
     private DemoBLLState demoBLLState;
 
     @Mock
-    private BleDemoMicroAppInterface bleUapp;
+    private BluelibUapp bleUapp;
 
     @Mock
     private BleUtilities bleUtilities;
@@ -41,10 +42,10 @@ public class DemoBLLStateTest {
     private Context context;
 
     @Mock
-    private BleDemoMicroAppSettings bleDemoMicroAppSettings;
+    private UappSettings bleDemoMicroAppSettings;
 
     @Mock
-    private DefaultBleDemoMicroAppDependencies defaultBleDemoMicroAppDependencies;
+    private BluelibUappAppDependencies defaultBleDemoMicroAppDependencies;
 
     @Before
     public void setUp() throws Exception {
@@ -68,17 +69,19 @@ public class DemoBLLStateTest {
 
     private class DemoBLLStateMock extends DemoBLLState {
         @Override
-        public BleDemoMicroAppInterface getBleUApp() {
+        public UappInterface getBleUApp() {
             return bleUapp;
         }
 
+        @NonNull
         @Override
-        protected DefaultBleDemoMicroAppDependencies getUappDependencies() {
+        protected UappDependencies getUappDependencies() {
             return defaultBleDemoMicroAppDependencies;
         }
 
+        @NonNull
         @Override
-        protected BleDemoMicroAppSettings getUappSettings() {
+        protected UappSettings getUappSettings() {
             return bleDemoMicroAppSettings;
         }
     }
