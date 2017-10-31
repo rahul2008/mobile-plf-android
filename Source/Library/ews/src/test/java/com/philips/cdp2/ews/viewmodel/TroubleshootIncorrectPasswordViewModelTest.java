@@ -4,9 +4,9 @@
  */
 package com.philips.cdp2.ews.viewmodel;
 
-import com.philips.cdp2.ews.common.util.Tagger;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
+import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.TroubleshootCheckRouterSettingsFragment;
@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Tagger.class, EWSDependencyProvider.class})
+@PrepareForTest({EWSTagger.class, EWSDependencyProvider.class})
 public class TroubleshootIncorrectPasswordViewModelTest {
 
     private TroubleshootIncorrectPasswordViewModel viewModel;
@@ -45,7 +45,7 @@ public class TroubleshootIncorrectPasswordViewModelTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        PowerMockito.mockStatic(Tagger.class);
+        PowerMockito.mockStatic(EWSTagger.class);
         PowerMockito.mockStatic(EWSDependencyProvider.class);
 
         when(EWSDependencyProvider.getInstance()).thenReturn(ewsDependencyProviderMock);
@@ -75,7 +75,7 @@ public class TroubleshootIncorrectPasswordViewModelTest {
         viewModel.tagIncorrectPassword();
 
         PowerMockito.verifyStatic();
-        Tagger.trackAction(eq(Tag.ACTION.CONNECTION_UNSUCCESSFUL), mapArgumentCaptor.capture());
+        EWSTagger.trackAction(eq(Tag.ACTION.CONNECTION_UNSUCCESSFUL), mapArgumentCaptor.capture());
         HashMap map = mapArgumentCaptor.getValue();
 
         assertEquals(map.size(), 3);

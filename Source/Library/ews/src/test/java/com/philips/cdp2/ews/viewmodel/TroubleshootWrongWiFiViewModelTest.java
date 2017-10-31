@@ -4,13 +4,13 @@
  */
 package com.philips.cdp2.ews.viewmodel;
 
-import com.philips.cdp2.ews.common.util.Tagger;
 import com.philips.cdp2.ews.communication.events.DiscoverApplianceEvent;
 import com.philips.cdp2.ews.communication.events.PairingSuccessEvent;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
-import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordFragment;
+import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
 import com.philips.cdp2.ews.view.TroubleshootCheckRouterSettingsFragment;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
@@ -36,7 +36,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Tagger.class, EWSDependencyProvider.class})
+@PrepareForTest({EWSTagger.class, EWSDependencyProvider.class})
 public class TroubleshootWrongWiFiViewModelTest {
 
     @Mock
@@ -55,7 +55,7 @@ public class TroubleshootWrongWiFiViewModelTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        PowerMockito.mockStatic(Tagger.class);
+        PowerMockito.mockStatic(EWSTagger.class);
         PowerMockito.mockStatic(EWSDependencyProvider.class);
 
         when(EWSDependencyProvider.getInstance()).thenReturn(ewsDependencyProviderMock);
@@ -77,7 +77,7 @@ public class TroubleshootWrongWiFiViewModelTest {
         viewModel.tagWrongWifi();
 
         PowerMockito.verifyStatic();
-        Tagger.trackAction(eq(Tag.ACTION.SEND_DATA), mapArgumentCaptor.capture());
+        EWSTagger.trackAction(eq(Tag.ACTION.SEND_DATA), mapArgumentCaptor.capture());
         HashMap map = mapArgumentCaptor.getValue();
 
         assertEquals(map.size(), 2);

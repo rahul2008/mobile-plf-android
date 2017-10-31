@@ -7,12 +7,12 @@ package com.philips.cdp2.ews.viewmodel;
 
 import android.support.annotation.NonNull;
 
-import com.philips.cdp2.ews.common.util.Tagger;
 import com.philips.cdp2.ews.communication.events.DiscoverApplianceEvent;
 import com.philips.cdp2.ews.communication.events.PairingSuccessEvent;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordFragment;
+import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
 import com.philips.cdp2.ews.view.TroubleshootCheckRouterSettingsFragment;
@@ -55,7 +55,7 @@ public class TroubleshootWrongWiFiViewModel {
         map.put(Tag.KEY.CONNECTED_PRODUCT_NAME, EWSDependencyProvider.getInstance().getProductName());
         map.put(Tag.KEY.USER_ERROR, Tag.VALUE.WRONG_WIFI);
 
-        Tagger.trackAction(Tag.ACTION.SEND_DATA, map);
+        EWSTagger.trackAction(Tag.ACTION.SEND_DATA, map);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

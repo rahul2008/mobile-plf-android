@@ -4,8 +4,8 @@
  */
 package com.philips.cdp2.ews.viewmodel;
 
-import com.philips.cdp2.ews.common.util.Tagger;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
+import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.view.EWSProductSupportFragment;
 
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Tagger.class)
+@PrepareForTest(EWSTagger.class)
 public class TroubleshootCheckRouterSettingsViewModelTest {
 
     @Mock
@@ -34,7 +34,7 @@ public class TroubleshootCheckRouterSettingsViewModelTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        PowerMockito.mockStatic(Tagger.class);
+        PowerMockito.mockStatic(EWSTagger.class);
         viewModel = new TroubleshootCheckRouterSettingsViewModel(sfcMock);
     }
 
@@ -43,7 +43,7 @@ public class TroubleshootCheckRouterSettingsViewModelTest {
         viewModel.tagWifiRouterSettings();
 
         PowerMockito.verifyStatic();
-        Tagger.trackActionSendData(eq(Tag.KEY.TECHNICAL_ERROR), eq(Tag.VALUE.WIFI_ROUTER_ERROR));
+        EWSTagger.trackActionSendData(eq(Tag.KEY.TECHNICAL_ERROR), eq(Tag.VALUE.WIFI_ROUTER_ERROR));
     }
 
     @Test

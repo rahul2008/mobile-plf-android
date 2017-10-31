@@ -6,8 +6,8 @@ package com.philips.cdp2.ews.viewmodel;
 
 import android.support.annotation.NonNull;
 
-import com.philips.cdp2.ews.common.util.Tagger;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
+import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.view.EWSProductSupportFragment;
 import com.philips.cdp2.ews.view.TroubleshootCheckRouterSettingsFragment;
@@ -25,7 +25,7 @@ public class TroubleshootCheckRouterSettingsViewModel {
     }
 
     public void tagWifiRouterSettings() {
-        Tagger.trackActionSendData(Tag.KEY.TECHNICAL_ERROR, Tag.VALUE.WIFI_ROUTER_ERROR);
+        EWSTagger.trackActionSendData(Tag.KEY.TECHNICAL_ERROR, Tag.VALUE.WIFI_ROUTER_ERROR);
     }
 
     public void contactUS() {
