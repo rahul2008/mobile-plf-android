@@ -14,7 +14,11 @@ import android.view.ViewGroup;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_INIT_PAGE;
+
 
 public class THSInitFragment extends THSBaseFragment{
     public static final String TAG = THSInitFragment.class.getSimpleName();
@@ -25,6 +29,7 @@ public class THSInitFragment extends THSBaseFragment{
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_init_fragment, container, false);
         mThsInitPresenter = new THSInitPresenter(this);
         initializeSDK(view);
+
         ActionBarListener actionBarListener = getActionBarListener();
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_welcome),true);
@@ -45,5 +50,11 @@ public class THSInitFragment extends THSBaseFragment{
         }catch (IllegalStateException exception){
 
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_INIT_PAGE, null, null);
     }
 }

@@ -54,7 +54,7 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
     public void onUpdateSuccess(Address address, SDKError sdkErro) {
         //TODO: check this immediately
         if(null!=thsBaseView && null!=thsBaseView.getFragmentActivity()) {
-            Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
+            Consumer consumer = THSManager.getInstance().getPTHConsumer(thsBaseView.getFragmentActivity()).getConsumer();
             if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
                 final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
                 thsBaseView.addFragment(fragment, THSCostSummaryFragment.TAG, null, true);

@@ -6,8 +6,10 @@ package com.philips.platform.ths.visit;
  */
 
 ;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -29,6 +31,7 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
@@ -71,9 +74,11 @@ public class THSDownloadReportPrivacyNoticeFragment extends DialogFragment imple
         hippaLinkSpannableString.setSpan(clickableSpan, startingIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         hippaNoticeLabel.setText(hippaLinkSpannableString);
         hippaNoticeLabel.setMovementMethod(LinkMovementMethod.getInstance());
+        hippaNoticeLabel.setOnClickListener(this);
         //hippaNoticeLabel.setHighlightColor(Color.TRANSPARENT);
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_IN_APP_NOTIFICATION, "privacyNotice");
         return view;
     }
 
@@ -93,7 +98,8 @@ public class THSDownloadReportPrivacyNoticeFragment extends DialogFragment imple
             dismiss();
             THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "reportDownloadAttempted");
             mThsVisitHistoryPresenter.downloadReport();
+        }else if(v.getId() == R.id.ths_download_report_hippa_notice_link){
+            mThsVisitHistoryPresenter.onEvent(R.id.ths_download_report_hippa_notice_link);
         }
-
     }
 }

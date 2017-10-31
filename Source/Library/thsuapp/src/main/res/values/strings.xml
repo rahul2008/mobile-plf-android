@@ -25,7 +25,7 @@
     <string name="vitals_add_medication_text">Add medication</string>
     <string name="vitals_blood_pressure">Blood pressure </string>
     <string name="vitals_medication_description_text">Are you currently taking any medication(s)? If so, please add your medications to share with the provider</string>
-    <string name="vitals_weight_text">(in mm HG)</string>
+    <string name="vitals_blood_pressure_text">(in mm HG)</string>
     <string name="vitals_temp_text">(in \u2109)</string>
     <string name="vitals_medications">Step 3 of 5: Medications</string>
     <string name="vitals_systolic">Systolic</string>
@@ -34,6 +34,7 @@
     <string name="vitals_faranheit">Farenheit</string>
     <string name="vitals_f">oF</string>
     <string name="weight">Weight</string>
+    <string name="vitals_weight_text">(in lbs)</string>
     <string name="vitals_ponds">Pounds</string>
     <string name="vitals_skip">Skip this step</string>
     <string name="ths_medical_conditions">Have you been diagnosed with any of these medical conditions?</string>
@@ -153,6 +154,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <!-- Settings Strings -->
     <string name="ths_number_of_visits_scheduled">You have <xliff:g name="count">%d</xliff:g> scheduled visits</string>
+    <string name="ths_number_of_visits_report">You have <xliff:g name="count">%d</xliff:g> visit report</string>
     <string name="ths_cancel_visit">Cancel visit</string>
     <string name="ths_start_visit">Start your visit</string>
     <string name="ths_appointment_start_time">Your appointment at <xliff:g name="count">%s</xliff:g> is about to begin</string>
@@ -257,6 +259,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_matchmaking_error_cancelling">Error while cancelling match making</string>All fields are mandatory
     <string name="ths_error_all_fields_mandatory">All fields are mandatory</string>
     <string name="ths_error_cc_expiry_date_detail_not_valid">Invalid expiration date</string>
+    <string name="ths_matchmaking_found_matchmaking">We have found a provider for your visit</string>
 
     <!-- Registration Screen-->
     <string name="something_went_wrong">Something went wrong !!!</string>
@@ -299,4 +302,5 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_pharmacy_search_hint">Type zip code</string>
     <string name="ths_pharmacy_search_error">Please enter a valid zip code in the format 12345 or 12345–6789</string>
 
+    <string name="show_all"><u>Show all</u></string>
 </resources>

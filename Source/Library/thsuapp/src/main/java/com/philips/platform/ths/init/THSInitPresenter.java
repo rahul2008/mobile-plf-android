@@ -40,7 +40,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     }
 
     protected void initializeAwsdk() {
-        User user = new User(mThsInitFragment.getContext());
+        User user = THSManager.getInstance().getUser(mThsInitFragment.getContext());
         if (user == null || !user.isUserSignIn()) {
             mThsInitFragment.hideProgressBar();
             mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_user_not_logged_in));

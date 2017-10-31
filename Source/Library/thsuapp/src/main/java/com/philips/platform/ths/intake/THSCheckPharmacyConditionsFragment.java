@@ -125,7 +125,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         if (isPharmacyRequired) {
             thscheckPharmacyConditionsPresenter.fetchConsumerPreferredPharmacy();
         } else {  // go to insurance or cost detail
-            Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
+            Consumer consumer = THSManager.getInstance().getPTHConsumer(getContext()).getConsumer();
             getActivity().getSupportFragmentManager().popBackStack();
             if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
                 final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
@@ -161,7 +161,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         if(isFragmentAttached()) {
             getActivity().getSupportFragmentManager().popBackStack();
             THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
-            thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(), null);
+            thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(getContext()), null);
             thsPharmacyListFragment.setLocation(location);
             addFragment(thsPharmacyListFragment, THSPharmacyListFragment.TAG, null,true);
         }

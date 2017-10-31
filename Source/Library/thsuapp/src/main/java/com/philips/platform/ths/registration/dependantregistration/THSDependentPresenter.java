@@ -6,36 +6,21 @@
 
 package com.philips.platform.ths.registration.dependantregistration;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.practice.THSPractice;
 import com.philips.platform.ths.practice.THSPracticeFragment;
-import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
 import com.philips.platform.ths.registration.THSRegistrationFragment;
-import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
-import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 public class THSDependentPresenter implements THSBasePresenter {
     THSDependantHistoryFragment mThsDependantHistoryFragment;
@@ -72,7 +57,7 @@ public class THSDependentPresenter implements THSBasePresenter {
     }
 
     private boolean isConsumerEnrolled() {
-        final THSConsumer thsConsumer = THSManager.getInstance().getThsConsumer();
+        final THSConsumer thsConsumer = THSManager.getInstance().getThsConsumer(mThsDependantHistoryFragment.getContext());
         Consumer consumer = thsConsumer.getConsumer();
 
         if(thsConsumer == null || consumer ==null){
@@ -88,8 +73,8 @@ public class THSDependentPresenter implements THSBasePresenter {
 
     protected void updateDependents() {
 
-        final List<Consumer> server = THSManager.getInstance().getThsParentConsumer().getConsumer().getDependents();
-         List<THSConsumer> local = THSManager.getInstance().getThsParentConsumer().getDependents();
+        final List<Consumer> server = THSManager.getInstance().getThsParentConsumer(mThsDependantHistoryFragment.getContext()).getConsumer().getDependents();
+         List<THSConsumer> local = THSManager.getInstance().getThsParentConsumer(mThsDependantHistoryFragment.getContext()).getDependents();
 
         List<THSConsumer> newObject = new ArrayList<>();
 
@@ -104,7 +89,7 @@ public class THSDependentPresenter implements THSBasePresenter {
             }
         }
 
-        THSManager.getInstance().getThsParentConsumer().setDependents(local);
+        THSManager.getInstance().getThsParentConsumer(mThsDependantHistoryFragment.getContext()).setDependents(local);
 
     }
 

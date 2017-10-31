@@ -6,12 +6,12 @@
 
 package com.philips.platform.ths.registration.dependantregistration;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.entity.visit.Appointment;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -21,7 +21,6 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.ths.welcome.WelcomeFragmentMock;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -36,7 +35,6 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import java.io.ByteArrayInputStream;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static com.philips.platform.ths.utility.THSConstants.THS_CONSUMER;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -79,6 +77,9 @@ public class THSDependantHistoryFragmentTest {
     @Mock
     FragmentLauncher fragmentLauncherMock;
 
+    @Mock
+    Context contextMock;
+
 
     @Before
     public void setUp() throws Exception {
@@ -117,7 +118,7 @@ public class THSDependantHistoryFragmentTest {
     @Test
     public void onItemClick() throws Exception {
         mTHSDependantHistoryFragment.onItemClick(thsConsumerMock);
-        assertNotNull(THSManager.getInstance().getThsConsumer());
+        assertNotNull(THSManager.getInstance().getThsConsumer(contextMock));
     }
 
     @Test

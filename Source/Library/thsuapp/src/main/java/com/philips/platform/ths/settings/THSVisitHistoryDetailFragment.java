@@ -6,7 +6,9 @@
 
 package com.philips.platform.ths.settings;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -216,4 +218,8 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VISIT_HISTORY,null,null);
     }
 
+    public void showHippsNotice(String url) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(browserIntent);
+    }
 }

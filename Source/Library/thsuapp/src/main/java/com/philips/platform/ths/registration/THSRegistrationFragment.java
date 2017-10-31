@@ -117,7 +117,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
     private void prePopulateData() {
 
-        THSConsumer user = THSManager.getInstance().getThsConsumer();
+        THSConsumer user = THSManager.getInstance().getThsConsumer(getContext());
 
         if (user.getFirstName() != null) {
             mEditTextFirstName.setText(user.getFirstName());
@@ -173,7 +173,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
             if (validateUserDetails()) {
                 mContinueButton.showProgressIndicator();
 
-                if (THSManager.getInstance().getThsConsumer().isDependent()) {
+                if(THSManager.getInstance().getThsConsumer(getContext()).isDependent()){
                     mThsRegistrationPresenter.enrollDependent(mDob, mEditTextFirstName.getText().toString(),
                             mEditTextLastName.getText().toString(), Gender.MALE, mValidStates.get(mStateSpinner.getSelectedItemPosition()));
                 } else {

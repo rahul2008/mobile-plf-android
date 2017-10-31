@@ -77,20 +77,29 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_prepare_your_visit), true);
         }
-        try {
-            mThsVitalsPresenter.getVitals();
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        }
+        getVitals();
 
         prepopulateData();
 
         return view;
     }
 
+    private void getVitals() {
+        if (getTHSVitals() == null) {
+            mContinue.setEnabled(false);
+            try {
+                mThsVitalsPresenter.getVitals();
+            } catch (AWSDKInstantiationException e) {
+                e.printStackTrace();
+            }
+        } else {
+            mContinue.setEnabled(true);
+        }
+    }
+
     private void prepopulateData() {
-        final THSConsumer thsConsumer = THSManager.getInstance().getThsConsumer();
-        if (thsConsumer == null) {
+        final THSConsumer thsConsumer = THSManager.getInstance().getThsConsumer(getContext());
+        if(thsConsumer==null){
             return;
         }
 
@@ -147,6 +156,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         if (mTHSVitals.getWeight() != null)
             mWeight.setText(String.valueOf(thsVitals.getWeight()));
 
+        mContinue.setEnabled(true);
     }
 
     @Override

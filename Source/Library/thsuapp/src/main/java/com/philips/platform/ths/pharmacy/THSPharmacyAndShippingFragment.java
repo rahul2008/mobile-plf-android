@@ -45,7 +45,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_pharmacy_shipping_fragment, container, false);
         setUpViews(view);
-        thsConsumerWrapper = THSManager.getInstance().getPTHConsumer();
+        thsConsumerWrapper = THSManager.getInstance().getPTHConsumer(getContext());
         ths_shipping_pharmacy_layout.setVisibility(View.INVISIBLE);
         editPharmacy.setOnClickListener(this);
         thsPharmacyAndShippingPresenter = new THSPharmacyAndShippingPresenter(this);

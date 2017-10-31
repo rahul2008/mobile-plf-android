@@ -53,6 +53,7 @@
         android:layout_marginBottom="@dimen/ths_margin_between_ui_control"
         android:digits="0123456789"
         android:imeOptions="actionNext"
+        android:hint="0000 0000 0000 0000"
         android:inputType="number|none" />
 
     <com.philips.platform.uid.view.widget.Label

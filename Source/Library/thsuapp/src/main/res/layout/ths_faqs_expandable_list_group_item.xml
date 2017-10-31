@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/lblListItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/ths_list_item"
+        android:layout_alignParentTop="true"
+        android:text="hello"
+        android:textSize="16dp"
+        android:paddingTop="16dp"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:drawableEnd="@mipmap/right_arrow_icon"
+        android:paddingBottom="5dp"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/ths_fab_margin" />
+
+</LinearLayout>

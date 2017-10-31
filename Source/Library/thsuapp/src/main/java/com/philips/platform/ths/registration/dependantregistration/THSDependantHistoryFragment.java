@@ -22,9 +22,6 @@ import android.widget.RelativeLayout;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.practice.THSPracticeFragment;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
-import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
-import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -60,10 +57,10 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
         mParentContainer.setOnClickListener(this);
 
         mLabelParentName = (Label) view.findViewById(R.id.ths_parent_name);
-        mLabelParentName.setText(THSManager.getInstance().getThsParentConsumer().getFirstName());
+        mLabelParentName.setText(THSManager.getInstance().getThsParentConsumer(getContext()).getFirstName());
 
         mImageViewLogo = (ImageView) view.findViewById(R.id.ths_parent_logo);
-        showProfilePic(THSManager.getInstance().getThsParentConsumer());
+        showProfilePic(THSManager.getInstance().getThsParentConsumer(getContext()));
 
         mParentContainer.setOnClickListener(this);
         mThsDependentPresenter = new THSDependentPresenter(this);
@@ -96,8 +93,8 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
     public void onClick(View view) {
         int resId = view.getId();
         if(resId == R.id.ths_parent_container){
-            final THSConsumer thsConsumer = THSManager.getInstance().getThsParentConsumer();
-            THSManager.getInstance().setThsConsumer(THSManager.getInstance().getThsConsumer());
+            final THSConsumer thsConsumer = THSManager.getInstance().getThsParentConsumer(getContext());
+            THSManager.getInstance().setThsConsumer(THSManager.getInstance().getThsConsumer(getContext()));
             launchRequestedInput(thsConsumer);
         }
     }

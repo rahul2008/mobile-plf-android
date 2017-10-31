@@ -46,9 +46,9 @@
                     fontPath="fonts/centralesansbold.ttf"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:background="@color/uid_green_level_40"
+                    android:background="@color/uid_signal_green_level_60"
                     android:gravity="center"
-                    android:text="We have found a provider for your visit"
+                    android:text="@string/ths_matchmaking_found_matchmaking"
                     android:textColor="@color/uid_level_white"
                     android:textSize="16sp"
                     android:visibility="gone">
