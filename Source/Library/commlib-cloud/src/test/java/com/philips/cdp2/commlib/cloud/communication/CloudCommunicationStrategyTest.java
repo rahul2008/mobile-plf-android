@@ -39,7 +39,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Collections.singleton;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -211,19 +211,19 @@ public class CloudCommunicationStrategyTest {
     }
 
     @Test
-    public void whenUnsubscribeIsCalledThenDSCIsStarted() {
+    public void whenSubscribeIsCalled_ThenDSCIsStarted() {
         when(cloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
-        cloudCommunicationStrategy.unsubscribe(PORT_NAME, PRODUCT_ID, responseHandlerMock);
+        SubscriptionEventListener subscriptionEventListener = mock(SubscriptionEventListener.class);
+        cloudCommunicationStrategy.addSubscriptionEventListener(subscriptionEventListener);
+        cloudCommunicationStrategy.subscribe("somePort", 1, SUBSCRIPTION_TTL, null);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(any(StartDcsRequest.class));
     }
 
     @Test
-    public void whenEnableSubscriptionIsCalledThenDSCIsStarted() {
+    public void whenUnsubscribeIsCalledThenDSCIsStarted() {
         when(cloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
-        SubscriptionEventListener subscriptionEventListener = mock(SubscriptionEventListener.class);
-        cloudCommunicationStrategy.addSubscriptionEventListener(subscriptionEventListener);
-        cloudCommunicationStrategy.enableCommunication();
+        cloudCommunicationStrategy.unsubscribe(PORT_NAME, PRODUCT_ID, responseHandlerMock);
 
         verify(requestQueueMock).addRequestInFrontOfQueue(any(StartDcsRequest.class));
     }
@@ -235,21 +235,21 @@ public class CloudCommunicationStrategyTest {
         cloudCommunicationStrategy.addSubscriptionEventListener(subscriptionEventListener);
         cloudCommunicationStrategy.enableCommunication();
 
-        verify(remoteSubscriptionHandlerMock).enableSubscription(eq(networkNodeMock), eq(singleton(subscriptionEventListener)));
+        verify(remoteSubscriptionHandlerMock, never()).enableSubscription(eq(networkNodeMock), eq(singleton(subscriptionEventListener)));
     }
 
     @Test
-    public void whenDisableCommunicationIsCalledThenDSCIsStopped() {
+    public void whenUnsubscribeIsCalled_thenDSCIsStopped() {
         when(cloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
-        cloudCommunicationStrategy.disableCommunication();
+        cloudCommunicationStrategy.unsubscribe("somePort", 1, null);
 
         verify(cloudControllerMock).stopDCSService();
     }
 
     @Test
-    public void whenDisableCommunicationIsCalledThenDisableSubscriptionIsCalled() {
+    public void whenUnsubscribeIsCalled_thenDisableSubscriptionIsCalled() {
         when(cloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
-        cloudCommunicationStrategy.disableCommunication();
+        cloudCommunicationStrategy.unsubscribe("somePort", 1, null);
 
         verify(remoteSubscriptionHandlerMock).disableSubscription();
     }

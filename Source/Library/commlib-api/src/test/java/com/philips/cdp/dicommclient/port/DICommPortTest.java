@@ -5,14 +5,16 @@
 
 package com.philips.cdp.dicommclient.port;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp.dicommclient.util.WrappedHandler;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.PortProperties;
+import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,9 +25,12 @@ import org.mockito.Mockito;
 
 import java.util.Map;
 
+import static com.philips.cdp.dicommclient.port.DICommPort.SUBSCRIPTION_TTL_MS;
+import static com.philips.cdp.dicommclient.request.Error.NOT_CONNECTED;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
@@ -33,25 +38,25 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class DiCommPortTest {
+public class DICommPortTest {
 
-    private final String PORT_NAME = "air";
-    private final int PORT_PRODUCTID = 1;
-    private final String FANSPEED_KEY = "fs";
-    private final String FANSPEED_VALUE = "turbo";
-    private final String POWER_KEY = "pwr";
-    private final String POWER_VALUE = "1";
-    private final String CHILDLOCK_KEY = "childlock";
-    private final String CHILDLOCK_VALUE = "0";
-
-    @Mock
-    private CommunicationStrategy communicationStrategy;
+    private static final int PORT_PRODUCTID = 1;
+    private static final String PORT_NAME = "air";
+    private static final String FANSPEED_KEY = "fs";
+    private static final String FANSPEED_VALUE = "turbo";
+    private static final String POWER_KEY = "pwr";
+    private static final String POWER_VALUE = "1";
+    private static final String CHILDLOCK_KEY = "childlock";
+    private static final String CHILDLOCK_VALUE = "0";
 
     @Mock
-    private DICommPortListener portListener;
+    private CommunicationStrategy communicationStrategyMock;
 
     @Mock
-    private WrappedHandler mHandler;
+    private DICommPortListener portListenerMock;
+
+    @Mock
+    private Handler handlerMock;
 
     @Captor
     private ArgumentCaptor<Map<String, Object>> mapArgumentCaptor;
@@ -64,9 +69,11 @@ public class DiCommPortTest {
     @Before
     public void setUp() {
         initMocks(this);
-        DICommLog.disableLogging();
 
-        diCommPort = new TestPort(communicationStrategy, mHandler);
+        DICommLog.disableLogging();
+        HandlerProvider.enableMockedHandler(handlerMock);
+
+        diCommPort = new TestPort(communicationStrategyMock);
     }
 
     @Test
@@ -75,6 +82,7 @@ public class DiCommPortTest {
 
         verifyPutPropertiesCalled(true);
         Map<String, Object> capturedMap = mapArgumentCaptor.getValue();
+
         assertTrue(capturedMap.containsKey(FANSPEED_KEY));
         assertEquals(FANSPEED_VALUE, capturedMap.get(FANSPEED_KEY));
     }
@@ -98,7 +106,7 @@ public class DiCommPortTest {
     }
 
     @Test
-    public void testPeformSubscribeAfterPutPropertiesSuccess() {
+    public void testPerformSubscribeAfterPutPropertiesSuccess() {
         diCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
 
@@ -138,7 +146,7 @@ public class DiCommPortTest {
         diCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
         ResponseHandler responseHandler = responseHandlerCaptor.getValue();
-        reset(communicationStrategy);
+        reset(communicationStrategyMock);
 
         diCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(false);
@@ -148,7 +156,7 @@ public class DiCommPortTest {
     }
 
     @Test
-    public void testPeformSubscribeAfterPutPropertiesError() {
+    public void testPerformSubscribeAfterPutPropertiesError() {
         diCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
 
@@ -188,7 +196,7 @@ public class DiCommPortTest {
         diCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
         ResponseHandler responseHandler = responseHandlerCaptor.getValue();
-        reset(communicationStrategy);
+        reset(communicationStrategyMock);
 
         diCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(false);
@@ -201,7 +209,7 @@ public class DiCommPortTest {
     public void testDoNotRetryPutAfterPutPropertiesError() {
         diCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
-        reset(communicationStrategy);
+        reset(communicationStrategyMock);
 
         responseHandlerCaptor.getValue().onError(null, null);
         verifyPutPropertiesCalled(false);
@@ -212,7 +220,7 @@ public class DiCommPortTest {
         diCommPort.subscribe();
         verifySubscribeCalled(true);
         ResponseHandler responseHandler = responseHandlerCaptor.getValue();
-        reset(communicationStrategy);
+        reset(communicationStrategyMock);
 
         diCommPort.subscribe();
         verifySubscribeCalled(false);
@@ -249,7 +257,7 @@ public class DiCommPortTest {
     public void testDoNotRetrySuscribeAfterSubscribeError() {
         diCommPort.subscribe();
         verifySubscribeCalled(true);
-        reset(communicationStrategy);
+        reset(communicationStrategyMock);
 
         responseHandlerCaptor.getValue().onError(null, null);
         verifySubscribeCalled(false);
@@ -260,7 +268,7 @@ public class DiCommPortTest {
         diCommPort.unsubscribe();
         verifyUnsubscribeCalled(true);
         ResponseHandler responseHandler = responseHandlerCaptor.getValue();
-        reset(communicationStrategy);
+        reset(communicationStrategyMock);
 
         diCommPort.unsubscribe();
         verifyUnsubscribeCalled(false);
@@ -285,7 +293,7 @@ public class DiCommPortTest {
     public void testDonotRetryUnSubscribeAfterUnsubscribeError() {
         diCommPort.unsubscribe();
         verifyUnsubscribeCalled(true);
-        reset(communicationStrategy);
+        reset(communicationStrategyMock);
 
         responseHandlerCaptor.getValue().onError(null, null);
         verifyUnsubscribeCalled(false);
@@ -308,7 +316,7 @@ public class DiCommPortTest {
         diCommPort.reloadProperties();
         verifyGetPropertiesCalled(true);
         ResponseHandler responseHandler = responseHandlerCaptor.getValue();
-        reset(communicationStrategy);
+        reset(communicationStrategyMock);
 
         diCommPort.reloadProperties();
         verifyGetPropertiesCalled(false);
@@ -322,7 +330,7 @@ public class DiCommPortTest {
         diCommPort.reloadProperties();
         verifyGetPropertiesCalled(true);
         ResponseHandler responseHandler = responseHandlerCaptor.getValue();
-        reset(communicationStrategy);
+        reset(communicationStrategyMock);
 
         diCommPort.reloadProperties();
         verifyGetPropertiesCalled(false);
@@ -336,7 +344,7 @@ public class DiCommPortTest {
         diCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
         ResponseHandler responseHandler = responseHandlerCaptor.getValue();
-        reset(communicationStrategy);
+        reset(communicationStrategyMock);
 
         diCommPort.reloadProperties();
         diCommPort.unsubscribe();
@@ -346,17 +354,17 @@ public class DiCommPortTest {
         responseHandler.onSuccess(null);
         verifyPutPropertiesCalled(true);
         responseHandler = responseHandlerCaptor.getValue();
-        reset(communicationStrategy);
+        reset(communicationStrategyMock);
 
         responseHandler.onSuccess(null);
         verifySubscribeCalled(true);
         responseHandler = responseHandlerCaptor.getValue();
-        reset(communicationStrategy);
+        reset(communicationStrategyMock);
 
         responseHandler.onSuccess(null);
         verifyUnsubscribeCalled(true);
         responseHandler = responseHandlerCaptor.getValue();
-        reset(communicationStrategy);
+        reset(communicationStrategyMock);
 
         responseHandler.onSuccess(null);
         verifyGetPropertiesCalled(false);
@@ -379,7 +387,7 @@ public class DiCommPortTest {
         TestPortListener listener = new TestPortListener();
         ResponseHandler responseHandler = addListenerAndGetResponseHandler(listener);
 
-        responseHandler.onError(Error.NOT_CONNECTED, null);
+        responseHandler.onError(NOT_CONNECTED, null);
 
         assertFalse(listener.isApplyingChangesOnCallback);
     }
@@ -403,30 +411,30 @@ public class DiCommPortTest {
         ResponseHandler responseHandler = addListenerAndGetResponseHandler(listener);
         diCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 
-        responseHandler.onError(Error.NOT_CONNECTED, null);
+        responseHandler.onError(NOT_CONNECTED, null);
 
         assertTrue(listener.isApplyingChangesOnCallback);
     }
 
     @Test
-    public void test_ShouldPostRunnable_WhenSubscribeIsCalled() throws Exception {
+    public void test_ShouldPostRunnable_WhenSubscribeIsCalled() {
         diCommPort.subscribe();
 
-        verify(mHandler).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+        verify(handlerMock).postDelayed(any(Runnable.class), eq(SUBSCRIPTION_TTL_MS));
     }
 
     @Test
-    public void test_ShouldNotPostRunnableTwice_WhenSubscribeIsCalledTwice() throws Exception {
+    public void test_ShouldNotPostRunnableTwice_WhenSubscribeIsCalledTwice() {
         diCommPort.subscribe();
         diCommPort.subscribe();
 
-        verify(mHandler).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+        verify(handlerMock).postDelayed(any(Runnable.class), eq(SUBSCRIPTION_TTL_MS));
     }
 
     @Test
-    public void test_ShouldPostRunnableAgain_WhenSubscribeIsCalled_AfterSubscribeResponseIsReceived() throws Exception {
+    public void test_ShouldPostRunnableAgain_WhenSubscribeIsCalled_AfterSubscribeResponseIsReceived() {
         diCommPort.subscribe();
-        verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+        verify(handlerMock, times(1)).postDelayed(any(Runnable.class), eq(SUBSCRIPTION_TTL_MS));
 
         verifySubscribeCalled(true);
         ResponseHandler responseHandler = responseHandlerCaptor.getValue();
@@ -434,55 +442,55 @@ public class DiCommPortTest {
 
         diCommPort.subscribe();
 
-        verify(mHandler, Mockito.times(2)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+        verify(handlerMock, times(2)).postDelayed(any(Runnable.class), eq(SUBSCRIPTION_TTL_MS));
     }
 
     @Test
-    public void test_ShouldSubscribeToCommunicationStrategy_WhenSubscribeIsCalled() throws Exception {
+    public void test_ShouldSubscribeToCommunicationStrategy_WhenSubscribeIsCalled() {
         diCommPort.subscribe();
 
         verifySubscribeCalled(true);
     }
 
     @Test
-    public void test_ShouldUnsubscribeFromCommunicationStrategy_WhenUnsubscribeIsCalled() throws Exception {
+    public void test_ShouldUnsubscribeFromCommunicationStrategy_WhenUnsubscribeIsCalled() {
         diCommPort.unsubscribe();
 
         verifyUnsubscribeCalled(true);
     }
 
     @Test
-    public void test_ShouldRemoveAndAddRunnable_WhenSubscribeIsCalled() throws Exception {
+    public void test_ShouldRemoveAndAddRunnable_WhenSubscribeIsCalled() {
         diCommPort.subscribe();
 
         Runnable runnable = captureResubscribeHandler();
-        verify(mHandler).removeCallbacks(runnable);
+        verify(handlerMock).removeCallbacks(runnable);
     }
 
     @Test
-    public void test_ShouldRemoveSubscribeRunnable_WhenStopResubscribeIsCalled() throws Exception {
+    public void test_ShouldRemoveSubscribeRunnable_WhenStopResubscribeIsCalled() {
         diCommPort.subscribe();
         diCommPort.stopResubscribe();
 
         Runnable runnable = captureResubscribeHandler();
 
-        verify(mHandler, Mockito.times(2)).removeCallbacks(runnable);
+        verify(handlerMock, times(2)).removeCallbacks(runnable);
     }
 
     @Test
-    public void test_ShouldRemoveSubscribeRunnable_WhenUnsubscribeIsCalled() throws Exception {
+    public void test_ShouldRemoveSubscribeRunnable_WhenUnsubscribeIsCalled() {
         diCommPort.subscribe();
         diCommPort.unsubscribe();
 
         Runnable runnable = captureResubscribeHandler();
 
-        verify(mHandler, Mockito.times(2)).removeCallbacks(runnable);
+        verify(handlerMock, times(2)).removeCallbacks(runnable);
     }
 
     @Test
-    public void test_ShouldRepostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterSubscribeResponseIsReceived() throws Exception {
+    public void test_ShouldRepostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterSubscribeResponseIsReceived() {
         diCommPort.subscribe();
-        verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+        verify(handlerMock, times(1)).postDelayed(any(Runnable.class), eq(SUBSCRIPTION_TTL_MS));
 
         verifySubscribeCalled(true);
         ResponseHandler responseHandler = responseHandlerCaptor.getValue();
@@ -491,13 +499,13 @@ public class DiCommPortTest {
         Runnable runnable = captureResubscribeHandler();
         runnable.run();
 
-        verify(mHandler, Mockito.times(2)).postDelayed(Mockito.eq(runnable), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+        verify(handlerMock, times(2)).postDelayed(eq(runnable), eq(SUBSCRIPTION_TTL_MS));
     }
 
     @Test
-    public void test_ShouldNotRepostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterStopResubscribeIsCalled() throws Exception {
+    public void test_ShouldNotRepostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterStopResubscribeIsCalled() {
         diCommPort.subscribe();
-        verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+        verify(handlerMock, times(1)).postDelayed(any(Runnable.class), eq(SUBSCRIPTION_TTL_MS));
 
         verifySubscribeCalled(true);
         ResponseHandler responseHandler = responseHandlerCaptor.getValue();
@@ -508,15 +516,15 @@ public class DiCommPortTest {
         Runnable runnable = captureResubscribeHandler();
         runnable.run();
 
-        verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+        verify(handlerMock, times(1)).postDelayed(any(Runnable.class), eq(SUBSCRIPTION_TTL_MS));
     }
 
     @Test
-    public void test_ShouldRePostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterStopResubscribeAndSubscribeIsCalled() throws Exception {
+    public void test_ShouldRePostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterStopResubscribeAndSubscribeIsCalled() {
         diCommPort.stopResubscribe();
 
         diCommPort.subscribe();
-        verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+        verify(handlerMock, times(1)).postDelayed(any(Runnable.class), eq(SUBSCRIPTION_TTL_MS));
 
         verifySubscribeCalled(true);
         ResponseHandler responseHandler = responseHandlerCaptor.getValue();
@@ -525,12 +533,12 @@ public class DiCommPortTest {
         Runnable runnable = captureResubscribeHandler();
         runnable.run();
 
-        verify(mHandler, Mockito.times(2)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+        verify(handlerMock, times(2)).postDelayed(any(Runnable.class), eq(SUBSCRIPTION_TTL_MS));
     }
 
     private Runnable captureResubscribeHandler() {
         ArgumentCaptor<Runnable> runnableCaptor = ArgumentCaptor.forClass(Runnable.class);
-        verify(mHandler).postDelayed(runnableCaptor.capture(), Mockito.anyInt());
+        verify(handlerMock).postDelayed(runnableCaptor.capture(), Mockito.anyInt());
 
         return runnableCaptor.getValue();
     }
@@ -540,7 +548,7 @@ public class DiCommPortTest {
         diCommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
         verifyPutPropertiesCalled(true);
         ResponseHandler responseHandler = responseHandlerCaptor.getValue();
-        reset(communicationStrategy);
+        reset(communicationStrategyMock);
 
         diCommPort.putProperties(POWER_KEY, POWER_VALUE);
         diCommPort.putProperties(CHILDLOCK_KEY, CHILDLOCK_VALUE);
@@ -564,71 +572,131 @@ public class DiCommPortTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testRegisterListener() {
-        diCommPort.addPortListener(portListener);
+        diCommPort.addPortListener(portListenerMock);
         diCommPort.handleResponse("");
 
-        verify(portListener, times(1)).onPortUpdate(diCommPort);
+        verify(portListenerMock, times(1)).onPortUpdate(diCommPort);
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testUnregisterListener() {
-        diCommPort.addPortListener(portListener);
-        diCommPort.removePortListener(portListener);
+        diCommPort.addPortListener(portListenerMock);
+        diCommPort.removePortListener(portListenerMock);
         diCommPort.handleResponse("");
 
-        verify(portListener, times(0)).onPortUpdate(diCommPort);
+        verify(portListenerMock, times(0)).onPortUpdate(diCommPort);
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testShouldNotCrashIfListenerIsUnregisteredTwice() {
-        diCommPort.addPortListener(portListener);
-        diCommPort.removePortListener(portListener);
-        diCommPort.removePortListener(portListener);
+        diCommPort.addPortListener(portListenerMock);
+        diCommPort.removePortListener(portListenerMock);
+        diCommPort.removePortListener(portListenerMock);
 
         diCommPort.handleResponse("");
 
-        verify(portListener, times(0)).onPortUpdate(diCommPort);
+        verify(portListenerMock, times(0)).onPortUpdate(diCommPort);
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testListenerShouldNotBeRegisteredTwice() {
-        diCommPort.addPortListener(portListener);
-        diCommPort.addPortListener(portListener);
+        diCommPort.addPortListener(portListenerMock);
+        diCommPort.addPortListener(portListenerMock);
         diCommPort.handleResponse("");
 
-        verify(portListener, times(1)).onPortUpdate(diCommPort);
+        verify(portListenerMock, times(1)).onPortUpdate(diCommPort);
+    }
+
+    @Test
+    public void givenSubscribeIsInvoked_thenASubscriptionEventListenerIsAddedOnTheCommunicationStrategy() {
+        diCommPort.subscribe();
+
+        verify(communicationStrategyMock).addSubscriptionEventListener(any(SubscriptionEventListener.class));
+    }
+
+    @Test
+    public void givenUnsubscribeIsInvoked_thenASubscriptionEventListenerIsRemovedFromTheCommunicationStrategy() {
+        diCommPort.unsubscribe();
+
+        verify(communicationStrategyMock).removeSubscriptionEventListener(any(SubscriptionEventListener.class));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void givenSubscribed_whenASubscriptionEventIsReceivedForThisPort_thenPortListenersShouldBeNotified() {
+        diCommPort.addPortListener(portListenerMock);
+        diCommPort.subscribe();
+
+        ArgumentCaptor<SubscriptionEventListener> captor = ArgumentCaptor.forClass(SubscriptionEventListener.class);
+        verify(communicationStrategyMock).addSubscriptionEventListener(captor.capture());
+
+        captor.getValue().onSubscriptionEventReceived(PORT_NAME, "don't care");
+
+        verify(portListenerMock).onPortUpdate(diCommPort);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void givenSubscribed_whenASubscriptionEventIsReceivedForAnotherPort_thenNoPortListenersShouldBeNotified() {
+        diCommPort.addPortListener(portListenerMock);
+        diCommPort.subscribe();
+
+        ArgumentCaptor<SubscriptionEventListener> captor = ArgumentCaptor.forClass(SubscriptionEventListener.class);
+        verify(communicationStrategyMock).addSubscriptionEventListener(captor.capture());
+
+        captor.getValue().onSubscriptionEventReceived("anotherPortName", "don't care");
+
+        verify(portListenerMock, never()).onPortUpdate(diCommPort);
+    }
+
+    @Test
+    public void givenSubscribed_whenASubscriptionEventForThisPortCantBeDecrypted_thenAGetPropsShouldBeTriggered() {
+        diCommPort.addPortListener(portListenerMock);
+        diCommPort.subscribe();
+        verifySubscribeCalled(true);
+        responseHandlerCaptor.getValue().onSuccess(null);
+
+        ArgumentCaptor<SubscriptionEventListener> captor = ArgumentCaptor.forClass(SubscriptionEventListener.class);
+        verify(communicationStrategyMock).addSubscriptionEventListener(captor.capture());
+        captor.getValue().onSubscriptionEventDecryptionFailed(PORT_NAME);
+
+        verifyGetPropertiesCalled(true);
     }
 
     private void verifyPutPropertiesCalled(boolean invoked) {
         if (invoked) {
-            verify(communicationStrategy, times(1)).putProperties(mapArgumentCaptor.capture(), eq(PORT_NAME), eq(PORT_PRODUCTID), responseHandlerCaptor.capture());
+            verify(communicationStrategyMock, times(1)).putProperties(mapArgumentCaptor.capture(), eq(PORT_NAME), eq(PORT_PRODUCTID), responseHandlerCaptor.capture());
         } else {
-            verify(communicationStrategy, never()).putProperties(mapArgumentCaptor.capture(), eq(PORT_NAME), eq(PORT_PRODUCTID), responseHandlerCaptor.capture());
+            verify(communicationStrategyMock, never()).putProperties(mapArgumentCaptor.capture(), eq(PORT_NAME), eq(PORT_PRODUCTID), responseHandlerCaptor.capture());
         }
     }
 
     private void verifyGetPropertiesCalled(boolean invoked) {
         if (invoked) {
-            verify(communicationStrategy, times(1)).getProperties(eq(PORT_NAME), eq(PORT_PRODUCTID), responseHandlerCaptor.capture());
+            verify(communicationStrategyMock, times(1)).getProperties(eq(PORT_NAME), eq(PORT_PRODUCTID), responseHandlerCaptor.capture());
         } else {
-            verify(communicationStrategy, never()).getProperties(eq(PORT_NAME), eq(PORT_PRODUCTID), responseHandlerCaptor.capture());
+            verify(communicationStrategyMock, never()).getProperties(eq(PORT_NAME), eq(PORT_PRODUCTID), responseHandlerCaptor.capture());
         }
     }
 
     private void verifySubscribeCalled(boolean invoked) {
         if (invoked) {
-            verify(communicationStrategy, times(1)).subscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(DICommPort.SUBSCRIPTION_TTL), responseHandlerCaptor.capture());
+            verify(communicationStrategyMock, times(1)).subscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(DICommPort.SUBSCRIPTION_TTL), responseHandlerCaptor.capture());
         } else {
-            verify(communicationStrategy, never()).subscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(DICommPort.SUBSCRIPTION_TTL), responseHandlerCaptor.capture());
+            verify(communicationStrategyMock, never()).subscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(DICommPort.SUBSCRIPTION_TTL), responseHandlerCaptor.capture());
         }
     }
 
     private void verifyUnsubscribeCalled(boolean invoked) {
         if (invoked) {
-            verify(communicationStrategy, times(1)).unsubscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), responseHandlerCaptor.capture());
+            verify(communicationStrategyMock, times(1)).unsubscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), responseHandlerCaptor.capture());
         } else {
-            verify(communicationStrategy, never()).unsubscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), responseHandlerCaptor.capture());
+            verify(communicationStrategyMock, never()).unsubscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), responseHandlerCaptor.capture());
         }
     }
 
@@ -641,21 +709,8 @@ public class DiCommPortTest {
 
     private class TestPort<P extends PortProperties> extends DICommPort<P> {
 
-        private WrappedHandler handler;
-
-        private TestPort(final @NonNull CommunicationStrategy communicationStrategy, WrappedHandler handler) {
+        private TestPort(final @NonNull CommunicationStrategy communicationStrategy) {
             super(communicationStrategy);
-            this.handler = handler;
-        }
-
-        @Override
-        protected WrappedHandler getResubscriptionHandler() {
-            return handler;
-        }
-
-        @Override
-        public boolean isResponseForThisPort(String jsonResponse) {
-            return true;
         }
 
         @Override
@@ -679,17 +734,17 @@ public class DiCommPortTest {
         }
     }
 
-    private class TestPortListener implements DICommPortListener<DICommPort<?>> {
+    private final class TestPortListener implements DICommPortListener {
 
         private boolean isApplyingChangesOnCallback = false;
 
         @Override
-        public void onPortUpdate(DICommPort<?> port) {
+        public void onPortUpdate(DICommPort port) {
             isApplyingChangesOnCallback = port.isApplyingChanges();
         }
 
         @Override
-        public void onPortError(DICommPort<?> port, Error error, String errorData) {
+        public void onPortError(DICommPort port, Error error, String errorData) {
             isApplyingChangesOnCallback = port.isApplyingChanges();
         }
     }

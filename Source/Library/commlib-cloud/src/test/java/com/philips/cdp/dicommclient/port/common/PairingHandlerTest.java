@@ -26,11 +26,13 @@ import org.mockito.Mock;
 
 import static com.philips.cdp.dicommclient.port.common.PairingHandler.RELATION_STATUS_COMPLETED;
 import static com.philips.cdp.dicommclient.port.common.PairingHandler.RELATION_STATUS_FAILED;
+import static java.lang.Long.parseLong;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -114,6 +116,21 @@ public class PairingHandlerTest {
         String randomKey = manager.generateRandomSecretKey();
         String randomKey1 = manager.generateRandomSecretKey();
         assertFalse(randomKey.equals(randomKey1));
+    }
+
+    @Test
+    public void testGenerateRandomSecretKeyLenght() {
+        PairingHandler manager = new PairingHandler<>(null, (PairingListener<Appliance>) null, cloudControllerMock);
+        String randomKey = manager.generateRandomSecretKey();
+        assertThat(randomKey.length()).isEqualTo(16);
+    }
+
+    @Test
+    public void testGenerateRandomSecretKeyIsHex() {
+        PairingHandler manager = new PairingHandler<>(null, (PairingListener<Appliance>) null, cloudControllerMock);
+        String randomKey = manager.generateRandomSecretKey();
+        parseLong(randomKey.substring(0, 8), 16);
+        parseLong(randomKey.substring(9, 16), 16);
     }
 
     @Test

@@ -19,6 +19,7 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 
+import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -341,7 +342,8 @@ public class PairingHandler<T extends Appliance> {
 
             @Override
             public void onPortError(PairingPort port, Error error, String errorData) {
-                DICommLog.e(DICommLog.PAIRING, "PairingPort call-FAILED");
+                DICommLog.e(DICommLog.PAIRING, "PairingPort call-FAILED: " + errorData);
+                DICommLog.e(DICommLog.PAIRING, "PairingPort call-FAILED: " + error.getErrorMessage());
 
                 notifyListenerFailed();
                 port.removePortListener(this);
@@ -386,7 +388,13 @@ public class PairingHandler<T extends Appliance> {
      * @return random secret key
      */
     public String generateRandomSecretKey() {
-        return Long.toHexString(Double.doubleToLongBits(Math.random()));
+        byte[] randombytes = new byte[8];
+        new SecureRandom().nextBytes(randombytes);
+        String randomString = "";
+        for (byte randombyte : randombytes) {
+            randomString += String.format("%02x", randombyte);
+        }
+        return randomString;
     }
 
     public static int getPairingAttempts(String eui64) {

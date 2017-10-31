@@ -47,6 +47,9 @@ public class DevicePortFragment extends Fragment {
         public void onPortUpdate(DevicePort port) {
             if (isAdded()) {
                 DevicePortProperties properties = port.getPortProperties();
+                if (properties == null) {
+                    return;
+                }
                 deviceNameEdit.setText(properties.getName());
             }
         }

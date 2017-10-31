@@ -14,7 +14,6 @@ import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.port.common.PairingPort;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiUIPort;
-import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CombinedCommunicationStrategy;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
@@ -45,20 +44,6 @@ public abstract class Appliance implements Availability<Appliance> {
 
     private final Set<DICommPort> ports = new HashSet<>();
 
-    private SubscriptionEventListener subscriptionEventListener = new SubscriptionEventListener() {
-
-        @Override
-        public void onSubscriptionEventReceived(String data) {
-            DICommLog.d(DICommLog.APPLIANCE, "Notify subscription listeners - " + data);
-
-            for (DICommPort port : getAllPorts()) {
-                if (port.isResponseForThisPort(data)) {
-                    port.handleResponse(data);
-                }
-            }
-        }
-    };
-
     /**
      * Create an appliance.
      * <p>
@@ -80,7 +65,6 @@ public abstract class Appliance implements Availability<Appliance> {
         } else {
             this.communicationStrategy = new CombinedCommunicationStrategy(communicationStrategies);
         }
-        this.communicationStrategy.addSubscriptionEventListener(subscriptionEventListener);
 
         devicePort = new DevicePort(this.communicationStrategy);
         firmwarePort = new FirmwarePort(this.communicationStrategy);

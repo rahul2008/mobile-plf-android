@@ -16,6 +16,8 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
+import com.philips.cdp2.demouapp.appliance.brighteyes.BrightEyesAppliance;
+import com.philips.cdp2.demouapp.appliance.polaris.PolarisAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.BleReferenceAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.ReferenceAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.WifiReferenceAppliance;
@@ -27,6 +29,7 @@ import com.philips.cdp2.demouapp.fragment.port.FirmwareUpgradeFragment;
 import com.philips.cdp2.demouapp.fragment.port.PairingFragment;
 import com.philips.cdp2.demouapp.fragment.port.PairingPortFragment;
 import com.philips.cdp2.demouapp.fragment.port.TimePortFragment;
+import com.philips.cdp2.demouapp.fragment.port.WakeUpAlarmPortFragment;
 
 public class ApplianceFragment extends Fragment {
 
@@ -57,17 +60,27 @@ public class ApplianceFragment extends Fragment {
             addFragment(new AirPortFragment());
         }
 
-        if (currentAppliance instanceof BleReferenceAppliance) {
-            addFragment(new BleApplianceFragment());
-        }
-
-        if (currentAppliance instanceof WifiReferenceAppliance) {
-            addFragment(new PairingPortFragment());
-        }
-
         if (currentAppliance instanceof ReferenceAppliance) {
+
+            if (currentAppliance instanceof WifiReferenceAppliance) {
+                addFragment(new PairingPortFragment());
+            }
+
             addFragment(new TimePortFragment());
+
+            if (currentAppliance instanceof BleReferenceAppliance) {
+                addFragment(new BleApplianceFragment());
+            }
+
             addFragment(new FirmwareUpgradeFragment());
+        }
+
+        if (currentAppliance instanceof BrightEyesAppliance) {
+            addFragment(new WakeUpAlarmPortFragment());
+        }
+
+        if(currentAppliance instanceof PolarisAppliance) {
+            addFragment(new PairingFragment());
         }
     }
 

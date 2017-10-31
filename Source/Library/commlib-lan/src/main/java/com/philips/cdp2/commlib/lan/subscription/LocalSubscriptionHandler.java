@@ -17,62 +17,71 @@ import java.util.Set;
 
 public class LocalSubscriptionHandler extends SubscriptionHandler implements UdpEventListener {
 
-	private Set<SubscriptionEventListener> mSubscriptionEventListeners;
-	private UdpEventReceiver mUdpEventReceiver;
-	private NetworkNode mNetworkNode;
-	private final DISecurity mDISecurity;
+    private Set<SubscriptionEventListener> subscriptionEventListeners;
+    private UdpEventReceiver udpEventReceiver;
+    private NetworkNode networkNode;
+    private final DISecurity diSecurity;
 
-	public LocalSubscriptionHandler(DISecurity diSecurity, UdpEventReceiver udpEventReceiver){
-		mDISecurity = diSecurity;
-		mUdpEventReceiver = udpEventReceiver;
-	}
-
-	@Override
-	public void enableSubscription(@NonNull NetworkNode networkNode, @NonNull Set<SubscriptionEventListener> subscriptionEventListeners) {
-		DICommLog.i(DICommLog.LOCAL_SUBSCRIPTION, "Enabling local subscription (start udp)");
-		mNetworkNode = networkNode;
-		mSubscriptionEventListeners = subscriptionEventListeners;
-		mUdpEventReceiver.startReceivingEvents(this);
-	}
-
-	@Override
-	public void disableSubscription() {
-		DICommLog.i(DICommLog.LOCAL_SUBSCRIPTION, "Disabling local subscription (stop udp)");
-		mSubscriptionEventListeners = null;
-		mUdpEventReceiver.stopReceivingEvents(this);
-	}
-
-	@Override
-	public void onUDPEventReceived(String data, String fromIp) {
-		if (data == null || data.isEmpty())
-			return;
-		if (fromIp == null || fromIp.isEmpty())
-			return;
-
-		if (mNetworkNode.getIpAddress() == null || !mNetworkNode.getIpAddress().equals(fromIp)) {
-			DICommLog.d(DICommLog.LOCAL_SUBSCRIPTION, "Ignoring event, not from associated network node (" + fromIp + ")");
-			return;
-		}
-
-		DICommLog.i(DICommLog.LOCAL_SUBSCRIPTION, "UDP event received from " + fromIp);
-
-		if (mSubscriptionEventListeners != null) {
-			String decryptedData = decryptData(data) ;
-			if (decryptedData == null ) {
-				DICommLog.d(DICommLog.LOCAL_SUBSCRIPTION, "Unable to decrypt data for : " + mNetworkNode.getIpAddress());
-				return;
-			}
-
-			DICommLog.d(DICommLog.LOCAL_SUBSCRIPTION, decryptedData);
-			postSubscriptionEventOnUIThread(decryptedData, mSubscriptionEventListeners);
-		}
-	}
-
-	private String decryptData(String cypher) {
-        if (mDISecurity != null) {
-            return mDISecurity.decryptData(cypher);
-        }
-        return cypher;
+    public LocalSubscriptionHandler(DISecurity diSecurity, UdpEventReceiver udpEventReceiver) {
+        this.diSecurity = diSecurity;
+        this.udpEventReceiver = udpEventReceiver;
     }
 
+    @Override
+    public void enableSubscription(@NonNull NetworkNode networkNode, @NonNull Set<SubscriptionEventListener> subscriptionEventListeners) {
+        DICommLog.i(DICommLog.LOCAL_SUBSCRIPTION, "Enabling local subscription (start udp)");
+
+        this.networkNode = networkNode;
+        this.subscriptionEventListeners = subscriptionEventListeners;
+
+        udpEventReceiver.startReceivingEvents(this);
+    }
+
+    @Override
+    public void disableSubscription() {
+        DICommLog.i(DICommLog.LOCAL_SUBSCRIPTION, "Disabling local subscription (stop udp)");
+
+        subscriptionEventListeners = null;
+        udpEventReceiver.stopReceivingEvents(this);
+    }
+
+    @Override
+    public void onUDPEventReceived(String data, String portName, String fromIp) {
+        if (subscriptionEventListeners == null || subscriptionEventListeners.isEmpty()) {
+            return;
+        }
+
+        if (data == null || data.isEmpty()) {
+            return;
+        }
+
+        if (fromIp == null || fromIp.isEmpty()) {
+            return;
+        }
+
+        if (networkNode.getIpAddress() == null || !networkNode.getIpAddress().equals(fromIp)) {
+            DICommLog.d(DICommLog.LOCAL_SUBSCRIPTION, "Ignoring event, not from associated network node (" + fromIp + ")");
+            return;
+        }
+
+        DICommLog.i(DICommLog.LOCAL_SUBSCRIPTION, "UDP event received from " + fromIp);
+
+        String decryptedData;
+
+        if (diSecurity == null) {
+            decryptedData = data;
+        } else {
+            decryptedData = diSecurity.decryptData(data);
+        }
+
+        if (decryptedData == null) {
+            DICommLog.w(DICommLog.LOCAL_SUBSCRIPTION, "Unable to decrypt data for: " + networkNode.getIpAddress());
+
+            postSubscriptionEventDecryptionFailureOnUiThread(portName, subscriptionEventListeners);
+        } else {
+            DICommLog.d(DICommLog.LOCAL_SUBSCRIPTION, decryptedData);
+
+            postSubscriptionEventOnUiThread(portName, decryptedData, subscriptionEventListeners);
+        }
+    }
 }

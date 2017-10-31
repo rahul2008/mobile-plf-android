@@ -18,6 +18,8 @@ import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
 import com.philips.cdp2.demouapp.appliance.airpurifier.ComfortAirPurifier;
 import com.philips.cdp2.demouapp.appliance.airpurifier.JaguarAirPurifier;
+import com.philips.cdp2.demouapp.appliance.brighteyes.BrightEyesAppliance;
+import com.philips.cdp2.demouapp.appliance.polaris.PolarisAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.BleReferenceAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.WifiReferenceAppliance;
 
@@ -68,6 +70,12 @@ class CommlibUappApplianceFactory implements ApplianceFactory {
                     return new BleReferenceAppliance(networkNode, communicationStrategy);
                 case WifiReferenceAppliance.DEVICETYPE:
                     return new WifiReferenceAppliance(networkNode, communicationStrategy);
+                case BrightEyesAppliance.DEVICETYPE:
+                    return new BrightEyesAppliance(networkNode, communicationStrategy);
+                case PolarisAppliance.DEVICETYPE:
+                    PolarisAppliance polaris = new PolarisAppliance(networkNode, communicationStrategy);
+                    polaris.usesHttps(true);
+                    return polaris;
                 default:
                     return new Appliance(networkNode, communicationStrategy) {
                         @Override

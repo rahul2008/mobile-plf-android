@@ -104,7 +104,7 @@ public class StartDcsRequestTest {
 
     @Test
     public void whenTimeOutOccursAndDSCIsNotStartedThenErrorResponseIsReported() throws Exception {
-        startDcsRequest.setTimeOut(TIME_OUT);
+        startDcsRequest.setTimeout(TIME_OUT);
 
         when(cloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STARTING);
 
@@ -116,7 +116,7 @@ public class StartDcsRequestTest {
 
     @Test
     public void whenTimeOutOccursAndDSCIsStartedThenNoResponseIsReported() throws Exception {
-        startDcsRequest.setTimeOut(TIME_OUT);
+        startDcsRequest.setTimeout(TIME_OUT);
 
         when(cloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STARTED);
 

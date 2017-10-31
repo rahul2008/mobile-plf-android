@@ -1,12 +1,15 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016, 2017.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.port.common;
 
+import android.os.Handler;
+
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +22,7 @@ import java.util.Map;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ScheduleListPortTest {
@@ -30,12 +33,18 @@ public class ScheduleListPortTest {
 
     @Mock
     private CommunicationStrategy communicationStrategyMock;
+
+    @Mock
+    private Handler handlerMock;
+
     private ScheduleListPort scheduleListPort;
 
     @Before
     public void setUp() {
         initMocks(this);
+
         DICommLog.disableLogging();
+        HandlerProvider.enableMockedHandler(handlerMock);
 
         scheduleListPort = new ScheduleListPort(communicationStrategyMock);
     }

@@ -50,6 +50,7 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     @NonNull
     private final NetworkNode networkNode;
 
+    @NonNull
     private final LocalSubscriptionHandler localSubscriptionHandler;
 
     @Nullable
@@ -98,9 +99,12 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
 
     public LanCommunicationStrategy(final @NonNull NetworkNode networkNode, final @NonNull LanDeviceCache deviceCache, final @NonNull ConnectivityMonitor connectivityMonitor) {
         this.networkNode = requireNonNull(networkNode);
-
         requireNonNull(deviceCache);
-        deviceCache.addModificationListener(networkNode.getCppId(), deviceCacheListener);
+        requireNonNull(connectivityMonitor);
+
+        this.diSecurity = new DISecurity(networkNode);
+        localSubscriptionHandler = new LocalSubscriptionHandler(diSecurity, UdpEventReceiver.getInstance());
+
         this.isCached = deviceCache.contains(networkNode.getCppId());
 
         if (networkNode.isHttps()) {
@@ -111,14 +115,11 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
             }
         }
 
-        this.diSecurity = new DISecurity(networkNode);
-        this.diSecurity.setEncryptionDecryptionFailedListener(encryptionDecryptionFailedListener);
-
         requestQueue = createRequestQueue();
-        localSubscriptionHandler = new LocalSubscriptionHandler(diSecurity, UdpEventReceiver.getInstance());
 
-        requireNonNull(connectivityMonitor);
+        deviceCache.addModificationListener(networkNode.getCppId(), deviceCacheListener);
         connectivityMonitor.addAvailabilityListener(availabilityListener);
+        this.diSecurity.setEncryptionDecryptionFailedListener(encryptionDecryptionFailedListener);
     }
 
     @VisibleForTesting
@@ -245,12 +246,10 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
             notifyAvailabilityChanged();
         }
 
-        if (localSubscriptionHandler != null) {
-            if (isAvailable) {
-                localSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListeners);
-            } else {
-                localSubscriptionHandler.disableSubscription();
-            }
+        if (isAvailable) {
+            localSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListeners);
+        } else {
+            localSubscriptionHandler.disableSubscription();
         }
     }
 }

@@ -10,8 +10,9 @@ Version {next}
 * CommLib - \#65428 Persistent NetworkNode Storage.
 	* Store an Appliance by calling `ApplianceManager.storeAppliance(appliance)`
 	* Stop persisting an Appliance by calling `ApplianceManager.forgetStoredAppliance(appliance)`
-	* Persistent storage will only store information in `NetworkNode` so if you need to store additional data or state from your own Appliance implementation you can implement `ApplianceDatabase` and give it to `new CommCentral(applianceFactory, applianceDatabase, transportContexts...)`.
-	* CommLib - \#85443 SSDP is rewritten from C and JNI in pure Java.
+	* Persistent storage will only store information in `NetworkNode` so if you need to store additional data or state from your own Appliance implementation you can implement `ApplianceDatabase` and give it to `new CommCentral(applianceFactory, applianceDatabase, transportContexts...)`
+* CommLib - \#85443 SSDP is rewritten from C and JNI in pure Java.
+* CommLib - CommCentral now throws a `UnsupportedOperationException` whenever a second instance is created.
 
 ### Backwards Compatibility
 * CommLib - `Appliance.enableCommunication` is no longer needed before a subscription.
@@ -28,17 +29,32 @@ Version {next}
 	* `CurrentApplianceManager` -> `com.philips.cdp2.commlib.core.appliance`
 	* `ApplianceFactory` -> `com.philips.cdp2.commlib.core.appliance`
 	* `ApplianceDatabase` -> `com.philips.cdp2.commlib.core.store`
-	
 * CommLib - The following classes are renamed:
 	* `DICommApplianceFactory` -> `ApplianceFactory`
-	* `DICommApplianceDatabase` -> `ApplianceDatabase` 
+	* `DICommApplianceDatabase` -> `ApplianceDatabase`
+* CommLib - `TransportContext` instances are now contructed with a `RuntimeConfiguration` object to allow for app-specific configuration options
+* CommLib - `DiCommPort` no longer has the `isResponseForThisPort` method. This is handled internally by CommLib.
+* CommLib - the method `getDICommPortName` has been made public in order to determine the correct destination for incoming port data.
 
 ### Defects solved
 * CommLib - \#72227 Timeout callback not called
 * CommLib - \#73361 XML parser vulnerability during SSDP discovery
+* CommLib - \#85583 Use injectable AppInfra
+* CommLib - \#73511 Use secure random for encryption (reported by HP Fortify)
 * CommLib BLE - \#76117 Let BlueLib make connect() calls without timeout
 * CommLib BLE - \#75429 Not registering SHNLogger when app configured having `AppIdentityInterface.AppState.PRODUCTION`
 * CloudController - \#55808 BufferUnderflowException while reading download data
+* CommLib - \#84930 CommLib responses should include port being subscribed to
+	* CommLib now determines for which port incoming data is.
+	* Ports are no longer required to determine if JSON matches their port properties.
+* CommLib BLE - \#87558 Devices are no longer listed multiple times in device discovery
+* CommLib - \#84930 CommLib responses should include port being subscribed to
+	* CommLib now determines for which port incoming data is.
+	* Ports are no longer required to determine if JSON matches their port properties.
+* CommLib - \#91908 NPE in LanCommunicationStrategy fixed. 
+* CommLib - \#81027 Subscriptions continue to work when security key changes.
+
+
 
 ### Residual anomalies
 * To be filled in at release

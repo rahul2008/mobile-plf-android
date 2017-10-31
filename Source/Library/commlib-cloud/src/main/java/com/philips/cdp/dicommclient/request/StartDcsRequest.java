@@ -5,57 +5,56 @@
 
 package com.philips.cdp.dicommclient.request;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
+
 import com.philips.cdp.cloudcontroller.api.CloudController;
+import com.philips.cdp.cloudcontroller.api.CloudController.DCSStartListener;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
+import static com.philips.cdp.cloudcontroller.api.CloudController.ICPClientDCSState.STARTED;
 
 public class StartDcsRequest extends Request {
 
-    private long TIME_OUT = 10 * 1000L;
+    private long timeout = TimeUnit.SECONDS.toSeconds(10);
 
-    private final CloudController cloudController;
-    private final Object lock;
+    private CloudController cloudController;
 
-    public StartDcsRequest(final CloudController cloudController, final ResponseHandler responseHandler) {
+    public StartDcsRequest(final @NonNull CloudController cloudController, final @NonNull ResponseHandler responseHandler) {
         super(null, responseHandler);
         this.cloudController = cloudController;
-
-        lock = new Object();
-
     }
-
-    private final CloudController.DCSStartListener dcsStartListener = new CloudController.DCSStartListener() {
-        @Override
-        public void onResponseReceived() {
-            synchronized (lock) {
-                lock.notify();
-            }
-        }
-    };
 
     @Override
     public Response execute() {
-        synchronized (lock) {
-            cloudController.startDCSService(dcsStartListener);
+        final CountDownLatch latch = new CountDownLatch(1);
 
-            try {
-                lock.wait(TIME_OUT);
+        cloudController.startDCSService(new DCSStartListener() {
+            @Override
+            public void onResponseReceived() {
+                latch.countDown();
+            }
+        });
 
-                if (cloudController.getState() != CloudController.ICPClientDCSState.STARTED) {
-                    return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
-                }
-            } catch (InterruptedException e) {
+        try {
+            latch.await(timeout, TimeUnit.SECONDS);
+
+            if (cloudController.getState() != STARTED) {
                 return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
             }
+        } catch (InterruptedException e) {
+            return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
         }
-
         return new Response(null, null, mResponseHandler);
     }
 
     /**
-     * Visible for testing
-     *
-     * @param TIME_OUT of the synchronization
+     * @param timeout of the synchronization in seconds
      */
-    void setTimeOut(long TIME_OUT) {
-        this.TIME_OUT = TIME_OUT;
+    @VisibleForTesting
+    void setTimeout(long timeout) {
+        this.timeout = timeout;
     }
 }

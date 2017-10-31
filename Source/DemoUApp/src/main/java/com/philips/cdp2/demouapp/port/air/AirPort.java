@@ -27,24 +27,13 @@ public abstract class AirPort<T extends AirPortProperties> extends DICommPort<T>
     }
 
     @Override
-    public boolean isResponseForThisPort(final String jsonResponse) {
-        try {
-            AirPortProperties portProperties = jsonParser.fromJson(jsonResponse, propertiesClass);
-
-            return portProperties != null && portProperties.lightIsSet();
-        } catch (JsonSyntaxException exception) {
-            return false;
-        }
-    }
-
-    @Override
     protected void processResponse(final String jsonResponse) {
         T airPortProperties = jsonParser.fromJson(jsonResponse, propertiesClass);
         setPortProperties(airPortProperties);
     }
 
     @Override
-    protected String getDICommPortName() {
+    public String getDICommPortName() {
         return NAME;
     }
 
