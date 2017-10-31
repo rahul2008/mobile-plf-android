@@ -201,7 +201,6 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     public boolean validateBloodPressure() {
 
         if (mThsVitalsPresenter.checkIfValueEntered(mSystolic) || mThsVitalsPresenter.checkIfValueEntered(mDiastolic)) {
-
             String systolic = mThsVitalsPresenter.getTextFromEditText(mSystolic);
             String diastolic = mThsVitalsPresenter.getTextFromEditText(mDiastolic);
             return mThsVitalsPresenter.stringToInteger(diastolic) <= mThsVitalsPresenter.stringToInteger(systolic);
