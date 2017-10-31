@@ -8,6 +8,7 @@ import com.philips.platform.csw.mock.FragmentManagerMock;
 import com.philips.platform.csw.mock.FragmentTransactionMock;
 
 public class CswFragmentWrapper extends CswFragment {
+    public FragmentManagerMock fragmentManagerMock = new FragmentManagerMock(new FragmentTransactionMock());
 
     public void setupFragment(FragmentManagerMock childFragmentManager) {
         setChildFragmentManager(childFragmentManager);
@@ -15,6 +16,6 @@ public class CswFragmentWrapper extends CswFragment {
 
     @Override
     protected FragmentManager getmFragmentManager(){
-        return new FragmentManagerMock(new FragmentTransactionMock());
+        return fragmentManagerMock;
     }
 }

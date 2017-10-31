@@ -90,7 +90,7 @@ public class CswFragment extends Fragment implements
         return false;
     }
 
-    public void inflatePermissionView() {
+    private void inflatePermissionView() {
         try {
             if (null != mFragmentManager) {
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();

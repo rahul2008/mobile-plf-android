@@ -29,7 +29,9 @@ public class FragmentTransactionMock extends FragmentTransaction {
 
     @Override
     public FragmentTransaction replace(int containerId, Fragment fragment) {
-        return null;
+        this.replace_containerId = containerId;
+        this.replace_fragment = fragment;
+        return this;
     }
 
     @Override

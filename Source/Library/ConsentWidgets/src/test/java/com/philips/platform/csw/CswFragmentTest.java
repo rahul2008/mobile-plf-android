@@ -8,6 +8,7 @@ import com.philips.platform.csw.mock.FragmentTransactionMock;
 import com.philips.platform.csw.mock.LayoutInflatorMock;
 import com.philips.platform.csw.utils.CustomRobolectricRunner;
 import com.philips.platform.csw.wrapper.CswFragmentWrapper;
+import com.philips.platform.mya.consentwidgets.R;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,6 +29,7 @@ public class CswFragmentTest {
         fragmentTransactionMock = new FragmentTransactionMock();
         fragmentManagerMock = new FragmentManagerMock(fragmentTransactionMock);
         fragment = new CswFragmentWrapper();
+        fragment.fragmentManagerMock = fragmentManagerMock;
         fragment.setChildFragmentManager(fragmentManagerMock);
     }
 
@@ -39,23 +41,18 @@ public class CswFragmentTest {
         thenPropositionNameIs(PROPOSITION_NAME);
     }
 
-    private void thenPropositionNameIs(String propositionName) {
-        Assert.assertEquals(propositionName, fragment.getPropositionName());
+    @Test
+    public void onCreateView_InvokesInflatorWthRightParams() throws Exception {
+        givenArgumentsAre(APPLICATION_NAME,PROPOSITION_NAME);
+        whenOnCreateViewIsInvoked();
+        thenPermissionViewIsInflatedWith(R.id.csw_frame_layout_view_container,APPLICATION_NAME, PROPOSITION_NAME);
     }
 
-    private void thenApplicationNameIs(String applicationName) {
-        Assert.assertEquals(applicationName, fragment.getApplicationName());
-    }
-
-    private void whenOnCreateViewIsInvoked() {
-        fragment.onCreateView(mockLayoutInflater, null, null);
-    }
-
-    private void givenArgumentsAre(String applicationName, String propositionName) {
-        Bundle mockBundle = new Bundle();
-        mockBundle.putString("appName",applicationName);
-        mockBundle.putString("propName",propositionName);
-        fragment.setArguments(mockBundle);
+    @Test
+    public void onCreateView_InflatesPermissionView() throws Exception {
+        givenArgumentsAre(APPLICATION_NAME,PROPOSITION_NAME);
+        whenOnCreateViewIsInvoked();
+        thenInflatorInflateIsCalledWith(R.layout.csw_fragment_consent_widget_root, null, false);
     }
 
     @Test
@@ -85,6 +82,37 @@ public class CswFragmentTest {
         givenBackStackDepthIs(1);
         whenHandleBackEventIsCalled();
         thenEventIsHandled();
+    }
+
+    private void thenPermissionViewIsInflatedWith(int csw_frame_layout_view_container, String applicationName, String propositionName) {
+        assertEquals(csw_frame_layout_view_container, fragmentTransactionMock.replace_containerId);
+        assertEquals(applicationName, fragmentTransactionMock.replace_fragment.getArguments().get("appName"));
+        assertEquals(propositionName, fragmentTransactionMock.replace_fragment.getArguments().get("propName"));
+    }
+
+    private void thenInflatorInflateIsCalledWith(int csw_fragment_consent_widget_root, Object resource, boolean attachToRoot) {
+        assertEquals(csw_fragment_consent_widget_root, mockLayoutInflater.usedResource);
+        assertEquals(resource, mockLayoutInflater.usedViewGroup);
+        assertEquals(attachToRoot, mockLayoutInflater.usedAttachToRoot);
+    }
+
+    private void thenPropositionNameIs(String propositionName) {
+        Assert.assertEquals(propositionName, fragment.getPropositionName());
+    }
+
+    private void thenApplicationNameIs(String applicationName) {
+        Assert.assertEquals(applicationName, fragment.getApplicationName());
+    }
+
+    private void whenOnCreateViewIsInvoked() {
+        fragment.onCreateView(mockLayoutInflater, null, null);
+    }
+
+    private void givenArgumentsAre(String applicationName, String propositionName) {
+        Bundle mockBundle = new Bundle();
+        mockBundle.putString("appName",applicationName);
+        mockBundle.putString("propName",propositionName);
+        fragment.setArguments(mockBundle);
     }
 
     private void givenBackStackDepthIs(int depth) {
