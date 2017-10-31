@@ -838,4 +838,14 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             usr_StartScreen_privacyNotice_country_LinearLayout2.setVisibility(View.VISIBLE);
         }
     }
+
+    @Override
+    public void genericError() {
+        hideProgressDialog();
+        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                AppTagingConstants.TECHNICAL_ERROR);
+        RLog.i(RLog.CALLBACK, "HomeFragment error");
+        enableControls(true);
+        updateErrorMessage(mContext.getString(R.string.reg_Generic_Network_Error));
+    }
 }

@@ -637,9 +637,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString())) {
                 AccountActivationFragment fragment = new AccountActivationFragment();
                 getRegistrationFragment().addFragment(fragment);
-            } else {
+
+            } else if (FieldsValidator.isValidMobileNumber(loginValidationEditText.getText().toString())){
                 MobileVerifyCodeFragment fragment = new MobileVerifyCodeFragment();
                 getRegistrationFragment().addFragment(fragment);
+            } else {
+                RLog.i(RLog.CALLBACK, "SignInAccountFragment : invalid value");
+                mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
+                scrollViewAutomatically(mRegError, mSvRootLayout);
             }
         }
     }
