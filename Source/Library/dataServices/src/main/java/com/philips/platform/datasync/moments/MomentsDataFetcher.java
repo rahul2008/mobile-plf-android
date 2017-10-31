@@ -19,6 +19,7 @@ import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -27,6 +28,10 @@ import retrofit.converter.GsonConverter;
 
 public class MomentsDataFetcher extends DataFetcher {
     public static final String TAG = "MomentsDataFetcher";
+    private static final String START_DATE = "START_DATE";
+    private static final String END_DATE = "END_DATE";
+    private static final String LAST_MODIFIED_START_DATE = "LAST_MODIFIED_START_DATE";
+    private static final String LAST_MODIFIED_END_DATE = "LAST_MODIFIED_END_DATE";
 
     @NonNull
     private final MomentsConverter converter;
@@ -94,25 +99,35 @@ public class MomentsDataFetcher extends DataFetcher {
     @Override
     public void fetchDataByDateRange(String startDate, String endDate) {
         if (isUserInvalid()) {
-            RetrofitError.unexpectedError("", new IllegalStateException("User is not logged in"));
+            throw RetrofitError.unexpectedError("", new IllegalStateException("User is not logged in"));
         }
 
         final MomentsClient client = uCoreAdapter.getAppFrameworkClient(MomentsClient.class, accessProvider.getAccessToken(), gsonConverter);
         if (client == null) {
-            RetrofitError.unexpectedError("", new IllegalStateException("Client is not initialized"));
+            throw RetrofitError.unexpectedError("", new IllegalStateException("Client is not initialized"));
         }
 
-        UCoreMomentsHistory momentHistory = client.fetchMomentByDateRange(accessProvider.getUserId(), accessProvider.getUserId(),
-                "1", "1", "1", "1");
-        List<UCoreMoment> uCoreMoments = momentHistory.getUCoreMoments();
-        if (uCoreMoments != null && !uCoreMoments.isEmpty()) {
-            List<Moment> moments = converter.convert(uCoreMoments);
-            eventing.post(new BackendMomentListSaveRequest(moments, null));
-        }
+        UCoreMomentsHistory momentHistory;
+
+        Map<String, String> timeStamp = accessProvider.getLastSyncTimeStampByDateRange(startDate, endDate);
+        do {
+            momentHistory = client.fetchMomentByDateRange(accessProvider.getUserId(), accessProvider.getUserId(),
+                    timeStamp.get(START_DATE), timeStamp.get(END_DATE), timeStamp.get(LAST_MODIFIED_START_DATE), timeStamp.get(LAST_MODIFIED_END_DATE), 3);
+            updateMomentsToDB(momentHistory);
+            accessProvider.saveLastSyncTimeStampByDateRange(momentHistory.getSyncurl());
+        } while (momentHistory.getUCoreMoments().isEmpty());
     }
 
     protected boolean isUserInvalid() {
         final String accessToken = accessProvider.getAccessToken();
         return !accessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
+    }
+
+    private void updateMomentsToDB(UCoreMomentsHistory momentsHistory) {
+        List<UCoreMoment> uCoreMoments = momentsHistory.getUCoreMoments();
+        if (uCoreMoments != null && !uCoreMoments.isEmpty()) {
+            List<Moment> moments = converter.convert(uCoreMoments);
+            eventing.post(new BackendMomentListSaveRequest(moments, null));
+        }
     }
 }

@@ -139,7 +139,12 @@ public class DataPullSynchronise {
             executor.execute(new Runnable() {
                 @Override
                 public void run() {
-                    fetcher.fetchDataByDateRange(startDate, endDate);
+                    try {
+                        fetcher.fetchDataByDateRange(startDate, endDate);
+                    }catch (RetrofitError error){
+                        synchronisationManager.dataPushFail(error);
+                    }
+
                     countDownLatch.countDown();
                 }
             });

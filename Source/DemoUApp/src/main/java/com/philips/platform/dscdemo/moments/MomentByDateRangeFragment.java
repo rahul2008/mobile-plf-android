@@ -29,10 +29,12 @@ import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.R;
-import com.philips.platform.dscdemo.database.datatypes.MomentType;
 import com.philips.platform.dscdemo.pojo.Pagination;
+
+import org.joda.time.DateTime;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,7 +45,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MomentByDateRangeFragment extends DSBaseFragment
-		implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener {
+		implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener {
 
 	private Context mContext;
 	private RecyclerView mMomentsRecyclerView;
@@ -65,6 +67,7 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 	private EditText mPageNumberEt;
 	private Button mFetchByDateTypeBtn;
 	private Button mFetchByDateRangeBtn;
+	private Button mFetchSyncByDateRange;
 	private Spinner mMomentOrdering;
 
 	Calendar myCalendar;
@@ -117,6 +120,7 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 
 		mFetchByDateTypeBtn = (Button) view.findViewById(R.id.btn_fetch_by_date_type);
 		mFetchByDateRangeBtn = (Button) view.findViewById(R.id.btn_fetch_by_date_range);
+		mFetchSyncByDateRange = (Button) view.findViewById(R.id.btn_fetch_sync_by_date_range);
 
 		mMomentAdapter = new MomentAdapter(getContext(), mMomentList, mMomentPresenter, false);
 		mMomentsRecyclerView = (RecyclerView) view.findViewById(R.id.moment_dateRange_list);
@@ -128,6 +132,7 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 		mMomentEndDateEt.setOnClickListener(this);
 		mFetchByDateRangeBtn.setOnClickListener(this);
 		mFetchByDateTypeBtn.setOnClickListener(this);
+		mFetchSyncByDateRange.setOnClickListener(this);
 
 		ArrayAdapter<CharSequence> adapterLocale = ArrayAdapter.createFromResource(getActivity(),
 				R.array.sort, android.R.layout.simple_spinner_item);
@@ -267,7 +272,13 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 			new DatePickerDialog(mContext, endDate, myCalendar
 					.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
 					myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+		} else if (v == mFetchSyncByDateRange){
+			fetchSyncByDateRange();
 		}
+	}
+
+	private void fetchSyncByDateRange() {
+		mMomentPresenter.fetchSyncByDateRange(new DateTime(mStartDate), new DateTime(mEndDate) , this);
 	}
 
 	private void assignPageLimitAndNumber() {
@@ -324,4 +335,13 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 		}
 	}
 
+	@Override
+	public void onSyncComplete() {
+		System.out.println("OnSyncComplete");
+	}
+
+	@Override
+	public void onSyncFailed(Exception exception) {
+		System.out.println("OnSyncFailed");
+	}
 }

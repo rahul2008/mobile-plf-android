@@ -165,16 +165,16 @@ public class MomentFragment extends DSBaseFragment
 
         deleteUserDataIfNewUserLoggedIn();
 
-        mMomentPresenter.fetchData(this);
+//        mMomentPresenter.fetchData(this);
 
         if (!mUtility.isOnline(getContext())) {
             showToastOnUiThread("Please check your connection");
             return;
         }
 
-        if (!mSharedPreferences.getBoolean("isSynced", false)) {
+      /*  if (!mSharedPreferences.getBoolean("isSynced", false)) {
             showProgressDialog();
-        }
+        }*/
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
