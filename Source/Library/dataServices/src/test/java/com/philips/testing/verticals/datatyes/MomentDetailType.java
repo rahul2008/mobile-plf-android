@@ -11,7 +11,10 @@ public class MomentDetailType {
     public static final String VIDEO = "VIDEO";
     public static final String TAGGING_ID = "TAGGING ID";
     public static final String PHASE = "PHASE";
-    public static final String SLEEP_TIME="SLEEP_TIME";
+    public static final String DEVICE_SERIAL ="deviceSerial";
+    public static final String CTN="CTN";
+    public static final String FW_VERSION="fwVersion";
+    public static final String MOMENT_VERSION="momentVersion";
 
     public static int getIDFromDescription(String description) {
         if (description == null) {
@@ -32,8 +35,14 @@ public class MomentDetailType {
                 return 54;
             case PHASE:
                 return 55;
-            case SLEEP_TIME:
+            case DEVICE_SERIAL:
                 return 56;
+            case CTN:
+                return 57;
+            case FW_VERSION:
+                return 58;
+            case MOMENT_VERSION:
+                return 59;
             default:
                 return 0;
         }
@@ -57,7 +66,13 @@ public class MomentDetailType {
             case 55:
                 return PHASE;
             case 56:
-                return SLEEP_TIME;
+                return DEVICE_SERIAL;
+            case 57:
+                return CTN;
+            case 58:
+                return FW_VERSION;
+            case 59:
+                return MOMENT_VERSION;
             default:
                 return UNKNOWN;
         }
@@ -72,7 +87,10 @@ public class MomentDetailType {
         momentDetailType.add(VIDEO);
         momentDetailType.add(TAGGING_ID);
         momentDetailType.add(PHASE);
-        momentDetailType.add(SLEEP_TIME);
+        momentDetailType.add(DEVICE_SERIAL);
+        momentDetailType.add(CTN);
+        momentDetailType.add(FW_VERSION);
+        momentDetailType.add(MOMENT_VERSION);
         return momentDetailType;
     }
 }
