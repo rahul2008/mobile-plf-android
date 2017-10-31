@@ -34,7 +34,7 @@
         android:id="@+id/horizontalLine"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/chhose_person"
+        android:layout_below="@+id/choose_person"
         android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
     <RelativeLayout
