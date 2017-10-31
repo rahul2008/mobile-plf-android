@@ -49,7 +49,7 @@ public class EventingSpy implements Eventing {
     @Override
     public boolean isRegistered(@NonNull final Object subscriber) {
         this.subscriber = subscriber;
-        return true;
+        return false;
     }
 
     @Override
