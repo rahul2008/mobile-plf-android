@@ -66,7 +66,7 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
     }
 
     void showProviderList(Practice practice) {
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SEND_DATA, "visitSubject", practice.getName());
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "visitSubject", practice.getName());
         THSProvidersListFragment providerListFragment = new THSProvidersListFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(THSConstants.PRACTICE_FRAGMENT, practice);

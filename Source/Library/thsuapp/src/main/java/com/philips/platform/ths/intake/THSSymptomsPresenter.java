@@ -87,8 +87,10 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     public void onEvent(int componentID) {
         if (componentID == R.id.continue_btn) {
             ((THSSymptomsFragment) thsBaseView).updateOtherTopic();
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "step1SymptomsForVisit", ((THSSymptomsFragment) thsBaseView).tagActions);
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step1SymptomsAdded");
+            if(!((THSSymptomsFragment) thsBaseView).tagActions.isEmpty()) {
+                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step1SymptomsAdded");
+                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "step1SymptomsForVisit", ((THSSymptomsFragment) thsBaseView).tagActions);
+            }
             ((THSSymptomsFragment) thsBaseView).addTags();
             final THSVitalsFragment fragment = new THSVitalsFragment();
             fragment.setFragmentLauncher(thsBaseView.getFragmentLauncher());
