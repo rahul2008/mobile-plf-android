@@ -1,9 +1,7 @@
 package com.philips.platform.catk.network;
 
-import android.content.Context;
-
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
+import com.philips.platform.catk.CatkInterface;
 import com.philips.platform.catk.listener.RefreshTokenListener;
 import com.philips.platform.catk.listener.RequestListener;
 
@@ -15,7 +13,6 @@ public class NetworkHelper {
 
     private static NetworkHelper networkHelper;
     private NetworkController controller;
-    private Context mContext;
 
     public static NetworkHelper getInstance() {
         if (networkHelper == null) {
@@ -31,15 +28,14 @@ public class NetworkHelper {
         return controller;
     }
 
-    public void sendRequest(Context context, int requestCode, NetworkAbstractModel model, final RequestListener
+    public void sendRequest(int requestCode, NetworkAbstractModel model, final RequestListener
             requestListener) {
-        mContext = context;
         getNetworkController().sendConsentRequest(requestCode, model, requestListener);
     }
 
     public void refreshAccessToken(final RefreshTokenListener refreshTokenListener){
 
-        new User(mContext).refreshLoginSession(new RefreshLoginSessionHandler() {
+        CatkInterface.getCatkComponent().getUser().refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
                 refreshTokenListener.onRefreshSuccess();

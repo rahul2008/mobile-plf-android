@@ -1,10 +1,8 @@
 package com.philips.platform.catk;
 
-import android.content.Context;
 import android.os.Message;
 
 import com.janrain.android.utils.StringUtils;
-import com.philips.cdp.registration.User;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
@@ -27,16 +25,12 @@ import java.util.List;
 public class ConsentAccessToolKit {
 
     private NetworkHelper networkHelper;
-    private User user;
-    private Context context;
     private String applicationName;
     private String propositionName;
 
-    public ConsentAccessToolKit(Context context,String applicationName,String propositionName){
-        this.context = context;
+    public ConsentAccessToolKit(String applicationName,String propositionName){
         this.applicationName = applicationName;
         this.propositionName = propositionName;
-        this.user = new User(context);
     }
 
     public void getConsentDetails(final ConsentResponseListener consentListener){
@@ -61,7 +55,7 @@ public class ConsentAccessToolKit {
                 return CatkConstants.CONSENT_ERROR_UNKNOWN;
             }
         });
-        getNetworkHelper().sendRequest(context,model.getMethod(), model, model);
+        getNetworkHelper().sendRequest(model.getMethod(), model, model);
     }
 
 
@@ -83,11 +77,11 @@ public class ConsentAccessToolKit {
                 return CatkConstants.CONSENT_ERROR_UNKNOWN;
             }
         });
-        getNetworkHelper().sendRequest(context,model.getMethod(), model, model);
+        getNetworkHelper().sendRequest(model.getMethod(), model, model);
     }
 
     public void getStatusForConsentType(String consentType, int version, final ConsentResponseListener consentListener) {
-        final String policyRule = buildPolicyRule(consentType, version, user.getCountryCode(), propositionName, applicationName);
+        final String policyRule = buildPolicyRule(consentType, version, CatkInterface.getCatkComponent().getUser().getCountryCode(), propositionName, applicationName);
         getConsentDetails(new ConsentResponseListener() {
 
             @Override

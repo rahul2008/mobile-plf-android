@@ -3,8 +3,10 @@ package com.philips.platform.catk.injection;
 
 import android.content.Context;
 
+import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.model.CreateConsentModelRequest;
 import com.philips.platform.catk.model.GetConsentsModelRequest;
 import com.philips.platform.catk.network.NetworkController;
@@ -22,9 +24,13 @@ public interface CatkComponent {
 
     RestInterface getRestInterface();
 
+    User getUser();
+
     void inject(NetworkController networkController);
 
     void inject(CreateConsentModelRequest createConsentModelRequest);
 
     void inject(GetConsentsModelRequest getConsentsModelRequest);
+
+    void inject(ConsentAccessToolKit consentAccessToolKit);
 }

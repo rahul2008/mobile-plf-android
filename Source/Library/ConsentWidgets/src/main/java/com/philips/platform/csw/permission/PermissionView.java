@@ -65,7 +65,7 @@ public class PermissionView extends CswBaseFragment implements
 
     private void getConsentStatus() {
         showProgressDialog();
-        ConsentAccessToolKit cat = new ConsentAccessToolKit(this.getActivity().getApplicationContext(), CatkConstants.APPLICATION_NAME, CatkConstants.PROPOSITION_NAME);
+        ConsentAccessToolKit cat = new ConsentAccessToolKit(CatkConstants.APPLICATION_NAME, CatkConstants.PROPOSITION_NAME);
         cat.getStatusForConsentType(CONSENT_TYPE_MOMENT, version, new ConsentResponseListener() {
 
             @Override
@@ -100,7 +100,7 @@ public class PermissionView extends CswBaseFragment implements
     private void createConsentStatus(boolean isChecked) {
         showProgressDialog();
         ConsentStatus status = isChecked?ConsentStatus.active:ConsentStatus.rejected;
-        ConsentAccessToolKit consentAccessToolKit = new ConsentAccessToolKit(getActivity().getApplicationContext(), CatkConstants.APPLICATION_NAME, CatkConstants.PROPOSITION_NAME);
+        ConsentAccessToolKit consentAccessToolKit = new ConsentAccessToolKit(CatkConstants.APPLICATION_NAME, CatkConstants.PROPOSITION_NAME);
         consentAccessToolKit.createConsent(status,new CreateConsentListener() {
 
             @Override

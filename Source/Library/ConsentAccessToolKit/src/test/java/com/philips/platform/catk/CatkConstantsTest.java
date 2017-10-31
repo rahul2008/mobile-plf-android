@@ -13,7 +13,6 @@ public class CatkConstantsTest {
         assertEquals(30000, new CatkConstants().DEFAULT_TIMEOUT_MS);
     }
 
-
     @Test
     public void testEmptyConstant() {
         assertEquals("", new CatkConstants().EMPTY_RESPONSE);
