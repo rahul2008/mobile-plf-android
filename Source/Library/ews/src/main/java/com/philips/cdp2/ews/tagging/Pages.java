@@ -19,7 +19,13 @@ public class Pages {
     public static final String ROUTER_SETTINGS_WRONG_WIFI = "Troubleshooting:Check router settings, Wrong Wifi";
     public static final String WRONG_WIFI = "Your phone has reconnected to a different network";
     public static final String CONNECTION_UNSUCCESSFUL = "Connection Error";
-    public static final String RESET_DEVICE = "EWS Reset Device";
+    //public static final String RESET_DEVICE = "EWS Reset Device";
     public static final String CHOOSE_SETUP_STATE = "Choose EWS Setup State";
     public static final String BLINKING_ACCESS_POINT = "Blinking Access Point";
+
+    public static final String CONNECT_TO_WRONG_PHONE = "connectToWrongPhone ";
+    public static final String RESET_CONNECTION = "resetConnection";
+    public static final String RESET_DEVICE = "resetDevice";
+    public static final String SETUP_ACCESS_POINT_MODE = "setupAccessPointMode";
+
 }

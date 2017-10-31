@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentSetupAccessPointTroubleshootingLayoutBinding;
+import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.view.BaseTroubleShootingFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 
@@ -42,5 +43,11 @@ public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShoo
                         viewModel.onDoneButtonClicked();
                     }
                 });
+    }
+
+    @NonNull
+    @Override
+    protected String getPageName() {
+        return Pages.SETUP_ACCESS_POINT_MODE;
     }
 }

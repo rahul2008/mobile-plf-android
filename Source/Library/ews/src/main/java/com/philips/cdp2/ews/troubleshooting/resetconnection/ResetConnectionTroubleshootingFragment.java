@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentResetConnectionTroubleshootingLayoutBinding;
+import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.view.BaseTroubleShootingFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 
@@ -48,5 +49,11 @@ public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingF
                         viewModel.onNoButtonClicked();
                     }
                 });
+    }
+
+    @NonNull
+    @Override
+    protected String getPageName() {
+        return Pages.RESET_CONNECTION;
     }
 }
