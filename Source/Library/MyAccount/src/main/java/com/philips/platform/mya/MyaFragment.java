@@ -29,8 +29,8 @@ public class MyaFragment extends Fragment implements
     private FragmentManager mFragmentManager;
     private ActionBarListener mActionBarListener;
 
-    private String applicationName;
-    private String propositionName;
+    public String applicationName;
+    public String propositionName;
 
     static String BACK_STACK_ID = MyaFragment.class.getSimpleName();
 

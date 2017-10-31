@@ -37,8 +37,8 @@ public class AccountView extends MyaBaseFragment implements
 
     private AccountPresenter accountPresenter;
 
-    private String applicationName;
-    private String propositionName;
+    public String applicationName;
+    public String propositionName;
 
     public AccountView() {}
 
