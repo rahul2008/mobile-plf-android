@@ -43,12 +43,16 @@ public class CswFragment extends Fragment implements
             propositionName = getArguments().getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
         }
 
-        mFragmentManager = getChildFragmentManager();
+        mFragmentManager = getmFragmentManager();
         if (mFragmentManager.getBackStackEntryCount() < 1) {
             inflatePermissionView();
         }
 
         return view;
+    }
+
+    protected FragmentManager getmFragmentManager(){
+        return getChildFragmentManager();
     }
 
     @Override
@@ -150,4 +154,11 @@ public class CswFragment extends Fragment implements
         this.setArguments(b);
     }
 
+    public String getApplicationName() {
+        return applicationName;
+    }
+
+    public String getPropositionName() {
+        return propositionName;
+    }
 }
