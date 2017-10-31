@@ -253,6 +253,14 @@ public class DataServicesManager {
         sendPullDataEvent();
     }
 
+
+    public void fetchSync(DateTime startDate, DateTime endDate, SynchronisationCompleteListener synchronisationCompleteListener) {
+        synchronized (this) {
+            startMonitors();
+            mSynchronisationManager.startFetch(startDate.toString(), endDate.toString(), synchronisationCompleteListener);
+        }
+    }
+
     /**
      * Start Data-Pull followed by Data-Push
      */
@@ -337,15 +345,15 @@ public class DataServicesManager {
         mEventing.post(new LoadMomentsRequest(dbFetchRequestListner));
     }
 
-	public void fetchMomentsWithTimeLine(Date startDate, Date endDate,DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
-       mEventing.post(new LoadMomentsByDate(startDate,endDate,dsPagination,dbFetchRequestListener));
-	}
+    public void fetchMomentsWithTimeLine(Date startDate, Date endDate, DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
+        mEventing.post(new LoadMomentsByDate(startDate, endDate, dsPagination, dbFetchRequestListener));
+    }
 
-	public void fetchMomentsWithTypeAndTimeLine(String momentType, Date startDate, Date endDate,DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
-		mEventing.post(new LoadMomentsByDate(momentType,startDate,endDate,dsPagination,dbFetchRequestListener));
-	}
+    public void fetchMomentsWithTypeAndTimeLine(String momentType, Date startDate, Date endDate, DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
+        mEventing.post(new LoadMomentsByDate(momentType, startDate, endDate, dsPagination, dbFetchRequestListener));
+    }
 
-	/**
+    /**
      * Fetch the Consent Detail from Data-Base
      *
      * @param dbFetchRequestListner Callback for notifying the fetch result

@@ -5,7 +5,7 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.datasync.spy;
+package com.philips.spy;
 
 import android.support.annotation.NonNull;
 
@@ -20,6 +20,7 @@ import java.util.List;
 public class EventingSpy implements Eventing {
     public Event postedEvent;
     public DataPushSynchronise registeredClass;
+    public Object subscriber;
 
     @Override
     public void post(@NonNull final Event event) {
@@ -47,7 +48,8 @@ public class EventingSpy implements Eventing {
 
     @Override
     public boolean isRegistered(@NonNull final Object subscriber) {
-        return false;
+        this.subscriber = subscriber;
+        return true;
     }
 
     @Override

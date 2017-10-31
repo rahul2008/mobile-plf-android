@@ -62,12 +62,16 @@ public class SettingsDataFetcher extends DataFetcher {
 
     @Nullable
     @Override
-    public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
+    public RetrofitError fetchData() {
 
         if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
             getSettings();
         }
         return null;
+    }
+
+    @Override
+    public void fetchDataByDateRange(String startDate, String endDate) {
     }
 
     public void getSettings() {

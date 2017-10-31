@@ -6,6 +6,7 @@
 package com.philips.platform.datasync.synchronisation;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.events.FetchByDateRange;
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.listeners.SynchronisationChangeListener;
@@ -35,9 +36,14 @@ public class SynchronisationManager implements SynchronisationChangeListener {
             mSynchronisationCompleteListener = synchronisationCompleteListner;
             if (isSyncComplete) {
                 isSyncComplete = false;
-                mEventing.post(new ReadDataFromBackendRequest(null));
+                mEventing.post(new ReadDataFromBackendRequest());
             }
         }
+    }
+
+    public void startFetch(String startDate, String endDate, SynchronisationCompleteListener synchronisationCompleteListener) {
+        mSynchronisationCompleteListener = synchronisationCompleteListener;
+        mEventing.post(new FetchByDateRange(startDate, endDate));
     }
 
     @Override

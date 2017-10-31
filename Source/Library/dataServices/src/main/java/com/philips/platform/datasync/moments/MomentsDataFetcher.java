@@ -18,8 +18,6 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 
-import org.joda.time.DateTime;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -56,7 +54,7 @@ public class MomentsDataFetcher extends DataFetcher {
     @Override
     @CheckResult
     @Nullable
-    public RetrofitError fetchDataSince(@Nullable final DateTime sinceTimestamp) {
+    public RetrofitError fetchData() {
         if (isUserInvalid()) {
             return null;
         }
@@ -90,6 +88,26 @@ public class MomentsDataFetcher extends DataFetcher {
             eventing.post(new BackendDataRequestFailed(ex));
             onError(ex);
             return ex;
+        }
+    }
+
+    @Override
+    public void fetchDataByDateRange(String startDate, String endDate) {
+        if (isUserInvalid()) {
+            RetrofitError.unexpectedError("", new IllegalStateException("User is not logged in"));
+        }
+
+        final MomentsClient client = uCoreAdapter.getAppFrameworkClient(MomentsClient.class, accessProvider.getAccessToken(), gsonConverter);
+        if (client == null) {
+            RetrofitError.unexpectedError("", new IllegalStateException("Client is not initialized"));
+        }
+
+        UCoreMomentsHistory momentHistory = client.fetchMomentByDateRange(accessProvider.getUserId(), accessProvider.getUserId(),
+                "1", "1", "1", "1");
+        List<UCoreMoment> uCoreMoments = momentHistory.getUCoreMoments();
+        if (uCoreMoments != null && !uCoreMoments.isEmpty()) {
+            List<Moment> moments = converter.convert(uCoreMoments);
+            eventing.post(new BackendMomentListSaveRequest(moments, null));
         }
     }
 

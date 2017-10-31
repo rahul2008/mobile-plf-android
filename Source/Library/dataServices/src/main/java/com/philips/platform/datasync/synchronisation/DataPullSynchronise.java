@@ -8,7 +8,6 @@
 package com.philips.platform.datasync.synchronisation;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
@@ -19,8 +18,6 @@ import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.insights.InsightDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.settings.SettingsDataFetcher;
-
-import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,12 +72,10 @@ public class DataPullSynchronise {
     public DataPullSynchronise(@NonNull final List<? extends DataFetcher> fetchers) {
         dataServicesManager = DataServicesManager.getInstance();
         dataServicesManager.getAppComponant().injectDataPullSynchronize(this);
-
         this.fetchers = fetchers;
-
     }
 
-    void startSynchronise(@Nullable final DateTime sinceLastModifiedDate, final int referenceId) {
+    void startSynchronise(final int referenceId) {
         if (!userAccessProvider.isLoggedIn()) {
             postError(referenceId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in")));
             return;
@@ -89,7 +84,21 @@ public class DataPullSynchronise {
         if (executor == null) {
             synchronisationManager.dataSyncComplete();
         } else {
-            fetchData(sinceLastModifiedDate, referenceId);
+            fetchData(referenceId);
+        }
+    }
+
+    void startSynchronise(String startDate, String endDate, final int referenceId) {
+        if (!userAccessProvider.isLoggedIn()) {
+            postError(referenceId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in")));
+            return;
+        }
+
+        initializeFetchersAndExecutor();
+        if (executor == null) {
+            synchronisationManager.dataSyncComplete();
+        } else {
+            fetchDataByDateRange(startDate, endDate);
         }
     }
 
@@ -100,14 +109,14 @@ public class DataPullSynchronise {
         }
     }
 
-    private synchronized void fetchData(final DateTime sinceLastModifiedDate, final int referenceId) {
+    private synchronized void fetchData(final int referenceId) {
         final CountDownLatch countDownLatch = new CountDownLatch(configurableFetchers.size());
 
         for (final DataFetcher fetcher : configurableFetchers) {
             executor.execute(new Runnable() {
                 @Override
                 public void run() {
-                    RetrofitError resultError = fetcher.fetchDataSince(sinceLastModifiedDate);
+                    RetrofitError resultError = fetcher.fetchData();
                     updateResult(resultError);
                     countDownLatch.countDown();
                 }
@@ -121,6 +130,28 @@ public class DataPullSynchronise {
         }
 
         reportResult(fetchResult, referenceId);
+    }
+
+    private synchronized void fetchDataByDateRange(final String startDate, final String endDate) {
+        final CountDownLatch countDownLatch = new CountDownLatch(configurableFetchers.size());
+
+        for (final DataFetcher fetcher : configurableFetchers) {
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    fetcher.fetchDataByDateRange(startDate, endDate);
+                    countDownLatch.countDown();
+                }
+            });
+        }
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            //Debug log
+        }
+
+        synchronisationManager.dataSyncComplete();
     }
 
     private void updateResult(final RetrofitError resultError) {

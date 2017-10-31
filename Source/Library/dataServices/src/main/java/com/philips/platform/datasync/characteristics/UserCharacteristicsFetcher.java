@@ -45,7 +45,7 @@ public class UserCharacteristicsFetcher extends DataFetcher {
 
     @Nullable
     @Override
-    public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
+    public RetrofitError fetchData() {
         try {
             final UserCharacteristicsClient userCharacteristicsClient = uCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class,
                     mUCoreAccessProvider.getAccessToken(), mGsonConverter);
@@ -68,5 +68,9 @@ public class UserCharacteristicsFetcher extends DataFetcher {
             onError(exception);
             return exception;
         }
+    }
+
+    @Override
+    public void fetchDataByDateRange(String startDate, String endDate) {
     }
 }

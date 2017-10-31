@@ -54,10 +54,10 @@ public class SynchronisationMonitorTest {
     @Test
     public void ShouldCallSynchronise_WhenSyncAsked() throws Exception {
         DateTime dateTime = DateTime.now().minusDays(4);
-        ReadDataFromBackendRequest event = new ReadDataFromBackendRequest(dateTime);
+        ReadDataFromBackendRequest event = new ReadDataFromBackendRequest();
         monitor.onEventAsync(event);
 
-        verify(dataSynchronisePullMock).startSynchronise(dateTime, event.getEventId());
+        verify(dataSynchronisePullMock).startSynchronise(event.getEventId());
     }
 
     @Test

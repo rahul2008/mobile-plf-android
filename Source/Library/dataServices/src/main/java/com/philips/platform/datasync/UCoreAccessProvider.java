@@ -21,6 +21,11 @@ public class UCoreAccessProvider implements BackendIdProvider {
     public static final String MOMENT_LAST_SYNC_URL_KEY = "MOMENT_LAST_SYNC_URL_KEY";
     public static final String INSIGHT_LAST_SYNC_URL_KEY = "INSIGHT_LAST_SYNC_URL_KEY";
 
+    public static final String START_DATE = "START_DATE";
+    public static final String END_DATE = "END_DATE";
+    public static final String LAST_MODIFIED_START_DATE = "LAST_MODIFIED_START_DATE";
+    public static final String LAST_MODIFIED_END_DATE = "LAST_MODIFIED_END_DATE";
+
     @Inject
     SharedPreferences sharedPreferences;
 
@@ -82,4 +87,29 @@ public class UCoreAccessProvider implements BackendIdProvider {
             edit.apply();
         }
     }
+
+   /* public void saveLastSyncTimeStampByDateRange(String syncUrl) {
+        if (syncUrl != null && !syncUrl.isEmpty()) {
+            SharedPreferences.Editor edit = sharedPreferences.edit();
+            int indexOf = syncUrl.indexOf('?');
+            syncUrl = syncUrl.substring(indexOf + 1);
+
+            String[] timestamp = syncUrl.split("=");
+            edit.putString(START_DATE, timestamp[1]);
+            edit.putString(END_DATE, timestamp[3]);
+            edit.putString(LAST_MODIFIED_START_DATE, timestamp[5]);
+            edit.putString(LAST_MODIFIED_END_DATE, timestamp[7]);
+            edit = edit.putBoolean("isSynced", true);
+            edit.apply();
+        }
+    }
+
+    public ArrayList<String> getLastSyncTimeStampByDateRange() {
+        ArrayList<String> timeStampList = new ArrayList<>();
+        timeStampList.add(sharedPreferences.getString(START_DATE, null));
+        timeStampList.add(sharedPreferences.getString(END_DATE, null));
+        timeStampList.add(sharedPreferences.getString(LAST_MODIFIED_START_DATE, null));
+        timeStampList.add(sharedPreferences.getString(LAST_MODIFIED_END_DATE, null));
+        return timeStampList;
+    }*/
 }

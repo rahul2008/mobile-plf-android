@@ -127,7 +127,7 @@ public class MomentsDataFetcherTest {
     public void ShouldNotFetchData_WhenUserIsNotLoggedIn() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
 
-        RetrofitError retrofitError = fetcher.fetchDataSince(DateTime.now());
+        RetrofitError retrofitError = fetcher.fetchData();
 
         assertThat(retrofitError).isNull();
         verifyZeroInteractions(coreAdapterMock);
@@ -138,7 +138,7 @@ public class MomentsDataFetcherTest {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn(null);
 
-        RetrofitError retrofitError = fetcher.fetchDataSince(DateTime.now());
+        RetrofitError retrofitError = fetcher.fetchData();
 
         assertThat(retrofitError).isNull();
         verifyZeroInteractions(coreAdapterMock);
@@ -149,7 +149,7 @@ public class MomentsDataFetcherTest {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn("");
 
-        RetrofitError retrofitError = fetcher.fetchDataSince(DateTime.now());
+        RetrofitError retrofitError = fetcher.fetchData();
 
         assertThat(retrofitError).isNull();
         verifyZeroInteractions(coreAdapterMock);
@@ -169,7 +169,7 @@ public class MomentsDataFetcherTest {
         when(converterMock.convert(uCoreMomentList)).thenReturn(momentList);
 
         //noinspection ThrowableResultOfMethodCallIgnored
-        RetrofitError retrofitError = fetcher.fetchDataSince(null);
+        RetrofitError retrofitError = fetcher.fetchData();
 
 //        verify(eventingMock).post(saveRequestCaptor.capture());
 //        BackendMomentListSaveRequest request = (BackendMomentListSaveRequest) saveRequestCaptor.getAllValues().get(0);
@@ -184,7 +184,7 @@ public class MomentsDataFetcherTest {
 
         when(converterMock.convert(uCoreMomentList)).thenReturn(momentList);
 
-        RetrofitError result = fetcher.fetchDataSince(null);
+        RetrofitError result = fetcher.fetchData();
 
         assertThat(result).isNull();
         verify(accessProviderMock).saveLastSyncTimeStamp(TEST_MOMENT_SYNC_URL, UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
@@ -198,7 +198,7 @@ public class MomentsDataFetcherTest {
         when(accessProviderMock.getSubjectId()).thenReturn("");
         when(coreAdapterMock.getAppFrameworkClient(MomentsClient.class, ACCESS_TOKEN, gsonConverterMock)).thenReturn(null);
 
-        RetrofitError retrofitError = fetcher.fetchDataSince(null);
+        RetrofitError retrofitError = fetcher.fetchData();
 
         verify(momentsClientMock, never()).getMomentsHistory(anyString(), anyString(), eq(new DateTime().toString()));
         verify(converterMock, never()).convert(uCoreMomentList);
@@ -224,7 +224,7 @@ public class MomentsDataFetcherTest {
 
         Mockito.when(converterMock.convert(momentsHistoryMock.getUCoreMoments())).thenReturn(momentList);
         momentList.add(momentMock);
-        RetrofitError retrofitError = fetcher.fetchDataSince(null);
+        RetrofitError retrofitError = fetcher.fetchData();
 
         verify(converterMock, times(1)).convert(uCoreMomentList);
         verify(eventingMock).post(isA(BackendMomentListSaveRequest.class));
@@ -235,7 +235,7 @@ public class MomentsDataFetcherTest {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
-      //  final UserCharacteristicsClient uCoreClientMock = mock(Mo.class);
+        //  final UserCharacteristicsClient uCoreClientMock = mock(Mo.class);
         /*when(coreAdapterMock.getAppFrameworkClient(MomentsClient.class,
                 TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(momentsClientMock);*/
         final RetrofitError retrofitErrorMock = mock(RetrofitError.class);
@@ -243,7 +243,7 @@ public class MomentsDataFetcherTest {
         //when(momentsClientMock.getMomentsHistory(TEST_USER_ID, TEST_USER_ID, "")).thenThrow(retrofitErrorMock);
         when(momentsClientMock.getMomentsHistory(accessProviderMock.getUserId(),
                 accessProviderMock.getUserId(), "")).thenThrow(retrofitErrorMock);
-        RetrofitError retrofitError = fetcher.fetchDataSince(null);
+        RetrofitError retrofitError = fetcher.fetchData();
 
         assertThat(retrofitError).isNull();
     }
@@ -269,7 +269,7 @@ public class MomentsDataFetcherTest {
 
         doThrow(RetrofitError.class).when(momentsClientMock).getMomentsHistory(TEST_USER_ID, TEST_USER_ID, "url");
 
-        RetrofitError retrofitError1 = fetcher.fetchDataSince(null);
+        RetrofitError retrofitError1 = fetcher.fetchData();
 
         verify(momentsClientMock).getMomentsHistory(TEST_USER_ID, TEST_USER_ID, "url");
     }
@@ -296,7 +296,7 @@ public class MomentsDataFetcherTest {
 
         doThrow(retrofitError).when(momentsClientMock).getMomentsHistory(TEST_USER_ID, TEST_USER_ID, "url");
 
-        RetrofitError retrofitError1 = fetcher.fetchDataSince(null);
+        RetrofitError retrofitError1 = fetcher.fetchData();
 
         verify(momentsClientMock).getMomentsHistory(TEST_USER_ID, TEST_USER_ID, "url");
     }

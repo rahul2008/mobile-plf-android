@@ -7,7 +7,7 @@ import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.insights.InsightDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.settings.SettingsDataFetcher;
-import com.philips.platform.datasync.spy.EventingSpy;
+import com.philips.spy.EventingSpy;
 import com.philips.platform.datasync.spy.UserAccessProviderSpy;
 
 import org.joda.time.DateTime;
@@ -32,6 +32,8 @@ public class DataPullSynchroniseTest {
     private static final int EVENT_ID = 2344;
 
     private static final DateTime NOW = DateTime.now(DateTimeZone.UTC);
+    private static final String START_DATE = new DateTime().toString();
+    private static final String END_DATE = new DateTime().toString();
 
     private UserAccessProviderSpy userAccessProviderSpy;
 
@@ -144,7 +146,7 @@ public class DataPullSynchroniseTest {
 
     private RetrofitError givenRetrofitErrorWhileFetchingData() {
         error = mock(RetrofitError.class);
-        Mockito.when(momentsDataFetcherMock.fetchDataSince(NOW)).thenReturn(error);
+        Mockito.when(momentsDataFetcherMock.fetchData()).thenReturn(error);
         return error;
     }
 
@@ -173,7 +175,7 @@ public class DataPullSynchroniseTest {
     }
 
     private void whenSynchronisationIsStarted(final int eventId) {
-        synchronise.startSynchronise(NOW, eventId);
+        synchronise.startSynchronise(eventId);
     }
 
 
@@ -191,6 +193,33 @@ public class DataPullSynchroniseTest {
 
     private void thenAnErrorIsPostedWithReferenceId(final int expectedEventId) {
         assertEquals(expectedEventId, eventingSpy.postedEvent.getReferenceId());
+    }
+
+    @Test
+    public void startSynchroniseWithDateRangeWhenUserIsNotLoggedIn(){
+        givenUserIsNotLoggedIn();
+        whenStartSynchroniseWithDateRangeIsInvoked();
+        thenAnErrorIsPostedWithReferenceId(EVENT_ID);
+    }
+
+    @Test
+    public void startSynchroniseWhenFetchersAreAvailable(){
+        givenUserIsLoggedIn();
+        whenStartSynchroniseWithDateRangeIsInvoked();
+        thenDataSyncIsCompleted();
+    }
+
+    @Test
+    public void startSynchroniseWhenFetchersAreNotAvailable(){
+        givenUserIsLoggedIn();
+        givenNoConfigurableFetcherList();
+        givenNoFetchers();
+        whenStartSynchroniseWithDateRangeIsInvoked();
+        thenDataSyncIsCompleted();
+    }
+
+    private void whenStartSynchroniseWithDateRangeIsInvoked(){
+        synchronise.startSynchronise(START_DATE, END_DATE, EVENT_ID);
     }
 
 }

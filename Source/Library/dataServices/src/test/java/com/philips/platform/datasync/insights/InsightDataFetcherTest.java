@@ -104,7 +104,7 @@ public class InsightDataFetcherTest {
     public void shouldNotFetchDataSince_WhenDataSenderIsBusy() throws Exception {
 
         insightDataFetcher.synchronizationState.set(DataSender.State.BUSY.getCode());
-        insightDataFetcher.fetchDataSince(new DateTime());
+        insightDataFetcher.fetchData();
         verify(eventingMock, never()).post(insightBackendGetRequestArgumentCaptor.capture());
     }
 
@@ -118,9 +118,9 @@ public class InsightDataFetcherTest {
         when(accessProviderMock.getInsightLastSyncTimestamp()).thenReturn("2017-03-21T10:19:51.706Z");
         when(uCoreAdapterMock.getAppFrameworkClient(InsightClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(mInsightClient);
         when(mInsightClient.fetchInsights(TEST_USER_ID, TEST_USER_ID, UCoreAdapter.API_VERSION, "2017-03-21T10:19:51.706Z")).thenReturn(uCoreInsightListMock);
-        RetrofitError retrofitError = insightDataFetcher.fetchDataSince(null);
+        RetrofitError retrofitError = insightDataFetcher.fetchData();
         assertThat(retrofitError).isNull();
-        insightDataFetcher.fetchDataSince(new DateTime());
+        insightDataFetcher.fetchData();
     }
 
     @Test
@@ -137,14 +137,14 @@ public class InsightDataFetcherTest {
         when(accessProviderMock.getInsightLastSyncTimestamp()).thenReturn("2017-03-21T10:19:51.706Z");
         when(uCoreAdapterMock.getAppFrameworkClient(InsightClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(mInsightClient);
         when(mInsightClient.fetchInsights(TEST_USER_ID, TEST_USER_ID, UCoreAdapter.API_VERSION, "2017-03-21T10:19:51.706Z")).thenThrow(retrofitErrorMock);
-        insightDataFetcher.fetchDataSince(null);
+        insightDataFetcher.fetchData();
         verify(eventingMock).post(new BackendDataRequestFailed(any(RetrofitError.class)));
     }
 
     @Test
     public void shouldPostError_WhenUserisInvalid() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
-        insightDataFetcher.fetchDataSince(new DateTime());
+        insightDataFetcher.fetchData();
     }
 
     @Test

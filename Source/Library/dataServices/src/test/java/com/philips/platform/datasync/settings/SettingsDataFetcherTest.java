@@ -79,7 +79,7 @@ public class SettingsDataFetcherTest {
     public void shouldNotFetchDataSince_WhenDataSenderIsBusy() throws Exception {
 
         settingsDataFetcher.synchronizationState.set(DataSender.State.BUSY.getCode());
-        settingsDataFetcher.fetchDataSince(new DateTime());
+        settingsDataFetcher.fetchData();
         verify(eventingMock, never()).post(settingsBackendGetRequestArgumentCaptor.capture());
     }
 
@@ -87,7 +87,7 @@ public class SettingsDataFetcherTest {
     public void shouldFetchDataSince_WhenDataSenderIsNotBusy() throws Exception {
 
         settingsDataFetcher.synchronizationState.set(DataSender.State.IDLE.getCode());
-        settingsDataFetcher.fetchDataSince(new DateTime());
+        settingsDataFetcher.fetchData();
         verify(eventingMock).post(settingsBackendGetRequestArgumentCaptor.capture());
     }
 
@@ -95,7 +95,7 @@ public class SettingsDataFetcherTest {
     public void ShouldNotFetchData_WhenUserIsNotLoggedIn() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
 
-        assertThat(settingsDataFetcher.fetchDataSince(null)).isNull();
+        assertThat(settingsDataFetcher.fetchData()).isNull();
     }
 
     @Test
@@ -103,7 +103,7 @@ public class SettingsDataFetcherTest {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn("");
 
-        assertThat(settingsDataFetcher.fetchDataSince(null)).isNull();
+        assertThat(settingsDataFetcher.fetchData()).isNull();
     }
 
     @Test
@@ -111,7 +111,7 @@ public class SettingsDataFetcherTest {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn(null);
 
-        assertThat(settingsDataFetcher.fetchDataSince(null)).isNull();
+        assertThat(settingsDataFetcher.fetchData()).isNull();
     }
 
     @Test
@@ -123,7 +123,7 @@ public class SettingsDataFetcherTest {
         when(uCoreAdapterMock.getAppFrameworkClient(SettingsClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(uSettingClientMock);
         uSettingClientMock.getSettings(eq(TEST_ACCESS_TOKEN), eq(TEST_USER_ID),eq(9));
         when(settingsConverterMock.convertUcoreToAppSettings(any(UCoreSettings.class))).thenReturn(settingsMock);
-        RetrofitError retrofitError = settingsDataFetcher.fetchDataSince(null);
+        RetrofitError retrofitError = settingsDataFetcher.fetchData();
         assertThat(retrofitError).isNull();
         verify(eventingMock).post(isA(SettingsBackendSaveResponse.class));
     }
@@ -137,7 +137,7 @@ public class SettingsDataFetcherTest {
         when(uCoreAdapterMock.getAppFrameworkClient(SettingsClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(uSettingClientMock);
         uSettingClientMock.getSettings(eq(TEST_ACCESS_TOKEN), eq(TEST_USER_ID),eq(9));
         when(settingsConverterMock.convertUcoreToAppSettings(any(UCoreSettings.class))).thenReturn(settingsMock);
-        RetrofitError retrofitError = settingsDataFetcher.fetchDataSince(null);
+        RetrofitError retrofitError = settingsDataFetcher.fetchData();
        // assertThat(retrofitError).isNotNull();
     }
 

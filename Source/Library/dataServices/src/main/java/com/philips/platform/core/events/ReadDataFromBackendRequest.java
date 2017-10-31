@@ -5,22 +5,8 @@
 */
 package com.philips.platform.core.events;
 
-import android.support.annotation.Nullable;
-
-import org.joda.time.DateTime;
-
 public class ReadDataFromBackendRequest extends Event {
-
-    @Nullable
-    private DateTime lastSynchronizationTimestamp;
-
-    public ReadDataFromBackendRequest(@Nullable final DateTime lastSynchronizationTimestamp) {
+    public ReadDataFromBackendRequest() {
         super();
-        this.lastSynchronizationTimestamp = lastSynchronizationTimestamp;
-    }
-
-    @Nullable
-    public DateTime getLastSynchronizationTimestamp() {
-        return lastSynchronizationTimestamp;
     }
 }

@@ -1,20 +1,22 @@
 package com.philips.platform.datasync.synchronisation;
 
-import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
+import com.philips.spy.EventingSpy;
 import com.philips.testing.verticals.ErrorHandlerImplTest;
 import com.philips.testing.verticals.OrmCreatorTest;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
 import java.util.concurrent.ExecutorService;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -34,8 +36,7 @@ public class SynchronisationManagerTest {
 
     SynchronisationManager synchronisationManager;
 
-    @Mock
-    Eventing eventingMock;
+    private EventingSpy eventingSpy;
 
     @Mock
     ExecutorService executorServiceMock;
@@ -50,7 +51,9 @@ public class SynchronisationManagerTest {
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
 
         synchronisationManager = new SynchronisationManager();
-        synchronisationManager.mEventing = eventingMock;
+        eventingSpy = new EventingSpy();
+
+        synchronisationManager.mEventing = eventingSpy;
         synchronisationManager.mSynchronisationCompleteListener = synchronisationCompleteListenerMock;
 
     }
@@ -63,7 +66,7 @@ public class SynchronisationManagerTest {
     @Test
     public void postEventWriteDataToBackendRequest_whenDataPullSuccessIsCalled() throws Exception {
         synchronisationManager.dataPullSuccess();
-        verify(eventingMock).post(isA(WriteDataToBackendRequest.class));
+        verify(eventingSpy).post(isA(WriteDataToBackendRequest.class));
     }
 
 
@@ -99,4 +102,21 @@ public class SynchronisationManagerTest {
     public void shouldTerminatePull_WhenStopSyncIsCalled() throws Exception {
         synchronisationManager.stopSync();
     }
+
+    @Test
+    public void startFetch_WithDateRange() {
+        whenStartFetchIsInvoked();
+        thenVerifyFetchByDateRangeEventIsPosted();
+    }
+
+    private void whenStartFetchIsInvoked() {
+        synchronisationManager.startFetch(startDate, endDate, synchronisationCompleteListenerMock);
+    }
+
+    private void thenVerifyFetchByDateRangeEventIsPosted() {
+        assertEquals("FetchByDateRange",eventingSpy.postedEvent.getClass().getSimpleName());
+    }
+
+    private String startDate = new DateTime().toString();
+    private String endDate = new DateTime().toString();
 }

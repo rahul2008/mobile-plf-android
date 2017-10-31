@@ -69,10 +69,14 @@ public class ConsentsDataFetcher extends DataFetcher {
 
     @Nullable
     @Override
-    public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
+    public RetrofitError fetchData() {
         registerEvent();
         eventing.post(new GetNonSynchronizedConsentsRequest(null));
         return null;
+    }
+
+    @Override
+    public void fetchDataByDateRange(String startDate, String endDate) {
     }
 
     public List<ConsentDetail> getConsentDetails() {
