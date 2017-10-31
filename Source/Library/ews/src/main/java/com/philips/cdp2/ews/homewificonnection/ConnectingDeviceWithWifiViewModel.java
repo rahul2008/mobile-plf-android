@@ -28,6 +28,8 @@ import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -44,8 +46,8 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         void showCancelDialog();
     }
 
+    private static final long WIFI_SET_PROPERTIES_TIME_OUT = TimeUnit.SECONDS.toMillis(60);
     private static final String TAG = ConnectingDeviceWithWifiViewModel.class.getCanonicalName();
-    private static final int WIFI_SET_PROPERTIES_TIME_OUT = 60000;
     @NonNull
     private final ApplianceAccessManager applianceAccessManager;
     @NonNull
@@ -82,15 +84,17 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            final NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
-            if (netInfo.getState() == NetworkInfo.State.CONNECTED) {
-                int currentWifiState = wiFiUtil.getCurrentWifiState();
-                if (currentWifiState == WiFiUtil.HOME_WIFI) {
-                    unregisterBroadcastReceiver();
-                    discoveryHelper.startDiscovery(discoveryCallback);
-                } else if (currentWifiState != WiFiUtil.UNKNOWN_WIFI) {
-                    unregisterBroadcastReceiver();
-                    handleFailure();
+            if(!isInitialStickyBroadcast()) {
+                final NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+                if (netInfo.getState() == NetworkInfo.State.CONNECTED) {
+                    int currentWifiState = wiFiUtil.getCurrentWifiState();
+                    if (currentWifiState == WiFiUtil.HOME_WIFI) {
+                        unregisterBroadcastReceiver();
+                        discoveryHelper.startDiscovery(discoveryCallback);
+                    } else if (currentWifiState != WiFiUtil.UNKNOWN_WIFI) {
+                        unregisterBroadcastReceiver();
+                        handleFailure();
+                    }
                 }
             }
         }

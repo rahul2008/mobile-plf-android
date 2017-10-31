@@ -5,6 +5,7 @@ import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Handler;
 
 import com.philips.cdp2.ews.BuildConfig;
 import com.philips.cdp2.ews.logger.EWSLogger;
@@ -15,6 +16,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -24,8 +27,13 @@ import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -56,6 +64,9 @@ public class WiFiConnectivityManagerTest {
     @Mock
     private Wifi wifiMock;
 
+    @Mock
+    Handler mockHandler;
+
     private WiFiUtil wifiUtil;
 
     @Before
@@ -64,7 +75,8 @@ public class WiFiConnectivityManagerTest {
         PowerMockito.mockStatic(EWSLogger.class);
         wifiUtil = new WiFiUtil(wifiManagerMock);
         connectivityManager = new WiFiConnectivityManager(wifiManagerMock, wifiMock, wifiUtil);
-
+        connectivityManager.handler = mockHandler;
+        implementAsDirectExecutor(mockHandler);
         stubHomeNetworkConnection();
     }
 
@@ -95,7 +107,6 @@ public class WiFiConnectivityManagerTest {
     public void connectToApplianceHotspotIfFound() throws Exception {
         final ScanResult scannedResultMock = getScanResult(APPLIANCE_SSID);
         when(wifiManagerMock.getScanResults()).thenReturn(null).thenReturn(Collections.singletonList(scannedResultMock));
-
         connectivityManager.connectToApplianceHotspotNetwork(APPLIANCE_SSID);
 
         verify(wifiMock).connectToConfiguredNetwork(wifiManagerMock, scannedResultMock);
@@ -146,4 +157,14 @@ public class WiFiConnectivityManagerTest {
 
         return scannedResultMock;
     }
+
+    protected void implementAsDirectExecutor(Handler handler) {
+        doAnswer(new Answer<Object>() {
+            public Object answer(InvocationOnMock invocation) throws Exception {
+                ((Runnable) invocation.getArguments()[0]).run();
+                return null;
+            }
+        }).when(handler).postDelayed(any(Runnable.class), anyInt());
+    }
+
 }
