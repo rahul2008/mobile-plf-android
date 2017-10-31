@@ -170,7 +170,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
                 mTHSCostSummaryFragment.costSmallLabel.setText(String.valueOf("." + costStringArray[1]));
             }
             String couponCode = mTHSCostSummaryFragment.thsVisit.getCouponCodeApplied();
-            Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
+            Consumer consumer = THSManager.getInstance().getPTHConsumer(mTHSCostSummaryFragment.getContext()).getConsumer();
             if ((consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) || (null != couponCode && !couponCode.isEmpty())) {
                 mTHSCostSummaryFragment.mInitialVisitCostLabel.setVisibility(View.VISIBLE);
                 String initialCostString = String.format(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_initial_Partial_cover_cost), "$" + String.valueOf(thsVisit.getInitialVisitCost()));

@@ -120,6 +120,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
     @Override
     public void addFragment(THSBaseFragment fragment, String fragmentTag, Bundle bundle, boolean isReplace) {
         //TODO: The try catch block will be removed when the loading will not be done on Back press
+        isReplace = true;
         try {
             fragment.setArguments(bundle);
             if (null == getFragmentLauncher()) {

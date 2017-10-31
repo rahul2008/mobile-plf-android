@@ -160,4 +160,13 @@ public class THSConstants {
 
     public static final String THS_GENERIC_USER_ERROR = "Oops! Something went wrong, please check your details and try again";
     public static final String THS_GENERIC_SERVER_ERROR = "Oops! Something went wrong, please try after sometime";
+
+    //Faqs constants
+    public static final String THS_FAQ_SERVICE_ID = "Telehealth.FAQURL";
+    public static final String THS_FAQ_HEADER = "THS_FAQ_HEADER";
+    public static final String THS_FAQ_ITEM = "THS_FAQ_ITEM";
+
+    //Terms & Conditions
+    public static final String THS_TERMS_AND_CONDITIONS = "TeleHealth.TermsConditionURL_small";
+    public static final String THS_HIPPA_NOTICE = "TeleHealth.hipaaURL_small";
 }

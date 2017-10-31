@@ -78,7 +78,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
 
     public void getParcelableObjects(Bundle bundle) {
         practice =bundle.getParcelable(THSConstants.PRACTICE_FRAGMENT);
-        consumer= THSManager.getInstance().getPTHConsumer().getConsumer();
+        consumer= THSManager.getInstance().getPTHConsumer(getContext()).getConsumer();
     }
 
     @Override

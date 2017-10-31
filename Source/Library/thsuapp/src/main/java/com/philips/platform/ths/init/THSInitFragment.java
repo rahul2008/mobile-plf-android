@@ -19,6 +19,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_INIT_PAGE;
 
+
 public class THSInitFragment extends THSBaseFragment{
     public static final String TAG = THSInitFragment.class.getSimpleName();
     THSInitPresenter mThsInitPresenter;
@@ -28,6 +29,7 @@ public class THSInitFragment extends THSBaseFragment{
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_init_fragment, container, false);
         mThsInitPresenter = new THSInitPresenter(this);
         initializeSDK(view);
+
         ActionBarListener actionBarListener = getActionBarListener();
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_welcome),true);

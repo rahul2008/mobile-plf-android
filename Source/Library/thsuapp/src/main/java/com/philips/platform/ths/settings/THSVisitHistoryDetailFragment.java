@@ -6,7 +6,9 @@
 
 package com.philips.platform.ths.settings;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -38,6 +40,8 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 
+import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY;
+import static com.philips.platform.ths.utility.THSConstants.THS_HIPPA;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_HISTORY;
 
 public class THSVisitHistoryDetailFragment extends THSBaseFragment{
@@ -216,4 +220,9 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VISIT_HISTORY,null,null);
     }
 
+    public void showHippsNotice(String url) {
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_HIPPA,null,null);
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(browserIntent);
+    }
 }

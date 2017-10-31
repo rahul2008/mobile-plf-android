@@ -102,7 +102,7 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
 
     void searchPharmacy(String pharmacyZip) {
         try {
-            THSManager.getInstance().getPharmacies(uiBaseView.getFragmentActivity(), THSManager.getInstance().getPTHConsumer(), null, null, pharmacyZip, this);
+            THSManager.getInstance().getPharmacies(uiBaseView.getFragmentActivity(), THSManager.getInstance().getPTHConsumer(uiBaseView.getContext()), null, null, pharmacyZip, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

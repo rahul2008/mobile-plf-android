@@ -30,7 +30,7 @@ public class THSPharmacyAndShippingPresenter implements THSBasePresenter {
             thsBaseView.startEditShippingAddress();
         }
         if (componentID == R.id.ths_ps_continue_button) {
-            Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
+            Consumer consumer = THSManager.getInstance().getPTHConsumer(thsBaseView.getFragmentActivity()).getConsumer();
             if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
                 final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
                  thsBaseView.addFragment(fragment, THSCostSummaryFragment.TAG, null, true);

@@ -72,7 +72,7 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
 
     EditText mCouponCodeEdittext;
     Button mCouponCodeButton;
-    protected  AtomicBoolean isPromoCodeAlreadyApplied;
+    protected  AtomicBoolean isPromoCodeAlreadyApplied = new AtomicBoolean(false);;
 
 
     @Nullable
@@ -119,7 +119,7 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
         mInitialVisitCostLabel = (Label) view.findViewById(R.id.ths_cost_summary_initial_visit_cost_label);
         mActualCostHeader = (Label) view.findViewById(R.id.ths_cost_summary_title_label);
         mPaymentNotRequired = (Label) view.findViewById(R.id.ths_cost_summary_no_payment_detail_required_label);
-        isPromoCodeAlreadyApplied = new AtomicBoolean(false);
+
         return view;
     }
 
