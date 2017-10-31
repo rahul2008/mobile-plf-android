@@ -23,6 +23,7 @@ import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.List;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_PHARMACY;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEARCH_PHARMACY;
 
 public class THSSearchPharmacyFragment extends THSBaseFragment implements SearchBox.ExpandListener,SearchBox.QuerySubmitListener,THSSearchFragmentViewInterface{
@@ -82,6 +83,7 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
         if(thsSearchPharmacyPresenter.validateZip(zipSearchString)) {
             thsSearchPharmacyPresenter.onEvent(SEARCH_EVENT_ID);
         }else {
+            doTagging(ANALYTICS_PHARMACY,getString(R.string.ths_pharmacy_search_error),false);
             showError(getString(R.string.ths_pharmacy_search_error));
         }
     }
