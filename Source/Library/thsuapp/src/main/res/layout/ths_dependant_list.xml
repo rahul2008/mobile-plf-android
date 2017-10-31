@@ -7,10 +7,11 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_visit_for"
-        style="@style/ths_list_item_header"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:gravity="center_vertical"
+        android:textStyle="bold"
+        fontPath="fonts/centralesansbold.ttf"
         android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
         android:paddingStart="@dimen/ths_fab_margin"
         android:paddingEnd="@dimen/ths_fab_margin"

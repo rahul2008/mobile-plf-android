@@ -84,7 +84,6 @@
         <item name="android:textSize">@dimen/ths_body_text</item>
         <item name="android:paddingBottom">@dimen/ths_body_text_padding</item>
         <item name="android:paddingTop">@dimen/ths_body_text_padding</item>
-        <item name="android:textColor">?attr/uidNotificationBarWhiteNormalBackgroundColor</item>
     </style>
 
     <style name="ths_body_text_pre_welcome_link" parent="ths_body_text_pre_welcome">

@@ -39,7 +39,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class THSLaunchActivity extends UIDActivity implements ActionBarListener {
 
     private FragmentManager fragmentManager;
-    private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_Bright;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_Bright;
     private Toolbar toolbar;
     private FragmentLauncher fragmentLauncher;
     @Override
