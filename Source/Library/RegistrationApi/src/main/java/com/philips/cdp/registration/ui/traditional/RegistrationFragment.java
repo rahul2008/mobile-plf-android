@@ -305,6 +305,8 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         if (getUserRegistrationUIEventListener() != null) {
             getUserRegistrationUIEventListener().
                     onUserRegistrationComplete(getParentActivity());
+        }else {
+            RegUtility.showErrorMessage(getParentActivity());
         }
     }
 
