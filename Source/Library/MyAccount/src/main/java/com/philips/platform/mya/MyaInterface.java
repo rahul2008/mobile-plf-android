@@ -38,7 +38,6 @@ public class MyaInterface implements UappInterface {
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher,
                                   MyaLaunchInput myaLaunchInput) {
-        Log.i("launchAsFragment", "LaunchInput: " + myaLaunchInput.getClass().toString());
         try {
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
                     getSupportFragmentManager();

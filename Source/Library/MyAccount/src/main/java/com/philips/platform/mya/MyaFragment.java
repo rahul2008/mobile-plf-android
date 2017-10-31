@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,13 +39,14 @@ public class MyaFragment extends Fragment implements
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mya_fragment_my_account_root, container, false);
         mFragmentManager = getChildFragmentManager();
-        if (mFragmentManager.getBackStackEntryCount() < 1) {
-            inflateAccountView();
-        }
 
         if (getArguments() != null) {
             applicationName = getArguments().getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
             propositionName = getArguments().getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
+        }
+
+        if (mFragmentManager.getBackStackEntryCount() < 1) {
+            inflateAccountView();
         }
 
         return view;

@@ -65,8 +65,6 @@ public class AccountView extends MyaBaseFragment implements
             propositionName = getArguments().getString(BUNDLE_KEY_PROPOSITION_NAME);
         }
 
-        Log.i("onCreateView", "applicationName:" + applicationName + "propositionsName:" + propositionName);
-
         return view;
     }
 

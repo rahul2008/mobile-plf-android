@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 
 import com.philips.platform.csw.permission.PermissionView;
 import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.csw.utils.CswLogger;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -89,13 +90,18 @@ public class CswFragment extends Fragment implements
         try {
             if (null != mFragmentManager) {
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.csw_frame_layout_view_container, new PermissionView());
+                fragmentTransaction.replace(R.id.csw_frame_layout_view_container, buildPermissionView());
                 fragmentTransaction.commitAllowingStateLoss();
             }
         } catch (IllegalStateException ignore) {
         }
     }
 
+    private PermissionView buildPermissionView() {
+        PermissionView permissionView = new PermissionView();
+        permissionView.setArguments(applicationName, propositionName);
+        return permissionView;
+    }
 
     @Override
     public void onClick(View v) {

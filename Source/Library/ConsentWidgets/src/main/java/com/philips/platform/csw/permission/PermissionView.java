@@ -40,6 +40,9 @@ public class PermissionView extends CswBaseFragment implements
     private Switch mConsentSwitch;
     private ProgressDialog mProgressDialog;
 
+    private String applicationName;
+    private String propositionName;
+
     @Override
     protected void setViewParams(Configuration config, int width) {
 
@@ -58,14 +61,36 @@ public class PermissionView extends CswBaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.csw_permission_view, container, false);
+        if (getArguments() != null) {
+            applicationName = getArguments().getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
+            propositionName = getArguments().getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
+        }
         initUI(view);
         getConsentStatus();
         return view;
     }
 
+    @Override
+    public void onViewStateRestored(Bundle state) {
+        super.onViewStateRestored(state);
+        if (state != null) {
+            applicationName = state.getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
+            propositionName = state.getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        if (state != null) {
+            state.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
+            state.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        }
+    }
+
     private void getConsentStatus() {
         showProgressDialog();
-        ConsentAccessToolKit cat = new ConsentAccessToolKit(CatkConstants.APPLICATION_NAME, CatkConstants.PROPOSITION_NAME);
+        ConsentAccessToolKit cat = new ConsentAccessToolKit(applicationName, propositionName);
         cat.getStatusForConsentType(CONSENT_TYPE_MOMENT, version, new ConsentResponseListener() {
 
             @Override
@@ -151,5 +176,12 @@ public class PermissionView extends CswBaseFragment implements
             showProgressDialog();
             createConsentStatus(isChecked);
         }
+    }
+
+    public void setArguments(String applicationName, String propositionName) {
+        Bundle b = new Bundle();
+        b.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
+        b.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        this.setArguments(b);
     }
 }

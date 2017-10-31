@@ -24,4 +24,5 @@ public class MyaFragmentTest {
         assertEquals(R.id.csw_frame_layout_view_container, myaFragment.getView().getId());
     }
 
+
 }
