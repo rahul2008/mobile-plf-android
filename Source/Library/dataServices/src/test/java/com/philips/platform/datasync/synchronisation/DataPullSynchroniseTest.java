@@ -11,7 +11,6 @@ import com.philips.platform.datasync.spy.UserAccessProviderSpy;
 import com.philips.spy.EventingSpy;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -31,7 +30,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class DataPullSynchroniseTest {
     private static final int EVENT_ID = 2344;
 
-    private static final DateTime NOW = DateTime.now(DateTimeZone.UTC);
     private static final String START_DATE = new DateTime().toString();
     private static final String END_DATE = new DateTime().toString();
 
