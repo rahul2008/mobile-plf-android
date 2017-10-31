@@ -5,21 +5,24 @@
 */
 package com.philips.platform.appframework.stateimpl;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
@@ -50,6 +53,10 @@ public class DemoDataServicesState extends DemoBaseState
     public static final String TAG = DemoDataServicesState.class.getSimpleName();
     private Context mContext;
     private DSDemoAppuAppInterface dsDemoAppuAppInterface;
+
+    private static final String PRIMARY_CHANNEL_ID = "ra_default_channel";
+
+    private static final String PRIMARY_CHANNEL_NAME = "Primary Channel";
 
     public DemoDataServicesState() {
         super(AppStates.TESTDATASERVICE);
@@ -137,6 +144,17 @@ public class DemoDataServicesState extends DemoBaseState
      * @param message GCM message received.
      */
     private void sendNotification(String message) {
+        NotificationManager notificationManager =
+                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(PRIMARY_CHANNEL_ID,
+                    PRIMARY_CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            notificationChannel.setLightColor(Color.GREEN);
+            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+
         Intent intent = new Intent(mContext, LaunchActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0 /* Request code */, intent,
@@ -144,7 +162,7 @@ public class DemoDataServicesState extends DemoBaseState
         Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
                 R.mipmap.app_icon);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(mContext)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(mContext, PRIMARY_CHANNEL_ID)
                 .setSmallIcon(R.mipmap.app_icon)
                 .setLargeIcon(icon)
                 .setContentTitle(mContext.getString(R.string.RA_DLS_home_page_text))
@@ -153,8 +171,7 @@ public class DemoDataServicesState extends DemoBaseState
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
 
-        NotificationManager notificationManager =
-                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+
         Random r = new Random();
         int i1 = r.nextInt(80 - 65) + 65;
         notificationManager.notify(i1 /* ID of notification */, notificationBuilder.build());
