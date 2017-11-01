@@ -15,6 +15,8 @@ objcdp.setEnv(platform: 'android', env: environment)
 version = objcdp.getVersion(versions.mya_myAccount)
 
 buildscript {
+    apply from: "../../../ci-build-support/gradle/versions.gradle"
+
     repositories {
         jcenter()
     }
@@ -73,6 +75,7 @@ android {
 
 
 dependencies {
+    apply from: "../../../ci-build-support/gradle/versions.gradle"
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // Android/Google
