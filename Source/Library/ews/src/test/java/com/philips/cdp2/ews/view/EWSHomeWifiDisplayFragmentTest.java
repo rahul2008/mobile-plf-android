@@ -7,7 +7,7 @@ package com.philips.cdp2.ews.view;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
-import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.viewmodel.EWSHomeWifiDisplayViewModel;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -82,6 +82,6 @@ public class EWSHomeWifiDisplayFragmentTest {
 
     @Test
     public void shouldReturnCorrectPageNameForTagging() throws Exception {
-        assertEquals(Tag.PAGE.CONFIRM_WIFI, fragment.getPageName());
+        assertEquals(Page.CONFIRM_WIFI, fragment.getPageName());
     }
 }

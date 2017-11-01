@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentChooseSetupStateBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.viewmodel.ChooseSetupStateViewModel;
 
 import javax.inject.Inject;
@@ -45,6 +45,6 @@ public class ChooseSetupStateFragment extends EWSBaseFragment<FragmentChooseSetu
     @NonNull
     @Override
     protected String getPageName() {
-        return Tag.PAGE.CHOOSE_SETUP_STATE;
+        return Page.CHOOSE_SETUP_STATE;
     }
 }

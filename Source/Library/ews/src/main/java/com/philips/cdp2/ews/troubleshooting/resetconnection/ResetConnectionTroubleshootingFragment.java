@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentResetConnectionTroubleshootingLayoutBinding;
-import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.view.BaseTroubleShootingFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 
@@ -55,6 +55,6 @@ public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingF
     @NonNull
     @Override
     protected String getPageName() {
-        return Tag.PAGE.RESET_CONNECTION;
+        return Page.RESET_CONNECTION;
     }
 }

@@ -13,7 +13,7 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
 import com.philips.cdp2.ews.databinding.FragmentEwsWifiPairedBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.viewmodel.EWSWiFIPairedViewModel;
 
 import javax.inject.Inject;
@@ -54,7 +54,7 @@ public class EWSWiFiPairedFragment extends EWSBaseFragment<FragmentEwsWifiPaired
     @NonNull
     @Override
     public String getPageName() {
-        return Tag.PAGE.WIFI_PAIRED;
+        return Page.WIFI_PAIRED;
     }
 
     @Override

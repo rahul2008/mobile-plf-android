@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentEwsPressPlayFollowSetupDeviceBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.TextUtil;
 import com.philips.cdp2.ews.viewmodel.EWSPressPlayAndFollowSetupViewModel;
 
@@ -53,7 +53,7 @@ public class EWSPressPlayAndFollowSetupFragment extends ConnectPhoneToDeviceAPMo
     @NonNull
     @Override
     public String getPageName() {
-        return Tag.PAGE.PRESS_PLAY_AND_FOLLOW_SETUP;
+        return Page.PRESS_PLAY_AND_FOLLOW_SETUP;
     }
 
     @Override

@@ -6,7 +6,7 @@ package com.philips.cdp2.ews.view;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.viewmodel.BlinkingAccessPointViewModel;
 
 import org.junit.Before;
@@ -60,7 +60,7 @@ public class BlinkingAccessPointFragmentTest {
 
     @Test
     public void shouldReturnCorrectPageNameForTagging() throws Exception {
-        assertEquals(Tag.PAGE.BLINKING_ACCESS_POINT, fragment.getPageName());
+        assertEquals(Page.BLINKING_ACCESS_POINT, fragment.getPageName());
     }
 
     @Test

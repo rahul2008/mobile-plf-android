@@ -6,7 +6,7 @@ package com.philips.cdp2.ews.view;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.viewmodel.ChooseSetupStateViewModel;
 
 import org.junit.Before;
@@ -59,6 +59,6 @@ public class ChooseSetupStateFragmentTest {
 
     @Test
     public void shouldReturnCorrectPageNameForTagging() throws Exception {
-        assertEquals(Tag.PAGE.CHOOSE_SETUP_STATE, fragment.getPageName());
+        assertEquals(Page.CHOOSE_SETUP_STATE, fragment.getPageName());
     }
 }

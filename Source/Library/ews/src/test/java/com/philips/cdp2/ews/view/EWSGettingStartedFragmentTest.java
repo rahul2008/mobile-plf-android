@@ -8,7 +8,7 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
-import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.viewmodel.EWSGettingStartedViewModel;
 
 import org.junit.Before;
@@ -73,7 +73,7 @@ public class EWSGettingStartedFragmentTest {
 
     @Test
     public void shouldReturnCorrectPageNameForTagging() throws Exception {
-        assertEquals(Tag.PAGE.WIFI_SETUP, fragment.getPageName());
+        assertEquals(Page.WIFI_SETUP, fragment.getPageName());
     }
 
     @Test

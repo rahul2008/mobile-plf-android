@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentBlinkingAccessPointBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.TextUtil;
 import com.philips.cdp2.ews.viewmodel.BlinkingAccessPointViewModel;
 
@@ -57,7 +57,7 @@ public class BlinkingAccessPointFragment extends ConnectPhoneToDeviceAPModeFragm
     @NonNull
     @Override
     protected String getPageName() {
-        return Tag.PAGE.BLINKING_ACCESS_POINT;
+        return Page.BLINKING_ACCESS_POINT;
     }
 
     @Override

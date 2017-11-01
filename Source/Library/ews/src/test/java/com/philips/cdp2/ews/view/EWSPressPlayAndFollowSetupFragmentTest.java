@@ -7,7 +7,7 @@ package com.philips.cdp2.ews.view;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.EWSTagger;
-import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.viewmodel.EWSPressPlayAndFollowSetupViewModel;
 
 import org.junit.Before;
@@ -75,7 +75,7 @@ public class EWSPressPlayAndFollowSetupFragmentTest {
 
     @Test
     public void shouldReturnCorrectPageNameForTagging() throws Exception {
-        assertEquals(Tag.PAGE.PRESS_PLAY_AND_FOLLOW_SETUP, fragment.getPageName());
+        assertEquals(Page.PRESS_PLAY_AND_FOLLOW_SETUP, fragment.getPageName());
     }
 
     @Test

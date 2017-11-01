@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentEwsResetWulDeviceBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.viewmodel.EWSResetDeviceViewModel;
 
 import javax.inject.Inject;
@@ -44,6 +44,6 @@ public class EWSResetDeviceFragment extends EWSBaseFragment<FragmentEwsResetWulD
     @NonNull
     @Override
     protected String getPageName() {
-        return Tag.PAGE.RESET_DEVICE;
+        return Page.RESET_DEVICE;
     }
 }

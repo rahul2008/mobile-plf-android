@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.ProductSupportViewBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.viewmodel.ProductSupportViewModel;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -47,7 +47,7 @@ public class EWSProductSupportFragment extends EWSBaseFragment<ProductSupportVie
     @NonNull
     @Override
     public String getPageName() {
-        return Tag.PAGE.INCORRECT_PASSWORD;
+        return Page.INCORRECT_PASSWORD;
     }
 
     @Override

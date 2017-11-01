@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentWifiConnectionUnsuccessfulBinding;
 import com.philips.cdp2.ews.tagging.EWSTagger;
-import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
@@ -61,7 +61,7 @@ public class WifiConnectionUnsuccessfulFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        String pageName = Tag.PAGE.CONNECTION_UNSUCCESSFUL;
+        String pageName = Page.CONNECTION_UNSUCCESSFUL;
         if (pageName != null) {
             EWSTagger.trackPage(pageName);
         }

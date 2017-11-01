@@ -14,7 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentEwsConnectDeviceBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.EWSBaseFragment;
 
@@ -58,7 +58,7 @@ public class ConnectWithPasswordFragment extends EWSBaseFragment<FragmentEwsConn
     @NonNull
     @Override
     public String getPageName() {
-        return Tag.PAGE.CONNECT_WIFI;
+        return Page.CONNECT_WIFI;
     }
 
     @Override

@@ -12,11 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.common.util.DateUtil;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentEwsHomeWifiDisplayScreenBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.TextUtil;
 import com.philips.cdp2.ews.viewmodel.EWSHomeWifiDisplayViewModel;
 import com.philips.platform.uid.drawable.FontIconDrawable;
@@ -69,7 +69,7 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
     @NonNull
     @Override
     protected String getPageName() {
-        return Tag.PAGE.CONFIRM_WIFI;
+        return Page.CONFIRM_WIFI;
     }
 
     @Override

@@ -17,7 +17,7 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentWrongWifiNetworkBinding;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.tagging.EWSTagger;
-import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
@@ -56,7 +56,7 @@ public class WrongWifiNetworkFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        String pageName = Tag.PAGE.WRONG_WIFI_NETWORK;
+        String pageName = Page.WRONG_WIFI_NETWORK;
         if (pageName != null) {
             EWSTagger.trackPage(pageName);
         }
