@@ -19,20 +19,18 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.common.util.DateUtil;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConfirmWifiNetworkBinding;
+import com.philips.cdp2.ews.util.ColorsUtil;
 import com.philips.cdp2.ews.util.TextUtil;
 import com.philips.cdp2.ews.viewmodel.ConfirmWifiNetworkViewModel;
 import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
-import javax.inject.Inject;
-
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class ConfirmWifiNetworkFragment extends BaseFragment
         implements ConfirmWifiNetworkViewModel.ViewCallback {
 
-    @Inject
     ConfirmWifiNetworkViewModel viewModel;
 
 
@@ -86,7 +84,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
         textView.setText(TextUtil.getHTMLText(explanation));
         FontIconDrawable drawable = new FontIconDrawable(context, context.getResources().getString(R.string.dls_cross_24), TypefaceUtils
                 .load(context.getAssets(), "fonts/iconfont.ttf"))
-                .sizeRes(R.dimen.ews_gs_icon_size).colorRes(android.R.color.black); //TODO remove this color using properly uiKit color
+                .sizeRes(R.dimen.ews_gs_icon_size).color(ColorsUtil.getAttributeColor(context, R.attr.uidContentItemPrimaryNormalIconColor));
         imageView.setBackground(drawable);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

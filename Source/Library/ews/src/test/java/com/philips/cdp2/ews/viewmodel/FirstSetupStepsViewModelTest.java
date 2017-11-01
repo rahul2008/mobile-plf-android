@@ -14,9 +14,9 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class EWSDevicePowerOnViewModelTest {
+public class FirstSetupStepsViewModelTest {
 
-    @InjectMocks private EWSDevicePowerOnViewModel subject;
+    @InjectMocks private FirstSetupStepsViewModel subject;
 
     @Mock private Navigator mockNavigator;
 
