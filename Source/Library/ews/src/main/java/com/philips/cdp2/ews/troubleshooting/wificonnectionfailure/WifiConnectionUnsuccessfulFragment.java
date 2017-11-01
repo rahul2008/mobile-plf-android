@@ -61,10 +61,15 @@ public class WifiConnectionUnsuccessfulFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        String pageName = Page.CONNECTION_UNSUCCESSFUL;
+        String pageName = getPageName();
         if (pageName != null) {
             EWSTagger.trackPage(pageName);
         }
+    }
+
+    @NonNull
+    protected String getPageName() {
+        return Page.CONNECTION_UNSUCCESSFUL;
     }
 
 }

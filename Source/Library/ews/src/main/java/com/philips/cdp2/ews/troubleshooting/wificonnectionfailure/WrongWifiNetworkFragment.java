@@ -56,9 +56,14 @@ public class WrongWifiNetworkFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        String pageName = Page.WRONG_WIFI_NETWORK;
+        String pageName = getPageName();
         if (pageName != null) {
             EWSTagger.trackPage(pageName);
         }
+    }
+
+    @NonNull
+    protected String getPageName() {
+        return Page.WRONG_WIFI_NETWORK;
     }
 }

@@ -43,7 +43,6 @@ public abstract class BaseTroubleShootingFragment extends BaseFragment {
         String pageName = getPageName();
         if (pageName != null) {
             EWSTagger.trackPage(pageName);
-            EWSLogger.d("Testing","TESTING123");
         }
     }
 

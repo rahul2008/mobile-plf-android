@@ -68,7 +68,7 @@ public class TroubleshootWifiConnectionUnsuccessfulFragmentTest {
 
     @Test
     public void shouldReturnCorrectPageNameForTagging() throws Exception {
-        assertEquals(Page.CONNECTION_UNSUCCESSFUL, subject.getPageName());
+        assertEquals("connectionUnsuccessful", subject.getPageName());
     }
 
     @Test
