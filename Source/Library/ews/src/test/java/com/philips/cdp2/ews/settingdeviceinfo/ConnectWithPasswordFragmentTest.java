@@ -66,9 +66,4 @@ public class ConnectWithPasswordFragmentTest {
     public void shouldReturnCorrectPageNameForTagging() throws Exception {
         assertEquals(Pages.CONNECT_WIFI, fragment.getPageName());
     }
-
-    @Test
-    public void shouldNotShowBackArrowForGetStartedScreen() throws Exception {
-        assertEquals(0, fragment.getNavigationIconId());
-    }
 }

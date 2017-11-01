@@ -70,9 +70,4 @@ public class EWSWiFiPairedFragmentTest {
     public void shouldReturnCorrectPageNameForTagging() throws Exception {
         assertEquals(Pages.WIFI_PAIRED, fragment.getPageName());
     }
-
-    @Test
-    public void shouldNotShowBackArrowForGetStartedScreen() throws Exception {
-        assertEquals(0, fragment.getNavigationIconId());
-    }
 }

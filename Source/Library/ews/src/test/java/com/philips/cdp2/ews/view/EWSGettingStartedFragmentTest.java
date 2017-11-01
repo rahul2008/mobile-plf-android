@@ -79,9 +79,4 @@ public class EWSGettingStartedFragmentTest {
     public void shouldAttachAnyMenuForGetStartedScreen() throws Exception {
         assertTrue(fragment.hasMenu());
     }
-
-    @Test
-    public void shouldNotShowBackArrowForGetStartedScreen() throws Exception {
-        assertEquals(ScreenFlowController.NAVIGATION_BACK_ICON, fragment.getNavigationIconId());
-    }
 }
