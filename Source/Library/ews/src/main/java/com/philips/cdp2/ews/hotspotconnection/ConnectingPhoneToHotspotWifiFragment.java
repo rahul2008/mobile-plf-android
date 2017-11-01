@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel.ConnectingPhoneToHotSpotCallback;
 import com.philips.cdp2.ews.databinding.FragmentConnectingPhoneToHotspotLayoutBinding;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel.ConnectingPhoneToHotSpotCallback;
 import com.philips.cdp2.ews.logger.EWSLogger;
@@ -111,11 +110,6 @@ public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implement
     @Override
     public Fragment getFragment() {
         return this;
-    }
-
-    @Override
-    public int requestCode() {
-        return REQUEST_CODE;
     }
 
 

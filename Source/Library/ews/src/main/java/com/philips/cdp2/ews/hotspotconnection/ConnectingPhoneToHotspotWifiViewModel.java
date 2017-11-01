@@ -31,8 +31,6 @@ public class ConnectingPhoneToHotspotWifiViewModel implements DeviceFriendlyName
         void unregisterReceiver(@NonNull BroadcastReceiver receiver);
         void showTroubleshootHomeWifiDialog();
         Fragment getFragment();
-
-        int requestCode();
     }
 
     private static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
