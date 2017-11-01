@@ -33,7 +33,7 @@ public class DescriptionView extends CswBaseFragment implements
 
     @Override
     public int getTitleResourceId() {
-        return R.string.csw_what_does_it_mean;
+        return R.string.csw_what_does_this_mean;
     }
 
     @Override

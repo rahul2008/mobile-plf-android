@@ -26,5 +26,19 @@
             android:gravity="center_vertical|start"
             android:layout_toStartOf="@id/toggleicon"
             android:text="@string/allow_track_use"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/TestButtonTexts"
+            android:clickable="true"
+            android:layout_alignParentStart="true"
+            android:gravity="center_vertical|start"
+            android:autoLink="web"
+            android:text="@string/csw_what_does_this_mean"/>
     </RelativeLayout>
 </LinearLayout>
