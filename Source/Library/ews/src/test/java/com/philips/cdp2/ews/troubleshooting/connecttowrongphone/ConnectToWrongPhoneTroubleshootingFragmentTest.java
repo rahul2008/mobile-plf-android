@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdp2.ews.troubleshooting.connecttowrongphone;
 
 import com.philips.cdp2.ews.tagging.EWSTagger;
@@ -13,9 +17,6 @@ import static org.mockito.Mockito.times;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
-/**
- * Created by architsureja on 01/11/17.
- */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(EWSTagger.class)
 public class ConnectToWrongPhoneTroubleshootingFragmentTest {
