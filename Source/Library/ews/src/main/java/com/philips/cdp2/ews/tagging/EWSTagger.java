@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.tagging;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.adobe.mobile.Analytics;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
@@ -51,7 +52,8 @@ public class EWSTagger {
         getAppTaggingInterface().trackActionWithInfo(action, commonGoalsMap);
     }
 
-    private static AppTaggingInterface getAppTaggingInterface() {
+    @VisibleForTesting()
+    static AppTaggingInterface getAppTaggingInterface() {
         return EWSDependencyProvider.getInstance().getTaggingInterface();
     }
 

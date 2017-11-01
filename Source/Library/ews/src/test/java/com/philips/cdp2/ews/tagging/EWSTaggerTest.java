@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -97,4 +98,38 @@ public class EWSTaggerTest {
         assertEquals(1, map.size());
         assertEquals(value, map.get(key));
     }
+
+    @Test
+    public void shouldTrackActionSendDataWhenAsked() throws Exception {
+        final ArgumentCaptor<HashMap> mapArgumentCaptor = ArgumentCaptor.forClass(HashMap.class);
+        final String key = Tag.KEY.SEND_DATA;
+        final String successTagValue = "successValueTag";
+        EWSTagger.trackActionSendData(key, successTagValue);
+        verify(appTaggingInterfaceMock).trackActionWithInfo(eq(key), mapArgumentCaptor.capture());
+        HashMap map = mapArgumentCaptor.getValue();
+        assertEquals(1, map.size());
+        assertEquals(successTagValue, map.get(key));
+    }
+
+    @Test
+    public void shouldGiveTaggInterfaceWhenAsked() throws Exception {
+        EWSTagger.getAppTaggingInterface();
+        assertNotNull(appTaggingInterfaceMock);
+    }
+
+    @Test
+    public void shouldStartTimedActionWhenAsked() throws Exception {
+        String timeActionStart = "timeActionStart";
+        EWSTagger.startTimedAction(timeActionStart);
+        verify(appTaggingInterfaceMock).trackTimedActionStart(eq(timeActionStart));
+    }
+
+    @Test
+    public void shouldStopTimedActionWhenAsked() throws Exception{
+        String timeActionEnd = "timeActionStart";
+        EWSTagger.stopTimedAction(timeActionEnd);
+        verify(appTaggingInterfaceMock).trackTimedActionEnd(eq(timeActionEnd));
+    }
+
+
 }
