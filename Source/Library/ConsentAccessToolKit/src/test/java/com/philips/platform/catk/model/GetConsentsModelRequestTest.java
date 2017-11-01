@@ -8,7 +8,6 @@ import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.CatkInterface;
 import com.philips.platform.catk.injection.CatkComponent;
 import com.philips.platform.catk.network.NetworkAbstractModel;
-import com.philips.platform.catk.network.NetworkHelper;
 import com.philips.platform.catk.util.CustomRobolectricRunnerCATK;
 import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
 
@@ -31,7 +30,7 @@ import static org.mockito.Mockito.when;
  */
 
 @RunWith(CustomRobolectricRunnerCATK.class)
-@PrepareForTest({NetworkHelper.class,CatkInterface.class})
+@PrepareForTest(CatkInterface.class)
 @Config(constants = BuildConfig.class, sdk = 25)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 public class GetConsentsModelRequestTest {
@@ -56,7 +55,6 @@ public class GetConsentsModelRequestTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        PowerMockito.mockStatic(NetworkHelper.class);
         PowerMockito.mockStatic(CatkInterface.class);
         mockCatkInterface.setCatkComponent(mockCatkComponent);
         when(mockCatkInterface.getCatkComponent()).thenReturn(mockCatkComponent);
