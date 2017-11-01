@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -61,7 +62,7 @@ public class BaseFragment extends Fragment implements BackEventListener {
                 .setCancelable(true);
         final AlertDialogFragment alertDialogFragment = builder.create();
         alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
-
+        EWSTagger.trackPage(Pages.CANCEL_WIFI_SETUP);
         Button yesButton = (Button) view.findViewById(R.id.ews_04_02_button_cancel_setup_yes);
         Button noButton = (Button) view.findViewById(R.id.ews_04_02_button_cancel_setup_no);
         yesButton.setOnClickListener(new View.OnClickListener() {

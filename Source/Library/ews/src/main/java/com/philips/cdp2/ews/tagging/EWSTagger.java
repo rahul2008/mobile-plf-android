@@ -8,6 +8,7 @@ package com.philips.cdp2.ews.tagging;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 
+import com.adobe.mobile.Analytics;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -33,6 +34,7 @@ public class EWSTagger {
     }
 
     public static void trackPage(String pageName) {
+
         getAppTaggingInterface().trackPageWithInfo(pageName, null);
     }
 
