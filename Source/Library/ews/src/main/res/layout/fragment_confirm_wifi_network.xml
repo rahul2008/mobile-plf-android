@@ -19,7 +19,6 @@
         android:layout_marginBottom="@dimen/default_screen_bottom_margin"
         android:layout_marginEnd="@dimen/default_body_labels_margin"
         android:layout_marginStart="@dimen/default_body_labels_margin"
-        android:layout_marginTop="@dimen/default_screen_top_margin"
         android:fillViewport="true">
 
         <LinearLayout
@@ -32,6 +31,7 @@
                 style="@style/Txt.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_screen_top_margin"
                 android:text="@string/label_ews_confirm_connection_title" />
 
             <com.philips.platform.uid.view.widget.Label

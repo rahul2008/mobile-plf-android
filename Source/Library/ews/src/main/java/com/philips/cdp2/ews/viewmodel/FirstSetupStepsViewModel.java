@@ -11,12 +11,12 @@ import com.philips.cdp2.ews.navigation.Navigator;
 import javax.inject.Inject;
 
 @SuppressWarnings("WeakerAccess")
-public class EWSDevicePowerOnViewModel {
+public class FirstSetupStepsViewModel {
 
     @NonNull private final Navigator navigator;
 
     @Inject
-    public EWSDevicePowerOnViewModel(@NonNull final Navigator navigator) {
+    public FirstSetupStepsViewModel(@NonNull final Navigator navigator) {
         this.navigator = navigator;
     }
 
