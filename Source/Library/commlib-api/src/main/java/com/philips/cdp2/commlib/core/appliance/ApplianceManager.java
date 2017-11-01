@@ -280,7 +280,7 @@ public class ApplianceManager {
             networkNode.addPropertyChangeListener(new PropertyChangeListener() {
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
-                    DICommLog.d(DICommLog.DISCOVERY, "Storing NetworkNode (because of property change)");
+                    DICommLog.d(DICommLog.APPLIANCE_MANAGER, "Storing NetworkNode (because of property change)");
                     networkNodeDatabase.save(networkNode);
                 }
             });
@@ -288,7 +288,7 @@ public class ApplianceManager {
     }
 
     private <A extends Appliance> void notifyApplianceFound(final @NonNull A appliance) {
-        DICommLog.v(DICommLog.DISCOVERY, "Appliance found " + appliance.toString());
+        DICommLog.v(DICommLog.APPLIANCE_MANAGER, "Appliance found " + appliance.toString());
         for (final ApplianceListener<Appliance> listener : applianceListeners) {
             handler.post(new Runnable() {
                 @Override
@@ -311,7 +311,7 @@ public class ApplianceManager {
     }
 
     private void notifyApplianceLost(final @NonNull Appliance appliance) {
-        DICommLog.v(DICommLog.DISCOVERY, "Appliance lost " + appliance.toString());
+        DICommLog.v(DICommLog.APPLIANCE_MANAGER, "Appliance lost " + appliance.toString());
         for (final ApplianceListener<Appliance> listener : applianceListeners) {
             handler.post(new Runnable() {
                 @Override

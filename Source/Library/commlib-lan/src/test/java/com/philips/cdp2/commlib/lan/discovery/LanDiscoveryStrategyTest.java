@@ -6,9 +6,7 @@
 package com.philips.cdp2.commlib.lan.discovery;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import com.philips.cdp.dicommclient.discovery.SsdpDiscovery;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.util.DICommLog;
@@ -20,8 +18,8 @@ import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
-import com.philips.cl.di.common.ssdp.models.DeviceModel;
-import com.philips.cl.di.common.ssdp.models.SSDPdevice;
+import com.philips.cdp2.commlib.ssdp.SSDPDevice;
+import com.philips.cdp2.commlib.ssdp.SSDPDiscovery;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +40,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -52,7 +51,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class LanDiscoveryStrategyTest extends RobolectricTest {
 
     @Mock
-    private SsdpDiscovery ssdpDiscoveryMock;
+    private SSDPDiscovery ssdpDiscoveryMock;
 
     @Mock
     private LanDeviceCache deviceCacheMock;
@@ -71,9 +70,6 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
 
     @Captor
     ArgumentCaptor<NetworkNode> networkNodeCaptor;
-
-    @Captor
-    private ArgumentCaptor<AvailabilityListener<ConnectivityMonitor>> availabilityListenerCaptor;
 
     private LanDiscoveryStrategy strategyUnderTest;
 
@@ -97,7 +93,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
 
         strategyUnderTest = new LanDiscoveryStrategy(deviceCacheMock, connectivityMonitorMock, wifiNetworkProviderMock) {
             @Override
-            SsdpDiscovery createSsdpDiscovery() {
+            SSDPDiscovery createSsdpDiscovery() {
                 return ssdpDiscoveryMock;
             }
         };
@@ -109,9 +105,8 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         strategyUnderTest.start();
 
         final String cppId = "1234abcd";
-        SSDPdevice ssdpDevice = createSsdpDevice(cppId, "CoffeeMaker", "CM9000");
-        DeviceModel deviceModel = createDeviceModel(ssdpDevice);
-        strategyUnderTest.onDeviceDiscovered(deviceModel);
+        SSDPDevice ssdpDevice = createSsdpDevice(cppId, "CoffeeMaker", "CM9000");
+        strategyUnderTest.onDeviceDiscovered(ssdpDevice);
 
         verify(discoveryListenerMock).onNetworkNodeDiscovered(networkNodeCaptor.capture());
         assertThat(networkNodeCaptor.getValue().getCppId().equals(cppId));
@@ -122,12 +117,11 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         Set<String> deviceTypes = Collections.singleton("CoffeeMaker");
         strategyUnderTest.start(deviceTypes);
 
-        SSDPdevice ssdpDevice1 = createSsdpDevice("coffee123", "CoffeeMaker", "CM9000");
-        DeviceModel deviceModel1 = createDeviceModel(ssdpDevice1);
-        SSDPdevice ssdpDevice2 = createSsdpDevice("tea123", "TeaMaker", "TM8000");
-        DeviceModel deviceModel2 = createDeviceModel(ssdpDevice2);
-        strategyUnderTest.onDeviceDiscovered(deviceModel1);
-        strategyUnderTest.onDeviceDiscovered(deviceModel2);
+        SSDPDevice ssdpDevice1 = createSsdpDevice("coffee123", "CoffeeMaker", "CM9000");
+        SSDPDevice ssdpDevice2 = createSsdpDevice("tea123", "TeaMaker", "TM8000");
+
+        strategyUnderTest.onDeviceDiscovered(ssdpDevice1);
+        strategyUnderTest.onDeviceDiscovered(ssdpDevice2);
 
         verify(discoveryListenerMock, times(1)).onNetworkNodeDiscovered(any(NetworkNode.class));
     }
@@ -138,12 +132,11 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         Set<String> modelIds = Collections.singleton("CM9000");
         strategyUnderTest.start(deviceTypes, modelIds);
 
-        SSDPdevice ssdpDevice1 = createSsdpDevice("coffee123", "CoffeeMaker", "CM9000");
-        DeviceModel deviceModel1 = createDeviceModel(ssdpDevice1);
-        SSDPdevice ssdpDevice2 = createSsdpDevice("coffee123", "CoffeeMaker", "UNSUPPORTED");
-        DeviceModel deviceModel2 = createDeviceModel(ssdpDevice2);
-        strategyUnderTest.onDeviceDiscovered(deviceModel1);
-        strategyUnderTest.onDeviceDiscovered(deviceModel2);
+        SSDPDevice ssdpDevice1 = createSsdpDevice("coffee123", "CoffeeMaker", "CM9000");
+        SSDPDevice ssdpDevice2 = createSsdpDevice("coffee123", "CoffeeMaker", "UNSUPPORTED");
+
+        strategyUnderTest.onDeviceDiscovered(ssdpDevice1);
+        strategyUnderTest.onDeviceDiscovered(ssdpDevice2);
 
         verify(discoveryListenerMock, times(1)).onNetworkNodeDiscovered(any(NetworkNode.class));
     }
@@ -152,12 +145,11 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     public void whenADeviceIsDiscoveredTwice_thenListenerIsInformedTwice() throws MissingPermissionException {
         strategyUnderTest.start();
 
-        SSDPdevice ssdpDevice = createSsdpDevice("coffee123", "CoffeeMaker", "CM9000");
-        DeviceModel deviceModel = createDeviceModel(ssdpDevice);
+        SSDPDevice ssdpDevice = createSsdpDevice("coffee123", "CoffeeMaker", "CM9000");
 
-        strategyUnderTest.onDeviceDiscovered(deviceModel);
+        strategyUnderTest.onDeviceDiscovered(ssdpDevice);
         when(deviceCacheMock.contains("coffee123")).thenReturn(true);
-        strategyUnderTest.onDeviceDiscovered(deviceModel);
+        strategyUnderTest.onDeviceDiscovered(ssdpDevice);
 
         verify(discoveryListenerMock, times(2)).onNetworkNodeDiscovered(any(NetworkNode.class));
     }
@@ -170,10 +162,9 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
             fail();
         }
 
-        SSDPdevice ssdpDevice = createSsdpDevice("coffee123", "CoffeeMaker", "CM9000");
-        DeviceModel deviceModel = createDeviceModel(ssdpDevice);
+        SSDPDevice ssdpDevice = createSsdpDevice("coffee123", "CoffeeMaker", "CM9000");
 
-        strategyUnderTest.onDeviceLost(deviceModel);
+        strategyUnderTest.onDeviceLost(ssdpDevice);
 
         verify(discoveryListenerMock).onNetworkNodeLost(networkNodeCaptor.capture());
         assertThat(networkNodeCaptor.getValue().getCppId().equals("coffee123"));
@@ -197,12 +188,9 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
             fail();
         }
 
-        SSDPdevice ssdpDevice = createSsdpDevice("coffee123", "CoffeeMaker", "CM9000");
-        DeviceModel deviceModel = createDeviceModel(ssdpDevice);
-
-        strategyUnderTest.onDeviceDiscovered(deviceModel);
-
-        NetworkNode networkNode = strategyUnderTest.createNetworkNode(deviceModel);
+        SSDPDevice ssdpDevice = createSsdpDevice("coffee123", "CoffeeMaker", "CM9000");
+        strategyUnderTest.onDeviceDiscovered(ssdpDevice);
+        NetworkNode networkNode = strategyUnderTest.createNetworkNode(ssdpDevice);
         assertNotNull(networkNode);
 
         ref.get().onCacheExpired(networkNode);
@@ -215,11 +203,9 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     public void whenAnIncompleteDeviceIsDiscovered_thenTheListenerShouldNotBeInformed() throws MissingPermissionException {
         strategyUnderTest.start();
 
-        SSDPdevice ssdpDevice = createSsdpDevice("coffee123", "CoffeeMaker", "CM9000");
-        DeviceModel deviceModel = createDeviceModel(ssdpDevice);
-        deviceModel.setIpAddress("INVALID");
+        SSDPDevice ssdpDevice = createInvalidSsdpDevice("coffee123", "CoffeeMaker", "CM9000");
 
-        strategyUnderTest.onDeviceDiscovered(deviceModel);
+        strategyUnderTest.onDeviceDiscovered(ssdpDevice);
 
         verify(discoveryListenerMock, never()).onNetworkNodeDiscovered(any(NetworkNode.class));
     }
@@ -232,42 +218,27 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
             fail();
         }
 
-        SSDPdevice ssdpDevice = createSsdpDevice("coffee123", "CoffeeMaker", "CM9000");
-        DeviceModel deviceModel = createDeviceModel(ssdpDevice);
-        deviceModel.setIpAddress("INVALID");
+        SSDPDevice ssdpDevice = createInvalidSsdpDevice("coffee123", "CoffeeMaker", "CM9000");
 
-        strategyUnderTest.onDeviceLost(deviceModel);
+        strategyUnderTest.onDeviceLost(ssdpDevice);
 
         verify(discoveryListenerMock, never()).onNetworkNodeLost(any(NetworkNode.class));
     }
 
     @Test
-    public void whenCreatingNetworkNodeWithoutSsdpDevice_thenNullShouldBeReturned() {
-        DeviceModel deviceModel = createDeviceModel(null);
-
-        NetworkNode networkNode = strategyUnderTest.createNetworkNode(deviceModel);
+    public void whenCreatingNetworkNodeWithIncompleteSsdpDevice_thenNullShouldBeReturned() {
+        NetworkNode networkNode = strategyUnderTest.createNetworkNode(createInvalidSsdpDevice("bla", "bla", "bla"));
 
         assertThat(networkNode).isNull();
     }
 
     @Test
     public void whenCreatingInvalidNetworkNode_thenNullShouldBeReturned() {
-        SSDPdevice ssdpDevice = createSsdpDevice("coffee123", "CoffeeMaker", "CM9000");
-        DeviceModel deviceModel = createDeviceModel(ssdpDevice);
-        deviceModel.setIpAddress("INVALID");
+        SSDPDevice ssdpDevice = createInvalidSsdpDevice("coffee123", "CoffeeMaker", "CM9000");
 
-        NetworkNode networkNode = strategyUnderTest.createNetworkNode(deviceModel);
+        NetworkNode networkNode = strategyUnderTest.createNetworkNode(ssdpDevice);
 
         assertThat(networkNode).isNull();
-    }
-
-    @Test
-    public void givenTransportIsAvailableAndDiscoveryIsStarted_whenStoppingDiscovery_thenSsdpDiscoveryShouldBeStopped() throws MissingPermissionException {
-        ensureDiscoveryIsStarted();
-
-        strategyUnderTest.stop();
-
-        verify(ssdpDiscoveryMock).stop();
     }
 
     @Test
@@ -296,7 +267,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         when(connectivityMonitorMock.isAvailable()).thenReturn(true);
         availabilityListener.onAvailabilityChanged(connectivityMonitorMock);
 
-        verify(ssdpDiscoveryMock, times(1)).start();
+        verify(ssdpDiscoveryMock, atLeastOnce()).start();
     }
 
     @Test
@@ -306,40 +277,51 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
 
         strategyUnderTest.start();
 
-        verify(ssdpDiscoveryMock, times(1)).start();
+        verify(ssdpDiscoveryMock, atLeastOnce()).start();
     }
 
     @Test
-    public void givenTransportIsAvailableAndDiscoveryIsStartedWhenTransportBecomesUnavailableThenSsdpIsStopped() throws MissingPermissionException {
-        ensureDiscoveryIsStarted();
+    public void givenTransportIsAvailableAndDiscoveryIsStarted_whenTransportBecomesUnavailable_thenSsdpIsStopped() throws MissingPermissionException {
+        ensureConnectivityIsAvailable();
+        strategyUnderTest.start();
 
         when(connectivityMonitorMock.isAvailable()).thenReturn(false);
         availabilityListener.onAvailabilityChanged(connectivityMonitorMock);
 
-        verify(ssdpDiscoveryMock, times(1)).stop();
+        verify(ssdpDiscoveryMock, atLeastOnce()).stop();
     }
 
-    private DeviceModel createDeviceModel(final @Nullable SSDPdevice ssdpDevice) {
-        final DeviceModel deviceModel = new DeviceModel("nts", "usn", "location", "1.2.3.4", 1337, "bootId");
-        deviceModel.setSsdpDevice(ssdpDevice);
+    @Test
+    public void givenTransportIsAvailableAndDiscoveryIsStarted_whenStoppingDiscovery_thenSsdpIsStopped() throws MissingPermissionException {
+        ensureConnectivityIsAvailable();
+        strategyUnderTest.start();
 
-        return deviceModel;
+        strategyUnderTest.stop();
+
+        verify(ssdpDiscoveryMock, atLeastOnce()).stop();
     }
 
-    private SSDPdevice createSsdpDevice(final @NonNull String cppId, final @NonNull String deviceType, final @NonNull String modelNumber) {
-        final SSDPdevice ssdpDevice = new SSDPdevice();
-        ssdpDevice.setCppId(cppId);
-        ssdpDevice.setFriendlyName("Coffee Maker 9000");
-        ssdpDevice.setModelName(deviceType);
-        ssdpDevice.setModelNumber(modelNumber);
+    private SSDPDevice createSsdpDevice(final @NonNull String cppId, final @NonNull String modelName, final @NonNull String modelNumber) {
+        final SSDPDevice device = new SSDPDevice();
 
-        return ssdpDevice;
+        device.setCppId(cppId);
+        device.setModelName(modelName);
+        device.setModelNumber(modelNumber);
+        device.setFriendlyName("Coffee Maker 9000");
+        device.setIpAddress("1.2.3.4");
+
+        return device;
     }
 
-    private void ensureDiscoveryIsStarted() throws MissingPermissionException {
+    private SSDPDevice createInvalidSsdpDevice(final @NonNull String cppId, final @NonNull String modelName, final @NonNull String modelNumber) {
+        final SSDPDevice device = createSsdpDevice(cppId, modelName, modelNumber);
+        device.setIpAddress("INVALID");
+
+        return device;
+    }
+
+    private void ensureConnectivityIsAvailable() throws MissingPermissionException {
         when(connectivityMonitorMock.isAvailable()).thenReturn(true);
         availabilityListener.onAvailabilityChanged(connectivityMonitorMock);
-        strategyUnderTest.start();
-        when(ssdpDiscoveryMock.isStarted()).thenReturn(true);
     }
 }
