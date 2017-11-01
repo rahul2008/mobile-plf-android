@@ -172,10 +172,8 @@ public class PermissionView extends CswBaseFragment implements
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if(mConsentSwitch.isPressed()){
-            showProgressDialog();
-            createConsentStatus(isChecked);
-        }
+        showProgressDialog();
+        createConsentStatus(isChecked);
     }
 
     public void setArguments(String applicationName, String propositionName) {
