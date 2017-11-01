@@ -18,19 +18,23 @@ import com.philips.cdp2.ews.util.StringProvider;
 
 import javax.inject.Inject;
 
-public class EWSGettingStartedViewModel {
+public class StartConnectWithDeviceViewModel {
 
-    @NonNull public final ObservableField<String> title;
-    @NonNull public final ObservableField<String> note;
+    @NonNull
+    public final ObservableField<String> title;
+    @NonNull
+    public final ObservableField<String> note;
 
-    @NonNull private final Navigator navigator;
-    @NonNull private final StringProvider stringProvider;
+    @NonNull
+    private final Navigator navigator;
+    @NonNull
+    private final StringProvider stringProvider;
 
     @Inject
-    public EWSGettingStartedViewModel(@NonNull final Navigator navigator,
-                                      @NonNull final StringProvider stringProvider,
-                                      @NonNull final HappyFlowContentConfiguration happyFlowConfig,
-                                      @NonNull final BaseContentConfiguration baseConfig) {
+    public StartConnectWithDeviceViewModel(@NonNull final Navigator navigator,
+                                           @NonNull final StringProvider stringProvider,
+                                           @NonNull final HappyFlowContentConfiguration happyFlowConfig,
+                                           @NonNull final BaseContentConfiguration baseConfig) {
         this.navigator = navigator;
         this.stringProvider = stringProvider;
         title = new ObservableField<>(getTitle(happyFlowConfig, baseConfig));
@@ -40,7 +44,7 @@ public class EWSGettingStartedViewModel {
     @VisibleForTesting
     @NonNull
     String getTitle(@NonNull HappyFlowContentConfiguration happyFlowConfig,
-                            @NonNull BaseContentConfiguration baseConfig) {
+                    @NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(happyFlowConfig.getGettingStartedScreenTitle(),
                 baseConfig.getDeviceName());
     }

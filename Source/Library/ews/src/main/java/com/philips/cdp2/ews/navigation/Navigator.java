@@ -16,10 +16,10 @@ import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPoin
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WifiConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
-import com.philips.cdp2.ews.view.EWSGettingStartedFragment;
 import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
+import com.philips.cdp2.ews.view.StartConnectWithDeviceFragment;
 
 public class Navigator {
 
@@ -31,7 +31,7 @@ public class Navigator {
     }
 
     public void navigateToGettingStartedScreen() {
-        pushFragment(new EWSGettingStartedFragment());
+        pushFragment(new StartConnectWithDeviceFragment());
     }
 
     public void navigateToHomeNetworkConfirmationScreen() {

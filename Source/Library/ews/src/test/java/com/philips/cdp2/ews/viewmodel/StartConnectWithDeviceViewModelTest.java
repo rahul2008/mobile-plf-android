@@ -16,11 +16,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.powermock.api.mockito.PowerMockito;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,7 +26,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25, manifest = Config.NONE)
-public class EWSGettingStartedViewModelTest {
+public class StartConnectWithDeviceViewModelTest {
 
     @Mock
     private Navigator navigatorMock;
@@ -45,13 +43,13 @@ public class EWSGettingStartedViewModelTest {
     @Mock
     private EWSCallbackNotifier ewsCallbackNotifierMock;
 
-    private EWSGettingStartedViewModel subject;
+    private StartConnectWithDeviceViewModel subject;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
 
-        subject = new EWSGettingStartedViewModel(navigatorMock, stringProviderMock, happyFlowContentConfigurationMock, baseContentConfigurationMock);
+        subject = new StartConnectWithDeviceViewModel(navigatorMock, stringProviderMock, happyFlowContentConfigurationMock, baseContentConfigurationMock);
         when(baseContentConfigurationMock.getDeviceName()).thenReturn(123435);
     }
 

@@ -15,10 +15,10 @@ import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPoin
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WifiConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
-import com.philips.cdp2.ews.view.EWSGettingStartedFragment;
 import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
+import com.philips.cdp2.ews.view.StartConnectWithDeviceFragment;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,7 +54,7 @@ public class NavigatorTest {
     public void itShouldPushGettingStartingFragmentWhenNavigating() throws Exception {
         subject.navigateToGettingStartedScreen();
 
-        verifyFragmentPushed(EWSGettingStartedFragment.class);
+        verifyFragmentPushed(StartConnectWithDeviceFragment.class);
     }
 
     @Test

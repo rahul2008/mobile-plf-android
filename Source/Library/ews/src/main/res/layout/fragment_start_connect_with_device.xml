@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.philips.cdp2.ews.viewmodel.EWSGettingStartedViewModel" />
+            type="com.philips.cdp2.ews.viewmodel.StartConnectWithDeviceViewModel" />
     </data>
 
     <android.support.v4.widget.NestedScrollView
