@@ -1,26 +1,28 @@
 {
-  "version": "1.0",
+  "version" : "1.0",
   "acquisition": {
-    "server": "c00.adobe.com"
+    "server": "c00.adobe.com",
+    "appid": ""
   },
-  "analytics": {
+
+  "analytics" : {
     "referrerTimeout": 5,
-    "rsids": "philipsmobileappshealthysleepdev",
-    "server": "philips.112.2o7.net",
-    "charset": "UTF-8",
-    "ssl": false,
-    "offlineEnabled": true,
-    "lifecycleTimeout": 30,
-    "batchLimit": 0,
-    "privacyDefault": "optunknown",
-    "poi": [
+    "rsids" : "philipsmobileappsewsdemo",
+    "server" : "philips.112.2o7.net",
+    "charset" : "UTF-8",
+    "ssl" : true,
+    "offlineEnabled" : true,
+    "lifecycleTimeout" : 30,
+    "batchLimit" : 0,
+    "privacyDefault" : "optedin",
+    "poi" : [
     ]
   },
-  "target": {
-    "clientCode": "amsdk",
-    "timeout": 5
+  "target" : {
+    "clientCode" : "amsdk",
+    "timeout" : 5
   },
-  "audienceManager": {
-    "server": ""
+  "audienceManager" : {
+    "server" : ""
   }
 }
