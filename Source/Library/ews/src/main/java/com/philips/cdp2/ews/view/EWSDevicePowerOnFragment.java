@@ -11,10 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentEwsPluginDeviceBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Pages;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.TextUtil;
 import com.philips.cdp2.ews.viewmodel.EWSDevicePowerOnViewModel;
 
@@ -58,6 +57,6 @@ public class EWSDevicePowerOnFragment extends EWSBaseFragment<FragmentEwsPluginD
     @NonNull
     @Override
     protected String getPageName() {
-        return Pages.PLUGIN_DEVICE;
+        return Tag.PAGE.PLUGIN_DEVICE;
     }
 }

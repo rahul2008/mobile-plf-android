@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentConnectToWrongPhoneTroubleshootingLayoutBinding;
-import com.philips.cdp2.ews.tagging.Pages;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.view.BaseTroubleShootingFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 
@@ -54,6 +54,6 @@ public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShoot
     @NonNull
     @Override
     protected String getPageName() {
-        return Pages.CONNECT_TO_WRONG_PHONE;
+        return Tag.PAGE.CONNECT_TO_WRONG_PHONE;
     }
 }

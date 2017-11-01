@@ -11,10 +11,9 @@ import android.support.annotation.Nullable;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
-import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentEwsWifiPairedBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Pages;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.viewmodel.EWSWiFIPairedViewModel;
 
 import javax.inject.Inject;
@@ -55,7 +54,7 @@ public class EWSWiFiPairedFragment extends EWSBaseFragment<FragmentEwsWifiPaired
     @NonNull
     @Override
     public String getPageName() {
-        return Pages.WIFI_PAIRED;
+        return Tag.PAGE.WIFI_PAIRED;
     }
 
     @Override

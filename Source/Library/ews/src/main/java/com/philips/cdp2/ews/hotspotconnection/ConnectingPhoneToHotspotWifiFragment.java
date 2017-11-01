@@ -15,10 +15,9 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel.ConnectingPhoneToHotSpotCallback;
 import com.philips.cdp2.ews.databinding.FragmentConnectingPhoneToHotspotLayoutBinding;
-import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel.ConnectingPhoneToHotSpotCallback;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.tagging.EWSTagger;
-import com.philips.cdp2.ews.tagging.Pages;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -89,7 +88,7 @@ public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implement
         final AlertDialogFragment alertDialogFragment = builder.create();
         alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
         getChildFragmentManager().executePendingTransactions();
-        EWSTagger.trackPage(Pages.PHONE_TO_DEVICE_CONNECTION_FAILED);
+        EWSTagger.trackPage(Tag.PAGE.PHONE_TO_DEVICE_CONNECTION_FAILED);
         Button yesButton = (Button) view.findViewById(R.id.ews_H_03_00_a_button_yes);
         Button noButton = (Button) view.findViewById(R.id.ews_H_03_00_a_button_no);
         yesButton.setOnClickListener(new View.OnClickListener() {

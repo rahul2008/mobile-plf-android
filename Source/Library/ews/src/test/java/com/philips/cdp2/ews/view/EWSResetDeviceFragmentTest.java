@@ -6,7 +6,7 @@ package com.philips.cdp2.ews.view;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Pages;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.viewmodel.EWSResetDeviceViewModel;
 
 import org.junit.Before;
@@ -65,6 +65,6 @@ public class EWSResetDeviceFragmentTest {
 
     @Test
     public void shouldReturnCorrectPageNameForTagging() throws Exception {
-        assertEquals(Pages.RESET_DEVICE, fragment.getPageName());
+        assertEquals(Tag.PAGE.RESET_DEVICE, fragment.getPageName());
     }
 }

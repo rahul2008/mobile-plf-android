@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.TroubleshootConnectionUnsuccessfulBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Pages;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.TextUtil;
 import com.philips.cdp2.ews.viewmodel.TroubleshootConnectionUnsuccessfulViewModel;
 
@@ -54,7 +54,7 @@ public class TroubleshootConnectionUnsuccessfulFragment extends EWSBaseFragment<
     @NonNull
     @Override
     public String getPageName() {
-        return Pages.CONNECTION_UNSUCCESSFUL;
+        return Tag.PAGE.CONNECTION_UNSUCCESSFUL;
     }
 
     @Override

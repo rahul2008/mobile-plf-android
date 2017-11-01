@@ -8,7 +8,7 @@ package com.philips.cdp2.ews.view;
 import com.philips.cdp2.ews.BuildConfig;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Pages;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.viewmodel.TroubleshootConnectionUnsuccessfulViewModel;
 
 import org.junit.Before;
@@ -68,7 +68,7 @@ public class TroubleshootWifiConnectionUnsuccessfulFragmentTest {
 
     @Test
     public void shouldReturnCorrectPageNameForTagging() throws Exception {
-        assertEquals(Pages.CONNECTION_UNSUCCESSFUL, subject.getPageName());
+        assertEquals(Tag.PAGE.CONNECTION_UNSUCCESSFUL, subject.getPageName());
     }
 
     @Test

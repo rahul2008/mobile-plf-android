@@ -16,7 +16,7 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.common.util.DateUtil;
 import com.philips.cdp2.ews.databinding.TroubleshootWrongWifiFragmentBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Pages;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.TextUtil;
 import com.philips.cdp2.ews.viewmodel.TroubleshootWrongWiFiViewModel;
 
@@ -56,7 +56,7 @@ public class TroubleshootWrongWiFiFragment extends EWSBaseFragment<TroubleshootW
     @NonNull
     @Override
     public String getPageName() {
-        return Pages.WRONG_WIFI;
+        return Tag.PAGE.WRONG_WIFI;
     }
 
     @Override

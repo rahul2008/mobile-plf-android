@@ -8,7 +8,7 @@ package com.philips.cdp2.ews.view;
 import com.philips.cdp2.ews.BuildConfig;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Pages;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.viewmodel.TroubleshootIncorrectPasswordViewModel;
 
 import org.junit.Before;
@@ -67,7 +67,7 @@ public class TroubleshootIncorrectPasswordFragmentTest {
 
     @Test
     public void shouldReturnCorrectPageNameForTagging() throws Exception {
-        assertEquals(Pages.INCORRECT_PASSWORD, subject.getPageName());
+        assertEquals(Tag.PAGE.INCORRECT_PASSWORD, subject.getPageName());
     }
 
     @Test

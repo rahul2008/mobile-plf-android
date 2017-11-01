@@ -11,7 +11,7 @@ import android.support.annotation.StringRes;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.TroubleshootIncorrectPasswordBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Pages;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.viewmodel.TroubleshootIncorrectPasswordViewModel;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
@@ -47,7 +47,7 @@ public class TroubleshootIncorrectPasswordFragment extends EWSBaseFragment<Troub
     @NonNull
     @Override
     public String getPageName() {
-        return Pages.INCORRECT_PASSWORD;
+        return Tag.PAGE.INCORRECT_PASSWORD;
     }
 
     @Override

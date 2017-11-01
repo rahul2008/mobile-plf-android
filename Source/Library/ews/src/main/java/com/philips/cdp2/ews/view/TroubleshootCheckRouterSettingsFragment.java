@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.TroubleshootCheckRouterSettingsBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Pages;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.viewmodel.TroubleshootCheckRouterSettingsViewModel;
 
 import javax.inject.Inject;
@@ -76,10 +76,10 @@ public class TroubleshootCheckRouterSettingsFragment extends EWSBaseFragment<Tro
     @NonNull
     @Override
     public String getPageName() {
-        if (screenType == ROUTER_ERROR_DIFFERENT_NETWORK) {
-            return Pages.ROUTER_SETTINGS_WRONG_WIFI;
-        } else {
-            return Pages.ROUTER_SETTINGS;
+        if (screenType == ROUTER_ERROR_DIFFERENT_NETWORK)
+            return Tag.PAGE.ROUTER_SETTINGS_WRONG_WIFI;
+        else {
+            return Tag.PAGE.ROUTER_SETTINGS;
         }
     }
 

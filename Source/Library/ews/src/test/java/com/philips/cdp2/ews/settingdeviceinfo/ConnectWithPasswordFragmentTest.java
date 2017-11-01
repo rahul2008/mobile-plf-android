@@ -6,7 +6,7 @@ package com.philips.cdp2.ews.settingdeviceinfo;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Pages;
+import com.philips.cdp2.ews.tagging.Tag;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -64,7 +64,7 @@ public class ConnectWithPasswordFragmentTest {
 
     @Test
     public void shouldReturnCorrectPageNameForTagging() throws Exception {
-        assertEquals(Pages.CONNECT_WIFI, fragment.getPageName());
+        assertEquals(Tag.PAGE.CONNECT_WIFI, fragment.getPageName());
     }
 
     @Test

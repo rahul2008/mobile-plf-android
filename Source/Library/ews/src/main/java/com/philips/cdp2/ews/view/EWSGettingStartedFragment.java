@@ -12,7 +12,7 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentEwsGettingStartedBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
-import com.philips.cdp2.ews.tagging.Pages;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.viewmodel.EWSGettingStartedViewModel;
 
 import javax.inject.Inject;
@@ -43,7 +43,7 @@ public class EWSGettingStartedFragment extends EWSBaseFragment<FragmentEwsGettin
     @NonNull
     @Override
     public String getPageName() {
-        return Pages.WIFI_SETUP;
+        return Tag.PAGE.WIFI_SETUP;
     }
 
     @Override

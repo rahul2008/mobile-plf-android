@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentResetDeviceTroubleshootingLayoutBinding;
-import com.philips.cdp2.ews.tagging.Pages;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.view.BaseTroubleShootingFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 
@@ -49,6 +49,6 @@ public class ResetDeviceTroubleshootingFragment extends BaseTroubleShootingFragm
     @NonNull
     @Override
     protected String getPageName() {
-        return Pages.RESET_DEVICE;
+        return Tag.PAGE.RESET_DEVICE;
     }
 }

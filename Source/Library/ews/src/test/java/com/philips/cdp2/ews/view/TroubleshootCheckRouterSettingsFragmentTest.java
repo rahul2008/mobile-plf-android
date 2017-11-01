@@ -8,7 +8,7 @@ package com.philips.cdp2.ews.view;
 import com.philips.cdp2.ews.BuildConfig;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Pages;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.viewmodel.TroubleshootCheckRouterSettingsViewModel;
 
 import org.junit.Before;
@@ -71,13 +71,13 @@ public class TroubleshootCheckRouterSettingsFragmentTest {
     @Test
     public void shouldReturnCorrectPageNameForTaggingWhenScreenTypeIsWrongWifi() throws Exception {
         fragment.screenType = ROUTER_ERROR_DIFFERENT_NETWORK;
-        assertEquals(Pages.ROUTER_SETTINGS_WRONG_WIFI, fragment.getPageName());
+        assertEquals(Tag.PAGE.ROUTER_SETTINGS_WRONG_WIFI, fragment.getPageName());
     }
 
     @Test
     public void shouldReturnCorrectPageNameForTaggingWhenScreenTypeIsWrongPassword() throws Exception {
         fragment.screenType = ROUTER_ERROR_NO_NETWORK;
-        assertEquals(Pages.ROUTER_SETTINGS, fragment.getPageName());
+        assertEquals(Tag.PAGE.ROUTER_SETTINGS, fragment.getPageName());
     }
 
     @Test
