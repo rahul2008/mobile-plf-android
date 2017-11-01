@@ -20,24 +20,25 @@ import com.philips.cdp2.ews.wifi.WiFiUtil;
 
 import javax.inject.Inject;
 
-public class EWSHomeWifiDisplayViewModel extends BaseObservable {
+public class ConfirmWifiNetworkViewModel extends BaseObservable {
 
-    public interface ViewCallback {
-        void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
-    }
-
-    @NonNull private final Navigator navigator;
-    @NonNull private final WiFiUtil wiFiUtil;
-
-    @NonNull private final StringProvider stringProvider;
-    @NonNull public final ObservableField<String> title;
-    @NonNull public final ObservableField<String> note;
-
-    @Nullable private ViewCallback viewCallback;
-    @NonNull private BaseContentConfiguration baseContentConfiguration;
+    @NonNull
+    public final ObservableField<String> title;
+    @NonNull
+    public final ObservableField<String> note;
+    @NonNull
+    private final Navigator navigator;
+    @NonNull
+    private final WiFiUtil wiFiUtil;
+    @NonNull
+    private final StringProvider stringProvider;
+    @Nullable
+    private ViewCallback viewCallback;
+    @NonNull
+    private BaseContentConfiguration baseContentConfiguration;
 
     @Inject
-    public EWSHomeWifiDisplayViewModel(@NonNull final Navigator navigator,
+    public ConfirmWifiNetworkViewModel(@NonNull final Navigator navigator,
                                        @NonNull final WiFiUtil wiFiUtil,
                                        @NonNull BaseContentConfiguration baseConfig,
                                        @NonNull StringProvider stringProvider) {
@@ -84,8 +85,11 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
     @VisibleForTesting
     @NonNull
     String getNote(@NonNull BaseContentConfiguration baseConfig) {
-        return stringProvider.getString(R.string.label_ews_confirm_connection_want_to_connect,
-                baseConfig.getDeviceName(), getHomeWiFiSSID());
+        return stringProvider.getString(R.string.label_ews_confirm_connection_tip,  baseConfig.getDeviceName());
+    }
+
+    public interface ViewCallback {
+        void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
     }
 
 }

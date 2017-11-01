@@ -5,20 +5,22 @@
 package com.philips.cdp2.ews.view;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.common.util.DateUtil;
-import com.philips.cdp2.ews.databinding.FragmentEwsHomeWifiDisplayScreenBinding;
-import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.tagging.Pages;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.databinding.FragmentConfirmWifiNetworkBinding;
 import com.philips.cdp2.ews.util.TextUtil;
-import com.philips.cdp2.ews.viewmodel.EWSHomeWifiDisplayViewModel;
+import com.philips.cdp2.ews.viewmodel.ConfirmWifiNetworkViewModel;
 import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -27,15 +29,27 @@ import javax.inject.Inject;
 
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
-public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeWifiDisplayScreenBinding>
-        implements EWSHomeWifiDisplayViewModel.ViewCallback {
+public class ConfirmWifiNetworkFragment extends BaseFragment
+        implements ConfirmWifiNetworkViewModel.ViewCallback {
 
     @Inject
-    EWSHomeWifiDisplayViewModel viewModel;
+    ConfirmWifiNetworkViewModel viewModel;
 
+
+    @SuppressWarnings("ConstantConditions")
     @Override
-    public int getHierarchyLevel() {
-        return 2;
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        FragmentConfirmWifiNetworkBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_confirm_wifi_network, container, false);
+        viewModel = createViewModel();
+        viewModel.setViewCallback(this);
+        binding.setViewModel(viewModel);
+        return binding.getRoot();
+    }
+
+    @NonNull
+    private ConfirmWifiNetworkViewModel createViewModel() {
+        return ((EWSActivity) getActivity()).getEWSComponent().confirmWifiNetworkViewModel();
     }
 
     @Override
@@ -45,31 +59,9 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
     }
 
     @Override
-    protected void bindViewModel(final FragmentEwsHomeWifiDisplayScreenBinding viewDataBinding) {
-        viewDataBinding.setViewModel(viewModel);
-        viewModel.setViewCallback(this);
-    }
-
-    @Override
     public void onDestroyView() {
         viewModel.setViewCallback(null);
         super.onDestroyView();
-    }
-
-    @Override
-    protected void inject(final EWSComponent ewsComponent) {
-        ewsComponent.inject(this);
-    }
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_ews_home_wifi_display_screen;
-    }
-
-    @NonNull
-    @Override
-    protected String getPageName() {
-        return Pages.CONFIRM_WIFI;
     }
 
     @Override

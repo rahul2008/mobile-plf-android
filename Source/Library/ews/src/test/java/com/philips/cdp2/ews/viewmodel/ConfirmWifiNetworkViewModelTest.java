@@ -25,15 +25,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class EWSHomeWifiDisplayViewModelTest {
+public class ConfirmWifiNetworkViewModelTest {
 
     @Mock
     private WiFiUtil wifiUtilMock;
     @Mock
     private Navigator navigatorMock;
     @Mock
-    private EWSHomeWifiDisplayViewModel.ViewCallback mockViewCallback;
-    private EWSHomeWifiDisplayViewModel viewModel;
+    private ConfirmWifiNetworkViewModel.ViewCallback mockViewCallback;
+    private ConfirmWifiNetworkViewModel viewModel;
     @Mock
     private Observable.OnPropertyChangedCallback callbackListenerMock;
 
@@ -46,7 +46,7 @@ public class EWSHomeWifiDisplayViewModelTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        viewModel = new EWSHomeWifiDisplayViewModel(navigatorMock, wifiUtilMock, mockBaseContentConfig, mockStringProvider);
+        viewModel = new ConfirmWifiNetworkViewModel(navigatorMock, wifiUtilMock, mockBaseContentConfig, mockStringProvider);
         viewModel.setViewCallback(mockViewCallback);
         when(mockBaseContentConfig.getDeviceName()).thenReturn(R.string.ews_device_name_default);
     }
@@ -101,9 +101,9 @@ public class EWSHomeWifiDisplayViewModelTest {
     }
 
     @Test
-    public void itShouldVerifyTitleForViewMatches() throws Exception{
+    public void itShouldVerifyTitleForViewMatches() throws Exception {
         when(mockStringProvider.getString(R.string.label_ews_confirm_connection_currently_connected,
-                 viewModel.getHomeWiFiSSID())).thenReturn("device name");
+                viewModel.getHomeWiFiSSID())).thenReturn("device name");
         Assert.assertEquals("device name", viewModel.getTitle());
     }
 
@@ -111,16 +111,8 @@ public class EWSHomeWifiDisplayViewModelTest {
     public void itShouldCallNoteWhenTitleIsCalledForViewModel() throws Exception {
 
         viewModel.getNote(mockBaseContentConfig);
-        verify(mockStringProvider).getString(R.string.label_ews_confirm_connection_want_to_connect,
-                mockBaseContentConfig.getDeviceName(), viewModel.getHomeWiFiSSID());
+        verify(mockStringProvider).getString(R.string.label_ews_confirm_connection_tip,
+                mockBaseContentConfig.getDeviceName());
 
     }
-
-    @Test
-    public void itShouldVerifyNoteForViewMatches() throws Exception{
-        when(mockStringProvider.getString(R.string.label_ews_confirm_connection_want_to_connect,
-                mockBaseContentConfig.getDeviceName(), viewModel.getHomeWiFiSSID())).thenReturn("note");
-        Assert.assertEquals("note", viewModel.getNote(mockBaseContentConfig));
-    }
-
 }

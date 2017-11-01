@@ -14,8 +14,8 @@ import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshooti
 import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WifiConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
+import com.philips.cdp2.ews.view.ConfirmWifiNetworkFragment;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
-import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
 import com.philips.cdp2.ews.view.StartConnectWithDeviceFragment;
@@ -61,7 +61,7 @@ public class NavigatorTest {
     public void itShouldPushHomeNetworkConfirmationScreenWhenNavigating() throws Exception {
         subject.navigateToHomeNetworkConfirmationScreen();
 
-        verifyFragmentPushed(EWSHomeWifiDisplayFragment.class);
+        verifyFragmentPushed(ConfirmWifiNetworkFragment.class);
     }
 
     @Test

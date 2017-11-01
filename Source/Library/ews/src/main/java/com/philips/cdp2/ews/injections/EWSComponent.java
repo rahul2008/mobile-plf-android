@@ -14,14 +14,15 @@ import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshooti
 import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingViewModel;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WIFIConnectionUnsuccessfulViewModel;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkViewModel;
+import com.philips.cdp2.ews.view.ConfirmWifiNetworkFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
-import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
 import com.philips.cdp2.ews.view.StartConnectWithDeviceFragment;
 import com.philips.cdp2.ews.view.dialog.TroubleshootDeviceAPModeFragment;
 import com.philips.cdp2.ews.viewmodel.BaseTroubleShootingViewModel;
+import com.philips.cdp2.ews.viewmodel.ConfirmWifiNetworkViewModel;
 import com.philips.cdp2.ews.viewmodel.StartConnectWithDeviceViewModel;
 
 import javax.inject.Singleton;
@@ -36,7 +37,7 @@ public interface EWSComponent {
 
     void inject(StartConnectWithDeviceFragment startConnectWithDeviceFragment);
 
-    void inject(EWSHomeWifiDisplayFragment ewsHomeWifiDisplayFragment);
+    void inject(ConfirmWifiNetworkFragment ewsHomeWifiDisplayFragment);
 
     void inject(EWSDevicePowerOnFragment ewsDevicePowerOnFragment);
 
@@ -67,4 +68,6 @@ public interface EWSComponent {
     WrongWifiNetworkViewModel wrongWifiNetworkViewModel();
 
     StartConnectWithDeviceViewModel ewsGettingStartedViewModel();
+
+    ConfirmWifiNetworkViewModel confirmWifiNetworkViewModel();
 }
