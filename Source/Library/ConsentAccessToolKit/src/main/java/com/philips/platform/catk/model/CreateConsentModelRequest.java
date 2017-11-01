@@ -23,15 +23,17 @@ public class CreateConsentModelRequest extends NetworkAbstractModel {
     private String applicationName;
     private String propositionName;
     private String consentStatus;
+    private String locale;
 
     @Inject
     User user;
 
-    public CreateConsentModelRequest(String applicationName, String consentStatus,String propositionName, DataLoadListener dataLoadListener) {
+    public CreateConsentModelRequest(String applicationName, String consentStatus, String propositionName, String locale, DataLoadListener dataLoadListener) {
         super(dataLoadListener);
         this.applicationName = applicationName;
         this.propositionName = propositionName;
         this.consentStatus = consentStatus;
+        this.locale = locale;
         CatkInterface.getCatkComponent().inject(this);
     }
 
@@ -60,10 +62,10 @@ public class CreateConsentModelRequest extends NetworkAbstractModel {
     public String requestBody() {
         CreateConsentModel model = new CreateConsentModel();
         model.setResourceType("Consent");
-        model.setLanguage("af-ZA");
+        model.setLanguage(locale);
         model.setStatus(consentStatus);
         model.setSubject(user.getHsdpUUID());
-        model.setPolicyRule("urn:com.philips.consent:moment/IN/0/"+propositionName+"/"+applicationName);
+        model.setPolicyRule("urn:com.philips.consent:moment/" + user.getCountryCode() + "/0/" + propositionName + "/" + applicationName);
         return getJsonString(model);
     }
 

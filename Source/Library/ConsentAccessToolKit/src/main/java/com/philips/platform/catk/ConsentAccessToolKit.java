@@ -3,7 +3,9 @@ package com.philips.platform.catk;
 import android.os.Message;
 
 import com.janrain.android.utils.StringUtils;
+import com.philips.cdp.registration.User;
 import com.philips.platform.catk.error.ConsentNetworkError;
+import com.philips.platform.catk.injection.UserLocale;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.model.CreateConsentModelRequest;
@@ -18,6 +20,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * Created by Maqsood on 10/17/17.
  */
@@ -28,9 +32,13 @@ public class ConsentAccessToolKit {
     private String applicationName;
     private String propositionName;
 
+    @Inject
+    UserLocale userLocale;
+
     public ConsentAccessToolKit(String applicationName,String propositionName){
         this.applicationName = applicationName;
         this.propositionName = propositionName;
+        CatkInterface.getCatkComponent().inject(this);
     }
 
     public void getConsentDetails(final ConsentResponseListener consentListener){
@@ -60,7 +68,7 @@ public class ConsentAccessToolKit {
 
 
     public void createConsent(ConsentStatus consentStatus, final CreateConsentListener consentListener){
-         CreateConsentModelRequest model = new CreateConsentModelRequest(applicationName,String.valueOf(consentStatus),propositionName,
+         CreateConsentModelRequest model = new CreateConsentModelRequest(applicationName,String.valueOf(consentStatus),propositionName, userLocale.locale,
                  new NetworkAbstractModel.DataLoadListener() {
             @Override
             public void onModelDataLoadFinished(Message msg) {
