@@ -34,7 +34,7 @@ import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordViewModel;
 import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.view.dialog.GPSEnableDialogFragment;
-import com.philips.cdp2.ews.viewmodel.EWSPressPlayAndFollowSetupViewModel;
+import com.philips.cdp2.ews.viewmodel.SecondSetupStepsViewModel;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -154,14 +154,14 @@ public class EWSModule {
     }
 
     @Provides
-    EWSPressPlayAndFollowSetupViewModel providesEWSPressPlayAndFollowSetupViewModel(
+    SecondSetupStepsViewModel providesEWSPressPlayAndFollowSetupViewModel(
             @NonNull final Navigator navigator,
             @NonNull final @Named("ews.event.bus") EventBus eventBus,
             @NonNull final PermissionHandler permissionHandler) {
         final ConnectionEstablishDialogFragment dialogFragment =
                 ConnectionEstablishDialogFragment
                         .getInstance(R.string.label_ews_establishing_connection_body);
-        return new EWSPressPlayAndFollowSetupViewModel(navigator, eventBus, permissionHandler,
+        return new SecondSetupStepsViewModel(navigator, eventBus, permissionHandler,
                 dialogFragment,
                 null, new GPSEnableDialogFragment(), new Handler(context.getMainLooper()));
     }

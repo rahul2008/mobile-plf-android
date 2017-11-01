@@ -17,15 +17,15 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/default_screen_bottom_margin"
-        android:layout_marginEnd="@dimen/default_body_labels_margin"
-        android:layout_marginStart="@dimen/default_body_labels_margin"
         android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/default_screen_bottom_margin"
+            android:paddingEnd="@dimen/default_body_labels_margin"
+            android:paddingStart="@dimen/default_body_labels_margin">
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ews_02_01_label_plug_in_title"

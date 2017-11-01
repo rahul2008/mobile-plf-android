@@ -33,7 +33,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static com.philips.cdp2.ews.view.ConnectPhoneToDeviceAPModeFragment.LOCATION_PERMISSIONS_REQUEST_CODE;
+import static com.philips.cdp2.ews.view.SecondSetupStepsFragment.LOCATION_PERMISSIONS_REQUEST_CODE;
 import static com.philips.cdp2.ews.viewmodel.ConnectPhoneToDeviceAPModeViewModel.ACCESS_COARSE_LOCATION;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -46,7 +46,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({GpsUtil.class, EWSLogger.class})
-public class EWSPressPlayAndFollowSetupViewModelTest {
+public class SecondSetupStepsViewModelTest {
 
     @Mock
     private Navigator navigatorMock;
@@ -69,7 +69,7 @@ public class EWSPressPlayAndFollowSetupViewModelTest {
     @Mock
     private GPSEnableDialogFragment gpsEnableDialogFragmentMock;
 
-    private EWSPressPlayAndFollowSetupViewModel viewModel;
+    private SecondSetupStepsViewModel viewModel;
 
     @Mock
     private Dialog dialogMock;
@@ -80,7 +80,7 @@ public class EWSPressPlayAndFollowSetupViewModelTest {
         initMocks(this);
         PowerMockito.mockStatic(EWSLogger.class);
         setupImmediateHandler();
-        viewModel = new EWSPressPlayAndFollowSetupViewModel(navigatorMock, eventBusMock, permissionHandlerMock,
+        viewModel = new SecondSetupStepsViewModel(navigatorMock, eventBusMock, permissionHandlerMock,
                 connectingDialogMock, null, gpsEnableDialogFragmentMock, handlerMock);
 
         viewModel.setFragment(fragmentMock);
