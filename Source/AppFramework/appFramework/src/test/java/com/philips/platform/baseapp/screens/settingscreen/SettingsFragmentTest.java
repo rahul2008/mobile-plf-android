@@ -23,7 +23,7 @@ import org.robolectric.annotation.Config;
 import static junit.framework.Assert.assertNull;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(application = TestAppFrameworkApplication.class)
+@Config(application = TestAppFrameworkApplication.class, sdk=25)
 public class SettingsFragmentTest {
     private HamburgerActivity hamburgerActivity = null;
     private SettingsFragment settingsFragment;

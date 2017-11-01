@@ -33,7 +33,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(CustomRobolectricRunner.class)
-@Config(application = TestAppFrameworkApplication.class)
+@Config(application = TestAppFrameworkApplication.class, sdk=25)
 public class WelcomeVideoPagerFragmentTest {
 
     private WelcomeVideoPagerFragment welcomeVideoPagerFragment;

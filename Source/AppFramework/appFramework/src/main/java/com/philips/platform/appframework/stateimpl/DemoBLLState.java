@@ -10,13 +10,14 @@ package com.philips.platform.appframework.stateimpl;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppInterface;
-import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppSettings;
-import com.example.cdpp.bluelibexampleapp.uapp.DefaultBleDemoMicroAppDependencies;
-import com.philips.cdp2.demouapp.CommlibUapp;
+import com.philips.cdp2.bluelib.demouapp.BluelibUapp;
+import com.philips.cdp2.bluelib.demouapp.BluelibUappAppDependencies;
 import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
+import com.philips.platform.uappframework.uappinput.UappDependencies;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class DemoBLLState extends DemoBaseState {
     private Context context;
@@ -27,9 +28,8 @@ public class DemoBLLState extends DemoBaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        BleDemoMicroAppInterface uAppInterface = getBleUApp();
-        uAppInterface.init(getUappDependencies(),
-                getUappSettings());// pass App-infra instance instead of null
+        UappInterface uAppInterface = getBleUApp();
+        uAppInterface.init(getUappDependencies(), getUappSettings());
         uAppInterface.launch(getUiLauncher(), null);
     }
 
@@ -40,13 +40,13 @@ public class DemoBLLState extends DemoBaseState {
     }
 
     @NonNull
-    protected BleDemoMicroAppSettings getUappSettings() {
-        return new BleDemoMicroAppSettings(context);
+    protected UappSettings getUappSettings() {
+        return new UappSettings(context);
     }
 
     @NonNull
-    protected DefaultBleDemoMicroAppDependencies getUappDependencies() {
-        return new DefaultBleDemoMicroAppDependencies(context);
+    protected UappDependencies getUappDependencies() {
+        return new BluelibUappAppDependencies(context);
     }
 
     @Override
@@ -54,8 +54,8 @@ public class DemoBLLState extends DemoBaseState {
         this.context = context;
     }
 
-    protected BleDemoMicroAppInterface getBleUApp() {
-        return BleDemoMicroAppInterface.getInstance();
+    protected UappInterface getBleUApp() {
+        return BluelibUapp.get();
     }
 
     @Override
