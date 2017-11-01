@@ -18,16 +18,16 @@ import org.greenrobot.eventbus.EventBus;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-public class EWSPressPlayAndFollowSetupViewModel extends ConnectPhoneToDeviceAPModeViewModel {
+public class SecondSetupStepsViewModel extends ConnectPhoneToDeviceAPModeViewModel {
 
 
     @Inject
-    public EWSPressPlayAndFollowSetupViewModel(@NonNull final Navigator navigator,
-                                               @NonNull @Named("ews.event.bus") final EventBus eventBus,
-                                               @NonNull final PermissionHandler permissionHandler,
-                                               @NonNull final DialogFragment connectingDialog,
-                                               @NonNull final DialogFragment unsuccesfulDialog,
-                                               @NonNull final DialogFragment gpsSettingsDialog, @NonNull final Handler handler) {
+    public SecondSetupStepsViewModel(@NonNull final Navigator navigator,
+                                     @NonNull @Named("ews.event.bus") final EventBus eventBus,
+                                     @NonNull final PermissionHandler permissionHandler,
+                                     @NonNull final DialogFragment connectingDialog,
+                                     @NonNull final DialogFragment unsuccesfulDialog,
+                                     @NonNull final DialogFragment gpsSettingsDialog, @NonNull final Handler handler) {
         super(navigator, eventBus, permissionHandler, connectingDialog, unsuccesfulDialog, gpsSettingsDialog, handler);
     }
 

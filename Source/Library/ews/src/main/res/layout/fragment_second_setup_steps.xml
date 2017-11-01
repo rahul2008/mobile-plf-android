@@ -10,7 +10,8 @@
 
         <variable
             name="viewModel"
-            type="com.philips.cdp2.ews.viewmodel.ConfirmWifiNetworkViewModel" />
+            type="com.philips.cdp2.ews.viewmodel.SecondSetupStepsViewModel" />
+
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -21,74 +22,60 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:paddingBottom="@dimen/default_screen_bottom_margin"
             android:paddingEnd="@dimen/default_body_labels_margin"
-            android:paddingStart="@dimen/default_body_labels_margin"
-            android:orientation="vertical">
+            android:paddingStart="@dimen/default_body_labels_margin">
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ews_01_01_label_confirm_connection_title"
+                android:id="@+id/ews_02_02_label_verify_ready_title"
                 style="@style/Txt.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_screen_top_margin"
-                android:text="@string/label_ews_confirm_connection_title" />
+                android:text="@string/label_ews_verify_ready_title_default" />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/desc_wifi_display"
                 style="@style/Txt.Body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/default_main_button_top_margin"
                 android:layout_marginTop="@dimen/default_body_labels_margin"
-                android:text="@{viewModel.title}" />
+                android:text="@string/label_ews_verify_ready_question_default" />
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/ews_press_and_play_icon"
+                style="@style/EWS.ImageScale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_image_top_margin"
+                android:adjustViewBounds="true"
+                android:background="@drawable/ews_product_bg_orig"
+                android:contentDescription="@null"
+                app:setAnimationDrawable="@{@drawable/ic_ews_device_apmode_blinking}" />
+
+            <android.support.v4.widget.Space
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/color_panel">
-
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/wifi_display_confirm_text"
-                    style="@style/Txt.Body"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/default_body_labels_bottom_margin"
-                    android:layout_marginTop="@dimen/default_body_labels_margin"
-                    android:text="@{viewModel.note}" />
-            </LinearLayout>
-
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ews_01_01_label_current_wifi1"
-                style="@style/Txt.Body"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_screen_side_margin"
-                android:text="@string/label_ews_confirm_connection_want_to_connect" />
-
-            <Space
-                android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
             <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/ews_01_01_button_confirm_connection_yes"
+                android:id="@+id/ews_02_02_button_verify_ready_yes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_main_button_top_margin"
-                android:onClick="@{() -> viewModel.onYesButtonClicked()}"
-                android:text="@string/button_ews_confirm_connection_yes"
+                android:onClick="@{() -> viewModel.onNextButtonClicked()}"
+                android:text="@string/button_ews_verify_ready_yes_default"
                 app:uidComponentType="Primary" />
 
             <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/ews_01_01_button_confirm_connection_no"
+                android:id="@+id/ews_02_02_button_verify_ready_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_between_button_margin"
                 android:onClick="@{() -> viewModel.onNoButtonClicked()}"
-                android:text="@string/button_ews_confirm_connection_no"
+                android:text="@string/button_ews_verify_ready_no_default"
                 app:uidComponentType="Secondary" />
         </LinearLayout>
+
     </android.support.v4.widget.NestedScrollView>
 
 </layout>

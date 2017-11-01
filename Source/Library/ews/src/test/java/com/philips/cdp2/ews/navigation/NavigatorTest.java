@@ -15,9 +15,9 @@ import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPoin
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WifiConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
 import com.philips.cdp2.ews.view.ConfirmWifiNetworkFragment;
-import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
 import com.philips.cdp2.ews.view.FirstSetupStepsFragment;
+import com.philips.cdp2.ews.view.SecondSetupStepsFragment;
 import com.philips.cdp2.ews.view.StartConnectWithDeviceFragment;
 
 import org.junit.Before;
@@ -75,7 +75,7 @@ public class NavigatorTest {
     public void itShouldPushCompletingDeviceSetupScreenWhenNavigating() throws Exception {
         subject.navigateToCompletingDeviceSetupScreen();
 
-        verifyFragmentPushed(EWSPressPlayAndFollowSetupFragment.class);
+        verifyFragmentPushed(SecondSetupStepsFragment.class);
     }
 
     @Test

@@ -15,12 +15,12 @@ import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPoin
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WIFIConnectionUnsuccessfulViewModel;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkViewModel;
 import com.philips.cdp2.ews.view.EWSActivity;
-import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
 import com.philips.cdp2.ews.view.dialog.TroubleshootDeviceAPModeFragment;
 import com.philips.cdp2.ews.viewmodel.BaseTroubleShootingViewModel;
 import com.philips.cdp2.ews.viewmodel.ConfirmWifiNetworkViewModel;
 import com.philips.cdp2.ews.viewmodel.FirstSetupStepsViewModel;
+import com.philips.cdp2.ews.viewmodel.SecondSetupStepsViewModel;
 import com.philips.cdp2.ews.viewmodel.StartConnectWithDeviceViewModel;
 
 import javax.inject.Singleton;
@@ -32,8 +32,6 @@ import dagger.Component;
 public interface EWSComponent {
 
     void inject(EWSActivity ewsActivity);
-
-    void inject(EWSPressPlayAndFollowSetupFragment ewsPressPlayAndFollowSetupFragment);
 
     void inject(ConnectWithPasswordFragment connectWithPasswordFragment);
 
@@ -64,4 +62,6 @@ public interface EWSComponent {
     ConfirmWifiNetworkViewModel confirmWifiNetworkViewModel();
 
     FirstSetupStepsViewModel firstSetupStepsViewModel();
+
+    SecondSetupStepsViewModel secondSetupStepsViewModel();
 }
