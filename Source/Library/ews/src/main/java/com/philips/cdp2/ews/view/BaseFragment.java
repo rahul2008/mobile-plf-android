@@ -60,8 +60,7 @@ public class BaseFragment extends Fragment implements BackEventListener {
 
         Button yesButton = (Button) view.findViewById(R.id.ews_04_02_button_cancel_setup_yes);
         Button noButton = (Button) view.findViewById(R.id.ews_04_02_button_cancel_setup_no);
-        TextView description = (TextView) view.findViewById(R.id.ews_verify_device_body);
-        description.setText(getString(R.string.label_ews_cancel_setup_body, getString(baseContentConfiguration.getDeviceName())));
+        ((TextView) view.findViewById(R.id.ews_verify_device_body)).setText(getString(R.string.label_ews_cancel_setup_body, getString(baseContentConfiguration.getDeviceName())));
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
