@@ -3,7 +3,6 @@ package com.philips.platform.catk;
 import android.os.Message;
 
 import com.janrain.android.utils.StringUtils;
-import com.philips.cdp.registration.User;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.injection.UserLocale;
 import com.philips.platform.catk.listener.ConsentResponseListener;
@@ -110,7 +109,7 @@ public class ConsentAccessToolKit {
         });
     }
 
-    private String buildPolicyRule(String consentType, int version, String country, String propositionName, String applicationName) {
+    public String buildPolicyRule(String consentType, int version, String country, String propositionName, String applicationName) {
         return "urn:com.philips.consent:" + consentType + "/" + country + "/" + version + "/" + propositionName + "/" + applicationName;
     }
 

@@ -1,17 +1,19 @@
 package com.philips.platform.catk;
 
+import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.catk.injection.CatkComponent;
+import com.philips.platform.catk.injection.UserLocale;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.listener.RequestListener;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkHelper;
-import com.philips.platform.catk.response.ConsentStatus;
 import com.philips.platform.catk.util.CustomRobolectricRunnerCATK;
 import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -65,15 +67,27 @@ public class ConsentAccessToolKitTest {
     @Mock
     CreateConsentListener mockCreateConsentListener;
 
+    @Mock
+    User user;
+
+    @Mock
+    UserLocale mockUserLocale;
+
+    @Mock
+    ConsentAccessToolKit mockConsentAccessToolKit;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         PowerMockito.mockStatic(NetworkHelper.class);
         PowerMockito.mockStatic(CatkInterface.class);
         when(NetworkHelper.getInstance()).thenReturn(mockNetworkHelper);
-        consentAccessToolKit = new ConsentAccessToolKit(appName, propName);
         mockCatkInterface.setCatkComponent(mockCatkComponent);
         when(mockCatkInterface.getCatkComponent()).thenReturn(mockCatkComponent);
+        when(mockCatkInterface.getCatkComponent().getUser()).thenReturn(user);
+        CatkInterface.getCatkComponent().inject(mockConsentAccessToolKit);
+        when(mockCatkInterface.getCatkComponent().getUserLocale()).thenReturn(mockUserLocale);
+        consentAccessToolKit = new ConsentAccessToolKit(appName, propName);
     }
 
     @After
@@ -88,9 +102,15 @@ public class ConsentAccessToolKitTest {
         verify(mockNetworkHelper).sendRequest(anyInt(), any(NetworkAbstractModel.class), any(RequestListener.class));
     }
 
-    @Test
+   /* @Test
     public void shouldCallNetworkHelperSendRequestMethodWhenCreateConsentDetailsMethodISCalled() throws Exception {
         consentAccessToolKit.createConsent(ConsentStatus.active,mockCreateConsentListener);
         verify(mockNetworkHelper).sendRequest(anyInt(), any(NetworkAbstractModel.class), any(RequestListener.class));
+    }*/
+
+    @Test
+    public void shouldCallNetworkHelperSendRequestMethodWhengetStatusForConsentType() throws Exception {
+        consentAccessToolKit.getStatusForConsentType("active",1,listnerMock);
+        Assert.assertNotNull(consentAccessToolKit.buildPolicyRule("consentType",1, "IN",propName, appName));
     }
 }

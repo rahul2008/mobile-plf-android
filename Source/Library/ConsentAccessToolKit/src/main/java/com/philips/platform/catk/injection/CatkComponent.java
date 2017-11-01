@@ -33,4 +33,6 @@ public interface CatkComponent {
     void inject(GetConsentsModelRequest getConsentsModelRequest);
 
     void inject(ConsentAccessToolKit consentAccessToolKit);
+
+    UserLocale getUserLocale();
 }
