@@ -15,9 +15,9 @@ import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPoin
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WifiConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
 import com.philips.cdp2.ews.view.ConfirmWifiNetworkFragment;
-import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
+import com.philips.cdp2.ews.view.FirstSetupStepsFragment;
 import com.philips.cdp2.ews.view.StartConnectWithDeviceFragment;
 
 import org.junit.Before;
@@ -68,7 +68,7 @@ public class NavigatorTest {
     public void itShouldPushDevicePoweredOnConfirmationScreenWhenNavigating() throws Exception {
         subject.navigateToDevicePoweredOnConfirmationScreen();
 
-        verifyFragmentPushed(EWSDevicePowerOnFragment.class);
+        verifyFragmentPushed(FirstSetupStepsFragment.class);
     }
 
     @Test
@@ -138,7 +138,7 @@ public class NavigatorTest {
 
         subject.navigateToDevicePoweredOnConfirmationScreen();
 
-        verify(mockFragmentNavigator).popToFragment(EWSDevicePowerOnFragment.class.getCanonicalName());
+        verify(mockFragmentNavigator).popToFragment(FirstSetupStepsFragment.class.getCanonicalName());
         verify(mockFragmentNavigator, never()).push(any(Fragment.class), anyInt());
     }
 
@@ -148,7 +148,7 @@ public class NavigatorTest {
 
         subject.navigateToDevicePoweredOnConfirmationScreen();
 
-        verifyFragmentPushed(EWSDevicePowerOnFragment.class);
+        verifyFragmentPushed(FirstSetupStepsFragment.class);
     }
 
     @Test

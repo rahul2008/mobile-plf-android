@@ -16,9 +16,9 @@ import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPoin
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WifiConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
 import com.philips.cdp2.ews.view.ConfirmWifiNetworkFragment;
-import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
+import com.philips.cdp2.ews.view.FirstSetupStepsFragment;
 import com.philips.cdp2.ews.view.StartConnectWithDeviceFragment;
 
 public class Navigator {
@@ -44,9 +44,9 @@ public class Navigator {
 
     public void navigateToDevicePoweredOnConfirmationScreen() {
         boolean isPresentInStack =
-                fragmentNavigator.popToFragment(EWSDevicePowerOnFragment.class.getCanonicalName());
+                fragmentNavigator.popToFragment(FirstSetupStepsFragment.class.getCanonicalName());
         if (!isPresentInStack) {
-            pushFragment(new EWSDevicePowerOnFragment());
+            pushFragment(new FirstSetupStepsFragment());
         }
     }
 

@@ -25,14 +25,11 @@ import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
-import javax.inject.Inject;
-
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class ConfirmWifiNetworkFragment extends BaseFragment
         implements ConfirmWifiNetworkViewModel.ViewCallback {
 
-    @Inject
     ConfirmWifiNetworkViewModel viewModel;
 
 
