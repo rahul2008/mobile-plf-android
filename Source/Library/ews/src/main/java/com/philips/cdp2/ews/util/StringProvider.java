@@ -33,4 +33,8 @@ public class StringProvider {
     public String getString(@StringRes int id, String param) {
         return context.getString(id, param);
     }
+
+    public String getString(@StringRes int id){
+        return context.getString(id);
+    }
 }
