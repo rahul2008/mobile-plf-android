@@ -32,61 +32,69 @@
                 android:contentDescription="@null"
                 android:src="@drawable/ews_onboarding_image" />
 
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ews_01_00_label_get_started_title"
-                style="@style/Txt.Title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/e"
-                android:layout_marginStart="@dimen/e"
-                android:layout_marginTop="@dimen/e"
-                android:text="@{viewModel.title}"
-                tools:text="@string/label_ews_get_started_title" />
-
             <LinearLayout
-                android:id="@+id/ews_gs_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/d"
-                android:background="@color/color_panel">
-
-                <ImageView
-                    android:layout_width="@dimen/ews_gs_icon_size"
-                    android:layout_height="@dimen/ews_gs_icon_size"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="@dimen/d"
-                    android:layout_marginStart="@dimen/e"
-                    android:contentDescription="@null"
-                    app:srcCompat="@drawable/dls_wificonnection" />
+                android:layout_marginTop="@dimen/default_screen_top_margin"
+                android:layout_marginStart="@dimen/default_screen_side_margin"
+                android:layout_marginEnd="@dimen/default_screen_side_margin"
+                android:layout_marginBottom="@dimen/default_screen_bottom_margin"
+                android:orientation="vertical">
 
                 <com.philips.platform.uid.view.widget.Label
-                    style="@style/Txt.Body"
-                    android:layout_width="0dp"
+                    android:id="@+id/ews_01_00_label_get_started_title"
+                    style="@style/Txt.Title"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/d"
-                    android:layout_marginEnd="@dimen/e"
-                    android:layout_marginStart="@dimen/d"
-                    android:layout_marginTop="@dimen/d"
-                    android:layout_weight="1"
-                    android:text="@{viewModel.note}"
-                    tools:text="@string/label_ews_get_started_description" />
+                    android:text="@{viewModel.title}"
+                    tools:text="@string/label_ews_get_started_title" />
 
+                <LinearLayout
+                    android:id="@+id/ews_gs_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/default_body_labels_bottom_margin"
+                    android:layout_marginTop="@dimen/default_body_labels_margin"
+                    android:background="@color/color_panel">
+
+                    <ImageView
+                        android:layout_width="@dimen/ews_gs_icon_size"
+                        android:layout_height="@dimen/ews_gs_icon_size"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/d"
+                        android:layout_marginStart="@dimen/e"
+                        android:contentDescription="@null"
+                        app:srcCompat="@drawable/dls_wificonnection" />
+
+                    <com.philips.platform.uid.view.widget.Label
+                        style="@style/Txt.Body"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/d"
+                        android:layout_marginEnd="@dimen/e"
+                        android:layout_marginStart="@dimen/d"
+                        android:layout_marginTop="@dimen/d"
+                        android:layout_weight="1"
+                        android:text="@{viewModel.note}"
+                        tools:text="@string/label_ews_get_started_description" />
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/ews_01_00_button_get_started_get_started"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="@dimen/default_main_button_top_margin"
+                    android:onClick="@{() -> viewModel.onGettingStartedButtonClicked()}"
+                    android:text="@string/button_ews_get_started_get_started"
+                    app:uidComponentType="Primary" />
             </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/ews_01_00_button_get_started_get_started"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginTop="@dimen/default_main_button_top_margin"
-                android:onClick="@{() -> viewModel.onGettingStartedButtonClicked()}"
-                android:text="@string/button_ews_get_started_get_started"
-                app:uidComponentType="Primary" />
 
         </LinearLayout>
 
