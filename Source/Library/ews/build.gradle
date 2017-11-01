@@ -85,8 +85,7 @@ dependencies {
                 transitive = true
 
             }
-//    def commliblan = module(group: 'com.philips.cdp', name: 'commlib-lan', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
-    def commliblan = module(group: 'com.philips.cdp', name: 'commlib-lan', version: '2017.5.+' , changing: true)
+    def commliblan = module(group: 'com.philips.cdp', name: 'commlib-lan', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
     compile(dp ? project(':commlib-lan') : commliblan)
             {
 
