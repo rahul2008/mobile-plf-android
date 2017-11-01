@@ -101,26 +101,26 @@ public class EWSHomeWifiDisplayViewModelTest {
     }
 
     @Test
-    public void itShouldVerifyTitleForViewMatches() throws Exception{
+    public void itShouldVerifyTitleForViewMatches() throws Exception {
         when(mockStringProvider.getString(R.string.label_ews_confirm_connection_currently_connected,
-                 viewModel.getHomeWiFiSSID())).thenReturn("device name");
+                viewModel.getHomeWiFiSSID())).thenReturn("device name");
         Assert.assertEquals("device name", viewModel.getTitle());
     }
 
     @Test
     public void itShouldCallNoteWhenTitleIsCalledForViewModel() throws Exception {
 
-        viewModel.getNote(mockBaseContentConfig);
+        viewModel.getNote();
         verify(mockStringProvider).getString(R.string.label_ews_confirm_connection_want_to_connect,
                 mockBaseContentConfig.getDeviceName(), viewModel.getHomeWiFiSSID());
 
     }
 
     @Test
-    public void itShouldVerifyNoteForViewMatches() throws Exception{
+    public void itShouldVerifyNoteForViewMatches() throws Exception {
         when(mockStringProvider.getString(R.string.label_ews_confirm_connection_want_to_connect,
                 mockBaseContentConfig.getDeviceName(), viewModel.getHomeWiFiSSID())).thenReturn("note");
-        Assert.assertEquals("note", viewModel.getNote(mockBaseContentConfig));
+        Assert.assertEquals("note", viewModel.getNote());
     }
 
 }
