@@ -44,7 +44,7 @@ public class AppInfraModule {
     public UserLocale providesLocale() {
         LocaleListener listener = new LocaleListener();
         appInfraInterface.getServiceDiscovery().getServiceLocaleWithCountryPreference("ds.consentservice", listener);
-        return new UserLocale(listener.locale);
+        return new UserLocale(listener.locale.replace("_","-"));
     }
 
     public static class LocaleListener implements ServiceDiscoveryInterface.OnGetServiceLocaleListener {
