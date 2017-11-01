@@ -4,7 +4,14 @@ apply from: "../../../ci-build-support/gradle/versions.gradle"
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
 
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
 def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment)
 version = objcdp.getVersion(versions.mya_myAccount)
 
 buildscript {
