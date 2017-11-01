@@ -2,6 +2,6 @@
     <string name="app_name">ConsentWidgets</string>
     <string name="allow_track_use">I allow Philips to track/use my personal data</string>
     <string name="allow_send_promotional_on_behavior">I allow Philips to send promotional communications of Philips, based on my preferences and online behavior</string>
-    <string name="csw_permissions">Permissions</string>
+    <string name="csw_permissions">Privacy Settings</string>
     <string name="csw_what_does_it_mean">What does it mean?</string>
 </resources>
