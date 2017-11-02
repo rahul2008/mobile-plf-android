@@ -12,6 +12,7 @@ import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.utility.THSManager;
@@ -20,6 +21,8 @@ import com.philips.platform.ths.utility.THSTagUtils;
 import java.util.List;
 import java.util.Map;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_ENROLLMENT_MANGER;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_UPDATE_CONSUMER_PHONE;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
@@ -41,6 +44,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
                 updateConsumer(thsFollowUpViewInterfaces.getConsumerPhoneNumber());
             } else {
                 thsFollowUpViewInterfaces.showError(mTHSFollowUpFragment.getString(R.string.ths_invalid_phone_number));
+                mTHSFollowUpFragment.doTagging(ANALYTIC_UPDATE_CONSUMER_PHONE,mTHSFollowUpFragment.getString(R.string.ths_invalid_phone_number),false);
             }
 
         } else if (componentID == R.id.pth_intake_follow_up_i_agree_link_text) {
@@ -80,7 +84,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     public void onUpdateConsumerResponse(THSConsumerWrapper thsConsumer, THSSDKPasswordError sdkPasswordError) {
         if(null != sdkPasswordError.getSdkPasswordError()) {
                 if(null != sdkPasswordError.getSdkPasswordError().getSDKErrorReason()) {
-                    thsFollowUpViewInterfaces.showError(THSSDKErrorFactory.getErrorType(sdkPasswordError.getSdkPasswordError().getSDKErrorReason()));
+                    thsFollowUpViewInterfaces.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_UPDATE_CONSUMER_PHONE,sdkPasswordError.getSdkPasswordError()));
                 }
         }
         else {

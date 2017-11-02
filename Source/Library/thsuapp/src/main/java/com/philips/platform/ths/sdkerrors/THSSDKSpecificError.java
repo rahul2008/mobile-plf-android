@@ -57,19 +57,20 @@ public class THSSDKSpecificError implements THSErrorHandlerInterface {
             return true;
         }
         else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.CREDIT_CARD_INCORRECT_CVV.name())){
-            errorMessage = "Invalid credit card";
+            errorMessage = "Invalid CVV number";
             return true;
         }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.CREDIT_CARD_DECLINED_ERROR.name())){
-            errorMessage = "Invalid credit card";
+            errorMessage = "Credit card declined";
             return true;
         }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.CREDIT_CARD_INVALID_ZIP.name())){
-            errorMessage = "Invalid credit card";
+            errorMessage = "Invalid zip number";
             return true;
         }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.CREDIT_CARD_RESIDENCY_CHECK_FAILED.name())){
-            errorMessage = "Invalid credit card";
+            errorMessage = "Credit card resedency check failed";
             return true;
         }else {
             return false;
         }
+
     }
 }

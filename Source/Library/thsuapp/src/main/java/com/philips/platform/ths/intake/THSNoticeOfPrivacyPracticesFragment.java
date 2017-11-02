@@ -20,7 +20,7 @@ import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
-import static com.philips.platform.ths.utility.THSConstants.THS_FOLLOW_UP_PAGE;
+
 import static com.philips.platform.ths.utility.THSConstants.THS_NOPP_PAGE;
 
 public class THSNoticeOfPrivacyPracticesFragment extends THSBaseFragment {

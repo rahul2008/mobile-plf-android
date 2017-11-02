@@ -35,6 +35,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import static com.americanwell.sdk.entity.SDKErrorReason.GENERIC_EXCEPTION;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PROVIDER;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_APPOINTMENTS;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_SCHEDULE_APPOINTMENT;
+
 class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSAvailableProviderCallback<List<Date>, THSSDKError>, THSFetchEstimatedCostCallback, THSSDKValidatedCallback {
     private THSBaseFragment mThsBaseFragment;
     private THSProviderDetailsDisplayHelper mthsProviderDetailsDisplayHelper;
@@ -92,12 +97,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
                                             @Override
                                             public void onResponse(List<Date> dates, THSSDKError sdkError) {
                                                 if (sdkError.getSdkError() != null) {
-                                                    if (sdkError.getSDKErrorReason() != null) {
-                                                        mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                                                        return;
-                                                    } else {
-                                                        mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
-                                                    }
+                                                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_FETCH_APPOINTMENTS,sdkError.getSdkError()));
                                                 } else {
                                                     if (dates == null || dates.size() == 0) {
 
@@ -162,11 +162,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
     public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             if (null != sdkError) {
-                if (null != sdkError.getSDKErrorReason()) {
-                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                } else {
-                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
-                }
+                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_FETCH_PROVIDER,sdkError));
             } else {
                 ((THSAvailableProviderDetailFragment) mThsBaseFragment).setProvider(provider);
                 try {
@@ -202,12 +198,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             mThsBaseFragment.hideProgressBar();
             if (null != sdkError.getSdkError()) {
-                if (null != sdkError.getSDKErrorReason()) {
-                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                    return;
-                }else {
-                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
-                }
+                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_FETCH_APPOINTMENTS,sdkError.getSdkError()));
             } else {
                 mthsProviderDetailsDisplayHelper.updateView(((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider(), dates);
                 dateList = dates;
@@ -222,7 +213,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
         } else {
             if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
                 if (sdkError.getSDKErrorReason() != null && sdkError.getSDKErrorReason().name() != null) {
-                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_SCHEDULE_APPOINTMENT,sdkError));
                 } else {
                     mThsBaseFragment.showToast(mThsBaseFragment.getString(R.string.something_went_wrong));
                 }

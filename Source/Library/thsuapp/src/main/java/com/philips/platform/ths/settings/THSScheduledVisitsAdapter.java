@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_SCHEDULE_APPOINTMENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_EARLY_FOR_APPOINTMENT;
 import static com.philips.platform.ths.visit.THSWaitingRoomFragment.CANCEL_VISIT_ALERT_DIALOG_TAG;
 
@@ -107,9 +108,11 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
                 Long utcScheduledMilliseconds = scheduledCalendar.getTime().getTime();
 
                 if(utcCurrentMilliseconds>utcScheduledMilliseconds){
+                    mThsScheduledVisitsFragment.doTagging(ANALYTICS_SCHEDULE_APPOINTMENT,mThsScheduledVisitsFragment.getString(R.string.late_for_appointment),false);
                     mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.late_for_appointment));
                 }else if(isUserArrivedEarly(utcCurrentMilliseconds, utcScheduledMilliseconds)){
-                    mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.early_for_appointment));
+                    mThsScheduledVisitsFragment.doTagging(ANALYTICS_SCHEDULE_APPOINTMENT,mThsScheduledVisitsFragment.getString(R.string.late_for_appointment),false);
+                    mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.late_for_appointment));
                 }else {
                     Bundle bundle = new Bundle();
                     bundle.putLong(THSConstants.THS_DATE, scheduledStartTime);

@@ -18,7 +18,7 @@ import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
-import static com.philips.platform.ths.utility.THSConstants.THS_PRACTICE_PAGE;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PRACTICE;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 
@@ -50,11 +50,7 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
     public void onPracticesListReceived(THSPracticeList practices, SDKError sdkError) {
         if (null != uiBaseView && null != uiBaseView.getFragmentActivity()) {
             if (null != sdkError) {
-                if (sdkError.getSDKErrorReason() != null) {
-                    uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()),true);
-                }else {
-                    uiBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR,true);
-                }
+                uiBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_FETCH_PRACTICE, sdkError), true);
             } else {
                 ((THSPracticeFragment) uiBaseView).showPracticeList(practices);
             }
@@ -70,7 +66,7 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
     }
 
     void showProviderList(Practice practice) {
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SEND_DATA,"visitSubject",practice.getName());
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "visitSubject", practice.getName());
         THSProvidersListFragment providerListFragment = new THSProvidersListFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(THSConstants.PRACTICE_FRAGMENT, practice);

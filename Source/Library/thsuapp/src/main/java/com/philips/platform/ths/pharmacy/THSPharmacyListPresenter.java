@@ -13,13 +13,14 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.List;
 import java.util.Map;
+
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_PHARMACY;
 
 
 public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUpdatePharmacyCallback, THSBasePresenter {
@@ -56,9 +57,9 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
         }
     }
 
-    public void fetchPharmacyList(THSConsumerWrapper thsConsumerWrapper, float latitude, float longitude, int radius){
+    public void fetchPharmacyList(THSConsumerWrapper thsConsumerWrapper, float latitude, float longitude, int radius) {
         try {
-            THSManager.getInstance().getPharmacies(thsPharmacyListViewListener.getFragmentActivity(), thsConsumerWrapper,latitude,longitude,radius,this);
+            THSManager.getInstance().getPharmacies(thsPharmacyListViewListener.getFragmentActivity(), thsConsumerWrapper, latitude, longitude, radius, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -78,11 +79,7 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
         if (null != thsPharmacyListViewListener && null != thsPharmacyListViewListener.getFragmentActivity()) {
             thsPharmacyListViewListener.hideProgressBar();
             if (null != sdkError) {
-                if (sdkError.getSDKErrorReason() != null) {
-                    thsPharmacyListViewListener.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                } else {
-                    thsPharmacyListViewListener.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
-                }
+                thsPharmacyListViewListener.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_PHARMACY, sdkError));
             } else {
                 if (null == pharmacies || pharmacies.size() == 0) {
                     thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_fetch_error));
@@ -113,9 +110,9 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
     @Override
     public void onUpdateSuccess(SDKError sdkError) {
         if (null != thsPharmacyListViewListener && null != thsPharmacyListViewListener.getFragmentActivity()) {
-                thsPharmacyListViewListener.hideProgressBar();
-                thsPharmacyListViewListener.validateForMailOrder(pharmacy);
-                thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_preferred_pharmacy_update));
+            thsPharmacyListViewListener.hideProgressBar();
+            thsPharmacyListViewListener.validateForMailOrder(pharmacy);
+            thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_preferred_pharmacy_update));
 
         }
     }

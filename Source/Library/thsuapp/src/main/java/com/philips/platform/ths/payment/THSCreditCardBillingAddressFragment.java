@@ -30,6 +30,8 @@ import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPDATE_PAYMENT;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPDATE_VITALS;
 import static com.philips.platform.ths.utility.THSConstants.THS_BILLING_ADDRESS;
 
 
@@ -80,6 +82,7 @@ public class THSCreditCardBillingAddressFragment extends THSBaseFragment impleme
                 updateContinueBtnState();
                 if (!validateString) {
                     addressValidationLayout.showError();
+                    doTagging(ANALYTICS_UPDATE_PAYMENT,addressValidationLayout.getErrorLabelView().getText().toString(),false);
                     return false;
                 }
                 return true;
@@ -92,6 +95,7 @@ public class THSCreditCardBillingAddressFragment extends THSBaseFragment impleme
                 boolean validateString = validateString(mCityEditText.getText().toString());
                 if(!validateString){
                     cityValidationLayout.showError();
+                    doTagging(ANALYTICS_UPDATE_PAYMENT,addressValidationLayout.getErrorLabelView().getText().toString(),false);
                     return false;
                 }
                 return true;
@@ -105,6 +109,7 @@ public class THSCreditCardBillingAddressFragment extends THSBaseFragment impleme
                 boolean validateString = mTHSCreditCardBillingAddressPresenter.validateZip(mZipcodeEditText.getText().toString());
                 if(!validateString){
                     postCodeValidationLayout.showError();
+                    doTagging(ANALYTICS_UPDATE_PAYMENT,getString(R.string.ths_pharmacy_search_error),false);
                     return false;
                 }
                 return true;
@@ -138,10 +143,14 @@ public class THSCreditCardBillingAddressFragment extends THSBaseFragment impleme
         if (null == s || s.isEmpty()) {
             addressValidationLayout.setErrorMessage(R.string.ths_address_validation_empty_string);
             cityValidationLayout.setErrorMessage(R.string.ths_address_validation_city_empty_string);
+            doTagging(ANALYTICS_UPDATE_PAYMENT,getString(R.string.ths_address_validation_empty_string),false);
+            doTagging(ANALYTICS_UPDATE_PAYMENT,getString(R.string.ths_address_validation_city_empty_string),false);
             return false;
         } else if (s.length() < 2 || s.length() > 25) {
             addressValidationLayout.setErrorMessage(R.string.ths_address_validation_length_string);
             cityValidationLayout.setErrorMessage(R.string.ths_address_validation_city_length_string);
+            doTagging(ANALYTICS_UPDATE_PAYMENT,getString(R.string.ths_address_validation_length_string),false);
+            doTagging(ANALYTICS_UPDATE_PAYMENT,getString(R.string.ths_address_validation_city_length_string),false);
             return false;
         } else {
             return true;

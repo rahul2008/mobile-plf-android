@@ -32,6 +32,9 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.util.Map;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_APPLY_PROMOCODE;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_CREATE_VISIT;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_HEALTH_SUBSCRIPTION;
 import static com.philips.platform.ths.utility.THSConstants.IS_LAUNCHED_FROM_COST_SUMMARY;
 import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_COUPON_CODE_ERROR;
 import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_CREATE_VISIT_ERROR;
@@ -129,12 +132,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     public void onCreateVisitResponse(THSVisit tHSVisit, THSSDKError tHSSDKError) {
         if (null != mTHSCostSummaryFragment && mTHSCostSummaryFragment.isFragmentAttached()) {
             mTHSCostSummaryFragment.hideProgressBar();
-            if (null != tHSSDKError.getSdkError()) {
-                if (null != tHSSDKError.getSDKErrorReason()) {
-                    mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(tHSSDKError.getSDKErrorReason()),true);
-                }else {
-                    mTHSCostSummaryFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR,true);
-                }
+            if (null != tHSSDKError.getSdkError()) { mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CREATE_VISIT,tHSSDKError.getSdkError()),true);
             } else if (null != tHSVisit) {
                 String couponCode = null;
                 if (null != mTHSCostSummaryFragment.thsVisit && null != mTHSCostSummaryFragment.thsVisit.getCouponCodeApplied() && !mTHSCostSummaryFragment.thsVisit.getCouponCodeApplied().isEmpty()) {
@@ -211,11 +209,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     public void onGetInsuranceResponse(THSSubscription tHSSubscription, THSSDKError tHSSDKError) {
         if (null != mTHSCostSummaryFragment && mTHSCostSummaryFragment.isFragmentAttached()) {
             if (null != tHSSDKError.getSdkError()) {
-                if (null != tHSSDKError.getSDKErrorReason()) {
-                    mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(tHSSDKError.getSDKErrorReason()));
-                }else {
-                    mTHSCostSummaryFragment.showError(THS_GENERIC_SERVER_ERROR);
-                }
+                mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_FETCH_HEALTH_SUBSCRIPTION,tHSSDKError.getSdkError()));
             } else {
                 if (null != tHSSubscription && null != tHSSubscription.getSubscription()) {
                     // show insurance detail
@@ -358,15 +352,14 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
             if(null != thssdkError.getSdkError()){
                 mTHSCostSummaryFragment.mCouponCodeButton.setEnabled(true);
                 mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(true);
-                if(null != thssdkError.getSDKErrorReason()){
-                    mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(thssdkError.getSDKErrorReason()));
-                }else {
-                    mTHSCostSummaryFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
-                }
+                mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_APPLY_PROMOCODE,thssdkError.getSdkError()));
             }else {
-                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "promoCodeAppliedSuccessfully");
+                if(mTHSCostSummaryFragment.isPromoCodeAlreadyApplied.compareAndSet(false,true)) {
+                    THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "promoCodeAppliedSuccessfully");
+                }
                 mTHSCostSummaryFragment.thsVisit.setCouponCodeApplied(mTHSCostSummaryFragment.mCouponCodeEdittext.getText().toString().trim());
                 updateCost(mTHSCostSummaryFragment.thsVisit);
+
             }
         }
     }

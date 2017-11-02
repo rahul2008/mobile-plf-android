@@ -24,8 +24,8 @@ import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 
 import static com.philips.platform.ths.R.id.systolic;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPDATE_VITALS;
 import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
-import static com.philips.platform.ths.utility.THSConstants.THS_FLOATING_BUTTON;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 public class THSVitalsFragment extends THSBaseFragment implements View.OnClickListener, THSVItalsUIInterface, View.OnFocusChangeListener {
@@ -118,7 +118,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         int i = view.getId();
         if(validateFields()) {
             if (i == R.id.vitals_continue_btn) {
-                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_FLOATING_BUTTON, "vitalsContinue");
+                //THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_FLOATING_BUTTON, "vitalsContinue");
                 mThsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
             } else if (i == R.id.vitals_skip) {
                 THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "stepsSkipped", "vitals");
@@ -237,6 +237,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         if(!validateTemperature()){
             mFarenheitInputLayoutContainer.setErrorMessage(R.string.ths_vitals_temperature_error);
             mFarenheitInputLayoutContainer.showError();
+            doTagging(ANALYTICS_UPDATE_VITALS,getString(R.string.ths_vitals_temperature_error),false);
         }else {
             mFarenheitInputLayoutContainer.hideError();
         }
@@ -246,6 +247,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         if(!validateBloodPressure()){
             mDiastolicInputValidationLayout.setErrorMessage(R.string.ths_vitals_diastolic_error);
             mDiastolicInputValidationLayout.showError();
+            doTagging(ANALYTICS_UPDATE_VITALS,getString(R.string.ths_vitals_diastolic_error),false);
         }else {
             mDiastolicInputValidationLayout.hideError();
         }
@@ -255,6 +257,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         if(!validateBloodPressure()){
             mSystolicInputValidationLayout.setErrorMessage(R.string.ths_vitals_diastolic_error);
             mSystolicInputValidationLayout.showError();
+            doTagging(ANALYTICS_UPDATE_VITALS,getString(R.string.ths_vitals_diastolic_error),false);
         }else {
             mSystolicInputValidationLayout.hideError();
         }

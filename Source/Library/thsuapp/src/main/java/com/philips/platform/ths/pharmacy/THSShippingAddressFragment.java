@@ -29,6 +29,7 @@ import com.philips.platform.uid.view.widget.InputValidationLayout;
 
 import java.util.List;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPDATE_SHIPPING_ADDRESS;
 import static com.philips.platform.ths.utility.THSConstants.THS_SHIPPING_ADDRESS;
 
 public class THSShippingAddressFragment extends THSBaseFragment implements View.OnClickListener {
@@ -79,6 +80,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
                 updateContinueBtnState();
                 if (!validateString) {
                     addressValidationLayout.showError();
+                    doTagging(ANALYTICS_UPDATE_SHIPPING_ADDRESS,addressValidationLayout.getErrorLabelView().getText().toString(),false);
                     return false;
                 }
                 return true;
@@ -91,6 +93,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
                 boolean validateString = validateString(town.getText().toString());
                 if(!validateString){
                     cityValidationLayout.showError();
+                    doTagging(ANALYTICS_UPDATE_SHIPPING_ADDRESS,addressValidationLayout.getErrorLabelView().getText().toString(),false);
                     return false;
                 }
                 return true;
@@ -104,6 +107,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
                 boolean validateString = thsShippingAddressPresenter.validateZip(postalCode.getText().toString());
                 if(!validateString){
                     postCodeValidationLayout.showError();
+                    doTagging(ANALYTICS_UPDATE_SHIPPING_ADDRESS,addressValidationLayout.getErrorLabelView().getText().toString(),false);
                     return false;
                 }
                 return true;

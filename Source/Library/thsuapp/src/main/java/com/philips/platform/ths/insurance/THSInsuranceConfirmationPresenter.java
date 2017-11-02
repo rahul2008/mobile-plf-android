@@ -21,6 +21,7 @@ import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Map;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPDATE_HEALTH_PLAN;
 import static com.philips.platform.ths.utility.THSConstants.IS_LAUNCHED_FROM_COST_SUMMARY;
 
 public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSSDKValidatedCallback<Void, SDKError> {
@@ -100,9 +101,7 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSS
         if (null != mTHSInsuranceConfirmationFragment && mTHSInsuranceConfirmationFragment.isFragmentAttached()) {
             mTHSInsuranceConfirmationFragment.hideProgressBar();
             if (null != sdkError) {
-                if (null != sdkError.getSDKErrorReason()) {
-                    mTHSInsuranceConfirmationFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                }
+                mTHSInsuranceConfirmationFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPDATE_HEALTH_PLAN,sdkError));
             } else {
                 showCostSummary();
             }
