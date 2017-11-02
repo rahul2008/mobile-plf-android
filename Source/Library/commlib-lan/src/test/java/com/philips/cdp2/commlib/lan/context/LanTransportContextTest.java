@@ -34,7 +34,9 @@ import java.util.Set;
 import static android.net.ConnectivityManager.TYPE_WIFI;
 import static android.net.ConnectivityManager.TYPE_WIMAX;
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.acceptNewPinFor;
+import static com.philips.cdp2.commlib.lan.context.LanTransportContext.acceptPinFor;
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.findAppliancesWithMismatchedPinIn;
+import static com.philips.cdp2.commlib.lan.context.LanTransportContext.readPin;
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.rejectNewPinFor;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
@@ -106,6 +108,32 @@ public class LanTransportContextTest {
 
         assertEquals("ABCDEF", appliance.getNetworkNode().getPin());
         assertNull(appliance.getNetworkNode().getMismatchedPin());
+    }
+
+    @Test
+    public void whenAcceptingAPinForAppliance_thenThePinShouldBeTheNewPin_andTheMismatchedPinShouldBeNull() {
+        final String newPin = "1234567890";
+
+        NetworkNode networkNode = new NetworkNode();
+        networkNode.setPin("9876543210");
+        networkNode.setMismatchedPin("ABCDEF");
+
+        Appliance appliance = createTestAppliance(networkNode);
+
+        acceptPinFor(appliance, newPin);
+
+        assertEquals(newPin, appliance.getNetworkNode().getPin());
+        assertNull(appliance.getNetworkNode().getMismatchedPin());
+    }
+
+    @Test
+    public void whenReadingThePinFromAnAppliance_thenThePinOfItsNetworkNodeShouldBeReturned() {
+        NetworkNode networkNode = new NetworkNode();
+        networkNode.setPin("1234567890");
+
+        Appliance appliance = createTestAppliance(networkNode);
+
+        assertEquals("1234567890", readPin(appliance));
     }
 
     @Test

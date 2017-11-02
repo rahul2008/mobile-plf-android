@@ -137,10 +137,37 @@ public class LanTransportContext implements TransportContext<LanTransportContext
     public static void acceptNewPinFor(final @NonNull Appliance appliance) {
         final NetworkNode networkNode = appliance.getNetworkNode();
 
-        networkNode.setPin(networkNode.getMismatchedPin());
+        acceptPinFor(appliance, networkNode.getMismatchedPin());
+    }
+
+    /**
+     * Accept supplied pin for appliance.
+     * <p>
+     * The currently stored pin will be overwritten with the
+     * supplied pin and the mismatched pin will be cleared.
+     * </p>
+     *
+     * @param appliance the appliance
+     * @param pin       the pin
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static void acceptPinFor(final @NonNull Appliance appliance, final @NonNull String pin) {
+        final NetworkNode networkNode = appliance.getNetworkNode();
+
+        networkNode.setPin(pin);
         networkNode.setMismatchedPin(null);
 
         DICommLog.i(TAG, String.format(Locale.US, "Re-pinned appliance with cppid [%s]", networkNode.getCppId()));
+    }
+
+    /**
+     * Read pin from appliance.
+     *
+     * @param appliance the appliance
+     * @return the current pin
+     */
+    public static String readPin(final @NonNull Appliance appliance) {
+        return appliance.getNetworkNode().getPin();
     }
 
     /**
