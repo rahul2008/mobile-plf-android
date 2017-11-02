@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -36,15 +37,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_body_labels_margin"
-                android:text="@{viewModel.description}" />
+                android:text="@{viewModel.description}"
+                tools:text="@string/label_ews_phone_reconnected_different_network_body"/>
 
             <ImageView
                 android:id="@+id/ic_wrong_wifi"
+                style="@style/EWS.ImageScale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_image_top_margin"
                 android:contentDescription="@null"
-                android:src="@drawable/ews_product_reset_device" />
+                android:src="@drawable/ews_home_network" />
 
             <android.support.v4.widget.Space
                 android:layout_width="match_parent"
@@ -56,8 +59,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_main_button_top_margin"
-                android:text="@string/button_ews_phone_reconnected_different_network_confirm"
                 android:onClick="@{()->viewModel.onButtonClick()}"
+                android:text="@string/button_ews_phone_reconnected_different_network_confirm"
                 app:uidComponentType="Primary" />
 
         </LinearLayout>
