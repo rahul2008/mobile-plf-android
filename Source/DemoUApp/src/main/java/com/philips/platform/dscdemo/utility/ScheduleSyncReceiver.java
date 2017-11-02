@@ -9,7 +9,7 @@ import org.joda.time.DateTimeConstants;
 import javax.inject.Inject;
 
 class ScheduleSyncReceiver {
-    static final long DATA_FETCH_FREQUENCY = 5000 * DateTimeConstants.MILLIS_PER_SECOND;
+    static final long DATA_FETCH_FREQUENCY = 30 * DateTimeConstants.MILLIS_PER_SECOND;
     private Utility mUtility;
 
     @Inject

@@ -165,16 +165,16 @@ public class MomentFragment extends DSBaseFragment
 
         deleteUserDataIfNewUserLoggedIn();
 
-//        mMomentPresenter.fetchData(this);
+        mMomentPresenter.fetchData(this);
 
         if (!mUtility.isOnline(getContext())) {
             showToastOnUiThread("Please check your connection");
             return;
         }
 
-      /*  if (!mSharedPreferences.getBoolean("isSynced", false)) {
+        if (!mSharedPreferences.getBoolean("isSynced", false)) {
             showProgressDialog();
-        }*/
+        }
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
@@ -230,7 +230,7 @@ public class MomentFragment extends DSBaseFragment
         } else if (i == R.id.tv_last_moment) {
             LatestMomentFragment latestMomentFragment = new LatestMomentFragment();
             showFragment(latestMomentFragment);
-        } else if(i == R.id.tv_moment_by_date_range) {
+        } else if (i == R.id.tv_moment_by_date_range) {
             MomentByDateRangeFragment momentByDateRangeFragment = new MomentByDateRangeFragment();
             showFragment(momentByDateRangeFragment);
         } else if (i == R.id.tv_add_moment_with_type) {
