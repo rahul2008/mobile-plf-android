@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
-import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiFragment;
+import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceFragment;
 import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordFragment;
 import com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingFragment;
@@ -15,7 +15,7 @@ import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPoin
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WifiConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
 import com.philips.cdp2.ews.view.ConfirmWifiNetworkFragment;
-import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
+import com.philips.cdp2.ews.view.ConnectionSuccessfulFragment;
 import com.philips.cdp2.ews.view.FirstSetupStepsFragment;
 import com.philips.cdp2.ews.view.SecondSetupStepsFragment;
 import com.philips.cdp2.ews.view.StartConnectWithDeviceFragment;
@@ -89,7 +89,7 @@ public class NavigatorTest {
     public void itShouldPushPairingSuccessScreenWhenNavigating() throws Exception {
         subject.navigateToPairingSuccessScreen();
 
-        verifyFragmentPushed(EWSWiFiPairedFragment.class);
+        verifyFragmentPushed(ConnectionSuccessfulFragment.class);
     }
 
     @Test
@@ -162,7 +162,7 @@ public class NavigatorTest {
     public void itShouldNavigateToConnectingPhoneToHotspotWifiFragment() throws Exception {
         subject.navigateToConnectingPhoneToHotspotWifiScreen();
 
-        verifyFragmentPushed(ConnectingPhoneToHotspotWifiFragment.class);
+        verifyFragmentPushed(ConnectingWithDeviceFragment.class);
     }
 
     @Test
@@ -188,7 +188,7 @@ public class NavigatorTest {
     public void itShouldNavigateToEWSWiFiPairedScreen() throws Exception {
         subject.navigateToEWSWiFiPairedScreen();
 
-        verifyFragmentPushed(EWSWiFiPairedFragment.class);
+        verifyFragmentPushed(ConnectionSuccessfulFragment.class);
     }
 
     @Test

@@ -21,6 +21,7 @@ import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.navigation.ScreenFlowParticipant;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 
+//todo ready to be removed
 public abstract class EWSBaseFragment<T extends ViewDataBinding> extends BaseFragment implements ScreenFlowParticipant {
 
     protected T viewDataBinding;

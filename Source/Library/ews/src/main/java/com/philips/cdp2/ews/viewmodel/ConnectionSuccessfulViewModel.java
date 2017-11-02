@@ -11,22 +11,22 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
-import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
 import com.philips.cdp2.ews.util.StringProvider;
 
 import javax.inject.Inject;
 
-public class EWSWiFIPairedViewModel {
+public class ConnectionSuccessfulViewModel {
 
     @Nullable private FragmentCallback fragmentCallback;
 
     @NonNull StringProvider stringProvider;
     @NonNull public final ObservableField<String> title;
     @Inject
-    public EWSWiFIPairedViewModel(@NonNull BaseContentConfiguration baseConfig,
-                                  @NonNull StringProvider stringProvider) {
+    public ConnectionSuccessfulViewModel(@NonNull BaseContentConfiguration baseConfig,
+                                         @NonNull StringProvider stringProvider) {
         this.stringProvider = stringProvider;
         title = new ObservableField<>(getTitle(baseConfig));
     }
