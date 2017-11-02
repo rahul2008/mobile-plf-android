@@ -7,14 +7,10 @@ package com.philips.cdp2.commlib.lan.discovery;
 
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
-import com.philips.cdp.dicommclient.discovery.SsdpDiscovery;
-import com.philips.cdp.dicommclient.discovery.SsdpServiceHelper;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
@@ -25,11 +21,10 @@ import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
-import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
-import com.philips.cl.di.common.ssdp.controller.InternalMessage;
-import com.philips.cl.di.common.ssdp.lib.SsdpService;
-import com.philips.cl.di.common.ssdp.models.DeviceModel;
-import com.philips.cl.di.common.ssdp.models.SSDPdevice;
+import com.philips.cdp2.commlib.ssdp.SSDPControlPoint;
+import com.philips.cdp2.commlib.ssdp.SSDPControlPoint.DeviceListener;
+import com.philips.cdp2.commlib.ssdp.SSDPDevice;
+import com.philips.cdp2.commlib.ssdp.SSDPDiscovery;
 
 import java.util.Collections;
 import java.util.Set;
@@ -41,10 +36,8 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     private static final long NETWORKNODE_TTL_MILLIS = TimeUnit.SECONDS.toMillis(10);
 
-    private static final Object LOCK = new Object();
-
     @NonNull
-    private final SsdpDiscovery ssdp;
+    private final SSDPDiscovery ssdp;
 
     @NonNull
     private final LanDeviceCache deviceCache;
@@ -62,34 +55,18 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     private boolean isStartRequested;
 
-    private final Handler.Callback ssdpCallback = new Handler.Callback() {
+    private final DeviceListener deviceListener = new DeviceListener() {
+        @Override
+        public void onDeviceAvailable(SSDPDevice ssdpDevice) {
+            onDeviceDiscovered(ssdpDevice);
+        }
 
         @Override
-        public boolean handleMessage(Message msg) {
-            if (msg == null) {
-                return false;
-            }
-            boolean isHandled = false;
-
-            final DeviceModel device = (DeviceModel) ((InternalMessage) msg.obj).obj;
-
-            synchronized (LOCK) {
-                switch (DiscoveryMessageID.getID(msg.what)) {
-                    case DEVICE_DISCOVERED:
-                        onDeviceDiscovered(device);
-                        isHandled = true;
-                        break;
-                    case DEVICE_LOST:
-                        onDeviceLost(device);
-                        isHandled = true;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            return isHandled;
+        public void onDeviceUnavailable(SSDPDevice ssdpDevice) {
+            onDeviceLost(ssdpDevice);
         }
     };
+
     private final AvailabilityListener<ConnectivityMonitor> availabilityListener = new AvailabilityListener<ConnectivityMonitor>() {
         @Override
         public void onAvailabilityChanged(@NonNull ConnectivityMonitor connectivityMonitor) {
@@ -101,10 +78,12 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     private void handleDiscoveryStateChanged() {
         if (isConnected && isStartRequested) {
             ssdp.start();
+
+            DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery started.");
         } else {
-            if (ssdp.isStarted()) {
-                ssdp.stop();
-            }
+            ssdp.stop();
+
+            DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery stopped.");
         }
     }
 
@@ -129,8 +108,11 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     }
 
     @VisibleForTesting
-    SsdpDiscovery createSsdpDiscovery() {
-        return new SsdpServiceHelper(SsdpService.getInstance(), ssdpCallback);
+    SSDPDiscovery createSsdpDiscovery() {
+        final SSDPControlPoint ssdpControlPoint = new SSDPControlPoint();
+        ssdpControlPoint.addDeviceListener(deviceListener);
+
+        return ssdpControlPoint;
     }
 
     @Override
@@ -152,8 +134,6 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         handleDiscoveryStateChanged();
 
         deviceCache.resetTimers();
-
-        DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery started.");
     }
 
     @Override
@@ -162,13 +142,11 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         handleDiscoveryStateChanged();
 
         deviceCache.stopTimers();
-
-        DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery stopped.");
     }
 
     @VisibleForTesting
-    void onDeviceDiscovered(@NonNull DeviceModel deviceModel) {
-        final NetworkNode networkNode = createNetworkNode(deviceModel);
+    void onDeviceDiscovered(@NonNull SSDPDevice device) {
+        final NetworkNode networkNode = createNetworkNode(device);
         if (networkNode == null) {
             return;
         }
@@ -182,10 +160,10 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         }
 
         if (this.deviceCache.contains(networkNode.getCppId())) {
-            DICommLog.d(DICommLog.SSDP, "Updated device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
+            DICommLog.d(DICommLog.DISCOVERY, "Updated device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
             deviceCache.getCacheData(networkNode.getCppId()).resetTimer();
         } else {
-            DICommLog.d(DICommLog.SSDP, "Discovered device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
+            DICommLog.d(DICommLog.DISCOVERY, "Discovered device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
             deviceCache.addNetworkNode(networkNode, expirationCallback, NETWORKNODE_TTL_MILLIS);
         }
 
@@ -193,8 +171,8 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     }
 
     @VisibleForTesting
-    void onDeviceLost(@NonNull DeviceModel deviceModel) {
-        final NetworkNode networkNode = createNetworkNode(deviceModel);
+    void onDeviceLost(@NonNull SSDPDevice ssdpDevice) {
+        final NetworkNode networkNode = createNetworkNode(ssdpDevice);
         if (networkNode == null) {
             return;
         }
@@ -203,21 +181,16 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     private void handleNetworkNodeLost(final @NonNull NetworkNode networkNode) {
         deviceCache.remove(networkNode.getCppId());
-        DICommLog.i(DICommLog.SSDP, "Lost device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
+        DICommLog.i(DICommLog.DISCOVERY, "Lost device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
 
         notifyNetworkNodeLost(networkNode);
     }
 
     @VisibleForTesting
     @Nullable
-    NetworkNode createNetworkNode(@NonNull DeviceModel deviceModel) {
-        SSDPdevice ssdpDevice = deviceModel.getSsdpDevice();
-        if (ssdpDevice == null) {
-            return null;
-        }
-
+    NetworkNode createNetworkNode(@NonNull SSDPDevice ssdpDevice) {
         final String cppId = ssdpDevice.getCppId();
-        final String ipAddress = deviceModel.getIpAddress();
+        final String ipAddress = ssdpDevice.getIpAddress();
         final String name = ssdpDevice.getFriendlyName();
         final String deviceType = ssdpDevice.getModelName();
         final String homeSsid = getHomeSsid();
@@ -225,7 +198,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         final String modelNumber = ssdpDevice.getModelNumber();
 
         try {
-            bootId = Long.parseLong(deviceModel.getBootId());
+            bootId = Long.parseLong(ssdpDevice.getBootId());
         } catch (NumberFormatException ignored) {
         }
 

@@ -3,12 +3,10 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.discovery;
+package com.philips.cdp2.commlib.ssdp;
 
-public interface SsdpDiscovery {
+public interface SSDPDiscovery {
     void start();
 
     void stop();
-
-    boolean isStarted();
 }

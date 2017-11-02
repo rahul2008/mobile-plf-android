@@ -24,7 +24,3 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.philips.cl.di.common.ssdp.lib.SsdpService {
-    protected void ssdpCallback(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String);
-    native <methods>;
-}

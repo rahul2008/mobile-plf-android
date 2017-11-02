@@ -11,8 +11,9 @@ Version {next}
 	* Store an Appliance by calling `ApplianceManager.storeAppliance(appliance)`
 	* Stop persisting an Appliance by calling `ApplianceManager.forgetStoredAppliance(appliance)`
 	* Persistent storage will only store information in `NetworkNode` so if you need to store additional data or state from your own Appliance implementation you can implement `ApplianceDatabase` and give it to `new CommCentral(applianceFactory, applianceDatabase, transportContexts...)`
+* CommLib - \#85443 SSDP is rewritten from C and JNI in pure Java.
 * CommLib - CommCentral now throws a `UnsupportedOperationException` whenever a second instance is created.
-	
+
 ### Backwards Compatibility
 * CommLib - `Appliance.enableCommunication` is no longer needed before a subscription.
 * CommLib - Running the pairing process (through `PairingHandler`) no longer automatically stores the appliance to the database upon successful completion. Use `ApplianceManager.storeAppliance()` method manually as alternative.
