@@ -55,6 +55,7 @@ public final class ReferenceApplianceFactory implements ApplianceFactory {
             switch (networkNode.getDeviceType()) {
                 case BleReferenceAppliance.DEVICETYPE:
                     return new BleReferenceAppliance(networkNode, communicationStrategy);
+                case "Wake-up Light":
                 case WifiReferenceAppliance.DEVICETYPE:
                     return new WifiReferenceAppliance(networkNode, communicationStrategy);
             }

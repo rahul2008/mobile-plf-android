@@ -61,6 +61,7 @@ public class Steps {
         if (commCentral != null) {
             commCentral.stopDiscovery();
         }
+        portListeners.clear();
     }
 
     @And("^\"Subscribe to time port\" is disabled$")
@@ -78,19 +79,26 @@ public class Steps {
         // Cannot guarantee this in code in any useful way.
     }
 
-    @Given("^a BLE Reference Node is discovered and selected$")
-    public void aBLEReferenceNodeIsDiscoveredAndSelected() throws Throwable {
+    @Given("^a Node with cppId \"([^\"]*)\" is discovered and selected$")
+    public void aNodeWithCppIdIsDiscoveredAndSelected(final String cppId) throws Throwable {
         app = (TestApplication) newApplication(TestApplication.class, getTargetContext());
         Log.i(LOGTAG, app.toString());
         app.onCreate();
         commCentral = app.getCommCentral();
 
-        ApplianceWaiter.Waiter<Appliance> waiter = ApplianceWaiter.forCppId("22:22:22:CC:6C:57");
+        current = (ReferenceAppliance) commCentral.getApplianceManager().findApplianceByCppId(cppId);
+        if (current == null) {
+            ApplianceWaiter.Waiter<Appliance> waiter = ApplianceWaiter.forCppId(cppId);
 
-        commCentral.getApplianceManager().addApplianceListener(waiter);
-        commCentral.startDiscovery();
+            commCentral.getApplianceManager().addApplianceListener(waiter);
+            commCentral.startDiscovery();
 
-        current = (ReferenceAppliance) waiter.waitForAppliance(2, MINUTES).getAppliance();
+            current = (ReferenceAppliance) waiter.waitForAppliance(2, MINUTES).getAppliance();
+            commCentral.stopDiscovery();
+        }
+        if(current == null){
+            throw new Exception("Appliance not found!");
+        }
         Log.i(LOGTAG, "Found our referenceAppliance!");
     }
 
