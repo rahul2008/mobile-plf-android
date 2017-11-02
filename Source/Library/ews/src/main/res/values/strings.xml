@@ -115,8 +115,8 @@
 
     <string name="label_ews_cancel_setup_title">Are you sure you want to cancel setup?</string>
     <string name="label_ews_cancel_setup_body">If you cancel your setup now, you will not be able to control your %1$s using your app.</string>
-    <string name="button_ews_cancel_setup_yes">Yes</string>
-    <string name="button_ews_cancel_setup_no">No</string>
+    <string name="button_ews_cancel_setup_yes">Yes, cancel setup</string>
+    <string name="button_ews_cancel_setup_no">No, continue setup</string>
     <string name="label_ews_enable_gps_settings_title">Enable GPS Settings</string>
     <string name="label_ews_enable_gps_settings_body">GPS is disabled.You need to enable location services to complete the pairing. Then press back to return to the app.</string>
     <string name="button_ews_enable_gps_settings">go to location settings</string>
