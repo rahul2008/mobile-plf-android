@@ -77,7 +77,7 @@ android {
         variant.outputs.each { output ->
             def libName = "ews"
             def buildType = variant.variantData.variantConfiguration.buildType.name
-            def newName = "${libName}_${buildType}_${assignedVersionNumber}.apk"
+            def newName = "${libName}_${buildType}_${assignedVersionNumber}.aar"
             output.outputFile = new File(output.outputFile.parent, newName)
         }
     }
