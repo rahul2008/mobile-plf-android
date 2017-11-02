@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doThrow;
@@ -52,8 +53,10 @@ public class MomentsSegregatorTest {
 
     @Mock
     DBFetchingInterface dbFetchingInterface;
+
     @Mock
     DBDeletingInterface dbDeletingInterface;
+
     @Mock
     private OrmMoment ormMomentMock;
 
@@ -66,6 +69,15 @@ public class MomentsSegregatorTest {
     @Mock
     BaseAppDataCreator dataCreatorMock;
 
+    private static final String CREATOR_ID = "creator";
+    private static final String SUBJECT_ID = "SUBJECT";
+    private static final String GUID_ID = UUID.randomUUID().toString();
+    private static final DateTime NOW = new DateTime();
+
+    private List<Moment> momentList = new ArrayList<>();
+    private int count;
+    private Moment moment;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -76,7 +88,57 @@ public class MomentsSegregatorTest {
         momentsSegregator.dbFetchingInterface = dbFetchingInterface;
         momentsSegregator.dbDeletingInterface = dbDeletingInterface;
         momentsSegregator.dbSavingInterface = dbSavingInterface;
-        momentsSegregator.mBaseAppDataCreator=dataCreatorMock;
+        momentsSegregator.mBaseAppDataCreator = dataCreatorMock;
+
+        moment = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW);
+        SynchronisationData ormSynchronisationData = new OrmSynchronisationData(GUID_ID, false, NOW, 1);
+        moment.setSynchronisationData(ormSynchronisationData);
+        momentList.add(moment);
+
+    }
+
+    @Test
+    public void processMomentsReceivedFromBackend() throws SQLException {
+        givenMomentsInDataBase();
+        whenProcessMomentsReceivedFromBackendIsInvoked();
+        thenAssertUpdateCountIs(0);
+    }
+
+    @Test
+    public void processMomentsReceivedFromBackend_whenMomentInDBIsNull() throws SQLException {
+        givenNullMomentsInDataBase();
+        whenProcessMomentsReceivedFromBackendIsInvoked();
+        thenAssertUpdateCountIs(1);
+    }
+
+    @Test
+    public void processMomentsReceivedFromBackend_whenUpdatedVersion() throws SQLException {
+        givenMomentsInDataBaseWithUpdatedVersion();
+        whenProcessMomentsReceivedFromBackendIsInvoked();
+        thenAssertUpdateCountIs(1);
+    }
+
+    private void givenMomentsInDataBase() throws SQLException {
+        when((Moment) dbFetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(moment);
+    }
+
+    private void givenNullMomentsInDataBase() throws SQLException {
+        when((Moment) dbFetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(null);
+    }
+
+    private void givenMomentsInDataBaseWithUpdatedVersion() throws SQLException {
+        Moment moment2 = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW);
+        SynchronisationData ormSynchronisationData2 = new OrmSynchronisationData(GUID_ID, false, NOW, 2);
+        moment2.setSynchronisationData(ormSynchronisationData2);
+        when((Moment) dbFetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(moment2);
+    }
+
+    private void whenProcessMomentsReceivedFromBackendIsInvoked() throws SQLException {
+        count = momentsSegregator.processMomentsReceivedFromBackend(momentList, dbRequestListener);
+    }
+
+    private void thenAssertUpdateCountIs(int count) {
+        assertEquals(count, this.count);
     }
 
     @Test
@@ -90,7 +152,6 @@ public class MomentsSegregatorTest {
     @Test
     public void should_processMoment_when_processMomentsReceivedFromBackend_called_not_active() throws SQLException {
         int count = 1;
-
 
         when(dbFetchingInterface.fetchMomentByGuid("1234")).thenReturn(ormMomentMock);
 
