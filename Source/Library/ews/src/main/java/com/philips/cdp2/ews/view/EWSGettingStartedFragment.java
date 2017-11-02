@@ -22,7 +22,7 @@ public class EWSGettingStartedFragment extends EWSBaseFragment<FragmentEwsGettin
     @Inject
     EWSGettingStartedViewModel viewModel;
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     EWSCallbackNotifier ewsCallbackNotifier = EWSCallbackNotifier.getInstance();
 
     @Override

@@ -33,7 +33,7 @@ public class ConnectToWrongPhoneTroubleshootingViewModel {
         this.connectWrongImage = getWrongPhoneImage(troubleShootContentConfiguration);
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @NonNull
     Drawable getWrongPhoneImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
         return stringProvider.getImageResource(troubleShootContentConfiguration.getConnectWrongPhoneImage());
@@ -47,7 +47,7 @@ public class ConnectToWrongPhoneTroubleshootingViewModel {
         navigator.navigateToResetConnectionTroubleShootingScreen();
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @NonNull
     String getTitle(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
                     @NonNull BaseContentConfiguration baseConfig) {
@@ -56,7 +56,7 @@ public class ConnectToWrongPhoneTroubleshootingViewModel {
     }
 
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @NonNull
     String getBody(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
                     @NonNull BaseContentConfiguration baseConfig) {
@@ -64,7 +64,7 @@ public class ConnectToWrongPhoneTroubleshootingViewModel {
                 baseConfig.getDeviceName());
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @NonNull
     String getQuestions(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
                    @NonNull BaseContentConfiguration baseConfig) {

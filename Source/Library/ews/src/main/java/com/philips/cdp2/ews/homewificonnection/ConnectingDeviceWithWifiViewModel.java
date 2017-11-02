@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
@@ -26,6 +27,8 @@ import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -43,8 +46,8 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         void showCancelDialog();
     }
 
+    private static final long WIFI_SET_PROPERTIES_TIME_OUT = TimeUnit.SECONDS.toMillis(60);
     private static final String TAG = ConnectingDeviceWithWifiViewModel.class.getCanonicalName();
-    private static final int WIFI_SET_PROPERTIES_TIME_OUT = 60000;
     @NonNull
     private final ApplianceAccessManager applianceAccessManager;
     @NonNull
@@ -59,51 +62,33 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private final DiscoveryHelper discoveryHelper;
     @NonNull
     private final DeviceFriendlyNameChanger deviceFriendlyNameChanger;
-
     @Nullable
     private ConnectingDeviceToWifiCallback fragmentCallback;
     @Nullable
     private StartConnectionModel startConnectionModel;
     @NonNull
-    private DiscoveryHelper.DiscoveryCallback discoveryCallback =
-            new DiscoveryHelper.DiscoveryCallback() {
-                @Override
-                public void onApplianceFound(Appliance appliance) {
-                    removeTimeoutRunnable();
-                    discoveryHelper.stopDiscovery();
-                    onDeviceConnectedToWifi();
-                }
-            };
-    @NonNull
-    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
-            if (netInfo.getState() == NetworkInfo.State.CONNECTED) {
-                int currentWifiState = wiFiUtil.getCurrentWifiState();
-                if (currentWifiState == WiFiUtil.HOME_WIFI) {
-                    unregisterBroadcastReceiver();
-                    discoveryHelper.startDiscovery(discoveryCallback);
-                } else if (currentWifiState != WiFiUtil.UNKNOWN_WIFI) {
-                    unregisterBroadcastReceiver();
-                    handleFailure();
-                }
-            }
-        }
-    };
+    private String cppId;
+
     @NonNull
     private final Runnable timeoutRunnable = new Runnable() {
         @Override
         public void run() {
-            showConnectionUnsuccessful();
+            if (wiFiUtil.getCurrentWifiState() == WiFiUtil.HOME_WIFI) {
+                showConnectionUnsuccessful();
+            } else {
+                handleFailureWrongWifiNetwork();
+            }
             clear();
         }
     };
+
     @NonNull
     private final ApplianceAccessManager.SetPropertiesCallback sendingNetworkInfoCallback = new ApplianceAccessManager.SetPropertiesCallback() {
+
         @Override
-        public void onPropertiesSet() {
+        public void onPropertiesSet(WifiPortProperties wifiPortProperties) {
             if (startConnectionModel != null) {
+                cppId = wifiPortProperties.getCppid();
                 connectToHomeWifiInternal(startConnectionModel.getHomeWiFiSSID());
             } else {
                 EWSLogger.e(TAG, "startConnectionModel cannot be null");
@@ -112,7 +97,39 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
 
         @Override
         public void onFailedToSetProperties() {
-            handleFailure();
+            showConnectionUnsuccessful();
+        }
+    };
+
+    @NonNull
+    private DiscoveryHelper.DiscoveryCallback discoveryCallback = new DiscoveryHelper.DiscoveryCallback() {
+                @Override
+                public void onApplianceFound(Appliance appliance) {
+                    if (appliance.getNetworkNode().getCppId().equalsIgnoreCase(cppId)) {
+                        removeTimeoutRunnable();
+                        discoveryHelper.stopDiscovery();
+                        onDeviceConnectedToWifi();
+                    }
+                }
+    };
+
+    @NonNull
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (!isInitialStickyBroadcast()) {
+                final NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+                if (netInfo.getState() == NetworkInfo.State.CONNECTED) {
+                    int currentWifiState = wiFiUtil.getCurrentWifiState();
+                    if (currentWifiState == WiFiUtil.HOME_WIFI) {
+                        unregisterBroadcastReceiver();
+                        discoveryHelper.startDiscovery(discoveryCallback);
+                    } else if (currentWifiState != WiFiUtil.UNKNOWN_WIFI) {
+                        unregisterBroadcastReceiver();
+                        handleFailureWrongWifiNetwork();
+                    }
+                }
+            }
         }
     };
 
@@ -173,12 +190,6 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
                 EWSDependencyProvider.getInstance().getProductName());
     }
 
-    private void showConnectionUnsuccessful() {
-        if (fragmentCallback != null) {
-            navigator.navigateToWrongWifiNetworkScreen(fragmentCallback.getBundle());
-        }
-    }
-
     private void removeTimeoutRunnable() {
         handler.removeCallbacks(timeoutRunnable);
     }
@@ -193,7 +204,14 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         }
     }
 
-    private void handleFailure() {
+    private void handleFailureWrongWifiNetwork() {
+        removeTimeoutRunnable();
+        if (fragmentCallback != null) {
+            navigator.navigateToWrongWifiNetworkScreen(fragmentCallback.getBundle());
+        }
+    }
+
+    private void showConnectionUnsuccessful() {
         removeTimeoutRunnable();
         if (startConnectionModel != null) {
             navigator.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(startConnectionModel.getDeviceName(), startConnectionModel.getHomeWiFiSSID());
@@ -225,6 +243,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
 
     @Override
     public void onFriendlyNameChangingFailed() {
-        handleFailure();
+        showConnectionUnsuccessful();
     }
+
 }

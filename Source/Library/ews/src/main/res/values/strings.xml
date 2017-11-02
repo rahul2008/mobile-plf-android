@@ -113,8 +113,8 @@
     <!-- ToDo: need to update permission text after consulting design team -->
     <string name="label_location_permission_required">%1$s requires location permission</string>
 
-    <string name="label_ews_cancel_setup_title">Are you sure you want to skip WiFi setup?</string>
-    <string name="label_ews_cancel_setup_body">If you skip WiFi setup now, you will not be able to control your device using your app.\n\nTo connect at a later time, go to the \"More section\" tab in your app and select \"Add a device\".</string>
+    <string name="label_ews_cancel_setup_title">Are you sure you want to cancel setup?</string>
+    <string name="label_ews_cancel_setup_body">If you cancel your setup now, you will not be able to control your %1$s using your app.</string>
     <string name="button_ews_cancel_setup_yes">Yes</string>
     <string name="button_ews_cancel_setup_no">No</string>
     <string name="label_ews_enable_gps_settings_title">Enable GPS Settings</string>
@@ -144,8 +144,8 @@
     <string name="button_done">Done</string>
     <string name="button_cancel">Cancel</string>
     <string name="label_ews_phone_not_found_on_network_title">Connection error</string>
-    <string name="label_ews_phone_not_found_on_network_body">The phone could not detect %1$s in home Wi-Fi\n\nThis may be because:\n1) You entered the wrong password\n2) Your %1$s is out of range\n\nPlease verify your password, move your %1$s and phone close to %2$s router and try again. If you have another router or network, you can try use those.</string>
-    <string name="label_ews_phone_not_found_on_network_note">Note: Your %1$s does not support 5Ghz networks.</string>
+    <string name="label_ews_phone_not_found_on_network_body">The phone could not detect %1$s in home Wi-Fi\n\nThis may be because:\n1) You entered the wrong password\n2) Your %1$s is out of range\n\n</string>
+    <string name="label_ews_phone_not_found_on_network_note">Please verify your password, move your %1$s and phone close to %2$s router and try again. If you have another router or network, you can try use those.\n\nNote: Your %1$s does not support 5Ghz networks.</string>
     <string name="button_ews_phone_not_found_on_network_try_again">Try again</string>
 
     <string name="label_ews_phone_reconnected_different_network_title">Connection error</string>

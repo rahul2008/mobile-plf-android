@@ -27,6 +27,7 @@ import static com.philips.cdp2.ews.annotations.ApplianceRequestType.GET_WIFI_PRO
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -130,7 +131,7 @@ public class ApplianceAccessManagerTest {
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.PUT_WIFI_PROPS);
         accessManager.getWifiPortListener().onPortUpdate(wifiPortMock);
 
-        verify(mockSetPropertiesCallback).onPropertiesSet();
+        verify(mockSetPropertiesCallback).onPropertiesSet(any(WifiPortProperties.class));
     }
 
     private void verifyRequestType(final int requestType) {

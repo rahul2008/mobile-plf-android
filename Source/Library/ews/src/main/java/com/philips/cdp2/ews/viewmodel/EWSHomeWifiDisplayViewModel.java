@@ -6,6 +6,7 @@ package com.philips.cdp2.ews.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.Observable;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,8 +31,6 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
     @NonNull private final WiFiUtil wiFiUtil;
 
     @NonNull private final StringProvider stringProvider;
-    @NonNull public final ObservableField<String> title;
-    @NonNull public final ObservableField<String> note;
 
     @Nullable private ViewCallback viewCallback;
     @NonNull private BaseContentConfiguration baseContentConfiguration;
@@ -45,8 +44,6 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
         this.wiFiUtil = wiFiUtil;
         this.stringProvider = stringProvider;
         this.baseContentConfiguration = baseConfig;
-        title = new ObservableField<>(getTitle());
-        note = new ObservableField<>(getNote(baseConfig));
     }
 
     public void setViewCallback(@Nullable ViewCallback viewCallback) {
@@ -60,6 +57,8 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
 
     public void refresh() {
         notifyPropertyChanged(BR.homeWiFiSSID);
+        notifyPropertyChanged(BR.title);
+        notifyPropertyChanged(BR.note);
         if (viewCallback != null && !wiFiUtil.isHomeWiFiEnabled()) {
             viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration);
         }
@@ -75,17 +74,17 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
         navigator.navigateToDevicePoweredOnConfirmationScreen();
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @Bindable
     @NonNull
-    String getTitle() {
+    public String getTitle() {
         return stringProvider.getString(R.string.label_ews_confirm_connection_currently_connected, getHomeWiFiSSID());
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @Bindable
     @NonNull
-    String getNote(@NonNull BaseContentConfiguration baseConfig) {
+    public String getNote() {
         return stringProvider.getString(R.string.label_ews_confirm_connection_want_to_connect,
-                baseConfig.getDeviceName(), getHomeWiFiSSID());
+                baseContentConfiguration.getDeviceName(), getHomeWiFiSSID());
     }
 
 }

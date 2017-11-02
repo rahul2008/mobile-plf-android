@@ -34,6 +34,13 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
 
     @Nullable ConnectingDeviceWithWifiViewModel viewModel;
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((EWSActivity) getActivity()).getEWSComponent().inject(ConnectingDeviceWithWifiFragment.this);
+    }
+
     public static Fragment newInstance(@NonNull String homeWiFiSSID,
                                        @NonNull String homeWiFiPassword,
                                        @NonNull String deviceName,
@@ -71,17 +78,24 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
                         container, false);
 
         if (viewModel == null) {
-            viewModel = createViewModel();
+            invokeViewModel();
             viewModel.startConnecting(createStartConnectionModel(getArguments()));
         } else {
+            invokeViewModel();
             viewModel.connectToHomeWifi(
                     BundleUtils.extractStringFromBundleOrThrow(getBundle(), HOME_WIFI_SSID));
         }
-        viewModel.setFragmentCallback(this);
 
         viewDataBinding.setViewModel(viewModel);
 
         return viewDataBinding.getRoot();
+    }
+
+    private void invokeViewModel() {
+        if (viewModel == null) {
+            viewModel = createViewModel();
+        }
+        viewModel.setFragmentCallback(this);
     }
 
     @NonNull
@@ -117,7 +131,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
         try {
             getActivity().unregisterReceiver(receiver);
         } catch (IllegalArgumentException e) {
-            EWSLogger.e(TAG, e.toString());
+            EWSLogger.d(TAG, e.toString());
         }
     }
 

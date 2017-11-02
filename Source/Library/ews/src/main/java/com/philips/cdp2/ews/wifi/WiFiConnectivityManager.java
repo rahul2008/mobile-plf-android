@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.wifi;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
@@ -30,6 +31,8 @@ public class WiFiConnectivityManager {
     private final WifiManager wifiManager;
     private Wifi wifi;
     private WiFiUtil wiFiUtil;
+    @VisibleForTesting
+    Handler handler;
 
     @Inject
     public WiFiConnectivityManager(@NonNull final WifiManager wifiManager,
@@ -38,6 +41,7 @@ public class WiFiConnectivityManager {
         this.wifiManager = wifiManager;
         this.wifi = wifi;
         this.wiFiUtil = wiFiUtil;
+        handler = new Handler();
     }
 
     public void connectToHomeWiFiNetwork(@NonNull final String ssid) {
@@ -75,35 +79,35 @@ public class WiFiConnectivityManager {
         wifiManager.saveConfiguration();
     }
 
+
     private void connectToNetwork(@NonNull final String ssid) {
         EWSLogger.d(EWS_STEPS, "Trying to connect to network " + ssid);
-        ScanResult accessPoint = null;
-        int attempt = 0;
+        tryToConnectToNetwork(ssid, 0);
+    }
 
-        while (attempt++ < maxAttempts) {
-            accessPoint = findNetworkAccessPoint(ssid);
-
-            if (accessPoint != null) {
-                EWSLogger.d(EWS_STEPS, "Found access point ");
-                break;
-            } else {
-                wifiManager.startScan();
-                try {
-                    // TODO Re-consider please!
-                    Thread.sleep(DELAY_IN_EACH_NEW_SCAN);
-                } catch (InterruptedException ignored) {
-
+    private void tryToConnectToNetwork(@NonNull final String ssid, final int attempt) {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ScanResult accessPoint = null;
+                accessPoint = findNetworkAccessPoint(ssid);
+                if (accessPoint != null) {
+                    EWSLogger.d(EWS_STEPS, "Found access point ");
+                } else {
+                    if (attempt < maxAttempts) {
+                        wifiManager.startScan();
+                        tryToConnectToNetwork(ssid, attempt + 1);
+                        return;
+                    }
                 }
+                if (accessPoint == null) {
+                    EWSLogger.d(EWS_STEPS, "Unable to connect to access point given ");
+                    return;
+                }
+                EWSLogger.d(EWS_STEPS, "Connecting to  " + accessPoint);
+                wifi.connectToConfiguredNetwork(wifiManager, accessPoint);
             }
-        }
-
-        if (accessPoint == null) {
-            EWSLogger.d(EWS_STEPS, "Unable to connect to access point given ");
-            return;
-        }
-
-        EWSLogger.d(EWS_STEPS, "Connecting to  " + accessPoint);
-        wifi.connectToConfiguredNetwork(wifiManager, accessPoint);
+        }, DELAY_IN_EACH_NEW_SCAN);
     }
 
     private ScanResult findNetworkAccessPoint(@NonNull final String ssid) {

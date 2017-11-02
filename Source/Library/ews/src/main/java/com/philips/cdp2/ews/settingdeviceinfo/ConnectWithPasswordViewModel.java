@@ -102,14 +102,14 @@ public class ConnectWithPasswordViewModel extends BaseObservable {
     }
 
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @NonNull
     String getTitle(@NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(R.string.label_ews_password_title,
                 baseConfig.getDeviceName(), getHomeWiFiSSID());
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @NonNull
     String getNote(@NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(R.string.label_ews_password_from_name_title,

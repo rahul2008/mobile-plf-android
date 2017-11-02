@@ -34,7 +34,7 @@ public class TroubleshootCheckRouterSettingsFragment extends EWSBaseFragment<Tro
 
     @Inject
     TroubleshootCheckRouterSettingsViewModel viewModel;
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     @RouterScreenType int screenType;
 
     public static TroubleshootCheckRouterSettingsFragment getInstance(@RouterScreenType int type) {
