@@ -16,6 +16,8 @@ import com.philips.cdp2.ews.communication.events.ShowPasswordEntryScreenEvent;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
+import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.GpsUtil;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.view.dialog.GPSEnableDialogFragment;
@@ -29,7 +31,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -40,12 +41,15 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({GpsUtil.class, EWSLogger.class})
+@PrepareForTest({GpsUtil.class, EWSLogger.class, EWSTagger.class})
 public class SecondSetupStepsViewModelTest {
 
     @Mock
@@ -69,7 +73,7 @@ public class SecondSetupStepsViewModelTest {
     @Mock
     private GPSEnableDialogFragment gpsEnableDialogFragmentMock;
 
-    private SecondSetupStepsViewModel viewModel;
+    private SecondSetupStepsViewModel subject;
 
     @Mock
     private Dialog dialogMock;
@@ -78,20 +82,22 @@ public class SecondSetupStepsViewModelTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        PowerMockito.mockStatic(EWSLogger.class);
+        mockStatic(EWSLogger.class);
+        mockStatic(EWSTagger.class);
         setupImmediateHandler();
-        viewModel = new SecondSetupStepsViewModel(navigatorMock, eventBusMock, permissionHandlerMock,
+        subject = new SecondSetupStepsViewModel(navigatorMock, eventBusMock, permissionHandlerMock,
                 connectingDialogMock, null, gpsEnableDialogFragmentMock, handlerMock);
 
-        viewModel.setFragment(fragmentMock);
+        subject.setFragment(fragmentMock);
     }
 
     @Test
     public void shouldRequestForLocationPermissionIfItsNotGrantedAlreadyWhenONextButtonClicked() throws Exception {
         setPermissionGranted(false);
 
-        viewModel.onNextButtonClicked();
-
+        subject.onNextButtonClicked();
+        verifyStatic(times(1));
+        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.WIFI_BLINKING);
         verify(permissionHandlerMock).requestPermission(fragmentMock, R.string.label_location_permission_required,
                 ACCESS_COARSE_LOCATION, LOCATION_PERMISSIONS_REQUEST_CODE);
     }
@@ -101,7 +107,7 @@ public class SecondSetupStepsViewModelTest {
 //        setPermissionGranted(true);
 //        stubGPSSettings(true, true);
 //
-//        viewModel.onNextButtonClicked();
+//        subject.onNextButtonClicked();
 //
 //        verifyConnectRequest();
     }
@@ -111,8 +117,9 @@ public class SecondSetupStepsViewModelTest {
         setPermissionGranted(true);
         stubGPSSettings(false, true);
 
-        viewModel.onNextButtonClicked();
-
+        subject.onNextButtonClicked();
+        verifyStatic(times(1));
+        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.WIFI_BLINKING);
         verify(gpsEnableDialogFragmentMock).show(fragmentMock.getFragmentManager(), fragmentMock.getClass().getName());
     }
 
@@ -136,12 +143,12 @@ public class SecondSetupStepsViewModelTest {
         final int[] grantedPermission = new int[1];
         when(permissionHandlerMock.areAllPermissionsGranted(grantedPermission)).thenReturn(true);
 
-        assertTrue(viewModel.areAllPermissionsGranted(grantedPermission));
+        assertTrue(subject.areAllPermissionsGranted(grantedPermission));
     }
 
     @Test
     public void shouldCancelConnectingDialogOnDeviceConnectionError() throws Exception {
-        viewModel.deviceConnectionError(new DeviceConnectionErrorEvent());
+        subject.deviceConnectionError(new DeviceConnectionErrorEvent());
 
         verify(connectingDialogMock).dismissAllowingStateLoss();
     }
@@ -151,7 +158,7 @@ public class SecondSetupStepsViewModelTest {
 //        when(unsuccessfulDialogMock.getDialog()).thenReturn(dialogMock);
 //        when(dialogMock.isShowing()).thenReturn(false);
 //
-//        viewModel.deviceConnectionError(new DeviceConnectionErrorEvent());
+//        subject.deviceConnectionError(new DeviceConnectionErrorEvent());
 //
 //        verify(unsuccessfulDialogMock).show(any(FragmentManager.class), any(String.class));
     }
@@ -161,14 +168,14 @@ public class SecondSetupStepsViewModelTest {
 //        when(unsuccessfulDialogMock.getDialog()).thenReturn(dialogMock);
 //        when(dialogMock.isShowing()).thenReturn(true);
 //
-//        viewModel.deviceConnectionError(new DeviceConnectionErrorEvent());
+//        subject.deviceConnectionError(new DeviceConnectionErrorEvent());
 //
 //        verify(unsuccessfulDialogMock, never()).show(any(FragmentManager.class), any(String.class));
     }
 
     @Test
     public void shouldRemoveHandlerCallbackOnDeviceConnectionError() throws Exception {
-        viewModel.deviceConnectionError(new DeviceConnectionErrorEvent());
+        subject.deviceConnectionError(new DeviceConnectionErrorEvent());
 
         verify(handlerMock).removeCallbacks(any(Runnable.class));
     }
@@ -178,7 +185,7 @@ public class SecondSetupStepsViewModelTest {
 //        stubGPSSettings(true, true);
 //        setPermissionGranted(true);
 //
-//        viewModel.onNextButtonClicked();
+//        subject.onNextButtonClicked();
 //
 //        verify(handlerMock).postDelayed(any(Runnable.class), anyInt());
     }
@@ -191,7 +198,7 @@ public class SecondSetupStepsViewModelTest {
 //        when(unsuccessfulDialogMock.getDialog()).thenReturn(dialogMock);
 //        when(dialogMock.isShowing()).thenReturn(false);
 //
-//        viewModel.onNextButtonClicked();
+//        subject.onNextButtonClicked();
 //
 //        verify(connectingDialogMock).dismissAllowingStateLoss();
 //        verify(unsuccessfulDialogMock).show(any(FragmentManager.class), any(String.class));
@@ -202,14 +209,16 @@ public class SecondSetupStepsViewModelTest {
 //        stubGPSSettings(true, false);
 //        setPermissionGranted(true);
 //
-//        viewModel.onNextButtonClicked();
+//        subject.onNextButtonClicked();
 //
 //        verifyConnectRequest();
     }
 
     @Test
     public void shouldShowChooseCurrentStateScreenWhenNoButtonIsClicked() throws Exception {
-        viewModel.onNoButtonClicked();
+        subject.onNoButtonClicked();
+        verifyStatic(times(1));
+        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.WIFI_NOT_BLINKING);
 
         verify(navigatorMock).navigateToResetConnectionTroubleShootingScreen();
     }
@@ -232,11 +241,11 @@ public class SecondSetupStepsViewModelTest {
     }
 
     private void sendEventToShowPasswordEntryScreen() {
-        viewModel.showPasswordEntryScreenEvent(new ShowPasswordEntryScreenEvent());
+        subject.showPasswordEntryScreenEvent(new ShowPasswordEntryScreenEvent());
     }
 
     private void stubGPSSettings(final boolean enabled, final boolean isGpsRequiredForWifiScan) {
-        PowerMockito.mockStatic(GpsUtil.class);
+        mockStatic(GpsUtil.class);
         when(GpsUtil.isGPSRequiredForWifiScan()).thenReturn(isGpsRequiredForWifiScan);
         when(GpsUtil.isGPSEnabled(fragmentMock.getContext())).thenReturn(enabled);
     }

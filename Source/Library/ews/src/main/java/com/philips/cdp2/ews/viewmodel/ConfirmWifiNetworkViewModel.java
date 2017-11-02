@@ -13,6 +13,8 @@ import com.philips.cdp2.ews.BR;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
+import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
@@ -57,18 +59,29 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
         notifyPropertyChanged(BR.title);
         notifyPropertyChanged(BR.note);
         if (viewCallback != null && !wiFiUtil.isHomeWiFiEnabled()) {
+            tapToChangeWifi();
             viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration);
         }
     }
 
     public void onNoButtonClicked() {
         if (viewCallback != null) {
+            tapToChangeWifi();
             viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration);
         }
     }
 
     public void onYesButtonClicked() {
+        tapToConnect();
         navigator.navigateToDevicePoweredOnConfirmationScreen();
+    }
+
+    private void tapToConnect() {
+        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.CONFIRM_NETWORK);
+    }
+
+    private void tapToChangeWifi() {
+        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.CHANGE_NETWORK);
     }
 
     @Bindable

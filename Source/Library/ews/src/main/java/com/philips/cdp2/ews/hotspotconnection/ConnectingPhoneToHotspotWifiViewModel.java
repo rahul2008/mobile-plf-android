@@ -15,6 +15,8 @@ import android.util.Log;
 
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameFetcher;
+import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
@@ -100,10 +102,15 @@ public class ConnectingPhoneToHotspotWifiViewModel implements DeviceFriendlyName
     }
 
     public void onHelpNeeded(){
+        tapHelpNeed();
         navigator.navigateToResetConnectionTroubleShootingScreen();
     }
     public void onHelpNotNeeded(){
         navigator.navigateToCompletingDeviceSetupScreen();
+    }
+
+    private void tapHelpNeed() {
+        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.USER_NEEDS_HELP);
     }
 
     public void clear() {

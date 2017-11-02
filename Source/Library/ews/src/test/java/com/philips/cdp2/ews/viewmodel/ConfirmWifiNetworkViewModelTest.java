@@ -10,6 +10,8 @@ import com.philips.cdp2.ews.BR;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
+import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
@@ -17,14 +19,22 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(EWSTagger.class)
 public class ConfirmWifiNetworkViewModelTest {
 
     @Mock
@@ -46,6 +56,7 @@ public class ConfirmWifiNetworkViewModelTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        mockStatic(EWSTagger.class);
         viewModel = new ConfirmWifiNetworkViewModel(navigatorMock, wifiUtilMock, mockBaseContentConfig, mockStringProvider);
         viewModel.setViewCallback(mockViewCallback);
         when(mockBaseContentConfig.getDeviceName()).thenReturn(R.string.ews_device_name_default);
@@ -70,7 +81,8 @@ public class ConfirmWifiNetworkViewModelTest {
     @Test
     public void shouldShowNetworkTroubleShootingScreenOnNoButtonClicked() throws Exception {
         viewModel.onNoButtonClicked();
-
+        verifyStatic(times(1));
+        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.CHANGE_NETWORK);
         verify(mockViewCallback).showTroubleshootHomeWifiDialog(mockBaseContentConfig);
     }
 
@@ -78,8 +90,13 @@ public class ConfirmWifiNetworkViewModelTest {
     public void shouldNotifyPropertyChangedWhenHomeWiFiSSIDIsCalled() throws Exception {
         viewModel.addOnPropertyChangedCallback(callbackListenerMock);
         viewModel.refresh();
-
+        testChangeNetworkEWSTagger();
         verify(callbackListenerMock).onPropertyChanged(viewModel, BR.homeWiFiSSID);
+    }
+
+    private void testChangeNetworkEWSTagger() {
+        verifyStatic(times(1));
+        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.CHANGE_NETWORK);
     }
 
     @Test
@@ -87,7 +104,7 @@ public class ConfirmWifiNetworkViewModelTest {
         when(wifiUtilMock.isHomeWiFiEnabled()).thenReturn(false);
 
         viewModel.refresh();
-
+        testChangeNetworkEWSTagger();
         verify(mockViewCallback).showTroubleshootHomeWifiDialog(mockBaseContentConfig);
     }
 

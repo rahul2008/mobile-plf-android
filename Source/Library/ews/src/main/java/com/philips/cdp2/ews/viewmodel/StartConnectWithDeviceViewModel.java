@@ -13,7 +13,10 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
+import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.Navigator;
+import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.StringProvider;
 
 import javax.inject.Inject;
@@ -57,7 +60,12 @@ public class StartConnectWithDeviceViewModel {
     }
 
     public void onGettingStartedButtonClicked() {
+        tapGetStarted();
         navigator.navigateToHomeNetworkConfirmationScreen();
+    }
+
+    private void tapGetStarted() {
+        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.GET_STARTED);
     }
 
     public void onBackPressed(EWSCallbackNotifier ewsCallbackNotifier) {
