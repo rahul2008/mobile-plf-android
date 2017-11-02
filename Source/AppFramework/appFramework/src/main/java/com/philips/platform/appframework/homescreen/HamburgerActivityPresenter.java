@@ -19,6 +19,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetExc
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
+import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -98,7 +99,11 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
                 return HOME_TELEHEALTHSERVICES;
             case MENU_OPTION_POWER_SLEEP_CONNECTIVITY:
                 return HOME_POWER_SLEEP_CONNECTIVITY;
-            case MENU_OPTION_MYACCOUNT:
+            case Constants.LOGIN_BUTTON_CLICK_CONSTANT:
+                return HAMBURGER_LOGIN;
+            case Constants.LOGOUT_BUTTON_CLICK_CONSTANT:
+                return HAMBURGER_LOGOUT;
+            case Constants.HAMBURGER_MY_ACCOUNT_CLICK:
                 return HOME_MYACCOUNT;
             default:
                 return HOME_FRAGMENT;

@@ -6,66 +6,91 @@
  */
 package com.philips.platform.appframework.homescreen;
 
+import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
-import android.support.design.widget.NavigationView;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.integration.IAPListener;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
-import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
-import com.philips.cdp.uikit.hamburger.HamburgerItem;
-import com.philips.cdp.uikit.utils.HamburgerUtil;
+import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.logout.URLogout;
+import com.philips.platform.appframework.logout.URLogoutInterface;
+import com.philips.platform.appframework.models.HamburgerMenuItem;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
+import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
+import com.philips.platform.uid.view.widget.SideBar;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * This is the Main activity which host the main hamburger menu
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implements IAPListener,IndexSelectionListener, FragmentManager.OnBackStackChangedListener, FragmentView {
+public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implements IAPListener,IndexSelectionListener, FragmentManager.OnBackStackChangedListener, FragmentView, HamburgerMenuItemClickListener, View.OnClickListener, URLogoutInterface.URLogoutListener {
     private static String TAG = HamburgerActivity.class.getSimpleName();
-    protected TextView actionBarTitle;
-    private HamburgerUtil hamburgerUtil;
     private String[] hamburgerMenuTitles;
-    private ArrayList<HamburgerItem> hamburgerItems;
-    private DrawerLayout philipsDrawerLayout;
-    private ListView drawerListView;
-    private NavigationView navigationView;
+    private LinearLayout navigationView;
     private Toolbar toolbar;
-    private ImageView footerView;
-    private HamburgerAdapter adapter;
-    private ImageView hamburgerIcon;
     private int selectedIndex=0;
-    private FrameLayout hamburgerClick = null;//shoppingCartLayout;
+    //shoppingCartLayout;
     //    private UserRegistrationState userRegistrationState;
     private SharedPreferenceUtility sharedPreferenceUtility;
+    private boolean isBackButtonVisible = false;
     Handler handler = new Handler();
+    private SideBar sideBar;
+    private ActionBarDrawerToggle drawerToggle;
+
+    @BindView(R.id.hamburger_menu_footer_container)
+    LinearLayout hamburgerFooterParent;
+
+    private URLogoutInterface urLogoutInterface;
+
+    @BindView(R.id.rap_avatar_name)
+    Label avatarName;
+
+    @BindView(R.id.hamburger_log_out)
+    Label hamburgerLogoutLabel;
+
+    @BindView(R.id.hamburger_menu_header_container)
+    LinearLayout hamburgerHeaderParent;
+
+    @BindView(R.id.hamburger_list)
+    RecyclerView hamburgerMenuRecyclerView;
+
+    private HamburgerMenuAdapter hamburgerMenuAdapter;
+
 
    /* private ImageView cartIcon;
     private TextView cartCount;
@@ -83,144 +108,120 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
          * Setting Philips UI KIT standard BLUE theme.
          */
         super.onCreate(savedInstanceState);
-        presenter = new HamburgerActivityPresenter(this);
+        presenter = getActivityPresenter();
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
         setContentView(R.layout.af_uikit_hamburger_menu);
+        ButterKnife.bind(this);
         initializeActivityContents();
+    }
+
+    protected AbstractUIBasePresenter getActivityPresenter() {
+        return new HamburgerActivityPresenter(this);
     }
 
     protected void initializeActivityContents() {
         initViews();
-        setActionBar(getSupportActionBar());
-        philipsDrawerLayout.addDrawerListener(configureDrawer());
 
-        renderHamburgerMenu();
+        urLogoutInterface = getURLogoutInterface();
+        urLogoutInterface.setUrLogoutListener(this);
+
+        presenter.onEvent(0);
+        initLeftSidebarRecyclerViews();
         getSupportFragmentManager().addOnBackStackChangedListener(this);
     }
 
-    /**
-     * For updating the hamburger drawer
-     */
-    private void renderHamburgerMenu() {
-        RALog.d(TAG, " render HamburgerMenu ");
-        hamburgerUtil = null;
-        drawerListView = null;
-        loadSlideMenuItems();
-        setHamburgerAdapter();
-        drawerListView = (ListView) findViewById(R.id.hamburger_list);
-        hamburgerUtil = new HamburgerUtil(this, drawerListView);
-        hamburgerUtil.updateSmartFooter(footerView, hamburgerItems.size());
-        setDrawerAdapter();
-        showNavigationDrawerItem(0);
-        sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED,0);
-        drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                if (!hamburgerMenuTitles[position].equalsIgnoreCase("Title")) {
-                    if(position==selectedIndex){
-                        philipsDrawerLayout.closeDrawer(navigationView);
-                        return;
-                    }
-                    selectedIndex=position;
-                    adapter.setSelectedIndex(position);
-                    adapter.notifyDataSetChanged();
-                    sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED,position);
-                    showNavigationDrawerItem(position);
-
-                }
-            }
-        });
+    protected URLogoutInterface getURLogoutInterface() {
+        return new URLogout();
     }
 
+    private void initLeftSidebarRecyclerViews() {
+        RecyclerViewSeparatorItemDecoration hamburgerSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(UIDHelper.getContentThemedContext(this));
+        ArrayList<HamburgerMenuItem> hamburgerMenuItems = getIconDataHolderView(UIDHelper.getContentThemedContext(this));
+
+        hamburgerMenuAdapter = new HamburgerMenuAdapter(hamburgerMenuItems);
+        hamburgerMenuAdapter.setMenuItemClickListener(this);
+        hamburgerMenuRecyclerView.setAdapter(hamburgerMenuAdapter);
+        hamburgerMenuRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        hamburgerMenuRecyclerView.addItemDecoration(hamburgerSeparatorItemDecoration);
+    }
+
+    @NonNull
+    private ArrayList<HamburgerMenuItem> getIconDataHolderView(Context context) {
+        hamburgerMenuTitles = getResources().getStringArray(R.array.hamburger_drawer_items);
+        ArrayList<HamburgerMenuItem> hamburgerMenuItems = new ArrayList<HamburgerMenuItem>();
+        TypedArray typedArray = getResources().obtainTypedArray(R.array.hamburger_drawer_items_res);
+        for (int i = 0; i < hamburgerMenuTitles.length; i++) {
+            hamburgerMenuItems.add(new HamburgerMenuItem(typedArray.getResourceId(i, R.drawable.rap_question_mark), hamburgerMenuTitles[i], context));
+        }
+        return hamburgerMenuItems;
+    }
+
+    @Override
+    public void onMenuItemClicked(int position) {
+        if(position==selectedIndex){
+            sideBar.closeDrawer(navigationView);
+            return;
+        }
+        selectedIndex=position;
+        sharedPreferenceUtility.writePreferenceInt(Constants.HOME_FRAGMENT_PRESSED,position);
+        showNavigationDrawerItem(position);
+    }
     /**
      * To show navigation Drawer
      * @param position : Pass the position of hamburger item to be shown
      */
     private void showNavigationDrawerItem(int position) {
-        philipsDrawerLayout.closeDrawer(navigationView);
+        sideBar.closeDrawer(navigationView);
         presenter.onEvent(position);
     }
 
-    public HamburgerAdapter getHamburgerAdapter()
-    {
-        return this.adapter;
-    }
-
-
-    /**
-     * To set the actionbar
-     * @param actionBar : Requires the actionbar obejct
-     */
-    private void setActionBar(ActionBar actionBar) {
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
-                ActionBar.LayoutParams.MATCH_PARENT,
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                Gravity.CENTER);
-        View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_action_bar_shopping_cart, null); // layout which contains your button.
-        hamburgerIcon = (ImageView) mCustomView.findViewById(R.id.af_hamburger_imageview);
-        hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
-        hamburgerClick = (FrameLayout) mCustomView.findViewById(R.id.af_hamburger_frame_layout);
-        hamburgerClick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                philipsDrawerLayout.openDrawer(navigationView);
-            }
-        });
-        actionBarTitle = (TextView) mCustomView.findViewById(R.id.af_actionbar_title);
-        setTitle(getResources().getString(R.string.app_name));
-       /* cartIcon = (ImageView) mCustomView.findViewById(R.id.af_shoppng_cart_icon);
-        shoppingCartLayout = (FrameLayout) mCustomView.findViewById(R.id.af_cart_layout);
-        Drawable mCartIconDrawable = VectorDrawable.create(this, R.drawable.uikit_cart);
-        cartIcon.setBackground(mCartIconDrawable);
-        shoppingCartLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onEvent(View v) {
-                philipsDrawerLayout.closeDrawer(navigationView);
-                presenter.onEvent(Constants.UI_SHOPPING_CART_BUTTON_CLICK);
-            }
-        });
-        cartCount = (TextView) mCustomView.findViewById(R.id.af_cart_count_view);
-        cartCount.setVisibility(View.GONE);*/
-        actionBar.setCustomView(mCustomView, params);
-        Toolbar parent = (Toolbar) mCustomView.getParent();
-        parent.setContentInsetsAbsolute(0, 0);
+    public HamburgerMenuAdapter getHamburgerAdapter() {
+        return this.hamburgerMenuAdapter;
     }
 
     private void initViews() {
         RALog.d(TAG, " initViews");
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        philipsDrawerLayout = (DrawerLayout) findViewById(R.id.philips_drawer_layout);
-        drawerListView = (ListView) findViewById(R.id.hamburger_list);
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        footerView = (ImageView) findViewById(R.id.philips_logo);
-        int resID = com.philips.cdp.uikit.R.drawable.uikit_philips_logo;
-        footerView.setImageDrawable(VectorDrawable.create(this, resID));
-        setSupportActionBar(toolbar);
+        toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        hamburgerFooterParent.setOnClickListener(this);
+        hamburgerHeaderParent.setOnClickListener(this);
+        setUserNameAndLogoutText();
+        initSidebarComponents();
+        navigationView = (LinearLayout) findViewById(R.id.navigation_view);
+        UIDHelper.setupToolbar(this);
+        toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_hamburger_icon, getTheme()));
     }
 
-    private void setDrawerAdapter() {
-        RALog.d(TAG, "  Set Drawer Adapter  ");
-        adapter = null;
-        TextView totalCountView = (TextView) findViewById(R.id.hamburger_count);
-        adapter = new HamburgerAdapter(this,
-                hamburgerItems, totalCountView, false);
-        adapter.notifyDataSetChanged();
-        drawerListView.setAdapter(adapter);
+    private void setUserNameAndLogoutText() {
+        User user = ((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this);
+        if (!user.isUserSignIn()) {
+            hamburgerLogoutLabel.setText(R.string.RA_Settings_Login);
+            avatarName.setText(getString(R.string.RA_DLSS_avatar_default_text));
+        } else {
+            hamburgerLogoutLabel.setText(R.string.RA_Settings_Logout);
+            avatarName.setText(user.getGivenName());
+        }
+    }
 
+    private void initSidebarComponents(){
+        sideBar = (SideBar) findViewById(R.id.sidebar_layout);
+        drawerToggle = configureDrawer();
+        drawerToggle.setDrawerIndicatorEnabled(false);
     }
 
     @Override
     public void setTitle(CharSequence title) {
         super.setTitle(title);
-        actionBarTitle.setText(title);
-        actionBarTitle.setSelected(true);
+        UIDHelper.setTitle(this, title);
     }
 
     protected ActionBarDrawerToggle configureDrawer() {
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, philipsDrawerLayout,
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, sideBar,
                 R.string.af_app_name, R.string.af_app_name) {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
@@ -233,24 +234,13 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         return drawerToggle;
     }
 
-    private void setHamburgerAdapter() {
-        for (int i = 0; i < hamburgerMenuTitles.length; i++) {
-                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i],null));
-        }
-    }
-
-    private void loadSlideMenuItems() {
-        hamburgerMenuTitles = getResources().getStringArray(R.array.hamburger_drawer_items);
-        hamburgerItems = new ArrayList<>();
-    }
-
 
     @Override
     public void onBackPressed() {
         RALog.d(TAG, " on Back Pressed  ");
-        if(philipsDrawerLayout.isDrawerOpen(navigationView))
+        if(sideBar.isDrawerOpen(navigationView))
         {
-            philipsDrawerLayout.closeDrawer(navigationView);
+            sideBar.closeDrawer(navigationView);
         }
         else {
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -289,18 +279,24 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     protected void onDestroy() {
         RALog.d(TAG, " onDestroy ");
         super.onDestroy();
+        removeListeners();
 //        userRegistrationState.unregisterUserRegistrationListener();
     }
 
+    protected void removeListeners() {
+        hamburgerMenuAdapter.removeMenuItemClickListener();
+        urLogoutInterface.removeListener();
+    }
 
-   /* private void addIapCartCount() {
-        try {
 
-            IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIap().getIapInterface();
-            iapInterface.getProductCartCount(this);
-        }catch (RuntimeException e){
-        }
-    }*/
+    /* private void addIapCartCount() {
+         try {
+
+             IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIap().getIapInterface();
+             iapInterface.getProductCartCount(this);
+         }catch (RuntimeException e){
+         }
+     }*/
     @Override
     protected void onResume() {
         super.onResume();
@@ -318,7 +314,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
      */
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
-        setTitle(getResources().getString(i));
+        UIDHelper.setTitle(this, i);
         updateActionBarIcon(b);
     }
 
@@ -329,43 +325,24 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
      */
     @Override
     public void updateActionBar(String s, boolean b) {
-        setTitle(s);
+        UIDHelper.setTitle(this, s);
         updateActionBarIcon(b);
 
     }
 
     public String getActionbarTag() {
-        return (String)hamburgerIcon.getTag();
+        return (String) toolbar.getNavigationContentDescription();
     }
 
     /**
      * Method for showing the hamburger Icon or Back key on home fragments
      */
-    public void updateActionBarIcon(boolean b)
-    {
-        RALog.d(TAG, " updateActionBarIcon ");
-        if (b) {
-            RALog.d(TAG, " setting back arrow in hamburger menu ");
-            hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
-            hamburgerIcon.setTag(String.valueOf(R.drawable.left_arrow));
-            hamburgerClick.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onBackPressed();
-                }
-            });
-        } else {
-            RALog.d(TAG, " setting options in hamburger menu ");
-            hamburgerIcon.setImageDrawable(VectorDrawable.create(HamburgerActivity.this, R.drawable.uikit_hamburger_icon));
-            hamburgerIcon.setTag(String.valueOf(R.drawable.uikit_hamburger_icon));
-            hamburgerClick.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    philipsDrawerLayout.openDrawer(navigationView);
-                }
-            });
-
-        }
+    public void updateActionBarIcon(boolean isBackButtonVisible) {
+        RALog.d(TAG, " updateActionBarIcon : " + isBackButtonVisible);
+        int navigationDrawableId = isBackButtonVisible ? R.drawable.left_arrow : R.drawable.ic_hamburger_icon;
+        toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), navigationDrawableId, getTheme()));
+        toolbar.setNavigationContentDescription(String.valueOf(navigationDrawableId));
+        this.isBackButtonVisible = isBackButtonVisible;
     }
 
     /*public void cartIconVisibility(boolean shouldShow) {
@@ -479,9 +456,69 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
             handler.post(new Runnable() {
             @Override
             public void run() {
-                adapter.setSelectedIndex(position);
+                hamburgerMenuAdapter.setSelectedPosition(position);
                 selectedIndex=position;
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (isBackButtonVisible) {
+                    onBackPressed();
+                } else {
+                    sideBar.openDrawer(navigationView);
+                }
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        sideBar.closeDrawer(navigationView);
+        switch (view.getId()) {
+            case R.id.hamburger_menu_footer_container:
+                if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this).isUserSignIn()) {
+                    showProgressBar();
+                    urLogoutInterface.performLogout(this, ((AppFrameworkApplication) getApplicationContext())
+                                    .getUserRegistrationState().getUserObject(this));
+                } else {
+                    presenter.onEvent(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
+                }
+                break;
+            case R.id.hamburger_menu_header_container:
+                if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this).isUserSignIn()) {
+                    presenter.onEvent(Constants.HAMBURGER_MY_ACCOUNT_CLICK);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onLogoutResultFailure(int i, String errorMessage) {
+        RALog.d(TAG, " UserRegistration onLogoutFailure  - " + errorMessage);
+        Toast.makeText(HamburgerActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+        hideProgressBar();
+
+    }
+
+    @Override
+    public void onLogoutResultSuccess() {
+        RALog.d(TAG, " UserRegistration onLogoutSuccess  - ");
+        setUserNameAndLogoutText();
+        hideProgressBar();
+        presenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
+        updateSelectionIndex(0);
+    }
+
+
+    @Override
+    public void onNetworkError(String errorMessage) {
+        RALog.d(TAG, " UserRegistration onNetworkError  - " + errorMessage);
+        Toast.makeText(HamburgerActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+        hideProgressBar();
     }
 }
