@@ -381,4 +381,10 @@ Receive free product accessories</string>
     <string name="RA_DLS_enable_bluetooth" translatable="false">Please enable bluetooth</string>
 
     <string name="RA_DLSS_avatar_default_text" translatable="false">Hello User, \nPlease sign in.</string>
+
+    <string name="RA_DLS_about_copyright" translatable="false">Copyright \u00A9 2017 Philips</string>
+    <string name="RA_DLS_about_terms" translatable="false">Terms &amp; conditions</string>
+    <string name="RA_DLS_about_privacy" translatable="false">Privacy policy</string>
+    <string name="RA_DLS_about_description" translatable="false">This reference app is the starting point for any new patient medical or consumer mobile app. It is made up of configurable common components which are all part of the CDP2 Platform. It will help accelerate your app development, harmonize UX across Philips and ensures appropriate integration with HSDP.</string>
+
 </resources>
