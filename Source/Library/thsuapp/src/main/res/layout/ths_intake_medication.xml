@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ths_medication_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -39,15 +40,26 @@
             style="@style/ths_mobile_wizard"
             android:text="@string/vitals_medications" />
 
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_medication_patient_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ths_image_size"
+            android:layout_marginBottom="@dimen/ths_margin_between_buttons"
+            android:layout_marginLeft="@dimen/ths_fab_margin"
+            android:layout_below="@+id/ths_intake_medication_label"
+            android:layout_marginRight="@dimen/ths_fab_margin"
+            android:textSize="@dimen/ths_small_body_text"
+            style="@style/UIDLabel.Header"
+            />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ths_intake_medication_question"
             style="@style/ths_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ths_intake_medication_label"
+            android:layout_below="@+id/ths_medication_patient_name"
             android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
-            android:layout_marginTop="@dimen/ths_fab_margin"
             android:paddingLeft="@dimen/ths_fab_margin"
             android:paddingRight="@dimen/ths_fab_margin"
             android:text="@string/vitals_medication_description_text"

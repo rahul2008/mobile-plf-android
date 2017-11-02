@@ -303,4 +303,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_pharmacy_search_error">Please enter a valid zip code in the format 12345 or 12345–6789</string>
 
     <string name="show_all"><u>Show all</u></string>
+
+    <!-- Dependent Strings -->
+    <string name="ths_dependent_name">Selected patient: <xliff:g name="count">%s</xliff:g> </string>
 </resources>
