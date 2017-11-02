@@ -24,6 +24,7 @@ buildscript {
 }
 
 android {
+    def assignedVersionNumber = version + "(" + objcdp.getCommitHash() + ")"
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
     publishNonDefault true
@@ -34,17 +35,10 @@ android {
         renderscriptTargetApi versions.target
         renderscriptSupportModeEnabled true
         multiDexEnabled true
-        versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionName assignedVersionNumber
         consumerProguardFiles('proguard-rules.txt', 'proguard-rules-lib.txt')
     }
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def appName = "ews"
-            def buildType = variant.variantData.variantConfiguration.buildType.name
-            def newName = "${appName}_${buildType}_${versionName}.apk"
-            output.outputFile = new File(output.outputFile.parent, newName)
-        }
-    }
+
     dataBinding {
         enabled = true
     }
@@ -77,6 +71,15 @@ android {
         csv.enabled false
         html.enabled true
         xml.enabled false
+    }
+
+    libraryVariants.all { variant ->
+        variant.outputs.each { output ->
+            def libName = "ews"
+            def buildType = variant.variantData.variantConfiguration.buildType.name
+            def newName = "${libName}_${buildType}_${assignedVersionNumber}.apk"
+            output.outputFile = new File(output.outputFile.parent, newName)
+        }
     }
 }
 
