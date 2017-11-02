@@ -310,7 +310,7 @@ Receive free product accessories</string>
     <string name="description_close" translatable="false">Close</string>
 
 
-    <string name="RA_DLS_splash_title" translatable="false">&lt;b>CDP&lt;/b>&lt;sup>&lt;small>2&lt;/small>&lt;/sup> Reference App\t</string>
+    <string name="RA_DLS_splash_title" translatable="false"><b>CDP<sup><small>2</small></sup></b> Reference App</string>
     <string name="RA_DLS_HomeScreen_Title" translatable="false">Reference App home</string>
     <string name="RA_DLS_home_page_text" translatable="false">Reference App</string>
     <string name="RA_DLS_home_page_sub_text" translatable="false">ReferenceApp is a base platform used by all propositions to develop and maintain features both generic and specific to the propositions. App infra, Data Gateway, App FWK, and UIToolkit allow Apps to be created from uApps and UI-less services/libraries. ReferenceApp acts as a foundation over which CDP2 uApps and proposition specific uApps are integrated to form individual apps.</string>
