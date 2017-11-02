@@ -6,6 +6,7 @@ package com.philips.cdp2.ews.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.Observable;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,20 +23,17 @@ import javax.inject.Inject;
 
 public class ConfirmWifiNetworkViewModel extends BaseObservable {
 
-    @NonNull
-    public final ObservableField<String> title;
-    @NonNull
-    public final ObservableField<String> note;
-    @NonNull
-    private final Navigator navigator;
-    @NonNull
-    private final WiFiUtil wiFiUtil;
-    @NonNull
-    private final StringProvider stringProvider;
-    @Nullable
-    private ViewCallback viewCallback;
-    @NonNull
-    private BaseContentConfiguration baseContentConfiguration;
+    public interface ViewCallback {
+        void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
+    }
+
+    @NonNull private final Navigator navigator;
+    @NonNull private final WiFiUtil wiFiUtil;
+
+    @NonNull private final StringProvider stringProvider;
+
+    @Nullable private ViewCallback viewCallback;
+    @NonNull private BaseContentConfiguration baseContentConfiguration;
 
     @Inject
     public ConfirmWifiNetworkViewModel(@NonNull final Navigator navigator,
@@ -46,8 +44,6 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
         this.wiFiUtil = wiFiUtil;
         this.stringProvider = stringProvider;
         this.baseContentConfiguration = baseConfig;
-        title = new ObservableField<>(getTitle());
-        note = new ObservableField<>(getNote(baseConfig));
     }
 
     public void setViewCallback(@Nullable ViewCallback viewCallback) {
@@ -61,6 +57,8 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
 
     public void refresh() {
         notifyPropertyChanged(BR.homeWiFiSSID);
+        notifyPropertyChanged(BR.title);
+        notifyPropertyChanged(BR.note);
         if (viewCallback != null && !wiFiUtil.isHomeWiFiEnabled()) {
             viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration);
         }
@@ -76,20 +74,17 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
         navigator.navigateToDevicePoweredOnConfirmationScreen();
     }
 
-    @VisibleForTesting
+    @Bindable
     @NonNull
-    String getTitle() {
+    public String getTitle() {
         return stringProvider.getString(R.string.label_ews_confirm_connection_currently_connected, getHomeWiFiSSID());
     }
 
-    @VisibleForTesting
+    @Bindable
     @NonNull
-    String getNote(@NonNull BaseContentConfiguration baseConfig) {
-        return stringProvider.getString(R.string.label_ews_confirm_connection_tip,  baseConfig.getDeviceName());
-    }
-
-    public interface ViewCallback {
-        void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
+    public String getNote() {
+        return stringProvider.getString(R.string.label_ews_confirm_connection_want_to_connect,
+                baseContentConfiguration.getDeviceName(), getHomeWiFiSSID());
     }
 
 }

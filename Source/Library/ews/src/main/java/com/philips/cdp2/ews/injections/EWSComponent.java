@@ -5,6 +5,7 @@
 
 package com.philips.cdp2.ews.injections;
 
+import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiViewModel;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel;
 import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordFragment;
@@ -38,6 +39,8 @@ public interface EWSComponent {
     void inject(EWSWiFiPairedFragment ewsWiFiPairedFragment);
 
     void inject(TroubleshootDeviceAPModeFragment troubleshootDeviceAPModeFragment);
+
+    void inject(ConnectingDeviceWithWifiFragment connectingDeviceWithWifiFragment);
 
     ResetConnectionTroubleshootingViewModel resetConnectionTroubleshootingViewModel();
 

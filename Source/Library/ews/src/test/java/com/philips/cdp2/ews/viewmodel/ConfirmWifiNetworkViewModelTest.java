@@ -110,9 +110,17 @@ public class ConfirmWifiNetworkViewModelTest {
     @Test
     public void itShouldCallNoteWhenTitleIsCalledForViewModel() throws Exception {
 
-        viewModel.getNote(mockBaseContentConfig);
-        verify(mockStringProvider).getString(R.string.label_ews_confirm_connection_tip,
-                mockBaseContentConfig.getDeviceName());
+        viewModel.getNote();
+        verify(mockStringProvider).getString(R.string.label_ews_confirm_connection_want_to_connect,
+                mockBaseContentConfig.getDeviceName(), viewModel.getHomeWiFiSSID());
 
     }
+
+    @Test
+    public void itShouldVerifyNoteForViewMatches() throws Exception {
+        when(mockStringProvider.getString(R.string.label_ews_confirm_connection_want_to_connect,
+                mockBaseContentConfig.getDeviceName(), viewModel.getHomeWiFiSSID())).thenReturn("note");
+        Assert.assertEquals("note", viewModel.getNote());
+    }
+
 }
