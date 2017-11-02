@@ -18,15 +18,15 @@ import com.philips.cdp2.ews.util.StringProvider;
 
 import javax.inject.Inject;
 
-public class EWSWiFIPairedViewModel {
+public class ConnectionSuccessfulViewModel {
 
     @Nullable private FragmentCallback fragmentCallback;
 
     @NonNull StringProvider stringProvider;
     @NonNull public final ObservableField<String> title;
     @Inject
-    public EWSWiFIPairedViewModel(@NonNull BaseContentConfiguration baseConfig,
-                                  @NonNull StringProvider stringProvider) {
+    public ConnectionSuccessfulViewModel(@NonNull BaseContentConfiguration baseConfig,
+                                         @NonNull StringProvider stringProvider) {
         this.stringProvider = stringProvider;
         title = new ObservableField<>(getTitle(baseConfig));
     }

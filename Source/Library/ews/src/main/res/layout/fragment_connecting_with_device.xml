@@ -5,8 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.philips.cdp2.ews.viewmodel.EWSWiFIPairedViewModel" />
-
+            type="com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel" />
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -19,33 +18,36 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingBottom="@dimen/default_screen_bottom_margin"
-            android:paddingLeft="@dimen/default_screen_side_margin"
-            android:paddingRight="@dimen/default_screen_side_margin"
+            android:paddingEnd="@dimen/default_screen_side_margin"
+            android:paddingStart="@dimen/default_screen_side_margin"
             android:paddingTop="@dimen/default_screen_top_margin">
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ews_04_01_label_succesful_title"
+                android:id="@+id/ews_03_00_label_establishing_connection_title"
                 style="@style/Txt.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/label_ews_succesful_title" />
+                android:text="@string/label_ews_establishing_connection_title" />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ews_paired_body"
+                android:id="@+id/connecting_dialog_body"
                 style="@style/Txt.Body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_body_labels_margin"
-                android:text="@{viewModel.title}" />
+                android:text="@string/label_ews_establishing_connection_body" />
 
-            <ImageView
-                android:id="@+id/ews_paired_image"
-                style="@style/EWS.ImageScale"
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_image_top_margin"
-                android:contentDescription="@null"
-                app:srcCompat="@drawable/ews_connection_succesful" />
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.philips.platform.uid.view.widget.ProgressBar
+                android:id="@+id/progressBar"
+                style="@style/UIDProgressBarCircularIndeterminateBig"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
+                android:layout_gravity="center" />
 
             <Space
                 android:layout_width="match_parent"
@@ -53,16 +55,14 @@
                 android:layout_weight="1" />
 
             <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/ews_04_01_button_succesful_start"
+                android:id="@+id/cancel_button_hotspot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/d"
-                android:onClick="@{() -> viewModel.onStartClicked()}"
-                android:text="@string/button_ews_succesful_start"
+                android:layout_marginTop="@dimen/default_main_button_top_margin"
+                android:onClick="@{() -> viewModel.handleCancelButtonClicked()}"
+                android:text="@string/button_cancel"
                 app:uidComponentType="Primary" />
 
         </LinearLayout>
-
     </android.support.v4.widget.NestedScrollView>
-
 </layout>

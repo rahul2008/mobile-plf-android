@@ -30,4 +30,35 @@
     <dimen name="ews_divider_line_height">1dp</dimen>
     <dimen name="ews_dls_navigation_right_icon_size">16dp</dimen>
     <dimen name="browse_navigation_icon_size">16dp</dimen>
+
+    <!-- ProgressBar -->
+    <dimen name="uid_progress_bar_min_width">96dp</dimen>
+    <dimen name="uid_progress_bar_height">4dp</dimen>
+    <dimen name="uid_progress_bar_margin_left">22dp</dimen>
+    <dimen name="uid_progress_bar_margin_right">22dp</dimen>
+    <dimen name="uid_progress_bar_circular_small">24dp</dimen>
+    <integer name="uid_progress_bar_circular_small_duration">1000</integer>
+    <dimen name="uid_progress_bar_circular_middle">48dp</dimen>
+    <integer name="uid_progress_bar_circular_middle_duration">1250</integer>
+    <dimen name="uid_progress_bar_circular_big">88dp</dimen>
+    <integer name="uid_progress_bar_circular_big_duration">1500</integer>
+    <item name="uid_progress_bar_circular_small_innerRadiusRatio" format="float" type="dimen">2.4
+    </item>
+    <item name="uid_progress_bar_circular_small_thicknessRatio" format="float" type="dimen">12
+    </item>
+    <item name="uid_progress_bar_circular_middle_innerRadiusRatio" format="float" type="dimen">
+        2.28
+    </item>
+    <item name="uid_progress_bar_circular_middle_thicknessRatio" format="float" type="dimen">16
+    </item>
+    <item name="uid_progress_bar_circular_big_innerRadiusRatio" format="float" type="dimen">2.2
+    </item>
+    <item name="uid_progress_bar_circular_big_thicknessRatio" format="float" type="dimen">22</item>
+
+    <dimen name="uid_circular_progress_indicator_big_label_margin">16dp</dimen>
+    <dimen name="uid_circular_progress_indicator_middle_label_margin">14dp</dimen>
+    <dimen name="uid_circular_progress_indicator_small_label_margin">12dp</dimen>
+    <dimen name="uid_indeterminate_linear_progress_indicator_label_margin">9dp</dimen>
+    <dimen name="uid_determinate_linear_progress_indicator_label_margin">7dp</dimen>
+
 </resources>

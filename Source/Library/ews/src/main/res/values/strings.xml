@@ -166,4 +166,7 @@
     <string name="label_ews_support_wrong_phone_question_default">Do you see this screen?</string>
     <string name="button_ews_support_wrong_phone_yes">Yes</string>
     <string name="button_ews_support_wrong_phone_no">No</string>
+    <string name="label_ews_connecting_device_title">Establishing connection between %@ and home network</string>
+    <string name="label_ews_connecting_device_body">This might take up to 60 seconds. You will be automatically redirected when finished.</string>
+    <string name="button_ews_connecting_device_cancel">Cancel</string>
 </resources>

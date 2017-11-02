@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-public class ConnectingPhoneToHotspotWifiViewModel implements DeviceFriendlyNameFetcher.Callback {
+public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.Callback {
 
     public interface ConnectingPhoneToHotSpotCallback {
         void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
@@ -76,11 +76,12 @@ public class ConnectingPhoneToHotspotWifiViewModel implements DeviceFriendlyName
         }
     };
 
-    @Inject ConnectingPhoneToHotspotWifiViewModel(@NonNull WiFiConnectivityManager wiFiConnectivityManager,
-                                                  @NonNull DeviceFriendlyNameFetcher deviceFriendlyNameFetcher,
-                                                  @NonNull WiFiUtil wiFiUtil,
-                                                  @NonNull Navigator navigator,
-                                                  @NonNull @Named("mainLooperHandler") Handler handler) {
+    @Inject
+    ConnectingWithDeviceViewModel(@NonNull WiFiConnectivityManager wiFiConnectivityManager,
+                                  @NonNull DeviceFriendlyNameFetcher deviceFriendlyNameFetcher,
+                                  @NonNull WiFiUtil wiFiUtil,
+                                  @NonNull Navigator navigator,
+                                  @NonNull @Named("mainLooperHandler") Handler handler) {
         this.wiFiConnectivityManager = wiFiConnectivityManager;
         this.deviceFriendlyNameFetcher = deviceFriendlyNameFetcher;
         this.wiFiUtil = wiFiUtil;
