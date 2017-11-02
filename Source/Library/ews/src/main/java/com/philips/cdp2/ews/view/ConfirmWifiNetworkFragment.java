@@ -9,6 +9,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.common.util.DateUtil;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConfirmWifiNetworkBinding;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.ColorsUtil;
 import com.philips.cdp2.ews.util.TextUtil;
 import com.philips.cdp2.ews.viewmodel.ConfirmWifiNetworkViewModel;
@@ -45,8 +47,9 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
         return binding.getRoot();
     }
 
+    @VisibleForTesting
     @NonNull
-    private ConfirmWifiNetworkViewModel createViewModel() {
+    ConfirmWifiNetworkViewModel createViewModel() {
         return ((EWSActivity) getActivity()).getEWSComponent().confirmWifiNetworkViewModel();
     }
 
@@ -54,6 +57,11 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
     public void onResume() {
         super.onResume();
         viewModel.refresh();
+    }
+
+    @Override
+    protected String getPageName() {
+        return Page.CONFIRM_WIFI_NETWORK;
     }
 
     @Override

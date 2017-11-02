@@ -2,6 +2,7 @@ package com.philips.cdp2.ews.view;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -18,9 +18,7 @@ import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 
-import javax.inject.Inject;
-
-public class BaseFragment extends Fragment implements BackEventListener {
+public abstract class BaseFragment extends Fragment implements BackEventListener {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -83,4 +81,15 @@ public class BaseFragment extends Fragment implements BackEventListener {
         ((EWSActivity) getActivity()).updateActionBar(getString(R.string.ews_title), true);
     }
 
+    @CallSuper
+    @Override
+    public void onResume() {
+        super.onResume();
+        String pageName = getPageName();
+        if (pageName != null) {
+            EWSTagger.trackPage(pageName);
+        }
+    }
+
+    protected abstract String getPageName();
 }

@@ -19,6 +19,7 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConnectingDeviceWithWifiBinding;
 import com.philips.cdp2.ews.logger.EWSLogger;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
@@ -154,5 +155,10 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
     public boolean handleBackEvent() {
         // Do nothing, back disabled in this screen
         return true;
+    }
+
+    @Override
+    protected String getPageName() {
+        return Page.CONNECTING_DEVICE_WITH_WIFI;
     }
 }

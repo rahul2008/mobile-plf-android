@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import com.adobe.mobile.Analytics;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 

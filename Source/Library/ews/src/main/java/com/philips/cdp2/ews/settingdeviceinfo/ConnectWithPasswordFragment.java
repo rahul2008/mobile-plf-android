@@ -58,7 +58,7 @@ public class ConnectWithPasswordFragment extends EWSBaseFragment<FragmentEwsConn
     @NonNull
     @Override
     public String getPageName() {
-        return Page.CONNECT_WIFI;
+        return Page.CONNECT_WITH_PASSWORD;
     }
 
     @Override

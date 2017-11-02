@@ -122,6 +122,11 @@ public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implement
         return true;
     }
 
+    @Override
+    protected String getPageName() {
+        return Page.CONNECTING_WITH_DEVICE;
+    }
+
     private ConnectingPhoneToHotspotWifiViewModel createViewModel() {
         return ((EWSActivity) getActivity()).getEWSComponent().connectingPhoneToHotspotWifiViewModel();
     }

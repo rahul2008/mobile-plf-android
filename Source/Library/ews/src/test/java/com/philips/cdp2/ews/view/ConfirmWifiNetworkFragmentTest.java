@@ -1,12 +1,12 @@
-/*
+/**
  * Copyright (c) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdp2.ews.settingdeviceinfo;
+package com.philips.cdp2.ews.view;
 
-import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.viewmodel.ConfirmWifiNetworkViewModel;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,9 +17,9 @@ import org.mockito.stubbing.Answer;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -27,59 +27,49 @@ import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(EWSTagger.class)
-public class ConnectWithPasswordFragmentTest {
+public class ConfirmWifiNetworkFragmentTest {
 
-    private ConnectWithPasswordFragment subject;
-
-    @Mock
-    private EWSComponent ewsComponentMock;
+    private ConfirmWifiNetworkFragment subject;
 
     @Mock
-    private ConnectWithPasswordViewModel viewModelMock;
+    private ConfirmWifiNetworkViewModel mockConfirmWifiNetworkViewModel;
+
+    @Mock private EWSComponent ewsComponentMock;
+
+    private ConfirmWifiNetworkFragment spySubject;
+
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(EWSTagger.class);
-        subject = new ConnectWithPasswordFragment();
+        subject = new ConfirmWifiNetworkFragment();
         injectMembers();
     }
 
     private void injectMembers() {
+
+        spySubject = spy(subject);
+        //doReturn(mockConfirmWifiNetworkViewModel).when(spySubject.viewModel);
         doAnswer(new Answer() {
             @Override
             public Object answer(final InvocationOnMock invocation) throws Throwable {
-                subject.viewModel = viewModelMock;
+                spySubject.viewModel = mockConfirmWifiNetworkViewModel;
                 return null;
             }
-        }).when(ewsComponentMock).inject(subject);
-        subject.inject(ewsComponentMock);
-    }
-
-    @Test
-    public void shouldReturnCorrectHierarchyLevelWhenAsked() throws Exception {
-        assertEquals(5, subject.getHierarchyLevel());
-    }
-
-    @Test
-    public void shouldReturnCorrectHLayoutIdWhenAsked() throws Exception {
-        assertEquals(R.layout.fragment_ews_connect_device, subject.getLayoutId());
-    }
-
-    @Test
-    public void shouldHandleBackPressWhenAsked() throws Exception {
-        assertTrue(subject.onBackPressed());
+        }).when(spySubject).createViewModel();
+        spySubject.createViewModel();
     }
 
     @Test
     public void shouldReturnCorrectPageNameForTagging() throws Exception {
-        assertEquals("connectWithPassword", subject.getPageName());
+        assertEquals("confirmWifiNetwork", subject.getPageName());
     }
 
     @Test
     public void shouldCalltrackPageOnResume() throws Exception {
-        subject.onResume();
+        spySubject.onResume();
         verifyStatic(times(1));
-        EWSTagger.trackPage("connectWithPassword");
+        EWSTagger.trackPage("confirmWifiNetwork");
     }
 }

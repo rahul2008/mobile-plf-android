@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentStartConnectWithDeviceBinding;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.viewmodel.StartConnectWithDeviceViewModel;
 
 public class StartConnectWithDeviceFragment extends BaseFragment {
@@ -34,5 +35,10 @@ public class StartConnectWithDeviceFragment extends BaseFragment {
     @NonNull
     private StartConnectWithDeviceViewModel createViewModel() {
         return ((EWSActivity) getActivity()).getEWSComponent().ewsGettingStartedViewModel();
+    }
+
+    @Override
+    protected String getPageName() {
+        return Page.GET_STARTED;
     }
 }

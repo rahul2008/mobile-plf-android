@@ -14,7 +14,6 @@ import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.cdp2.ews.appliance.BEApplianceFactory;
-import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 

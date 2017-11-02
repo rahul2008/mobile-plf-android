@@ -54,7 +54,7 @@ public class EWSWiFiPairedFragment extends EWSBaseFragment<FragmentEwsWifiPaired
     @NonNull
     @Override
     public String getPageName() {
-        return Page.WIFI_PAIRED;
+        return Page.CONNECTION_SUCCESSFUL;
     }
 
     @Override

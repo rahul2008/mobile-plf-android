@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentFirstSetupStepsBinding;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.viewmodel.FirstSetupStepsViewModel;
 
 public class FirstSetupStepsFragment extends BaseFragment {
@@ -36,5 +37,10 @@ public class FirstSetupStepsFragment extends BaseFragment {
     @NonNull
     private FirstSetupStepsViewModel createViewModel() {
         return ((EWSActivity) getActivity()).getEWSComponent().firstSetupStepsViewModel();
+    }
+
+    @Override
+    protected String getPageName() {
+        return Page.SETUP_STEP1;
     }
 }

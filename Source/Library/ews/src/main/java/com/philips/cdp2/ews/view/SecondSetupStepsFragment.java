@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentSecondSetupStepsBinding;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.viewmodel.SecondSetupStepsViewModel;
 
 public class SecondSetupStepsFragment extends BaseFragment {
@@ -54,5 +55,10 @@ public class SecondSetupStepsFragment extends BaseFragment {
             pendingPermissionResultRequest = false;
             viewModel.connectPhoneToDeviceHotspotWifi();
         }
+    }
+
+    @Override
+    protected String getPageName() {
+        return Page.SETUP_STEP2;
     }
 }

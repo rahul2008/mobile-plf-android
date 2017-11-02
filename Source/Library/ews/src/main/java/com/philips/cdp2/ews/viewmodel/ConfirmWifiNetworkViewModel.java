@@ -6,11 +6,8 @@ package com.philips.cdp2.ews.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.databinding.Observable;
-import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.BR;
 import com.philips.cdp2.ews.R;
