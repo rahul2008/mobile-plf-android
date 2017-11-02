@@ -377,8 +377,12 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     private void handlePrivacyPolicy() {
-        getRegistrationFragment().getUserRegistrationUIEventListener().
-                onPrivacyPolicyClick(getRegistrationFragment().getParentActivity());
+        if(getRegistrationFragment().getUserRegistrationUIEventListener()!=null) {
+            getRegistrationFragment().getUserRegistrationUIEventListener().
+                    onPrivacyPolicyClick(getRegistrationFragment().getParentActivity());
+        }else {
+                RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
+            }
     }
 
     private void handleLoginSuccess() {
@@ -837,5 +841,15 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
             usr_StartScreen_privacyNotice_country_LinearLayout.setVisibility(View.GONE);
             usr_StartScreen_privacyNotice_country_LinearLayout2.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void genericError() {
+        hideProgressDialog();
+        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                AppTagingConstants.TECHNICAL_ERROR);
+        RLog.i(RLog.CALLBACK, "HomeFragment error");
+        enableControls(true);
+        updateErrorMessage(mContext.getString(R.string.reg_Generic_Network_Error));
     }
 }

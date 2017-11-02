@@ -193,6 +193,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         if (id == R.id.usr_loginScreen_login_button) {
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : SignIn");
             hideValidations();
+            disableAll();
+
             mBtnSignInAccount.showProgressIndicator();
             signIn();
         } else if (id == R.id.btn_reg_resend) {
@@ -378,10 +380,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         ((RegistrationFragment) getParentFragment()).hideKeyBoard();
         mRegError.hideError();
         mEtEmail.clearFocus();
-        loginValidationEditText.setEnabled(false);
         mEtPassword.clearFocus();
-        passwordValidationEditText.setEnabled(false);
-        resetPasswordLabel.setClickable(false);
         if (mUser != null) {
             showSignInSpinner();
         }
@@ -398,6 +397,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void handleUiState() {
         if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
+            enableAll();
         } else {
             mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             scrollViewAutomatically(mRegError, mSvRootLayout);
@@ -423,10 +423,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         RLog.i(RLog.CALLBACK, "SignInAccountFragment : onLoginFailedWithError");
         hideSignInSpinner();
         mBtnSignInAccount.hideProgressIndicator();
-        loginValidationEditText.setEnabled(true);
-        passwordValidationEditText.setEnabled(true);
-        resetPasswordLabel.setClickable(true);
-
+        enableAll();
         if (userRegistrationFailureInfo.getErrorCode() == -1 || userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE
                 || userRegistrationFailureInfo.getErrorCode() == UN_EXPECTED_ERROR || userRegistrationFailureInfo.getErrorCode() == INPUTS_INVALID_CODE) {
             mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
@@ -500,6 +497,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             return;
         }
         AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
+        enableAll();
     }
 
     private void showSignInSpinner() {
@@ -547,22 +545,16 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         alertDialogFragment.show(getFragmentManager(), "ALERT_DIALOG_TAG");
     }
 
-    private void updateUiStatus() {
-        if (networkUtility.isNetworkAvailable()) {
-            mRegError.hideError();
-        }
-    }
-
     @Override
     public void onUpdate() {
-        updateUiStatus();
+        handleUiState();
     }
 
     @Override
     public void onEventReceived(String event) {
         RLog.i(RLog.EVENT_LISTENERS, "SignInAccountFragment :onCounterEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
-            updateUiStatus();
+            handleUiState();
         }
     }
 
@@ -570,7 +562,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.i(RLog.NETWORK_STATE, "SignInAccountFragment : onNetWorkStateReceived state :" + isOnline);
         handleUiState();
-        updateUiStatus();
+        handleUiState();
         mBtnSignInAccount.setEnabled(isOnline);
     }
     private int mode;
@@ -619,11 +611,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         hideSignInSpinner();
         mRegError.hideError();
         mBtnSignInAccount.hideProgressIndicator();
-        mBtnSignInAccount.setEnabled(true);
-        loginValidationEditText.setEnabled(true);
-        passwordValidationEditText.setEnabled(true);
-        resetPasswordLabel.setClickable(true);
-
+        enableAll();
         boolean isEmailAvailable = mUser.getEmail() != null && FieldsValidator.isValidEmail(mUser.getEmail());
         boolean isMobileNoAvailable = mUser.getMobile() != null && FieldsValidator.isValidMobileNumber(mUser.getMobile());
         if (isEmailAvailable && isMobileNoAvailable && !mUser.isEmailVerified()) {
@@ -649,9 +637,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString())) {
                 AccountActivationFragment fragment = new AccountActivationFragment();
                 getRegistrationFragment().addFragment(fragment);
-            } else {
+
+            } else if (FieldsValidator.isValidMobileNumber(loginValidationEditText.getText().toString())){
                 MobileVerifyCodeFragment fragment = new MobileVerifyCodeFragment();
                 getRegistrationFragment().addFragment(fragment);
+            } else {
+                RLog.i(RLog.CALLBACK, "SignInAccountFragment : invalid value");
+                mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
+                scrollViewAutomatically(mRegError, mSvRootLayout);
             }
         }
     }
@@ -829,5 +822,21 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         } else {
             handleResendSMSRespone(response);
         }
+    }
+
+    private void enableAll() {
+        if(networkUtility.isNetworkAvailable()) {
+            mBtnSignInAccount.setEnabled(true);
+        } else {
+            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+        }
+        loginValidationEditText.setEnabled(true);
+        passwordValidationEditText.setEnabled(true);
+        resetPasswordLabel.setEnabled(true);
+    }
+    private void disableAll(){
+        loginValidationEditText.setEnabled(false);
+        passwordValidationEditText.setEnabled(false);
+        resetPasswordLabel.setEnabled(false);
     }
 }

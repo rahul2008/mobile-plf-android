@@ -321,7 +321,6 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
             mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
         }
         mReturnButton.setEnabled(true);
-        mRegError.setVisibility(View.GONE);
     }
 
     public void addEmailClicked(String emailId) {

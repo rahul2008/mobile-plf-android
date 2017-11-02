@@ -252,7 +252,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
             if (FieldsValidator.isValidMobileNumber(phoneNumberEditText.getText().toString())) {
                 disableResendButton();
                 mobileVerifyResendCodePresenter.updatePhoneNumber(
-                        phoneNumberEditText.getText().toString(), context);
+                        FieldsValidator.getMobileNumber(phoneNumberEditText.getText().toString()), context);
             } else {
                 errorMessage.setError(getActivity().getResources().getString(
                         R.string.reg_InvalidPhoneNumber_ErrorMsg));

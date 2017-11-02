@@ -10,6 +10,7 @@ package com.philips.cdp.registration.ui.traditional;
 
 import android.content.*;
 import android.content.res.*;
+import android.content.res.Configuration;
 import android.os.*;
 import android.support.v4.app.*;
 import android.view.*;
@@ -19,10 +20,12 @@ import android.widget.*;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
+import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.dao.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.utils.*;
+import com.philips.platform.uid.utils.*;
 import com.philips.platform.uid.view.widget.*;
 
 import javax.inject.*;
@@ -62,6 +65,9 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @BindView(R2.id.usr_forgotpassword_baseLayout_LinearLayout)
     LinearLayout usrForgotPasswordBaseLayout;
+
+    //Temp name:
+    boolean isRequestSent;
 
     private final int SOCIAL_SIGIN_IN_ONLY_CODE = 540;
 
@@ -199,6 +205,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     @OnClick(R2.id.usr_forgotpassword_sendRequest_button)
     public void sendRequestButton() {
         RLog.d(RLog.ONCLICK, "SignInAccountFragment : Forgot Password");
+        showForgotPasswordSpinner();
         getRegistrationFragment().hideKeyBoard();
         resetPassword();
     }
@@ -207,7 +214,6 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         if (networkUtility.isNetworkAvailable()) {
             if (user != null) {
                 userIdEditText.clearFocus();
-                showForgotPasswordSpinner();
                 if (FieldsValidator.isValidEmail(userIdEditText.getText().toString())) {
                     forgotPasswordPresenter.forgotPasswordRequest(userIdEditText.getText().toString(),
                             user);
@@ -218,16 +224,19 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
             }
 
         } else {
+            hideForgotPasswordSpinner();
             mRegError.setError(getString(R.string.reg_NoNetworkConnection));
         }
     }
 
     private void showForgotPasswordSpinner() {
+        isRequestSent = true;
         sendEmailOrSMSButton.showProgressIndicator();
     }
 
     @Override
     public void hideForgotPasswordSpinner() {
+        isRequestSent = false;
         sendEmailOrSMSButton.hideProgressIndicator();
     }
 
@@ -236,14 +245,41 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         RLog.i(RLog.CALLBACK, "ResetPasswordFragment : onSendForgotPasswordSuccess");
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                 AppTagingConstants.RESET_PASSWORD_SUCCESS);
+        showLogoutAlert();
         hideForgotPasswordSpinner();
-        showDialog(context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Title),
-                context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Message_Line1),
-                context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Message_Line2),
-                context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Button_Title),
-                getRegistrationFragment().getParentActivity(), mContinueBtnClick);
-        hideForgotPasswordSpinner();
+//        showDialog(context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Title),
+//                context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Message_Line1),
+//                context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Message_Line2),
+//                context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Button_Title),
+//                getRegistrationFragment().getParentActivity(), mContinueBtnClick);
+
         mRegError.hideError();
+    }
+
+    private AlertDialogFragment alertDialogFragment;
+
+    void showLogoutAlert() {
+        try {
+            if (alertDialogFragment == null && isRequestSent == true) {
+                final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
+                        .setDialogType(DialogConstants.TYPE_DIALOG)
+                        .setDialogLayout(R.layout.reg_forgot_password_alert)
+                        .setPositiveButton(getString(R.string.reg_DLS_Forgot_Password_Alert_Button_Title), v -> {
+                            trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
+                            alertDialogFragment.dismiss();
+                            alertDialogFragment=null;
+                            getFragmentManager().popBackStack();
+                        })
+                        .setDimLayer(DialogConstants.DIM_STRONG)
+                        .setCancelable(false);
+                builder.setTitle(getString(R.string.reg_DLS_Forgot_Password_Alert_Title));
+                alertDialogFragment = builder.create();
+                alertDialogFragment.show(getFragmentManager(), null);
+            }
+        } catch (Exception e) {
+            RLog.e(RLog.CALLBACK, e.getMessage());
+        }
+
     }
 
     @Override
@@ -318,5 +354,9 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     public void forgotPasswordErrorMessage(String errorMsg) {
         usr_forgotpassword_inputId_inputValidation.setErrorMessage(errorMsg);
         usr_forgotpassword_inputId_inputValidation.showError();
+    }
+
+    public void backPressed() {
+        hideForgotPasswordSpinner();
     }
 }

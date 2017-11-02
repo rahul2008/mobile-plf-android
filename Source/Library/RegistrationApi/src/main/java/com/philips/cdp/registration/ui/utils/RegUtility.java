@@ -298,4 +298,12 @@ public class RegUtility {
         return result;
     }
 
+    public static void showErrorMessage(Activity parentActivity) {
+        parentActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(parentActivity,parentActivity.getResources().getString(R.string.reg_Generic_Network_Error),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

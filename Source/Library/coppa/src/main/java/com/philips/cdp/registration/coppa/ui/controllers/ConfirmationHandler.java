@@ -28,6 +28,7 @@ import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 
 /**
  * ConfirmationHandler class handle coppa 2nd constent .
@@ -72,6 +73,8 @@ public class ConfirmationHandler implements RefreshUserHandler {
                                                     getUserRegistrationUIEventListener().
                                                     onUserRegistrationComplete(
                                                             mParentalConsentFragment.getActivity());
+                                        }else {
+                                            RegUtility.showErrorMessage(mParentalConsentFragment.getActivity());
                                         }
                                         AppTagging.trackAction(mTaggingState, mTaggingKey, "Yes");
                                         mParentalConsentFragment.hideRefreshProgress();
