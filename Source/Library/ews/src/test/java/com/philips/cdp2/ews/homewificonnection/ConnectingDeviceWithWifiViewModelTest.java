@@ -36,6 +36,7 @@ import java.util.Map;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -225,7 +226,6 @@ public class ConnectingDeviceWithWifiViewModelTest {
     public void itShouldUnregisterBroadcastReceiverWhenConnectedBackToWrongWifiNetwork() throws
             Exception {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.WRONG_WIFI);
-
         verify(mockFragmentCallback).unregisterReceiver(any(BroadcastReceiver.class));
     }
 
@@ -243,7 +243,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.WRONG_WIFI);
 
         verify(mockNavigator)
-                .navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(),anyString());
+                .navigateToWrongWifiNetworkScreen(any(Bundle.class));
     }
 
     @Test

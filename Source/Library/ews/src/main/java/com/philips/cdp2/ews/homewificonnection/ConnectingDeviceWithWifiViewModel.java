@@ -114,7 +114,6 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
                     } else if (currentWifiState != WiFiUtil.UNKNOWN_WIFI) {
                         unregisterBroadcastReceiver();
                         handleFailureWrongWifiNetwork();
-                        clear();
                     }
                 }
             }
@@ -192,6 +191,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     }
 
     private void handleFailureWrongWifiNetwork() {
+        removeTimeoutRunnable();
         if (fragmentCallback != null) {
             //04_00_a
             navigator.navigateToWrongWifiNetworkScreen(fragmentCallback.getBundle());
