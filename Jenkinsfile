@@ -10,7 +10,7 @@ properties([
 ])
 
 def errors = []
-def gradle = 'cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV}'
+//def gradle = 'cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV}'
 
 node('Android') {
     timestamps {
@@ -52,11 +52,10 @@ node('Android') {
             stage('Build Debug') {
                    sh """#!/bin/bash -l
                                 chmod -R 755 . 
-                                cd ./Source/Library \
-                                sh "$gradle assembleDebug lint"
+                                cd ./Source/Library
+                                ./gradlew -PenvCode=${JENKINS_ENV} clean assembleDebug lint
                             """
                             //                               ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_NUMBER} clean assembleDebug lint
-
             }
 
             stage('Build Release') {
@@ -66,7 +65,6 @@ node('Android') {
                                 sh "$gradle assembleRelease lint"
                             """
                             //                                ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_NUMBER} assembleRelease 
-
             }
                 
             stage('Archive results') {
