@@ -11,8 +11,8 @@
     <string name="conditions">Step 4 of 5: Medical conditions</string>
     <string name="ths_vitals_follow_up_step_5">Step 5 of 5: Follow up</string>
     <string name="ths_invalid_phone_number">Please enter 10 digits phone number</string>
-    <string name="ths_vitals_follow_up_step_5_description_text">Where can the provider
-        call you, for a follow up, if needed?</string>
+    <string name="ths_vitals_follow_up_step_5_description_text">Please provide a phone number for any follow up calls regarding this visit.</string>
+    <string name="ths_vitals_follow_up_please_note">Please note that this phone number will also be used in case the connection with the provider gets lost.</string>
     <string name="ths_vitals_notice_privacy_policy_check_box_text">I have read and agree to the</string>
     <string name="ths_vitals_phone_number_text"> Phone number</string>
     <string name="help_visit">Please help us make your visit more efficient by sharing some details with us before your visit</string>

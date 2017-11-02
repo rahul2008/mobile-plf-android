@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ths_medication_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,7 +9,7 @@
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/ths_intake_medication_skip_step_label"
-        style="@style/UIDExtraWideQuietButton"
+        app:uidComponentType="Secondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -21,8 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/ths_intake_medication_skip_step_label"
-        android:layout_marginBottom="@dimen/ths_margin_between_buttons"
         android:layout_marginLeft="@dimen/ths_fab_margin"
+        android:layout_marginBottom="@dimen/ths_list_space"
         android:layout_marginRight="@dimen/ths_fab_margin"
         android:enabled="true"
         android:text="@string/ths_continue_button_text" />

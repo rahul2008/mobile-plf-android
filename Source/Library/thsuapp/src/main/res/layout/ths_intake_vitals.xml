@@ -12,7 +12,7 @@
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/vitals_skip"
-        style="@style/UIDExtraWideQuietButton"
+        app:uidComponentType="Secondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -25,8 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/vitals_skip"
-        android:layout_marginBottom="@dimen/ths_margin_between_buttons"
         android:layout_marginStart="@dimen/ths_fab_margin"
+        android:layout_marginBottom="@dimen/ths_list_space"
         android:layout_marginEnd="@dimen/ths_fab_margin"
         android:enabled="true"
         android:text="@string/ths_continue_button_text"
