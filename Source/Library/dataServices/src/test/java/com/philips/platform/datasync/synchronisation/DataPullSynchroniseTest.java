@@ -150,14 +150,14 @@ public class DataPullSynchroniseTest {
     }
 
     @Test
-    public void startSynchroniseWhenFetchersAreAvailable() {
+    public void startSynchroniseWithDateRangeWhenFetchersAreAvailable() {
         givenUserIsLoggedIn();
         whenStartSynchroniseWithDateRangeIsInvoked();
-        thenDataSyncIsCompleted();
+        thenDataPullIsCompleted();
     }
 
     @Test
-    public void startSynchroniseWhenFetchersAreNotAvailable() {
+    public void startSynchroniseWithDateRangeWhenFetchersAreNotAvailable() {
         givenUserIsLoggedIn();
         givenNoConfigurableFetcherList();
         givenNoFetchers();

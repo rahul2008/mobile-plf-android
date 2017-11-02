@@ -354,6 +354,6 @@ class MomentPresenter {
     }
 
     public void fetchSyncByDateRange(DateTime startDate, DateTime endDate, SynchronisationCompleteListener syncCompleteListener) {
-        mDataServices.fetchSync(startDate, endDate, syncCompleteListener);
+        mDataServices.synchronizeWithFetchByDateRange(startDate, endDate, syncCompleteListener);
     }
 }

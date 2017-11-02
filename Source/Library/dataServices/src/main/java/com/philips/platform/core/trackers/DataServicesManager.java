@@ -250,11 +250,11 @@ public class DataServicesManager {
      * For Pulling and Pushing of data from DataBase to Backend
      */
     public void synchronize() {
-//        sendPullDataEvent();
+        sendPullDataEvent();
     }
 
 
-    public void fetchSync(DateTime startDate, DateTime endDate, SynchronisationCompleteListener synchronisationCompleteListener) {
+    public void synchronizeWithFetchByDateRange(DateTime startDate, DateTime endDate, SynchronisationCompleteListener synchronisationCompleteListener) {
         synchronized (this) {
             startMonitors();
             mSynchronisationManager.startFetch(startDate.toString(), endDate.toString(), synchronisationCompleteListener);

@@ -609,7 +609,7 @@ public class DataServicesManagerTest {
     }
 
     private void whenPullSyncIsInvoked() {
-        tracker.fetchSync(START_DATE, END_DATE, synchronisationCompleteListenerMock);
+        tracker.synchronizeWithFetchByDateRange(START_DATE, END_DATE, synchronisationCompleteListenerMock);
     }
 
     private void thenVerifyMonitorsAreInitialized() {

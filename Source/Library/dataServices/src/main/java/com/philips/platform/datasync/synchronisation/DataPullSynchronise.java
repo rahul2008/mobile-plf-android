@@ -144,7 +144,6 @@ public class DataPullSynchronise {
                     }catch (RetrofitError error){
                         synchronisationManager.dataPushFail(error);
                     }
-
                     countDownLatch.countDown();
                 }
             });
@@ -156,7 +155,7 @@ public class DataPullSynchronise {
             //Debug log
         }
 
-        synchronisationManager.dataSyncComplete();
+        synchronisationManager.dataPullSuccess();
     }
 
     private void updateResult(final RetrofitError resultError) {
