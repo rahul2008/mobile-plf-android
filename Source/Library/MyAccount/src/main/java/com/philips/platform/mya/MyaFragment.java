@@ -102,7 +102,7 @@ public class MyaFragment extends Fragment implements
         try {
             if (null != mFragmentManager) {
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.csw_frame_layout_view_container, buildAccountView());
+                fragmentTransaction.replace(R.id.mya_frame_layout_view_container, buildAccountView());
                 fragmentTransaction.commitAllowingStateLoss();
             }
         } catch (IllegalStateException ignore) {
