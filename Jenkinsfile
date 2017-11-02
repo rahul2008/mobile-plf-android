@@ -50,8 +50,9 @@ node('Android') {
             stage('Build Debug') {
                    sh """#!/bin/bash -l
                                 chmod -R 755 . 
-                                cd ./Source/Library 
-                                ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_NUMBER} clean assembleDebug lint
+                                cd ./Source/Library \
+                                sh "$gradle assembleDebug lint"
+//                                ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_NUMBER} clean assembleDebug lint
                             """
             }
 
@@ -59,7 +60,8 @@ node('Android') {
                     sh """#!/bin/bash -l
                                 chmod -R 755 . 
                                 cd ./Source/Library
-                                ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_NUMBER} assembleRelease 
+                                sh "$gradle assembleRelease lint"
+//                                ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_NUMBER} assembleRelease 
                             """
             }
                 

@@ -15,8 +15,6 @@ objcdp.setEnv(platform: 'android', env: environment)
 version = objcdp.getVersion(versions.mya_myAccount)
 
 buildscript {
-    apply from: "../../../ci-build-support/gradle/versions.gradle"
-
     repositories {
         jcenter()
     }
@@ -43,6 +41,9 @@ android {
 
     dataBinding {
         enabled = true
+    }
+    lintOptions {
+        abortOnError false
     }
 
     testOptions {
