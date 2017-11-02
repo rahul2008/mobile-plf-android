@@ -91,29 +91,27 @@ public class UCoreAccessProvider implements BackendIdProvider {
         }
     }
 
-   public void saveLastSyncTimeStampByDateRange(String syncUrl) {
+    public Map<String, String> getLastSyncTimeStampByDateRange(String syncUrl) {
+        Map<String, String> timeStampMap = new HashMap<>();
         if (syncUrl != null && !syncUrl.isEmpty()) {
-            SharedPreferences.Editor edit = sharedPreferences.edit();
             int indexOf = syncUrl.indexOf('?');
             syncUrl = syncUrl.substring(indexOf + 1);
-
             String[] timestamp = syncUrl.split("&");
-            edit.putString(START_DATE, timestamp[0].split("=")[1]);
-            edit.putString(END_DATE, timestamp[1].split("=")[1]);
-            edit.putString(LAST_MODIFIED_START_DATE, timestamp[2].split("=")[1]);
-            edit.putString(LAST_MODIFIED_END_DATE, timestamp[3].split("=")[1]);
-
-//            edit = edit.putBoolean("isSynced", true);
-            edit.apply();
+            timeStampMap.put(START_DATE, timestamp[0].split("=")[1]);
+            timeStampMap.put(END_DATE, timestamp[1].split("=")[1]);
+            timeStampMap.put(LAST_MODIFIED_START_DATE, timestamp[2].split("=")[1]);
+            timeStampMap.put(LAST_MODIFIED_END_DATE, timestamp[3].split("=")[1]);
         }
+        return timeStampMap;
     }
 
     public Map<String, String> getLastSyncTimeStampByDateRange(String startDate, String endDate) {
-        Map<String, String> timeStampList = new HashMap<>();
-        timeStampList.put(START_DATE, sharedPreferences.getString(START_DATE, startDate));
-        timeStampList.put(END_DATE, sharedPreferences.getString(END_DATE, endDate));
-        timeStampList.put(LAST_MODIFIED_START_DATE, sharedPreferences.getString(LAST_MODIFIED_START_DATE, startDate));
-        timeStampList.put(LAST_MODIFIED_END_DATE, sharedPreferences.getString(LAST_MODIFIED_END_DATE, endDate));
-        return timeStampList;
+        Map<String, String> timeStampMap = new HashMap<>();
+        timeStampMap.put(START_DATE, startDate);
+        timeStampMap.put(END_DATE, endDate);
+        timeStampMap.put(LAST_MODIFIED_START_DATE, startDate);
+        timeStampMap.put(LAST_MODIFIED_END_DATE, endDate);
+        return timeStampMap;
     }
+
 }

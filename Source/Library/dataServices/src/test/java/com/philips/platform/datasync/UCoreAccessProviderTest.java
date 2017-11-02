@@ -12,7 +12,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
@@ -29,6 +32,10 @@ public class UCoreAccessProviderTest {
     public static final String INSIGHT_LAST_SYNC_URL_KEY = "INSIGHT_LAST_SYNC_URL_KEY";
     public static final String INSIGHT_FOR_USER_LAST_SYNC_URL_KEY = "INSIGHT_FOR_USER_LAST_SYNC_URL_KEY";
 
+    private static final String SYNC_URL = "/api/users/0c821202-835d-423a-b3bd-3893a030037d/moments/_query?timestampStart=2015-01-01T00:00:00.000Z&timestampEnd=2015-01-01T00:00:00.000Z&lastModifiedStart=2015-01-01T00:00:00.000Z&lastModifiedEnd=2015-01-01T00:00:00.000Z&limit=100";
+    private static final String START_DATE = "2015-01-01T00:00:00.000Z";
+    private static final String END_DATE = "2015-01-01T00:00:00.000Z";
+
     @Mock
     private UserRegistrationInterface userRegistrationFacadeMock;
 
@@ -42,8 +49,12 @@ public class UCoreAccessProviderTest {
     private SharedPreferences.Editor editorMock;
 
     private UCoreAccessProvider uCoreAccessProvider;
+
     @Mock
     private AppComponent appComponantMock;
+
+    Map<String, String> timeStampMap;
+
 
     @Before
     public void setUp() {
@@ -52,6 +63,34 @@ public class UCoreAccessProviderTest {
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
         uCoreAccessProvider = new UCoreAccessProvider(userRegistrationFacadeMock);
         uCoreAccessProvider.sharedPreferences = sharedPreferencesMock;
+    }
+
+    @Test
+    public void saveLastSyncTimeStampByDateRange_withSyncUrl() {
+        whenUpdateAndGetLastSyncTimeStamp_withSyncUrl();
+        thenAssertTimeStampMap();
+    }
+
+    @Test
+    public void saveLastSyncTimeStampByDateRange_withDateRange() {
+        whenUpdateAndGetLastSyncTimeStamp_withDateRange();
+        thenAssertTimeStampMap();
+    }
+
+    private void whenUpdateAndGetLastSyncTimeStamp_withSyncUrl() {
+        timeStampMap = uCoreAccessProvider.getLastSyncTimeStampByDateRange(SYNC_URL);
+    }
+
+
+    private void whenUpdateAndGetLastSyncTimeStamp_withDateRange() {
+        timeStampMap = uCoreAccessProvider.getLastSyncTimeStampByDateRange(START_DATE, END_DATE);
+    }
+
+    private void thenAssertTimeStampMap() {
+        assertEquals(START_DATE, timeStampMap.get("START_DATE"));
+        assertEquals(END_DATE, timeStampMap.get("END_DATE"));
+        assertEquals(START_DATE, timeStampMap.get("LAST_MODIFIED_START_DATE"));
+        assertEquals(END_DATE, timeStampMap.get("LAST_MODIFIED_END_DATE"));
     }
 
     @Test
@@ -135,7 +174,7 @@ public class UCoreAccessProviderTest {
 
     @Test
     public void ShouldReturnValue_WhenGetMomentLastSyncTimestampIsCalled() {
-       // uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
+        // uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
         when(sharedPreferencesMock.getString(eq(UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY), anyString())).thenReturn(MOMENT_LAST_SYNC_URL_KEY);
 
         String babyId = uCoreAccessProvider.getMomentLastSyncTimestamp();
@@ -145,7 +184,7 @@ public class UCoreAccessProviderTest {
 
     @Test
     public void ShouldReturnValue_WhenGetInsightLastSyncTimestampIsCalled() {
-      //  uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
+        //  uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
         when(sharedPreferencesMock.getString(eq(UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY), anyString())).thenReturn(INSIGHT_LAST_SYNC_URL_KEY);
 
         String babyId = uCoreAccessProvider.getInsightLastSyncTimestamp();
@@ -155,7 +194,7 @@ public class UCoreAccessProviderTest {
 
     @Test
     public void ShouldReturnValue_WhenGetInsightLastSyncTimestampForUserIsCalled() {
-     //   uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
+        //   uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
         when(sharedPreferencesMock.getString(eq(UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY), anyString())).thenReturn(INSIGHT_FOR_USER_LAST_SYNC_URL_KEY);
 
         String babyId = uCoreAccessProvider.getInsightLastSyncTimestamp();
@@ -165,7 +204,7 @@ public class UCoreAccessProviderTest {
 
     @Test(expected = NullPointerException.class)
     public void ShouldSaveBabyId_WhenActiveBabyIdEventReceived() {
-      //  uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
+        //  uCoreAccessProvider.injectSaredPrefs(sharedPreferencesMock);
         when(sharedPreferencesMock.edit()).thenReturn(editorMock);
         when(editorMock.putString(anyString(), anyString())).thenReturn(editorMock);
 
@@ -176,7 +215,7 @@ public class UCoreAccessProviderTest {
             }
         };
 
-        uCoreAccessProvider.saveLastSyncTimeStamp(MOMENT_LAST_SYNC_URL_KEY,MOMENT_LAST_SYNC_URL_KEY);
+        uCoreAccessProvider.saveLastSyncTimeStamp(MOMENT_LAST_SYNC_URL_KEY, MOMENT_LAST_SYNC_URL_KEY);
 
         verify(editorMock).putString(MOMENT_LAST_SYNC_URL_KEY, MOMENT_LAST_SYNC_URL_KEY);
         verify(editorMock).commit();
