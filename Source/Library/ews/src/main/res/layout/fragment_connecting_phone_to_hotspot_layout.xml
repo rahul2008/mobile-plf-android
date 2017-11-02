@@ -27,8 +27,7 @@
                 style="@style/Txt.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/label_ews_establishing_connection_title"
-                android:textAlignment="center" />
+                android:text="@string/label_ews_establishing_connection_title" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/connecting_dialog_body"
@@ -36,8 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_body_labels_margin"
-                android:text="@string/label_ews_establishing_connection_body"
-                android:textAlignment="center" />
+                android:text="@string/label_ews_establishing_connection_body" />
 
             <Space
                 android:layout_width="match_parent"
@@ -46,10 +44,10 @@
 
             <com.philips.platform.uid.view.widget.ProgressBar
                 android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/e" />
+                style="@style/UIDProgressBarCircularIndeterminateBig"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
+                android:layout_gravity="center" />
 
             <Space
                 android:layout_width="match_parent"
@@ -60,7 +58,6 @@
                 android:id="@+id/cancel_button_hotspot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_main_button_top_margin"
                 android:onClick="@{() -> viewModel.handleCancelButtonClicked()}"
                 android:text="@string/button_cancel"
                 app:uidComponentType="Primary" />
