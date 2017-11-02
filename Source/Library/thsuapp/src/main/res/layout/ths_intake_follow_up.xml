@@ -55,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pth_intake_follow_up_phone_number_label"
-        android:hint="Phone Number"/>
+        android:hint="@string/ths_vitals_phone_number_text"/>
 
     <View
         android:id="@+id/end_layer"
