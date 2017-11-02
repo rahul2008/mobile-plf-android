@@ -22,6 +22,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -44,6 +45,7 @@ import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SEARCH_TARGET_DICOMM;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDP_HOST;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDP_PORT;
 import static java.lang.Thread.currentThread;
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 
 /**
@@ -64,6 +66,8 @@ public class SSDPControlPoint implements SSDPDiscovery {
 
     private ScheduledExecutorService discoveryExecutor = newSingleThreadScheduledExecutor();
     private ScheduledFuture discoveryTaskFuture;
+
+    private ExecutorService callbackExecutor = newSingleThreadExecutor();
 
     private Set<DeviceListener> deviceListeners = new CopyOnWriteArraySet<>();
     private Set<SSDPDevice> discoveredDevices = new CopyOnWriteArraySet<>();
@@ -130,7 +134,12 @@ public class SSDPControlPoint implements SSDPDiscovery {
                     final SSDPMessage message = new SSDPMessage(payloadString);
                     DICommLog.d(SSDP, message.toString());
 
-                    handleMessage(message);
+                    callbackExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            handleMessage(message);
+                        }
+                    });
                 }
             }
         }
