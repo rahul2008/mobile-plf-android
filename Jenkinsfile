@@ -50,7 +50,7 @@ node('Android') {
             stage('Build Debug') {
                    sh """#!/bin/bash -l
                                 chmod -R 755 . 
-                                cd ./Source/Library \
+                                cd ./Source/Library
                                 ./gradlew --refresh-dependencies clean assembleDebug lint
                             """
             }
