@@ -33,6 +33,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     private THSFollowUpPresenter mTHSFollowUpPresenter;
     private ActionBarListener actionBarListener;
     private Label nopp_label;
+    private Label mLabelPatientName;
 
     @Nullable
     @Override
@@ -61,6 +62,10 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         });
         nopp_label = (Label) view.findViewById(R.id.pth_intake_follow_up_i_agree_link_text);
         nopp_label.setOnClickListener(this);
+
+        mLabelPatientName = (Label) view.findViewById(R.id.ths_follow_up_patient_name);
+        String name = getString(R.string.ths_dependent_name, THSManager.getInstance().getThsConsumer(getContext()).getFirstName());
+        mLabelPatientName.setText(name);
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_FOLLOW_UP_PAGE,null,null);
         return view;
     }

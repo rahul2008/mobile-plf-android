@@ -22,6 +22,7 @@ import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
+import com.philips.platform.uid.view.widget.Label;
 
 import static com.philips.platform.ths.R.id.systolic;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPDATE_VITALS;
@@ -38,6 +39,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     protected EditText mWeight;
     protected Button mContinue;
     private THSVitals mTHSVitals;
+    private Label mLabelPatientName;
     String tagActions = "";
     InputValidationLayout mSystolicInputValidationLayout, mDiastolicInputValidationLayout, mFarenheitInputLayoutContainer, mWeightInputLayoutContainer;
 
@@ -60,6 +62,10 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         mContinue.setOnClickListener(this);
         Button mSkipLabel = (Button) view.findViewById(R.id.vitals_skip);
         mSkipLabel.setOnClickListener(this);
+
+        mLabelPatientName = (Label) view.findViewById(R.id.ths_vitals_patient_name);
+        String name = getString(R.string.ths_dependent_name, THSManager.getInstance().getThsConsumer(getContext()).getFirstName());
+        mLabelPatientName.setText(name);
 
         mSystolicInputValidationLayout = (InputValidationLayout) view.findViewById(R.id.intake_systolic_container);
         mSystolicInputValidationLayout.setValidator(new THSVitalsSystolicValidator());

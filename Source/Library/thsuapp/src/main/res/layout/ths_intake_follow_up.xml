@@ -12,15 +12,27 @@
         style="@style/ths_mobile_wizard"
         android:text="@string/ths_vitals_follow_up_step_5" />
 
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_follow_up_patient_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ths_image_size"
+        android:layout_marginBottom="@dimen/ths_margin_between_buttons"
+        android:layout_marginLeft="@dimen/ths_fab_margin"
+        android:layout_marginRight="@dimen/ths_fab_margin"
+        android:layout_below="@id/pth_intake_follow_up_label"
+        android:textSize="@dimen/ths_small_body_text"
+        style="@style/UIDLabel.Header"
+        />
+
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_intake_follow_up_question"
         style="@style/ths_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/ths_fab_margin"
         android:textSize="@dimen/ths_body_text"
-        android:layout_below="@+id/pth_intake_follow_up_label"
+        android:layout_below="@+id/ths_follow_up_patient_name"
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
         android:text="@string/ths_vitals_follow_up_step_5_description_text" />
