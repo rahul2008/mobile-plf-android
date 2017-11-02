@@ -65,6 +65,8 @@ public class SSDPControlPoint implements SSDPDiscovery {
     private ScheduledExecutorService discoveryExecutor = newSingleThreadScheduledExecutor();
     private ScheduledFuture discoveryTaskFuture;
 
+    private ScheduledExecutorService callbackExecutor = newSingleThreadScheduledExecutor();
+
     private Set<DeviceListener> deviceListeners = new CopyOnWriteArraySet<>();
     private Set<SSDPDevice> discoveredDevices = new CopyOnWriteArraySet<>();
 
@@ -130,7 +132,12 @@ public class SSDPControlPoint implements SSDPDiscovery {
                     final SSDPMessage message = new SSDPMessage(payloadString);
                     DICommLog.d(SSDP, message.toString());
 
-                    handleMessage(message);
+                    callbackExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            handleMessage(message);
+                        }
+                    });
                 }
             }
         }
