@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
-import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPortProperties;
+import com.philips.platform.appframework.connectivitypowersleep.datamodels.Session;
 
 import java.util.List;
 
@@ -21,6 +21,12 @@ public interface ConnectivityPowerSleepContract {
 
         void showError(Error error, String s);
 
+        void showProgressDialog();
+
+        void hideProgressDialog();
+
+        void showToast(String message);
+
     }
 
     interface UserActionsListener {
@@ -29,6 +35,10 @@ public interface ConnectivityPowerSleepContract {
 
         void removeSessionPortListener(BleReferenceAppliance appliance);
 
-        void savePowerSleepMomentsData(List<SessionDataPortProperties> sessionDataPortPropertiesList);
+        void savePowerSleepMomentsData(List<Session> sessionList);
+
+        void synchroniseSessionData(BleReferenceAppliance bleReferenceAppliance);
+
     }
+
 }
