@@ -126,6 +126,8 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <!-- Practice screen strings -->
     <string name="ths_practice_screen_title">Start</string>
+    <string name="ths_choose_area_of_medicine_title">Choose an area of medicine</string>
+    <string name="ths_choose_area_of_medicine_content">Select an area of medicine that is relevant to the reason of the visit. For example, if you have problems with breastfeeding,please choose lactation specialist</string>
     <!-- Registration constants-->
     <string name="ths_detail">Details</string>
     <string name="ths_location">Location</string>

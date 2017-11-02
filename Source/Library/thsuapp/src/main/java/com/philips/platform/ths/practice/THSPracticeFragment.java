@@ -32,7 +32,6 @@ public class THSPracticeFragment extends THSBaseFragment implements THSPracticeL
     public static final String TAG = THSPracticeFragment.class.getSimpleName();
 
     private THSPracticePresenter mPresenter;
-    private Label mTitle;
     private RecyclerView mPracticeRecyclerView;
     private THSPracticeRecyclerViewAdapter thsPracticeRecyclerViewAdapter;
     private ActionBarListener actionBarListener;
@@ -44,11 +43,9 @@ public class THSPracticeFragment extends THSBaseFragment implements THSPracticeL
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.ths_practice, container, false);
-        mTitle = (Label) view.findViewById(R.id.ths_id_practice_label);
         mPracticeRecyclerView = (RecyclerView)view.findViewById(R.id.ths_recycler_view_practice);
         mRealtiveLayoutPracticeContainer = (RelativeLayout)view.findViewById(R.id.activity_main);
         mPresenter = new THSPracticePresenter(this);
-        mTitle.setText(getFragmentActivity().getResources().getString(R.string.ths_practice_pick_subject));
         mPracticeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if(null!=(mPresenter)) {
             createCustomProgressBar(mRealtiveLayoutPracticeContainer,BIG);
