@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.databinding.FragmentConnectingPhoneToHotspotLayoutBinding;
-import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel.ConnectingPhoneToHotSpotCallback;
+import com.philips.cdp2.ews.databinding.FragmentConnectingWithDeviceBinding;
+import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel.ConnectingPhoneToHotSpotCallback;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
@@ -22,12 +22,13 @@ import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 
-public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implements
+public class ConnectingWithDeviceFragment extends BaseFragment implements
         ConnectingPhoneToHotSpotCallback {
 
     private static final int REQUEST_CODE = 100;
-    private static final String TAG = "ConnectingPhoneToHotspotWifiFragment";
-    @Nullable private ConnectingPhoneToHotspotWifiViewModel viewModel;
+    private static final String TAG = "ConnectingWithDeviceFragment";
+    @Nullable
+    private ConnectingWithDeviceViewModel viewModel;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implement
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        FragmentConnectingPhoneToHotspotLayoutBinding viewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_connecting_phone_to_hotspot_layout,
+        FragmentConnectingWithDeviceBinding viewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_connecting_with_device,
                 container, false);
         viewModel = createViewModel();
         viewModel.setFragmentCallback(this);
@@ -115,11 +116,10 @@ public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implement
 
     @Override
     public boolean handleBackEvent() {
-        // Do nothing, back disabled in this screen
         return true;
     }
 
-    private ConnectingPhoneToHotspotWifiViewModel createViewModel() {
-        return ((EWSActivity) getActivity()).getEWSComponent().connectingPhoneToHotspotWifiViewModel();
+    private ConnectingWithDeviceViewModel createViewModel() {
+        return ((EWSActivity) getActivity()).getEWSComponent().connectingWithDeviceViewModel();
     }
 }

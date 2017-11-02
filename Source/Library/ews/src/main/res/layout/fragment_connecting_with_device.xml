@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel" />
+            type="com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel" />
     </data>
 
     <android.support.v4.widget.NestedScrollView

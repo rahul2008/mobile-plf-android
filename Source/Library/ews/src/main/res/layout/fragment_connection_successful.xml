@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.philips.cdp2.ews.viewmodel.EWSWiFIPairedViewModel" />
+            type="com.philips.cdp2.ews.viewmodel.ConnectionSuccessfulViewModel" />
 
     </data>
 

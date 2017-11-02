@@ -7,7 +7,7 @@ package com.philips.cdp2.ews.injections;
 
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiViewModel;
-import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel;
+import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel;
 import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordViewModel;
 import com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingViewModel;
 import com.philips.cdp2.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingViewModel;
@@ -16,10 +16,10 @@ import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPoin
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WIFIConnectionUnsuccessfulViewModel;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkViewModel;
 import com.philips.cdp2.ews.view.EWSActivity;
-import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
 import com.philips.cdp2.ews.view.dialog.TroubleshootDeviceAPModeFragment;
 import com.philips.cdp2.ews.viewmodel.BaseTroubleShootingViewModel;
 import com.philips.cdp2.ews.viewmodel.ConfirmWifiNetworkViewModel;
+import com.philips.cdp2.ews.viewmodel.ConnectionSuccessfulViewModel;
 import com.philips.cdp2.ews.viewmodel.FirstSetupStepsViewModel;
 import com.philips.cdp2.ews.viewmodel.SecondSetupStepsViewModel;
 import com.philips.cdp2.ews.viewmodel.StartConnectWithDeviceViewModel;
@@ -33,8 +33,6 @@ import dagger.Component;
 public interface EWSComponent {
 
     void inject(EWSActivity ewsActivity);
-
-    void inject(EWSWiFiPairedFragment ewsWiFiPairedFragment);
 
     void inject(TroubleshootDeviceAPModeFragment troubleshootDeviceAPModeFragment);
 
@@ -50,7 +48,7 @@ public interface EWSComponent {
 
     BaseTroubleShootingViewModel baseTroubleShootingViewModel();
 
-    ConnectingPhoneToHotspotWifiViewModel connectingPhoneToHotspotWifiViewModel();
+    ConnectingWithDeviceViewModel connectingWithDeviceViewModel();
 
     ConnectingDeviceWithWifiViewModel connectingDeviceWithWifiViewModel();
 
@@ -67,4 +65,6 @@ public interface EWSComponent {
     SecondSetupStepsViewModel secondSetupStepsViewModel();
 
     ConnectWithPasswordViewModel connectWithPasswordViewModel();
+
+    ConnectionSuccessfulViewModel connectionSuccessfulViewModel();
 }
