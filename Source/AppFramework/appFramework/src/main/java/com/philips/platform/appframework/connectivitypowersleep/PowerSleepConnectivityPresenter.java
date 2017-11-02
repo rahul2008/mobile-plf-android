@@ -85,40 +85,40 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
     @Override
     public void synchroniseSessionData(final BleReferenceAppliance bleReferenceAppliance) {
         connectivityViewListener.showProgressDialog();
-        DataServicesManager.getInstance().fetchLatestMomentByType(MomentType.SLEEP_SESSION, new DBFetchRequestListner<Moment>() {
+//        DataServicesManager.getInstance().fetchLatestMomentByType(MomentType.SLEEP_SESSION, new DBFetchRequestListner<Moment>() {
+//            @Override
+//            public void onFetchSuccess(final List<? extends Moment> list) {
+//
+//            }
+//
+//            @Override
+//            public void onFetchFailure(final Exception e) {
+//
+//            }
+//        });
+        DateTime latestSessionDateTime = new DateTime(Long.MIN_VALUE);
+//        DateTime latestSessionDateTime=DateTime.list.get(0).getDateTime();
+        new SynchronizeSessionsUsecase(new AllSessionsProviderFactory()).execute(bleReferenceAppliance, new SynchronizeSessionsUsecase.Callback() {
             @Override
-            public void onFetchSuccess(final List<? extends Moment> list) {
-                DateTime latestSessionDateTime=list.get(0).getDateTime();
-                new SynchronizeSessionsUsecase(new AllSessionsProviderFactory()).execute(bleReferenceAppliance, new SynchronizeSessionsUsecase.Callback() {
-                    @Override
-                    public void onSynchronizeSucceed(@NonNull SessionsOldestToNewest sleepDataList) {
-                        if(connectivityViewListener!=null) {
-                            connectivityViewListener.hideProgressDialog();
-                            connectivityViewListener.showToast("Moment list size::"+sleepDataList.getSortedList().size());
-                        }
-                        savePowerSleepMomentsData(sleepDataList.getSortedList());
-                    }
-
-                    @Override
-                    public void onNoNewSessionsAvailable() {
-                        connectivityViewListener.showToast("No new sessions available");
-                    }
-
-                    @Override
-                    public void onError(@NonNull Exception error) {
-                        connectivityViewListener.hideProgressDialog();
-                        connectivityViewListener.showToast("Error while fetching data:Error:" + error.getMessage());
-                    }
-                }, latestSessionDateTime);
+            public void onSynchronizeSucceed(@NonNull SessionsOldestToNewest sleepDataList) {
+                if(connectivityViewListener!=null) {
+                    connectivityViewListener.hideProgressDialog();
+                    connectivityViewListener.showToast("Moment list size::"+sleepDataList.getSortedList().size());
+                }
+                savePowerSleepMomentsData(sleepDataList.getSortedList());
             }
 
             @Override
-            public void onFetchFailure(final Exception e) {
-
+            public void onNoNewSessionsAvailable() {
+                connectivityViewListener.showToast("No new sessions available");
             }
-        });
-//        DateTime latestSessionDateTime = new DateTime(Long.MIN_VALUE);
 
+            @Override
+            public void onError(@NonNull Exception error) {
+                connectivityViewListener.hideProgressDialog();
+                connectivityViewListener.showToast("Error while fetching data:Error:" + error.getMessage());
+            }
+        }, latestSessionDateTime);
     }
 
     public void savePowerSleepMomentsData(List<Session> sessionList) {
