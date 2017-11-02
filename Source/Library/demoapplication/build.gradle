@@ -9,7 +9,8 @@ android {
         applicationId "com.philips.cdp2.ews.demoapplication"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode getMyVersionCode()
+//        versionCode getMyVersionCode()
+        versionCode 1
         versionName "1.0"
     }
     dataBinding {
@@ -37,30 +38,30 @@ android {
         }
     }
 
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def appName = "ews_demo_app_"
-            def buildType = variant.variantData.variantConfiguration.buildType.name
-            def newName = "${appName}${gitBranch()}_${buildType}_${getMyVersionCode()}.apk"
-            output.outputFile = new File(output.outputFile.parent, newName)
-        }
-    }
+//    applicationVariants.all { variant ->
+//        variant.outputs.each { output ->
+//            def appName = "ews_demo_app_"
+//            def buildType = variant.variantData.variantConfiguration.buildType.name
+//            def newName = "${appName}${gitBranch()}_${buildType}_${getMyVersionCode()}.apk"
+//            output.outputFile = new File(output.outputFile.parent, newName)
+//        }
+//    }
 }
 
-def gitBranch() {
-    def branch = ""
-    def proc = "git rev-parse --abbrev-ref HEAD".execute()
-    proc.in.eachLine { line -> branch += line }
-    proc.err.eachLine { line -> println line }
-    proc.waitFor()
-    branch.replaceAll("/","-")
-}
-
-def getMyVersionCode() {
-    def code = project.hasProperty('envCode') ? envCode.toInteger() : 1
-    println "VersionCode is set to $code"
-    code
-}
+//def gitBranch() {
+//    def branch = ""
+//    def proc = "git rev-parse --abbrev-ref HEAD".execute()
+//    proc.in.eachLine { line -> branch += line }
+//    proc.err.eachLine { line -> println line }
+//    proc.waitFor()
+//    branch.replaceAll("/","-")
+//}
+//
+//def getMyVersionCode() {
+//    def code = project.hasProperty('envCode') ? envCode.toInteger() : 1
+//    println "VersionCode is set to $code"
+//    code
+//}
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
