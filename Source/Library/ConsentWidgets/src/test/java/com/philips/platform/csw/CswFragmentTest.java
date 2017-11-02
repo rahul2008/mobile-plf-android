@@ -1,8 +1,17 @@
 package com.philips.platform.csw;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.test.UiThreadTest;
+import android.test.mock.MockContext;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewStub;
+import android.widget.LinearLayout;
 
 
+import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.csw.mock.ContextMock;
 import com.philips.platform.csw.mock.FragmentManagerMock;
 import com.philips.platform.csw.mock.FragmentTransactionMock;
 import com.philips.platform.csw.mock.LayoutInflatorMock;
@@ -12,6 +21,7 @@ import com.philips.platform.mya.consentwidgets.R;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
@@ -42,6 +52,14 @@ public class CswFragmentTest {
     }
 
     @Test
+    public void onCreateView_DoesNotSetApplicationAndPropositionName_WhenArgumentsAreNull() throws Exception {
+        givenNullArguments();
+        whenOnCreateViewIsInvoked();
+        thenApplicationNameIs(null);
+        thenPropositionNameIs(null);
+    }
+
+    @Test
     public void onCreateView_InvokesInflatorWthRightParams() throws Exception {
         givenArgumentsAre(APPLICATION_NAME,PROPOSITION_NAME);
         whenOnCreateViewIsInvoked();
@@ -53,6 +71,50 @@ public class CswFragmentTest {
         givenArgumentsAre(APPLICATION_NAME,PROPOSITION_NAME);
         whenOnCreateViewIsInvoked();
         thenInflatorInflateIsCalledWith(R.layout.csw_fragment_consent_widget_root, null, false);
+    }
+
+    @Test
+    public void onViewStateRestored_ReadsApplicationNameAndPropositionNameFromState(){
+        givenBundleStateWithValues(APPLICATION_NAME,PROPOSITION_NAME);
+        whenOnViewStateRestoredIsInvoked();
+        thenApplicationNameIs(APPLICATION_NAME);
+        thenPropositionNameIs(PROPOSITION_NAME);
+    }
+
+    @Test
+    public void onViewStateRestored_DoesNotSetAppNameAndPropName_WhenStateIsNull(){
+        whenOnViewStateRestoredIsInvoked();
+        thenApplicationNameIs(null);
+        thenPropositionNameIs(null);
+    }
+
+    @Test
+    public void onViewStateSave_savesApplicationNameAndPropositionNameToState(){
+        givenEmptyBundleState();
+        givenFragmentApplicationAndPropositionNamesAre(APPLICATION_NAME, PROPOSITION_NAME);
+        whenOnViewStateSaveIsInvoked();
+        thenStateContainsApplicationName(APPLICATION_NAME);
+        thenStateContainsPropositionName(PROPOSITION_NAME);
+    }
+
+    @Test
+    public void onViewStateSave_savesApplicationNameAndPropositionNameToState_WhenStateIsNull(){
+        whenOnViewStateSaveIsInvoked();
+        Assert.assertNull(state);
+    }
+
+    private void givenFragmentApplicationAndPropositionNamesAre(String applicationName, String propositionName) {
+        Bundle bundle = new Bundle();
+        bundle.putString(PROPOSITION_NAME_KEY, propositionName);
+        bundle.putString(APPLICATION_NAME_KEY, applicationName);
+        fragment.onViewStateRestored(bundle);
+    }
+
+    @Test
+    public void onViewStateSave_DoesNotSetAppNameAndPropName_WhenStateIsNull(){
+        whenOnViewStateRestoredIsInvoked();
+        thenApplicationNameIs(null);
+        thenPropositionNameIs(null);
     }
 
     @Test
@@ -84,6 +146,41 @@ public class CswFragmentTest {
         thenEventIsHandled();
     }
 
+    @Test
+    @Ignore
+    public void handleOnClickEvent_shouldCallOnBackPressed() throws Exception {
+        givenViewWithId(com.philips.cdp.registration.R.id.iv_reg_back);
+        givenOnClickIsMocked();
+        whenOnClickIsCalled();
+        thenOnBackPressedIsCalled();
+    }
+
+    private void givenNullArguments() {
+        fragment.setArguments(null);
+    }
+
+    private void whenOnViewStateRestoredIsInvoked() {
+        fragment.onViewStateRestored(state);
+    }
+
+    private void whenOnViewStateSaveIsInvoked() {
+        fragment.onSaveInstanceState(state);
+    }
+
+    private void givenBundleStateWithValues(String applicationName, String propositionName) {
+        state = new Bundle();
+        state.putString(PROPOSITION_NAME_KEY, propositionName);
+        state.putString(APPLICATION_NAME_KEY, applicationName);
+    }
+
+    private void givenEmptyBundleState() {
+        state = new Bundle();
+    }
+
+    private void givenOnClickIsMocked() {
+        fragment.mockOnBackPressed = true;
+    }
+
     private void thenPermissionViewIsInflatedWith(int csw_frame_layout_view_container, String applicationName, String propositionName) {
         assertEquals(csw_frame_layout_view_container, fragmentTransactionMock.replace_containerId);
         assertEquals(applicationName, fragmentTransactionMock.replace_fragment.getArguments().get("appName"));
@@ -104,19 +201,36 @@ public class CswFragmentTest {
         Assert.assertEquals(applicationName, fragment.getApplicationName());
     }
 
+    private void thenStateContainsApplicationName(String expected) {
+        Assert.assertEquals(expected, state.getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME));
+    }
+
+    private void thenStateContainsPropositionName(String expected) {
+        Assert.assertEquals(expected, state.getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME));
+    }
+
     private void whenOnCreateViewIsInvoked() {
         fragment.onCreateView(mockLayoutInflater, null, null);
     }
 
+    private void whenOnClickIsCalled() {
+        fragment.onClick(view);
+    }
+
     private void givenArgumentsAre(String applicationName, String propositionName) {
         Bundle mockBundle = new Bundle();
-        mockBundle.putString("appName",applicationName);
-        mockBundle.putString("propName",propositionName);
+        mockBundle.putString(APPLICATION_NAME_KEY,applicationName);
+        mockBundle.putString(PROPOSITION_NAME_KEY,propositionName);
         fragment.setArguments(mockBundle);
     }
 
     private void givenBackStackDepthIs(int depth) {
         fragmentManagerMock.backStackCount = depth;
+    }
+
+    private void givenViewWithId(int id) {
+        View view = new ViewStub(null);
+        view.setId(id);
     }
 
     private void whenOnBackPressedIsCalled() {
@@ -143,11 +257,19 @@ public class CswFragmentTest {
         assertTrue(handleBackEvent_return);
     }
 
+    private void thenOnBackPressedIsCalled() {
+        Assert.assertTrue(fragment.onBackPressedInvoked);
+    }
+
     private FragmentManagerMock fragmentManagerMock;
     private boolean onBackPressed_return;
     private boolean handleBackEvent_return;
     private FragmentTransactionMock fragmentTransactionMock;
     private CswFragmentWrapper fragment;
+    private Bundle state;
+    private View view;
+    private static final String APPLICATION_NAME_KEY = "appName";
+    private static final String PROPOSITION_NAME_KEY = "propName";
     private static final String PROPOSITION_NAME = "PROPOSITION_NAME";
     private static final String APPLICATION_NAME = "APPLICATION_NAME";
 
