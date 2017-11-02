@@ -20,6 +20,7 @@ public class Constants {
     public static final int BACK_BUTTON_CLICK_CONSTANT = 100000;
     public static final int LOGOUT_BUTTON_CLICK_CONSTANT = 100001;
     public static final int LOGIN_BUTTON_CLICK_CONSTANT = 1000004;
+    public static final int HAMBURGER_MY_ACCOUNT_CLICK = 1000005;
     public static final String DONE_PRESSED = "donePressed";
 
     public static final int ADD_HOME_FRAGMENT = 200000;

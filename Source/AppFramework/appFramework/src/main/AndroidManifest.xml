@@ -48,7 +48,7 @@
         <activity
             android:name=".homescreen.HamburgerActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection"
-            android:theme="@style/Theme.DLS.GroupBlue.Bright"/>
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight"/>
 
         <activity
             android:name="com.philips.platform.referenceapp.wxapi.WXEntryActivity"

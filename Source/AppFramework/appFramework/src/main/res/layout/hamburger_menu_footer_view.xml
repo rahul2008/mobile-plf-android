@@ -1,0 +1,21 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/hamburger_log_out_parent">
+
+    <include
+        layout="@layout/uid_horizontal_separator" />
+
+    <com.philips.platform.uid.view.widget.Label
+        style="@style/UIDLabel.SidebarFooterText"
+        android:id="@+id/hamburger_log_out"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/hamburger_menu_footer_height"
+        android:gravity="start|center_vertical"
+        android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
+        android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
+        android:textColor="@color/uid_list_item_text_selector"
+        android:text="@string/RA_Settings_Logout"/>
+
+</LinearLayout>

@@ -1,69 +1,52 @@
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.philips.platform.uid.view.widget.SideBar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/philips_drawer_layout"
+    android:id="@+id/sidebar_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-
-    <LinearLayout
+    <com.philips.platform.uid.view.widget.NavigationContainer
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/uikit_actionBarBackground"
-            android:elevation="@dimen/uikit_toolbar_elevation"
-            android:gravity="center"
-            app:contentInsetEnd="0dp"
-            app:contentInsetStart="0dp"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/frame_container">
+            android:orientation="vertical">
 
-        </FrameLayout>
-    </LinearLayout>
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/uidNavigationSecondaryBackgroundColor"
+                app:elevation="0dp">
 
+                <include layout="@layout/uid_toolbar_layout" />
+            </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.NavigationView
+            <FrameLayout
+                android:id="@+id/frame_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </com.philips.platform.uid.view.widget.NavigationContainer>
+
+    <LinearLayout
         android:id="@+id/navigation_view"
-        android:layout_width="@dimen/uikit_hamburger_width"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="?attr/uikit_hamburgerGradient"
-        android:fitsSystemWindows="true">
+        android:background="?attr/uidContentPrimaryBackgroundColor"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/list_view_parent"
-            android:layout_width="@dimen/uikit_hamburger_width"
-            android:layout_height="match_parent">
+        <FrameLayout
+            android:id="@+id/hamburger_menu_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/uidContentPrimaryBackgroundColor">
 
-            <ListView
-                android:id="@+id/hamburger_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="0dp"
-                android:listSelector="@android:color/transparent"
-                android:scrollbars="none"></ListView>
-
-            <ImageView
-                android:id="@+id/philips_logo"
-                android:layout_width="@dimen/uikit_hamburger_logo_width"
-                android:layout_height="@dimen/uikit_hamburger_logo_height"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="@dimen/uikit_hamburger_menu_logo_bottom_margin"
-                android:layout_marginTop="@dimen/uikit_hamburger_menu_logo_top_margin"
-                android:alpha="229.5"
-                android:visibility="gone" />
-        </RelativeLayout>
-    </android.support.design.widget.NavigationView>
-</android.support.v4.widget.DrawerLayout>
+            <include layout="@layout/hamburger_menu_container" />
+        </FrameLayout>
+    </LinearLayout>
+</com.philips.platform.uid.view.widget.SideBar>

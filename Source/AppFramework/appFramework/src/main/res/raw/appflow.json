@@ -204,11 +204,20 @@
             ]
           },
           {
-            "eventId": "coco_version_info",
+            "eventId": "logout",
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "coco_version_info"
+                "nextState": "home_fragment"
+              }
+            ]
+          },
+          {
+            "eventId": "login",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "settings_registration"
               }
             ]
           },

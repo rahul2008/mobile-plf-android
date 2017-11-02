@@ -46,4 +46,9 @@ public class TestActivity extends HamburgerActivity {
     public void updateSelectionIndex(int position) {
 
     }
+
+    @Override
+    protected void removeListeners() {
+
+    }
 }

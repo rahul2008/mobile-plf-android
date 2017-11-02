@@ -191,16 +191,26 @@
     <!--Settings Screen ends-->
 
     <string-array name="hamburger_drawer_items">
-        <item>@string/RA_DLS_HomeScreen_Title</item>
+        <item>@string/RA_HomeTab_Menu_Title</item>
         <item>@string/RA_SettingsScreen_Title</item>
         <item>@string/RA_Philips_Shop_Menu_Title</item>
+        <item>@string/RA_See_a_doctor_Menu_Title</item>
+        <item>@string/RA_Demo_Menu_Title</item>
+        <item>@string/RA_ConnectivityScreen_Menu_Title</item>
         <item>@string/RA_Support_Menu_Title</item>
         <item>@string/RA_About_Menu_Title</item>
-        <item>@string/RA_Demo_Menu_Title</item>
-        <item>@string/RA_See_a_doctor_Menu_Title</item>
-        <item>@string/RA_DLS_power_sleep_connectivity</item>
-        <item>@string/RA_MyAccount_Title</item>
     </string-array>
+
+    <array name="hamburger_drawer_items_res">
+        <item>@drawable/rap_home</item>
+        <item>@drawable/rap_settings</item>
+        <item>@drawable/rap_shop</item>
+        <item>@drawable/rap_doctor</item>
+        <item>@drawable/rap_settings</item>
+        <item>@drawable/rap_connectivity</item>
+        <item>@drawable/rap_question_mark</item>
+        <item>@drawable/rap_information</item>
+    </array>
 
     <string name="RA_SECURITY_SCREEN_LOCK" translatable="false"> We’ve detected the screenlock of your mobile phone is to enabled, thereby making it easier for others to access your data. We recommend enabling your screenlock.</string>
     <string name="RA_SECURITY_JAILBREAK_VIOLATION" translatable="false"> We’ve detected that you have rooted the device or jailbroken, thereby making it easier for others to access your data and no security on your application data. </string>
@@ -369,4 +379,6 @@ Receive free product accessories</string>
     <string name="sleep_tip_desc_3" translatable="false">Your body will relax quickly if you take a hot bath, but you need to take it at least 90-120 minutes before you go to sleep. Also, make sure the water temperature is around 40 degree Celsius.</string>
 
     <string name="RA_DLS_enable_bluetooth" translatable="false">Please enable bluetooth</string>
+
+    <string name="RA_DLSS_avatar_default_text" translatable="false">Hello User, \nPlease sign in.</string>
 </resources>
