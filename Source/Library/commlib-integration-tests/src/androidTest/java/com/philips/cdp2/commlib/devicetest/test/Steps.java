@@ -63,9 +63,14 @@ public class Steps {
         }
     }
 
-    @And("^\"([^\"]*)\" is disabled$")
-    public void isDisabled(String arg0) throws Throwable {
-        // Not needed yet, the default situation matches these steps.
+    @And("^\"Subscribe to time port\" is disabled$")
+    public void subscribeToTimeportIsDisabled() throws Throwable {
+        current.getTimePort().unsubscribe();
+    }
+
+    @And("^\"Stay connected\" is disabled$")
+    public void stayConnectedIsDisabled() throws Throwable {
+        current.disableCommunication();
     }
 
     @Given("^distance between phone and BLE Reference Node is (\\d+) cm$")
@@ -80,7 +85,7 @@ public class Steps {
         app.onCreate();
         commCentral = app.getCommCentral();
 
-        ApplianceWaiter.Waiter<Appliance> waiter = ApplianceWaiter.forCppId("AA:AA:AA:AA:AA:AA");
+        ApplianceWaiter.Waiter<Appliance> waiter = ApplianceWaiter.forCppId("22:22:22:CC:6C:57");
 
         commCentral.getApplianceManager().addApplianceListener(waiter);
         commCentral.startDiscovery();
