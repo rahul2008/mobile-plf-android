@@ -10,11 +10,12 @@ properties([
 ])
 
 def errors = []
-def gradle = 'cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV}'
+//def gradle = 'cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV}'
 
 node('Android') {
     timestamps {
         try {
+            
             stage('Checkout') {
              def jobBaseName = "${env.JOB_BASE_NAME}".replace('%2F', '/')
                 if (env.BRANCH_NAME != jobBaseName)
@@ -28,15 +29,15 @@ node('Android') {
             checkout([$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: false, reference: '', shallow: true, timeout: 30],[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch', localBranch: "**"]], recursiveSubmodules: true, submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/ews-android-easywifisetupuapp']]])
             }
 
-            stage ('Unit Test') {
-                    sh '''#!/bin/bash -l
-                    cd ./Source/Library 
-                    ./gradlew :ews:test
-                            '''
-                step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/ews/build/test-results/*/*.xml'])
-            }
+            //stage ('Unit Test') {
+            //        sh '''#!/bin/bash -l
+            //        cd ./Source/Library 
+             //       ./gradlew :ews:test
+            //                '''
+            //    step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/ews/build/test-results/*/*.xml'])
+            //}
 
-            stage ('Jacoco') {
+            /*stage ('Jacoco') {
                     sh '''#!/bin/bash -l
                     cd ./Source/Library 
                     ./gradlew jacocoTestReport
@@ -46,15 +47,15 @@ node('Android') {
 
                 publishHTML(target: [keepAll: true, alwaysLinkToLastBuild: false, reportDir:  './Source/Library/ews/build/reports/jacoco/jacoco' + 'TestReleaseUnit'+'TestReport/html', reportFiles:'index.html', reportName: 'Overall code coverage'])
 
-            }
+            }*/
 
             stage('Build Debug') {
                    sh """#!/bin/bash -l
                                 chmod -R 755 . 
-                                cd ./Source/Library \
-                                sh "$gradle assembleDebug lint"
-//                                ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_NUMBER} clean assembleDebug lint
+                                cd ./Source/Library
+                                ./gradlew -PenvCode=${JENKINS_ENV} clean assembleDebug lint
                             """
+                            //                               ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_NUMBER} clean assembleDebug lint
             }
 
             stage('Build Release') {
@@ -62,8 +63,8 @@ node('Android') {
                                 chmod -R 755 . 
                                 cd ./Source/Library
                                 sh "$gradle assembleRelease lint"
-//                                ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_NUMBER} assembleRelease 
                             """
+                            //                                ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_NUMBER} assembleRelease 
             }
                 
             stage('Archive results') {
