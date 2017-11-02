@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
 import com.philips.cdp2.ews.databinding.FragmentConnectionSuccessfulBinding;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.viewmodel.ConnectionSuccessfulViewModel;
 
 import javax.inject.Inject;
@@ -53,6 +54,11 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
     public boolean handleBackEvent() {
         // Do nothing, back disabled in this screen
         return true;
+    }
+
+    @Override
+    protected String getPageName() {
+        return Page.CONNECTION_SUCCESSFUL;
     }
 
     @Override

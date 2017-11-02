@@ -34,6 +34,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+//Todo : required to rename it
 public class ConnectingPhoneToHotspotWifiViewModelTest {
 
     @InjectMocks private ConnectingWithDeviceViewModel subject;
