@@ -231,7 +231,7 @@ public class ProdRegRegistrationController {
         return user;
     }
 
-    protected RegisteredProduct getRegisteredProduct() {
+    public RegisteredProduct getRegisteredProduct() {
         return registeredProduct;
     }
 

@@ -131,6 +131,11 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         return prodRegRegistrationController.getRegisteredProducts();
     }
 
+    public RegisteredProduct getRegisteredProduct() {
+        return prodRegRegistrationController.getRegisteredProduct();
+    }
+
+
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -458,31 +463,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public void setProductView(final RegisteredProduct registeredProduct) {
         date_EditText.setText(registeredProduct.getPurchaseDate());
         field_serial.setText(registeredProduct.getSerialNumber());
-        if (!registeredProduct.getEmail()) {
-            prSuccessConfigurableTextView.setVisibility(View.GONE);
-        }
-         StringBuilder warntyText=new StringBuilder(getString(R.string.PPR_Extended_Warranty_Lbltxt));
-        warntyPeriod=registeredProduct.getEndWarrantyDate();
-        if(warntyPeriod==null) {
-          /*  warntyText.append((getString(R.string.PPR_Extended_Warranty_Lbltxt))).append("  xx-xx-xxxx", boldSpan, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            prg_success_thanks = warntyText.toString();*/
-            String defaultString="  xx-xx-xxxx";
-            int defaultStringLength=defaultString.length();
-            SpannableStringBuilder builder = new SpannableStringBuilder(defaultString);
-            builder.setSpan(new TextAppearanceSpan(getActivity(),R.style.SuccessRegisterTheme), 0, defaultStringLength, 0);
-            prg_success_thanks_textView.setText(getString(R.string.PPR_Extended_Warranty_Lbltxt)+builder);
-
-        }
-        else {
-            //warntyText.append((getString(R.string.PPR_Extended_Warranty_Lbltxt))).append("  "+warntyPeriod, boldSpan, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            //prg_success_thanks=warntyText.append("  "+warntyPeriod).toString();
-            String defaultString="  "+warntyPeriod;
-            int defaultStringLength=defaultString.length();
-            SpannableStringBuilder builder = new SpannableStringBuilder(defaultString);
-            builder.setSpan(new TextAppearanceSpan(getActivity(),R.style.SuccessRegisterTheme), 0, defaultStringLength, 0);
-            prg_success_thanks_textView.setText(getString(R.string.PPR_Extended_Warranty_Lbltxt)+builder);
-
-        }
         final String productCtn = registeredProduct.getCtn();
         if (!TextUtils.isEmpty(registeredProduct.getCtn())) {
             productCtnTextView.setVisibility(View.VISIBLE);
@@ -527,6 +507,22 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         registerButton.setVisibility(View.GONE);
         productCtnTextView.setVisibility(View.GONE);
         successLayout.setVisibility(View.VISIBLE);
+        RegisteredProduct registeredProduct = this.getRegisteredProduct();
+        if (!registeredProduct.getEmail()) {
+            prSuccessConfigurableTextView.setVisibility(View.GONE);
+        }
+        warntyPeriod=registeredProduct.getEndWarrantyDate();
+        if(warntyPeriod.isEmpty()) {
+            prg_success_thanks_textView.setVisibility(View.GONE);
+        }
+        else {
+            String defaultString="  "+warntyPeriod;
+            int defaultStringLength=defaultString.length();
+            SpannableStringBuilder builder = new SpannableStringBuilder(defaultString);
+            builder.setSpan(new TextAppearanceSpan(getActivity(),R.style.SuccessRegisterTheme), 0, defaultStringLength, 0);
+            prg_success_thanks_textView.setText(getString(R.string.PPR_Extended_Warranty_Lbltxt)+builder);
+            prg_success_thanks_textView.setVisibility(View.VISIBLE);
+        }
         if (getActivity() != null && getActivity() instanceof ProdRegBaseActivity &&
                 ((ProdRegBaseActivity) getActivity()).getSupportActionBar() != null) { // need to modify this later.
             ((ProdRegBaseActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
