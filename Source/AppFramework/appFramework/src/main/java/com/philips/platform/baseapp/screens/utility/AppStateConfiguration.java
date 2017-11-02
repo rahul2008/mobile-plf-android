@@ -7,9 +7,9 @@
 package com.philips.platform.baseapp.screens.utility;
 
 public enum AppStateConfiguration {
-    STAGING("STAGING"),
-    DEVELOPMENT("DEVELOPMENT"),
-    TEST("TEST");
+    STAGING("Staging"),
+    DEVELOPMENT("Development"),
+    TEST("Test");
 
     private String value;
 
