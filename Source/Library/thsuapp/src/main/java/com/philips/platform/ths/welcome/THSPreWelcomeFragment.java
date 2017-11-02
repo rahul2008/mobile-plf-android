@@ -22,6 +22,7 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_CONFIRM_T_AND_C;
+import static com.philips.platform.ths.utility.THSConstants.THS_TERMS_AND_CONDITION;
 
 public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnClickListener{
     public static final String TAG = THSPreWelcomeFragment.class.getSimpleName();
@@ -69,5 +70,6 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
         hideProgressBar();
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(browserIntent);
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_TERMS_AND_CONDITION,null,null);
     }
 }

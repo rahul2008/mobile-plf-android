@@ -31,8 +31,12 @@ import com.philips.platform.ths.utility.THSManager;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_CONSUMER_DETAILS;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_INITIALIZATION;
+
+
 class THSWelcomePresenter implements THSBasePresenter,
-        THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack{
+        THSLoginCallBack<THSAuthentication, THSSDKError>, THSGetConsumerObjectCallBack {
     private THSBaseFragment uiBaseView;
     boolean isRefreshTokenRequestedBefore;
 
@@ -121,13 +125,12 @@ class THSWelcomePresenter implements THSBasePresenter,
     @Override
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
         uiBaseView.hideProgressBar();
-        if(sdkError == null) {
+        if (sdkError == null) {
             ((THSWelcomeFragment) uiBaseView).updateView();
-        }else if(null != sdkError.getSDKErrorReason()){
-            uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-        }else {
-            uiBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
+        } else {
+            uiBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CONSUMER_DETAILS, sdkError));
         }
+
     }
 
     @Override
@@ -151,11 +154,11 @@ class THSWelcomePresenter implements THSBasePresenter,
     }
 
     private boolean checkIfRefreshTokenWasTriedBefore() {
-        if(isRefreshTokenRequestedBefore){
+        if (isRefreshTokenRequestedBefore) {
             isRefreshTokenRequestedBefore = false;
             uiBaseView.hideProgressBar();
-            if(uiBaseView.getActivity()!=null) {
-                uiBaseView.showError(uiBaseView.getString(R.string.ths_user_not_authenticated));
+            if (uiBaseView.getActivity() != null) {
+                uiBaseView.doTagging(ANALYTICS_INITIALIZATION, uiBaseView.getString(R.string.ths_user_not_authenticated), false);
             }
             return true;
         }

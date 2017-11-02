@@ -40,6 +40,8 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 
+import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY;
+import static com.philips.platform.ths.utility.THSConstants.THS_HIPPA;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_HISTORY;
 
 public class THSVisitHistoryDetailFragment extends THSBaseFragment{
@@ -219,6 +221,7 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
     }
 
     public void showHippsNotice(String url) {
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_HIPPA,null,null);
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(browserIntent);
     }

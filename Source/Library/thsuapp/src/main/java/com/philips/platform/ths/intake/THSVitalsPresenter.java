@@ -20,6 +20,7 @@ import com.philips.platform.uid.view.widget.EditText;
 
 import java.util.Map;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPDATE_VITALS;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
@@ -83,11 +84,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
                 thsvItalsUIInterface.launchMedicationFragment();
                 mPthBaseFragment.showToast("UPDATE SUCCESS");
             } else if(null != sdkError) {
-                if(null != sdkError.getSDKErrorReason()) {
-                    mPthBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                }else {
-                    mPthBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
-                }
+                mPthBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPDATE_VITALS,sdkError));
             }
         }
     }

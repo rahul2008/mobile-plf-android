@@ -23,6 +23,8 @@ import static com.philips.platform.ths.R.id.ths_intake_medication_continue_butto
 import static com.philips.platform.ths.R.id.ths_intake_medication_skip_step_label;
 
 import static com.philips.platform.ths.R.id.ths_existing_medicine_footer_relative_layout;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_MEDICATION;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_SAVE_MEDICATION;
 import static com.philips.platform.ths.utility.THSConstants.MEDICATION_ON_ACTIVITY_RESULT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
@@ -88,7 +90,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             mTHSBaseFragment.hideProgressBar();
             if (null != sDKError && sDKError.getSDKErrorReason() != null) {
-                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(sDKError.getSDKErrorReason()));
+                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_FETCH_MEDICATION,sDKError));
             } else {
                 AmwellLog.i("onGetMedicationReceived", "Success");
                 ((THSMedicationFragment) mTHSBaseFragment).showExistingMedicationList(thsMedication);
@@ -115,11 +117,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             mTHSBaseFragment.hideProgressBar();
             if (null != sDKError) {
-                if (sDKError.getSDKErrorReason() != null) {
-                    mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(sDKError.getSDKErrorReason()));
-                } else {
-                    mTHSBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
-                }
+                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_SAVE_MEDICATION,sDKError));
             } else {
 
                 THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", ((THSMedicationFragment) mTHSBaseFragment).tagAction);
