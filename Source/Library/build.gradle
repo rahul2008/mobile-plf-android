@@ -52,7 +52,6 @@ allprojects {
         }
         maven {
             url objcdp.getArtifactoryUrl()
-            println("artifactoryUrl: " +objcdp.getArtifactoryUrl())
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"

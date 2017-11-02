@@ -24,7 +24,6 @@ buildscript {
 }
 
 android {
-    println("Version: " + versions.sdk)
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
     publishNonDefault true
