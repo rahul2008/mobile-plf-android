@@ -36,6 +36,16 @@ import javax.inject.Named;
 
 public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChanger.Callback {
 
+    public interface ConnectingDeviceToWifiCallback {
+        void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
+
+        void unregisterReceiver(@NonNull BroadcastReceiver receiver);
+
+        Bundle getBundle();
+
+        void showCancelDialog();
+    }
+
     private static final long WIFI_SET_PROPERTIES_TIME_OUT = TimeUnit.SECONDS.toMillis(60);
     private static final String TAG = ConnectingDeviceWithWifiViewModel.class.getCanonicalName();
     @NonNull
@@ -57,6 +67,9 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     @Nullable
     private StartConnectionModel startConnectionModel;
     @NonNull
+    private String cppId;
+
+    @NonNull
     private final Runnable timeoutRunnable = new Runnable() {
         @Override
         public void run() {
@@ -68,8 +81,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
             clear();
         }
     };
-    @NonNull
-    private String cppId;
+
     @NonNull
     private final ApplianceAccessManager.SetPropertiesCallback sendingNetworkInfoCallback = new ApplianceAccessManager.SetPropertiesCallback() {
 
@@ -88,9 +100,9 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
             showConnectionUnsuccessful();
         }
     };
+
     @NonNull
-    private DiscoveryHelper.DiscoveryCallback discoveryCallback =
-            new DiscoveryHelper.DiscoveryCallback() {
+    private DiscoveryHelper.DiscoveryCallback discoveryCallback = new DiscoveryHelper.DiscoveryCallback() {
                 @Override
                 public void onApplianceFound(Appliance appliance) {
                     if (appliance.getNetworkNode().getCppId().equalsIgnoreCase(cppId)) {
@@ -99,7 +111,8 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
                         onDeviceConnectedToWifi();
                     }
                 }
-            };
+    };
+
     @NonNull
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -119,6 +132,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
             }
         }
     };
+
     @Inject
     public ConnectingDeviceWithWifiViewModel(@NonNull ApplianceAccessManager applianceAccessManager,
                                              @NonNull Navigator navigator,
@@ -193,7 +207,6 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private void handleFailureWrongWifiNetwork() {
         removeTimeoutRunnable();
         if (fragmentCallback != null) {
-            //04_00_a
             navigator.navigateToWrongWifiNetworkScreen(fragmentCallback.getBundle());
         }
     }
@@ -201,7 +214,6 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private void showConnectionUnsuccessful() {
         removeTimeoutRunnable();
         if (startConnectionModel != null) {
-            //04_00_b
             navigator.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(startConnectionModel.getDeviceName(), startConnectionModel.getHomeWiFiSSID());
         }
     }
@@ -234,13 +246,4 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         showConnectionUnsuccessful();
     }
 
-    public interface ConnectingDeviceToWifiCallback {
-        void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
-
-        void unregisterReceiver(@NonNull BroadcastReceiver receiver);
-
-        Bundle getBundle();
-
-        void showCancelDialog();
-    }
 }
