@@ -14,11 +14,11 @@ import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshooti
 import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WifiConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
-import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
-import com.philips.cdp2.ews.view.EWSGettingStartedFragment;
-import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
-import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
+import com.philips.cdp2.ews.view.ConfirmWifiNetworkFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
+import com.philips.cdp2.ews.view.FirstSetupStepsFragment;
+import com.philips.cdp2.ews.view.SecondSetupStepsFragment;
+import com.philips.cdp2.ews.view.StartConnectWithDeviceFragment;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,28 +54,28 @@ public class NavigatorTest {
     public void itShouldPushGettingStartingFragmentWhenNavigating() throws Exception {
         subject.navigateToGettingStartedScreen();
 
-        verifyFragmentPushed(EWSGettingStartedFragment.class);
+        verifyFragmentPushed(StartConnectWithDeviceFragment.class);
     }
 
     @Test
     public void itShouldPushHomeNetworkConfirmationScreenWhenNavigating() throws Exception {
         subject.navigateToHomeNetworkConfirmationScreen();
 
-        verifyFragmentPushed(EWSHomeWifiDisplayFragment.class);
+        verifyFragmentPushed(ConfirmWifiNetworkFragment.class);
     }
 
     @Test
     public void itShouldPushDevicePoweredOnConfirmationScreenWhenNavigating() throws Exception {
         subject.navigateToDevicePoweredOnConfirmationScreen();
 
-        verifyFragmentPushed(EWSDevicePowerOnFragment.class);
+        verifyFragmentPushed(FirstSetupStepsFragment.class);
     }
 
     @Test
     public void itShouldPushCompletingDeviceSetupScreenWhenNavigating() throws Exception {
         subject.navigateToCompletingDeviceSetupScreen();
 
-        verifyFragmentPushed(EWSPressPlayAndFollowSetupFragment.class);
+        verifyFragmentPushed(SecondSetupStepsFragment.class);
     }
 
     @Test
@@ -138,7 +138,7 @@ public class NavigatorTest {
 
         subject.navigateToDevicePoweredOnConfirmationScreen();
 
-        verify(mockFragmentNavigator).popToFragment(EWSDevicePowerOnFragment.class.getCanonicalName());
+        verify(mockFragmentNavigator).popToFragment(FirstSetupStepsFragment.class.getCanonicalName());
         verify(mockFragmentNavigator, never()).push(any(Fragment.class), anyInt());
     }
 
@@ -148,7 +148,7 @@ public class NavigatorTest {
 
         subject.navigateToDevicePoweredOnConfirmationScreen();
 
-        verifyFragmentPushed(EWSDevicePowerOnFragment.class);
+        verifyFragmentPushed(FirstSetupStepsFragment.class);
     }
 
     @Test

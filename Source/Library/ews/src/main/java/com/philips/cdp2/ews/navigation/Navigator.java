@@ -15,11 +15,11 @@ import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshooti
 import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WifiConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
-import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
-import com.philips.cdp2.ews.view.EWSGettingStartedFragment;
-import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
-import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
+import com.philips.cdp2.ews.view.ConfirmWifiNetworkFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
+import com.philips.cdp2.ews.view.FirstSetupStepsFragment;
+import com.philips.cdp2.ews.view.SecondSetupStepsFragment;
+import com.philips.cdp2.ews.view.StartConnectWithDeviceFragment;
 
 public class Navigator {
 
@@ -31,30 +31,30 @@ public class Navigator {
     }
 
     public void navigateToGettingStartedScreen() {
-        pushFragment(new EWSGettingStartedFragment());
+        pushFragment(new StartConnectWithDeviceFragment());
     }
 
     public void navigateToHomeNetworkConfirmationScreen() {
         boolean isPresentInStack = fragmentNavigator
-                .popToFragment(EWSHomeWifiDisplayFragment.class.getCanonicalName());
+                .popToFragment(ConfirmWifiNetworkFragment.class.getCanonicalName());
         if (!isPresentInStack) {
-            pushFragment(new EWSHomeWifiDisplayFragment());
+            pushFragment(new ConfirmWifiNetworkFragment());
         }
     }
 
     public void navigateToDevicePoweredOnConfirmationScreen() {
         boolean isPresentInStack =
-                fragmentNavigator.popToFragment(EWSDevicePowerOnFragment.class.getCanonicalName());
+                fragmentNavigator.popToFragment(FirstSetupStepsFragment.class.getCanonicalName());
         if (!isPresentInStack) {
-            pushFragment(new EWSDevicePowerOnFragment());
+            pushFragment(new FirstSetupStepsFragment());
         }
     }
 
     public void navigateToCompletingDeviceSetupScreen() {
         boolean isPresentInStack = fragmentNavigator
-                .popToFragment(EWSPressPlayAndFollowSetupFragment.class.getCanonicalName());
+                .popToFragment(SecondSetupStepsFragment.class.getCanonicalName());
         if (!isPresentInStack) {
-            pushFragment(new EWSPressPlayAndFollowSetupFragment());
+            pushFragment(new SecondSetupStepsFragment());
         }
     }
 

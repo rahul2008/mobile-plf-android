@@ -115,11 +115,6 @@ public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implement
         return this;
     }
 
-    @Override
-    public int requestCode() {
-        return REQUEST_CODE;
-    }
-
 
     @Override
     public boolean handleBackEvent() {

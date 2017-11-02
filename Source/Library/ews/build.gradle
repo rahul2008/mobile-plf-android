@@ -1,6 +1,18 @@
 apply plugin: 'com.android.library'
-apply from: "../scripts/versions.gradle"
 apply plugin: 'jacoco-android'
+apply from: "../../../ci-build-support/gradle/versions.gradle"
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment)
+version = objcdp.getVersion(versions.mya_myAccount)
 
 buildscript {
     repositories {
@@ -12,21 +24,26 @@ buildscript {
 }
 
 android {
-    compileSdkVersion config.targetSdk
-    buildToolsVersion config.buildTools
+    println("Version: " + versions.sdk)
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
     publishNonDefault true
     defaultConfig {
-        minSdkVersion config.minSdk
-        targetSdkVersion config.targetSdk
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi config.targetSdk
+        renderscriptTargetApi versions.target
         renderscriptSupportModeEnabled true
         multiDexEnabled true
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         consumerProguardFiles('proguard-rules.txt', 'proguard-rules-lib.txt')
     }
 
     dataBinding {
         enabled = true
+    }
+    lintOptions {
+        abortOnError false
     }
 
     testOptions {
@@ -59,26 +76,50 @@ android {
 
 
 dependencies {
+    apply from: "../../../ci-build-support/gradle/versions.gradle"
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile(group: 'com.philips.cdp', name: 'IconFont', version: "${versionsPhilips.IconFont}")
 
     // Android/Google
-    compile "com.android.support:support-annotations:${versionsAndroid.support}"
-    compile "com.android.support:design:${versionsAndroid.support}"
-    compile "com.android.support:appcompat-v7:${versionsAndroid.support}"
-    compile "com.android.support:animated-vector-drawable:${versionsAndroid.support}"
-    compile "com.android.support:cardview-v7:${versionsAndroid.support}"
-    compile "com.android.support:multidex:${versionsAndroid.multidex}"
+    compile "com.android.support:support-annotations:${versions.support}"
+    compile "com.android.support:design:${versions.support}"
+    compile "com.android.support:appcompat-v7:${versions.support}"
+    compile "com.android.support:animated-vector-drawable:${versions.support}"
+    compile "com.android.support:cardview-v7:${versions.support}"
 
     // Philips Dependencies
-    compile(group: 'com.philips.cdp', name: 'commlib-lan', version: "${versionsPhilips.cba}") {
-        exclude group: 'com.android.support'
+    def dp = project.ext.has('useprojectdependencies')
 
-    }
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: "${versionsPhilips.dcc}") {
-        exclude group: 'com.android.support'
-    }
-    compile "com.philips.cdp:uid:${versionsPhilips.uid}"
+    def uikitLibModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar')
+    compile(dp ? project(':uikitLib') : uikitLibModule)
+            {
+
+                transitive = true
+
+            }
+    def commliblan = module(group: 'com.philips.cdp', name: 'commlib-lan', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
+    compile(dp ? project(':commlib-lan') : commliblan)
+            {
+
+                transitive = true
+
+            }
+
+    def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(dp ? project(':uid') : uidModule)
+            {
+
+                transitive = true
+
+            }
+
+    def IconFontModule = module(group: 'com.philips.cdp', name: 'IconFont', version: versions.icf_iconFont + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(dp ? project(':IconFont') : IconFontModule)
+            {
+                transitive = true
+            }
+
+    def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
+    compile(dp ? project(':uAppFwLib') : ufwModule)
 
     // External
     compile "com.google.dagger:dagger:${versionsExternal.dagger}"

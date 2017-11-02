@@ -12,6 +12,7 @@
 
     // In between controls (vertical)
     <dimen name="default_body_labels_margin">16dp</dimen>
+    <dimen name="default_body_labels_bottom_margin">14dp</dimen>
     <dimen name="default_image_top_margin">24dp</dimen>
     <dimen name="default_main_button_top_margin">20dp</dimen>
     <dimen name="default_main_helper_top_margin">20dp</dimen>

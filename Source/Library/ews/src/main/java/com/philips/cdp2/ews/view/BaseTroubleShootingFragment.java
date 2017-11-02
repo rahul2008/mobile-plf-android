@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.logger.EWSLogger;
@@ -24,7 +25,7 @@ public abstract class BaseTroubleShootingFragment extends BaseFragment {
     }
 
     @Override
-    protected void handleCancelButtonClicked() {
+    protected void handleCancelButtonClicked(@StringRes int stringId) {
         BaseTroubleShootingViewModel viewModel =
                 ((EWSActivity) getActivity()).getEWSComponent().baseTroubleShootingViewModel();
         viewModel.onCancelButtonClicked();
@@ -32,7 +33,7 @@ public abstract class BaseTroubleShootingFragment extends BaseFragment {
 
     @Override
     public boolean handleBackEvent() {
-        handleCancelButtonClicked();
+        handleCancelButtonClicked(-1);
         return true;
     }
 

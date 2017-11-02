@@ -66,10 +66,6 @@ public class ConnectWithPasswordFragment extends EWSBaseFragment<FragmentEwsConn
         return R.layout.fragment_ews_connect_device;
     }
 
-    @Override
-    public int getNavigationIconId() {
-        return 0;// do not show icon
-    }
 
     @Override
     public boolean onBackPressed() {

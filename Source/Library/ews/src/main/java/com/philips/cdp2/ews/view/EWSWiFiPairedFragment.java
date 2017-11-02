@@ -68,11 +68,6 @@ public class EWSWiFiPairedFragment extends EWSBaseFragment<FragmentEwsWifiPaired
     }
 
     @Override
-    public int getNavigationIconId() {
-        return 0;//don't show
-    }
-
-    @Override
     public boolean handleBackEvent() {
         // Do nothing, back disabled in this screen
         return true;
