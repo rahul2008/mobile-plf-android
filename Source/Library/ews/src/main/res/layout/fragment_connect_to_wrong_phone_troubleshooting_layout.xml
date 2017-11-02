@@ -67,6 +67,7 @@
                 android:id="@+id/ews_H_03_01_button_yes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_main_button_top_margin"
                 android:text="@string/button_ews_support_wrong_phone_yes"
                 app:uidComponentType="Primary" />
 

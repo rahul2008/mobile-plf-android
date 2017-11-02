@@ -62,6 +62,7 @@
                 android:id="@+id/ews_02_01_button_plug_in_next"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_main_button_top_margin"
                 android:onClick="@{() -> viewModel.onYesButtonClicked()}"
                 android:text="@string/button_ews_plug_in_next"
                 app:uidComponentType="Primary" />

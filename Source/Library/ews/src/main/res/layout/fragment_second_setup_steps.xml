@@ -63,6 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> viewModel.onNextButtonClicked()}"
+                android:layout_marginTop="@dimen/default_main_button_top_margin"
                 android:text="@string/button_ews_verify_ready_yes_default"
                 app:uidComponentType="Primary" />
 

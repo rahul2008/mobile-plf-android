@@ -21,10 +21,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:paddingBottom="@dimen/default_screen_bottom_margin"
             android:paddingEnd="@dimen/default_body_labels_margin"
-            android:paddingStart="@dimen/default_body_labels_margin"
-            android:orientation="vertical">
+            android:paddingStart="@dimen/default_body_labels_margin">
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ews_01_01_label_confirm_connection_title"
@@ -39,22 +39,25 @@
                 style="@style/Txt.Body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/default_main_button_top_margin"
                 android:layout_marginTop="@dimen/default_body_labels_margin"
                 android:text="@{viewModel.title}" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_main_button_top_margin"
                 android:background="@color/color_panel">
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/wifi_display_confirm_text"
                     style="@style/Txt.Body"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/default_body_labels_bottom_margin"
+                    android:layout_marginEnd="@dimen/default_body_labels_margin"
+                    android:layout_marginStart="@dimen/default_body_labels_margin"
                     android:layout_marginTop="@dimen/default_body_labels_margin"
+                    android:singleLine = "false"
                     android:text="@{viewModel.note}" />
             </LinearLayout>
 

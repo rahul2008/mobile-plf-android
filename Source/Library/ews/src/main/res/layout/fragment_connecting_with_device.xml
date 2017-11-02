@@ -58,6 +58,7 @@
                 android:id="@+id/cancel_button_hotspot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_main_button_top_margin"
                 android:onClick="@{() -> viewModel.handleCancelButtonClicked()}"
                 android:text="@string/button_cancel"
                 app:uidComponentType="Primary" />
