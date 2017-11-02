@@ -10,6 +10,7 @@ properties([
 ])
 
 def errors = []
+def gradle = 'cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV}'
 
 node('Android') {
     timestamps {
