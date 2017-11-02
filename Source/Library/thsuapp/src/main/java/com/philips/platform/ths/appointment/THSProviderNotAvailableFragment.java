@@ -51,7 +51,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
             getActionBarListener().updateActionBar(getString(R.string.ths_no_availability), true);
         }
 
-        ImageView imageView = (ImageView) view.findViewById(R.id.ths_providerlist_right_arrow_icon);
+        Label imageView = (Label) view.findViewById(R.id.ths_providerlist_right_arrow_icon);
         imageView.setVisibility(View.INVISIBLE);
         mChangeAppointDateView = (Label) view.findViewById(R.id.calendar_view);
         mChangeAppointDateView.setOnClickListener(this);

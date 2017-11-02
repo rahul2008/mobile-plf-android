@@ -169,7 +169,7 @@
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:background">?attr/uidContentPrimaryBackgroundColor</item>
         <item name="android:layout_height">@dimen/ths_list_item_height</item>
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_alignParentStart">true</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:gravity">center_vertical</item>
@@ -225,5 +225,16 @@
     <style name="ths_alpha">
         <item name="android:background">@color/uid_blue_level_85</item>
         <item name="android:alpha">0.6</item>
+    </style>
+
+    <style name="ths_font_icon_style">
+        <item name="fontPath">fonts/iconfont.ttf</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">?attr/uidButtonPrimaryFocusBackgroundColor</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_height">?android:attr/listPreferredItemHeight</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_centerVertical">true</item>
     </style>
 </resources>

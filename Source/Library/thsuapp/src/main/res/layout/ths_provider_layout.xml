@@ -23,22 +23,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/ths_arrow"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+        <com.philips.platform.uid.view.widget.Label
+            android:layout_width="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:src="@mipmap/right_arrow_icon" />
+            android:layout_marginStart="@dimen/ths_fab_margin"
+            android:layout_marginEnd="@dimen/ths_fab_margin"
+            android:id="@+id/ths_arrow"
+            android:text="@string/dls_navigationright"
+            fontPath="fonts/iconfont.ttf"
+            android:textAlignment="center"
+            android:gravity="center_vertical"
+            android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+            android:layout_height="wrap_content"/>
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/providerNameLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
-            android:text="Dr. Eylin White"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="@dimen/ths_title_text"
             android:layout_alignParentStart="true"
@@ -53,7 +56,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/providerNameLabel"
             android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
-            android:text="Pediatrician"
             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/ths_small_body_text"
             android:paddingTop="@dimen/ths_body_text_padding"
