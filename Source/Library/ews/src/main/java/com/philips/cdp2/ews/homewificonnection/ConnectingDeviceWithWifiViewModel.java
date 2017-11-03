@@ -8,23 +8,28 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.databinding.ObservableField;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameChanger;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
@@ -68,6 +73,12 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private StartConnectionModel startConnectionModel;
     @NonNull
     private String cppId;
+
+    @NonNull
+    public final ObservableField<String> title;
+
+    @NonNull
+    private final StringProvider stringProvider;
 
     @NonNull
     private final Runnable timeoutRunnable = new Runnable() {
@@ -140,7 +151,9 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
                                              @NonNull WiFiUtil wiFiUtil,
                                              @NonNull DeviceFriendlyNameChanger deviceFriendlyNameChanger,
                                              @NonNull @Named("mainLooperHandler") Handler handler,
-                                             @NonNull DiscoveryHelper discoveryHelper) {
+                                             @NonNull DiscoveryHelper discoveryHelper,
+                                             @NonNull final BaseContentConfiguration baseContentConfiguration,
+                                             @NonNull final StringProvider stringProvider) {
         this.applianceAccessManager = applianceAccessManager;
         this.navigator = navigator;
         this.wiFiConnectivityManager = wiFiConnectivityManager;
@@ -148,6 +161,8 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         this.handler = handler;
         this.deviceFriendlyNameChanger = deviceFriendlyNameChanger;
         this.discoveryHelper = discoveryHelper;
+        this.stringProvider = stringProvider;
+        this.title = new ObservableField<>(getTitle(baseContentConfiguration));
     }
 
     public void setFragmentCallback(@Nullable ConnectingDeviceToWifiCallback fragmentCallback) {
@@ -244,6 +259,13 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     @Override
     public void onFriendlyNameChangingFailed() {
         showConnectionUnsuccessful();
+    }
+
+    @VisibleForTesting
+    @NonNull
+    String getTitle(@NonNull BaseContentConfiguration baseConfig) {
+        return stringProvider.getString(R.string.label_ews_connecting_device_title,
+                baseConfig.getDeviceName());
     }
 
 }
