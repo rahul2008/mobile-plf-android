@@ -42,7 +42,6 @@ import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static java.util.Collections.emptyList;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class Steps {
 
@@ -95,7 +94,7 @@ public class Steps {
             commCentral.getApplianceManager().addApplianceListener(waiter);
             commCentral.startDiscovery();
 
-            current = (ReferenceAppliance) waiter.waitForAppliance(2, MINUTES).getAppliance();
+            current = (ReferenceAppliance) waiter.waitForAppliance(1, MINUTES).getAppliance();
             commCentral.stopDiscovery();
         }
         if (current == null) {
@@ -125,12 +124,12 @@ public class Steps {
 
         PortListener listener = portListeners.get(TimePort.class);
         listener.reset(count);
-        listener.waitForPortUpdate(2, MINUTES);
+        listener.waitForPortUpdate(1, MINUTES);
 
         scenario.write("Errors:" + listener.errors.toString());
 
         assertEquals(emptyList(), listener.errors);
-        assertTrue(listener.valueWasReceived);
+        assertEquals(count, listener.receivedCount);
 
         final String datetime = current.getTimePort().getPortProperties().datetime;
         scenario.write("Got time: " + datetime);

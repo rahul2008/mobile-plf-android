@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 public class PortListener implements DICommPortListener {
     public List<Error> errors = new ArrayList<>();
-    public boolean valueWasReceived = false;
+    public int receivedCount = 0;
     CountDownLatch latch = new CountDownLatch(1);
 
     public void reset() {
@@ -27,13 +27,13 @@ public class PortListener implements DICommPortListener {
 
     public void reset(int count) {
         errors.clear();
-        valueWasReceived = false;
+        receivedCount = 0;
         latch = new CountDownLatch(count);
     }
 
     @Override
     public void onPortUpdate(DICommPort port) {
-        valueWasReceived = true;
+        receivedCount++;
         latch.countDown();
     }
 
