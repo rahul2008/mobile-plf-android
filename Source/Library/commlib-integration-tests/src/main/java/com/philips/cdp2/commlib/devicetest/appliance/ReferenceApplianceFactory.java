@@ -14,6 +14,7 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.communication.CombinedCommunicationStrategy;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.devicetest.CombinedCommunicationTestingStrategy;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 
 import java.util.Collections;
@@ -47,7 +48,7 @@ public final class ReferenceApplianceFactory implements ApplianceFactory {
     public Appliance createApplianceForNode(NetworkNode networkNode) {
         if (canCreateApplianceForNode(networkNode)) {
 
-            final CommunicationStrategy communicationStrategy = new CombinedCommunicationStrategy(
+            final CommunicationStrategy communicationStrategy = new CombinedCommunicationTestingStrategy(
                     bleTransportContext.createCommunicationStrategyFor(networkNode),
                     lanTransportContext.createCommunicationStrategyFor(networkNode),
                     cloudTransportContext.createCommunicationStrategyFor(networkNode));
