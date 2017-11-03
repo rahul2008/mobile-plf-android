@@ -1,13 +1,7 @@
 package com.philips.platform.csw;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.test.UiThreadTest;
-import android.test.mock.MockContext;
-import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewStub;
-import android.widget.LinearLayout;
 
 
 import com.philips.platform.catk.CatkConstants;
@@ -229,7 +223,7 @@ public class CswFragmentTest {
     }
 
     private void givenViewWithId(int id) {
-        View view = new ViewStub(null);
+        View view = new View(new ContextMock());
         view.setId(id);
     }
 
