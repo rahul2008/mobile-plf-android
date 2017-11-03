@@ -36,6 +36,7 @@ public class ConnectWithPasswordViewModel extends BaseObservable {
     @NonNull private final Navigator navigator;
     @NonNull private final ConnectionEstablishDialogFragment connectingDialog;
     @NonNull private final StringProvider stringProvider;
+    @NonNull private final BaseContentConfiguration baseContentConfiguration;
 
     @Inject
     public ConnectWithPasswordViewModel(@NonNull final WiFiUtil wiFiUtil,
@@ -54,6 +55,8 @@ public class ConnectWithPasswordViewModel extends BaseObservable {
         this.deviceFriendlyName = new ObservableField<>("");
         title = new ObservableField<>(getTitle(baseConfig));
         note = new ObservableField<>(getNote(baseConfig));
+        this.baseContentConfiguration = baseConfig;
+
     }
 
     @Nullable
@@ -91,7 +94,7 @@ public class ConnectWithPasswordViewModel extends BaseObservable {
 
     public void onConnectButtonClicked() {
         navigator.navigateToConnectingDeviceWithWifiScreen(getHomeWiFiSSID(), password.get(),
-                sessionDetailsInfo.getDeviceName(), deviceFriendlyName.get());
+                stringProvider.getString(baseContentConfiguration.getDeviceName()), deviceFriendlyName.get());
     }
 
     public void setDeviceFriendlyName(@NonNull String name) {
