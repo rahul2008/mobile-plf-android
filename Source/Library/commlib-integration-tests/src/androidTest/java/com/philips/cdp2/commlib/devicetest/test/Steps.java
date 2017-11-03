@@ -54,12 +54,10 @@ public class Steps {
     @Before
     public void before(Scenario scenario) throws Throwable {
         this.scenario = scenario;
-
-        app = (TestApplication) newApplication(TestApplication.class, getTargetContext());
-        Log.i(LOGTAG, app.toString());
-        app.onCreate();
-
+        this.app = (TestApplication) newApplication(TestApplication.class, getTargetContext());
         this.commCentral = app.getCommCentral();
+
+        Log.i(LOGTAG, app.toString());
 
         // In M+, trying to access bluetooth will trigger a runtime dialog. Make sure
         // the permission is granted before running tests.

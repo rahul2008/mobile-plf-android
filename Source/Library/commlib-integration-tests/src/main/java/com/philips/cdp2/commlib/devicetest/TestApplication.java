@@ -24,11 +24,6 @@ public class TestApplication extends Application {
 
     private static CommCentral commCentral;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-    }
-
     public CommCentral getCommCentral() {
         if (commCentral == null) {
             final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(this, null);
