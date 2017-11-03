@@ -57,8 +57,7 @@
                     android:layout_marginEnd="@dimen/default_body_labels_margin"
                     android:layout_marginStart="@dimen/default_body_labels_margin"
                     android:layout_marginTop="@dimen/default_body_labels_margin"
-                    android:singleLine = "false"
-                    android:text="@{viewModel.note}" />
+                    android:text="@{viewModel.helper}" />
             </LinearLayout>
 
             <com.philips.platform.uid.view.widget.Label
@@ -67,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_screen_side_margin"
-                android:text="@string/label_ews_confirm_connection_want_to_connect" />
+                android:text="@{viewModel.note}" />
 
             <Space
                 android:layout_width="match_parent"

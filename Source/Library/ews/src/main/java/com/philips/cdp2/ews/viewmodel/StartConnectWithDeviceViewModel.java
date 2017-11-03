@@ -24,6 +24,9 @@ public class StartConnectWithDeviceViewModel {
     public final ObservableField<String> title;
     @NonNull
     public final ObservableField<String> note;
+    @NonNull
+    public final ObservableField<String> description;
+
 
     @NonNull
     private final Navigator navigator;
@@ -39,6 +42,7 @@ public class StartConnectWithDeviceViewModel {
         this.stringProvider = stringProvider;
         title = new ObservableField<>(getTitle(happyFlowConfig, baseConfig));
         note = new ObservableField<>(getNote(baseConfig));
+        description = new ObservableField<>(getDescription(baseConfig));
     }
 
     @VisibleForTesting
@@ -51,8 +55,15 @@ public class StartConnectWithDeviceViewModel {
 
     @VisibleForTesting
     @NonNull
-    String getNote(@NonNull BaseContentConfiguration baseConfig) {
+    String getDescription(@NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(R.string.label_ews_get_started_description,
+                baseConfig.getDeviceName());
+    }
+
+    @VisibleForTesting
+    @NonNull
+    String getNote(@NonNull BaseContentConfiguration baseConfig) {
+        return stringProvider.getString(R.string.label_ews_get_started_note,
                 baseConfig.getDeviceName());
     }
 
