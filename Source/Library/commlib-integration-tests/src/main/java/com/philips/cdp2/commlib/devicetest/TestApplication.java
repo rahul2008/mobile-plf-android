@@ -23,12 +23,13 @@ import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 public class TestApplication extends Application {
 
     private static CommCentral commCentral;
+    private static CloudController cloudController;
 
     public CommCentral getCommCentral() {
         if (commCentral == null) {
             final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(this, null);
 
-            final CloudController cloudController = setupCloudController(this);
+            cloudController = setupCloudController(this);
 
             final BleTransportContext bleTransportContext = new BleTransportContext(runtimeConfiguration, false);
             final LanTransportContext lanTransportContext = new LanTransportContext(runtimeConfiguration);
@@ -40,6 +41,10 @@ public class TestApplication extends Application {
         }
 
         return commCentral;
+    }
+
+    public CloudController getCloudController() {
+        return cloudController;
     }
 
     @NonNull

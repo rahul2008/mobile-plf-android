@@ -19,7 +19,7 @@ import cucumber.api.junit.Cucumber;
                 "html:/data/data/com.philips.cdp2.commlib.devicetest/cucumber-reports/html"
         },
         features = "features",
-        tags = {"@automated", "@android", "~@not_android", "@target"}
+        tags = {"@automated", "@android", "~@not_android", "@target", "~@broken"}
 )
 public class OnDeviceTests {
 

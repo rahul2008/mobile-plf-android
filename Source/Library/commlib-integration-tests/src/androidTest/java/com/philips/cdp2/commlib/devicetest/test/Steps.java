@@ -13,6 +13,8 @@ import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import com.philips.cdp.dicommclient.port.DICommPort;
+import com.philips.cdp.dicommclient.port.common.PairingHandler;
+import com.philips.cdp2.commlib.cloud.communication.CloudCommunicationStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.devicetest.TestApplication;
@@ -20,6 +22,7 @@ import com.philips.cdp2.commlib.devicetest.appliance.ReferenceAppliance;
 import com.philips.cdp2.commlib.devicetest.time.TimePort;
 import com.philips.cdp2.commlib.devicetest.util.Android;
 import com.philips.cdp2.commlib.devicetest.util.ApplianceWaiter;
+import com.philips.cdp2.commlib.devicetest.util.PairingWaiter;
 import com.philips.cdp2.commlib.devicetest.util.PortListener;
 
 import java.util.Map;
@@ -148,5 +151,23 @@ public class Steps {
         if(!bluetoothAdapter.isEnabled()) {
             bluetoothAdapter.enable();
         }
+    }
+
+    @Given("^appliance is paired to cloud$")
+    public void applianceIsPairedToCloud() throws Throwable {
+        PairingWaiter pairingWaiter = new PairingWaiter();
+        PairingHandler pairingHandler = new PairingHandler<>(pairingWaiter, current, app.getCloudController());
+        pairingHandler.startPairing();
+
+        pairingWaiter.waitForPairingCompleted(1, MINUTES);
+
+        if(!pairingWaiter.pairingSucceeded) {
+            throw new Exception("Pairing failed");
+        }
+    }
+
+    @Given("^cloudCommunication is used$")
+    public void cloudCommunicationIsUsed() throws Throwable {
+        current.getCommunicationStrategy().forceStrategyType(CloudCommunicationStrategy.class);
     }
 }

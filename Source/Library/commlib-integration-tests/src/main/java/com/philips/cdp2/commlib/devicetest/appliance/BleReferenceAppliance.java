@@ -8,13 +8,13 @@ package com.philips.cdp2.commlib.devicetest.appliance;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.devicetest.CombinedCommunicationTestingStrategy;
 
 public class BleReferenceAppliance extends ReferenceAppliance {
 
     public static final String DEVICETYPE = "ReferenceNode";
 
-    public BleReferenceAppliance(final @NonNull NetworkNode networkNode, final @NonNull CommunicationStrategy communicationStrategy) {
+    public BleReferenceAppliance(final @NonNull NetworkNode networkNode, final @NonNull CombinedCommunicationTestingStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
     }
 

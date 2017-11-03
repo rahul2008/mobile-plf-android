@@ -12,12 +12,9 @@ import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
-import com.philips.cdp2.commlib.core.communication.CombinedCommunicationStrategy;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.devicetest.CombinedCommunicationTestingStrategy;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -48,7 +45,7 @@ public final class ReferenceApplianceFactory implements ApplianceFactory {
     public Appliance createApplianceForNode(NetworkNode networkNode) {
         if (canCreateApplianceForNode(networkNode)) {
 
-            final CommunicationStrategy communicationStrategy = new CombinedCommunicationTestingStrategy(
+            final CombinedCommunicationTestingStrategy communicationStrategy = new CombinedCommunicationTestingStrategy(
                     bleTransportContext.createCommunicationStrategyFor(networkNode),
                     lanTransportContext.createCommunicationStrategyFor(networkNode),
                     cloudTransportContext.createCommunicationStrategyFor(networkNode));

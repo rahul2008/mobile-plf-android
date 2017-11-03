@@ -22,9 +22,13 @@ public class PortListener implements DICommPortListener {
     CountDownLatch latch = new CountDownLatch(1);
 
     public void reset() {
+        reset(1);
+    }
+
+    public void reset(int count) {
         errors.clear();
         valueWasReceived = false;
-        latch = new CountDownLatch(1);
+        latch = new CountDownLatch(count);
     }
 
     @Override
