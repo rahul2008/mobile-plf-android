@@ -192,7 +192,6 @@ public class THSWelcomeFragmentTest {
     @Test
     public void updateViewtest() throws Exception {
         SupportFragmentTestUtil.startFragment(mWelcomeFragment);
-        mWelcomeFragment.updateView();
         View viewById = mWelcomeFragment.getView().findViewById(R.id.how_it_works);
         assertThat(viewById.isEnabled());
         viewById = mWelcomeFragment.getView().findViewById(R.id.appointments);

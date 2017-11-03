@@ -6,18 +6,25 @@
 
 package com.philips.platform.ths.init;
 
+import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 
 import com.americanwell.sdk.AWSDK;
+import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.State;
+import com.americanwell.sdk.entity.consumer.Consumer;
+import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
+import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
@@ -26,14 +33,26 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static com.philips.platform.ths.utility.THSConstants.THS_SDK_SERVICE_ID;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -50,19 +69,34 @@ public class THSInitPresenterTest {
     FragmentLauncher fragmentLauncherMock;
 
     @Mock
+    AppInfraInterface appInfraInterfaceMock;
+
+    @Mock
+    Context contextMock;
+
+    @Mock
     ProgressBar progressBar;
+
+    @Captor
+    private ArgumentCaptor<SDKCallback> initializationCallback;
+
+    @Captor
+    private ArgumentCaptor<RefreshLoginSessionHandler> refreshLoginSessionHandlerArgumentCaptor;
 
     @Mock
     THSSDKError thssdkErrorMock;
 
     @Mock
+    THSAuthentication THSAuthenticationMock;
+
+    @Mock
     SDKError sdkErrorMock;
 
     @Mock
-    AppInfraInterface appInfraInterface;
+    AppTaggingInterface appTaggingInterface;
 
     @Mock
-    AppTaggingInterface appTaggingInterface;
+    Authentication authenticationMock;
 
     @Mock
     AppConfigurationInterface appConfigurationInterfaceMock;
@@ -72,9 +106,6 @@ public class THSInitPresenterTest {
 
     @Mock
     FragmentActivity activityMock;
-
-    @Mock
-    THSInitPresenter thsInitPresenterMock;
 
     THSInitPresenter mThsInitPresenter;
 
@@ -90,6 +121,10 @@ public class THSInitPresenterTest {
     @Mock
     Throwable throwableMock;
 
+    @Mock
+    Consumer consumerMock;
+
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -97,13 +132,30 @@ public class THSInitPresenterTest {
         THSManager.getInstance().setAwsdk(awsdkMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         THSManager.getInstance().setThsConsumer(thsConsumerMock);
-        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
-        when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
-        when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
-        when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
+        when(appInfraInterfaceMock.getTagging()).thenReturn(appTaggingInterface);
+        when(appInfraInterfaceMock.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        when(appInfraInterfaceMock.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
+        when(appInfraInterfaceMock.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
         when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);
 
-        THSManager.getInstance().setAppInfra(appInfraInterface);
+        THSManager.getInstance().setAppInfra(appInfraInterfaceMock);
+
+
+        THSManager.getInstance().setUser(userMock);
+        THSManager.getInstance().setThsConsumer(thsConsumerMock);
+        THSManager.getInstance().setThsParentConsumer(thsConsumerMock);
+        when(appInfraInterfaceMock.getTagging()).thenReturn(appTaggingInterface);
+        when(appInfraInterfaceMock.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        THSManager.getInstance().setAppInfra(appInfraInterfaceMock);
+        when(appInfraInterfaceMock.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
+        THSManager.getInstance().TEST_FLAG = true;
+        when(userMock.getHsdpUUID()).thenReturn("abc");
+        when(thsInitFragmentMock.getFragmentActivity()).thenReturn(activityMock);
+        when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
+        List list = new ArrayList();
+        list.add(thsConsumerMock);
+        when(thsConsumerMock.getDependents()).thenReturn(list);
+        when(thsConsumerMock.getDependents()).thenReturn(list);
 
 
         THSManager.getInstance().TEST_FLAG = true;
@@ -173,5 +225,197 @@ public class THSInitPresenterTest {
         mThsInitPresenter.onFailure(throwableMock);
         verify(thsInitFragmentMock).hideProgressBar();
     }
+
+    @Test
+    public void onLoginResponse() throws Exception {
+        when(THSAuthenticationMock.getAuthentication()).thenReturn(authenticationMock);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+        mThsInitPresenter.onLoginResponse(THSAuthenticationMock, thssdkErrorMock);
+        verify(consumerManagerMock, atLeast(1)).getConsumer(any(Authentication.class), any(SDKCallback.class));
+    }
+
+    @Test
+    public void onLoginResponseWhenSDKErrorIsNotNull() throws Exception {
+        when(THSAuthenticationMock.getAuthentication()).thenReturn(authenticationMock);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+        when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);
+        when(sdkErrorMock.getHttpResponseCode()).thenReturn(401);
+        when(thssdkErrorMock.getHttpResponseCode()).thenReturn(401);
+        mThsInitPresenter.onLoginResponse(THSAuthenticationMock, thssdkErrorMock);
+        verify(userMock, atLeast(1)).refreshLoginSession(any(RefreshLoginSessionHandler.class));
+    }
+
+    @Test
+    public void onLoginResponseWhenNotEnrolledProperly() throws Exception {
+        when(THSAuthenticationMock.getAuthentication()).thenReturn(authenticationMock);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+        when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);
+        when(THSAuthenticationMock.needsToCompleteEnrollment()).thenReturn(true);
+        mThsInitPresenter.onLoginResponse(THSAuthenticationMock, thssdkErrorMock);
+        verify(awsdkMock.getConsumerManager(), atLeast(1)).completeEnrollment(any(Authentication.class), any(State.class), anyString(), anyString(), any(SDKCallback.class));
+    }
+
+    @Test
+    public void onLoginResponseisRefreshTokenRequestedBeforetrue() throws Exception {
+        mThsInitPresenter.isRefreshTokenRequestedBefore = true;
+        when(THSAuthenticationMock.getAuthentication()).thenReturn(authenticationMock);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+        when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);
+        when(sdkErrorMock.getHttpResponseCode()).thenReturn(401);
+        when(thssdkErrorMock.getHttpResponseCode()).thenReturn(401);
+        mThsInitPresenter.onLoginResponse(THSAuthenticationMock, thssdkErrorMock);
+        verifyNoMoreInteractions(userMock);
+    }
+
+    @Test
+    public void getConsumerThrowsAWSDKInstantiationException() throws Exception {
+        when(THSAuthenticationMock.getAuthentication()).thenReturn(authenticationMock);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+        doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).getConsumer(any(Authentication.class),any(SDKCallback.class));
+        mThsInitPresenter.onLoginResponse(THSAuthenticationMock, thssdkErrorMock);
+        verify(consumerManagerMock, atLeast(1)).getConsumer(any(Authentication.class),any(SDKCallback.class));
+    }
+
+    @Test
+    public void onLoginFailure() throws Exception {
+        mThsInitPresenter.onLoginFailure(throwableMock);
+        verify(thsInitFragmentMock).hideProgressBar();
+    }
+
+    @Test
+    public void onError() throws Exception {
+        mThsInitPresenter.onError(throwableMock);
+        verify(thsInitFragmentMock).hideProgressBar();
+    }
+    @Test
+    public void onReceiveConsumerObject(){
+        mThsInitPresenter.onReceiveConsumerObject(consumerMock, sdkErrorMock);
+    }
+
+    @Test
+    public void onLoginResponserefresh() throws Exception {
+        when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);
+        when(sdkErrorMock.getHttpResponseCode()).thenReturn(HttpsURLConnection.HTTP_UNAUTHORIZED);
+        when(thssdkErrorMock.getHttpResponseCode()).thenReturn(HttpsURLConnection.HTTP_UNAUTHORIZED);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+        when(thsInitFragmentMock.getContext()).thenReturn(contextMock);
+        mThsInitPresenter.onLoginResponse(null, thssdkErrorMock);
+        when(userMock.getHsdpUUID()).thenReturn("1234");
+        when(userMock.getHsdpAccessToken()).thenReturn("1234");
+
+        Object object = new Object();
+        when(appConfigurationInterfaceMock.getPropertyForKey(anyString(),
+                anyString(), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(object);
+
+        verify(userMock).refreshLoginSession(refreshLoginSessionHandlerArgumentCaptor.capture());
+        RefreshLoginSessionHandler value = refreshLoginSessionHandlerArgumentCaptor.getValue();
+        value.onRefreshLoginSessionSuccess();
+        verify(awsdkMock).authenticateMutual(anyString(), any(SDKCallback.class));
+    }
+
+    @Test
+    public void onLoginResponserefreshReturnTypeMap() throws Exception {
+        when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);
+        when(sdkErrorMock.getHttpResponseCode()).thenReturn(HttpsURLConnection.HTTP_UNAUTHORIZED);
+        when(thssdkErrorMock.getHttpResponseCode()).thenReturn(HttpsURLConnection.HTTP_UNAUTHORIZED);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+        when(thsInitFragmentMock.getContext()).thenReturn(contextMock);
+        mThsInitPresenter.onLoginResponse(null, thssdkErrorMock);
+        when(userMock.getHsdpUUID()).thenReturn("1234");
+        when(userMock.getHsdpAccessToken()).thenReturn("1234");
+
+        Map object = new HashMap();
+        object.put("default","default");
+        when(appConfigurationInterfaceMock.getPropertyForKey(anyString(),
+                anyString(), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(object);
+
+        verify(userMock).refreshLoginSession(refreshLoginSessionHandlerArgumentCaptor.capture());
+        RefreshLoginSessionHandler value = refreshLoginSessionHandlerArgumentCaptor.getValue();
+        value.onRefreshLoginSessionSuccess();
+        verify(awsdkMock).authenticateMutual(anyString(), any(SDKCallback.class));
+    }
+
+    @Test
+    public void onLoginResponserefreshReturnTypeMapWhenDefaultValueMissing() throws Exception {
+        when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);
+        when(sdkErrorMock.getHttpResponseCode()).thenReturn(HttpsURLConnection.HTTP_UNAUTHORIZED);
+        when(thssdkErrorMock.getHttpResponseCode()).thenReturn(HttpsURLConnection.HTTP_UNAUTHORIZED);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+        when(thsInitFragmentMock.getContext()).thenReturn(contextMock);
+        mThsInitPresenter.onLoginResponse(null, thssdkErrorMock);
+        when(userMock.getHsdpUUID()).thenReturn("1234");
+        when(userMock.getHsdpAccessToken()).thenReturn("1234");
+
+        Map object = new HashMap();
+        //object.put("default","default");
+        when(appConfigurationInterfaceMock.getPropertyForKey(anyString(),
+                anyString(), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(object);
+
+        verify(userMock).refreshLoginSession(refreshLoginSessionHandlerArgumentCaptor.capture());
+        RefreshLoginSessionHandler value = refreshLoginSessionHandlerArgumentCaptor.getValue();
+        value.onRefreshLoginSessionSuccess();
+        verify(awsdkMock).authenticateMutual(anyString(), any(SDKCallback.class));
+    }
+
+    @Test
+    public void onLoginResponseOnRefreshLoginSessionFailedWithError() throws Exception {
+        when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);
+        when(sdkErrorMock.getHttpResponseCode()).thenReturn(HttpsURLConnection.HTTP_UNAUTHORIZED);
+        when(thssdkErrorMock.getHttpResponseCode()).thenReturn(HttpsURLConnection.HTTP_UNAUTHORIZED);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+        when(thsInitFragmentMock.getContext()).thenReturn(contextMock);
+        mThsInitPresenter.onLoginResponse(null, thssdkErrorMock);
+
+        verify(userMock).refreshLoginSession(refreshLoginSessionHandlerArgumentCaptor.capture());
+        RefreshLoginSessionHandler value = refreshLoginSessionHandlerArgumentCaptor.getValue();
+        value.onRefreshLoginSessionFailedWithError(anyInt());
+        verify(thsInitFragmentMock).hideProgressBar();
+    }
+
+    @Test
+    public void onLoginResponseOnRefreshLoginSessionInProgress() throws Exception {
+        when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);
+        when(sdkErrorMock.getHttpResponseCode()).thenReturn(HttpsURLConnection.HTTP_UNAUTHORIZED);
+        when(thssdkErrorMock.getHttpResponseCode()).thenReturn(HttpsURLConnection.HTTP_UNAUTHORIZED);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+        when(thsInitFragmentMock.getContext()).thenReturn(contextMock);
+        mThsInitPresenter.onLoginResponse(null, thssdkErrorMock);
+
+        verify(userMock).refreshLoginSession(refreshLoginSessionHandlerArgumentCaptor.capture());
+        RefreshLoginSessionHandler value = refreshLoginSessionHandlerArgumentCaptor.getValue();
+        value.onRefreshLoginSessionInProgress("123");
+    }
+
+    @Test
+    public void onReceiveConsumerObjectTestAppointments(){
+        mThsInitPresenter.onReceiveConsumerObject(consumerMock,sdkErrorMock);
+        verify(thsInitFragmentMock).hideProgressBar();
+    }
+
+    @Test
+    public void onReceiveConsumerObjectVisitHostory(){
+        mThsInitPresenter.onReceiveConsumerObject(consumerMock,sdkErrorMock);
+        verify(thsInitFragmentMock).hideProgressBar();
+    }
+
+    @Test
+    public void onReceiveConsumerObjectHowItWorks(){
+        mThsInitPresenter.onReceiveConsumerObject(consumerMock,sdkErrorMock);
+        verify(thsInitFragmentMock).hideProgressBar();
+    }
+
+    @Test
+    public void onReceiveConsumerObjectPractices(){
+        mThsInitPresenter.onReceiveConsumerObject(consumerMock,sdkErrorMock);
+        verify(thsInitFragmentMock).hideProgressBar();
+    }
+
+ /*   @Test
+    public void testAuthenticate(){
+        doThrow(AWSDKInstantiationException.class).when(awsdk).authenticateMutual(anyString(),any(SDKCallback.class));
+        mThsInitPresenter.getStarted();
+        verify(awsdk).authenticateMutual(anyString(),any(SDKCallback.class));
+    }*/
 
 }
