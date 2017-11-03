@@ -20,6 +20,7 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.common.util.DateUtil;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConfirmWifiNetworkBinding;
+import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.ColorsUtil;
 import com.philips.cdp2.ews.util.TextUtil;
@@ -84,7 +85,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
         final AlertDialogFragment alertDialogFragment = builder.create();
         alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
         getChildFragmentManager().executePendingTransactions();
-
+        EWSTagger.trackPage(Page.SELECT_HOME_WIFI);
         TextView textView = (TextView) view.findViewById(R.id.label_ews_home_network_body);
         ImageView imageView = (ImageView) view.findViewById(R.id.ic_close);
         String explanation = String.format(DateUtil.getSupportedLocale(), context.getString(R.string.label_ews_home_network_body),

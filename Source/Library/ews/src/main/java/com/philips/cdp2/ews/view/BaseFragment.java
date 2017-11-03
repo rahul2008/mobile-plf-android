@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,8 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
         showCancelDialog(stringId);
     }
 
-    private void showCancelDialog(@StringRes int deviceName) {
+    @VisibleForTesting
+    void showCancelDialog(@StringRes int deviceName) {
         Context context = getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.cancel_setup_dialog,
                 null, false);
