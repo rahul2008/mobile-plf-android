@@ -62,7 +62,7 @@
                 android:layout_marginTop="@dimen/default_main_button_top_margin"
                 android:onClick="@{() -> viewModel.onCancelButtonClicked()}"
                 android:text="@string/button_ews_connecting_device_cancel"
-                app:uidComponentType="Primary" />
+                app:uidComponentType="Secondary" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </layout>
