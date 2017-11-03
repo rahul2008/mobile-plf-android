@@ -11,6 +11,7 @@ package com.philips.platform.csw.description;
 import com.philips.platform.csw.CswBaseFragment;
 import com.philips.platform.mya.consentwidgets.R;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.*;
 

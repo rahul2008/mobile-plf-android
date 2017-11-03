@@ -34,10 +34,6 @@ public abstract class CswBaseFragment extends Fragment {
 
     public abstract int getTitleResourceId();
 
-    public String getTitleResourceText() {
-        return null;
-    }
-
     protected static int mWidth = 0;
     protected static int mHeight = 0;
 
@@ -104,7 +100,7 @@ public abstract class CswBaseFragment extends Fragment {
     }
 
     public CswFragment getCswFragment() {
-        Fragment fragment = getParentFragment();
+        Fragment fragment = overridableGetParentFragment();
         if (fragment != null && (fragment instanceof CswFragment)) {
             return (CswFragment) fragment;
         }
@@ -227,5 +223,9 @@ public abstract class CswBaseFragment extends Fragment {
                 }
             });
         }
+    }
+
+    protected Fragment overridableGetParentFragment() {
+        return getParentFragment();
     }
 }

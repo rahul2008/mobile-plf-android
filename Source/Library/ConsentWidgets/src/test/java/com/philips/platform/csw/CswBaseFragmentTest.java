@@ -15,6 +15,7 @@ import com.philips.platform.csw.wrapper.CswBaseFragmentWrapper;
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = com.philips.platform.mya.consentaccesstoolkit.BuildConfig.class, sdk = 25)
 public class CswBaseFragmentTest {
+
     @Test
     public void onResume_updateActionBar() throws Exception {
         givenTitleResourceIdIs(123);
@@ -48,9 +49,9 @@ public class CswBaseFragmentTest {
         assertEquals(null, baseFragment.cswFragment);
     }
 
-    private void thenActionBarIsUpdatedWith(int i, boolean b) {
-        assertEquals(actionBarListener.updatedActionBarInt, i);
-        assertEquals(actionBarListener.updateActionBarBoolean, b);
+    private void thenActionBarIsUpdatedWith(int expectedActionBarInt, boolean expectedActionBarBoolean) {
+        assertEquals(expectedActionBarInt, actionBarListener.updatedActionBarInt);
+        assertEquals(expectedActionBarBoolean, actionBarListener.updateActionBarBoolean);
     }
 
     private void givenFragmentCountIs(int i) {
