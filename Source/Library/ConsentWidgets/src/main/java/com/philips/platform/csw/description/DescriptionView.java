@@ -20,6 +20,15 @@ public class DescriptionView extends CswBaseFragment implements
     private DescriptionPresenter descriptionPresenter;
 
     @Override
+    protected void setViewParams(Configuration config, int width) {
+
+    }
+
+    @Override
+    protected void handleOrientation(View view) {
+    }
+
+    @Override
     public int getTitleResourceId() {
         return R.string.csw_what_does_this_mean;
     }
