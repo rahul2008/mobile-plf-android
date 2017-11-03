@@ -7,6 +7,7 @@
 package com.philips.platform.ths.registration;
 
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.EditText;
+import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.RadioButton;
 import com.philips.platform.uid.view.widget.RadioGroup;
@@ -37,7 +39,7 @@ import java.util.Locale;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_ADD_DETAILS;
 
-public class THSRegistrationFragment extends THSBaseFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class THSRegistrationFragment extends THSBaseFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, View.OnFocusChangeListener {
     public static final String TAG = THSRegistrationFragment.class.getSimpleName();
     private THSRegistrationPresenter mThsRegistrationPresenter;
     private RelativeLayout mRelativeLayout;
@@ -54,6 +56,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     private Date mDob;
     private RadioGroup radio_group_single_line;
     protected int mLaunchInput;
+    private InputValidationLayout firstNameValidationLayout, lastNameValidationLayout;
 
     @Nullable
     @Override
@@ -65,8 +68,8 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         }
 
         Bundle bundle = getArguments();
-        if(bundle!=null){
-            mLaunchInput = bundle.getInt(THSConstants.THS_LAUNCH_INPUT,-1);
+        if (bundle != null) {
+            mLaunchInput = bundle.getInt(THSConstants.THS_LAUNCH_INPUT, -1);
         }
         setView(view);
         mThsRegistrationPresenter = new THSRegistrationPresenter(this);
@@ -78,8 +81,12 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         mContinueButton = (ProgressBarButton) view.findViewById(R.id.ths_continue);
         mContinueButton.setOnClickListener(this);
         mEditTextFirstName = (EditText) view.findViewById(R.id.ths_edit_first_name);
+        mEditTextFirstName.setOnFocusChangeListener(this);
         mEditTextLastName = (EditText) view.findViewById(R.id.ths_edit_last_name);
+        mEditTextLastName.setOnFocusChangeListener(this);
         mDateOfBirth = (EditText) view.findViewById(R.id.ths_edit_dob);
+        firstNameValidationLayout = view.findViewById(R.id.ths_edit_first_name_container);
+        lastNameValidationLayout = view.findViewById(R.id.ths_edit_last_name_container);
         mDateOfBirth.setFocusable(false);
         mDateOfBirth.setClickable(true);
         mDateOfBirth.setOnClickListener(this);
@@ -104,7 +111,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         mStateSpinner.setAdapter(spinnerAdapter);
         mStateSpinner.setSelection(0);
         mStateSpinner.setOnItemSelectedEvenIfUnchangedListener(this);
-
+        mContinueButton.setEnabled(false);
         prePopulateData();
     }
 
@@ -112,13 +119,16 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
         THSConsumer user = THSManager.getInstance().getThsConsumer(getContext());
 
-        if(user.getFirstName()!=null) {
+        if (user.getFirstName() != null) {
             mEditTextFirstName.setText(user.getFirstName());
         }
-        if(user.getLastName()!=null) {
+        if (user.getLastName() != null) {
             mEditTextLastName.setText(user.getLastName());
         }
-        if(user.getDob()!=null) {
+        if (mEditTextFirstName.getText().length() <= 0 && mEditTextLastName.getText().length() <= 0) {
+            mContinueButton.setEnabled(true);
+        }
+        if (user.getDob() != null) {
             mDob = user.getDob();
             setDate(user.getDob());
 
@@ -132,6 +142,16 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
             mCheckBoxFemale.setChecked(true);
         } else {
             mCheckBoxMale.setSelected(true);
+        }
+    }
+
+    private void enableDisableContinueBtn() {
+        validateFirstNameField();
+        validateLastNameField();
+        if (!(firstNameValidationLayout.isShowingError() || lastNameValidationLayout.isShowingError())) {
+            mContinueButton.setEnabled(true);
+        }else {
+            mContinueButton.setEnabled(false);
         }
     }
 
@@ -149,46 +169,42 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.ths_continue) {
+            enableDisableContinueBtn();
             if (validateUserDetails()) {
                 mContinueButton.showProgressIndicator();
 
                 if(THSManager.getInstance().getThsConsumer(getContext()).isDependent()){
                     mThsRegistrationPresenter.enrollDependent(mDob, mEditTextFirstName.getText().toString(),
                             mEditTextLastName.getText().toString(), Gender.MALE, mValidStates.get(mStateSpinner.getSelectedItemPosition()));
-                }else {
+                } else {
                     mThsRegistrationPresenter.enrollUser(mDob, mEditTextFirstName.getText().toString(),
                             mEditTextLastName.getText().toString(), Gender.MALE, mValidStates.get(mStateSpinner.getSelectedItemPosition()));
                 }
-
             }
 
         }
         if (id == R.id.ths_edit_dob) {
+            enableDisableContinueBtn();
             mThsRegistrationPresenter.onEvent(R.id.ths_edit_dob);
         }
         if (id == R.id.ths_edit_location_container) {
+            enableDisableContinueBtn();
             mStateSpinner.performClick();
         }
     }
 
     private boolean validateUserDetails() {
-        if (mEditTextFirstName.getText().toString().isEmpty()) {
-            showToast(getString(R.string.ths_first_name_validation));
+        if (mThsRegistrationPresenter.validateDOB(mDob)) {
+            if (mThsRegistrationPresenter.validateLocation(mEditTextStateSpinner.getText().toString())) {
+                showError(getString(R.string.ths_registration_location_validation_error));
+                return false;
+            }else {
+                return true;
+            }
+        } else {
+            showError(getString(R.string.ths_registration_dob_validation_error));
             return false;
-        } else if (mEditTextLastName.getText().toString().isEmpty()) {
-            showToast(getString(R.string.ths_last_name_validation));
-            return false;
-        } else if (mDateOfBirth.getText().toString().isEmpty()) {
-            showToast(getString(R.string.ths_dob_validation));
-            return false;
-        } else if (radio_group_single_line.getCheckedRadioButtonId() == -1) {
-            showToast(getString(R.string.ths_gender_validation));
-            return false;
-        } else if (mEditTextStateSpinner.getText().toString().isEmpty()) {
-            showToast(getString(R.string.ths_state_validation));
-            return false;
-        } else return true;
-
+        }
     }
 
     public void updateDobView(Date date) {
@@ -215,4 +231,63 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         super.onResume();
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_ADD_DETAILS, null, null);
     }
+
+    @Override
+    public void onFocusChange(View view, boolean hasFocus) {
+        if (view.getId() == R.id.ths_edit_first_name && !hasFocus) {
+            validateFirstNameField();
+        } else if (view.getId() == R.id.ths_edit_last_name && !hasFocus) {
+            validateLastNameField();
+        }
+        enableDisableContinueBtn();
+    }
+
+    public void validateLastNameField() {
+        if (!mThsRegistrationPresenter.validateName(mEditTextLastName.getText().toString())) {
+            setInLineErrorMessageLastName();
+            setInLineErrorVisibilityLN(true);
+        } else {
+            setInLineErrorVisibilityLN(false);
+        }
+    }
+
+    public void validateFirstNameField() {
+        if (!mThsRegistrationPresenter.validateName(mEditTextFirstName.getText().toString())) {
+            setInLineErrorMessageFirstName();
+            setInLineErrorVisibilityFN(true);
+        } else {
+            setInLineErrorVisibilityFN(false);
+        }
+    }
+
+    private String errorString = "";
+
+    public void setErrorString(String errorString) {
+        this.errorString = errorString;
+    }
+
+    public void setInLineErrorMessageFirstName() {
+        firstNameValidationLayout.setErrorMessage(errorString);
+    }
+
+    public void setInLineErrorVisibilityFN(boolean show) {
+        if (show) {
+            firstNameValidationLayout.showError();
+        } else {
+            firstNameValidationLayout.hideError();
+        }
+    }
+
+    public void setInLineErrorMessageLastName() {
+        lastNameValidationLayout.setErrorMessage(errorString);
+    }
+
+    public void setInLineErrorVisibilityLN(boolean show) {
+        if (show) {
+            lastNameValidationLayout.showError();
+        } else {
+            lastNameValidationLayout.hideError();
+        }
+    }
+
 }

@@ -10,7 +10,7 @@
     <string name="vitals">Step 2 of 5: Vitals</string>
     <string name="conditions">Step 4 of 5: Medical conditions</string>
     <string name="ths_vitals_follow_up_step_5">Step 5 of 5: Follow up</string>
-    <string name="ths_invalid_phone_number">Please enter valid phone number</string>
+    <string name="ths_invalid_phone_number">Please enter 10 digits phone number</string>
     <string name="ths_vitals_follow_up_step_5_description_text">Where can the provider
         call you, for a follow up, if needed?</string>
     <string name="ths_vitals_notice_privacy_policy_check_box_text">I have read and agree to the</string>
@@ -96,6 +96,23 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_pharmacy_preferred_pharmacy_update">Preferred pharmacy updated</string>
     <string name="ths_pharmacy_fetch_validation_error">Pharmacy list fetch validation error</string>
     <string name="ths_pharmacy_fetch_error">Unable to fetch pharmacy list</string>
+
+    //Shipping address layout strings
+    <string name="ths_address_shipping_address_string">Shipping address</string>
+    <string name="ths_address_address_line_one">Address line 1</string>
+    <string name="ths_address_enter_first_address_line">Enter first address line</string>
+    <string name="ths_address_address_line_two">Address line 2</string>
+    <string name="ths_address_optional_string">(optional)</string>
+    <string name="ths_address_town_city_string">Town/City</string>
+    <string name="ths_address_enter_town_city">Enter your town or city</string>
+    <string name="ths_address_postal_code_string">Postal code</string>
+    <string name="ths_address_state_string">State</string>
+    <string name="ths_ok_continue_button_string">Ok,continue</string>
+    <string name="ths_address_validation_empty_string">Address line cannot be empty</string>
+    <string name="ths_address_validation_length_string">Address should contain between 2 and 25 characters</string>
+    <string name="ths_address_validation_city_empty_string">City cannot be empty</string>
+    <string name="ths_address_validation_city_length_string">City should contain between 2 and 25 characters</string>
+    <string name="ths_address_billing_address_string">Billing Address</string>
 
     //Provider list screens strings
     <string name="provider_available">Available now</string>
@@ -256,8 +273,8 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
 
     <!-- Dependent-->
-    <string name="ths_visit_for">Who is the visit for?</string>
-    <string name="ths_select_name">Select the name of the person who needs the consult. For instance, if you are a mother and your baby has an war ache, choose your baby\'s name</string>
+    <string name="ths_visit_for">Who is this visit for?</string>
+    <string name="ths_select_name">Select the name of the person who needs the consult. For instance, if you are a mother and your baby has an ear ache, choose your baby\'s name</string>
     <string name="ths_select_patient">Select patient</string>
 
     <!--Waiting Room String -->
@@ -270,7 +287,29 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <string name="ths_se_server_error_toast_message">"Oops! Something went wrong, please try after sometime"</string>
     <string name="ths_delete_success_string">"Delete success</string>
+
+
+
+    <!-- Registration validation strings -->
+    <string name="ths_registration_name_validation_not_empty">Name cannot be blank</string>
+    <string name="ths_registration_name_validation_not_more_two_characters">Name should contain more than 2 characters</string>
+    <string name="ths_registration_name_validation_only_alphabets">Name should contain only alphanumerics</string>
+    <string name="ths_registration_name_validation_not_more_than_25_characters">Name should be less than 25 characters</string>
+    <string name="ths_registration_dob_validation_error">Please enter the age above 18 years</string>
+    <string name="ths_registration_location_validation_error">Please select a location</string>
+
+    <!-- Vitals validation strings -->
+    <string name="ths_vitals_systolic_error">Enter values between 1 and 250</string>
+    <string name="ths_vitals_diastolic_error">Enter values between 0 and 249,diastolic value should be more than systolic</string>
+    <string name="ths_vitals_temperature_error">Enter values between 0 and 120</string>
+
+    <string name="ths_pharmacy_search_hint">Type zip code</string>
+    <string name="ths_pharmacy_search_error">Please enter a valid zip code in the format 12345 or 12345–6789</string>
+
     <string name="show_all"><u>Show all</u></string>
+
+    <!-- Dependent Strings -->
+    <string name="ths_dependent_name">Selected patient: <xliff:g name="count">%s</xliff:g> </string>
 
     <!-- OnBoarding Screen -->
     <string name="take_tour">Take a tour</string>

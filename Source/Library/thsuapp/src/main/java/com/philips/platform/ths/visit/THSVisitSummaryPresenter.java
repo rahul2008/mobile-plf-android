@@ -19,6 +19,7 @@ import com.philips.platform.ths.utility.THSManager;
 
 import java.util.HashMap;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_RATING;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
@@ -147,12 +148,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     public void onResponse(Void var1, SDKError var2) {
         if (null != mTHSVisitSummaryFragment && mTHSVisitSummaryFragment.isFragmentAttached()) {
             if (null != var2) {
-                if (null != var2.getSDKErrorReason()) {
-                    mTHSVisitSummaryFragment.showError(THSSDKErrorFactory.getErrorType(var2.getSDKErrorReason()));
-                    return;
-                }else {
-                    mTHSVisitSummaryFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
-                }
+                mTHSVisitSummaryFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_RATING,var2));
             }
         }
         AmwellLog.d("Send rating", "success");
@@ -162,6 +158,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     public void onFailure(Throwable throwable) {
         AmwellLog.d("Send rating", "failure");
         if (null != mTHSVisitSummaryFragment && mTHSVisitSummaryFragment.isFragmentAttached()) {
+            mTHSVisitSummaryFragment.doTagging(ANALYTICS_RATING,mTHSVisitSummaryFragment.getResources().getString(R.string.ths_se_server_error_toast_message),true);
             mTHSVisitSummaryFragment.showError(mTHSVisitSummaryFragment.getResources().getString(R.string.ths_se_server_error_toast_message),true);
         }
     }

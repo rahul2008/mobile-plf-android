@@ -7,17 +7,19 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_visit_for"
-        style="@style/ths_list_item_header"
+        style="@style/amwellCentralesansBoldFont"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:gravity="center_vertical"
         android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
-        android:layout_marginLeft="@dimen/ths_fab_margin"
-        android:layout_marginRight="@dimen/ths_fab_margin"
+        android:paddingStart="@dimen/ths_fab_margin"
+        android:paddingEnd="@dimen/ths_fab_margin"
         android:layout_marginTop="@dimen/ths_image_size"
-        android:layout_marginBottom="@dimen/ths_conditions_margin_top"
+        android:layout_marginBottom="@dimen/ths_image_size"
+        android:paddingTop="@dimen/ths_title_padding"
+        android:paddingBottom="@dimen/ths_title_padding"
         android:text="@string/ths_visit_for"
-        android:textSize="@dimen/ths_body_text" />
+        android:textSize="@dimen/ths_title_text" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/chhose_person"

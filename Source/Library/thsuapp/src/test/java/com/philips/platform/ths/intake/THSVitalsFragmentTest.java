@@ -17,6 +17,7 @@ import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.view.widget.InputValidationLayout;
 
 import junit.framework.Assert;
 
@@ -31,6 +32,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.booleanThat;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -84,6 +86,9 @@ public class THSVitalsFragmentTest {
 
     @Mock
     THSConsumer thsConsumerMock;
+
+    @Mock
+    InputValidationLayout inputValidationLayoutMock;
 
     @Before
     public void setUp() throws Exception {
@@ -140,6 +145,10 @@ public class THSVitalsFragmentTest {
         SupportFragmentTestUtil.startFragment(thsVitalsFragment);
         thsVitalsFragment.mThsVitalsPresenter = presenterMock;
         thsVitalsFragment.setFragmentLauncher(fragmentLauncherMock);
+        thsVitalsFragment.mFarenheitInputLayoutContainer = inputValidationLayoutMock;
+        thsVitalsFragment.mSystolicInputValidationLayout = inputValidationLayoutMock;
+        thsVitalsFragment.mDiastolicInputValidationLayout = inputValidationLayoutMock;
+        when(inputValidationLayoutMock.isShowingError()).thenReturn(false);
         final View viewById = thsVitalsFragment.getView().findViewById(R.id.vitals_continue_btn);
         viewById.performClick();
         verify(presenterMock,atLeastOnce()).onEvent(R.id.vitals_continue_btn);
@@ -150,6 +159,9 @@ public class THSVitalsFragmentTest {
         SupportFragmentTestUtil.startFragment(thsVitalsFragment);
         thsVitalsFragment.mThsVitalsPresenter = presenterMock;
         thsVitalsFragment.setFragmentLauncher(fragmentLauncherMock);
+        thsVitalsFragment.mFarenheitInputLayoutContainer = inputValidationLayoutMock;
+        thsVitalsFragment.mSystolicInputValidationLayout = inputValidationLayoutMock;
+        thsVitalsFragment.mDiastolicInputValidationLayout = inputValidationLayoutMock;
         final View viewById = thsVitalsFragment.getView().findViewById(R.id.vitals_skip);
         viewById.performClick();
         verify(presenterMock,atLeastOnce()).onEvent(R.id.vitals_skip);
@@ -161,9 +173,7 @@ public class THSVitalsFragmentTest {
         SupportFragmentTestUtil.startFragment(thsVitalsFragment);
         thsVitalsFragment.mThsVitalsPresenter = presenterMock;
         thsVitalsFragment.setTHSVitals(thsVitalsMock);
-
         when(thsVitalsMock.getVitals()).thenReturn(vitalsMock);
-
         when(presenterMock.isTextValid(thsVitalsFragment.mSystolic)).thenReturn(true);
         when(presenterMock.isTextValid(thsVitalsFragment.mDiastolic)).thenReturn(true);
         when(presenterMock.isTextValid(thsVitalsFragment.mWeight)).thenReturn(true);

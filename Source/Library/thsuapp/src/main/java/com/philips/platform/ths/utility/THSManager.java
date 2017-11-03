@@ -155,6 +155,16 @@ public class THSManager {
     private THSConsumer mThsConsumer;
     private THSConsumer mThsParentConsumer;
     private boolean mIsReturningUser = true;
+    private String ServerURL=null;
+
+    public String getServerURL() {
+        return ServerURL;
+    }
+
+    public void setServerURL(String serverURL) {
+        ServerURL = serverURL;
+    }
+
 
     public THSVisitCompletionListener getThsVisitCompletionListener() {
         return thsVisitCompletionListener;
@@ -448,7 +458,7 @@ public class THSManager {
             public void onSuccess(URL url) {
                 initParams.put(AWSDK.InitParam.BaseServiceUrl, url.toString());
                 initParams.put(AWSDK.InitParam.ApiKey, APIKey); //client key
-
+                setServerURL(url.toString());
                 AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
                 try {
                     getAwsdk(context).initialize(

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/shipping_address_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/uidContentPrimaryBackgroundColor"
-    android:padding="16dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/shipping_address_text_label"
@@ -13,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Shipping Address" />
+        android:text="@string/ths_address_shipping_address_string" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/sa_address_line_one_text"
@@ -21,39 +22,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/shipping_address_text_label"
-        android:text="Address line 1" />
+        android:text="@string/ths_address_address_line_one" />
 
-    <com.philips.platform.uid.view.widget.EditText
-        android:id="@+id/sa_shipping_address_line_one"
-        style="@style/UIDEditTextBox"
+    <com.philips.platform.uid.view.widget.InputValidationLayout
+        android:id="@+id/sa_shipping_address_line_one_validation_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:imeOptions="actionNext"
-        android:inputType="text"
-        android:maxLines="1"
         android:layout_below="@+id/sa_address_line_one_text"
-        android:layout_marginBottom="16dp"
-        android:hint="Enter first address line" />
+        android:layout_marginBottom="@dimen/ths_fab_margin"
+        app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+        app:uidTextBoxValidationErrorText="@string/inline_error_message_systolic_value">
+
+        <com.philips.platform.uid.view.widget.ValidationEditText
+            android:id="@+id/sa_shipping_address_line_one"
+            style="@style/UIDEditTextBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/ths_address_enter_first_address_line"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:maxLines="1" />
+    </com.philips.platform.uid.view.widget.InputValidationLayout>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/sa_address_line_two_text"
         style="@style/UIDLabel.RecyclerViewItemDescriptionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sa_shipping_address_line_one"
-        android:text="Address Line 2" />
+        android:layout_below="@+id/sa_shipping_address_line_one_validation_layout"
+        android:text="@string/ths_address_address_line_two" />
 
     <com.philips.platform.uid.view.widget.EditText
         android:id="@+id/sa_shipping_address_line_two"
         style="@style/UIDEditTextBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:imeOptions="actionNext"
-        android:inputType="text"
-        android:maxLines="1"
         android:layout_below="@+id/sa_address_line_two_text"
         android:layout_marginBottom="16dp"
-        android:hint="(optional)" />
+        android:hint="@string/ths_address_optional_string"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        android:maxLines="1" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/sa_town_text"
@@ -61,38 +71,56 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sa_shipping_address_line_two"
-        android:text="Town/City" />
+        android:text="@string/ths_address_town_city_string" />
 
-    <com.philips.platform.uid.view.widget.EditText
-        android:id="@+id/sa_town"
-        style="@style/UIDEditTextBox"
+    <com.philips.platform.uid.view.widget.InputValidationLayout
+        android:id="@+id/sa_town_validation_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:imeOptions="actionNext"
-        android:inputType="text"
-        android:maxLines="1"
         android:layout_below="@id/sa_town_text"
-        android:layout_marginBottom="16dp"
-        android:hint="Enter yout town or city" />
+        android:layout_marginBottom="@dimen/ths_fab_margin"
+        app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+        app:uidTextBoxValidationErrorText="@string/inline_error_message_systolic_value">
+
+        <com.philips.platform.uid.view.widget.ValidationEditText
+            android:id="@+id/sa_town"
+            style="@style/UIDEditTextBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/ths_address_enter_town_city"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:maxLines="1" />
+    </com.philips.platform.uid.view.widget.InputValidationLayout>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/sa_postal_code_text"
         style="@style/UIDLabel.RecyclerViewItemDescriptionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/sa_town"
-        android:text="Postal code" />
+        android:layout_below="@id/sa_town_validation_layout"
+        android:text="@string/ths_address_postal_code_string" />
 
-    <com.philips.platform.uid.view.widget.EditText
+
+    <com.philips.platform.uid.view.widget.InputValidationLayout
         android:id="@+id/sa_postal_code"
-        style="@style/UIDEditTextBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:imeOptions="actionDone"
         android:layout_below="@id/sa_postal_code_text"
-        android:layout_marginBottom="16dp"
-        android:hint="Enter ZIP or postal code"
-        android:inputType="number" />
+        android:layout_marginBottom="@dimen/ths_fab_margin"
+        app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+        app:uidTextBoxValidationErrorText="@string/inline_error_message_systolic_value">
+
+        <com.philips.platform.uid.view.widget.ValidationEditText
+            android:id="@+id/sa_postal_code_edittext"
+            style="@style/UIDEditTextBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:hint="@string/ths_pharmacy_search_hint"
+            android:imeOptions="actionDone" />
+    </com.philips.platform.uid.view.widget.InputValidationLayout>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/sa_state_text"
@@ -100,14 +128,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sa_postal_code"
-        android:text="State" />
+        android:text="@string/ths_address_state_string" />
 
     <android.support.v7.widget.AppCompatSpinner
         android:id="@+id/sa_state_spinner"
-        android:background="?attr/uidTextBoxDefaultDisabledBackgroundColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/sa_state_text">
+        android:layout_below="@id/sa_state_text"
+        android:background="?attr/uidTextBoxDefaultDisabledBackgroundColor">
 
     </android.support.v7.widget.AppCompatSpinner>
 
@@ -120,6 +148,6 @@
             android:id="@+id/update_shipping_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ok,continue" />
+            android:text="@string/ths_ok_continue_button_string" />
     </RelativeLayout>
 </RelativeLayout>

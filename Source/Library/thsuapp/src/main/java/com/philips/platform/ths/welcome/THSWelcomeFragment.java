@@ -22,13 +22,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 
 
-import static com.philips.platform.ths.utility.THSConstants.THS_HOW_IT_WORKS;
-import static com.philips.platform.ths.utility.THSConstants.THS_PRACTICE_PAGE;
-import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER;
-import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
-import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
-import static com.philips.platform.ths.utility.THSConstants.THS_START;
-import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_HISTORY_LIST;
+
 import static com.philips.platform.ths.utility.THSConstants.THS_WELCOME;
 
 public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickListener {
@@ -100,16 +94,16 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.appointments) {
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+ THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER);
+           // THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+ THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER);
             presenter.onEvent(R.id.appointments);
         }else if(i == R.id.visit_history){
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_VISIT_HISTORY_LIST);
+            //THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_VISIT_HISTORY_LIST);
             presenter.onEvent(R.id.visit_history);
         }else if(i == R.id.how_it_works){
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_HOW_IT_WORKS);
+            //THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_HOW_IT_WORKS);
             presenter.onEvent(R.id.how_it_works);
         }else if(i == R.id.ths_start){
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_PRACTICE_PAGE);
+           // THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_PRACTICE_PAGE);
             presenter.onEvent(R.id.ths_start);
         }
     }

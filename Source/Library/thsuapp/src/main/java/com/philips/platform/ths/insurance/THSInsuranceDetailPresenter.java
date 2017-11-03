@@ -31,6 +31,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_HEALTH_SUBSCRIPTION;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPDATE_HEALTH_PLAN;
+
 class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallback.THSgetInsuranceCallBack<THSSubscription, THSSDKError>, THSSDKValidatedCallback<Void, SDKError> {
     protected THSBaseFragment mTHSBaseFragment;
 
@@ -158,11 +161,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             mTHSBaseFragment.hideProgressBar();
             if (null != tHSSDKError.getSdkError()) {
-                if (null != tHSSDKError.getSDKErrorReason()) {
-                    mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(tHSSDKError.getSDKErrorReason()),true);
-                }else {
-                    mTHSBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR,true);
-                }
+                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_FETCH_HEALTH_SUBSCRIPTION,tHSSDKError.getSdkError()),true);
             } else {
                 ((THSInsuranceDetailFragment) mTHSBaseFragment).thsSubscriptionExisting = tHSSubscription;
                 Subscription subscription = tHSSubscription.getSubscription();
@@ -238,7 +237,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
             mTHSBaseFragment.hideProgressBar();
             if (null != sdkError) {
                 if (null != sdkError.getSDKErrorReason()) {
-                    mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
+                    mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPDATE_HEALTH_PLAN,sdkError));
                 }
             } else {
                 showCostSummaryFragment();

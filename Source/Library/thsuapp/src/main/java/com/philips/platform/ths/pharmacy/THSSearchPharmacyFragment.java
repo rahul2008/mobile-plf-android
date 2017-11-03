@@ -23,6 +23,7 @@ import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.List;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_PHARMACY;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEARCH_PHARMACY;
 
 public class THSSearchPharmacyFragment extends THSBaseFragment implements SearchBox.ExpandListener,SearchBox.QuerySubmitListener,THSSearchFragmentViewInterface{
@@ -52,8 +53,8 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
         searchPharmacy.setExpandListener(this);
         searchPharmacy.setQuerySubmitListener(this);
         searchPharmacy.setQuery(searchPharmacy.getQuery());
-        searchPharmacy.setSearchBoxHint("Search for pharmacy");
-        searchPharmacy.setDecoySearchViewHint("Search for pharmacy");
+        searchPharmacy.setSearchBoxHint(R.string.ths_pharmacy_search_hint);
+        searchPharmacy.setDecoySearchViewHint(R.string.ths_pharmacy_search_hint);
         actionBarListener = getActionBarListener();
         if(null != actionBarListener){
             actionBarListener.updateActionBar(R.string.search_pharmacy_fragment_name,true);
@@ -79,7 +80,12 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     public void onQuerySubmit(CharSequence charSequence) {
         zipSearchString = String.valueOf(charSequence);
         createCustomProgressBar(linearLayout,SMALL);
-        thsSearchPharmacyPresenter.onEvent(SEARCH_EVENT_ID);
+        if(thsSearchPharmacyPresenter.validateZip(zipSearchString)) {
+            thsSearchPharmacyPresenter.onEvent(SEARCH_EVENT_ID);
+        }else {
+            doTagging(ANALYTICS_PHARMACY,getString(R.string.ths_pharmacy_search_error),false);
+            showError(getString(R.string.ths_pharmacy_search_error));
+        }
     }
 
     @Override

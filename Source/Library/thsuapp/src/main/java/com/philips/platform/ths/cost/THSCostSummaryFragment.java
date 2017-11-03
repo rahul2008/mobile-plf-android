@@ -25,6 +25,8 @@ import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.Label;
 
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_ALERT;
 
 
@@ -70,6 +72,7 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
 
     EditText mCouponCodeEdittext;
     Button mCouponCodeButton;
+    protected  AtomicBoolean isPromoCodeAlreadyApplied = new AtomicBoolean(false);;
 
 
     @Nullable

@@ -33,6 +33,9 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Map;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_CREATE_VISIT_CONTEXT;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_ON_DEMAND_SPECIALITIES;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
@@ -84,8 +87,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     public void onEvent(int componentID) {
         if (componentID == R.id.continue_btn) {
             ((THSSymptomsFragment) thsBaseView).updateOtherTopic();
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "step1SymptomsForVisit", ((THSSymptomsFragment) thsBaseView).tagActions);
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step1SymptomsAdded");
+
             ((THSSymptomsFragment) thsBaseView).addTags();
             final THSVitalsFragment fragment = new THSVitalsFragment();
             fragment.setFragmentLauncher(thsBaseView.getFragmentLauncher());
@@ -97,11 +99,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     public void onResponse(THSVisitContext THSVisitContext, THSSDKError thssdkError) {
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
             if (null != thssdkError.getSdkError()) {
-                if (thssdkError.getSDKErrorReason().name() != null) {
-                    thsBaseView.showError(THSSDKErrorFactory.getErrorType(thssdkError.getSDKErrorReason()), true);
-                }else {
-                    thsBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR, true);
-                }
+                thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CREATE_VISIT_CONTEXT,thssdkError.getSdkError()), true);
             } else {
                 updateSymptoms(THSVisitContext);
             }
@@ -151,11 +149,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
             public void onResponse(THSVisitContext pthVisitContext, THSSDKError thssdkError) {
                 if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
                     if (null != thssdkError.getSdkError()) {
-                        if (thssdkError.getSDKErrorReason().name() != null) {
-                            thsBaseView.showError(THSSDKErrorFactory.getErrorType(thssdkError.getSDKErrorReason()), true);
-                        }else {
-                            thsBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR, true);
-                        }
+                        thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_ON_DEMAND_SPECIALITIES,thssdkError.getSdkError()), true);
                     } else {
                         updateSymptoms(pthVisitContext);
                     }
@@ -198,11 +192,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
                 thsBaseView.showToast("Success with Document name" + documentRecord.getName());
                 ((THSSymptomsFragment) thsBaseView).updateDocumentRecordList(documentRecord);
             } else if (null != sdkError) {
-                if (null != sdkError.getSDKErrorReason()) {
-                    thsBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                }else {
-                    thsBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
-                }
+                thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT,sdkError));
                 thsBaseView.showToast("upload failed with sdk error" + sdkError.getMessage());
             }
         }
