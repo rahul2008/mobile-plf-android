@@ -44,16 +44,6 @@ public class PermissionView extends CswBaseFragment implements
     private String propositionName;
 
     @Override
-    protected void setViewParams(Configuration config, int width) {
-
-    }
-
-    @Override
-    protected void handleOrientation(View view) {
-
-    }
-
-    @Override
     public int getTitleResourceId() {
         return R.string.csw_permissions;
     }
