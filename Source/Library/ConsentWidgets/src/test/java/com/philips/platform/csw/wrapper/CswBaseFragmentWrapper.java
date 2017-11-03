@@ -3,10 +3,11 @@ package com.philips.platform.csw.wrapper;
 import com.philips.platform.csw.CswBaseFragment;
 import com.philips.platform.csw.CswFragment;
 import com.philips.platform.csw.mock.ActionBarListenerMock;
+import com.philips.platform.csw.mock.CswFragmentMock;
 
 public class CswBaseFragmentWrapper extends CswBaseFragment {
     public int resourceTitleId = 0;
-    private CswFragment cswFragment = new CswFragment();
+    public CswFragmentMock cswFragment;
 
     @Override
     public int getTitleResourceId() {
