@@ -27,10 +27,10 @@ interface MomentsClient {
     @GET("/api/users/{userId}/moments/_query")
     UCoreMomentsHistory fetchMomentByDateRange(@Header("performerId") String performerId,
                                                @Path("userId") String userId,
-                                               @Query(value = "timestampStart") String startTimeStamp,
-                                               @Query(value = "timestampEnd") String endTimeStamp,
-                                               @Query(value = "lastModifiedStart") String lastModifiedStartTimeStamp,
-                                               @Query(value = "lastModifiedEnd") String lastModifiedEndTimeStamp,
+                                               @Query(value = "timestampStart", encodeValue = false) String startTimeStamp,
+                                               @Query(value = "timestampEnd", encodeValue = false) String endTimeStamp,
+                                               @Query(value = "lastModifiedStart", encodeValue = false) String lastModifiedStartTimeStamp,
+                                               @Query(value = "lastModifiedEnd", encodeValue = false) String lastModifiedEndTimeStamp,
                                                @Query(value = "limit") int limit
     );
 
