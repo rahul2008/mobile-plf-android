@@ -85,7 +85,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
         final AlertDialogFragment alertDialogFragment = builder.create();
         alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
         getChildFragmentManager().executePendingTransactions();
-        EWSTagger.trackPage(Page.SELECT_HOME_WIFI);
+        sendPageTag();
         TextView textView = (TextView) view.findViewById(R.id.label_ews_home_network_body);
         ImageView imageView = (ImageView) view.findViewById(R.id.ic_close);
         String explanation = String.format(DateUtil.getSupportedLocale(), context.getString(R.string.label_ews_home_network_body),
@@ -102,5 +102,10 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
                 viewModel.refresh();
             }
         });
+    }
+
+    @VisibleForTesting
+    void sendPageTag(){
+        EWSTagger.trackPage(Page.SELECT_HOME_WIFI);
     }
 }

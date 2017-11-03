@@ -89,7 +89,7 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
         final AlertDialogFragment alertDialogFragment = builder.create();
         alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
         getChildFragmentManager().executePendingTransactions();
-        EWSTagger.trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
+        sendPageTag();
         Button yesButton = (Button) view.findViewById(R.id.ews_H_03_00_a_button_yes);
         Button noButton = (Button) view.findViewById(R.id.ews_H_03_00_a_button_no);
         yesButton.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +109,10 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
                 }
             }
         });
+    }
+
+    public void sendPageTag(){
+        EWSTagger.trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
     }
 
     @Override

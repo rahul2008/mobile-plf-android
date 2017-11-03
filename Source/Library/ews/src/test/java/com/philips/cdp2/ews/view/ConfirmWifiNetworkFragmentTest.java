@@ -4,7 +4,7 @@
  */
 package com.philips.cdp2.ews.view;
 
-import com.philips.cdp2.ews.injections.EWSComponent;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.viewmodel.ConfirmWifiNetworkViewModel;
 
@@ -18,6 +18,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -34,31 +35,31 @@ public class ConfirmWifiNetworkFragmentTest {
     @Mock
     private ConfirmWifiNetworkViewModel mockConfirmWifiNetworkViewModel;
 
-    @Mock private EWSComponent ewsComponentMock;
-
-    private ConfirmWifiNetworkFragment spySubject;
-
-
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(EWSTagger.class);
-        subject = new ConfirmWifiNetworkFragment();
+        subject = spy(new ConfirmWifiNetworkFragment());
         injectMembers();
     }
 
     private void injectMembers() {
 
-        spySubject = spy(subject);
-        //doReturn(mockConfirmWifiNetworkViewModel).when(spySubject.viewModel);
         doAnswer(new Answer() {
             @Override
             public Object answer(final InvocationOnMock invocation) throws Throwable {
-                spySubject.viewModel = mockConfirmWifiNetworkViewModel;
+                subject.viewModel = mockConfirmWifiNetworkViewModel;
                 return null;
             }
-        }).when(spySubject).createViewModel();
-        spySubject.createViewModel();
+        }).when(subject).createViewModel();
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                subject.sendPageTag();
+                return null;
+            }
+        }).when(subject).showTroubleshootHomeWifiDialog(any(BaseContentConfiguration.class));
+        subject.createViewModel();
     }
 
     @Test
@@ -68,8 +69,14 @@ public class ConfirmWifiNetworkFragmentTest {
 
     @Test
     public void shouldCalltrackPageOnResume() throws Exception {
-        spySubject.onResume();
+        subject.onResume();
         verifyStatic(times(1));
         EWSTagger.trackPage("confirmWifiNetwork");
+    }
+    @Test
+    public void shouldCalltrackPageOnShowTroubleshootHomeWifiDialog() throws Exception {
+        subject.showTroubleshootHomeWifiDialog(any(BaseContentConfiguration.class));
+        verifyStatic(times(1));
+        EWSTagger.trackPage("selectHomeWifi");
     }
 }
