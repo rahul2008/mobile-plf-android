@@ -5,6 +5,11 @@
 
 package com.philips.cdp2.commlib.devicetest.test;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
+import android.net.wifi.SupplicantState;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import com.philips.cdp.dicommclient.port.DICommPort;
@@ -47,8 +52,14 @@ public class Steps {
     private Scenario scenario;
 
     @Before
-    public void before(Scenario scenario) {
+    public void before(Scenario scenario) throws Throwable {
         this.scenario = scenario;
+
+        app = (TestApplication) newApplication(TestApplication.class, getTargetContext());
+        Log.i(LOGTAG, app.toString());
+        app.onCreate();
+
+        this.commCentral = app.getCommCentral();
 
         // In M+, trying to access bluetooth will trigger a runtime dialog. Make sure
         // the permission is granted before running tests.
@@ -76,11 +87,6 @@ public class Steps {
 
     @Given("^a Node with cppId \"([^\"]*)\" is discovered and selected$")
     public void aNodeWithCppIdIsDiscoveredAndSelected(final String cppId) throws Throwable {
-        app = (TestApplication) newApplication(TestApplication.class, getTargetContext());
-        Log.i(LOGTAG, app.toString());
-        app.onCreate();
-        commCentral = app.getCommCentral();
-
         current = (ReferenceAppliance) commCentral.getApplianceManager().findApplianceByCppId(cppId);
         if (current == null) {
             ApplianceWaiter.Waiter<Appliance> waiter = ApplianceWaiter.forCppId(cppId);
@@ -125,6 +131,24 @@ public class Steps {
     }
 
     @Given("^device is connected to SSID \"(.*?)\"$")
-    public void device_is_connected_to_SSID(String arg1) throws Throwable {
+    public void deviceIsConnectedToSSID(String ssid) throws Throwable {
+        WifiManager wifiManager = (WifiManager) app.getSystemService(Context.WIFI_SERVICE);
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        if (wifiInfo.getSupplicantState() == SupplicantState.COMPLETED) {
+            ssid = String.format("\"%s\"",ssid); // According to spec the getSSID is returned with double quotes
+            if(!wifiInfo.getSSID().equals(ssid)) {
+                throw new Exception(String.format("Connected to wrong network: expected %s, actual %s", ssid, wifiInfo.getSSID()));
+            }
+        } else {
+            throw new Exception("Wifi turned off");
+        }
+    }
+
+    @Given("^bluetooth is turned on$")
+    public void bluetoothIsTurnedOn() {
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if(!bluetoothAdapter.isEnabled()) {
+            bluetoothAdapter.enable();
+        }
     }
 }
