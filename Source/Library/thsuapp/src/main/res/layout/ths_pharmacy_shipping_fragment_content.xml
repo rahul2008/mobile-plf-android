@@ -76,14 +76,14 @@
             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/ths_small_body_text"  />
 
-        <com.philips.platform.uid.view.widget.ImageButton
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ps_edit_pharmacy"
-            style="@style/UIDQuietIconButton"
-            android:layout_width="wrap_content"
+            style="@style/ths_font_icon_style"
+            android:layout_marginEnd="@dimen/ths_fab_margin"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            app:uidImageButtonDrawableSrc="@android:drawable/ic_menu_edit" />
+            android:text="@string/dls_edit"
+            android:layout_centerVertical="true" />
     </RelativeLayout>
 
     <View
@@ -166,14 +166,14 @@
             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/ths_small_body_text"  />
 
-        <com.philips.platform.uid.view.widget.ImageButton
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ps_edit_consumer_shipping_address"
-            style="@style/UIDQuietIconButton"
-            android:layout_width="wrap_content"
+            style="@style/ths_font_icon_style"
+            android:layout_marginEnd="@dimen/ths_fab_margin"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            app:uidImageButtonDrawableSrc="@android:drawable/ic_menu_edit" />
+            android:text="@string/dls_edit"
+            android:layout_centerVertical="true" />
     </RelativeLayout>
 
     <View

@@ -302,9 +302,25 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_vitals_systolic_error">Enter values between 1 and 250</string>
     <string name="ths_vitals_diastolic_error">Enter values between 0 and 249,diastolic value should be more than systolic</string>
     <string name="ths_vitals_temperature_error">Enter values between 0 and 120</string>
-
     <string name="ths_pharmacy_search_hint">Type zip code</string>
     <string name="ths_pharmacy_search_error">Please enter a valid zip code in the format 12345 or 12345–6789</string>
-
     <string name="show_all"><u>Show all</u></string>
+
+    <!-- Insurance Strings -->
+    <string name="ths_insurance_detail_label_text">Please fill in your insurance details</string>
+    <string name="ths_insurance_detail_provider_text">Insurance Provider</string>
+    <string name="ths_insurance_detail_please_select_text">Please select</string>
+    <string name="ths_insurance_detail_subscriber_id_text">Subscriber ID</string>
+    <string name="ths_insurance_detail_suffix_text">Suffix</string>
+    <string name="ths_insurance_detail_not_primary_sub_text">I\'m not the primary subscriber</string>
+    <string name="ths_insurance_detail_choose_relation_text">Choose Relationship</string>
+    <string name="ths_insurance_detail_primary_sub_details_text">Primary subscriber details</string>
+    <string name="ths_insurance_detail_first_name_text">First Name</string>
+    <string name="ths_insurance_detail_last_name_text">Last Name</string>
+    <string name="ths_insurance_detail_dob_text">Date of Birth</string>
+    <string name="ths_insurance_detail_ddmmyyyy_hint_text">DD/MM/YYYY</string>
+    <string name="ths_insurance_detail_plan_not_listed_text">My plan is not listed. Skip this</string>
+
+    <!-- Credit card details strings -->
+    <string name="ths_credit_card_details_whats_this_text">What\'s this?</string>
 </resources>
