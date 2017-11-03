@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.configuration.MockitoConfiguration;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -26,14 +27,14 @@ import static org.mockito.Mockito.when;
 
 
 /**
- * Created by philips on 10/31/17.
+ * Created by Maqsood on 10/31/17.
  */
 
 @RunWith(CustomRobolectricRunnerCATK.class)
 @PrepareForTest(CatkInterface.class)
 @Config(constants = BuildConfig.class, sdk = 25)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
-public class CreateConsentModelRequestTest {
+public class CreateConsentModelRequestTest extends MockitoConfiguration {
 
     @Rule
     public PowerMockRule powerMockRule = new PowerMockRule();
