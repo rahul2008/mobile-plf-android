@@ -57,7 +57,7 @@ public class MyaFragmentTest {
 
     private void thenFragmentRootIsRedered() {
         assertNotNull(myaFragment.getView());
-        assertEquals(R.id.csw_frame_layout_view_container, myaFragment.getView().getId());
+        assertEquals(R.id.mya_frame_layout_view_container, myaFragment.getView().getId());
     }
 
     private void thenApplicationNameIs(String expectedApplicationName) {

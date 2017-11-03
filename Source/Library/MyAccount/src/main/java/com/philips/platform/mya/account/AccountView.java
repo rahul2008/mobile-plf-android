@@ -115,6 +115,7 @@ public class AccountView extends MyaBaseFragment implements
         cswLaunchInput.setApplicationName(applicationName);
         cswLaunchInput.addToBackStack(addToBackStack);
         cswLaunchInput.setContext(getContext());
+        cswLaunchInput.setFragmentManager(this.getParentFragment().getChildFragmentManager());
         return cswLaunchInput;
     }
 

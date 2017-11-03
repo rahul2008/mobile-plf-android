@@ -1,34 +1,19 @@
 package com.philips.platform.csw;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.test.UiThreadTest;
-import android.test.mock.MockContext;
-import android.util.AttributeSet;
-import android.view.View;
-import android.view.ViewStub;
-import android.widget.LinearLayout;
+import static org.junit.Assert.*;
 
+import org.junit.*;
+import org.junit.runner.RunWith;
+import org.robolectric.annotation.Config;
 
 import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.csw.mock.ContextMock;
-import com.philips.platform.csw.mock.FragmentManagerMock;
-import com.philips.platform.csw.mock.FragmentTransactionMock;
-import com.philips.platform.csw.mock.LayoutInflatorMock;
+import com.philips.platform.csw.mock.*;
 import com.philips.platform.csw.utils.CustomRobolectricRunner;
 import com.philips.platform.csw.wrapper.CswFragmentWrapper;
 import com.philips.platform.mya.consentwidgets.R;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.annotation.Config;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import android.os.Bundle;
+import android.view.View;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = com.philips.platform.mya.consentaccesstoolkit.BuildConfig.class, sdk = 25)
@@ -45,7 +30,7 @@ public class CswFragmentTest {
 
     @Test
     public void onCreateView_setsApplicationAndPropositionName() throws Exception {
-        givenArgumentsAre(APPLICATION_NAME,PROPOSITION_NAME);
+        givenArgumentsAre(APPLICATION_NAME, PROPOSITION_NAME);
         whenOnCreateViewIsInvoked();
         thenApplicationNameIs(APPLICATION_NAME);
         thenPropositionNameIs(PROPOSITION_NAME);
@@ -61,35 +46,35 @@ public class CswFragmentTest {
 
     @Test
     public void onCreateView_InvokesInflatorWthRightParams() throws Exception {
-        givenArgumentsAre(APPLICATION_NAME,PROPOSITION_NAME);
+        givenArgumentsAre(APPLICATION_NAME, PROPOSITION_NAME);
         whenOnCreateViewIsInvoked();
-        thenPermissionViewIsInflatedWith(R.id.csw_frame_layout_view_container,APPLICATION_NAME, PROPOSITION_NAME);
+        thenPermissionViewIsInflatedWith(R.id.csw_frame_layout_view_container, APPLICATION_NAME, PROPOSITION_NAME);
     }
 
     @Test
     public void onCreateView_InflatesPermissionView() throws Exception {
-        givenArgumentsAre(APPLICATION_NAME,PROPOSITION_NAME);
+        givenArgumentsAre(APPLICATION_NAME, PROPOSITION_NAME);
         whenOnCreateViewIsInvoked();
         thenInflatorInflateIsCalledWith(R.layout.csw_fragment_consent_widget_root, null, false);
     }
 
     @Test
-    public void onViewStateRestored_ReadsApplicationNameAndPropositionNameFromState(){
-        givenBundleStateWithValues(APPLICATION_NAME,PROPOSITION_NAME);
+    public void onViewStateRestored_ReadsApplicationNameAndPropositionNameFromState() {
+        givenBundleStateWithValues(APPLICATION_NAME, PROPOSITION_NAME);
         whenOnViewStateRestoredIsInvoked();
         thenApplicationNameIs(APPLICATION_NAME);
         thenPropositionNameIs(PROPOSITION_NAME);
     }
 
     @Test
-    public void onViewStateRestored_DoesNotSetAppNameAndPropName_WhenStateIsNull(){
+    public void onViewStateRestored_DoesNotSetAppNameAndPropName_WhenStateIsNull() {
         whenOnViewStateRestoredIsInvoked();
         thenApplicationNameIs(null);
         thenPropositionNameIs(null);
     }
 
     @Test
-    public void onViewStateSave_savesApplicationNameAndPropositionNameToState(){
+    public void onViewStateSave_savesApplicationNameAndPropositionNameToState() {
         givenEmptyBundleState();
         givenFragmentApplicationAndPropositionNamesAre(APPLICATION_NAME, PROPOSITION_NAME);
         whenOnViewStateSaveIsInvoked();
@@ -98,7 +83,7 @@ public class CswFragmentTest {
     }
 
     @Test
-    public void onViewStateSave_savesApplicationNameAndPropositionNameToState_WhenStateIsNull(){
+    public void onViewStateSave_savesApplicationNameAndPropositionNameToState_WhenStateIsNull() {
         whenOnViewStateSaveIsInvoked();
         Assert.assertNull(state);
     }
@@ -111,7 +96,7 @@ public class CswFragmentTest {
     }
 
     @Test
-    public void onViewStateSave_DoesNotSetAppNameAndPropName_WhenStateIsNull(){
+    public void onViewStateSave_DoesNotSetAppNameAndPropName_WhenStateIsNull() {
         whenOnViewStateRestoredIsInvoked();
         thenApplicationNameIs(null);
         thenPropositionNameIs(null);
@@ -219,8 +204,8 @@ public class CswFragmentTest {
 
     private void givenArgumentsAre(String applicationName, String propositionName) {
         Bundle mockBundle = new Bundle();
-        mockBundle.putString(APPLICATION_NAME_KEY,applicationName);
-        mockBundle.putString(PROPOSITION_NAME_KEY,propositionName);
+        mockBundle.putString(APPLICATION_NAME_KEY, applicationName);
+        mockBundle.putString(PROPOSITION_NAME_KEY, propositionName);
         fragment.setArguments(mockBundle);
     }
 
@@ -229,7 +214,7 @@ public class CswFragmentTest {
     }
 
     private void givenViewWithId(int id) {
-        View view = new ViewStub(null);
+        View view = new View(new ContextMock());
         view.setId(id);
     }
 
