@@ -308,15 +308,29 @@ public class DeletingMonitorTest {
     }
 
     @Test
-    public void DeleteAllExpiredMomentsAsked_WhenDeleteExpiredMomentsRequested() throws Exception {
-        monitor.onEventBackGround(new DeleteExpiredMomentRequest(dbRequestListener));
-        verify(deletingMock).deleteAllExpiredMoments(dbRequestListener);
+    public void deleteExpireMoments_whenDeleteExpireMomentsRequested() throws Exception {
+        monitor.onEventBackGround(new DeleteExpiredMomentRequest(new DeleteExpiredMomentsListener()));
+        verify(deletingMock).deleteAllExpiredMoments(new DeleteExpiredMomentsListener());
     }
 
     @Test
-    public void ShouldPostExceptionEvent_WhenSQLDeletionFails_For_deleteExpiredMoments() throws Exception {
-        doThrow(SQLException.class).when(deletingMock).deleteAllExpiredMoments(dbRequestListener);
-        monitor.onEventBackGround(new DeleteExpiredMomentRequest(dbRequestListener));
+    public void postException_WhenDeletionFailsFor_deleteExpiredMoments() throws Exception {
+        doThrow(SQLException.class).when(deletingMock).deleteAllExpiredMoments(new DeleteExpiredMomentsListener());
+        monitor.onEventBackGround(new DeleteExpiredMomentRequest(new DeleteExpiredMomentsListener()));
         verify(deletingMock).deleteFailed(any(SQLException.class), any(dbRequestListener.getClass()));
     }
+
+    private class DeleteExpiredMomentsListener implements DBRequestListener<Integer> {
+
+        @Override
+        public void onSuccess(List<? extends Integer> data) {
+
+        }
+
+        @Override
+        public void onFailure(Exception exception) {
+
+        }
+    }
+
 }
