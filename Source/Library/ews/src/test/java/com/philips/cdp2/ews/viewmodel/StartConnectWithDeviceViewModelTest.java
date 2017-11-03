@@ -10,7 +10,6 @@ import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
-import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.StringProvider;
 
 import org.junit.Before;
@@ -60,7 +59,7 @@ public class StartConnectWithDeviceViewModelTest {
     public void shouldNavigateToHomeWifiScreenIfWifiIsEnabledWhenClickedOnGettingStartedButton() throws Exception {
         stubHomeWiFiStatus();
         verifyStatic(times(1));
-        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.GET_STARTED);
+        EWSTagger.trackActionSendData("specialEvents", "getStartedToConnectWiFi");
 
         verify(navigatorMock).navigateToHomeNetworkConfirmationScreen();
     }

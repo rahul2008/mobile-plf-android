@@ -11,7 +11,6 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
-import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
@@ -74,15 +73,14 @@ public class ConfirmWifiNetworkViewModelTest {
     @Test
     public void shouldShowDevicePowerOnScreenWhenClickedOnYesButton() throws Exception {
         viewModel.onYesButtonClicked();
-
+        testConfirmNetworkEWSTagger();
         verify(navigatorMock).navigateToDevicePoweredOnConfirmationScreen();
     }
 
     @Test
     public void shouldShowNetworkTroubleShootingScreenOnNoButtonClicked() throws Exception {
         viewModel.onNoButtonClicked();
-        verifyStatic(times(1));
-        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.CHANGE_NETWORK);
+        testChangeNetworkEWSTagger();
         verify(mockViewCallback).showTroubleshootHomeWifiDialog(mockBaseContentConfig);
     }
 
@@ -94,15 +92,19 @@ public class ConfirmWifiNetworkViewModelTest {
         verify(callbackListenerMock).onPropertyChanged(viewModel, BR.homeWiFiSSID);
     }
 
+    private void testConfirmNetworkEWSTagger() {
+        verifyStatic(times(1));
+        EWSTagger.trackActionSendData("specialEvents", "connectToExistingNetwork");
+    }
+
     private void testChangeNetworkEWSTagger() {
         verifyStatic(times(1));
-        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.CHANGE_NETWORK);
+        EWSTagger.trackActionSendData("specialEvents", "changeNetworkToConnect");
     }
 
     @Test
     public void itShouldShowTroubleShootingScreenWhenNotConnectedToHomeWifi() throws Exception {
         when(wifiUtilMock.isHomeWiFiEnabled()).thenReturn(false);
-
         viewModel.refresh();
         testChangeNetworkEWSTagger();
         verify(mockViewCallback).showTroubleshootHomeWifiDialog(mockBaseContentConfig);
@@ -111,9 +113,7 @@ public class ConfirmWifiNetworkViewModelTest {
     @Test
     public void itShouldNotShowTroubleShootingScreenWhenConnectedToHomeWifi() throws Exception {
         when(wifiUtilMock.isHomeWiFiEnabled()).thenReturn(true);
-
         viewModel.refresh();
-
         verify(mockViewCallback, never()).showTroubleshootHomeWifiDialog(mockBaseContentConfig);
     }
 

@@ -17,7 +17,6 @@ import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
 import com.philips.cdp2.ews.tagging.EWSTagger;
-import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.GpsUtil;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.view.dialog.GPSEnableDialogFragment;
@@ -94,10 +93,7 @@ public class SecondSetupStepsViewModelTest {
     @Test
     public void shouldRequestForLocationPermissionIfItsNotGrantedAlreadyWhenONextButtonClicked() throws Exception {
         setPermissionGranted(false);
-
         subject.onNextButtonClicked();
-        verifyStatic(times(1));
-        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.WIFI_BLINKING);
         verify(permissionHandlerMock).requestPermission(fragmentMock, R.string.label_location_permission_required,
                 ACCESS_COARSE_LOCATION, LOCATION_PERMISSIONS_REQUEST_CODE);
     }
@@ -116,10 +112,7 @@ public class SecondSetupStepsViewModelTest {
     public void shouldShowGPSEnableDialogIfGPSIsOffWhenONextButtonClicked() throws Exception {
         setPermissionGranted(true);
         stubGPSSettings(false, true);
-
         subject.onNextButtonClicked();
-        verifyStatic(times(1));
-        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.WIFI_BLINKING);
         verify(gpsEnableDialogFragmentMock).show(fragmentMock.getFragmentManager(), fragmentMock.getClass().getName());
     }
 
@@ -217,10 +210,21 @@ public class SecondSetupStepsViewModelTest {
     @Test
     public void shouldShowChooseCurrentStateScreenWhenNoButtonIsClicked() throws Exception {
         subject.onNoButtonClicked();
-        verifyStatic(times(1));
-        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.WIFI_NOT_BLINKING);
-
         verify(navigatorMock).navigateToResetConnectionTroubleShootingScreen();
+    }
+
+    @Test
+    public void ShouldSendWifiBlinkingActionTagOnNextButtonClick() throws Exception{
+        subject.onNextButtonClicked();
+        verifyStatic(times(1));
+        EWSTagger.trackActionSendData("specialEvents", "wifiBlinking");
+    }
+
+    @Test
+    public void ShouldSendWifiNotBlinkingActionTagOnNoButtonClick() throws Exception{
+        subject.onNoButtonClicked();
+        verifyStatic(times(1));
+        EWSTagger.trackActionSendData("specialEvents", "wifiNotBlinking");
     }
 
     private void setPermissionGranted(final boolean permissionGranted) {
