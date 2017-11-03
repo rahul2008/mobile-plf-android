@@ -33,7 +33,7 @@ public class THSFaqAnswerFragmentTest {
     THSFaqAnswerFragment mThsAnswerFragment;
 
     @Mock
-    FaqBean faqBeanMock;
+    FaqBeanPojo faqBeanPojoMock;
 
     @Mock
     ActionBarListener actionBarListenerMock;
@@ -54,7 +54,7 @@ public class THSFaqAnswerFragmentTest {
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
         Bundle bundle = new Bundle();
-        bundle.putSerializable(THSConstants.THS_FAQ_ITEM,faqBeanMock);
+        bundle.putSerializable(THSConstants.THS_FAQ_ITEM, faqBeanPojoMock);
         bundle.putSerializable(THSConstants.THS_FAQ_HEADER,"header");
 
         mThsAnswerFragment = new THSFaqAnswerFragment();

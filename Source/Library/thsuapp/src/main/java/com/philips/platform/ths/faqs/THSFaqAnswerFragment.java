@@ -37,11 +37,11 @@ public class THSFaqAnswerFragment extends THSBaseFragment{
 
         Bundle bundle = getArguments();
         if(bundle!=null) {
-            FaqBean faqBean = (FaqBean) bundle.getSerializable(THSConstants.THS_FAQ_ITEM);
+            FaqBeanPojo faqBeanPojo = (FaqBeanPojo) bundle.getSerializable(THSConstants.THS_FAQ_ITEM);
             String header = bundle.getString(THSConstants.THS_FAQ_HEADER);
 
-            mLabelQuestion.setText(faqBean.getQuestion());
-            mLabelAnswer.setText(faqBean.getAnswer());
+            mLabelQuestion.setText(faqBeanPojo.getQuestion());
+            mLabelAnswer.setText(faqBeanPojo.getAnswer());
 
             ActionBarListener actionBarListener = getActionBarListener();
             if (null != actionBarListener) {
