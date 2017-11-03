@@ -7,6 +7,7 @@
 package com.philips.platform.ths.init;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.americanwell.sdk.AWSDK;
@@ -24,10 +25,12 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
+import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
@@ -49,6 +52,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static com.philips.platform.ths.utility.THSConstants.THS_SDK_SERVICE_ID;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeast;
@@ -411,11 +415,10 @@ public class THSInitPresenterTest {
         verify(thsInitFragmentMock).hideProgressBar();
     }
 
- /*   @Test
+    @Test
     public void testAuthenticate(){
-        doThrow(AWSDKInstantiationException.class).when(awsdk).authenticateMutual(anyString(),any(SDKCallback.class));
-        mThsInitPresenter.getStarted();
-        verify(awsdk).authenticateMutual(anyString(),any(SDKCallback.class));
-    }*/
+        mThsInitPresenter.launchWelcomeScreen();
+        verify(thsInitFragmentMock).addFragment(any(THSBaseFragment.class), anyString(), any(Bundle.class), anyBoolean());
+    }
 
 }

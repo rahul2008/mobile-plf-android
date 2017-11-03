@@ -142,7 +142,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         mThsInitFragment.addFragment(thsPreWelcomeFragment, THSRegistrationFragment.TAG, null, false);
     }
 
-    private void launchWelcomeScreen() {
+    protected void launchWelcomeScreen() {
         mThsInitFragment.hideProgressBar();
         mThsInitFragment.popSelfBeforeTransition();
         THSWelcomeFragment thsWelcomeFragment = new THSWelcomeFragment();
