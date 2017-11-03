@@ -31,10 +31,6 @@ public abstract class CswBaseFragment extends Fragment {
 
     public abstract int getTitleResourceId();
 
-    public String getTitleResourceText() {
-        return null;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,27 +47,11 @@ public abstract class CswBaseFragment extends Fragment {
     private void setCurrentTitle() {
         CswFragment fragment = (CswFragment) getParentFragment();
         if (null != fragment) {
-            if (fragment.getFragmentCount() > 1) {
-                if (null != fragment.getUpdateTitleListener()) {
-                    fragment.getUpdateTitleListener().updateActionBar(
-                            getTitleResourceId(), true);
-                    String titleText = getTitleResourceText();
-                    if (titleText != null && titleText.length() > 0) {
-                        fragment.getUpdateTitleListener().updateActionBar(titleText, false);
-                    }
-                }
-            } else {
-                if (null != fragment.getUpdateTitleListener()) {
-                    fragment.getUpdateTitleListener().updateActionBar(
-                            getTitleResourceId(), false);
-                    String titleText = getTitleResourceText();
-                    if (titleText != null && titleText.length() > 0) {
-                        fragment.getUpdateTitleListener().updateActionBar(titleText, false);
-                    }
-                }
+            if (null != fragment.getUpdateTitleListener()) {
+                fragment.getUpdateTitleListener().updateActionBar(getTitleResourceId(), (fragment.getFragmentCount() > 1));
             }
+
             fragment.setResourceID(getTitleResourceId());
         }
     }
-
 }
