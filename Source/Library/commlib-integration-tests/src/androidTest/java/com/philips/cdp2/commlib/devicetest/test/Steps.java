@@ -81,13 +81,13 @@ public class Steps {
         current.disableCommunication();
     }
 
-    @Given("^distance between phone and BLE Reference Node is (\\d+) cm$")
-    public void distanceBetweenPhoneAndBLEReferenceNodeIsCm(int arg0) throws Throwable {
+    @Given("^distance between device and appliance is (\\d+) cm$")
+    public void distanceBetweenDeviceAndApplianceIsCm(int arg0) throws Throwable {
         // Cannot guarantee this in code in any useful way.
     }
 
-    @Given("^a Node with cppId \"([^\"]*)\" is discovered and selected$")
-    public void aNodeWithCppIdIsDiscoveredAndSelected(final String cppId) throws Throwable {
+    @Given("^an appliance with cppId \"([^\"]*)\" is discovered and selected$")
+    public void anApplianceWithCppIdIsDiscoveredAndSelected(final String cppId) throws Throwable {
         current = (ReferenceAppliance) commCentral.getApplianceManager().findApplianceByCppId(cppId);
         if (current == null) {
             ApplianceWaiter.Waiter<Appliance> waiter = ApplianceWaiter.forCppId(cppId);
@@ -108,18 +108,24 @@ public class Steps {
         current.getTimePort().addPortListener(listener);
     }
 
-    @When("^application requests time value from time port$")
-    public void applicationRequestsTimeValueFromTimePort() throws Throwable {
+    @When("^device requests time value from time port$")
+    public void deviceRequestsTimeValueFromTimePort() throws Throwable {
         Log.d(LOGTAG, "Reloading timeport");
         current.getTimePort().reloadProperties();
     }
 
-    @Then("^time value is received without errors$")
-    public void timeValueIsReceivedWithoutErrors() throws Throwable {
-        Log.d(LOGTAG, "Waiting for timeport refresh");
+    @When("^device subscribes on time port$")
+    public void deviceSubscribesOnTimePort() throws Throwable {
+        current.getTimePort().subscribe();
+    }
+
+    @Then("^time value is received (\\d+) times without errors$")
+    public void timeValueIsReceivedTimesWithoutErrors(int count) throws Throwable {
+        Log.d(LOGTAG, String.format("Waiting for %d timeport updates", count));
 
         PortListener listener = portListeners.get(TimePort.class);
-        listener.waitForPortUpdate(3, MINUTES);
+        listener.reset(count);
+        listener.waitForPortUpdate(2, MINUTES);
 
         scenario.write("Errors:" + listener.errors.toString());
 
