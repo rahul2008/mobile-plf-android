@@ -8,22 +8,16 @@
 
 package com.philips.platform.csw;
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-
-import com.philips.platform.csw.permission.PermissionView;
 import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.csw.utils.CswLogger;
+import com.philips.platform.csw.permission.PermissionView;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
+import android.os.Bundle;
+import android.support.v4.app.*;
+import android.view.*;
+import android.view.View.OnClickListener;
 
 public class CswFragment extends Fragment implements
         OnClickListener, BackEventListener {
@@ -34,8 +28,7 @@ public class CswFragment extends Fragment implements
     private String propositionName;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.csw_fragment_consent_widget_root, container, false);
 
         if (getArguments() != null) {
@@ -51,7 +44,7 @@ public class CswFragment extends Fragment implements
         return view;
     }
 
-    protected FragmentManager getmFragmentManager(){
+    protected FragmentManager getmFragmentManager() {
         return getChildFragmentManager();
     }
 
@@ -129,6 +122,7 @@ public class CswFragment extends Fragment implements
     }
 
     private int titleResourceID = -99;
+
     public void setResourceID(int titleResourceId) {
         titleResourceID = titleResourceId;
     }
@@ -136,7 +130,6 @@ public class CswFragment extends Fragment implements
     public int getResourceID() {
         return titleResourceID;
     }
-
 
     @Override
     public boolean handleBackEvent() {
