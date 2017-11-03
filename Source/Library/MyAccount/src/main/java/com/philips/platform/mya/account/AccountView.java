@@ -33,14 +33,14 @@ public class AccountView extends MyaBaseFragment implements
     private static final boolean DONT_ADD_TO_BACKSTACK = false;
 
     private Button myaFragmentLaunch;
-    private Button myaActivityLaunch;
 
     private AccountPresenter accountPresenter;
 
     public String applicationName;
     public String propositionName;
 
-    public AccountView() {}
+    public AccountView() {
+    }
 
     @Override
     protected void setViewParams(Configuration config, int width) {
@@ -94,10 +94,6 @@ public class AccountView extends MyaBaseFragment implements
 
         myaFragmentLaunch = (Button) getView().findViewById(R.id.mya_account_permissions);
         myaFragmentLaunch.setOnClickListener(this);
-
-        myaActivityLaunch = (Button) getView().findViewById(R.id.mya_account_launch_activity);
-        myaActivityLaunch.setOnClickListener(this);
-
     }
 
     @Override
@@ -105,18 +101,12 @@ public class AccountView extends MyaBaseFragment implements
         if (view.getId() == R.id.mya_account_permissions) {
             launchCswFragment();
 
-        } else if (view.getId() == R.id.mya_account_launch_activity) {
-            launchCswActivity();
         }
     }
 
     private void launchCswFragment() {
         FragmentLauncher fragmentLauncher = new FragmentLauncher(getActivity(), this.getParentFragment().getView().getId(), getMyaFragment().getUpdateTitleListener());
         new CswInterface().launch(fragmentLauncher, buildLaunchInput(ADD_TO_BACKSTACK));
-    }
-
-    private void launchCswActivity() {
-        new CswInterface().launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), buildLaunchInput(DONT_ADD_TO_BACKSTACK));
     }
 
     private CswLaunchInput buildLaunchInput(boolean addToBackStack) {

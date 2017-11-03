@@ -87,17 +87,6 @@ public class MyaFragment extends Fragment implements
         return false;
     }
 
-/*    public void inflateIntroView() {
-        try {
-            if (null != mFragmentManager) {
-                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.csw_frame_layout_view_container, new IntroMenuView());
-                fragmentTransaction.commitAllowingStateLoss();
-            }
-        } catch (IllegalStateException ignore) {
-        }
-    }*/
-
     private void inflateAccountView() {
         try {
             if (null != mFragmentManager) {

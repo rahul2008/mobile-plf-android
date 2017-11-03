@@ -16,21 +16,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 
-import com.philips.platform.csw.CswBaseFragment;
+import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.model.GetConsentsModel;
 import com.philips.platform.catk.response.ConsentStatus;
-import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.csw.CswBaseFragment;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uid.view.widget.Switch;
 
 import java.util.List;
 
 public class PermissionView extends CswBaseFragment implements
-        PermissionInterface,CompoundButton.OnCheckedChangeListener {
+        PermissionInterface, CompoundButton.OnCheckedChangeListener {
 
     public static final String CONSENT_TYPE_MOMENT_SYNC = "momentsync";
     public static final String CONSENT_TYPE_MOMENT = "moment";
@@ -43,14 +44,19 @@ public class PermissionView extends CswBaseFragment implements
     private String applicationName;
     private String propositionName;
 
+
+    private RelativeLayout csw_relative_layout_switch_container;
+    private RelativeLayout csw_relative_layout_what_container;
+
     @Override
     protected void setViewParams(Configuration config, int width) {
-
+        applyParams(config, csw_relative_layout_switch_container, width);
+        applyParams(config, csw_relative_layout_what_container, width);
     }
 
     @Override
     protected void handleOrientation(View view) {
-
+        handleOrientationOnView(view);
     }
 
     @Override
@@ -67,6 +73,10 @@ public class PermissionView extends CswBaseFragment implements
         }
         mConsentSwitch = (Switch) view.findViewById(R.id.toggleicon);
         getConsentStatus();
+        csw_relative_layout_switch_container = (RelativeLayout) view.findViewById(R.id.csw_relative_layout_switch_container);
+        csw_relative_layout_what_container = (RelativeLayout) view.findViewById(R.id.csw_relative_layout_what_container);
+        handleOrientation(view);
+        consumeTouch(view);
         return view;
     }
 
@@ -130,19 +140,19 @@ public class PermissionView extends CswBaseFragment implements
 
     private void createConsentStatus(boolean isChecked) {
         showProgressDialog();
-        ConsentStatus status = isChecked?ConsentStatus.active:ConsentStatus.rejected;
+        ConsentStatus status = isChecked ? ConsentStatus.active : ConsentStatus.rejected;
         ConsentAccessToolKit consentAccessToolKit = new ConsentAccessToolKit(applicationName, propositionName);
-        consentAccessToolKit.createConsent(status,new CreateConsentListener() {
+        consentAccessToolKit.createConsent(status, new CreateConsentListener() {
 
             @Override
             public void onSuccess(int code) {
-                Log.d(" Create Consent: ", "Success : "+code);
+                Log.d(" Create Consent: ", "Success : " + code);
                 hideProgressDialog();
             }
 
             @Override
             public int onFailure(int errCode) {
-                Log.d(" Create Consent: ", "Failed : "+errCode);
+                Log.d(" Create Consent: ", "Failed : " + errCode);
                 hideProgressDialog();
                 return errCode;
             }
@@ -153,6 +163,7 @@ public class PermissionView extends CswBaseFragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         permissionPresenter = new PermissionPresenter(this, getContext());
+
     }
 
     private void showProgressDialog() {

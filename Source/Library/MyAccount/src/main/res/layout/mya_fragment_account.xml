@@ -12,13 +12,6 @@
         android:layout_height="wrap_content"
         android:text="@string/mya_permissions" />
 
-    <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/mya_account_launch_activity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="@string/mya_launch_activity" />
-
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/appversion"
         android:layout_width="wrap_content"
