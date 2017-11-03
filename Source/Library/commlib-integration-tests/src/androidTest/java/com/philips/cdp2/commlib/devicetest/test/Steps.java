@@ -64,12 +64,7 @@ public class Steps {
         portListeners.clear();
     }
 
-    @And("^\"Subscribe to time port\" is disabled$")
-    public void subscribeToTimeportIsDisabled() throws Throwable {
-        current.getTimePort().unsubscribe();
-    }
-
-    @And("^\"Stay connected\" is disabled$")
+    @And("^stay connected is disabled$")
     public void stayConnectedIsDisabled() throws Throwable {
         current.disableCommunication();
     }
@@ -100,14 +95,14 @@ public class Steps {
             throw new Exception("Appliance not found!");
         }
         Log.i(LOGTAG, "Found our referenceAppliance!");
+
+        PortListener listener = new PortListener();
+        portListeners.put(TimePort.class, listener);
+        current.getTimePort().addPortListener(listener);
     }
 
     @When("^application requests time value from time port$")
     public void applicationRequestsTimeValueFromTimePort() throws Throwable {
-        PortListener listener = new PortListener();
-
-        portListeners.put(TimePort.class, listener);
-        current.getTimePort().addPortListener(listener);
         Log.d(LOGTAG, "Reloading timeport");
         current.getTimePort().reloadProperties();
     }
