@@ -58,6 +58,13 @@ public final class ReferenceApplianceFactory implements ApplianceFactory {
                 case "Wake-up Light":
                 case WifiReferenceAppliance.DEVICETYPE:
                     return new WifiReferenceAppliance(networkNode, communicationStrategy);
+                default:
+                    return new Appliance(networkNode, communicationStrategy) {
+                        @Override
+                        public String getDeviceType() {
+                            return null;
+                        }
+                    };
             }
         }
         return null;

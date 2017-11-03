@@ -96,7 +96,7 @@ public class Steps {
             current = (ReferenceAppliance) waiter.waitForAppliance(2, MINUTES).getAppliance();
             commCentral.stopDiscovery();
         }
-        if(current == null){
+        if (current == null) {
             throw new Exception("Appliance not found!");
         }
         Log.i(LOGTAG, "Found our referenceAppliance!");
@@ -127,5 +127,9 @@ public class Steps {
         final String datetime = current.getTimePort().getPortProperties().datetime;
         scenario.write("Got time: " + datetime);
         Log.d(LOGTAG, datetime);
+    }
+
+    @Given("^device is connected to SSID \"(.*?)\"$")
+    public void device_is_connected_to_SSID(String arg1) throws Throwable {
     }
 }
