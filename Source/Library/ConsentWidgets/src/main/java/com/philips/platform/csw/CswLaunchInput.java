@@ -1,7 +1,6 @@
 package com.philips.platform.csw;
 
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
 
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
@@ -13,17 +12,6 @@ public class CswLaunchInput extends UappLaunchInput {
 
     private String applicationName;
     private String propositionName;
-    private FragmentManager fragmentManager;
-    private Context context;
-
-
-    public FragmentManager getFragmentManager() {
-        return fragmentManager;
-    }
-
-    public void setFragmentManager(FragmentManager fragmentManager) {
-        this.fragmentManager = fragmentManager;
-    }
 
     public String getApplicationName() {
         return applicationName;
@@ -44,6 +32,8 @@ public class CswLaunchInput extends UappLaunchInput {
     public Context getContext() {
         return context;
     }
+
+    private Context context;
 
     public void setContext(Context context) {
         this.context = context;
