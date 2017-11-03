@@ -20,7 +20,6 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
@@ -38,10 +37,10 @@ public class ExpandableListAdapterTest {
     HashMap map;
 
     @Mock
-    FaqBean faqBeanMock1;
+    FaqBeanPojo faqBeanPojoMock1;
 
     @Mock
-    FaqBean faqBeanMock2;
+    FaqBeanPojo faqBeanPojoMock2;
 
     @Mock
     View viewMock;
@@ -57,11 +56,11 @@ public class ExpandableListAdapterTest {
         MockitoAnnotations.initMocks(this);
         map = new HashMap();
         List list1 = new ArrayList();
-        list1.add(faqBeanMock1);
-        list1.add(faqBeanMock2);
+        list1.add(faqBeanPojoMock1);
+        list1.add(faqBeanPojoMock2);
         map.put("Spoorti",list1);
-        when(faqBeanMock1.getAnswer()).thenReturn("hello");
-        when(faqBeanMock1.getQuestion()).thenReturn("how are you");
+        when(faqBeanPojoMock1.getAnswer()).thenReturn("hello");
+        when(faqBeanPojoMock1.getQuestion()).thenReturn("how are you");
         mExpandableListAdapter = new ExpandableListAdapter(thsFaqFragmentMock,map);
     }
 
@@ -69,7 +68,7 @@ public class ExpandableListAdapterTest {
     public void getChild() throws Exception {
         final Object child = mExpandableListAdapter.getChild(0, 0);
         assertNotNull(child);
-        assertThat(child).isInstanceOf(FaqBean.class);
+        assertThat(child).isInstanceOf(FaqBeanPojo.class);
     }
 
     @Test
