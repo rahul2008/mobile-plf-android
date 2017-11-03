@@ -18,8 +18,6 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -112,11 +110,7 @@ public class MomentsDataFetcher extends DataFetcher {
         UCoreMomentsHistory momentHistory;
 
         Map<String, String> timeStamp;
-        try {
-            timeStamp = accessProvider.getLastSyncTimeStampByDateRange(URLEncoder.encode(startDate, "UTF-8"), URLEncoder.encode(endDate, "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            throw RetrofitError.unexpectedError("", new UnsupportedEncodingException());
-        }
+        timeStamp = accessProvider.getLastSyncTimeStampByDateRange(startDate, endDate);
 
         do {
             momentHistory = client.fetchMomentByDateRange(accessProvider.getUserId(), accessProvider.getUserId(),

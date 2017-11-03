@@ -12,6 +12,8 @@ import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -107,10 +109,14 @@ public class UCoreAccessProvider implements BackendIdProvider {
 
     public Map<String, String> getLastSyncTimeStampByDateRange(String startDate, String endDate) {
         Map<String, String> timeStampMap = new HashMap<>();
-        timeStampMap.put(START_DATE, startDate);
-        timeStampMap.put(END_DATE, endDate);
-        timeStampMap.put(LAST_MODIFIED_START_DATE, startDate);
-        timeStampMap.put(LAST_MODIFIED_END_DATE, endDate);
+        try {
+            timeStampMap.put(START_DATE, URLEncoder.encode(startDate, "UTF-8"));
+            timeStampMap.put(END_DATE, URLEncoder.encode(endDate, "UTF-8"));
+            timeStampMap.put(LAST_MODIFIED_START_DATE, URLEncoder.encode(startDate, "UTF-8"));
+            timeStampMap.put(LAST_MODIFIED_END_DATE, URLEncoder.encode(endDate, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            //Debug log
+        }
         return timeStampMap;
     }
 
