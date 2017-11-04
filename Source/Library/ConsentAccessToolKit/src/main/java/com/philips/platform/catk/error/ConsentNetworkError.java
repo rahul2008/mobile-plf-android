@@ -121,8 +121,4 @@ public class ConsentNetworkError implements NetworkErrorListener {
             mErrorCode = CatkConstants.CONSENT_ERROR_INSUFFICIENT_STOCK_ERROR;
         }
     }
-
-    public ServerError getServerError() {
-        return mServerError;
-    }
 }
