@@ -23,11 +23,31 @@ public class Error {
         return subject;
     }
 
-    public String getSubjectType() {
+    public String getSubjectType(String gsgf) {
         return subjectType;
     }
 
     public String getType() {
         return type;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public void setSubjectType(String subjectType) {
+        this.subjectType = subjectType;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

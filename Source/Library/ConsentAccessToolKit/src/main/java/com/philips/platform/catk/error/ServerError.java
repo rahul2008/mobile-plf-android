@@ -14,4 +14,7 @@ public class ServerError {
         return errors;
     }
 
+    public void setErrors(List<Error> errors) {
+        this.errors = errors;
+    }
 }
