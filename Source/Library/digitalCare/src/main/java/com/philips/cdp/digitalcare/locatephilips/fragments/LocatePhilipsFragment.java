@@ -680,8 +680,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     }
 
     private void locateCurrentPosition() {
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
+        if (ActivityCompat.checkSelfPermission(getContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
            return;
         }
@@ -1034,6 +1033,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 gpsAlertView.showAlert(this, -1, R.string.gps_disabled,
                         android.R.string.yes, android.R.string.no);
         } else {
+            getCurrentLocation();
             gpsAlertView.removeAlert();
         }
         setSearchIcon();
