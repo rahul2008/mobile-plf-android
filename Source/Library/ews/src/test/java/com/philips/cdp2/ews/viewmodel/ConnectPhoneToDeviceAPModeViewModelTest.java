@@ -88,7 +88,7 @@ public class ConnectPhoneToDeviceAPModeViewModelTest {
     }
 
     @Test
-    public void shouldRequestForLocationPermissionIfItsNotGrantedAlreadyWhenAsked() throws Exception {
+    public void itShouldRequestForLocationPermissionIfItsNotGrantedAlreadyWhenAsked() throws Exception {
         setPermissionGranted(false);
 
         viewModel.connectPhoneToDeviceHotspotWifi();
@@ -98,7 +98,7 @@ public class ConnectPhoneToDeviceAPModeViewModelTest {
     }
 
     @Test
-    public void shouldConnectToApplianceHotspotWhenLocationPermissionIsAlreadyGrantedWhenAsked() throws Exception {
+    public void itShouldConnectToApplianceHotspotWhenLocationPermissionIsAlreadyGrantedWhenAsked() throws Exception {
         setPermissionGranted(true);
         stubGPSSettings(true, true);
 
@@ -108,7 +108,7 @@ public class ConnectPhoneToDeviceAPModeViewModelTest {
     }
 
     @Test
-    public void shouldShowGPSEnableDialogIfGPSIsOffWhenAsked() throws Exception {
+    public void itShouldShowGPSEnableDialogIfGPSIsOffWhenAsked() throws Exception {
         setPermissionGranted(true);
         stubGPSSettings(false, true);
 
@@ -118,21 +118,21 @@ public class ConnectPhoneToDeviceAPModeViewModelTest {
     }
 
     @Test
-    public void shouldShowNextPasswordEntryScreenWhenPhoneIsConnectedToApplianceHotspot() throws Exception {
+    public void itShouldShowNextPasswordEntryScreenWhenPhoneIsConnectedToApplianceHotspot() throws Exception {
         sendEventToShowPasswordEntryScreen();
 
         verify(navigatorMock).navigateToConnectToDeviceWithPasswordScreen(anyString());
     }
 
     @Test
-    public void shouldUnregisterFromEventBusWhenPhoneIsConnectedToApplianceHotspot() throws Exception {
+    public void itShouldUnregisterFromEventBusWhenPhoneIsConnectedToApplianceHotspot() throws Exception {
         sendEventToShowPasswordEntryScreen();
 
         verify(eventBusMock).unregister(viewModel);
     }
 
     @Test
-    public void shouldSendRequestToConnectToApplianceHotspotWhenPermissionIsExplicitlyGrantedByUser() throws Exception {
+    public void itShouldSendRequestToConnectToApplianceHotspotWhenPermissionIsExplicitlyGrantedByUser() throws Exception {
         final int[] grantedPermission = new int[1];
         when(permissionHandlerMock.areAllPermissionsGranted(grantedPermission)).thenReturn(true);
 
@@ -140,14 +140,14 @@ public class ConnectPhoneToDeviceAPModeViewModelTest {
     }
 
     @Test
-    public void shouldCancelConnectingDialogOnDeviceConnectionError() throws Exception {
+    public void itShouldCancelConnectingDialogOnDeviceConnectionError() throws Exception {
         viewModel.deviceConnectionError(new DeviceConnectionErrorEvent());
 
         verify(connectingDialogMock).dismissAllowingStateLoss();
     }
 
     @Test
-    public void shouldShowUnsuccessfulDialogOnDeviceConnectionError() throws Exception {
+    public void itShouldShowUnsuccessfulDialogOnDeviceConnectionError() throws Exception {
 //        when(unsuccessfulDialogMock.getDialog()).thenReturn(dialogMock);
 //        when(dialogMock.isShowing()).thenReturn(false);
 //
@@ -157,7 +157,7 @@ public class ConnectPhoneToDeviceAPModeViewModelTest {
     }
 
     @Test
-    public void shouldNotShowUnsuccessfulDialogOnDeviceConnectionErrorIfVisible() throws Exception {
+    public void itShouldNotShowUnsuccessfulDialogOnDeviceConnectionErrorIfVisible() throws Exception {
 //        when(unsuccessfulDialogMock.getDialog()).thenReturn(dialogMock);
 //        when(dialogMock.isShowing()).thenReturn(true);
 //
@@ -167,14 +167,14 @@ public class ConnectPhoneToDeviceAPModeViewModelTest {
     }
 
     @Test
-    public void shouldRemoveHandlerCallbackOnDeviceConnectionError() throws Exception {
+    public void itShouldRemoveHandlerCallbackOnDeviceConnectionError() throws Exception {
         viewModel.deviceConnectionError(new DeviceConnectionErrorEvent());
 
         verify(handlerMock).removeCallbacks(any(Runnable.class));
     }
 
     @Test
-    public void shouldCallPostDelayedOnHandlerWhenConnectedToApplianceHotspot() throws Exception {
+    public void itShouldCallPostDelayedOnHandlerWhenConnectedToApplianceHotspot() throws Exception {
         stubGPSSettings(true, true);
         setPermissionGranted(true);
 
@@ -184,7 +184,7 @@ public class ConnectPhoneToDeviceAPModeViewModelTest {
     }
 
     @Test
-    public void shouldCallUnsuccessfulDialogOnHandlerWhenConnectedToApplianceHotspot() throws Exception {
+    public void itShouldCallUnsuccessfulDialogOnHandlerWhenConnectedToApplianceHotspot() throws Exception {
 //        stubGPSSettings(true, true);
 //        setPermissionGranted(true);
 //
@@ -198,7 +198,7 @@ public class ConnectPhoneToDeviceAPModeViewModelTest {
     }
 
     @Test
-    public void shouldConnectToApplianceHotspotWithoutCheckingForGpsEnabledOnBelowAndroidMVersions() throws Exception {
+    public void itShouldConnectToApplianceHotspotWithoutCheckingForGpsEnabledOnBelowAndroidMVersions() throws Exception {
         stubGPSSettings(true, false);
         setPermissionGranted(true);
 

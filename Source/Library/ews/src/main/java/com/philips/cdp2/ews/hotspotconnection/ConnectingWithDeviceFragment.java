@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -110,7 +111,8 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
         });
     }
 
-    public void sendPageTag(){
+    @VisibleForTesting
+    void sendPageTag(){
         EWSTagger.trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
     }
 

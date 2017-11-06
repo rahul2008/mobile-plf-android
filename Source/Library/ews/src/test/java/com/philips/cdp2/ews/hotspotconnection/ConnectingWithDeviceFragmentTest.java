@@ -15,9 +15,8 @@ import org.mockito.stubbing.Answer;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
 import static org.powermock.api.mockito.PowerMockito.doAnswer;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
@@ -44,21 +43,21 @@ public class ConnectingWithDeviceFragmentTest {
     }
 
     @Test
-    public void shouldReturnCorrectPageNameForTagging() throws Exception {
+    public void itShouldReturnCorrectPageNameForTagging() throws Exception {
         assertEquals("connectingWithDevice", subject.getPageName());
     }
 
     @Test
-    public void shouldCalltrackPageOnResume() throws Exception {
+    public void itShouldCalltrackPageOnResume() throws Exception {
         subject.onResume();
-        verifyStatic(times(1));
+        verifyStatic();
         EWSTagger.trackPage("connectingWithDevice");
     }
 
     @Test
-    public void shouldCalltrackPageOnShowTroubleshootHomeWifiDialog() throws Exception{
+    public void itShouldCalltrackPageOnShowTroubleshootHomeWifiDialog() throws Exception{
         subject.showTroubleshootHomeWifiDialog();
-        verifyStatic(times(1));
+        verifyStatic();
         EWSTagger.trackPage("phoneToDeviceConnectionFailed");
     }
 }

@@ -33,8 +33,7 @@ public class EWSTagger {
         getAppTaggingInterface().trackActionWithInfo(action, map);
     }
 
-    public static void trackPage(String pageName) {
-
+    public static void trackPage(@NonNull String pageName) {
         getAppTaggingInterface().trackPageWithInfo(pageName, null);
     }
 

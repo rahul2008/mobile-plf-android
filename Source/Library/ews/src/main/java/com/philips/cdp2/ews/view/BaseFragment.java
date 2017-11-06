@@ -89,7 +89,6 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
         ((EWSActivity) getActivity()).updateActionBar(getString(R.string.ews_title), true);
     }
 
-    @CallSuper
     @Override
     public void onResume() {
         super.onResume();

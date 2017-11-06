@@ -47,35 +47,35 @@ public class EWSLoggerTest {
     }
 
     @Test
-    public void shouldLogMessageInVerboseLevel() throws Exception {
+    public void itShouldLogMessageInVerboseLevel() throws Exception {
         EWSLogger.v(TAG, MSG);
 
         verify(loggingInterfaceMock).log(VERBOSE, TAG, MSG);
     }
 
     @Test
-    public void shouldLogMessageInDebugLevel() throws Exception {
+    public void itShouldLogMessageInDebugLevel() throws Exception {
         EWSLogger.d(TAG, MSG);
 
         verify(loggingInterfaceMock).log(DEBUG, TAG, MSG);
     }
 
     @Test
-    public void shouldLogMessageInWarningLevel() throws Exception {
+    public void itShouldLogMessageInWarningLevel() throws Exception {
         EWSLogger.w(TAG, MSG);
 
         verify(loggingInterfaceMock).log(WARNING, TAG, MSG);
     }
 
     @Test
-    public void shouldLogMessageInInfoLevel() throws Exception {
+    public void itShouldLogMessageInInfoLevel() throws Exception {
         EWSLogger.i(TAG, MSG);
 
         verify(loggingInterfaceMock).log(INFO, TAG, MSG);
     }
 
     @Test
-    public void shouldLogMessageInErrorLevel() throws Exception {
+    public void itShouldLogMessageInErrorLevel() throws Exception {
         EWSLogger.e(TAG, MSG);
 
         verify(loggingInterfaceMock).log(ERROR, TAG, MSG);

@@ -31,14 +31,14 @@ public class FirstSetupStepsFragmentTest {
     }
 
     @Test
-    public void shouldReturnCorrectPageNameForTagging() throws Exception {
+    public void itShouldReturnCorrectPageNameForTagging() throws Exception {
         assertEquals("setupStep1", subject.getPageName());
     }
 
     @Test
-    public void shouldCalltrackPageOnResume() throws Exception {
+    public void itShouldCalltrackPageOnResume() throws Exception {
         subject.onResume();
-        verifyStatic(times(1));
+        verifyStatic();
         EWSTagger.trackPage("setupStep1");
     }
 }

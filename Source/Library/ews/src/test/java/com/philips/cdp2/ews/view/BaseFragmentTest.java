@@ -45,9 +45,9 @@ public class BaseFragmentTest {
     }
 
     @Test
-    public void shouldSendPageTagOnCancelDialogShown() throws Exception{
+    public void itShouldSendPageTagOnCancelDialogShown() throws Exception{
         subject.handleCancelButtonClicked(0);
-        verifyStatic(times(1));
+        verifyStatic();
         EWSTagger.trackPage("cancelWifiSetup");
     }
 }

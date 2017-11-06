@@ -49,7 +49,7 @@ public class EWSTaggerTest {
     }
 
     @Test
-    public void shouldCallOnResumeTaggingLifeCycleInfoWhenAsked() throws Exception {
+    public void itShouldCallOnResumeTaggingLifeCycleInfoWhenAsked() throws Exception {
         final Activity activityMock = mock(Activity.class);
 
         EWSTagger.collectLifecycleInfo(activityMock);
@@ -58,14 +58,14 @@ public class EWSTaggerTest {
     }
 
     @Test
-    public void shouldTagPauseLifeCycleInfoWhenAsked() throws Exception {
+    public void itShouldTagPauseLifeCycleInfoWhenAsked() throws Exception {
         EWSTagger.pauseLifecycleInfo();
 
         verify(appTaggingInterfaceMock).pauseLifecycleInfo();
     }
 
     @Test
-    public void shouldTrackPageNameWhenAsked() throws Exception {
+    public void itShouldTrackPageNameWhenAsked() throws Exception {
         final String pageName = "SomePageName";
         EWSTagger.trackPage(pageName);
 
@@ -73,7 +73,7 @@ public class EWSTaggerTest {
     }
 
     @Test
-    public void shouldTrackActionWhenAsked() throws Exception {
+    public void itShouldTrackActionWhenAsked() throws Exception {
         final Map<String, String> map = new HashMap<>();
         map.put(Tag.KEY.IN_APP_NOTIFICATION, Tag.VALUE.CONN_ERROR_NOTIFICATION);
 
@@ -84,7 +84,7 @@ public class EWSTaggerTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void shouldTrackActionWithDifferentParamsWhenAsked() throws Exception {
+    public void itShouldTrackActionWithDifferentParamsWhenAsked() throws Exception {
         final ArgumentCaptor<HashMap> mapArgumentCaptor = ArgumentCaptor.forClass(HashMap.class);
         final String key = Tag.KEY.CONNECTED_PRODUCT_NAME;
         final String value = "taggedValue";
@@ -100,7 +100,7 @@ public class EWSTaggerTest {
     }
 
     @Test
-    public void shouldTrackActionSendDataWhenAsked() throws Exception {
+    public void itShouldTrackActionSendDataWhenAsked() throws Exception {
         final ArgumentCaptor<HashMap> mapArgumentCaptor = ArgumentCaptor.forClass(HashMap.class);
         final String key = Tag.KEY.SEND_DATA;
         final String successTagValue = "successValueTag";
@@ -112,20 +112,20 @@ public class EWSTaggerTest {
     }
 
     @Test
-    public void shouldGiveTaggInterfaceWhenAsked() throws Exception {
+    public void itShouldGiveTaggInterfaceWhenAsked() throws Exception {
         EWSTagger.getAppTaggingInterface();
         assertNotNull(appTaggingInterfaceMock);
     }
 
     @Test
-    public void shouldStartTimedActionWhenAsked() throws Exception {
+    public void itShouldStartTimedActionWhenAsked() throws Exception {
         String timeActionStart = "timeActionStart";
         EWSTagger.startTimedAction(timeActionStart);
         verify(appTaggingInterfaceMock).trackTimedActionStart(eq(timeActionStart));
     }
 
     @Test
-    public void shouldStopTimedActionWhenAsked() throws Exception{
+    public void itShouldStopTimedActionWhenAsked() throws Exception{
         String timeActionEnd = "timeActionStart";
         EWSTagger.stopTimedAction(timeActionEnd);
         verify(appTaggingInterfaceMock).trackTimedActionEnd(eq(timeActionEnd));

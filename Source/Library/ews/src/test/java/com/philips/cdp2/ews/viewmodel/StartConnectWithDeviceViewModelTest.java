@@ -56,9 +56,9 @@ public class StartConnectWithDeviceViewModelTest {
     }
 
     @Test
-    public void shouldNavigateToHomeWifiScreenIfWifiIsEnabledWhenClickedOnGettingStartedButton() throws Exception {
+    public void itShouldNavigateToHomeWifiScreenIfWifiIsEnabledWhenClickedOnGettingStartedButton() throws Exception {
         stubHomeWiFiStatus();
-        verifyStatic(times(1));
+        verifyStatic();
         EWSTagger.trackActionSendData("specialEvents", "getStartedToConnectWiFi");
 
         verify(navigatorMock).navigateToHomeNetworkConfirmationScreen();

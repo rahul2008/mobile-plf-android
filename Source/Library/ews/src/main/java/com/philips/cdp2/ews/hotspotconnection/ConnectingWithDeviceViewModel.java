@@ -46,8 +46,9 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
     private final WiFiUtil wiFiUtil;
     @NonNull
     private final Navigator navigator;
+    @VisibleForTesting
     @NonNull
-    private final Handler handler;
+    Handler handler;
 
     @Nullable
     private ConnectingPhoneToHotSpotCallback fragmentCallback;

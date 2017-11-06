@@ -72,7 +72,7 @@ public class ApplianceAccessManagerTest {
 
     //// TODO: 26/05/17  this is workaround fix to pass tests till we get an update from dicomm.
     @Test
-    public void shouldFetchApplianceDevicePortPropertiesWhenAsked() throws Exception {
+    public void itShouldFetchApplianceDevicePortPropertiesWhenAsked() throws Exception {
         accessManager.fetchDevicePortProperties(null);
 
         verify(wifiPortMock).reloadProperties();
@@ -81,7 +81,7 @@ public class ApplianceAccessManagerTest {
 
     //// TODO: 26/05/17  this is workaround fix to pass tests till we get an update from dicomm.
     @Test
-    public void shouldNotFetchApplianceDevicePortPropertiesIfAnotherRequestIsInProgress() throws Exception {
+    public void itShouldNotFetchApplianceDevicePortPropertiesIfAnotherRequestIsInProgress() throws Exception {
         accessManager.fetchDevicePortProperties(null);
         accessManager.fetchDevicePortProperties(null);
         accessManager.fetchDevicePortProperties(null);
@@ -90,7 +90,7 @@ public class ApplianceAccessManagerTest {
     }
 
     @Test
-    public void shouldSaveApplianceDevicePortSessionDetailsWhenGetDevicePortPropertiesAreFetched() throws Exception {
+    public void itShouldSaveApplianceDevicePortSessionDetailsWhenGetDevicePortPropertiesAreFetched() throws Exception {
         DevicePortProperties devicePortPropertiesMock = mock(DevicePortProperties.class);
         when(devicePortMock.getPortProperties()).thenReturn(devicePortPropertiesMock);
 
@@ -102,21 +102,21 @@ public class ApplianceAccessManagerTest {
     }
 
     @Test
-    public void shouldSaveApplianceWiFIPortSessionDetailsWhenGetWiFIPortPropertiesAreFetched() throws Exception {
+    public void itShouldSaveApplianceWiFIPortSessionDetailsWhenGetWiFIPortPropertiesAreFetched() throws Exception {
         fetchWiFiProperties(GET_WIFI_PROPS);
 
         verifyRequestType(ApplianceRequestType.UNKNOWN);
     }
 
     @Test
-    public void shouldSendEventToShowNextScreenWhenWiFiPortPropertiesAreReadSuccessfully() throws Exception {
+    public void itShouldSendEventToShowNextScreenWhenWiFiPortPropertiesAreReadSuccessfully() throws Exception {
         fetchWiFiProperties(GET_WIFI_PROPS);
 
         verify(mockFetchCallback).onDeviceInfoReceived(any(WifiPortProperties.class));
     }
 
     @Test
-    public void shouldSendPairingSuccessEventWhenApplianceIsConnectedToHomeWifi() throws Exception {
+    public void itShouldSendPairingSuccessEventWhenApplianceIsConnectedToHomeWifi() throws Exception {
         connectApplianceToHomeWiFi();
 
         accessManager.getWifiPortListener().onPortUpdate(wifiPortMock);
@@ -125,7 +125,7 @@ public class ApplianceAccessManagerTest {
     }
 
     @Test
-    public void shouldNotifyCallbackWhenInfoIsPutIntoDevice() throws Exception {
+    public void itShouldNotifyCallbackWhenInfoIsPutIntoDevice() throws Exception {
         connectApplianceToHomeWiFi();
 
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.PUT_WIFI_PROPS);
@@ -139,7 +139,7 @@ public class ApplianceAccessManagerTest {
     }
 
     @Test
-    public void shouldSendDeviceConnectionErrorEventWhenGetWifiPropsOnErrorReceived() {
+    public void itShouldSendDeviceConnectionErrorEventWhenGetWifiPropsOnErrorReceived() {
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.GET_WIFI_PROPS);
 
         accessManager.getWifiPortListener().onPortError(wifiPortMock, Error.UNKNOWN, "");
@@ -148,7 +148,7 @@ public class ApplianceAccessManagerTest {
     }
 
     @Test
-    public void shouldSendDeviceConnectionErrorEventWhenGetDevicePropsOnErrorReceived() {
+    public void itShouldSendDeviceConnectionErrorEventWhenGetDevicePropsOnErrorReceived() {
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.GET_DEVICE_PROPS);
 
         accessManager.getDevicePortListener().onPortError(devicePortMock, Error.UNKNOWN, "");
@@ -157,7 +157,7 @@ public class ApplianceAccessManagerTest {
     }
 
     @Test
-    public void shouldSendApplianceConnectErrorEventWhenPutDevicePropsOnErrorReceived() {
+    public void itShouldSendApplianceConnectErrorEventWhenPutDevicePropsOnErrorReceived() {
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.PUT_WIFI_PROPS);
 
         accessManager.getWifiPortListener().onPortError(wifiPortMock, Error.UNKNOWN, "");
@@ -166,7 +166,7 @@ public class ApplianceAccessManagerTest {
     }
 
     @Test
-    public void shouldDoNothingWhenWifiPortPropertiesAreNull() {
+    public void itShouldDoNothingWhenWifiPortPropertiesAreNull() {
 
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.PUT_WIFI_PROPS);
 
@@ -176,7 +176,7 @@ public class ApplianceAccessManagerTest {
     }
 
     @Test
-    public void shouldDoNothingWhenDevicePortPropertiesAreNull() {
+    public void itShouldDoNothingWhenDevicePortPropertiesAreNull() {
         when(devicePortMock.getPortProperties()).thenReturn(null);
 
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.GET_DEVICE_PROPS);
@@ -187,7 +187,7 @@ public class ApplianceAccessManagerTest {
     }
 
     @Test
-    public void shouldDoNothingWhenConnectingToApplianceIsCalledButStateIsNotUnknown() throws Exception {
+    public void itShouldDoNothingWhenConnectingToApplianceIsCalledButStateIsNotUnknown() throws Exception {
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.GET_WIFI_PROPS);
 
         connectApplianceToHomeWiFi();
@@ -196,7 +196,7 @@ public class ApplianceAccessManagerTest {
     }
 
     @Test
-    public void shouldDoNothingWhenWifiPortErrorReceivedButTypeIsUnknown() throws Exception {
+    public void itShouldDoNothingWhenWifiPortErrorReceivedButTypeIsUnknown() throws Exception {
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.UNKNOWN);
 
         accessManager.getWifiPortListener().onPortError(wifiPortMock, Error.UNKNOWN, "hypothetical");
@@ -207,7 +207,7 @@ public class ApplianceAccessManagerTest {
     }
 
     @Test
-    public void shouldDoNothingWhenDevicePortErrorReceivedButTypeIsUnknown() throws Exception {
+    public void itShouldDoNothingWhenDevicePortErrorReceivedButTypeIsUnknown() throws Exception {
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.UNKNOWN);
 
         accessManager.getDevicePortListener().onPortError(devicePortMock, Error.UNKNOWN, "hypothetical");

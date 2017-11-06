@@ -29,14 +29,14 @@ public class ResetDeviceTroubleshootingFragmentTest {
     }
 
     @Test
-    public void shouldReturnCorrectPageNameForTagging() throws Exception {
+    public void itShouldReturnCorrectPageNameForTagging() throws Exception {
         assertEquals("resetDevice", subject.getPageName());
     }
 
     @Test
-    public void shouldCalltrackPageOnResume() throws Exception {
+    public void itShouldCalltrackPageOnResume() throws Exception {
         subject.onResume();
-        verifyStatic(times(1));
+        verifyStatic();
         EWSTagger.trackPage("resetDevice");
     }
 }

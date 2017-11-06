@@ -91,7 +91,7 @@ public class SecondSetupStepsViewModelTest {
     }
 
     @Test
-    public void shouldRequestForLocationPermissionIfItsNotGrantedAlreadyWhenONextButtonClicked() throws Exception {
+    public void itShouldRequestForLocationPermissionIfItsNotGrantedAlreadyWhenONextButtonClicked() throws Exception {
         setPermissionGranted(false);
         subject.onNextButtonClicked();
         verify(permissionHandlerMock).requestPermission(fragmentMock, R.string.label_location_permission_required,
@@ -99,7 +99,7 @@ public class SecondSetupStepsViewModelTest {
     }
 
     @Test
-    public void shouldConnectToApplianceHotspotWhenLocationPermissionIsAlreadyGrantedWhenONextButtonClicked() throws Exception {
+    public void itShouldConnectToApplianceHotspotWhenLocationPermissionIsAlreadyGrantedWhenONextButtonClicked() throws Exception {
 //        setPermissionGranted(true);
 //        stubGPSSettings(true, true);
 //
@@ -109,7 +109,7 @@ public class SecondSetupStepsViewModelTest {
     }
 
     @Test
-    public void shouldShowGPSEnableDialogIfGPSIsOffWhenONextButtonClicked() throws Exception {
+    public void itShouldShowGPSEnableDialogIfGPSIsOffWhenONextButtonClicked() throws Exception {
         setPermissionGranted(true);
         stubGPSSettings(false, true);
         subject.onNextButtonClicked();
@@ -117,7 +117,7 @@ public class SecondSetupStepsViewModelTest {
     }
 
     @Test
-    public void shouldShowNextPasswordEntryScreenWhenPhoneIsConnectedToApplianceHotspot() throws Exception {
+    public void itShouldShowNextPasswordEntryScreenWhenPhoneIsConnectedToApplianceHotspot() throws Exception {
         sendEventToShowPasswordEntryScreen();
 
 //        verify(navigatorMock).showFragment(isA(ConnectWithPasswordFragment.class));
@@ -125,14 +125,14 @@ public class SecondSetupStepsViewModelTest {
 
 
     @Test
-    public void shouldDismissDialogWhenPhoneIsConnectedToApplianceHotspot() throws Exception {
+    public void itShouldDismissDialogWhenPhoneIsConnectedToApplianceHotspot() throws Exception {
 //        sendEventToShowPasswordEntryScreen();
 //
 //        verify(connectingDialogMock).dismissAllowingStateLoss();
     }
 
     @Test
-    public void shouldSendRequestToConnectToApplianceHotspotWhenPermissionIsExplicitlyGrantedByUser() throws Exception {
+    public void itShouldSendRequestToConnectToApplianceHotspotWhenPermissionIsExplicitlyGrantedByUser() throws Exception {
         final int[] grantedPermission = new int[1];
         when(permissionHandlerMock.areAllPermissionsGranted(grantedPermission)).thenReturn(true);
 
@@ -140,14 +140,14 @@ public class SecondSetupStepsViewModelTest {
     }
 
     @Test
-    public void shouldCancelConnectingDialogOnDeviceConnectionError() throws Exception {
+    public void itShouldCancelConnectingDialogOnDeviceConnectionError() throws Exception {
         subject.deviceConnectionError(new DeviceConnectionErrorEvent());
 
         verify(connectingDialogMock).dismissAllowingStateLoss();
     }
 
     @Test
-    public void shouldShowUnsuccessfulDialogOnDeviceConnectionError() throws Exception {
+    public void itShouldShowUnsuccessfulDialogOnDeviceConnectionError() throws Exception {
 //        when(unsuccessfulDialogMock.getDialog()).thenReturn(dialogMock);
 //        when(dialogMock.isShowing()).thenReturn(false);
 //
@@ -157,7 +157,7 @@ public class SecondSetupStepsViewModelTest {
     }
 
     @Test
-    public void shouldNotShowUnsuccessfulDialogOnDeviceConnectionErrorIfVisible() throws Exception {
+    public void itShouldNotShowUnsuccessfulDialogOnDeviceConnectionErrorIfVisible() throws Exception {
 //        when(unsuccessfulDialogMock.getDialog()).thenReturn(dialogMock);
 //        when(dialogMock.isShowing()).thenReturn(true);
 //
@@ -167,14 +167,14 @@ public class SecondSetupStepsViewModelTest {
     }
 
     @Test
-    public void shouldRemoveHandlerCallbackOnDeviceConnectionError() throws Exception {
+    public void itShouldRemoveHandlerCallbackOnDeviceConnectionError() throws Exception {
         subject.deviceConnectionError(new DeviceConnectionErrorEvent());
 
         verify(handlerMock).removeCallbacks(any(Runnable.class));
     }
 
     @Test
-    public void shouldCallPostDelayedOnHandlerWhenConnectedToApplianceHotspot() throws Exception {
+    public void itShouldCallPostDelayedOnHandlerWhenConnectedToApplianceHotspot() throws Exception {
 //        stubGPSSettings(true, true);
 //        setPermissionGranted(true);
 //
@@ -184,7 +184,7 @@ public class SecondSetupStepsViewModelTest {
     }
 
     @Test
-    public void shouldCallUnsuccessfulDialogOnHandlerWhenConnectedToApplianceHotspot() throws Exception {
+    public void itShouldCallUnsuccessfulDialogOnHandlerWhenConnectedToApplianceHotspot() throws Exception {
 //        stubGPSSettings(true, true);
 //        setPermissionGranted(true);
 //
@@ -198,7 +198,7 @@ public class SecondSetupStepsViewModelTest {
     }
 
     @Test
-    public void shouldConnectToApplianceHotspotWithoutCheckingForGpsEnabledOnBelowAndroidMVersions() throws Exception {
+    public void itShouldConnectToApplianceHotspotWithoutCheckingForGpsEnabledOnBelowAndroidMVersions() throws Exception {
 //        stubGPSSettings(true, false);
 //        setPermissionGranted(true);
 //
@@ -208,22 +208,22 @@ public class SecondSetupStepsViewModelTest {
     }
 
     @Test
-    public void shouldShowChooseCurrentStateScreenWhenNoButtonIsClicked() throws Exception {
+    public void itShouldShowChooseCurrentStateScreenWhenNoButtonIsClicked() throws Exception {
         subject.onNoButtonClicked();
         verify(navigatorMock).navigateToResetConnectionTroubleShootingScreen();
     }
 
     @Test
-    public void ShouldSendWifiBlinkingActionTagOnNextButtonClick() throws Exception{
+    public void itShouldSendWifiBlinkingActionTagOnNextButtonClick() throws Exception{
         subject.onNextButtonClicked();
-        verifyStatic(times(1));
+        verifyStatic();
         EWSTagger.trackActionSendData("specialEvents", "wifiBlinking");
     }
 
     @Test
-    public void ShouldSendWifiNotBlinkingActionTagOnNoButtonClick() throws Exception{
+    public void itShouldSendWifiNotBlinkingActionTagOnNoButtonClick() throws Exception{
         subject.onNoButtonClicked();
-        verifyStatic(times(1));
+        verifyStatic();
         EWSTagger.trackActionSendData("specialEvents", "wifiNotBlinking");
     }
 

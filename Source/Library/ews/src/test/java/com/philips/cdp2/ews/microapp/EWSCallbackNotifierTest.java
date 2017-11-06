@@ -26,7 +26,7 @@ public class EWSCallbackNotifierTest {
     }
 
     @Test
-    public void shouldCallOnSuccessWhenNotified() throws Exception {
+    public void itShouldCallOnSuccessWhenNotified() throws Exception {
 
         callbackNotifier.onSuccess();
 
@@ -34,7 +34,7 @@ public class EWSCallbackNotifierTest {
     }
 
     @Test
-    public void shouldCallOnApplianceDiscoveredWhenPairingSuccessful() throws Exception {
+    public void itShouldCallOnApplianceDiscoveredWhenPairingSuccessful() throws Exception {
         final String cppId = "testId";
         callbackNotifier.onApplianceDiscovered(cppId);
 
@@ -42,14 +42,14 @@ public class EWSCallbackNotifierTest {
     }
 
     @Test
-    public void shouldCallOnCancelWhenNotified() throws Exception {
+    public void itShouldCallOnCancelWhenNotified() throws Exception {
         callbackNotifier.onCancel();
 
         verify(ewsCallback).onCancel();
     }
 
     @Test
-    public void shouldCallOnBackPressedWhenNotified() throws Exception {
+    public void itShouldCallOnBackPressedWhenNotified() throws Exception {
         callbackNotifier.onBackPressed();
 
         verify(ewsCallback).onBackPressed();

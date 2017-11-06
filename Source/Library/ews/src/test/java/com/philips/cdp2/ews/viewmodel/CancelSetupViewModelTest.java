@@ -46,21 +46,21 @@ public class CancelSetupViewModelTest {
     }
 
     @Test
-    public void shouldCancelEWSSetupWhenClickedOnYesButtonInCancelSetupDialog() throws Exception {
+    public void itShouldCancelEWSSetupWhenClickedOnYesButtonInCancelSetupDialog() throws Exception {
         subject.cancelSetup();
 
         verify(callbackNotifierMock).onCancel();
     }
 
     @Test
-    public void shouldFinishMicroAppOnYesButtonInCancelSetupDialog() throws Exception {
+    public void itShouldFinishMicroAppOnYesButtonInCancelSetupDialog() throws Exception {
         subject.cancelSetup();
 
         verify(mockFragmentCallback).finishMicroApp();
     }
 
     @Test
-    public void shouldNotFinishMicroAppOnYesButtonInCancelSetupDialogWhenCallbackIsNull() throws Exception {
+    public void itShouldNotFinishMicroAppOnYesButtonInCancelSetupDialogWhenCallbackIsNull() throws Exception {
         subject.setFragmentCallback(null);
 
         subject.cancelSetup();
@@ -69,14 +69,14 @@ public class CancelSetupViewModelTest {
     }
 
     @Test
-    public void shouldDismissCancelSetupDialogBoxWhenClickedOnNOButton() throws Exception {
+    public void itShouldDismissCancelSetupDialogBoxWhenClickedOnNOButton() throws Exception {
         subject.dismissDialog();
 
         verify(dialogFragmentMock).dismissAllowingStateLoss();
     }
 
     @Test
-    public void shouldNotDismissCancelSetupDialogBoxWhenClickedOnNOButtonWhenDialogIsNull() throws Exception {
+    public void itShouldNotDismissCancelSetupDialogBoxWhenClickedOnNOButtonWhenDialogIsNull() throws Exception {
         subject.setDialogDismissListener(null);
 
         subject.dismissDialog();
@@ -85,7 +85,7 @@ public class CancelSetupViewModelTest {
     }
 
     @Test
-    public void shouldRemoveDialogDismissListenerWhenAsked() throws Exception {
+    public void itShouldRemoveDialogDismissListenerWhenAsked() throws Exception {
         subject.removeDialogDismissListener();
 
         verifyZeroInteractions(dialogFragmentMock);

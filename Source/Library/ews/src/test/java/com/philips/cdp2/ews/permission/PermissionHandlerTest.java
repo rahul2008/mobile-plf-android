@@ -64,7 +64,7 @@ public class PermissionHandlerTest {
     }
 
     @Test
-    public void shouldCheckForPermissionWhenAsked() throws Exception {
+    public void itShouldCheckForPermissionWhenAsked() throws Exception {
         when(ContextCompat.checkSelfPermission(contextMock,
                 ACCESS_COARSE_LOCATION)).thenReturn(0);
 
@@ -73,14 +73,14 @@ public class PermissionHandlerTest {
     }
 
     @Test
-    public void shouldReturnTrueIfAllTheRequestedPermissionsAreGranted() throws Exception {
+    public void itShouldReturnTrueIfAllTheRequestedPermissionsAreGranted() throws Exception {
         final int[] grantedPermissions = {PackageManager.PERMISSION_GRANTED};
 
         assertTrue(permissionHandler.areAllPermissionsGranted(grantedPermissions));
     }
 
     @Test
-    public void shouldReturnFalseIfAtLeastOneRequestedPermissionIsNotGranted() throws Exception {
+    public void itShouldReturnFalseIfAtLeastOneRequestedPermissionIsNotGranted() throws Exception {
         final int[] grantedPermissions = {PackageManager.PERMISSION_DENIED, PackageManager.PERMISSION_GRANTED};
 
         assertFalse(permissionHandler.areAllPermissionsGranted(grantedPermissions));
@@ -112,7 +112,7 @@ public class PermissionHandlerTest {
     }
 
     @Test
-    public void shouldRequestSystemToGrantLocationPermissionWhenClockedOnOKButtonOnSnackbar() throws Exception {
+    public void itShouldRequestSystemToGrantLocationPermissionWhenClockedOnOKButtonOnSnackbar() throws Exception {
         final ArgumentCaptor<View.OnClickListener> captor = ArgumentCaptor.forClass(View.OnClickListener.class);
         final Fragment fragmentMock = PowerMockito.mock(Fragment.class);
         final View viewMock = mock(View.class);

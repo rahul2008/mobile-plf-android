@@ -53,7 +53,7 @@ public class ConnectWithPasswordViewModelTest {
     }
 
     @Test
-    public void shouldCheckHomeWiFiSSIDShouldNotBeNull() throws Exception {
+    public void itShouldCheckHomeWiFiSSIDShouldNotBeNull() throws Exception {
         when(wifiUtilMock.getHomeWiFiSSD()).thenReturn("BrightEyes");
         when(sessionInfoMock.getDeviceName()).thenReturn("Wakeup light");
 
@@ -79,12 +79,12 @@ public class ConnectWithPasswordViewModelTest {
     }
 
     @Test
-    public void shouldHaveEmptyStringInPassword() {
+    public void itShouldHaveEmptyStringInPassword() {
         assertEquals(viewModel.password.get(), "");
     }
 
     @Test
-    public void shouldSendConnectionTagsWhenWeRevisitThisPageAgain() throws Exception {
+    public void itShouldSendConnectionTagsWhenWeRevisitThisPageAgain() throws Exception {
         viewModel.onConnectButtonClicked();
 
         verify(navigatorMock)
@@ -93,7 +93,7 @@ public class ConnectWithPasswordViewModelTest {
     }
 
     @Test
-    public void shouldSetTheDeviceFriendlyName() {
+    public void itShouldSetTheDeviceFriendlyName() {
         final String text = "abc";
         viewModel.setDeviceFriendlyName(text);
         assertEquals(text, viewModel.deviceFriendlyName.get());

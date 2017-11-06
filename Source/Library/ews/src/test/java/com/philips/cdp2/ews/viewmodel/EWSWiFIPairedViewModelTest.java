@@ -51,21 +51,21 @@ public class EWSWiFIPairedViewModelTest {
     }
 
     @Test
-    public void shouldGiveOnSuccessCallbackWhenClickedOnStartButton() throws Exception {
+    public void itShouldGiveOnSuccessCallbackWhenClickedOnStartButton() throws Exception {
         subject.onStartClicked();
 
         verify(callbackNotifierMock).onSuccess();
     }
 
     @Test
-    public void shouldFinishMicroAppWhenOnStartClicked() throws Exception {
+    public void itShouldFinishMicroAppWhenOnStartClicked() throws Exception {
         subject.onStartClicked();
 
         verify(mockFragmentCallback).finishMicroApp();
     }
 
     @Test
-    public void shouldNotFinishMicroAppWhenOnStartClickedWhenCallbackIsNull() throws Exception {
+    public void itShouldNotFinishMicroAppWhenOnStartClickedWhenCallbackIsNull() throws Exception {
         subject.setFragmentCallback(null);
 
         subject.onStartClicked();

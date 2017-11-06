@@ -19,7 +19,6 @@ import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.mockito.Mockito.times;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
@@ -45,9 +44,9 @@ public class ConnectingWithDeviceViewModelTest {
     }
 
     @Test
-    public void sendActionTagOnonHelpNeededPerform() throws Exception{
+    public void itSendActionTagOnonHelpNeededPerform() throws Exception{
         subject.onHelpNeeded();
-        verifyStatic(times(1));
+        verifyStatic();
         EWSTagger.trackActionSendData("specialEvents", "helpMeEnablingSetupMode");
     }
 }

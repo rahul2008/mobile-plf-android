@@ -30,9 +30,6 @@ public class Tag {
         public static final String WRONG_PASSWORD_ERROR = "Wrong password or device out of range";
         public static final String WIFI_ROUTER_ERROR = "unable to connect to device to their home network";
         public static final String WRONG_WIFI = "Device connected to WiFi but phone has re-connected to a different network";
-
-        public static final String PRODUCT_NAME_SMARTSLEEP = "SmartSleep";
-        public static final String PRODUCT_NAME_SOMNEO = "Philips Somneo";
     }
 
     public static class ACTION {

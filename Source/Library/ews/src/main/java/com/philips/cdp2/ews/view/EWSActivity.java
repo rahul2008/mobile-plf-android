@@ -27,7 +27,6 @@ import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
-import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -127,7 +126,7 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
 
     private void initMicroAppDependencies() {
         Map<String, String> map = new HashMap<>();
-        map.put(EWSInterface.PRODUCT_NAME, Tag.VALUE.PRODUCT_NAME_SOMNEO);
+        map.put(EWSInterface.PRODUCT_NAME, getString(baseContentConfiguration.getDeviceName()));
         EWSDependencyProvider
                 .getInstance().initDependencies(new AppInfra.Builder().build(getBaseContext()), map);
     }

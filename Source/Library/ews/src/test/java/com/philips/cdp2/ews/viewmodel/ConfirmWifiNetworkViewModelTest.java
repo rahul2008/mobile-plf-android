@@ -62,7 +62,7 @@ public class ConfirmWifiNetworkViewModelTest {
     }
 
     @Test
-    public void shouldGetHomeWiFiSSIDWhenAsked() throws Exception {
+    public void itShouldGetHomeWiFiSSIDWhenAsked() throws Exception {
         String ssid = "brighteyes";
 
         when(wifiUtilMock.getConnectedWiFiSSID()).thenReturn(ssid);
@@ -71,21 +71,21 @@ public class ConfirmWifiNetworkViewModelTest {
     }
 
     @Test
-    public void shouldShowDevicePowerOnScreenWhenClickedOnYesButton() throws Exception {
+    public void itShouldShowDevicePowerOnScreenWhenClickedOnYesButton() throws Exception {
         viewModel.onYesButtonClicked();
         testConfirmNetworkEWSTagger();
         verify(navigatorMock).navigateToDevicePoweredOnConfirmationScreen();
     }
 
     @Test
-    public void shouldShowNetworkTroubleShootingScreenOnNoButtonClicked() throws Exception {
+    public void itShouldShowNetworkTroubleShootingScreenOnNoButtonClicked() throws Exception {
         viewModel.onNoButtonClicked();
         testChangeNetworkEWSTagger();
         verify(mockViewCallback).showTroubleshootHomeWifiDialog(mockBaseContentConfig);
     }
 
     @Test
-    public void shouldNotifyPropertyChangedWhenHomeWiFiSSIDIsCalled() throws Exception {
+    public void itShouldNotifyPropertyChangedWhenHomeWiFiSSIDIsCalled() throws Exception {
         viewModel.addOnPropertyChangedCallback(callbackListenerMock);
         viewModel.refresh();
         testChangeNetworkEWSTagger();
@@ -93,12 +93,12 @@ public class ConfirmWifiNetworkViewModelTest {
     }
 
     private void testConfirmNetworkEWSTagger() {
-        verifyStatic(times(1));
+        verifyStatic();
         EWSTagger.trackActionSendData("specialEvents", "connectToExistingNetwork");
     }
 
     private void testChangeNetworkEWSTagger() {
-        verifyStatic(times(1));
+        verifyStatic();
         EWSTagger.trackActionSendData("specialEvents", "changeNetworkToConnect");
     }
 

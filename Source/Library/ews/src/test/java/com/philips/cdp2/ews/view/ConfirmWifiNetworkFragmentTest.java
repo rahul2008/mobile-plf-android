@@ -63,20 +63,20 @@ public class ConfirmWifiNetworkFragmentTest {
     }
 
     @Test
-    public void shouldReturnCorrectPageNameForTagging() throws Exception {
+    public void itShouldReturnCorrectPageNameForTagging() throws Exception {
         assertEquals("confirmWifiNetwork", subject.getPageName());
     }
 
     @Test
-    public void shouldCalltrackPageOnResume() throws Exception {
+    public void itShouldCalltrackPageOnResume() throws Exception {
         subject.onResume();
-        verifyStatic(times(1));
+        verifyStatic();
         EWSTagger.trackPage("confirmWifiNetwork");
     }
     @Test
-    public void shouldCalltrackPageOnShowTroubleshootHomeWifiDialog() throws Exception {
+    public void itShouldCalltrackPageOnShowTroubleshootHomeWifiDialog() throws Exception {
         subject.showTroubleshootHomeWifiDialog(any(BaseContentConfiguration.class));
-        verifyStatic(times(1));
+        verifyStatic();
         EWSTagger.trackPage("selectHomeWifi");
     }
 }

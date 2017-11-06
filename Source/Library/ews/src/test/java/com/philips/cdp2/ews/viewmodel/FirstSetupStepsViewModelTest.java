@@ -38,7 +38,7 @@ public class FirstSetupStepsViewModelTest {
     }
 
     @Test
-    public void shouldShowPressAndFollowSetupScreenWhenYesButtonIsClicked() throws Exception {
+    public void itShouldShowPressAndFollowSetupScreenWhenYesButtonIsClicked() throws Exception {
         subject.onYesButtonClicked();
 
         verify(mockNavigator).navigateToCompletingDeviceSetupScreen();
