@@ -58,34 +58,9 @@ public abstract class CswBaseFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         setCurrentTitle();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     private void setCurrentTitle() {
@@ -185,7 +160,6 @@ public abstract class CswBaseFragment extends Fragment {
         }
     }
 
-
     public void setCustomParams(Configuration config) {
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             setViewParams(config, mWidth);
@@ -193,13 +167,6 @@ public abstract class CswBaseFragment extends Fragment {
             setViewParams(config, mHeight);
         }
     }
-
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
-
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
         view.requestFocus();
