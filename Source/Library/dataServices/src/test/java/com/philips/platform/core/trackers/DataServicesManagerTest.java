@@ -6,7 +6,6 @@ import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
-import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
@@ -23,34 +22,10 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
-import com.philips.platform.core.events.CreateSubjectProfileRequestEvent;
-import com.philips.platform.core.events.DataClearRequest;
-import com.philips.platform.core.events.DatabaseConsentSaveRequest;
-import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
-import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
-import com.philips.platform.core.events.DeleteExpiredMomentRequest;
-import com.philips.platform.core.events.DeleteInsightFromDB;
-import com.philips.platform.core.events.DeleteSubjectProfileRequestEvent;
 import com.philips.platform.core.events.Event;
-import com.philips.platform.core.events.FetchInsightsFromDB;
-import com.philips.platform.core.events.GetPairedDeviceRequestEvent;
-import com.philips.platform.core.events.GetSubjectProfileListRequestEvent;
-import com.philips.platform.core.events.GetSubjectProfileRequestEvent;
-import com.philips.platform.core.events.LoadConsentsRequest;
-import com.philips.platform.core.events.LoadLatestMomentByTypeRequest;
-import com.philips.platform.core.events.LoadMomentsByDate;
-import com.philips.platform.core.events.LoadMomentsRequest;
-import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
-import com.philips.platform.core.events.MomentsDeleteRequest;
-import com.philips.platform.core.events.MomentsUpdateRequest;
-import com.philips.platform.core.events.PairDevicesRequestEvent;
-import com.philips.platform.core.events.RegisterDeviceToken;
-import com.philips.platform.core.events.UnPairDeviceRequestEvent;
-import com.philips.platform.core.events.UnRegisterDeviceToken;
-import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
@@ -66,6 +41,7 @@ import com.philips.platform.verticals.VerticalCreater;
 import com.philips.platform.verticals.VerticalUCoreAccessProvider;
 import com.philips.platform.verticals.VerticalUserRegistrationInterface;
 import com.philips.spy.DSPaginationSpy;
+import com.philips.spy.EventingSpy;
 import com.philips.testing.verticals.datatyes.MomentType;
 
 import org.joda.time.DateTime;
@@ -75,7 +51,6 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
 import java.io.File;
@@ -86,11 +61,11 @@ import java.util.List;
 import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyListOf;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DataServicesManagerTest {
 
@@ -111,9 +86,6 @@ public class DataServicesManagerTest {
 
     @Mock
     DataFetcher dataFetcherMock;
-
-    @Mock
-    private Eventing eventingMock;
 
     @Mock
     JSONObject jsonObject;
@@ -209,13 +181,17 @@ public class DataServicesManagerTest {
     SynchronisationCompleteListener synchronisationCompleteListener;
 
     @Mock
-    Settings settingsMock;
+    private Settings settingsMock;
+
+    private EventingSpy eventingSpy;
 
     DSPaginationSpy mDSPagination;
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        initMocks(this);
+
+        eventingSpy = new EventingSpy();
 
         tracker = DataServicesManager.getInstance();
         tracker.setAppComponant(appComponantMock);
@@ -224,7 +200,7 @@ public class DataServicesManagerTest {
         userRegistrationInterface = new VerticalUserRegistrationInterface();
         uCoreAccessProvider = new VerticalUCoreAccessProvider(userRegistrationInterface);
         mDSPagination = new DSPaginationSpy();
-        tracker.mEventing = eventingMock;
+        tracker.mEventing = eventingSpy;
         tracker.mDataCreater = baseAppDataCreator;
         tracker.mBackendIdProvider = uCoreAccessProvider;
         tracker.mCore = coreMock;
@@ -238,25 +214,25 @@ public class DataServicesManagerTest {
     @Test
     public void ShouldPostSaveEvent_WhenSaveIsCalled() throws Exception {
         tracker.saveMoment(momentMock, dbRequestListener);
-        verify(eventingMock).post(any(MomentSaveRequest.class));
+        thenVerifyEventIsPosted("MomentSaveRequest");
     }
 
     @Test
     public void ShouldPostUpdateEvent_WhenUpdateIsCalled() throws Exception {
         tracker.updateMoment(momentMock, dbRequestListener);
-        verify(eventingMock).post(any(MomentUpdateRequest.class));
+        thenVerifyEventIsPosted("MomentUpdateRequest");
     }
 
     @Test
     public void ShouldPostFetchEvent_WhenFetchIsCalled() throws Exception {
         tracker.fetchMomentWithType(dbFetchRequestListner, MomentType.TEMPERATURE);
-        verify(eventingMock).post(any(LoadMomentsRequest.class));
+        thenVerifyEventIsPosted("LoadMomentsRequest");
     }
 
     @Test
     public void ShouldPostFetchLatestMomentByType_WhenFetchIsCalled() throws Exception {
         tracker.fetchLatestMomentByType(MomentType.TEMPERATURE, dbFetchRequestListner);
-        verify(eventingMock).post(any(LoadLatestMomentByTypeRequest.class));
+        thenVerifyEventIsPosted("LoadLatestMomentByTypeRequest");
     }
 
     @Test
@@ -266,7 +242,7 @@ public class DataServicesManagerTest {
         Date startDate = sdf.parse("10/11/17");
         Date endDate = sdf.parse("10/23/17");
         tracker.fetchMomentsWithTypeAndTimeLine(MomentType.TEMPERATURE, startDate, endDate, createPagination(), dbFetchRequestListner);
-        verify(eventingMock).post(any(LoadMomentsByDate.class));
+        thenVerifyEventIsPosted("LoadMomentsByDate");
     }
 
     @Test
@@ -276,25 +252,25 @@ public class DataServicesManagerTest {
         Date startDate = sdf.parse("10/11/17");
         Date endDate = sdf.parse("10/23/17");
         tracker.fetchMomentsWithTimeLine(startDate, endDate, createPagination(), dbFetchRequestListner);
-        verify(eventingMock).post(any(LoadMomentsByDate.class));
+        thenVerifyEventIsPosted("LoadMomentsByDate");
     }
 
     @Test
     public void ShouldPostFetchMomentByIdEvent_WhenFetchMomentByIdIsCalled() throws Exception {
         tracker.fetchMomentForMomentID(1, dbFetchRequestListner);
-        verify(eventingMock).post(any(LoadMomentsRequest.class));
+        thenVerifyEventIsPosted("LoadMomentsRequest");
     }
 
     @Test
     public void ShouldPostFetchConsentEvent_WhenFetchConsentIsCalled() throws Exception {
         tracker.fetchConsentDetail(dbFetchRequestListner);
-        verify(eventingMock).post(any(LoadConsentsRequest.class));
+        thenVerifyEventIsPosted("LoadConsentsRequest");
     }
 
     @Test
     public void ShouldPostFetchSettingsEvent_WhenFetchSettingsIsCalled() throws Exception {
         tracker.fetchUserSettings(dbFetchRequestListner);
-        verify(eventingMock).post(any(LoadSettingsRequest.class));
+        thenVerifyEventIsPosted("LoadSettingsRequest");
     }
 
     @Test
@@ -309,19 +285,19 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldPostSaveConsentEvent_WhenSaveConsentIsCalled() throws Exception {
-        tracker.saveConsentDetails(anyListOf(ConsentDetail.class), dbRequestListener);
-        verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
+        tracker.saveConsentDetails(null, dbRequestListener);
+        thenVerifyEventIsPosted("DatabaseConsentSaveRequest");
     }
 
     @Test
     public void ShouldPostUpdateSettingsEvent_WhenUpdateSettingsIsCalled() throws Exception {
-        tracker.updateUserSettings(any(Settings.class), dbRequestListener);
-        verify(eventingMock).post(any(DatabaseSettingsUpdateRequest.class));
+        tracker.updateUserSettings(null, dbRequestListener);
+        thenVerifyEventIsPosted("DatabaseSettingsUpdateRequest");
     }
 
     @Test
     public void ShouldPostUpdateCharacteristicsRequest_WhenUpdateCharacteristicsIsCalled() throws Exception {
-        tracker.updateUserCharacteristics(anyListOf(Characteristics.class), dbRequestListener);
+        tracker.updateUserCharacteristics(null, dbRequestListener);
     }
 
     @Test
@@ -331,14 +307,14 @@ public class DataServicesManagerTest {
 
     @Test
     public void ShouldPostUpdateConsentEvent_WhenUpdateConsentIsCalled() throws Exception {
-        tracker.updateConsentDetails(anyListOf(ConsentDetail.class), dbRequestListener);
-        verify(eventingMock).post(any(DatabaseConsentSaveRequest.class));
+        tracker.updateConsentDetails(null, dbRequestListener);
+        thenVerifyEventIsPosted("DatabaseConsentUpdateRequest");
     }
 
     @Test
     public void ShouldPostdeleteAllMomentEvent_WhendeleteAllMomentIsCalled() throws Exception {
         tracker.deleteAllMoments(dbRequestListener);
-        verify(eventingMock).post(any(DataClearRequest.class));
+        thenVerifyEventIsPosted("DeleteAllMomentsRequest");
     }
 
     //TODO: Spoorti - revisit this
@@ -391,7 +367,7 @@ public class DataServicesManagerTest {
     @Test
     public void Should_fetchAllMoment_called() throws Exception {
         tracker.fetchAllMoment(dbFetchRequestListner);
-        verify(eventingMock).post(any(LoadMomentsRequest.class));
+        thenVerifyEventIsPosted("LoadMomentsRequest");
     }
 
     @Test
@@ -404,7 +380,7 @@ public class DataServicesManagerTest {
     @Test
     public void Should_createsaveUserSettings_called() throws Exception {
         tracker.saveUserSettings(settingsMock, dbRequestListener);
-        verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
+        thenVerifyEventIsPosted("DatabaseSettingsSaveRequest");
     }
 
     @Test
@@ -440,7 +416,7 @@ public class DataServicesManagerTest {
     @Test
     public void Should_deleteMoment_called() throws Exception {
         tracker.deleteMoment(momentMock, dbRequestListener);
-        verify(eventingMock).post(any(MomentDeleteRequest.class));
+        thenVerifyEventIsPosted("MomentDeleteRequest");
     }
 
     @Test
@@ -448,7 +424,7 @@ public class DataServicesManagerTest {
         List list = new ArrayList();
         list.add(momentMock);
         tracker.deleteMoments(list, dbRequestListener);
-        verify(eventingMock).post(any(MomentsDeleteRequest.class));
+        thenVerifyEventIsPosted("MomentsDeleteRequest");
     }
 
     @Test
@@ -456,13 +432,13 @@ public class DataServicesManagerTest {
         List list = new ArrayList();
         list.add(momentMock);
         tracker.updateMoments(list, dbRequestListener);
-        verify(eventingMock).post(any(MomentsUpdateRequest.class));
+        thenVerifyEventIsPosted("MomentsUpdateRequest");
     }
 
     @Test
     public void Should_deleteAll_called() throws Exception {
         tracker.deleteAll(dbRequestListener);
-        verify(eventingMock).post(any(DataClearRequest.class));
+        thenVerifyEventIsPosted("DataClearRequest");
     }
 
     @Test
@@ -480,7 +456,7 @@ public class DataServicesManagerTest {
         List list = new ArrayList();
         list.add(consentDetailMock);
         tracker.saveUserCharacteristics(list, dbRequestListener);
-        verify(eventingMock).post(any(UserCharacteristicsSaveRequest.class));
+        thenVerifyEventIsPosted("UserCharacteristicsSaveRequest");
     }
 
     @Test
@@ -501,7 +477,7 @@ public class DataServicesManagerTest {
         List list = new ArrayList();
         list.add(momentMock);
         tracker.saveMoments(list, dbRequestListener);
-        verify(eventingMock).post(any(UserCharacteristicsSaveRequest.class));
+        thenVerifyEventIsPosted("MomentsSaveRequest");
     }
 
     @Test
@@ -513,7 +489,7 @@ public class DataServicesManagerTest {
     @Test
     public void Should_fetchInsights_called() throws Exception {
         tracker.fetchInsights(dbFetchRequestListner);
-        verify(eventingMock).post(any(FetchInsightsFromDB.class));
+        thenVerifyEventIsPosted("FetchInsightsFromDB");
     }
 
     @Test
@@ -521,26 +497,26 @@ public class DataServicesManagerTest {
         List list = new ArrayList();
         list.add(insightMock);
         tracker.deleteInsights(list, dbRequestListener);
-        verify(eventingMock).post(any(DeleteInsightFromDB.class));
+        thenVerifyEventIsPosted("DeleteInsightFromDB");
     }
 
     @Test
     public void Should_ClearExpiredMoments_called() {
         tracker.clearExpiredMoments(dbRequestListener);
-        verify(eventingMock).post(any(DeleteExpiredMomentRequest.class));
+        thenVerifyEventIsPosted("DeleteExpiredMomentRequest");
     }
 
     //Push Notification test
     @Test
     public void unRegisterDeviceTokenTest() throws Exception {
         tracker.unRegisterDeviceToken("token", "variant", null);
-        verify(eventingMock).post(any(UnRegisterDeviceToken.class));
+        thenVerifyEventIsPosted("UnRegisterDeviceToken");
     }
 
     @Test
     public void registerDeviceTokenTest() throws Exception {
         tracker.registerDeviceToken("token", "variant", "protocol provider", null);
-        verify(eventingMock).post(any(RegisterDeviceToken.class));
+        thenVerifyEventIsPosted("RegisterDeviceToken");
     }
 
     @Test
@@ -552,44 +528,44 @@ public class DataServicesManagerTest {
     @Test
     public void createSubjectProfileTest() throws Exception {
         tracker.createSubjectProfile("test user", "2013-05-05", "female", 78.88, "2015-10-01T12:11:10.123+0100", null);
-        verify(eventingMock).post(any(CreateSubjectProfileRequestEvent.class));
+        thenVerifyEventIsPosted("CreateSubjectProfileRequestEvent");
     }
 
     @Test
     public void getSubjectProfilesTest() throws Exception {
         tracker.getSubjectProfiles(null);
-        verify(eventingMock).post(any(GetSubjectProfileListRequestEvent.class));
+        thenVerifyEventIsPosted("GetSubjectProfileListRequestEvent");
     }
 
     @Test
     public void getSubjectProfileTest() throws Exception {
         tracker.getSubjectProfile("39989890000898989", null);
-        verify(eventingMock).post(any(GetSubjectProfileRequestEvent.class));
+        thenVerifyEventIsPosted("GetSubjectProfileRequestEvent");
     }
 
     @Test
     public void deleteSubjectProfileTest() throws Exception {
         tracker.deleteSubjectProfile("78798089987868789", null);
-        verify(eventingMock).post(any(DeleteSubjectProfileRequestEvent.class));
+        thenVerifyEventIsPosted("DeleteSubjectProfileRequestEvent");
     }
 
     //Device Pairing test
     @Test
     public void pairDevicesTest() throws Exception {
         tracker.pairDevices("77908787878978", "RefNode", null, null, "rxd", null);
-        verify(eventingMock).post(any(PairDevicesRequestEvent.class));
+        thenVerifyEventIsPosted("PairDevicesRequestEvent");
     }
 
     @Test
     public void unPairDeviceTest() throws Exception {
         tracker.unPairDevice("7867697879787", null);
-        verify(eventingMock).post(any(UnPairDeviceRequestEvent.class));
+        thenVerifyEventIsPosted("UnPairDeviceRequestEvent");
     }
 
     @Test
     public void getPairedDevicesTest() throws Exception {
         tracker.getPairedDevices(null);
-        verify(eventingMock).post(any(GetPairedDeviceRequestEvent.class));
+        thenVerifyEventIsPosted("GetPairedDeviceRequestEvent");
     }
 
     private DSPaginationSpy createPagination() {
@@ -602,10 +578,21 @@ public class DataServicesManagerTest {
 
 
     @Test
+    public void synchronize() {
+        whenSynchronizeIsInvoked();
+        thenVerifyMonitorsAreInitialized();
+        thenVerifyEventIsPosted("Synchronize");
+    }
+
+    @Test
     public void pullSyncByDateRange() {
         whenPullSyncIsInvoked();
         thenVerifyMonitorsAreInitialized();
-        thenVerifySynchronisationManagerIsCalled();
+        thenVerifyEventIsPosted("SynchronizeWithFetchByDateRange");
+    }
+
+    private void whenSynchronizeIsInvoked() {
+        tracker.synchronize();
     }
 
     private void whenPullSyncIsInvoked() {
@@ -614,12 +601,20 @@ public class DataServicesManagerTest {
 
     private void thenVerifyMonitorsAreInitialized() {
         verify(coreMock).start();
-        verify(synchronisationMonitorMock).start(eventingMock);
+        verify(synchronisationMonitorMock).start(eventingSpy);
+    }
+
+    private void thenVerifySynchronisationManagerIsCalledForSynchronize() {
+        verify(synchronisationManagerMock).startSync(synchronisationCompleteListener);
+    }
+
+    private void thenVerifySynchronisationManagerIsCalled() {
+        verify(synchronisationManagerMock).startSyncWithFetchByDateRange(START_DATE.toString(), END_DATE.toString(), synchronisationCompleteListenerMock);
     }
 
 
-    private void thenVerifySynchronisationManagerIsCalled() {
-        verify(synchronisationManagerMock).startFetch(START_DATE.toString(), END_DATE.toString(), synchronisationCompleteListenerMock);
+    private void thenVerifyEventIsPosted(String event) {
+        assertEquals(event, eventingSpy.postedEvent.getClass().getSimpleName());
     }
 
     private static final DateTime START_DATE = new DateTime();

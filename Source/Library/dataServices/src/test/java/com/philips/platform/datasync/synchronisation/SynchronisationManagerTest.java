@@ -93,7 +93,7 @@ public class SynchronisationManagerTest {
     }
 
     private void whenStartFetchIsInvoked() {
-        synchronisationManager.startFetch(startDate, endDate, synchronisationCompleteListenerMock);
+        synchronisationManager.startSyncWithFetchByDateRange(startDate, endDate, synchronisationCompleteListenerMock);
     }
 
     private void thenVerifyEventIsPosted(String event) {

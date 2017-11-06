@@ -132,7 +132,7 @@ public class DataPullSynchronise {
         reportResult(fetchResult, referenceId);
     }
 
-    private synchronized void fetchDataByDateRange(final String startDate, final String endDate) {
+    private void fetchDataByDateRange(final String startDate, final String endDate) {
         final CountDownLatch countDownLatch = new CountDownLatch(configurableFetchers.size());
 
         for (final DataFetcher fetcher : configurableFetchers) {

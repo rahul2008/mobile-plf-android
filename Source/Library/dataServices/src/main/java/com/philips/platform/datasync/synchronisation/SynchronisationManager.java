@@ -41,7 +41,7 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         }
     }
 
-    public void startFetch(String startDate, String endDate, SynchronisationCompleteListener synchronisationCompleteListener) {
+    public void startSyncWithFetchByDateRange(String startDate, String endDate, SynchronisationCompleteListener synchronisationCompleteListener) {
         mSynchronisationCompleteListener = synchronisationCompleteListener;
         mEventing.post(new FetchByDateRange(startDate, endDate));
     }
