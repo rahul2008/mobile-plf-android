@@ -56,19 +56,10 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         mRelativeLayoutHowItWorks = (RelativeLayout) view.findViewById(R.id.how_it_works);
         mButton = (Button) view.findViewById(R.id.ths_start);
 
-        mRelativeLayoutAppointments.setEnabled(false);
         mRelativeLayoutAppointments.setOnClickListener(this);
-
-        mRelativeLayoutVisitHostory.setEnabled(false);
         mRelativeLayoutVisitHostory.setOnClickListener(this);
-
-        mRelativeLayoutHowItWorks.setEnabled(false);
         mRelativeLayoutHowItWorks.setOnClickListener(this);
-
-        mButton.setEnabled(false);
         mButton.setOnClickListener(this);
-        
-        presenter.getStarted();
 
         ActionBarListener actionBarListener = getActionBarListener();
         if(null != actionBarListener){
@@ -104,13 +95,6 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
            // THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_PRACTICE_PAGE);
             presenter.onEvent(R.id.ths_start);
         }
-    }
-
-    void updateView(){
-        mRelativeLayoutHowItWorks.setEnabled(true);
-        mRelativeLayoutVisitHostory.setEnabled(true);
-        mRelativeLayoutAppointments.setEnabled(true);
-        mButton.setEnabled(true);
     }
 
     @Override

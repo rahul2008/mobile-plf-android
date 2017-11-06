@@ -151,7 +151,7 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName version +  "(" + objcdp.getCommitHash() + ")"
-
+        consumerProguardFiles 'proguard-rules.pro'
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 26
         renderscriptSupportModeEnabled true

@@ -54,6 +54,7 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.ImageButton;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -95,6 +96,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     private Provider mProvider;
     protected String tagActions="";
     public static long visitStartTime;
+    private Label mLabelPatientName;
 
     @Nullable
     @Override
@@ -128,6 +130,12 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         additional_comments_edittext = (EditText) view.findViewById(R.id.additional_comments_edittext);
         additional_comments_edittext.setOnTouchListener(this);
         imageListView = (RecyclerView) view.findViewById(R.id.imagelist);
+
+
+        mLabelPatientName = (Label) view.findViewById(R.id.ths_symptoms_patient_name);
+        String name = getString(R.string.ths_dependent_name, THSManager.getInstance().getThsConsumer(getContext()).getFirstName());
+        mLabelPatientName.setText(name);
+
         imageListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
         thsImageRecyclerViewAdapter = new THSImageRecyclerViewAdapter(selectedImagePojoList, this);

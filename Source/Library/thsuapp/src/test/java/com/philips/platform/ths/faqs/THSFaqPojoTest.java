@@ -22,7 +22,7 @@ public class THSFaqPojoTest {
     THSFaqPojo mThsFaqPojo;
 
     @Mock
-    FaqBean faqBeanMock;
+    FaqBeanPojo faqBeanPojoMock;
 
     @Before
     public void setUp() throws Exception {
@@ -42,9 +42,9 @@ public class THSFaqPojoTest {
     @Test
     public void getFaq() throws Exception {
         List list = new ArrayList();
-        list.add(faqBeanMock);
+        list.add(faqBeanPojoMock);
         mThsFaqPojo.setFaq(list);
-        final List<FaqBean> faq = mThsFaqPojo.getFaq();
+        final List<FaqBeanPojo> faq = mThsFaqPojo.getFaq();
         assertNotNull(faq);
         assertThat(faq).isInstanceOf(List.class);
     }
