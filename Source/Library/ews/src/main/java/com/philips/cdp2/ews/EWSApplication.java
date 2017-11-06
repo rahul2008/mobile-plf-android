@@ -30,7 +30,6 @@ public class EWSApplication extends Application {
         super.onCreate();
         //TODO fix the hashmap
         JodaTimeAndroid.init(this); // TODO this should be removed in favor or Java's date API
-        //EWSTagger.init(this, getAppInfra().getTagging());
     }
 
     @NonNull

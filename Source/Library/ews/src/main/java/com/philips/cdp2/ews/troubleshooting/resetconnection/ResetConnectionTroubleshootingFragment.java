@@ -39,7 +39,6 @@ public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingF
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //EWSTagger.trackActionSendData(Tag.);
                         viewModel.onYesButtonClicked();
                     }
                 });
