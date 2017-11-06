@@ -20,7 +20,7 @@ public class FirstSetupStepsFragment extends BaseFragment {
 
     public static final int FRAGMENT_HIERARCHY_LEVEL = 3;
 
-    FirstSetupStepsViewModel viewModel;
+    private FirstSetupStepsViewModel viewModel;
 
 
     @SuppressWarnings("ConstantConditions")

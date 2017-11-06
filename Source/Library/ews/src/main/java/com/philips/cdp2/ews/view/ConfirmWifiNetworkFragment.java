@@ -31,6 +31,7 @@ import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 public class ConfirmWifiNetworkFragment extends BaseFragment
         implements ConfirmWifiNetworkViewModel.ViewCallback {
 
+    @VisibleForTesting
     ConfirmWifiNetworkViewModel viewModel;
 
 
