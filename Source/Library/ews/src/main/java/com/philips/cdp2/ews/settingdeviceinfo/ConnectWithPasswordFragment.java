@@ -26,7 +26,7 @@ public class ConnectWithPasswordFragment extends BaseFragment {
 
     private static String DEVICE_FRIENDLY_NAME = "deviceFriendlyName";
 
-    ConnectWithPasswordViewModel viewModel;
+    private ConnectWithPasswordViewModel viewModel;
 
 
     public static Fragment newInstance(@NonNull String deviceFriendlyName) {
