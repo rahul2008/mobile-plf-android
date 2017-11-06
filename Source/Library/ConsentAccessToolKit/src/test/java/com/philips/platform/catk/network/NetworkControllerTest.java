@@ -37,7 +37,7 @@ import static org.mockito.Mockito.when;
 
 
 @RunWith(CustomRobolectricRunnerCATK.class)
-@PrepareForTest({CatkInterface.class})
+//@PrepareForTest({CatkInterface.class})
 @Config(constants = BuildConfig.class, sdk = 25)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 public class NetworkControllerTest {
@@ -67,18 +67,18 @@ public class NetworkControllerTest {
     @Mock
     private CatkComponent mockCatkComponent;
 
-    @Mock
-    private CatkInterface mockCatkInterface;
+    //@Mock
+    //private CatkInterface mockCatkInterface;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        PowerMockito.mockStatic(CatkInterface.class);
+        //PowerMockito.mockStatic(CatkInterface.class);
         networkController = new NetworkControllerCustom();
         when(mockUser.getHsdpAccessToken()).thenReturn("x73ywf56h46h5p25");
         when(mockUser.getHsdpUUID()).thenReturn("17f7ce85-403c-4824-a17f-3b551f325ce0");
-        mockCatkInterface.setCatkComponent(mockCatkComponent);
-        when(mockCatkInterface.getCatkComponent()).thenReturn(mockCatkComponent);
+        //mockCatkInterface.setCatkComponent(mockCatkComponent);
+        //when(mockCatkInterface.getCatkComponent()).thenReturn(mockCatkComponent);
         when(mockConsentRequest.getMethod()).thenReturn(0);
         when(mockConsentRequest.getUrl()).thenReturn("https://philips.com");
         when(mockConsentRequest.getHeaders()).thenReturn(getRequestHeader());

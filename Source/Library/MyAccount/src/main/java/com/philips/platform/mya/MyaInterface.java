@@ -89,8 +89,8 @@ public class MyaInterface implements UappInterface {
         CswDependencies cswDependencies = new CswDependencies(uappDependencies.getAppInfra());
         applicationName = ((MyaDependencies) uappDependencies).getApplicationName();
         propositionName = ((MyaDependencies) uappDependencies).getPropositionName();
-        cswDependencies.setApplicationName(applicationName);
-        cswDependencies.setPropositionName(propositionName);
+        cswDependencies.setApplicationName(applicationName == null ? CatkConstants.APPLICATION_NAME : applicationName);
+        cswDependencies.setPropositionName(propositionName == null ? CatkConstants.PROPOSITION_NAME : propositionName);
         CswSettings cswSettings = new CswSettings(uappSettings.getContext());
         CswInterface cswInterface = new CswInterface();
         cswInterface.init(cswDependencies, cswSettings);

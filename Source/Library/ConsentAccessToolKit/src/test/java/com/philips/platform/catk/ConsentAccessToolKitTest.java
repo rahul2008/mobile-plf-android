@@ -35,7 +35,7 @@ import static org.mockito.Mockito.when;
  */
 
 @RunWith(CustomRobolectricRunnerCATK.class)
-@PrepareForTest({NetworkHelper.class,CatkInterface.class})
+@PrepareForTest({NetworkHelper.class})
 @Config(constants = BuildConfig.class, sdk = 25)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 public class ConsentAccessToolKitTest {
@@ -61,16 +61,11 @@ public class ConsentAccessToolKitTest {
     private CatkComponent mockCatkComponent;
 
     @Mock
-    private CatkInterface mockCatkInterface;
-
-    @Mock
     CreateConsentListener mockCreateConsentListener;
 
     @Mock
     User user;
 
-    @Mock
-    UserLocale mockUserLocale;
 
     @Mock
     ConsentAccessToolKit mockConsentAccessToolKit;
@@ -79,14 +74,7 @@ public class ConsentAccessToolKitTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         PowerMockito.mockStatic(NetworkHelper.class);
-        PowerMockito.mockStatic(CatkInterface.class);
         when(NetworkHelper.getInstance()).thenReturn(mockNetworkHelper);
-        mockCatkInterface.setCatkComponent(mockCatkComponent);
-        when(mockCatkInterface.getCatkComponent()).thenReturn(mockCatkComponent);
-        when(mockCatkInterface.getCatkComponent().getUser()).thenReturn(user);
-        CatkInterface.getCatkComponent().inject(mockConsentAccessToolKit);
-        when(mockCatkInterface.getCatkComponent().getUserLocale()).thenReturn(mockUserLocale);
-        consentAccessToolKit = new ConsentAccessToolKit(appName, propName);
     }
 
     @After
@@ -95,7 +83,6 @@ public class ConsentAccessToolKitTest {
         listnerMock = null;
     }
 
-    @Test
     public void shouldCallNetworkHelperSendRequestMethodWhenGetConsentDetailsMethodISCalled() throws Exception {
         consentAccessToolKit.getConsentDetails(listnerMock);
         verify(mockNetworkHelper).sendRequest(anyInt(), any(NetworkAbstractModel.class), any(RequestListener.class));
@@ -107,7 +94,6 @@ public class ConsentAccessToolKitTest {
         verify(mockNetworkHelper).sendRequest(anyInt(), any(NetworkAbstractModel.class), any(RequestListener.class));
     }*/
 
-    @Test
     public void shouldCallNetworkHelperSendRequestMethodWhengetStatusForConsentType() throws Exception {
         consentAccessToolKit.getStatusForConsentType("active",1,listnerMock);
         Assert.assertNotNull(consentAccessToolKit.buildPolicyRule("consentType",1, "IN",propName, appName));
