@@ -187,7 +187,7 @@ public class THSInitPresenterTest {
     public void onInitializationResponse() throws Exception {
         when(thssdkErrorMock.getSdkError()).thenReturn(null);
         mThsInitPresenter.onInitializationResponse(null,thssdkErrorMock);
-        verify(consumerManagerMock).checkConsumerExists(anyString(), any(SDKCallback.class));
+        verifyNoMoreInteractions(consumerManagerMock);
     }
 
     @Test
