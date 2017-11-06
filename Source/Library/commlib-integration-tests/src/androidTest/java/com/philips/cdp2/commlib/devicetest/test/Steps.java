@@ -12,6 +12,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
+import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp2.commlib.cloud.communication.CloudCommunicationStrategy;
@@ -22,6 +23,7 @@ import com.philips.cdp2.commlib.devicetest.appliance.ReferenceAppliance;
 import com.philips.cdp2.commlib.devicetest.time.TimePort;
 import com.philips.cdp2.commlib.devicetest.util.Android;
 import com.philips.cdp2.commlib.devicetest.util.ApplianceWaiter;
+import com.philips.cdp2.commlib.devicetest.util.CloudSignOnWaiter;
 import com.philips.cdp2.commlib.devicetest.util.PairingWaiter;
 import com.philips.cdp2.commlib.devicetest.util.PortListener;
 
@@ -174,5 +176,23 @@ public class Steps {
     @Given("^cloudCommunication is used$")
     public void cloudCommunicationIsUsed() throws Throwable {
         current.getCommunicationStrategy().forceStrategyType(CloudCommunicationStrategy.class);
+    }
+
+    @Given("^is signed on to cloud$")
+    public void isSignedOnToCloud() throws Throwable {
+        CloudController cloudController = app.getCloudController();
+
+        CloudSignOnWaiter cloudSignOnWaiter = new CloudSignOnWaiter();
+        cloudController.addSignOnListener(cloudSignOnWaiter);
+
+        if(!cloudController.isSignOn()) {
+            cloudSignOnWaiter.waitForSignOn(1, MINUTES);
+        }
+
+        cloudController.removeSignOnListener(cloudSignOnWaiter);
+
+        if(!cloudController.isSignOn()) {
+            throw new Exception("Sign on failed");
+        }
     }
 }
