@@ -31,20 +31,24 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         DataServicesManager.getInstance().getAppComponant().injectSynchronisationManager(this);
     }
 
-    public void startSync(SynchronisationCompleteListener synchronisationCompleteListner) {
+    public void startSync(String startDate, String endDate, SynchronisationCompleteListener synchronisationCompleteListner) {
         synchronized (this) {
             mSynchronisationCompleteListener = synchronisationCompleteListner;
             if (isSyncComplete) {
                 isSyncComplete = false;
-                mEventing.post(new ReadDataFromBackendRequest());
+                if (startDate == null && endDate == null) {
+                    mEventing.post(new FetchByDateRange(startDate, endDate));
+                } else {
+                    mEventing.post(new ReadDataFromBackendRequest());
+                }
             }
         }
     }
 
-    public void startSyncWithFetchByDateRange(String startDate, String endDate, SynchronisationCompleteListener synchronisationCompleteListener) {
+    /*public void startSyncWithFetchByDateRange(String startDate, String endDate, SynchronisationCompleteListener synchronisationCompleteListener) {
         mSynchronisationCompleteListener = synchronisationCompleteListener;
         mEventing.post(new FetchByDateRange(startDate, endDate));
-    }
+    }*/
 
     @Override
     public void dataPullSuccess() {

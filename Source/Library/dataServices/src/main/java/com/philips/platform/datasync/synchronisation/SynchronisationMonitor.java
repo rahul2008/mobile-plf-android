@@ -53,12 +53,12 @@ public class SynchronisationMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(Synchronize synchronize) {
-        synchronisationManager.startSync(synchronize.getSynchronisationCompleteListener());
+        synchronisationManager.startSync(synchronize.getStartDate(), synchronize.getEndDate(), synchronize.getSynchronisationCompleteListener());
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(SynchronizeWithFetchByDateRange synchronizeWithFetchByDateRange) {
-        synchronisationManager.startSyncWithFetchByDateRange(synchronizeWithFetchByDateRange.getStartDate(), synchronizeWithFetchByDateRange.getEndDate(),
+        synchronisationManager.startSync(synchronizeWithFetchByDateRange.getStartDate(), synchronizeWithFetchByDateRange.getEndDate(),
                 synchronizeWithFetchByDateRange.getSynchronisationCompleteListener());
     }
 }

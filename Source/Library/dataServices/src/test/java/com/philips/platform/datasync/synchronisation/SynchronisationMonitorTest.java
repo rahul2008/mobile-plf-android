@@ -86,7 +86,7 @@ public class SynchronisationMonitorTest {
     }
 
     private void thenVerifyStartSyncIsInvoked() {
-        verify(synchronisationManagerMock).startSync(syncCompleteListenerMock);
+        verify(synchronisationManagerMock).startSync(null, null, syncCompleteListenerMock);
     }
 
 }
