@@ -457,12 +457,6 @@ dependencies {
 		exclude group: 'com.android.support'
 		transitive = true
 	}
-
-    def myaUAppModule = module(group: 'com.philips.cdp', name: 'MyAccountUApp', version: versions.mya_myAccount + objcdp.getVersionSuffix(), ext: 'aar')
-    compile(dp ? project(':myaUApp') : myaUAppModule) {
-        exclude group: 'com.android.support'
-        transitive = true
-    }
 	
 	def prgUAppModule = module(group: 'com.philips.cdp', name: 'product-registration-libUApp', version: versions.prg_productRegistrationLib + objcdp.getVersionSuffix(), ext: 'aar')
 	compile(dp ? project(':prgUApp') : prgUAppModule) {		
