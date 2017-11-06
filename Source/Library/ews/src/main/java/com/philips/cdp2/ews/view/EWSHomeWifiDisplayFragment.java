@@ -33,7 +33,6 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
     @Inject
     EWSHomeWifiDisplayViewModel viewModel;
 
-    private AlertDialogFragment alertDialogFragment;
 
     @Override
     public int getHierarchyLevel() {
@@ -104,6 +103,7 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
                 @Override
                 public void onClick(View v) {
                     alertDialogFragment.dismiss();
+                    getChildFragmentManager().popBackStackImmediate();
                     viewModel.refresh();
                 }
             });
