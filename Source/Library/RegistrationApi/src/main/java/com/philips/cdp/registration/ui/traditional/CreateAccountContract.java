@@ -24,6 +24,8 @@ public interface CreateAccountContract {
 
     void genericError(int errorDescID);
 
+    void serverConnectionError(int errorDesc);
+
     String getEmail();
 
     long getTrackCreateAccountTime();

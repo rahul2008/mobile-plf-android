@@ -407,7 +407,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         ThreadUtils.postInMainThread(context, () -> {
             usr_createscreen_create_button.hideProgressIndicator();
             usr_createscreen_switchtologin_button.setEnabled(true);
-
             enableCreateButton();
         });
     }
@@ -426,11 +425,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public void registrtionFail() {
-        ThreadUtils.postInMainThread(context, () -> {
             usr_createscreen_create_button.hideProgressIndicator();
             usr_createscreen_switchtologin_button.setEnabled(true);
             disableCreateButton();
-        });
     }
 
     @Override
@@ -513,6 +510,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     }
 
     @Override
+    public void serverConnectionError(int errorDescID) {
+        usr_createscreen_error_view.setError(context.getString(errorDescID));
+        scrollViewAutomatically(usr_createscreen_error_view, usr_createScreen_rootLayout_scrollView);
+        enableCreateButton();
+    }
+
+    @Override
     public String getEmail() {
         return user.getEmail();
     }
@@ -549,7 +553,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     }
 
     void enableCreateButton() {
-        if (isValidPassword && isValidEmail && isValidFirstname && isValidLastame) {
+        if (isValidPassword && isValidEmail && isValidFirstname && isValidLastame && networkUtility.isNetworkAvailable()) {
             usr_createscreen_create_button.setEnabled(true);
         }
     }

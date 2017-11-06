@@ -706,7 +706,9 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void wechatAuthenticationFailError() {
+        trackPage(AppTaggingPages.HOME);
         hideProgressDialog();
+        enableControls(true);
         updateErrorMessage(mContext.
                 getString(R.string.reg_JanRain_Server_Connection_Failed));
     }

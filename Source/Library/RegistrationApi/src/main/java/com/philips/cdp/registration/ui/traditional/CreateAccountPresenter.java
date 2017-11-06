@@ -132,6 +132,7 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
 
     private void handleRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure" + userRegistrationFailureInfo.getErrorCode());
+        createAccountContract.registrtionFail();
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
             if (RegistrationHelper.getInstance().isMobileFlow()) {
                 createAccountContract.emailError(R.string.reg_CreateAccount_Using_Phone_Alreadytxt);
@@ -141,14 +142,13 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
             createAccountContract.scrollViewAutomaticallyToEmail();
             createAccountContract.emailAlreadyUsed();
         } else if (userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT) {
-            createAccountContract.genericError(R.string.reg_JanRain_Server_Connection_Failed);
+            createAccountContract.serverConnectionError(R.string.reg_JanRain_Server_Connection_Failed);
         } else if (userRegistrationFailureInfo.getErrorCode() == TOO_MANY_REGISTARTION_ATTEMPTS) {
             createAccountContract.genericError(R.string.reg_Generic_Network_Error);
         } else {
             createAccountContract.genericError(userRegistrationFailureInfo.getErrorDescription());
         }
         AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
-        createAccountContract.registrtionFail();
     }
 
 }
