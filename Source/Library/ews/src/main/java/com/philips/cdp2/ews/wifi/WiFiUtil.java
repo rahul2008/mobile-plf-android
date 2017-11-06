@@ -20,7 +20,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import static com.philips.cdp2.ews.view.EWSActivity.EWS_STEPS;
+import static com.philips.cdp2.ews.EWSActivity.EWS_STEPS;
 
 @SuppressWarnings("WeakerAccess")
 @Singleton

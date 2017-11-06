@@ -1,5 +1,6 @@
 package com.philips.cdp2.ews.viewmodel;
 
+import com.philips.cdp2.ews.base.BaseTroubleShootingViewModel;
 import com.philips.cdp2.ews.navigation.Navigator;
 
 import org.junit.Test;

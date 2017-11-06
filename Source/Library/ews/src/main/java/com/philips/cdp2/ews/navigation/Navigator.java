@@ -15,11 +15,11 @@ import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshooti
 import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WifiConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
-import com.philips.cdp2.ews.view.ConfirmWifiNetworkFragment;
-import com.philips.cdp2.ews.view.ConnectionSuccessfulFragment;
-import com.philips.cdp2.ews.view.FirstSetupStepsFragment;
-import com.philips.cdp2.ews.view.SecondSetupStepsFragment;
-import com.philips.cdp2.ews.view.StartConnectWithDeviceFragment;
+import com.philips.cdp2.ews.confirmwifi.ConfirmWifiNetworkFragment;
+import com.philips.cdp2.ews.connectionsuccessful.ConnectionSuccessfulFragment;
+import com.philips.cdp2.ews.setupsteps.FirstSetupStepsFragment;
+import com.philips.cdp2.ews.setupsteps.SecondSetupStepsFragment;
+import com.philips.cdp2.ews.startconnectwithdevice.StartConnectWithDeviceFragment;
 
 public class Navigator {
 
@@ -35,27 +35,15 @@ public class Navigator {
     }
 
     public void navigateToHomeNetworkConfirmationScreen() {
-        boolean isPresentInStack = fragmentNavigator
-                .popToFragment(ConfirmWifiNetworkFragment.class.getCanonicalName());
-        if (!isPresentInStack) {
-            pushFragment(new ConfirmWifiNetworkFragment());
-        }
+        pushFragment(new ConfirmWifiNetworkFragment());
     }
 
     public void navigateToDevicePoweredOnConfirmationScreen() {
-        boolean isPresentInStack =
-                fragmentNavigator.popToFragment(FirstSetupStepsFragment.class.getCanonicalName());
-        if (!isPresentInStack) {
-            pushFragment(new FirstSetupStepsFragment());
-        }
+        pushFragment(new FirstSetupStepsFragment());
     }
 
     public void navigateToCompletingDeviceSetupScreen() {
-        boolean isPresentInStack = fragmentNavigator
-                .popToFragment(SecondSetupStepsFragment.class.getCanonicalName());
-        if (!isPresentInStack) {
-            pushFragment(new SecondSetupStepsFragment());
-        }
+        pushFragment(new SecondSetupStepsFragment());
     }
 
     public void navigateToConnectToDeviceWithPasswordScreen(String friendlyName) {
@@ -67,11 +55,7 @@ public class Navigator {
     }
 
     public void navigateToResetConnectionTroubleShootingScreen() {
-        boolean isPresentInStack = fragmentNavigator
-                .popToFragment(ResetConnectionTroubleshootingFragment.class.getCanonicalName());
-        if (!isPresentInStack) {
-            pushFragment(new ResetConnectionTroubleshootingFragment());
-        }
+        pushFragment(new ResetConnectionTroubleshootingFragment());
     }
 
     public void navigateToResetDeviceTroubleShootingScreen() {
@@ -94,15 +78,12 @@ public class Navigator {
         pushFragment(new ConnectingWithDeviceFragment());
     }
 
-    public void navigateToConnectingDeviceWithWifiScreen(@NonNull final String homeWiFiSSID, @NonNull final String homeWiFiPassword, @NonNull final String deviceName,@NonNull final String deviceFriendlyName) {
-        pushFragment(ConnectingDeviceWithWifiFragment.newInstance(homeWiFiSSID, homeWiFiPassword, deviceName,deviceFriendlyName));
+    public void navigateToConnectingDeviceWithWifiScreen(@NonNull final String homeWiFiSSID, @NonNull final String homeWiFiPassword, @NonNull final String deviceName, @NonNull final String deviceFriendlyName) {
+        pushFragment(ConnectingDeviceWithWifiFragment.newInstance(homeWiFiSSID, homeWiFiPassword, deviceName, deviceFriendlyName));
     }
 
     public void navigateToConnectingDeviceWithWifiScreen(@Nullable Bundle bundle) {
-        boolean isPresentInStack = fragmentNavigator.popToFragment(ConnectingDeviceWithWifiFragment.class.getCanonicalName());
-        if (!isPresentInStack) {
-            pushFragment(ConnectingDeviceWithWifiFragment.newInstance(bundle));
-        }
+        pushFragment(ConnectingDeviceWithWifiFragment.newInstance(bundle));
     }
 
     public void navigateToEWSWiFiPairedScreen() {
