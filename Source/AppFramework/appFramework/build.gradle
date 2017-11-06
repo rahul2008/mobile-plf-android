@@ -490,6 +490,7 @@ dependencies {
 
     def shinelibUAppModule = module(group: 'com.philips.cdp', name: 'shinelibDemoUApp', version: versions.bll_shinelib+ objcdp.getVersionSuffix(), ext: 'aar')
         compile(dp ? project(':shinelibUApp') : shinelibUAppModule) {
+            exclude group: 'com.philips.cdp', module: 'shinelib'
             transitive = true
     }
 
