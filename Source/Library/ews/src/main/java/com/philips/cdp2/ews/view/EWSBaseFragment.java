@@ -18,10 +18,10 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.cdp2.ews.navigation.ScreenFlowParticipant;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 
+//todo ready to be removed
 public abstract class EWSBaseFragment<T extends ViewDataBinding> extends BaseFragment implements ScreenFlowParticipant {
 
     protected T viewDataBinding;
@@ -80,11 +80,6 @@ public abstract class EWSBaseFragment<T extends ViewDataBinding> extends BaseFra
     @Override
     public boolean onBackPressed() {
         return false;
-    }
-
-    @Override
-    public int getNavigationIconId() {
-        return ScreenFlowController.NAVIGATION_BACK_ICON;
     }
 
     @StringRes

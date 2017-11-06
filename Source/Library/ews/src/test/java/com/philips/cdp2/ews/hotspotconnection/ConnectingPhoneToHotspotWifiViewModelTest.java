@@ -8,7 +8,7 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
-import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel.ConnectingPhoneToHotSpotCallback;
+import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel.ConnectingPhoneToHotSpotCallback;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameFetcher;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
@@ -36,7 +36,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ConnectingPhoneToHotspotWifiViewModelTest {
 
-    @InjectMocks private ConnectingPhoneToHotspotWifiViewModel subject;
+    @InjectMocks private ConnectingWithDeviceViewModel subject;
 
     @Mock private WiFiConnectivityManager mockWiFiConnectivityManager;
     @Mock private WiFiUtil mockWiFiUtil;

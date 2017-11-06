@@ -2,16 +2,11 @@
 <resources>
 
     <style name="EWS" parent="Theme.Philips.DarkAqua">
-
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:colorBackground">@color/white</item>
-        <item name="android:textColorPrimary">@color/text_color_solid</item>
+        <item name="android:textColorPrimary">?attr/colorPrimary</item>
 
         <item name="android:buttonStyle">@style/Btn.Primary</item>
         <item name="buttonStyle">@style/Btn.Primary</item>
@@ -19,7 +14,7 @@
         <item name="uikit_springBoardDivider">@color/color_divider_opacity_10</item>
         <item name="uikit_listDividerColor">@color/color_divider_opacity_10</item>
         <item name="uikit_notificationBarGradient">@color/popover_background</item>
-        <item name="uikit_tabBarGradient">@color/tabBarBackground</item>
+        <item name="uikit_tabBarGradient">?attr/tabBackground</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
 
@@ -65,14 +60,14 @@
         <item name="android:textSize">@dimen/ews_title_text_size</item>
     </style>
 
-    <style name="EWS.Txt.Title.Dark">
-        <item name="android:textColor">@color/colorPrimary</item>
-    </style>
+    <!--<style name="EWS.Txt.Title.Dark">-->
+        <!--<item name="android:textColor">@color/colorPrimary</item>-->
+    <!--</style>-->
 
     <style name="EWS.Txt.Body"></style>
 
     <style name="EWS.Txt.Body.Link">
-        <item name="android:textColor">@color/colorAccent</item>
+        <!--<item name="android:textColor">@color/colorAccent</item>-->
         <item name="android:textSize">@dimen/ews_body_link_text_size</item>
         <item name="android:autoLink">web</item>
     </style>
