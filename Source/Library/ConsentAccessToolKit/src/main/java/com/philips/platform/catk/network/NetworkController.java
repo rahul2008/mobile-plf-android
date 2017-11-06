@@ -9,7 +9,7 @@ import com.android.volley.VolleyError;
 import com.google.gson.JsonArray;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.catk.CatkInterface;
+import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.listener.RequestListener;
 import com.philips.platform.catk.request.ConsentRequest;
@@ -26,7 +26,7 @@ public class NetworkController {
     }
 
     protected void init() {
-        CatkInterface.getCatkComponent().inject(this);
+        ConsentAccessToolKit.getInstance().getCatkComponent().inject(this);
     }
 
     public void sendConsentRequest(final int requestCode, final NetworkAbstractModel model, final RequestListener requestListener) {

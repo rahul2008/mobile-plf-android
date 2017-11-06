@@ -3,7 +3,6 @@ package com.philips.platform.catk;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.catk.injection.CatkComponent;
-import com.philips.platform.catk.injection.UserLocale;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.listener.RequestListener;

@@ -26,6 +26,8 @@ public class MyaDemouAppInterface implements UappInterface {
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         myaInterface = new MyaInterface();
         MyaDependencies myaDependencies = new MyaDependencies(uappDependencies.getAppInfra());
+        myaDependencies.setApplicationName(((MyaDemouAppDependencies)uappDependencies).getApplicationName());
+        myaDependencies.setPropositionName(((MyaDemouAppDependencies)uappDependencies).getPropositionName());
         MyaSettings myaSettings = new MyaSettings(uappSettings.getContext());
         myaInterface.init(myaDependencies, myaSettings);
     }

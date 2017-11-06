@@ -3,7 +3,6 @@ package com.philips.platform.catk.model;
 import com.google.gson.JsonArray;
 import com.philips.cdp.registration.User;
 import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.catk.CatkInterface;
 import com.philips.platform.catk.injection.CatkComponent;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.util.CustomRobolectricRunnerCATK;

@@ -4,7 +4,7 @@ package com.philips.platform.catk.utils;
 import android.util.Log;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.catk.CatkInterface;
+import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
 
 
@@ -22,7 +22,7 @@ public class CatkLogger {
      * Initialize the logger with AppInfra logger Taken care by USR coponent no need to call explicitly
      */
     public static void init() {
-        mLoggingInterface = CatkInterface.getCatkComponent().getLoggingInterface();
+        mLoggingInterface = ConsentAccessToolKit.getInstance().getCatkComponent().getLoggingInterface();
         mLoggingInterface = mLoggingInterface.createInstanceForComponent("catk", BuildConfig.VERSION_NAME);
     }
 

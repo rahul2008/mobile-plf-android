@@ -1,7 +1,7 @@
 package com.philips.platform.catk.network;
 
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.platform.catk.CatkInterface;
+import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.listener.RefreshTokenListener;
 import com.philips.platform.catk.listener.RequestListener;
 
@@ -35,7 +35,7 @@ public class NetworkHelper {
 
     public void refreshAccessToken(final RefreshTokenListener refreshTokenListener){
 
-        CatkInterface.getCatkComponent().getUser().refreshLoginSession(new RefreshLoginSessionHandler() {
+        ConsentAccessToolKit.getInstance().getCatkComponent().getUser().refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
                 refreshTokenListener.onRefreshSuccess();

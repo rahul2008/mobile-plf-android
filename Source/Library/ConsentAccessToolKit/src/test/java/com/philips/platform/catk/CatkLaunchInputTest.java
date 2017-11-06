@@ -16,21 +16,21 @@ import static junit.framework.Assert.assertNull;
 public class CatkLaunchInputTest {
     @Test
     public void CheckContextIsSet() throws Exception {
-        CatkLaunchInput catkLaunchInput = new CatkLaunchInput();
+        CatkInputs catkLaunchInput = new CatkInputs();
         catkLaunchInput.setContext(ShadowApplication.getInstance().getApplicationContext());
         assertNotNull(catkLaunchInput.getContext());
     }
 
     @Test
     public void CheckContextIsSetNull() throws Exception {
-        CatkLaunchInput catkLaunchInput = new CatkLaunchInput();
+        CatkInputs catkLaunchInput = new CatkInputs();
         catkLaunchInput.setContext(null);
         assertNull(catkLaunchInput.getContext());
     }
 
     @Test
     public void CheckContextIsSetnotAssiged() throws Exception {
-        CatkLaunchInput catkLaunchInput = new CatkLaunchInput();;
+        CatkInputs catkLaunchInput = new CatkInputs();;
         assertNull(catkLaunchInput.getContext());
     }
 

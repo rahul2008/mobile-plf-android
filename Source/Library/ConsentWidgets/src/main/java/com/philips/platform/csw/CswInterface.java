@@ -5,15 +5,14 @@ import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.philips.platform.catk.CatkDependencies;
-import com.philips.platform.catk.CatkInterface;
-import com.philips.platform.catk.CatkSettings;
+import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.catk.CatkInputs;
+import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.csw.injection.AppInfraModule;
 import com.philips.platform.csw.injection.CswComponent;
 import com.philips.platform.csw.injection.CswModule;
 import com.philips.platform.csw.injection.DaggerCswComponent;
 import com.philips.platform.csw.utils.CswLogger;
-import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -34,9 +33,9 @@ public class CswInterface implements UappInterface {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
-            launchAsActivity(((ActivityLauncher) uiLauncher), (CswLaunchInput)uappLaunchInput);
+            launchAsActivity(((ActivityLauncher) uiLauncher), (CswLaunchInput) uappLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
-            launchAsFragment((FragmentLauncher) uiLauncher, (CswLaunchInput)uappLaunchInput);
+            launchAsFragment((FragmentLauncher) uiLauncher, (CswLaunchInput) uappLaunchInput);
         }
     }
 
@@ -92,10 +91,12 @@ public class CswInterface implements UappInterface {
     }
 
     private void initConsentToolKit(UappDependencies uappDependencies, UappSettings uappSettings) {
-        CatkDependencies catkDependencies = new CatkDependencies(uappDependencies.getAppInfra());
-        CatkSettings catkSettings = new CatkSettings(uappSettings.getContext());
-        CatkInterface catkInterface = new CatkInterface();
-        catkInterface.init(catkDependencies,catkSettings);
+        CatkInputs catkInputs = new CatkInputs();
+        catkInputs.setContext(uappSettings.getContext());
+        catkInputs.setAppInfra(uappDependencies.getAppInfra());
+        catkInputs.setApplicationName(((CswDependencies) uappDependencies).getApplicationName());
+        catkInputs.setPropositionName(((CswDependencies) uappDependencies).getPropositionName());
+        ConsentAccessToolKit.getInstance().init(catkInputs);
     }
 
     private CswComponent initDaggerCoponents(UappDependencies uappDependencies, UappSettings uappSettings) {

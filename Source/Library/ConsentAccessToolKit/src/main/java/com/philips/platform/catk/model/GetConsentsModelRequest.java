@@ -3,15 +3,12 @@ package com.philips.platform.catk.model;
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.philips.platform.catk.CatkInterface;
+import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Maqsood on 10/13/17.
- */
 
 public class GetConsentsModelRequest extends NetworkAbstractModel {
 
@@ -41,8 +38,8 @@ public class GetConsentsModelRequest extends NetworkAbstractModel {
         Map<String, String> params = new HashMap<String, String>();
         params.put("api-version", "1");
         params.put("content-type", "application/json");
-        params.put("authorization","bearer "+CatkInterface.getCatkComponent().getUser().getHsdpAccessToken());
-        params.put("performerid",CatkInterface.getCatkComponent().getUser().getHsdpUUID());
+        params.put("authorization","bearer "+ ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpAccessToken());
+        params.put("performerid",ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID());
         params.put("cache-control", "no-cache");
         return params;
     }
@@ -54,7 +51,7 @@ public class GetConsentsModelRequest extends NetworkAbstractModel {
 
     @Override
     public String getUrl() {
-        URL.append(CatkInterface.getCatkComponent().getUser().getHsdpUUID()+"?applicationName="+
+        URL.append(ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID()+"?applicationName="+
                 mApplicationName+"&propositionName="+mPropositionName);
         return URL.toString();
     }
