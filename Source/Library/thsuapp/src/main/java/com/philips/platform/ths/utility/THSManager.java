@@ -155,6 +155,7 @@ public class THSManager {
     private THSConsumer mThsConsumer;
     private THSConsumer mThsParentConsumer;
     private boolean mIsReturningUser = true;
+    private ArrayList<DocumentRecord> documentRecordList;
 
     public THSVisitCompletionListener getThsVisitCompletionListener() {
         return thsVisitCompletionListener;
@@ -212,6 +213,13 @@ public class THSManager {
         this.mTHSConsumerWrapper = mTHSConsumerWrapper;
     }
 
+    public void setTHSDocumentList(ArrayList<DocumentRecord> documentRecordList){
+        this.documentRecordList = documentRecordList;
+    }
+
+    public ArrayList<DocumentRecord> getTHSDocumentList(){
+        return documentRecordList;
+    }
 
     public static THSManager getInstance() {
         if (sTHSManager == null) {
@@ -446,8 +454,10 @@ public class THSManager {
         getAppInfra().getServiceDiscovery().getServiceUrlWithCountryPreference(THS_SDK_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
-                initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://iot11.amwellintegration.com/");
-                initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
+                /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://iot11.amwellintegration.com/");
+                initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key*/
+                initParams.put(AWSDK.InitParam.BaseServiceUrl, url.toString());
+                initParams.put(AWSDK.InitParam.ApiKey, APIKey);
 
                 AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
                 try {

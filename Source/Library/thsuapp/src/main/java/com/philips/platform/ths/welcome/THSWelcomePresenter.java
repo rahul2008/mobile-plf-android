@@ -143,8 +143,8 @@ class THSWelcomePresenter implements THSBasePresenter,
 
     private void authenticateUser() {
         try {
-           // THSManager.getInstance().authenticateMutualAuthToken(uiBaseView.getContext(),this);
-            THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
+            THSManager.getInstance().authenticateMutualAuthToken(uiBaseView.getContext(),this);
+            //THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

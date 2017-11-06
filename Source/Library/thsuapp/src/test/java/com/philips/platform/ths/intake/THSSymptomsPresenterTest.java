@@ -241,11 +241,6 @@ public class THSSymptomsPresenterTest {
     }
 
     @Test
-    public void fetchHealthDocuments(){
-        pthSymptomsPresenter.fetchHealthDocuments();
-    }
-
-    @Test
     public void getVisitContextThsProviderInfoNull(){
         pthSymptomsPresenter = new THSSymptomsPresenter(pTHBaseViewMock,null);
         when(pthVisitContext.getVisitContext()).thenReturn(visitContext);

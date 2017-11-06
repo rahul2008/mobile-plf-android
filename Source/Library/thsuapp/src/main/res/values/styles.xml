@@ -188,8 +188,6 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:textSize">@dimen/ths_body_text</item>
         <item name="android:textColor">?attr/uidHyperlinkDefaultNormalTextColor</item>
-        <item name="android:drawablePadding">@dimen/uid_recyclerview_drawable_padding</item>
-        <item name="android:drawableRight">@drawable/ic_calender</item>
     </style>
 
     <style name="ths_location_right">
@@ -200,8 +198,6 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:textSize">@dimen/ths_body_text</item>
         <item name="android:textColor">?attr/uidHyperlinkDefaultNormalTextColor</item>
-        <item name="android:drawablePadding">@dimen/uid_recyclerview_drawable_padding</item>
-        <item name="android:drawableRight">@mipmap/gps_icon</item>
     </style>
 
     <style name="ths_list_item_header">

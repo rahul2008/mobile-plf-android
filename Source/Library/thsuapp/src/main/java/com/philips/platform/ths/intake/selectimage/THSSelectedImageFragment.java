@@ -90,21 +90,27 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
     private void deletePhoto() {
         int deletedItemPosition = updateViewAndDeleteList();
 
-        if (deletedItemPosition == selectedImagePojoList.size() - 1) {
-            imageViewPager.setCurrentItem(deletedItemPosition - 1);
-        } else {
-            imageViewPager.setCurrentItem(deletedItemPosition + 1);
+        if(deletedItemPosition >= 0) {
+            if (deletedItemPosition == selectedImagePojoList.size() - 1) {
+                imageViewPager.setCurrentItem(deletedItemPosition - 1);
+            } else {
+                imageViewPager.setCurrentItem(deletedItemPosition + 1);
+            }
         }
-
 
     }
 
     private int updateViewAndDeleteList() {
         int deletedItemPosition = imageViewPager.getCurrentItem();
-        thsSelectedImageFragmentPresenter.deleteDocument(documentRecordList.get(deletedItemPosition));
-        selectedImagePojoList.remove(deletedItemPosition);
-        pagerAdapter.notifyDataSetChanged();
-        return deletedItemPosition;
+        if(null != documentRecordList && documentRecordList.size() > 0) {
+            thsSelectedImageFragmentPresenter.deleteDocument(documentRecordList.get(deletedItemPosition));
+            selectedImagePojoList.remove(deletedItemPosition);
+            pagerAdapter.notifyDataSetChanged();
+            return deletedItemPosition;
+        }
+        else {
+            return -1;
+        }
     }
 
     public void setSelectedImageFragmentCallback(THSOnDismissSelectedImageFragmentCallback onDismissSelectedImageFragmentCallback) {

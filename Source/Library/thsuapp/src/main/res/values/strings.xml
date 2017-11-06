@@ -224,12 +224,17 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_intake_symptoms_choose_from_library">Choose from Library</string>
     <string name="ths_intake_symptoms_image_selection_permission_denied">Permission to select image denied</string>
     <string name="ths_intake_symptoms_add_photo">Add Photo!</string>
+    <string name="ths_add_photo_error_string">Upload failed with sdk error</string>
+    <string name="ths_add_photo_validation_error_string">Validation failure while uploading</string>
+    <string name="ths_add_photo_success_string">Success with Document name</string>
 
+    <!-- Insurance screen strings -->
     <string name="ths_insurance_not_verified_confirm_title">Health insurance not verified</string>
     <string name="ths_insurance_not_verified_confirm_message">We could not verify your health insurance information. Please confirm that your Name, Health Plan and Subscription ID match your insurance card exactly.\n\nIf you skip this step, the cost of your visit may increase.\n\nQuestions? Contact Customer Support (855) 818-DOCS </string>
     <string name="ths_insurance_not_verified_confirm_primary_button_text">Ok</string>
     <string name="ths_insurance_not_verified_confirm_secondary_button_label_text">Try again</string>
 
+    <!-- Match making screen strings -->
     <string name="ths_matchmaking_progressbar_meesage_parent_text">We\'re finding right provider for your visit \n%1$s</string>
     <string name="ths_matchmaking_progressbar_meesage_child_text">This may take few minutes</string>
     <string name="ths_matchmaking_error_text">No provider is available right now</string>
@@ -239,12 +244,14 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_cost_summary_coupon_code_empty">Coupon code is empty</string>
     <string name="ths_cost_summary_coupon_code_invalid">Coupon code is invalid</string>
 
+    <!-- Cost summary screen strings -->
     <string name="ths_cost_summary_initial_Full_cover_cost">Initial visit cost : %1$s Your insurance / promocode covers the cost of the visit.</string>
     <string name="ths_cost_summary_initial_Partial_cover_cost">Initial visit cost : %1$s Your insurance / promocode partly covers the cost of the visit.</string>
     <string name="ths_cost_summary_free_visit_header">Your visit is</string>
     <string name="ths_cost_summary_free_visit_text">Free</string>
     <string name="ths_cost_summary_member_id">Member ID:</string>
     <string name="ths_cost_summary_provider_offline">Provider is offline now</string>
+
 
     <!-- Pre Welcome Screen-->
     <string name="ths_video_consults">Video consults in just minutes, right on your smartphone \n<u>See how it works</u></string>
@@ -286,7 +293,9 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="visit_not_successful"> Your visit was not successful.</string>
     <string name="ths_internet_disconnected_message">Oops! Please check your network connection</string>
     <string name="ths_se_server_error_toast_message">"Oops! Something went wrong, please try after sometime"</string>
-    <string name="ths_delete_success_string">"Delete success</string>
+    <string name="ths_delete_success_string">Delete success</string>
+    <string name="ths_cancel_visit_string">Cancel visit</string>
+
 
 
 

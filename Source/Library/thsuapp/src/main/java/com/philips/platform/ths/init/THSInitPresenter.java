@@ -63,7 +63,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     @Override
 
     public void onInitializationResponse(Void aVoid, THSSDKError sdkError) {
-        /*if(sdkError.getSdkError() != null){
+        if(sdkError.getSdkError() != null){
             if(null!=mThsInitFragment && mThsInitFragment.isFragmentAttached()) {
                 if(sdkError.getSDKErrorReason() != null) {
                     mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
@@ -74,8 +74,8 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
             }
         }else {
             checkForUserExisitance();
-        }*/
-        launchWelcomeScreen();
+        }
+        //launchWelcomeScreen();
     }
 
     @Override
