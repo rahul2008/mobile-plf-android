@@ -6,6 +6,7 @@ package com.philips.cdp2.ews.viewmodel;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.util.StringProvider;
 
@@ -31,10 +32,12 @@ public class FirstSetupStepsViewModelTest {
 
     @Mock private BaseContentConfiguration mockBaseContentConfiguration;
 
+    @Mock private HappyFlowContentConfiguration mockHappyFlowConfiguration;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        subject = new FirstSetupStepsViewModel(mockNavigator, mockStringProvider, mockBaseContentConfiguration);
+        subject = new FirstSetupStepsViewModel(mockNavigator, mockStringProvider, mockBaseContentConfiguration, mockHappyFlowConfiguration);
     }
 
     @Test
@@ -49,5 +52,12 @@ public class FirstSetupStepsViewModelTest {
         when(mockBaseContentConfiguration.getDeviceName()).thenReturn(2131362066);
         subject.getBody(mockBaseContentConfiguration);
         verify(mockStringProvider).getString(R.string.label_ews_plug_in_body_default, mockBaseContentConfiguration.getDeviceName());
+    }
+
+    @Test
+    public void itShouldVerifyTitleText() throws Exception{
+        when(mockHappyFlowConfiguration.getSetUpScreenTitle()).thenReturn(R.string.label_ews_plug_in_title_default);
+        subject.getTitle(mockHappyFlowConfiguration);
+        verify(mockStringProvider).getString(mockHappyFlowConfiguration.getSetUpScreenTitle());
     }
 }

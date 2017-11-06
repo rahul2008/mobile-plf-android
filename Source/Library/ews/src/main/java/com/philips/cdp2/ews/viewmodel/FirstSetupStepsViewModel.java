@@ -10,6 +10,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.util.StringProvider;
 
@@ -25,17 +26,28 @@ public class FirstSetupStepsViewModel {
     @NonNull
     public final ObservableField<String> body;
 
+    @NonNull
+    public final ObservableField<String> title;
+
     @Inject
     public FirstSetupStepsViewModel(@NonNull final Navigator navigator,
                                     @NonNull final StringProvider stringProvider,
-                                    @NonNull final BaseContentConfiguration baseConfiguration) {
+                                    @NonNull final BaseContentConfiguration baseConfiguration,
+                                    @NonNull final HappyFlowContentConfiguration happyFlowConfig) {
         this.navigator = navigator;
         this.stringProvider = stringProvider;
         this.body = new ObservableField<>(getBody(baseConfiguration));
+        this.title = new ObservableField<>(getTitle(happyFlowConfig));
     }
 
     public void onYesButtonClicked() {
         navigator.navigateToCompletingDeviceSetupScreen();
+    }
+
+    @VisibleForTesting
+    @NonNull
+    String getTitle(@NonNull HappyFlowContentConfiguration happyFlowContentConfiguration) {
+        return stringProvider.getString(happyFlowContentConfiguration.getSetUpScreenTitle());
     }
 
     @VisibleForTesting
