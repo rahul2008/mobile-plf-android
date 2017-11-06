@@ -1,8 +1,8 @@
 /*
- *  Copyright (c) Koninklijke Philips N.V., 2016
- *  All rights are reserved. Reproduction or dissemination
- *  * in whole or in part is prohibited without the prior written
- *  * consent of the copyright holder.
+ * Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * * in whole or in part is prohibited without the prior written
+ * * consent of the copyright holder.
  * /
  */
 
@@ -44,10 +44,6 @@ public class CswFragment extends Fragment implements
         return view;
     }
 
-    protected FragmentManager getmFragmentManager() {
-        return getChildFragmentManager();
-    }
-
     @Override
     public void onViewStateRestored(Bundle state) {
         super.onViewStateRestored(state);
@@ -78,7 +74,7 @@ public class CswFragment extends Fragment implements
             }
             mFragmentManager.popBackStack();
         } else {
-            getActivity().finish();
+            getCurrentActivity().finish();
         }
         return false;
     }
@@ -108,7 +104,7 @@ public class CswFragment extends Fragment implements
     }
 
     public int getFragmentCount() {
-        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentManager fragmentManager = getmFragmentManager();
         int fragmentCount = fragmentManager.getFragments().size();
         return fragmentCount;
     }
@@ -136,8 +132,8 @@ public class CswFragment extends Fragment implements
         return !(onBackPressed());
     }
 
-    protected void setChildFragmentManager(FragmentManager fragmentManager) {
-        mFragmentManager = fragmentManager;
+    protected FragmentActivity getCurrentActivity() {
+        return getActivity();
     }
 
     public void setArguments(String applicationName, String propositionName) {
@@ -153,5 +149,13 @@ public class CswFragment extends Fragment implements
 
     public String getPropositionName() {
         return propositionName;
+    }
+
+    protected FragmentManager getmFragmentManager() {
+        return getChildFragmentManager();
+    }
+
+    protected void setChildFragmentManager(FragmentManager fragmentManager) {
+        mFragmentManager = fragmentManager;
     }
 }

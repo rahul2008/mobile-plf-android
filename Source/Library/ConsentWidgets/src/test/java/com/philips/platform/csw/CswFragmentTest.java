@@ -2,6 +2,8 @@ package com.philips.platform.csw;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
@@ -11,8 +13,10 @@ import com.philips.platform.csw.mock.*;
 import com.philips.platform.csw.utils.CustomRobolectricRunner;
 import com.philips.platform.csw.wrapper.CswFragmentWrapper;
 import com.philips.platform.mya.consentwidgets.R;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 @RunWith(CustomRobolectricRunner.class)
@@ -26,6 +30,13 @@ public class CswFragmentTest {
         fragment = new CswFragmentWrapper();
         fragment.fragmentManagerMock = fragmentManagerMock;
         fragment.setChildFragmentManager(fragmentManagerMock);
+    }
+
+    @Test
+    public void getFragmentCount() throws Exception {
+        givenFragmentCountIs(3);
+        whenGetFragmetCountIsInvoked();
+        thenFragmentCountIs(3);
     }
 
     @Test
@@ -118,6 +129,21 @@ public class CswFragmentTest {
     }
 
     @Test
+    public void onBackPressedFinishesActivity_WhenFragmentManagerNull() throws Exception {
+        givenFragmentManagerIsNull();
+        whenOnBackPressedIsCalled();
+        thenCurrentActivityIsFinished();
+    }
+
+    private void thenCurrentActivityIsFinished() {
+        assertTrue(fragment.fragmentActivity.finishWasCalled);
+    }
+
+    private void givenFragmentManagerIsNull() {
+        fragment.setChildFragmentManager(null);
+    }
+
+    @Test
     public void handleBackEvent_returnsNotHandledWhenBackStackCountIsZero() throws Exception {
         givenBackStackDepthIs(0);
         whenHandleBackEventIsCalled();
@@ -132,12 +158,38 @@ public class CswFragmentTest {
     }
 
     @Test
+    public void setsAndGetsResourceId() {
+        givenResourceIdIsSetTo(123);
+        whenGetResourceIdIsInvoked();
+        thenResourceIdReturnedIs(123);
+    }
+
+    @Test
+    public void setsAndGetsUpdateTitleListener() {
+        givenUpdateTitleListenerIsSet(actionBarListenerMock);
+        whenGetUpdateTitleListener();
+        thenUpdateTitleListenerReturnedIs(actionBarListenerMock);
+    }
+
+    @Test
     @Ignore
     public void handleOnClickEvent_shouldCallOnBackPressed() throws Exception {
         givenViewWithId(com.philips.cdp.registration.R.id.iv_reg_back);
         givenOnClickIsMocked();
         whenOnClickIsCalled();
         thenOnBackPressedIsCalled();
+    }
+
+    private void thenUpdateTitleListenerReturnedIs(ActionBarListener expectedActionBarListener) {
+        assertEquals(expectedActionBarListener, actualActionBarListener);
+    }
+
+    private void whenGetUpdateTitleListener() {
+        actualActionBarListener = fragment.getUpdateTitleListener();
+    }
+
+    private void givenUpdateTitleListenerIsSet(ActionBarListener actionBarListener) {
+        fragment.setOnUpdateTitleListener(actionBarListener);
     }
 
     private void givenNullArguments() {
@@ -156,6 +208,18 @@ public class CswFragmentTest {
         state = new Bundle();
         state.putString(PROPOSITION_NAME_KEY, propositionName);
         state.putString(APPLICATION_NAME_KEY, applicationName);
+    }
+
+    private void thenResourceIdReturnedIs(int expectedResourceId) {
+        assertEquals(expectedResourceId, actualResourceId);
+    }
+
+    private void whenGetResourceIdIsInvoked() {
+        actualResourceId = fragment.getResourceID();
+    }
+
+    private void givenResourceIdIsSetTo(int resourceId) {
+        fragment.setResourceID(resourceId);
     }
 
     private void givenEmptyBundleState() {
@@ -203,10 +267,7 @@ public class CswFragmentTest {
     }
 
     private void givenArgumentsAre(String applicationName, String propositionName) {
-        Bundle mockBundle = new Bundle();
-        mockBundle.putString(APPLICATION_NAME_KEY, applicationName);
-        mockBundle.putString(PROPOSITION_NAME_KEY, propositionName);
-        fragment.setArguments(mockBundle);
+        fragment.setArguments(applicationName, propositionName);
     }
 
     private void givenBackStackDepthIs(int depth) {
@@ -234,6 +295,21 @@ public class CswFragmentTest {
         assertEquals(expectedReturn, onBackPressed_return);
     }
 
+    private void thenFragmentCountIs(int expectedCount) {
+        assertEquals(expectedCount, actualFragmentCount);
+    }
+
+    private void whenGetFragmetCountIsInvoked() {
+        actualFragmentCount = fragment.getFragmentCount();
+    }
+
+    private void givenFragmentCountIs(int numberOfFragments) {
+        fragmentManagerMock.fragments = new ArrayList<Fragment>();
+        for (int i = 0; i < numberOfFragments; i++) {
+            fragmentManagerMock.fragments.add(new Fragment());
+        }
+    }
+
     private void thenEventIsNotHandled() {
         assertFalse(handleBackEvent_return);
     }
@@ -253,6 +329,10 @@ public class CswFragmentTest {
     private CswFragmentWrapper fragment;
     private Bundle state;
     private View view;
+    private int actualFragmentCount;
+    private int actualResourceId;
+    private ActionBarListener actualActionBarListener;
+    private ActionBarListenerMock actionBarListenerMock = new ActionBarListenerMock();
     private static final String APPLICATION_NAME_KEY = "appName";
     private static final String PROPOSITION_NAME_KEY = "propName";
     private static final String PROPOSITION_NAME = "PROPOSITION_NAME";

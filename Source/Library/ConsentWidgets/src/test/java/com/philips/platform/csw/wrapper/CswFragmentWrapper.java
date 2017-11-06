@@ -1,16 +1,17 @@
 package com.philips.platform.csw.wrapper;
 
 
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
 import com.philips.platform.csw.CswFragment;
-import com.philips.platform.csw.mock.FragmentManagerMock;
-import com.philips.platform.csw.mock.FragmentTransactionMock;
+import com.philips.platform.csw.mock.*;
 
 public class CswFragmentWrapper extends CswFragment {
     public FragmentManagerMock fragmentManagerMock = new FragmentManagerMock(new FragmentTransactionMock());
     public boolean mockOnBackPressed = false;
     public boolean onBackPressedInvoked = false;
+    public FragmentActivityMock fragmentActivity = new FragmentActivityMock(fragmentManagerMock);
 
     public void setupFragment(FragmentManagerMock childFragmentManager) {
         setChildFragmentManager(childFragmentManager);
@@ -29,5 +30,9 @@ public class CswFragmentWrapper extends CswFragment {
     @Override
     protected FragmentManager getmFragmentManager(){
         return fragmentManagerMock;
+    }
+
+    protected FragmentActivity getCurrentActivity(){
+        return fragmentActivity;
     }
 }
