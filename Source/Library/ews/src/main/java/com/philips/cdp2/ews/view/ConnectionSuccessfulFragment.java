@@ -56,6 +56,7 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
         return true;
     }
 
+    @NonNull
     @Override
     protected String getPageName() {
         return Page.CONNECTION_SUCCESSFUL;

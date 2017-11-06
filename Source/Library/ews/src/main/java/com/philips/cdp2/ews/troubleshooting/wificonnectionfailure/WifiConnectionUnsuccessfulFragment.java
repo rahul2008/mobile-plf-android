@@ -58,6 +58,7 @@ public class WifiConnectionUnsuccessfulFragment extends BaseFragment {
     }
 
     @NonNull
+    @Override
     protected String getPageName() {
         return Page.CONNECTION_UNSUCCESSFUL;
     }

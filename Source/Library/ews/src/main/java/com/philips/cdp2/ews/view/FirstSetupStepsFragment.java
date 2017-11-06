@@ -39,6 +39,7 @@ public class FirstSetupStepsFragment extends BaseFragment {
         return ((EWSActivity) getActivity()).getEWSComponent().firstSetupStepsViewModel();
     }
 
+    @NonNull
     @Override
     protected String getPageName() {
         return Page.SETUP_STEP1;

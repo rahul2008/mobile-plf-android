@@ -37,6 +37,7 @@ public class StartConnectWithDeviceFragment extends BaseFragment {
         return ((EWSActivity) getActivity()).getEWSComponent().ewsGettingStartedViewModel();
     }
 
+    @NonNull
     @Override
     protected String getPageName() {
         return Page.GET_STARTED;

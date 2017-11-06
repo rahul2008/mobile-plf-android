@@ -53,6 +53,7 @@ public class WrongWifiNetworkFragment extends BaseFragment {
     }
 
     @NonNull
+    @Override
     protected String getPageName() {
         return Page.WRONG_WIFI_NETWORK;
     }

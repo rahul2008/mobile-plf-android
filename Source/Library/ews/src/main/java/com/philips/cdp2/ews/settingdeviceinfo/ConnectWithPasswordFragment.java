@@ -66,8 +66,11 @@ public class ConnectWithPasswordFragment extends BaseFragment {
         return true;
     }
 
+    @NonNull
     @Override
-    public String getPageName() {
+    protected String getPageName() {
         return Page.CONNECT_WITH_PASSWORD;
     }
+
+
 }

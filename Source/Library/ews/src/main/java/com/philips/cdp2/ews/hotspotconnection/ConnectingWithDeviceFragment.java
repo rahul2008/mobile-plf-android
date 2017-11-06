@@ -127,6 +127,7 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
         return true;
     }
 
+    @NonNull
     @Override
     protected String getPageName() {
         return Page.CONNECTING_WITH_DEVICE;

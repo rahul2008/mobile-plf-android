@@ -57,6 +57,7 @@ public class SecondSetupStepsFragment extends BaseFragment {
         }
     }
 
+    @NonNull
     @Override
     protected String getPageName() {
         return Page.SETUP_STEP2;

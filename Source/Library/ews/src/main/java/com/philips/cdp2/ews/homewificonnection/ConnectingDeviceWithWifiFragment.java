@@ -156,6 +156,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
         return true;
     }
 
+    @NonNull
     @Override
     protected String getPageName() {
         return Page.CONNECTING_DEVICE_WITH_WIFI;

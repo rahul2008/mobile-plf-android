@@ -61,6 +61,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
         viewModel.refresh();
     }
 
+    @NonNull
     @Override
     protected String getPageName() {
         return Page.CONFIRM_WIFI_NETWORK;
