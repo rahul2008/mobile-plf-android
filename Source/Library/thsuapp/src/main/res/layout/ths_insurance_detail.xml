@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginTop="@dimen/ths_margin_top"
-            android:text="Please fill in your insurance details"
+            android:text="@string/ths_insurance_fill_insurance_detail"
             android:textColor="?attr/uidLabelRegularNormalTextColor"
             android:textSize="@dimen/ths_title_text"
             fontPath="fonts/centralesansbold.ttf" />
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_insurance_detail_label"
             android:layout_marginTop="@dimen/ths_margin_top_large"
-            android:text="Insurance Provider"
+            android:text="@string/ths_insurance_provider"
             android:textColor="?attr/uidLabelRegularNormalTextColor"
             android:textSize="@dimen/ths_body_text" />
 
@@ -44,7 +44,7 @@
             android:focusable="false"
             android:inputType="text"
             android:maxLines="1"
-            android:hint="Please select"
+            android:hint="@string/ths_insurance_please_select"
             android:textColor="@color/uidColorBlack"
 
             >
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_insurance_detail_provider_select_insurance_edit_text"
             android:layout_marginTop="20dp"
-            android:text="Subscriber ID"
+            android:text="@string/ths_insurance_subscriber_id"
             android:textColor="?attr/uidLabelRegularNormalTextColor"
             android:textSize="@dimen/ths_body_text" />
 
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_insurance_detail_subscriber_edit_text"
             android:layout_marginTop="20dp"
-            android:text="Suffix"
+            android:text="@string/ths_insurance_suffix"
             android:textColor="?attr/uidLabelRegularNormalTextColor"
             android:textSize="@dimen/ths_body_text" />
 
@@ -107,7 +107,7 @@
 
             android:layout_marginTop="@dimen/ths_margin_top"
             android:checked="false"
-            android:text="I'm not the primary subscriber" />
+            android:text="@string/ths_insurance_not_primary_subscriber" />
 
         <RelativeLayout
             android:id="@+id/ths_insurance_detail_relationship_relative_layout"
@@ -127,7 +127,7 @@
                 android:maxLines="1"
                 android:drawableRight="@mipmap/right_arrow_icon"
                 android:focusable="false"
-                android:hint="Choose Relationship"
+                android:hint="@string/ths_insurance_choose_relationship"
                 android:textColor="@color/uidColorBlack"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -136,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ths_insurance_detail_provider_select_relation_edit_text"
                 android:layout_marginBottom="@dimen/ths_margin_between_ui_control"
-                android:text="Primary subscriber details"
+                android:text="@string/ths_insurance_primary_subscriber_detail"
                 android:textSize="@dimen/ths_body_text"
                 fontPath="fonts/centralesansbold.ttf" />
 
@@ -146,7 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ths_insurance_detail_provider_relation_label"
 
-                android:text="First Name" />
+                android:text="@string/ths_first_name" />
 
             <com.philips.platform.uid.view.widget.EditText
                 android:id="@+id/ths_insurance_detail_provider_relation_firstname_edittext"
@@ -163,7 +163,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ths_insurance_detail_provider_relation_firstname_edittext"
-                android:text="Last Name" />
+                android:text="@string/ths_last_name" />
 
             <com.philips.platform.uid.view.widget.EditText
                 android:id="@+id/ths_insurance_detail_provider_relation_lastname_edittext"
@@ -180,7 +180,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ths_insurance_detail_provider_relation_lastname_edittext"
 
-                android:text="Date of Birth" />
+                android:text="@string/ths_insurance_dob" />
 
             <com.philips.platform.uid.view.widget.EditText
                 android:id="@+id/ths_insurance_detail_provider_relation_dob_edittext"
@@ -191,7 +191,7 @@
                 android:layout_below="@+id/ths_insurance_detail_provider_relation_dob_label"
                 android:layout_marginBottom="@dimen/ths_margin_between_ui_control"
                 android:focusable="false"
-                android:hint="DD/MM/YYYY"
+                android:hint="@string/ths_insurance_dob_hint"
                 android:drawableRight="@mipmap/calendar_icon" />
 
         </RelativeLayout>
@@ -204,7 +204,7 @@
 
             android:layout_marginBottom="8dp"
 
-            android:text="Continue" />
+            android:text="@string/ths_continue" />
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/ths_insurance_detail_skip_button"
@@ -214,7 +214,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_insurance_detail_continue_button"
             android:layout_marginBottom="@dimen/ths_margin_bottom"
-            android:text="My plan is not listed. Skip this"
+            android:text="@string/ths_insurance_plan_not_listed"
 
             />
 

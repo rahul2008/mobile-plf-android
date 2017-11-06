@@ -16,7 +16,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="24dp"
         android:lineSpacingExtra="8sp"
-        android:text="You are waiting to see"
+        android:text="@string/ths_waiting_room_you_are_waiting_to_see"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
@@ -111,5 +111,5 @@
         android:layout_marginLeft="@dimen/ths_fab_margin"
         android:layout_marginRight="@dimen/ths_fab_margin"
 
-        android:text="Cancel visit" />
+        android:text="@string/ths_cancel_visit" />
 </RelativeLayout>

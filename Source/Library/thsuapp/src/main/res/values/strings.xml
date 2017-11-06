@@ -217,6 +217,38 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_visit_summary_report_info">Your visit report will be available shorlty. You will see it in your visit history soon.</string>
 
 
+    <!-- Insurance fragment strings-->
+    <string name="ths_insurance">Insurance</string>
+    <string name="ths_not_insurance">No insurance</string>
+    <string name="ths_insurancep_confirmation_situation">To give an accurate cost estimation, we need to know your insurance situation</string>
+    <string name="ths_insurance_confirmation_chosse_situation">Choose one of these options:</string>
+    <string name="ths_insurance_confirmation_radio_option_yes">I have insurance</string>
+    <string name="ths_insurance_confirmation_radio_option_no">I do not have insurance</string>
+    <string name="ths_insurance_fill_insurance_detail">Please fill in your insurance details</string>
+    <string name="ths_insurance_provider">Insurance Provider</string>
+    <string name="ths_insurance_please_select">Please select</string>
+    <string name="ths_insurance_subscriber_id">Subscriber ID</string>
+    <string name="ths_insurance_suffix">Suffix</string>
+    <string name="ths_insurance_not_primary_subscriber">I\'m not the primary subscriber</string>
+    <string name="ths_insurance_choose_relationship">Choose Relationship</string>
+    <string name="ths_insurance_primary_subscriber_detail">Primary subscriber details</string>
+    <string name="ths_insurance_dob">Date of Birth</string>
+    <string name="ths_insurance_dob_hint">DD/MM/YYYY</string>
+    <string name="ths_insurance_plan_not_listed">My plan is not listed. Skip this</string>
+    <string name="ths_insurance_confirm_cancel_visit">Do you really want to cancel your visit</string>
+    <string name="ths_insurance_visit_shall_be_cancelled">Your visit shall be cancelled</string>
+    <string name="ths_insurance_yes_cancel_visit">Yes, cancel my visit</string>
+    <string name="ths_insurance_no_continue_waiting">No, continue waiting</string>
+
+
+
+
+    <!-- Payment fragment strings-->
+    <string name="ths_payment_method">Payment Method</string>
+    <string name="ths_not_payment_method">No payment method</string>
+    <string name="ths_payment_method_not_required">No payment details required</string>
+    <string name="ths_payment_method_add">Add payment method</string>
+
     <!-- Symptoms fragment strings-->
     <string name="ths_intake_symptoms_take_photo">Take Photo</string>
     <string name="ths_intake_symptoms_choose_from_library">Choose from Library</string>
@@ -225,7 +257,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <string name="ths_insurance_not_verified_confirm_title">Health insurance not verified</string>
     <string name="ths_insurance_not_verified_confirm_message">We could not verify your health insurance information. Please confirm that your Name, Health Plan and Subscription ID match your insurance card exactly.\n\nIf you skip this step, the cost of your visit may increase.\n\nQuestions? Contact Customer Support (855) 818-DOCS </string>
-    <string name="ths_insurance_not_verified_confirm_primary_button_text">Ok</string>
+    <string name="ths_ok">Ok</string>
     <string name="ths_insurance_not_verified_confirm_secondary_button_label_text">Try again</string>
 
     <string name="ths_matchmaking_progressbar_meesage_parent_text">We\'re finding right provider for your visit \n%1$s</string>
@@ -233,6 +265,10 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_matchmaking_error_text">No provider is available right now</string>
     <string name="ths_valid_credit_card">Credit card is valid</string>
     <string name="ths_not_valid_credit_card">Credit card is not valid</string>
+
+    <!-- Cost summary fragment strings-->
+    <string name="ths_cost_summary_enter_promotion_code">Enter a promotion code here</string>
+    <string name="ths_cost_summary_provider_apply">Apply</string>
     <string name="ths_cost_summary_provider_logged_out">Provider is offline</string>
     <string name="ths_cost_summary_coupon_code_empty">Coupon code is empty</string>
     <string name="ths_cost_summary_coupon_code_invalid">Coupon code is invalid</string>
@@ -279,6 +315,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <!--Waiting Room String -->
 
+    <string name="ths_waiting_room_you_are_waiting_to_see">You are waiting to see</string>
     <string name="visit_not_successful"> Your visit was not successful.</string>
     <string name="ths_internet_disconnected_message">Oops! Please check your network connection</string>
     <string name="ths_se_server_error_toast_message">"Oops! Something went wrong, please try after sometime"</string>
@@ -307,5 +344,13 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <!-- Dependent Strings -->
     <string name="ths_dependent_name">Selected patient: <xliff:g name="count">%s</xliff:g> </string>
     <string name="initialization_failed"><u>Initialization failed</u></string>
+
+    <!-- visit Strings -->
+    <string name="ths_visit_summary_conclude_visit_with">This concludes your visit with</string>
+    <string name="ths_visit_summary_your_credit_card_was_charged">Your credit card was charged</string>
+    <string name="ths_visit_summary_your_visit_report">Your visit report</string>
+    <string name="ths_visit_summary_how_was_your_visit">How was your visit?</string>
+    <string name="ths_visit_summary_rate_provider">Rate your provider</string>
+    <string name="ths_visit_summary_rate_overall_experience">Rate your overall experience</string>
 
 </resources>
