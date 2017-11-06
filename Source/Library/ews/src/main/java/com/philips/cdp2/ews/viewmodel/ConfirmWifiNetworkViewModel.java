@@ -97,4 +97,11 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
                 baseContentConfiguration.getDeviceName(), getHomeWiFiSSID());
     }
 
+    @Bindable
+    @NonNull
+    public String getHelper() {
+        return stringProvider.getString(R.string.label_ews_confirm_connection_tip,
+                baseContentConfiguration.getDeviceName(), baseContentConfiguration.getDeviceName());
+    }
+
 }

@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_body_labels_margin"
-                android:text="@string/label_ews_plug_in_body_default" />
+                android:text="@{viewModel.body}" />
 
             <ImageView
                 android:id="@+id/ews_hotspot_blinking_icon"

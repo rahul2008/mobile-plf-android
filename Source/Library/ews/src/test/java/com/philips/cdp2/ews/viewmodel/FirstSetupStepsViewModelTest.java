@@ -4,7 +4,9 @@
  */
 package com.philips.cdp2.ews.viewmodel;
 
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
+import com.philips.cdp2.ews.util.StringProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +21,10 @@ public class FirstSetupStepsViewModelTest {
     @InjectMocks private FirstSetupStepsViewModel subject;
 
     @Mock private Navigator mockNavigator;
+
+    @Mock private StringProvider mockStringProvider;
+
+    @Mock private BaseContentConfiguration mockBaseContentConfiguration;
 
     @Before
     public void setUp() throws Exception {
