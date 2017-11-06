@@ -215,7 +215,7 @@ public class CombinedCommunicationTestingStrategy extends ObservableCommunicatio
     }
 
     @NonNull
-    private CommunicationStrategy findStrategy() {
+    public CommunicationStrategy findStrategy() {
         final CommunicationStrategy strategy = firstAvailableStrategy();
         if (strategy == null) {
             DICommLog.v(TAG, "No strategy is available");

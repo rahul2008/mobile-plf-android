@@ -26,6 +26,7 @@ import com.philips.cdp2.commlib.devicetest.util.ApplianceWaiter;
 import com.philips.cdp2.commlib.devicetest.util.CloudSignOnWaiter;
 import com.philips.cdp2.commlib.devicetest.util.PairingWaiter;
 import com.philips.cdp2.commlib.devicetest.util.PortListener;
+import com.philips.cdp2.commlib.devicetest.util.StrategyChangedWaiter;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -39,6 +40,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.CHANGE_WIFI_STATE;
 import static android.app.Instrumentation.newApplication;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static java.util.Collections.emptyList;
@@ -67,6 +69,7 @@ public class Steps {
         // the permission is granted before running tests.
         Log.d(LOGTAG, "Grant permissions");
         Android.grantPermission(ACCESS_COARSE_LOCATION);
+        Android.grantPermission(CHANGE_WIFI_STATE);
     }
 
     @After
@@ -175,7 +178,22 @@ public class Steps {
 
     @Given("^cloudCommunication is used$")
     public void cloudCommunicationIsUsed() throws Throwable {
-        current.getCommunicationStrategy().forceStrategyType(CloudCommunicationStrategy.class);
+        StrategyChangedWaiter waiter = new StrategyChangedWaiter(CloudCommunicationStrategy.class);
+        current.getCommunicationStrategy().addAvailabilityListener(waiter);
+
+        waiter.waitForStrategyChange(1, MINUTES);
+
+        current.getCommunicationStrategy().removeAvailabilityListener(waiter);
+
+        if(!waiter.strategrySwitchedCorrectly) {
+            throw new Exception("Cloud communication is not used");
+        }
+    }
+
+    @Given("^wifi is turned off$")
+    public void wifiIsTurnedOff() throws Throwable {
+        WifiManager wifiManager = (WifiManager) app.getSystemService(Context.WIFI_SERVICE);
+        wifiManager.setWifiEnabled(false);
     }
 
     @Given("^is signed on to cloud$")

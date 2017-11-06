@@ -7,6 +7,7 @@
     package="com.philips.cdp2.commlib.devicetest">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
         android:name=".TestApplication"
