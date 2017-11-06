@@ -397,6 +397,14 @@ public class ConnectingDeviceWithWifiViewModelTest {
         verify(mockFragmentCallback, never()).showCancelDialog();
     }
 
+    @Test
+    public void itShouldVerifyTitle() throws Exception{
+        when(mockBaseContentConfiguration.getDeviceName()).thenReturn(2131362066);
+        subject.getTitle(mockBaseContentConfiguration);
+        verify(mockStringProvider).getString(R.string.label_ews_connecting_device_title, mockBaseContentConfiguration.getDeviceName());
+    }
+
+
     private void simulateApplianceFound() {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
         verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture());
