@@ -34,9 +34,9 @@
     <string name="label_ews_establishing_connection_body">This might take a few seconds. You will be automatically redirected when finished.</string>
     <!--EWS_03_00a_Phone to device connectoion failed error -->
     <string name="label_ews_connection_problem_title">Connection unsuccessful</string>
-    <string name="label_ews_connection_problem_body">Please try:\n1) Enable Wi-Fi on your phone.\n2) Make sure your phone and your %1$s are in the same room during setup.\n3)Enable setup mode on the device.</string>
+    <string name="label_ews_connection_problem_body">Please try the following:\n\n1. Enable Wi-Fi on your phone.\n\n2. Make sure your phone and your %1$s are in the same room during setup.\n\n3. Enable setup mode on the device.</string>
     <string name="label_ews_connection_problem_question">Do you need help enabling setup mode?</string>
-    <string name="button_ews_connection_problem_setup_mode_yes">Yes, help me</string>
+    <string name="button_ews_connection_problem_setup_mode_yes">Yes, please help me</string>
     <string name="button_ews_connection_problem_setup_mode_no">No, thanks</string>
 
     <!--EWS_03_01a_connect with password-->
