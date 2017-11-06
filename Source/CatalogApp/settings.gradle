@@ -6,3 +6,7 @@ project(':uid').projectDir = new File('../UIKit/uid')
 include ':dlsresources'
 project(':dlsresources').projectDir = new File('../UIKit/dlsresources')
 
+
+//Theme generator
+//include ':themesettings'
+//project(':themesettings').projectDir = new File('../UIKit/themesettings')
