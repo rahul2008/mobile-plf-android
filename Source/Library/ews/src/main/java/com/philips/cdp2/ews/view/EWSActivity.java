@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.communication.EventingChannel;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSComponent;
@@ -53,6 +54,9 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
 
     @Inject
     Navigator navigator;
+
+    @Inject
+    BaseContentConfiguration baseContentConfiguration;
 
     EWSComponent ewsComponent;
 
@@ -189,7 +193,7 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
 
     protected void handleCancelButtonClicked() {
         BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-        baseFragment.handleCancelButtonClicked();
+        baseFragment.handleCancelButtonClicked(baseContentConfiguration.getDeviceName());
     }
 
     @Override

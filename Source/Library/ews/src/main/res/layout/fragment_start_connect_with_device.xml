@@ -1,0 +1,102 @@
+<!--
+  ~ Copyright (c) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.philips.cdp2.ews.viewmodel.StartConnectWithDeviceViewModel" />
+    </data>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ews_gs_image_header"
+                style="@style/EWS.ImageScale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:src="@drawable/ews_onboarding_image" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/default_screen_bottom_margin"
+                android:layout_marginEnd="@dimen/default_screen_side_margin"
+                android:layout_marginStart="@dimen/default_screen_side_margin"
+                android:layout_marginTop="@dimen/default_screen_top_margin"
+                android:orientation="vertical">
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/ews_01_00_label_get_started_title"
+                    style="@style/Txt.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.title}"
+                    tools:text="@string/label_ews_get_started_title"/>
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/ews_01_00_label_get_started_description"
+                    android:layout_marginTop="@dimen/default_body_labels_margin"
+                    style="@style/Txt.Body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.note}"
+                    tools:text="@string/label_ews_get_started_note" />
+
+                <LinearLayout
+                    android:id="@+id/ews_gs_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_main_helper_top_margin"
+                    android:background="@color/color_panel">
+
+                    <com.philips.platform.uid.view.widget.Label
+                        style="@style/Txt.Body"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/default_body_labels_bottom_margin"
+                        android:layout_marginEnd="@dimen/default_body_labels_margin"
+                        android:layout_marginStart="@dimen/default_body_labels_margin"
+                        android:layout_marginTop="@dimen/default_body_labels_margin"
+                        android:text="@{viewModel.description}"
+                        tools:text="@string/label_ews_get_started_description" />
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/ews_01_00_button_get_started_get_started"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="@dimen/default_main_button_top_margin"
+                    android:onClick="@{() -> viewModel.onGettingStartedButtonClicked()}"
+                    android:text="@string/button_ews_get_started_get_started"
+                    app:uidComponentType="Primary" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</layout>

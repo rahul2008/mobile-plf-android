@@ -20,7 +20,7 @@ import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
 import com.philips.cdp2.ews.util.GpsUtil;
-import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
+import com.philips.cdp2.ews.view.SecondSetupStepsFragment;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -39,9 +39,9 @@ public abstract class ConnectPhoneToDeviceAPModeViewModel {
     @NonNull
     protected final Navigator navigator;
     @NonNull
-    private final PermissionHandler permissionHandler;
-    @NonNull
     final EventBus eventBus;
+    @NonNull
+    private final PermissionHandler permissionHandler;
     @NonNull
     private final DialogFragment connectingDialog;
     @NonNull
@@ -81,7 +81,7 @@ public abstract class ConnectPhoneToDeviceAPModeViewModel {
         } else {
             permissionHandler.requestPermission(fragment, R.string.label_location_permission_required,
                     ACCESS_COARSE_LOCATION,
-                    EWSPressPlayAndFollowSetupFragment.LOCATION_PERMISSIONS_REQUEST_CODE);
+                    SecondSetupStepsFragment.LOCATION_PERMISSIONS_REQUEST_CODE);
         }
     }
 
@@ -130,7 +130,7 @@ public abstract class ConnectPhoneToDeviceAPModeViewModel {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void showPasswordEntryScreenEvent(@SuppressWarnings("UnusedParameters") ShowPasswordEntryScreenEvent entryScreenEvent) {
         handler.removeCallbacks(timeoutRunnable);
-        if (connectingDialog != null &&connectingDialog.isVisible()) {
+        if (connectingDialog != null && connectingDialog.isVisible()) {
             connectingDialog.dismissAllowingStateLoss();
         }
         eventBus.unregister(this);

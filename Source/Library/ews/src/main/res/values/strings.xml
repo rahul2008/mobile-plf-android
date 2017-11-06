@@ -5,14 +5,15 @@
     <string name="ews_app_name_default">name</string>
     <string name="ews_device_name_default">device name</string>
     <!--EWS_01_00 start -->
-    <string name="label_ews_get_started_title">Let’s connect your %1$s to your Wi-Fi so you can enjoy all features enabled by the app.</string>
+    <string name="label_ews_get_started_title">Connect with your</string>
+    <string name="label_ews_get_started_note">Let’s connect your %1$s to your Wi-Fi so you can enjoy all features enabled by the app.</string>
     <string name="label_ews_get_started_description">Tip: For successful Wi-Fi connection, position your %1$s within reach of your router.\nObstacles such walls may affect the Wi-Fi performance.</string>
     <string name="ews_support_title">Philips support</string>
     <string name="button_ews_get_started_get_started">Get started</string>
     <!--EWS_01_01 confirm wi network -->
     <string name="label_ews_confirm_connection_title">1. Confirm your Wi-Fi</string>
     <string name="label_ews_confirm_connection_currently_connected">You are currently connected to:\n %1$s</string>
-    <string name="label_ews_confirm_connection_tip">Tip: We recommend that you use your home Wi-Fi network nearest to the %1$s.\nYour %2$s does not support 5Ghz Wi-Fi networks.</string>
+    <string name="label_ews_confirm_connection_tip">We recommend that you use your home Wi-Fi network nearest to the %1$s.\n\nYour %2$s does not support 5Ghz Wi-Fi networks.</string>
     <string name="label_ews_confirm_connection_want_to_connect">Do you want to connect your %1$s to this %2$s?</string>
     <string name="button_ews_confirm_connection_yes">Yes, connect</string>
     <string name="button_ews_confirm_connection_no">No</string>
@@ -63,7 +64,7 @@
     <string name="label_ews_password_specify_name">Give your Somneo a unique name</string>
     <string name="label_ews_succesful_title">Connection successful!</string>
     <string name="label_ews_succesful_body">Your %1$s is now connected to your home Wi-Fi network and paired with your phone.</string>
-    <string name="button_ews_succesful_start">Enjoy your Sleep&amp;Wake-Up Light!</string>
+    <string name="button_ews_succesful_start">Continue</string>
     <string name="label_ews_home_network_title">Select your home WiFi network</string>
     <string name="label_ews_home_network_body">Please read all 4 steps before leaving the application.\n&lt;b&gt;1&lt;/b&gt;. Tap &lt;b&gt;WiFi&lt;/b&gt; in your phone Settings\n&lt;b&gt;2&lt;/b&gt;. Make sure your WiFi is &lt;b&gt;turned on&lt;/b&gt;\n&lt;b&gt;3&lt;/b&gt;. Select your &lt;b&gt;home network&lt;/b&gt;\n&lt;b&gt;4&lt;/b&gt;. Return to the &lt;b&gt; %1$s&lt;/b&gt;</string>
     <string name="ews_04a_title">Troubleshooting</string>
@@ -115,8 +116,8 @@
 
     <string name="label_ews_cancel_setup_title">Are you sure you want to cancel setup?</string>
     <string name="label_ews_cancel_setup_body">If you cancel your setup now, you will not be able to control your %1$s using your app.</string>
-    <string name="button_ews_cancel_setup_yes">Yes</string>
-    <string name="button_ews_cancel_setup_no">No</string>
+    <string name="button_ews_cancel_setup_yes">Yes, cancel setup</string>
+    <string name="button_ews_cancel_setup_no">No, continue setup</string>
     <string name="label_ews_enable_gps_settings_title">Enable GPS Settings</string>
     <string name="label_ews_enable_gps_settings_body">GPS is disabled.You need to enable location services to complete the pairing. Then press back to return to the app.</string>
     <string name="button_ews_enable_gps_settings">go to location settings</string>
@@ -166,4 +167,7 @@
     <string name="label_ews_support_wrong_phone_question_default">Do you see this screen?</string>
     <string name="button_ews_support_wrong_phone_yes">Yes</string>
     <string name="button_ews_support_wrong_phone_no">No</string>
+    <string name="label_ews_connecting_device_title">Establishing connection between %1$s and home network</string>
+    <string name="label_ews_connecting_device_body">This might take up to 60 seconds. You will be automatically redirected when finished.</string>
+    <string name="button_ews_connecting_device_cancel">Cancel</string>
 </resources>
