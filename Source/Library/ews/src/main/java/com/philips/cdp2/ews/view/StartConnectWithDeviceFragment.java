@@ -20,7 +20,7 @@ import com.philips.cdp2.ews.viewmodel.StartConnectWithDeviceViewModel;
 
 public class StartConnectWithDeviceFragment extends BaseFragment {
 
-    StartConnectWithDeviceViewModel viewModel;
+    private StartConnectWithDeviceViewModel viewModel;
 
     @SuppressWarnings("ConstantConditions")
     @Override

@@ -31,12 +31,11 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
 
     public final static String HOME_WIFI_SSID = "homeWiFiSSID";
     private final static String TAG = "ConnectingDeviceWithWifiFragment";
-    public final static String APP_NAME = "appName";
     private final static String HOME_WIFI_PWD = "homeWiFiPassword";
     private final static String DEVICE_NAME = "deviceName";
     private final static String DEVICE_FRIENDLY_NAME = "deviceFriendlyName";
 
-    @Nullable ConnectingDeviceWithWifiViewModel viewModel;
+    @Nullable private ConnectingDeviceWithWifiViewModel viewModel;
 
     @Inject
     BaseContentConfiguration baseContentConfiguration;

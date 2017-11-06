@@ -27,7 +27,6 @@ import com.philips.platform.uid.view.widget.Button;
 public class ConnectingWithDeviceFragment extends BaseFragment implements
         ConnectingPhoneToHotSpotCallback {
 
-    private static final int REQUEST_CODE = 100;
     private static final String TAG = "ConnectingWithDeviceFragment";
     @Nullable
     private ConnectingWithDeviceViewModel viewModel;
