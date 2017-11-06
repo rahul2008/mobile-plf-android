@@ -6,6 +6,7 @@ import android.content.Context;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.model.CreateConsentModelRequest;
 import com.philips.platform.catk.model.GetConsentsModelRequest;
@@ -15,7 +16,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 
-@Component(modules = {CatkModule.class, AppInfraModule.class,UserModule.class})
+@Component(modules = {CatkModule.class,UserModule.class})
 @Singleton
 public interface CatkComponent {
     Context context();
@@ -34,5 +35,6 @@ public interface CatkComponent {
 
     void inject(ConsentAccessToolKit consentAccessToolKit);
 
-    UserLocale getUserLocale();
+
+    ServiceDiscoveryInterface getServiceDiscoveryInterface();
 }

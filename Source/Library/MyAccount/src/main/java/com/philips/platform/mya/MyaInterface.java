@@ -21,6 +21,9 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class MyaInterface implements UappInterface {
 
+    private static String applicationName;
+    private static String propositionName;
+
     /**
      * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
      *
@@ -60,7 +63,7 @@ public class MyaInterface implements UappInterface {
 
     private MyaFragment buildFragment(ActionBarListener listener, MyaLaunchInput myaLaunchInput) {
         MyaFragment myaFragment = new MyaFragment();
-        myaFragment.setArguments(getApplication(myaLaunchInput), getProposition(myaLaunchInput));
+        myaFragment.setArguments(applicationName, propositionName);
         myaFragment.setOnUpdateTitleListener(listener);
         return myaFragment;
     }
@@ -68,19 +71,11 @@ public class MyaInterface implements UappInterface {
     private void launchAsActivity(ActivityLauncher uiLauncher, MyaLaunchInput myaLaunchInput) {
         if (null != uiLauncher && myaLaunchInput != null) {
             Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyAccountActivity.class);
-            myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, getApplication(myaLaunchInput));
-            myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, getProposition(myaLaunchInput));
+            myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
+            myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
             myAccountIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             myaLaunchInput.getContext().startActivity(myAccountIntent);
         }
-    }
-
-    private String getProposition(MyaLaunchInput myaLaunchInput) {
-        return myaLaunchInput.getPropositionName() != null ? myaLaunchInput.getPropositionName() : CatkConstants.PROPOSITION_NAME;
-    }
-
-    private String getApplication(MyaLaunchInput myaLaunchInput) {
-        return myaLaunchInput.getApplicationName() != null ? myaLaunchInput.getApplicationName() : CatkConstants.APPLICATION_NAME;
     }
 
     /**
@@ -92,8 +87,12 @@ public class MyaInterface implements UappInterface {
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         CswDependencies cswDependencies = new CswDependencies(uappDependencies.getAppInfra());
+        applicationName = ((MyaDependencies) uappDependencies).getApplicationName();
+        propositionName = ((MyaDependencies) uappDependencies).getPropositionName();
+        cswDependencies.setApplicationName(applicationName);
+        cswDependencies.setPropositionName(propositionName);
         CswSettings cswSettings = new CswSettings(uappSettings.getContext());
         CswInterface cswInterface = new CswInterface();
-        cswInterface.init(cswDependencies,cswSettings);
+        cswInterface.init(cswDependencies, cswSettings);
     }
 }

@@ -10,4 +10,24 @@ public class CswDependencies extends UappDependencies {
         super(appInfra);
     }
 
+
+    private String applicationName;
+    private String propositionName;
+
+    public String getApplicationName() {
+        return applicationName;
+    }
+
+    public void setApplicationName(String applicationName) {
+        this.applicationName = applicationName;
+    }
+
+    public String getPropositionName() {
+        return propositionName;
+    }
+
+    public void setPropositionName(String propositionName) {
+        this.propositionName = propositionName;
+    }
+
 }

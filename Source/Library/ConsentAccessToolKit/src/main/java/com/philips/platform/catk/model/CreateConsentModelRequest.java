@@ -3,15 +3,13 @@ package com.philips.platform.catk.model;
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.philips.platform.catk.CatkInterface;
+import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Maqsood on 10/13/17.
- */
+
 
 public class CreateConsentModelRequest extends NetworkAbstractModel {
 
@@ -45,8 +43,8 @@ public class CreateConsentModelRequest extends NetworkAbstractModel {
         Map<String, String> header = new HashMap<String, String>();
         header.put("api-version", "1");
         header.put("content-type", "application/json");
-        header.put("authorization","bearer "+CatkInterface.getCatkComponent().getUser().getHsdpAccessToken());
-        header.put("performerid",CatkInterface.getCatkComponent().getUser().getHsdpUUID());
+        header.put("authorization","bearer "+ ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpAccessToken());
+        header.put("performerid",ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID());
         header.put("cache-control", "no-cache");
         return header;
     }
@@ -57,8 +55,8 @@ public class CreateConsentModelRequest extends NetworkAbstractModel {
         model.setResourceType("Consent");
         model.setLanguage(locale);
         model.setStatus(consentStatus);
-        model.setSubject(CatkInterface.getCatkComponent().getUser().getHsdpUUID());
-        model.setPolicyRule("urn:com.philips.consent:moment/" + CatkInterface.getCatkComponent().getUser().getCountryCode()
+        model.setSubject(ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID());
+        model.setPolicyRule("urn:com.philips.consent:moment/" + ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getCountryCode()
                 + "/0/" + propositionName + "/" + applicationName);
         return getJsonString(model);
     }
