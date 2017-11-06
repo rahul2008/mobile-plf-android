@@ -70,6 +70,8 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
             e.printStackTrace();
         } catch (AWSDKInitializationException e) {
             e.printStackTrace();
+        } catch(IllegalArgumentException e){
+            mThsInitFragment.showError(mThsInitFragment.getString(R.string.initialization_failed));
         }
     }
 
@@ -90,7 +92,12 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         if (null != mThsInitFragment && mThsInitFragment.isFragmentAttached()) {
             mThsInitFragment.hideProgressBar();
             if (mThsInitFragment.getContext() != null) {
-                (mThsInitFragment).showToast(R.string.ths_se_server_error_toast_message);
+                String errorMesage = "";
+                if(null!=var1 && null!=var1.getMessage()){
+                    errorMesage=var1.getMessage();
+                }
+                mThsInitFragment.doTagging(ANALYTICS_INITIALIZATION,errorMesage,false);
+                mThsInitFragment.showError(mThsInitFragment.getFragmentActivity().getString(R.string.ths_se_server_error_toast_message),true);
             }
         }
     }

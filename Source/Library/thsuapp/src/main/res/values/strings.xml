@@ -306,4 +306,6 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <!-- Dependent Strings -->
     <string name="ths_dependent_name">Selected patient: <xliff:g name="count">%s</xliff:g> </string>
+    <string name="initialization_failed"><u>Initialization failed</u></string>
+
 </resources>
