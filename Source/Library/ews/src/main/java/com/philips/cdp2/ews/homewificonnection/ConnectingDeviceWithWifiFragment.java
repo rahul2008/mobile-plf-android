@@ -16,24 +16,28 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConnectingDeviceWithWifiBinding;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 
+import javax.inject.Inject;
+
 public class ConnectingDeviceWithWifiFragment extends BaseFragment
         implements ConnectingDeviceWithWifiViewModel.ConnectingDeviceToWifiCallback {
 
     public final static String HOME_WIFI_SSID = "homeWiFiSSID";
     private final static String TAG = "ConnectingDeviceWithWifiFragment";
-    public final static String APP_NAME = "appName";
     private final static String HOME_WIFI_PWD = "homeWiFiPassword";
     private final static String DEVICE_NAME = "deviceName";
     private final static String DEVICE_FRIENDLY_NAME = "deviceFriendlyName";
 
-    @Nullable ConnectingDeviceWithWifiViewModel viewModel;
+    @Nullable private ConnectingDeviceWithWifiViewModel viewModel;
 
+    @Inject
+    BaseContentConfiguration baseContentConfiguration;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -142,7 +146,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
 
     @Override
     public void showCancelDialog() {
-        handleCancelButtonClicked();
+        handleCancelButtonClicked(baseContentConfiguration.getDeviceName());
     }
 
     @Override

@@ -33,7 +33,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static com.philips.cdp2.ews.view.ConnectPhoneToDeviceAPModeFragment.LOCATION_PERMISSIONS_REQUEST_CODE;
+import static com.philips.cdp2.ews.view.SecondSetupStepsFragment.LOCATION_PERMISSIONS_REQUEST_CODE;
 import static com.philips.cdp2.ews.viewmodel.ConnectPhoneToDeviceAPModeViewModel.ACCESS_COARSE_LOCATION;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

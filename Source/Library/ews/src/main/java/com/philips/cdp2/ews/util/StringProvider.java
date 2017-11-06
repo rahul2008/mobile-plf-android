@@ -26,6 +26,11 @@ public class StringProvider {
     }
 
     @NonNull
+    public String getString(@StringRes int id, @StringRes int param, @StringRes int param2) {
+        return context.getString(id, context.getString(param), context.getString(param2));
+    }
+
+    @NonNull
     public Drawable getImageResource(@DrawableRes int id) {
         return ContextCompat.getDrawable(context, id);
     }

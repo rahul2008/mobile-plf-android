@@ -12,8 +12,6 @@ public interface ScreenFlowParticipant {
 
     boolean onBackPressed();
 
-    int getNavigationIconId();
-
     @StringRes
     int getToolbarTitle();
 

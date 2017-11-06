@@ -2,14 +2,15 @@ apply plugin: 'com.android.application'
 apply from: "../scripts/versions.gradle"
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "com.philips.cdp2.ews.demoapplication"
         minSdkVersion 21
-        targetSdkVersion 25
-        versionCode getMyVersionCode()
+        targetSdkVersion 26
+//        versionCode getMyVersionCode()
+        versionCode 1
         versionName "1.0"
     }
     dataBinding {
@@ -37,6 +38,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
@@ -58,9 +62,8 @@ def gitBranch() {
 }
 
 def getMyVersionCode() {
-    def code = project.hasProperty('envCode') ? envCode.toInteger() : 1
-    println "VersionCode is set to $code"
-    code
+    def buildNumber = project.hasProperty('buildNumber') ? buildNumber.toInteger() : 1
+    buildNumber
 }
 
 dependencies {

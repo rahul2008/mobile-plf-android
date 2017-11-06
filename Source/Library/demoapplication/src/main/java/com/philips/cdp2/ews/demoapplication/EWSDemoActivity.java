@@ -152,19 +152,19 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
         return new TroubleShootContentConfiguration.Builder()
                 .setResetConnectionTitle(R.string.label_ews_support_reset_connection_title)
                 .setResetConnectionBody(R.string.label_ews_support_reset_connection_body)
-                .setResetConnectionImage(R.drawable.navigation_image)
+                .setResetConnectionImage(R.drawable.ic_ews_enable_ap_mode)
 
                 .setResetDeviceTitle(R.string.label_ews_support_reset_device_title)
                 .setResetDeviceBody(R.string.label_ews_support_reset_device_body)
-                .setResetDeviceImage(R.drawable.navigation_image)
+                .setResetDeviceImage(R.drawable.ic_ews_enable_ap_mode)
 
                 .setSetUpAccessPointTitle(R.string.label_ews_setup_access_point_mode_title)
                 .setSetUpAccessPointBody(R.string.label_ews_setup_access_point_mode_body)
-                .setSetUpAccessPointImage(R.drawable.navigation_image)
+                .setSetUpAccessPointImage(R.drawable.ic_ews_enable_ap_mode)
 
                 .setConnectWrongPhoneTitle(R.string.label_ews_connect_to_wrongphone_title)
                 .setConnectWrongPhoneBody(R.string.label_ews_connect_to_wrongphone_body)
-                .setConnectWrongPhoneImage(R.drawable.navigation_image)
+                .setConnectWrongPhoneImage(R.drawable.ic_ews_enable_ap_mode)
                 .setConnectWrongPhoneQuestion(R.string.label_ews_connect_to_wrongphone_question)
                 .build();
     }

@@ -10,13 +10,16 @@ import android.os.Handler;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameChanger;
 import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -104,6 +107,12 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Captor
     private ArgumentCaptor<Runnable> timeoutRunnableCaptor;
 
+    @Mock
+    private BaseContentConfiguration mockBaseContentConfiguration;
+
+    @Mock
+    private StringProvider mockStringProvider;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -115,10 +124,9 @@ public class ConnectingDeviceWithWifiViewModelTest {
         Map<String, String> mockMap = new HashMap<>();
         mockMap.put(EWSInterface.PRODUCT_NAME, DEVICE_NAME);
         EWSDependencyProvider.getInstance().initDependencies(mockAppInfraInterface, mockMap);
-
         subject = new ConnectingDeviceWithWifiViewModel(mockApplianceAccessManager, mockNavigator,
                 mockWiFiConnectivityManager, mockWiFiUtil, mockDeviceFriendlyNameChanger,
-                mockHandler, mockDiscoveryHelper);
+                mockHandler, mockDiscoveryHelper, mockBaseContentConfiguration, mockStringProvider);
         subject.setFragmentCallback(mockFragmentCallback);
     }
 
@@ -389,6 +397,14 @@ public class ConnectingDeviceWithWifiViewModelTest {
         verify(mockFragmentCallback, never()).showCancelDialog();
     }
 
+    @Test
+    public void itShouldVerifyTitle() throws Exception{
+        when(mockBaseContentConfiguration.getDeviceName()).thenReturn(2131362066);
+        subject.getTitle(mockBaseContentConfiguration);
+        verify(mockStringProvider).getString(R.string.label_ews_connecting_device_title, mockBaseContentConfiguration.getDeviceName());
+    }
+
+
     private void simulateApplianceFound() {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
         verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture());
@@ -449,4 +465,5 @@ public class ConnectingDeviceWithWifiViewModelTest {
         verify(mockDeviceFriendlyNameChanger).changeFriendlyName(anyString());
         putDeviceFriendlyNameChangerCaptor.getValue().onFriendlyNameChangingFailed();
     }
+
 }

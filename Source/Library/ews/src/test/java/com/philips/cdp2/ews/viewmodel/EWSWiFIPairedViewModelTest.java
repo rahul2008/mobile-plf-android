@@ -5,9 +5,9 @@
 package com.philips.cdp2.ews.viewmodel;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
-import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
 import com.philips.cdp2.ews.util.StringProvider;
 
 import org.junit.Before;
@@ -15,14 +15,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -33,7 +30,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 public class EWSWiFIPairedViewModelTest {
 
-    @InjectMocks private EWSWiFIPairedViewModel subject;
+    @InjectMocks private ConnectionSuccessfulViewModel subject;
 
     @Mock private FragmentCallback mockFragmentCallback;
     @Mock private EWSCallbackNotifier callbackNotifierMock;
