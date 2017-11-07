@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConnectingWithDeviceBinding;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel.ConnectingPhoneToHotSpotCallback;
 import com.philips.cdp2.ews.logger.EWSLogger;
@@ -24,6 +25,9 @@ import com.philips.cdp2.ews.view.EWSActivity;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.Label;
+
+import javax.inject.Inject;
 
 public class ConnectingWithDeviceFragment extends BaseFragment implements
         ConnectingPhoneToHotSpotCallback {
@@ -31,6 +35,16 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
     private static final String TAG = "ConnectingWithDeviceFragment";
     @Nullable
     private ConnectingWithDeviceViewModel viewModel;
+
+    @Inject
+    BaseContentConfiguration baseContentConfiguration;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((EWSActivity) getActivity()).getEWSComponent().inject(this);
+    }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -90,8 +104,10 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
         alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
         getChildFragmentManager().executePendingTransactions();
         sendPageTag();
-        Button yesButton = (Button) view.findViewById(R.id.ews_H_03_00_a_button_yes);
-        Button noButton = (Button) view.findViewById(R.id.ews_H_03_00_a_button_no);
+        ((Label) view.findViewById(R.id.connection_unsuccessful_body)).setText(getString(R.string.label_ews_connection_problem_body, getString(baseContentConfiguration.getDeviceName())));
+
+        Button yesButton = view.findViewById(R.id.ews_H_03_00_a_button_yes);
+        Button noButton = view.findViewById(R.id.ews_H_03_00_a_button_no);
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
