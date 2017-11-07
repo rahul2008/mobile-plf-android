@@ -61,6 +61,7 @@ public class MomentFragment extends DSBaseFragment
     private TextView mTvSettings;
     private TextView mTvInsights;
     private TextView mTvMomentByDateRange;
+    private TextView mTvSyncByDateRange;
     private ImageButton mAddButton;
 
     private MomentAdapter mMomentAdapter;
@@ -125,11 +126,13 @@ public class MomentFragment extends DSBaseFragment
         mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
         mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
         mTvInsights = (TextView) view.findViewById(R.id.tv_insights);
+        mTvSyncByDateRange = (TextView) view.findViewById(R.id.tv_sync_by_date_range);
         TextView mTvLogout = (TextView) view.findViewById(R.id.tv_logout);
 
         mTvAddMomentType.setOnClickListener(this);
         mTvLatestMoment.setOnClickListener(this);
         mTvMomentByDateRange.setOnClickListener(this);
+        mTvSyncByDateRange.setOnClickListener(this);
         mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
         mTvSettings.setOnClickListener(this);
@@ -155,6 +158,7 @@ public class MomentFragment extends DSBaseFragment
             mTvAddMomentType.setVisibility(View.VISIBLE);
             mTvLatestMoment.setVisibility(View.INVISIBLE);
             mTvMomentByDateRange.setVisibility(View.INVISIBLE);
+            mTvSyncByDateRange.setVisibility(View.INVISIBLE);
             mAddButton.setVisibility(View.INVISIBLE);
             mTvConsents.setVisibility(View.INVISIBLE);
             mTvInsights.setVisibility(View.INVISIBLE);
@@ -233,6 +237,9 @@ public class MomentFragment extends DSBaseFragment
         } else if (i == R.id.tv_moment_by_date_range) {
             MomentByDateRangeFragment momentByDateRangeFragment = new MomentByDateRangeFragment();
             showFragment(momentByDateRangeFragment);
+        } else if (i == R.id.tv_sync_by_date_range) {
+            SyncByDateRangeFragment syncByDateRangeFragment = new SyncByDateRangeFragment();
+            showFragment(syncByDateRangeFragment);
         } else if (i == R.id.tv_add_moment_with_type) {
             mMomentPresenter.addOrUpdateMoment(MomentPresenter.ADD, null, true);
         }

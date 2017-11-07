@@ -101,13 +101,6 @@
             android:gravity="center"
             android:text="@string/fetch_moment_by_data_range" />
 
-        <Button
-            android:id="@+id/btn_fetch_sync_by_date_range"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="@string/fetch_sync_by_data_range" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
