@@ -66,6 +66,8 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.AppInfraLogging;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
@@ -183,13 +185,24 @@ public class THSManager {
 
     private AppInfraInterface mAppInfra;
 
-    public AppTaggingInterface getThsTagging() {
-        return mAppTaggingInterface;
-    }
+
 
 
 
     AppTaggingInterface mAppTaggingInterface;
+    LoggingInterface mLoggingInterface;
+
+
+    public AppTaggingInterface getThsTagging() {
+        return mAppTaggingInterface;
+    }
+
+    public LoggingInterface getLoggingInterface() {
+        return mLoggingInterface;
+    }
+
+
+
 
     @VisibleForTesting
     public boolean TEST_FLAG = false;
@@ -1444,6 +1457,7 @@ public class THSManager {
     public void setAppInfra(AppInfraInterface mAppInfra) {
         this.mAppInfra = mAppInfra;
         this.mAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME);// initialize tagging for ths
+        this.mLoggingInterface = mAppInfra.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME);
     }
 
     //TODO : error code :No enum sent by amwell for sdkerror code handling

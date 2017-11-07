@@ -100,8 +100,6 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     @Override
     public void onResume() {
         super.onResume();
-        // entry to THS, start tagging
-        THSManager.getInstance().getThsTagging().collectLifecycleInfo(this.getActivity());
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_WELCOME,null,null);
     }
 
