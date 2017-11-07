@@ -55,7 +55,6 @@ public class MomentsDataFetcher extends DataFetcher {
         DataServicesManager.getInstance().getAppComponant().injectMomentsDataFetcher(this);
     }
 
-
     @Override
     @CheckResult
     @Nullable
@@ -70,23 +69,23 @@ public class MomentsDataFetcher extends DataFetcher {
             final MomentsClient client = uCoreAdapter.getAppFrameworkClient(MomentsClient.class,
                     accessProvider.getAccessToken(), gsonConverter);
 
-            if (client == null) return null;
+            if (client == null) {
+                return null;
+            }
 
-            if (client != null) {
-                UCoreMomentsHistory momentsHistory = client.getMomentsHistory(accessProvider.getUserId(),
-                        accessProvider.getUserId(), momentsLastSyncUrl);
+            UCoreMomentsHistory momentsHistory = client.getMomentsHistory(accessProvider.getUserId(),
+                    accessProvider.getUserId(), momentsLastSyncUrl);
 
-                accessProvider.saveLastSyncTimeStamp(momentsHistory.getSyncurl(), UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
+            accessProvider.saveLastSyncTimeStamp(momentsHistory.getSyncurl(), UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
 
-                List<UCoreMoment> uCoreMoments = momentsHistory.getUCoreMoments();
-                if (uCoreMoments == null || uCoreMoments.size() <= 0) {
-                    return null;
-                }
+            List<UCoreMoment> uCoreMoments = momentsHistory.getUCoreMoments();
+            if (uCoreMoments == null || uCoreMoments.size() <= 0) {
+                return null;
+            }
 
-                List<Moment> moments = converter.convert(uCoreMoments);
-                if (moments != null) {
-                    eventing.post(new BackendMomentListSaveRequest(moments, null));
-                }
+            List<Moment> moments = converter.convert(uCoreMoments);
+            if (moments != null) {
+                eventing.post(new BackendMomentListSaveRequest(moments, null));
             }
             return null;
         } catch (RetrofitError ex) {
@@ -98,10 +97,6 @@ public class MomentsDataFetcher extends DataFetcher {
 
     @Override
     public void fetchDataByDateRange(String startDate, String endDate) {
-        if (isUserInvalid()) {
-            throw RetrofitError.unexpectedError("", new IllegalStateException("User is not logged in"));
-        }
-
         final MomentsClient client = uCoreAdapter.getAppFrameworkClient(MomentsClient.class, accessProvider.getAccessToken(), gsonConverter);
         if (client == null) {
             throw RetrofitError.unexpectedError("", new IllegalStateException("Client is not initialized"));
@@ -114,7 +109,7 @@ public class MomentsDataFetcher extends DataFetcher {
 
         do {
             momentHistory = client.fetchMomentByDateRange(accessProvider.getUserId(), accessProvider.getUserId(),
-                    timeStamp.get(START_DATE), timeStamp.get(END_DATE), timeStamp.get(LAST_MODIFIED_START_DATE), timeStamp.get(LAST_MODIFIED_END_DATE), 3);
+                    timeStamp.get(START_DATE), timeStamp.get(END_DATE), timeStamp.get(LAST_MODIFIED_START_DATE), timeStamp.get(LAST_MODIFIED_END_DATE));
             updateMomentsToDB(momentHistory);
             timeStamp = accessProvider.getLastSyncTimeStampByDateRange(momentHistory.getSyncurl());
         } while (momentHistory.getUCoreMoments().size() > 1);

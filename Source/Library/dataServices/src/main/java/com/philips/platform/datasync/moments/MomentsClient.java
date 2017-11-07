@@ -30,8 +30,7 @@ interface MomentsClient {
                                                @Query(value = "timestampStart", encodeValue = false) String startTimeStamp,
                                                @Query(value = "timestampEnd", encodeValue = false) String endTimeStamp,
                                                @Query(value = "lastModifiedStart", encodeValue = false) String lastModifiedStartTimeStamp,
-                                               @Query(value = "lastModifiedEnd", encodeValue = false) String lastModifiedEndTimeStamp,
-                                               @Query(value = "limit") int limit
+                                               @Query(value = "lastModifiedEnd", encodeValue = false) String lastModifiedEndTimeStamp
     );
 
     @POST("/api/users/{subjectId}/moments")

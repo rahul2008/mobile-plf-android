@@ -1,9 +1,7 @@
 package com.philips.platform.datasync.moments;
 
-import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.BaseAppData;
 import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.events.BackendMomentListSaveRequest;
 import com.philips.platform.core.events.ListEvent;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -11,6 +9,7 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
+import com.philips.spy.EventingSpy;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -18,25 +17,20 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit.RetrofitError;
-import retrofit.client.Header;
-import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 import retrofit.mime.TypedByteArray;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -47,22 +41,29 @@ public class MomentsDataFetcherTest {
     public static final String USER_ID = "TEST_GUID";
     public static final String SUBJECT_ID = "SUBJECT_ID";
     public static final String DATE_TIME = "TEST_DATE_TIME";
+
     private static final String TEST_MOMENT_SYNC_URL = "TEST_MOMENT_SYNC_URL";
+    private static final String START_DATE = new DateTime().toString();
+    private static final String START_DATE2 = new DateTime().toString();
+    private static final String END_DATE = new DateTime().toString();
+    private static final String END_DATE2 = new DateTime().toString();
 
 
     private String TEST_ACCESS_TOKEN = "TEST_ACCESS_TOKEN";
-
     private String TEST_USER_ID = "TEST_USER_ID";
 
     private MomentsDataFetcher fetcher;
-
     private UCoreMomentsHistory momentsHistory = new UCoreMomentsHistory();
     private UCoreMomentsHistory userMomentsHistory = new UCoreMomentsHistory();
     private List<UCoreMoment> uCoreMomentList = new ArrayList<>();
+    private List<UCoreMoment> uCoreUserMomentList = new ArrayList<>();
     private List<Moment> momentList = new ArrayList<>();
+    private Map<String, String> lastSyncTimeMap;
+    private Map<String, String> lastSyncTimeMap2;
 
-    @Mock
-    private Eventing eventingMock;
+    private EventingSpy eventingSpy = new EventingSpy();
+
+    private RetrofitError retrofitError;
 
     @Mock
     TypedByteArray typedByteArrayMock;
@@ -107,198 +108,167 @@ public class MomentsDataFetcherTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
-        when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
-        when(accessProviderMock.getUserId()).thenReturn(USER_ID);
-        when(accessProviderMock.getSubjectId()).thenReturn(SUBJECT_ID);
+        mockAccessProvider();
         when(coreAdapterMock.getAppFrameworkClient(MomentsClient.class, ACCESS_TOKEN, gsonConverterMock)).thenReturn(momentsClientMock);
-        momentsHistory.setUCoreMoments(uCoreMomentList);
-        momentsHistory.setSyncurl(TEST_MOMENT_SYNC_URL);
+        setTowUserMoments();
+        setOneMoment();
 
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
         fetcher = new MomentsDataFetcher(coreAdapterMock, converterMock, gsonConverterMock);
-        fetcher.eventing = eventingMock;
+        fetcher.eventing = eventingSpy;
         fetcher.accessProvider = accessProviderMock;
         fetcher.synchronisationManager = synchronisationManagerMock;
         fetcher.userRegistrationInterface = userRegistrationInterfaceMock;
     }
 
-    @Test
-    public void ShouldNotFetchData_WhenUserIsNotLoggedIn() throws Exception {
-        when(accessProviderMock.isLoggedIn()).thenReturn(false);
-
-        RetrofitError retrofitError = fetcher.fetchData();
-
-        assertThat(retrofitError).isNull();
-        verifyZeroInteractions(coreAdapterMock);
-    }
-
-    @Test
-    public void ShouldNotFetchData_WhenUserAccessTokenIsNull() throws Exception {
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
-        when(accessProviderMock.getAccessToken()).thenReturn(null);
-
-        RetrofitError retrofitError = fetcher.fetchData();
-
-        assertThat(retrofitError).isNull();
-        verifyZeroInteractions(coreAdapterMock);
-    }
-
-    @Test
-    public void ShouldNotFetchData_WhenUserAccessTokenIsEmpty() throws Exception {
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
-        when(accessProviderMock.getAccessToken()).thenReturn("");
-
-        RetrofitError retrofitError = fetcher.fetchData();
-
-        assertThat(retrofitError).isNull();
-        verifyZeroInteractions(coreAdapterMock);
-    }
-
-    @Test
-    public void ShouldPostSaveMoments_WhenConversionReturnsMoments() {
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
-        when(accessProviderMock.getMomentLastSyncTimestamp()).thenReturn(DATE_TIME);
+    private void setOneMoment() {
         momentsHistory.setUCoreMoments(uCoreMomentList);
-        final UCoreMoment uCoreMomentMock = mock(UCoreMoment.class);
-        uCoreMomentList.add(uCoreMomentMock);
-        when(momentsClientMock.getMomentsHistory(USER_ID, SUBJECT_ID, DATE_TIME)).thenReturn(momentsHistory);
-        when(momentsClientMock.getMomentsHistory(USER_ID, USER_ID, DATE_TIME)).thenReturn(userMomentsHistory);
-
-        momentList.add(momentMock);
-        when(converterMock.convert(uCoreMomentList)).thenReturn(momentList);
-
-        //noinspection ThrowableResultOfMethodCallIgnored
-        RetrofitError retrofitError = fetcher.fetchData();
-
-//        verify(eventingMock).post(saveRequestCaptor.capture());
-//        BackendMomentListSaveRequest request = (BackendMomentListSaveRequest) saveRequestCaptor.getAllValues().get(0);
-//        assertThat(request.getList()).isSameAs(momentList);
+        momentsHistory.setSyncurl(TEST_MOMENT_SYNC_URL);
     }
 
-    @Test
-    public void ShouldNotPostEvent_WhenMomentReturnedIsLessThanZero() {
-        when(accessProviderMock.getMomentLastSyncTimestamp()).thenReturn(DATE_TIME);
-        when(momentsClientMock.getMomentsHistory(USER_ID, SUBJECT_ID, DATE_TIME)).thenReturn(momentsHistory);
-        when(momentsClientMock.getMomentsHistory(USER_ID, USER_ID, DATE_TIME)).thenReturn(momentsHistory);
-
-        when(converterMock.convert(uCoreMomentList)).thenReturn(momentList);
-
-        RetrofitError result = fetcher.fetchData();
-
-        assertThat(result).isNull();
-        verify(accessProviderMock).saveLastSyncTimeStamp(TEST_MOMENT_SYNC_URL, UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
-
-//        verify(eventingMock).post(isA(BackendMomentListSaveRequest.class));
+    private void setTowUserMoments() {
+        uCoreUserMomentList.add(new UCoreMoment());
+        uCoreUserMomentList.add(new UCoreMoment());
+        userMomentsHistory.setUCoreMoments(uCoreUserMomentList);
+        userMomentsHistory.setSyncurl(TEST_MOMENT_SYNC_URL);
     }
 
-    @Test
-    public void ShouldNotPostEvent_WhenFetchBabyIdIsEmpty() {
+    private void mockAccessProvider() throws UnsupportedEncodingException {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
-        when(accessProviderMock.getSubjectId()).thenReturn("");
+        when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
+        when(accessProviderMock.getUserId()).thenReturn(USER_ID);
+        when(accessProviderMock.getSubjectId()).thenReturn(SUBJECT_ID);
+        when(accessProviderMock.getLastSyncTimeStampByDateRange(START_DATE, END_DATE)).thenReturn(getLastSyncDateMap());
+        when(accessProviderMock.getLastSyncTimeStampByDateRange(TEST_MOMENT_SYNC_URL)).thenReturn(getLastSyncDateFromSyncMap());
+        when(accessProviderMock.getMomentLastSyncTimestamp()).thenReturn(TEST_MOMENT_SYNC_URL);
+    }
+
+    private Map<String, String> getLastSyncDateMap() throws UnsupportedEncodingException {
+        this.lastSyncTimeMap = new HashMap<>();
+        lastSyncTimeMap.put("START_DATE", URLEncoder.encode(START_DATE, "UTF-8"));
+        lastSyncTimeMap.put("END_DATE", URLEncoder.encode(END_DATE, "UTF-8"));
+        lastSyncTimeMap.put("LAST_MODIFIED_START_DATE", URLEncoder.encode(START_DATE, "UTF-8"));
+        lastSyncTimeMap.put("LAST_MODIFIED_END_DATE", URLEncoder.encode(END_DATE, "UTF-8"));
+        return lastSyncTimeMap;
+    }
+
+    private Map<String, String> getLastSyncDateFromSyncMap() throws UnsupportedEncodingException {
+        this.lastSyncTimeMap2 = new HashMap<>();
+        lastSyncTimeMap2.put("START_DATE", URLEncoder.encode(START_DATE2, "UTF-8"));
+        lastSyncTimeMap2.put("END_DATE", URLEncoder.encode(END_DATE2, "UTF-8"));
+        lastSyncTimeMap2.put("LAST_MODIFIED_START_DATE", URLEncoder.encode(START_DATE2, "UTF-8"));
+        lastSyncTimeMap2.put("LAST_MODIFIED_END_DATE", URLEncoder.encode(END_DATE2, "UTF-8"));
+        return lastSyncTimeMap2;
+    }
+
+    @Test
+    public void fetchData_WithInvalidUser() {
+        givenUserNotLoggedin();
+        whenFetchDataIsInvoked();
+        thenRetrofirErrorIsNull();
+        thenVerifyZeroInteractionsWith(coreAdapterMock);
+    }
+
+    @Test
+    public void fetchData_WithNoClient() {
+        givenNoClient();
+        whenFetchDataIsInvoked();
+        thenRetrofirErrorIsNull();
+        thenVerifyZeroInteractionsWith(momentsClientMock);
+
+    }
+
+    @Test
+    public void fetchData_whenuCoreMomentsIsEmpty() {
+        givenZeroUcoreMomentsFromClient();
+        whenFetchDataIsInvoked();
+        thenRetrofirErrorIsNull();
+        thenNoEventIsPosted();
+    }
+
+    @Test
+    public void fetchData_whenuCoreMoments() {
+        givenUcoreMomentsFromClient();
+        whenFetchDataIsInvoked();
+        thenRetrofirErrorIsNull();
+        thenEventIsPostedForBackgroundProcessing("BackendMomentListSaveRequest");
+    }
+
+    @Test(expected = RetrofitError.class)
+    public void fetchDataByDateRange_WithNoClient() {
+        givenNoClient();
+        whenFetchDataByDateRange();
+    }
+
+    @Test
+    public void fetchDataByDateRange_givenNoUrlToSync() {
+        givenMomentsFromClient();
+        whenFetchDataByDateRange();
+        thenEventIsPostedForBackgroundProcessing("BackendMomentListSaveRequest");
+        thenVerifyClientIsInvocked();
+    }
+
+    @Test
+    public void fetchDataByDateRange_givenSyncUrlOnce() {
+        givenMomentsFromClient();
+        whenFetchDataByDateRange();
+        thenEventIsPostedForBackgroundProcessing("BackendMomentListSaveRequest");
+        thenVerifyClientIsInvlokedTwice();
+    }
+
+    private void givenUcoreMomentsFromClient() {
+        when(momentsClientMock.getMomentsHistory(USER_ID, USER_ID, TEST_MOMENT_SYNC_URL)).thenReturn(userMomentsHistory);
+    }
+
+    private void givenZeroUcoreMomentsFromClient() {
+        when(momentsClientMock.getMomentsHistory(USER_ID, USER_ID, TEST_MOMENT_SYNC_URL)).thenReturn(momentsHistory);
+
+    }
+
+    private void givenUserNotLoggedin() {
+        when(accessProviderMock.isLoggedIn()).thenReturn(false);
+    }
+
+    private void givenMomentsFromClient() {
+        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get("START_DATE"), lastSyncTimeMap.get("END_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_END_DATE"))).thenReturn(userMomentsHistory);
+        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get("START_DATE"), lastSyncTimeMap2.get("END_DATE"), lastSyncTimeMap2.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap2.get("LAST_MODIFIED_END_DATE"))).thenReturn(momentsHistory);
+    }
+
+    private void givenNoClient() {
         when(coreAdapterMock.getAppFrameworkClient(MomentsClient.class, ACCESS_TOKEN, gsonConverterMock)).thenReturn(null);
 
-        RetrofitError retrofitError = fetcher.fetchData();
-
-        verify(momentsClientMock, never()).getMomentsHistory(anyString(), anyString(), eq(new DateTime().toString()));
-        verify(converterMock, never()).convert(uCoreMomentList);
-        verify(eventingMock, never()).post(isA(BackendMomentListSaveRequest.class));
     }
 
-    @Test
-    public void ShouldPostEvent_WhenFetchBabyIdIsNotEmpty_And_ClientIsNotNull() {
-        when(accessProviderMock.getMomentLastSyncTimestamp()).thenReturn(DATE_TIME);
-
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
-
-        when(accessProviderMock.getSubjectId()).thenReturn(SUBJECT_ID);
-
-        when(coreAdapterMock.getAppFrameworkClient(MomentsClient.class, ACCESS_TOKEN, gsonConverterMock)).thenReturn(momentsClientMock);
-
-        when(momentsClientMock.getMomentsHistory(USER_ID, SUBJECT_ID, DATE_TIME)).thenReturn(momentsHistoryMock);
-        when(momentsClientMock.getMomentsHistory(USER_ID, USER_ID, DATE_TIME)).thenReturn(momentsHistoryMock);
-
-        when(momentsHistoryMock.getUCoreMoments()).thenReturn(uCoreMomentList);
-        final UCoreMoment uCoreMomentMock = mock(UCoreMoment.class);
-        uCoreMomentList.add(uCoreMomentMock);
-
-        Mockito.when(converterMock.convert(momentsHistoryMock.getUCoreMoments())).thenReturn(momentList);
-        momentList.add(momentMock);
-        RetrofitError retrofitError = fetcher.fetchData();
-
-        verify(converterMock, times(1)).convert(uCoreMomentList);
-        verify(eventingMock).post(isA(BackendMomentListSaveRequest.class));
+    private void whenFetchDataByDateRange() {
+        fetcher.fetchDataByDateRange(START_DATE, END_DATE);
     }
 
-    @Test
-    public void ShouldThrowRetrofitError_WhenFetchDataFails() throws Exception {
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
-        when(accessProviderMock.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
-        when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
-        //  final UserCharacteristicsClient uCoreClientMock = mock(Mo.class);
-        /*when(coreAdapterMock.getAppFrameworkClient(MomentsClient.class,
-                TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(momentsClientMock);*/
-        final RetrofitError retrofitErrorMock = mock(RetrofitError.class);
-        when(retrofitErrorMock.getMessage()).thenReturn("ERROR");
-        //when(momentsClientMock.getMomentsHistory(TEST_USER_ID, TEST_USER_ID, "")).thenThrow(retrofitErrorMock);
-        when(momentsClientMock.getMomentsHistory(accessProviderMock.getUserId(),
-                accessProviderMock.getUserId(), "")).thenThrow(retrofitErrorMock);
-        RetrofitError retrofitError = fetcher.fetchData();
-
-        assertThat(retrofitError).isNull();
+    private void whenFetchDataIsInvoked() {
+        retrofitError = fetcher.fetchData();
     }
 
-    @Test
-    public void ShouldPostError_On_Error() throws Exception {
-
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
-        when(accessProviderMock.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
-        when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
-        when(accessProviderMock.getMomentLastSyncTimestamp()).thenReturn("url");
-        when(coreAdapterMock.getAppFrameworkClient(MomentsClient.class,
-                TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(momentsClientMock);
-
-        String string = "not able to connect";
-        ArrayList<Header> headers = new ArrayList<>();
-        headers.add(new Header("test", "test"));
-
-        when((typedByteArrayMock).getBytes()).thenReturn(string.getBytes());
-        Response response = new Response("http://localhost", 403, string, headers, typedByteArrayMock);
-        final RetrofitError retrofitError = mock(RetrofitError.class);
-        when(retrofitError.getResponse()).thenReturn(response);
-
-        doThrow(RetrofitError.class).when(momentsClientMock).getMomentsHistory(TEST_USER_ID, TEST_USER_ID, "url");
-
-        RetrofitError retrofitError1 = fetcher.fetchData();
-
-        verify(momentsClientMock).getMomentsHistory(TEST_USER_ID, TEST_USER_ID, "url");
+    private void thenEventIsPostedForBackgroundProcessing(String event) {
+        assertEquals(event, eventingSpy.postedEvent.getClass().getSimpleName());
     }
 
-
-    @Test
-    public void ShouldPostError_On_Error_UNAUTHORIZED() throws Exception {
-
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
-        when(accessProviderMock.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
-        when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
-        when(accessProviderMock.getMomentLastSyncTimestamp()).thenReturn("url");
-        when(coreAdapterMock.getAppFrameworkClient(MomentsClient.class,
-                TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(momentsClientMock);
-
-        String string = "not able to connect";
-        ArrayList<Header> headers = new ArrayList<>();
-        headers.add(new Header("test", "test"));
-
-        when((typedByteArrayMock).getBytes()).thenReturn(string.getBytes());
-        Response response = new Response("http://localhost", 401, string, headers, typedByteArrayMock);
-        final RetrofitError retrofitError = mock(RetrofitError.class);
-        when(retrofitError.getResponse()).thenReturn(response);
-
-        doThrow(retrofitError).when(momentsClientMock).getMomentsHistory(TEST_USER_ID, TEST_USER_ID, "url");
-
-        RetrofitError retrofitError1 = fetcher.fetchData();
-
-        verify(momentsClientMock).getMomentsHistory(TEST_USER_ID, TEST_USER_ID, "url");
+    private void thenVerifyClientIsInvocked() {
+        verify(momentsClientMock).fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get("START_DATE"), lastSyncTimeMap.get("END_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_END_DATE"));
     }
 
+    private void thenVerifyClientIsInvlokedTwice() {
+        verify(momentsClientMock).fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get("START_DATE"), lastSyncTimeMap.get("END_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_END_DATE"));
+        verify(momentsClientMock).fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get("START_DATE"), lastSyncTimeMap2.get("END_DATE"), lastSyncTimeMap2.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap2.get("LAST_MODIFIED_END_DATE"));
+    }
+
+    private void thenNoEventIsPosted() {
+        assertNull(eventingSpy.postedEvent);
+    }
+
+    private void thenVerifyZeroInteractionsWith(Object coreAdapterMock) {
+        verifyZeroInteractions(coreAdapterMock);
+    }
+
+    private void thenRetrofirErrorIsNull() {
+        assertNull(retrofitError);
+    }
 }
