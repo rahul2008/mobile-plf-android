@@ -1,8 +1,5 @@
 package com.philips.platform.datasync.moments;
 
-import com.philips.platform.core.datatypes.BaseAppData;
-import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.events.ListEvent;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -14,8 +11,6 @@ import com.philips.spy.EventingSpy;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.io.UnsupportedEncodingException;
@@ -27,7 +22,6 @@ import java.util.Map;
 
 import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
-import retrofit.mime.TypedByteArray;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -40,7 +34,6 @@ public class MomentsDataFetcherTest {
     public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
     public static final String USER_ID = "TEST_GUID";
     public static final String SUBJECT_ID = "SUBJECT_ID";
-    public static final String DATE_TIME = "TEST_DATE_TIME";
 
     private static final String TEST_MOMENT_SYNC_URL = "TEST_MOMENT_SYNC_URL";
     private static final String START_DATE = new DateTime().toString();
@@ -48,29 +41,15 @@ public class MomentsDataFetcherTest {
     private static final String END_DATE = new DateTime().toString();
     private static final String END_DATE2 = new DateTime().toString();
 
-
-    private String TEST_ACCESS_TOKEN = "TEST_ACCESS_TOKEN";
-    private String TEST_USER_ID = "TEST_USER_ID";
-
     private MomentsDataFetcher fetcher;
     private UCoreMomentsHistory momentsHistory = new UCoreMomentsHistory();
     private UCoreMomentsHistory userMomentsHistory = new UCoreMomentsHistory();
     private List<UCoreMoment> uCoreMomentList = new ArrayList<>();
     private List<UCoreMoment> uCoreUserMomentList = new ArrayList<>();
-    private List<Moment> momentList = new ArrayList<>();
     private Map<String, String> lastSyncTimeMap;
     private Map<String, String> lastSyncTimeMap2;
-
     private EventingSpy eventingSpy = new EventingSpy();
-
     private RetrofitError retrofitError;
-
-    @Mock
-    TypedByteArray typedByteArrayMock;
-
-
-    @Mock
-    private RetrofitError retrofitErrorMock;
 
     @Mock
     private MomentsConverter converterMock;
@@ -86,15 +65,6 @@ public class MomentsDataFetcherTest {
 
     @Mock
     private GsonConverter gsonConverterMock;
-
-    @Captor
-    private ArgumentCaptor<ListEvent<? extends BaseAppData>> saveRequestCaptor;
-
-    @Mock
-    UCoreMomentsHistory momentsHistoryMock;
-
-    @Mock
-    Moment momentMock;
 
     @Mock
     AppComponent appComponantMock;
