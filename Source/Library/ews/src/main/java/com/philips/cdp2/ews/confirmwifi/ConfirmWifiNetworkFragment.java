@@ -80,7 +80,6 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
             final AlertDialogFragment alertDialogFragment = builder.create();
             alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
             getChildFragmentManager().executePendingTransactions();
-
             TextView textView = view.findViewById(R.id.label_ews_home_network_body);
             ImageView imageView = view.findViewById(R.id.ic_close);
             String explanation = String.format(DateUtil.getSupportedLocale(), context.getString(R.string.label_ews_home_network_body),
