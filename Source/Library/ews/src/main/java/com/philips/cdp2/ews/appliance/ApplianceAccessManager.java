@@ -26,7 +26,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import static com.philips.cdp2.ews.EWSActivity.EWS_STEPS;
 
 @SuppressWarnings("WeakerAccess")
 @Singleton
@@ -64,13 +63,13 @@ public class ApplianceAccessManager {
             if (wifiPortProperties != null) {
                 switch (requestType) {
                     case ApplianceRequestType.GET_WIFI_PROPS:
-                        EWSLogger.d(EWS_STEPS, "Step 3 : Got wifi properties, showing the password entry screen");
+                        EWSLogger.d(TAG, "Step 3 : Got wifi properties, showing the password entry screen");
                         if (fetchCallback != null) {
                             fetchCallback.onDeviceInfoReceived(wifiPortProperties);
                         }
                         break;
                     case ApplianceRequestType.PUT_WIFI_PROPS:
-                        EWSLogger.d(EWS_STEPS, "Step 4.1 : Setting the wifi properties to the device succesfull");
+                        EWSLogger.d(TAG, "Step 4.1 : Setting the wifi properties to the device succesfull");
                         if (putCallback != null) {
                             putCallback.onPropertiesSet(wifiPortProperties);
                         }
@@ -86,7 +85,7 @@ public class ApplianceAccessManager {
 
         @Override
         public void onPortError(WifiPort wifiPort, Error error, @Nullable String s) {
-            EWSLogger.d(EWS_STEPS, "Step Failed : Port error " + wifiPort.toString() + " Error : " + error + " data " + error);
+            EWSLogger.d(TAG, "Step Failed : Port error " + wifiPort.toString() + " Error : " + error + " data " + error);
             onErrorReceived();
             if (fetchCallback != null) {
                 fetchCallback.onFailedToFetchDeviceInfo();
@@ -166,7 +165,7 @@ public class ApplianceAccessManager {
             wifiPort.addPortListener(wifiPortListener);
 
             wifiPort.setWifiNetworkDetails(homeWiFiSSID, homeWiFiPassword);
-            EWSLogger.d(EWS_STEPS, "Step 4 : Setting the wifi properties to the device");
+            EWSLogger.d(TAG, "Step 4 : Setting the wifi properties to the device");
         } else {
             EWSLogger.d("TAG", "PUT_WIFI_PROPS requestType:" + requestType);
         }
