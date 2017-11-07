@@ -16,6 +16,7 @@ import android.util.Log;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameFetcher;
 import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
@@ -127,8 +128,9 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
         deviceFriendlyNameFetcher.fetchFriendlyName();
     }
 
-    private void showUnsuccessfulDialog() {
+    @VisibleForTesting void showUnsuccessfulDialog() {
         if (fragmentCallback != null) {
+            EWSTagger.trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
             fragmentCallback.showTroubleshootHomeWifiDialog();
         }
     }
