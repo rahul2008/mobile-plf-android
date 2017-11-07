@@ -22,6 +22,7 @@ import com.philips.cdp2.commlib.devicetest.TestApplication;
 import com.philips.cdp2.commlib.devicetest.appliance.BaseAppliance;
 import com.philips.cdp2.commlib.devicetest.appliance.ReferenceAppliance;
 import com.philips.cdp2.commlib.devicetest.appliance.airpurifier.AirPurifier;
+import com.philips.cdp2.commlib.devicetest.port.air.ComfortAirPort;
 import com.philips.cdp2.commlib.devicetest.port.time.TimePort;
 import com.philips.cdp2.commlib.devicetest.util.Android;
 import com.philips.cdp2.commlib.devicetest.util.ApplianceWaiter;
@@ -116,7 +117,7 @@ public class Steps {
         }
         if (current instanceof AirPurifier) {
             PortListener listener = new PortListener();
-            portListeners.put(TimePort.class, listener);
+            portListeners.put(ComfortAirPort.class, listener);
             ((AirPurifier) current).getAirPort().addPortListener(listener);
         }
     }
@@ -125,6 +126,12 @@ public class Steps {
     public void deviceRequestsTimeValueFromTimePort() throws Throwable {
         Log.d(LOGTAG, "Reloading timeport");
         ((ReferenceAppliance) current).getTimePort().reloadProperties();
+    }
+
+    @When("^device requests value from air port$")
+    public void deviceRequestsValueFromAirPort() throws Throwable {
+        Log.d(LOGTAG, "Reloading timeport");
+        ((AirPurifier) current).getAirPort().reloadProperties();
     }
 
     @When("^device subscribes on time port$")
@@ -153,6 +160,29 @@ public class Steps {
         final String datetime = ((ReferenceAppliance) current).getTimePort().getPortProperties().datetime;
         scenario.write("Got time: " + datetime);
         Log.d(LOGTAG, datetime);
+    }
+
+    @Then("^light on value is received without errors$")
+    public void lightOnValueIsReceivedWithoutErrors() throws Throwable {
+        lightOnValueIsReceivedTimesWithoutErrors(1);
+    }
+
+    @Then("^light on value is received (\\d+) times without errors$")
+    public void lightOnValueIsReceivedTimesWithoutErrors(int count) throws Throwable {
+        Log.d(LOGTAG, String.format("Waiting for %d airport updates", count));
+
+        PortListener listener = portListeners.get(ComfortAirPort.class);
+        listener.reset(count);
+        listener.waitForPortUpdate(1, MINUTES);
+
+        scenario.write("Errors:" + listener.errors.toString());
+
+        assertEquals(emptyList(), listener.errors);
+        assertEquals(count, listener.receivedCount);
+
+        final boolean lightOn = ((AirPurifier) current).getAirPort().getPortProperties().getLightOn();
+        scenario.write("Light on: " + lightOn);
+        Log.d(LOGTAG, String.valueOf(lightOn));
     }
 
     @Given("^device is connected to SSID \"(.*?)\"$")
