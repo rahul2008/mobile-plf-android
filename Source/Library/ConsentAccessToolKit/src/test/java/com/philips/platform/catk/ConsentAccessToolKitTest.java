@@ -28,6 +28,7 @@ import org.robolectric.annotation.Config;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Maqsood on 10/27/17.
@@ -36,6 +37,8 @@ import static org.mockito.Mockito.verify;
 @RunWith(CustomRobolectricRunnerCATK.class)
 @Config(constants = BuildConfig.class, sdk = 25)
 public class ConsentAccessToolKitTest {
+
+    private static final String COUNTRY_CODE = "IN";
 
     private String appName = "OneBackend";
 
@@ -71,6 +74,8 @@ public class ConsentAccessToolKitTest {
         MockitoAnnotations.initMocks(this);
         consentAccessToolKit = ConsentAccessToolKit.getInstance();
         catkComponent = new CatkComponentMock();
+        catkComponent.getUser_return = user;
+        when(user.getCountryCode()).thenReturn(COUNTRY_CODE);
         consentAccessToolKit.setCatkComponent(catkComponent);
         NetworkHelperManipulator.setInstance(mockNetworkHelper);
     }
@@ -94,13 +99,14 @@ public class ConsentAccessToolKitTest {
         verify(mockNetworkHelper).sendRequest(eq(Request.Method.POST), any(NetworkAbstractModel.class), any(RequestListener.class));
     }
 
+    @Test
     public void shouldCallNetworkHelperSendRequestMethodWhengetStatusForConsentType() throws Exception {
         consentAccessToolKit.getStatusForConsentType("active",1,listnerMock);
-        Assert.assertNotNull(consentAccessToolKit.buildPolicyRule("consentType",1, "IN",propName, appName));
+        Assert.assertNotNull(consentAccessToolKit.buildPolicyRule("consentType",1, COUNTRY_CODE, propName, appName));
     }
 
     private void givenLocale(String locale) {
-        catkComponent.serviceDiscoveryInterfaceMock.getServiceLocaleWithCountryPreference_return = locale;
+        catkComponent.getServiceDiscoveryInterface_return.getServiceLocaleWithCountryPreference_return = locale;
     }
 
 }

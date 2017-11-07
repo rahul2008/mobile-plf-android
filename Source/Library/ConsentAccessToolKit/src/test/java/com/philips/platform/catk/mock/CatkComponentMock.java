@@ -14,10 +14,12 @@ import com.philips.platform.catk.network.NetworkController;
 
 public class CatkComponentMock implements CatkComponent{
 
-    public ServiceDiscoveryInterfaceMock serviceDiscoveryInterfaceMock;
+    public ServiceDiscoveryInterfaceMock getServiceDiscoveryInterface_return;
+
+    public User getUser_return;
 
     public CatkComponentMock() {
-        serviceDiscoveryInterfaceMock = new ServiceDiscoveryInterfaceMock();
+        getServiceDiscoveryInterface_return = new ServiceDiscoveryInterfaceMock();
     }
 
     @Override
@@ -37,7 +39,7 @@ public class CatkComponentMock implements CatkComponent{
 
     @Override
     public User getUser() {
-        return null;
+        return getUser_return;
     }
 
     @Override
@@ -62,6 +64,6 @@ public class CatkComponentMock implements CatkComponent{
 
     @Override
     public ServiceDiscoveryInterface getServiceDiscoveryInterface() {
-        return serviceDiscoveryInterfaceMock;
+        return getServiceDiscoveryInterface_return;
     }
 }
