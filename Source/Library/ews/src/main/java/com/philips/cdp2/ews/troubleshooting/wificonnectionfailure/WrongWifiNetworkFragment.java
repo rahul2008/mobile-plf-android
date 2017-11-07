@@ -16,9 +16,9 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentWrongWifiNetworkBinding;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
+import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
-import com.philips.cdp2.ews.view.EWSActivity;
 
 public class WrongWifiNetworkFragment extends BaseFragment {
 
@@ -48,6 +48,6 @@ public class WrongWifiNetworkFragment extends BaseFragment {
 
     @NonNull
     private WrongWifiNetworkViewModel createViewModel() {
-        return ((EWSActivity) getActivity()).getEWSComponent().wrongWifiNetworkViewModel();
+        return EWSDependencyProvider.getInstance().getEwsComponent().wrongWifiNetworkViewModel();
     }
 }

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
 import com.philips.cdp2.ews.databinding.FragmentConnectionSuccessfulBinding;
+import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.viewmodel.ConnectionSuccessfulViewModel;
 
 import javax.inject.Inject;
@@ -46,7 +47,7 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
 
     @NonNull
     private ConnectionSuccessfulViewModel createViewModel() {
-        return ((EWSActivity) getActivity()).getEWSComponent().connectionSuccessfulViewModel();
+        return EWSDependencyProvider.getInstance().getEwsComponent().connectionSuccessfulViewModel();
     }
 
     @Override

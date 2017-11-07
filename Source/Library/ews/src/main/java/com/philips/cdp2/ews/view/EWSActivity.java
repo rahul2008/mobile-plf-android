@@ -6,8 +6,6 @@
 package com.philips.cdp2.ews.view;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -19,13 +17,8 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
-import com.philips.cdp2.ews.injections.DaggerEWSComponent;
-import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.injections.EWSConfigurationModule;
-import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.microapp.EWSInterface;
-import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.Actions;
 import com.philips.cdp2.ews.tagging.EWSTagger;
@@ -58,8 +51,6 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
     @Inject
     BaseContentConfiguration baseContentConfiguration;
 
-    EWSComponent ewsComponent;
-
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,9 +60,18 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
         setUpToolBar();
         setUpCancelButton();
 
-        ewsComponent = createEWSComponent(getBundle(savedInstanceState));
-        ewsComponent.inject(this);
+        ContentConfiguration contentConfiguration =
+                BundleUtils.extractParcelableFromIntentOrNull(getBundle(savedInstanceState), KEY_CONTENT_CONFIGURATION);
+
+        if (contentConfiguration == null) {
+            contentConfiguration = new ContentConfiguration();
+        }
+        EWSDependencyProvider.getInstance().createEWSComponent(this,R.id.contentFrame,
+                contentConfiguration);
+
+        EWSDependencyProvider.getInstance().getEwsComponent().inject(this);
         ewsEventingChannel.start();
+
 
         EWSTagger.collectLifecycleInfo(this);
 
@@ -100,21 +100,6 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
             bundle = savedInstanceState;
         }
         return bundle;
-    }
-
-    private EWSComponent createEWSComponent(@Nullable Bundle bundle) {
-        ContentConfiguration contentConfiguration =
-                BundleUtils.extractParcelableFromIntentOrNull(bundle, KEY_CONTENT_CONFIGURATION);
-
-        // TODO Handle null config object
-        if (contentConfiguration == null) {
-            contentConfiguration = new ContentConfiguration();
-        }
-
-        return DaggerEWSComponent.builder()
-                .eWSModule(new EWSModule(EWSActivity.this, getSupportFragmentManager()))
-                .eWSConfigurationModule(new EWSConfigurationModule(this,contentConfiguration))
-                .build();
     }
 
     private void setUpCancelButton() {
@@ -156,7 +141,7 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
     protected void onDestroy() {
         super.onDestroy();
         ewsEventingChannel.stop();
-        ewsComponent = null;
+        //ewsComponent = null;
         EWSTagger.pauseLifecycleInfo();
         EWSDependencyProvider.getInstance().clear();
     }
@@ -170,11 +155,6 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
                 super.onBackPressed();
             }
         }
-    }
-
-    @NonNull
-    public EWSComponent getEWSComponent() {
-        return ewsComponent;
     }
 
     private boolean shouldFinish() {

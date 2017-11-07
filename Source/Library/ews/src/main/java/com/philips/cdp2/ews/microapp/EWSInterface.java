@@ -38,19 +38,35 @@ public class EWSInterface implements UappInterface {
 
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
-        if (uiLauncher instanceof FragmentLauncher) {
-            throw new UnsupportedOperationException(ERROR_MSG_UNSUPPORTED_LAUNCHER_TYPE);
-        }
-
         if (!EWSDependencyProvider.getInstance().areDependenciesInitialized()) {
             throw new UnsupportedOperationException(ERROR_MSG_INVALID_CALL);
         }
 
+        if (uiLauncher instanceof FragmentLauncher) {
+            launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
+        } else if (uiLauncher instanceof ActivityLauncher) {
+            launchAsActivity();
+        }
+    }
+
+    private void launchAsActivity() {
         Intent intent = new Intent(context, EWSActivity.class);
         intent.putExtra(SCREEN_ORIENTATION, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT);
         intent.putExtra(EWSActivity.KEY_CONTENT_CONFIGURATION, contentConfiguration);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
         context.startActivity(intent);
+
+    }
+
+    private void launchAsFragment(final FragmentLauncher fragmentLauncher, final UappLaunchInput uappLaunchInput) {
+      //  try {
+            EWSDependencyProvider.getInstance().createEWSComponent(fragmentLauncher,contentConfiguration);
+
+            FragmentLauncherFragment ewsFragment = new FragmentLauncherFragment();
+
+            ewsFragment.show();
+        /*} catch (Exception e) {
+
+        }*/
     }
 }

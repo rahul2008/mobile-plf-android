@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.viewmodel.BaseTroubleShootingViewModel;
 
 public class BaseTroubleShootingFragment extends BaseFragment {
@@ -23,7 +24,7 @@ public class BaseTroubleShootingFragment extends BaseFragment {
     @Override
     protected void handleCancelButtonClicked(@StringRes int stringId) {
         BaseTroubleShootingViewModel viewModel =
-                ((EWSActivity) getActivity()).getEWSComponent().baseTroubleShootingViewModel();
+                EWSDependencyProvider.getInstance().getEwsComponent().baseTroubleShootingViewModel();
         viewModel.onCancelButtonClicked();
     }
 

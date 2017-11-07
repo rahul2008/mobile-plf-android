@@ -16,6 +16,7 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentConnectingWithDeviceBinding;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel.ConnectingPhoneToHotSpotCallback;
 import com.philips.cdp2.ews.logger.EWSLogger;
+import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -119,6 +120,6 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
     }
 
     private ConnectingWithDeviceViewModel createViewModel() {
-        return ((EWSActivity) getActivity()).getEWSComponent().connectingWithDeviceViewModel();
+        return EWSDependencyProvider.getInstance().getEwsComponent().connectingWithDeviceViewModel();
     }
 }

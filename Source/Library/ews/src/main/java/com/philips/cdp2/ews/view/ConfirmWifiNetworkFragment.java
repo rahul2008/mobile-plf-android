@@ -20,6 +20,7 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.common.util.DateUtil;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConfirmWifiNetworkBinding;
+import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.util.ColorsUtil;
 import com.philips.cdp2.ews.util.TextUtil;
 import com.philips.cdp2.ews.viewmodel.ConfirmWifiNetworkViewModel;
@@ -49,7 +50,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
 
     @NonNull
     private ConfirmWifiNetworkViewModel createViewModel() {
-        return ((EWSActivity) getActivity()).getEWSComponent().confirmWifiNetworkViewModel();
+        return EWSDependencyProvider.getInstance().getEwsComponent().confirmWifiNetworkViewModel();
     }
 
     @Override

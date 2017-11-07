@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentConnectToWrongPhoneTroubleshootingLayoutBinding;
+import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.view.BaseTroubleShootingFragment;
-import com.philips.cdp2.ews.view.EWSActivity;
 
 public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShootingFragment {
 
@@ -30,7 +30,7 @@ public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShoot
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final ConnectToWrongPhoneTroubleshootingViewModel viewModel = ((EWSActivity) getActivity()).getEWSComponent()
+        final ConnectToWrongPhoneTroubleshootingViewModel viewModel = EWSDependencyProvider.getInstance().getEwsComponent()
                 .connectToWrongPhoneTroubleshootingViewModel();
         connectToWrongPhoneTroubleshootingLayoutBinding.setViewmodel(viewModel);
 

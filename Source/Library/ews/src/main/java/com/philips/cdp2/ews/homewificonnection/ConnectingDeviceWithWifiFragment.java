@@ -19,6 +19,7 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConnectingDeviceWithWifiBinding;
 import com.philips.cdp2.ews.logger.EWSLogger;
+import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
@@ -42,7 +43,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((EWSActivity) getActivity()).getEWSComponent().inject(ConnectingDeviceWithWifiFragment.this);
+        EWSDependencyProvider.getInstance().getEwsComponent().inject(ConnectingDeviceWithWifiFragment.this);
     }
 
     public static Fragment newInstance(@NonNull String homeWiFiSSID,
@@ -121,7 +122,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
 
     @NonNull
     private ConnectingDeviceWithWifiViewModel createViewModel() {
-        return ((EWSActivity) getActivity()).getEWSComponent().connectingDeviceWithWifiViewModel();
+        return EWSDependencyProvider.getInstance().getEwsComponent().connectingDeviceWithWifiViewModel();
     }
 
     @Override

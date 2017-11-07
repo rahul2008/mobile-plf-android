@@ -10,6 +10,11 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 /*
  * Copyright (c) Mobiquityinc, 2017.
@@ -20,6 +25,10 @@ public class EWSDemoFragmentActivity extends EWSDemoBaseActivity implements Acti
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setTheme(com.philips.cdp2.ews.R.style.Theme_DLS_GroupBlue_UltraLight);
+        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, NavigationColor.BRIGHT,
+                ContentColor.ULTRA_LIGHT));
+        UIDHelper.injectCalligraphyFonts();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_activity_demo);
         launchEWSFragmentUApp();

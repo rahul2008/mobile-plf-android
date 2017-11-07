@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceFragment;
 import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordFragment;
@@ -118,6 +117,6 @@ public class Navigator {
     }
 
     private void pushFragment(@NonNull Fragment fragment) {
-        fragmentNavigator.push(fragment, R.id.contentFrame);
+        fragmentNavigator.push(fragment,fragmentNavigator.getContainerId());
     }
 }

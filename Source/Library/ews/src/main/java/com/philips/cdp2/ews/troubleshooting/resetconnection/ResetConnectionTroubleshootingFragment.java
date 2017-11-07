@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentResetConnectionTroubleshootingLayoutBinding;
+import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.view.BaseTroubleShootingFragment;
-import com.philips.cdp2.ews.view.EWSActivity;
 
 public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingFragment {
 
@@ -30,7 +30,7 @@ public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingF
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final ResetConnectionTroubleshootingViewModel viewModel = ((EWSActivity) getActivity()).getEWSComponent()
+        final ResetConnectionTroubleshootingViewModel viewModel = EWSDependencyProvider.getInstance().getEwsComponent()
                         .resetConnectionTroubleshootingViewModel();
         fragmentResetConnectionTroubleshootingLayoutBinding.setViewModel(viewModel);
 

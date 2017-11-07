@@ -15,9 +15,9 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentWifiConnectionUnsuccessfulBinding;
+import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
-import com.philips.cdp2.ews.view.EWSActivity;
 
 public class WifiConnectionUnsuccessfulFragment extends BaseFragment {
     private final static String WIFI_SSID = "wifi_ssid";
@@ -53,6 +53,6 @@ public class WifiConnectionUnsuccessfulFragment extends BaseFragment {
 
     @NonNull
     private WIFIConnectionUnsuccessfulViewModel createViewModel() {
-        return ((EWSActivity) getActivity()).getEWSComponent().wIFIConnectionUnsuccessfulViewModel();
+        return EWSDependencyProvider.getInstance().getEwsComponent().wIFIConnectionUnsuccessfulViewModel();
     }
 }

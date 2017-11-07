@@ -18,9 +18,9 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentConnectWithPasswordBinding;
+import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
-import com.philips.cdp2.ews.view.EWSActivity;
 
 public class ConnectWithPasswordFragment extends BaseFragment {
 
@@ -56,7 +56,7 @@ public class ConnectWithPasswordFragment extends BaseFragment {
 
     @NonNull
     private ConnectWithPasswordViewModel createViewModel() {
-        return ((EWSActivity) getActivity()).getEWSComponent().connectWithPasswordViewModel();
+        return EWSDependencyProvider.getInstance().getEwsComponent().connectWithPasswordViewModel();
     }
 
     @Override
