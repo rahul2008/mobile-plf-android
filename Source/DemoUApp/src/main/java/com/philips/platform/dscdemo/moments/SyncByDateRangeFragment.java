@@ -20,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SyncType;
@@ -45,11 +46,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 		DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener {
 
 	private Context mContext;
-	private RecyclerView mMomentsRecyclerView;
-
 	private MomentPresenter mMomentPresenter;
-	private MomentAdapter mMomentAdapter;
-	private ArrayList<? extends Moment> mMomentList = new ArrayList();
 	private Button btnCompleteSync;
 	private Button btnSyncMomentByDate;
 	private LinearLayout dateRangeSelectorLayout;
@@ -59,6 +56,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 	private Date mEndDate;
 	private EditText mMomentStartDateEt;
 	private EditText mMomentEndDateEt;
+	private ToggleButton mEnableDisableSync;
 	Calendar myCalendar;
 
 
@@ -107,6 +105,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 		mMomentEndDateEt = view.findViewById(R.id.et_moment_endDate);
 		dateRangeSelectorLayout = view.findViewById(R.id.dateRangeSelectorLayout);
 		btnStartSyncByDateRange = view.findViewById(R.id.btn_startSyncBy_dateRange);
+		mEnableDisableSync = view.findViewById(R.id.toggleButton);
 		mMomentStartDateEt.setOnClickListener(this);
 		mMomentEndDateEt.setOnClickListener(this);
 		btnSyncMomentByDate.setOnClickListener(this);
