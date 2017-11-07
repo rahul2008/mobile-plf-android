@@ -6,6 +6,7 @@
 package com.philips.cdp2.commlib.lan.context;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -20,6 +21,7 @@ import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
 import com.philips.cdp2.commlib.lan.discovery.LanDiscoveryStrategy;
+import com.philips.cdp2.commlib.lan.security.PublicKeyPin;
 import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
 
 import java.util.HashSet;
@@ -148,11 +150,17 @@ public class LanTransportContext implements TransportContext<LanTransportContext
      * </p>
      *
      * @param appliance the appliance
-     * @param pin       the pin
+     * @param pin       the pin, may be null to reset any stored pin
+     *
+     * @throws IllegalArgumentException when supplied pin cannot be parsed into valid {@link PublicKeyPin}
      */
     @SuppressWarnings("WeakerAccess")
-    public static void acceptPinFor(final @NonNull Appliance appliance, final @NonNull String pin) {
+    public static void acceptPinFor(final @NonNull Appliance appliance, final @Nullable String pin) throws IllegalArgumentException {
         final NetworkNode networkNode = appliance.getNetworkNode();
+
+        if (pin != null) {
+            new PublicKeyPin(pin);
+        }
 
         networkNode.setPin(pin);
         networkNode.setMismatchedPin(null);

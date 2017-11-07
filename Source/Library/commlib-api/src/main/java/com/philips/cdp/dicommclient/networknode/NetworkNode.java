@@ -8,6 +8,7 @@ package com.philips.cdp.dicommclient.networknode;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Patterns;
 
@@ -188,7 +189,7 @@ public class NetworkNode implements Parcelable {
         return pin;
     }
 
-    public void setPin(String pin) {
+    public void setPin(@Nullable String pin) {
         final String oldPin = this.pin;
         this.pin = pin;
         this.pcs.firePropertyChange(KEY_PIN, oldPin, pin);
@@ -198,7 +199,7 @@ public class NetworkNode implements Parcelable {
         return mismatchedPin;
     }
 
-    public void setMismatchedPin(String mismatchedPin) {
+    public void setMismatchedPin(@Nullable String mismatchedPin) {
         final String oldMismatchedPin = this.mismatchedPin;
         this.mismatchedPin = mismatchedPin;
         this.pcs.firePropertyChange(KEY_MISMATCHED_PIN, oldMismatchedPin, mismatchedPin);

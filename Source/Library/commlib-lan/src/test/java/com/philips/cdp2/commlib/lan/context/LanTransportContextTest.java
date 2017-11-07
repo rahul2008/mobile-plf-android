@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
@@ -47,7 +48,11 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class LanTransportContextTest {
+public class LanTransportContextTest extends RobolectricTest {
+
+    private static final String PIN2 = "4Tcsx5yChNF8AR7cRuFjrT3tRCkSMpIsklVLAO0ONxF=";
+    private static final String PIN1 = "4Tcsx5yChNF8AR7cRuFjrT3tRCkSMpIsklVL/O0ONxE=";
+    private static final String PIN3 = "4Bcsx5yChNF8AR7cRuFjrT3tRCkSMpIsklVLAO0ONxF=";
 
     @Mock
     private CommunicationStrategy communicationStrategyMock;
@@ -99,19 +104,51 @@ public class LanTransportContextTest {
     @Test
     public void whenAcceptingNewPinForAppliance_thenThePinShouldBeTheNewPin_andTheMismatchedPinShouldBeNull() {
         NetworkNode networkNode = new NetworkNode();
-        networkNode.setPin("1234567890");
-        networkNode.setMismatchedPin("ABCDEF");
+        networkNode.setPin(PIN1);
+        networkNode.setMismatchedPin(PIN2);
 
         Appliance appliance = createTestAppliance(networkNode);
 
         acceptNewPinFor(appliance);
 
-        assertEquals("ABCDEF", appliance.getNetworkNode().getPin());
+        assertEquals(PIN2, appliance.getNetworkNode().getPin());
         assertNull(appliance.getNetworkNode().getMismatchedPin());
     }
 
     @Test
-    public void whenAcceptingAPinForAppliance_thenThePinShouldBeTheNewPin_andTheMismatchedPinShouldBeNull() {
+    public void whenAcceptingAnExplicitPinForAppliance_thenThePinShouldBeTheNewPin_andTheMismatchedPinShouldBeNull() {
+        final String newPin = PIN1;
+
+        NetworkNode networkNode = new NetworkNode();
+        networkNode.setPin(PIN2);
+        networkNode.setMismatchedPin(PIN3);
+
+        Appliance appliance = createTestAppliance(networkNode);
+
+        acceptPinFor(appliance, newPin);
+
+        assertEquals(newPin, appliance.getNetworkNode().getPin());
+        assertNull(appliance.getNetworkNode().getMismatchedPin());
+    }
+
+    @Test
+    public void whenAcceptingAnExplicitNullPinForAppliance_thenThePinIsSetToNull_andTheMismatchedPinShouldBeNull() {
+        final String newPin = null;
+
+        NetworkNode networkNode = new NetworkNode();
+        networkNode.setPin(PIN2);
+        networkNode.setMismatchedPin(PIN3);
+
+        Appliance appliance = createTestAppliance(networkNode);
+
+        acceptPinFor(appliance, newPin);
+
+        assertEquals(newPin, appliance.getNetworkNode().getPin());
+        assertNull(appliance.getNetworkNode().getMismatchedPin());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenAcceptingAPinForAppliance_andPinIsNotAValidPublicKeyPin_thenIllegalArgumentExceptionIsThrown() {
         final String newPin = "1234567890";
 
         NetworkNode networkNode = new NetworkNode();
@@ -121,9 +158,6 @@ public class LanTransportContextTest {
         Appliance appliance = createTestAppliance(networkNode);
 
         acceptPinFor(appliance, newPin);
-
-        assertEquals(newPin, appliance.getNetworkNode().getPin());
-        assertNull(appliance.getNetworkNode().getMismatchedPin());
     }
 
     @Test
