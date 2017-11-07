@@ -6,6 +6,7 @@ import android.text.Editable;
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
+import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.entity.visit.Vitals;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -18,7 +19,9 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.EditText;
@@ -103,6 +106,16 @@ public class THSVitalsPresenterTest {
     @Mock
     LoggingInterface loggingInterface;
 
+    @Mock
+    THSConsumer thsConsumerMock;
+
+    @Mock
+    THSProviderInfo pthProviderInfoMock;
+
+    @Mock
+    ProviderInfo providerInfo;
+
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -117,6 +130,12 @@ public class THSVitalsPresenterTest {
         when(pthConsumerMock.getConsumer()).thenReturn(consumerMock);
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(activityMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+
+        THSManager.getInstance().setThsConsumer(thsConsumerMock);
+        THSManager.getInstance().setThsParentConsumer(thsConsumerMock);
+        when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
+
+        when(pthProviderInfoMock.getProviderInfo()).thenReturn(providerInfo);
 
         THSManager.getInstance().setVisitContext(pthVisitContextMock);
         when(pthVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
