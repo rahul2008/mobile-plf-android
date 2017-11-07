@@ -29,16 +29,16 @@ public class NetworkController {
         ConsentAccessToolKit.getInstance().getCatkComponent().inject(this);
     }
 
-    public void sendConsentRequest(final int requestCode, final NetworkAbstractModel model, final RequestListener requestListener) {
-        sendRequest(requestCode, model, requestListener);
+    public void sendConsentRequest(final NetworkAbstractModel model, final RequestListener requestListener) {
+        sendRequest(model, requestListener);
     }
 
-    private void sendRequest(final int requestCode,final NetworkAbstractModel model, final RequestListener requestListener) {
+    private void sendRequest(final NetworkAbstractModel model, final RequestListener requestListener) {
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
                 if (requestListener != null && error != null) {
-                    new ConsentNetworkError(error, requestCode, requestListener);
+                    new ConsentNetworkError(error, model.getMethod(), requestListener);
                 }
             }
         };
@@ -48,7 +48,7 @@ public class NetworkController {
             public void onResponse(JsonArray response) {
                 if (requestListener != null) {
                     Message msg = Message.obtain();
-                    msg.what = requestCode;
+                    msg.what = model.getMethod();
 
                     if (response != null && response.size() == 0) {
                         msg.obj = CatkConstants.EMPTY_RESPONSE;

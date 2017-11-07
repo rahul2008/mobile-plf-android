@@ -1,6 +1,7 @@
 package com.philips.platform.catk.network;
 
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.google.gson.JsonArray;
 import com.philips.cdp.registration.User;
@@ -17,7 +18,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.Request;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
@@ -29,6 +33,8 @@ import org.robolectric.annotation.Config;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -37,13 +43,8 @@ import static org.mockito.Mockito.when;
 
 
 @RunWith(CustomRobolectricRunnerCATK.class)
-//@PrepareForTest({CatkInterface.class})
 @Config(constants = BuildConfig.class, sdk = 25)
-@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 public class NetworkControllerTest {
-
-    @Rule
-    public PowerMockRule powerMockRule = new PowerMockRule();
 
     private NetworkControllerCustom networkController;
 
@@ -64,22 +65,19 @@ public class NetworkControllerTest {
     @Mock
     RequestQueue mockRequestQueue;
 
+    @Captor
+    ArgumentCaptor<ConsentRequest> captorConsentRequest;
+
     @Mock
     private CatkComponent mockCatkComponent;
-
-    //@Mock
-    //private CatkInterface mockCatkInterface;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        //PowerMockito.mockStatic(CatkInterface.class);
         networkController = new NetworkControllerCustom();
         when(mockUser.getHsdpAccessToken()).thenReturn("x73ywf56h46h5p25");
         when(mockUser.getHsdpUUID()).thenReturn("17f7ce85-403c-4824-a17f-3b551f325ce0");
-        //mockCatkInterface.setCatkComponent(mockCatkComponent);
-        //when(mockCatkInterface.getCatkComponent()).thenReturn(mockCatkComponent);
-        when(mockConsentRequest.getMethod()).thenReturn(0);
+        when(mockConsentRequest.getMethod()).thenReturn(com.android.volley.Request.Method.GET);
         when(mockConsentRequest.getUrl()).thenReturn("https://philips.com");
         when(mockConsentRequest.getHeaders()).thenReturn(getRequestHeader());
         when(mockRestInterface.getRequestQueue()).thenReturn(mockRequestQueue);
@@ -92,8 +90,13 @@ public class NetworkControllerTest {
     }
 
     @Test
-    public void testSendRequest(){
-        networkController.sendConsentRequest(0, consentsModelRequest, consentsModelRequest);
+    public void testSendRequest() throws AuthFailureError {
+        networkController.sendConsentRequest(consentsModelRequest, consentsModelRequest);
+        verify(mockRequestQueue).add(captorConsentRequest.capture());
+
+        assertEquals(getRequestHeader(), captorConsentRequest.getValue().getHeaders());
+        assertEquals("https://philips.com", captorConsentRequest.getValue().getUrl());
+        assertEquals(com.android.volley.Request.Method.GET, captorConsentRequest.getValue().getMethod());
     }
 
     private Map<String, String> getRequestHeader() {
