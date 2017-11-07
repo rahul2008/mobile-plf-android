@@ -67,15 +67,15 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SYMPTOMS_PAGE;
 
 public class THSSymptomsFragment extends THSBaseFragment implements View.OnClickListener,
-        THSSelectedImageCallback, THSOnDismissSelectedImageFragmentCallback, View.OnTouchListener {
+        THSSelectedImageCallback, THSOnDismissSelectedImageFragmentCallback, View.OnTouchListener ,THSSymptomsFragmentViewInterface{
     public static final String TAG = THSSymptomsFragment.class.getSimpleName();
     protected THSSymptomsPresenter thsSymptomsPresenter;
     private THSProviderInfo mThsProviderInfo;
-    private THSOnDemandSpeciality thsOnDemandSpeciality;
+    protected THSOnDemandSpeciality thsOnDemandSpeciality;
     protected LinearLayout topicLayout;
     private ImageButton camera_button;
     private Button mContinue;
-    private RelativeLayout mRelativeLayout, ths_symptoms_relative_layout;
+    private RelativeLayout mRelativeLayout, ths_symptoms_relative_layout,ths_camera_image_list_layout;
     protected THSVisitContext mThsVisitContext;
     private String userChosenTask;
     private RecyclerView imageListView;
@@ -89,7 +89,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     private static final int REQUEST_IMAGE_CAPTURE = 2;
     private THSConsumerWrapper thsConsumerWrapper;
     private THSSelectedImageFragment thsSelectedImageFragment;
-    private List<DocumentRecord> documentRecordList;
+    private ArrayList<DocumentRecord> documentRecordList;
     private THSFileUtils thsFileUtils;
     private EditText additional_comments_edittext;
     private String UPLOAD_DOC_IMAGE_LIST = "UPLOAD_DOC_IMAGE_LIST";
@@ -106,13 +106,15 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         THSManager.getInstance().getThsTagging().trackTimedActionStart("totalPreparationTimePreVisit");
         THSManager.getInstance().getThsTagging().trackActionWithInfo( "totalPrepartationTimeStart",null,null);
 
+        thsFileUtils = new THSFileUtils();
+        documentRecordList = new ArrayList<>();
+        selectedImagePojoList = new ArrayList<>();
         Bundle bundle = getArguments();
         if (bundle != null) {
             mThsProviderInfo = bundle.getParcelable(THSConstants.THS_PROVIDER_INFO);
             mProvider = bundle.getParcelable(THSConstants.THS_PROVIDER);
             thsOnDemandSpeciality = bundle.getParcelable(THSConstants.THS_ON_DEMAND);
         }
-        selectedImagePojoList = new ArrayList<>();
 
 
         String jsonValue = THSSharedPreferenceUtility.getString(getContext(),THSConstants.THS_SAVE_UPLOAD_IMAGE_KEY, null);
@@ -122,9 +124,18 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             selectedImagePojoList = gson.fromJson(jsonValue, type);
         }
 
+        /**
+         * Observed the following exception while saving and restoring the documentRecordList using the above method.
+         * So saving in THSManager as a singleton.
+         * java.lang.RuntimeException:
+         * Unable to invoke no-args constructor for interface  Register an InstanceCreator with Gson for this type may fix this problem
+         */
+        if(null != THSManager.getInstance().getTHSDocumentList()){
+            documentRecordList = THSManager.getInstance().getTHSDocumentList();
+        }
 
-        thsFileUtils = new THSFileUtils();
-        documentRecordList = new ArrayList<>();
+
+        ths_camera_image_list_layout = (RelativeLayout) view.findViewById(R.id.ths_camera_image_list_layout);
         ths_symptoms_relative_layout = (RelativeLayout) view.findViewById(R.id.ths_symptoms_relative_layout);
         ths_symptoms_relative_layout.setVisibility(View.INVISIBLE);
         additional_comments_edittext = (EditText) view.findViewById(R.id.additional_comments_edittext);
@@ -442,7 +453,11 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         if(null != selectedImagePojoList && selectedImagePojoList.size() > 0) {
             Gson gson = new Gson();
             String json = gson.toJson(selectedImagePojoList);
+
             THSSharedPreferenceUtility.setString(getContext(), THSConstants.THS_SAVE_UPLOAD_IMAGE_KEY, json);
+        }
+        if(null != documentRecordList){
+            THSManager.getInstance().setTHSDocumentList(documentRecordList);
         }
     }
 
@@ -450,6 +465,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     public void onDestroy() {
         super.onDestroy();
         THSSharedPreferenceUtility.setString(getContext(),THSConstants.THS_SAVE_UPLOAD_IMAGE_KEY,null);
+        THSManager.getInstance().setTHSDocumentList(null);
     }
 
     @Override
@@ -491,6 +507,14 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         super.onResume();
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SYMPTOMS_PAGE,null,null);
 
+    }
+
+    @Override
+    public void setContinueButtonState(boolean enable) {
+        ths_camera_image_list_layout.setEnabled(enable);
+        imageListView.setEnabled(enable);
+        camera_button.setEnabled(enable);
+        mContinue.setEnabled(enable);
     }
 
 

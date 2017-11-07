@@ -133,23 +133,23 @@
         android:layout_below="@+id/ths_payment_detail_card_cvc_edittext"
         >
 
-        <ImageView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ths_payment_detail_card_cvc_help_image"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/reg_circle"
-            android:src="@drawable/question_mark" />
+            style="@style/ths_font_icon_style"
+            android:layout_height="wrap_content"
+            android:text="@string/dls_infocircle"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="false"
+            android:layout_centerVertical="true" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ths_payment_detail_card_cvc_help"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/ths_payment_detail_card_cvc_help_image"
+            android:layout_toEndOf="@+id/ths_payment_detail_card_cvc_help_image"
             android:layout_centerVertical="true"
-            android:textColor="?attr/uidColorLevel45"
-            android:text="What's this?" />
+            android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
+            android:text="@string/ths_credit_card_details_whats_this_text" />
     </RelativeLayout>
 
     <com.philips.platform.uid.view.widget.Button
@@ -158,5 +158,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/ths_margin_bottom"
-        android:text="Ok, continue"/>
+        android:text="@string/ths_ok_continue_button_string"/>
 </RelativeLayout>

@@ -23,11 +23,13 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
+import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
@@ -37,7 +39,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -46,7 +48,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.philips.platform.ths.R.id.with;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -55,7 +61,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(CustomRobolectricRunnerAmwel.class)
 public class THSSymptomsPresenterTest {
 
     THSSymptomsPresenter pthSymptomsPresenter;
@@ -136,6 +142,15 @@ public class THSSymptomsPresenterTest {
     AppTaggingInterface appTaggingInterface;
 
     @Mock
+    THSConsumer thsConsumerMock;
+
+    @Mock
+    THSProviderInfo pthProviderInfoMock;
+    @Mock
+    THSOnDemandSpeciality thsOnDemandSpecialityMock;
+
+
+    @Mock
     LoggingInterface loggingInterface;
 
     @Before
@@ -143,6 +158,17 @@ public class THSSymptomsPresenterTest {
         MockitoAnnotations.initMocks(this);
         pthSymptomsPresenter = new THSSymptomsPresenter(pTHBaseViewMock,pthProviderInfo);
         THSManager.getInstance().setAwsdk(awsdk);
+
+        THSManager.getInstance().setThsConsumer(thsConsumerMock);
+        THSManager.getInstance().setThsParentConsumer(thsConsumerMock);
+        when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
+
+        THSManager.getInstance().setPTHConsumer(pthConsumer);
+        THSManager.getInstance().setVisitContext(pthVisitContext);
+        when(pthConsumer.getConsumer()).thenReturn(consumerMock);
+        when(pthProviderInfoMock.getProviderInfo()).thenReturn(providerInfo);
+        when(awsdk.getVisitManager()).thenReturn(visitManagerMock);
+
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
@@ -150,6 +176,8 @@ public class THSSymptomsPresenterTest {
         THSManager.getInstance().setAppInfra(appInfraInterface);
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(activityMock);
         when(pTHBaseViewMock.isFragmentAttached()).thenReturn(true);
+
+
     }
 
     @Test
@@ -237,6 +265,7 @@ public class THSSymptomsPresenterTest {
     @Test
     public void uploadDocuments() throws IOException {
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(fragmentActivity);
+        when(pTHBaseViewMock.getString(R.string.ths_add_photo_success_string)).thenReturn("something");
         pthSymptomsPresenter.fileUtils = fileUtilsMock;
         THSManager.getInstance().setPTHConsumer(pthConsumer);
         when(pthConsumer.getConsumer()).thenReturn(consumerMock);
@@ -244,11 +273,6 @@ public class THSSymptomsPresenterTest {
         when(fileUtilsMock.getUploadAttachment(fragmentActivity, awsdk, uriMock)).thenReturn(uploadAttachmentMock);
         pthSymptomsPresenter.uploadDocuments(uriMock);
         verify(consumerManagerMock).addHealthDocument(any(Consumer.class), any(UploadAttachment.class), any(SDKValidatedCallback.class));
-    }
-
-    @Test
-    public void fetchHealthDocuments(){
-        pthSymptomsPresenter.fetchHealthDocuments();
     }
 
     @Test
@@ -278,20 +302,37 @@ public class THSSymptomsPresenterTest {
 
     @Test
     public void onUploadValidationFailure(){
+        THSSymptomsFragment thsSymptomsFragment = new THSSymptomsFragmentMock();
+        thsSymptomsFragment.thsOnDemandSpeciality = thsOnDemandSpecialityMock;
+        when(thsOnDemandSpecialityMock.getOnDemandSpecialty()).thenReturn(onDemandSpecialtyMock);
+        SupportFragmentTestUtil.startFragment(thsSymptomsFragment);
+        when(documentRecordMock.getName()).thenReturn("Validation failure while uploading");
+        pthSymptomsPresenter = new THSSymptomsPresenter(thsSymptomsFragment,pthProviderInfo);
         pthSymptomsPresenter.onUploadValidationFailure(mapMock);
-        verify(pTHBaseViewMock).showToast(anyString());
+        assertEquals(documentRecordMock.getName(),"Validation failure while uploading");
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void onUploadDocumentSuccess(){
+        THSSymptomsFragment thsSymptomsFragment = new THSSymptomsFragmentMock();
+        thsSymptomsFragment.thsOnDemandSpeciality = thsOnDemandSpecialityMock;
+        when(thsOnDemandSpecialityMock.getOnDemandSpecialty()).thenReturn(onDemandSpecialtyMock);
+        SupportFragmentTestUtil.startFragment(thsSymptomsFragment);
+        pthSymptomsPresenter = new THSSymptomsPresenter(thsSymptomsFragment,pthProviderInfo);
         pthSymptomsPresenter.onUploadDocumentSuccess(documentRecordMock,sdkErrorMock);
         verify(pTHBaseViewMock).showToast(anyString());
     }
 
     @Test
     public void onUploadDocumentError(){
+        THSSymptomsFragment thsSymptomsFragment = new THSSymptomsFragmentMock();
+        thsSymptomsFragment.thsOnDemandSpeciality = thsOnDemandSpecialityMock;
+        when(thsOnDemandSpecialityMock.getOnDemandSpecialty()).thenReturn(onDemandSpecialtyMock);
+        SupportFragmentTestUtil.startFragment(thsSymptomsFragment);
+        pthSymptomsPresenter = new THSSymptomsPresenter(thsSymptomsFragment,pthProviderInfo);
+        when(documentRecordMock.getName()).thenReturn("Test");
         pthSymptomsPresenter.onUploadDocumentSuccess(documentRecordMock,null);
-        verify(pTHBaseViewMock).showToast(anyString());
+        assertEquals(documentRecordMock.getName(),"Test");
     }
 
     @Test

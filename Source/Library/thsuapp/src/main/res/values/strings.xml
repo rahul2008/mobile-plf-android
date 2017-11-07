@@ -11,8 +11,8 @@
     <string name="conditions">Step 4 of 5: Medical conditions</string>
     <string name="ths_vitals_follow_up_step_5">Step 5 of 5: Follow up</string>
     <string name="ths_invalid_phone_number">Please enter 10 digits phone number</string>
-    <string name="ths_vitals_follow_up_step_5_description_text">Where can the provider
-        call you, for a follow up, if needed?</string>
+    <string name="ths_vitals_follow_up_step_5_description_text">Please provide a phone number for any follow up calls regarding this visit.</string>
+    <string name="ths_vitals_follow_up_please_note">Please note that this phone number will also be used in case the connection with the provider gets lost.</string>
     <string name="ths_vitals_notice_privacy_policy_check_box_text">I have read and agree to the</string>
     <string name="ths_vitals_phone_number_text"> Phone number</string>
     <string name="help_visit">Please help us make your visit more efficient by sharing some details with us before your visit</string>
@@ -126,6 +126,8 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <!-- Practice screen strings -->
     <string name="ths_practice_screen_title">Start</string>
+    <string name="ths_choose_area_of_medicine_title">Choose an area of medicine</string>
+    <string name="ths_choose_area_of_medicine_content">Select an area of medicine that is relevant to the reason of the visit. For example, if you have problems with breastfeeding,please choose lactation specialist</string>
     <!-- Registration constants-->
     <string name="ths_detail">Details</string>
     <string name="ths_location">Location</string>
@@ -254,12 +256,17 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_intake_symptoms_choose_from_library">Choose from Library</string>
     <string name="ths_intake_symptoms_image_selection_permission_denied">Permission to select image denied</string>
     <string name="ths_intake_symptoms_add_photo">Add Photo!</string>
+    <string name="ths_add_photo_error_string">Upload failed with sdk error</string>
+    <string name="ths_add_photo_validation_error_string">Validation failure while uploading</string>
+    <string name="ths_add_photo_success_string">Success with Document name</string>
 
+    <!-- Insurance screen strings -->
     <string name="ths_insurance_not_verified_confirm_title">Health insurance not verified</string>
     <string name="ths_insurance_not_verified_confirm_message">We could not verify your health insurance information. Please confirm that your Name, Health Plan and Subscription ID match your insurance card exactly.\n\nIf you skip this step, the cost of your visit may increase.\n\nQuestions? Contact Customer Support (855) 818-DOCS </string>
     <string name="ths_ok">Ok</string>
     <string name="ths_insurance_not_verified_confirm_secondary_button_label_text">Try again</string>
 
+    <!-- Match making screen strings -->
     <string name="ths_matchmaking_progressbar_meesage_parent_text">We\'re finding right provider for your visit \n%1$s</string>
     <string name="ths_matchmaking_progressbar_meesage_child_text">This may take few minutes</string>
     <string name="ths_matchmaking_error_text">No provider is available right now</string>
@@ -273,12 +280,14 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_cost_summary_coupon_code_empty">Coupon code is empty</string>
     <string name="ths_cost_summary_coupon_code_invalid">Coupon code is invalid</string>
 
+    <!-- Cost summary screen strings -->
     <string name="ths_cost_summary_initial_Full_cover_cost">Initial visit cost : %1$s Your insurance / promocode covers the cost of the visit.</string>
     <string name="ths_cost_summary_initial_Partial_cover_cost">Initial visit cost : %1$s Your insurance / promocode partly covers the cost of the visit.</string>
     <string name="ths_cost_summary_free_visit_header">Your visit is</string>
     <string name="ths_cost_summary_free_visit_text">Free</string>
     <string name="ths_cost_summary_member_id">Member ID:</string>
     <string name="ths_cost_summary_provider_offline">Provider is offline now</string>
+
 
     <!-- Pre Welcome Screen-->
     <string name="ths_video_consults">Video consults in just minutes, right on your smartphone \n<u>See how it works</u></string>
@@ -310,8 +319,10 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <!-- Dependent-->
     <string name="ths_visit_for">Who is this visit for?</string>
-    <string name="ths_select_name">Select the name of the person who needs the consult. For instance, if you are a mother and your baby has an ear ache, choose your baby\'s name</string>
+    <string name="ths_select_name">Select the name of the person who needs the consult. For instance, if you are a mother and your baby has an ear ache, choose your baby\'s name.</string>
     <string name="ths_select_patient">Select patient</string>
+    <string name="ths_select_patient_detail_appointment_text">Please select a patient from which you would like to see the scheduled visits.</string>
+    <string name="ths_select_patient_detail_visit_text">Please select a patient from which you would like to see the visit history.</string>
 
     <!--Waiting Room String -->
 
@@ -319,7 +330,9 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="visit_not_successful"> Your visit was not successful.</string>
     <string name="ths_internet_disconnected_message">Oops! Please check your network connection</string>
     <string name="ths_se_server_error_toast_message">"Oops! Something went wrong, please try after sometime"</string>
-    <string name="ths_delete_success_string">"Delete success</string>
+    <string name="ths_delete_success_string">Delete success</string>
+    <string name="ths_cancel_visit_string">Cancel visit</string>
+
 
 
 
@@ -335,10 +348,8 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_vitals_systolic_error">Enter values between 1 and 250</string>
     <string name="ths_vitals_diastolic_error">Enter values between 0 and 249,diastolic value should be more than systolic</string>
     <string name="ths_vitals_temperature_error">Enter values between 0 and 120</string>
-
     <string name="ths_pharmacy_search_hint">Type zip code</string>
     <string name="ths_pharmacy_search_error">Please enter a valid zip code in the format 12345 or 12345–6789</string>
-
     <string name="show_all"><u>Show all</u></string>
 
     <!-- Dependent Strings -->
@@ -353,4 +364,22 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_visit_summary_rate_provider">Rate your provider</string>
     <string name="ths_visit_summary_rate_overall_experience">Rate your overall experience</string>
 
+
+    <!-- Insurance Strings -->
+    <string name="ths_insurance_detail_label_text">Please fill in your insurance details</string>
+    <string name="ths_insurance_detail_provider_text">Insurance Provider</string>
+    <string name="ths_insurance_detail_please_select_text">Please select</string>
+    <string name="ths_insurance_detail_subscriber_id_text">Subscriber ID</string>
+    <string name="ths_insurance_detail_suffix_text">Suffix</string>
+    <string name="ths_insurance_detail_not_primary_sub_text">I\'m not the primary subscriber</string>
+    <string name="ths_insurance_detail_choose_relation_text">Choose Relationship</string>
+    <string name="ths_insurance_detail_primary_sub_details_text">Primary subscriber details</string>
+    <string name="ths_insurance_detail_first_name_text">First Name</string>
+    <string name="ths_insurance_detail_last_name_text">Last Name</string>
+    <string name="ths_insurance_detail_dob_text">Date of Birth</string>
+    <string name="ths_insurance_detail_ddmmyyyy_hint_text">DD/MM/YYYY</string>
+    <string name="ths_insurance_detail_plan_not_listed_text">My plan is not listed. Skip this</string>
+
+    <!-- Credit card details strings -->
+    <string name="ths_credit_card_details_whats_this_text">What\'s this?</string>
 </resources>

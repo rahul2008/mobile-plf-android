@@ -167,6 +167,7 @@ public class THSManager {
         ServerURL = serverURL;
     }
 
+    private ArrayList<DocumentRecord> documentRecordList;
 
     public THSVisitCompletionListener getThsVisitCompletionListener() {
         return thsVisitCompletionListener;
@@ -235,6 +236,13 @@ public class THSManager {
         this.mTHSConsumerWrapper = mTHSConsumerWrapper;
     }
 
+    public void setTHSDocumentList(ArrayList<DocumentRecord> documentRecordList){
+        this.documentRecordList = documentRecordList;
+    }
+
+    public ArrayList<DocumentRecord> getTHSDocumentList(){
+        return documentRecordList;
+    }
 
     public static THSManager getInstance() {
         if (sTHSManager == null) {

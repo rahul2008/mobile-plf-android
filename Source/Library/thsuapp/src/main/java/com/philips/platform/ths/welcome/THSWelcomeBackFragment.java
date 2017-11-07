@@ -37,7 +37,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnClickListener {
 
     public static final String TAG = THSWelcomeBackFragment.class.getSimpleName();
-    ImageView mArrow;
+    Label mArrow;
     Label mLabel;
     Button mBtnGetStarted;
     protected THSWelcomeBackPresenter mThsWelcomeBackPresenter;
@@ -55,7 +55,7 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
         mThsWelcomeBackPresenter = new THSWelcomeBackPresenter(this);
 
         mLabel = (Label) view.findViewById(R.id.ths_appointment_time);
-        mArrow = (ImageView) view.findViewById(R.id.ths_arrow);
+        mArrow = (Label) view.findViewById(R.id.ths_arrow);
         mArrow.setVisibility(View.GONE);
         mBtnGetStarted = (Button) view.findViewById(R.id.ths_get_started);
         mBtnGetStarted.setOnClickListener(this);
