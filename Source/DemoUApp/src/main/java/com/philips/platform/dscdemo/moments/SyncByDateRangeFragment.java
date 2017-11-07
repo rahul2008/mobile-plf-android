@@ -28,6 +28,7 @@ import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
@@ -118,11 +119,11 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 			}
 		});
 
-//		if(SyncScheduler.getInstance().getSyncStatus()) {
-//			tvSyncStatus.setText("InProgress");
-//		} else {
-//			tvSyncStatus.setText("Stopped");
-//		}
+		if(SyncScheduler.getInstance().getSyncStatus()) {
+			tvSyncStatus.setText("InProgress");
+		} else {
+			tvSyncStatus.setText("Stopped");
+		}
 
 		mMomentStartDateEt.setOnClickListener(this);
 		mMomentEndDateEt.setOnClickListener(this);
@@ -134,7 +135,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 	@Override
 	public void onClick(View view) {
 		if (view == btnCompleteSync) {
-			SyncScheduler.getInstance().scheduleSync();
+			DataServicesManager.getInstance().synchronize();
 			tvSyncStatus.setText("InProgress");
 		} else if (view == btnSyncMomentByDate) {
 			dateRangeSelectorLayout.setVisibility(View.VISIBLE);
