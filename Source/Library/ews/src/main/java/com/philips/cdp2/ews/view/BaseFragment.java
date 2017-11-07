@@ -10,15 +10,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
-import com.philips.cdp2.ews.injections.DaggerEWSComponent;
-import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
-
-import javax.inject.Inject;
 
 public class BaseFragment extends Fragment implements BackEventListener {
 
