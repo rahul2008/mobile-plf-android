@@ -31,6 +31,7 @@ import com.americanwell.sdk.entity.consumer.DocumentRecord;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
     private CustomPagerAdapter pagerAdapter;
     private ViewPager imageViewPager;
     private Button deleteImageButton;
-    private ImageView ths_selected_image_close_icon;
+    private Label ths_selected_image_close_icon;
     private THSOnDismissSelectedImageFragmentCallback onDismissSelectedImageFragmentCallback;
     private THSSelectedImageFragmentPresenter thsSelectedImageFragmentPresenter;
     private List<DocumentRecord> documentRecordList;
@@ -56,7 +57,7 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
         thsSelectedImageFragmentPresenter = new THSSelectedImageFragmentPresenter(this);
         pagerAdapter = new CustomPagerAdapter(getActivity());
         deleteImageButton = (Button) view.findViewById(R.id.ths_delete_selected_image_button);
-        ths_selected_image_close_icon = (ImageView) view.findViewById(R.id.ths_selected_image_close_icon);
+        ths_selected_image_close_icon = (Label) view.findViewById(R.id.ths_selected_image_close_icon);
         ths_selected_image_close_icon.setOnClickListener(this);
         deleteImageButton.setOnClickListener(this);
         imageViewPager = (ViewPager) view.findViewById(R.id.selected_image_pager);
