@@ -17,11 +17,13 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class SynchronisationManagerTest {
 
-    @Mock
-    private AppComponent appComponantMock;
+    private static final String START_DATE = new DateTime().toString();
+    private static final String END_DATE = new DateTime().toString();
+
+    private EventingSpy eventingSpy;
 
     @Mock
-    SynchronisationCompleteListener synchronisationCompleteListner;
+    private AppComponent appComponentMock;
 
     @Mock
     SynchronisationCompleteListener synchronisationCompleteListenerMock;
@@ -29,16 +31,12 @@ public class SynchronisationManagerTest {
     @Mock
     ExecutorService executorServiceMock;
 
-    SynchronisationManager synchronisationManager;
-
-    private EventingSpy eventingSpy;
-    private static final String START_DATE = new DateTime().toString();
-    private static final String END_DATE = new DateTime().toString();
+    private SynchronisationManager synchronisationManager;
 
     @Before
     public void setUp() {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponant(appComponentMock);
         synchronisationManager = new SynchronisationManager();
         eventingSpy = new EventingSpy();
         synchronisationManager.mEventing = eventingSpy;
@@ -64,11 +62,6 @@ public class SynchronisationManagerTest {
     @Test
     public void postEventWriteDataToBackendRequest_whenDataPushSuccessIsCalled() throws Exception {
         synchronisationManager.dataPushSuccess();
-    }
-
-    @Test
-    public void shouldTerminatePull_WhenShutdownAndAwaitTerminationIsCalled() throws Exception {
-        synchronisationManager.shutdownAndAwaitTermination(executorServiceMock);
     }
 
     @Test

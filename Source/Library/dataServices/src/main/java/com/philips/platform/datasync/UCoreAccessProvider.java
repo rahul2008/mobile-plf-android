@@ -12,6 +12,8 @@ import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
+import org.joda.time.DateTime;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -113,7 +115,7 @@ public class UCoreAccessProvider implements BackendIdProvider {
             timeStampMap.put(START_DATE, URLEncoder.encode(startDate, "UTF-8"));
             timeStampMap.put(END_DATE, URLEncoder.encode(endDate, "UTF-8"));
             timeStampMap.put(LAST_MODIFIED_START_DATE, URLEncoder.encode(startDate, "UTF-8"));
-            timeStampMap.put(LAST_MODIFIED_END_DATE, URLEncoder.encode(endDate, "UTF-8"));
+            timeStampMap.put(LAST_MODIFIED_END_DATE, URLEncoder.encode(new DateTime().toString(), "UTF-8"));
         } catch (UnsupportedEncodingException e) {
             //Debug log
         }

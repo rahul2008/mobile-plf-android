@@ -250,24 +250,16 @@ public class DataServicesManager {
      * For Pulling and Pushing of data from DataBase to Backend
      */
     public void synchronize() {
-        sendPullDataEvent();
+        synchronized (this) {
+            startMonitors();
+            mSynchronisationManager.startSync(null, null, mSynchronisationCompleteListener);
+        }
     }
-
 
     public void synchronizeWithFetchByDateRange(DateTime startDate, DateTime endDate, SynchronisationCompleteListener synchronisationCompleteListener) {
         synchronized (this) {
             startMonitors();
             mSynchronisationManager.startSync(startDate.toString(), endDate.toString(), synchronisationCompleteListener);
-        }
-    }
-
-    /**
-     * Start Data-Pull followed by Data-Push
-     */
-    private void sendPullDataEvent() {
-        synchronized (this) {
-            startMonitors();
-            mSynchronisationManager.startSync(null, null, mSynchronisationCompleteListener);
         }
     }
 

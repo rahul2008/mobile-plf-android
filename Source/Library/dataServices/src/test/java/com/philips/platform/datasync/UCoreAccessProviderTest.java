@@ -18,6 +18,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
@@ -90,7 +91,7 @@ public class UCoreAccessProviderTest {
         assertEquals(URLEncoder.encode(START_DATE, "UTF-8"), timeStampMap.get("START_DATE"));
         assertEquals(URLEncoder.encode(END_DATE, "UTF-8"), timeStampMap.get("END_DATE"));
         assertEquals(URLEncoder.encode(START_DATE, "UTF-8"), timeStampMap.get("LAST_MODIFIED_START_DATE"));
-        assertEquals(URLEncoder.encode(END_DATE, "UTF-8"), timeStampMap.get("LAST_MODIFIED_END_DATE"));
+        assertNotNull(timeStampMap.get("LAST_MODIFIED_END_DATE"));
     }
 
     @Test

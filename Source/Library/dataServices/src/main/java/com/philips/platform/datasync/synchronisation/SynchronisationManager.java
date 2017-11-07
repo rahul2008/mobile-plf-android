@@ -13,19 +13,16 @@ import com.philips.platform.core.listeners.SynchronisationChangeListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
 
 public class SynchronisationManager implements SynchronisationChangeListener {
 
     private volatile boolean isSyncComplete = true;
 
+    SynchronisationCompleteListener mSynchronisationCompleteListener;
+
     @Inject
     Eventing mEventing;
-
-    SynchronisationCompleteListener mSynchronisationCompleteListener;
 
     public SynchronisationManager() {
         DataServicesManager.getInstance().getAppComponant().injectSynchronisationManager(this);
@@ -82,17 +79,5 @@ public class SynchronisationManager implements SynchronisationChangeListener {
     public void stopSync() {
         isSyncComplete = true;
         mSynchronisationCompleteListener = null;
-    }
-
-    void shutdownAndAwaitTermination(ExecutorService pool) {
-        pool.shutdown();
-        try {
-            if (!pool.awaitTermination(60, TimeUnit.SECONDS)) {
-                pool.shutdownNow();
-            }
-        } catch (InterruptedException ie) {
-            pool.shutdownNow();
-            Thread.currentThread().interrupt();
-        }
     }
 }
