@@ -2,23 +2,36 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ths_pre_welcome_screen"
     android:layout_width="match_parent"
-    android:paddingTop="@dimen/ths_image_size"
-    android:paddingBottom="@dimen/ths_margin_bottom_more_details"
-    android:paddingLeft="@dimen/ths_fab_margin"
-    android:paddingRight="@dimen/ths_fab_margin"
-    android:background="@mipmap/ths_pre_welcome_image"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="?attr/uidContentPrimaryBackgroundColor" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha=".2"
+        android:background="@drawable/ths_welcome"
+        android:scaleType="centerCrop"
+        />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_see_a_provider"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/ths_body_text_pre_welcome_bold"
         android:layout_marginBottom="@dimen/ths_fab_margin"
+        android:paddingTop="@dimen/ths_image_size"
         android:text="@string/ths_see_provider_pre_welcome"
         />
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_video_consults"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         android:layout_below="@id/ths_see_a_provider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,6 +41,8 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_service_provider"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ths_video_consults"
@@ -37,6 +52,8 @@
         />
     <ImageView
         android:id="@+id/ths_amwell_brand"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         android:layout_below="@id/ths_service_provider"
         android:layout_width="wrap_content"
         android:src="@mipmap/amwell_white_logo"
@@ -44,15 +61,20 @@
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/ths_go_see_provider"
+        android:layout_marginRight="@dimen/ths_fab_margin"
+        android:layout_marginLeft="@dimen/ths_fab_margin"
         android:text="@string/ths_agree_continue"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/ths_margin_bottom_more_details"
         android:layout_marginTop="@dimen/ths_fab_margin"
         android:layout_height="wrap_content" />
 
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_licence"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         android:layout_above="@id/ths_go_see_provider"
         android:text="@string/ths_amwell_philips_licence"
         style="@style/ths_body_text_pre_welcome"
