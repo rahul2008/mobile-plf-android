@@ -136,7 +136,6 @@
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ths_payment_detail_card_cvc_help_image"
             style="@style/ths_font_icon_style"
-            android:layout_marginEnd="@dimen/ths_fab_margin"
             android:layout_height="wrap_content"
             android:text="@string/dls_infocircle"
             android:layout_alignParentStart="true"
@@ -147,9 +146,9 @@
             android:id="@+id/ths_payment_detail_card_cvc_help"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/ths_payment_detail_card_cvc_help_image"
+            android:layout_toEndOf="@+id/ths_payment_detail_card_cvc_help_image"
             android:layout_centerVertical="true"
-            android:textColor="?attr/uidColorLevel45"
+            android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
             android:text="@string/ths_credit_card_details_whats_this_text" />
     </RelativeLayout>
 
