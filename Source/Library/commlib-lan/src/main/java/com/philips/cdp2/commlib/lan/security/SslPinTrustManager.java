@@ -21,10 +21,12 @@ public class SslPinTrustManager implements X509TrustManager {
         this.networkNode = networkNode;
     }
 
+    @Override
     public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
         if (chain == null) {
             throw new IllegalArgumentException("Certificate chain is null.");
@@ -46,7 +48,11 @@ public class SslPinTrustManager implements X509TrustManager {
             networkNode.setPin(networkNodePin.toString());
             DICommLog.i(TAG, "Added pin for appliance with cppid " + networkNode.getCppId());
         } else {
-            networkNodePin = new PublicKeyPin(networkNode.getPin());
+            try {
+                networkNodePin = new PublicKeyPin(networkNode.getPin());
+            } catch (IllegalArgumentException e) {
+                throw new CertificateException(e);
+            }
         }
 
         if (certificatePin.equals(networkNodePin)) {
