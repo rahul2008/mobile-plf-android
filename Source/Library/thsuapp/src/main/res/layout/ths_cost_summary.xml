@@ -74,7 +74,7 @@
             android:layout_below="@+id/ths_cost_summary_initial_visit_cost_label"
 
             android:background="@color/uid_gray_level_10"
-            android:orientation="horizontal" />
+            android:orientation="horizontal"/>
 
         <com.philips.platform.uid.view.widget.Label
 
@@ -86,7 +86,7 @@
             android:layout_marginLeft="@dimen/ths_fab_margin"
             android:layout_marginRight="@dimen/ths_fab_margin"
             android:layout_marginTop="8dp"
-            android:text="Enter a promotion code here"
+            android:text="@string/ths_cost_summary_enter_promotion_code"
             android:textSize="@dimen/ths_body_text"
 
             />
@@ -113,7 +113,7 @@
             android:layout_marginLeft="@dimen/ths_fab_margin"
             android:layout_marginRight="@dimen/ths_fab_margin"
             android:enabled="false"
-            android:text="Apply"
+            android:text="@string/ths_cost_summary_provider_apply"
             app:uidComponentType="Secondary"
 
             />
@@ -139,7 +139,7 @@
             android:paddingLeft="@dimen/ths_fab_margin"
 
             android:paddingRight="@dimen/ths_fab_margin"
-            android:text="Insurance"
+            android:text="@string/ths_insurance"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="16sp" />
 
@@ -214,7 +214,7 @@
 
 
             </RelativeLayout>
-            <!--start of existing insurance detail-->
+            <!--end of existing insurance detail-->
 
             <!--start of Non-existing insurance detail-->
             <RelativeLayout
@@ -223,8 +223,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/ths_fab_margin"
                 android:layout_marginRight="@dimen/ths_fab_margin"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp">
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp">
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/ths_cost_summary_no_insurance_detail_arrow_image"
@@ -240,7 +240,6 @@
                     android:id="@+id/ths_cost_summary_no_insurance_detail_content_relativelayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:layout_toLeftOf="@+id/ths_cost_summary_no_insurance_detail_arrow_image">
 
 
@@ -268,29 +267,14 @@
                             android:layout_marginLeft="10dp"
                             android:layout_toRightOf="@+id/ths_cost_summary_no_insurance_image"
                             android:lineSpacingExtra="6sp"
-                            android:text="No insurance"
+                            android:text="@string/ths_not_insurance"
                             android:textColor="?attr/uidContentItemPrimaryNormalTextColor">
 
                         </com.philips.platform.uid.view.widget.Label>
                     </RelativeLayout>
 
-                    <com.philips.platform.uid.view.widget.Label
-                        android:id="@+id/ths_cost_summary_no_insurance_detail_label"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/ths_cost_summary_no_insurance_detail_content_imageandlabel_relativelayout"
-                        android:layout_marginTop="10dp"
-                        android:lineSpacingExtra="6sp"
-                        android:text="@string/ths_no_insurance">
-
-                    </com.philips.platform.uid.view.widget.Label>
-
-
-                </RelativeLayout>
-
-
             </RelativeLayout>
-            <!--start of Non-existing insurance detail-->
+            <!--end of Non-existing insurance detail-->
 
         </FrameLayout><!--end of Insuramnce block-->
 
@@ -313,7 +297,7 @@
             android:lineSpacingExtra="6dp"
             android:paddingLeft="@dimen/ths_fab_margin"
             android:paddingRight="@dimen/ths_fab_margin"
-            android:text="Payment Method"
+            android:text="@string/ths_payment_method"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="16sp" />
 
@@ -442,7 +426,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_toEndOf="@+id/ths_cost_summary_no_payment_image"
                             android:lineSpacingExtra="6sp"
-                            android:text="No payment method"
+                            android:text="@string/ths_not_payment_method"
                             android:textColor="?attr/uidContentItemPrimaryNormalTextColor">
 
                         </com.philips.platform.uid.view.widget.Label>
@@ -476,7 +460,7 @@
                 android:layout_marginRight="@dimen/ths_fab_margin"
                 android:gravity="center_vertical"
                 android:lineSpacingExtra="6sp"
-                android:text="No payment details required"
+                android:text="@string/ths_payment_method_not_required"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="16sp"
                 android:visibility="gone">
@@ -525,7 +509,7 @@
                     android:layout_marginTop="@dimen/ths_margin_between_buttons"
                     android:background="?attr/uidContentPrimaryBackgroundColor"
                     android:enabled="false"
-                    android:text="Ok, continue" />
+                    android:text="@string/ths_ok_continue_button_string" />
 
             </RelativeLayout>
 

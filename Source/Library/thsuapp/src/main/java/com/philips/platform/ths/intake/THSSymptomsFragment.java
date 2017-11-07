@@ -54,13 +54,14 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.ImageButton;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-import static com.philips.platform.ths.utility.THSConstants.THS_FLOATING_BUTTON;
+
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SYMPTOMS_PAGE;
@@ -95,6 +96,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     private Provider mProvider;
     protected String tagActions="";
     public static long visitStartTime;
+    private Label mLabelPatientName;
 
     @Nullable
     @Override
@@ -139,6 +141,12 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         additional_comments_edittext = (EditText) view.findViewById(R.id.additional_comments_edittext);
         additional_comments_edittext.setOnTouchListener(this);
         imageListView = (RecyclerView) view.findViewById(R.id.imagelist);
+
+
+        mLabelPatientName = (Label) view.findViewById(R.id.ths_symptoms_patient_name);
+        String name = getString(R.string.ths_dependent_name, THSManager.getInstance().getThsConsumer(getContext()).getFirstName());
+        mLabelPatientName.setText(name);
+
         imageListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
         thsImageRecyclerViewAdapter = new THSImageRecyclerViewAdapter(selectedImagePojoList, this);
@@ -220,7 +228,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.continue_btn) {
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_FLOATING_BUTTON, "symptomContinue");
+            //THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_FLOATING_BUTTON, "symptomContinue");
             thsSymptomsPresenter.onEvent(R.id.continue_btn);
         } else if (i == R.id.camera_click_button) {
             selectImage();
@@ -508,4 +516,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         camera_button.setEnabled(enable);
         mContinue.setEnabled(enable);
     }
+
+
 }

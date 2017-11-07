@@ -22,12 +22,11 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_PAYMENT;
 import static com.philips.platform.ths.utility.THSConstants.CVV_HELP_TEXT;
-import static com.philips.platform.ths.utility.THSConstants.THS_GENERIC_SERVER_ERROR;
 import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
-import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 
 public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymentCallback.THSgetPaymentMethodCallBack<THSPaymentMethod, THSSDKError> {
@@ -193,15 +192,10 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
             if (null != tHSPaymentMethod && null != tHSPaymentMethod.getPaymentMethod()) {
                 mPaymentMethod = tHSPaymentMethod.getPaymentMethod();
                 mTHSCreditCardDetailFragment.mCardHolderNameEditText.setText(mPaymentMethod.getBillingName());
-            }else if(tHSSDKError.getSdkError() != null){
-                if(tHSSDKError.getMessage() != null){
-                    mTHSCreditCardDetailFragment.showError(tHSSDKError.getMessage());
-                }else if(tHSSDKError.getSDKErrorReason() != null){
-                    mTHSCreditCardDetailFragment.showError(THSSDKErrorFactory.getErrorType(tHSSDKError.getSDKErrorReason()));
-                }else {
-                    mTHSCreditCardDetailFragment.showError(THS_GENERIC_SERVER_ERROR);
-                }
+            } else if (tHSSDKError.getSdkError() != null) {
+                THSSDKErrorFactory.getErrorType(ANALYTICS_FETCH_PAYMENT, tHSSDKError.getSdkError());
             }
+
         }
     }
 

@@ -72,8 +72,8 @@ public class THSConstants {
     public static final String THS_SEND_DATA = "sendData";
     public static final String THS_SPECIAL_EVENT = "specialEvents";
     public static final String THS_IN_APP_NOTIFICATION = "inAppNotification";
-    public static final String THS_FLOATING_BUTTON = "floatingButton";
-    public static final String THS_USER_ERROR = "userError";
+    public static final String THS_USER_ERROR = "UserError";
+    public static final String THS_SERVER_ERROR = "TechnicalError";
 
     public static final String THS_START = "start";
 

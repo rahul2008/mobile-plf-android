@@ -25,6 +25,8 @@ import com.philips.platform.ths.utility.THSManager;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PROVIDER_LIST;
+
 public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePresenter, THSAvailableProvidersBasedOnDateCallback<THSAvailableProviderList, THSSDKError> {
     private THSBaseFragment mThsBaseFragment;
     private OnDateSetChangedInterface onDateSetChangedInterface;
@@ -62,12 +64,7 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
     public void onResponse(THSAvailableProviderList availableProviders, THSSDKError sdkError) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             if (sdkError.getSdkError() != null) {
-                if (sdkError.getSdkError().getSDKErrorReason() != null) {
-                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                    return;
-                }else {
-                    mThsBaseFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
-                }
+                mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_FETCH_PROVIDER_LIST,sdkError.getSdkError()));
             }else {
                 mThsBaseFragment.showToast("Available Providers list Success");
                 if(mThsBaseFragment instanceof THSProviderNotAvailableFragment){

@@ -25,6 +25,7 @@ import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
     private boolean isMedicalConditionChecked = false;
     private List<CheckBox> checkBoxList;
     protected int NumberOfConditionSelected=0;
+    private Label mLabelPatientName;
 
     @Nullable
     @Override
@@ -55,6 +57,11 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
         skipLabel = (Button) view.findViewById(R.id.conditions_skip);
         skipLabel.setOnClickListener(this);
         conditionsRelativeLayout = (RelativeLayout) view.findViewById(R.id.conditions_container);
+
+        mLabelPatientName = (Label) view.findViewById(R.id.ths_medical_conditions_patient_name);
+        String name = getString(R.string.ths_dependent_name, THSManager.getInstance().getThsConsumer(getContext()).getFirstName());
+        mLabelPatientName.setText(name);
+
         AmwellLog.i(AmwellLog.LOG, "onCreateView called");
         checkBoxList = new ArrayList<>();
         return view;

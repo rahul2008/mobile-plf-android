@@ -19,11 +19,14 @@ import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.providerslist.THSProvidersListCallback;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.List;
 import java.util.Map;
+
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_PHARMACY;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_SEARCH_MEDICATION;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PROVIDER;
 
 
 class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<THSMedication, SDKError>, THSProvidersListCallback, THSGetPharmaciesCallback {
@@ -47,9 +50,7 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
     public void onResponse(THSMedication THSMedication, SDKError sdkError) {
         if (null != uiBaseView && uiBaseView.isFragmentAttached()) {
             if (null != sdkError) {
-                if (null != sdkError.getSDKErrorReason()) {
-                    uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                }
+                uiBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_SEARCH_MEDICATION, sdkError));
             } else if (null != THSMedication && null != THSMedication.getMedicationList() && !THSMedication.getMedicationList().isEmpty()) {
                 AmwellLog.i("onFetchMedication", "success");
                 // if user deletes string to less than 3 character before response comes then response should not be shown
@@ -121,13 +122,8 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
                     ((THSSearchFragment) uiBaseView).mTHSSearchListAdapter.setData(((THSSearchFragment) uiBaseView).providerInfoList);
                 }
             } else if (null != sdkError) {
-                if (null != sdkError.getSDKErrorReason()) {
-                    uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                    AmwellLog.i("onFetchMedication", "failure");
-                    //((THSSearchFragment) uiBaseView).showToast("No match found");
-                } else {
-                    uiBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
-                }
+                AmwellLog.i("onFetchMedication", "failure");
+                uiBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_FETCH_PROVIDER, sdkError));
 
             }
         }
@@ -146,11 +142,7 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
     public void onPharmacyListReceived(List<Pharmacy> pharmacies, SDKError sdkError) {
         if (null != uiBaseView && uiBaseView.isFragmentAttached()) {
             if (null != sdkError) {
-                if (sdkError.getSDKErrorReason() != null) {
-                    uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                } else {
-                    uiBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
-                }
+                uiBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_PHARMACY, sdkError));
             } else {
                 if (null != pharmacies && !pharmacies.isEmpty()) {
                     if (((THSSearchFragment) uiBaseView).searchBox.getSearchTextView().getText().length() > 2) {

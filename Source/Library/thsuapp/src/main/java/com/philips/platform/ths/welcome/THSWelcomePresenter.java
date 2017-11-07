@@ -31,13 +31,14 @@ import com.philips.platform.ths.utility.THSManager;
 
 import javax.net.ssl.HttpsURLConnection;
 
-class THSWelcomePresenter implements THSBasePresenter,
-        THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack{
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_CONSUMER_DETAILS;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_INITIALIZATION;
+
+
+class THSWelcomePresenter implements THSBasePresenter{
     private THSBaseFragment uiBaseView;
-    boolean isRefreshTokenRequestedBefore;
 
     THSWelcomePresenter(THSBaseFragment uiBaseView){
-        isRefreshTokenRequestedBefore = false;
         this.uiBaseView = uiBaseView;
     }
 
@@ -71,94 +72,5 @@ class THSWelcomePresenter implements THSBasePresenter,
         }
     }
 
-    @Override
-    public void onLoginResponse(THSAuthentication thsAuthentication, THSSDKError sdkError) {
 
-        if (sdkError.getSdkError() != null && sdkError.getHttpResponseCode() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
-            if (checkIfRefreshTokenWasTriedBefore()) return;
-            isRefreshTokenRequestedBefore = true;
-            refreshToken();
-            return;
-        }
-
-        try {
-            if (thsAuthentication.needsToCompleteEnrollment()) {
-                THSManager.getInstance().completeEnrollment(uiBaseView.getContext(), thsAuthentication, this);
-            } else {
-                THSManager.getInstance().getConsumerObject(uiBaseView.getFragmentActivity(), thsAuthentication.getAuthentication(), this);
-            }
-        } catch (AWSDKInstantiationException e) {
-
-        }
-    }
-
-    private void refreshToken() {
-        THSManager.getInstance().getUser(uiBaseView.getContext()).refreshLoginSession(new RefreshLoginSessionHandler() {
-            @Override
-            public void onRefreshLoginSessionSuccess() {
-                authenticateUser();
-            }
-
-            @Override
-            public void onRefreshLoginSessionFailedWithError(int i) {
-                uiBaseView.showToast("Refresh Signon failed with the following status code " + i + " please logout and login again");
-                uiBaseView.hideProgressBar();
-            }
-
-            @Override
-            public void onRefreshLoginSessionInProgress(String s) {
-
-            }
-        });
-    }
-
-    @Override
-    public void onLoginFailure(Throwable var1) {
-        uiBaseView.hideProgressBar();
-        uiBaseView.showToast(R.string.ths_se_server_error_toast_message);
-    }
-
-    @Override
-    public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
-        uiBaseView.hideProgressBar();
-        if(sdkError == null) {
-            ((THSWelcomeFragment) uiBaseView).updateView();
-        }else if(null != sdkError.getSDKErrorReason()){
-            uiBaseView.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-        }else {
-            uiBaseView.showError(THSConstants.THS_GENERIC_SERVER_ERROR);
-        }
-    }
-
-    @Override
-    public void onError(Throwable throwable) {
-        uiBaseView.hideProgressBar();
-        uiBaseView.showToast(R.string.ths_se_server_error_toast_message);
-    }
-
-
-    public void getStarted() {
-        authenticateUser();
-    }
-
-    private void authenticateUser() {
-        try {
-            THSManager.getInstance().authenticateMutualAuthToken(uiBaseView.getContext(),this);
-            //THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean checkIfRefreshTokenWasTriedBefore() {
-        if(isRefreshTokenRequestedBefore){
-            isRefreshTokenRequestedBefore = false;
-            uiBaseView.hideProgressBar();
-            if(uiBaseView.getActivity()!=null) {
-                uiBaseView.showError(uiBaseView.getString(R.string.ths_user_not_authenticated));
-            }
-            return true;
-        }
-        return false;
-    }
 }

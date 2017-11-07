@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPDATE_PAYMENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
@@ -112,7 +113,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
     //// start os update payment callback
     @Override
     public void onGetPaymentMethodResponse(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError) {
-        if(null !=mTHSBillingAddressFragment && mTHSBillingAddressFragment.isFragmentAttached()) {
+        if (null != mTHSBillingAddressFragment && mTHSBillingAddressFragment.isFragmentAttached()) {
             if (null == tHSSDKError.getSdkError()) {
                 AmwellLog.i("updatePayment", "success");
                 //mTHSBillingAddressFragment.addFragment(new THSWaitingRoomFragment(), THSWaitingRoomFragment.TAG, null);
@@ -122,16 +123,14 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
 
             } else {
                 AmwellLog.i("updatePayment", "failed");
-                if (null != tHSSDKError.getSDKErrorReason() && null != tHSSDKError.getSDKErrorReason().toString()) {
-                    mTHSBillingAddressFragment.showError(THSSDKErrorFactory.getErrorType(tHSSDKError.getSDKErrorReason()));
-                }
+                mTHSBillingAddressFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPDATE_PAYMENT, tHSSDKError.getSdkError()));
             }
         }
     }
 
     @Override
     public void onGetPaymentFailure(Throwable throwable) {
-        if(null !=mTHSBillingAddressFragment && mTHSBillingAddressFragment.isFragmentAttached()) {
+        if (null != mTHSBillingAddressFragment && mTHSBillingAddressFragment.isFragmentAttached()) {
             AmwellLog.i("updatePayment", "failed");
             mTHSBillingAddressFragment.showToast(R.string.ths_se_server_error_toast_message);
         }
@@ -139,7 +138,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
 
     @Override
     public void onValidationFailure(Map<String, ValidationReason> map) {
-        if(null !=mTHSBillingAddressFragment && mTHSBillingAddressFragment.isFragmentAttached()) {
+        if (null != mTHSBillingAddressFragment && mTHSBillingAddressFragment.isFragmentAttached()) {
             AmwellLog.i("updatePayment", "failed");
         }
     }

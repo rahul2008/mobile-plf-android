@@ -66,6 +66,9 @@ public class THSInitFragmentTest {
     @Mock
     THSInitPresenter thsInitPresenterMock;
 
+    @Mock
+    ActionBarListener actionBarListenerMock;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -85,7 +88,9 @@ public class THSInitFragmentTest {
         when(userMock.getHsdpUUID()).thenReturn("123");
         when(userMock.getHsdpAccessToken()).thenReturn("123");
 
+
         mTHSInitFragmentTest = new THSInitFragmentTestMock();
+        mTHSInitFragmentTest.setActionBarListener(actionBarListenerMock);
         SupportFragmentTestUtil.startFragment(mTHSInitFragmentTest);
     }
 

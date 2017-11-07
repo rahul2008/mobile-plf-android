@@ -51,13 +51,14 @@ public class THSPracticeFragment extends THSBaseFragment implements THSPracticeL
             createCustomProgressBar(mRealtiveLayoutPracticeContainer,BIG);
             ( mPresenter).fetchPractices();
         }
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PRACTICE_PAGE,null,null);
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PRACTICE_PAGE,null,null);
+
         actionBarListener = getActionBarListener();
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_practice_screen_title),true);

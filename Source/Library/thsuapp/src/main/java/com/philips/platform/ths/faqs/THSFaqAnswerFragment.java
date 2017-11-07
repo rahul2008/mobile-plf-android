@@ -15,8 +15,12 @@ import android.view.ViewGroup;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
+
+
+import static com.philips.platform.ths.utility.THSConstants.THS_HOW_IT_WORKS_DETAIL;
 
 public class THSFaqAnswerFragment extends THSBaseFragment{
     public static final String TAG = THSFaqAnswerFragment.class.getSimpleName();
@@ -33,11 +37,11 @@ public class THSFaqAnswerFragment extends THSBaseFragment{
 
         Bundle bundle = getArguments();
         if(bundle!=null) {
-            FaqBean faqBean = (FaqBean) bundle.getSerializable(THSConstants.THS_FAQ_ITEM);
+            FaqBeanPojo faqBeanPojo = (FaqBeanPojo) bundle.getSerializable(THSConstants.THS_FAQ_ITEM);
             String header = bundle.getString(THSConstants.THS_FAQ_HEADER);
 
-            mLabelQuestion.setText(faqBean.getQuestion());
-            mLabelAnswer.setText(faqBean.getAnswer());
+            mLabelQuestion.setText(faqBeanPojo.getQuestion());
+            mLabelAnswer.setText(faqBeanPojo.getAnswer());
 
             ActionBarListener actionBarListener = getActionBarListener();
             if (null != actionBarListener) {
@@ -45,5 +49,11 @@ public class THSFaqAnswerFragment extends THSBaseFragment{
             }
         }
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_HOW_IT_WORKS_DETAIL, null, null);
     }
 }

@@ -37,6 +37,7 @@ import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_PROVIDER_CONNECTED;
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
 import static com.americanwell.sdk.entity.visit.VisitEndReason.PROVIDER_DECLINE;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_START_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.CVV_HELP_TEXT;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
@@ -161,9 +162,9 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     @Override
     public void onStartVisitEnded(@NonNull VisitEndReason visitEndReason) {
-        AmwellLog.v("call end",visitEndReason.toString());
-        if(visitEndReason == PROVIDER_DECLINE){
-            showVisitUnSuccess(true,true,false);
+        AmwellLog.v("call end", visitEndReason.toString());
+        if (visitEndReason == PROVIDER_DECLINE) {
+            showVisitUnSuccess(true, true, false);
 
         }
 
@@ -186,7 +187,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     @Override
     public void onPollFailure(@NonNull Throwable throwable) {
-        if(null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()){
+        if (null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
             mTHSWaitingRoomFragment.showToast(R.string.ths_se_server_error_toast_message);
         }
     }
@@ -198,15 +199,13 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     @Override
     public void onResponse(Void aVoid, SDKError sdkError) {
-        if(null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
+        if (null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
             if (null != sdkError) {
-                if (null != sdkError.getSDKErrorReason()) {
-                    mTHSWaitingRoomFragment.showError(THSSDKErrorFactory.getErrorType(sdkError.getSDKErrorReason()));
-                    return;
-                }
-            }else {
+                mTHSWaitingRoomFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_START_VISIT, sdkError));
+                return;
+            } else {
                 // must  be cancel visit call back
-                THSManager.getInstance().getThsTagging().trackActionWithInfo("waitingTimeEndForInstantAppointment", null,null);
+                THSManager.getInstance().getThsTagging().trackActionWithInfo("waitingTimeEndForInstantAppointment", null, null);
                 THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "videoVisitCancelledAtQueue");
                 abondonCurrentVisit();
             }
@@ -215,8 +214,12 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     @Override
     public void onFailure(Throwable throwable) {
-        if(null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()){
-            mTHSWaitingRoomFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR,true);
+        if (null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
+            if (null != throwable && null != throwable.getMessage()) {
+                mTHSWaitingRoomFragment.doTagging(ANALYTICS_START_VISIT, throwable.getMessage(), false);
+                mTHSWaitingRoomFragment.showError(THSConstants.THS_GENERIC_SERVER_ERROR, true);
+            }
+
         }
         abondonCurrentVisit();
     }

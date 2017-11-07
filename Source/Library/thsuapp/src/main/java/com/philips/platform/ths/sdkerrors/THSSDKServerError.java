@@ -11,7 +11,9 @@ public class THSSDKServerError implements THSErrorHandlerInterface{
 
     public boolean validate(SDKErrorReason sdkErrorReason) {
 
-        if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.AUTH_SCHEDULED_DOWNTIME.name())){
+        if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.GENERIC_EXCEPTION.name())){
+            return true;
+        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.AUTH_SCHEDULED_DOWNTIME.name())){
             return true;
         }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.AUTH_SYSTEM_UNSTABLE.name())){
             return true;

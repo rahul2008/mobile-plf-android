@@ -17,11 +17,13 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="24dp"
         android:lineSpacingExtra="8sp"
+        android:text="@string/ths_waiting_room_you_are_waiting_to_see"
+        android:textColor="?attr/uidLabelValueNormalTextColor"
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
-        android:text="You are waiting to see"
+        android:textSize="@dimen/ths_title_text"
         android:textColor="?attr/uidLabelValueNormalTextColor"
-        android:textSize="@dimen/ths_title_text" />
+        fontPath="fonts/centralesansbold.ttf" />
 
     <LinearLayout
         android:id="@+id/ths_waiting_room_provider_top_grey_boundary"

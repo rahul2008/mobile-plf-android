@@ -27,6 +27,9 @@ import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
+
+import static com.philips.platform.ths.utility.THSConstants.THS_SELECT_PATIENT;
+
 public class THSDependantHistoryFragment extends THSPracticeFragment implements OnItemClickListener, View.OnClickListener {
     public static final String TAG = THSDependantHistoryFragment.class.getSimpleName();
 
@@ -93,6 +96,7 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
     @Override
     public void onResume() {
         super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SELECT_PATIENT,null,null);
         actionBarListener = getActionBarListener();
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_select_patient),true);

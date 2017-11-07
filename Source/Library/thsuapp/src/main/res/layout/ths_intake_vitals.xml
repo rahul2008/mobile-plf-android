@@ -45,12 +45,24 @@
             android:layout_height="match_parent">
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/help_visit"
-                style="@style/ths_title_text"
+                android:id="@+id/ths_vitals_patient_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ths_image_size"
+                android:layout_marginBottom="@dimen/ths_margin_between_buttons"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
+                android:textSize="@dimen/ths_small_body_text"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="@dimen/ths_fab_margin"
+                style="@style/UIDLabel.Header"
+                />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/help_visit"
+                style="@style/ths_title_text"
+                android:layout_below="@id/ths_vitals_patient_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
                 android:text="@string/vitals_want"

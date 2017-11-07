@@ -9,6 +9,8 @@ import com.philips.platform.ths.intake.THSSymptomsFragment;
 
 import java.util.Date;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+
 public  class THSTagUtils {
 
     public static String addActions(String action,String NewAction){
@@ -37,6 +39,22 @@ public  class THSTagUtils {
             timeInMinutedsAndSecond = ""+minutesDecimalFloat;
         }
         return timeInMinutedsAndSecond;
+    }
+
+    public static String createErrorTag(String ErrorType, String ErrorMessage){
+        StringBuilder value= new StringBuilder(THS_APPLICATION_ID);
+
+        value.append(":");
+        value.append(ErrorType);
+
+        value.append(":");
+        String serverURL= THSManager.getInstance().getServerURL()!=null?THSManager.getInstance().getServerURL():" ";
+        value.append(serverURL);
+
+        value.append(":");
+        value.append(ErrorMessage);
+
+        return value.toString();
     }
 
 }

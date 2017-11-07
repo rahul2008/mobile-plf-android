@@ -22,6 +22,7 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     private Button mSkipLabel;
     boolean existingMedicineFetched = false; // flag to know if medication is fetched which can be null also
     protected String tagAction="";
+    private Label mLabelPatientName;
 
 
     @Nullable
@@ -64,6 +66,11 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
         View viewFooter = inflater.inflate(R.layout.ths_existing_medicine_footer, null);
         RelativeLayout footer = (RelativeLayout) viewFooter.findViewById(R.id.ths_existing_medicine_footer_relative_layout);
         footer.setOnClickListener(this);
+
+        mLabelPatientName = (Label) view.findViewById(R.id.ths_medication_patient_name);
+        String name = getString(R.string.ths_dependent_name, THSManager.getInstance().getThsConsumer(getContext()).getFirstName());
+        mLabelPatientName.setText(name);
+
         mExistingMedicationListView.addFooterView(footer);
         mTHSExistingMedicationListAdapter = new THSExistingMedicationListAdapter(getActivity());
         mExistingMedicationListView.setAdapter(mTHSExistingMedicationListAdapter);
