@@ -13,6 +13,7 @@ Version {next}
 	* Persistent storage will only store information in `NetworkNode` so if you need to store additional data or state from your own Appliance implementation you can implement `ApplianceDatabase` and give it to `new CommCentral(applianceFactory, applianceDatabase, transportContexts...)`
 * CommLib - \#85443 SSDP is rewritten from C and JNI in pure Java.
 * CommLib - CommCentral now throws a `UnsupportedOperationException` whenever a second instance is created.
+* CommLib - \#95503 Utility methods `LanTransportContext#acceptPinFor(Appliance, String)` and `LanTransportContext#readPin(Appliance)` were added.
 
 ### Backwards Compatibility
 * CommLib - `Appliance.enableCommunication` is no longer needed before a subscription.
