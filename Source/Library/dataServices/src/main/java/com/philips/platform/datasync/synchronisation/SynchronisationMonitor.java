@@ -39,16 +39,16 @@ public class SynchronisationMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(WriteDataToBackendRequest event) {
+    public void onEventAsync(FetchByDateRange fetchByDateRange) {
         synchronized (this) {
-            pushSynchronise.startSynchronise(event.getEventId());
+            pullSynchronise.startSynchronise(fetchByDateRange.getStartDate(), fetchByDateRange.getEndDate(), fetchByDateRange.getEventId());
         }
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(FetchByDateRange fetchByDateRange) {
+    public void onEventAsync(WriteDataToBackendRequest event) {
         synchronized (this) {
-            pullSynchronise.startSynchronise(fetchByDateRange.getStartDate(), fetchByDateRange.getEndDate(), fetchByDateRange.getEventId());
+            pushSynchronise.startSynchronise(event.getEventId());
         }
     }
 }

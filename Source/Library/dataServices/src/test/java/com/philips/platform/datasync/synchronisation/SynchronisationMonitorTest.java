@@ -1,7 +1,6 @@
 package com.philips.platform.datasync.synchronisation;
 
-import com.philips.platform.core.Eventing;
-import com.philips.platform.core.events.BackendResponse;
+import com.philips.platform.core.events.FetchByDateRange;
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.injection.AppComponent;
@@ -10,62 +9,79 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by sangamesh on 01/12/16.
- */
 public class SynchronisationMonitorTest {
+
+    private static final String START_DATE = new DateTime().toString();
+    private static final String END_DATE = new DateTime().toString();
 
     private SynchronisationMonitor monitor;
 
     @Mock
-    private DataPullSynchronise dataSynchronisePullMock;
+    private DataPullSynchronise dataPullSynchroniseMock;
 
     @Mock
     private DataPushSynchronise dataPushSynchroniseMock;
 
     @Mock
-    private Eventing eventingMock;
-
-    @Captor
-    private ArgumentCaptor<BackendResponse> errorCaptor;
-
-    @Mock
-    private AppComponent appComponantMock;
+    private AppComponent appComponent;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponant(appComponent);
+
         monitor = new SynchronisationMonitor();
-
-       monitor.pullSynchronise=dataSynchronisePullMock;
-        monitor.pushSynchronise=dataPushSynchroniseMock;
-
+        monitor.pullSynchronise = dataPullSynchroniseMock;
+        monitor.pushSynchronise = dataPushSynchroniseMock;
     }
 
     @Test
-    public void ShouldCallSynchronise_WhenSyncAsked() throws Exception {
-        DateTime dateTime = DateTime.now().minusDays(4);
+    public void startFetch() {
+        thenVerifyPullIsInvoked(whenPullEventIsPosted().getEventId());
+    }
+
+    @Test
+    public void startFetchByDateRange() {
+        thenVerifyPullByDateRangeIsInvoked(whenPullByDateRangeEventIsPosted().getEventId());
+    }
+
+    @Test
+    public void startPush() {
+        thenVerifyPushIsInvoked(whenPushEventIsPosted().getEventId());
+    }
+
+    private void thenVerifyPullIsInvoked(int eventID) {
+        verify(dataPullSynchroniseMock).startSynchronise(eventID);
+    }
+
+    private void thenVerifyPullByDateRangeIsInvoked(int eventId) {
+        verify(dataPullSynchroniseMock).startSynchronise(START_DATE, END_DATE, eventId);
+    }
+
+    private void thenVerifyPushIsInvoked(int eventID) {
+        verify(dataPushSynchroniseMock).startSynchronise(eventID);
+    }
+
+    private ReadDataFromBackendRequest whenPullEventIsPosted() {
         ReadDataFromBackendRequest event = new ReadDataFromBackendRequest();
         monitor.onEventAsync(event);
-
-        verify(dataSynchronisePullMock).startSynchronise(event.getEventId());
+        return event;
     }
 
-    @Test
-    public void ShouldCallDataPushSynchronise_WhenSyncAsked() throws Exception {
+    private FetchByDateRange whenPullByDateRangeEventIsPosted() {
+        FetchByDateRange event = new FetchByDateRange(START_DATE, END_DATE);
+        monitor.onEventAsync(event);
+        return event;
+    }
+
+    private WriteDataToBackendRequest whenPushEventIsPosted() {
         WriteDataToBackendRequest event = new WriteDataToBackendRequest();
         monitor.onEventAsync(event);
-
-        verify(dataPushSynchroniseMock).startSynchronise(event.getEventId());
+        return event;
     }
-
 }
