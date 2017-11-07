@@ -71,7 +71,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     public static final String TAG = THSSymptomsFragment.class.getSimpleName();
     protected THSSymptomsPresenter thsSymptomsPresenter;
     private THSProviderInfo mThsProviderInfo;
-    private THSOnDemandSpeciality thsOnDemandSpeciality;
+    protected THSOnDemandSpeciality thsOnDemandSpeciality;
     protected LinearLayout topicLayout;
     private ImageButton camera_button;
     private Button mContinue;
