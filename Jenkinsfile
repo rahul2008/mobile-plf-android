@@ -43,7 +43,7 @@ node ('android&&docker') {
                 '''
             }
 
-            /*if (BranchName =~ /master|develop|release\/platform_.*/) {
+            if (BranchName =~ /master|develop|release\/platform_.*/) {
                 stage ('publish') {
                     sh '''#!/bin/bash -l
                         chmod -R 755 .
@@ -51,7 +51,7 @@ node ('android&&docker') {
                         ./gradlew -PenvCode=${JENKINS_ENV} zipDocuments artifactoryPublish
                     '''
                 }
-            }*/
+            }
             stage ('save dependencies list') {
                 sh '''#!/bin/bash -l
                     chmod -R 775 . 
