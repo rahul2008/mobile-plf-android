@@ -10,6 +10,7 @@ import com.americanwell.sdk.AWSDK;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
@@ -82,6 +83,10 @@ public class THSWelcomeFragmentTest {
     FragmentActivity activityMock;
 
 
+    @Mock
+    LoggingInterface loggingInterface;
+
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -90,6 +95,8 @@ public class THSWelcomeFragmentTest {
         THSManager.getInstance().setThsConsumer(thsConsumerMock);
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
+        when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
 
         THSManager.getInstance().setAppInfra(appInfraInterface);
@@ -192,7 +199,6 @@ public class THSWelcomeFragmentTest {
     @Test
     public void updateViewtest() throws Exception {
         SupportFragmentTestUtil.startFragment(mWelcomeFragment);
-        mWelcomeFragment.updateView();
         View viewById = mWelcomeFragment.getView().findViewById(R.id.how_it_works);
         assertThat(viewById.isEnabled());
         viewById = mWelcomeFragment.getView().findViewById(R.id.appointments);

@@ -59,6 +59,8 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
 
     protected Label medicationShippingLabel;
     protected RelativeLayout medicationShippingRelativeLayout;
+   
+
 
 
     @Nullable

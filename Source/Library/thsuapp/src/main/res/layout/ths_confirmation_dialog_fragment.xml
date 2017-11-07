@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
 
             android:layout_toLeftOf="@+id/ths_confirmation_dialog_title_image"
-            android:text="Do you really want to cancel your visit"
+            android:text="@string/ths_insurance_confirm_cancel_visit"
             android:textSize="18sp">
 
 
@@ -51,7 +51,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginBottom="24dp"
-        android:text="Your visit shall be cancelled">
+        android:text="@string/ths_insurance_visit_shall_be_cancelled">
 
 
     </com.philips.platform.uid.view.widget.Label>
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ths_confirmation_dialog_message_label"
         android:layout_margin="12dp"
-        android:text="Yes, cancel my visit"
+        android:text="@string/ths_insurance_yes_cancel_visit"
 
         />
 
@@ -75,7 +75,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginBottom="12dp"
-        android:text="No, continue waiting"
+        android:text="@string/ths_insurance_no_continue_waiting"
         android:gravity="center_horizontal"
         android:textColor="?attr/uidColorLevel45"
 

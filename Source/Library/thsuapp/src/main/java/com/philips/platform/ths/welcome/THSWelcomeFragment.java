@@ -56,19 +56,10 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         mRelativeLayoutHowItWorks = (RelativeLayout) view.findViewById(R.id.how_it_works);
         mButton = (Button) view.findViewById(R.id.ths_start);
 
-        mRelativeLayoutAppointments.setEnabled(false);
         mRelativeLayoutAppointments.setOnClickListener(this);
-
-        mRelativeLayoutVisitHostory.setEnabled(false);
         mRelativeLayoutVisitHostory.setOnClickListener(this);
-
-        mRelativeLayoutHowItWorks.setEnabled(false);
         mRelativeLayoutHowItWorks.setOnClickListener(this);
-
-        mButton.setEnabled(false);
         mButton.setOnClickListener(this);
-        
-        presenter.getStarted();
 
         ActionBarListener actionBarListener = getActionBarListener();
         if(null != actionBarListener){
@@ -106,18 +97,9 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         }
     }
 
-    void updateView(){
-        mRelativeLayoutHowItWorks.setEnabled(true);
-        mRelativeLayoutVisitHostory.setEnabled(true);
-        mRelativeLayoutAppointments.setEnabled(true);
-        mButton.setEnabled(true);
-    }
-
     @Override
     public void onResume() {
         super.onResume();
-        // entry to THS, start tagging
-        THSManager.getInstance().getThsTagging().collectLifecycleInfo(this.getActivity());
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_WELCOME,null,null);
     }
 

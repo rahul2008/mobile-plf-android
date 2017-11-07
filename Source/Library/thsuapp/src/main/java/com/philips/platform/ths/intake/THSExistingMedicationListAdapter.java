@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.platform.ths.R;
+import com.philips.platform.uid.view.widget.Label;
 
 
 public class THSExistingMedicationListAdapter extends BaseAdapter {
@@ -102,7 +103,7 @@ public class THSExistingMedicationListAdapter extends BaseAdapter {
             // configure view holder
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.MedicineName = (TextView) rowView.findViewById(R.id.pth_existing_medication_list_row_label);
-            viewHolder.DeleteButton = (ImageView) rowView.findViewById(R.id.pth_existing_medication_list_row_delete);
+            viewHolder.DeleteButton = (Label) rowView.findViewById(R.id.pth_existing_medication_list_row_delete);
             rowView.setTag(viewHolder);
         }
 
@@ -124,7 +125,7 @@ public class THSExistingMedicationListAdapter extends BaseAdapter {
 
     private class ViewHolder {
         private TextView MedicineName;
-        private ImageView DeleteButton;
+        private Label DeleteButton;
 
     }
 }

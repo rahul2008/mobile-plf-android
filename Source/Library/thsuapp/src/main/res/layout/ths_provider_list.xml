@@ -64,8 +64,8 @@
                 android:id="@+id/notification_badge"
                 style="@style/NotificationBadge"
                 android:enabled="false"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/ths_list_space"
                 android:layout_centerVertical="true"
                 android:text="2"
@@ -95,16 +95,21 @@
             android:rating="5" />
 
     </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/ths_providerlist_right_arrow_icon"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+    
+    <com.philips.platform.uid.view.widget.Label
+        android:layout_width="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:src="@mipmap/right_arrow_icon" />
+        android:layout_marginStart="@dimen/ths_fab_margin"
+        android:layout_marginEnd="@dimen/ths_fab_margin"
+        android:id="@+id/ths_providerlist_right_arrow_icon"
+        android:text="@string/dls_navigationright"
+        fontPath="fonts/iconfont.ttf"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+        android:layout_height="wrap_content"/>
+
 
     <View
         android:id="@+id/end_layer"

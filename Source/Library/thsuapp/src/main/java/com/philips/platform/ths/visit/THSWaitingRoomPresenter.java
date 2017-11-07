@@ -226,21 +226,24 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
 
     void showVisitUnSuccess(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
-        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSWaitingRoomFragment.getFragmentActivity())
-                .setMessage(showLargeContent ? mTHSWaitingRoomFragment.getFragmentActivity().getResources().getString(R.string.visit_not_successful) : mTHSWaitingRoomFragment.getFragmentActivity().getResources().getString(R.string.visit_not_successful)).
-                        setPositiveButton(" Ok ", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                mTHSWaitingRoomFragment.exitFromAmWell(false);
-                            }
-                        });
+        if (null != mTHSWaitingRoomFragment && mTHSWaitingRoomFragment.isFragmentAttached()) {
+            final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSWaitingRoomFragment.getFragmentActivity())
+                    .setMessage(showLargeContent ? mTHSWaitingRoomFragment.getFragmentActivity().getResources().getString(R.string.visit_not_successful) : mTHSWaitingRoomFragment.getFragmentActivity().getResources().getString(R.string.visit_not_successful)).
+                            setPositiveButton(" Ok ", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mTHSWaitingRoomFragment.alertDialogFragment.dismiss();
+                                    mTHSWaitingRoomFragment.exitFromAmWell(false);
+                                }
+                            });
 
-        if (isWithTitle) {
-            builder.setTitle("Error");
+            if (isWithTitle) {
+                builder.setTitle("Error");
 
+            }
+            mTHSWaitingRoomFragment.alertDialogFragment = builder.setCancelable(false).create();
+            mTHSWaitingRoomFragment.alertDialogFragment.show(mTHSWaitingRoomFragment.getFragmentManager(), CVV_HELP_TEXT);
         }
-        mTHSWaitingRoomFragment.alertDialogFragment = builder.setCancelable(false).create();
-        mTHSWaitingRoomFragment.alertDialogFragment.show(mTHSWaitingRoomFragment.getFragmentManager(), CVV_HELP_TEXT);
 
     }
 

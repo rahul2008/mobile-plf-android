@@ -64,6 +64,20 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 networkStateListener,
                 new IntentFilter(
                         ConnectivityManager.CONNECTIVITY_ACTION));
+
+       /* Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread thread, Throwable ex) {
+                // put your save logic here
+                // save to file, send to email, etc.
+                // Also you can get information about throwed exception
+                // for example : ex.getMessage();
+                AmwellLog.i(AmwellLog.LOG,"crashed");
+                showToast(getString(R.string.ths_se_server_error_toast_message));
+                doTagging("Others",ex.getMessage(),false);
+                exitFromAmWell(false);
+            }
+        });*/
     }
 
     @Override

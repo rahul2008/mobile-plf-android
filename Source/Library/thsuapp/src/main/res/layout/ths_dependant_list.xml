@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:gravity="center_vertical"
+        android:textStyle="bold"
         android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
         android:paddingStart="@dimen/ths_fab_margin"
         android:paddingEnd="@dimen/ths_fab_margin"
@@ -22,7 +23,7 @@
         android:textSize="@dimen/ths_title_text" />
 
     <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/chhose_person"
+        android:id="@+id/choose_person"
         android:layout_marginLeft="@dimen/ths_fab_margin"
         android:layout_marginRight="@dimen/ths_fab_margin"
         android:layout_below="@id/ths_visit_for"
@@ -36,7 +37,7 @@
         android:id="@+id/horizontalLine"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/chhose_person"
+        android:layout_below="@+id/choose_person"
         android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
     <RelativeLayout
@@ -76,15 +77,18 @@
             android:text="test"
             android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/ths_practice_arrow_image"
+        <com.philips.platform.uid.view.widget.Label
             android:layout_width="wrap_content"
-            android:layout_height="?android:attr/listPreferredItemHeight"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/ths_fab_margin"
+            android:id="@+id/ths_practice_arrow_image"
+            android:text="@string/dls_navigationright"
+            fontPath="fonts/iconfont.ttf"
+            android:textAlignment="center"
             android:gravity="center_vertical"
-            android:src="@mipmap/right_arrow_icon" />
+            android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+            android:layout_height="wrap_content"/>
 
         <View
             android:layout_width="match_parent"

@@ -14,6 +14,7 @@ import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
@@ -23,6 +24,7 @@ import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.view.widget.Label;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +37,9 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import java.io.ByteArrayInputStream;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -64,6 +68,9 @@ public class THSDependantHistoryFragmentTest {
     AppTaggingInterface appTaggingInterface;
 
     @Mock
+    LoggingInterface loggingInterface;
+
+    @Mock
     AppConfigurationInterface appConfigurationInterfaceMock;
 
     THSDependantHistoryFragment mTHSDependantHistoryFragment;
@@ -80,6 +87,8 @@ public class THSDependantHistoryFragmentTest {
     @Mock
     Context contextMock;
 
+    @Mock
+    Label visitForLabelMock;
 
     @Before
     public void setUp() throws Exception {
@@ -92,6 +101,8 @@ public class THSDependantHistoryFragmentTest {
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
         THSManager.getInstance().setThsParentConsumer(thsConsumerMock);
         when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
+        when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
         mTHSDependantHistoryFragment = new THSDependantHistoryFragment();
@@ -115,6 +126,20 @@ public class THSDependantHistoryFragmentTest {
         assert true;
     }
 
+
+    @Test
+    public void testupdateUIBasedOnLaunchInput() throws Exception{
+        mTHSDependantHistoryFragment.mLaunchInput = THSConstants.THS_PRACTICES;
+        mTHSDependantHistoryFragment.updateUIBasedOnLaunchInput();
+        final Label viewById = mTHSDependantHistoryFragment.getView().findViewById(R.id.ths_visit_for);
+        assertTrue(viewById.getText().toString().equalsIgnoreCase(viewById.getResources().getString(R.string.ths_visit_for)));
+        mTHSDependantHistoryFragment.mLaunchInput = THSConstants.THS_SCHEDULED_VISITS;
+        mTHSDependantHistoryFragment.updateUIBasedOnLaunchInput();
+        assertTrue(viewById.getText().toString().equalsIgnoreCase(viewById.getResources().getString(R.string.ths_select_patient)));
+        mTHSDependantHistoryFragment.mLaunchInput = THSConstants.THS_VISITS_HISTORY;
+        mTHSDependantHistoryFragment.updateUIBasedOnLaunchInput();
+        assertTrue(viewById.getText().toString().equalsIgnoreCase(viewById.getResources().getString(R.string.ths_select_patient)));
+    }
     @Test
     public void onItemClick() throws Exception {
         mTHSDependantHistoryFragment.onItemClick(thsConsumerMock);

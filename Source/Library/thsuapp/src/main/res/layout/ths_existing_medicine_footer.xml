@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ths_existing_medicine_footer_relative_layout"
     android:layout_width="match_parent"
-    android:background="?attr/uidContentPrimaryBackgroundColor"
-    android:layout_height="?android:attr/listPreferredItemHeight">
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_existing_medicine_list_footer_alabel"
@@ -18,19 +18,21 @@
 
     </com.philips.platform.uid.view.widget.Label>
 
-    <ImageView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_existing_medicine_list_footer_arrow_image"
-        android:layout_width="wrap_content"
-        android:layout_height="?android:attr/listPreferredItemHeight"
+        style="@style/ths_font_icon_style"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/ths_existing_medicine_list_footer_alabel"
         android:layout_alignBottom="@+id/ths_existing_medicine_list_footer_alabel"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/ths_fab_margin"
         android:gravity="center_vertical"
-        android:paddingEnd="@dimen/ths_fab_margin"
-        android:src="@mipmap/right_arrow_icon" />
+        android:text="@string/dls_navigationright" />
 
     <View
         android:id="@+id/divider_bp"
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/ths_fab_margin"
         android:layout_height="1dp"
         android:layout_below="@id/ths_existing_medicine_list_footer_arrow_image"
         android:background="?attr/uidSeparatorContentNormalBackgroundColor" />

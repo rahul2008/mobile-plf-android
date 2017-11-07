@@ -55,7 +55,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     private List<State> mValidStates = null;
     private Date mDob;
     private RadioGroup radio_group_single_line;
-    protected int mLaunchInput;
+    protected int mLaunchInput = -1;
     private InputValidationLayout firstNameValidationLayout, lastNameValidationLayout;
 
     @Nullable

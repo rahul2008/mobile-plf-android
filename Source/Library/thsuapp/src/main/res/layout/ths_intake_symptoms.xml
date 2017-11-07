@@ -16,8 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:paddingLeft="@dimen/ths_fab_margin"
-        android:paddingRight="@dimen/ths_fab_margin"
+        android:layout_marginStart="@dimen/ths_fab_margin"
+        android:layout_marginEnd="@dimen/ths_fab_margin"
         android:enabled="false"
         android:text="@string/ths_continue_button_text" />
 

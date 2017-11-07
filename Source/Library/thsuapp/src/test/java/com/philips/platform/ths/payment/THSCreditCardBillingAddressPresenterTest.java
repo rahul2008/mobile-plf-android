@@ -18,6 +18,7 @@ import com.americanwell.sdk.entity.billing.PaymentMethod;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
@@ -99,6 +100,9 @@ public class THSCreditCardBillingAddressPresenterTest {
     @Mock
     AppTaggingInterface appTaggingInterface;
 
+    @Mock
+    LoggingInterface loggingInterface;
+
 
     @Before
     public void setUp() throws Exception {
@@ -107,6 +111,8 @@ public class THSCreditCardBillingAddressPresenterTest {
 
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
+        when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
         when(thsCreditCardBillingAddressFragment.getFragmentActivity()).thenReturn(fragmentActivityMock);

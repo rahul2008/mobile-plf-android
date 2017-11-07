@@ -21,7 +21,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="24dp"
             android:lineSpacingExtra="6sp"
-            android:text="This concludes your visit with"
+            android:text="@string/ths_visit_summary_conclude_visit_with"
             android:textColor="?attr/uidContentItemSecondaryDisabledTextColor"
 
 
@@ -98,7 +98,7 @@
                 android:layout_marginRight="100dp"
                 android:layout_toLeftOf="@+id/ths_wrap_up_payment_cost"
                 android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
-                android:text="Your credit card was charged"
+                android:text="@string/ths_visit_summary_your_credit_card_was_charged"
                 android:textSize="@dimen/ths_body_text"/>
 
 
@@ -121,7 +121,7 @@
             android:paddingLeft="@dimen/activity_vertical_margin"
             android:gravity="center_vertical"
             android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
-            android:text="Your visit report"
+            android:text="@string/ths_visit_summary_your_visit_report"
             android:textSize="@dimen/ths_body_text" />
 
         <FrameLayout
@@ -171,7 +171,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="@dimen/ths_fab_margin"
                     android:gravity="center_vertical"
-                    android:text="Download Report">
+                    android:text="@string/ths_download_report">
 
                 </com.philips.platform.uid.view.widget.Label>
 
@@ -183,7 +183,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@+id/ths_wrap_up_visit_report_download_label"
                     android:gravity="center_vertical"
-                    android:text="PDF (21MB)">
+                    android:text="PDF">
 
                 </com.philips.platform.uid.view.widget.Label>
 
@@ -249,7 +249,7 @@
                 android:layout_marginTop="@dimen/ths_margin_between_buttons"
                 android:background="?attr/uidContentPrimaryBackgroundColor"
 
-                android:text="Continue" />
+                android:text="@string/ths_continue" />
 
         </RelativeLayout>
 

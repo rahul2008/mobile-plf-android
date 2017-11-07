@@ -12,6 +12,7 @@ import com.americanwell.sdk.AWSDK;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
@@ -55,6 +56,9 @@ public class THSInitFragmentTest {
     AppTaggingInterface appTaggingInterface;
 
     @Mock
+    LoggingInterface loggingInterface;
+
+    @Mock
     AppConfigurationInterface appConfigurationInterfaceMock;
 
     @Mock
@@ -66,6 +70,9 @@ public class THSInitFragmentTest {
     @Mock
     THSInitPresenter thsInitPresenterMock;
 
+    @Mock
+    ActionBarListener actionBarListenerMock;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -75,7 +82,8 @@ public class THSInitFragmentTest {
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
-
+        when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
+        when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
 
@@ -85,7 +93,9 @@ public class THSInitFragmentTest {
         when(userMock.getHsdpUUID()).thenReturn("123");
         when(userMock.getHsdpAccessToken()).thenReturn("123");
 
+
         mTHSInitFragmentTest = new THSInitFragmentTestMock();
+        mTHSInitFragmentTest.setActionBarListener(actionBarListenerMock);
         SupportFragmentTestUtil.startFragment(mTHSInitFragmentTest);
     }
 

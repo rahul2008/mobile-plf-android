@@ -44,7 +44,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY;
 import static com.philips.platform.ths.utility.THSConstants.THS_HIPPA;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_HISTORY;
 
-public class THSVisitHistoryDetailFragment extends THSBaseFragment{
+public class THSVisitHistoryDetailFragment extends THSBaseFragment {
     Label mLabelVisit;
     CircularImageView mProviderImage;
     Label mLabelProviderName;
@@ -59,8 +59,8 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
     private VisitReport mVisitReport;
     private Label pharmacyName, pharmacyZip, pharmacyState, pharmacyAddressLineOne, pharmacyAddressLIneTwo,
             consumerName, consumerCity, consumerShippingAddress, consumerState, consumerShippingZip;
-    ImageButton mImageButtonPharmacyEdit;
-    ImageButton mImageButtonShippingAddressEdit;
+    Label mImageButtonPharmacyEdit;
+    Label mImageButtonShippingAddressEdit;
 
     protected Label medicationShippingLabel;
     protected RelativeLayout medicationShippingRelativeLayout;
@@ -75,24 +75,24 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
         final Bundle arguments = getArguments();
         mVisitReport = arguments.getParcelable(THSConstants.THS_VISIT_REPORT);
 
-        mLayoutContainer =(RelativeLayout) view.findViewById(R.id.scroll_view_container);
+        mLayoutContainer = (RelativeLayout) view.findViewById(R.id.scroll_view_container);
 
         mThsVisitHistoryPresenter = new THSVisitHistoryDetailPresenter(this);
         mLabelVisit = (Label) view.findViewById(R.id.ths_waiting_room_title_label);
         mProviderImage = (CircularImageView) view.findViewById(R.id.details_providerImage);
         mLabelProviderName = (Label) view.findViewById(R.id.details_providerNameLabel);
         mLabelPracticeName = (Label) view.findViewById(R.id.details_practiceNameLabel);
-        mAvailableTimeSlots = (RelativeLayout)view.findViewById(R.id.isAvailableLayout);
+        mAvailableTimeSlots = (RelativeLayout) view.findViewById(R.id.isAvailableLayout);
         mAvailableTimeSlots.setVisibility(View.GONE);
 
         mLabelAppointmentDate = (Label) view.findViewById(R.id.ths_appointment_date);
         mLabelAppointmentDate.setVisibility(View.VISIBLE);
 
         mLabelCreditCardCharge = (Label) view.findViewById(R.id.ths_wrap_up_payment_cost);
-        mImageButtonPharmacyEdit = (ImageButton) view.findViewById(R.id.ps_edit_pharmacy);
+        mImageButtonPharmacyEdit = (Label) view.findViewById(R.id.ps_edit_pharmacy);
         mImageButtonPharmacyEdit.setVisibility(View.GONE);
 
-        mImageButtonShippingAddressEdit = (ImageButton) view.findViewById(R.id.ps_edit_consumer_shipping_address);
+        mImageButtonShippingAddressEdit = (Label) view.findViewById(R.id.ps_edit_consumer_shipping_address);
         mImageButtonShippingAddressEdit.setVisibility(View.GONE);
 
         Label prescriptionLabel = (Label) view.findViewById(R.id.ps_prescription_sent_label);
@@ -107,11 +107,11 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
         pharmacyName = (Label) view.findViewById(R.id.ps_pharmacy_name);
         pharmacyState = (Label) view.findViewById(R.id.ps_pharmacy_state);
         pharmacyZip = (Label) view.findViewById(R.id.ps_pharmacy_zip_code);
-        continueButton =(Button)view.findViewById(R.id.ths_visit_summary_continue_button);
+        continueButton = (Button) view.findViewById(R.id.ths_visit_summary_continue_button);
         continueButton.setVisibility(View.GONE);
         mRelativeLayoutProviderLayout = (RelativeLayout) view.findViewById(R.id.ths_waiting_room_provider_detail_relativelayout);
 
-        mRelativeLayoutSummaryReport= (RelativeLayout) view.findViewById(R.id.ths_wrap_up_visit_summary_report_relativelayout);
+        mRelativeLayoutSummaryReport = (RelativeLayout) view.findViewById(R.id.ths_wrap_up_visit_summary_report_relativelayout);
         mRelativeLayoutSummaryReport.setVisibility(View.GONE);
         mRelativeLayoutDownloadReport = (RelativeLayout) view.findViewById(R.id.ths_wrap_up_visit_report_relativelayout);
         mRelativeLayoutDownloadReport.setVisibility(View.VISIBLE);
@@ -120,18 +120,18 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
             public void onClick(View view) {
                 THSDownloadReportPrivacyNoticeFragment tHSDownloadReportPrivacyNoticeFragment = new THSDownloadReportPrivacyNoticeFragment();
                 tHSDownloadReportPrivacyNoticeFragment.setPresenter(mThsVisitHistoryPresenter);
-                tHSDownloadReportPrivacyNoticeFragment.show(getFragmentManager(),"TAG");
+                tHSDownloadReportPrivacyNoticeFragment.show(getFragmentManager(), "TAG");
             }
         });
 
-        medicationShippingLabel =  (Label) view.findViewById(R.id.ps_shipped_to_label);
-        medicationShippingRelativeLayout =(RelativeLayout) view.findViewById(R.id.ps_shipping_layout_item);
+        medicationShippingLabel = (Label) view.findViewById(R.id.ps_shipped_to_label);
+        medicationShippingRelativeLayout = (RelativeLayout) view.findViewById(R.id.ps_shipping_layout_item);
 
         ActionBarListener actionBarListener = getActionBarListener();
-        if(null != actionBarListener){
-            actionBarListener.updateActionBar(getString(R.string.ths_visit),true);
+        if (null != actionBarListener) {
+            actionBarListener.updateActionBar(getString(R.string.ths_visit), true);
         }
-        createCustomProgressBar(mLayoutContainer,BIG);
+        createCustomProgressBar(mLayoutContainer, BIG);
         mThsVisitHistoryPresenter.getVisitReportDetail(mVisitReport);
         return view;
     }
@@ -139,7 +139,7 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
     protected void updateView(final VisitReportDetail visitReportDetail) {
         mLayoutContainer.setVisibility(View.VISIBLE);
         mLabelVisit.setText(getString(R.string.ths_visit_summary));
-        if(visitReportDetail == null){
+        if (visitReportDetail == null) {
             return;
         }
         final ProviderInfo assignedProviderInfo = visitReportDetail.getAssignedProviderInfo();
@@ -170,19 +170,19 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
         Pharmacy pharmacy = visitReportDetail.getPharmacy();
         updatePharmacyDetailsView(pharmacy);
 
-        mLabelCreditCardCharge.setText("$"+visitReportDetail.getPaymentAmount() );
+        mLabelCreditCardCharge.setText("$" + visitReportDetail.getPaymentAmount());
 
         mRelativeLayoutProviderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(visitReportDetail==null || visitReportDetail.getAssignedProviderInfo()==null){
+                if (visitReportDetail == null || visitReportDetail.getAssignedProviderInfo() == null) {
                     showToast("No Assigned Provider");
                     return;
                 }
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(THSConstants.THS_PROVIDER_INFO,visitReportDetail.getAssignedProviderInfo());
-                bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,visitReportDetail.getAssignedProviderInfo().getPracticeInfo());
-                addFragment(new THSProviderDetailsFragment(),THSProviderDetailsFragment.TAG,bundle, false);
+                bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, visitReportDetail.getAssignedProviderInfo());
+                bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, visitReportDetail.getAssignedProviderInfo().getPracticeInfo());
+                addFragment(new THSProviderDetailsFragment(), THSProviderDetailsFragment.TAG, bundle, false);
             }
         });
     }
@@ -193,19 +193,19 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
 
     public void updateShippingAddressView(Address address, String consumerName1) {
         consumerName.setText(consumerName1);
-        if(address!=null) {
+        if (address != null) {
             consumerCity.setText(address.getCity());
             consumerState.setText(address.getState().getCode());
             consumerShippingAddress.setText(address.getAddress1());
             consumerShippingZip.setText(address.getZipCode());
-        }else{
+        } else {
             medicationShippingLabel.setVisibility(View.GONE);
             medicationShippingRelativeLayout.setVisibility(View.GONE);
         }
     }
 
     public void updatePharmacyDetailsView(Pharmacy pharmacy) {
-        if(pharmacy!=null) {
+        if (pharmacy != null) {
             pharmacyAddressLineOne.setText(pharmacy.getAddress().getAddress1());
             pharmacyAddressLIneTwo.setText(pharmacy.getAddress().getAddress2());
             pharmacyName.setText(pharmacy.getName());
@@ -217,7 +217,7 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VISIT_HISTORY,null,null);
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VISIT_HISTORY, null, null);
     }
 
     public void showHippsNotice(String url) {

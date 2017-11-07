@@ -81,7 +81,6 @@
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ths_service_provided_by"
                 style="@style/ths_body_text_bold"
-                android:textColor="?attr/uidNotificationBarWhiteNormalBackgroundColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/ths_amwell_brand"
@@ -94,7 +93,6 @@
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ths_quick"
                 style="@style/ths_body_text_bold"
-                android:textColor="?attr/uidNotificationBarWhiteNormalBackgroundColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/ths_service_provided_by"

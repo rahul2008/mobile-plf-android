@@ -12,7 +12,7 @@ import java.util.List;
 public class THSFaqPojo implements Serializable{
 
     private String section;
-    private List<FaqBean> faq;
+    private List<FaqBeanPojo> faq;
 
     public String getSection() {
         return section;
@@ -22,11 +22,11 @@ public class THSFaqPojo implements Serializable{
         this.section = section;
     }
 
-    public List<FaqBean> getFaq() {
+    public List<FaqBeanPojo> getFaq() {
         return faq;
     }
 
-    public void setFaq(List<FaqBean> faq) {
+    public void setFaq(List<FaqBeanPojo> faq) {
         this.faq = faq;
     }
 }
