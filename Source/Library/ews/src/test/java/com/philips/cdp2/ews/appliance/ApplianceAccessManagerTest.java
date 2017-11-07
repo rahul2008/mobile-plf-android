@@ -13,13 +13,13 @@ import com.philips.cdp2.ews.annotations.ApplianceRequestType;
 import com.philips.cdp2.ews.communication.events.ApplianceConnectErrorEvent;
 import com.philips.cdp2.ews.communication.events.DeviceConnectionErrorEvent;
 import com.philips.cdp2.ews.logger.EWSLogger;
+import com.philips.cdp2.ews.tagging.EWSTagger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -27,7 +27,6 @@ import static com.philips.cdp2.ews.annotations.ApplianceRequestType.GET_WIFI_PRO
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -35,9 +34,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(EWSLogger.class)
+@PrepareForTest({EWSLogger.class, EWSTagger.class})
 public class ApplianceAccessManagerTest {
 
     private static final String HOME_WIFI_PASSWORD = "BrightEyes123";
@@ -57,8 +58,8 @@ public class ApplianceAccessManagerTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-
-        PowerMockito.mockStatic(EWSLogger.class);
+        mockStatic(EWSTagger.class);
+        mockStatic(EWSLogger.class);
 
         stubAppliancePorts();
         sessionInfoDetails = new ApplianceSessionDetailsInfo();
@@ -141,8 +142,9 @@ public class ApplianceAccessManagerTest {
     @Test
     public void itShouldSendDeviceConnectionErrorEventWhenGetWifiPropsOnErrorReceived() {
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.GET_WIFI_PROPS);
-
         accessManager.getWifiPortListener().onPortError(wifiPortMock, Error.UNKNOWN, "");
+        verifyStatic();
+        EWSTagger.trackActionSendData("technicalError", "EWS:Network:AWSDK:wifiPortError");
 
         verify(eventBusMock).post(isA(DeviceConnectionErrorEvent.class));
     }

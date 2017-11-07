@@ -19,6 +19,8 @@ import com.philips.cdp2.ews.annotations.ConnectionErrorType;
 import com.philips.cdp2.ews.communication.events.ApplianceConnectErrorEvent;
 import com.philips.cdp2.ews.communication.events.DeviceConnectionErrorEvent;
 import com.philips.cdp2.ews.logger.EWSLogger;
+import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Tag;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -87,6 +89,7 @@ public class ApplianceAccessManager {
         @Override
         public void onPortError(WifiPort wifiPort, Error error, @Nullable String s) {
             EWSLogger.d(EWS_STEPS, "Step Failed : Port error " + wifiPort.toString() + " Error : " + error + " data " + error);
+            EWSTagger.trackActionSendData(Tag.KEY.TECHNICAL_ERROR, Tag.ERROR.WIFI_PORT_ERROR);
             onErrorReceived();
             if (fetchCallback != null) {
                 fetchCallback.onFailedToFetchDeviceInfo();
@@ -112,6 +115,7 @@ public class ApplianceAccessManager {
 
         @Override
         public void onPortError(final DevicePort port, final Error error, final String errorData) {
+            EWSTagger.trackActionSendData(Tag.KEY.TECHNICAL_ERROR, Tag.ERROR.DEVICE_PORT_ERROR);
             onErrorReceived();
         }
     };
