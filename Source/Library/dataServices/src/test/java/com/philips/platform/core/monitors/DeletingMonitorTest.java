@@ -100,143 +100,12 @@ public class DeletingMonitorTest {
 		verify(deletingMock).markMomentsAsInActive(list, dbRequestListener);
 	}
 
-   /* @Test
-    public void ExceptionEventRaised_WhenExceptionHappens() throws Exception {
-        SQLException exception = new SQLException();
-        doThrow(exception).when(deletingMock).deleteAll();
-
-        monitor.onEventBackgroundThread(new DataClearRequest());
-
-        verify(eventingMock).post(eventCaptor.capture());
-        assertThat(eventCaptor.getValue()).isInstanceOf(ExceptionEvent.class);
-        ExceptionEvent exceptionEvent = (ExceptionEvent) eventCaptor.getValue();
-        assertThat(exceptionEvent.getCause()).isSameAs(exception);
-    }*/
-
-    /*@Test
-    public void ExceptionEventHasReferenceId_WhenExceptionHappens() throws Exception {
-        SQLException exception = new SQLException("test");
-        doThrow(exception).when(deletingMock).deleteAll();
-        DataClearRequest request = new DataClearRequest();
-
-        monitor.onEventBackgroundThread(request);
-
-        verify(eventingMock).post(eventCaptor.capture());
-        ExceptionEvent exceptionEvent = (ExceptionEvent) eventCaptor.getValue();
-        assertThat(exceptionEvent.getReferenceId()).isEqualTo(request.getEventId());
-    }*/
-
 	@Test
 	public void ResponseEventRaised_WhenDeletedHappens() throws Exception {
 		DataClearRequest request = new DataClearRequest(dbRequestListener);
 		monitor.onEventBackGround(request);
 
-       /* verify(eventingMock).post(eventCaptor.capture());
-        assertThat(eventCaptor.getValue()).isInstanceOf(DataClearResponse.class);
-        DataClearResponse responseEvent = (DataClearResponse) eventCaptor.getValue();
-        assertThat(responseEvent.getReferenceId()).isEqualTo(request.getEventId());*/
 	}
-
- /*   @Test
-    public void ShouldDeleteMoment_WhenMomentIsNotSynchronizedWithBackend() throws Exception {
-        when(momentMock.getSynchronisationData()).thenReturn(null);
-        monitor.onEventAsync(new MomentDeleteRequest(momentMock));
-
-        verify(momentMock).setSynchronisationData(any(SynchronisationData.class));
-    }*/
-
-/*    @Test
-    public void ShouldUpdateMomentFieldsOnDeleteRequest_WhenMomentIsSynchronizedWithBackend() throws Exception {
-        when(momentMock.getSynchronisationData()).thenReturn(synchronisationMock);
-
-        monitor.onEventAsync(new MomentDeleteRequest(momentMock));
-
-        verify(synchronisationMock).setInactive(true);
-        verify(momentMock).setSynced(false);
-        verify(savingMock).saveMoment(momentMock);
-    }*/
-
- /*   @Test
-    public void ShouldDeleteMoment_WhenBackendDeleteResponseIsReceived() throws Exception {
-        monitor.onEventBackgroundThread(new MomentBackendDeleteResponse(momentMock));
-
-        verify(deletingMock).markAsInActive(momentMock);
-    }*/
-
-   /* @Test
-    public void ShouldSendExceptionEvent_WhenDeletionFailed() throws Exception {
-        when(momentMock.getSynchronisationData()).thenReturn(synchronisationMock);
-
-        SQLException exception = new SQLException("test");
-        doThrow(exception).when(savingMock).saveMoment(momentMock);
-
-        MomentDeleteRequest requestEvent = new MomentDeleteRequest(momentMock);
-        monitor.onEventAsync(requestEvent);
-
-        verify(eventingMock).post(eventCaptor.capture());
-        ExceptionEvent exceptionEvent = (ExceptionEvent) eventCaptor.getValue();
-        assertThat(exceptionEvent.getReferenceId()).isEqualTo(requestEvent.getEventId());
-        assertThat(exceptionEvent.getCause()).isSameAs(exception);
-    }*/
-
-   /* @Test
-    public void ShouldPostEvent_WhenDeletionCompleted() throws Exception {
-        when(momentMock.getSynchronisationData()).thenReturn(synchronisationMock);
-        MomentDeleteRequest requestEvent = new MomentDeleteRequest(momentMock);
-        monitor.onEventAsync(requestEvent);
-
-        verify(eventingMock).post(eventCaptor.capture());
-        MomentChangeEvent momentChangeEvent = (MomentChangeEvent) eventCaptor.getValue();
-        assertThat(momentChangeEvent.getReferenceId()).isEqualTo(requestEvent.getEventId());
-        assertThat(momentChangeEvent.getMoments()).isSameAs(momentMock);
-    }*/
-
-    /*@Test
-    public void ShouldPostEvent_WhenTemperatureReadingsDeletionIsCompleted() throws Exception {
-        DeleteTemperatureReadingRequest requestEvent = getDeleteThermometerReadingEvent();
-        monitor.onEventBackgroundThread(requestEvent);
-
-        verify(eventingMock).post(isA(DeleteTemperatureReadingResponse.class));
-    }
-
-    @Test
-    public void ShouldPostException_WhenDeletionIsFailed() throws Exception {
-        DeleteTemperatureReadingRequest requestEvent = getDeleteThermometerReadingEvent();
-        SQLException exception = new SQLException("test");
-
-        doThrow(exception).when(deletingMock).deleteTemperatureReading(any(OrmTemperatureReading.class));
-
-        monitor.onEventBackgroundThread(requestEvent);
-
-        verify(eventingMock).post(isA(ExceptionEvent.class));
-    }
-
-    @NonNull
-    private DeleteTemperatureReadingRequest getDeleteThermometerReadingEvent() {
-        final List<TemperatureReading> readingsList = new ArrayList<>();
-        readingsList.add(new TemperatureReading(DateTime.now(), 330.f));
-        return new DeleteTemperatureReadingRequest(readingsList);
-    }
-
-    @Test
-    public void ShouldSetInsightInActiveToTrue_WhenDeleteInsightIsRequested() throws Exception {
-        when(insightMock.getSynchronisationData()).thenReturn(synchronisationMock);
-
-        monitor.onEventBackgroundThread(new InsightDeleteRequest(insightMock));
-
-        verify(insightMock).setSynced(false);
-        verify(synchronisationMock).setInactive(true);
-        verify(eventingMock).post(eventCaptor.capture());
-        InsightChangeEvent insightChangeEvent = (InsightChangeEvent) eventCaptor.getValue();
-        assertThat(insightChangeEvent.getInsight()).isSameAs(insightMock);
-    }
-
-    @Test
-    public void ShouldDeleteInsight_WhenEventIsReceived() throws Exception {
-        monitor.onEventBackgroundThread(new InsightDeleteResponse(insightMock));
-
-        verify(deletingMock).deleteInsight(insightMock);
-    }*/
 
 	@Test
 	public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_deleteAll() throws Exception {
@@ -302,7 +171,6 @@ public class DeletingMonitorTest {
 
 	@Test
 	public void ShouldPostExceptionEvent_WhendeleteInsight_success() throws Exception {
-		// doThrow(SQLException.class).when(deletingMock).deleteInsight(insightMock,dbRequestListener);
 		monitor.onEventBackGround(new DeleteInsightResponse(insightMock, dbRequestListener));
 		verify(deletingMock).deleteInsight(insightMock, dbRequestListener);
 	}
