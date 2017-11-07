@@ -13,23 +13,23 @@ import static junit.framework.Assert.assertNull;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
-public class CatkLaunchInputTest {
+public class CatkInputsTest {
     @Test
-    public void CheckContextIsSet() throws Exception {
+    public void checkContextIsSet() throws Exception {
         CatkInputs catkLaunchInput = new CatkInputs();
         catkLaunchInput.setContext(ShadowApplication.getInstance().getApplicationContext());
         assertNotNull(catkLaunchInput.getContext());
     }
 
     @Test
-    public void CheckContextIsSetNull() throws Exception {
+    public void checkContextIsSetNull() throws Exception {
         CatkInputs catkLaunchInput = new CatkInputs();
         catkLaunchInput.setContext(null);
         assertNull(catkLaunchInput.getContext());
     }
 
     @Test
-    public void CheckContextIsSetnotAssiged() throws Exception {
+    public void checkContextIsSetnotAssiged() throws Exception {
         CatkInputs catkLaunchInput = new CatkInputs();;
         assertNull(catkLaunchInput.getContext());
     }
