@@ -99,6 +99,8 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
                 e.printStackTrace();
             }
         }
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "appointmentScheduled");
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SCHEDULE_APPOINTMENT_CONFIRMED,null,null);
         return view;
     }
 
@@ -124,10 +126,5 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "appointmentScheduled");
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SCHEDULE_APPOINTMENT_CONFIRMED,null,null);
-    }
+
 }

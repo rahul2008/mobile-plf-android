@@ -390,7 +390,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
 
         if (null != picturePath) {
             updateDocumentsToUpload(picturePath);
-            tagActions= THSTagUtils.addActions(tagActions,"pictureAdded");
+            tagActions= THSTagUtils.addActions(tagActions,"documentsAdded");
             thsSymptomsPresenter.uploadDocuments(mCapturedImageURI);
         }
 
