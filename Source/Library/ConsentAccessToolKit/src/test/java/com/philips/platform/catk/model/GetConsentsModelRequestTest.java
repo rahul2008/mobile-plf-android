@@ -57,6 +57,12 @@ public class GetConsentsModelRequestTest extends MockitoConfiguration {
         consentModelRequest = new GetConsentsModelRequest(CatkConstants.APPLICATION_NAME,
                 CatkConstants.PROPOSITION_NAME,mockDataLoadListener);
     }
+
+    @Test
+    public void testStub() {
+
+    }
+
 /*
     @Test
     public void parseResponse() throws Exception {

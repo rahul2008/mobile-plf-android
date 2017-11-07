@@ -9,6 +9,7 @@ import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
 
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -58,6 +59,13 @@ public class CreateConsentModelRequestTest extends MockitoConfiguration {
         when(mockUser.getHsdpAccessToken()).thenReturn("x73ywf56h46h5p25");
         when(mockUser.getHsdpUUID()).thenReturn("17f7ce85-403c-4824-a17f-3b551f325ce0");
     }
+
+
+    @Test
+    public void testStub() {
+
+    }
+
 /*
     @Test
     public void parseResponse() throws Exception {

@@ -19,6 +19,11 @@ import static org.junit.Assert.*;
 @Config(constants = BuildConfig.class, sdk = 25)
 public class CatkSettingsTest {
 
+    @Test
+    public void testStub() {
+
+    }
+
 /*
     @Test
     public void testCatkSettingContextnotNull() {
