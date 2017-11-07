@@ -15,9 +15,13 @@ import android.widget.ImageView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 public class THSConfirmationDialogFragment extends DialogFragment implements View.OnClickListener{
     public static final String TAG = THSConfirmationDialogFragment.class.getSimpleName();
@@ -41,6 +45,7 @@ public class THSConfirmationDialogFragment extends DialogFragment implements Vie
         mPrimaryButton.setOnClickListener(this);
         mSecondaryButtonLabel = (Label) view.findViewById(R.id.ths_confirmation_dialog_secondary_button_label);
         mSecondaryButtonLabel.setOnClickListener(this);
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_IN_APP_NOTIFICATION, "statusNotification" , "Do you really want to cancel your visit");
         return view;
     }
 

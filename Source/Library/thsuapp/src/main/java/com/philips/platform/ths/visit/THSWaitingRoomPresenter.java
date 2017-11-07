@@ -42,6 +42,7 @@ import static com.philips.platform.ths.utility.THSConstants.CVV_HELP_TEXT;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
+import static com.philips.platform.ths.utility.THSConstants.THS_VIDEO_CALL;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 
 public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitCallback, THSCancelVisitCallBack.SDKCallback<Void, SDKError> {
@@ -157,6 +158,8 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
         // start activity
         mTHSWaitingRoomFragment.startActivityForResult(intent, REQUEST_VIDEO_VISIT);
         mTHSWaitingRoomFragment.doTaggingUponStopWaiting();
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "completeWaitingInstantAppointment");
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VIDEO_CALL, null, null);
 
     }
 
@@ -164,6 +167,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     public void onStartVisitEnded(@NonNull VisitEndReason visitEndReason) {
         AmwellLog.v("call end", visitEndReason.toString());
         if (visitEndReason == PROVIDER_DECLINE) {
+            mTHSWaitingRoomFragment.doTaggingUponStopWaiting();
             showVisitUnSuccess(true, true, false);
 
         }
