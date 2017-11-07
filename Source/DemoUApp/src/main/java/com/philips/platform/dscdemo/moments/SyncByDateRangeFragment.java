@@ -6,19 +6,19 @@
 package com.philips.platform.dscdemo.moments;
 
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -30,12 +30,12 @@ import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.R;
+import com.philips.platform.dscdemo.utility.SyncScheduler;
 
 import org.joda.time.DateTime;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -57,7 +57,8 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 	private EditText mMomentStartDateEt;
 	private EditText mMomentEndDateEt;
 	private ToggleButton mEnableDisableSync;
-	Calendar myCalendar;
+	private Calendar myCalendar;
+	private TextView tvSyncStatus;
 
 
 	final DatePickerDialog.OnDateSetListener startDate = new DatePickerDialog.OnDateSetListener() {
@@ -105,7 +106,24 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 		mMomentEndDateEt = view.findViewById(R.id.et_moment_endDate);
 		dateRangeSelectorLayout = view.findViewById(R.id.dateRangeSelectorLayout);
 		btnStartSyncByDateRange = view.findViewById(R.id.btn_startSyncBy_dateRange);
+		tvSyncStatus = view.findViewById(R.id.tvSyncStatus);
 		mEnableDisableSync = view.findViewById(R.id.toggleButton);
+		mEnableDisableSync.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					SyncScheduler.getInstance().scheduleSync();
+				} else {
+					SyncScheduler.getInstance().stopSync();
+				}
+			}
+		});
+
+//		if(SyncScheduler.getInstance().getSyncStatus()) {
+//			tvSyncStatus.setText("InProgress");
+//		} else {
+//			tvSyncStatus.setText("Stopped");
+//		}
+
 		mMomentStartDateEt.setOnClickListener(this);
 		mMomentEndDateEt.setOnClickListener(this);
 		btnSyncMomentByDate.setOnClickListener(this);
@@ -116,7 +134,8 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 	@Override
 	public void onClick(View view) {
 		if (view == btnCompleteSync) {
-
+			SyncScheduler.getInstance().scheduleSync();
+			tvSyncStatus.setText("InProgress");
 		} else if (view == btnSyncMomentByDate) {
 			dateRangeSelectorLayout.setVisibility(View.VISIBLE);
 		} else if (view == mMomentStartDateEt) {
@@ -129,6 +148,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 					myCalendar.get(Calendar.DAY_OF_MONTH)).show();
 		} else if (view == btnStartSyncByDateRange) {
 			fetchSyncByDateRange();
+			tvSyncStatus.setText("InProgress");
 		}
 	}
 
@@ -145,12 +165,14 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 
 	@Override
 	public void onSyncComplete() {
-		Toast.makeText(mContext,"OnSyncComplete",Toast.LENGTH_SHORT).show();
+		tvSyncStatus.setText("Sync Completed");
+		Toast.makeText(mContext, "OnSyncComplete", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
 	public void onSyncFailed(Exception exception) {
-		Toast.makeText(mContext,"OnSyncFailed",Toast.LENGTH_SHORT).show();
+		tvSyncStatus.setText("Sync Failed");
+		Toast.makeText(mContext, "OnSyncFailed", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
