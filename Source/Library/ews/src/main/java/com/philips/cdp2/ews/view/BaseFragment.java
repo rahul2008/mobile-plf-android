@@ -2,7 +2,6 @@ package com.philips.cdp2.ews.view;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.VisibleForTesting;
@@ -49,7 +48,7 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
         View view = LayoutInflater.from(context).inflate(R.layout.cancel_setup_dialog,
                 null, false);
 
-        AlertDialogFragment.Builder builder = getNewAlertDialogFragmentBuilder(context)
+        AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context)
                 .setDialogView(view)
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDimLayer(DialogConstants.DIM_STRONG)
@@ -73,11 +72,6 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
                 alertDialogFragment.dismiss();
             }
         });
-    }
-
-    @VisibleForTesting
-    AlertDialogFragment.Builder getNewAlertDialogFragmentBuilder(Context context){
-        return new AlertDialogFragment.Builder(context);
     }
 
     @Override
