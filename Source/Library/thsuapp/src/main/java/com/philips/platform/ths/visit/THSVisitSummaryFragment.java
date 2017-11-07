@@ -59,6 +59,8 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
 
     protected Label medicationShippingLabel;
     protected RelativeLayout medicationShippingRelativeLayout;
+    { THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,THS_VIDEO_CALL_ENDS);}
+
 
 
     @Nullable
