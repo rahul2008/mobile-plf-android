@@ -219,6 +219,13 @@ configurations.all {
 dependencies {
     //Coco
 
+    compile(group: 'com.philips.cdp', name: 'ConsentAccessToolKit', version: versions.catk_consentAccessToolKit + objcdp.getVersionSuffix(),
+            ext: 'aar', changing: true)
+            {
+                exclude group: 'com.google.code.findbugs', module: 'jsr305'
+                transitive true
+            }
+
     def dp = project.ext.has('useprojectdependencies')
 
     def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
@@ -228,7 +235,9 @@ dependencies {
             }
 
     //Android Support
-    compile 'com.android.support:support-annotations:26.0.2'
+    compile ('com.android.support:support-annotations:26.0.2'){
+        exclude group: 'com.google.code.findbugs', module: 'jsr305'
+    }
 
     //3rd Party
     compile fileTree(include: ['*.jar'], dir: 'libs')

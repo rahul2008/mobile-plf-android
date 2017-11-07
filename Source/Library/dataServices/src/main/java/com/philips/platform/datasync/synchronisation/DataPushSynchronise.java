@@ -6,7 +6,14 @@
 package com.philips.platform.datasync.synchronisation;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
+import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.catk.CatkInputs;
+import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.listener.ConsentResponseListener;
+import com.philips.platform.catk.model.GetConsentsModel;
+import com.philips.platform.catk.response.ConsentStatus;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
@@ -72,6 +79,10 @@ public class DataPushSynchronise extends EventMonitor {
 
     private DataServicesManager mDataServicesManager;
 
+    public static final String CONSENT_TYPE_MOMENT = "moment";
+
+    public static final int version = 0;
+
     public DataPushSynchronise(@NonNull final List<? extends DataSender> senders) {
         mDataServicesManager = DataServicesManager.getInstance();
         mDataServicesManager.getAppComponant().injectDataPushSynchronize(this);
@@ -102,17 +113,45 @@ public class DataPushSynchronise extends EventMonitor {
 
     private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
         final CountDownLatch countDownLatch = new CountDownLatch(configurableSenders.size());
-
         for (final DataSender sender : configurableSenders) {
             executor.execute(new Runnable() {
-                @Override
-                public void run() {
+            @Override
+            public void run() {
+
+                if (sender instanceof MomentsDataSender) {
+                    CatkInputs catkInputs = getCatkInputs();
+                    ConsentAccessToolKit.getInstance().init(catkInputs);
+                    ConsentAccessToolKit.getInstance().
+                            getStatusForConsentType(CONSENT_TYPE_MOMENT, version, new ConsentResponseListener() {
+                                @Override
+                                public void onResponseSuccessConsent(List<GetConsentsModel> responseData) {
+
+                                    if (responseData != null && !responseData.isEmpty()) {
+                                        GetConsentsModel consentModel = responseData.get(0);
+                                        Log.d(" Consent : ", "status :" + consentModel.getStatus());
+                                        if(consentModel.getStatus().equals(ConsentStatus.active)){
+                                            boolean response = sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
+                                            countDownLatch.countDown();
+                                        }
+
+                                    } else {
+                                        Log.d(" Consent : ", "no consent for type found on server");
+                                    }
+                                }
+
+                                @Override
+                                public int onResponseFailureConsent(int consentError) {
+                                    Log.d(" Consent : ", "onResponseFailureConsent  :" + consentError);
+                                    return consentError;
+                                }
+                            });
+                 } else {
                     boolean response = sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
                     countDownLatch.countDown();
                 }
+             }
             });
         }
-
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
@@ -120,6 +159,15 @@ public class DataPushSynchronise extends EventMonitor {
         }
 
         postPushComplete();
+    }
+
+    @NonNull
+    private CatkInputs getCatkInputs() {
+        CatkInputs catkInputs = new CatkInputs();
+        catkInputs.setAppInfra(mDataServicesManager.getmAppInfra());
+        catkInputs.setApplicationName(CatkConstants.APPLICATION_NAME);
+        catkInputs.setPropositionName(CatkConstants.PROPOSITION_NAME);
+        return catkInputs;
     }
 
     private void registerEvent() {

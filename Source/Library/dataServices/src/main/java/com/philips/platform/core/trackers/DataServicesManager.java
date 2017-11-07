@@ -165,6 +165,16 @@ public class DataServicesManager {
 
     private Set<String> mSyncDataTypes;
 
+    private AppInfraInterface mAppInfra;
+
+    public AppInfraInterface getmAppInfra() {
+        return mAppInfra;
+    }
+
+    public void setmAppInfra(AppInfraInterface mAppInfra) {
+        this.mAppInfra = mAppInfra;
+    }
+
     @Singleton
     private DataServicesManager() {
     }
@@ -185,13 +195,14 @@ public class DataServicesManager {
      * @param errorHandlingInterface ErrorHandlingInterface Implementation for handling sync errors @{@link ErrorHandlingInterface}
      */
     public void initializeDataServices(Context context, BaseAppDataCreator creator,
-                                       UserRegistrationInterface facade, ErrorHandlingInterface errorHandlingInterface) {
+                                       UserRegistrationInterface facade, ErrorHandlingInterface errorHandlingInterface ,AppInfraInterface mAppInfra) {
         //mContext = context;
         fetchUrlFromServiceDiscovery(context);
 
         this.mDataCreater = creator;
         this.userRegistrationInterface = facade;
         this.errorHandlingInterface = errorHandlingInterface;
+        this.mAppInfra=mAppInfra;
     }
 
     @Deprecated
