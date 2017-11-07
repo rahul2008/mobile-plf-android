@@ -5,8 +5,9 @@
 package com.philips.cdp2.ews.view;
 
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.confirmwifi.ConfirmWifiNetworkFragment;
+import com.philips.cdp2.ews.confirmwifi.ConfirmWifiNetworkViewModel;
 import com.philips.cdp2.ews.tagging.EWSTagger;
-import com.philips.cdp2.ews.viewmodel.ConfirmWifiNetworkViewModel;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +22,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;

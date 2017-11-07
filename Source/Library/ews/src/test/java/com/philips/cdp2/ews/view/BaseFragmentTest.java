@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.view;
 
 import android.view.LayoutInflater;
 
+import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 
 import org.junit.Before;
@@ -19,7 +20,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.times;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.doAnswer;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;

@@ -59,7 +59,7 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
 
     @NonNull
     @Override
-    protected String getPageName() {
+    public String getPageName() {
         return Page.CONNECTION_SUCCESSFUL;
     }
 

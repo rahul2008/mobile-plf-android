@@ -44,7 +44,7 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     }
 
     @VisibleForTesting
-    void showCancelDialog(@StringRes int deviceName) {
+    public void showCancelDialog(@StringRes int deviceName) {
         Context context = getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.cancel_setup_dialog,
                 null, false);

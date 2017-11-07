@@ -40,7 +40,7 @@ public class StartConnectWithDeviceFragment extends BaseFragment {
 
     @NonNull
     @Override
-    protected String getPageName() {
+    public String getPageName() {
         return Page.GET_STARTED;
     }
 }

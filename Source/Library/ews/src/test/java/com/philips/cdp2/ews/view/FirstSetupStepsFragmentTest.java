@@ -4,6 +4,7 @@
  */
 package com.philips.cdp2.ews.view;
 
+import com.philips.cdp2.ews.setupsteps.FirstSetupStepsFragment;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 
 import org.junit.Before;
@@ -13,7 +14,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.times;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 

@@ -36,7 +36,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
         implements ConfirmWifiNetworkViewModel.ViewCallback {
 
     @VisibleForTesting
-    ConfirmWifiNetworkViewModel viewModel;
+    public ConfirmWifiNetworkViewModel viewModel;
 
 
     @SuppressWarnings("ConstantConditions")
@@ -52,7 +52,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
 
     @VisibleForTesting
     @NonNull
-    ConfirmWifiNetworkViewModel createViewModel() {
+    public ConfirmWifiNetworkViewModel createViewModel() {
         return ((EWSActivity) getActivity()).getEWSComponent().confirmWifiNetworkViewModel();
     }
 
@@ -64,7 +64,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
 
     @NonNull
     @Override
-    protected String getPageName() {
+    public String getPageName() {
         return Page.CONFIRM_WIFI_NETWORK;
     }
 
@@ -111,7 +111,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
     }
 
     @VisibleForTesting
-    void sendPageTag(){
+   public void sendPageTag(){
         EWSTagger.trackPage(Page.SELECT_HOME_WIFI);
     }
 }
