@@ -171,10 +171,9 @@ public class MomentsDataFetcherTest {
     }
 
     @Test
-    public void fetchDataByDateRange_givenSyncUrlOnce() {
+    public void fetchDataByDateRange_givenSyncUrl() {
         givenMomentsFromClient();
         whenFetchDataByDateRange();
-        thenEventIsPostedForBackgroundProcessing("BackendMomentListSaveRequest");
         thenVerifyClientIsInvlokedTwice();
     }
 
