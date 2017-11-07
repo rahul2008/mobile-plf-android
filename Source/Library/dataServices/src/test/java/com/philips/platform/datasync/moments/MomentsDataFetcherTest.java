@@ -171,14 +171,6 @@ public class MomentsDataFetcherTest {
     }
 
     @Test
-    public void fetchDataByDateRange_givenNoUrlToSync() {
-        givenMomentsFromClient();
-        whenFetchDataByDateRange();
-        thenEventIsPostedForBackgroundProcessing("BackendMomentListSaveRequest");
-        thenVerifyClientIsInvocked();
-    }
-
-    @Test
     public void fetchDataByDateRange_givenSyncUrlOnce() {
         givenMomentsFromClient();
         whenFetchDataByDateRange();
@@ -219,10 +211,6 @@ public class MomentsDataFetcherTest {
 
     private void thenEventIsPostedForBackgroundProcessing(String event) {
         assertEquals(event, eventingSpy.postedEvent.getClass().getSimpleName());
-    }
-
-    private void thenVerifyClientIsInvocked() {
-        verify(momentsClientMock).fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get("START_DATE"), lastSyncTimeMap.get("END_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_END_DATE"));
     }
 
     private void thenVerifyClientIsInvlokedTwice() {
