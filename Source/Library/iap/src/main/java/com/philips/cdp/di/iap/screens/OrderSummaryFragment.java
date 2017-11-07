@@ -102,7 +102,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     }
 
     void initializeViews(View rootView) {
-        TextView tv_checkOutSteps = (TextView) rootView.findViewById(R.id.tv_checkOutSteps);
+        TextView tv_checkOutSteps = rootView.findViewById(R.id.tv_checkOutSteps);
         tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), "3"));
 
         mPaymentController = new PaymentController(mContext, this);
@@ -125,17 +125,17 @@ public class OrderSummaryFragment extends InAppBaseFragment
             }
         }
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.shopping_cart_recycler_view);
+        mRecyclerView = rootView.findViewById(R.id.shopping_cart_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        mPayNowBtn = (Button) rootView.findViewById(R.id.pay_now_btn);
+        mPayNowBtn = rootView.findViewById(R.id.pay_now_btn);
         mPayNowBtn.setOnClickListener(this);
-        mCancelBtn = (Button) rootView.findViewById(R.id.cancel_btn);
+        mCancelBtn = rootView.findViewById(R.id.cancel_btn);
         mCancelBtn.setOnClickListener(this);
         mShoppingCartAPI = ControllerFactory.getInstance()
                 .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
-        mNumberOfProducts = (TextView) rootView.findViewById(R.id.number_of_products);
+        mNumberOfProducts = rootView.findViewById(R.id.number_of_products);
     }
 
     @Override

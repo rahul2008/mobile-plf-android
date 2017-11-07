@@ -92,18 +92,18 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
         View rootView = inflater.inflate(R.layout.iap_shopping_cart_view, container, false);
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.shopping_cart_recycler_view);
+        mRecyclerView = rootView.findViewById(R.id.shopping_cart_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
 
-        mCheckoutBtn = (Button) rootView.findViewById(R.id.checkout_btn);
+        mCheckoutBtn = rootView.findViewById(R.id.checkout_btn);
         mCheckoutBtn.setOnClickListener(this);
-        mContinuesBtn = (Button) rootView.findViewById(R.id.continues_btn);
+        mContinuesBtn = rootView.findViewById(R.id.continues_btn);
         mContinuesBtn.setOnClickListener(this);
         mShoppingCartAPI = ControllerFactory.getInstance()
                 .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
-        mNumberOfProducts = (TextView) rootView.findViewById(R.id.number_of_products);
+        mNumberOfProducts = rootView.findViewById(R.id.number_of_products);
         return rootView;
     }
 

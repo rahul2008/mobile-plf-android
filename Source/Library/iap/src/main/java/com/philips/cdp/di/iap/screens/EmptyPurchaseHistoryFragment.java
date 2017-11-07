@@ -31,7 +31,7 @@ public class EmptyPurchaseHistoryFragment extends InAppBaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.iap_empty_puchase_history, container, false);
-        mContinueShoppingBtn = (Button) rootView.findViewById(R.id.btn_continue_shopping);
+        mContinueShoppingBtn = rootView.findViewById(R.id.btn_continue_shopping);
         mContinueShoppingBtn.setOnClickListener(this);
         return rootView;
     }

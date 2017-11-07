@@ -1,7 +1,6 @@
 package com.philips.cdp.di.iap.response.carts;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

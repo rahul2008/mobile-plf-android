@@ -6,9 +6,6 @@ package com.philips.cdp.di.iap.cart;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.cart.IAPCartListener;
-import com.philips.cdp.di.iap.cart.ShoppingCartData;
-
 public interface ShoppingCartAPI {
     void getCurrentCartDetails();
 

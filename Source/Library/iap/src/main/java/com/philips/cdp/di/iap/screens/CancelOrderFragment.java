@@ -38,10 +38,10 @@ public class CancelOrderFragment extends InAppBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.iap_cancel_order, container, false);
 
-        Button phoneNumberText = (Button) rootView.findViewById(R.id.bt_phone_number);
-        TextView cancelOrderId = (TextView) rootView.findViewById(R.id.tv_cancel_order_history_title);
-        TextView refOrderText = (TextView) rootView.findViewById(R.id.iap_cancel_order_ref);
-        TextView openingTimingText = (TextView) rootView.findViewById(R.id.tv_opening_timings);
+        Button phoneNumberText = rootView.findViewById(R.id.bt_phone_number);
+        TextView cancelOrderId = rootView.findViewById(R.id.tv_cancel_order_history_title);
+        TextView refOrderText = rootView.findViewById(R.id.iap_cancel_order_ref);
+        TextView openingTimingText = rootView.findViewById(R.id.tv_opening_timings);
 
         Bundle bundle = getArguments();
         if (null != bundle) {

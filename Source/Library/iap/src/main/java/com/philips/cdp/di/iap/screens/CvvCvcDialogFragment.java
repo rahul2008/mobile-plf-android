@@ -45,13 +45,13 @@ public class CvvCvcDialogFragment extends DialogFragment {
         if (bundle.containsKey(IAPConstant.SELECTED_PAYMENT)) {
             mPaymentMethod = (PaymentMethod) bundle.getSerializable(IAPConstant.SELECTED_PAYMENT);
         }
-        TextView cardNumber = (TextView) view.findViewById(R.id.tv_cvv_card_number);
+        TextView cardNumber = view.findViewById(R.id.tv_cvv_card_number);
         if (mPaymentMethod != null) {
             cardNumber.setText(mPaymentMethod.getCardType().getCode() +" "+mPaymentMethod.getCardNumber());
         }
-        final Button continueBtn = (Button) view.findViewById(R.id.continue_btn);
-        final Button notNowBtn = (Button) view.findViewById(R.id.not_now_btn);
-        mEditText = (EditText) view.findViewById(R.id.et_cvv_digits);
+        final Button continueBtn = view.findViewById(R.id.continue_btn);
+        final Button notNowBtn = view.findViewById(R.id.not_now_btn);
+        mEditText = view.findViewById(R.id.et_cvv_digits);
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

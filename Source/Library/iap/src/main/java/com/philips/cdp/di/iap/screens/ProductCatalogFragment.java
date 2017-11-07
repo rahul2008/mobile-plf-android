@@ -139,12 +139,12 @@ public class ProductCatalogFragment extends InAppBaseFragment
                 (String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL), this);
 
         final View rootView = inflater.inflate(R.layout.iap_product_catalog_view, container, false);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler_view);
-        mSearchBox = (SearchBox) rootView.findViewById(R.id.iap_search_box);
+        mRecyclerView = rootView.findViewById(R.id.product_catalog_recycler_view);
+        mSearchBox = rootView.findViewById(R.id.iap_search_box);
 
         setUpSearch();
 
-        mEmptyCatalogText = (TextView) rootView.findViewById(R.id.iap_productCatalog_emptyProductCatalogText_lebel);
+        mEmptyCatalogText = rootView.findViewById(R.id.iap_productCatalog_emptyProductCatalogText_lebel);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -156,7 +156,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         if (!mIsProductsAvailable) {
             mRecyclerView.setVisibility(View.GONE);
             mEmptyCatalogText.setVisibility(View.VISIBLE);
-            mSearchBox.setVisibility(rootView.GONE);
+            mSearchBox.setVisibility(View.GONE);
         }
         if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
             displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));

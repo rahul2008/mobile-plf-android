@@ -3,7 +3,6 @@ package com.philips.cdp.di.iap.response.orders;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class OrderDetail implements Parcelable{

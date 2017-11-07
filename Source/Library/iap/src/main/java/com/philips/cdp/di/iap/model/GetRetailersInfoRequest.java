@@ -6,9 +6,9 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.response.retailers.WebResults;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.Map;

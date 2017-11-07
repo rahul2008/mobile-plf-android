@@ -65,12 +65,12 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     void initializeViews(View rootView) {
 
-        TextView tv_checkOutSteps = (TextView) rootView.findViewById(R.id.tv_checkOutSteps);
+        TextView tv_checkOutSteps = rootView.findViewById(R.id.tv_checkOutSteps);
         tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), "2"));
 
 
-        mBtnContinue = (Button) rootView.findViewById(R.id.btn_continue);
-        mBtnCancel = (Button) rootView.findViewById(R.id.btn_cancel);
+        mBtnContinue = rootView.findViewById(R.id.btn_continue);
+        mBtnCancel = rootView.findViewById(R.id.btn_cancel);
 
         mBtnContinue.setOnClickListener(this);
         mBtnCancel.setOnClickListener(this);
@@ -78,7 +78,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         mAddressController = new AddressController(mContext, this);
         mPaymentController = new PaymentController(mContext, this);
 
-        checkBox = (CheckBox) rootView.findViewById(R.id.use_this_address_checkbox);
+        checkBox = rootView.findViewById(R.id.use_this_address_checkbox);
 
         shippingFragment = getFragmentByID(R.id.fragment_shipping_address);
 

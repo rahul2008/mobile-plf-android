@@ -91,72 +91,72 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
         phoneNumberUtil = PhoneNumberUtil.getInstance();
 
-        mLlFirstName = (InputValidationLayout) rootView.findViewById(R.id.ll_first_name);
+        mLlFirstName = rootView.findViewById(R.id.ll_first_name);
         inputValidatorFirstName = new InputValidator(Validator.NAME_PATTERN);
         mLlFirstName.setValidator(inputValidatorFirstName);
 
 
-        mLlLastName = (InputValidationLayout) rootView.findViewById(R.id.ll_last_name);
+        mLlLastName = rootView.findViewById(R.id.ll_last_name);
         inputValidatorLastName = new InputValidator(Validator.NAME_PATTERN);
         mLlLastName.setValidator(inputValidatorLastName);
 
 
-        InputValidationLayout mLlSalutation = (InputValidationLayout) rootView.findViewById(R.id.ll_salutation);
+        InputValidationLayout mLlSalutation = rootView.findViewById(R.id.ll_salutation);
         InputValidator inputValidatorSalutation = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlSalutation.setValidator(inputValidatorSalutation);
 
 
-        mLlAddressLineOne = (InputValidationLayout) rootView.findViewById(R.id.ll_address_line_one);
+        mLlAddressLineOne = rootView.findViewById(R.id.ll_address_line_one);
         inputValidatorAddressLineOne = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlAddressLineOne.setValidator(inputValidatorAddressLineOne);
 
 
-        mLlAddressLineTwo = (InputValidationLayout) rootView.findViewById(R.id.ll_address_line_two);
+        mLlAddressLineTwo = rootView.findViewById(R.id.ll_address_line_two);
         inputValidatorAddressLineTwo = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
 
 
-        mLlTown = (InputValidationLayout) rootView.findViewById(R.id.ll_town);
+        mLlTown = rootView.findViewById(R.id.ll_town);
         inputValidatorTown = new InputValidator(Validator.TOWN_PATTERN);
         mLlTown.setValidator(inputValidatorTown);
 
 
-        mLlPostalCode = (InputValidationLayout) rootView.findViewById(R.id.ll_postal_code);
+        mLlPostalCode = rootView.findViewById(R.id.ll_postal_code);
         inputValidatorPostalCode = new InputValidator(Validator.POSTAL_CODE_PATTERN);
         mLlPostalCode.setValidator(inputValidatorPostalCode);
 
 
-        mLlCountry = (InputValidationLayout) rootView.findViewById(R.id.ll_country);
+        mLlCountry = rootView.findViewById(R.id.ll_country);
         inputValidatorCountry = new InputValidator(Validator.COUNTRY_PATTERN);
         mLlCountry.setValidator(inputValidatorCountry);
 
 
-        mlLState = (InputValidationLayout) rootView.findViewById(R.id.ll_state);
+        mlLState = rootView.findViewById(R.id.ll_state);
         InputValidator inputValidatorState = new InputValidator(Validator.NAME_PATTERN);
         mlLState.setValidator(inputValidatorState);
 
 
-        mLlEmail = (InputValidationLayout) rootView.findViewById(R.id.ll_email);
+        mLlEmail = rootView.findViewById(R.id.ll_email);
         inputValidatorEmail = new InputValidator(Validator.EMAIL_PATTERN);
         mLlEmail.setValidator(inputValidatorEmail);
 
 
-        mLlPhone1 = (InputValidationLayout) rootView.findViewById(R.id.ll_phone1);
+        mLlPhone1 = rootView.findViewById(R.id.ll_phone1);
         inputValidatorPhone = new InputValidator(Validator.PHONE_NUMBER_PATTERN);
         mLlPhone1.setValidator(inputValidatorPhone);
 
 
-        mEtFirstName = (ValidationEditText) rootView.findViewById(R.id.et_first_name);
-        mEtLastName = (ValidationEditText) rootView.findViewById(R.id.et_last_name);
-        mEtSalutation = (ValidationEditText) rootView.findViewById(R.id.et_salutation);
-        mEtAddressLineOne = (ValidationEditText) rootView.findViewById(R.id.et_address_line_one);
-        mEtAddressLineTwo = (ValidationEditText) rootView.findViewById(R.id.et_address_line_two);
-        mEtTown = (ValidationEditText) rootView.findViewById(R.id.et_town);
-        mEtPostalCode = (ValidationEditText) rootView.findViewById(R.id.et_postal_code);
-        mEtCountry = (ValidationEditText) rootView.findViewById(R.id.et_country);
-        mEtState = (ValidationEditText) rootView.findViewById(R.id.et_state);
-        mEtEmail = (ValidationEditText) rootView.findViewById(R.id.et_email);
-        mEtPhone1 = (ValidationEditText) rootView.findViewById(R.id.et_phone1);
+        mEtFirstName = rootView.findViewById(R.id.et_first_name);
+        mEtLastName = rootView.findViewById(R.id.et_last_name);
+        mEtSalutation = rootView.findViewById(R.id.et_salutation);
+        mEtAddressLineOne = rootView.findViewById(R.id.et_address_line_one);
+        mEtAddressLineTwo = rootView.findViewById(R.id.et_address_line_two);
+        mEtTown = rootView.findViewById(R.id.et_town);
+        mEtPostalCode = rootView.findViewById(R.id.et_postal_code);
+        mEtCountry = rootView.findViewById(R.id.et_country);
+        mEtState = rootView.findViewById(R.id.et_state);
+        mEtEmail = rootView.findViewById(R.id.et_email);
+        mEtPhone1 = rootView.findViewById(R.id.et_phone1);
 
 
         mEtPostalCode.setFilters(new InputFilter[]{new InputFilter.AllCaps()});

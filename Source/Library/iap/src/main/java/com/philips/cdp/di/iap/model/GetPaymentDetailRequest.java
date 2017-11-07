@@ -2,8 +2,8 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
+import com.philips.cdp.di.iap.store.StoreListener;
 
 import java.util.Map;
 

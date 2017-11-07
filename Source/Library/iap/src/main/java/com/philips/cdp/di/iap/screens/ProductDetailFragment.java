@@ -160,22 +160,22 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     void initializeViews(View rootView) {
-        mDetailLayout = (ScrollView) rootView.findViewById(R.id.scrollView);
-        mProductDescription = (TextView) rootView.findViewById(R.id.iap_productDetailScreen_productDescription_lebel);
-        mCTN = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_ctn_lebel);
-        mPrice = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_individualPrice_lebel);
-        mProductOverview = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_productOverview);
-        mAddToCart = (ProgressBarButton) rootView.findViewById(R.id.iap_productDetailsScreen_addToCart_button);
-        mBuyFromRetailers = (ProgressBarButton) rootView.findViewById(R.id.iap_productDetailsScreen_buyFromRetailor_button);
-        mCheckutAndCountinue = (LinearLayout) rootView.findViewById(R.id.iap_productDetailsScreen_btn_ll);
-        mQuantityAndDelete = (LinearLayout) rootView.findViewById(R.id.iap_productDetailsScreen_quantity_delete_btn_ll);
-        mProductDiscountedPrice = (TextView) rootView.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel);
-        mProductStockInfo = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_outOfStock_label);
-        mDeleteProduct = (Button) rootView.findViewById(delete_btn);
+        mDetailLayout = rootView.findViewById(R.id.scrollView);
+        mProductDescription = rootView.findViewById(R.id.iap_productDetailScreen_productDescription_lebel);
+        mCTN = rootView.findViewById(R.id.iap_productDetailsScreen_ctn_lebel);
+        mPrice = rootView.findViewById(R.id.iap_productDetailsScreen_individualPrice_lebel);
+        mProductOverview = rootView.findViewById(R.id.iap_productDetailsScreen_productOverview);
+        mAddToCart = rootView.findViewById(R.id.iap_productDetailsScreen_addToCart_button);
+        mBuyFromRetailers = rootView.findViewById(R.id.iap_productDetailsScreen_buyFromRetailor_button);
+        mCheckutAndCountinue = rootView.findViewById(R.id.iap_productDetailsScreen_btn_ll);
+        mQuantityAndDelete = rootView.findViewById(R.id.iap_productDetailsScreen_quantity_delete_btn_ll);
+        mProductDiscountedPrice = rootView.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel);
+        mProductStockInfo = rootView.findViewById(R.id.iap_productDetailsScreen_outOfStock_label);
+        mDeleteProduct = rootView.findViewById(delete_btn);
         mDeleteProduct.setOnClickListener(this);
-        mQuantity = (TextView) rootView.findViewById(R.id.quantity_val);
-        mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
-        DotNavigationIndicator indicator = (DotNavigationIndicator) rootView.findViewById(R.id.indicator);
+        mQuantity = rootView.findViewById(R.id.quantity_val);
+        mViewPager = rootView.findViewById(R.id.pager);
+        DotNavigationIndicator indicator = rootView.findViewById(R.id.indicator);
         mImageAdapter = new ImageAdapter(mContext, new ArrayList<String>());
         mViewPager.setAdapter(mImageAdapter);
         indicator.setViewPager(mViewPager);

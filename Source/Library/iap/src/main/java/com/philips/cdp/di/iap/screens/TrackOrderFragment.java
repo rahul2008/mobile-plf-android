@@ -35,11 +35,11 @@ public class TrackOrderFragment extends InAppBaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.iap_track_my_order, container, false);
-        Button mTrackOrderBtn = (Button) rootView.findViewById(R.id.btn_track);
-        TextView mOrderId = (TextView) rootView.findViewById(R.id.tv_track_order_number);
-        TextView mTrackingId = (TextView) rootView.findViewById(R.id.tv_track_order_text);
-        TextView mBillingName = (TextView) rootView.findViewById(R.id.tv_shipping_first_name);
-        TextView mBillingAddress = (TextView) rootView.findViewById(R.id.tv_shipping_address);
+        Button mTrackOrderBtn = rootView.findViewById(R.id.btn_track);
+        TextView mOrderId = rootView.findViewById(R.id.tv_track_order_number);
+        TextView mTrackingId = rootView.findViewById(R.id.tv_track_order_text);
+        TextView mBillingName = rootView.findViewById(R.id.tv_shipping_first_name);
+        TextView mBillingAddress = rootView.findViewById(R.id.tv_shipping_address);
 
         Bundle bundle = getArguments();
         if (null != bundle) {

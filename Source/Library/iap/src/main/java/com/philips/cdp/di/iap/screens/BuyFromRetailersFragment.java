@@ -64,7 +64,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.iap_retailers_view, container, false);
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.iap_retailer_list);
+        mRecyclerView = rootView.findViewById(R.id.iap_retailer_list);
         if (getArguments().getSerializable(IAPConstant.IAP_RETAILER_INFO) != null)
             mStoreEntity = (ArrayList<StoreEntity>) getArguments().getSerializable(IAPConstant.IAP_RETAILER_INFO);
         return rootView;

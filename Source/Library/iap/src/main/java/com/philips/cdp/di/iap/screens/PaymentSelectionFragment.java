@@ -7,13 +7,11 @@ package com.philips.cdp.di.iap.screens;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
@@ -28,8 +26,6 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,12 +46,12 @@ public class PaymentSelectionFragment extends InAppBaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_payment_method, container, false);
-        mPaymentMethodsRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_payment_method);
+        mPaymentMethodsRecyclerView = view.findViewById(R.id.recycler_payment_method);
 
-        tvCheckOutSteps=(TextView) view.findViewById(R.id.tv_checkOutSteps);
+        tvCheckOutSteps= view.findViewById(R.id.tv_checkOutSteps);
         tvCheckOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps),"2"));
 
-        tvSelectHeader=(TextView)view.findViewById(R.id.tv_select_header);
+        tvSelectHeader= view.findViewById(R.id.tv_select_header);
         tvSelectHeader.setText(getContext().getString(R.string.iap_select_payment_method));
 
 

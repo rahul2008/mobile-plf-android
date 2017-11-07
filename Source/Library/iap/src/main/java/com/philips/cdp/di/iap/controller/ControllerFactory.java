@@ -6,10 +6,10 @@ package com.philips.cdp.di.iap.controller;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.cart.LocalShoppingCartPresenter;
 import com.philips.cdp.di.iap.cart.ShoppingCartAPI;
 import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.products.LocalProductCatalog;
-import com.philips.cdp.di.iap.cart.LocalShoppingCartPresenter;
 import com.philips.cdp.di.iap.products.ProductCatalogAPI;
 import com.philips.cdp.di.iap.products.ProductCatalogPresenter;
 

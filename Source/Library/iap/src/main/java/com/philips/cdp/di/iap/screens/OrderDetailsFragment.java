@@ -99,44 +99,44 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_order_details_fragment, container, false);
 
-        mParentView = (ScrollView) view.findViewById(R.id.scrollView);
-        mTvQuantity = (TextView) view.findViewById(R.id.tv_quantity);
-        mTvtotalPrice = (TextView) view.findViewById(R.id.tv_total_price);
-        mTime = (TextView) view.findViewById(R.id.tv_time);
-        mOrderNumber = (TextView) view.findViewById(R.id.tv_order_number);
-        mOrderState = (TextView) view.findViewById(R.id.tv_order_state);
-        mIvOrderState = (ImageView) view.findViewById(R.id.iv_order_state);
-        mDeliveryName = (TextView) view.findViewById(R.id.tv_shipping_first_name);
-        mDeliveryAddress = (TextView) view.findViewById(R.id.tv_shipping_address);
-        mBillingName = (TextView) view.findViewById(R.id.tv_billing_first_name);
-        mBillingAddress = (TextView) view.findViewById(R.id.tv_billing_address);
-        mPaymentModeLayout = (LinearLayout) view.findViewById(R.id.ll_payment_mode);
-        mPaymentCardType = (TextView) view.findViewById(R.id.tv_card_type);
-        tvOpeningTimings = (TextView) view.findViewById(R.id.tv_opening_timings);
-        btncall = (Button) view.findViewById(R.id.btn_call);
+        mParentView = view.findViewById(R.id.scrollView);
+        mTvQuantity = view.findViewById(R.id.tv_quantity);
+        mTvtotalPrice = view.findViewById(R.id.tv_total_price);
+        mTime = view.findViewById(R.id.tv_time);
+        mOrderNumber = view.findViewById(R.id.tv_order_number);
+        mOrderState = view.findViewById(R.id.tv_order_state);
+        mIvOrderState = view.findViewById(R.id.iv_order_state);
+        mDeliveryName = view.findViewById(R.id.tv_shipping_first_name);
+        mDeliveryAddress = view.findViewById(R.id.tv_shipping_address);
+        mBillingName = view.findViewById(R.id.tv_billing_first_name);
+        mBillingAddress = view.findViewById(R.id.tv_billing_address);
+        mPaymentModeLayout = view.findViewById(R.id.ll_payment_mode);
+        mPaymentCardType = view.findViewById(R.id.tv_card_type);
+        tvOpeningTimings = view.findViewById(R.id.tv_opening_timings);
+        btncall = view.findViewById(R.id.btn_call);
         btncall.setOnClickListener(this);
 
 
-        tvCardName = (TextView) view.findViewById(R.id.tv_card_name);
-        tvCardNo = (TextView) view.findViewById(R.id.tv_card_no);
+        tvCardName = view.findViewById(R.id.tv_card_name);
+        tvCardNo = view.findViewById(R.id.tv_card_no);
 
-        Button mCancelOrder = (Button) view.findViewById(R.id.btn_cancel);
+        Button mCancelOrder = view.findViewById(R.id.btn_cancel);
         mCancelOrder.setOnClickListener(this);
 
-        tvDeliveryMode = (TextView) view.findViewById(R.id.tv_delivery_mode);
-        tvDeliveryModePrice = (TextView) view.findViewById(R.id.tv_price_deliverymode);
+        tvDeliveryMode = view.findViewById(R.id.tv_delivery_mode);
+        tvDeliveryModePrice = view.findViewById(R.id.tv_price_deliverymode);
 
-        tvTotal = (TextView) view.findViewById(R.id.tv_total);
-        tvPriceTotal = (TextView) view.findViewById(R.id.tv_price_total);
+        tvTotal = view.findViewById(R.id.tv_total);
+        tvPriceTotal = view.findViewById(R.id.tv_price_total);
 
-        tvVat = (TextView) view.findViewById(R.id.tv_vat);
-        tvPriceVat = (TextView) view.findViewById(R.id.tv_price_vat);
+        tvVat = view.findViewById(R.id.tv_vat);
+        tvPriceVat = view.findViewById(R.id.tv_price_vat);
 
-        tlProductDetailContainer = (TableLayout) view.findViewById(R.id.tl_product_detail_container);
+        tlProductDetailContainer = view.findViewById(R.id.tl_product_detail_container);
 
 
-        mProductListView = (LinearLayout) view.findViewById(R.id.product_detail);
-        mShippingStatus = (TextView) view.findViewById(R.id.tv_shipping_status_message);
+        mProductListView = view.findViewById(R.id.product_detail);
+        mShippingStatus = view.findViewById(R.id.tv_shipping_status_message);
 
         Bundle bundle = getArguments();
         if (null != bundle) {
@@ -263,8 +263,8 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         for (ProductData productData : productList) {
 
             View v = View.inflate(mContext, R.layout.iap_order_detail_summary_product, null);
-            TextView product_quantity_name = (TextView) v.findViewById(R.id.tv_product_quantity_name);
-            TextView price_product = (TextView) v.findViewById(R.id.tv_price_product);
+            TextView product_quantity_name = v.findViewById(R.id.tv_product_quantity_name);
+            TextView price_product = v.findViewById(R.id.tv_price_product);
             product_quantity_name.setText(productData.getQuantity() + "" + "x" + " " + productData.getProductTitle());
             price_product.setText(productData.getFormatedPrice());
             tlProductDetailContainer.addView(v);

@@ -67,7 +67,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_address_selection, container, false);
 
-        mAddressListView = (RecyclerView) view.findViewById(R.id.shipping_addresses);
+        mAddressListView = view.findViewById(R.id.shipping_addresses);
         mAddressController = new AddressController(mContext, this);
         mJanRainEmail = HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail();
         registerEvents();
@@ -82,7 +82,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         */
         mAdapter = new AddressSelectionAdapter(mAddresses);
         mAddressListView.setAdapter(mAdapter);
-        TextView tv_checkOutSteps = (TextView) view.findViewById(R.id.tv_checkOutSteps);
+        TextView tv_checkOutSteps = view.findViewById(R.id.tv_checkOutSteps);
         tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), "1"));
 
         return view;

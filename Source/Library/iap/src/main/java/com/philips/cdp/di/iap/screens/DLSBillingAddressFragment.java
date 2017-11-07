@@ -89,65 +89,65 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
         phoneNumberUtil = PhoneNumberUtil.getInstance();
 
-        mLlFirstNameBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_first_name);
+        mLlFirstNameBilling = rootView.findViewById(R.id.ll_billing_first_name);
         inputValidatorFirstNameBilling = new InputValidator(Validator.NAME_PATTERN);
         mLlFirstNameBilling.setValidator(inputValidatorFirstNameBilling);
 
-        mLlLastNameBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_last_name);
+        mLlLastNameBilling = rootView.findViewById(R.id.ll_billing_last_name);
         inputValidatorLastNameBilling = new InputValidator(Validator.NAME_PATTERN);
         mLlLastNameBilling.setValidator(inputValidatorLastNameBilling);
 
-        InputValidationLayout mLlSalutationBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_salutation);
+        InputValidationLayout mLlSalutationBilling = rootView.findViewById(R.id.ll_billing_salutation);
         InputValidator inputValidatorSalutationBilling = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlSalutationBilling.setValidator(inputValidatorSalutationBilling);
 
-        mLlAddressLineOneBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_address_line_one);
+        mLlAddressLineOneBilling = rootView.findViewById(R.id.ll_billing_address_line_one);
         inputValidatorAddressLineOneBilling = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlAddressLineOneBilling.setValidator(inputValidatorAddressLineOneBilling);
 
-        mLlAddressLineTwoBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_address_line_two);
+        mLlAddressLineTwoBilling = rootView.findViewById(R.id.ll_billing_address_line_two);
         inputValidatorAddressLineTwoBilling = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlAddressLineTwoBilling.setValidator(inputValidatorAddressLineTwoBilling);
 
-        mLlTownBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_town);
+        mLlTownBilling = rootView.findViewById(R.id.ll_billing_town);
         inputValidatorTownBilling = new InputValidator(Validator.TOWN_PATTERN);
         mLlTownBilling.setValidator(inputValidatorTownBilling);
 
-        mLlPostalCodeBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_postal_code);
+        mLlPostalCodeBilling = rootView.findViewById(R.id.ll_billing_postal_code);
         inputValidatorPostalCodeBilling = new InputValidator(Validator.POSTAL_CODE_PATTERN);
         mLlPostalCodeBilling.setValidator(inputValidatorPostalCodeBilling);
 
 
-        mLlCountryBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_country);
+        mLlCountryBilling = rootView.findViewById(R.id.ll_billing_country);
         inputValidatorCountryBilling = new InputValidator(Validator.COUNTRY_PATTERN);
         mLlCountryBilling.setValidator(inputValidatorCountryBilling);
 
-        mlLStateBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_state);
+        mlLStateBilling = rootView.findViewById(R.id.ll_billing_state);
         InputValidator inputValidatorStateBilling = new InputValidator(Validator.NAME_PATTERN);
         mlLStateBilling.setValidator(inputValidatorStateBilling);
 
-        mLlEmailBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_email);
+        mLlEmailBilling = rootView.findViewById(R.id.ll_billing_email);
         inputValidatorEmailBilling = new InputValidator(Validator.EMAIL_PATTERN);
         mLlEmailBilling.setValidator(inputValidatorEmailBilling);
 
-        mLlPhone1Billing = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_phone1);
+        mLlPhone1Billing = rootView.findViewById(R.id.ll_billing_phone1);
         InputValidator inputValidatorPhoneBilling = new InputValidator(Validator.PHONE_NUMBER_PATTERN);
         mLlPhone1Billing.setValidator(inputValidatorPhoneBilling);
 
 
         //For Billing address
 
-        mEtFirstNameBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_first_name);
-        mEtLastNameBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_last_name);
-        mEtSalutationBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_salutation);
-        mEtAddressLineOneBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_address_line_one);
-        mEtAddressLineTwoBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_address_line_two);
-        mEtTownBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_town);
-        mEtPostalCodeBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_postal_code);
-        mEtCountryBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_country);
-        mEtStateBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_state);
-        mEtEmailBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_email);
-        mEtPhone1Billing = (ValidationEditText) rootView.findViewById(R.id.et_billing_phone1);
+        mEtFirstNameBilling = rootView.findViewById(R.id.et_billing_first_name);
+        mEtLastNameBilling = rootView.findViewById(R.id.et_billing_last_name);
+        mEtSalutationBilling = rootView.findViewById(R.id.et_billing_salutation);
+        mEtAddressLineOneBilling = rootView.findViewById(R.id.et_billing_address_line_one);
+        mEtAddressLineTwoBilling = rootView.findViewById(R.id.et_billing_address_line_two);
+        mEtTownBilling = rootView.findViewById(R.id.et_billing_town);
+        mEtPostalCodeBilling = rootView.findViewById(R.id.et_billing_postal_code);
+        mEtCountryBilling = rootView.findViewById(R.id.et_billing_country);
+        mEtStateBilling = rootView.findViewById(R.id.et_billing_state);
+        mEtEmailBilling = rootView.findViewById(R.id.et_billing_email);
+        mEtPhone1Billing = rootView.findViewById(R.id.et_billing_phone1);
 
 
         mEtCountryBilling.setFilters(new InputFilter[]{new InputFilter.AllCaps()});

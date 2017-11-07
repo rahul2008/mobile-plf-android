@@ -13,10 +13,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
-import com.philips.cdp.di.iap.networkEssential.NetworkEssentials;
-import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.networkEssential.NetworkEssentials;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.json.JSONObject;

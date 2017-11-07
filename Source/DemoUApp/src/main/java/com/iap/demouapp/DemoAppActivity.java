@@ -93,38 +93,38 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         setContentView(R.layout.demo_app_layout);
 
         showAppVersion();
-        mEtCTN = (EditText) findViewById(R.id.et_add_ctn);
-        mAddCTNLl = (LinearLayout) findViewById(R.id.ll_ctn);
+        mEtCTN = findViewById(R.id.et_add_ctn);
+        mAddCTNLl = findViewById(R.id.ll_ctn);
 
-        mRegister = (Button) findViewById(R.id.btn_register);
+        mRegister = findViewById(R.id.btn_register);
         mRegister.setOnClickListener(this);
 
-        mBuyDirect = (Button) findViewById(R.id.btn_buy_direct);
+        mBuyDirect = findViewById(R.id.btn_buy_direct);
         mBuyDirect.setOnClickListener(this);
 
-        mShopNow = (Button) findViewById(R.id.btn_shop_now);
+        mShopNow = findViewById(R.id.btn_shop_now);
         mShopNow.setOnClickListener(this);
 
-        mPurchaseHistory = (Button) findViewById(R.id.btn_purchase_history);
+        mPurchaseHistory = findViewById(R.id.btn_purchase_history);
         mPurchaseHistory.setOnClickListener(this);
 
-        mLaunchProductDetail = (Button) findViewById(R.id.btn_launch_product_detail);
+        mLaunchProductDetail = findViewById(R.id.btn_launch_product_detail);
         mLaunchProductDetail.setOnClickListener(this);
 
-        mShoppingCart = (FrameLayout) findViewById(R.id.shopping_cart_icon);
+        mShoppingCart = findViewById(R.id.shopping_cart_icon);
         mShoppingCart.setOnClickListener(this);
 
-        mShopNowCategorized = (Button) findViewById(R.id.btn_categorized_shop_now);
+        mShopNowCategorized = findViewById(R.id.btn_categorized_shop_now);
         mShopNowCategorized.setOnClickListener(this);
 
-        mAddCtn = (Button) findViewById(R.id.btn_add_ctn);
+        mAddCtn = findViewById(R.id.btn_add_ctn);
         mAddCtn.setOnClickListener(this);
 
-        mShopNowCategorizedWithRetailer = (Button) findViewById(R.id.btn_categorized_shop_now_with_ignore_retailer);
+        mShopNowCategorizedWithRetailer = findViewById(R.id.btn_categorized_shop_now_with_ignore_retailer);
         mShopNowCategorizedWithRetailer.setOnClickListener(this);
 
-        mCartIcon = (ImageView) findViewById(R.id.cart_iv);
-        mCountText = (TextView) findViewById(R.id.item_count);
+        mCartIcon = findViewById(R.id.cart_iv);
+        mCountText = findViewById(R.id.item_count);
 
         mCategorizedProductList = new ArrayList<>();
         showScreenSizeInDp();
@@ -251,7 +251,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     }
 
     private void actionBar() {
-        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.iap_header_back_button);
+        FrameLayout frameLayout = findViewById(R.id.iap_header_back_button);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -259,10 +259,10 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             }
         });
 
-        ImageView mBackImage = (ImageView) findViewById(R.id.iap_iv_header_back_button);
+        ImageView mBackImage = findViewById(R.id.iap_iv_header_back_button);
         Drawable mBackDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.back_arrow);
         mBackImage.setBackground(mBackDrawable);
-        mTitleTextView = (TextView) findViewById(R.id.iap_header_title);
+        mTitleTextView = findViewById(R.id.iap_header_title);
         setTitle(getString(R.string.iap_app_name));
 
 //         mCartIcon = (ImageView) findViewById(R.id.cart_iv);
@@ -440,7 +440,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         } catch (PackageManager.NameNotFoundException e) {
             IAPLog.e(IAPLog.LOG, e.getMessage());
         }
-        TextView versionView = (TextView) findViewById(R.id.appversion);
+        TextView versionView = findViewById(R.id.appversion);
         versionView.setText(String.valueOf(code));
     }
 

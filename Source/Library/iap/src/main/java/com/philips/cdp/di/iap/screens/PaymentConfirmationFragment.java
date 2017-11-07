@@ -49,10 +49,10 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
     }
 
     private void initViews(ViewGroup viewGroup) {
-        mConfirmationText = (TextView) viewGroup.findViewById(R.id.tv_thank_you_title);
-        mConfirmWithEmail = (TextView) viewGroup.findViewById(R.id.tv_confirmation_email_shortly);
-        mOrderNumber = (TextView) viewGroup.findViewById(R.id.tv_order_number_val);
-        final Button mOKButton = (Button) viewGroup.findViewById(R.id.ok_btn);
+        mConfirmationText = viewGroup.findViewById(R.id.tv_thank_you_title);
+        mConfirmWithEmail = viewGroup.findViewById(R.id.tv_confirmation_email_shortly);
+        mOrderNumber = viewGroup.findViewById(R.id.tv_order_number_val);
+        final Button mOKButton = viewGroup.findViewById(R.id.ok_btn);
         mOKButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {

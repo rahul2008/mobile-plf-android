@@ -45,13 +45,13 @@ public class ErrorDialogFragment extends DialogFragment {
     void initializeViews(View v) {
         bundle = getArguments();
 
-        TextView dialogTitle = (TextView) v.findViewById(R.id.dialogTitle);
+        TextView dialogTitle = v.findViewById(R.id.dialogTitle);
         dialogTitle.setText(bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_TITLE));
 
-        final TextView dialogDescription = (TextView) v.findViewById(R.id.dialogDescription);
+        final TextView dialogDescription = v.findViewById(R.id.dialogDescription);
         dialogDescription.setText(bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION));
 
-        Button mOkBtn = (Button) v.findViewById(R.id.btn_dialog_ok);
+        Button mOkBtn = v.findViewById(R.id.btn_dialog_ok);
         mOkBtn.setText(bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_TEXT));
         mOkBtn.setOnClickListener(new View.OnClickListener() {
             @Override

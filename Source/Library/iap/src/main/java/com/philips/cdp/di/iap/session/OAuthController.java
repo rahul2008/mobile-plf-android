@@ -11,12 +11,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.OAuthRequest;
 import com.philips.cdp.di.iap.model.RefreshOAuthRequest;
 import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.response.error.ServerError;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 

@@ -5,9 +5,6 @@
 
 package com.philips.cdp.di.iap.address;
 
-import com.philips.cdp.di.iap.utils.InputValidator;
-import com.philips.platform.uid.view.widget.InputValidationLayout;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

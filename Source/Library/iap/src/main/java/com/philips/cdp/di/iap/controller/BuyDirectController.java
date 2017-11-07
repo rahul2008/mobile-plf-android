@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.controller;
 import android.content.Context;
 import android.os.Message;
 
-import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartAddProductRequest;
 import com.philips.cdp.di.iap.model.CartCreateRequest;
@@ -21,6 +20,7 @@ import com.philips.cdp.di.iap.model.SetDeliveryAddressRequest;
 import com.philips.cdp.di.iap.model.SetPaymentDetailsRequest;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;

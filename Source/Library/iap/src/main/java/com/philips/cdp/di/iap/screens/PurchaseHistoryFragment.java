@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.screens;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
-import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -71,7 +70,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
 
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PURCHASE_HISTORY_DETAIL), this);
 
-        mOrderHistoryView = (RecyclerView) rootView.findViewById(R.id.order_history);
+        mOrderHistoryView = rootView.findViewById(R.id.order_history);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mOrderHistoryView.setLayoutManager(layoutManager);
 
@@ -197,7 +196,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
             bundle.putString(IAPConstant.ORDER_STATUS, order.getStatusDisplay());
             for (OrderDetail detail : mOrderDetails) {
                 if (detail.getCode().equals(order.getCode())) {
-                    bundle.putParcelable(IAPConstant.ORDER_DETAIL, (Parcelable) detail);
+                    bundle.putParcelable(IAPConstant.ORDER_DETAIL, detail);
                     break;
                 }
             }
