@@ -62,7 +62,6 @@ import com.philips.platform.core.events.MomentsSaveRequest;
 import com.philips.platform.core.events.MomentsUpdateRequest;
 import com.philips.platform.core.events.PairDevicesRequestEvent;
 import com.philips.platform.core.events.RegisterDeviceToken;
-import com.philips.platform.core.events.Synchronize;
 import com.philips.platform.core.events.UnPairDeviceRequestEvent;
 import com.philips.platform.core.events.UnRegisterDeviceToken;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
@@ -251,16 +250,24 @@ public class DataServicesManager {
      * For Pulling and Pushing of data from DataBase to Backend
      */
     public void synchronize() {
-        synchronized (this) {
-            startMonitors();
-            mEventing.post(new Synchronize(mSynchronisationCompleteListener));
-        }
+        sendPullDataEvent();
     }
+
 
     public void synchronizeWithFetchByDateRange(DateTime startDate, DateTime endDate, SynchronisationCompleteListener synchronisationCompleteListener) {
         synchronized (this) {
             startMonitors();
-            mEventing.post(new Synchronize(mSynchronisationCompleteListener, startDate.toString(), endDate.toString()));
+            mSynchronisationManager.startFetch(startDate.toString(), endDate.toString(), synchronisationCompleteListener);
+        }
+    }
+
+    /**
+     * Start Data-Pull followed by Data-Push
+     */
+    private void sendPullDataEvent() {
+        synchronized (this) {
+            startMonitors();
+            mSynchronisationManager.startSync(mSynchronisationCompleteListener);
         }
     }
 

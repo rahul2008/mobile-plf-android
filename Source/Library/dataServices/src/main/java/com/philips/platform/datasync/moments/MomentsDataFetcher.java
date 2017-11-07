@@ -117,7 +117,7 @@ public class MomentsDataFetcher extends DataFetcher {
                     timeStamp.get(START_DATE), timeStamp.get(END_DATE), timeStamp.get(LAST_MODIFIED_START_DATE), timeStamp.get(LAST_MODIFIED_END_DATE), 3);
             updateMomentsToDB(momentHistory);
             timeStamp = accessProvider.getLastSyncTimeStampByDateRange(momentHistory.getSyncurl());
-        } while (momentHistory.getUCoreMoments().size() <= 1);
+        } while (!momentHistory.getUCoreMoments().isEmpty());
     }
 
     protected boolean isUserInvalid() {

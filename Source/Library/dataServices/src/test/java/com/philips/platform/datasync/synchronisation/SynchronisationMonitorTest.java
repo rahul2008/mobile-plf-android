@@ -3,10 +3,8 @@ package com.philips.platform.datasync.synchronisation;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
-import com.philips.platform.core.events.Synchronize;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.injection.AppComponent;
-import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import org.joda.time.DateTime;
@@ -16,6 +14,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -33,12 +32,6 @@ public class SynchronisationMonitorTest {
     private DataPushSynchronise dataPushSynchroniseMock;
 
     @Mock
-    private SynchronisationManager synchronisationManagerMock;
-
-    @Mock
-    private SynchronisationCompleteListener syncCompleteListenerMock;
-
-    @Mock
     private Eventing eventingMock;
 
     @Captor
@@ -52,9 +45,9 @@ public class SynchronisationMonitorTest {
         initMocks(this);
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
         monitor = new SynchronisationMonitor();
-        monitor.synchronisationManager = synchronisationManagerMock;
-        monitor.pullSynchronise = dataSynchronisePullMock;
-        monitor.pushSynchronise = dataPushSynchroniseMock;
+
+       monitor.pullSynchronise=dataSynchronisePullMock;
+        monitor.pushSynchronise=dataPushSynchroniseMock;
 
     }
 
@@ -73,20 +66,6 @@ public class SynchronisationMonitorTest {
         monitor.onEventAsync(event);
 
         verify(dataPushSynchroniseMock).startSynchronise(event.getEventId());
-    }
-
-    @Test
-    public void whenSynchronizeEventIsPosted() {
-        whenSynchronizeEvenIsPosted();
-        thenVerifyStartSyncIsInvoked();
-    }
-
-    private void whenSynchronizeEvenIsPosted() {
-        monitor.onEventAsync(new Synchronize(syncCompleteListenerMock));
-    }
-
-    private void thenVerifyStartSyncIsInvoked() {
-        verify(synchronisationManagerMock).startSync(null, null, syncCompleteListenerMock);
     }
 
 }

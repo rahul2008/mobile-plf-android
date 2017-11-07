@@ -7,8 +7,6 @@ package com.philips.platform.datasync.synchronisation;
 
 import com.philips.platform.core.events.FetchByDateRange;
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
-import com.philips.platform.core.events.Synchronize;
-import com.philips.platform.core.events.SynchronizeWithFetchByDateRange;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -29,36 +27,28 @@ public class SynchronisationMonitor extends EventMonitor {
     DataPushSynchronise pushSynchronise;
 
     @Inject
-    SynchronisationManager synchronisationManager;
-
-    @Inject
     public SynchronisationMonitor() {
         DataServicesManager.getInstance().getAppComponant().injectSynchronizationMonitor(this);
     }
 
-    @Subscribe(threadMode = ThreadMode.POSTING)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(ReadDataFromBackendRequest event) {
-        pullSynchronise.startSynchronise(event.getEventId());
+        synchronized (this) {
+            pullSynchronise.startSynchronise(event.getEventId());
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(WriteDataToBackendRequest event) {
-        pushSynchronise.startSynchronise(event.getEventId());
+        synchronized (this) {
+            pushSynchronise.startSynchronise(event.getEventId());
+        }
     }
 
-    @Subscribe(threadMode = ThreadMode.POSTING)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(FetchByDateRange fetchByDateRange) {
-        pullSynchronise.startSynchronise(fetchByDateRange.getStartDate(), fetchByDateRange.getEndDate(), fetchByDateRange.getEventId());
-    }
-
-    @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(Synchronize synchronize) {
-        synchronisationManager.startSync(synchronize.getStartDate(), synchronize.getEndDate(), synchronize.getSynchronisationCompleteListener());
-    }
-
-    @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(SynchronizeWithFetchByDateRange synchronizeWithFetchByDateRange) {
-        synchronisationManager.startSync(synchronizeWithFetchByDateRange.getStartDate(), synchronizeWithFetchByDateRange.getEndDate(),
-                synchronizeWithFetchByDateRange.getSynchronisationCompleteListener());
+        synchronized (this) {
+            pullSynchronise.startSynchronise(fetchByDateRange.getStartDate(), fetchByDateRange.getEndDate(), fetchByDateRange.getEventId());
+        }
     }
 }
