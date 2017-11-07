@@ -52,4 +52,8 @@ public class NetworkHelper {
             }
         });
     }
+
+    static void setInstance(NetworkHelper networkHelper) {
+        NetworkHelper.networkHelper = networkHelper;
+    }
 }

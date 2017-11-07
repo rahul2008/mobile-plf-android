@@ -78,13 +78,10 @@ public class ConsentAccessToolKit {
         return catkComponent;
     }
 
-    @Deprecated
-    public void setCatkComponent(CatkComponent component) {
+    void setCatkComponent(CatkComponent component) {
         catkComponent = component;
     }
 
-
-    private NetworkHelper networkHelper;
     private String applicationName;
     private String propositionName;
 
@@ -111,7 +108,7 @@ public class ConsentAccessToolKit {
                 return CatkConstants.CONSENT_ERROR_UNKNOWN;
             }
         });
-        getNetworkHelper().sendRequest(model.getMethod(), model, model);
+        NetworkHelper.getInstance().sendRequest(model.getMethod(), model, model);
     }
 
 
@@ -122,7 +119,7 @@ public class ConsentAccessToolKit {
 
     private void getLocaleAndProceed(final ConsentStatus consentStatus, final CreateConsentListener consentListener) {
 
-        ConsentAccessToolKit.getInstance().getCatkComponent().getServiceDiscoveryInterface().
+        getCatkComponent().getServiceDiscoveryInterface().
                 getServiceLocaleWithCountryPreference("ds.consentservice", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
                     @Override
                     public void onSuccess(String s) {
@@ -145,7 +142,7 @@ public class ConsentAccessToolKit {
                                         return CatkConstants.CONSENT_ERROR_UNKNOWN;
                                     }
                                 });
-                        getNetworkHelper().sendRequest(model.getMethod(), model, model);
+                        NetworkHelper.getInstance().sendRequest(model.getMethod(), model, model);
                     }
 
                     @Override
@@ -182,10 +179,4 @@ public class ConsentAccessToolKit {
         return "urn:com.philips.consent:" + consentType + "/" + country + "/" + version + "/" + propositionName + "/" + applicationName;
     }
 
-    private NetworkHelper getNetworkHelper() {
-        if (networkHelper == null) {
-            networkHelper = NetworkHelper.getInstance();
-        }
-        return networkHelper;
-    }
 }
