@@ -20,8 +20,8 @@ import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConnectingDeviceWithWifiBinding;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.util.BundleUtils;
-import com.philips.cdp2.ews.view.BaseFragment;
-import com.philips.cdp2.ews.view.EWSActivity;
+import com.philips.cdp2.ews.base.BaseFragment;
+import com.philips.cdp2.ews.EWSActivity;
 
 import javax.inject.Inject;
 

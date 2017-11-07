@@ -70,16 +70,6 @@
     <item name="android:textSize">17sp</item>
   </style>
 
-  <style name="Txt.SliderValue" parent="Txt.Title">
-    <item name="fontPath">@string/centrale_sans_bold</item>
-    <item name="android:textSize">17sp</item>
-    <item name="android:lineSpacingExtra">@dimen/line_spacing_extra</item>
-    <item name="android:paddingStart">@dimen/b</item>
-    <item name="android:paddingEnd">@dimen/b</item>
-  </style>
-
-
-
 
   ///////////
 

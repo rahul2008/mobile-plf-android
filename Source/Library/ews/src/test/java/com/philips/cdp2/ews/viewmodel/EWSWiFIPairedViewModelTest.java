@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.viewmodel;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.connectionsuccessful.ConnectionSuccessfulViewModel;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.util.StringProvider;
 
