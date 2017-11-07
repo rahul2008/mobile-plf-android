@@ -8,7 +8,6 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_waiting_room_title_label"
-        fontPath="fonts/centralesansbold.ttf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -22,7 +21,6 @@
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
         android:textSize="@dimen/ths_title_text"
-        android:textColor="?attr/uidLabelValueNormalTextColor"
         fontPath="fonts/centralesansbold.ttf" />
 
     <LinearLayout

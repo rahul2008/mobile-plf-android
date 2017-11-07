@@ -74,7 +74,7 @@
             android:layout_below="@+id/ths_cost_summary_initial_visit_cost_label"
 
             android:background="@color/uid_gray_level_10"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal" />
 
         <com.philips.platform.uid.view.widget.Label
 
@@ -248,24 +248,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <com.philips.platform.uid.view.widget.Label
-                            android:id="@+id/ths_cost_summary_no_insurance_image"
-                            style="@style/ths_font_icon_style"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="false"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="@dimen/ths_fab_margin"
-                            android:text="@string/dls_infocircle" />
 
                         <com.philips.platform.uid.view.widget.Label
-
                             android:id="@+id/ths_cost_summary_no_insurance_label"
-                            fontPath="fonts/centralesansbold.ttf"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp"
-                            android:layout_toRightOf="@+id/ths_cost_summary_no_insurance_image"
+                            android:layout_marginEnd="10dp"
                             android:lineSpacingExtra="6sp"
                             android:text="@string/ths_not_insurance"
                             android:textColor="?attr/uidContentItemPrimaryNormalTextColor">
@@ -273,8 +262,9 @@
                         </com.philips.platform.uid.view.widget.Label>
                     </RelativeLayout>
 
+                </RelativeLayout>
+                <!--end of Non-existing insurance detail-->
             </RelativeLayout>
-            <!--end of Non-existing insurance detail-->
 
         </FrameLayout><!--end of Insuramnce block-->
 
