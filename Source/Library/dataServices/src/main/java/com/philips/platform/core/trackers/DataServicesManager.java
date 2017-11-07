@@ -257,7 +257,7 @@ public class DataServicesManager {
     public void synchronizeWithFetchByDateRange(DateTime startDate, DateTime endDate, SynchronisationCompleteListener synchronisationCompleteListener) {
         synchronized (this) {
             startMonitors();
-            mSynchronisationManager.startFetch(startDate.toString(), endDate.toString(), synchronisationCompleteListener);
+            mSynchronisationManager.startSync(startDate.toString(), endDate.toString(), synchronisationCompleteListener);
         }
     }
 
@@ -267,7 +267,7 @@ public class DataServicesManager {
     private void sendPullDataEvent() {
         synchronized (this) {
             startMonitors();
-            mSynchronisationManager.startSync(mSynchronisationCompleteListener);
+            mSynchronisationManager.startSync(null, null, mSynchronisationCompleteListener);
         }
     }
 

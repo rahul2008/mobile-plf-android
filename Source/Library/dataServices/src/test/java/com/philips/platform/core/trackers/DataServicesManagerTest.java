@@ -619,7 +619,7 @@ public class DataServicesManagerTest {
 
 
     private void thenVerifySynchronisationManagerIsCalled() {
-        verify(synchronisationManagerMock).startFetch(START_DATE.toString(), END_DATE.toString(), synchronisationCompleteListenerMock);
+        verify(synchronisationManagerMock).startSync(START_DATE.toString(), END_DATE.toString(), synchronisationCompleteListenerMock);
     }
 
     private static final DateTime START_DATE = new DateTime();

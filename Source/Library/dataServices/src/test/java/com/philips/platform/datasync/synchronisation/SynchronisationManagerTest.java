@@ -32,8 +32,8 @@ public class SynchronisationManagerTest {
     SynchronisationManager synchronisationManager;
 
     private EventingSpy eventingSpy;
-    private String startDate = new DateTime().toString();
-    private String endDate = new DateTime().toString();
+    private static final String START_DATE = new DateTime().toString();
+    private static final String END_DATE = new DateTime().toString();
 
     @Before
     public void setUp() {
@@ -43,11 +43,6 @@ public class SynchronisationManagerTest {
         eventingSpy = new EventingSpy();
         synchronisationManager.mEventing = eventingSpy;
         synchronisationManager.mSynchronisationCompleteListener = synchronisationCompleteListenerMock;
-    }
-
-    @Test
-    public void shouldStartSync_WhenstartSyncIsCalled() throws Exception {
-        synchronisationManager.startSync(synchronisationCompleteListenerMock);
     }
 
     @Test
@@ -87,13 +82,19 @@ public class SynchronisationManagerTest {
     }
 
     @Test
+    public void startSync_WithNoDateRange() {
+        whenStartFetchIsInvoked(null, null, synchronisationCompleteListenerMock);
+        thenVerifyEventIsPosted("ReadDataFromBackendRequest");
+    }
+
+    @Test
     public void startFetch_WithDateRange() {
-        whenStartFetchIsInvoked();
+        whenStartFetchIsInvoked(START_DATE, END_DATE, synchronisationCompleteListenerMock);
         thenVerifyEventIsPosted("FetchByDateRange");
     }
 
-    private void whenStartFetchIsInvoked() {
-        synchronisationManager.startFetch(startDate, endDate, synchronisationCompleteListenerMock);
+    private void whenStartFetchIsInvoked(String startDate, String endDate, SynchronisationCompleteListener synchronisationCompleteListenerMock) {
+        synchronisationManager.startSync(startDate, endDate, synchronisationCompleteListenerMock);
     }
 
     private void thenVerifyEventIsPosted(String event) {
