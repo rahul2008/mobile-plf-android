@@ -5,20 +5,20 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.confirmwifi.ConfirmWifiNetworkFragment;
+import com.philips.cdp2.ews.connectionsuccessful.ConnectionSuccessfulFragment;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceFragment;
 import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordFragment;
+import com.philips.cdp2.ews.setupsteps.FirstSetupStepsFragment;
+import com.philips.cdp2.ews.setupsteps.SecondSetupStepsFragment;
+import com.philips.cdp2.ews.startconnectwithdevice.StartConnectWithDeviceFragment;
 import com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WifiConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
-import com.philips.cdp2.ews.view.ConfirmWifiNetworkFragment;
-import com.philips.cdp2.ews.view.ConnectionSuccessfulFragment;
-import com.philips.cdp2.ews.view.FirstSetupStepsFragment;
-import com.philips.cdp2.ews.view.SecondSetupStepsFragment;
-import com.philips.cdp2.ews.view.StartConnectWithDeviceFragment;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,12 +27,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import static junit.framework.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -114,32 +111,12 @@ public class NavigatorTest {
     }
 
     @Test
-    public void itShouldOnlyPopResetConnectionScreenWhenAlreadyPresentInStack() throws Exception {
-        when(mockFragmentNavigator.popToFragment(anyString())).thenReturn(true);
-
-        subject.navigateToResetConnectionTroubleShootingScreen();
-
-        verify(mockFragmentNavigator).popToFragment(ResetConnectionTroubleshootingFragment.class.getCanonicalName());
-        verify(mockFragmentNavigator, never()).push(any(Fragment.class), anyInt());
-    }
-
-    @Test
     public void itShouldPushResetConnectionScreenWhenNotPresentInStack() throws Exception {
         when(mockFragmentNavigator.popToFragment(anyString())).thenReturn(false);
 
         subject.navigateToResetConnectionTroubleShootingScreen();
 
         verifyFragmentPushed(ResetConnectionTroubleshootingFragment.class);
-    }
-
-    @Test
-    public void itShouldOnlyPopPowerOnScreenWhenAlreadyPresentInStack() throws Exception {
-        when(mockFragmentNavigator.popToFragment(anyString())).thenReturn(true);
-
-        subject.navigateToDevicePoweredOnConfirmationScreen();
-
-        verify(mockFragmentNavigator).popToFragment(FirstSetupStepsFragment.class.getCanonicalName());
-        verify(mockFragmentNavigator, never()).push(any(Fragment.class), anyInt());
     }
 
     @Test

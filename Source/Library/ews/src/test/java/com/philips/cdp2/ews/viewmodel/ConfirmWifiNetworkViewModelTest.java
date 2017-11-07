@@ -9,6 +9,7 @@ import android.databinding.Observable;
 import com.philips.cdp2.ews.BR;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.confirmwifi.ConfirmWifiNetworkViewModel;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.StringProvider;

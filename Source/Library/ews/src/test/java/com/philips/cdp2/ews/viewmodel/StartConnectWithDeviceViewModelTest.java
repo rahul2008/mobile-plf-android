@@ -10,6 +10,7 @@ import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.startconnectwithdevice.StartConnectWithDeviceViewModel;
 import com.philips.cdp2.ews.util.StringProvider;
 
 import org.junit.Before;

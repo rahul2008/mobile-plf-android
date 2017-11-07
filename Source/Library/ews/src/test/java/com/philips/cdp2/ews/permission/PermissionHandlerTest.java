@@ -27,7 +27,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static com.philips.cdp2.ews.viewmodel.SecondSetupStepsViewModel.ACCESS_COARSE_LOCATION;
+import static com.philips.cdp2.ews.setupsteps.SecondSetupStepsViewModel.ACCESS_COARSE_LOCATION;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyInt;

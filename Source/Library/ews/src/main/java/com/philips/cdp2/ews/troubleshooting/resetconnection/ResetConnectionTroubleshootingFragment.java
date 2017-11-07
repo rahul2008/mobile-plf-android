@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentResetConnectionTroubleshootingLayoutBinding;
 import com.philips.cdp2.ews.tagging.Page;
-import com.philips.cdp2.ews.view.BaseTroubleShootingFragment;
-import com.philips.cdp2.ews.view.EWSActivity;
+import com.philips.cdp2.ews.base.BaseTroubleShootingFragment;
+import com.philips.cdp2.ews.EWSActivity;
 
 public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingFragment {
 

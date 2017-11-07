@@ -20,8 +20,8 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentConnectWithPasswordBinding;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.BundleUtils;
-import com.philips.cdp2.ews.view.BaseFragment;
-import com.philips.cdp2.ews.view.EWSActivity;
+import com.philips.cdp2.ews.base.BaseFragment;
+import com.philips.cdp2.ews.EWSActivity;
 
 public class ConnectWithPasswordFragment extends BaseFragment {
 

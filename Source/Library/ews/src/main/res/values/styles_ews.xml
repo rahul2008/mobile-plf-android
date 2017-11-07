@@ -60,10 +60,6 @@
         <item name="android:textSize">@dimen/ews_title_text_size</item>
     </style>
 
-    <!--<style name="EWS.Txt.Title.Dark">-->
-        <!--<item name="android:textColor">@color/colorPrimary</item>-->
-    <!--</style>-->
-
     <style name="EWS.Txt.Body"></style>
 
     <style name="EWS.Txt.Body.Link">
@@ -106,13 +102,6 @@
     <style name="EWS.ImageScale">
         <item name="android:adjustViewBounds">true</item>
         <item name="android:scaleType">centerCrop</item>
-    </style>
-
-
-    <style name="EWSDivider">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/ews_divider_line_height</item>
-        <item name="android:background">@color/color_panel</item>
     </style>
 
     <style name="EWSDialogActivity" parent="@style/Theme.AppCompat.Light">

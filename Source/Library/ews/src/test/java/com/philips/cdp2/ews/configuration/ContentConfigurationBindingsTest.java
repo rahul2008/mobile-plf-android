@@ -83,7 +83,7 @@ public class ContentConfigurationBindingsTest {
 
     @Test
     public void itShouldSuccessWhenImageResourceSet() throws Exception {
-        subject.setEWSImageResource(mockImageView, R.drawable.ic_ews_connection_reset);
+        subject.setEWSImageResource(mockImageView, R.drawable.ic_ews_device_apmode_blinking);
         verify(mockImageView).setImageResource(anyInt());
     }
 

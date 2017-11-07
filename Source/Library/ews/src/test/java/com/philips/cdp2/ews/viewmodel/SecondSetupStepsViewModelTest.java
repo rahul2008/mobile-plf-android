@@ -13,13 +13,14 @@ import com.philips.cdp2.ews.annotations.NetworkType;
 import com.philips.cdp2.ews.communication.events.DeviceConnectionErrorEvent;
 import com.philips.cdp2.ews.communication.events.NetworkConnectEvent;
 import com.philips.cdp2.ews.communication.events.ShowPasswordEntryScreenEvent;
+import com.philips.cdp2.ews.connectionestabilish.ConnectionEstablishDialogFragment;
+import com.philips.cdp2.ews.dialog.GPSEnableDialogFragment;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
 import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.setupsteps.SecondSetupStepsViewModel;
 import com.philips.cdp2.ews.util.GpsUtil;
-import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
-import com.philips.cdp2.ews.view.dialog.GPSEnableDialogFragment;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -33,8 +34,8 @@ import org.mockito.stubbing.Answer;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static com.philips.cdp2.ews.view.SecondSetupStepsFragment.LOCATION_PERMISSIONS_REQUEST_CODE;
-import static com.philips.cdp2.ews.viewmodel.ConnectPhoneToDeviceAPModeViewModel.ACCESS_COARSE_LOCATION;
+import static com.philips.cdp2.ews.setupsteps.ConnectPhoneToDeviceAPModeViewModel.ACCESS_COARSE_LOCATION;
+import static com.philips.cdp2.ews.setupsteps.SecondSetupStepsFragment.LOCATION_PERMISSIONS_REQUEST_CODE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;

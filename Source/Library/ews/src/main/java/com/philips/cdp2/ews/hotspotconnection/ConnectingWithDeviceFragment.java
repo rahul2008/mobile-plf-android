@@ -20,8 +20,8 @@ import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel.Conn
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
-import com.philips.cdp2.ews.view.BaseFragment;
-import com.philips.cdp2.ews.view.EWSActivity;
+import com.philips.cdp2.ews.base.BaseFragment;
+import com.philips.cdp2.ews.EWSActivity;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;

@@ -21,15 +21,8 @@
     <dimen name="default_between_button_margin">8dp</dimen>
 
     <dimen name="ews_gs_icon_size">24dp</dimen>
-    <dimen name="ews_plugin_device_image_height">150dp</dimen>
-    <dimen name="ews_verify_device_icon_size">29dp</dimen>
-    <dimen name="ews_wifi_icon_size">24dp</dimen>
     <dimen name="ews_hotspot_blink_icon_width">524dp</dimen>
     <dimen name="ews_hotspot_blink_icon_height">294dp</dimen>
-    <dimen name="ews_wifi_blink_icon_height">80dp</dimen>
-    <dimen name="ews_divider_line_height">1dp</dimen>
-    <dimen name="ews_dls_navigation_right_icon_size">16dp</dimen>
-    <dimen name="browse_navigation_icon_size">16dp</dimen>
 
     <!-- ProgressBar -->
     <dimen name="uid_progress_bar_min_width">96dp</dimen>

@@ -20,12 +20,11 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import static com.philips.cdp2.ews.view.EWSActivity.EWS_STEPS;
-
 @SuppressWarnings("WeakerAccess")
 @Singleton
 public class WiFiUtil {
 
+    public static final String TAG = "WiFiUtil";
     public static final String DEVICE_SSID = "PHILIPS Setup";
     public static final String UNKNOWN_SSID = "<unknown ssid>";
     private WifiManager wifiManager;
@@ -86,7 +85,7 @@ public class WiFiUtil {
     @WiFiState
     int getCurrentWifiState() {
         String currentWifi = getConnectedWiFiSSID();
-        EWSLogger.d(EWS_STEPS, "Connected to:" + (currentWifi == null ? "Nothing" : currentWifi));
+        EWSLogger.d(TAG, "Connected to:" + (currentWifi == null ? "Nothing" : currentWifi));
 
         if (lastWifiSSid == null || currentWifi == null || currentWifi
                 .equalsIgnoreCase(UNKNOWN_SSID)) {
@@ -97,7 +96,7 @@ public class WiFiUtil {
             return HOME_WIFI;
         } else if (!lastWifiSSid.equals(currentWifi)
                 && !lastWifiSSid.equals(DEVICE_SSID)) {
-            EWSLogger.d(EWS_STEPS,
+            EWSLogger.d(TAG,
                     "Connected to wrong wifi, Current wifi " + currentWifi + " Home wifi " +
                             lastWifiSSid);
             return WRONG_WIFI;
@@ -108,13 +107,13 @@ public class WiFiUtil {
     public void forgetHotSpotNetwork(String hotSpotWiFiSSID) {
         List<WifiConfiguration> configs = wifiManager.getConfiguredNetworks();
         for (WifiConfiguration config : configs) {
-            EWSLogger.d(EWS_STEPS, "Pre configured Wifi ssid " + config.SSID);
+            EWSLogger.d(TAG, "Pre configured Wifi ssid " + config.SSID);
             String cleanSSID = config.SSID;
             cleanSSID = cleanSSID.replaceAll("^\"|\"$", "");
             if (cleanSSID.equals(hotSpotWiFiSSID)) {
                 boolean success = wifiManager.removeNetwork(config.networkId);
                 wifiManager.saveConfiguration();
-                EWSLogger.i(EWS_STEPS, "Removing network " + success);
+                EWSLogger.i(TAG, "Removing network " + success);
             }
         }
     }
