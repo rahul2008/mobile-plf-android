@@ -48,7 +48,7 @@ public class NetworkHelper {
 
             @Override
             public void onRefreshLoginSessionInProgress(String s) {
-
+                //Need to handle
             }
         });
     }

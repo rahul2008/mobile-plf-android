@@ -1,6 +1,5 @@
 package com.philips.platform.catk.model;
 
-import com.google.gson.JsonArray;
 import com.philips.cdp.registration.User;
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.injection.CatkComponent;
@@ -8,17 +7,13 @@ import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.util.CustomRobolectricRunnerCATK;
 import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.configuration.MockitoConfiguration;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.annotation.Config;
 
@@ -30,7 +25,6 @@ import static org.mockito.Mockito.when;
  */
 
 @RunWith(CustomRobolectricRunnerCATK.class)
-//@PrepareForTest(CatkInterface.class)
 @Config(constants = BuildConfig.class, sdk = 25)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 public class CreateConsentModelRequestTest extends MockitoConfiguration {
