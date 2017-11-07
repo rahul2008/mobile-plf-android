@@ -7,4 +7,8 @@ public class NetworkHelperManipulator {
         NetworkHelper.setInstance(networkHelper);
     }
 
+    public static void setNetworkController(NetworkController networkController) {
+        NetworkHelper.getInstance().setNetworkController(networkController);
+    }
+
 }

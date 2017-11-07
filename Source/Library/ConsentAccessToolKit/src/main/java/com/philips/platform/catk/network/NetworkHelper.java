@@ -28,9 +28,8 @@ public class NetworkHelper {
         return controller;
     }
 
-    public void sendRequest(int requestCode, NetworkAbstractModel model, final RequestListener
-            requestListener) {
-        getNetworkController().sendConsentRequest(model, requestListener);
+    public void sendRequest(NetworkAbstractModel model) {
+        getNetworkController().sendConsentRequest(model, model);
     }
 
     public void refreshAccessToken(final RefreshTokenListener refreshTokenListener){
@@ -55,5 +54,9 @@ public class NetworkHelper {
 
     static void setInstance(NetworkHelper networkHelper) {
         NetworkHelper.networkHelper = networkHelper;
+    }
+
+    void setNetworkController(NetworkController networkController) {
+        controller = networkController;
     }
 }

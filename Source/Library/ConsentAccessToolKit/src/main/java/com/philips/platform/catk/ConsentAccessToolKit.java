@@ -108,7 +108,7 @@ public class ConsentAccessToolKit {
                 return CatkConstants.CONSENT_ERROR_UNKNOWN;
             }
         });
-        NetworkHelper.getInstance().sendRequest(model.getMethod(), model, model);
+        NetworkHelper.getInstance().sendRequest(model);
     }
 
 
@@ -142,7 +142,7 @@ public class ConsentAccessToolKit {
                                         return CatkConstants.CONSENT_ERROR_UNKNOWN;
                                     }
                                 });
-                        NetworkHelper.getInstance().sendRequest(model.getMethod(), model, model);
+                        NetworkHelper.getInstance().sendRequest(model);
                     }
 
                     @Override
