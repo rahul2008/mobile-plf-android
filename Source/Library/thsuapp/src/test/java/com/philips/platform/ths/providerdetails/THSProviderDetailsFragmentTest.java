@@ -11,6 +11,7 @@ import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
@@ -110,6 +111,9 @@ public class THSProviderDetailsFragmentTest {
     @Mock
     AppTaggingInterface appTaggingInterface;
 
+    @Mock
+    LoggingInterface loggingInterface;
+
     @Before
     public void setUp() throws Exception{
         MockitoAnnotations.initMocks(this);
@@ -118,6 +122,8 @@ public class THSProviderDetailsFragmentTest {
 
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
+        when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
 

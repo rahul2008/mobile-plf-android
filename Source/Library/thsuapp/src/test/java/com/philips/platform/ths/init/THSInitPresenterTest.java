@@ -22,6 +22,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
@@ -100,6 +101,9 @@ public class THSInitPresenterTest {
     AppTaggingInterface appTaggingInterface;
 
     @Mock
+    LoggingInterface loggingInterface;
+
+    @Mock
     Authentication authenticationMock;
 
     @Mock
@@ -140,6 +144,8 @@ public class THSInitPresenterTest {
         when(appInfraInterfaceMock.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         when(appInfraInterfaceMock.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
         when(appInfraInterfaceMock.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
+        when(appInfraInterfaceMock.getLogging()).thenReturn(loggingInterface);
+        when(appInfraInterfaceMock.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
         when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);
 
         THSManager.getInstance().setAppInfra(appInfraInterfaceMock);

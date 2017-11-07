@@ -9,6 +9,8 @@ package com.philips.platform.ths.utility;
 
 import android.util.Log;
 
+import com.philips.platform.appinfra.logging.LoggingInterface;
+
 public class AmwellLog {
     public final static String LOG = "Amwell";
     public static boolean isLoggingEnabled = false;
@@ -23,25 +25,29 @@ public class AmwellLog {
 
     public static void d(String tag, String message) {
         if (isLoggingEnabled) {
-            Log.d(tag, message);
+           // Log.d(tag, message);
+            THSManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG,tag,message);
         }
     }
 
     public static void e(String tag, String message) {
         if (isLoggingEnabled) {
-            Log.e(tag, message);
+            //Log.e(tag, message);
+            THSManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.ERROR,tag,message);
         }
     }
 
     public static void i(String tag, String message) {
         if (isLoggingEnabled) {
-            Log.i(tag, message);
+            //Log.i(tag, message);
+            THSManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.INFO,tag,message);
         }
     }
 
     public static void v(String tag, String message) {
         if (isLoggingEnabled) {
-            Log.v(tag, message);
+            //Log.v(tag, message);
+            THSManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.VERBOSE,tag,message);
         }
     }
 }

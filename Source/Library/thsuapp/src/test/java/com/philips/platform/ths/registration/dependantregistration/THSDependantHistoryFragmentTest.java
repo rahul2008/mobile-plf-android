@@ -14,6 +14,7 @@ import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
@@ -64,6 +65,9 @@ public class THSDependantHistoryFragmentTest {
     AppTaggingInterface appTaggingInterface;
 
     @Mock
+    LoggingInterface loggingInterface;
+
+    @Mock
     AppConfigurationInterface appConfigurationInterfaceMock;
 
     THSDependantHistoryFragment mTHSDependantHistoryFragment;
@@ -92,6 +96,8 @@ public class THSDependantHistoryFragmentTest {
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
         THSManager.getInstance().setThsParentConsumer(thsConsumerMock);
         when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
+        when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
         mTHSDependantHistoryFragment = new THSDependantHistoryFragment();
