@@ -24,6 +24,7 @@ import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.view.widget.Label;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +37,9 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import java.io.ByteArrayInputStream;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -84,6 +87,8 @@ public class THSDependantHistoryFragmentTest {
     @Mock
     Context contextMock;
 
+    @Mock
+    Label visitForLabelMock;
 
     @Before
     public void setUp() throws Exception {
@@ -121,6 +126,20 @@ public class THSDependantHistoryFragmentTest {
         assert true;
     }
 
+
+    @Test
+    public void testupdateUIBasedOnLaunchInput() throws Exception{
+        mTHSDependantHistoryFragment.mLaunchInput = THSConstants.THS_PRACTICES;
+        mTHSDependantHistoryFragment.updateUIBasedOnLaunchInput();
+        final Label viewById = mTHSDependantHistoryFragment.getView().findViewById(R.id.ths_visit_for);
+        assertTrue(viewById.getText().toString().equalsIgnoreCase(viewById.getResources().getString(R.string.ths_visit_for)));
+        mTHSDependantHistoryFragment.mLaunchInput = THSConstants.THS_SCHEDULED_VISITS;
+        mTHSDependantHistoryFragment.updateUIBasedOnLaunchInput();
+        assertTrue(viewById.getText().toString().equalsIgnoreCase(viewById.getResources().getString(R.string.ths_select_patient)));
+        mTHSDependantHistoryFragment.mLaunchInput = THSConstants.THS_VISITS_HISTORY;
+        mTHSDependantHistoryFragment.updateUIBasedOnLaunchInput();
+        assertTrue(viewById.getText().toString().equalsIgnoreCase(viewById.getResources().getString(R.string.ths_select_patient)));
+    }
     @Test
     public void onItemClick() throws Exception {
         mTHSDependantHistoryFragment.onItemClick(thsConsumerMock);

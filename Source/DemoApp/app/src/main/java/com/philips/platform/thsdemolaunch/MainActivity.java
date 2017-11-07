@@ -56,7 +56,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class MainActivity extends UIDActivity implements ActionBarListener, UserRegistrationListener, UserRegistrationUIEventListener,THSVisitCompletionListener {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_Bright;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_Bright;
     private FragmentLauncher fragmentLauncher;
     private THSMicroAppLaunchInput PTHMicroAppLaunchInput;
     private THSMicroAppInterfaceImpl PTHMicroAppInterface;

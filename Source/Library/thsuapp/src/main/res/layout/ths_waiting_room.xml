@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:orientation="vertical">
 
     <com.philips.platform.uid.view.widget.Label
@@ -29,7 +29,7 @@
         android:layout_height="1dp"
         android:layout_below="@+id/ths_waiting_room_title_label"
         android:background="@color/uid_gray_level_10"
-        android:orientation="horizontal"/>
+        android:orientation="horizontal" />
 
     <RelativeLayout
         android:id="@+id/ths_waiting_room_provider_detail_relativelayout"
@@ -81,7 +81,7 @@
         android:layout_height="1dp"
         android:layout_below="@+id/ths_waiting_room_provider_detail_relativelayout"
         android:background="@color/uid_gray_level_10"
-        android:orientation="horizontal"/>
+        android:orientation="horizontal" />
 
     <RelativeLayout
         android:id="@+id/ths_waiting_room_progressbar_container"
@@ -110,6 +110,5 @@
         android:layout_marginBottom="@dimen/ths_margin_between_buttons"
         android:layout_marginLeft="@dimen/ths_fab_margin"
         android:layout_marginRight="@dimen/ths_fab_margin"
-
-        android:text="@string/ths_cancel_visit" />
+        android:text="@string/ths_cancel_visit_string" />
 </RelativeLayout>

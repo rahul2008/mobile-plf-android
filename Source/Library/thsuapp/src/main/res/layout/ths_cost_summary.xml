@@ -159,13 +159,15 @@
                 android:paddingTop="8dp"
                 android:visibility="gone">
 
-                <ImageView
+
+                <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/ths_cost_summary_insurance_detail_arrow_image"
-                    android:layout_width="wrap_content"
+                    style="@style/ths_font_icon_style"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/right_arrow_icon" />
+                    android:layout_marginEnd="@dimen/ths_fab_margin"
+                    android:text="@string/dls_navigationright" />
 
                 <RelativeLayout
                     android:id="@+id/ths_cost_summary_insurance_detail_content_relativelayout"
@@ -224,13 +226,15 @@
                 android:paddingBottom="16dp"
                 android:paddingTop="16dp">
 
-                <ImageView
+                <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/ths_cost_summary_no_insurance_detail_arrow_image"
-                    android:layout_width="wrap_content"
+                    style="@style/ths_font_icon_style"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/right_arrow_icon" />
+                    android:layout_marginEnd="@dimen/ths_fab_margin"
+                    android:text="@string/dls_navigationright" />
+
 
                 <RelativeLayout
                     android:id="@+id/ths_cost_summary_no_insurance_detail_content_relativelayout"
@@ -238,19 +242,29 @@
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/ths_cost_summary_no_insurance_detail_arrow_image">
 
-                    <com.philips.platform.uid.view.widget.Label
-                        android:id="@+id/ths_cost_summary_no_insurance_label"
-                        android:textSize="16sp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:lineSpacingExtra="6sp"
-                        android:text="@string/ths_not_insurance"
-                        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"></com.philips.platform.uid.view.widget.Label>
-                </RelativeLayout>
 
+                    <RelativeLayout
+                        android:id="@+id/ths_cost_summary_no_insurance_detail_content_imageandlabel_relativelayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <com.philips.platform.uid.view.widget.Label
+                            android:id="@+id/ths_cost_summary_no_insurance_label"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="10dp"
+                            android:lineSpacingExtra="6sp"
+                            android:text="@string/ths_not_insurance"
+                            android:textColor="?attr/uidContentItemPrimaryNormalTextColor">
+
+                        </com.philips.platform.uid.view.widget.Label>
+                    </RelativeLayout>
+
+                </RelativeLayout>
+                <!--end of Non-existing insurance detail-->
             </RelativeLayout>
-            <!--end of Non-existing insurance detail-->
 
         </FrameLayout><!--end of Insuramnce block-->
 
@@ -294,13 +308,15 @@
                 android:paddingTop="8dp"
                 android:visibility="gone">
 
-                <ImageView
+
+                <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/ths_cost_summary_payment_detail_arrow_image"
-                    android:layout_width="wrap_content"
+                    style="@style/ths_font_icon_style"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/right_arrow_icon" />
+                    android:layout_marginEnd="@dimen/ths_fab_margin"
+                    android:text="@string/dls_navigationright" />
 
                 <RelativeLayout
                     android:id="@+id/ths_cost_summary_payment_detail_content_relativelayout"
@@ -359,13 +375,14 @@
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp">
 
-                <ImageView
+                <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/ths_cost_summary_no_payment_detail_arrow_image"
-                    android:layout_width="wrap_content"
+                    style="@style/ths_font_icon_style"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/right_arrow_icon" />
+                    android:layout_marginEnd="@dimen/ths_fab_margin"
+                    android:text="@string/dls_navigationright" />
 
                 <RelativeLayout
                     android:id="@+id/ths_cost_summary_no_payment_detail_content_relativelayout"
@@ -380,13 +397,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <ImageView
+                        <com.philips.platform.uid.view.widget.Label
                             android:id="@+id/ths_cost_summary_no_payment_image"
-                            android:layout_width="wrap_content"
+                            style="@style/ths_font_icon_style"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="false"
                             android:layout_centerVertical="true"
-
-                            android:src="@drawable/icon_in_circle" />
+                            android:layout_marginEnd="@dimen/ths_fab_margin"
+                            android:text="@string/dls_infocircle" />
 
                         <com.philips.platform.uid.view.widget.Label
 
@@ -396,7 +414,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="10dp"
-                            android:layout_toRightOf="@+id/ths_cost_summary_no_payment_image"
+                            android:layout_toEndOf="@+id/ths_cost_summary_no_payment_image"
                             android:lineSpacingExtra="6sp"
                             android:text="@string/ths_not_payment_method"
                             android:textColor="?attr/uidContentItemPrimaryNormalTextColor">

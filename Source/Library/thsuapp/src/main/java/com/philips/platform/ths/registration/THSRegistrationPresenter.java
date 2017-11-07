@@ -7,6 +7,7 @@
 package com.philips.platform.ths.registration;
 
 import android.app.DatePickerDialog;
+import android.net.rtp.RtpStream;
 import android.text.Editable;
 import android.widget.DatePicker;
 
@@ -153,11 +154,15 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
     }
 
     public boolean validateDOB(Date dob){
-        if(null != dob) {
-            int years = THSDateUtils.getDiffYears(dob, new Date(System.currentTimeMillis()));
-            return years >= 18;
+        if(!THSManager.getInstance().getThsConsumer(mTHSBaseFragment.getContext()).isDependent()) {
+            if (null != dob) {
+                int years = THSDateUtils.getDiffYears(dob, new Date(System.currentTimeMillis()));
+                return years >= 18;
+            } else {
+                return false;
+            }
         }else {
-            return false;
+            return true;
         }
 
     }

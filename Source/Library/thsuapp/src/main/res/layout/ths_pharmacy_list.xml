@@ -59,13 +59,14 @@
             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/ths_small_body_text" />
 
-        <ImageView
+
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/right_arrow_pharmacy"
-            android:layout_width="@dimen/ths_fab_margin"
-            android:layout_height="@dimen/ths_fab_margin"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/right_arrow_icon" />
+            style="@style/ths_font_icon_style"
+            android:layout_marginEnd="@dimen/ths_fab_margin"
+            android:layout_height="wrap_content"
+            android:text="@string/dls_navigationright"
+            android:layout_centerVertical="true" />
     </RelativeLayout>
 
     <View

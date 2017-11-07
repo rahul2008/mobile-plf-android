@@ -36,13 +36,23 @@
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
         android:text="@string/ths_vitals_follow_up_step_5_description_text" />
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/pth_intake_follow_up_please_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ths_fab_margin"
+        android:textSize="@dimen/ths_body_text"
+        android:layout_below="@+id/pth_intake_follow_up_question"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:text="@string/ths_vitals_follow_up_please_note" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_intake_follow_up_phone_number_label"
         style="@style/ths_body_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pth_intake_follow_up_question"
+        android:layout_below="@+id/pth_intake_follow_up_please_note"
         android:layout_marginTop="@dimen/ths_margin_top"
         android:layout_marginBottom="@dimen/ths_margin_top"
         android:paddingLeft="@dimen/ths_fab_margin"
