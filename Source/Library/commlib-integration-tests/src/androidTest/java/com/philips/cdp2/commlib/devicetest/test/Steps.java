@@ -19,14 +19,15 @@ import com.philips.cdp2.commlib.cloud.communication.CloudCommunicationStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.devicetest.TestApplication;
+import com.philips.cdp2.commlib.devicetest.appliance.BaseAppliance;
 import com.philips.cdp2.commlib.devicetest.appliance.ReferenceAppliance;
-import com.philips.cdp2.commlib.devicetest.time.TimePort;
+import com.philips.cdp2.commlib.devicetest.appliance.airpurifier.AirPurifier;
+import com.philips.cdp2.commlib.devicetest.port.time.TimePort;
 import com.philips.cdp2.commlib.devicetest.util.Android;
 import com.philips.cdp2.commlib.devicetest.util.ApplianceWaiter;
 import com.philips.cdp2.commlib.devicetest.util.CloudSignOnWaiter;
 import com.philips.cdp2.commlib.devicetest.util.PairingWaiter;
 import com.philips.cdp2.commlib.devicetest.util.PortListener;
-import com.philips.cdp2.commlib.devicetest.util.StrategyChangedWaiter;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -53,7 +54,7 @@ public class Steps {
 
     private CommCentral commCentral;
     private TestApplication app;
-    private ReferenceAppliance current;
+    private BaseAppliance current;
     private final Map<Class<? extends DICommPort<?>>, PortListener> portListeners = new ConcurrentHashMap<>();
     private Scenario scenario;
 
@@ -92,14 +93,14 @@ public class Steps {
 
     @Given("^an appliance with cppId \"([^\"]*)\" is discovered and selected$")
     public void anApplianceWithCppIdIsDiscoveredAndSelected(final String cppId) throws Throwable {
-        current = (ReferenceAppliance) commCentral.getApplianceManager().findApplianceByCppId(cppId);
+        current = (BaseAppliance) commCentral.getApplianceManager().findApplianceByCppId(cppId);
         if (current == null) {
             ApplianceWaiter.Waiter<Appliance> waiter = ApplianceWaiter.forCppId(cppId);
 
             commCentral.getApplianceManager().addApplianceListener(waiter);
             commCentral.startDiscovery();
 
-            current = (ReferenceAppliance) waiter.waitForAppliance(1, MINUTES).getAppliance();
+            current = (BaseAppliance) waiter.waitForAppliance(1, MINUTES).getAppliance();
             commCentral.stopDiscovery();
         }
         if (current == null) {
@@ -107,20 +108,33 @@ public class Steps {
         }
         Log.i(LOGTAG, "Found our referenceAppliance!");
 
-        PortListener listener = new PortListener();
-        portListeners.put(TimePort.class, listener);
-        current.getTimePort().addPortListener(listener);
+
+        if (current instanceof ReferenceAppliance) {
+            PortListener listener = new PortListener();
+            portListeners.put(TimePort.class, listener);
+            ((ReferenceAppliance) current).getTimePort().addPortListener(listener);
+        }
+        if (current instanceof AirPurifier) {
+            PortListener listener = new PortListener();
+            portListeners.put(TimePort.class, listener);
+            ((AirPurifier) current).getAirPort().addPortListener(listener);
+        }
     }
 
     @When("^device requests time value from time port$")
     public void deviceRequestsTimeValueFromTimePort() throws Throwable {
         Log.d(LOGTAG, "Reloading timeport");
-        current.getTimePort().reloadProperties();
+        ((ReferenceAppliance) current).getTimePort().reloadProperties();
     }
 
     @When("^device subscribes on time port$")
     public void deviceSubscribesOnTimePort() throws Throwable {
-        current.getTimePort().subscribe();
+        ((ReferenceAppliance) current).getTimePort().subscribe();
+    }
+
+    @Then("^time value is received without errors$")
+    public void timeValueIsReceivedWithoutErrors() throws Throwable {
+        timeValueIsReceivedTimesWithoutErrors(1);
     }
 
     @Then("^time value is received (\\d+) times without errors$")
@@ -136,7 +150,7 @@ public class Steps {
         assertEquals(emptyList(), listener.errors);
         assertEquals(count, listener.receivedCount);
 
-        final String datetime = current.getTimePort().getPortProperties().datetime;
+        final String datetime = ((ReferenceAppliance) current).getTimePort().getPortProperties().datetime;
         scenario.write("Got time: " + datetime);
         Log.d(LOGTAG, datetime);
     }
@@ -146,8 +160,8 @@ public class Steps {
         WifiManager wifiManager = (WifiManager) app.getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         if (wifiInfo.getSupplicantState() == SupplicantState.COMPLETED) {
-            ssid = String.format("\"%s\"",ssid); // According to spec the getSSID is returned with double quotes
-            if(!wifiInfo.getSSID().equals(ssid)) {
+            ssid = String.format("\"%s\"", ssid); // According to spec the getSSID is returned with double quotes
+            if (!wifiInfo.getSSID().equals(ssid)) {
                 throw new Exception(String.format("Connected to wrong network: expected %s, actual %s", ssid, wifiInfo.getSSID()));
             }
         } else {
@@ -158,7 +172,7 @@ public class Steps {
     @Given("^bluetooth is turned on$")
     public void bluetoothIsTurnedOn() {
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if(!bluetoothAdapter.isEnabled()) {
+        if (!bluetoothAdapter.isEnabled()) {
             bluetoothAdapter.enable();
         }
     }
@@ -171,23 +185,14 @@ public class Steps {
 
         pairingWaiter.waitForPairingCompleted(1, MINUTES);
 
-        if(!pairingWaiter.pairingSucceeded) {
+        if (!pairingWaiter.pairingSucceeded) {
             throw new Exception("Pairing failed");
         }
     }
 
     @Given("^cloudCommunication is used$")
     public void cloudCommunicationIsUsed() throws Throwable {
-        StrategyChangedWaiter waiter = new StrategyChangedWaiter(CloudCommunicationStrategy.class);
-        current.getCommunicationStrategy().addAvailabilityListener(waiter);
-
-        waiter.waitForStrategyChange(1, MINUTES);
-
-        current.getCommunicationStrategy().removeAvailabilityListener(waiter);
-
-        if(!waiter.strategrySwitchedCorrectly) {
-            throw new Exception("Cloud communication is not used");
-        }
+        current.getCommunicationStrategy().forceStrategyType(CloudCommunicationStrategy.class);
     }
 
     @Given("^wifi is turned off$")
@@ -203,13 +208,13 @@ public class Steps {
         CloudSignOnWaiter cloudSignOnWaiter = new CloudSignOnWaiter();
         cloudController.addSignOnListener(cloudSignOnWaiter);
 
-        if(!cloudController.isSignOn()) {
+        if (!cloudController.isSignOn()) {
             cloudSignOnWaiter.waitForSignOn(1, MINUTES);
         }
 
         cloudController.removeSignOnListener(cloudSignOnWaiter);
 
-        if(!cloudController.isSignOn()) {
+        if (!cloudController.isSignOn()) {
             throw new Exception("Sign on failed");
         }
     }

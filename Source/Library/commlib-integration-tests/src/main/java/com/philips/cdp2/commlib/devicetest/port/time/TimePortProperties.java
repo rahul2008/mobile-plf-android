@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp2.commlib.devicetest.time;
+package com.philips.cdp2.commlib.devicetest.port.time;
 
 import com.philips.cdp2.commlib.core.port.PortProperties;
 
