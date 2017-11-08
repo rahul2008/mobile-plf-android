@@ -49,7 +49,6 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
         initActionBar();
         animateThisScreen();
         showFragment(new SupportHomeFragment());
-        //enableActionBarHome();
     }
 
     public void animateThisScreen() {

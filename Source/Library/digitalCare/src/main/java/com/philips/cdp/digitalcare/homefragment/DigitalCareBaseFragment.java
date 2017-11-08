@@ -163,13 +163,10 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-       /* DigiCareLogger.i(DigiCareLogger.FRAGMENT, "OnCreate on "
-                + this.getClass().getSimpleName());*/
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getSimpleName();
         mFragmentActivityContext = getActivity();
         registerNetWorkReceiver();
-        //setLocaleLanguage();
     }
 
     private void registerNetWorkReceiver() {

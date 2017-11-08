@@ -50,26 +50,6 @@ public abstract class DigitalCareBaseActivity extends UIDActivity implements Act
     protected FragmentManager fragmentManager = null;
     protected DigitalCareConfigManager mDigitalCareConfigManager = null;
     private Toolbar toolbar;
-/*
-
-    protected OnClickListener actionBarClickListener = new OnClickListener() {
-
-        @Override
-        public void onClick(View view) {
-            int _id = view.getId();
-            if (_id == R.id.action_bar_icon_parent) {
-                if (mActionBarMenuIcon.getVisibility() == View.VISIBLE)
-                    finish();
-                else if (mActionBarArrow.getVisibility() == View.VISIBLE)
-                    backstackFragment();
-            } else if (_id == R.id.home_icon) {
-                finish();
-            } else if (_id == R.id.back_to_home_img)
-                backstackFragment();
-        }
-    };
-*/
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,14 +69,6 @@ public abstract class DigitalCareBaseActivity extends UIDActivity implements Act
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back_icon);
 
-        /*mActionbarlayout = (RelativeLayout) findViewById(R.id.action_bar_icon_parent);
-        mActionBarMenuIcon = (ImageView) findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) findViewById(R.id.back_to_home_img);
-        mActionBarTitle = (TextView) findViewById(R.id.action_bar_title);
-
-        mActionBarMenuIcon.setOnClickListener(actionBarClickListener);
-        mActionBarArrow.setOnClickListener(actionBarClickListener);
-        mActionbarlayout.setOnClickListener(actionBarClickListener);*/
     }
 
     @Override
@@ -156,7 +128,6 @@ public abstract class DigitalCareBaseActivity extends UIDActivity implements Act
         if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             finish();
         } else {
-//            //enableActionBarHome();
             fragmentManager.popBackStack();
             removeCurrentFragment();
         }
@@ -175,23 +146,8 @@ public abstract class DigitalCareBaseActivity extends UIDActivity implements Act
         transaction.commit();
     }
 
-/*    private void enableActionBarLeftArrow() {
-        mActionBarMenuIcon.setVisibility(View.GONE);
-        mActionBarArrow.setVisibility(View.VISIBLE);
-        mActionBarArrow.bringToFront();
-    }
-
-    protected void enableActionBarHome() {
-        mActionBarMenuIcon.setVisibility(View.VISIBLE);
-        mActionBarMenuIcon.bringToFront();
-        mActionBarArrow.setVisibility(View.GONE);
-        mActionBarTitle.setText(getResources().getString(
-                R.string.actionbar_title_support));
-    }*/
-
     protected void showFragment(Fragment fragment) {
         try {
-           // enableActionBarLeftArrow();
             FragmentTransaction fragmentTransaction = fragmentManager
                     .beginTransaction();
 

@@ -531,10 +531,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 R.dimen.locate_layout_margin);
         mLocateSearchLayoutMargin = (int) getActivity().getResources()
                 .getDimension(R.dimen.locate_search_layout_margin);
-       /* mLocateLayoutParentParams = (FrameLayout.LayoutParams) mLocateLayout
-                .getLayoutParams();
-        mLocateSearchLayoutParentParams = (LinearLayout.LayoutParams) mLocateSearchLayout
-                .getLayoutParams();*/
         mListView.setVisibility(View.GONE);
         mLinearLayout.setVisibility(View.GONE);
         mMarkerIcon.setVisibility(View.GONE);
@@ -561,7 +557,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 AtosResultsModel resultModel = resultModelSet.get(i);
                 AtosLocationModel locationModel = resultModel.getLocationModel();
                 AtosAddressModel addressModel = resultModel.getAddressModel();
-               // mShowUrlTxt.setText(addressModel.getUrl().toString());
                 addressModel.setCurrentLat(mSourceLat);
                 addressModel.setCurrentLng(mSourceLng);
                 double lat = Double.parseDouble(locationModel.getLatitude());
@@ -583,10 +578,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     }
 
     private void createBitmap() {
-//        FontIconDrawable icon = new FontIconDrawable(getActivity(),
-//                getActivity().getString(R.string.dls_capture), Typeface.createFromAsset(getActivity().getAssets(), "fonts/iconfont.ttf"));
-//        icon.sizeDp(20);
-
 
         FontIconDrawable icon = new FontIconDrawable();
         FontIconTypefaceHolder.init(getActivity().getAssets(),"fonts/iconfont.ttf");
@@ -599,9 +590,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
         mBitmapMarker = drawableToBitmap(icon);
 
-        /*mBitmapMarker = BitmapFactory.decodeResource(
-                getActivity().getResources(), R.drawable.consumercare_marker_shadow).copy(
-                Bitmap.Config.ARGB_8888, true);*/
     }
 
 
@@ -809,7 +797,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         super.onStop();
         if (mSearchBox != null)
             mSearchBox.setText(null);
-     //   mLocationManager = null;
     }
 
     @Override
