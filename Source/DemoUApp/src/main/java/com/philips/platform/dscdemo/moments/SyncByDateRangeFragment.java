@@ -234,7 +234,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 
 	@Override
 	public boolean getBackButtonState() {
-		return false;
+		return true;
 	}
 
 
