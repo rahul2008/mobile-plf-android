@@ -12,11 +12,9 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.faqs.THSFaqFragment;
 import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.ths.utility.THSSharedPreferenceUtility;
 
 import java.net.URL;
 
-import static com.philips.platform.ths.utility.THSConstants.THS_IS_TERMS_AND_CONDITIONS_LAUNCHED;
 import static com.philips.platform.ths.utility.THSConstants.THS_TERMS_AND_CONDITIONS;
 
 public class THSPreWelcomePresenter implements THSBasePresenter{
