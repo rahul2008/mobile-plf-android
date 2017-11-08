@@ -74,7 +74,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 			@Override
 			public void onErrorResponse(VolleyError error) {
 				final String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
-				final String errMsg = " Error Code:" + errorcode + " , Error Message:" + error.toString();
+				final String errMsg = " Error Code:" + errorcode;
 				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_UPDATE,"AI AppUpdate_URL"+ errMsg);
 				refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, errMsg);
 			}
