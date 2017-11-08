@@ -115,41 +115,19 @@ public class DataPushSynchronise extends EventMonitor {
         final CountDownLatch countDownLatch = new CountDownLatch(configurableSenders.size());
         for (final DataSender sender : configurableSenders) {
             executor.execute(new Runnable() {
-            @Override
-            public void run() {
-
-                if (sender instanceof MomentsDataSender) {
-                    CatkInputs catkInputs = getCatkInputs();
-                    ConsentAccessToolKit.getInstance().init(catkInputs);
-                    ConsentAccessToolKit.getInstance().
-                            getStatusForConsentType(CONSENT_TYPE_MOMENT, version, new ConsentResponseListener() {
-                                @Override
-                                public void onResponseSuccessConsent(List<GetConsentsModel> responseData) {
-
-                                    if (responseData != null && !responseData.isEmpty()) {
-                                        GetConsentsModel consentModel = responseData.get(0);
-                                        Log.d(" Consent : ", "status :" + consentModel.getStatus());
-                                        if(consentModel.getStatus().equals(ConsentStatus.active)){
-                                            boolean response = sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
-                                            countDownLatch.countDown();
-                                        }
-
-                                    } else {
-                                        Log.d(" Consent : ", "no consent for type found on server");
-                                    }
-                                }
-
-                                @Override
-                                public int onResponseFailureConsent(int consentError) {
-                                    Log.d(" Consent : ", "onResponseFailureConsent  :" + consentError);
-                                    return consentError;
-                                }
-                            });
-                 } else {
-                    boolean response = sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
-                    countDownLatch.countDown();
+                @Override
+                public void run() {
+                    try {
+                        if (sender instanceof MomentsDataSender) {
+                            final ConsentAccessToolKit toolkit = getContentAccessToolkit();
+                            syncMoments(sender, nonSynchronizedData, toolkit);
+                        } else {
+                            syncOthers(sender, nonSynchronizedData);
+                        }
+                    } finally {
+                        countDownLatch.countDown();
+                    }
                 }
-             }
             });
         }
         try {
@@ -162,9 +140,46 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     @NonNull
+    private ConsentAccessToolKit getContentAccessToolkit() {
+        final CatkInputs catkInputs = getCatkInputs();
+        final ConsentAccessToolKit toolkit = ConsentAccessToolKit.getInstance();
+        toolkit.init(catkInputs);
+        return toolkit;
+    }
+
+    void syncMoments(final DataSender sender, final GetNonSynchronizedDataResponse nonSynchronizedData, final ConsentAccessToolKit accessToolKit) {
+        accessToolKit.getStatusForConsentType(CONSENT_TYPE_MOMENT, version, new ConsentResponseListener() {
+            @Override
+            public void onResponseSuccessConsent(List<GetConsentsModel> responseData) {
+
+                if (responseData != null && !responseData.isEmpty()) {
+                    GetConsentsModel consentModel = responseData.get(0);
+                    Log.d(" Consent : ", "status :" + consentModel.getStatus());
+                    if (consentModel.getStatus().equals(ConsentStatus.active)) {
+                        syncOthers(sender, nonSynchronizedData);
+                    }
+
+                } else {
+                    Log.d(" Consent : ", "no consent for type found on server");
+                }
+            }
+
+            @Override
+            public int onResponseFailureConsent(int consentError) {
+                Log.d(" Consent : ", "onResponseFailureConsent  :" + consentError);
+                return consentError;
+            }
+        });
+    }
+
+    private void syncOthers(final DataSender sender, final GetNonSynchronizedDataResponse nonSynchronizedData) {
+        boolean response = sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
+    }
+
+    @NonNull
     private CatkInputs getCatkInputs() {
         CatkInputs catkInputs = new CatkInputs();
-        catkInputs.setAppInfra(mDataServicesManager.getmAppInfra());
+        catkInputs.setAppInfra(mDataServicesManager.getAppInfra());
         catkInputs.setApplicationName(CatkConstants.APPLICATION_NAME);
         catkInputs.setPropositionName(CatkConstants.PROPOSITION_NAME);
         return catkInputs;

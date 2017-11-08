@@ -152,6 +152,7 @@ android {
         testApplicationId "com.philips.platform.dataservices.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         generatedDensities = []
+        manifestPlaceholders = ['appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp']
     }
 
     lintOptions {
@@ -235,7 +236,7 @@ dependencies {
             }
 
     //Android Support
-    compile ('com.android.support:support-annotations:26.0.2'){
+    compile('com.android.support:support-annotations:26.0.2') {
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
     }
 
