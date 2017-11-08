@@ -93,8 +93,4 @@ public class SynchronisationManagerTest {
     private void thenVerifyEventIsPosted(String event) {
         assertEquals(event, eventingSpy.postedEvent.getClass().getSimpleName());
     }
-
-    private void thenVerifyWriteDataToBackendRequestEvenIsPosted(String event) {
-        assertEquals(event, eventingSpy.postedEvent.getClass().getSimpleName());
-    }
 }

@@ -44,7 +44,7 @@ public class SynchronisationManager implements SynchronisationChangeListener {
 
     @Override
     public void dataPullSuccess() {
-        mEventing.post(new WriteDataToBackendRequest());
+        postEventToStartPush();
     }
 
     @Override
@@ -54,25 +54,34 @@ public class SynchronisationManager implements SynchronisationChangeListener {
 
     @Override
     public void dataPullFail(Exception e) {
-        isSyncComplete = true;
-        if (mSynchronisationCompleteListener != null)
-            mSynchronisationCompleteListener.onSyncFailed(e);
-        mSynchronisationCompleteListener = null;
+        postOnSyncFailed(e);
     }
 
     @Override
     public void dataPushFail(Exception e) {
-        isSyncComplete = true;
-        if (mSynchronisationCompleteListener != null)
-            mSynchronisationCompleteListener.onSyncFailed(e);
-        mSynchronisationCompleteListener = null;
+        postOnSyncFailed(e);
     }
 
     @Override
     public void dataSyncComplete() {
+        postOnSyncComplete();
+    }
+
+    private void postEventToStartPush(){
+        mEventing.post(new WriteDataToBackendRequest());
+    }
+
+    private void postOnSyncComplete() {
         isSyncComplete = true;
         if (mSynchronisationCompleteListener != null)
             mSynchronisationCompleteListener.onSyncComplete();
+        mSynchronisationCompleteListener = null;
+    }
+
+    private void postOnSyncFailed(Exception exception) {
+        isSyncComplete = true;
+        if (mSynchronisationCompleteListener != null)
+            mSynchronisationCompleteListener.onSyncFailed(exception);
         mSynchronisationCompleteListener = null;
     }
 
