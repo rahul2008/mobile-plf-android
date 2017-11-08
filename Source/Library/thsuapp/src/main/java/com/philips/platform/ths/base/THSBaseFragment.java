@@ -39,9 +39,7 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
-import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_USER_ERROR;
-import static com.philips.platform.ths.utility.THSConstants.THS_USER_NOT_LOGGED_IN;
 
 public class THSBaseFragment extends Fragment implements THSBaseView, BackEventListener, THSNetworkStateListener.ConnectionReceiverListener {
 
@@ -304,6 +302,16 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
     public void onNetworkConnectionChanged(boolean isConnected) {
         if (!isConnected) {
             showToast(getString(R.string.ths_internet_disconnected_message));
+        }
+    }
+
+    public void popSelfBeforeTransition() {
+        try {
+            if (getActivity() != null && getActivity().getSupportFragmentManager() != null) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        }catch (IllegalStateException exception){
+
         }
     }
 }
