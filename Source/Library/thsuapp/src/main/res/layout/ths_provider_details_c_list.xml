@@ -67,8 +67,8 @@
             <com.philips.platform.uid.view.widget.NotificationBadge
                 android:id="@+id/notification_badge"
                 style="@style/NotificationBadge"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="16dp"
                 android:enabled="false"

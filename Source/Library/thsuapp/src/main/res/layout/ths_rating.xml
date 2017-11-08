@@ -16,7 +16,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="24dp"
-        android:text="How was your visit?"
+        android:text="@string/ths_visit_summary_how_was_your_visit"
         android:textSize="22sp" />
 
     <com.philips.platform.uid.view.widget.Label
@@ -52,7 +52,7 @@
         android:layout_marginBottom="24dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:text="Rate your overall experience"
+        android:text="@string/ths_visit_summary_rate_overall_experience"
 
         />
 
@@ -77,7 +77,7 @@
         android:layout_marginBottom="12dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:text="Ok" />
+        android:text="@string/ths_ok" />
 
 
 </RelativeLayout>

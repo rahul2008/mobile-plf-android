@@ -45,16 +45,19 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     protected THSVisitContext THSVisitContext;
     protected THSFileUtils fileUtils;
     private UploadAttachment uploadAttachment;
+    private THSSymptomsFragmentViewInterface thsSymptomsFragmentViewInterface;
 
 
     THSSymptomsPresenter(THSBaseFragment uiBaseView, THSProviderInfo mThsProviderInfo) {
         this.thsBaseView = uiBaseView;
+        this.thsSymptomsFragmentViewInterface = (THSSymptomsFragmentViewInterface) uiBaseView;
         this.mThsProviderInfo = mThsProviderInfo;
         fileUtils = new THSFileUtils();
     }
 
     THSSymptomsPresenter(THSBaseFragment uiBaseView) {
         this.thsBaseView = uiBaseView;
+        this.thsSymptomsFragmentViewInterface = (THSSymptomsFragmentViewInterface) uiBaseView;
         fileUtils = new THSFileUtils();
     }
 
@@ -64,24 +67,14 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         try {
             uploadAttachment = fileUtils.getUploadAttachment(thsBaseView.getFragmentActivity(),
                     THSManager.getInstance().getAwsdk(thsBaseView.getFragmentActivity().getApplicationContext()), uri);
+            thsSymptomsFragmentViewInterface.setContinueButtonState(false);
             THSManager.getInstance().uploadHealthDocument(thsBaseView.getFragmentActivity(), uploadAttachment, this);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (AWSDKInstantiationException | IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    public void fetchHealthDocuments() {
-        /*try {
-           THSManager.getInstance().fetchHealthDocumentRecordList(thsBaseView.getFragmentActivity(), this);
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        }*/
-    }
 
     @Override
     public void onEvent(int componentID) {
@@ -167,40 +160,33 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         });
     }
 
-   /* @Override
-    public void onDocumentRecordFetchSuccess(List<DocumentRecord> documentRecordList, SDKError sdkError) {
-        if (documentRecordList.size() > 0) {
-            thsBaseView.showToast("list size" + documentRecordList.size());
-        } else if (null != sdkError) {
-            thsBaseView.showToast("list is zero sdk error");
-        } else {
-            thsBaseView.showToast("list is zero");
-        }
-    }*/
 
     @Override
     public void onUploadValidationFailure(Map<String, ValidationReason> map) {
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
-            thsBaseView.showToast("validation failure");
+            thsSymptomsFragmentViewInterface.setContinueButtonState(true);
+            thsBaseView.showToast(thsBaseView.getString(R.string.ths_add_photo_validation_error_string));
         }
     }
 
     @Override
     public void onUploadDocumentSuccess(DocumentRecord documentRecord, SDKError sdkError) {
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
+            thsSymptomsFragmentViewInterface.setContinueButtonState(true);
             if (null != documentRecord && null == sdkError) {
-                thsBaseView.showToast("Success with Document name" + documentRecord.getName());
+                thsBaseView.showToast(thsBaseView.getString(R.string.ths_add_photo_success_string) + documentRecord.getName());
                 ((THSSymptomsFragment) thsBaseView).updateDocumentRecordList(documentRecord);
             } else if (null != sdkError) {
                 thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT,sdkError));
-                thsBaseView.showToast("upload failed with sdk error" + sdkError.getMessage());
+                thsBaseView.showToast(thsBaseView.getString(R.string.ths_add_photo_error_string) + sdkError.getMessage());
             }
         }
     }
 
     @Override
     public void onError(Throwable throwable) {
-        {
+        if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
+            thsSymptomsFragmentViewInterface.setContinueButtonState(true);
             thsBaseView.showToast(R.string.ths_se_server_error_toast_message);
             thsBaseView.hideProgressBar();
         }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
@@ -54,6 +55,10 @@ public class THSPreWelcomePresenterTest {
     @Mock
     ServiceDiscoveryInterface serviceDiscoveryMock;
 
+
+    @Mock
+    LoggingInterface loggingInterface;
+
     @Captor
     private ArgumentCaptor<ServiceDiscoveryInterface.OnGetServiceUrlListener> getServiceUrlListenerArgumentCaptor;
 
@@ -63,6 +68,8 @@ public class THSPreWelcomePresenterTest {
         when(appInfraInterfaceMock.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterfaceMock.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
         when(appInfraInterfaceMock.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        when(appInfraInterfaceMock.getLogging()).thenReturn(loggingInterface);
+        when(appInfraInterfaceMock.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
         THSManager.getInstance().setAppInfra(appInfraInterfaceMock);
         mTHSPreWelcomePresenter = new THSPreWelcomePresenter(thsPreWelcomeFragment);
     }

@@ -12,6 +12,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
@@ -92,6 +93,10 @@ public class THSProviderDetailsPresenterTest {
     AppTaggingInterface appTaggingInterface;
 
     @Mock
+    LoggingInterface loggingInterface;
+
+
+    @Mock
     THSConsumer thsConsumer;
 
     @Before
@@ -106,6 +111,8 @@ public class THSProviderDetailsPresenterTest {
 
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
+        when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
 

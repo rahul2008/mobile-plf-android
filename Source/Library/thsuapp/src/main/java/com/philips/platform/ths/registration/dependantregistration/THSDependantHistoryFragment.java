@@ -38,7 +38,7 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
     private ActionBarListener actionBarListener;
     protected THSDependentPresenter mThsDependentPresenter;
     private RelativeLayout mParentContainer;
-    private Label mLabelParentName;
+    protected Label mLabelParentName,visitForLabel,choose_person;
     private ImageView mImageViewLogo;
     protected int mLaunchInput = -1;
     private RelativeLayout mRelativeLayoutContainer;
@@ -55,6 +55,8 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
         }
 
         thsDependentListAdapter = new THSDependentListAdapter(getContext());
+        visitForLabel = (Label)view.findViewById(R.id.ths_visit_for);
+        choose_person = (Label) view.findViewById(R.id.choose_person);
         mPracticeRecyclerView = (RecyclerView)view.findViewById(R.id.ths_recycler_view_dependent_list);
         mParentContainer = (RelativeLayout) view.findViewById(R.id.ths_parent_container);
         mParentContainer.setOnClickListener(this);
@@ -70,7 +72,25 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
         mPracticeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mThsDependentPresenter.updateDependents();
         showDependentList();
+        updateUIBasedOnLaunchInput();
         return view;
+    }
+
+    protected void updateUIBasedOnLaunchInput() {
+        switch (mLaunchInput) {
+            case THSConstants.THS_PRACTICES:
+                visitForLabel.setText(R.string.ths_visit_for);
+                choose_person.setText(R.string.ths_select_name);
+                break;
+            case THSConstants.THS_SCHEDULED_VISITS:
+                visitForLabel.setText(R.string.ths_select_patient);
+                choose_person.setText(R.string.ths_select_patient_detail_appointment_text);
+                break;
+            case THSConstants.THS_VISITS_HISTORY:
+                visitForLabel.setText(R.string.ths_select_patient);
+                choose_person.setText(R.string.ths_select_patient_detail_visit_text);
+                break;
+        }
     }
 
     @Override
@@ -110,10 +130,14 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
 
     protected void showProfilePic(THSConsumer thsConsumer) {
         if(thsConsumer.getProfilePic()!= null){
-            Bitmap b = BitmapFactory.decodeStream(thsConsumer.getProfilePic());
-            b.setDensity(Bitmap.DENSITY_NONE);
-            Drawable d = new BitmapDrawable(getContext().getResources(),b);
-            mImageViewLogo.setImageDrawable(d);
+            try {
+                Bitmap b = BitmapFactory.decodeStream(thsConsumer.getProfilePic());
+                b.setDensity(Bitmap.DENSITY_NONE);
+                Drawable d = new BitmapDrawable(getContext().getResources(),b);
+                mImageViewLogo.setImageDrawable(d);
+            }catch (Exception e){
+                mImageViewLogo.setImageResource(R.mipmap.child_icon);
+            }
         }else {
             mImageViewLogo.setImageResource(R.mipmap.child_icon);
         }

@@ -21,7 +21,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="24dp"
             android:lineSpacingExtra="6sp"
-            android:text="This concludes your visit with"
+            android:text="@string/ths_visit_summary_conclude_visit_with"
             android:textColor="?attr/uidContentItemSecondaryDisabledTextColor"
 
 
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/ths_appointment_date"
-            android:background="@color/uid_gray_level_10"/>
+            android:background="@color/uid_gray_level_10" />
 
         <RelativeLayout
             android:id="@+id/ths_waiting_room_provider_detail_relativelayout"
@@ -84,7 +84,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/ths_fab_margin"
 
-                android:textSize="30sp"/>
+                android:textSize="30sp" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ths_wrap_up_payment_label"
@@ -98,8 +98,8 @@
                 android:layout_marginRight="100dp"
                 android:layout_toLeftOf="@+id/ths_wrap_up_payment_cost"
                 android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
-                android:text="Your credit card was charged"
-                android:textSize="@dimen/ths_body_text"/>
+                android:text="@string/ths_visit_summary_your_credit_card_was_charged"
+                android:textSize="@dimen/ths_body_text" />
 
 
         </RelativeLayout>
@@ -113,15 +113,15 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ths_wrap_up_visit_report_title_label"
-            android:textColor="?attr/uidContentItemSecondaryDisabledTextColor"
-            android:background="?attr/uidSeparatorContentNormalBackgroundColor"
             android:layout_width="match_parent"
             android:layout_height="@dimen/ths_list_item_height"
             android:layout_below="@+id/ths_wrap_up_cost_detail_seperator_bottom"
-            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:background="?attr/uidSeparatorContentNormalBackgroundColor"
             android:gravity="center_vertical"
             android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
-            android:text="Your visit report"
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:text="@string/ths_visit_summary_your_visit_report"
+            android:textColor="?attr/uidContentItemSecondaryDisabledTextColor"
             android:textSize="@dimen/ths_body_text" />
 
         <FrameLayout
@@ -153,27 +153,23 @@
             <!--end of visit summary report  body-->
 
 
-
             <!--start of visit history report  body-->
             <RelativeLayout
                 android:id="@+id/ths_wrap_up_visit_report_relativelayout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/ths_list_item_height"
-                android:visibility="gone"
-                android:background="?attr/uidContentPrimaryBackgroundColor">
+                android:background="?attr/uidContentPrimaryBackgroundColor"
+                android:visibility="gone">
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/ths_wrap_up_visit_report_download_label"
                     style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
-
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="@dimen/ths_fab_margin"
                     android:gravity="center_vertical"
-                    android:text="Download Report">
-
-                </com.philips.platform.uid.view.widget.Label>
+                    android:text="@string/ths_download_report"/>
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/ths_wrap_up_visit_report_download_link"
@@ -183,19 +179,22 @@
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@+id/ths_wrap_up_visit_report_download_label"
                     android:gravity="center_vertical"
-                    android:text="PDF (21MB)">
+                    android:text="PDF">
 
                 </com.philips.platform.uid.view.widget.Label>
 
-                <ImageView
+                <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/ths_wrap_up_visit_report_arrow_image"
+                    fontPath="fonts/iconfont.ttf"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
+                    android:layout_height="?android:attr/listPreferredItemHeight"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/ths_fab_margin"
+                    android:layout_marginEnd="@dimen/ths_fab_margin"
                     android:gravity="center_vertical"
-                    android:src="@mipmap/right_arrow_icon"/>
+                    android:text="@string/dls_navigationright"
+                    android:textAlignment="center"
+                    android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor" />
 
             </RelativeLayout>
             <!--end of visit history report  body-->
@@ -249,7 +248,7 @@
                 android:layout_marginTop="@dimen/ths_margin_between_buttons"
                 android:background="?attr/uidContentPrimaryBackgroundColor"
 
-                android:text="Continue" />
+                android:text="@string/ths_continue" />
 
         </RelativeLayout>
 

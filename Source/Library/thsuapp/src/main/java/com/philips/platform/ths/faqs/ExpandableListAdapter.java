@@ -28,7 +28,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> listDataHeader; // header titles
     // child data in format of header title, child title
-    private HashMap<String, List<FaqBean>> listDataChild;
+    private HashMap<String, List<FaqBeanPojo>> listDataChild;
     private THSFaqFragment mTHSFaqFragment;
 
     public ExpandableListAdapter(THSFaqFragment thsFaqFragment, HashMap map) {
@@ -42,9 +42,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        final FaqBean faqBean = this.listDataChild.get(this.listDataHeader.get(groupPosition))
+        final FaqBeanPojo faqBeanPojo = this.listDataChild.get(this.listDataHeader.get(groupPosition))
                 .get(childPosititon);
-        return faqBean;
+        return faqBeanPojo;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(final int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final FaqBean childObject = (FaqBean) getChild(groupPosition, childPosition);
+        final FaqBeanPojo childObject = (FaqBeanPojo) getChild(groupPosition, childPosition);
         final String childText = childObject.getQuestion();
 
         if (convertView == null) {

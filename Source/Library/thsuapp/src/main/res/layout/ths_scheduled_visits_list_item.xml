@@ -18,7 +18,7 @@
         android:text="@string/ths_select_date_and_time" />
 
     <View
-        android:id="@+id/ths_scheduled_appintment_separator"
+        android:id="@+id/ths_scheduled_appointment_separator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/ths_appointment_date"
@@ -29,7 +29,7 @@
         layout="@layout/ths_provider_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ths_scheduled_appintment_separator"
+        android:layout_below="@+id/ths_scheduled_appointment_separator"
         />
 
     <View

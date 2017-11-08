@@ -260,7 +260,7 @@ repositories {
 configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-    resolutionStrategy.force  'com.squareup.okhttp3:okhttp:3.8.0'
+//    resolutionStrategy.force  'com.squareup.okhttp3:okhttp:3.8.0'
 
 }
 

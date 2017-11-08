@@ -9,6 +9,7 @@ package com.philips.platform.ths.cost;
 import android.os.Bundle;
 import android.view.View;
 
+import com.americanwell.sdk.entity.SDKErrorReason;
 import com.americanwell.sdk.entity.billing.PaymentMethod;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.insurance.Subscription;
@@ -24,7 +25,6 @@ import com.philips.platform.ths.payment.THSPaymentCallback;
 import com.philips.platform.ths.payment.THSPaymentMethod;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.visit.THSWaitingRoomFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
@@ -34,11 +34,11 @@ import java.util.Map;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_APPLY_PROMOCODE;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_CREATE_VISIT;
+import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_ESTIMATED_VISIT_COST;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_HEALTH_SUBSCRIPTION;
 import static com.philips.platform.ths.utility.THSConstants.IS_LAUNCHED_FROM_COST_SUMMARY;
 import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_COUPON_CODE_ERROR;
 import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_CREATE_VISIT_ERROR;
-import static com.philips.platform.ths.utility.THSConstants.THS_GENERIC_SERVER_ERROR;
 import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
@@ -132,7 +132,13 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     public void onCreateVisitResponse(THSVisit tHSVisit, THSSDKError tHSSDKError) {
         if (null != mTHSCostSummaryFragment && mTHSCostSummaryFragment.isFragmentAttached()) {
             mTHSCostSummaryFragment.hideProgressBar();
-            if (null != tHSSDKError.getSdkError()) { mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CREATE_VISIT,tHSSDKError.getSdkError()),true);
+            if (null != tHSSDKError.getSdkError()) {
+                if (null!=tHSSDKError.getSdkError().getSDKErrorReason() && tHSSDKError.getSdkError().getSDKErrorReason() == SDKErrorReason.PROVIDER_OFFLINE) {
+                    mTHSCostSummaryFragment.doTagging(ANALYTICS_ESTIMATED_VISIT_COST, mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_provider_offline), false);
+                    showCreateVisitError(true, true, mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_provider_offline));
+                } else {
+                    mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CREATE_VISIT, tHSSDKError.getSdkError()), true);
+                }
             } else if (null != tHSVisit) {
                 String couponCode = null;
                 if (null != mTHSCostSummaryFragment.thsVisit && null != mTHSCostSummaryFragment.thsVisit.getCouponCodeApplied() && !mTHSCostSummaryFragment.thsVisit.getCouponCodeApplied().isEmpty()) {
@@ -148,6 +154,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
                 }
             }
         }
+
     }
 
     private void updateCost(THSVisit thsVisit) {
@@ -209,7 +216,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     public void onGetInsuranceResponse(THSSubscription tHSSubscription, THSSDKError tHSSDKError) {
         if (null != mTHSCostSummaryFragment && mTHSCostSummaryFragment.isFragmentAttached()) {
             if (null != tHSSDKError.getSdkError()) {
-                mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_FETCH_HEALTH_SUBSCRIPTION,tHSSDKError.getSdkError()));
+                mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_FETCH_HEALTH_SUBSCRIPTION, tHSSDKError.getSdkError()));
             } else {
                 if (null != tHSSubscription && null != tHSSubscription.getSubscription()) {
                     // show insurance detail
@@ -349,12 +356,12 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     @Override
     public void onApplyCouponResponse(Void aVoid, THSSDKError thssdkError) {
         if (null != mTHSCostSummaryFragment && mTHSCostSummaryFragment.isFragmentAttached()) {
-            if(null != thssdkError.getSdkError()){
+            if (null != thssdkError.getSdkError()) {
                 mTHSCostSummaryFragment.mCouponCodeButton.setEnabled(true);
                 mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(true);
-                mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_APPLY_PROMOCODE,thssdkError.getSdkError()));
-            }else {
-                if(mTHSCostSummaryFragment.isPromoCodeAlreadyApplied.compareAndSet(false,true)) {
+                mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_APPLY_PROMOCODE, thssdkError.getSdkError()));
+            } else {
+                if (mTHSCostSummaryFragment.isPromoCodeAlreadyApplied.compareAndSet(false, true)) {
                     THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "promoCodeAppliedSuccessfully");
                 }
                 mTHSCostSummaryFragment.thsVisit.setCouponCodeApplied(mTHSCostSummaryFragment.mCouponCodeEdittext.getText().toString().trim());

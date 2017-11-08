@@ -7,6 +7,7 @@
 package com.philips.platform.ths.registration;
 
 import android.app.DatePickerDialog;
+import android.net.rtp.RtpStream;
 import android.text.Editable;
 import android.widget.DatePicker;
 
@@ -82,17 +83,22 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
                 mTHSBaseFragment.showToast(THSSDKErrorFactory.getErrorType(ANALYTICS_ENROLLMENT_MANGER,sdkPasswordError));
                 return;
             }
+
             switch (((THSRegistrationFragment) mTHSBaseFragment).mLaunchInput) {
                 case THSConstants.THS_PRACTICES:
+                    mTHSBaseFragment.popSelfBeforeTransition();
                     mTHSBaseFragment.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, true);
                     break;
                 case THSConstants.THS_SCHEDULED_VISITS:
+                    mTHSBaseFragment.popSelfBeforeTransition();
                     mTHSBaseFragment.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
                     break;
                 case THSConstants.THS_VISITS_HISTORY:
+                    mTHSBaseFragment.popSelfBeforeTransition();
                     mTHSBaseFragment.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
                     break;
                 default:
+                    mTHSBaseFragment.popSelfBeforeTransition();
                     mTHSBaseFragment.addFragment(new THSWelcomeFragment(), THSWelcomeFragment.TAG, null, true);
                     break;
             }
@@ -153,11 +159,15 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
     }
 
     public boolean validateDOB(Date dob){
-        if(null != dob) {
-            int years = THSDateUtils.getDiffYears(dob, new Date(System.currentTimeMillis()));
-            return years >= 18;
+        if(!THSManager.getInstance().getThsConsumer(mTHSBaseFragment.getContext()).isDependent()) {
+            if (null != dob) {
+                int years = THSDateUtils.getDiffYears(dob, new Date(System.currentTimeMillis()));
+                return years >= 18;
+            } else {
+                return false;
+            }
         }else {
-            return false;
+            return true;
         }
 
     }

@@ -42,19 +42,11 @@ public class THSInitFragment extends THSBaseFragment{
         mThsInitPresenter.initializeAwsdk();
     }
 
-    public void popSelfBeforeTransition() {
-        try {
-            if (getActivity() != null && getActivity().getSupportFragmentManager() != null) {
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        }catch (IllegalStateException exception){
-
-        }
-    }
-
     @Override
     public void onResume() {
         super.onResume();
+        // entry to THS, start tagging
+        THSManager.getInstance().getThsTagging().collectLifecycleInfo(this.getActivity());
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_INIT_PAGE, null, null);
     }
 }

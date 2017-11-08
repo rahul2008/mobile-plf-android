@@ -8,6 +8,7 @@ package com.philips.platform.ths.faqs;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
@@ -46,6 +47,9 @@ public class THSFaqPresenterTest {
     AppTaggingInterface appTaggingInterface;
 
     @Mock
+    LoggingInterface loggingInterface;
+
+    @Mock
     ServiceDiscoveryInterface serviceDiscoveryMock;
 
     @Captor
@@ -57,6 +61,8 @@ public class THSFaqPresenterTest {
         when(appInfraInterfaceMock.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterfaceMock.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
         when(appInfraInterfaceMock.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        when(appInfraInterfaceMock.getLogging()).thenReturn(loggingInterface);
+        when(appInfraInterfaceMock.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
         THSManager.getInstance().setAppInfra(appInfraInterfaceMock);
         when(appInfraInterfaceMock.getConfigInterface()).thenReturn(appConfigurationInterface);
         mTHSFaqPresenter = new THSFaqPresenter(mThsFaqFragmentMock);
