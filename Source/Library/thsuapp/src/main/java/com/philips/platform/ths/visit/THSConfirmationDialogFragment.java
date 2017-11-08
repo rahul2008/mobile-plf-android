@@ -25,7 +25,7 @@ public class THSConfirmationDialogFragment extends DialogFragment implements Vie
     THSBasePresenter mPresenter;
     Label mTitleLabel;
     Label mMessageLabel;
-    ImageView mTitleImage;
+    Label mTitleImage;
     Button mPrimaryButton;
     Label mSecondaryButtonLabel;
 
@@ -35,7 +35,7 @@ public class THSConfirmationDialogFragment extends DialogFragment implements Vie
         LayoutInflater layoutInflater = inflater.cloneInContext(UIDHelper.getPopupThemedContext(this.getContext()));
         View view = layoutInflater.inflate(R.layout.ths_confirmation_dialog_fragment, container, false);
         mTitleLabel = (Label) view.findViewById(R.id.ths_confirmation_dialog_title_label);
-        mTitleImage = (ImageView) view.findViewById(R.id.ths_confirmation_dialog_title_image);
+        mTitleImage = (Label) view.findViewById(R.id.ths_confirmation_dialog_title_image);
         mMessageLabel = (Label) view.findViewById(R.id.ths_confirmation_dialog_message_label);
         mPrimaryButton = (Button) view.findViewById(R.id.ths_confirmation_dialog_primary_button);
         mPrimaryButton.setOnClickListener(this);
