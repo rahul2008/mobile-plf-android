@@ -492,7 +492,12 @@ dependencies {
         compile(dp ? project(':shinelibUApp') : shinelibUAppModule) {
             transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'themesettings', version: '1.0.0', ext: 'aar')
+    
+    def themesettingsModule = module(group: 'com.philips.cdp', name: 'themesettings', version: '1.0.0', ext: 'aar')
+        compile(dp ? project(':themesettings') : themesettingsModule) {
+            transitive = true
+    }
+  
     compile ("com.crittercism:crittercism-android-agent:5.8.7")
 
     testCompile 'junit:junit:4.12'
