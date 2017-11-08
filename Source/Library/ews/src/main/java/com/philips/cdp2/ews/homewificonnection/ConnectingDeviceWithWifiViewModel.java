@@ -70,8 +70,9 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private final DeviceFriendlyNameChanger deviceFriendlyNameChanger;
     @Nullable
     private ConnectingDeviceToWifiCallback fragmentCallback;
+    @VisibleForTesting
     @Nullable
-    private StartConnectionModel startConnectionModel;
+    StartConnectionModel startConnectionModel;
     @NonNull
     private String cppId;
 
@@ -262,7 +263,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         showConnectionUnsuccessful();
     }
 
-    @VisibleForTesting
+
     @NonNull
     String getTitle(@NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(R.string.label_ews_connecting_device_title,

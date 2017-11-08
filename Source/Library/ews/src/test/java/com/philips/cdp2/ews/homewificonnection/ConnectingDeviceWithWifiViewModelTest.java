@@ -162,7 +162,6 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Test
     public void itShouldRemoveTimeoutRunnableWhenPuttingPropsFails() throws Exception {
         simulatePutPropsFailed();
-
         verify(mockHandler).removeCallbacks(any(Runnable.class));
     }
 
@@ -171,7 +170,6 @@ public class ConnectingDeviceWithWifiViewModelTest {
     itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenChangingFriendlyNameFailed()
             throws Exception {
         simulateChangeFriendlyDeviceNameFailed();
-
         verify(mockNavigator)
                 .navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(), anyString());
     }
@@ -181,7 +179,6 @@ public class ConnectingDeviceWithWifiViewModelTest {
     itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenPuttingPropsFails()
             throws Exception {
         simulatePutPropsFailed();
-
         verify(mockNavigator)
                 .navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(), anyString());
     }
@@ -210,6 +207,18 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
         verify(mockFragmentCallback, never())
                 .registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
+    }
+
+    @Test
+    public void itShouldVerifySuccessSetPropertiesCallbackWithNullStartConnectionModel() throws Exception{
+        simulateChangeFriendlyDeviceNameSucceeded();
+        verify(mockApplianceAccessManager).connectApplianceToHomeWiFiEvent(anyString(), anyString(),
+                putPropsCallbackCaptor.capture());
+
+        subject.startConnectionModel = null;
+        putPropsCallbackCaptor.getValue().onPropertiesSet(mockWifiPortProperties);
+        verifyStatic();
+        EWSLogger.e(anyString(),anyString());
     }
 
     @Test
