@@ -51,9 +51,6 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
 
     }
 
-    @Override
-    public void initDLS() {
-    }
 
     @Override
     public int getContainerId() {

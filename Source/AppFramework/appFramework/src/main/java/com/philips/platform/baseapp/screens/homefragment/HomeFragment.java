@@ -10,14 +10,24 @@ import android.app.Dialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
@@ -26,6 +36,9 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -39,6 +52,10 @@ public class HomeFragment extends AbstractAppFrameworkBaseFragment {
     private static final String JAIL_BROKEN_ENABLED = "JAIL_BROKEN";
     private static final String SCREEN_LOCK_DISABLED = "SCREEN_LOCK";
     private static final String JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED = "JAIL_BROKEN_SCREEN_LOCK";
+
+
+    @BindView(R.id.af_home_image)
+    ImageView homeImageView;
 
     public HomeFragment() {
     }
@@ -59,14 +76,43 @@ public class HomeFragment extends AbstractAppFrameworkBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.af_home_fragment, container, false);
+
+        ButterKnife.bind(this, rootView);
         setDateToView();
         startAppTagging(TAG);
 
         initialiseSecurityDialog();
-
+        setHasOptionsMenu(true);
         return rootView;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.catalog_view_menu, menu);
+        menu.findItem(R.id.menu_theme_settings).setVisible(true);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void setImageSize() {
+        Drawable d = getResources().getDrawable(R.drawable.ref_app_home_page, getActivity().getTheme());
+        int h = d.getIntrinsicHeight();
+        int w = d.getIntrinsicWidth();
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        homeImageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (size.x * h) / w));
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE || newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setImageSize();
+        }
+    }
     protected void initialiseSecurityDialog() {
         boolean isUrLoginSuccess = getPreferences().getBoolean(Constants.UR_LOGIN_COMPLETED, false);
         if(isUrLoginSuccess) {
@@ -75,6 +121,11 @@ public class HomeFragment extends AbstractAppFrameworkBaseFragment {
         }
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setImageSize();
+    }
 
     private void setDateToView() {
         Bundle bundle = getArguments();

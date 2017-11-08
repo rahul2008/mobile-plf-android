@@ -6,8 +6,11 @@
 package com.philips.platform.baseapp.base;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,9 +25,12 @@ import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.OverlayDialogFragment;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.referenceapp.PushNotificationManager;
+import com.philips.platform.themesettings.ThemeHelper;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
@@ -39,27 +45,53 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
     private static final String TAG = AbstractAppFrameworkBaseActivity.class.getName();
 
     public AbstractUIBasePresenter presenter;
-    //  private int cartItemCount = 0;
     int containerId;
     private FragmentTransaction fragmentTransaction;
 
     public abstract int getContainerId();
 
+    protected ContentColor contentColor;
+    protected ColorRange colorRange;
+    protected NavigationColor navigationColor;
+    protected SharedPreferences defaultSharedPreferences;
+    protected AccentRange accentColorRange;
     private ProgressDialog progressDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // UIDHelper.init(new ThemeConfiguration(this,ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT));
-        initDLS();
+        initUIKIT();
+        initTheme();
         super.onCreate(savedInstanceState);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.RA_Settings_Progress_Title));
         progressDialog.setCancelable(false);
     }
-
-    public void initDLS() {
-        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
+    public void initUIKIT() {
         getTheme().applyStyle(R.style.Theme_Philips_DarkBlue_NoActionBar, true);
+    }
+    protected void initTheme() {
+        defaultSharedPreferences = new SharedPreferenceUtility(this).getMyPreferences();
+        final ThemeConfiguration themeConfig = getThemeConfig();
+        final int themeResourceId = getThemeResourceId(getResources(), getPackageName(), colorRange, contentColor);
+        themeConfig.add(navigationColor);
+        themeConfig.add(accentColorRange);
+        setTheme(themeResourceId);
+        UIDHelper.init(themeConfig);
+    }
+
+
+    @StyleRes
+    int getThemeResourceId(Resources resources, final String packageName, final ColorRange colorRange, final ContentColor contentColor) {
+        final String themeName = String.format("Theme.DLS.%s.%s", colorRange.getThemeName(), contentColor.getThemeName());
+
+        return resources.getIdentifier(themeName, "style", packageName);
+    }
+    public ThemeConfiguration getThemeConfig() {
+        final ThemeHelper themeHelper = new ThemeHelper(defaultSharedPreferences,this);
+        colorRange = themeHelper.initColorRange();
+        navigationColor = themeHelper.initNavigationRange();
+        contentColor = themeHelper.initContentTonalRange();
+        accentColorRange = themeHelper.initAccentRange();
+        return new ThemeConfiguration(this, colorRange, navigationColor, contentColor, accentColorRange);
     }
 
     public void handleFragmentBackStack(Fragment fragment, String fragmentTag, int fragmentAddState) {
@@ -120,13 +152,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
         fragmentTransaction.commitAllowingStateLoss();
     }
 
-    /*public int getCartItemCount() {
-        return cartItemCount;
-    }
 
-    public void setCartItemCount(int cartItemCount) {
-        this.cartItemCount = cartItemCount;
-    }*/
 
     public abstract void updateActionBarIcon(boolean b);
 
