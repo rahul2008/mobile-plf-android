@@ -471,9 +471,9 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                 } else {
                     sideBar.openDrawer(navigationView);
                 }
-                break;
+                return true;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
