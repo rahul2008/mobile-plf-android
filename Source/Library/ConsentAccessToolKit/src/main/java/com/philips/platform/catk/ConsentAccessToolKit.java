@@ -181,4 +181,8 @@ public class ConsentAccessToolKit {
         return "urn:com.philips.consent:" + consentType + "/" + country + "/" + version + "/" + propositionName + "/" + applicationName;
     }
 
+    static void setInstance(ConsentAccessToolKit sSoleInstance){
+        ConsentAccessToolKit.sSoleInstance = sSoleInstance;
+    }
+
 }
