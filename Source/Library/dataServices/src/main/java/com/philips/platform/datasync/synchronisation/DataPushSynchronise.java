@@ -118,15 +118,15 @@ public class DataPushSynchronise extends EventMonitor {
             executor.execute(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        if (sender instanceof MomentsDataSender) {
-                            final ConsentAccessToolKit toolkit = getContentAccessToolkit();
-                            syncMoments(sender, nonSynchronizedData, toolkit);
-                        } else {
+                    if (sender instanceof MomentsDataSender) {
+                        final ConsentAccessToolKit toolkit = getContentAccessToolkit();
+                        syncMoments(sender, nonSynchronizedData, toolkit, countDownLatch);
+                    } else {
+                        try {
                             syncOthers(sender, nonSynchronizedData);
+                        } finally {
+                            countDownLatch.countDown();
                         }
-                    } finally {
-                        countDownLatch.countDown();
                     }
                 }
             });
@@ -149,7 +149,7 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     @VisibleForTesting
-    void syncMoments(@NonNull final DataSender sender, @NonNull final GetNonSynchronizedDataResponse nonSynchronizedData, @NonNull final ConsentAccessToolKit accessToolKit) {
+    void syncMoments(@NonNull final DataSender sender, @NonNull final GetNonSynchronizedDataResponse nonSynchronizedData, @NonNull final ConsentAccessToolKit accessToolKit, final CountDownLatch countDownLatch) {
         accessToolKit.getStatusForConsentType(CONSENT_TYPE_MOMENT, version, new ConsentResponseListener() {
             @Override
             public void onResponseSuccessConsent(List<GetConsentsModel> responseData) {
@@ -158,10 +158,22 @@ public class DataPushSynchronise extends EventMonitor {
                     GetConsentsModel consentModel = responseData.get(0);
                     Log.d(" Consent : ", "status :" + consentModel.getStatus());
                     if (consentModel.getStatus().equals(ConsentStatus.active)) {
-                        syncOthers(sender, nonSynchronizedData);
+                        executor.execute(new Runnable() {
+                                             @Override
+                                             public void run() {
+                                                 try {
+                                                     syncOthers(sender, nonSynchronizedData);
+                                                 } finally {
+                                                     countDownLatch.countDown();
+                                                 }
+                                             }
+                                         });
+                    } else {
+                        countDownLatch.countDown();
                     }
 
                 } else {
+                    countDownLatch.countDown();
                     Log.d(" Consent : ", "no consent for type found on server");
                 }
             }
@@ -169,6 +181,7 @@ public class DataPushSynchronise extends EventMonitor {
             @Override
             public int onResponseFailureConsent(int consentError) {
                 Log.d(" Consent : ", "onResponseFailureConsent  :" + consentError);
+                countDownLatch.countDown();
                 return consentError;
             }
         });
