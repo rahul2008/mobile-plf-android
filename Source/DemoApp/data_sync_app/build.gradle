@@ -252,6 +252,7 @@ dependencies {
 
     //Release
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    compile 'com.squareup.leakcanary:leakcanary-android:1.5'
 
     //Test
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
