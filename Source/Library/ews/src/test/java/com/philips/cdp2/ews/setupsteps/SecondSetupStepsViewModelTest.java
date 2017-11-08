@@ -4,8 +4,8 @@
  */
 package com.philips.cdp2.ews.setupsteps;
 
-import android.app.Dialog;
 import android.os.Handler;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 
 import com.philips.cdp2.ews.R;
@@ -68,7 +68,7 @@ public class SecondSetupStepsViewModelTest {
     private SecondSetupStepsViewModel subject;
 
     @Mock
-    private Dialog dialogMock;
+    private DialogFragment unsuccessfulDialogMock;
 
 
     @Before
@@ -78,7 +78,7 @@ public class SecondSetupStepsViewModelTest {
         mockStatic(EWSTagger.class);
         setupImmediateHandler();
         subject = new SecondSetupStepsViewModel(navigatorMock, eventBusMock, permissionHandlerMock,
-                connectingDialogMock, null, gpsEnableDialogFragmentMock, handlerMock);
+                connectingDialogMock, unsuccessfulDialogMock, gpsEnableDialogFragmentMock, handlerMock);
 
         subject.setFragment(fragmentMock);
     }
@@ -128,14 +128,14 @@ public class SecondSetupStepsViewModelTest {
     }
 
     @Test
-    public void itShouldSendWifiBlinkingActionTagOnNextButtonClick() throws Exception{
+    public void itShouldSendWifiBlinkingActionTagOnNextButtonClick() throws Exception {
         subject.onNextButtonClicked();
         verifyStatic();
         EWSTagger.trackActionSendData("specialEvents", "wifiBlinking");
     }
 
     @Test
-    public void itShouldSendWifiNotBlinkingActionTagOnNoButtonClick() throws Exception{
+    public void itShouldSendWifiNotBlinkingActionTagOnNoButtonClick() throws Exception {
         subject.onNoButtonClicked();
         verifyStatic();
         EWSTagger.trackActionSendData("specialEvents", "wifiNotBlinking");
