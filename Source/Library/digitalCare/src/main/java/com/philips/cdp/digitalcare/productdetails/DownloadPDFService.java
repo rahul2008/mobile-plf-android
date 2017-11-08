@@ -34,11 +34,8 @@ import java.net.URLConnection;
 
 public class DownloadPDFService extends Service {
 
-    private static final String PACKAGENAME_ADOBE_READER = "com.adobe.reader";
     private String mHelpManualFileName, mHelpManualUrl;
     private String TAG = DownloadPDFService.class.getSimpleName();
-
-//    private ModelContainer mModelContainer;
 
     private int NOTIFICATION_ID = 1;
 
@@ -169,7 +166,6 @@ public class DownloadPDFService extends Service {
                 DigiCareLogger.e(TAG, "Error downloading file " + e.getMessage());
                 return false;
             }
-           /* DigiCareLogger.i(TAG, "Download completed");*/
             return true;
         }
 

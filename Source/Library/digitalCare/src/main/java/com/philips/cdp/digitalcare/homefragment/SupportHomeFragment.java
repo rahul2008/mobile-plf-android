@@ -156,10 +156,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         if (mIsFirstScreenLaunch || DigitalCareConfigManager.getInstance().
                 getProductModelSelectionType().getHardCodedProductList().length < 2) {
             synchronized (this) {
-               /* if (DigitalCareConfigManager.getInstance().
-                        getLocaleMatchResponseWithCountryFallBack() != null &&
-                        DigitalCareConfigManager.getInstance().
-                                getLocaleMatchResponseWithCountryFallBack() != null) {*/
                 if (DigitalCareConfigManager.getInstance().
                         getProductModelSelectionType().getHardCodedProductList().length == 1) {
                     ProductModelSelectionType modelSelectionType =
@@ -176,7 +172,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                 DigiCareLogger.v(TAG, "Sending PRX Request");
                 mPrxWrapper = new PrxWrapper(getActivity(), this);
                 mPrxWrapper.executeRequests();
-            //}
             }
         } else {
             createMainMenu();
@@ -456,7 +451,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                         DigitalCareConfigManager.getInstance().getProductModelSelectionType());
             }
         }.start();
-        // ProductSelectionLogger.enableLogging();
     }
 
     private void launchProductSelectionActivityComponent() {
@@ -471,7 +465,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
             mProgressDialog.show();
         }
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
-        //mProductSelectionHelper.initialize(getActivity());
 
         /*Initialize product selection tagging*/
         DigitalCareConfigManager ccConfigManager = DigitalCareConfigManager.getInstance();
@@ -483,7 +476,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         ActivityLauncher uiLauncher = (ActivityLauncher) DigitalCareConfigManager.getInstance().
                 getUiLauncher();
         uiLauncher = new ActivityLauncher(uiLauncher.getScreenOrientation(), uiLauncher.getDlsThemeConfiguration(), uiLauncher.getUiKitTheme(), null);
-               // getmUiKitTheme());
         uiLauncher.setCustomAnimation(DigitalCareConfigManager.getInstance().getUiLauncher().
                         getEnterAnimation(),
                 DigitalCareConfigManager.getInstance().getUiLauncher().getExitAnimation());

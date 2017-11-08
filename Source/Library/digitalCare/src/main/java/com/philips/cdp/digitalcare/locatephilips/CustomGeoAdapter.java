@@ -90,10 +90,6 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
         holder.txtDistance.setText(getDistance(start,end)+" km");
         holder.txtTitle.setText(resultModel.getTitle());
         holder.txtAddress.setText(addressModel.getCityState());
-       /* if ((addressModel.getPhone() == null) || (addressModel.getPhone() == ""))
-            holder.txtPhone.setVisibility(View.GONE);
-        else
-            holder.txtPhone.setText(addressModel.getPhone());*/
         return convertView;
     }
 

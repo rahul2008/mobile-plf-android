@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/dialogTextViewDesc"
         style="@style/contactUsHelpText"
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
         android:layout_below="@id/dialogTextViewDesc"
         android:background="#cccccc" />
 
-    <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/dialogTextViewSupportPage"
         style="@style/contactUsHelpText"
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
         android:layout_below="@id/dialogTextViewSupportPage"
         android:background="#cccccc" />
 
-    <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/dialogTextViewOk"
         style="@style/contactUsHelpText"
         android:layout_width="match_parent"
