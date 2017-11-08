@@ -91,7 +91,7 @@ public class NetworkControllerTest {
 
     @Test
     public void testSendRequest() throws AuthFailureError {
-        networkController.sendConsentRequest(consentsModelRequest, consentsModelRequest);
+        networkController.sendConsentRequest(consentsModelRequest);
         verify(mockRequestQueue).add(captorConsentRequest.capture());
 
         assertEquals(getRequestHeader(), captorConsentRequest.getValue().getHeaders());

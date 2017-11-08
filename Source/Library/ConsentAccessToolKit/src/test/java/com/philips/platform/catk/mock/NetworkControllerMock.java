@@ -6,12 +6,10 @@ import com.philips.platform.catk.network.NetworkController;
 
 public class NetworkControllerMock  extends NetworkController {
     public NetworkAbstractModel sendConsentRequest_model;
-    public RequestListener sendConsentRequest_requestListener;
 
     @Override
-    public void sendConsentRequest(final NetworkAbstractModel model, final RequestListener requestListener) {
+    public void sendConsentRequest(final NetworkAbstractModel model) {
         this.sendConsentRequest_model = model;
-        this.sendConsentRequest_requestListener = requestListener;
     }
 
 }
