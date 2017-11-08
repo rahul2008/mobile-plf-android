@@ -87,7 +87,6 @@ import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.greenrobot.eventbus.EventBus;
-import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -167,12 +166,8 @@ public class DataServicesManager {
 
     private AppInfraInterface mAppInfra;
 
-    public AppInfraInterface getmAppInfra() {
+    public AppInfraInterface getAppInfra() {
         return mAppInfra;
-    }
-
-    public void setmAppInfra(AppInfraInterface mAppInfra) {
-        this.mAppInfra = mAppInfra;
     }
 
     @Singleton
