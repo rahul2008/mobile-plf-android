@@ -8,7 +8,7 @@ android {
         applicationId "com.philips.cdp2.ews.demoapplication"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode getMyVersionCode()
+        versionCode 1
         versionName "1.0"
     }
     dataBinding {
@@ -39,30 +39,8 @@ android {
     lintOptions {
         abortOnError false
     }
-
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def appName = "ews_demo_U_app_"
-            def buildType = variant.variantData.variantConfiguration.buildType.name
-            def newName = "${appName}${gitBranch()}_${buildType}_${getMyVersionCode()}.apk"
-            output.outputFile = new File(output.outputFile.parent, newName)
-        }
-    }
 }
 
-def gitBranch() {
-    def branch = ""
-    def proc = "git rev-parse --abbrev-ref HEAD".execute()
-    proc.in.eachLine { line -> branch += line }
-    proc.err.eachLine { line -> println line }
-    proc.waitFor()
-    branch.replaceAll("/","-")
-}
-
-def getMyVersionCode() {
-    def buildNumber = project.hasProperty('buildNumber') ? buildNumber.toInteger() : 1
-    buildNumber
-}
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
