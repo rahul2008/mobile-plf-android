@@ -162,7 +162,7 @@ public class MomentsDataFetcherTest {
         givenUcoreMomentsFromClient();
         whenFetchDataIsInvoked();
         thenRetrofirErrorIsNull();
-        thenEventIsPostedForBackgroundProcessing("BackendMomentListSaveRequest");
+        thenVerifyEventIsPosted("BackendMomentListSaveRequest");
     }
 
     @Test
@@ -176,6 +176,25 @@ public class MomentsDataFetcherTest {
     public void fetchDataByDateRange_WithNoClient() {
         givenNoClient();
         whenFetchDataByDateRange();
+    }
+
+    @Test
+    public void postPartialSynError_WhenFetchByDateRange() {
+        givenPartialSuccessFromClient();
+        whenFetchDataByDateRange();
+        thenVerifyEventIsPosted("PartialPullSuccess");
+    }
+
+    @Test (expected = RetrofitError.class)
+    public void postSyncError_WhenFetchByDateRange() {
+        givenRetrofitErrorFromClientWhenFetchDateByRange();
+        whenFetchDataByDateRange();
+        thenNoEventIsPosted();
+    }
+
+    private void givenRetrofitErrorFromClientWhenFetchDateByRange() {
+        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get("START_DATE"),
+                lastSyncTimeMap.get("END_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_END_DATE"))).thenThrow(RetrofitError.unexpectedError("", new RuntimeException("Error")));
     }
 
     @Test
@@ -207,6 +226,12 @@ public class MomentsDataFetcherTest {
         when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get("START_DATE"), lastSyncTimeMap2.get("END_DATE"), lastSyncTimeMap2.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap2.get("LAST_MODIFIED_END_DATE"))).thenReturn(momentsHistory);
     }
 
+    private void givenPartialSuccessFromClient() {
+        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get("START_DATE"), lastSyncTimeMap.get("END_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_END_DATE"))).thenReturn(userMomentsHistory);
+
+        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get("START_DATE"), lastSyncTimeMap2.get("END_DATE"), lastSyncTimeMap2.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap2.get("LAST_MODIFIED_END_DATE"))).thenThrow(RetrofitError.unexpectedError("", new RuntimeException("Sync Error")));
+    }
+
     private void givenNoClient() {
         when(coreAdapterMock.getAppFrameworkClient(MomentsClient.class, ACCESS_TOKEN, gsonConverterMock)).thenReturn(null);
 
@@ -220,7 +245,7 @@ public class MomentsDataFetcherTest {
         retrofitError = fetcher.fetchData();
     }
 
-    private void thenEventIsPostedForBackgroundProcessing(String event) {
+    private void thenVerifyEventIsPosted(String event) {
         assertEquals(event, eventingSpy.postedEvent.getClass().getSimpleName());
     }
 

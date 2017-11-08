@@ -53,6 +53,11 @@ public class SynchronisationManager implements SynchronisationChangeListener {
     }
 
     @Override
+    public void dataPartialPullSuccess(String tillDate) {
+        mEventing.post(new WriteDataToBackendRequest());
+    }
+
+    @Override
     public void dataPullFail(Exception e) {
         isSyncComplete = true;
         if (mSynchronisationCompleteListener != null)
