@@ -130,10 +130,14 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
 
     protected void showProfilePic(THSConsumer thsConsumer) {
         if(thsConsumer.getProfilePic()!= null){
-            Bitmap b = BitmapFactory.decodeStream(thsConsumer.getProfilePic());
-            b.setDensity(Bitmap.DENSITY_NONE);
-            Drawable d = new BitmapDrawable(getContext().getResources(),b);
-            mImageViewLogo.setImageDrawable(d);
+            try {
+                Bitmap b = BitmapFactory.decodeStream(thsConsumer.getProfilePic());
+                b.setDensity(Bitmap.DENSITY_NONE);
+                Drawable d = new BitmapDrawable(getContext().getResources(),b);
+                mImageViewLogo.setImageDrawable(d);
+            }catch (Exception e){
+                mImageViewLogo.setImageResource(R.mipmap.child_icon);
+            }
         }else {
             mImageViewLogo.setImageResource(R.mipmap.child_icon);
         }
