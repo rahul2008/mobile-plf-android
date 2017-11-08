@@ -162,6 +162,13 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 		}
 	}
 
+	@Override
+	public void onStart() {
+		super.onStart();
+		DataServicesManager.getInstance().registerDBChangeListener(this);
+		DataServicesManager.getInstance().registerSynchronisationCompleteListener(this);
+	}
+
 	private void fetchSyncByDateRange() {
 		mMomentPresenter.fetchSyncByDateRange(new DateTime(mStartDate), new DateTime(mEndDate), this);
 	}
@@ -192,6 +199,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 
 	@Override
 	public void onFetchFailure(Exception exception) {
+		Toast.makeText(mContext, "onFetchFailure", Toast.LENGTH_SHORT).show();
 
 	}
 
@@ -202,17 +210,19 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 
 	@Override
 	public void onFailure(Exception exception) {
+		Toast.makeText(mContext, "onFailure", Toast.LENGTH_SHORT).show();
 
 	}
 
 	@Override
 	public void dBChangeSuccess(SyncType type) {
+		Toast.makeText(mContext, "dBChangeSuccess", Toast.LENGTH_SHORT).show();
 
 	}
 
 	@Override
 	public void dBChangeFailed(Exception e) {
-
+		Toast.makeText(mContext, "dBChangeFailed", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -251,7 +261,15 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 	}
 
 	private void updateTextView(String text) {
-
+		tvSyncStatus.setText(text);
 	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		DataServicesManager.getInstance().unRegisterDBChangeListener();
+		DataServicesManager.getInstance().unRegisterSynchronisationCosmpleteListener();
+	}
+
 
 }
