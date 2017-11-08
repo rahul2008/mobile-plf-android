@@ -141,8 +141,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 		if (view == btnCompleteSync) {
 			updateTextView("InProgress");
 			DataServicesManager.getInstance().synchronize();
-		} else if (view == btnSyncMomentByDate) {
-			dateRangeSelectorLayout.setVisibility(View.VISIBLE);
 		} else if (view == mMomentStartDateEt) {
 			new DatePickerDialog(mContext, startDate, myCalendar
 					.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),

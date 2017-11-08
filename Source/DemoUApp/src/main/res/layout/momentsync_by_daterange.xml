@@ -52,8 +52,7 @@
         android:id="@+id/dateRangeSelectorLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/et_moment_startDate"
