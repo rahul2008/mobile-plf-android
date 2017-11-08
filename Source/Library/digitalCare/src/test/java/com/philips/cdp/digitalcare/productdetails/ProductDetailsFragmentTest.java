@@ -1,4 +1,3 @@
-/*
 package com.philips.cdp.digitalcare.productdetails;
 
 import android.content.res.Configuration;
@@ -30,11 +29,9 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-*/
 /**
  * Created by philips on 9/11/17.
- *//*
-
+ */
 
 @RunWith(CustomRobolectricRunnerCC.class)
 @PrepareForTest(DigitalCareConfigManager.class)
@@ -115,4 +112,3 @@ public class ProductDetailsFragmentTest extends MockitoConfiguration {
         fragment.onDestroy();
     }
 }
-*/

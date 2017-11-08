@@ -1,4 +1,3 @@
-/*
 package com.philips.cdp.digitalcare.locatephilips.fragments;
 
 
@@ -35,11 +34,9 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-*/
 /**
  * Created by philips on 7/10/17.
- *//*
-
+ */
 @RunWith(CustomRobolectricRunnerCC.class)
 @PrepareForTest(DigitalCareConfigManager.class)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
@@ -80,7 +77,7 @@ public class LocatePhilipsFragmentTest extends MockitoConfiguration {
         viewProductDetailsModel.setProductInfoLink("http://www.philips.com");
         viewProductDetailsModel.setDomain("Philips");
 
-       PowerMockito.mockStatic(DigitalCareConfigManager.class);
+        PowerMockito.mockStatic(DigitalCareConfigManager.class);
         when(DigitalCareConfigManager.getInstance()).thenReturn(mockDigitalCareConfigManager);
         when(mockDigitalCareConfigManager.getViewProductDetailsData()).thenReturn(viewProductDetailsModel);
         digitalCareBaseFragmentspy=spy(fragment);
@@ -131,4 +128,3 @@ public class LocatePhilipsFragmentTest extends MockitoConfiguration {
         fragment.onDestroy();
     }
 }
-*/

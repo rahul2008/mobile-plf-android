@@ -1,4 +1,4 @@
-/*
+
 package com.philips.cdp.digitalcare.locatephilips.fragments;
 
 import android.content.res.Configuration;
@@ -92,4 +92,4 @@ public class ServiceLocatorFragmentTest {
         fragment.onDestroy();
     }
 
-}*/
+}
