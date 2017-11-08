@@ -12,6 +12,7 @@ android:layout_height="?android:attr/listPreferredItemHeight">
     style="@style/ths_list_item"
     android:textSize="16sp"
     android:paddingTop="@dimen/ths_fab_margin"
+    android:paddingEnd="@dimen/ths_fab_margin"
     android:paddingBottom="5dp"
     android:gravity="center_vertical"
     android:layout_centerVertical="true"
