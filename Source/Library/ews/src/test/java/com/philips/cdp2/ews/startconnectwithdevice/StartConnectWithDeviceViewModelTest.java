@@ -19,7 +19,6 @@ import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -77,7 +76,7 @@ public class StartConnectWithDeviceViewModelTest {
     @Test
     public void itShouldVerifyBackPressEventWhenCalled() throws Exception {
         subject.onBackPressed(ewsCallbackNotifierMock);
-        verify(ewsCallbackNotifierMock, times(1)).onBackPressed();
+        verify(ewsCallbackNotifierMock).onBackPressed();
     }
 
     @Test
