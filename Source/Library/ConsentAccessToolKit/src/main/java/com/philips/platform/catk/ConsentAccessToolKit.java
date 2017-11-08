@@ -28,6 +28,8 @@ import java.util.List;
 
 public class ConsentAccessToolKit {
 
+    //This field has to remove later(url should take from service discovery)
+    private static final String URL = "https://hdc-css-mst.cloud.pcftest.com/consent";
 
     private static volatile ConsentAccessToolKit sSoleInstance;
 
@@ -87,7 +89,7 @@ public class ConsentAccessToolKit {
 
 
     public void getConsentDetails(final ConsentResponseListener consentListener) {
-        GetConsentsModelRequest model = new GetConsentsModelRequest(applicationName, propositionName, new NetworkAbstractModel.DataLoadListener() {
+        GetConsentsModelRequest model = new GetConsentsModelRequest(URL, applicationName, propositionName, new NetworkAbstractModel.DataLoadListener() {
             @Override
             public void onModelDataLoadFinished(Message msg) {
                 ArrayList<GetConsentsModel> consentModels;
@@ -125,7 +127,7 @@ public class ConsentAccessToolKit {
                     public void onSuccess(String s) {
                         String locale = s.replace("_", "-");
 
-                        CreateConsentModelRequest model = new CreateConsentModelRequest(applicationName, String.valueOf(consentStatus), propositionName,locale,
+                        CreateConsentModelRequest model = new CreateConsentModelRequest(URL, applicationName, String.valueOf(consentStatus), propositionName,locale,
                                 new NetworkAbstractModel.DataLoadListener() {
                                     @Override
                                     public void onModelDataLoadFinished(Message msg) {

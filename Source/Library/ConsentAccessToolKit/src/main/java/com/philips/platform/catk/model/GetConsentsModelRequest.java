@@ -12,13 +12,13 @@ import java.util.Map;
 
 public class GetConsentsModelRequest extends NetworkAbstractModel {
 
-    //This field has to remove later(URL should take from service discovery)
-    private StringBuilder URL = new StringBuilder("https://hdc-css-mst.cloud.pcftest.com/consent/");
+    private String url;
     private String mApplicationName;
     private String mPropositionName;
 
-    public GetConsentsModelRequest(String applicationName, String propositionName, DataLoadListener dataLoadListener) {
+    public GetConsentsModelRequest(String url, String applicationName, String propositionName, DataLoadListener dataLoadListener) {
         super(dataLoadListener);
+        this.url = url;
         mApplicationName = applicationName;
         mPropositionName = propositionName;
     }
@@ -34,25 +34,13 @@ public class GetConsentsModelRequest extends NetworkAbstractModel {
     }
 
     @Override
-    public Map<String, String> requestHeader() {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("api-version", "1");
-        params.put("content-type", "application/json");
-        params.put("authorization","bearer "+ ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpAccessToken());
-        params.put("performerid",ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID());
-        params.put("cache-control", "no-cache");
-        return params;
-    }
-
-    @Override
     public String requestBody() {
         return null;
     }
 
     @Override
     public String getUrl() {
-        URL.append(ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID()+"?applicationName="+
-                mApplicationName+"&propositionName="+mPropositionName);
-        return URL.toString();
+        return new StringBuilder(url).append(ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID()).append("?applicationName=")
+                .append(mApplicationName).append("&propositionName=").append(mPropositionName).toString();
     }
 }

@@ -3,9 +3,11 @@ package com.philips.platform.catk.network;
 import android.os.Message;
 
 import com.google.gson.JsonArray;
+import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.listener.RequestListener;
 import com.philips.platform.catk.model.GetConsentsModel;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -47,11 +49,19 @@ public abstract class NetworkAbstractModel implements RequestListener {
         }
     }
 
+    public Map<String, String> requestHeader() {
+        Map<String, String> header = new HashMap<String, String>();
+        header.put("api-version", "1");
+        header.put("content-type", "application/json");
+        header.put("authorization","bearer "+ ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpAccessToken());
+        header.put("performerid",ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID());
+        header.put("cache-control", "no-cache");
+        return header;
+    }
+
     public abstract GetConsentsModel[] parseResponse(JsonArray response);
 
     public abstract int getMethod();
-
-    public abstract Map<String, String> requestHeader();
 
     public abstract String requestBody();
 

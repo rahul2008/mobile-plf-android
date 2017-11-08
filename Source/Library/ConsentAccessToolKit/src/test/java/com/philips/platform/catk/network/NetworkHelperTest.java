@@ -36,7 +36,7 @@ public class NetworkHelperTest {
         networkHelper = NetworkHelper.getInstance();
         networkController = new NetworkControllerMock();
         NetworkHelperManipulator.setNetworkController(networkController);
-        getConsentsModelRequest = new GetConsentsModelRequest("applicationName1", "propositionName1", new ModelDataLoadListenerMock());
+        getConsentsModelRequest = new GetConsentsModelRequest(URL, "applicationName1", "propositionName1", new ModelDataLoadListenerMock());
     }
 
     @Test
@@ -61,5 +61,5 @@ public class NetworkHelperTest {
     NetworkHelper networkHelper;
     NetworkAbstractModel givenModelRequest;
     GetConsentsModelRequest getConsentsModelRequest;
-    RequestListener requestListener;
+    private final String URL = "https://hdc-css-mst.cloud.pcftest.com/consent";
 }

@@ -13,15 +13,15 @@ import java.util.Map;
 
 public class CreateConsentModelRequest extends NetworkAbstractModel {
 
-    //This field has to remove later(URL should take from service discovery)
-    private String URL = "https://hdc-css-mst.cloud.pcftest.com/consent";
+    private String url;
     private String applicationName;
     private String propositionName;
     private String consentStatus;
     private String locale;
 
-    public CreateConsentModelRequest(String applicationName, String consentStatus, String propositionName, String locale, DataLoadListener dataLoadListener) {
+    public CreateConsentModelRequest(String url, String applicationName, String consentStatus, String propositionName, String locale, DataLoadListener dataLoadListener) {
         super(dataLoadListener);
+        this.url = url;
         this.applicationName = applicationName;
         this.propositionName = propositionName;
         this.consentStatus = consentStatus;
@@ -39,17 +39,6 @@ public class CreateConsentModelRequest extends NetworkAbstractModel {
     }
 
     @Override
-    public Map<String, String> requestHeader() {
-        Map<String, String> header = new HashMap<String, String>();
-        header.put("api-version", "1");
-        header.put("content-type", "application/json");
-        header.put("authorization","bearer "+ ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpAccessToken());
-        header.put("performerid",ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID());
-        header.put("cache-control", "no-cache");
-        return header;
-    }
-
-    @Override
     public String requestBody() {
         CreateConsentModel model = new CreateConsentModel();
         model.setResourceType("Consent");
@@ -63,7 +52,7 @@ public class CreateConsentModelRequest extends NetworkAbstractModel {
 
     @Override
     public String getUrl() {
-        return URL;
+        return url;
     }
 
     private String getJsonString(CreateConsentModel model) {

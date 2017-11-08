@@ -81,7 +81,7 @@ public class NetworkControllerTest {
         when(mockConsentRequest.getUrl()).thenReturn("https://philips.com");
         when(mockConsentRequest.getHeaders()).thenReturn(getRequestHeader());
         when(mockRestInterface.getRequestQueue()).thenReturn(mockRequestQueue);
-        consentsModelRequest = new GetConsentsModelRequest(CatkConstants.APPLICATION_NAME,CatkConstants.PROPOSITION_NAME,mockDataLoadListener);
+        consentsModelRequest = new GetConsentsModelRequest(URL, APPLICATION_NAME, PROPOSITION_NAME, mockDataLoadListener);
     }
 
     @After
@@ -120,4 +120,8 @@ public class NetworkControllerTest {
         }
 
     }
+
+    private static final String APPLICATION_NAME = "OneBackend";
+    private static final String PROPOSITION_NAME = "OneBackendProp";
+    private final String URL = "https://hdc-css-mst.cloud.pcftest.com/consent";
 }

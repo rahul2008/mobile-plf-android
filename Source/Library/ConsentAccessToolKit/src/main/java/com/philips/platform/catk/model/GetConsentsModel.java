@@ -30,6 +30,18 @@ public class GetConsentsModel {
     @Expose
     private String subject;
 
+    public GetConsentsModel() {}
+
+
+    public GetConsentsModel(String dateTime, String language, String policyRule, String resourceType, ConsentStatus status, String subject) {
+        this.dateTime = dateTime;
+        this.language = language;
+        this.policyRule = policyRule;
+        this.resourceType = resourceType;
+        this.status = status;
+        this.subject = subject;
+    }
+
     public String getDateTime() {
         return dateTime;
     }
@@ -76,5 +88,36 @@ public class GetConsentsModel {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GetConsentsModel)) return false;
+
+        GetConsentsModel that = (GetConsentsModel) o;
+
+        if (dateTime != null ? !dateTime.equals(that.dateTime) : that.dateTime != null)
+            return false;
+        if (language != null ? !language.equals(that.language) : that.language != null)
+            return false;
+        if (policyRule != null ? !policyRule.equals(that.policyRule) : that.policyRule != null)
+            return false;
+        if (resourceType != null ? !resourceType.equals(that.resourceType) : that.resourceType != null)
+            return false;
+        if (status != that.status) return false;
+        return subject != null ? subject.equals(that.subject) : that.subject == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = dateTime != null ? dateTime.hashCode() : 0;
+        result = 31 * result + (language != null ? language.hashCode() : 0);
+        result = 31 * result + (policyRule != null ? policyRule.hashCode() : 0);
+        result = 31 * result + (resourceType != null ? resourceType.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (subject != null ? subject.hashCode() : 0);
+        return result;
     }
 }
