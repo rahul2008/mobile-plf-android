@@ -10,7 +10,7 @@ import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryServ
 
 import java.util.Map;
 
-
+@SuppressWarnings("unchecked")
 public class AIKMService extends ServiceDiscoveryService {
 
     private String serviceId;

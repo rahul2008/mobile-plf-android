@@ -12,7 +12,7 @@ package com.philips.platform.appinfra.servicediscovery.model;
 import com.philips.platform.appinfra.aikm.AIKManager;
 
 import java.util.Map;
-
+@SuppressWarnings("unchecked")
 public class AIKMResponse {
 
     private Map kMap;
