@@ -6,6 +6,7 @@
 package com.philips.platform.datasync.synchronisation;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.philips.platform.catk.CatkConstants;
@@ -147,7 +148,8 @@ public class DataPushSynchronise extends EventMonitor {
         return toolkit;
     }
 
-    void syncMoments(final DataSender sender, final GetNonSynchronizedDataResponse nonSynchronizedData, final ConsentAccessToolKit accessToolKit) {
+    @VisibleForTesting
+    void syncMoments(@NonNull final DataSender sender, @NonNull final GetNonSynchronizedDataResponse nonSynchronizedData, @NonNull final ConsentAccessToolKit accessToolKit) {
         accessToolKit.getStatusForConsentType(CONSENT_TYPE_MOMENT, version, new ConsentResponseListener() {
             @Override
             public void onResponseSuccessConsent(List<GetConsentsModel> responseData) {
@@ -173,7 +175,7 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     private void syncOthers(final DataSender sender, final GetNonSynchronizedDataResponse nonSynchronizedData) {
-        boolean response = sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
+        sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
     }
 
     @NonNull
@@ -209,7 +211,7 @@ public class DataPushSynchronise extends EventMonitor {
     private List<? extends DataSender> getSenders() {
         Set<String> configurableSenders = mDataServicesManager.getSyncTypes();
 
-        if (configurableSenders == null || (configurableSenders != null && configurableSenders.isEmpty())) {
+        if (configurableSenders == null || configurableSenders.isEmpty()) {
             return senders;
         }
 
@@ -218,9 +220,7 @@ public class DataPushSynchronise extends EventMonitor {
         ArrayList<DataSender> customSenders = mDataServicesManager.getCustomSenders();
 
         if (customSenders != null && customSenders.size() != 0) {
-            for (DataSender customSender : customSenders) {
-                dataSenders.add(customSender);
-            }
+            dataSenders.addAll(customSenders);
         }
 
         for (String sender : configurableSenders) {
