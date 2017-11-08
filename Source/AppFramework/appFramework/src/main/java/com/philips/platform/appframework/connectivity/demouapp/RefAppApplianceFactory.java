@@ -104,6 +104,8 @@ public class RefAppApplianceFactory implements ApplianceFactory {
     public Set<String> getSupportedDeviceTypes() {
         return Collections.unmodifiableSet(new HashSet<String>() {{
             add(RefAppBleReferenceAppliance.MODELNAME);
+            add(RefAppBleReferenceAppliance.MODEL_NAME_HH1600);
+            add(RefAppBleReferenceAppliance.MODEL_NAME_HHS);
         }});
     }
 }
