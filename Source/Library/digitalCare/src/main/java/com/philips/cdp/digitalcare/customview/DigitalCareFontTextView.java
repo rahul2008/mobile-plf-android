@@ -5,7 +5,8 @@
  *
  * @since : 5 Dec 2014
  * Copyright (c) 2016 Philips. All rights reserved.
- */
+ *//*
+
 package com.philips.cdp.digitalcare.customview;
 
 import android.content.Context;
@@ -51,4 +52,4 @@ public class DigitalCareFontTextView extends TextView {
 	public void setTypeface(String typeface) {
 		DigitalCareFontLoader.getInstance().setTypeface(this, typeface);
 	}
-}
+}*/

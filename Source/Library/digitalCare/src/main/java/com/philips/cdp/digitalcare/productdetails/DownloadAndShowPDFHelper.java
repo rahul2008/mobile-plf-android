@@ -28,7 +28,6 @@ public class DownloadAndShowPDFHelper {
 
     private static final String PACKAGENAME_ADOBE_READER = "com.adobe.reader";
     private String TAG = DownloadAndShowPDFHelper.class.getSimpleName();
-//    private static final String URL_PDF_MANUAL_EN_NEW = "http://download.p4c.philips.com/files/h/hd8977_01/hd8977_01_dfu_eng.pdf";
     private Context mContext;
 
     private AlertDialog.Builder mAlertDialog;
@@ -79,17 +78,6 @@ public class DownloadAndShowPDFHelper {
         }
     }
 
-   /* private final BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            DigiCareLogger.d(TAG, "BroadcastReceiver DownloadAndShowPDFHelper");
-            if (action.equals("com.philips.cdp.digitalcare.productdetails.services.OPENPDF")) {
-                openManualPDFInAcrobatReader(context, mHelpManualFileName);
-            }
-        }
-    };*/
-
     public void openManualPDFInAcrobatReader(Context ctx, String manualFilename) {
         if (manualFilename == null)
             return;
@@ -98,8 +86,6 @@ public class DownloadAndShowPDFHelper {
         try {
             DigiCareLogger.d(TAG, " manualUrl " + manualFilename);
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            //intent.setDataAndType(Uri.fromFile(file), "application/pdf");
-            //intent.setPackage(PACKAGENAME_ADOBE_READER);
             intent.setDataAndType(FileProvider.getUriForFile(ctx,mContext.getString(R.string.DCC_AUTHORITY) , file), "application/pdf");
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 

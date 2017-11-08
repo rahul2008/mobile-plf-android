@@ -59,10 +59,6 @@ public class PrxWrapper {
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Thread mUiThread = Looper.getMainLooper().getThread();
     private ConsumerProductInfo mProductInfo = null;
-    /*    private String mCtn = "RQ1250/17";
-        private String mSectorCode = "B2C";
-        private String mLocale = "en_GB";
-        private String mCatalogCode = "CONSUMER";*/
     private DigitalCareConfigManager mConfigManager = null;
     private Activity mActivity = null;
     private PrxSummaryListener mSummaryCallback = null;
@@ -159,7 +155,6 @@ public class PrxWrapper {
         mProductInfo = mConfigManager.getConsumerProductInfo();
         mCtn = mProductInfo.getCtn();
         mSectorCode = mProductInfo.getSector();
-        //if (locale != null) mLocale = locale.toString();
         mCatalogCode = mProductInfo.getCatalog();
 
     }
@@ -167,7 +162,6 @@ public class PrxWrapper {
     public ProductSummaryRequest getPrxSummaryData() {
         final ProductSummaryRequest mProductSummaryRequest = new ProductSummaryRequest(mCtn, null);
         mProductSummaryRequest.setSector(getSectorEnum(mSectorCode));
-        // mProductSummaryRequest.setLocale(mLocale);
         mProductSummaryRequest.setCatalog(getCatalogEnum(mCatalogCode));
 
         return mProductSummaryRequest;
@@ -176,7 +170,6 @@ public class PrxWrapper {
     public ProductSupportRequest getPrxSupportData() {
         final ProductSupportRequest productSupportRequest = new ProductSupportRequest(mCtn, null);
         productSupportRequest.setSector(getSectorEnum(mSectorCode));
-        // productSupportRequest.setLocale(mLocale);
         productSupportRequest.setCatalog(getCatalogEnum(mCatalogCode));
         return productSupportRequest;
     }
@@ -184,7 +177,6 @@ public class PrxWrapper {
     public ProductAssetRequest getPrxAssetData() {
         final ProductAssetRequest mProductAssetRequest = new ProductAssetRequest(mCtn, null);
         mProductAssetRequest.setSector(getSectorEnum(mSectorCode));
-        //mProductAssetRequest.setLocale(mLocale);
         mProductAssetRequest.setCatalog(getCatalogEnum(mCatalogCode));
 
         return mProductAssetRequest;
