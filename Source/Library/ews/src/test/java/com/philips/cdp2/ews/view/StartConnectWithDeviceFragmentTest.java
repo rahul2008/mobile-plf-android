@@ -13,7 +13,6 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.junit.Assert.assertEquals;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
@@ -26,11 +25,6 @@ public class StartConnectWithDeviceFragmentTest {
     public void setUp() throws Exception {
         mockStatic(EWSTagger.class);
         subject = new StartConnectWithDeviceFragment();
-    }
-
-    @Test
-    public void itShouldReturnCorrectPageNameForTagging() throws Exception {
-        assertEquals("getStarted", subject.getPageName());
     }
 
     @Test

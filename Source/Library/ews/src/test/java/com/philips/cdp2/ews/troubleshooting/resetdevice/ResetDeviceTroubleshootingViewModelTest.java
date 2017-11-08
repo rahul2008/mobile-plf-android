@@ -3,7 +3,7 @@ package com.philips.cdp2.ews.troubleshooting.resetdevice;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
-import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingViewModel;
+import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.StringProvider;
 
 import org.junit.Before;
@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 public class ResetDeviceTroubleshootingViewModelTest {
 
@@ -56,6 +57,11 @@ public class ResetDeviceTroubleshootingViewModelTest {
         verify(mockStringProvider).getString(mockTroubleShootContentConfiguration.getResetDeviceBody(), mockBaseContentConfiguration.getDeviceName());
     }
 
+    @Test
+    public void itShouldVerifyTrackPageName() throws Exception {
+        verifyStatic();
+        EWSTagger.trackPage("resetDevice");
+    }
 
 
 }

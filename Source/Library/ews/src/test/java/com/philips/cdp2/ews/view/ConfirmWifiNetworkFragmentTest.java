@@ -18,7 +18,6 @@ import org.mockito.stubbing.Answer;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.spy;
@@ -60,11 +59,6 @@ public class ConfirmWifiNetworkFragmentTest {
             }
         }).when(subject).showTroubleshootHomeWifiDialog(any(BaseContentConfiguration.class));
         subject.createViewModel();
-    }
-
-    @Test
-    public void itShouldReturnCorrectPageNameForTagging() throws Exception {
-        assertEquals("confirmWifiNetwork", subject.getPageName());
     }
 
     @Test

@@ -1,11 +1,9 @@
 package com.philips.cdp2.ews.troubleshooting.resetconnection;
 
-import android.graphics.drawable.Drawable;
-
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
-import com.philips.cdp2.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingViewModel;
+import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.StringProvider;
 
 import org.junit.Before;
@@ -16,6 +14,7 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 public class ResetConnectionTroubleshootingViewModelTest {
 
@@ -65,6 +64,12 @@ public class ResetConnectionTroubleshootingViewModelTest {
         when(mockTroubleShootContentConfiguration.getResetConnectionBody()).thenReturn(234234);
         subject.getNote(mockTroubleShootContentConfiguration, mockBaseContentConfiguration);
         verify(mockStringProvider).getString(mockTroubleShootContentConfiguration.getResetConnectionBody(), mockBaseContentConfiguration.getDeviceName());
+    }
+
+    @Test
+    public void itShouldVerifyTrackPageName() throws Exception {
+        verifyStatic();
+        EWSTagger.trackPage("resetConnection");
     }
 
 
