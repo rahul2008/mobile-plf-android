@@ -6,10 +6,19 @@
 
 package com.philips.platform.appframework.connectivity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,12 +31,18 @@ import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.registration.User;
+import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.appliance.ApplianceManager.ApplianceListener;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
 import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 
 import java.lang.ref.WeakReference;
 
@@ -130,7 +145,7 @@ public class ConnectivityFragment extends AbstractConnectivityBaseFragment imple
                         bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), "BleScanDialog");
                         bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
                             @Override
-                            public void onDeviceSelected(BleReferenceAppliance bleRefAppliance) {
+                            public void onDeviceSelected(RefAppBleReferenceAppliance bleRefAppliance) {
                                 if (bleRefAppliance.getDeviceMeasurementPort() != null && bleRefAppliance.getDeviceMeasurementPort().getPortProperties() != null) {
                                     bleRefAppliance.getDeviceMeasurementPort().reloadProperties();
                                 } else {
