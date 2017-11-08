@@ -2,11 +2,13 @@
  * Copyright (c) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdp2.ews.viewmodel;
+package com.philips.cdp2.ews.setupsteps;
 
 import android.app.Dialog;
 import android.os.Handler;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.annotations.NetworkType;
@@ -18,7 +20,6 @@ import com.philips.cdp2.ews.dialog.GPSEnableDialogFragment;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
-import com.philips.cdp2.ews.setupsteps.ConnectPhoneToDeviceAPModeViewModel;
 import com.philips.cdp2.ews.util.GpsUtil;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
@@ -76,6 +77,8 @@ public class ConnectPhoneToDeviceAPModeViewModelTest {
 
     @Mock
     private Dialog dialogMock;
+    @Mock
+    private DialogFragment unsuccessfulDialogMock;
 
     @Before
     public void setUp() throws Exception {
@@ -149,22 +152,9 @@ public class ConnectPhoneToDeviceAPModeViewModelTest {
 
     @Test
     public void itShouldShowUnsuccessfulDialogOnDeviceConnectionError() throws Exception {
-//        when(unsuccessfulDialogMock.getDialog()).thenReturn(dialogMock);
-//        when(dialogMock.isShowing()).thenReturn(false);
-//
-//        viewModel.deviceConnectionError(new DeviceConnectionErrorEvent());
-//
-//        verify(unsuccessfulDialogMock).show(any(FragmentManager.class), any(String.class));
-    }
-
-    @Test
-    public void itShouldNotShowUnsuccessfulDialogOnDeviceConnectionErrorIfVisible() throws Exception {
-//        when(unsuccessfulDialogMock.getDialog()).thenReturn(dialogMock);
-//        when(dialogMock.isShowing()).thenReturn(true);
-//
-//        viewModel.deviceConnectionError(new DeviceConnectionErrorEvent());
-//
-//        verify(unsuccessfulDialogMock, never()).show(any(FragmentManager.class), any(String.class));
+        viewModel.showUnsuccessfulDialog();
+        when(unsuccessfulDialogMock.getDialog()).thenReturn(dialogMock);
+        verify(unsuccessfulDialogMock).show(any(FragmentManager.class), any(String.class));
     }
 
     @Test
@@ -182,20 +172,6 @@ public class ConnectPhoneToDeviceAPModeViewModelTest {
         viewModel.connectPhoneToDeviceHotspotWifi();
 
         verify(handlerMock).postDelayed(any(Runnable.class), anyInt());
-    }
-
-    @Test
-    public void itShouldCallUnsuccessfulDialogOnHandlerWhenConnectedToApplianceHotspot() throws Exception {
-//        stubGPSSettings(true, true);
-//        setPermissionGranted(true);
-//
-//        when(unsuccessfulDialogMock.getDialog()).thenReturn(dialogMock);
-//        when(dialogMock.isShowing()).thenReturn(false);
-//
-//        viewModel.connectPhoneToDeviceHotspotWifi();
-//
-//        verify(connectingDialogMock).dismissAllowingStateLoss();
-//        verify(unsuccessfulDialogMock).show(any(FragmentManager.class), any(String.class));
     }
 
     @Test
@@ -253,7 +229,7 @@ public class ConnectPhoneToDeviceAPModeViewModelTest {
 
         public TestConnectPhoneToDeviceAPModeViewModel() {
             super(navigatorMock, eventBusMock, permissionHandlerMock, connectingDialogMock,
-                    null, gpsEnableDialogFragmentMock, handlerMock);
+                    unsuccessfulDialogMock, gpsEnableDialogFragmentMock, handlerMock);
         }
     }
 }

@@ -5,7 +5,6 @@
 package com.philips.cdp2.ews.appliance;
 
 import com.philips.cdp.dicommclient.port.common.DevicePort;
-import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
@@ -25,7 +24,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import static com.philips.cdp2.ews.annotations.ApplianceRequestType.GET_WIFI_PROPS;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
@@ -91,18 +89,6 @@ public class ApplianceAccessManagerTest {
     }
 
     @Test
-    public void itShouldSaveApplianceDevicePortSessionDetailsWhenGetDevicePortPropertiesAreFetched() throws Exception {
-        DevicePortProperties devicePortPropertiesMock = mock(DevicePortProperties.class);
-        when(devicePortMock.getPortProperties()).thenReturn(devicePortPropertiesMock);
-
-        accessManager.getDevicePortListener().onPortUpdate(devicePortMock);
-
-        assertSame(devicePortPropertiesMock, sessionInfoDetails.getDevicePortProperties());
-        verify(wifiPortMock).reloadProperties();
-        verifyRequestType(ApplianceRequestType.GET_WIFI_PROPS);
-    }
-
-    @Test
     public void itShouldSaveApplianceWiFIPortSessionDetailsWhenGetWiFIPortPropertiesAreFetched() throws Exception {
         fetchWiFiProperties(GET_WIFI_PROPS);
 
@@ -150,15 +136,6 @@ public class ApplianceAccessManagerTest {
     }
 
     @Test
-    public void itShouldSendDeviceConnectionErrorEventWhenGetDevicePropsOnErrorReceived() {
-        accessManager.setApplianceWifiRequestType(ApplianceRequestType.GET_DEVICE_PROPS);
-
-        accessManager.getDevicePortListener().onPortError(devicePortMock, Error.UNKNOWN, "");
-
-        verify(eventBusMock).post(isA(DeviceConnectionErrorEvent.class));
-    }
-
-    @Test
     public void itShouldSendApplianceConnectErrorEventWhenPutDevicePropsOnErrorReceived() {
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.PUT_WIFI_PROPS);
 
@@ -178,17 +155,6 @@ public class ApplianceAccessManagerTest {
     }
 
     @Test
-    public void itShouldDoNothingWhenDevicePortPropertiesAreNull() {
-        when(devicePortMock.getPortProperties()).thenReturn(null);
-
-        accessManager.setApplianceWifiRequestType(ApplianceRequestType.GET_DEVICE_PROPS);
-
-        accessManager.getDevicePortListener().onPortUpdate(devicePortMock);
-
-        verifyZeroInteractions(eventBusMock);
-    }
-
-    @Test
     public void itShouldDoNothingWhenConnectingToApplianceIsCalledButStateIsNotUnknown() throws Exception {
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.GET_WIFI_PROPS);
 
@@ -202,17 +168,6 @@ public class ApplianceAccessManagerTest {
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.UNKNOWN);
 
         accessManager.getWifiPortListener().onPortError(wifiPortMock, Error.UNKNOWN, "hypothetical");
-
-        verifyZeroInteractions(eventBusMock);
-
-        verifyRequestType(ApplianceRequestType.UNKNOWN);
-    }
-
-    @Test
-    public void itShouldDoNothingWhenDevicePortErrorReceivedButTypeIsUnknown() throws Exception {
-        accessManager.setApplianceWifiRequestType(ApplianceRequestType.UNKNOWN);
-
-        accessManager.getDevicePortListener().onPortError(devicePortMock, Error.UNKNOWN, "hypothetical");
 
         verifyZeroInteractions(eventBusMock);
 

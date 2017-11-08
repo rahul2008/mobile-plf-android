@@ -16,16 +16,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.common.util.DateUtil;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConfirmWifiNetworkBinding;
-import com.philips.cdp2.ews.tagging.EWSTagger;
-import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.ColorsUtil;
 import com.philips.cdp2.ews.util.TextUtil;
-import com.philips.cdp2.ews.base.BaseFragment;
-import com.philips.cdp2.ews.EWSActivity;
 import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -88,7 +86,6 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
             final AlertDialogFragment alertDialogFragment = builder.create();
             alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
             getChildFragmentManager().executePendingTransactions();
-            sendPageTag();
             TextView textView = view.findViewById(R.id.label_ews_home_network_body);
             ImageView imageView = view.findViewById(R.id.ic_close);
             String explanation = String.format(DateUtil.getSupportedLocale(), context.getString(R.string.label_ews_home_network_body),
@@ -107,11 +104,6 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
                 }
             });
         }
-    }
-
-    @VisibleForTesting
-   public void sendPageTag(){
-        EWSTagger.trackPage(Page.SELECT_HOME_WIFI);
     }
 
 

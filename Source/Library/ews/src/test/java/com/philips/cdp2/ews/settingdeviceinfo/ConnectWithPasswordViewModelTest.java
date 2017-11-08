@@ -18,7 +18,10 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -26,8 +29,10 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
-
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(EWSTagger.class)
 public class ConnectWithPasswordViewModelTest {
 
     private static final String PRODUCT = "product 001";
@@ -48,7 +53,7 @@ public class ConnectWithPasswordViewModelTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-
+        mockStatic(EWSTagger.class);
         viewModel = new ConnectWithPasswordViewModel(wifiUtilMock, sessionInfoMock, navigatorMock,
                 dialogFragmentMock, mockBaseContentConfig, mockStringProvider);
         when(mockBaseContentConfig.getDeviceName()).thenReturn(123435);
@@ -128,6 +133,7 @@ public class ConnectWithPasswordViewModelTest {
 
     @Test
     public void itShouldVerifyTrackPageName() throws Exception {
+        viewModel.trackPageName();
         verifyStatic();
         EWSTagger.trackPage("connectWithPassword");
     }
