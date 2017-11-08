@@ -242,6 +242,7 @@ public class HamburgerActivityTest {
         assertTrue(hamburgerActivity.isFinishing());
     }
 
+    @Config(sdk = 25)
     @Test
     public void logoutClickWhenUserLoggedInTest() {
         LinearLayout logoutParent = (LinearLayout) hamburgerActivity.findViewById(R.id.hamburger_menu_footer_container);
