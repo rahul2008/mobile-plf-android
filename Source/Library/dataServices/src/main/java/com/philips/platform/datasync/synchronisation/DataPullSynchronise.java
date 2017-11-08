@@ -141,8 +141,8 @@ public class DataPullSynchronise {
                 public void run() {
                     try {
                         fetcher.fetchDataByDateRange(startDate, endDate);
-                    }catch (RetrofitError error){
-                        synchronisationManager.dataPushFail(error);
+                    }catch (RetrofitError error) {
+                        synchronisationManager.dataPullFail(error);
                     }
                     countDownLatch.countDown();
                 }
@@ -156,6 +156,10 @@ public class DataPullSynchronise {
         }
 
         synchronisationManager.dataPullSuccess();
+    }
+
+     void postPartialSyncError(String tillDate) {
+        synchronisationManager.dataPartialPullSuccess(tillDate);
     }
 
     private void updateResult(final RetrofitError resultError) {

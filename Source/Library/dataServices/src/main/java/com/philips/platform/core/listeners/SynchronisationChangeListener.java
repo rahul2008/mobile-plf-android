@@ -6,36 +6,16 @@
 
 package com.philips.platform.core.listeners;
 
-/**
- * Interface Callback for notifying Synchronization Status
- */
 public interface SynchronisationChangeListener {
-    /**
-     * CallBack for notifying Data-Pull Success
-     */
     void dataPullSuccess();
 
-    /**
-     * CallBack for notifying Data-Push Success
-     */
-    void dataPushSuccess();
+    void dataPartialPullSuccess(String tillDate);
 
-    /**
-     * Callback for notifying Data-Pull Failure
-     *
-     * @param e Exception (Error) returned from Retrofit response
-     */
     void dataPullFail(Exception e);
 
-    /**
-     * Callback for notifying Data-Push Failure
-     *
-     * @param e Exception (Error) returned from Retrofit response
-     */
+    void dataPushSuccess();
+
     void dataPushFail(Exception e);
 
-    /**
-     * Callback for notifying a sync cycle complete
-     */
     void dataSyncComplete();
 }

@@ -13,6 +13,7 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
+import com.philips.platform.core.events.PartialPullSuccess;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
@@ -32,6 +33,8 @@ public class MomentsDataFetcher extends DataFetcher {
     private static final String END_DATE = "END_DATE";
     private static final String LAST_MODIFIED_START_DATE = "LAST_MODIFIED_START_DATE";
     private static final String LAST_MODIFIED_END_DATE = "LAST_MODIFIED_END_DATE";
+
+    private boolean isMomentUpdated;
 
     @NonNull
     private final MomentsConverter converter;
@@ -102,17 +105,25 @@ public class MomentsDataFetcher extends DataFetcher {
             throw RetrofitError.unexpectedError("", new IllegalStateException("Client is not initialized"));
         }
 
-        UCoreMomentsHistory momentHistory;
+        try {
+            UCoreMomentsHistory momentHistory;
 
-        Map<String, String> timeStamp;
-        timeStamp = accessProvider.getLastSyncTimeStampByDateRange(startDate, endDate);
+            Map<String, String> timeStamp;
+            timeStamp = accessProvider.getLastSyncTimeStampByDateRange(startDate, endDate);
 
-        do {
-            momentHistory = client.fetchMomentByDateRange(accessProvider.getUserId(), accessProvider.getUserId(),
-                    timeStamp.get(START_DATE), timeStamp.get(END_DATE), timeStamp.get(LAST_MODIFIED_START_DATE), timeStamp.get(LAST_MODIFIED_END_DATE));
-            updateMomentsToDB(momentHistory);
-            timeStamp = accessProvider.getLastSyncTimeStampByDateRange(momentHistory.getSyncurl());
-        } while (momentHistory.getUCoreMoments().size() > 1);
+            do {
+                momentHistory = client.fetchMomentByDateRange(accessProvider.getUserId(), accessProvider.getUserId(),
+                        timeStamp.get(START_DATE), timeStamp.get(END_DATE), timeStamp.get(LAST_MODIFIED_START_DATE), timeStamp.get(LAST_MODIFIED_END_DATE));
+                updateMomentsToDB(momentHistory);
+                timeStamp = accessProvider.getLastSyncTimeStampByDateRange(momentHistory.getSyncurl());
+            } while (momentHistory.getUCoreMoments().size() > 1);
+        } catch (RetrofitError error) {
+            if (isMomentUpdated) {
+                eventing.post(new PartialPullSuccess(START_DATE));
+            } else {
+                throw error;
+            }
+        }
     }
 
     protected boolean isUserInvalid() {
@@ -121,10 +132,12 @@ public class MomentsDataFetcher extends DataFetcher {
     }
 
     private void updateMomentsToDB(UCoreMomentsHistory momentsHistory) {
+
         List<UCoreMoment> uCoreMoments = momentsHistory.getUCoreMoments();
         if (uCoreMoments != null && !uCoreMoments.isEmpty()) {
             List<Moment> moments = converter.convert(uCoreMoments);
             eventing.post(new BackendMomentListSaveRequest(moments, null));
+            isMomentUpdated = true;
         }
     }
 }
