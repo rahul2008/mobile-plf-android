@@ -75,12 +75,6 @@ public class SynchronisationManagerTest {
     }
 
     @Test
-    public void postWriteDataToBackendRequest_WhenPartialPull() {
-        whenDataPartialPullSuccessIsInvoked();
-        thenVerifyWriteDataToBackendRequestEvenIsPosted("WriteDataToBackendRequest");
-    }
-
-    @Test
     public void startSync_WithNoDateRange() {
         whenStartFetchIsInvoked(null, null, synchronisationCompleteListenerMock);
         thenVerifyEventIsPosted("ReadDataFromBackendRequest");
@@ -94,10 +88,6 @@ public class SynchronisationManagerTest {
 
     private void whenStartFetchIsInvoked(String startDate, String endDate, SynchronisationCompleteListener synchronisationCompleteListenerMock) {
         synchronisationManager.startSync(startDate, endDate, synchronisationCompleteListenerMock);
-    }
-
-    private void whenDataPartialPullSuccessIsInvoked() {
-        synchronisationManager.dataPartialPullSuccess(START_DATE);
     }
 
     private void thenVerifyEventIsPosted(String event) {

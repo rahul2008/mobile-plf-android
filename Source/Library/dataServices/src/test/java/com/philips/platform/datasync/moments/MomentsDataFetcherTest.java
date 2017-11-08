@@ -178,11 +178,11 @@ public class MomentsDataFetcherTest {
         whenFetchDataByDateRange();
     }
 
-    @Test
+    @Test(expected = RetrofitError.class)
     public void postPartialSynError_WhenFetchByDateRange() {
         givenPartialSuccessFromClient();
         whenFetchDataByDateRange();
-        thenVerifyEventIsPosted("PartialPullSuccess");
+        thenVerifyEventIsPosted("BackendMomentListSaveRequest");
     }
 
     @Test (expected = RetrofitError.class)

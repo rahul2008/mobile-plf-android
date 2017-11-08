@@ -2,7 +2,6 @@ package com.philips.platform.datasync.synchronisation;
 
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.FetchByDateRange;
-import com.philips.platform.core.events.PartialPullSuccess;
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.injection.AppComponent;
@@ -57,20 +56,6 @@ public class SynchronisationMonitorTest {
     @Test
     public void startPush() {
         thenVerifyPushIsInvoked(whenPushEventIsPosted().getEventId());
-    }
-
-    @Test
-    public void onEvent_PostPartialSuccess() {
-        whenPartialPullSuccessEventIsPosted();
-        thenVerifyPartialSuccessIsInvoked();
-    }
-
-    private void thenVerifyPartialSuccessIsInvoked() {
-        verify(dataPullSynchroniseMock).postPartialSyncError(START_DATE);
-    }
-
-    private void whenPartialPullSuccessEventIsPosted() {
-        monitor.onEventAsync(new PartialPullSuccess(START_DATE));
     }
 
     private void thenVerifyPullIsInvoked(int eventID) {

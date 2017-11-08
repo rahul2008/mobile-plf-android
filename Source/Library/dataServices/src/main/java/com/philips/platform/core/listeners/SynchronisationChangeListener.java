@@ -9,8 +9,6 @@ package com.philips.platform.core.listeners;
 public interface SynchronisationChangeListener {
     void dataPullSuccess();
 
-    void dataPartialPullSuccess(String tillDate);
-
     void dataPullFail(Exception e);
 
     void dataPushSuccess();

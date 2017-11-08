@@ -24,6 +24,7 @@ import java.util.Set;
 import retrofit.RetrofitError;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -165,10 +166,23 @@ public class DataPullSynchroniseTest {
         thenDataSyncIsCompleted();
     }
 
+    @Test
+    public void postError_WhenFetchDateByRange() {
+        givenUserIsLoggedIn();
+        givenRetrofitErrorWhileFetchDataByDateRange();
+        whenStartSynchroniseWithDateRangeIsInvoked();
+        thenDataPullIsFailed();
+    }
+
     private RetrofitError givenRetrofitErrorWhileFetchingData() {
         error = mock(RetrofitError.class);
         Mockito.when(momentsDataFetcherMock.fetchData()).thenReturn(error);
         return error;
+    }
+
+    private void givenRetrofitErrorWhileFetchDataByDateRange() {
+        error = RetrofitError.unexpectedError("", new RuntimeException("Error"));
+        doThrow(error).when(momentsDataFetcherMock).fetchDataByDateRange(START_DATE, END_DATE);
     }
 
     private void givenUserIsLoggedIn() {
@@ -202,7 +216,6 @@ public class DataPullSynchroniseTest {
     private void whenStartSynchroniseWithDateRangeIsInvoked() {
         synchronise.startSynchronise(START_DATE, END_DATE, EVENT_ID);
     }
-
 
     private void thenDataSyncIsCompleted() {
         Mockito.verify(synchronisationManagerMock).dataSyncComplete();

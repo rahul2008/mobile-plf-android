@@ -6,7 +6,6 @@
 package com.philips.platform.datasync.synchronisation;
 
 import com.philips.platform.core.events.FetchByDateRange;
-import com.philips.platform.core.events.PartialPullSuccess;
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.monitors.EventMonitor;
@@ -51,10 +50,5 @@ public class SynchronisationMonitor extends EventMonitor {
         synchronized (this) {
             pushSynchronise.startSynchronise(event.getEventId());
         }
-    }
-
-    @Subscribe (threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(PartialPullSuccess partialPullSuccess) {
-        pullSynchronise.postPartialSyncError(partialPullSuccess.getTillDate());
     }
 }

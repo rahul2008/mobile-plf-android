@@ -158,10 +158,6 @@ public class DataPullSynchronise {
         synchronisationManager.dataPullSuccess();
     }
 
-     void postPartialSyncError(String tillDate) {
-        synchronisationManager.dataPartialPullSuccess(tillDate);
-    }
-
     private void updateResult(final RetrofitError resultError) {
         if (resultError != null) {
             this.fetchResult = resultError;
