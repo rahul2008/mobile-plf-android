@@ -1,13 +1,14 @@
 package com.philips.platform.appinfra.languagepack;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.FileUtils;
-import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.languagepack.model.LanguageList;
@@ -26,6 +27,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static com.philips.platform.appinfra.languagepack.LanguagePackConstants.LOCALE_FILE_ACTIVATED;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 /**
  * LanguagePack Test class.
  */
@@ -41,6 +46,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
     LanguagePackManager mLanguagePackManager = null;
     ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
     private FileUtils languagePackUtil;
+    private AppInfra mAppInfra;
 
 
     @Override
@@ -48,7 +54,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
         super.setUp();
         Context context = getInstrumentation().getContext();
         assertNotNull(context);
-        AppInfra mAppInfra = new AppInfra.Builder().build(context);
+        mAppInfra = new AppInfra.Builder().build(context);
 
 
         // overriding ConfigManager to get Test JSON data, as AppInfra library does not have uApp configuration file
@@ -98,6 +104,59 @@ public class LanguagePackTest extends AppInfraInstrumentation {
 
     }
 
+    public void testLanguagePackConfig() {
+        assertNotNull(LanguagePackManager.getLanguagePackConfig(mAppInfra.getConfigInterface(), mAppInfra));
+    }
+
+    public void testPostActivateSuccess() throws InterruptedException {
+        LanguagePackInterface.OnActivateListener onActivateListenerMock = mock(LanguagePackInterface.OnActivateListener.class);
+        Runnable runnable = mLanguagePackManager.postActivateSuccess(onActivateListenerMock);
+        new Thread(runnable).start();
+        Thread.sleep(500);
+        verify(onActivateListenerMock).onSuccess(languagePackUtil.getFilePath(LOCALE_FILE_ACTIVATED, LanguagePackConstants.LANGUAGE_PACK_PATH).getAbsolutePath());
+    }
+
+    public void testActivateSuccess() throws InterruptedException {
+        final Handler handlerMock = mock(Handler.class);
+        mLanguagePackManager = new LanguagePackManager(mAppInfra) {
+            @Override
+            Handler getHandler(Context context) {
+                return handlerMock;
+            }
+        };
+        LanguagePackInterface.OnActivateListener onActivateListenerMock = mock(LanguagePackInterface.OnActivateListener.class);
+        languagePackUtil.saveFile(getMetadata(), LanguagePackConstants.LOCALE_FILE_INFO, LanguagePackConstants.LANGUAGE_PACK_PATH);
+        mLanguagePackManager.activate(onActivateListenerMock);
+        Thread.sleep(500);
+        Runnable runnable = mLanguagePackManager.postActivateSuccess(onActivateListenerMock);
+        new Thread(runnable).start();
+        Thread.sleep(500);
+        verify(onActivateListenerMock).onSuccess(languagePackUtil.getFilePath(LOCALE_FILE_ACTIVATED, LanguagePackConstants.LANGUAGE_PACK_PATH).getAbsolutePath());
+    }
+
+    private String getMetadata() {
+        try {
+            final JSONObject metadataJsonObject = new JSONObject();
+            metadataJsonObject.put(LanguagePackConstants.LOCALE, "some_locale");
+            metadataJsonObject.put(LanguagePackConstants.VERSION, "20");
+            metadataJsonObject.put(LanguagePackConstants.URL, "some_url");
+            return metadataJsonObject.toString();
+        } catch (JSONException e) {
+            e.getMessage();
+        }
+        return null;
+    }
+
+    public void testIsLanguagePackDownloadRequired() {
+        LanguagePackModel languagePackModel = new LanguagePackModel();
+        languagePackModel.setLocale("some_locale");
+        languagePackModel.setUrl("some_url");
+        languagePackModel.setVersion("25");
+        languagePackUtil.saveFile(getMetadata(), LanguagePackConstants.LOCALE_FILE_INFO, LanguagePackConstants.LANGUAGE_PACK_PATH);
+        assertTrue(mLanguagePackManager.isLanguagePackDownloadRequired(languagePackModel));
+        languagePackModel.setVersion("15");
+        assertFalse(mLanguagePackManager.isLanguagePackDownloadRequired(languagePackModel));
+    }
 
     public void testFetchServiceIDFromConfigAndURLfromSD() {
         // fetch language pack service id from config
@@ -154,16 +213,16 @@ public class LanguagePackTest extends AppInfraInstrumentation {
     }
 
     public void testRefreshNew() {
-        AppInfra appInfra = Mockito.mock(AppInfra.class);
-        AppConfigurationInterface appConfigurationInterface = Mockito.mock(AppConfigurationInterface.class);
-        ServiceDiscoveryInterface serviceDiscoveryInterface = Mockito.mock(ServiceDiscoveryInterface.class);
+        AppInfra appInfra = mock(AppInfra.class);
+        AppConfigurationInterface appConfigurationInterface = mock(AppConfigurationInterface.class);
+        ServiceDiscoveryInterface serviceDiscoveryInterface = mock(ServiceDiscoveryInterface.class);
 
         Mockito.when(appInfra.getConfigInterface()).thenReturn(appConfigurationInterface);
         Mockito.when(appInfra.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
-        LanguagePackInterface.OnRefreshListener onRefreshListener = Mockito.mock(LanguagePackInterface.OnRefreshListener.class);
-        final ServiceDiscoveryInterface.OnGetServiceUrlListener onGetServiceUrlListener = Mockito.mock(ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
+        LanguagePackInterface.OnRefreshListener onRefreshListener = mock(LanguagePackInterface.OnRefreshListener.class);
+        final ServiceDiscoveryInterface.OnGetServiceUrlListener onGetServiceUrlListener = mock(ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
 
-        final AppConfigurationInterface.AppConfigurationError appConfigurationError = Mockito.mock(AppConfigurationInterface.AppConfigurationError.class);
+        final AppConfigurationInterface.AppConfigurationError appConfigurationError = mock(AppConfigurationInterface.AppConfigurationError.class);
 
         mLanguagePackManager = new LanguagePackManager(appInfra) {
             @NonNull
@@ -313,7 +372,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
         assertEquals(getLanguageResponse(), languagePackUtil.readFile(file));
 
 
-        languagePackUtil.saveFile(getLanguageResponse(), LanguagePackConstants.LOCALE_FILE_ACTIVATED ,
+        languagePackUtil.saveFile(getLanguageResponse(), LOCALE_FILE_ACTIVATED ,
                 LanguagePackConstants.LANGUAGE_PACK_PATH);
         assertEquals(getLanguageResponse(), languagePackUtil.readFile(file));
 
