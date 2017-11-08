@@ -23,4 +23,5 @@ public class CatkConstants {
 
     public static final String BUNDLE_KEY_APPLICATION_NAME = "appName";
     public static final String BUNDLE_KEY_PROPOSITION_NAME = "propName";
+    public static final String BUNDLE_KEY_ADDTOBACKSTACK = "addToBackStack";
 }

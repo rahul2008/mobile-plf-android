@@ -67,7 +67,7 @@ public abstract class CswBaseFragment extends Fragment {
         CswFragment fragment = getCswFragment();
         if (fragment != null) {
             if (fragment.getUpdateTitleListener() != null) {
-                fragment.getUpdateTitleListener().updateActionBar(getTitleResourceId(), (fragment.getFragmentCount() > 1));
+                fragment.getUpdateTitleListener().updateActionBar(getTitleResourceId(), (fragment.getFragmentCount() > 0));
             }
 
             fragment.setResourceID(getTitleResourceId());

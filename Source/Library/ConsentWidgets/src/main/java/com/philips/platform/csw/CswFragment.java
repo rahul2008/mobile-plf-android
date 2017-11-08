@@ -26,6 +26,7 @@ public class CswFragment extends Fragment implements BackEventListener {
 
     private String applicationName;
     private String propositionName;
+    private boolean isAddedToBackStack;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class CswFragment extends Fragment implements BackEventListener {
         if (getArguments() != null) {
             applicationName = getArguments().getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
             propositionName = getArguments().getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
+            isAddedToBackStack = getArguments().getBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK,false);
         }
 
         mFragmentManager = getmFragmentManager();
@@ -50,6 +52,7 @@ public class CswFragment extends Fragment implements BackEventListener {
         if (state != null) {
             applicationName = state.getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
             propositionName = state.getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
+            isAddedToBackStack = state.getBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK);
         }
     }
 
@@ -59,6 +62,7 @@ public class CswFragment extends Fragment implements BackEventListener {
         if (state != null) {
             state.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
             state.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+            state.putBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK, isAddedToBackStack);
         }
     }
 
@@ -97,8 +101,10 @@ public class CswFragment extends Fragment implements BackEventListener {
 
     public int getFragmentCount() {
         FragmentManager fragmentManager = getmFragmentManager();
-        int fragmentCount = fragmentManager.getFragments().size();
-        return fragmentCount;
+        if(isAddedToBackStack){
+            return fragmentManager.getBackStackEntryCount()+1;
+        }
+        return fragmentManager.getBackStackEntryCount();
     }
 
     public ActionBarListener getUpdateTitleListener() {
@@ -128,10 +134,11 @@ public class CswFragment extends Fragment implements BackEventListener {
         return getActivity();
     }
 
-    public void setArguments(String applicationName, String propositionName) {
+    public void setArguments(String applicationName, String propositionName,boolean addToBackStack) {
         Bundle b = new Bundle();
         b.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
         b.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        b.putBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK, addToBackStack);
         this.setArguments(b);
     }
 

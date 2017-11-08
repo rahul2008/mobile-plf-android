@@ -43,7 +43,7 @@ public class MyaFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mya_fragment_my_account_root, container, false);
-        mFragmentManager = getChildFragmentManager();
+        mFragmentManager = getActivity().getSupportFragmentManager();
 
         if (getArguments() != null) {
             applicationName = getArguments().getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
@@ -133,8 +133,18 @@ public class MyaFragment extends Fragment implements
     }
 
     public int getFragmentCount() {
-        FragmentManager fragmentManager = getChildFragmentManager();
-        int fragmentCount = fragmentManager.getFragments().size();
+        //First Check is Csw fargment is present then return count from it +1
+        int cswChildFragmentCount = 0;
+
+        Fragment fragment = getCswFragment();
+        if (fragment != null) {
+            cswChildFragmentCount = ((CswFragment)fragment).getFragmentCount();
+            cswChildFragmentCount = cswChildFragmentCount+1;
+        }
+
+
+        int fragmentCount = mFragmentManager.getFragments().size()-1;
+        fragmentCount = fragmentCount+cswChildFragmentCount;
         return fragmentCount;
     }
 
