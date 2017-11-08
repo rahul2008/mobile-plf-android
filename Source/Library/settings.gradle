@@ -1,1 +1,1 @@
-include ':ews', ':demoapplication'
+include ':ews'
