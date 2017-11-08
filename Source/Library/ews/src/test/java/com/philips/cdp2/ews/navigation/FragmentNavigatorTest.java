@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import static org.mockito.Matchers.any;
@@ -20,14 +19,15 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class FragmentNavigatorTest {
 
-    @InjectMocks private FragmentNavigator subject;
-
     @Mock private FragmentManager mockFragmentManager;
     @Mock private FragmentTransaction mockFragmentTransaction;
+
+    private FragmentNavigator subject;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        subject = new FragmentNavigator(mockFragmentManager,0);
     }
 
     @Test

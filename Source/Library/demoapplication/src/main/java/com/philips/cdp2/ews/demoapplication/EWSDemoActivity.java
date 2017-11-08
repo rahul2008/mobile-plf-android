@@ -83,6 +83,7 @@ public class EWSDemoActivity extends EWSDemoBaseActivity implements View.OnClick
                     break;
                 case 0:
                 default:
+                    selection.set(DEFAULT);
                     updateCurrentContent("");
                     break;
             }

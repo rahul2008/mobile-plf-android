@@ -7,7 +7,9 @@ package com.philips.cdp2.ews.microapp;
 import android.content.Context;
 import android.content.Intent;
 
+import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
+import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.view.EWSActivity;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -16,6 +18,8 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+
+import javax.inject.Inject;
 
 @SuppressWarnings("WeakerAccess")
 public class EWSInterface implements UappInterface {
@@ -58,15 +62,19 @@ public class EWSInterface implements UappInterface {
 
     }
 
+    @Inject
+    Navigator navigator;
+    @Inject
+    EventingChannel<EventingChannel.ChannelCallback> ewsEventingChannel;
+
     private void launchAsFragment(final FragmentLauncher fragmentLauncher, final UappLaunchInput uappLaunchInput) {
-      //  try {
+        try {
             EWSDependencyProvider.getInstance().createEWSComponent(fragmentLauncher,contentConfiguration);
+            EWSDependencyProvider.getInstance().getEwsComponent().inject(this);
+            navigator.navigateToGettingStartedScreen();
+            ewsEventingChannel.start();
+        } catch (Exception e) {
 
-            FragmentLauncherFragment ewsFragment = new FragmentLauncherFragment();
-
-            ewsFragment.show();
-        /*} catch (Exception e) {
-
-        }*/
+        }
     }
 }

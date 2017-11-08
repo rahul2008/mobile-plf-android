@@ -6,7 +6,7 @@
 package com.philips.cdp2.ews.view;
 
 import android.os.Bundle;
-import android.support.annotation.StringRes;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -24,7 +24,6 @@ import com.philips.cdp2.ews.tagging.Actions;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.drawable.FontIconDrawable;
 
@@ -36,7 +35,7 @@ import javax.inject.Inject;
 
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
-public class EWSActivity extends DynamicThemeApplyingActivity implements ActionBarListener {
+public class EWSActivity extends DynamicThemeApplyingActivity {
 
     public static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
     public static final String EWS_STEPS = "EWS_STEPS";
@@ -54,34 +53,32 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO clean up this onCreate()
-        initMicroAppDependencies();
         setContentView(R.layout.ews_activity_main);
+
+        initMicroAppDependencies();
+        initEWSComponent(savedInstanceState);
         setUpToolBar();
         setUpCancelButton();
-
-        ContentConfiguration contentConfiguration =
-                BundleUtils.extractParcelableFromIntentOrNull(getBundle(savedInstanceState), KEY_CONTENT_CONFIGURATION);
-
-        if (contentConfiguration == null) {
-            contentConfiguration = new ContentConfiguration();
-        }
-        EWSDependencyProvider.getInstance().createEWSComponent(this,R.id.contentFrame,
-                contentConfiguration);
-
-        EWSDependencyProvider.getInstance().getEwsComponent().inject(this);
-        ewsEventingChannel.start();
-
 
         EWSTagger.collectLifecycleInfo(this);
 
         if (savedInstanceState == null) {
             navigator.navigateToGettingStartedScreen();
         }
+    }
 
-        FontIconDrawable drawable = new FontIconDrawable(this, getResources().getString(R.string.dls_cross_24), TypefaceUtils.load(getAssets(), "fonts/iconfont.ttf"))
-                .sizeRes(R.dimen.ews_gs_icon_size);
-        findViewById(R.id.ic_close).setBackground(drawable);
+    private void initEWSComponent(@Nullable Bundle savedInstanceState) {
+        ContentConfiguration contentConfiguration =
+                BundleUtils.extractParcelableFromIntentOrNull(getBundle(savedInstanceState), KEY_CONTENT_CONFIGURATION);
+
+        if (contentConfiguration == null) {
+            contentConfiguration = new ContentConfiguration();
+        }
+        EWSDependencyProvider.getInstance().createEWSComponent(this, R.id.contentFrame,
+                contentConfiguration);
+
+        EWSDependencyProvider.getInstance().getEwsComponent().inject(this);
+        ewsEventingChannel.start();
     }
 
     @Override
@@ -92,7 +89,7 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
         outState.putParcelable(KEY_CONTENT_CONFIGURATION, contentConfiguration);
     }
 
-    private Bundle getBundle(Bundle savedInstanceState) {
+    private Bundle getBundle(@Nullable Bundle savedInstanceState) {
         Bundle bundle;
         if (savedInstanceState == null) {
             bundle = getIntent().getExtras();
@@ -103,6 +100,10 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
     }
 
     private void setUpCancelButton() {
+        FontIconDrawable drawable = new FontIconDrawable(this, getResources().getString(R.string.dls_cross_24), TypefaceUtils.load(getAssets(), "fonts/iconfont.ttf"))
+                .sizeRes(R.dimen.ews_gs_icon_size);
+        findViewById(R.id.ic_close).setBackground(drawable);
+
         findViewById(R.id.ic_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,9 +141,8 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ewsEventingChannel.stop();
-        //ewsComponent = null;
         EWSTagger.pauseLifecycleInfo();
+        ewsEventingChannel.stop();
         EWSDependencyProvider.getInstance().clear();
     }
 
@@ -174,16 +174,6 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
     protected void handleCancelButtonClicked() {
         BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
         baseFragment.handleCancelButtonClicked(baseContentConfiguration.getDeviceName());
-    }
-
-    @Override
-    public void updateActionBar(@StringRes int i, boolean b) {
-        setToolbarTitle(getString(i));
-    }
-
-    @Override
-    public void updateActionBar(String s, boolean b) {
-        setToolbarTitle(s);
     }
 
     public void setToolbarTitle(String s) {

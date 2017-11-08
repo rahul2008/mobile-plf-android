@@ -18,7 +18,7 @@ public class BaseTroubleShootingFragment extends BaseFragment {
 
     @Override
     public void setToolbarTitle() {
-        ((EWSActivity) getActivity()).updateActionBar(getString(R.string.ews_support_title),false);
+        ((EWSActivity) getActivity()).setToolbarTitle(getString(R.string.ews_support_title));
     }
 
     @Override

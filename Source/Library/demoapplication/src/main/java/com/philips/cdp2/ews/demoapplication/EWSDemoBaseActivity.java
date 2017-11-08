@@ -1,6 +1,7 @@
 package com.philips.cdp2.ews.demoapplication;
 
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -52,10 +53,7 @@ public class EWSDemoBaseActivity extends AppCompatActivity {
     }
 
     protected boolean isDefaultValueSelected(String selectedItem){
-        if (selectedItem.equals(DEFAULT)){
-            return true;
-        }
-        return false;
+        return selectedItem.equals(DEFAULT);
     }
 
     @NonNull
@@ -73,9 +71,12 @@ public class EWSDemoBaseActivity extends AppCompatActivity {
 
     protected void updateCurrentContent(String currentContent) {
         try {
-            Configuration config = new Configuration(getResources().getConfiguration());
-            config.setLocale(new Locale(currentContent));
-            getResources().getConfiguration().updateFrom(config);
+            Locale locale = new Locale(currentContent);
+            Locale.setDefault(locale);
+            Resources res = getResources();
+            Configuration config = new Configuration(res.getConfiguration());
+            config.locale = locale;
+            res.updateConfiguration(config, res.getDisplayMetrics());
         } catch (Exception e) {
             Log.e(EWSDemoActivity.class.getName(), e.toString());
         }

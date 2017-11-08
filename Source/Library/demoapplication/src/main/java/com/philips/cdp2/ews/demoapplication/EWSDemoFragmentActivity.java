@@ -39,7 +39,6 @@ public class EWSDemoFragmentActivity extends EWSDemoBaseActivity implements Acti
         AppInfraInterface appInfra = new AppInfra.Builder().build(getApplicationContext());
         EWSInterface ewsInterface = new EWSInterface();
         ewsInterface.init(createUappDependencies(appInfra, createProductMap(), isDefaultValueSelected(selectedOption)), new UappSettings(getApplicationContext()));
-        //ewsInterface.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, null,-1, null), new EWSLauncherInput());
 
         FragmentLauncher fragmentLauncher = new FragmentLauncher
                 (this, R.id.fragmentContainerDemo, this);

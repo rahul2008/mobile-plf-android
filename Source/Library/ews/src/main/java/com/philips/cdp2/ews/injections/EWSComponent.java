@@ -8,7 +8,7 @@ package com.philips.cdp2.ews.injections;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiViewModel;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel;
-import com.philips.cdp2.ews.microapp.FragmentLauncherFragment;
+import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordViewModel;
 import com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingViewModel;
 import com.philips.cdp2.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingViewModel;
@@ -32,6 +32,8 @@ import dagger.Component;
 @Singleton
 @Component(modules = {EWSModule.class, EWSConfigurationModule.class})
 public interface EWSComponent {
+
+    void inject(EWSInterface ewsInterface);
 
     void inject(EWSActivity ewsActivity);
 
@@ -68,6 +70,4 @@ public interface EWSComponent {
     ConnectWithPasswordViewModel connectWithPasswordViewModel();
 
     ConnectionSuccessfulViewModel connectionSuccessfulViewModel();
-
-    void inject(FragmentLauncherFragment fragmentLauncherFragment);
 }
