@@ -269,7 +269,7 @@ public class LanguagePackManager implements LanguagePackInterface {
         };
     }
 
-    private Runnable postActivateSuccess(final OnActivateListener onActivateListener) {
+    Runnable postActivateSuccess(final OnActivateListener onActivateListener) {
         return new Runnable() {
             @Override
             public void run() {
