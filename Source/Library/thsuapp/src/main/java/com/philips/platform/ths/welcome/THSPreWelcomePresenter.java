@@ -12,9 +12,11 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.faqs.THSFaqFragment;
 import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSSharedPreferenceUtility;
 
 import java.net.URL;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_IS_TERMS_AND_CONDITIONS_LAUNCHED;
 import static com.philips.platform.ths.utility.THSConstants.THS_TERMS_AND_CONDITIONS;
 
 public class THSPreWelcomePresenter implements THSBasePresenter{
@@ -26,6 +28,7 @@ public class THSPreWelcomePresenter implements THSBasePresenter{
     @Override
     public void onEvent(int componentID) {
         if(componentID == R.id.ths_go_see_provider){
+            mThsPreWelcomeFragment.popSelfBeforeTransition();
             if (THSManager.getInstance().isReturningUser()) {
                 THSWelcomeFragment thsWelcomeFragment = new THSWelcomeFragment();
                 mThsPreWelcomeFragment.addFragment(thsWelcomeFragment, THSWelcomeFragment.TAG, null, false);
@@ -40,6 +43,8 @@ public class THSPreWelcomePresenter implements THSBasePresenter{
             getTermsAndConditions();
         }
     }
+
+
 
     public void getTermsAndConditions(){
         THSManager.getInstance().getAppInfra().getServiceDiscovery().getServiceUrlWithCountryPreference(THS_TERMS_AND_CONDITIONS, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {

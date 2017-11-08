@@ -83,17 +83,22 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
                 mTHSBaseFragment.showToast(THSSDKErrorFactory.getErrorType(ANALYTICS_ENROLLMENT_MANGER,sdkPasswordError));
                 return;
             }
+
             switch (((THSRegistrationFragment) mTHSBaseFragment).mLaunchInput) {
                 case THSConstants.THS_PRACTICES:
+                    mTHSBaseFragment.popSelfBeforeTransition();
                     mTHSBaseFragment.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, true);
                     break;
                 case THSConstants.THS_SCHEDULED_VISITS:
+                    mTHSBaseFragment.popSelfBeforeTransition();
                     mTHSBaseFragment.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
                     break;
                 case THSConstants.THS_VISITS_HISTORY:
+                    mTHSBaseFragment.popSelfBeforeTransition();
                     mTHSBaseFragment.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
                     break;
                 default:
+                    mTHSBaseFragment.popSelfBeforeTransition();
                     mTHSBaseFragment.addFragment(new THSWelcomeFragment(), THSWelcomeFragment.TAG, null, true);
                     break;
             }
