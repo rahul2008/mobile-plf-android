@@ -8,6 +8,8 @@ import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp2.ews.navigation.Navigator;
+import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Page;
 
 import javax.inject.Inject;
 
@@ -39,5 +41,9 @@ public class WIFIConnectionUnsuccessfulViewModel {
 
     public void onTryAgainClicked() {
         navigator.navigateToHomeNetworkConfirmationScreen();
+    }
+
+    void trackPageName() {
+        EWSTagger.trackPage(Page.CONNECTION_UNSUCCESSFUL);
     }
 }

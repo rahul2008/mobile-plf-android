@@ -12,13 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConnectingWithDeviceBinding;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel.ConnectingPhoneToHotSpotCallback;
 import com.philips.cdp2.ews.logger.EWSLogger;
-import com.philips.cdp2.ews.base.BaseFragment;
-import com.philips.cdp2.ews.EWSActivity;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -100,7 +100,6 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
         final AlertDialogFragment alertDialogFragment = builder.create();
         alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
         getChildFragmentManager().executePendingTransactions();
-
         ((Label) view.findViewById(R.id.connection_unsuccessful_body)).setText(getString(R.string.label_ews_connection_problem_body, getString(baseContentConfiguration.getDeviceName())));
 
         Button yesButton = view.findViewById(R.id.ews_H_03_00_a_button_yes);
@@ -133,6 +132,14 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
     @Override
     public boolean handleBackEvent() {
         return true;
+    }
+
+    @NonNull
+    @Override
+    protected void callTrackPageName() {
+        if (viewModel != null) {
+            viewModel.trackPageName();
+        }
     }
 
     private ConnectingWithDeviceViewModel createViewModel() {

@@ -9,8 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.port.DICommPortListener;
-import com.philips.cdp.dicommclient.port.common.DevicePort;
-import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
@@ -19,6 +17,8 @@ import com.philips.cdp2.ews.annotations.ConnectionErrorType;
 import com.philips.cdp2.ews.communication.events.ApplianceConnectErrorEvent;
 import com.philips.cdp2.ews.communication.events.DeviceConnectionErrorEvent;
 import com.philips.cdp2.ews.logger.EWSLogger;
+import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Tag;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -86,6 +86,7 @@ public class ApplianceAccessManager {
         @Override
         public void onPortError(WifiPort wifiPort, Error error, @Nullable String s) {
             EWSLogger.d(TAG, "Step Failed : Port error " + wifiPort.toString() + " Error : " + error + " data " + error);
+            EWSTagger.trackActionSendData(Tag.KEY.TECHNICAL_ERROR, Tag.ERROR.WIFI_PORT_ERROR);
             onErrorReceived();
             if (fetchCallback != null) {
                 fetchCallback.onFailedToFetchDeviceInfo();
@@ -96,23 +97,6 @@ public class ApplianceAccessManager {
             }
         }
 
-    };
-
-    private DICommPortListener<DevicePort> devicePortListener = new DICommPortListener<DevicePort>() {
-
-        @Override
-        public void onPortUpdate(final DevicePort port) {
-            DevicePortProperties devicePortProperties = port.getPortProperties();
-            if (devicePortProperties != null) {
-                sessionDetailsInfo.setDevicePortProperties(devicePortProperties);
-                fetchWiFiPortProperties();
-            }
-        }
-
-        @Override
-        public void onPortError(final DevicePort port, final Error error, final String errorData) {
-            onErrorReceived();
-        }
     };
 
     @Inject
@@ -169,11 +153,6 @@ public class ApplianceAccessManager {
         } else {
             EWSLogger.d("TAG", "PUT_WIFI_PROPS requestType:" + requestType);
         }
-    }
-
-    @VisibleForTesting
-    DICommPortListener<DevicePort> getDevicePortListener() {
-        return devicePortListener;
     }
 
     @VisibleForTesting

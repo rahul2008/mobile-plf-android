@@ -16,20 +16,20 @@ import static org.mockito.Mockito.mock;
  */
 public class EWSGenericApplianceTest {
 
-    private EWSGenericAppliance appliance;
+    private EWSGenericAppliance subject;
 
     @Before
     public void setUp() throws Exception {
-        appliance = new EWSGenericAppliance(mock(NetworkNode.class), mock(CommunicationStrategy.class));
+        subject = new EWSGenericAppliance(mock(NetworkNode.class), mock(CommunicationStrategy.class));
     }
 
     @Before
     public void shouldCheckApplianceIsNotNull() throws Exception {
-        assertNotNull(appliance);
+        assertNotNull(subject);
     }
 
     @Test
-    public void shouldCheckDeviceTypeIsNullForTempAppliance() throws Exception {
-        assertNull(appliance.getDeviceType());
+    public void itShouldCheckDeviceTypeIsNullForTempAppliance() throws Exception {
+        assertNull(subject.getDeviceType());
     }
 }

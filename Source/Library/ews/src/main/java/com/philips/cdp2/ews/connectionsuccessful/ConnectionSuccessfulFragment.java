@@ -13,11 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
 import com.philips.cdp2.ews.databinding.FragmentConnectionSuccessfulBinding;
-import com.philips.cdp2.ews.base.BaseFragment;
-import com.philips.cdp2.ews.EWSActivity;
 
 import javax.inject.Inject;
 
@@ -54,6 +54,11 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
     public boolean handleBackEvent() {
         // Do nothing, back disabled in this screen
         return true;
+    }
+
+    @Override
+    protected void callTrackPageName() {
+        viewModel.trackPageName();
     }
 
     @Override

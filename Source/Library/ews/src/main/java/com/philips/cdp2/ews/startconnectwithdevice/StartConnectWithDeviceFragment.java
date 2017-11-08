@@ -13,10 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.databinding.FragmentStartConnectWithDeviceBinding;
-import com.philips.cdp2.ews.EWSActivity;
 
 public class StartConnectWithDeviceFragment extends BaseFragment {
 
@@ -35,5 +35,10 @@ public class StartConnectWithDeviceFragment extends BaseFragment {
     @NonNull
     private StartConnectWithDeviceViewModel createViewModel() {
         return ((EWSActivity) getActivity()).getEWSComponent().ewsGettingStartedViewModel();
+    }
+
+    @Override
+    protected void callTrackPageName() {
+        viewModel.trackPageName();
     }
 }

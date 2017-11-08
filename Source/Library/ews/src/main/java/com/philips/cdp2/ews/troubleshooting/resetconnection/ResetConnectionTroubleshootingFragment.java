@@ -8,15 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.databinding.FragmentResetConnectionTroubleshootingLayoutBinding;
-import com.philips.cdp2.ews.base.BaseTroubleShootingFragment;
 import com.philips.cdp2.ews.EWSActivity;
+import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.base.BaseTroubleShootingFragment;
+import com.philips.cdp2.ews.databinding.FragmentResetConnectionTroubleshootingLayoutBinding;
 
 public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingFragment {
 
     @NonNull
     FragmentResetConnectionTroubleshootingLayoutBinding fragmentResetConnectionTroubleshootingLayoutBinding;
+
+    @NonNull
+    ResetConnectionTroubleshootingViewModel viewModel;
 
     @Nullable
     @Override
@@ -30,8 +33,8 @@ public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingF
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final ResetConnectionTroubleshootingViewModel viewModel = ((EWSActivity) getActivity()).getEWSComponent()
-                        .resetConnectionTroubleshootingViewModel();
+        viewModel = ((EWSActivity) getActivity()).getEWSComponent()
+                .resetConnectionTroubleshootingViewModel();
         fragmentResetConnectionTroubleshootingLayoutBinding.setViewModel(viewModel);
 
         view.findViewById(R.id.ews_H_03_02_button_yes)
@@ -48,5 +51,11 @@ public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingF
                         viewModel.onNoButtonClicked();
                     }
                 });
+    }
+
+    @NonNull
+    @Override
+    protected void callTrackPageName() {
+        viewModel.trackPageName();
     }
 }

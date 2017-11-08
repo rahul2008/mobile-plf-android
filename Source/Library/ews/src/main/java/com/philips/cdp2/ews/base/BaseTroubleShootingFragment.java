@@ -7,7 +7,7 @@ import android.support.annotation.StringRes;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.EWSActivity;
 
-public class BaseTroubleShootingFragment extends BaseFragment {
+public abstract class BaseTroubleShootingFragment extends BaseFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,4 +32,5 @@ public class BaseTroubleShootingFragment extends BaseFragment {
         handleCancelButtonClicked(-1);
         return true;
     }
+
 }

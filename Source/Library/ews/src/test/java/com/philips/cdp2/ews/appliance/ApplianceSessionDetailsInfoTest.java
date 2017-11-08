@@ -28,30 +28,30 @@ public class ApplianceSessionDetailsInfoTest {
     }
 
     @Test
-    public void shouldNotHaveSessionPropertiesOnCreation() {
+    public void itShouldNotHaveSessionPropertiesOnCreation() {
         assertEquals(applianceSessionDetailsInfo.hasSessionProperties(), false);
     }
 
     @Test
-    public void shouldHaveSessionPropertiesOnSettingWifiProperties() {
+    public void itShouldHaveSessionPropertiesOnSettingWifiProperties() {
         applianceSessionDetailsInfo.setWifiPortProperties(wifiPortPropertiesMock);
         assertEquals(applianceSessionDetailsInfo.hasSessionProperties(), true);
     }
 
     @Test(expected = IllegalStateException.class)
-    public void shouldThrowExceptionOnTryingToGetCppId() {
+    public void itShouldThrowExceptionOnTryingToGetCppId() {
         applianceSessionDetailsInfo.getCppId();
     }
 
     @Test
-    public void shouldFetchCppIdWhenPortPropertiesSet() {
+    public void itShouldFetchCppIdWhenPortPropertiesSet() {
         applianceSessionDetailsInfo.setWifiPortProperties(wifiPortPropertiesMock);
         when(wifiPortPropertiesMock.getCppid()).thenReturn("C++11");
         assertEquals(applianceSessionDetailsInfo.getCppId(), "C++11");
     }
 
     @Test
-    public void shouldReturnWakeupLightDeviceName() {
+    public void itShouldReturnWakeupLightDeviceName() {
         assertEquals(applianceSessionDetailsInfo.getDeviceName(), "Wakeup Light");
     }
 

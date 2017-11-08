@@ -54,7 +54,7 @@ public class EWSDependencyProviderTest {
     }
 
     @Test
-    public void shouldEnsureAllDependenciesAreInitialized() throws Exception {
+    public void itShouldEnsureAllDependenciesAreInitialized() throws Exception {
         dependencyProvider.initDependencies(appInfraInterfaceMock, productKeyMap);
 
         assertTrue(dependencyProvider.areDependenciesInitialized());
@@ -65,17 +65,17 @@ public class EWSDependencyProviderTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowExceptionIfMapDoesNotContainProductName() throws Exception {
+    public void itShouldThrowExceptionIfMapDoesNotContainProductName() throws Exception {
         dependencyProvider.initDependencies(appInfraInterfaceMock, new HashMap<String, String>());
     }
 
     @Test(expected = IllegalStateException.class)
-    public void shouldThrowExceptionIfProductNameCalledWithoutInitialization() throws Exception {
+    public void itShouldThrowExceptionIfProductNameCalledWithoutInitialization() throws Exception {
         dependencyProvider.getProductName();
     }
 
     @Test
-    public void shouldClearAllDependenciesWhenAsked() throws Exception {
+    public void itShouldClearAllDependenciesWhenAsked() throws Exception {
         dependencyProvider.clear();
 
         assertFalse(dependencyProvider.areDependenciesInitialized());

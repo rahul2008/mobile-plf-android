@@ -2,31 +2,31 @@
  * Copyright (c) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdp2.ews.viewmodel;
+package com.philips.cdp2.ews.startconnectwithdevice;
 
-import com.philips.cdp2.ews.BuildConfig;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.navigation.Navigator;
-import com.philips.cdp2.ews.startconnectwithdevice.StartConnectWithDeviceViewModel;
+import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.StringProvider;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25, manifest = Config.NONE)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(EWSTagger.class)
 public class StartConnectWithDeviceViewModelTest {
 
     @Mock
@@ -49,15 +49,16 @@ public class StartConnectWithDeviceViewModelTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-
+        mockStatic(EWSTagger.class);
         subject = new StartConnectWithDeviceViewModel(navigatorMock, stringProviderMock, happyFlowContentConfigurationMock, baseContentConfigurationMock);
         when(baseContentConfigurationMock.getDeviceName()).thenReturn(123435);
     }
 
     @Test
-    public void shouldNavigateToHomeWifiScreenIfWifiIsEnabledWhenClickedOnGettingStartedButton() throws Exception {
+    public void itShouldNavigateToHomeWifiScreenIfWifiIsEnabledWhenClickedOnGettingStartedButton() throws Exception {
         stubHomeWiFiStatus();
-
+        verifyStatic();
+        EWSTagger.trackActionSendData("specialEvents", "getStartedToConnectWiFi");
         verify(navigatorMock).navigateToHomeNetworkConfirmationScreen();
     }
 
@@ -66,9 +67,16 @@ public class StartConnectWithDeviceViewModelTest {
     }
 
     @Test
+    public void itShouldVerifyTrackPageIsCalledWithCorrectTag() throws Exception{
+        subject.trackPageName();
+        verifyStatic();
+        EWSTagger.trackPage("getStarted");
+    }
+
+    @Test
     public void itShouldVerifyBackPressEventWhenCalled() throws Exception {
         subject.onBackPressed(ewsCallbackNotifierMock);
-        verify(ewsCallbackNotifierMock, times(1)).onBackPressed();
+        verify(ewsCallbackNotifierMock).onBackPressed();
     }
 
     @Test

@@ -30,7 +30,7 @@ public class EventMonitorTest {
     }
 
     @Test
-    public void shouldRegisterWithEventBusWhenOnStartIsCalledFirstTime() throws Exception {
+    public void itShouldRegisterWithEventBusWhenOnStartIsCalledFirstTime() throws Exception {
         when(eventBusMock.isRegistered(eventMonitor)).thenReturn(false);
 
         eventMonitor.onStart();
@@ -39,7 +39,7 @@ public class EventMonitorTest {
     }
 
     @Test
-    public void shouldNotRegisterWithEventBusAgainIfAlreadyRegisteredWhenOnStartIsCalled() throws Exception {
+    public void itShouldNotRegisterWithEventBusAgainIfAlreadyRegisteredWhenOnStartIsCalled() throws Exception {
         when(eventBusMock.isRegistered(eventMonitor)).thenReturn(true);
 
         eventMonitor.onStart();
@@ -48,7 +48,7 @@ public class EventMonitorTest {
     }
 
     @Test
-    public void shouldUnRegisterWithEventBusIfAlreadyRegisteredWhenOnStopIsCalled() throws Exception {
+    public void itShouldUnRegisterWithEventBusIfAlreadyRegisteredWhenOnStopIsCalled() throws Exception {
         when(eventBusMock.isRegistered(eventMonitor)).thenReturn(true);
 
         eventMonitor.onStop();

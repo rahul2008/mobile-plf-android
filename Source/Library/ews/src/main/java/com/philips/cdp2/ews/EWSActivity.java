@@ -26,7 +26,6 @@ import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.navigation.Navigator;
-import com.philips.cdp2.ews.tagging.Actions;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.platform.appinfra.AppInfra;
@@ -63,7 +62,6 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO clean up this onCreate()
-        initMicroAppDependencies();
         setContentView(R.layout.ews_activity_main);
         setUpToolBar();
         setUpCancelButton();
@@ -110,6 +108,8 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
             contentConfiguration = new ContentConfiguration();
         }
 
+        initMicroAppDependencies(contentConfiguration);
+
         return DaggerEWSComponent.builder()
                 .eWSModule(new EWSModule(EWSActivity.this, getSupportFragmentManager()))
                 .eWSConfigurationModule(new EWSConfigurationModule(this,contentConfiguration))
@@ -125,9 +125,9 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
         });
     }
 
-    private void initMicroAppDependencies() {
+    private void initMicroAppDependencies(ContentConfiguration contentConfiguration) {
         Map<String, String> map = new HashMap<>();
-        map.put(EWSInterface.PRODUCT_NAME, Actions.Value.PRODUCT_NAME_SOMNEO);
+        map.put(EWSInterface.PRODUCT_NAME, getString(contentConfiguration.getBaseContentConfiguration().getDeviceName()));
         EWSDependencyProvider
                 .getInstance().initDependencies(new AppInfra.Builder().build(getBaseContext()), map);
     }
