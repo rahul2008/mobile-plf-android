@@ -9,8 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.port.DICommPortListener;
-import com.philips.cdp.dicommclient.port.common.DevicePort;
-import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
@@ -101,24 +99,6 @@ public class ApplianceAccessManager {
 
     };
 
-    private DICommPortListener<DevicePort> devicePortListener = new DICommPortListener<DevicePort>() {
-
-        @Override
-        public void onPortUpdate(final DevicePort port) {
-            DevicePortProperties devicePortProperties = port.getPortProperties();
-            if (devicePortProperties != null) {
-                sessionDetailsInfo.setDevicePortProperties(devicePortProperties);
-                fetchWiFiPortProperties();
-            }
-        }
-
-        @Override
-        public void onPortError(final DevicePort port, final Error error, final String errorData) {
-            EWSTagger.trackActionSendData(Tag.KEY.TECHNICAL_ERROR, Tag.ERROR.DEVICE_PORT_ERROR);
-            onErrorReceived();
-        }
-    };
-
     @Inject
     public ApplianceAccessManager(@NonNull @Named("ews.event.bus") EventBus eventBus,
                                   @NonNull final @Named("ews.temporary.appliance") EWSGenericAppliance appliance,
@@ -173,11 +153,6 @@ public class ApplianceAccessManager {
         } else {
             EWSLogger.d("TAG", "PUT_WIFI_PROPS requestType:" + requestType);
         }
-    }
-
-    @VisibleForTesting
-    DICommPortListener<DevicePort> getDevicePortListener() {
-        return devicePortListener;
     }
 
     @VisibleForTesting
