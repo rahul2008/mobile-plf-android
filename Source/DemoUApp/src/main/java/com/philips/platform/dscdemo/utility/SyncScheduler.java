@@ -11,7 +11,7 @@ public class SyncScheduler {
 	private final Handler handler = new Handler();
 	private Runnable runnable;
 	private boolean isRunning = false;
-	private boolean isSyncEnabled = false;
+	private boolean isSyncEnabled = true;
 
 
 	private SyncScheduler() {
