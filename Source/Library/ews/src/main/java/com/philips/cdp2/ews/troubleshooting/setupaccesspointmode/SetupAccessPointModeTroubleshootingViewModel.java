@@ -33,7 +33,7 @@ public class SetupAccessPointModeTroubleshootingViewModel {
         this.stringProvider = stringProvider;
         this.title = new ObservableField<>(getTitle(troubleShootContentConfiguration, contentConfiguration));
         this.description = new ObservableField<>(getNote(troubleShootContentConfiguration, contentConfiguration));
-        this.setupAccessPointImage = getsetupAccessPointImage(troubleShootContentConfiguration);
+        this.setupAccessPointImage = getSetupAccessPointImage(troubleShootContentConfiguration);
     }
 
     public void onDoneButtonClicked() {
@@ -42,14 +42,8 @@ public class SetupAccessPointModeTroubleshootingViewModel {
 
     @VisibleForTesting
     @NonNull
-    Drawable getsetupAccessPointImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
-        return stringProvider.getImageResource(troubleShootContentConfiguration.getSetUpAccessPointImage());
-    }
-
-    @VisibleForTesting
-    @NonNull
     Drawable getSetupAccessPointImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
-        return stringProvider.getImageResource(troubleShootContentConfiguration.getResetConnectionImage());
+        return stringProvider.getImageResource(troubleShootContentConfiguration.getSetUpAccessPointImage());
     }
 
     public void onYesButtonClicked() {
