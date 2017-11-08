@@ -10,7 +10,6 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +60,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 	private ToggleButton mEnableDisableSync;
 	private Calendar myCalendar;
 	private TextView tvSyncStatus;
-	private EnableDisableSync enableDisableSync;
 
 
 	final DatePickerDialog.OnDateSetListener startDate = new DatePickerDialog.OnDateSetListener() {
@@ -92,9 +90,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 		}
 	};
 
-	public interface EnableDisableSync {
-		void isSyncEnabled(boolean isChecked);
-	}
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -114,21 +109,20 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 		btnStartSyncByDateRange = view.findViewById(R.id.btn_startSyncBy_dateRange);
 		tvSyncStatus = view.findViewById(R.id.tvSyncStatus);
 		mEnableDisableSync = view.findViewById(R.id.toggleButton);
-		//final SyncScheduler syncScheduler = new SyncScheduler((FragmentActivity) mContext);
 
 		mEnableDisableSync.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
+					SyncScheduler.getInstance().setSyncEnable(true);
 					SyncScheduler.getInstance().scheduleSync();
-					enableDisableSync.isSyncEnabled(true);
 				} else {
+					SyncScheduler.getInstance().setSyncEnable(false);
 					SyncScheduler.getInstance().stopSync();
-					enableDisableSync.isSyncEnabled(false);
 				}
 			}
 		});
 
-		if(SyncScheduler.getInstance().getSyncStatus()) {
+		if (SyncScheduler.getInstance().getSyncStatus()) {
 			updateTextView("InProgress");
 		} else {
 			updateTextView("Stopped");
@@ -182,13 +176,13 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 
 	@Override
 	public void onSyncComplete() {
-		updateTextView("Sync Completed");
+		updateTextView("Sync-Completed");
 		Toast.makeText(mContext, "OnSyncComplete", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
 	public void onSyncFailed(Exception exception) {
-		updateTextView("Sync Failed");
+		updateTextView("Sync-Failed");
 		Toast.makeText(mContext, "OnSyncFailed", Toast.LENGTH_SHORT).show();
 	}
 
@@ -211,7 +205,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 	@Override
 	public void onFailure(Exception exception) {
 		Toast.makeText(mContext, "onFailure", Toast.LENGTH_SHORT).show();
-
 	}
 
 	@Override
@@ -240,9 +233,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 		return false;
 	}
 
-	public void setListener(SyncByDateRangeFragment.EnableDisableSync enableDisableSync){
-		this.enableDisableSync = enableDisableSync;
-	}
 
 	private void updateStartDate() throws ParseException {
 		String myFormat = "yyyy-MM-dd'T' K mm:ss.SSS Z";
