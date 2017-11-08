@@ -26,6 +26,7 @@ import retrofit.converter.GsonConverter;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -136,7 +137,7 @@ public class MomentsDataFetcherTest {
     public void fetchData_WithInvalidUser() {
         givenUserNotLoggedin();
         whenFetchDataIsInvoked();
-        thenRetrofirErrorIsNull();
+        thenRetrofitErrorIsNull();
         thenVerifyZeroInteractionsWith(coreAdapterMock);
     }
 
@@ -144,7 +145,7 @@ public class MomentsDataFetcherTest {
     public void fetchData_WithNoClient() {
         givenNoClient();
         whenFetchDataIsInvoked();
-        thenRetrofirErrorIsNull();
+        thenRetrofitErrorIsNull();
         thenVerifyZeroInteractionsWith(momentsClientMock);
 
     }
@@ -153,7 +154,7 @@ public class MomentsDataFetcherTest {
     public void fetchData_whenuCoreMomentsIsEmpty() {
         givenZeroUcoreMomentsFromClient();
         whenFetchDataIsInvoked();
-        thenRetrofirErrorIsNull();
+        thenRetrofitErrorIsNull();
         thenNoEventIsPosted();
     }
 
@@ -161,7 +162,7 @@ public class MomentsDataFetcherTest {
     public void fetchData_whenuCoreMoments() {
         givenUcoreMomentsFromClient();
         whenFetchDataIsInvoked();
-        thenRetrofirErrorIsNull();
+        thenRetrofitErrorIsNull();
         thenVerifyEventIsPosted("BackendMomentListSaveRequest");
     }
 
@@ -169,7 +170,7 @@ public class MomentsDataFetcherTest {
     public void fetchData_whenRetrofitError() {
         givenRetrofitErrorFromClient();
         whenFetchDataIsInvoked();
-        thenRetrofirErrorIsReturned();
+        thenRetrofitErrorIsReturned();
     }
 
     @Test(expected = RetrofitError.class)
@@ -185,7 +186,7 @@ public class MomentsDataFetcherTest {
         thenVerifyEventIsPosted("BackendMomentListSaveRequest");
     }
 
-    @Test (expected = RetrofitError.class)
+    @Test(expected = RetrofitError.class)
     public void postSyncError_WhenFetchByDateRange() {
         givenRetrofitErrorFromClientWhenFetchDateByRange();
         whenFetchDataByDateRange();
@@ -228,8 +229,7 @@ public class MomentsDataFetcherTest {
 
     private void givenPartialSuccessFromClient() {
         when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get("START_DATE"), lastSyncTimeMap.get("END_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_END_DATE"))).thenReturn(userMomentsHistory);
-
-        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get("START_DATE"), lastSyncTimeMap2.get("END_DATE"), lastSyncTimeMap2.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap2.get("LAST_MODIFIED_END_DATE"))).thenThrow(RetrofitError.unexpectedError("", new RuntimeException("Sync Error")));
+        doThrow(RetrofitError.class).when(momentsClientMock).fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get("START_DATE"), lastSyncTimeMap2.get("END_DATE"), lastSyncTimeMap2.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap2.get("LAST_MODIFIED_END_DATE"));
     }
 
     private void givenNoClient() {
@@ -262,11 +262,11 @@ public class MomentsDataFetcherTest {
         verifyZeroInteractions(coreAdapterMock);
     }
 
-    private void thenRetrofirErrorIsNull() {
+    private void thenRetrofitErrorIsNull() {
         assertNull(retrofitError);
     }
 
-    private void thenRetrofirErrorIsReturned() {
+    private void thenRetrofitErrorIsReturned() {
         assertNotNull(retrofitError);
         assertEquals("error", retrofitError.getCause().getMessage());
     }

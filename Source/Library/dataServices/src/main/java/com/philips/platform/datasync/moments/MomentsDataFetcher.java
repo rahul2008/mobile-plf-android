@@ -106,7 +106,6 @@ public class MomentsDataFetcher extends DataFetcher {
         Map<String, String> timeStamp = accessProvider.getLastSyncTimeStampByDateRange(startDate, endDate);
         UCoreMomentsHistory momentHistory;
         try {
-
             do {
                 momentHistory = client.fetchMomentByDateRange(accessProvider.getUserId(), accessProvider.getUserId(),
                         timeStamp.get(START_DATE), timeStamp.get(END_DATE), timeStamp.get(LAST_MODIFIED_START_DATE), timeStamp.get(LAST_MODIFIED_END_DATE));
@@ -114,9 +113,7 @@ public class MomentsDataFetcher extends DataFetcher {
                 timeStamp = accessProvider.getLastSyncTimeStampByDateRange(momentHistory.getSyncurl());
             } while (momentHistory.getUCoreMoments().size() > 1);
         } catch (RetrofitError error) {
-            if (isMomentUpdated) {
-                throw RetrofitError.unexpectedError("", new RuntimeException("Partial Sync Completed till: " + timeStamp.get(START_DATE)));
-            }
+            error = (isMomentUpdated) ? RetrofitError.unexpectedError("", new RuntimeException("Partial Sync Completed till: " + timeStamp.get(START_DATE))) : error;
             throw error;
         }
     }
