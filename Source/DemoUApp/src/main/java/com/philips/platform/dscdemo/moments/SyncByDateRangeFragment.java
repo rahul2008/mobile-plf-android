@@ -128,6 +128,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 			updateTextView("Stopped");
 		}
 
+		btnCompleteSync.setOnClickListener(this);
 		mMomentStartDateEt.setOnClickListener(this);
 		mMomentEndDateEt.setOnClickListener(this);
 		btnSyncMomentByDate.setOnClickListener(this);
@@ -138,8 +139,8 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 	@Override
 	public void onClick(View view) {
 		if (view == btnCompleteSync) {
-			DataServicesManager.getInstance().synchronize();
 			updateTextView("InProgress");
+			DataServicesManager.getInstance().synchronize();
 		} else if (view == btnSyncMomentByDate) {
 			dateRangeSelectorLayout.setVisibility(View.VISIBLE);
 		} else if (view == mMomentStartDateEt) {
@@ -151,8 +152,8 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 					.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
 					myCalendar.get(Calendar.DAY_OF_MONTH)).show();
 		} else if (view == btnStartSyncByDateRange) {
-			fetchSyncByDateRange();
 			updateTextView("InProgress");
+			fetchSyncByDateRange();
 		}
 	}
 
