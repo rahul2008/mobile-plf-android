@@ -2,14 +2,13 @@
  * Copyright (c) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdp2.ews.viewmodel;
+package com.philips.cdp2.ews.confirmwifi;
 
 import android.databinding.Observable;
 
 import com.philips.cdp2.ews.BR;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
-import com.philips.cdp2.ews.confirmwifi.ConfirmWifiNetworkViewModel;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.StringProvider;
@@ -42,7 +41,7 @@ public class ConfirmWifiNetworkViewModelTest {
     private Navigator navigatorMock;
     @Mock
     private ConfirmWifiNetworkViewModel.ViewCallback mockViewCallback;
-    private ConfirmWifiNetworkViewModel viewModel;
+    private ConfirmWifiNetworkViewModel subject;
     @Mock
     private Observable.OnPropertyChangedCallback callbackListenerMock;
 
@@ -56,8 +55,8 @@ public class ConfirmWifiNetworkViewModelTest {
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(EWSTagger.class);
-        viewModel = new ConfirmWifiNetworkViewModel(navigatorMock, wifiUtilMock, mockBaseContentConfig, mockStringProvider);
-        viewModel.setViewCallback(mockViewCallback);
+        subject = new ConfirmWifiNetworkViewModel(navigatorMock, wifiUtilMock, mockBaseContentConfig, mockStringProvider);
+        subject.setViewCallback(mockViewCallback);
         when(mockBaseContentConfig.getDeviceName()).thenReturn(R.string.ews_device_name_default);
     }
 
@@ -67,29 +66,29 @@ public class ConfirmWifiNetworkViewModelTest {
 
         when(wifiUtilMock.getConnectedWiFiSSID()).thenReturn(ssid);
 
-        assertEquals(ssid, viewModel.getHomeWiFiSSID());
+        assertEquals(ssid, subject.getHomeWiFiSSID());
     }
 
     @Test
     public void itShouldShowDevicePowerOnScreenWhenClickedOnYesButton() throws Exception {
-        viewModel.onYesButtonClicked();
+        subject.onYesButtonClicked();
         testConfirmNetworkEWSTagger();
         verify(navigatorMock).navigateToDevicePoweredOnConfirmationScreen();
     }
 
     @Test
     public void itShouldShowNetworkTroubleShootingScreenOnNoButtonClicked() throws Exception {
-        viewModel.onNoButtonClicked();
+        subject.onNoButtonClicked();
         testChangeNetworkEWSTagger();
         verify(mockViewCallback).showTroubleshootHomeWifiDialog(mockBaseContentConfig);
     }
 
     @Test
     public void itShouldNotifyPropertyChangedWhenHomeWiFiSSIDIsCalled() throws Exception {
-        viewModel.addOnPropertyChangedCallback(callbackListenerMock);
-        viewModel.refresh();
+        subject.addOnPropertyChangedCallback(callbackListenerMock);
+        subject.refresh();
         testChangeNetworkEWSTagger();
-        verify(callbackListenerMock).onPropertyChanged(viewModel, BR.homeWiFiSSID);
+        verify(callbackListenerMock).onPropertyChanged(subject, BR.homeWiFiSSID);
     }
 
     private void testConfirmNetworkEWSTagger() {
@@ -105,7 +104,7 @@ public class ConfirmWifiNetworkViewModelTest {
     @Test
     public void itShouldShowTroubleShootingScreenWhenNotConnectedToHomeWifi() throws Exception {
         when(wifiUtilMock.isHomeWiFiEnabled()).thenReturn(false);
-        viewModel.refresh();
+        subject.refresh();
         testChangeNetworkEWSTagger();
         verify(mockViewCallback).showTroubleshootHomeWifiDialog(mockBaseContentConfig);
     }
@@ -113,36 +112,43 @@ public class ConfirmWifiNetworkViewModelTest {
     @Test
     public void itShouldNotShowTroubleShootingScreenWhenConnectedToHomeWifi() throws Exception {
         when(wifiUtilMock.isHomeWiFiEnabled()).thenReturn(true);
-        viewModel.refresh();
+        subject.refresh();
         verify(mockViewCallback, never()).showTroubleshootHomeWifiDialog(mockBaseContentConfig);
     }
 
     @Test
     public void itShouldVerifyTitleForViewMatches() throws Exception {
         when(mockStringProvider.getString(R.string.label_ews_confirm_connection_currently_connected,
-                viewModel.getHomeWiFiSSID())).thenReturn("device name");
-        Assert.assertEquals("device name", viewModel.getTitle());
+                subject.getHomeWiFiSSID())).thenReturn("device name");
+        Assert.assertEquals("device name", subject.getTitle());
     }
 
     @Test
     public void itShouldCallNoteWhenTitleIsCalledForViewModel() throws Exception {
 
-        viewModel.getNote();
+        subject.getNote();
         verify(mockStringProvider).getString(R.string.label_ews_confirm_connection_want_to_connect,
-                mockBaseContentConfig.getDeviceName(), viewModel.getHomeWiFiSSID());
+                mockBaseContentConfig.getDeviceName(), subject.getHomeWiFiSSID());
 
     }
 
     @Test
     public void itShouldVerifyNoteForViewMatches() throws Exception {
         when(mockStringProvider.getString(R.string.label_ews_confirm_connection_want_to_connect,
-                mockBaseContentConfig.getDeviceName(), viewModel.getHomeWiFiSSID())).thenReturn("note");
-        Assert.assertEquals("note", viewModel.getNote());
+                mockBaseContentConfig.getDeviceName(), subject.getHomeWiFiSSID())).thenReturn("note");
+        Assert.assertEquals("note", subject.getNote());
+    }
+
+    @Test
+    public void itShouldGiveHelperText() throws Exception {
+        subject.getHelper();
+        verify(mockStringProvider).getString(R.string.label_ews_confirm_connection_tip, mockBaseContentConfig.getDeviceName(), mockBaseContentConfig.getDeviceName());
     }
 
     @Test
     public void itShouldVerifyTrackPageName() throws Exception {
+        subject.trackPageName();
         verifyStatic();
-        EWSTagger.trackPage("connectingDeviceWithWifi");
+        EWSTagger.trackPage("confirmWifiNetwork");
     }
 }
