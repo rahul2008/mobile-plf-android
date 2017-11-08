@@ -14,6 +14,10 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.login.THSAuthentication;
+import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
+import com.philips.platform.ths.login.THSLoginCallBack;
+import com.philips.platform.ths.onboarding.OnBoardingFragment;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
 import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
@@ -125,7 +129,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         } else {
             mThsInitFragment.hideProgressBar();
             mThsInitFragment.popSelfBeforeTransition();
-            launchPreWelcomeScreen();
+            launchOnBoardingScreen();
         }
     }
 
@@ -214,7 +218,8 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
         mThsInitFragment.hideProgressBar();
         if (sdkError == null) {
-           launchWelcomeScreen();
+//           launchWelcomeScreen();
+            launchOnBoardingScreen();
         } else {
             mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CONSUMER_DETAILS, sdkError));
         }

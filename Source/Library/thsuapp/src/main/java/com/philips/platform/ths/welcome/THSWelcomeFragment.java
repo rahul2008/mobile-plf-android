@@ -66,7 +66,6 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
             actionBarListener.updateActionBar(getString(R.string.ths_welcome),true);
         }
 
-        updateView();
         return view;
     }
 
