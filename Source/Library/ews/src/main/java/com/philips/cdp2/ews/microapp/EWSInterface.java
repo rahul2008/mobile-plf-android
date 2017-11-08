@@ -7,10 +7,10 @@ package com.philips.cdp2.ews.microapp;
 import android.content.Context;
 import android.content.Intent;
 
+import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
-import com.philips.cdp2.ews.view.EWSActivity;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;

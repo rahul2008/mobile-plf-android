@@ -17,10 +17,13 @@ public class FragmentNavigator {
     }
 
     void push(@NonNull Fragment fragment, int containerId) {
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment)
-                .addToBackStack(fragment.getClass().getCanonicalName())
-                .commit();
+        boolean isPresentInStack = popToFragment(fragment.getClass().getCanonicalName());
+        if (!isPresentInStack) {
+            fragmentManager.beginTransaction()
+                    .replace(containerId, fragment)
+                    .addToBackStack(fragment.getClass().getCanonicalName())
+                    .commit();
+        }
     }
 
     void pop() {

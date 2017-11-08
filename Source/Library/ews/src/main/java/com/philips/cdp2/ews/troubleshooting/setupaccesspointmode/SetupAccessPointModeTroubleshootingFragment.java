@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.base.BaseTroubleShootingFragment;
 import com.philips.cdp2.ews.databinding.FragmentSetupAccessPointTroubleshootingLayoutBinding;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
-import com.philips.cdp2.ews.view.BaseTroubleShootingFragment;
 
 public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShootingFragment {
 

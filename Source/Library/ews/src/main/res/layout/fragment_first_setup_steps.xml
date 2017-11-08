@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="com.philips.cdp2.ews.viewmodel.FirstSetupStepsViewModel" />
+            type="com.philips.cdp2.ews.setupsteps.FirstSetupStepsViewModel" />
 
     </data>
 
