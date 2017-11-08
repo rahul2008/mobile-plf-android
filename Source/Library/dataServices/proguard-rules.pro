@@ -15,6 +15,3 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
-
-# from dagger.android.DispatchingAndroidInjector
--dontwarn com.google.errorprone.annotations.*
