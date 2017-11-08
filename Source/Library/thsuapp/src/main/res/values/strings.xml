@@ -316,12 +316,12 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="skip">Skip</string>
     <string name="done">Done</string>
 
-    <string name="onboarding_one_text">Filling in your information only takes a few steps and is done in a couple of minute . Your information is then stored securely for all future online visits.</string>
+    <string name="onboarding_one_text">Filling in your information only takes a few steps and is done in a couple of minutes.\n\nYour information is then stored securely for all future online visits.</string>
     <string name="onboarding_two_text">Choose the doctor that works for you. We’ll show you list of available doctors, their experience and ratings before starting your visit.</string>
     <string name="onboarding_three_text">Our mobile app visits use secure, high-quality streaming video. See and speak with a doctor 24 hours a day form home or on the go.</string>
-    <string name="onboarding_four_text"><b3>During</b3> or after a visit provides can send prescriptions and recommendations for over-the-counter medications to a pharmacy of your choice.</string>
+    <string name="onboarding_four_text">During or after a visit provides can send prescriptions and recommendations for over-the-counter medications to a pharmacy of your choice.</string>
 
-    <string name="onboarding_tour_header">See a provider online, anytime</string>
+    <string name="onboarding_tour_header">See <b>a provider online,</b> anytime</string>
 
     <string name="onboarding_tour_video_consults">Video consults in just minutes, right on your smart phone.</string>
     <string name="onboarding_tour_service_is_provided">This service is provided by</string>

@@ -1,22 +1,25 @@
 package com.philips.platform.ths.onboardingtour;
 
-/**
- * Created by philips on 10/25/17.
- */
+import java.util.List;
 
-public class OnBoardingTourContentModel {
+class OnBoardingTourContentModel {
 
     private int tourPageTextId;
     private int tourBackgroundDrawable;
+    private List<OnBoardingSpanValue> spanValues;
 
 
-    public OnBoardingTourContentModel(int tourPageTextId, int tourBackgroundDrawable) {
+    OnBoardingTourContentModel(int tourPageTextId, int tourBackgroundDrawable, List<OnBoardingSpanValue> spanValues) {
         this.tourPageTextId = tourPageTextId;
         this.tourBackgroundDrawable = tourBackgroundDrawable;
+        this.spanValues = spanValues;
     }
 
+    List<OnBoardingSpanValue> getSpanValues() {
+        return spanValues;
+    }
 
-    public int getTourPageTextId() {
+    int getTourPageTextId() {
         return tourPageTextId;
     }
 
@@ -24,7 +27,7 @@ public class OnBoardingTourContentModel {
         this.tourPageTextId = tourPageTextId;
     }
 
-    public int getTourBackgroundDrawable() {
+    int getTourBackgroundDrawable() {
         return tourBackgroundDrawable;
     }
 

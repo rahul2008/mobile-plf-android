@@ -11,13 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-
-    <View
+    <include
         android:id="@+id/indicator_seperator"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:layout_above="@+id/welcome_indicator_layout"
-        android:background="@color/uid_gray_level_10" />
+        layout="@layout/uid_horizontal_separator" />
 
     <RelativeLayout
         android:id="@+id/welcome_indicator_layout"

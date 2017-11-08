@@ -17,25 +17,26 @@
                 android:layout_marginTop="20dp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:textSize="32sp"
                 android:text="@string/onboarding_tour_header"
                 />
 
             <com.philips.platform.uid.view.widget.Label
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="16dp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="@string/onboarding_tour_video_consults"
                 />
 
             <com.philips.platform.uid.view.widget.Label
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="16dp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="@string/onboarding_tour_service_is_provided"
                 />
 
             <ImageView
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:src="@mipmap/amwell_white_logo"
@@ -44,7 +45,7 @@
         </LinearLayout>
 
 
-        <LinearLayout
+    <LinearLayout
             android:layout_alignParentBottom="true"
             android:orientation="vertical"
             android:layout_marginBottom="30dp"
@@ -58,7 +59,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="24dp"
                 android:text="@string/onboarding_tour_curious"
                 />
 
@@ -79,11 +80,4 @@
                 />
 
         </LinearLayout>
-
-
-
-
-
-
-
 </RelativeLayout>
