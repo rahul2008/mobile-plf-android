@@ -26,18 +26,9 @@ import com.philips.platform.uid.view.widget.Button;
 public class AccountView extends MyaBaseFragment implements
         AccountInterface, View.OnClickListener {
 
-    private static final String BUNDLE_KEY_APPLICATION_NAME = "appName";
-    private static final String BUNDLE_KEY_PROPOSITION_NAME = "propName";
-
-    private static final boolean ADD_TO_BACKSTACK = true;
-    private static final boolean DONT_ADD_TO_BACKSTACK = false;
-
     private Button myaFragmentLaunch;
 
     private AccountPresenter accountPresenter;
-
-    public String applicationName;
-    public String propositionName;
 
     public AccountView() {
     }
@@ -59,32 +50,12 @@ public class AccountView extends MyaBaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mya_fragment_account, container, false);
-
-        if (getArguments() != null) {
-            applicationName = getArguments().getString(BUNDLE_KEY_APPLICATION_NAME);
-            propositionName = getArguments().getString(BUNDLE_KEY_PROPOSITION_NAME);
-        }
-
         return view;
     }
 
-    @Override
-    public void onViewStateRestored(Bundle state) {
-        super.onViewStateRestored(state);
-        if (state != null) {
-            applicationName = state.getString(BUNDLE_KEY_APPLICATION_NAME);
-            propositionName = state.getString(BUNDLE_KEY_PROPOSITION_NAME);
-        }
-    }
 
-    @Override
-    public void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
-        if (state != null) {
-            state.putString(BUNDLE_KEY_APPLICATION_NAME, applicationName);
-            state.putString(BUNDLE_KEY_PROPOSITION_NAME, propositionName);
-        }
-    }
+
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -99,30 +70,10 @@ public class AccountView extends MyaBaseFragment implements
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.mya_account_permissions) {
-            launchCswFragment();
-
+            getMyaFragment().launchCswFragment();
         }
     }
 
-    private void launchCswFragment() {
-        FragmentLauncher fragmentLauncher = new FragmentLauncher(getActivity(), this.getParentFragment().getView().getId(), getMyaFragment().getUpdateTitleListener());
-        new CswInterface().launch(fragmentLauncher, buildLaunchInput(ADD_TO_BACKSTACK));
-    }
 
-    private CswLaunchInput buildLaunchInput(boolean addToBackStack) {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput();
-        cswLaunchInput.setPropositionName(propositionName);
-        cswLaunchInput.setApplicationName(applicationName);
-        cswLaunchInput.addToBackStack(addToBackStack);
-        cswLaunchInput.setContext(getContext());
-        return cswLaunchInput;
-    }
-
-    public void setArguments(String applicationName, String propositionName) {
-        Bundle b = new Bundle();
-        b.putString(BUNDLE_KEY_APPLICATION_NAME, applicationName);
-        b.putString(BUNDLE_KEY_PROPOSITION_NAME, propositionName);
-        this.setArguments(b);
-    }
 
 }

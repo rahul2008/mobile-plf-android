@@ -72,9 +72,15 @@ public class PermissionView extends CswBaseFragment implements
             propositionName = getArguments().getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
         }
         mConsentSwitch = (Switch) view.findViewById(R.id.toggleicon);
-        getConsentStatus();
+       // getConsentStatus();
         csw_relative_layout_switch_container = (RelativeLayout) view.findViewById(R.id.csw_relative_layout_switch_container);
         csw_relative_layout_what_container = (RelativeLayout) view.findViewById(R.id.csw_relative_layout_what_container);
+        csw_relative_layout_what_container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCswFragment().addDiscriptionFragment();
+            }
+        });
         handleOrientation(view);
         consumeTouch(view);
         return view;

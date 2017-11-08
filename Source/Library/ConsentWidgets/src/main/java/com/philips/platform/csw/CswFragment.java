@@ -9,6 +9,7 @@
 package com.philips.platform.csw;
 
 import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.csw.description.DescriptionView;
 import com.philips.platform.csw.permission.PermissionView;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -19,8 +20,7 @@ import android.support.v4.app.*;
 import android.view.*;
 import android.view.View.OnClickListener;
 
-public class CswFragment extends Fragment implements
-        OnClickListener, BackEventListener {
+public class CswFragment extends Fragment implements BackEventListener {
     private FragmentManager mFragmentManager;
     private ActionBarListener mActionBarListener;
 
@@ -37,9 +37,9 @@ public class CswFragment extends Fragment implements
         }
 
         mFragmentManager = getmFragmentManager();
-        if (mFragmentManager.getBackStackEntryCount() < 1) {
+
             inflatePermissionView();
-        }
+
 
         return view;
     }
@@ -73,8 +73,6 @@ public class CswFragment extends Fragment implements
                 return true;
             }
             mFragmentManager.popBackStack();
-        } else {
-            getCurrentActivity().finish();
         }
         return false;
     }
@@ -96,12 +94,6 @@ public class CswFragment extends Fragment implements
         return permissionView;
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == com.philips.cdp.registration.R.id.iv_reg_back) {
-            onBackPressed();
-        }
-    }
 
     public int getFragmentCount() {
         FragmentManager fragmentManager = getmFragmentManager();
@@ -157,5 +149,18 @@ public class CswFragment extends Fragment implements
 
     protected void setChildFragmentManager(FragmentManager fragmentManager) {
         mFragmentManager = fragmentManager;
+    }
+
+    public void addDiscriptionFragment() {
+        try {
+            if (null != mFragmentManager) {
+                DescriptionView descriptionView = new DescriptionView();
+                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.csw_frame_layout_view_container,descriptionView,"Description");
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commitAllowingStateLoss();
+            }
+        } catch (IllegalStateException ignore) {
+        }
     }
 }

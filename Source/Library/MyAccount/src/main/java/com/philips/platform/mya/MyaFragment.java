@@ -18,14 +18,19 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
+import com.philips.platform.csw.CswConstants;
+import com.philips.platform.csw.CswFragment;
+import com.philips.platform.csw.CswInterface;
+import com.philips.platform.csw.CswLaunchInput;
 import com.philips.platform.mya.account.AccountView;
 import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 
 public class MyaFragment extends Fragment implements
-        OnClickListener, BackEventListener {
+        BackEventListener {
     private FragmentManager mFragmentManager;
     private ActionBarListener mActionBarListener;
 
@@ -74,17 +79,41 @@ public class MyaFragment extends Fragment implements
         return handleBackStack();
     }
 
+
     private boolean handleBackStack() {
-        if (mFragmentManager != null) {
+        Fragment fragment = getCswFragment();
+        if (fragment != null) {
+
+            if (fragment != null && fragment instanceof BackEventListener) {
+                boolean isHandleBack = !((BackEventListener) fragment).handleBackEvent();
+                System.out.println(isHandleBack);
+                //true only one View value left
+                if(isHandleBack){
+                    //remove view from the container
+                   fragment.getActivity().getSupportFragmentManager().popBackStack();
+                   return false;
+                }else{
+                    return false;
+                }
+
+
+
+            }
+        }
+
+
+       if (mFragmentManager != null) {
             int count = mFragmentManager.getBackStackEntryCount();
             if (count == 0) {
                 return true;
             }
             mFragmentManager.popBackStack();
-        } else {
-            getActivity().finish();
         }
-        return false;
+        return true;
+    }
+
+    private Fragment getCswFragment() {
+        return getActivity().getSupportFragmentManager().findFragmentByTag(CswConstants.CSWFRAGMENT);
     }
 
     private void inflateAccountView() {
@@ -100,15 +129,7 @@ public class MyaFragment extends Fragment implements
 
     private AccountView buildAccountView() {
         AccountView accountView = new AccountView();
-        accountView.setArguments(applicationName, propositionName);
         return accountView;
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == com.philips.cdp.registration.R.id.iv_reg_back) {
-            onBackPressed();
-        }
     }
 
     public int getFragmentCount() {
@@ -151,4 +172,19 @@ public class MyaFragment extends Fragment implements
         b.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
         this.setArguments(b);
     }
+
+    public void launchCswFragment() {
+        FragmentLauncher fragmentLauncher = new FragmentLauncher(getActivity(),R.id.mya_frame_layout_view_container, mActionBarListener);
+        new CswInterface().launch(fragmentLauncher, buildLaunchInput(true));
+    }
+
+    private CswLaunchInput buildLaunchInput(boolean addToBackStack) {
+        CswLaunchInput cswLaunchInput = new CswLaunchInput();
+        cswLaunchInput.setPropositionName(propositionName);
+        cswLaunchInput.setApplicationName(applicationName);
+        cswLaunchInput.addToBackStack(addToBackStack);
+        cswLaunchInput.setContext(getContext());
+        return cswLaunchInput;
+    }
+
 }
