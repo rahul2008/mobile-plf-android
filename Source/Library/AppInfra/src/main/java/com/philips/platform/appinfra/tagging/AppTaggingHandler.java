@@ -214,20 +214,17 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
     }
 
      void setPrivacyStatus(AppTaggingInterface.PrivacyStatus privacyStatus) {
-         switch (privacyStatus) {
-             case OPTIN:
-                 Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_IN);
-                 Analytics.trackAction("analyticsOptIn", null);
-                 break;
-             case OPTOUT:
-                 Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_OUT);
-                 Analytics.trackAction("analyticsOptOut", null);
-                 break;
-             case UNKNOWN:
-                 Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_UNKNOWN);
-                 Analytics.trackAction("analyticsUnkown", null);
-                 break;
-         }
+        switch (privacyStatus) {
+            case OPTIN:
+                Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_IN);
+                break;
+            case OPTOUT:
+                Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_OUT);
+                break;
+            case UNKNOWN:
+                Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_UNKNOWN);
+                break;
+        }
     }
 
     void track(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
