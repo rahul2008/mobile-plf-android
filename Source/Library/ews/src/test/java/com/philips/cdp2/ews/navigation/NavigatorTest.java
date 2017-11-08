@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
-import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.confirmwifi.ConfirmWifiNetworkFragment;
 import com.philips.cdp2.ews.connectionsuccessful.ConnectionSuccessfulFragment;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
@@ -27,8 +26,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import static junit.framework.Assert.assertEquals;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -184,7 +183,7 @@ public class NavigatorTest {
 
     private void verifyFragmentPushed(@NonNull Class clazz) {
         ArgumentCaptor<Fragment> captor = ArgumentCaptor.forClass(Fragment.class);
-        verify(mockFragmentNavigator).push(captor.capture(), eq(R.id.contentFrame));
+        verify(mockFragmentNavigator).push(captor.capture(), anyInt());
         assertEquals(clazz, captor.getValue().getClass());
     }
 }

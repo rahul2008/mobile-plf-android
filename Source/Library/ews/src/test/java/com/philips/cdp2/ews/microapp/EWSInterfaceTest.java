@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.microapp;
 import android.content.Context;
 import android.content.Intent;
 
+import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -62,6 +63,9 @@ public class EWSInterfaceTest {
     private Context contextMock;
 
     @Mock
+    private Navigator mockNavigator;
+
+    @Mock
     private Map<String, String> productKeyMap;
 
     @Before
@@ -81,14 +85,6 @@ public class EWSInterfaceTest {
         PowerMockito.verifyStatic();
 
         EWSDependencyProvider.getInstance().initDependencies(appInfraInterfaceMock, productKeyMap);
-    }
-
-    @Test
-    public void shouldNotSupportFragmentApproachIfEWSIsLaunchedWithFragmentLauncher() throws Exception {
-        thrownException.expect(UnsupportedOperationException.class);
-        thrownException.expectMessage(EWSInterface.ERROR_MSG_UNSUPPORTED_LAUNCHER_TYPE);
-
-        ewsInterface.launch(fragmentLauncherMock, null);
     }
 
     @Test
