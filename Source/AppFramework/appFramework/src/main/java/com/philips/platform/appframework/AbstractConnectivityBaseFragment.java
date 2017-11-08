@@ -16,16 +16,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
-import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
-import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceApplianceFactory;
-import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
@@ -34,7 +30,6 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
 
     private final String TAG = AbstractConnectivityBaseFragment.class.getSimpleName();
     private Context context;
-
 
     protected BLEScanDialogFragment bleScanDialogFragment;
 
@@ -66,37 +61,37 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
     /**
      * Setup comm central
      */
-    protected CommCentral getCommCentral(ConnectivityDeviceType deviceType) {
+    protected CommCentral getCommCentral() {
         // Setup CommCentral
         RALog.i(TAG, "Setup CommCentral ");
         CommCentral commCentral = null;
         try {
-            final AppInfraInterface appInfraInterface = ((AppFrameworkApplication) context.getApplicationContext().getApplicationContext()).getAppInfra();
-            final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(context, appInfraInterface);
-            final BleTransportContext bleTransportContext = new BleTransportContext(runtimeConfiguration, true);
-            ApplianceFactory applianceFactory = new BleReferenceApplianceFactory(bleTransportContext, deviceType);
-            commCentral = new CommCentral(applianceFactory, bleTransportContext);
+            AppFrameworkApplication appContext = ((AppFrameworkApplication) context.getApplicationContext().getApplicationContext());
+            commCentral = appContext.getCommCentralInstance();
             commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
+            RALog.i("testing","ConnectivityFragment getCommCentralInstance - " + commCentral);
         } catch (TransportUnavailableException e) {
-            RALog.d(TAG, "Bluetooth hardware unavailable");
+            RALog.d(TAG, "Blutooth hardware unavailable");
         }
         return commCentral;
     }
 
-    protected final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener<BleReferenceAppliance>() {
+    private final ApplianceManager.ApplianceListener<Appliance> applianceListener = new ApplianceManager.ApplianceListener<Appliance>() {
         @Override
-        public void onApplianceFound(@NonNull BleReferenceAppliance foundAppliance) {
-            RALog.d(TAG, "Device found :" + foundAppliance.getName());
-            bleScanDialogFragment.addDevice(foundAppliance);
+        public void onApplianceFound(@NonNull Appliance foundAppliance) {
+            RALog.d(TAG, "Device found : -> " + foundAppliance.getName());
+            bleScanDialogFragment.addDevice((RefAppBleReferenceAppliance) foundAppliance);
+            Toast.makeText(context, "Device found name:" + foundAppliance.getName(), Toast.LENGTH_SHORT).show();
         }
 
         @Override
-        public void onApplianceUpdated(@NonNull BleReferenceAppliance bleReferenceAppliance) {
-            // NOOP
+        public void onApplianceUpdated(@NonNull final Appliance appliance) {
+            //noop
         }
 
         @Override
-        public void onApplianceLost(@NonNull BleReferenceAppliance bleReferenceAppliance) {
+        public void onApplianceLost(@NonNull final Appliance appliance) {
+            //noop
         }
     };
 
@@ -171,6 +166,12 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
             }
         }
     };
+
+    protected void removeApplianceListener() {
+        if (mCommCentral != null && mCommCentral.getApplianceManager() != null) {
+            mCommCentral.getApplianceManager().removeApplianceListener(this.applianceListener);
+        }
+    }
 
     protected abstract boolean isFragmentLive();
 

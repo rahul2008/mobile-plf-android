@@ -6,14 +6,27 @@
 package com.philips.platform.baseapp.base;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.crittercism.app.Crittercism;
+import com.philips.cdp.cloudcontroller.DefaultCloudController;
+import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.uikit.utils.UikitLocaleHelper;
+import com.philips.cdp2.commlib.ble.context.BleTransportContext;
+import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
+import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
+import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.connectivity.ConnectivityFragment;
+import com.philips.platform.appframework.connectivity.demouapp.RefAppApplianceFactory;
+import com.philips.platform.appframework.connectivity.demouapp.RefAppKpsConfigurationInfo;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
@@ -52,6 +65,9 @@ public class AppFrameworkApplication extends Application {
     private PushNotificationManager pushNotificationManager;
     private LanguagePackInterface languagePackInterface;
     private ConnectivityChangeReceiver connectivityChangeReceiver;
+    private CommCentral commCentral = null;
+
+    public static final String TAG = AppFrameworkApplication.class.getSimpleName();
 
     public boolean isShopingCartVisible() {
         return isShopingCartVisible;
@@ -239,6 +255,37 @@ public class AppFrameworkApplication extends Application {
         }
     }
 
+    public synchronized CommCentral getCommCentralInstance() {
+        if(commCentral == null) {
+            commCentral = createCommCentral(getApplicationContext(), getAppInfra());
+        }
+        RALog.i(TAG,"getCommCentralInstance - " + commCentral);
+        return commCentral;
+    }
+
+    private CommCentral createCommCentral(final @NonNull Context context, final @Nullable AppInfraInterface appInfraInterface) {
+        final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(context, appInfraInterface);
+
+        final CloudController cloudController = setupCloudController(context);
+
+        final CloudTransportContext cloudTransportContext = new CloudTransportContext(runtimeConfiguration, cloudController);
+        final BleTransportContext bleTransportContext = new BleTransportContext(runtimeConfiguration, true);
+        final LanTransportContext lanTransportContext = new LanTransportContext(runtimeConfiguration);
+
+        final RefAppApplianceFactory applianceFactory = new RefAppApplianceFactory(bleTransportContext, lanTransportContext, cloudTransportContext);
+
+        return new CommCentral(applianceFactory, bleTransportContext, lanTransportContext, cloudTransportContext);
+    }
+
+    @NonNull
+    private CloudController setupCloudController(final @NonNull Context context) {
+        final CloudController cloudController = new DefaultCloudController(context, new RefAppKpsConfigurationInfo());
+
+        String ICPClientVersion = cloudController.getICPClientVersion();
+        RALog.d(TAG,"ICPClientVersion - " + ICPClientVersion);
+
+        return cloudController;
+    }
     /***
      * Initializar app infra
      *
