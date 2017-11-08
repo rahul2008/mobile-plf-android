@@ -218,8 +218,8 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
         mThsInitFragment.hideProgressBar();
         if (sdkError == null) {
-//           launchWelcomeScreen();
-            launchOnBoardingScreen();
+           launchWelcomeScreen();
+//            launchOnBoardingScreen();
         } else {
             mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CONSUMER_DETAILS, sdkError));
         }
