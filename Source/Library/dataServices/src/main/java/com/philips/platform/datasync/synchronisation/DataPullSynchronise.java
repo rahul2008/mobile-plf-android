@@ -141,7 +141,7 @@ public class DataPullSynchronise {
                 public void run() {
                     try {
                         fetcher.fetchDataByDateRange(startDate, endDate);
-                    }catch (RetrofitError error) {
+                    } catch (RetrofitError error) {
                         synchronisationManager.dataPullFail(error);
                     }
                     countDownLatch.countDown();
