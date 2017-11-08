@@ -113,7 +113,7 @@ public interface ServiceDiscoveryInterface {
     void setHomeCountry(String countryCode);
 
     /**
-     * Returns the URL for a specific service with a preference for the current language.
+     * URL for a specific service with a preference for the current language.
      *
      * @param serviceId name of the service for which the URL is to be retrieved
      * @param listener  asynchronously returns using onSuccess the URL of the requested service;
@@ -123,7 +123,7 @@ public interface ServiceDiscoveryInterface {
     void getServiceUrlWithLanguagePreference(String serviceId, OnGetServiceUrlListener listener);
 
     /**
-     * Returns the URL for a specific service with a preference for the current language.
+     * URL for a specific service with a preference for the current language.
      *
      * @param serviceId   name of the service for which the URL is to be retrieved
      * @param listener    asynchronously returns using onSuccess the URL of the requested service;
@@ -136,7 +136,7 @@ public interface ServiceDiscoveryInterface {
 
 
     /**
-     * Returns Hashmap with  URL  mapped specific service with a preference for the current language.
+     * Hashmap with  URL  mapped specific service with a preference for the current language.
      *
      * @param serviceId ArrayList of the service for which the URL is to be retrieved
      * @param listener  asynchronously returns using onSuccess the URL of the requested service;
@@ -147,7 +147,7 @@ public interface ServiceDiscoveryInterface {
 
 
     /**
-     * Returns Hashmap with  URL  mapped specific service with a preference for the current language.
+     * Hashmap with  URL  mapped specific service with a preference for the current language.
      *
      * @param serviceId   ArrayList of the service for which the URL is to be retrieved
      * @param listener    asynchronously returns using onSuccess the URL of the requested service;
@@ -159,7 +159,7 @@ public interface ServiceDiscoveryInterface {
                                            Map<String, String> replacement);
 
     /**
-     * Returns the URL for a specific service with a preference for the current home country.
+     * URL for a specific service with a preference for the current home country.
      *
      * @param serviceId name of the service for which the URL is to be retrieved
      * @param listener  asynchronously returns using onSuccess the URL of the requested service;
@@ -170,7 +170,7 @@ public interface ServiceDiscoveryInterface {
 
 
     /**
-     * Returns the URL for a specific service with a preference for the current home country.
+     * URL for a specific service with a preference for the current home country.
      *
      * @param serviceId   name of the service for which the URL is to be retrieved
      * @param listener    asynchronously returns using onSuccess the URL of the requested service;
@@ -183,7 +183,7 @@ public interface ServiceDiscoveryInterface {
 
 
     /**
-     * Returns Hashmap with  URL  mapped for a specific service with a
+     * Hashmap with  URL  mapped for a specific service with a
      * preference for the current home country.
      *
      * @param serviceId List of the services for which the URL is to be retrieved
@@ -194,7 +194,7 @@ public interface ServiceDiscoveryInterface {
     void getServicesWithCountryPreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener);
 
     /**
-     * Returns Hashmap with  URL  mapped for a specific service with a
+     * Hashmap with  URL  mapped for a specific service with a
      * preference for the current home country.
      *
      * @param serviceId   List of the services for which the URL is to be retrieved
@@ -208,7 +208,7 @@ public interface ServiceDiscoveryInterface {
 
 
     /**
-     * Returns the locale to be used for a specific service with a preference for the current language.
+     * Locale to be used for a specific service with a preference for the current language.
      *
      * @param serviceId name of the service for which the URL is to be retrieved
      * @param listener  asynchronously returns using onSuccess the recommended locale for the requested service;
@@ -218,7 +218,7 @@ public interface ServiceDiscoveryInterface {
     void getServiceLocaleWithLanguagePreference(String serviceId, OnGetServiceLocaleListener listener);
 
     /**
-     * Returns the locale to be used for a specific service with a preference for the current home country.
+     * Locale to be used for a specific service with a preference for the current home country.
      *
      * @param serviceId name of the service for which the URL is to be retrieved
      * @param listener  asynchronously returns using onSuccess the recommended locale for the requested service;
@@ -228,7 +228,7 @@ public interface ServiceDiscoveryInterface {
     void getServiceLocaleWithCountryPreference(String serviceId, OnGetServiceLocaleListener listener);
 
     /**
-     * Returns the URLs + locales for a set of services with a preference for the current language.
+     * URLs + locales for a set of services with a preference for the current language.
      * @param serviceIds list of service names for which the URL + locale are to be retrieved
      * @param listener asynchronously returns using onSuccess a map containing the requested service names (key)
      *                 and their URL + locale (value), the value will be null if the service is unknown;
@@ -236,7 +236,7 @@ public interface ServiceDiscoveryInterface {
      */
 //    void getServicesWithLanguagePreference(String serviceIds, OnGetServicesListener listener);
     /**
-     * Returns the URLs + locales for a set of services with a preference for the current home country.
+     * URLs + locales for a set of services with a preference for the current home country.
      * @param serviceIds list of service names for which the URL + locale are to be retrieved
      * @param listener asynchronously returns using onSuccess a map containing the requested service names (key)
      *                 and their URL + locale (value), the value will be null if the service is unknown;

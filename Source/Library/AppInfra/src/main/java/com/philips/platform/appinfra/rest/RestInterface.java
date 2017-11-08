@@ -27,7 +27,7 @@ public interface RestInterface {
      * @return enum WIFI,MOBILE_DATA,NO_NETWORK
      * @since 1.0.0
  */
-NetworkTypes  getNetworkReachabilityStatus();
+    NetworkTypes  getNetworkReachabilityStatus();
 
     /**
      * Method to check the network connectivity availability .

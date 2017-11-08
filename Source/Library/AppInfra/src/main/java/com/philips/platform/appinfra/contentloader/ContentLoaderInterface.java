@@ -58,28 +58,28 @@ public interface ContentLoaderInterface<Content extends ContentInterface> {
     STATE getStatus();
 
     /**
-     * Returns list of all available content IDs
+     * List of all available content IDs
      * @since 1.1.0
      */
     void getAllContent(OnResultListener<String> listener);
 
     /**
-     * Returns Content object for the given id
+     * Content object for the given id
      * @since 1.1.0
      */
     void getContentById(String id, OnResultListener<Content> listener);
     /**
-     * Returns list of Content objects for the given array of ids
+     * List of Content objects for the given array of ids
      * @since 1.1.0
      */
     void getContentById(String[] ids, OnResultListener<Content> listener);
     /**
-     * Returns list of Content objects that have the given tag ID set
+     * List of Content objects that have the given tag ID set
      * @since 1.1.0
      */
     void getContentByTag(String tagID, OnResultListener<Content> listener);
     /**
-     * Returns list of Content objects that have the at least one (OR) or all (AND) given tag IDs set
+     * List of Content objects that have the at least one (OR) or all (AND) given tag IDs set
      * @since 1.1.0
      */
     void getContentByTag(String[] tagIDs, OPERATOR andOr, OnResultListener<Content> listener);

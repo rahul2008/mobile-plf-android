@@ -34,8 +34,21 @@ public interface AppUpdateInterface {
 		 */
 		enum AIAppUpdateRefreshResult {AppUpdate_REFRESH_SUCCESS, AppUpdate_REFRESH_FAILED}
 
+		/**
+		 * Callback to onerror if referesh result throws error.
+		 * @param OnRefreshListener.AIAppUpdateRefreshResult asynchronous callback reporting result of refresh eg {AppUpdate_REFRESH_SUCCESS,
+		 * AppUpdate_REFRESH_FAILED}.
+		 * @param message referesh listner throws error message
+		 * @since 2.2.0
+		 */
 		void onError(OnRefreshListener.AIAppUpdateRefreshResult error, String message);
 
+		/**
+		 * Callback to onSuccess if referesh result success.
+		 * @param OnRefreshListener.AIAppUpdateRefreshResult asynchronous callback reporting result of refresh eg {AppUpdate_REFRESH_SUCCESS,
+		 * AppUpdate_REFRESH_FAILED}.
+		 * @since 2.2.0
+		 */
 		void onSuccess(OnRefreshListener.AIAppUpdateRefreshResult result);
 	}
 

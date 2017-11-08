@@ -79,7 +79,7 @@ public interface ABTestClientInterface {
 
     /**
      * Download experience values from the server. Call will have no effect if state equals
-     * NO_TESTS_DEFINED or EXPERIENCES_UPDATED and return onSuccess.
+     * NO_TESTS_DEFINED or EXPERIENCES_UPDATED.
      *
      * @param listener for OnRefresh
      * @since 1.0.0
