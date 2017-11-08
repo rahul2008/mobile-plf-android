@@ -52,8 +52,8 @@
 <h2>Platform Version 3.0.0</h2>
 
 <ul>
-<li>New feature mobile app key manager</li>
-<li>logging config added to app configuratin</li>
+<li>Key manager</li>
+<li>logging config added to app configurations</li>
 <li>proposition specific ab test configurations</li>
 <li>PSRA defect fixes</li>
 <li>bug fixes</li>
@@ -121,7 +121,7 @@
 </ul>
 
 
-<h2>Synopsis</h2>
+<h2>Descriptions</h2>
 
 <p>App Infra provides a range of modules that are the basis for any mobile application. App Infra is integrated as one single library in the application. App Infra in itself is not an operational entity but only exists in the context of an application. App Infra ensures that all modules provided by App Infra are linked to each other where needed. All modules together are exposed to the application through a single set of well-defined interfaces. App Infra is not only used by the application but also by all common components that are integrated in the application.
 As such App Infra can be seen as a basic layer of functionality in the SW stack that is positioned somewhere between the app and the device’s OS. App Infra is not designed to abstract the operating system; App Infra provides additional functionality on top of the operating system making use of the operating system.
@@ -161,39 +161,32 @@ The easiest and preferred way to use these components is using maven.
 All dependent libraries should be downloaded from artifactory.</li>
 
 
-<li>2.	Library Integration:
+<p><li>2.	Library Integration:
 Below gradle dependencies are used in library
 
 <ul>dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile 'org.mockito:mockito-core:1.9.5'
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'adobeMobileLibrary:adobeMobileLibrary:4.9.0'
-   
-       compile 'com.android.volley:volley:1.0.0'
+    compile project(':AppInfra')
 }
 </ul>
-<ul>
-Current Version:</ul>
+<ul>Refer integration document. Integration document is part of appinfra repo (Documents/External/Integration Document_Appinfra) </ul></li>
+<li>Build Config Current Version:
 
 <ul>compileSdkVersion 26</ul>
 <ul>buildToolsVersion ’26.0.2’</ul>
 <ul>minSdkVersion 21</ul>
 <ul>targetSdkVersion 26</ul>
 </li>
-
+</p>
 
 <li>Proguard rules of AppInfra:
 
--keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
 -keep public class com.philips.platform.appinfra.languagepack.model.** { *; }</li>
 </ul>
 
 <h2>Code Example - Quick integration</h2>
 
-<p>Refer integration document.</p>
+<p>Refer integration document. Integration document is part of appinfra repo (Documents/External/Integration Document_Appinfra)</p>
+<p>[How to articles](https://confluence.atlas.philips.com/display/MAIL/How-to+articles)</p>
 
 <h2>Documentation - How to configure AppConfig keys</h2>
 
@@ -205,57 +198,34 @@ Current Version:</ul>
 <li>Deepthi Shivakumar -<a href="mailto:deepthi.shivakumar@philips.com">deepthi.shivakumar@philips.com</a> - Architecture(Mob 9538534742)</li>
 <li>Yogesh HS - <a href="mailto:yogesh.hs@philips.com">yogesh.hs@philips.com</a> - Developer(Mob 9742181076)</li>
 <li>Adarsha Shetty - <a href="mailto:adarsha.shetty@philips.com">adarsha.shetty@philips.com </a>- Developer(Mob 9844898440)</li>
-<li>Kavya G -<a href="mailto:kavya.g.kurpad@philips.com">kavya.g.kurpad@philips.com</a> - Developer</li>
+<li>Sumanth  Bhargav-<a href="mailto:sumant.bhargav@philips.com">sumant.bhargav@philips.com</a> - Product Owner(Mob 9620996153) </li>
 </ul>
-
-h2>License</h2>
-
-<ul>
-<li>Copyright &copy; Koninklijke Philips N.V., 2017 All rights are reserved. Reproduction or dissemination in whole or in part is prohibited without the prior written consent of the copyright holder.*</li>
-</ul>
-
+		
+</div>
 					
-					</div>
-					
-
 					<div class="index-container">
-						
-
-						
-						<div class="index-column">
-							<h2 class="index-title">Class References</h2>
+					<div class="index-column">
+							<h2 class="index-title">API References</h2>
 							<ul>
-								
-								<li><a href="allclasses-frame.html">All Class</a></li>
-								
-															
+								<li><a href="overview-summary.html" target="_top">API Overview</a></li>
+																					
 							</ul>
 						</div>
 						
 
 						
-						<div class="index-column">
-							
-													
-							<h2 class="index-title">Constant References</h2>
-							<ul>
-								
-									<li><a href="constant-values.html">Constant Field Values</a></li>
-								
-																	
-							</ul>
-							
-
-							
-						</div>
+						
 						
 					</div>
 
 					<footer>
 						<div class="footer-copyright">
 							
-							<p class="copyright">Copyright &copy; 2017 Philips. All rights reserved. Updated: 2017-10-23</p>
-							
+							<h2>License</h2>
+
+<ul>
+<li>Copyright &copy; Koninklijke Philips N.V., 2017 All rights are reserved. Reproduction or dissemination in whole or in part is prohibited without the prior written consent of the copyright holder.*</li>
+</ul>
 							
 						</div>
 					</footer>

@@ -7,7 +7,7 @@
 package com.philips.platform.appinfra.apisigning;
 
 /**
- * The ApiSigning Interface for WhiteBox API .
+ * The ApiSigning Interface for WhiteBox API, using HSDP API Signing  .
  */
 
 import java.util.Map;
