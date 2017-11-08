@@ -27,7 +27,7 @@ import java.util.HashMap;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import static com.philips.cdp2.ews.view.EWSActivity.EWS_STEPS;
+import static com.philips.cdp2.ews.EWSActivity.EWS_STEPS;
 
 @SuppressWarnings("WeakerAccess")
 public class ApplianceAccessEventMonitor extends EventMonitor implements DiscoveryHelper.DiscoveryCallback {

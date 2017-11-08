@@ -8,21 +8,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.base.BaseTroubleShootingFragment;
 import com.philips.cdp2.ews.databinding.FragmentConnectToWrongPhoneTroubleshootingLayoutBinding;
-import com.philips.cdp2.ews.view.BaseTroubleShootingFragment;
-import com.philips.cdp2.ews.view.EWSActivity;
 
 public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShootingFragment {
 
     @NonNull
     FragmentConnectToWrongPhoneTroubleshootingLayoutBinding connectToWrongPhoneTroubleshootingLayoutBinding;
 
+    @NonNull
+    ConnectToWrongPhoneTroubleshootingViewModel viewModel;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        connectToWrongPhoneTroubleshootingLayoutBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_connect_to_wrong_phone_troubleshooting_layout, container, false);
+        connectToWrongPhoneTroubleshootingLayoutBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_connect_to_wrong_phone_troubleshooting_layout, container, false);
         return connectToWrongPhoneTroubleshootingLayoutBinding.getRoot();
     }
 
@@ -30,7 +33,7 @@ public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShoot
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final ConnectToWrongPhoneTroubleshootingViewModel viewModel = ((EWSActivity) getActivity()).getEWSComponent()
+        viewModel = ((EWSActivity) getActivity()).getEWSComponent()
                 .connectToWrongPhoneTroubleshootingViewModel();
         connectToWrongPhoneTroubleshootingLayoutBinding.setViewmodel(viewModel);
 
@@ -48,5 +51,11 @@ public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShoot
                         viewModel.onNoButtonClicked();
                     }
                 });
+    }
+
+    @NonNull
+    @Override
+    protected void callTrackPageName() {
+        viewModel.trackPageName();
     }
 }

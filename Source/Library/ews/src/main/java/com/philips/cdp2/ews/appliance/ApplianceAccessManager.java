@@ -9,8 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.port.DICommPortListener;
-import com.philips.cdp.dicommclient.port.common.DevicePort;
-import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
@@ -19,6 +17,8 @@ import com.philips.cdp2.ews.annotations.ConnectionErrorType;
 import com.philips.cdp2.ews.communication.events.ApplianceConnectErrorEvent;
 import com.philips.cdp2.ews.communication.events.DeviceConnectionErrorEvent;
 import com.philips.cdp2.ews.logger.EWSLogger;
+import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Tag;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -26,7 +26,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import static com.philips.cdp2.ews.view.EWSActivity.EWS_STEPS;
 
 @SuppressWarnings("WeakerAccess")
 @Singleton
@@ -64,13 +63,13 @@ public class ApplianceAccessManager {
             if (wifiPortProperties != null) {
                 switch (requestType) {
                     case ApplianceRequestType.GET_WIFI_PROPS:
-                        EWSLogger.d(EWS_STEPS, "Step 3 : Got wifi properties, showing the password entry screen");
+                        EWSLogger.d(TAG, "Step 3 : Got wifi properties, showing the password entry screen");
                         if (fetchCallback != null) {
                             fetchCallback.onDeviceInfoReceived(wifiPortProperties);
                         }
                         break;
                     case ApplianceRequestType.PUT_WIFI_PROPS:
-                        EWSLogger.d(EWS_STEPS, "Step 4.1 : Setting the wifi properties to the device succesfull");
+                        EWSLogger.d(TAG, "Step 4.1 : Setting the wifi properties to the device succesfull");
                         if (putCallback != null) {
                             putCallback.onPropertiesSet(wifiPortProperties);
                         }
@@ -86,7 +85,8 @@ public class ApplianceAccessManager {
 
         @Override
         public void onPortError(WifiPort wifiPort, Error error, @Nullable String s) {
-            EWSLogger.d(EWS_STEPS, "Step Failed : Port error " + wifiPort.toString() + " Error : " + error + " data " + error);
+            EWSLogger.d(TAG, "Step Failed : Port error " + wifiPort.toString() + " Error : " + error + " data " + error);
+            EWSTagger.trackActionSendData(Tag.KEY.TECHNICAL_ERROR, Tag.ERROR.WIFI_PORT_ERROR);
             onErrorReceived();
             if (fetchCallback != null) {
                 fetchCallback.onFailedToFetchDeviceInfo();
@@ -97,23 +97,6 @@ public class ApplianceAccessManager {
             }
         }
 
-    };
-
-    private DICommPortListener<DevicePort> devicePortListener = new DICommPortListener<DevicePort>() {
-
-        @Override
-        public void onPortUpdate(final DevicePort port) {
-            DevicePortProperties devicePortProperties = port.getPortProperties();
-            if (devicePortProperties != null) {
-                sessionDetailsInfo.setDevicePortProperties(devicePortProperties);
-                fetchWiFiPortProperties();
-            }
-        }
-
-        @Override
-        public void onPortError(final DevicePort port, final Error error, final String errorData) {
-            onErrorReceived();
-        }
     };
 
     @Inject
@@ -166,15 +149,10 @@ public class ApplianceAccessManager {
             wifiPort.addPortListener(wifiPortListener);
 
             wifiPort.setWifiNetworkDetails(homeWiFiSSID, homeWiFiPassword);
-            EWSLogger.d(EWS_STEPS, "Step 4 : Setting the wifi properties to the device");
+            EWSLogger.d(TAG, "Step 4 : Setting the wifi properties to the device");
         } else {
             EWSLogger.d("TAG", "PUT_WIFI_PROPS requestType:" + requestType);
         }
-    }
-
-    @VisibleForTesting
-    DICommPortListener<DevicePort> getDevicePortListener() {
-        return devicePortListener;
     }
 
     @VisibleForTesting

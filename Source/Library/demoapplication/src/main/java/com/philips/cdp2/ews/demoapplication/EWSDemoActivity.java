@@ -17,7 +17,6 @@ import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSDependencies;
 import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.microapp.EWSLauncherInput;
-import com.philips.cdp2.ews.tagging.Actions;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -82,7 +81,7 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
     @NonNull
     private Map<String, String> createProductMap() {
         Map<String, String> productKeyMap = new HashMap<>();
-        productKeyMap.put(EWSInterface.PRODUCT_NAME, Actions.Value.PRODUCT_NAME_SOMNEO);
+        productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.lbl_devicename));
         return productKeyMap;
     }
 
@@ -147,6 +146,7 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
             // do nothing
         }
     };
+
     @NonNull
     private TroubleShootContentConfiguration createTroubleShootingConfiguration(){
         return new TroubleShootContentConfiguration.Builder()

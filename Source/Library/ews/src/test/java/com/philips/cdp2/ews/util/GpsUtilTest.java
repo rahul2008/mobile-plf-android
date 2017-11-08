@@ -20,21 +20,21 @@ import static org.powermock.api.mockito.PowerMockito.when;
 public class GpsUtilTest {
 
     @Before
-    public void shouldReturnTrueAlwaysIfOSVersionIsBelowAndroidM() throws Exception {
+    public void itShouldReturnTrueAlwaysIfOSVersionIsBelowAndroidM() throws Exception {
         stubAndroidSdkVersion(Build.VERSION_CODES.LOLLIPOP);
 
         assertFalse(GpsUtil.isGPSRequiredForWifiScan());
     }
 
     @Test
-    public void shouldReturnTrueIfVersionOSIsFromAndroidM() throws Exception {
+    public void itShouldReturnTrueIfVersionOSIsFromAndroidM() throws Exception {
         stubAndroidSdkVersion(Build.VERSION_CODES.M);
 
         assertTrue(GpsUtil.isGPSRequiredForWifiScan());
     }
 
     @Test
-    public void shouldCheckIfGPSIsEnabledWhenAsked() throws Exception {
+    public void itShouldCheckIfGPSIsEnabledWhenAsked() throws Exception {
         final Context contextMock = mock(Context.class);
         final LocationManager locationMangerMock = mock(LocationManager.class);
 

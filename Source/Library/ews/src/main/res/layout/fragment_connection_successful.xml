@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.philips.cdp2.ews.viewmodel.ConnectionSuccessfulViewModel" />
+            type="com.philips.cdp2.ews.connectionsuccessful.ConnectionSuccessfulViewModel" />
 
     </data>
 
@@ -56,7 +56,7 @@
                 android:id="@+id/ews_04_01_button_succesful_start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/d"
+                android:layout_marginTop="@dimen/default_main_button_top_margin"
                 android:onClick="@{() -> viewModel.onStartClicked()}"
                 android:text="@string/button_ews_succesful_start"
                 app:uidComponentType="Primary" />

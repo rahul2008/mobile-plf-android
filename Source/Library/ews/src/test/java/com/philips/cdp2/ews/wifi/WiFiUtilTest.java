@@ -49,7 +49,7 @@ public class WiFiUtilTest {
     }
 
     @Test
-    public void shouldReturnHomeWiFiSSIDWhenWiFiIsConnected() throws Exception {
+    public void itShouldReturnHomeWiFiSSIDWhenWiFiIsConnected() throws Exception {
         final String HOME_SSID = "\"BrightEyes\"";//double quotes are from device.
         stubSSID(HOME_SSID);
 
@@ -67,14 +67,14 @@ public class WiFiUtilTest {
     }
 
     @Test
-    public void shouldReturnNullWiFiIsNotConnected() throws Exception {
+    public void itShouldReturnNullWiFiIsNotConnected() throws Exception {
         disconnectNetwork();
 
         assertNull(wiFiUtil.getHomeWiFiSSD());
     }
 
     @Test
-    public void shouldCheckIfPhoneIsConnectedWithDeviceHotspot() throws Exception {
+    public void itShouldCheckIfPhoneIsConnectedWithDeviceHotspot() throws Exception {
         stubSSID(WiFiUtil.DEVICE_SSID);
 
         wiFiUtil.getCurrentWiFiSSID();
@@ -85,7 +85,7 @@ public class WiFiUtilTest {
     }
 
     @Test
-    public void shouldCheckIfPhoneIsConnectedBackToHomeWiFi() throws Exception {
+    public void itShouldCheckIfPhoneIsConnectedBackToHomeWiFi() throws Exception {
         stubSSID(HOME_SSID);
 
         wiFiUtil.getCurrentWiFiSSID();
@@ -94,7 +94,7 @@ public class WiFiUtilTest {
     }
 
     @Test
-    public void shouldReturnNullIfWiFiIsNotConnected() throws Exception {
+    public void itShouldReturnNullIfWiFiIsNotConnected() throws Exception {
         disconnectNetwork();
 
         assertNull(wiFiUtil.getCurrentWiFiSSID());
@@ -102,7 +102,7 @@ public class WiFiUtilTest {
     }
 
     @Test
-    public void ShouldReturnTrueIfWiFiIsEnabledAndNotConnectedToPhilipsHotspot() throws Exception {
+    public void itShouldReturnTrueIfWiFiIsEnabledAndNotConnectedToPhilipsHotspot() throws Exception {
         when(wifiManagerMock.isWifiEnabled()).thenReturn(true);
         stubSSID(HOME_SSID);
 
@@ -110,7 +110,7 @@ public class WiFiUtilTest {
     }
 
     @Test
-    public void shouldReturnTrueIfConnectedToADifferentNetwork() throws Exception {
+    public void itShouldReturnTrueIfConnectedToADifferentNetwork() throws Exception {
         stubSSID(HOME_SSID);
         wiFiUtil.getCurrentWiFiSSID();
         stubSSID(NOT_HOME_SSID);
@@ -119,19 +119,19 @@ public class WiFiUtilTest {
     }
 
     @Test
-    public void shouldReturnFalseWhenIsConnectedToWrongHomeWifiAndNotConnected() {
+    public void itShouldReturnFalseWhenIsConnectedToWrongHomeWifiAndNotConnected() {
         assertFalse(wiFiUtil.getCurrentWifiState() == WiFiUtil.WRONG_WIFI);
     }
 
     @Test
-    public void shouldReturnWrongWifiWhenWifiStateIsUnknown() throws Exception {
+    public void itShouldReturnWrongWifiWhenWifiStateIsUnknown() throws Exception {
         stubSSID(UKNOWN_SSID);
 
         assertTrue(wiFiUtil.getCurrentWifiState() == WiFiUtil.UNKNOWN_WIFI);
     }
 
     @Test
-    public void shouldReturnWrongWifiWhenWifiWifiStateIsUnknownAndHomeWifiSet() throws Exception {
+    public void itShouldReturnWrongWifiWhenWifiWifiStateIsUnknownAndHomeWifiSet() throws Exception {
         stubSSID(HOME_SSID);
         wiFiUtil.getCurrentWiFiSSID();
         stubSSID(UKNOWN_SSID);
@@ -140,7 +140,7 @@ public class WiFiUtilTest {
     }
 
     @Test
-    public void ShouldReturnFalseIfWiFiIsEnabledAndConnectedToPhilipsHotspot() throws Exception {
+    public void itShouldReturnFalseIfWiFiIsEnabledAndConnectedToPhilipsHotspot() throws Exception {
         when(wifiManagerMock.isWifiEnabled()).thenReturn(true);
         stubSSID(WiFiUtil.DEVICE_SSID);
         wiFiUtil.getCurrentWiFiSSID();
@@ -150,13 +150,13 @@ public class WiFiUtilTest {
     }
 
     @Test
-    public void ShouldReturnFalseIfWiFiIsDisabled() throws Exception {
+    public void itShouldReturnFalseIfWiFiIsDisabled() throws Exception {
         when(wifiManagerMock.isWifiEnabled()).thenReturn(false);
         assertFalse(wiFiUtil.isHomeWiFiEnabled());
     }
 
     @Test
-    public void ShouldReturnFalseIfWiFiIsEnabledAndWifiSSIDEmpty() throws Exception {
+    public void itShouldReturnFalseIfWiFiIsEnabledAndWifiSSIDEmpty() throws Exception {
         when(wifiManagerMock.isWifiEnabled()).thenReturn(true);
         stubSSIDWithEmptyState();
         wiFiUtil.getCurrentWiFiSSID();
