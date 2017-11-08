@@ -119,8 +119,12 @@ public class DataPushSynchronise extends EventMonitor {
                 @Override
                 public void run() {
                     if (sender instanceof MomentsDataSender) {
-                        final ConsentAccessToolKit toolkit = getContentAccessToolkit();
-                        syncMoments(sender, nonSynchronizedData, toolkit, countDownLatch);
+                        try {
+                            final ConsentAccessToolKit toolkit = getContentAccessToolkit();
+                            syncMoments(sender, nonSynchronizedData, toolkit, countDownLatch);
+                        } catch (Exception ex) {
+                            countDownLatch.countDown();
+                        }
                     } else {
                         try {
                             syncOthers(sender, nonSynchronizedData);
