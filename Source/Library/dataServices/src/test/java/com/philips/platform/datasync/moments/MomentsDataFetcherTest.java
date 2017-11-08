@@ -24,6 +24,7 @@ import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -164,6 +165,13 @@ public class MomentsDataFetcherTest {
         thenEventIsPostedForBackgroundProcessing("BackendMomentListSaveRequest");
     }
 
+    @Test
+    public void fetchData_whenRetrofitError() {
+        givenRetrofitErrorFromClient();
+        whenFetchDataIsInvoked();
+        thenRetrofirErrorIsReturned();
+    }
+
     @Test(expected = RetrofitError.class)
     public void fetchDataByDateRange_WithNoClient() {
         givenNoClient();
@@ -175,6 +183,10 @@ public class MomentsDataFetcherTest {
         givenMomentsFromClient();
         whenFetchDataByDateRange();
         thenVerifyClientIsInvlokedTwice();
+    }
+
+    private void givenRetrofitErrorFromClient() {
+        when(coreAdapterMock.getAppFrameworkClient(MomentsClient.class, ACCESS_TOKEN, gsonConverterMock)).thenThrow(RetrofitError.unexpectedError("error", new RuntimeException("error")));
     }
 
     private void givenUcoreMomentsFromClient() {
@@ -227,5 +239,10 @@ public class MomentsDataFetcherTest {
 
     private void thenRetrofirErrorIsNull() {
         assertNull(retrofitError);
+    }
+
+    private void thenRetrofirErrorIsReturned() {
+        assertNotNull(retrofitError);
+        assertEquals("error", retrofitError.getCause().getMessage());
     }
 }
