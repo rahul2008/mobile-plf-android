@@ -1,5 +1,6 @@
 package com.philips.platform.catk;
 
+import com.philips.platform.catk.mock.ContextMock;
 import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
 
 import org.junit.Test;
@@ -11,13 +12,12 @@ import org.robolectric.shadows.ShadowApplication;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
 public class CatkInputsTest {
+
     @Test
     public void checkContextIsSet() throws Exception {
         CatkInputs catkLaunchInput = new CatkInputs();
-        catkLaunchInput.setContext(ShadowApplication.getInstance().getApplicationContext());
+        catkLaunchInput.setContext(new ContextMock());
         assertNotNull(catkLaunchInput.getContext());
     }
 

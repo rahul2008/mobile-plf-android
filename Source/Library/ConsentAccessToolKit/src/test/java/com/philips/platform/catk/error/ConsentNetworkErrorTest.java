@@ -16,7 +16,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.robolectric.annotation.Config;
 
 /**
@@ -25,7 +24,6 @@ import org.robolectric.annotation.Config;
 
 @RunWith(CustomRobolectricRunnerCATK.class)
 @Config(constants = BuildConfig.class, sdk = 25)
-@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 public class ConsentNetworkErrorTest {
 
     private ConsentNetworkError consentNetworkError;

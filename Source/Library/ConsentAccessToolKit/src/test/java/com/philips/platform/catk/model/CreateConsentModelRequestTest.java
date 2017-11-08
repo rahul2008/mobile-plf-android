@@ -28,13 +28,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
-
 /**
  * Created by Maqsood on 10/31/17.
  */
 
-@RunWith(CustomRobolectricRunnerCATK.class)
-@Config(constants = BuildConfig.class, sdk = 25)
 public class CreateConsentModelRequestTest extends MockitoConfiguration {
 
     private CreateConsentModelRequest consentModelRequest;

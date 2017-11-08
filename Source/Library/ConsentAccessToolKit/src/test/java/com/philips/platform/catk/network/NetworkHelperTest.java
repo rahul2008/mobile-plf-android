@@ -20,8 +20,6 @@ import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.*;
 
-@RunWith(CustomRobolectricRunnerCATK.class)
-@Config(constants = BuildConfig.class, sdk = 25)
 public class NetworkHelperTest {
 
     @Mock

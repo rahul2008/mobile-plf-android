@@ -171,15 +171,6 @@ public class CswFragmentTest {
         thenUpdateTitleListenerReturnedIs(actionBarListenerMock);
     }
 
-    @Test
-    @Ignore
-    public void handleOnClickEvent_shouldCallOnBackPressed() throws Exception {
-        givenViewWithId(com.philips.cdp.registration.R.id.iv_reg_back);
-        givenOnClickIsMocked();
-        whenOnClickIsCalled();
-        thenOnBackPressedIsCalled();
-    }
-
     private void thenUpdateTitleListenerReturnedIs(ActionBarListener expectedActionBarListener) {
         assertEquals(expectedActionBarListener, actualActionBarListener);
     }
@@ -260,10 +251,6 @@ public class CswFragmentTest {
 
     private void whenOnCreateViewIsInvoked() {
         fragment.onCreateView(mockLayoutInflater, null, null);
-    }
-
-    private void whenOnClickIsCalled() {
-        fragment.onClick(view);
     }
 
     private void givenArgumentsAre(String applicationName, String propositionName) {

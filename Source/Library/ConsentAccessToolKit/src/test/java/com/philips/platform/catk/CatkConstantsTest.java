@@ -7,7 +7,6 @@ import static junit.framework.Assert.assertEquals;
 
 public class CatkConstantsTest {
 
-
     @Test
     public void testDefaultTimeOut() {
         assertEquals(30000, new CatkConstants().DEFAULT_TIMEOUT_MS);

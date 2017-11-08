@@ -5,24 +5,19 @@ import com.android.volley.Request;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.philips.cdp.registration.User;
-import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.ConsentAccessToolKitManipulator;
 import com.philips.platform.catk.injection.CatkComponent;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.response.ConsentStatus;
-import com.philips.platform.catk.util.CustomRobolectricRunnerCATK;
-import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
+
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.configuration.MockitoConfiguration;
-import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -32,8 +27,6 @@ import static org.mockito.Mockito.when;
  * Created by Maqsood on 11/1/17.
  */
 
-@RunWith(CustomRobolectricRunnerCATK.class)
-@Config(constants = BuildConfig.class, sdk = 25)
 public class GetConsentsModelRequestTest extends MockitoConfiguration {
 
     private GetConsentsModelRequest consentModelRequest;

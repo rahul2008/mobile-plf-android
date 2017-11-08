@@ -41,8 +41,6 @@ import static org.mockito.Mockito.when;
  * Created by Maqsood on 10/27/17.
  */
 
-@RunWith(CustomRobolectricRunnerCATK.class)
-@Config(constants = BuildConfig.class, sdk = 25)
 public class ConsentAccessToolKitTest {
 
     private static final String COUNTRY_CODE = "IN";
