@@ -1,6 +1,5 @@
-package com.philips.cdp2.ews.viewmodel;
+package com.philips.cdp2.ews.base;
 
-import com.philips.cdp2.ews.base.BaseTroubleShootingViewModel;
 import com.philips.cdp2.ews.navigation.Navigator;
 
 import org.junit.Test;
@@ -13,9 +12,7 @@ public class BaseTroubleShootingViewModelTest {
     public void itShouldNavigateToDevicePoweredOnConfirmationScreen() throws Exception {
         Navigator mockNavigator = mock(Navigator.class);
         BaseTroubleShootingViewModel subject = new BaseTroubleShootingViewModel(mockNavigator);
-
         subject.onCancelButtonClicked();
-
         verify(mockNavigator).navigateToCompletingDeviceSetupScreen();
     }
 }

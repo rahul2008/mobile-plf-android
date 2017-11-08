@@ -2,7 +2,7 @@
  * Copyright (c) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdp2.ews.viewmodel;
+package com.philips.cdp2.ews.startconnectwithdevice;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
@@ -10,7 +10,6 @@ import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
-import com.philips.cdp2.ews.startconnectwithdevice.StartConnectWithDeviceViewModel;
 import com.philips.cdp2.ews.util.StringProvider;
 
 import org.junit.Before;
@@ -61,12 +60,18 @@ public class StartConnectWithDeviceViewModelTest {
         stubHomeWiFiStatus();
         verifyStatic();
         EWSTagger.trackActionSendData("specialEvents", "getStartedToConnectWiFi");
-
         verify(navigatorMock).navigateToHomeNetworkConfirmationScreen();
     }
 
     private void stubHomeWiFiStatus() {
         subject.onGettingStartedButtonClicked();
+    }
+
+    @Test
+    public void itShouldVerifyTrackPageIsCalledWithCorrectTag() throws Exception{
+        subject.trackPageName();
+        verifyStatic();
+        EWSTagger.trackPage("getStarted");
     }
 
     @Test
