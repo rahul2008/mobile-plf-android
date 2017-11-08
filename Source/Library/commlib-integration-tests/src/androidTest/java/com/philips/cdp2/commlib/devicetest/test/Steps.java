@@ -47,7 +47,9 @@ import static android.app.Instrumentation.newApplication;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static java.util.Collections.emptyList;
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class Steps {
 
@@ -79,6 +81,7 @@ public class Steps {
         if (commCentral != null) {
             commCentral.stopDiscovery();
         }
+        app.getCommCentral().getApplianceManager().forgetStoredAppliance(current);
         portListeners.clear();
     }
 
@@ -128,10 +131,10 @@ public class Steps {
         ((ReferenceAppliance) current).getTimePort().reloadProperties();
     }
 
-    @When("^device requests value from air port$")
-    public void deviceRequestsValueFromAirPort() throws Throwable {
-        Log.d(LOGTAG, "Reloading timeport");
-        ((AirPurifier) current).getAirPort().reloadProperties();
+    @When("^device requests light on from air port$")
+    public void deviceRequestsLightOnFromAirPort() throws Throwable {
+        Log.d(LOGTAG, "Turning light on");
+        ((AirPurifier) current).getAirPort().setLight(true);
     }
 
     @When("^device subscribes on time port$")
@@ -164,25 +167,19 @@ public class Steps {
 
     @Then("^light on value is received without errors$")
     public void lightOnValueIsReceivedWithoutErrors() throws Throwable {
-        lightOnValueIsReceivedTimesWithoutErrors(1);
-    }
-
-    @Then("^light on value is received (\\d+) times without errors$")
-    public void lightOnValueIsReceivedTimesWithoutErrors(int count) throws Throwable {
-        Log.d(LOGTAG, String.format("Waiting for %d airport updates", count));
+        Log.d(LOGTAG, String.format("Waiting for airport light update"));
 
         PortListener listener = portListeners.get(ComfortAirPort.class);
-        listener.reset(count);
+        listener.reset(1);
         listener.waitForPortUpdate(1, MINUTES);
 
         scenario.write("Errors:" + listener.errors.toString());
 
         assertEquals(emptyList(), listener.errors);
-        assertEquals(count, listener.receivedCount);
+        assertEquals(1, listener.receivedCount);
 
         final boolean lightOn = ((AirPurifier) current).getAirPort().getPortProperties().getLightOn();
-        scenario.write("Light on: " + lightOn);
-        Log.d(LOGTAG, String.valueOf(lightOn));
+        assertTrue(lightOn);
     }
 
     @Given("^device is connected to SSID \"(.*?)\"$")
@@ -197,6 +194,7 @@ public class Steps {
         } else {
             throw new Exception("Wifi turned off");
         }
+
     }
 
     @Given("^bluetooth is turned on$")
@@ -209,6 +207,8 @@ public class Steps {
 
     @Given("^appliance is paired to cloud$")
     public void applianceIsPairedToCloud() throws Throwable {
+        app.getCommCentral().getApplianceManager().storeAppliance(current);
+
         PairingWaiter pairingWaiter = new PairingWaiter();
         PairingHandler pairingHandler = new PairingHandler<>(pairingWaiter, current, app.getCloudController());
         pairingHandler.startPairing();
@@ -218,6 +218,11 @@ public class Steps {
         if (!pairingWaiter.pairingSucceeded) {
             throw new Exception("Pairing failed");
         }
+    }
+
+    @Given("^appliance is stored on device$")
+    public void applianceIsStoredOnDevice() throws Throwable {
+        app.getCommCentral().getApplianceManager().storeAppliance(current);
     }
 
     @Given("^cloudCommunication is used$")
@@ -247,5 +252,24 @@ public class Steps {
         if (!cloudController.isSignOn()) {
             throw new Exception("Sign on failed");
         }
+    }
+
+    @Then("^the light on the appliance is turned off$")
+    public void theLlightOnTheApplianceIsTurnedOff() throws Throwable {
+        Log.d(LOGTAG, String.format("Setting airport light off"));
+
+        ((AirPurifier) current).getAirPort().setLight(false);
+
+        PortListener listener = portListeners.get(ComfortAirPort.class);
+        listener.reset(1);
+        listener.waitForPortUpdate(1, MINUTES);
+
+        scenario.write("Errors:" + listener.errors.toString());
+
+        assertEquals(emptyList(), listener.errors);
+        assertEquals(1, listener.receivedCount);
+
+        final boolean lightOn = ((AirPurifier) current).getAirPort().getPortProperties().getLightOn();
+        assertFalse(lightOn);
     }
 }
