@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -55,6 +56,8 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.ths_on_boarding_tour_fragment, container, false);
+        ActionBarListener actionBarListener = getActionBarListener();
+        actionBarListener.updateActionBar("Amwell", false);
 
         pager = (ViewPager) view.findViewById(R.id.welcome_pager);
         onBoardingTourPagerAdapter = new OnBoardingTourPagerAdapter(getActivity().getSupportFragmentManager(), onBoardingTourContentModelList, getActivity());
