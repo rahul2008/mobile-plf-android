@@ -507,7 +507,6 @@
                 android:id="@+id/ths_cost_summary_add_payment_method_button_relativelayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:background="?attr/uidContentPrimaryBackgroundColor"
                 android:visibility="gone">
 
@@ -521,7 +520,7 @@
                     android:layout_marginTop="@dimen/ths_margin_between_buttons"
                     android:background="?attr/uidContentPrimaryBackgroundColor"
 
-                    android:text="Add payment method" />
+                    android:text="@string/ths_payment_method_add" />
 
             </RelativeLayout>
         </FrameLayout>

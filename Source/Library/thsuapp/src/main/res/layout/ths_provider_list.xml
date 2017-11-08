@@ -19,9 +19,8 @@
         android:id="@+id/providerDetailLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/uid_label_margin_start"
         android:layout_marginStart="@dimen/uid_label_margin_start"
-        android:layout_toRightOf="@+id/providerImage">
+        android:layout_toEndOf="@+id/providerImage">
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/providerNameLabel"
