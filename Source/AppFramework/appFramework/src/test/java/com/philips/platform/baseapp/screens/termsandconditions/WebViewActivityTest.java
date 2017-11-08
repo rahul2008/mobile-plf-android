@@ -50,7 +50,7 @@ public class WebViewActivityTest {
         webViewActivity.updateActionBar(0,false);
         webViewActivity.updateActionBarIcon(false);
         webViewActivity.updateActionBar("",false);
-        webViewActivity.initDLS();
+        //webViewActivity.initDLS();
         resource=webViewActivity.getResources();
     }
 
@@ -92,9 +92,6 @@ public class WebViewActivityTest {
             setTheme(R.style.Theme_Philips_BrightBlue_Gradient_NoActionBar);
             super.onCreate(savedInstanceState);
         }
-        @Override
-        public void initDLS(){
-            setTheme(R.style.Theme_Philips_BrightBlue_Gradient_NoActionBar);
-        }
+
     }
 }

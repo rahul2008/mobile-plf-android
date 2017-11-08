@@ -18,6 +18,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -80,8 +82,16 @@ public class HomeFragment extends AbstractAppFrameworkBaseFragment {
         startAppTagging(TAG);
 
         initialiseSecurityDialog();
-
+        setHasOptionsMenu(true);
         return rootView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.catalog_view_menu, menu);
+        menu.findItem(R.id.menu_theme_settings).setVisible(true);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void setImageSize() {
