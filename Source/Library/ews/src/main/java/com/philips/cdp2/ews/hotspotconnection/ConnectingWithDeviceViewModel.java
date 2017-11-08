@@ -32,10 +32,13 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
         void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
 
         void unregisterReceiver(@NonNull BroadcastReceiver receiver);
+
         void showTroubleshootHomeWifiDialog();
+
         Fragment getFragment();
     }
 
+    private static final String TAG = "ConnectWithDeviceVM";
     private static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
 
     @NonNull
@@ -70,8 +73,9 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
         }
     };
 
+    @VisibleForTesting
     @NonNull
-    private final Runnable timeOutAction = new Runnable() {
+    protected final Runnable timeOutAction = new Runnable() {
         @Override
         public void run() {
             onConnectionAttemptTimedOut();
@@ -94,6 +98,8 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
     public void connectToHotSpot() {
         if (fragmentCallback != null) {
             fragmentCallback.registerReceiver(broadcastReceiver, createIntentFilter());
+        } else {
+            Log.e(TAG, "FragmentCallback not set in ConnectToHotSpot");
         }
         handler.postDelayed(timeOutAction, DEVICE_CONNECTION_TIMEOUT);
         wiFiConnectivityManager.connectToApplianceHotspotNetwork(WiFiUtil.DEVICE_SSID);
@@ -104,16 +110,13 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
         navigator.navigateBack();
     }
 
-    public void onHelpNeeded(){
-        tapHelpNeed();
+    public void onHelpNeeded() {
+        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.USER_NEEDS_HELP);
         navigator.navigateToResetConnectionTroubleShootingScreen();
     }
-    public void onHelpNotNeeded(){
-        navigator.navigateToCompletingDeviceSetupScreen();
-    }
 
-    private void tapHelpNeed() {
-        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.USER_NEEDS_HELP);
+    public void onHelpNotNeeded() {
+        navigator.navigateToCompletingDeviceSetupScreen();
     }
 
     public void clear() {
@@ -123,19 +126,24 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
         setFragmentCallback(null);
     }
 
-    private void onPhoneConnectedToHotspotWifi() {
+    @VisibleForTesting
+    protected void onPhoneConnectedToHotspotWifi() {
         deviceFriendlyNameFetcher.setNameFetcherCallback(this);
         deviceFriendlyNameFetcher.fetchFriendlyName();
     }
 
-    @VisibleForTesting void showUnsuccessfulDialog() {
+    @VisibleForTesting
+    void showUnsuccessfulDialog() {
         if (fragmentCallback != null) {
             EWSTagger.trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
             fragmentCallback.showTroubleshootHomeWifiDialog();
+        } else{
+            Log.e(TAG,"FragmentCallback not set in showUnsuccessfulDialog" );
         }
     }
 
-    private void onConnectionAttemptTimedOut() {
+    @VisibleForTesting
+    protected void onConnectionAttemptTimedOut() {
         showUnsuccessfulDialog();
     }
 
@@ -143,17 +151,22 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
         return new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION);
     }
 
-    private void unregisterBroadcastReceiver() {
+    @VisibleForTesting
+    protected void unregisterBroadcastReceiver() {
         if (fragmentCallback != null) {
             fragmentCallback.unregisterReceiver(broadcastReceiver);
+        }else{
+            Log.e(TAG,"FragmentCallback not set in unregisterBroadcastReceiver" );
         }
     }
 
-    @Override public void onFriendlyNameFetchingSuccess(@NonNull String friendlyName) {
+    @Override
+    public void onFriendlyNameFetchingSuccess(@NonNull String friendlyName) {
         navigator.navigateToConnectToDeviceWithPasswordScreen(friendlyName);
     }
 
-    @Override public void onFriendlyNameFetchingFailed() {
+    @Override
+    public void onFriendlyNameFetchingFailed() {
         showUnsuccessfulDialog();
     }
 
