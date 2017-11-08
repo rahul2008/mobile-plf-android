@@ -62,10 +62,9 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
         viewModel.refresh();
     }
 
-    @NonNull
     @Override
-    public String getPageName() {
-        return Page.CONFIRM_WIFI_NETWORK;
+    protected void callTrackPageName() {
+        viewModel.trackPageName();
     }
 
     @Override
@@ -114,4 +113,6 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
    public void sendPageTag(){
         EWSTagger.trackPage(Page.SELECT_HOME_WIFI);
     }
+
+
 }

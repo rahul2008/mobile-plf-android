@@ -13,6 +13,7 @@ import com.philips.cdp2.ews.communication.events.ShowPasswordEntryScreenEvent;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
 import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.tagging.Tag;
 
 import org.greenrobot.eventbus.EventBus;
@@ -60,6 +61,10 @@ public class SecondSetupStepsViewModel extends ConnectPhoneToDeviceAPModeViewMod
     @Override
     public void showPasswordEntryScreenEvent(ShowPasswordEntryScreenEvent entryScreenEvent) {
         // TODO .. for now do nothing!
+    }
+
+    public void trackPageName() {
+        EWSTagger.trackPage(Page.SETUP_STEP2);
     }
 }
 

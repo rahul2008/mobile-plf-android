@@ -87,11 +87,8 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     @Override
     public void onResume() {
         super.onResume();
-        String pageName = getPageName();
-        if (pageName != null) {
-            EWSTagger.trackPage(pageName);
-        }
+        callTrackPageName();
     }
 
-    protected abstract String getPageName();
+    protected abstract void callTrackPageName();
 }

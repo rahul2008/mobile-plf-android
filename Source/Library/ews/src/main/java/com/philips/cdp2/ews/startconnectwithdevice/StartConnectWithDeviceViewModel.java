@@ -13,9 +13,9 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.StringProvider;
 
@@ -51,7 +51,7 @@ public class StartConnectWithDeviceViewModel {
     @VisibleForTesting
     @NonNull
     public String getTitle(@NonNull HappyFlowContentConfiguration happyFlowConfig,
-                    @NonNull BaseContentConfiguration baseConfig) {
+                           @NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(happyFlowConfig.getGettingStartedScreenTitle(),
                 baseConfig.getDeviceName());
     }
@@ -81,5 +81,9 @@ public class StartConnectWithDeviceViewModel {
 
     public void onBackPressed(EWSCallbackNotifier ewsCallbackNotifier) {
         ewsCallbackNotifier.onBackPressed();
+    }
+
+    public void trackPageName() {
+        EWSTagger.trackPage(Page.GET_STARTED);
     }
 }

@@ -13,11 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.databinding.FragmentSecondSetupStepsBinding;
-import com.philips.cdp2.ews.tagging.Page;
-import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.EWSActivity;
+import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.base.BaseFragment;
+import com.philips.cdp2.ews.databinding.FragmentSecondSetupStepsBinding;
 
 public class SecondSetupStepsFragment extends BaseFragment {
 
@@ -58,9 +57,8 @@ public class SecondSetupStepsFragment extends BaseFragment {
         }
     }
 
-    @NonNull
     @Override
-    public String getPageName() {
-        return Page.SETUP_STEP2;
+    protected void callTrackPageName() {
+        viewModel.trackPageName();
     }
 }

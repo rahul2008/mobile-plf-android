@@ -14,6 +14,7 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
@@ -102,6 +103,11 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
     public String getHelper() {
         return stringProvider.getString(R.string.label_ews_confirm_connection_tip,
                 baseContentConfiguration.getDeviceName(), baseContentConfiguration.getDeviceName());
+    }
+
+    @NonNull
+    public void trackPageName() {
+        EWSTagger.trackPage(Page.CONFIRM_WIFI_NETWORK);
     }
 
 }

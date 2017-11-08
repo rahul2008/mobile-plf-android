@@ -8,6 +8,8 @@ import android.support.annotation.VisibleForTesting;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
+import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.StringProvider;
 
 import javax.inject.Inject;
@@ -54,6 +56,10 @@ public class ResetDeviceTroubleshootingViewModel {
                     @NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(troubleShootContentConfiguration.getResetDeviceBody(),
                 baseConfig.getDeviceName());
+    }
+
+    void trackPageName() {
+        EWSTagger.trackPage(Page.RESET_DEVICE);
     }
 
 

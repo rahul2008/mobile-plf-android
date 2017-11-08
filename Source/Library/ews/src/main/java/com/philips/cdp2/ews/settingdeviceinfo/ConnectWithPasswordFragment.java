@@ -16,12 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
-import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.databinding.FragmentConnectWithPasswordBinding;
-import com.philips.cdp2.ews.tagging.Page;
-import com.philips.cdp2.ews.util.BundleUtils;
-import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.EWSActivity;
+import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.base.BaseFragment;
+import com.philips.cdp2.ews.databinding.FragmentConnectWithPasswordBinding;
+import com.philips.cdp2.ews.util.BundleUtils;
 
 public class ConnectWithPasswordFragment extends BaseFragment {
 
@@ -68,8 +67,8 @@ public class ConnectWithPasswordFragment extends BaseFragment {
 
     @NonNull
     @Override
-    protected String getPageName() {
-        return Page.CONNECT_WITH_PASSWORD;
+    protected void callTrackPageName() {
+        viewModel.trackPageName();
     }
 
 

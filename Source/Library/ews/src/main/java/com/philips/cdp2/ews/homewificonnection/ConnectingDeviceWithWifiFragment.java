@@ -15,14 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConnectingDeviceWithWifiBinding;
 import com.philips.cdp2.ews.logger.EWSLogger;
-import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.BundleUtils;
-import com.philips.cdp2.ews.base.BaseFragment;
-import com.philips.cdp2.ews.EWSActivity;
 
 import javax.inject.Inject;
 
@@ -35,7 +34,8 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
     private final static String DEVICE_NAME = "deviceName";
     private final static String DEVICE_FRIENDLY_NAME = "deviceFriendlyName";
 
-    @Nullable private ConnectingDeviceWithWifiViewModel viewModel;
+    @Nullable
+    private ConnectingDeviceWithWifiViewModel viewModel;
 
     @Inject
     BaseContentConfiguration baseContentConfiguration;
@@ -156,9 +156,10 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
         return true;
     }
 
-    @NonNull
     @Override
-    protected String getPageName() {
-        return Page.CONNECTING_DEVICE_WITH_WIFI;
+    protected void callTrackPageName() {
+        if (viewModel != null) {
+            viewModel.trackPageName();
+        }
     }
 }

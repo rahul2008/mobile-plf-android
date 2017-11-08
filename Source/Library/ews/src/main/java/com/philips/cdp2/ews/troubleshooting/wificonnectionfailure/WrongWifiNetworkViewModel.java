@@ -12,6 +12,8 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
+import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Page;
 
 import javax.inject.Inject;
 
@@ -51,5 +53,9 @@ public class WrongWifiNetworkViewModel {
 
     public int getAppName(){
         return baseContentConfiguration.getAppName();
+    }
+
+    void trackPageName() {
+        EWSTagger.trackPage(Page.WRONG_WIFI_NETWORK);
     }
 }

@@ -19,7 +19,6 @@ import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConnectingWithDeviceBinding;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel.ConnectingPhoneToHotSpotCallback;
 import com.philips.cdp2.ews.logger.EWSLogger;
-import com.philips.cdp2.ews.tagging.Page;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -123,6 +122,7 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
             }
         });
     }
+
     @Override
     public Fragment getFragment() {
         return this;
@@ -136,8 +136,10 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
 
     @NonNull
     @Override
-    protected String getPageName() {
-        return Page.CONNECTING_WITH_DEVICE;
+    protected void callTrackPageName() {
+        if (viewModel != null) {
+            viewModel.trackPageName();
+        }
     }
 
     private ConnectingWithDeviceViewModel createViewModel() {

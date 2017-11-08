@@ -166,4 +166,8 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
     public void setFragmentCallback(@Nullable ConnectingPhoneToHotSpotCallback fragmentCallback) {
         this.fragmentCallback = fragmentCallback;
     }
+
+    public void trackPageName() {
+        EWSTagger.trackPage(Page.CONNECTING_WITH_DEVICE);
+    }
 }

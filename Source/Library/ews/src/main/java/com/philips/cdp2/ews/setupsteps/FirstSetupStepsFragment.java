@@ -16,7 +16,6 @@ import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.databinding.FragmentFirstSetupStepsBinding;
-import com.philips.cdp2.ews.tagging.Page;
 
 public class FirstSetupStepsFragment extends BaseFragment {
 
@@ -40,9 +39,8 @@ public class FirstSetupStepsFragment extends BaseFragment {
         return ((EWSActivity) getActivity()).getEWSComponent().firstSetupStepsViewModel();
     }
 
-    @NonNull
     @Override
-    public String getPageName() {
-        return Page.SETUP_STEP1;
+    protected void callTrackPageName() {
+        viewModel.trackPageName();
     }
 }
