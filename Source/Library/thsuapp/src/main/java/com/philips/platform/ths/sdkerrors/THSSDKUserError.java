@@ -19,8 +19,6 @@ public class THSSDKUserError implements THSErrorHandlerInterface{
             return true;
         }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.AUTH_ACCOUNT_LOCKED.name())){
             return true;
-        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.VALIDATION_EMAIL_IN_USE.name())){
-            return true;
         }else {
             return false;
         }

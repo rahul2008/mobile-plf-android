@@ -106,16 +106,35 @@
        />
 
 
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/ths_download_report_dsize"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/ths_list_item"
-        android:text="@string/ths_download_report_size"
-        android:layout_toRightOf="@id/ths_download_report"
-        android:drawableRight="@mipmap/right_arrow_icon"
-        />
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@id/ths_download_report"
+            android:layout_below="@+id/ths_scheduled_appointment_separator"
+            android:layout_height="wrap_content">
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_download_report_dsize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ths_list_item"
+                android:textSize="16sp"
+                android:text="@string/ths_download_report_size"
+                android:paddingTop="@dimen/ths_fab_margin"
+                android:paddingBottom="5dp"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/ths_fab_margin" />
+            <com.philips.platform.uid.view.widget.Label
+                android:layout_width="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/ths_fab_margin"
+                android:id="@+id/provider_details_layout_container_right_arrow"
+                android:text="@string/dls_navigationright"
+                fontPath="fonts/iconfont.ttf"
+                android:textAlignment="center"
+                android:gravity="center_vertical"
+                android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+                android:layout_height="?android:attr/listPreferredItemHeight"/>
+        </RelativeLayout>
     </LinearLayout>
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_prescription"

@@ -66,7 +66,7 @@ public class THSSDKSpecificError implements THSErrorHandlerInterface {
             errorMessage = "Invalid zip number";
             return true;
         }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.CREDIT_CARD_RESIDENCY_CHECK_FAILED.name())){
-            errorMessage = "Credit card resedency check failed";
+            errorMessage = "Credit card residency check failed";
             return true;
         }else {
             return false;

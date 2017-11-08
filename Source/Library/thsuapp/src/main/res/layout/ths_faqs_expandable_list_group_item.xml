@@ -1,24 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/pth_practice_row_layout"
+android:layout_width="match_parent"
+android:background="@drawable/uid_list_item_selector"
+android:layout_height="?android:attr/listPreferredItemHeight">
+
+<com.philips.platform.uid.view.widget.Label
+    android:id="@+id/lblListItem"
     android:layout_width="match_parent"
-    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    style="@style/ths_list_item"
+    android:textSize="16sp"
+    android:paddingTop="@dimen/ths_fab_margin"
+    android:paddingBottom="5dp"
+    android:gravity="center_vertical"
+    android:layout_centerVertical="true"
+    android:paddingStart="@dimen/ths_fab_margin" />
 
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/lblListItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/ths_list_item"
-        android:layout_alignParentTop="true"
-        android:text="hello"
-        android:textSize="16dp"
-        android:paddingTop="16dp"
-        android:paddingRight="@dimen/ths_fab_margin"
-        android:drawableEnd="@mipmap/right_arrow_icon"
-        android:paddingBottom="5dp"
-        android:drawablePadding="5dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/ths_fab_margin" />
+<com.philips.platform.uid.view.widget.Label
+    android:layout_width="wrap_content"
+    android:layout_alignParentEnd="true"
+    android:layout_centerVertical="true"
+    android:layout_marginEnd="@dimen/ths_fab_margin"
+    android:id="@+id/lblListItem_right_arrow"
+    android:text="@string/dls_navigationright"
+    fontPath="fonts/iconfont.ttf"
+    android:textAlignment="center"
+    android:gravity="center_vertical"
+    android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+    android:layout_height="?android:attr/listPreferredItemHeight"/>
 
-</LinearLayout>
+<View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:layout_alignParentBottom="true"
+    android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+</RelativeLayout>
