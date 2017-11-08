@@ -13,7 +13,6 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendMomentListSaveRequest;
-import com.philips.platform.core.events.PartialPullSuccess;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
@@ -104,12 +103,9 @@ public class MomentsDataFetcher extends DataFetcher {
         if (client == null) {
             throw RetrofitError.unexpectedError("", new IllegalStateException("Client is not initialized"));
         }
-
+        Map<String, String> timeStamp = accessProvider.getLastSyncTimeStampByDateRange(startDate, endDate);
+        UCoreMomentsHistory momentHistory;
         try {
-            UCoreMomentsHistory momentHistory;
-
-            Map<String, String> timeStamp;
-            timeStamp = accessProvider.getLastSyncTimeStampByDateRange(startDate, endDate);
 
             do {
                 momentHistory = client.fetchMomentByDateRange(accessProvider.getUserId(), accessProvider.getUserId(),
@@ -119,10 +115,9 @@ public class MomentsDataFetcher extends DataFetcher {
             } while (momentHistory.getUCoreMoments().size() > 1);
         } catch (RetrofitError error) {
             if (isMomentUpdated) {
-                eventing.post(new PartialPullSuccess(START_DATE));
-            } else {
-                throw error;
+                throw RetrofitError.unexpectedError("", new RuntimeException("Partial Sync Completed till: " + timeStamp.get(START_DATE)));
             }
+            throw error;
         }
     }
 
