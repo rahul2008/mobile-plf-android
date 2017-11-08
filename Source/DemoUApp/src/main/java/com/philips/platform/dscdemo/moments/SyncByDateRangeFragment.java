@@ -165,7 +165,13 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 	}
 
 	private void fetchSyncByDateRange() {
-		mMomentPresenter.fetchSyncByDateRange(new DateTime(mStartDate), new DateTime(mEndDate), this);
+		if (mStartDate == null && mEndDate == null) {
+			Toast.makeText(mContext, "Please enter startDate and endDate", Toast.LENGTH_SHORT).show();
+		} else if (mStartDate != null && mEndDate != null && mStartDate.after(mEndDate)) {
+			Toast.makeText(mContext, "Please enter the valid startDate and endDate", Toast.LENGTH_SHORT).show();
+		} else {
+			mMomentPresenter.fetchSyncByDateRange(new DateTime(mStartDate), new DateTime(mEndDate), this);
+		}
 	}
 
 	@Override
@@ -195,7 +201,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 	@Override
 	public void onFetchFailure(Exception exception) {
 		Toast.makeText(mContext, "onFetchFailure", Toast.LENGTH_SHORT).show();
-
 	}
 
 	@Override
@@ -236,7 +241,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 
 
 	private void updateStartDate() throws ParseException {
-		String myFormat = "yyyy-MM-dd'T' K mm:ss.SSS Z";
+		String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
 		SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 		String dateAsString = sdf.format(myCalendar.getTime());
 		mMomentStartDateEt.setText(dateAsString);
@@ -244,7 +249,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 	}
 
 	private void updateEndDate() throws ParseException {
-		String myFormat = "yyyy-MM-dd'T' K mm:ss.SSS Z";
+		String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
 		SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 		String dateAsString = sdf.format(myCalendar.getTime());
 		mMomentEndDateEt.setText(dateAsString);
@@ -261,6 +266,4 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 		DataServicesManager.getInstance().unRegisterDBChangeListener();
 		DataServicesManager.getInstance().unRegisterSynchronisationCosmpleteListener();
 	}
-
-
 }
