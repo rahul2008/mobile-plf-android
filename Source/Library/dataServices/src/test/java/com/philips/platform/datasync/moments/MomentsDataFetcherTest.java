@@ -173,23 +173,24 @@ public class MomentsDataFetcherTest {
         thenRetrofitErrorIsReturned();
     }
 
-    @Test(expected = RetrofitError.class)
+    @Test
     public void fetchDataByDateRange_WithNoClient() {
         givenNoClient();
         whenFetchDataByDateRange();
     }
 
-    @Test(expected = RetrofitError.class)
+    @Test
     public void postPartialSynError_WhenFetchByDateRange() {
         givenPartialSuccessFromClient();
         whenFetchDataByDateRange();
         thenVerifyEventIsPosted("BackendMomentListSaveRequest");
     }
 
-    @Test(expected = RetrofitError.class)
+    @Test
     public void postSyncError_WhenFetchByDateRange() {
         givenRetrofitErrorFromClientWhenFetchDateByRange();
         whenFetchDataByDateRange();
+        thenAssertRetrofitErrorIsReturned();
         thenNoEventIsPosted();
     }
 
@@ -238,7 +239,7 @@ public class MomentsDataFetcherTest {
     }
 
     private void whenFetchDataByDateRange() {
-        fetcher.fetchDataByDateRange(START_DATE, END_DATE);
+        retrofitError = fetcher.fetchDataByDateRange(START_DATE, END_DATE);
     }
 
     private void whenFetchDataIsInvoked() {
@@ -269,5 +270,9 @@ public class MomentsDataFetcherTest {
     private void thenRetrofitErrorIsReturned() {
         assertNotNull(retrofitError);
         assertEquals("error", retrofitError.getCause().getMessage());
+    }
+
+    private void thenAssertRetrofitErrorIsReturned() {
+        assertEquals("Error", retrofitError.getCause().getMessage());
     }
 }

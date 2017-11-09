@@ -98,11 +98,14 @@ public class MomentsDataFetcher extends DataFetcher {
     }
 
     @Override
-    public void fetchDataByDateRange(String startDate, String endDate) {
+    public RetrofitError fetchDataByDateRange(String startDate, String endDate) {
+        RetrofitError retrofitError = null;
+
         final MomentsClient client = uCoreAdapter.getAppFrameworkClient(MomentsClient.class, accessProvider.getAccessToken(), gsonConverter);
         if (client == null) {
-            throw RetrofitError.unexpectedError("", new IllegalStateException("Client is not initialized"));
+            return RetrofitError.unexpectedError("", new IllegalStateException("Client is not initialized"));
         }
+
         Map<String, String> timeStamp = accessProvider.getLastSyncTimeStampByDateRange(startDate, endDate);
         UCoreMomentsHistory momentHistory;
         try {
@@ -113,9 +116,10 @@ public class MomentsDataFetcher extends DataFetcher {
                 timeStamp = accessProvider.getLastSyncTimeStampByDateRange(momentHistory.getSyncurl());
             } while (momentHistory.getUCoreMoments().size() > 1);
         } catch (RetrofitError error) {
-            error = (isMomentUpdated) ? RetrofitError.unexpectedError("", new RuntimeException("Partial Sync Completed till: " + timeStamp.get(START_DATE))) : error;
-            throw error;
+            retrofitError = (isMomentUpdated) ? RetrofitError.unexpectedError("", new RuntimeException("Partial Sync Completed till: " + timeStamp.get(START_DATE))) : error;
         }
+
+        return retrofitError;
     }
 
     protected boolean isUserInvalid() {

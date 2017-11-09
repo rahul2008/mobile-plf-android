@@ -23,7 +23,6 @@ import com.philips.platform.datasync.synchronisation.DataSender;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.joda.time.DateTime;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -76,7 +75,8 @@ public class ConsentsDataFetcher extends DataFetcher {
     }
 
     @Override
-    public void fetchDataByDateRange(String startDate, String endDate) {
+    public RetrofitError fetchDataByDateRange(String startDate, String endDate) {
+        return null;
     }
 
     public List<ConsentDetail> getConsentDetails() {

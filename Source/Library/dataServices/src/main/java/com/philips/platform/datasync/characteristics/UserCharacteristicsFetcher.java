@@ -17,8 +17,6 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 
-import org.joda.time.DateTime;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -71,6 +69,7 @@ public class UserCharacteristicsFetcher extends DataFetcher {
     }
 
     @Override
-    public void fetchDataByDateRange(String startDate, String endDate) {
+    public RetrofitError fetchDataByDateRange(String startDate, String endDate) {
+        return null;
     }
 }

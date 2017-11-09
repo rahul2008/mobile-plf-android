@@ -49,7 +49,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 	private Context mContext;
 	private MomentPresenter mMomentPresenter;
 	private Button btnCompleteSync;
-	private Button btnSyncMomentByDate;
 	private LinearLayout dateRangeSelectorLayout;
 	private Button btnStartSyncByDateRange;
 
@@ -102,7 +101,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.momentsync_by_daterange, container, false);
 		btnCompleteSync = view.findViewById(R.id.btn_completeSync);
-		btnSyncMomentByDate = view.findViewById(R.id.btn_syncMoment_by_dateRange);
 		mMomentStartDateEt = view.findViewById(R.id.et_moment_startDate);
 		mMomentEndDateEt = view.findViewById(R.id.et_moment_endDate);
 		dateRangeSelectorLayout = view.findViewById(R.id.dateRangeSelectorLayout);
@@ -131,7 +129,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 		btnCompleteSync.setOnClickListener(this);
 		mMomentStartDateEt.setOnClickListener(this);
 		mMomentEndDateEt.setOnClickListener(this);
-		btnSyncMomentByDate.setOnClickListener(this);
 		btnStartSyncByDateRange.setOnClickListener(this);
 		return view;
 	}

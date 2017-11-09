@@ -62,7 +62,7 @@ public class DataPullSynchronise {
     @Inject
     Eventing eventing;
 
-    private volatile RetrofitError fetchResult;
+    private volatile RetrofitError retrofitError;
 
     List<? extends DataFetcher> configurableFetchers;
 
@@ -123,13 +123,9 @@ public class DataPullSynchronise {
             });
         }
 
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            //Debug log
-        }
+        waitTillThreadsGetsCompleted(countDownLatch);
 
-        reportResult(fetchResult, referenceId);
+        reportResult(retrofitError, referenceId);
     }
 
     private synchronized void fetchDataByDateRange(final String startDate, final String endDate) {
@@ -139,28 +135,33 @@ public class DataPullSynchronise {
             executor.execute(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        fetcher.fetchDataByDateRange(startDate, endDate);
-                    } catch (RetrofitError error) {
-                        synchronisationManager.dataPullFail(error);
-                    }
+                    retrofitError = fetcher.fetchDataByDateRange(startDate, endDate);
                     countDownLatch.countDown();
                 }
             });
         }
 
+        waitTillThreadsGetsCompleted(countDownLatch);
+
+        if (retrofitError != null) {
+            synchronisationManager.dataPullFail(retrofitError);
+        } else {
+            synchronisationManager.dataPullSuccess();
+        }
+
+    }
+
+    private void waitTillThreadsGetsCompleted(CountDownLatch countDownLatch) {
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
             //Debug log
         }
-
-        synchronisationManager.dataPullSuccess();
     }
 
     private void updateResult(final RetrofitError resultError) {
         if (resultError != null) {
-            this.fetchResult = resultError;
+            this.retrofitError = resultError;
         }
     }
 

@@ -20,8 +20,6 @@ import com.philips.platform.datasync.characteristics.UserCharacteristicsConverte
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
-import org.joda.time.DateTime;
-
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
@@ -71,7 +69,8 @@ public class SettingsDataFetcher extends DataFetcher {
     }
 
     @Override
-    public void fetchDataByDateRange(String startDate, String endDate) {
+    public RetrofitError fetchDataByDateRange(String startDate, String endDate) {
+        return null;
     }
 
     public void getSettings() {
