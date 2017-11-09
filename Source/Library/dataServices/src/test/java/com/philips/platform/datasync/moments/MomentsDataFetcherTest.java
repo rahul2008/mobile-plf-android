@@ -27,7 +27,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -39,10 +38,15 @@ public class MomentsDataFetcherTest {
     public static final String SUBJECT_ID = "SUBJECT_ID";
 
     private static final String TEST_MOMENT_SYNC_URL = "TEST_MOMENT_SYNC_URL";
-    private static final String START_DATE = new DateTime().toString();
-    private static final String START_DATE2 = new DateTime().toString();
-    private static final String END_DATE = new DateTime().toString();
-    private static final String END_DATE2 = new DateTime().toString();
+    private static final String START_DATE = "timestampStart";
+    private static final String END_DATE = "timestampEnd";
+    private static final String LAST_MODIFIED_START_DATE = "lastModifiedStart";
+    private static final String LAST_MODIFIED_END_DATE = "lastModifiedEnd";
+
+    private static final String START_DATE_VALUE = new DateTime().toString();
+    private static final String START_DATE2_VALUE = new DateTime().plusDays(1).toString();
+    private static final String END_DATE_VALUE = new DateTime().toString();
+    private static final String END_DATE2_VALUE = new DateTime().plusDays(1).toString();
 
     private MomentsDataFetcher fetcher;
     private UCoreMomentsHistory momentsHistory = new UCoreMomentsHistory();
@@ -118,19 +122,19 @@ public class MomentsDataFetcherTest {
 
     private Map<String, String> getLastSyncDateMap() throws UnsupportedEncodingException {
         this.lastSyncTimeMap = new HashMap<>();
-        lastSyncTimeMap.put("START_DATE", URLEncoder.encode(START_DATE, "UTF-8"));
-        lastSyncTimeMap.put("END_DATE", URLEncoder.encode(END_DATE, "UTF-8"));
-        lastSyncTimeMap.put("LAST_MODIFIED_START_DATE", URLEncoder.encode(START_DATE, "UTF-8"));
-        lastSyncTimeMap.put("LAST_MODIFIED_END_DATE", URLEncoder.encode(END_DATE, "UTF-8"));
+        lastSyncTimeMap.put(START_DATE, URLEncoder.encode(START_DATE_VALUE, "UTF-8"));
+        lastSyncTimeMap.put(END_DATE, URLEncoder.encode(END_DATE_VALUE, "UTF-8"));
+        lastSyncTimeMap.put(LAST_MODIFIED_START_DATE, URLEncoder.encode(START_DATE_VALUE, "UTF-8"));
+        lastSyncTimeMap.put(LAST_MODIFIED_END_DATE, URLEncoder.encode(END_DATE_VALUE, "UTF-8"));
         return lastSyncTimeMap;
     }
 
     private Map<String, String> getLastSyncDateFromSyncMap() throws UnsupportedEncodingException {
         this.lastSyncTimeMap2 = new HashMap<>();
-        lastSyncTimeMap2.put("START_DATE", URLEncoder.encode(START_DATE2, "UTF-8"));
-        lastSyncTimeMap2.put("END_DATE", URLEncoder.encode(END_DATE2, "UTF-8"));
-        lastSyncTimeMap2.put("LAST_MODIFIED_START_DATE", URLEncoder.encode(START_DATE2, "UTF-8"));
-        lastSyncTimeMap2.put("LAST_MODIFIED_END_DATE", URLEncoder.encode(END_DATE2, "UTF-8"));
+        lastSyncTimeMap2.put(START_DATE, URLEncoder.encode(START_DATE2_VALUE, "UTF-8"));
+        lastSyncTimeMap2.put(END_DATE, URLEncoder.encode(END_DATE2_VALUE, "UTF-8"));
+        lastSyncTimeMap2.put(LAST_MODIFIED_START_DATE, URLEncoder.encode(START_DATE2_VALUE, "UTF-8"));
+        lastSyncTimeMap2.put(LAST_MODIFIED_END_DATE, URLEncoder.encode(END_DATE2_VALUE, "UTF-8"));
         return lastSyncTimeMap2;
     }
 
@@ -198,8 +202,8 @@ public class MomentsDataFetcherTest {
     }
 
     private void givenRetrofitErrorFromClientWhenFetchDateByRange() {
-        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get("START_DATE"),
-                lastSyncTimeMap.get("END_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_END_DATE"))).thenThrow(RetrofitError.unexpectedError("", new RuntimeException("Error")));
+        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get(START_DATE),
+                lastSyncTimeMap.get(END_DATE), lastSyncTimeMap.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap.get(LAST_MODIFIED_END_DATE))).thenThrow(RetrofitError.unexpectedError("", new RuntimeException("Error")));
     }
 
     @Test
@@ -227,13 +231,13 @@ public class MomentsDataFetcherTest {
     }
 
     private void givenMomentsFromClient() {
-        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get("START_DATE"), lastSyncTimeMap.get("END_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_END_DATE"))).thenReturn(userMomentsHistory);
-        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get("START_DATE"), lastSyncTimeMap2.get("END_DATE"), lastSyncTimeMap2.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap2.get("LAST_MODIFIED_END_DATE"))).thenReturn(momentsHistory);
+        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get(START_DATE), lastSyncTimeMap.get(END_DATE), lastSyncTimeMap.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap.get(LAST_MODIFIED_END_DATE))).thenReturn(userMomentsHistory);
+        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get(START_DATE), lastSyncTimeMap2.get(END_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_END_DATE))).thenReturn(momentsHistory);
     }
 
     private void givenPartialSuccessFromClient() {
-        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get("START_DATE"), lastSyncTimeMap.get("END_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_END_DATE"))).thenReturn(userMomentsHistory);
-        doThrow(RetrofitError.class).when(momentsClientMock).fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get("START_DATE"), lastSyncTimeMap2.get("END_DATE"), lastSyncTimeMap2.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap2.get("LAST_MODIFIED_END_DATE"));
+        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get(START_DATE), lastSyncTimeMap.get(END_DATE), lastSyncTimeMap.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap.get(LAST_MODIFIED_END_DATE))).thenReturn(userMomentsHistory);
+        when(momentsClientMock.fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get(START_DATE), lastSyncTimeMap2.get(END_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_END_DATE))).thenThrow(RetrofitError.unexpectedError("", new RuntimeException("error")));
     }
 
     private void givenNoClient() {
@@ -254,8 +258,8 @@ public class MomentsDataFetcherTest {
     }
 
     private void thenVerifyClientIsInvlokedTwice() {
-        verify(momentsClientMock).fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get("START_DATE"), lastSyncTimeMap.get("END_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap.get("LAST_MODIFIED_END_DATE"));
-        verify(momentsClientMock).fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get("START_DATE"), lastSyncTimeMap2.get("END_DATE"), lastSyncTimeMap2.get("LAST_MODIFIED_START_DATE"), lastSyncTimeMap2.get("LAST_MODIFIED_END_DATE"));
+        verify(momentsClientMock).fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap.get(START_DATE), lastSyncTimeMap.get(END_DATE), lastSyncTimeMap.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap.get(LAST_MODIFIED_END_DATE));
+        verify(momentsClientMock).fetchMomentByDateRange(USER_ID, USER_ID, lastSyncTimeMap2.get(START_DATE), lastSyncTimeMap2.get(END_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_START_DATE), lastSyncTimeMap2.get(LAST_MODIFIED_END_DATE));
     }
 
     private void thenNoEventIsPosted() {

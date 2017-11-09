@@ -28,10 +28,10 @@ import retrofit.converter.GsonConverter;
 
 public class MomentsDataFetcher extends DataFetcher {
     public static final String TAG = "MomentsDataFetcher";
-    private static final String START_DATE = "START_DATE";
-    private static final String END_DATE = "END_DATE";
-    private static final String LAST_MODIFIED_START_DATE = "LAST_MODIFIED_START_DATE";
-    private static final String LAST_MODIFIED_END_DATE = "LAST_MODIFIED_END_DATE";
+    private static final String START_DATE = "timestampStart";
+    private static final String END_DATE = "timestampEnd";
+    private static final String LAST_MODIFIED_START_DATE = "lastModifiedStart";
+    private static final String LAST_MODIFIED_END_DATE = "lastModifiedEnd";
 
     private boolean isMomentUpdated;
 
