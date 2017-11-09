@@ -59,4 +59,8 @@ public class SyncScheduler {
 	public void setSyncEnable(boolean isSyncEnabled) {
 		this.isSyncEnabled = isSyncEnabled;
 	}
+
+	public boolean isSyncEnabled() {
+		return  isSyncEnabled;
+	}
 }
