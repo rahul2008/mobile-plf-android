@@ -515,6 +515,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
 
     @Override
     public void setContinueButtonState(boolean enable) {
+        thsImageRecyclerViewAdapter.isClickable = enable;
         ths_camera_image_list_layout.setEnabled(enable);
         imageListView.setEnabled(enable);
         camera_button.setEnabled(enable);
