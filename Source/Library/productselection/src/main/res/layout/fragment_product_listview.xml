@@ -31,7 +31,7 @@
         android:textColorHint="@color/border_disable_color"
         android:layout_centerVertical="true"
         android:textColor="?attr/uidSearchBoxAndroidDefaultNormalInputTextColor"
-        android:focusableInTouchMode="true"/>
+       android:focusable="false"/>
 
     <ListView
         android:id="@+id/productListView"

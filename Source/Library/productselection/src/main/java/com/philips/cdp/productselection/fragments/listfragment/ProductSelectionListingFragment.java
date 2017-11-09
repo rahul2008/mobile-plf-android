@@ -55,6 +55,14 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
     private void initView(View view) {
         mSearchBox = (CustomSearchView) view.findViewById(R.id.search_box);
         mSearchBox.addTextChangedListener(this);
+        mSearchBox.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                view.setFocusable(true);
+                view.setFocusableInTouchMode(true);
+                return false;
+            }
+        });
     }
 
     @Override
