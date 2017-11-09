@@ -14,12 +14,17 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.*;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.NestedScrollView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -45,6 +50,7 @@ import com.philips.platform.uid.utils.UIDUtils;
  * <p>
  * <P> For usage of Dialog as per DLS recommendations, please refer to the DLS Catalog app or the confluence page below
  * <p>
+ *
  * @see <a href="https://confluence.atlas.philips.com/display/UIT/Dialog">https://confluence.atlas.philips.com/display/UIT/Dialog</a>
  */
 
@@ -69,13 +75,6 @@ public class AlertDialogFragment extends DialogFragment {
 
     public AlertDialogFragment() {
         dialogParams = new AlertDialogController.DialogParams();
-    }
-
-    private static AlertDialogFragment create(@NonNull final AlertDialogController.DialogParams dialogParams, final int theme) {
-        final AlertDialogFragment alertDialogFragment = new AlertDialogFragment();
-        alertDialogFragment.setDialogParams(dialogParams);
-        alertDialogFragment.setStyle(theme, R.style.UIDAlertDialog);
-        return alertDialogFragment;
     }
 
     @Nullable
@@ -134,28 +133,27 @@ public class AlertDialogFragment extends DialogFragment {
 
     private void resolveDialogLayout(LayoutInflater layoutInflater) {
         View containerView;
-        if(dialogParams.getContainerLayout() == 0){
+        if (dialogParams.getContainerLayout() == 0) {
             LinearLayout layout = new LinearLayout(getContext());
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
             dialogContainer.addView(layout);
             containerView = layout;
-        }
-        else{
+        } else {
             layoutInflater.inflate(dialogParams.getContainerLayout(), dialogContainer);
             containerView = dialogContainer.getChildAt(0); //Only one childView in NestedScrollView
         }
 
-        if(dialogParams.getDialogView()!= null && containerView instanceof ViewGroup){
-            ((ViewGroup)containerView).addView(dialogParams.getDialogView());
+        if (dialogParams.getDialogView() != null && containerView instanceof ViewGroup) {
+            ((ViewGroup) containerView).addView(dialogParams.getDialogView());
         }
     }
 
     private void handleDividers() {
-        if(dialogParams.isShowDividers() && !isViewVisible(top_divider) && !isViewVisible(bottom_divider)){
+        if (dialogParams.isShowDividers() && !isViewVisible(top_divider) && !isViewVisible(bottom_divider)) {
             top_divider.setVisibility(View.VISIBLE);
             bottom_divider.setVisibility(View.VISIBLE);
-        }else if(!dialogParams.isShowDividers()){
+        } else if (!dialogParams.isShowDividers()) {
             top_divider.setVisibility(View.GONE);
             bottom_divider.setVisibility(View.GONE);
         }
@@ -202,6 +200,23 @@ public class AlertDialogFragment extends DialogFragment {
         } catch (NullPointerException e) {
             UIDLog.e(e.toString(), e.getMessage());
         }
+    }
+
+    /**
+     * Display the dialog, adding the fragment to the given FragmentManager.  This
+     * is a convenience for explicitly creating a transaction, adding the
+     * fragment to it with the given tag, and committing it.  This does
+     * <em>not</em> add the transaction to the back stack.  When the fragment
+     * is dismissed, a new transaction will be executed to remove it from
+     * the activity.
+     *
+     * @param manager The FragmentManager this fragment will be added to.
+     * @param tag     The tag for this fragment, as per
+     */
+    public void showAllowingStateLoss(FragmentManager manager, String tag) {
+        FragmentTransaction ft = manager.beginTransaction();
+        ft.add(this, tag);
+        ft.commitAllowingStateLoss();
     }
 
     private void setAlertWidth() {
@@ -397,7 +412,7 @@ public class AlertDialogFragment extends DialogFragment {
         }
     }
 
-    private void setCanceledOnTouchOutside(final boolean canceledOnTouchOutside) {
+    void setCanceledOnTouchOutside(final boolean canceledOnTouchOutside) {
         dialogParams.setCancelable(canceledOnTouchOutside);
     }
 
@@ -408,6 +423,7 @@ public class AlertDialogFragment extends DialogFragment {
     public static class Builder {
         final AlertDialogController.DialogParams params;
         final int theme;
+        int dialogStyle;
 
         public Builder(final Context context) {
             this(context, R.style.UIDAlertDialog);
@@ -417,6 +433,19 @@ public class AlertDialogFragment extends DialogFragment {
             params = new AlertDialogController.DialogParams();
             params.setContext(context);
             theme = themeResId;
+        }
+
+        /**
+         * Style that needs to be applied on dialog.
+         *
+         * @param dialogStyle Selects a standard style: may be {@link #STYLE_NORMAL},
+         * {@link #STYLE_NO_TITLE}, {@link #STYLE_NO_FRAME}, or
+         * {@link #STYLE_NO_INPUT}.
+         * @return
+         */
+        public Builder setDialogStyle(int dialogStyle) {
+            this.dialogStyle = dialogStyle;
+            return this;
         }
 
         /**
@@ -551,7 +580,7 @@ public class AlertDialogFragment extends DialogFragment {
         /**
          * Set the type of dialog to show, there are two variants available Dialog and AlertDialog.
          *
-         * @param dialogType   Can be one of two options: DialogConstants.TYPE_DIALOG or DialogConstants.TYPE_ALERT
+         * @param dialogType Can be one of two options: DialogConstants.TYPE_DIALOG or DialogConstants.TYPE_ALERT
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public AlertDialogFragment.Builder setDialogType(int dialogType) {
@@ -562,7 +591,7 @@ public class AlertDialogFragment extends DialogFragment {
         /**
          * Set whether the background dim layer on dialog layout should be set to subtle or strong
          *
-         * @param dimLayer   Can be one of two options: DialogConstants.DIM_SUBTLE or DialogConstants.DIM_STRONG
+         * @param dimLayer Can be one of two options: DialogConstants.DIM_SUBTLE or DialogConstants.DIM_STRONG
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public AlertDialogFragment.Builder setDimLayer(int dimLayer) {
@@ -573,7 +602,7 @@ public class AlertDialogFragment extends DialogFragment {
         /**
          * Set the layout that should be shown on the dialog.
          *
-         * @param layout   ResID of the layout to be set to the dialog.
+         * @param layout ResID of the layout to be set to the dialog.
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public AlertDialogFragment.Builder setDialogLayout(@LayoutRes int layout) {
@@ -584,13 +613,14 @@ public class AlertDialogFragment extends DialogFragment {
         /**
          * Set the layout that should be shown on the dialog.
          *
-         * @param view   View to be added to the dialog layout.
+         * @param view View to be added to the dialog layout.
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public AlertDialogFragment.Builder setDialogView(View view) {
             params.setDialogView(view);
             return this;
         }
+
         /**
          * Set a listener to be invoked when the alternate button of the dialog is pressed.
          *
@@ -607,7 +637,7 @@ public class AlertDialogFragment extends DialogFragment {
         /**
          * Set a listener to be invoked when the alternate button of the dialog is pressed.
          *
-         * @param textId     String to display in the alternate button
+         * @param textId   String to display in the alternate button
          * @param listener The {@link View.OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
          */
@@ -620,7 +650,7 @@ public class AlertDialogFragment extends DialogFragment {
         /**
          * Set whether top and bottom dividers should be shown on the dialog layout, should be used in case of lists
          *
-         * @param showDividers   boolean to set if dividers should be shown.
+         * @param showDividers boolean to set if dividers should be shown.
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public AlertDialogFragment.Builder setDividers(boolean showDividers) {
@@ -628,15 +658,29 @@ public class AlertDialogFragment extends DialogFragment {
             return this;
         }
 
+        /**
+         * Sets the builder objects on dialog and returns {@link AlertDialogFragment}.
+         *
+         * @return AlertDialogFragment
+         */
         public AlertDialogFragment create() {
-            // so we always have to re-set the theme
-            final AlertDialogFragment dialog = AlertDialogFragment.create(params, 0);
+            return create(new AlertDialogFragment());
+        }
 
-            dialog.setCancelable(params.isCancelable());
+        /**
+         * Gives a chance to provide any extension of {@link AlertDialogFragment} to intercept calls of {@link DialogFragment}
+         *
+         * @param alertDialogFragment Fragment which extends {@link AlertDialogFragment}
+         * @return
+         */
+        public <T extends AlertDialogFragment> AlertDialogFragment create(final T alertDialogFragment) {
+            alertDialogFragment.setCancelable(params.isCancelable());
             if (params.isCancelable()) {
-                dialog.setCanceledOnTouchOutside(true);
+                alertDialogFragment.setCanceledOnTouchOutside(true);
             }
-            return dialog;
+            alertDialogFragment.setDialogParams(params);
+            alertDialogFragment.setStyle(dialogStyle, theme);
+            return alertDialogFragment;
         }
     }
 }
