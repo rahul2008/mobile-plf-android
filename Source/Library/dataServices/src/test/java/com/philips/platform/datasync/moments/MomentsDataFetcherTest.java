@@ -39,9 +39,9 @@ public class MomentsDataFetcherTest {
 
     private static final String TEST_MOMENT_SYNC_URL = "TEST_MOMENT_SYNC_URL";
     private static final String START_DATE = new DateTime().toString();
-    private static final String START_DATE2 = new DateTime().toString();
+    private static final String START_DATE2 = new DateTime().plusDays(1).toString();
     private static final String END_DATE = new DateTime().toString();
-    private static final String END_DATE2 = new DateTime().toString();
+    private static final String END_DATE2 = new DateTime().plusDays(1).toString();
 
     private MomentsDataFetcher fetcher;
     private UCoreMomentsHistory momentsHistory = new UCoreMomentsHistory();
