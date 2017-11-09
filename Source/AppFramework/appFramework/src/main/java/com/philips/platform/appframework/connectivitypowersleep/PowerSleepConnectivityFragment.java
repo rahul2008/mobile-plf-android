@@ -174,9 +174,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
                             @Override
                             public void onDeviceSelected(final BleReferenceAppliance bleRefAppliance) {
                                 bleReferenceAppliance = bleRefAppliance;
-                                connectivityPresenter.setUpApplicance(bleRefAppliance);
                                 connectivityPresenter.synchroniseSessionData(bleRefAppliance);
-//                                fetchData(bleReferenceAppliance);
                             }
                         });
 
@@ -270,7 +268,6 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     public void onDestroyView() {
         //ConnectivityUtils.hideSoftKeyboard(getActivity());
         removeApplianceListener();
-        connectivityPresenter.removeSessionPortListener(bleReferenceAppliance);
         if (handler != null) {
             handler.removeCallbacks(stopDiscoveryRunnable);
             handler.removeCallbacksAndMessages(null);

@@ -57,44 +57,37 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
     public static final String TAG = PowerSleepConnectivityPresenter.class.getSimpleName();
     private ConnectivityPowerSleepContract.View connectivityViewListener;
     private Context context;
-    private DataServicesManager dataServicesManager;
+    protected DataServicesManager dataServicesManager;
 
     public PowerSleepConnectivityPresenter(Context context, final ConnectivityPowerSleepContract.View connectivityViewListener, UIView uiView) {
         super(uiView);
         this.context = context;
         this.connectivityViewListener = connectivityViewListener;
-        this.dataServicesManager=DataServicesManager.getInstance();
+        initDataServiceInterface();
     }
 
-    @Override
-    public void removeSessionPortListener(BleReferenceAppliance appliance) {
-        if (appliance != null) {
-            appliance.getSessionDataPort().removePortListener(diCommPortListener);
-        }
+    public void initDataServiceInterface() {
+        dataServicesManager = DataServicesManager.getInstance();
     }
-
-//    @Override
-//    public void savePowerSleepMomentsData(List<SessionDataPortProperties> sessionDataPortPropertiesList) {
-//        List<Moment> momentList = new ArrayList<>();
-//        for (SessionDataPortProperties sessionDataPortProperties : sessionDataPortPropertiesList) {
-//            momentList.add(createMoment("",sessionDataPortProperties.getDeepSleepTime().toString(), sessionDataPortProperties.getTotalSleepTime().toString(),new DateTime(sessionDataPortProperties.getEpochTime()),""));
-//        }
-//        saveMomentToDB(momentList);
-//    }
 
     @Override
     public void synchroniseSessionData(final BleReferenceAppliance bleReferenceAppliance) {
         connectivityViewListener.showProgressDialog();
-        DataServicesManager.getInstance().fetchLatestMomentByType(MomentType.SLEEP_SESSION, new DBFetchRequestListner<Moment>() {
+        dataServicesManager.fetchLatestMomentByType(MomentType.SLEEP_SESSION, new DBFetchRequestListner<Moment>() {
             @Override
             public void onFetchSuccess(final List<? extends Moment> list) {
-                DateTime latestSessionDateTime= list.get(0).getDateTime();
-                new SynchronizeSessionsUsecase(new AllSessionsProviderFactory()).execute(bleReferenceAppliance, new SynchronizeSessionsUsecase.Callback() {
+                DateTime latestSessionDateTime;
+                if (list.size() > 0) {
+                    latestSessionDateTime = list.get(0).getDateTime();
+                } else {
+                    latestSessionDateTime = new DateTime(Long.MIN_VALUE);
+                }
+                getSynchronizeSessionsUsecase().execute(bleReferenceAppliance, new SynchronizeSessionsUsecase.Callback() {
                     @Override
                     public void onSynchronizeSucceed(@NonNull SessionsOldestToNewest sleepDataList) {
-                        if(connectivityViewListener!=null) {
+                        if (connectivityViewListener != null) {
                             connectivityViewListener.hideProgressDialog();
-                            connectivityViewListener.showToast("Moment list size::"+sleepDataList.getSortedList().size());
+                            connectivityViewListener.showToast("Moment list size::" + sleepDataList.getSortedList().size());
                         }
                         savePowerSleepMomentsData(sleepDataList.getSortedList());
                     }
@@ -117,48 +110,33 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
                 connectivityViewListener.showToast("Exception");
             }
         });
-        //DateTime latestSessionDateTime = new DateTime(Long.MIN_VALUE);
+    }
 
-
+    @NonNull
+    protected SynchronizeSessionsUsecase getSynchronizeSessionsUsecase() {
+        return new SynchronizeSessionsUsecase(new AllSessionsProviderFactory());
     }
 
     public void savePowerSleepMomentsData(List<Session> sessionList) {
         List<Moment> momentList = new ArrayList<>();
         for (Session session : sessionList) {
-            momentList.add(createMoment("",""+session.getSummary().getDeepSleepTime(), ""+session.getSummary().getTotalSleepTime(),new DateTime(session.getDate().getTime()),""));
+            momentList.add(createMoment("", "86", "" + session.getSummary().getDeepSleepTime(), "" + session.getSummary().getTotalSleepTime(), new DateTime(session.getDate().getTime()), ""));
         }
-        DataServicesManager.getInstance().saveMoments(momentList, new DBRequestListener<Moment>() {
+        dataServicesManager.saveMoments(momentList, new DBRequestListener<Moment>() {
             @Override
             public void onSuccess(List<? extends Moment> list) {
                 DataServicesManager.getInstance().synchronize();
-                connectivityViewListener.showToast("Power sleep data pushed to DB"+list.size());
-//                refreshUi();
+                connectivityViewListener.showToast("Power sleep data pushed to DB" + list.size());
             }
 
             @Override
             public void onFailure(Exception e) {
-                RALog.e(TAG,"Exception while saving moment in DB"+e.getMessage());
-            }
-        });
-//        saveMomentToDB(momentList);
-    }
-
-    private void saveMomentToDB(List<Moment> moments) {
-        DataServicesManager.getInstance().saveMoments(moments, new DBRequestListener<Moment>() {
-            @Override
-            public void onSuccess(List<? extends Moment> list) {
-                DataServicesManager.getInstance().synchronize();
-                refreshUi();
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                RALog.e(TAG,"Exception while saving moment in DB"+e.getMessage());
+                RALog.e(TAG, "Exception while saving moment in DB" + e.getMessage());
             }
         });
     }
 
-    protected Moment createMoment(String momemtDetail, String deepSleepTime,String sleepTime,DateTime dateTime,String measurementDetail) {
+    protected Moment createMoment(String momemtDetail, String dstScore, String deepSleepTime, String sleepTime, DateTime dateTime, String measurementDetail) {
         Moment moment = this.dataServicesManager.createMoment(MomentType.SLEEP_SESSION);
         moment.setDateTime(dateTime);
 
@@ -166,64 +144,25 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
         MeasurementGroup measurementGroup;
         Measurement deepSleepTimeMeasurement;
         Measurement sleepTimeMeasurement;
+        Measurement dstScoreMeasurement;
         dataServicesManager.createMomentDetail(MomentDetailType.DEVICE_SERIAL, "3249879989", moment);
-        dataServicesManager.createMomentDetail(MomentDetailType.CTN,"HX506",moment);
-        dataServicesManager.createMomentDetail(MomentDetailType.FW_VERSION,"283749",moment);
-        dataServicesManager.createMomentDetail(MomentDetailType.MOMENT_VERSION,"2",moment);
+        dataServicesManager.createMomentDetail(MomentDetailType.CTN, "HX506", moment);
+        dataServicesManager.createMomentDetail(MomentDetailType.FW_VERSION, "283749", moment);
+        dataServicesManager.createMomentDetail(MomentDetailType.MOMENT_VERSION, "2", moment);
         measurementGroup = dataServicesManager.createMeasurementGroup(moment);
-        dataServicesManager.createMeasurementGroupDetail(MeasurementGroupDetailType.REFERENCE_GROUP_ID, measurementDetail,measurementGroup);
+        dataServicesManager.createMeasurementGroupDetail(MeasurementGroupDetailType.REFERENCE_GROUP_ID, measurementDetail, measurementGroup);
         measurementGroupInside = dataServicesManager.createMeasurementGroup(measurementGroup);
-        deepSleepTimeMeasurement = dataServicesManager.createMeasurement(MeasurementType.DST, deepSleepTime, "milliseconds", measurementGroupInside);
-        sleepTimeMeasurement = dataServicesManager.createMeasurement(MeasurementType.TST, sleepTime, "milliseconds", measurementGroupInside);
+        deepSleepTimeMeasurement = dataServicesManager.createMeasurement(MeasurementType.DST, deepSleepTime, MeasurementType.getUnitFromDescription(MeasurementType.DST), measurementGroupInside);
+        sleepTimeMeasurement = dataServicesManager.createMeasurement(MeasurementType.TST, sleepTime, MeasurementType.getUnitFromDescription(MeasurementType.TST), measurementGroupInside);
+        dstScoreMeasurement = dataServicesManager.createMeasurement(MeasurementType.DST_SCORE, dstScore, "%", measurementGroupInside);
         dataServicesManager.createMeasurementDetail(MeasurementDetailType.LOCATION, measurementDetail, deepSleepTimeMeasurement);
         measurementGroupInside.addMeasurement(deepSleepTimeMeasurement);
         measurementGroupInside.addMeasurement(sleepTimeMeasurement);
+        measurementGroupInside.addMeasurement(dstScoreMeasurement);
         measurementGroup.addMeasurementGroup(measurementGroupInside);
         moment.addMeasurementGroup(measurementGroup);
         return moment;
     }
-
-    private void refreshUi() {
-        DataServicesManager.getInstance().fetchLatestMomentByType(MomentType.SLEEP_SESSION, new DBFetchRequestListner<Moment>() {
-
-                    @Override
-                    public void onFetchSuccess(final List<? extends Moment> list) {
-                        ((Activity) context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(context, "Size of the moment type sleep" + list.size(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onFetchFailure(Exception e) {
-                        RALog.d(TAG,"Erro while fetching moment with type sleep"+e.getMessage());
-                    }
-                });
-    }
-
-    @Override
-    public void setUpApplicance(@NonNull BleReferenceAppliance appliance) {
-        if (appliance == null) {
-            throw new IllegalArgumentException("Cannot create bleReferenceAppliance for provided NetworkNode.");
-        }
-
-//        appliance.getSessionDataPort().addPortListener(diCommPortListener);
-    }
-
-    DICommPortListener diCommPortListener = new DICommPortListener<SessionDataPort>() {
-        @Override
-        public void onPortUpdate(SessionDataPort diCommPort) {
-            connectivityViewListener.updateSessionData(((SessionDataPortProperties)diCommPort.getPortProperties()).getTotalSleepTime(), ((SessionDataPortProperties)diCommPort.getPortProperties()).getNumberOfInterruptions(), ((SessionDataPortProperties)diCommPort.getPortProperties()).getDeepSleepTime(),((SessionDataPortProperties)diCommPort.getPortProperties()).getEpochTime());
-
-        }
-
-        @Override
-        public void onPortError(SessionDataPort diCommPort, Error error, @Nullable String s) {
-            connectivityViewListener.showError(error, s);
-        }
-    };
 
     @Override
     public void onEvent(int componentID) {
@@ -239,8 +178,5 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
             RALog.d(TAG, e.getMessage());
             Toast.makeText(getApplicationContext(), context.getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
         }
-
     }
-
-
 }
