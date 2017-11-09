@@ -50,7 +50,7 @@ public class MyaFragment extends Fragment implements
             propositionName = getArguments().getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
         }
 
-        if (mFragmentManager.getBackStackEntryCount() < 1) {
+        if (getActivity().findViewById(R.id.mya_linear_layout) == null) {
             inflateAccountView();
         }
 
