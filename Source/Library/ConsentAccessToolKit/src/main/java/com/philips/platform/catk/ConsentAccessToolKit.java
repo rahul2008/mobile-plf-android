@@ -29,7 +29,7 @@ import java.util.List;
 public class ConsentAccessToolKit {
 
     //This field has to remove later(url should take from service discovery)
-    private static final String URL = "https://hdc-css-mst.cloud.pcftest.com/consent/";
+    private static final String URL = "https://hdc-css-mst.cloud.pcftest.com/consent";
 
     private static volatile ConsentAccessToolKit sSoleInstance;
 
