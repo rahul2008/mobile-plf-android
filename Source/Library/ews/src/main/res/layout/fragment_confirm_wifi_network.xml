@@ -50,7 +50,7 @@
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/wifi_display_confirm_text"
-                    style="@style/Txt.Body"
+                    style="@style/Txt.Helper"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/default_body_labels_bottom_margin"
