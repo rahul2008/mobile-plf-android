@@ -17,6 +17,7 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.util.HashMap;
@@ -50,6 +51,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
             showCVVdetail(true, true, false);
         } else if (componentID == R.id.uid_dialog_positive_button) {
             mTHSCreditCardDetailFragment.alertDialogFragment.dismiss();
+            THSTagUtils.tagInAppNotification("cvvHelp",mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_matchmaking_ok_button));
         }
 
     }
@@ -212,7 +214,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
     void showCVVdetail(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSCreditCardDetailFragment.getFragmentActivity())
                 .setMessage(showLargeContent ? mTHSCreditCardDetailFragment.getFragmentActivity().getResources().getString(R.string.cvv_explaination) : mTHSCreditCardDetailFragment.getFragmentActivity().getResources().getString(R.string.cvv_explaination)).
-                        setPositiveButton(" Ok ", mTHSCreditCardDetailFragment);
+                        setPositiveButton(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_matchmaking_ok_button), mTHSCreditCardDetailFragment);
 
         if (isWithTitle) {
             builder.setTitle("What's this?");
@@ -220,7 +222,6 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
         }
         mTHSCreditCardDetailFragment.alertDialogFragment = builder.setCancelable(false).create();
         mTHSCreditCardDetailFragment.alertDialogFragment.show(mTHSCreditCardDetailFragment.getFragmentManager(), CVV_HELP_TEXT);
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_IN_APP_NOTIFICATION, "CvvHelp");
 
     }
 }

@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.visit.THSConfirmationDialogFragment;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
@@ -70,9 +71,11 @@ public class THSInsuranceNotVerifiedDialogFragment extends DialogFragment implem
     public void onClick(View v) {
         if(v.getId()==R.id.ths_confirmation_dialog_primary_button){
             dismiss();
+            THSTagUtils.tagInAppNotification(getResources().getString(R.string.ths_insurance_not_verified_confirm_message),mPrimaryButton.getText().toString());
             mPresenter.onEvent(R.id.ths_confirmation_dialog_primary_button);
         }else if (v.getId()==R.id.ths_confirmation_dialog_secondary_button_label){
             dismiss();
+            THSTagUtils.tagInAppNotification(getResources().getString(R.string.ths_insurance_not_verified_confirm_message),mSecondaryButtonLabel.getText().toString());
             mPresenter.onEvent(R.id.ths_confirmation_dialog_secondary_button_label);
 
         }

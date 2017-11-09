@@ -26,10 +26,12 @@ import com.philips.platform.ths.payment.THSPaymentMethod;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.visit.THSWaitingRoomFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_APPLY_PROMOCODE;
@@ -39,7 +41,6 @@ import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALY
 import static com.philips.platform.ths.utility.THSConstants.IS_LAUNCHED_FROM_COST_SUMMARY;
 import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_COUPON_CODE_ERROR;
 import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_CREATE_VISIT_ERROR;
-import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
@@ -310,7 +311,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
             @Override
             public void onClick(View v) {
                 mTHSCostSummaryFragment.alertDialogFragmentCouponCode.dismiss();
-
+                THSTagUtils.tagInAppNotification(message,mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_ok_button));
             }
         };
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSCostSummaryFragment.getFragmentActivity())
@@ -324,7 +325,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
         mTHSCostSummaryFragment.alertDialogFragmentCouponCode = builder.setCancelable(false).create();
         mTHSCostSummaryFragment.alertDialogFragmentCouponCode.setPositiveButtonListener(alertDialogFragmentCouponListener);
         mTHSCostSummaryFragment.alertDialogFragmentCouponCode.show(mTHSCostSummaryFragment.getFragmentManager(), THS_COST_SUMMARY_COUPON_CODE_ERROR);
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_IN_APP_NOTIFICATION, "estimatedCostError");
+
     }
 
     private void showCreateVisitError(final boolean showLargeContent, final boolean isWithTitle, final String message) {
@@ -335,6 +336,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
             @Override
             public void onClick(View v) {
                 mTHSCostSummaryFragment.alertDialogFragmentCreateVisit.dismiss();
+                THSTagUtils.tagInAppNotification(message,mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_ok_button));
                 mTHSCostSummaryFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
             }
         };

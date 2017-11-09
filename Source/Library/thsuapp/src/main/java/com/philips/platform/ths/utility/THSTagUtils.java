@@ -8,8 +8,12 @@ package com.philips.platform.ths.utility;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
+import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION_RESPONSE;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 public  class THSTagUtils {
 
@@ -55,6 +59,14 @@ public  class THSTagUtils {
         value.append(ErrorMessage);
 
         return value.toString();
+    }
+
+    public static void tagInAppNotification(String mesage, String buttonLabel){
+        HashMap<String,String> map =  new HashMap<String,String>();
+        map.put(THS_IN_APP_NOTIFICATION,mesage);
+        map.put(THS_IN_APP_NOTIFICATION_RESPONSE,buttonLabel);
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, map);
+        map=null;
     }
 
 }

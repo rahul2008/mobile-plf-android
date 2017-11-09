@@ -33,6 +33,8 @@ import java.util.List;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_ON_DEMAND_SPECIALITIES;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PROVIDER_LIST;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 public class THSProviderListPresenter implements THSProvidersListCallback, THSBasePresenter, THSOnDemandSpecialtyCallback<List<THSOnDemandSpeciality>, THSSDKError> {
 
@@ -99,6 +101,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
     public void onEvent(int componentID) {
         final Practice practice = ((THSProvidersListFragment) mThsBaseFragment).getPractice();
         if (componentID == R.id.getStartedButton) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "startInstantAppointment");
             try {
                 THSManager.getInstance().getOnDemandSpecialities(mThsBaseFragment.getFragmentActivity(),
                         practice, null, this);
@@ -107,6 +110,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
             }
         } else if (componentID == R.id.getScheduleAppointmentButton) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "startSchedulingAnAppointment");
             launchAvailableProviderListFragment(practice);
         }
     }
