@@ -71,7 +71,6 @@ public class ConnectWithPasswordViewModelTest {
     @Test
     public void itShouldCheckHomeWiFiSSIDShouldNotBeNull() throws Exception {
         when(wifiUtilMock.getHomeWiFiSSD()).thenReturn("BrightEyes");
-        when(sessionInfoMock.getDeviceName()).thenReturn("Wakeup light");
 
         assertNotNull(subject.getHomeWiFiSSID());
     }
