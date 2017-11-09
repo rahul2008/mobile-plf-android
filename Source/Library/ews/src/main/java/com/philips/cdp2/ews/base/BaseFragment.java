@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +12,14 @@ import android.widget.TextView;
 
 import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 
-public class BaseFragment extends Fragment implements BackEventListener {
+public abstract class BaseFragment extends Fragment implements BackEventListener {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -37,9 +40,11 @@ public class BaseFragment extends Fragment implements BackEventListener {
 
     public void handleCancelButtonClicked(@StringRes int stringId) {
         showCancelDialog(stringId);
+        EWSTagger.trackPage(Page.CANCEL_WIFI_SETUP);
     }
 
-    private void showCancelDialog(@StringRes int deviceName) {
+    @VisibleForTesting
+    public void showCancelDialog(@StringRes int deviceName) {
         Context context = getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.cancel_setup_dialog,
                 null, false);
@@ -78,4 +83,12 @@ public class BaseFragment extends Fragment implements BackEventListener {
     public void setToolbarTitle() {
         ((EWSActivity) getActivity()).setToolbarTitle(getString(R.string.ews_title));
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        callTrackPageName();
+    }
+
+    protected abstract void callTrackPageName();
 }

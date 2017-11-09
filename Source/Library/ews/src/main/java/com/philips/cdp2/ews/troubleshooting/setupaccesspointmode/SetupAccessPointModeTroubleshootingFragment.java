@@ -18,12 +18,15 @@ public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShoo
     @NonNull
     FragmentSetupAccessPointTroubleshootingLayoutBinding setupAccessPointTroubleshootingLayoutBinding;
 
+    @NonNull
+    SetupAccessPointModeTroubleshootingViewModel viewModel;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        setupAccessPointTroubleshootingLayoutBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_setup_access_point_troubleshooting_layout, container, false);
+        setupAccessPointTroubleshootingLayoutBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_setup_access_point_troubleshooting_layout, container, false);
         return setupAccessPointTroubleshootingLayoutBinding.getRoot();
     }
 
@@ -31,8 +34,7 @@ public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShoo
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final SetupAccessPointModeTroubleshootingViewModel viewModel = EWSDependencyProvider.getInstance().getEwsComponent()
-                .setupAccessPointModeTroubleshootingViewModel();
+        final SetupAccessPointModeTroubleshootingViewModel viewModel = EWSDependencyProvider.getInstance().getEwsComponent().setupAccessPointModeTroubleshootingViewModel();
         setupAccessPointTroubleshootingLayoutBinding.setViewmodel(viewModel);
 
         view.findViewById(R.id.ews_H_03_04_button_done)
@@ -42,5 +44,11 @@ public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShoo
                         viewModel.onDoneButtonClicked();
                     }
                 });
+    }
+
+    @NonNull
+    @Override
+    protected void callTrackPageName() {
+        viewModel.trackPageName();
     }
 }

@@ -14,7 +14,6 @@ import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.cdp2.ews.appliance.BEApplianceFactory;
-import com.philips.cdp2.ews.common.util.Tagger;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 
@@ -31,7 +30,6 @@ public class EWSApplication extends Application {
         super.onCreate();
         //TODO fix the hashmap
         JodaTimeAndroid.init(this); // TODO this should be removed in favor or Java's date API
-        Tagger.init(this, getAppInfra().getTagging());
     }
 
     @NonNull

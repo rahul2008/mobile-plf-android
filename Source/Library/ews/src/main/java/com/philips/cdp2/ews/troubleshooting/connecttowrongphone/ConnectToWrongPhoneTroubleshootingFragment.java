@@ -18,11 +18,14 @@ public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShoot
     @NonNull
     FragmentConnectToWrongPhoneTroubleshootingLayoutBinding connectToWrongPhoneTroubleshootingLayoutBinding;
 
+    @NonNull
+    ConnectToWrongPhoneTroubleshootingViewModel viewModel;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        connectToWrongPhoneTroubleshootingLayoutBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_connect_to_wrong_phone_troubleshooting_layout, container, false);
+        connectToWrongPhoneTroubleshootingLayoutBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_connect_to_wrong_phone_troubleshooting_layout, container, false);
         return connectToWrongPhoneTroubleshootingLayoutBinding.getRoot();
     }
 
@@ -48,5 +51,11 @@ public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShoot
                         viewModel.onNoButtonClicked();
                     }
                 });
+    }
+
+    @NonNull
+    @Override
+    protected void callTrackPageName() {
+        viewModel.trackPageName();
     }
 }

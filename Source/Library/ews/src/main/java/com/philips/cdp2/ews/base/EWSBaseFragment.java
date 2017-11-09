@@ -43,16 +43,6 @@ public abstract class EWSBaseFragment<T extends ViewDataBinding> extends BaseFra
         return true;
     }
 
-    @CallSuper
-    @Override
-    public void onResume() {
-        super.onResume();
-        String pageName = getPageName();
-        if (pageName != null) {
-            EWSTagger.trackPage(pageName);
-        }
-    }
-
     @Nullable
     protected abstract String getPageName();
 

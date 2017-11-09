@@ -28,6 +28,7 @@ import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameChanger;
 import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
@@ -69,8 +70,9 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private final DeviceFriendlyNameChanger deviceFriendlyNameChanger;
     @Nullable
     private ConnectingDeviceToWifiCallback fragmentCallback;
+    @VisibleForTesting
     @Nullable
-    private StartConnectionModel startConnectionModel;
+    StartConnectionModel startConnectionModel;
     @NonNull
     private String cppId;
 
@@ -261,11 +263,15 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         showConnectionUnsuccessful();
     }
 
-    @VisibleForTesting
+
     @NonNull
     String getTitle(@NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(R.string.label_ews_connecting_device_title,
                 baseConfig.getDeviceName());
+    }
+
+    public void trackPageName() {
+        EWSTagger.trackPage(Page.CONNECTING_DEVICE_WITH_WIFI);
     }
 
 }

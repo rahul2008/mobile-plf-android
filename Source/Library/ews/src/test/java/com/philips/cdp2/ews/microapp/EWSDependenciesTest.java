@@ -17,7 +17,7 @@ import static org.mockito.Mockito.mock;
 public class EWSDependenciesTest {
 
     @Test
-    public void shouldInitEWSDependencies() throws Exception {
+    public void itShouldInitEWSDependencies() throws Exception {
         final AppInfraInterface appInfraMock = mock(AppInfraInterface.class);
         final Map<String, String> productKeyMap = mock(Map.class);
         final ContentConfiguration config = new ContentConfiguration();

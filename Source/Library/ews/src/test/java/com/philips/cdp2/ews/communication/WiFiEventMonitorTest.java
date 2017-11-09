@@ -33,7 +33,7 @@ public class WiFiEventMonitorTest {
     }
 
     @Test
-    public void shouldConnectToApplianceHotspotWhenRequested() throws Exception {
+    public void itShouldConnectToApplianceHotspotWhenRequested() throws Exception {
         final NetworkConnectEvent event = new NetworkConnectEvent(NetworkType.DEVICE_HOTSPOT, WiFiUtil.DEVICE_SSID);
 
         eventMonitor.connectToNetwork(event);
@@ -42,7 +42,7 @@ public class WiFiEventMonitorTest {
     }
 
     @Test
-    public void shouldConnectToHomeWiFiNetworkWhenRequested() throws Exception {
+    public void itShouldConnectToHomeWiFiNetworkWhenRequested() throws Exception {
         final String HOME_WIFI_SSID = "BrightEyes";
 
         final NetworkConnectEvent event = new NetworkConnectEvent(NetworkType.HOME_WIFI, HOME_WIFI_SSID);

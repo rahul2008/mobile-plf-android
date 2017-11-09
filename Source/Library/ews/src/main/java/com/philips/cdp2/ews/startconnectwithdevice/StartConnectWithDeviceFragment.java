@@ -36,4 +36,9 @@ public class StartConnectWithDeviceFragment extends BaseFragment {
     private StartConnectWithDeviceViewModel createViewModel() {
         return EWSDependencyProvider.getInstance().getEwsComponent().ewsGettingStartedViewModel();
     }
+
+    @Override
+    protected void callTrackPageName() {
+        viewModel.trackPageName();
+    }
 }

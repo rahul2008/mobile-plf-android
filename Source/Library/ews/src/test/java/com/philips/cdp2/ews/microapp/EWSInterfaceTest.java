@@ -81,14 +81,22 @@ public class EWSInterfaceTest {
     }
 
     @Test
-    public void shouldEnsureEWSDependenciesAreInitializedWhenOnInitIsCalled() throws Exception {
+    public void itShouldEnsureEWSDependenciesAreInitializedWhenOnInitIsCalled() throws Exception {
         PowerMockito.verifyStatic();
 
         EWSDependencyProvider.getInstance().initDependencies(appInfraInterfaceMock, productKeyMap);
     }
 
     @Test
-    public void shouldInitEWSDependenciesWhenOnInitIsCalled() throws Exception {
+    public void itShouldNotSupportFragmentApproachIfEWSIsLaunchedWithFragmentLauncher() throws Exception {
+        thrownException.expect(UnsupportedOperationException.class);
+        thrownException.expectMessage(EWSInterface.ERROR_MSG_UNSUPPORTED_LAUNCHER_TYPE);
+
+        ewsInterface.launch(fragmentLauncherMock, null);
+    }
+
+    @Test
+    public void itShouldInitEWSDependenciesWhenOnInitIsCalled() throws Exception {
         initEWS();
 
         PowerMockito.verifyStatic();
@@ -97,7 +105,7 @@ public class EWSInterfaceTest {
     }
 
     @Test
-    public void shouldLaunchEWSActivityIfLauncherConfigurationIsValid() throws Exception {
+    public void itShouldLaunchEWSActivityIfLauncherConfigurationIsValid() throws Exception {
         initEWS();
         ewsInterface.launch(activityLauncherMock, new EWSLauncherInput());
 

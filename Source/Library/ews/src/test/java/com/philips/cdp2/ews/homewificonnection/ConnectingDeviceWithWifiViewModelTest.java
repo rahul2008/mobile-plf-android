@@ -14,6 +14,7 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.navigation.Navigator;
@@ -50,9 +51,10 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(EWSTagger.class)
+@PrepareForTest({EWSTagger.class,EWSLogger.class})
 public class ConnectingDeviceWithWifiViewModelTest {
 
     private static final String HOME_SSID = "homeSsid";
@@ -117,6 +119,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(EWSTagger.class);
+        mockStatic(EWSLogger.class);
 
         AppInfraInterface mockAppInfraInterface = mock(AppInfraInterface.class);
         AppTaggingInterface mockTaggingInterface = mock(AppTaggingInterface.class);
@@ -147,14 +150,18 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Test
     public void itShouldKickOffTimeoutWhenStartingToConnect() throws Exception {
         subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME));
+        verify(mockHandler).postDelayed(any(Runnable.class), eq(60000L));
+    }
 
+    @Test
+    public void itShouldKickOffTimeoutWhenConnectToHomeWifi() throws Exception {
+        subject.connectToHomeWifi("");
         verify(mockHandler).postDelayed(any(Runnable.class), eq(60000L));
     }
 
     @Test
     public void itShouldRemoveTimeoutRunnableWhenPuttingPropsFails() throws Exception {
         simulatePutPropsFailed();
-
         verify(mockHandler).removeCallbacks(any(Runnable.class));
     }
 
@@ -163,7 +170,6 @@ public class ConnectingDeviceWithWifiViewModelTest {
     itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenChangingFriendlyNameFailed()
             throws Exception {
         simulateChangeFriendlyDeviceNameFailed();
-
         verify(mockNavigator)
                 .navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(), anyString());
     }
@@ -173,7 +179,6 @@ public class ConnectingDeviceWithWifiViewModelTest {
     itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenPuttingPropsFails()
             throws Exception {
         simulatePutPropsFailed();
-
         verify(mockNavigator)
                 .navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(), anyString());
     }
@@ -202,6 +207,18 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
         verify(mockFragmentCallback, never())
                 .registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
+    }
+
+    @Test
+    public void itShouldVerifySuccessSetPropertiesCallbackWithNullStartConnectionModel() throws Exception{
+        simulateChangeFriendlyDeviceNameSucceeded();
+        verify(mockApplianceAccessManager).connectApplianceToHomeWiFiEvent(anyString(), anyString(),
+                putPropsCallbackCaptor.capture());
+
+        subject.startConnectionModel = null;
+        putPropsCallbackCaptor.getValue().onPropertiesSet(mockWifiPortProperties);
+        verifyStatic();
+        EWSLogger.e(anyString(),anyString());
     }
 
     @Test
@@ -404,6 +421,19 @@ public class ConnectingDeviceWithWifiViewModelTest {
         verify(mockStringProvider).getString(R.string.label_ews_connecting_device_title, mockBaseContentConfiguration.getDeviceName());
     }
 
+    @Test
+    public void itShouldVerifyTrackPageIsCalledWithCorrectTag() throws Exception{
+        subject.trackPageName();
+        verifyStatic();
+        EWSTagger.trackPage("connectingDeviceWithWifi");
+    }
+
+    @Test
+    public void itShouldGeneratedErrorLogOnStartConnectionModelIsNullAndFriendlyNameChangingSuccessCalled() throws Exception{
+        subject.onFriendlyNameChangingSuccess();
+        verifyStatic();
+        EWSLogger.e(anyString(),anyString());
+    }
 
     private void simulateApplianceFound() {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);

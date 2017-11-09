@@ -18,6 +18,9 @@ public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingF
     @NonNull
     FragmentResetConnectionTroubleshootingLayoutBinding fragmentResetConnectionTroubleshootingLayoutBinding;
 
+    @NonNull
+    ResetConnectionTroubleshootingViewModel viewModel;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -31,7 +34,7 @@ public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingF
         super.onViewCreated(view, savedInstanceState);
 
         final ResetConnectionTroubleshootingViewModel viewModel = EWSDependencyProvider.getInstance().getEwsComponent()
-                        .resetConnectionTroubleshootingViewModel();
+                .resetConnectionTroubleshootingViewModel();
         fragmentResetConnectionTroubleshootingLayoutBinding.setViewModel(viewModel);
 
         view.findViewById(R.id.ews_H_03_02_button_yes)
@@ -48,5 +51,11 @@ public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingF
                         viewModel.onNoButtonClicked();
                     }
                 });
+    }
+
+    @NonNull
+    @Override
+    protected void callTrackPageName() {
+        viewModel.trackPageName();
     }
 }

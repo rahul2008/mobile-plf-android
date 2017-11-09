@@ -56,4 +56,9 @@ public class SecondSetupStepsFragment extends BaseFragment {
             viewModel.connectPhoneToDeviceHotspotWifi();
         }
     }
+
+    @Override
+    protected void callTrackPageName() {
+        viewModel.trackPageName();
+    }
 }

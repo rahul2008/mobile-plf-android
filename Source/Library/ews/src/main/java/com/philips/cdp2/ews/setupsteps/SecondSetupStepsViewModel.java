@@ -9,9 +9,11 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 
-import com.philips.cdp2.ews.communication.events.ShowPasswordEntryScreenEvent;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
+import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Page;
+import com.philips.cdp2.ews.tagging.Tag;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -32,11 +34,21 @@ public class SecondSetupStepsViewModel extends ConnectPhoneToDeviceAPModeViewMod
     }
 
     public void onNextButtonClicked() {
+        tapWifiBlinking();
         connectPhoneToDeviceHotspotWifi();
     }
 
     public void onNoButtonClicked() {
+        tapWifiNotBlinking();
         navigator.navigateToResetConnectionTroubleShootingScreen();
+    }
+
+    private void tapWifiNotBlinking() {
+        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.WIFI_NOT_BLINKING);
+    }
+
+    private void tapWifiBlinking() {
+        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.WIFI_BLINKING);
     }
 
     @Override
@@ -45,9 +57,8 @@ public class SecondSetupStepsViewModel extends ConnectPhoneToDeviceAPModeViewMod
         navigator.navigateToConnectingPhoneToHotspotWifiScreen();
     }
 
-    @Override
-    public void showPasswordEntryScreenEvent(ShowPasswordEntryScreenEvent entryScreenEvent) {
-        // TODO .. for now do nothing!
+    public void trackPageName() {
+        EWSTagger.trackPage(Page.SETUP_STEP2);
     }
 }
 

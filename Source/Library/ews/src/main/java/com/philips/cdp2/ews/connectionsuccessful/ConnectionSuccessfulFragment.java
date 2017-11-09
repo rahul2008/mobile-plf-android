@@ -58,6 +58,11 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
     }
 
     @Override
+    protected void callTrackPageName() {
+        viewModel.trackPageName();
+    }
+
+    @Override
     public void finishMicroApp() {
         getActivity().finish();
     }

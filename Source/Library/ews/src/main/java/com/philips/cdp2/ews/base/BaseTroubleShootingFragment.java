@@ -8,7 +8,7 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.EWSActivity;
 
-public class BaseTroubleShootingFragment extends BaseFragment {
+public abstract class BaseTroubleShootingFragment extends BaseFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,4 +33,5 @@ public class BaseTroubleShootingFragment extends BaseFragment {
         handleCancelButtonClicked(-1);
         return true;
     }
+
 }

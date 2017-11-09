@@ -5,10 +5,11 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
+import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.StringProvider;
 
 import javax.inject.Inject;
@@ -32,7 +33,7 @@ public class SetupAccessPointModeTroubleshootingViewModel {
         this.stringProvider = stringProvider;
         this.title = new ObservableField<>(getTitle(troubleShootContentConfiguration, contentConfiguration));
         this.description = new ObservableField<>(getNote(troubleShootContentConfiguration, contentConfiguration));
-        this.setupAccessPointImage = getsetupAccessPointImage(troubleShootContentConfiguration);
+        this.setupAccessPointImage = getSetupAccessPointImage(troubleShootContentConfiguration);
     }
 
     public void onDoneButtonClicked() {
@@ -41,14 +42,8 @@ public class SetupAccessPointModeTroubleshootingViewModel {
 
     @VisibleForTesting
     @NonNull
-    Drawable getsetupAccessPointImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
-        return stringProvider.getImageResource(troubleShootContentConfiguration.getSetUpAccessPointImage());
-    }
-
-    @VisibleForTesting
-    @NonNull
     Drawable getSetupAccessPointImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
-        return stringProvider.getImageResource(troubleShootContentConfiguration.getResetConnectionImage());
+        return stringProvider.getImageResource(troubleShootContentConfiguration.getSetUpAccessPointImage());
     }
 
     public void onYesButtonClicked() {
@@ -73,6 +68,10 @@ public class SetupAccessPointModeTroubleshootingViewModel {
                     @NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(troubleShootContentConfiguration.getSetUpAccessPointBody(),
                 baseConfig.getDeviceName());
+    }
+
+    void trackPageName() {
+        EWSTagger.trackPage(Page.SETUP_ACCESS_POINT_MODE);
     }
 }
 

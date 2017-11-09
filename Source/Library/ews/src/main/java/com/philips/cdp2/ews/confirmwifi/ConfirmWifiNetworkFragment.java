@@ -17,14 +17,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.common.util.DateUtil;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConfirmWifiNetworkBinding;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.util.ColorsUtil;
 import com.philips.cdp2.ews.util.TextUtil;
-import com.philips.cdp2.ews.base.BaseFragment;
-import com.philips.cdp2.ews.EWSActivity;
 import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -35,7 +34,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
         implements ConfirmWifiNetworkViewModel.ViewCallback {
 
     @VisibleForTesting
-    ConfirmWifiNetworkViewModel viewModel;
+    public ConfirmWifiNetworkViewModel viewModel;
 
 
     @SuppressWarnings("ConstantConditions")
@@ -49,6 +48,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
         return binding.getRoot();
     }
 
+    @VisibleForTesting
     @NonNull
     private ConfirmWifiNetworkViewModel createViewModel() {
         return EWSDependencyProvider.getInstance().getEwsComponent().confirmWifiNetworkViewModel();
@@ -58,6 +58,11 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
     public void onResume() {
         super.onResume();
         viewModel.refresh();
+    }
+
+    @Override
+    protected void callTrackPageName() {
+        viewModel.trackPageName();
     }
 
     @Override
@@ -100,4 +105,6 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
             });
         }
     }
+
+
 }

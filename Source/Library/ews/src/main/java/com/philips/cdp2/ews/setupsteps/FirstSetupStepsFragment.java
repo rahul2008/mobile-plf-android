@@ -38,4 +38,9 @@ public class FirstSetupStepsFragment extends BaseFragment {
     private FirstSetupStepsViewModel createViewModel() {
         return EWSDependencyProvider.getInstance().getEwsComponent().firstSetupStepsViewModel();
     }
+
+    @Override
+    protected void callTrackPageName() {
+        viewModel.trackPageName();
+    }
 }

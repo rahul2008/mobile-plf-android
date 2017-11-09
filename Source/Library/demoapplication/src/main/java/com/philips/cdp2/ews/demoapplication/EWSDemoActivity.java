@@ -94,5 +94,4 @@ public class EWSDemoActivity extends EWSDemoBaseActivity implements View.OnClick
             // do nothing
         }
     };
-
 }

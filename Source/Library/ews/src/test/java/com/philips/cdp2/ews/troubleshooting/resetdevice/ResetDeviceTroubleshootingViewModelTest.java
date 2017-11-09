@@ -3,30 +3,42 @@ package com.philips.cdp2.ews.troubleshooting.resetdevice;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
-import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingViewModel;
+import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.StringProvider;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(EWSTagger.class)
 public class ResetDeviceTroubleshootingViewModelTest {
 
-    @InjectMocks private ResetDeviceTroubleshootingViewModel subject;
+    private ResetDeviceTroubleshootingViewModel subject;
 
-    @Mock private Navigator mockNavigator;
-    @Mock private TroubleShootContentConfiguration mockTroubleShootContentConfiguration;
-    @Mock private BaseContentConfiguration mockBaseContentConfiguration;
-    @Mock private StringProvider mockStringProvider;
+    @Mock
+    private Navigator mockNavigator;
+    @Mock
+    private TroubleShootContentConfiguration mockTroubleShootContentConfiguration;
+    @Mock
+    private BaseContentConfiguration mockBaseContentConfiguration;
+    @Mock
+    private StringProvider mockStringProvider;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        mockStatic(EWSTagger.class);
+        subject = new ResetDeviceTroubleshootingViewModel(mockNavigator, mockStringProvider, mockBaseContentConfiguration, mockTroubleShootContentConfiguration);
     }
 
     @Test
@@ -56,6 +68,12 @@ public class ResetDeviceTroubleshootingViewModelTest {
         verify(mockStringProvider).getString(mockTroubleShootContentConfiguration.getResetDeviceBody(), mockBaseContentConfiguration.getDeviceName());
     }
 
+    @Test
+    public void itShouldVerifyTrackPageName() throws Exception {
+        subject.trackPageName();
+        verifyStatic();
+        EWSTagger.trackPage("resetDevice");
+    }
 
 
 }
