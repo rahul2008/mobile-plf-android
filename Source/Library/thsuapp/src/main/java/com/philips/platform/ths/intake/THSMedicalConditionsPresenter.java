@@ -15,6 +15,7 @@ import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
             }
 
         } else if (componentID == R.id.conditions_skip) {
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,"stepsSkipped","medicalConditions");
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,"stepsSkipped","medicalConditions");
             launchFollowUpFragment();
         }
     }
@@ -85,7 +86,7 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
                 thsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_SAVE_MEDICAL_CONDITION,sdkError.getSdkError()));
             } else {
                 if(((THSMedicalConditionsFragment) thsBaseFragment).NumberOfConditionSelected>0) {
-                    THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", "step4MedicalConditionsAdded");
+                    THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "specialEvents", "step4MedicalConditionsAdded");
                 }
                 //Spoorti - This has no implementation as the UI would have got updated and we are sending the result to server.
                 //On response, as of now no need to handle

@@ -81,7 +81,7 @@ public class THSDownloadReportPrivacyNoticeFragment extends DialogFragment imple
         //hippaNoticeLabel.setHighlightColor(Color.TRANSPARENT);
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_IN_APP_NOTIFICATION, "privacyNotice");
+        THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_IN_APP_NOTIFICATION, "privacyNotice");
         return view;
     }
 
@@ -99,7 +99,7 @@ public class THSDownloadReportPrivacyNoticeFragment extends DialogFragment imple
         if (v.getId() == R.id.ths_download_report_privacy_notice_button) {
             //todo
             dismiss();
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "reportDownloadAttempted");
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "reportDownloadAttempted");
             THSTagUtils.tagInAppNotification(THS_ANALYTICS_HIPAA_PRIVACY_NOTICE,THS_ANALYTICS_RESPONSE_OK);
             mThsVisitHistoryPresenter.downloadReport();
         }else if(v.getId() == R.id.ths_download_report_hippa_notice_link){

@@ -183,8 +183,6 @@ public class THSConstants {
 
     public static final String THS_ANALYTICS_RESPONSE_SETTINGS = "Setting";
     public static final String THS_ANALYTICS_RESPONSE_CANCEL = "Cancel";
-    //static let AnalyticTooEarlyForVisit                    = "You are early for visit";
-    //static let AnalyticsNoProviderForPractice              = "No provider available for practice";
     public static final String THS_ANALYTICS_RESPONSE_DONT_CANCEL_APPOINTMENT = "No";
     public static final String THS_ANALYTICS_RESPONSE_CANCEL_APPOINTMENT = "Yes, cancel my appointment";
     public static final String THS_ANALYTICS_RESPONSE_OK = "Ok";

@@ -20,6 +20,7 @@ import com.americanwell.sdk.entity.health.Medication;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
@@ -150,7 +151,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
         } else if (id == R.id.ths_existing_medicine_footer_relative_layout) {
             mPresenter.onEvent(R.id.ths_existing_medicine_footer_relative_layout);
         } else if (id == R.id.ths_intake_medication_skip_step_label) {
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,"stepsSkipped","medications");
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,"stepsSkipped","medications");
             mPresenter.onEvent(R.id.ths_intake_medication_skip_step_label);
         }
     }

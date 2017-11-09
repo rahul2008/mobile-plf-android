@@ -49,7 +49,7 @@ public class THSConfirmationDialogFragment extends DialogFragment implements Vie
         mPrimaryButton.setOnClickListener(this);
         mSecondaryButtonLabel = (Label) view.findViewById(R.id.ths_confirmation_dialog_secondary_button_label);
         mSecondaryButtonLabel.setOnClickListener(this);
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_IN_APP_NOTIFICATION, "statusNotification" , "Do you really want to cancel your visit");
+        THSTagUtils.doTrackActionWithInfo(THS_IN_APP_NOTIFICATION, "statusNotification" , "Do you really want to cancel your visit");
         return view;
     }
 

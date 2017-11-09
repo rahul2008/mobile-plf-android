@@ -65,8 +65,21 @@ public  class THSTagUtils {
         HashMap<String,String> map =  new HashMap<String,String>();
         map.put(THS_IN_APP_NOTIFICATION,mesage);
         map.put(THS_IN_APP_NOTIFICATION_RESPONSE,buttonLabel);
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, map);
+        THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, map);
         map=null;
+    }
+
+    public static void doTrackActionWithInfo(String action, String key , String value){
+        HashMap<String,String> map =  new HashMap<String,String>();
+        map.put(key,value);
+        String country= THSManager.getInstance().getAppInfra().getServiceDiscovery().getHomeCountry();
+        map.put("Country",country);
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(action, map);
+    }
+    public static void doTrackActionWithInfo(String action, HashMap<String , String> map){
+        String country= THSManager.getInstance().getAppInfra().getServiceDiscovery().getHomeCountry();
+        map.put("Country",country);
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(action, map);
     }
 
 }

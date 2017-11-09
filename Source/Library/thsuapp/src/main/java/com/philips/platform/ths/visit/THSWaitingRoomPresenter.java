@@ -25,6 +25,7 @@ import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
@@ -158,7 +159,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
         // start activity
         mTHSWaitingRoomFragment.startActivityForResult(intent, REQUEST_VIDEO_VISIT);
         mTHSWaitingRoomFragment.doTaggingUponStopWaiting();
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "completeWaitingInstantAppointment");
+        THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "completeWaitingInstantAppointment");
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VIDEO_CALL, null, null);
 
     }
@@ -209,8 +210,8 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
                 return;
             } else {
                 // must  be cancel visit call back
-                THSManager.getInstance().getThsTagging().trackActionWithInfo("waitingTimeEndForInstantAppointment", null, null);
-                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "videoVisitCancelledAtQueue");
+                THSTagUtils.doTrackActionWithInfo("waitingTimeEndForInstantAppointment", null, null);
+                THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "videoVisitCancelledAtQueue");
                 abondonCurrentVisit();
             }
         }

@@ -40,9 +40,9 @@ public class THSSDKErrorFactory {
                     String tagErrormessage=null!=sdkError.getMessage()?sdkError.getMessage():errorMessage;// if getMessage() returns null
                     final String errorTag = THSTagUtils.createErrorTag(module, tagErrormessage);
                     if (thssdkUserError instanceof THSSDKServerError) { // server or technical error
-                        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR, errorTag);
+                        THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR, errorTag);
                     } else {// user or specific error
-                        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_USER_ERROR, errorTag);
+                        THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_USER_ERROR, errorTag);
                     }
                     break;
                 }

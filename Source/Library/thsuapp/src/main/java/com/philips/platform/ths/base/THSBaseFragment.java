@@ -251,9 +251,9 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
     public void doTagging(String module, String message, boolean isServerError){
             final String errorTag= THSTagUtils.createErrorTag(module,message);
             if(isServerError) {
-                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR, errorTag);
+                THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR, errorTag);
             }else{
-                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_USER_ERROR, errorTag);
+                THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_USER_ERROR, errorTag);
             }
 
     }
@@ -290,7 +290,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 fragmentManager.popBackStack(THSInitFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,"exitToUgrow","toUgrowPage");
+        THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,"exitToUgrow","toUgrowPage");
         if (THSManager.getInstance().getThsVisitCompletionListener() != null) {
             THSManager.getInstance().getThsVisitCompletionListener().onTHSVisitComplete(isSuccess);
         }

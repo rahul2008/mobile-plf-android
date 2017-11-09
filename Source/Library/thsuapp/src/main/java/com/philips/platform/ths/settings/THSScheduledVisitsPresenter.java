@@ -17,6 +17,7 @@ import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
 
 import java.util.List;
@@ -79,7 +80,7 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
                     mThsScheduledVisitsFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CANCEL_APPOINTMENT,var2.getSdkError()));
                 }
             }else {
-                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", "appointmentsCancelled");
+                THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "specialEvents", "appointmentsCancelled");
                 mThsScheduledVisitsFragment.refreshList();
             }
         }
