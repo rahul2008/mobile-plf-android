@@ -5,6 +5,7 @@ import android.view.View;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
