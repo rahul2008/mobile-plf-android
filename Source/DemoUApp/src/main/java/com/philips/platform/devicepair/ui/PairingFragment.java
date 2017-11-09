@@ -98,7 +98,6 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DataServicesManager.getInstance().synchronize();
-        commCentral = DevicePairingUappInterface.getCommCentral();
     }
 
     @Override
@@ -126,6 +125,8 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pairing_layout, container, false);
+
+        commCentral = DevicePairingUappInterface.getCommCentral();
 
         mLaunchFragmentPresenter = new PairingFragmentPresenter(getActivity());
         mPairedDevicesList = new ArrayList<>();
