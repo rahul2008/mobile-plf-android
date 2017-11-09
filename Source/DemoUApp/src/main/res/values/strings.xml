@@ -65,7 +65,6 @@
     <string name="moment_pageNumber_label">Enter Page Offset</string>
     <string name="fetch_moment_by_date_type">Fetch Moment With Type</string>
     <string name="fetch_moment_by_data_range">Fetch Moment Without Type</string>
-    <string name="fetch_sync_by_data_range">Fetch Sync by date range</string>
 
 
     <string name="no_active_latest_moment_text">No Active Latest Moment</string>
