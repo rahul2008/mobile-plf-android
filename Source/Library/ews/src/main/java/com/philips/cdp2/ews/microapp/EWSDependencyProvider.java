@@ -6,6 +6,7 @@ package com.philips.cdp2.ews.microapp;
 
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
@@ -22,7 +23,8 @@ import java.util.Map;
 
 public class EWSDependencyProvider {
 
-    private static EWSDependencyProvider instance;
+    @VisibleForTesting
+    static EWSDependencyProvider instance;
 
     private static LoggingInterface loggingInterface;
     private static AppTaggingInterface appTaggingInterface;
@@ -31,7 +33,8 @@ public class EWSDependencyProvider {
     private AppInfraInterface appInfraInterface;
     private Map<String, String> productKeyMap;
 
-    private EWSDependencyProvider() {
+    @VisibleForTesting
+    EWSDependencyProvider() {
     }
 
     public static EWSDependencyProvider getInstance() {
