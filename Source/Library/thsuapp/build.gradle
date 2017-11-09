@@ -237,7 +237,8 @@ dependencies {
                 transitive = true
             }
 
-    compile(group: 'com.americanwell', name: 'awsdk', version: '3.1.1', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'awsdk', version: '3.1.2', ext: 'aar'){
+        exclude group: 'com.android.support'
         transitive = true
     }
 

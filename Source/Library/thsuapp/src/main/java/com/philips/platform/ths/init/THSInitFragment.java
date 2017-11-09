@@ -42,16 +42,6 @@ public class THSInitFragment extends THSBaseFragment{
         mThsInitPresenter.initializeAwsdk();
     }
 
-    public void popSelfBeforeTransition() {
-        try {
-            if (getActivity() != null && getActivity().getSupportFragmentManager() != null) {
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        }catch (IllegalStateException exception){
-
-        }
-    }
-
     @Override
     public void onResume() {
         super.onResume();

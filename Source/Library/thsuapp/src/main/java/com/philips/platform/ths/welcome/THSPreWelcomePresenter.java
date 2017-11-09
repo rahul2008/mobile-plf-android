@@ -26,6 +26,7 @@ public class THSPreWelcomePresenter implements THSBasePresenter{
     @Override
     public void onEvent(int componentID) {
         if(componentID == R.id.ths_go_see_provider){
+            mThsPreWelcomeFragment.popSelfBeforeTransition();
             if (THSManager.getInstance().isReturningUser()) {
                 THSWelcomeFragment thsWelcomeFragment = new THSWelcomeFragment();
                 mThsPreWelcomeFragment.addFragment(thsWelcomeFragment, THSWelcomeFragment.TAG, null, false);
@@ -40,6 +41,8 @@ public class THSPreWelcomePresenter implements THSBasePresenter{
             getTermsAndConditions();
         }
     }
+
+
 
     public void getTermsAndConditions(){
         THSManager.getInstance().getAppInfra().getServiceDiscovery().getServiceUrlWithCountryPreference(THS_TERMS_AND_CONDITIONS, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {

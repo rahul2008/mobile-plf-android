@@ -481,7 +481,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             if (null != pharmacy && pharmacy.equals(pharmacyItem) && shouldReset) {
                 map.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(THSFileUtils.drawableToBitmap(locationSelected))).position(latLng)).setTag(pharmacyItem);
             } else if (shouldReset) {
-                map.addMarker(new MarkerOptions().icon(fromResource(R.mipmap.unselected_gps_icon)).position(latLng)).setTag(pharmacyItem);
+                map.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(THSFileUtils.drawableToBitmap(locationUnSelected))).position(latLng)).setTag(pharmacyItem);
             } else {
                 map.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(THSFileUtils.drawableToBitmap(locationDefault))).position(latLng)).setTag(pharmacyItem);
             }

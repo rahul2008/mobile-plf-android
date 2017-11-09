@@ -19,23 +19,24 @@
         android:layout_marginRight="12dp"
         android:layout_marginTop="24dp">
 
-        <ImageView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ths_confirmation_dialog_title_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_alignParentRight="true"
-            android:src="@mipmap/cross_icon">
+            android:layout_marginStart="@dimen/ths_fab_margin"
+            style="@style/ths_font_icon_style"
+            android:layout_centerVertical="false"
+            android:layout_alignParentEnd="true"
+            android:text="@string/dls_cross_bold">
 
-        </ImageView>
+        </com.philips.platform.uid.view.widget.Label>
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ths_confirmation_dialog_title_label"
             fontPath="fonts/centralesansbold.ttf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:layout_toLeftOf="@+id/ths_confirmation_dialog_title_image"
+            android:layout_toStartOf="@+id/ths_confirmation_dialog_title_image"
             android:text="@string/ths_insurance_confirm_cancel_visit"
             android:textSize="18sp">
 

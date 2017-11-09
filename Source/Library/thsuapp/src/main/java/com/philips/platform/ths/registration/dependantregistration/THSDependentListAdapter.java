@@ -63,13 +63,17 @@ public class THSDependentListAdapter extends RecyclerView.Adapter<THSDependentLi
 
     private void showProfilePic(CustomViewHolder holder, THSConsumer thsConsumer) {
         if (thsConsumer.getProfilePic() != null) {
-            Bitmap b = BitmapFactory.decodeStream(thsConsumer.getProfilePic());
-            if (b != null) {
-                b.setDensity(Bitmap.DENSITY_NONE);
-                Drawable d = new BitmapDrawable(context.getResources(), b);
-                holder.logo.setImageDrawable(d);
+            try{
+                Bitmap b = BitmapFactory.decodeStream(thsConsumer.getProfilePic());
+                if (b != null) {
+                    b.setDensity(Bitmap.DENSITY_NONE);
+                    Drawable d = new BitmapDrawable(context.getResources(), b);
+                    holder.logo.setImageDrawable(d);
+                }
+                holder.logo.setImageResource(R.mipmap.child_icon);
+            }catch (Exception ex){
+                holder.logo.setImageResource(R.mipmap.child_icon);
             }
-            holder.logo.setImageResource(R.mipmap.child_icon);
         } else {
             holder.logo.setImageResource(R.mipmap.child_icon);
         }
