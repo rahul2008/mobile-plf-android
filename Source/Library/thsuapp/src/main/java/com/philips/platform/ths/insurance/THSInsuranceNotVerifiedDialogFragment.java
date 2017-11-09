@@ -22,6 +22,7 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_INSURANCE_VALIDATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
@@ -71,11 +72,11 @@ public class THSInsuranceNotVerifiedDialogFragment extends DialogFragment implem
     public void onClick(View v) {
         if(v.getId()==R.id.ths_confirmation_dialog_primary_button){
             dismiss();
-            THSTagUtils.tagInAppNotification(getResources().getString(R.string.ths_insurance_not_verified_confirm_message),mPrimaryButton.getText().toString());
+            THSTagUtils.tagInAppNotification(THS_ANALYTICS_INSURANCE_VALIDATION,"Ok");
             mPresenter.onEvent(R.id.ths_confirmation_dialog_primary_button);
         }else if (v.getId()==R.id.ths_confirmation_dialog_secondary_button_label){
             dismiss();
-            THSTagUtils.tagInAppNotification(getResources().getString(R.string.ths_insurance_not_verified_confirm_message),mSecondaryButtonLabel.getText().toString());
+            THSTagUtils.tagInAppNotification(THS_ANALYTICS_INSURANCE_VALIDATION,"Try again");
             mPresenter.onEvent(R.id.ths_confirmation_dialog_secondary_button_label);
 
         }

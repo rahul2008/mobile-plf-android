@@ -89,12 +89,12 @@ public class THSConstants {
 
     public static final String THS_PRACTICE_PAGE = "TH_01 _01 Home with practices";
     public static final String THS_SCHEDULE_VISITS = "TH_00_04 Scheduled visits";
-    public static final String THS_VISIT_HISTORY_LIST= "TH_00_05 Visit history";
-    public static final String THS_VISIT_HISTORY= "TH_10_02b Wrap up - history";
-    public static final String THS_HIPPA= "TH_10_04 HIPAA";
-    public static final String THS_HOW_IT_WORKS= "TH_00_07 How it works";
-    public static final String THS_HOW_IT_WORKS_DETAIL= "TH_00_08 How it works - detail";
-    public static final String THS_NOTICE= "TH_00_09 TeleHealth Notice";
+    public static final String THS_VISIT_HISTORY_LIST = "TH_00_05 Visit history";
+    public static final String THS_VISIT_HISTORY = "TH_10_02b Wrap up - history";
+    public static final String THS_HIPPA = "TH_10_04 HIPAA";
+    public static final String THS_HOW_IT_WORKS = "TH_00_07 How it works";
+    public static final String THS_HOW_IT_WORKS_DETAIL = "TH_00_08 How it works - detail";
+    public static final String THS_NOTICE = "TH_00_09 TeleHealth Notice";
 
 
     public static final String THS_PROVIDER_LIST = "TH_01_03a Start DOD";
@@ -130,16 +130,14 @@ public class THSConstants {
     public static final String THS_VISIT_SUMMARY = "TH_10_02 Wrap up summary";
 
     public static final String THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER = "TH_03_02 Available provider";
-    public static final String THS_SCHEDULE_APPOINTMENT_PICK_TIME = "TH_03_03a Pick a time" ;
+    public static final String THS_SCHEDULE_APPOINTMENT_PICK_TIME = "TH_03_03a Pick a time";
     public static final String THS_SCHEDULE_APPOINTMENT_CONFIRMED = "TH_03_06b Appointment confirmed";
 
 
-   // end of tags
-
+    // end of tags
 
 
     public static final String THS_VIDEO_CALL_ENDS = "videoVisitCompleted";
-
 
 
     public static final String THS_COST_SUMMARY_CREATE_VISIT_ERROR = "Cost_summary_create_visit_error";
@@ -170,4 +168,27 @@ public class THSConstants {
     //Terms & Conditions
     public static final String THS_TERMS_AND_CONDITIONS = "TeleHealth.TermsConditionURL_small";
     public static final String THS_HIPPA_NOTICE = "TeleHealth.hipaaURL_small";
+
+
+    //start inAppNotification tags
+    public static final String THS_ANALYTICS_TOO_EARLY_FOR_VISIT = "You are early for visit";
+    public static final String THS_ANALYTICS_NO_PROVIDER_FOR_PRACTICE = "No provider available for practice";
+    public static final String THS_ANALYTICS_OPEN_SETTINGS_FOR_CAMERA = "Open setting";
+    public static final String THS_ANALYTICS_CANCEL_APPOINTMENT = "Do you really want to cancel your appointment?";
+    public static final String THS_ANALYTICS_CVV_EXPLAINATION = "What's this?";
+    public static final String THS_ANALYTICS_HIPAA_PRIVACY_NOTICE = "Privacy notice";
+    public static final String THS_ANALYTICS_CANCEL_VISIT = "Do you really want to cancel your visit?";
+    public static final String THS_ANALYTICS_INSURANCE_VALIDATION = "Insurance validation failed";
+
+
+    public static final String THS_ANALYTICS_RESPONSE_SETTINGS = "Setting";
+    public static final String THS_ANALYTICS_RESPONSE_CANCEL = "Cancel";
+    //static let AnalyticTooEarlyForVisit                    = "You are early for visit";
+    //static let AnalyticsNoProviderForPractice              = "No provider available for practice";
+    public static final String THS_ANALYTICS_RESPONSE_DONT_CANCEL_APPOINTMENT = "No";
+    public static final String THS_ANALYTICS_RESPONSE_CANCEL_APPOINTMENT = "Yes, cancel my appointment";
+    public static final String THS_ANALYTICS_RESPONSE_OK = "Ok";
+    public static final String THS_ANALYTICS_RESPONSE_CANCEL_VISIT = "Yes, cancel my visit";
+    public static final String THS_ANALYTICS_RESPONSE_DONT_CANCEL_VISIT = "No, continue waiting";
+    //end inAppNotification tags
 }

@@ -16,10 +16,14 @@ import android.widget.ImageView;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_CANCEL_VISIT;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_CANCEL_VISIT;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_DONT_CANCEL_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
@@ -63,9 +67,11 @@ public class THSConfirmationDialogFragment extends DialogFragment implements Vie
     public void onClick(View v) {
         if(v.getId()==R.id.ths_confirmation_dialog_primary_button){
             dismiss();
+            THSTagUtils.tagInAppNotification(THS_ANALYTICS_CANCEL_VISIT,THS_ANALYTICS_RESPONSE_CANCEL_VISIT);
             mPresenter.onEvent(R.id.ths_confirmation_dialog_primary_button);
         }else if (v.getId()==R.id.ths_confirmation_dialog_secondary_button_label){
             dismiss();
+            THSTagUtils.tagInAppNotification(THS_ANALYTICS_CANCEL_VISIT,THS_ANALYTICS_RESPONSE_DONT_CANCEL_VISIT);
             mPresenter.onEvent(R.id.ths_confirmation_dialog_secondary_button_label);
 
         }

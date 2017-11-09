@@ -28,6 +28,7 @@ import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -37,6 +38,8 @@ import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_NO_PROVIDER_FOR_PRACTICE;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_OK;
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_LIST;
 
 public class THSProvidersListFragment extends THSBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, THSProviderListViewInterface {
@@ -186,6 +189,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
                             @Override
                             public void onClick(View v) {
                                 alertDialogFragment.dismiss();
+                                THSTagUtils.tagInAppNotification(THS_ANALYTICS_NO_PROVIDER_FOR_PRACTICE,THS_ANALYTICS_RESPONSE_OK);
                                 getActivity().getSupportFragmentManager().popBackStack();
                             }
                         }).setCancelable(false).create();

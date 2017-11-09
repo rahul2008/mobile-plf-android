@@ -7,6 +7,7 @@
 package com.philips.platform.ths.payment;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.americanwell.sdk.entity.billing.CreatePaymentRequest;
 import com.americanwell.sdk.entity.billing.PaymentMethod;
@@ -23,8 +24,11 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.platform.ths.R.string.ths_credit_card_details_whats_this_text;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_PAYMENT;
 import static com.philips.platform.ths.utility.THSConstants.CVV_HELP_TEXT;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_CVV_EXPLAINATION;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_OK;
 import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
@@ -212,15 +216,24 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
 
 
     void showCVVdetail(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
+        View.OnClickListener alertDialogFragmentCVVListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTHSCreditCardDetailFragment.alertDialogFragment.dismiss();
+                THSTagUtils.tagInAppNotification(THS_ANALYTICS_CVV_EXPLAINATION,THS_ANALYTICS_RESPONSE_OK);
+            }
+        };
+
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSCreditCardDetailFragment.getFragmentActivity())
                 .setMessage(showLargeContent ? mTHSCreditCardDetailFragment.getFragmentActivity().getResources().getString(R.string.cvv_explaination) : mTHSCreditCardDetailFragment.getFragmentActivity().getResources().getString(R.string.cvv_explaination)).
                         setPositiveButton(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_matchmaking_ok_button), mTHSCreditCardDetailFragment);
 
         if (isWithTitle) {
-            builder.setTitle("What's this?");
+            builder.setTitle(mTHSCreditCardDetailFragment.getFragmentActivity().getResources().getString(R.string.ths_credit_card_details_whats_this_text));
 
         }
         mTHSCreditCardDetailFragment.alertDialogFragment = builder.setCancelable(false).create();
+        mTHSCreditCardDetailFragment.alertDialogFragment.setPositiveButtonListener(alertDialogFragmentCVVListener);
         mTHSCreditCardDetailFragment.alertDialogFragment.show(mTHSCreditCardDetailFragment.getFragmentManager(), CVV_HELP_TEXT);
 
     }

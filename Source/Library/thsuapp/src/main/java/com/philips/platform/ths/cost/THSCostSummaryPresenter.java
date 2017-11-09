@@ -311,7 +311,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
             @Override
             public void onClick(View v) {
                 mTHSCostSummaryFragment.alertDialogFragmentCouponCode.dismiss();
-                THSTagUtils.tagInAppNotification(message,mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_ok_button));
+                mTHSCostSummaryFragment.doTagging(ANALYTICS_ESTIMATED_VISIT_COST,message,false);
             }
         };
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSCostSummaryFragment.getFragmentActivity())
@@ -336,7 +336,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
             @Override
             public void onClick(View v) {
                 mTHSCostSummaryFragment.alertDialogFragmentCreateVisit.dismiss();
-                THSTagUtils.tagInAppNotification(message,mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_ok_button));
+                mTHSCostSummaryFragment.doTagging(ANALYTICS_ESTIMATED_VISIT_COST,message,false);
                 mTHSCostSummaryFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
             }
         };
