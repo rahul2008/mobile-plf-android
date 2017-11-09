@@ -453,6 +453,7 @@ public class User {
         CaptureRecord capturedRecord = Jump.getSignedInUser();
         if (capturedRecord == null) {
             capturedRecord = CaptureRecord.loadFromDisk(mContext);
+            RLog.d("isUserSign", "captureRecord"+ (capturedRecord==null));
         }
         if (capturedRecord == null) {
             return false;
@@ -468,24 +469,36 @@ public class User {
         if (isEmailVerificationRequired) {
             signedIn = !capturedRecord.isNull(USER_EMAIL_VERIFIED) ||
                     !capturedRecord.isNull(USER_MOBILE_VERIFIED);
+            RLog.d("isUserSign", "isEmailVerificationRequired signin"+ signedIn);
+
         }
         if (isHsdpFlow) {
             if (!isEmailVerificationRequired) {
+                RLog.d("isUserSign", "!isEmailVerificationRequired signin");
                 throw new RuntimeException("Please set emailVerificationRequired field as true");
             }
             HsdpUser hsdpUser = new HsdpUser(mContext);
             signedIn = signedIn && hsdpUser.isHsdpUserSignedIn();
+            RLog.d("isUserSign", "!isHsdpFlow signin"+signedIn);
+
         }
         if (RegistrationConfiguration.getInstance().getRegistrationClientId(RegUtility.
                 getConfiguration(
                         RegistrationConfiguration.getInstance().getRegistrationEnvironment())) != null) {
             signedIn = signedIn && capturedRecord.getAccessToken() != null;
+            RLog.d("isUserSign", "signedIn && capturedRecord.getAccessToken()"+signedIn);
+
         }
 
         if (isAcceptTerms) {
+            RLog.d("isUserSign", "isAcceptTerms"+signedIn);
+
             if (!isTermsAndConditionAccepted()) {
                 signedIn = false;
+
                 clearData();
+                RLog.d("isUserSign", "isTermsAndConditionAccepted cleardata"+signedIn);
+
             }
         }
         return signedIn;
@@ -639,6 +652,8 @@ public class User {
         } else {
             AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                     AppTagingConstants.LOGOUT_SUCCESS);
+            System.out.println("isUserSign logout clearData");
+
             clearData();
             if (logoutHandler != null) {
 
@@ -679,6 +694,8 @@ public class User {
         hsdpUser.logOut(new LogoutHandler() {
             @Override
             public void onLogoutSuccess() {
+                System.out.println("isUserSign logoutHsdp clearData");
+
                 clearData();
                 if (logoutHandler != null) {
                     AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
@@ -695,6 +712,8 @@ public class User {
 
                 if (responseCode == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
                         || responseCode == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
+                    System.out.println("isUserSign logoutHsdp failure clearData");
+
                     clearData();
                     if (logoutHandler != null) {
                         ThreadUtils.postInMainThread(mContext, () ->
@@ -910,6 +929,8 @@ public class User {
     }
 
     private void clearData() {
+        System.out.println("isUserSign ClearData");
+
         HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.deleteFromDisk();
         if (JRSession.getInstance() != null) {

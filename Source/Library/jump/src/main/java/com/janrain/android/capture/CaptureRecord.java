@@ -128,6 +128,7 @@ public class CaptureRecord extends JSONObject {
 
             File file = applicationContext.getFileStreamPath(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
             if(file != null && file.exists()) {
+                System.out.println("isUserSign captureRecord file.exists()");
 
                 fis = applicationContext.openFileInput(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
                 ObjectInputStream ois = new ObjectInputStream(fis);
@@ -142,28 +143,43 @@ public class CaptureRecord extends JSONObject {
                 return inflateCaptureRecord(fileContents);
             }
         } catch (FileNotFoundException | NullPointerException ignore) {
+            System.out.println("isUserSign FileNotFoundException");
+
         } catch (JSONException ignore) {
+            System.out.println("isUserSign JSONException");
+
             throwDebugException(new RuntimeException("Bad CaptureRecord file contents:\n" + fileContents,
                     ignore));
         } catch (IOException | ClassNotFoundException e) {
+            System.out.println("isUserSign IOException");
+
             e.printStackTrace();
         } finally {
             if (fis != null) try {
+                System.out.println("isUserSign fis");
+
                 fis.close();
             } catch (IOException e) {
+                System.out.println("isUserSign IOException2");
+
                 throwDebugException(new RuntimeException(e));
             }
         }
         try {
             fileContents = Jump.getSecureStorageInterface().fetchValueForKey(
                     JR_CAPTURE_SIGNED_IN_USER_FILENAME, new SecureStorageInterface.SecureStorageError());
+            System.out.println("isUserSign fileContents != null"+(fileContents != null));
+
             if(fileContents != null){
                 return inflateCaptureRecord(fileContents);
             }
 
         } catch (JSONException e) {
+            System.out.println("isUserSign JSONException2");
             e.printStackTrace();
         }catch (NullPointerException e) {
+            System.out.println("isUserSign NullPointerException");
+
         }
         return null;
     }
