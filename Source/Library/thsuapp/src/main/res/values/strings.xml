@@ -259,6 +259,11 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_add_photo_error_string">Upload failed with sdk error</string>
     <string name="ths_add_photo_validation_error_string">Validation failure while uploading</string>
     <string name="ths_add_photo_success_string">Success with Document name</string>
+    <string name="ths_add_photo_no_app_to_handle">No app to pick the image from</string>
+    <string name="ths_permission_denied_message">Permission denied : Going to search</string>
+    <string name="ths_gps_not_enabled_message">Do you want to enable GPS?</string>
+    <string name="ths_gps_not_enabled_message_title">GPS not enabled</string>
+
 
     <!-- Insurance screen strings -->
     <string name="ths_insurance_not_verified_confirm_title">Health insurance not verified</string>

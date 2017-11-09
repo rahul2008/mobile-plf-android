@@ -13,7 +13,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.widget.Toast;
+import android.view.View;
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -24,6 +24,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
@@ -32,8 +33,12 @@ import com.philips.platform.ths.pharmacy.THSPharmacyListFragment;
 import com.philips.platform.ths.pharmacy.THSSearchPharmacyFragment;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.DialogConstants;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
+import static com.philips.platform.ths.providerslist.THSProvidersListFragment.DIALOG_TAG;
 
 public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implements THSCheckPharmacyConditonsView, LocationListener,
         GoogleApiClient.ConnectionCallbacks,
@@ -50,6 +55,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     GoogleApiClient mGoogleApiClient;
     Location mCurrentLocation;
     Intent gpsSettingsIntent;
+    private AlertDialogFragment alertDialogFragment;
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
@@ -65,7 +71,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
             getActivity().finish();
         }
         createLocationRequest();
-        if(mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
+        if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
             mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                     .addApi(LocationServices.API)
                     .addConnectionCallbacks(this)
@@ -81,7 +87,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         if (ConnectionResult.SUCCESS == status) {
             return true;
         } else {
-            apiAvailability.getErrorDialog(getActivity(),status,0).show();
+            apiAvailability.getErrorDialog(getActivity(), status, 0).show();
             return false;
         }
     }
@@ -93,7 +99,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         AmwellLog.d(TAG, "onStart fired ..............");
         getLocationUpdate();
         if (mGoogleApiClient != null)
-        mGoogleApiClient.connect();
+            mGoogleApiClient.connect();
     }
 
     @Override
@@ -105,7 +111,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     }
 
     public void disconnectGoogleApiClient() {
-        if(mGoogleApiClient!=null) {
+        if (mGoogleApiClient != null) {
             if (mGoogleApiClient.isConnected()) {
                 stopLocationUpdates();
                 mGoogleApiClient.disconnect();
@@ -158,29 +164,29 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     }
 
     private void callPharmacyListFragment(Location location) {
-        if(isFragmentAttached()) {
+        if (isFragmentAttached()) {
             getActivity().getSupportFragmentManager().popBackStack();
             THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
             thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(getContext()), null);
             thsPharmacyListFragment.setLocation(location);
-            addFragment(thsPharmacyListFragment, THSPharmacyListFragment.TAG, null,true);
+            addFragment(thsPharmacyListFragment, THSPharmacyListFragment.TAG, null, true);
         }
     }
 
     private void showPharmacySearch() {
-        if(isFragmentAttached()) {
+        if (isFragmentAttached()) {
             getActivity().getSupportFragmentManager().popBackStack();
             THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
-            addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null,true);
+            addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null, true);
         }
     }
 
     public void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address) {
-        if(isFragmentAttached()) {
+        if (isFragmentAttached()) {
             getActivity().getSupportFragmentManager().popBackStack();
             THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
             thsPharmacyAndShippingFragment.setPharmacyAndAddress(address, pharmacy);
-            addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null,true);
+            addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null, true);
         }
     }
 
@@ -208,14 +214,37 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
 
         } else {
-            Toast.makeText(getActivity(), "GPS not enables: going to settings GPS", Toast.LENGTH_SHORT).show();
-            gpsSettingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(gpsSettingsIntent);
+            showNoGpsDialog();
         }
 
 
         // mGoogleApiClient, mLocationRequest, this);
         AmwellLog.d(TAG, "Location update started ..............: ");
+    }
+
+    private void showNoGpsDialog() {
+
+        alertDialogFragment = new AlertDialogFragment.Builder(UIDHelper.getPopupThemedContext(getContext())).setDialogType(DialogConstants.TYPE_ALERT).setTitle(R.string.ths_gps_not_enabled_message_title)
+                .setMessage(R.string.ths_gps_not_enabled_message).
+                        setPositiveButton(R.string.ths_ok, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alertDialogFragment.dismiss();
+                                launchLocationSettings();
+                            }
+                        }).setNegativeButton(R.string.cancel, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                alertDialogFragment.dismiss();
+                                showPharmacySearch();
+                            }
+                        }).setCancelable(false).create();
+        alertDialogFragment.show(getActivity().getSupportFragmentManager(), DIALOG_TAG);
+    }
+
+    private void launchLocationSettings() {
+        gpsSettingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        startActivity(gpsSettingsIntent);
     }
 
     private boolean checkIfGPSProviderAvailable() {
@@ -252,7 +281,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
                 getLocationUpdate();
             } else {
                 showPharmacySearch();
-                showToast("Permission denied : Going to search");
+                showToast(getString(R.string.ths_permission_denied_message));
             }
         }
     }

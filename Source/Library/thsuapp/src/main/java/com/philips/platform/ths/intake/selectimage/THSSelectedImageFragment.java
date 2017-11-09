@@ -44,7 +44,7 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
     private CustomPagerAdapter pagerAdapter;
     private ViewPager imageViewPager;
     private Button deleteImageButton;
-    private Label ths_selected_image_close_icon;
+    private Label ths_selected_image_close_icon,ths_selected_image_scroll_left,ths_selected_image_scroll_right;
     private THSOnDismissSelectedImageFragmentCallback onDismissSelectedImageFragmentCallback;
     private THSSelectedImageFragmentPresenter thsSelectedImageFragmentPresenter;
     private List<DocumentRecord> documentRecordList;
@@ -58,6 +58,10 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
         pagerAdapter = new CustomPagerAdapter(getActivity());
         deleteImageButton = (Button) view.findViewById(R.id.ths_delete_selected_image_button);
         ths_selected_image_close_icon = (Label) view.findViewById(R.id.ths_selected_image_close_icon);
+        ths_selected_image_scroll_right = (Label) view.findViewById(R.id.ths_selected_image_scroll_right);
+        ths_selected_image_scroll_left = (Label) view.findViewById(R.id.ths_selected_image_scroll_left);
+        ths_selected_image_scroll_left.setOnClickListener(this);
+        ths_selected_image_scroll_right.setOnClickListener(this);
         ths_selected_image_close_icon.setOnClickListener(this);
         deleteImageButton.setOnClickListener(this);
         imageViewPager = (ViewPager) view.findViewById(R.id.selected_image_pager);
@@ -72,6 +76,9 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
         this.documentRecordList = documentRecordList;
     }
 
+    // Images left navigation
+
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.ths_delete_selected_image_button) {
@@ -79,6 +86,20 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
         }
         if(v.getId() == R.id.ths_selected_image_close_icon){
             dismiss();
+        }
+        if(v.getId() == R.id.ths_selected_image_scroll_left){
+            int tab = imageViewPager.getCurrentItem();
+            if (tab > 0) {
+                tab--;
+                imageViewPager.setCurrentItem(tab);
+            } else if (tab == 0) {
+                imageViewPager.setCurrentItem(tab);
+            }
+        }
+        if(v.getId() == R.id.ths_selected_image_scroll_right){
+            int tab = imageViewPager.getCurrentItem();
+            tab++;
+            imageViewPager.setCurrentItem(tab);
         }
     }
 
