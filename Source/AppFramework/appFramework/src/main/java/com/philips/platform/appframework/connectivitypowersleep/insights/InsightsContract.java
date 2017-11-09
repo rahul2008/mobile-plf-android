@@ -8,7 +8,6 @@
 package com.philips.platform.appframework.connectivitypowersleep.insights;
 
 
-import com.philips.platform.appinfra.contentloader.model.ContentArticle;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.trackers.DataServicesManager;
 
@@ -29,7 +28,8 @@ public interface InsightsContract {
     }
 
     interface Action{
-        void showArticle(ContentArticle contentArticle);
+
+        void showArticle(String insightTitle);
 
         void loadInsights(DataServicesManager dataServicesManager);
     }

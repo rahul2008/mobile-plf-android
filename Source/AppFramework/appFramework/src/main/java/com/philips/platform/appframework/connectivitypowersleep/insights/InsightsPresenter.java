@@ -10,7 +10,6 @@ package com.philips.platform.appframework.connectivitypowersleep.insights;
 
 import android.content.Context;
 
-import com.philips.platform.appinfra.contentloader.model.ContentArticle;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 public class InsightsPresenter implements InsightsContract.Action {
@@ -25,7 +24,7 @@ public class InsightsPresenter implements InsightsContract.Action {
     }
 
     @Override
-    public void showArticle(ContentArticle contentArticle) {
+    public void showArticle(String insightTitle) {
 
     }
 
