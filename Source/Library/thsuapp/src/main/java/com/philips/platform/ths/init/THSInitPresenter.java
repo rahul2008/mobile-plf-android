@@ -17,6 +17,7 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
+import com.philips.platform.ths.onboarding.OnBoardingFragment;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
 import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
@@ -127,8 +128,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
             authenticateUser();
         } else {
             mThsInitFragment.hideProgressBar();
-            mThsInitFragment.popSelfBeforeTransition();
-            launchPreWelcomeScreen();
+            launchOnBoardingScreen();
         }
     }
 
@@ -148,7 +148,15 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     }
 
 
+    private void launchOnBoardingScreen() {
+        mThsInitFragment.popSelfBeforeTransition();
+        OnBoardingFragment thsOnBoardingFragment = new OnBoardingFragment();
+        mThsInitFragment.addFragment(thsOnBoardingFragment, OnBoardingFragment.TAG, null, false);
+    }
+
+
     private void launchPreWelcomeScreen() {
+        mThsInitFragment.popSelfBeforeTransition();
         THSPreWelcomeFragment thsPreWelcomeFragment = new THSPreWelcomeFragment();
         mThsInitFragment.addFragment(thsPreWelcomeFragment, THSRegistrationFragment.TAG, null, false);
     }
@@ -212,6 +220,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         mThsInitFragment.hideProgressBar();
         if (sdkError == null) {
            launchWelcomeScreen();
+//            launchOnBoardingScreen();
         } else {
             mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CONSUMER_DETAILS, sdkError));
         }
