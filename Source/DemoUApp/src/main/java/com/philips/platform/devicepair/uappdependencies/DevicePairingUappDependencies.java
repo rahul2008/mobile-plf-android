@@ -11,7 +11,6 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 
 public class DevicePairingUappDependencies extends UappDependencies {
-
     private CommCentral commCentral;
     private AppInfraInterface appInfraInterface;
 
