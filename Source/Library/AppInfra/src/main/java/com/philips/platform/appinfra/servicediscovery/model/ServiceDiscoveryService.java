@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * The model class of ServiceDiscoveryService.
  */
-
+@SuppressWarnings("unchecked")
 public class ServiceDiscoveryService {
 
     private String mLocale;

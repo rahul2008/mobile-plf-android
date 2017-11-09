@@ -166,7 +166,7 @@ public class LanguagePackManager implements LanguagePackInterface {
         }
     }
 
-    private boolean isLanguagePackDownloadRequired(LanguagePackModel selectedLanguageModel) {
+    boolean isLanguagePackDownloadRequired(LanguagePackModel selectedLanguageModel) {
         final File file = languagePackUtil.getFilePath(LanguagePackConstants.LOCALE_FILE_INFO, LanguagePackConstants.LANGUAGE_PACK_PATH);
         final String json = languagePackUtil.readFile(file);
         final LanguagePackMetadata languagePackMetadata = gson.fromJson(json, LanguagePackMetadata.class);
@@ -183,7 +183,7 @@ public class LanguagePackManager implements LanguagePackInterface {
         return true;
     }
 
-    private Handler getHandler(Context context) {
+    Handler getHandler(Context context) {
         return new Handler(context.getMainLooper());
     }
 
@@ -195,7 +195,7 @@ public class LanguagePackManager implements LanguagePackInterface {
                     public void onResponse(JSONObject response) {
                         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LANGUAGE_PACK,
                                 "Language Pack Json: " + response.toString());
-                        if (null != response && null != selectedLanguageModel && null != languagePackHandler) {
+                        if (null != selectedLanguageModel && null != languagePackHandler) {
                             languagePackUtil.saveFile(response.toString(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED, LanguagePackConstants.LANGUAGE_PACK_PATH);
                             languagePackUtil.saveLocaleMetaData(selectedLanguageModel);
                             languagePackHandler.post(postRefreshSuccess(aILPRefreshResult, OnRefreshListener.AILPRefreshResult.REFRESHED_FROM_SERVER));
@@ -234,25 +234,6 @@ public class LanguagePackManager implements LanguagePackInterface {
                     }
                 }
             }
-            // TODO - commented fallback mechanizm
-            /*
-			for (LanguagePackModel model : languagePackModels) {
-				if (appLocale.contains(model.getLocale().substring(0, 2))) {
-					selectedLanguageModel = model;
-					langModel.setVersion(model.getVersion());
-					langModel.setLocale(model.getLocale());
-					langModel.setUrl(model.getUrl());
-					return model.getUrl();
-				}
-			}
-
-			// TODO - Need to handle fallback scenarios
-			final LanguagePackModel defaultLocale = getDefaultLocale();
-			if (languagePackModels.contains(defaultLocale)) {
-				final int index = languagePackModels.indexOf(defaultLocale);
-				selectedLanguageModel = languagePackModels.get(index);
-				return languagePackModels.get(index).getUrl();
-			}*/
         }
         return null;
     }
@@ -288,7 +269,7 @@ public class LanguagePackManager implements LanguagePackInterface {
         };
     }
 
-    private Runnable postActivateSuccess(final OnActivateListener onActivateListener) {
+    Runnable postActivateSuccess(final OnActivateListener onActivateListener) {
         return new Runnable() {
             @Override
             public void run() {

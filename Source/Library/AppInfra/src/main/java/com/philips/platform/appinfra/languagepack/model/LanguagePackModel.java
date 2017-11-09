@@ -59,4 +59,8 @@ public class LanguagePackModel {
 			return super.equals(obj);
 	}
 
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 }

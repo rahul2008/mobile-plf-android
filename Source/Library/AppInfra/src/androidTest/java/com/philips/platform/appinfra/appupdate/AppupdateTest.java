@@ -3,6 +3,9 @@ package com.philips.platform.appinfra.appupdate;
 
 import android.content.Context;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.AppInfraLogEventID;
@@ -21,6 +24,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class AppupdateTest extends AppInfraInstrumentation {
@@ -87,6 +91,16 @@ public class AppupdateTest extends AppInfraInstrumentation {
 		mFileUtils = new FileUtils(mAppInfra.getAppInfraContext());
 		assertNotNull(mFileUtils);
 		deleteFile();
+	}
+
+	public void testErrorListener() {
+		final AppUpdateInterface.OnRefreshListener refreshListenerMock = mock(AppUpdateInterface.OnRefreshListener.class);
+		Response.ErrorListener jsonErrorListener = mAppUpdateManager.getJsonErrorListener(refreshListenerMock);
+		NetworkResponse networkResponse = new NetworkResponse(200, "some_response".getBytes(), null, false, 5000);
+		VolleyError volleyErrorMock = new VolleyError(networkResponse);
+		jsonErrorListener.onErrorResponse(volleyErrorMock);
+		String errMsg = " Error Code:" + 200 ;
+		verify(refreshListenerMock).onError(AppUpdateInterface.OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, errMsg);
 	}
 
 	public void testAppUpdateServiceID() {

@@ -249,6 +249,7 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
         return false;
     }
 
+    @SuppressWarnings("unchecked")
     private void trackData(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
         Map contextData = addAnalyticsDataObject();
         if (paramMap != null) {
@@ -326,6 +327,7 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
      * Sending the broadcast event .
      * @param data Map consists of Tagging Data
      */
+    @SuppressWarnings("unchecked")
     private void sendBroadcast(final Map data) {
         final Intent intent = new Intent(ACTION_TAGGING_DATA);
         intent.putExtra(EXTRA_TAGGING_DATA, (Serializable) data);
