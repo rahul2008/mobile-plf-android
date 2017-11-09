@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -63,6 +64,10 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
     @Override
     public void onResume() {
         super.onResume();
+        ActionBarListener actionBarListener = getActionBarListener();
+        if(null != actionBarListener){
+            actionBarListener.updateActionBar(getString(R.string.ths_welcome),true);
+        }
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_CONFIRM_T_AND_C,null,null);
     }
 
