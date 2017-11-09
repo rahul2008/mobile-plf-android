@@ -12,10 +12,6 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-/**
- * Created by philips on 10/25/17.
- */
-
 public class OnBoardingFragment  extends THSBaseFragment implements View.OnClickListener{
 
     public static final String TAG = OnBoardingFragment.class.getSimpleName();
@@ -38,7 +34,7 @@ public class OnBoardingFragment  extends THSBaseFragment implements View.OnClick
         tv_skip.setOnClickListener(this);
         btn_take_tour.setOnClickListener(this);
         ActionBarListener actionBarListener = getActionBarListener();
-        actionBarListener.updateActionBar("Amwell", false);
+        actionBarListener.updateActionBar(R.string.ths_welcome, false);
         return view;
     }
 

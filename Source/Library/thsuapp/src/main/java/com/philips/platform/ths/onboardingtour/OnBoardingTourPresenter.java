@@ -64,7 +64,7 @@ class OnBoardingTourPresenter implements THSBasePresenter {
         spanValues.add(new OnBoardingSpanValue(62, 84, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
         spanValues.add(new OnBoardingSpanValue(88, 112, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
         spanValues.add(new OnBoardingSpanValue(113, 128, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
-        spanValues.add(new OnBoardingSpanValue(129, 158, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
+        spanValues.add(new OnBoardingSpanValue(129, onBoardingTourFragment.getString(R.string.onboarding_one_text).length(), OnBoardingSpanValue.OnBoardingTypeface.BOOK));
         return new OnBoardingTourContentModel(R.string.onboarding_one_text, R.mipmap.onboarding_tour_one, spanValues);
 
     }

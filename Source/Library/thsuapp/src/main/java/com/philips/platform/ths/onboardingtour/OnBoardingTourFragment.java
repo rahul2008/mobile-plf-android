@@ -57,7 +57,7 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
 
         View view = inflater.inflate(R.layout.ths_on_boarding_tour_fragment, container, false);
         ActionBarListener actionBarListener = getActionBarListener();
-        actionBarListener.updateActionBar("Amwell", false);
+        actionBarListener.updateActionBar(R.string.ths_welcome, false);
 
         pager = (ViewPager) view.findViewById(R.id.welcome_pager);
         onBoardingTourPagerAdapter = new OnBoardingTourPagerAdapter(getActivity().getSupportFragmentManager(), onBoardingTourContentModelList, getActivity());

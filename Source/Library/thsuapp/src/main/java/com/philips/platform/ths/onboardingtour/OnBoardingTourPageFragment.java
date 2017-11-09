@@ -42,17 +42,6 @@ public class OnBoardingTourPageFragment extends THSBaseFragment {
     private List<OnBoardingSpanValue> spanValues;
 
     public static OnBoardingTourPageFragment newInstance(@StringRes int title,
-                                                         @DrawableRes int background) {
-        Bundle args = new Bundle();
-        args.putInt(ARG_PAGE_TITLE, title);
-        args.putInt(ARG_PAGE_BG_ID, background);
-
-        OnBoardingTourPageFragment fragmentFirst = new OnBoardingTourPageFragment();
-        fragmentFirst.setArguments(args);
-        return fragmentFirst;
-    }
-
-    public static OnBoardingTourPageFragment newInstance(@StringRes int title,
                                                          @DrawableRes int background, List<OnBoardingSpanValue> spanIndexPairs) {
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE_TITLE, title);
