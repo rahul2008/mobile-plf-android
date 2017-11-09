@@ -231,14 +231,26 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     }
 
     public boolean validateFields() {
-        validateSystolicView();
-        validateDiastolicView();
-        validateTemperatureView();
-        if(mFarenheitInputLayoutContainer.isShowingError() || mSystolicInputValidationLayout.isShowingError() || mDiastolicInputValidationLayout.isShowingError()){
-            return false;
-        }else {
-            return true;
+
+        if(mThsVitalsPresenter.checkIfValueEntered(mSystolic) && mThsVitalsPresenter.checkIfValueEntered(mDiastolic)){
+            validateSystolicView();
+            validateDiastolicView();
+            validateTemperatureView();
+            if(mFarenheitInputLayoutContainer.isShowingError() || mSystolicInputValidationLayout.isShowingError() || mDiastolicInputValidationLayout.isShowingError()){
+                return false;
+            }else {
+                return true;
+            }
         }
+        else {
+           validateTemperatureView();
+            if(mFarenheitInputLayoutContainer.isShowingError()){
+                return false;
+            }else {
+                return true;
+            }
+        }
+
     }
 
     public void validateTemperatureView() {
