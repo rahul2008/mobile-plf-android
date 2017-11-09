@@ -31,8 +31,10 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        EWSActivity activity = (EWSActivity) getActivity();
-        activity.hideCloseButton();
+        if (getActivity() instanceof EWSActivity) {
+            EWSActivity activity = (EWSActivity) getActivity();
+            activity.hideCloseButton();
+        }
     }
 
     @SuppressWarnings("ConstantConditions")

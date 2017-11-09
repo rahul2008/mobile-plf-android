@@ -33,7 +33,7 @@ public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingF
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final ResetConnectionTroubleshootingViewModel viewModel = EWSDependencyProvider.getInstance().getEwsComponent()
+        viewModel = EWSDependencyProvider.getInstance().getEwsComponent()
                 .resetConnectionTroubleshootingViewModel();
         fragmentResetConnectionTroubleshootingLayoutBinding.setViewModel(viewModel);
 

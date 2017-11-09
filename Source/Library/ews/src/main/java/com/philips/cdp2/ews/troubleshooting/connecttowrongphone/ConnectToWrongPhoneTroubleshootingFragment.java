@@ -33,7 +33,7 @@ public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShoot
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final ConnectToWrongPhoneTroubleshootingViewModel viewModel = EWSDependencyProvider.getInstance().getEwsComponent()
+        viewModel = EWSDependencyProvider.getInstance().getEwsComponent()
                 .connectToWrongPhoneTroubleshootingViewModel();
         connectToWrongPhoneTroubleshootingLayoutBinding.setViewmodel(viewModel);
 

@@ -33,8 +33,7 @@ public class ResetDeviceTroubleshootingFragment extends BaseTroubleShootingFragm
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final ResetDeviceTroubleshootingViewModel viewModel =
-                EWSDependencyProvider.getInstance().getEwsComponent()
+        viewModel = EWSDependencyProvider.getInstance().getEwsComponent()
                         .resetDeviceTroubleshootingViewModel();
         resetDeviceTroubleshootingLayoutBinding.setViewModel(viewModel);
 
