@@ -128,7 +128,6 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
             authenticateUser();
         } else {
             mThsInitFragment.hideProgressBar();
-            mThsInitFragment.popSelfBeforeTransition();
             launchOnBoardingScreen();
         }
     }
@@ -150,12 +149,14 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
 
 
     private void launchOnBoardingScreen() {
+        mThsInitFragment.popSelfBeforeTransition();
         OnBoardingFragment thsOnBoardingFragment = new OnBoardingFragment();
         mThsInitFragment.addFragment(thsOnBoardingFragment, OnBoardingFragment.TAG, null, false);
     }
 
 
     private void launchPreWelcomeScreen() {
+        mThsInitFragment.popSelfBeforeTransition();
         THSPreWelcomeFragment thsPreWelcomeFragment = new THSPreWelcomeFragment();
         mThsInitFragment.addFragment(thsPreWelcomeFragment, THSRegistrationFragment.TAG, null, false);
     }

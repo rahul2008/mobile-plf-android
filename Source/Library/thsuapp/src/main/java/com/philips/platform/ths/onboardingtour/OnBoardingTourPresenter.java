@@ -93,6 +93,7 @@ class OnBoardingTourPresenter implements THSBasePresenter {
     }
 
     private void launchPreWelcomeScreen() {
+        onBoardingTourFragment.popSelfBeforeTransition();
         THSPreWelcomeFragment thsPreWelcomeFragment = new THSPreWelcomeFragment();
         onBoardingTourFragment.addFragment(thsPreWelcomeFragment, THSRegistrationFragment.TAG, null, false);
     }

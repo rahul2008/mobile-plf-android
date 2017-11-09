@@ -28,11 +28,13 @@ public class OnBoardingPresenter implements THSBasePresenter {
             launchPreWelcomeScreen();
         }
         if(componentID==R.id.btn_take_tour){
+            onBoardingFragment.popSelfBeforeTransition();
             onBoardingFragment.addFragment(new OnBoardingTourFragment(), OnBoardingTourFragment.TAG, null, true);
         }
     }
 
     private void launchPreWelcomeScreen() {
+        onBoardingFragment.popSelfBeforeTransition();
         THSPreWelcomeFragment thsPreWelcomeFragment = new THSPreWelcomeFragment();
         onBoardingFragment.addFragment(thsPreWelcomeFragment, THSRegistrationFragment.TAG, null, false);
     }

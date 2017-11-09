@@ -12,8 +12,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha=".2"
-        android:background="@drawable/ths_welcome"
+        android:background="@mipmap/onboarding_tour_two"
         android:scaleType="centerCrop"
         />
 
