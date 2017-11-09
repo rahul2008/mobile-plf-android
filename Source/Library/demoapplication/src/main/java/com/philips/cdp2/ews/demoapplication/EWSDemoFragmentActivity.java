@@ -1,5 +1,6 @@
 package com.philips.cdp2.ews.demoapplication;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -15,6 +16,8 @@ import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /*
  * Copyright (c) Mobiquityinc, 2017.
@@ -32,6 +35,11 @@ public class EWSDemoFragmentActivity extends EWSDemoBaseActivity implements Acti
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_activity_demo);
         launchEWSFragmentUApp();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private void launchEWSFragmentUApp() {
