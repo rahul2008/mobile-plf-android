@@ -90,6 +90,16 @@ public class GetConsentsModelRequestTest extends MockitoConfiguration {
     }
 
 
+    @Test
+    public void testGetUrlWhenBaseUrlDoesntTerminateWithSlash() throws Exception {
+        givenUrlDoesntTerminateWithSlash();
+        assertEquals("https://hdc-css-mst.cloud.pcftest.com/consent/" + subject + "?applicationName=" + APPLICATION_NAME + "&propositionName=" + PROPOSITION_NAME, consentModelRequest.getUrl());
+    }
+
+    private void givenUrlDoesntTerminateWithSlash() {
+        consentModelRequest = new GetConsentsModelRequest("https://hdc-css-mst.cloud.pcftest.com/consent", APPLICATION_NAME, PROPOSITION_NAME, mockDataLoadListener);
+    }
+
     private static final String APPLICATION_NAME = "OneBackend";
     private static final String PROPOSITION_NAME = "OneBackendProp";
     private final String dateTime = "2017-11-01T17:27:16.000Z";

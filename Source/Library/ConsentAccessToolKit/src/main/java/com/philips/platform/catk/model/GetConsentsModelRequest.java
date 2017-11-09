@@ -40,7 +40,7 @@ public class GetConsentsModelRequest extends NetworkAbstractModel {
 
     @Override
     public String getUrl() {
-        return new StringBuilder(url).append(ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID()).append("?applicationName=")
+        return new StringBuilder(url).append(url.endsWith("/")?"":"/").append(ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID()).append("?applicationName=")
                 .append(mApplicationName).append("&propositionName=").append(mPropositionName).toString();
     }
 }
