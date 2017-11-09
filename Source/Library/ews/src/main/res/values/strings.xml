@@ -11,7 +11,7 @@
     <string name="button_ews_get_started_get_started">Get started</string>
     <!--EWS_01_01 confirm wi network -->
     <string name="label_ews_confirm_connection_title">1. Confirm your Wi-Fi</string>
-    <string name="label_ews_confirm_connection_currently_connected">You are currently connected to:\n %1$s</string>
+    <string name="label_ews_confirm_connection_currently_connected">You are currently connected to:\n\n%1$s</string>
     <string name="label_ews_confirm_connection_tip">We recommend that you use your home Wi-Fi network nearest to the %1$s.\n\nYour %2$s does not support 5Ghz Wi-Fi networks.</string>
     <string name="label_ews_confirm_connection_want_to_connect">Do you want to connect your %1$s to this %2$s?</string>
     <string name="button_ews_confirm_connection_yes">Yes, connect</string>
