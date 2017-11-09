@@ -585,7 +585,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         int color = typedArray.getColor(0, Color.BLACK);
         typedArray.recycle();
         icon.setTextColor(color);
-        icon.setTextSize(40);
+        int markerIconSize = getActivity().getResources().getDimensionPixelSize(R.dimen.locate_philips_marker_size);
+        icon.setTextSize(markerIconSize);
         icon.setText(getActivity().getString(R.string.dls_location));
 
         mBitmapMarker = drawableToBitmap(icon);

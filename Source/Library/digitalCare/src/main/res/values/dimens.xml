@@ -57,6 +57,7 @@
 
     <dimen name="faq_top_margin">1dp</dimen>
     <dimen name="faq_firstscreen_sidemargin">30dp</dimen>
-    <dimen name="faq_top_textview_padding">2dip</dimen>\
+    <dimen name="faq_top_textview_padding">2dip</dimen>
     <dimen name="locate_philips_icon_size">24dp</dimen>
+    <dimen name="locate_philips_marker_size">30dp</dimen>
 </resources>
