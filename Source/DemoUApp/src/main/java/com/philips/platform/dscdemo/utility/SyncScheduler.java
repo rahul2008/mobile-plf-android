@@ -30,7 +30,7 @@ public class SyncScheduler {
 
     public void scheduleSync() {
         if (isRunning) {
-            updateSyncStatus.onSyncStatusChanged(true);
+            updateSyncStatus(true);
             return;
         }
 
@@ -40,7 +40,7 @@ public class SyncScheduler {
                 public void run() {
                     isRunning = true;
                     try {
-                        updateSyncStatus.onSyncStatusChanged(true);
+                        updateSyncStatus(true);
                         mScheduleSyncReceiver.onReceive(getApplicationContext());
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -55,7 +55,7 @@ public class SyncScheduler {
 
     public void stopSync() {
         handler.removeCallbacks(runnable);
-        updateSyncStatus.onSyncStatusChanged(false);
+        updateSyncStatus(false);
         isRunning = false;
     }
 
@@ -69,6 +69,12 @@ public class SyncScheduler {
 
     public boolean isSyncEnabled() {
         return isSyncEnabled;
+    }
+
+    private void updateSyncStatus (boolean isSyncing) {
+        if(updateSyncStatus != null){
+            updateSyncStatus.onSyncStatusChanged(isSyncing);
+        }
     }
 
     public void setListener(UpdateSyncStatus syncStatus) {
