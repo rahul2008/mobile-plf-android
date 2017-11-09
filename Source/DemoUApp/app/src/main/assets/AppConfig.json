@@ -1,0 +1,46 @@
+{
+  "UserRegistration": {
+    "JanRainConfiguration.RegistrationClientID.Development": "8d27se4syudd6q3jyk6mnrufd8bdhwa5",
+    "JanRainConfiguration.RegistrationClientID.Testing": "8d27se4syudd6q3jyk6mnrufd8bdhwa5",
+    "JanRainConfiguration.RegistrationClientID.Evaluation": "8d27se4syudd6q3jyk6mnrufd8bdhwa5",
+    "JanRainConfiguration.RegistrationClientID.Staging": "8d27se4syudd6q3jyk6mnrufd8bdhwa5",
+    "JanRainConfiguration.RegistrationClientID.Production": "tznj2cx69fcvmyazj5euschqs7y3e7jq",
+    "Flow.TermsAndConditionsAcceptanceRequired": "true",
+    "supportedHomeCountries": ["US", "DE"],
+    "fallbackHomeCountry": "US"
+  },
+  "IAP": {
+    "hostport": "acc.occ.shop.philips.com",
+    "propositionid": "Tuscany2016"
+  },
+  "appinfra": {
+    "appidentity.micrositeId": "11400",
+    "appidentity.sector": "b2c",
+    "appidentity.appState": "STAGING",
+    "appidentity.serviceDiscoveryEnvironment": "PRODUCTION",
+    "servicediscovery.platformMicrositeId": "70000",
+    "servicediscovery.platformEnvironment":"PRODUCTION",
+    "enableAdobeLogs":true,
+    "logging.releaseConfig": {
+      "fileName": "Hss",
+      "numberOfFiles": 5,
+      "fileSizeInBytes": 50000,
+      "logLevel": "Off",
+      "fileLogEnabled": false,
+      "consoleLogEnabled": false,
+      "componentLevelLogEnabled": true,
+      "componentIds": []
+    },
+    "logging.debugConfig": {
+      "fileName": "Hss",
+      "numberOfFiles": 5,
+      "fileSizeInBytes": 50000,
+      "logLevel": "All",
+      "fileLogEnabled": false,
+      "consoleLogEnabled": true,
+      "componentLevelLogEnabled": true,
+      "componentIds": ["EasyWifiSetupLogger","EasyWifiSetupTagger"]
+    }
+  }
+}
+
