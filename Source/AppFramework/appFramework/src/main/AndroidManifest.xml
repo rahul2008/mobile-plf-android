@@ -22,7 +22,7 @@
         android:largeHeap="true"
         android:resizeableActivity="true"
         android:supportsRtl="true"
-        android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
+        android:theme="@style/AppTheme"
 
         tools:replace="android:theme,android:label,android:allowBackup,android:icon,android:name,android:supportsRtl">
 
@@ -35,11 +35,20 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:host="telehealth.com"
+                    android:scheme="philips"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".homescreen.HamburgerActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection"
-            android:theme="@style/Theme.DLS.GroupBlue.Bright"/>
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight"/>
 
         <activity
             android:name="com.philips.platform.referenceapp.wxapi.WXEntryActivity"

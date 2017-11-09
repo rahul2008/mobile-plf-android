@@ -21,13 +21,13 @@ abstract public class AbstractUIBasePresenter {
     protected static final int MENU_OPTION_HOME = 0;
     protected static final int MENU_OPTION_SETTINGS = 1;
     protected static final int MENU_OPTION_SHOP = 2;
-    protected static final int MENU_OPTION_SUPPORT = 3;
-    protected static final int MENU_OPTION_ABOUT = 4;
-    protected static final int MENU_OPTION_TEST_MICROAPP = 5;
+    protected static final int MENU_OPTION_TELEHEALTHSERVICES = 3;
+    protected static final int MENU_OPTION_TEST_MICROAPP = 4;
+    protected static final int MENU_OPTION_POWER_SLEEP_CONNECTIVITY = 5;
+    protected static final int MENU_OPTION_SUPPORT = 6;
+    protected static final int MENU_OPTION_ABOUT = 7;
     //protected static final int MENU_OPTION_PR = 9;
-    protected static final int MENU_OPTION_TELEHEALTHSERVICES = 6;
-    protected static final int MENU_OPTION_POWER_SLEEP_CONNECTIVITY = 7;
-    protected static final int MENU_OPTION_MYACCOUNT = 8;
+
 
     /* event to state map */
     protected static final String HOME_SETTINGS = "settings";
@@ -42,7 +42,10 @@ abstract public class AbstractUIBasePresenter {
     protected static final String HOME_COCO_VERSION_INFO="coco_version_info";
     protected static final String HOME_DEBUG="debug";
     protected static final String HOME_TELEHEALTHSERVICES = "telehealthservices";
+
     protected static final String HOME_POWER_SLEEP_CONNECTIVITY = "power_sleep_connectivity";
+    protected static final String HAMBURGER_LOGIN = "login";
+    protected static final String HAMBURGER_LOGOUT = "logout";
     protected static final String HOME_MYACCOUNT = "my_account";
 
     private UIView uiView;

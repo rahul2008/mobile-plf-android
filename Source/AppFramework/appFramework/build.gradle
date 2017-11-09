@@ -340,7 +340,6 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
-
         unitTests.all {
             // set JVM arguments for the test JVM(s)
             jvmArgs '-noverify'
@@ -374,6 +373,7 @@ configurations.all {
     resolutionStrategy.force 'com.android.support:support-annotations:26.0.2'
     exclude group: 'commons-codec', module: 'commons-codec'
     exclude module: 'httpcore'
+
 }
 
 dependencies {
@@ -391,6 +391,7 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-core:5.0'
     compile 'com.j256.ormlite:ormlite-android:5.0'
     compile 'com.android.support:multidex:1.0.2'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
 	def dp = project.ext.has('useprojectdependencies')
 
@@ -456,12 +457,6 @@ dependencies {
 		exclude group: 'com.android.support'
 		transitive = true
 	}
-
-    def myaUAppModule = module(group: 'com.philips.cdp', name: 'MyAccountUApp', version: versions.mya_myAccount + objcdp.getVersionSuffix(), ext: 'aar')
-    compile(dp ? project(':myaUApp') : myaUAppModule) {
-        exclude group: 'com.android.support'
-        transitive = true
-    }
 	
 	def prgUAppModule = module(group: 'com.philips.cdp', name: 'product-registration-libUApp', version: versions.prg_productRegistrationLib + objcdp.getVersionSuffix(), ext: 'aar')
 	compile(dp ? project(':prgUApp') : prgUAppModule) {		
@@ -491,7 +486,12 @@ dependencies {
         compile(dp ? project(':shinelibUApp') : shinelibUAppModule) {
             transitive = true
     }
-
+    
+    def themesettingsModule = module(group: 'com.philips.cdp', name: 'themesettings', version: '1.0.0', ext: 'aar')
+        compile(dp ? project(':themesettings') : themesettingsModule) {
+            transitive = true
+    }
+  
     compile ("com.crittercism:crittercism-android-agent:5.8.7")
 
     testCompile 'junit:junit:4.12'
@@ -512,6 +512,7 @@ dependencies {
     testCompile 'org.json:json:20170516'
 
     compile project(':pushnotification')
+
 }
 
 task copyToLib(type: Copy) {

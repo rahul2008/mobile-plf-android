@@ -17,9 +17,6 @@
     <string name="RA_About_App_Version">Version</string>
     <string name="RA_About_Description">The details for this Page is to be provided by Philips Design</string>
 
-    <!-- MyAccount screen string contants-->
-    <string name="RA_MyAccount_Title">MyAccount</string>
-
     <!--Debug and Test fragment string constants-->
     <string name="RA_DebugScreen_Title">Debug and Test</string>
 
@@ -191,16 +188,26 @@
     <!--Settings Screen ends-->
 
     <string-array name="hamburger_drawer_items">
-        <item>@string/RA_DLS_HomeScreen_Title</item>
+        <item>@string/RA_HomeTab_Menu_Title</item>
         <item>@string/RA_SettingsScreen_Title</item>
         <item>@string/RA_Philips_Shop_Menu_Title</item>
+        <item>@string/RA_See_a_doctor_Menu_Title</item>
+        <item>@string/RA_Demo_Menu_Title</item>
+        <item>@string/RA_ConnectivityScreen_Menu_Title</item>
         <item>@string/RA_Support_Menu_Title</item>
         <item>@string/RA_About_Menu_Title</item>
-        <item>@string/RA_Demo_Menu_Title</item>
-        <item>@string/RA_See_a_doctor_Menu_Title</item>
-        <item>@string/RA_DLS_power_sleep_connectivity</item>
-        <item>@string/RA_MyAccount_Title</item>
     </string-array>
+
+    <array name="hamburger_drawer_items_res">
+        <item>@drawable/rap_home</item>
+        <item>@drawable/rap_settings</item>
+        <item>@drawable/rap_shop</item>
+        <item>@drawable/rap_doctor</item>
+        <item>@drawable/rap_settings</item>
+        <item>@drawable/rap_connectivity</item>
+        <item>@drawable/rap_question_mark</item>
+        <item>@drawable/rap_information</item>
+    </array>
 
     <string name="RA_SECURITY_SCREEN_LOCK" translatable="false"> We’ve detected the screenlock of your mobile phone is to enabled, thereby making it easier for others to access your data. We recommend enabling your screenlock.</string>
     <string name="RA_SECURITY_JAILBREAK_VIOLATION" translatable="false"> We’ve detected that you have rooted the device or jailbroken, thereby making it easier for others to access your data and no security on your application data. </string>
@@ -300,7 +307,7 @@ Receive free product accessories</string>
     <string name="description_close" translatable="false">Close</string>
 
 
-    <string name="RA_DLS_splash_title" translatable="false">&lt;b>CDP&lt;/b>&lt;sup>&lt;small>2&lt;/small>&lt;/sup> Reference App\t</string>
+    <string name="RA_DLS_splash_title" translatable="false"><b>CDP<sup><small>2</small></sup></b> Reference App</string>
     <string name="RA_DLS_HomeScreen_Title" translatable="false">Reference App home</string>
     <string name="RA_DLS_home_page_text" translatable="false">Reference App</string>
     <string name="RA_DLS_home_page_sub_text" translatable="false">ReferenceApp is a base platform used by all propositions to develop and maintain features both generic and specific to the propositions. App infra, Data Gateway, App FWK, and UIToolkit allow Apps to be created from uApps and UI-less services/libraries. ReferenceApp acts as a foundation over which CDP2 uApps and proposition specific uApps are integrated to form individual apps.</string>
@@ -354,6 +361,11 @@ Receive free product accessories</string>
 
     <string name="RA_DLS_no_internet_connectivity" translatable="false">Internet connection is not available</string>
     <string name="RA_DLS_check_internet_connectivity" translatable="false">Check Internet Connectivity</string>
+    <string name="RA_DLS_theme_title" translatable="false">Theme Setting</string>
+    <string name="RA_DLS_theme_set_text" translatable="false">SET</string>
+
+
+
 
     <string name="RA_DLS_data_fetch_wait" translatable="false">Wait..While we fetch your sleep data from device</string>
     <string name="RA_DLS_data_fetch_error" translatable="false">Not able to fetch data</string>
@@ -369,4 +381,12 @@ Receive free product accessories</string>
     <string name="sleep_tip_desc_3" translatable="false">Your body will relax quickly if you take a hot bath, but you need to take it at least 90-120 minutes before you go to sleep. Also, make sure the water temperature is around 40 degree Celsius.</string>
 
     <string name="RA_DLS_enable_bluetooth" translatable="false">Please enable bluetooth</string>
+
+    <string name="RA_DLSS_avatar_default_text" translatable="false">Hello User, \nPlease sign in.</string>
+
+    <string name="RA_DLS_about_copyright" translatable="false">Copyright \u00A9 2017 Philips</string>
+    <string name="RA_DLS_about_terms" translatable="false">Terms &amp; conditions</string>
+    <string name="RA_DLS_about_privacy" translatable="false">Privacy policy</string>
+    <string name="RA_DLS_about_description" translatable="false">This reference app is the starting point for any new patient medical or consumer mobile app. It is made up of configurable common components which are all part of the CDP2 Platform. It will help accelerate your app development, harmonize UX across Philips and ensures appropriate integration with HSDP.</string>
+
 </resources>

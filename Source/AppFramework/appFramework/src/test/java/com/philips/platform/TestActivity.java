@@ -22,10 +22,6 @@ public class TestActivity extends HamburgerActivity {
         return R.id.frame_container;
     }
 
-    @Override
-    public void initDLS(){
-        setTheme(R.style.Theme_Philips_BrightBlue_Gradient_NoActionBar);
-    }
 
     @Override
     public void updateActionBarIcon(boolean b) {
@@ -44,6 +40,11 @@ public class TestActivity extends HamburgerActivity {
 
     @Override
     public void updateSelectionIndex(int position) {
+
+    }
+
+    @Override
+    protected void removeListeners() {
 
     }
 }

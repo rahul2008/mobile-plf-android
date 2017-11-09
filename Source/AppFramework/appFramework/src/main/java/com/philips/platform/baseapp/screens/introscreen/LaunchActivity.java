@@ -8,27 +8,22 @@ package com.philips.platform.baseapp.screens.introscreen;
 
 import android.os.Bundle;
 import android.support.annotation.StringRes;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.philips.cdp.di.iap.integration.IAPListener;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 import java.util.ArrayList;
 
@@ -39,19 +34,24 @@ import java.util.ArrayList;
  * 2. Welcome fragments
  */
 public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements LaunchView, IAPListener {
-    public static final String TAG =  LaunchActivity.class.getSimpleName();
+    public static final String TAG = LaunchActivity.class.getSimpleName();
 
-    private TextView textView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        RALog.d(TAG," onCreate called  ");
-
+        RALog.d(TAG, " onCreate called  ");
         super.onCreate(savedInstanceState);
         presenter = new LaunchActivityPresenter(this);
         setContentView(R.layout.af_launch_activity);
-        initCustomActionBar();
+        initToolBar();
         presenter.onEvent(LaunchActivityPresenter.APP_LAUNCH_STATE);
+    }
+
+    private void initToolBar() {
+        toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
+        UIDHelper.setupToolbar(this);
+        toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.left_arrow, getTheme()));
     }
 
     @Override
@@ -62,33 +62,6 @@ public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements 
     @Override
     protected void onResume() {
         super.onResume();
-    }
-
-    private void initCustomActionBar() {
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the text view in the ActionBar !
-                ActionBar.LayoutParams.MATCH_PARENT,
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                Gravity.CENTER);
-        View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_home_action_bar, null); // layout which contains your button.
-
-
-        final FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.home_action_bar_button_layout);
-        frameLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                onBackPressed();
-            }
-        });
-        final ImageView arrowImage = (ImageView) mCustomView
-                .findViewById(R.id.home_action_bar_arrow_left);
-        textView = (TextView) mCustomView.findViewById(R.id.home_action_bar_text);
-        arrowImage.setBackground(VectorDrawable.create(this, R.drawable.left_arrow));
-        actionBar.setCustomView(mCustomView, params);
     }
 
     @Override
@@ -106,7 +79,7 @@ public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements 
 
     @Override
     public void finishActivityAffinity() {
-        RALog.d(TAG," finishActivityAffinity called  ");
+        RALog.d(TAG, " finishActivityAffinity called  ");
 
         finishAffinity();
     }
@@ -118,14 +91,12 @@ public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements 
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
-        textView.setText(i);
-        setTitle(getResources().getString(i));
+        UIDHelper.setTitle(this, getResources().getString(i));
     }
 
     @Override
-    public void updateActionBar(String s, boolean b) {
-        textView.setText(s);
-        setTitle(s);
+    public void updateActionBar(String title, boolean b) {
+        UIDHelper.setTitle(this, title);
     }
 
 
@@ -166,8 +137,7 @@ public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (getSupportActionBar() != null){
-            textView = null;
+        if (getSupportActionBar() != null) {
             presenter = null;
         }
     }
@@ -207,5 +177,15 @@ public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements 
 
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
 }
