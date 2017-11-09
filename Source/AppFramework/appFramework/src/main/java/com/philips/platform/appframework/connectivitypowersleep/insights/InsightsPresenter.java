@@ -19,8 +19,9 @@ public class InsightsPresenter implements InsightsContract.Action {
 
     private Context context;
 
-    public InsightsPresenter(InsightsContract.View view, Context activity) {
-
+    public InsightsPresenter(InsightsContract.View view, Context appContext) {
+        this.view=view;
+        context=appContext;
     }
 
     @Override

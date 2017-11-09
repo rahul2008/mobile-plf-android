@@ -58,7 +58,7 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initializeTipsList();
-        insightPresenter= new InsightsPresenter(this,getActivity());
+        insightPresenter= new InsightsPresenter(this,getActivity().getApplicationContext());
         adapter = new InsightsAdapter(getActivity(), insightsTitleItemList, insightsDescItemList);
         recyclerViewInsights.setAdapter(adapter);
     }
