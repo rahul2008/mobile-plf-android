@@ -16,6 +16,8 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class MyAccountState extends BaseState {
+    public static final String APPLICATION_NAME = "OneBackend";
+    public static final String PROPOSITION_NAME = "OneBackendProp";
 
     public MyAccountState() {
         super(AppStates.MY_ACCOUNT);
@@ -51,6 +53,9 @@ public class MyAccountState extends BaseState {
 
     @NonNull
     protected MyaDependencies getUappDependencies(Context actContext) {
-        return new MyaDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra());
+        MyaDependencies myaDependencies = new MyaDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra());
+        myaDependencies.setApplicationName(APPLICATION_NAME);
+        myaDependencies.setPropositionName(PROPOSITION_NAME);
+        return myaDependencies;
     }
 }

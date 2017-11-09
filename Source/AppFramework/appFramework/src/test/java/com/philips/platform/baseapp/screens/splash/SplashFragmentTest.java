@@ -72,10 +72,7 @@ public class SplashFragmentTest {
             setTheme(R.style.Theme_Philips_DarkBlue_Gradient_NoActionBar);
             super.onCreate(savedInstanceState);
         }
-        @Override
-        public void initDLS(){
-            setTheme(R.style.Theme_Philips_BrightBlue_Gradient_NoActionBar);
-        }
+
     }
 
 }

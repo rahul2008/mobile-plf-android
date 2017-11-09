@@ -17,9 +17,6 @@
     <string name="RA_About_App_Version">Version</string>
     <string name="RA_About_Description">The details for this Page is to be provided by Philips Design</string>
 
-    <!-- MyAccount screen string contants-->
-    <string name="RA_MyAccount_Title">MyAccount</string>
-
     <!--Debug and Test fragment string constants-->
     <string name="RA_DebugScreen_Title">Debug and Test</string>
 
@@ -364,6 +361,11 @@ Receive free product accessories</string>
 
     <string name="RA_DLS_no_internet_connectivity" translatable="false">Internet connection is not available</string>
     <string name="RA_DLS_check_internet_connectivity" translatable="false">Check Internet Connectivity</string>
+    <string name="RA_DLS_theme_title" translatable="false">Theme Setting</string>
+    <string name="RA_DLS_theme_set_text" translatable="false">SET</string>
+
+
+
 
     <string name="RA_DLS_data_fetch_wait" translatable="false">Wait..While we fetch your sleep data from device</string>
     <string name="RA_DLS_data_fetch_error" translatable="false">Not able to fetch data</string>
