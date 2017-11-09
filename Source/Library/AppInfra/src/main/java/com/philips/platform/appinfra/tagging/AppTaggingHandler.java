@@ -216,12 +216,15 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
      void setPrivacyStatus(AppTaggingInterface.PrivacyStatus privacyStatus) {
         switch (privacyStatus) {
             case OPTIN:
+                Analytics.trackAction("analyticsOptIn", null);
                 Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_IN);
                 break;
             case OPTOUT:
+                Analytics.trackAction("analyticsOptOut", null);
                 Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_OUT);
                 break;
             case UNKNOWN:
+                Analytics.trackAction("analyticsUnkown", null);
                 Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_UNKNOWN);
                 break;
         }
