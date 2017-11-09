@@ -34,8 +34,6 @@ import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.pojo.Pagination;
 
-import org.joda.time.DateTime;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -155,7 +153,7 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 	}
 
 	private void updateStartDate() throws ParseException {
-		String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
+		String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 		SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 		String dateAsString = sdf.format(myCalendar.getTime());
 		mMomentStartDateEt.setText(dateAsString);
@@ -163,7 +161,7 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 	}
 
 	private void updateEndDate() throws ParseException {
-		String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
+		String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 		SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 		String dateAsString = sdf.format(myCalendar.getTime());
 		mMomentEndDateEt.setText(dateAsString);

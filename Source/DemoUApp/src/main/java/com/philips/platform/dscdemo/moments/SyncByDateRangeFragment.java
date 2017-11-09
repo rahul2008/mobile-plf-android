@@ -44,7 +44,7 @@ import java.util.Locale;
 
 public class SyncByDateRangeFragment extends DSBaseFragment
         implements View.OnClickListener, DBFetchRequestListner<Moment>,
-        DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener {
+        DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener, SyncScheduler.UpdateSyncStatus {
 
     private Context mContext;
     private MomentPresenter mMomentPresenter;
@@ -108,6 +108,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         tvSyncStatus = view.findViewById(R.id.tvSyncStatus);
         mEnableDisableSync = view.findViewById(R.id.toggleButton);
 
+        SyncScheduler.getInstance().setListener(this);
         if (!SyncScheduler.getInstance().isSyncEnabled()) {
             mEnableDisableSync.setChecked(false);
         }
@@ -240,7 +241,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 
 
     private void updateStartDate() throws ParseException {
-        String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
+        String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         String dateAsString = sdf.format(myCalendar.getTime());
         mMomentStartDateEt.setText(dateAsString);
@@ -248,7 +249,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
     }
 
     private void updateEndDate() throws ParseException {
-        String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
+        String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         String dateAsString = sdf.format(myCalendar.getTime());
         mMomentEndDateEt.setText(dateAsString);
@@ -269,5 +270,14 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         super.onStop();
         DataServicesManager.getInstance().unRegisterDBChangeListener();
         DataServicesManager.getInstance().unRegisterSynchronisationCosmpleteListener();
+    }
+
+    @Override
+    public void onSyncStatusChanged(boolean isRunning) {
+        if (isRunning) {
+            updateTextView("InProgress");
+        } else {
+            updateTextView("Stopped");
+        }
     }
 }
