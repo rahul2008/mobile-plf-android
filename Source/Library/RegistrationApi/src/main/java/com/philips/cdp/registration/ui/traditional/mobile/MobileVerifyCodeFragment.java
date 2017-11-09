@@ -96,7 +96,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         String userId =  user.getMobile();
         String normalText = getString(R.string.reg_DLS_VerifySMS_Description_Text);
         SpannableString str = new SpannableString(String.format(normalText, userId));
-        str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length(), str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length()-2, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         reg_verify_mobile_desc1.setText(str);
     }
 

@@ -66,7 +66,7 @@
                 android:id="@+id/reg_error_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_margin_bottom"
+                android:layout_marginTop="@dimen/reg_dimen_12dp"
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin" />
 

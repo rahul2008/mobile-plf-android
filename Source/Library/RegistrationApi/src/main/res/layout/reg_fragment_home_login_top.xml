@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
-                android:text="@string/reg_SigIn_TitleTxt"/>
+                android:text="@string/reg_DLS_SigIn_TitleTxt"/>
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/usr_startScreen_createAccount_Button"
