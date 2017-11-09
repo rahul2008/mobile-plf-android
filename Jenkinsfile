@@ -59,7 +59,7 @@ node('Android') {
                     sh """#!/bin/bash -l
                                 chmod -R 755 . 
                                 cd ./Source/DemoUApp
-                                ./gradlew --refresh-dependencies -PbuildNumber=${env.BUILD_NUMBER} assembleRelease 
+                                ./gradlew  -PbuildNumber=${env.BUILD_NUMBER} assembleRelease 
                             """
             }
                 
