@@ -24,11 +24,13 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -85,6 +87,16 @@ public class MyAccountStateTest {
         myAccountState.navigate(fragmentLauncher);
         verify(myaInterface).init(any(MyaDependencies.class), any(MyaSettings.class));
         verify(myaInterface).launch(any(FragmentLauncher.class), any(MyaLaunchInput.class));
+    }
+
+    @Test
+    public void init_testApplicationAndPropositionName() {
+        ArgumentCaptor<MyaDependencies> myaDependencies = ArgumentCaptor.forClass(MyaDependencies.class);
+        myAccountState.setUiStateData(uiStateData);
+        myAccountState.navigate(fragmentLauncher);
+        verify(myaInterface).init(myaDependencies.capture(), any(MyaSettings.class));
+        assertEquals("OneBackend", myaDependencies.getValue().getApplicationName());
+        assertEquals("OneBackendProp", myaDependencies.getValue().getPropositionName());
     }
 
     @After
