@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
-                android:textColor="?attr/uidLabelDescriptorNormalTextColor"
+                android:textColor="?attr/uidLabelRegularNormalTextColor"
                 android:text="@string/reg_DLS_First_Name_Label_Text"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
-                android:textColor="?attr/uidLabelDescriptorNormalTextColor"
+                android:textColor="?attr/uidLabelRegularNormalTextColor"
                 android:text="@string/reg_DLS_Last_Name_Label_Text"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
@@ -80,7 +80,7 @@
                 style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
-                android:textColor="?attr/uidLabelDescriptorNormalTextColor"
+                android:textColor="?attr/uidLabelRegularNormalTextColor"
                 android:layout_height="wrap_content"
                 android:text="@string/reg_DLS_Email_Label_Text"/>
 
@@ -106,7 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
-                android:textColor="?attr/uidLabelDescriptorNormalTextColor"
+                android:textColor="?attr/uidLabelRegularNormalTextColor"
                 android:text="@string/reg_DLS_Password_lbltxt"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
@@ -177,13 +177,14 @@
                 android:id="@+id/usr_createscreen_marketingmails_checkbox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:text="@string/reg_Receive_Philips_News_lbltxt"/>
 
             <com.philips.platform.uid.view.widget.CheckBox
                 android:id="@+id/usr_createscreen_termsandconditions_checkbox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_dimen_12dp"
+                android:layout_marginTop="@dimen/reg_dimen_24dp"
                 android:text="@string/reg_DLS_TermsAndConditionsAcceptanceText"/>
 
             <com.philips.cdp.registration.ui.customviews.XRegError
