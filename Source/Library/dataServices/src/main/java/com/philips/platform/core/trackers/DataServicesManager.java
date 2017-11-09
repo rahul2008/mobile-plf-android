@@ -250,16 +250,16 @@ public class DataServicesManager {
      * For Pulling and Pushing of data from DataBase to Backend
      */
     public void synchronize() {
-        sendPullDataEvent();
-    }
-
-    /**
-     * Start Data-Pull followed by Data-Push
-     */
-    private void sendPullDataEvent() {
         synchronized (this) {
             startMonitors();
-            mSynchronisationManager.startSync(mSynchronisationCompleteListener);
+            mSynchronisationManager.startSync(null, null, mSynchronisationCompleteListener);
+        }
+    }
+
+    public void synchronizeWithFetchByDateRange(DateTime startDate, DateTime endDate, SynchronisationCompleteListener synchronisationCompleteListener) {
+        synchronized (this) {
+            startMonitors();
+            mSynchronisationManager.startSync(startDate.toString(), endDate.toString(), synchronisationCompleteListener);
         }
     }
 
@@ -337,15 +337,15 @@ public class DataServicesManager {
         mEventing.post(new LoadMomentsRequest(dbFetchRequestListner));
     }
 
-	public void fetchMomentsWithTimeLine(Date startDate, Date endDate,DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
-       mEventing.post(new LoadMomentsByDate(startDate,endDate,dsPagination,dbFetchRequestListener));
-	}
+    public void fetchMomentsWithTimeLine(Date startDate, Date endDate, DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
+        mEventing.post(new LoadMomentsByDate(startDate, endDate, dsPagination, dbFetchRequestListener));
+    }
 
-	public void fetchMomentsWithTypeAndTimeLine(String momentType, Date startDate, Date endDate,DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
-		mEventing.post(new LoadMomentsByDate(momentType,startDate,endDate,dsPagination,dbFetchRequestListener));
-	}
+    public void fetchMomentsWithTypeAndTimeLine(String momentType, Date startDate, Date endDate, DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
+        mEventing.post(new LoadMomentsByDate(momentType, startDate, endDate, dsPagination, dbFetchRequestListener));
+    }
 
-	/**
+    /**
      * Fetch the Consent Detail from Data-Base
      *
      * @param dbFetchRequestListner Callback for notifying the fetch result

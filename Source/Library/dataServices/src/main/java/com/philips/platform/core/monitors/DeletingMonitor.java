@@ -11,9 +11,9 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteExpiredMomentRequest;
+import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.DeleteInsightRequest;
 import com.philips.platform.core.events.DeleteInsightResponse;
-import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentsDeleteRequest;
@@ -45,54 +45,6 @@ public class DeletingMonitor extends EventMonitor {
         } catch (SQLException e) {
             dbInterface.deleteFailed(e, dbRequestListener);
         }
-        //eventing.post(new DataClearResponse(event.getEventId()));
-    }
-
-    //Moments
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(DeleteAllMomentsRequest event) {
-        final DBRequestListener<Moment> dbRequestListener = event.getDbRequestListener();
-        try {
-            dbInterface.deleteAllMoments(dbRequestListener);
-        } catch (SQLException e) {
-            dbInterface.deleteFailed(e, dbRequestListener);
-        }
-        //eventing.post(new DataClearResponse(event.getEventId()));
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(MomentDeleteRequest event) {
-        final DBRequestListener<Moment> dbRequestListener = event.getDbRequestListener();
-        try {
-            dbInterface.markAsInActive(event.getMoment(), dbRequestListener);
-        } catch (SQLException e) {
-            dbInterface.deleteFailed(e, dbRequestListener);
-        }
-        //   eventing.post(new MomentChangeEvent(event.getEventId(), event.getMoments()));
-
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(DeleteExpiredMomentRequest event) {
-        DBRequestListener<Integer> dbRequestListener = event.getDbRequestListener();
-        try {
-            dbInterface.deleteAllExpiredMoments(dbRequestListener);
-        } catch (SQLException e) {
-            dbInterface.deleteFailed(e, dbRequestListener);
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(MomentsDeleteRequest event) {
-        final DBRequestListener<Moment> dbRequestListener = event.getDbRequestListener();
-        try {
-            dbInterface.markMomentsAsInActive(event.getMoments(), dbRequestListener);
-        } catch (SQLException e) {
-            dbInterface.deleteFailed(e, dbRequestListener);
-        }
-        //   eventing.post(new MomentChangeEvent(event.getEventId(), event.getMoments()));
-
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -106,7 +58,48 @@ public class DeletingMonitor extends EventMonitor {
         }
     }
 
-    //Insights
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(DeleteAllMomentsRequest event) {
+        final DBRequestListener<Moment> dbRequestListener = event.getDbRequestListener();
+        try {
+            dbInterface.deleteAllMoments(dbRequestListener);
+        } catch (SQLException e) {
+            dbInterface.deleteFailed(e, dbRequestListener);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(MomentDeleteRequest event) {
+        final DBRequestListener<Moment> dbRequestListener = event.getDbRequestListener();
+        try {
+            dbInterface.markAsInActive(event.getMoment(), dbRequestListener);
+        } catch (SQLException e) {
+            dbInterface.deleteFailed(e, dbRequestListener);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(MomentsDeleteRequest event) {
+        final DBRequestListener<Moment> dbRequestListener = event.getDbRequestListener();
+        try {
+            dbInterface.markMomentsAsInActive(event.getMoments(), dbRequestListener);
+        } catch (SQLException e) {
+            dbInterface.deleteFailed(e, dbRequestListener);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(DeleteExpiredMomentRequest event) {
+        DBRequestListener<Integer> dbRequestListener = event.getDbRequestListener();
+        try {
+            dbInterface.deleteAllExpiredMoments(dbRequestListener);
+        } catch (SQLException e) {
+            dbInterface.deleteFailed(e, dbRequestListener);
+        }
+    }
+
+
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(DeleteInsightFromDB deleteInsightFromDB) {
         final DBRequestListener<Insight> dbRequestListener = deleteInsightFromDB.getDbRequestListener();

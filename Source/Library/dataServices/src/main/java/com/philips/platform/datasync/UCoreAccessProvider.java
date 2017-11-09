@@ -12,6 +12,13 @@ import com.philips.platform.core.BackendIdProvider;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
+import org.joda.time.DateTime;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -20,6 +27,11 @@ public class UCoreAccessProvider implements BackendIdProvider {
 
     public static final String MOMENT_LAST_SYNC_URL_KEY = "MOMENT_LAST_SYNC_URL_KEY";
     public static final String INSIGHT_LAST_SYNC_URL_KEY = "INSIGHT_LAST_SYNC_URL_KEY";
+
+    private static final String START_DATE = "START_DATE";
+    private static final String END_DATE = "END_DATE";
+    private static final String LAST_MODIFIED_START_DATE = "LAST_MODIFIED_START_DATE";
+    private static final String LAST_MODIFIED_END_DATE = "LAST_MODIFIED_END_DATE";
 
     @Inject
     SharedPreferences sharedPreferences;
@@ -82,4 +94,32 @@ public class UCoreAccessProvider implements BackendIdProvider {
             edit.apply();
         }
     }
+
+    public Map<String, String> getLastSyncTimeStampByDateRange(String syncUrl) {
+        Map<String, String> timeStampMap = new HashMap<>();
+        if (syncUrl != null && !syncUrl.isEmpty()) {
+            int indexOf = syncUrl.indexOf('?');
+            syncUrl = syncUrl.substring(indexOf + 1);
+            String[] timestamp = syncUrl.split("&");
+            timeStampMap.put(START_DATE, timestamp[0].split("=")[1]);
+            timeStampMap.put(END_DATE, timestamp[1].split("=")[1]);
+            timeStampMap.put(LAST_MODIFIED_START_DATE, timestamp[2].split("=")[1]);
+            timeStampMap.put(LAST_MODIFIED_END_DATE, timestamp[3].split("=")[1]);
+        }
+        return timeStampMap;
+    }
+
+    public Map<String, String> getLastSyncTimeStampByDateRange(String startDate, String endDate) {
+        Map<String, String> timeStampMap = new HashMap<>();
+        try {
+            timeStampMap.put(START_DATE, URLEncoder.encode(startDate, "UTF-8"));
+            timeStampMap.put(END_DATE, URLEncoder.encode(endDate, "UTF-8"));
+            timeStampMap.put(LAST_MODIFIED_START_DATE, URLEncoder.encode(startDate, "UTF-8"));
+            timeStampMap.put(LAST_MODIFIED_END_DATE, URLEncoder.encode(new DateTime().toString(), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            //Debug log
+        }
+        return timeStampMap;
+    }
+
 }

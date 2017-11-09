@@ -6,14 +6,12 @@
 package com.philips.platform.datasync.synchronisation;
 
 import com.philips.platform.core.Eventing;
+import com.philips.platform.core.events.FetchByDateRange;
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.listeners.SynchronisationChangeListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -21,28 +19,32 @@ public class SynchronisationManager implements SynchronisationChangeListener {
 
     private volatile boolean isSyncComplete = true;
 
+    SynchronisationCompleteListener mSynchronisationCompleteListener;
+
     @Inject
     Eventing mEventing;
-
-    SynchronisationCompleteListener mSynchronisationCompleteListener;
 
     public SynchronisationManager() {
         DataServicesManager.getInstance().getAppComponant().injectSynchronisationManager(this);
     }
 
-    public void startSync(SynchronisationCompleteListener synchronisationCompleteListner) {
+    public void startSync(String startDate, String endDate, SynchronisationCompleteListener synchronisationCompleteListner) {
         synchronized (this) {
             mSynchronisationCompleteListener = synchronisationCompleteListner;
             if (isSyncComplete) {
                 isSyncComplete = false;
-                mEventing.post(new ReadDataFromBackendRequest(null));
+                if (startDate == null && endDate == null) {
+                    mEventing.post(new ReadDataFromBackendRequest());
+                } else {
+                    mEventing.post(new FetchByDateRange(startDate, endDate));
+                }
             }
         }
     }
 
     @Override
     public void dataPullSuccess() {
-        mEventing.post(new WriteDataToBackendRequest());
+        postEventToStartPush();
     }
 
     @Override
@@ -52,42 +54,39 @@ public class SynchronisationManager implements SynchronisationChangeListener {
 
     @Override
     public void dataPullFail(Exception e) {
-        isSyncComplete = true;
-        if (mSynchronisationCompleteListener != null)
-            mSynchronisationCompleteListener.onSyncFailed(e);
-        mSynchronisationCompleteListener = null;
+        postOnSyncFailed(e);
     }
 
     @Override
     public void dataPushFail(Exception e) {
-        isSyncComplete = true;
-        if (mSynchronisationCompleteListener != null)
-            mSynchronisationCompleteListener.onSyncFailed(e);
-        mSynchronisationCompleteListener = null;
+        postOnSyncFailed(e);
     }
 
     @Override
     public void dataSyncComplete() {
+        postOnSyncComplete();
+    }
+
+    private void postEventToStartPush(){
+        mEventing.post(new WriteDataToBackendRequest());
+    }
+
+    private void postOnSyncComplete() {
         isSyncComplete = true;
         if (mSynchronisationCompleteListener != null)
             mSynchronisationCompleteListener.onSyncComplete();
         mSynchronisationCompleteListener = null;
     }
 
-    public void stopSync() {
+    private void postOnSyncFailed(Exception exception) {
         isSyncComplete = true;
+        if (mSynchronisationCompleteListener != null)
+            mSynchronisationCompleteListener.onSyncFailed(exception);
         mSynchronisationCompleteListener = null;
     }
 
-    void shutdownAndAwaitTermination(ExecutorService pool) {
-        pool.shutdown();
-        try {
-            if (!pool.awaitTermination(60, TimeUnit.SECONDS)) {
-                pool.shutdownNow();
-            }
-        } catch (InterruptedException ie) {
-            pool.shutdownNow();
-            Thread.currentThread().interrupt();
-        }
+    public void stopSync() {
+        isSyncComplete = true;
+        mSynchronisationCompleteListener = null;
     }
 }

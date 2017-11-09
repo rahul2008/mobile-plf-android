@@ -10,6 +10,12 @@ public class SyncScheduler {
     private final Handler handler = new Handler();
     private Runnable runnable;
     private boolean isRunning = false;
+    private boolean isSyncEnabled = true;
+    private UpdateSyncStatus updateSyncStatus;
+
+    public interface UpdateSyncStatus {
+        void onSyncStatusChanged(boolean isRunning);
+    }
 
     private SyncScheduler() {
         mScheduleSyncReceiver = new ScheduleSyncReceiver();
@@ -23,28 +29,56 @@ public class SyncScheduler {
     }
 
     public void scheduleSync() {
-
-        if (isRunning)
+        if (isRunning) {
+            updateSyncStatus(true);
             return;
+        }
 
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                isRunning = true;
-                try {
-                    mScheduleSyncReceiver.onReceive(getApplicationContext());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    handler.postDelayed(this, ScheduleSyncReceiver.DATA_FETCH_FREQUENCY);
+        if (isSyncEnabled) {
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    isRunning = true;
+                    try {
+                        updateSyncStatus(true);
+                        mScheduleSyncReceiver.onReceive(getApplicationContext());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        handler.postDelayed(this, ScheduleSyncReceiver.DATA_FETCH_FREQUENCY);
+                    }
                 }
-            }
-        };
-        runnable.run();
+            };
+            runnable.run();
+        }
     }
 
     public void stopSync() {
         handler.removeCallbacks(runnable);
+        updateSyncStatus(false);
         isRunning = false;
     }
+
+    public boolean getSyncStatus() {
+        return isRunning;
+    }
+
+    public void setSyncEnable(boolean isSyncEnabled) {
+        this.isSyncEnabled = isSyncEnabled;
+    }
+
+    public boolean isSyncEnabled() {
+        return isSyncEnabled;
+    }
+
+    private void updateSyncStatus (boolean isSyncing) {
+        if(updateSyncStatus != null){
+            updateSyncStatus.onSyncStatusChanged(isSyncing);
+        }
+    }
+
+    public void setListener(UpdateSyncStatus syncStatus) {
+        this.updateSyncStatus = syncStatus;
+    }
+
 }

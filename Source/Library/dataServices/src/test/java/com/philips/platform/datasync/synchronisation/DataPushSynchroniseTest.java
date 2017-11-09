@@ -10,7 +10,7 @@ import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.insights.InsightDataSender;
 import com.philips.platform.datasync.moments.MomentsDataSender;
 import com.philips.platform.datasync.settings.SettingsDataSender;
-import com.philips.platform.datasync.spy.EventingSpy;
+import com.philips.spy.EventingSpy;
 import com.philips.platform.datasync.spy.UserAccessProviderSpy;
 
 import org.junit.Before;
@@ -108,7 +108,6 @@ public class DataPushSynchroniseTest {
         thenAnErrorIsPostedWithReferenceId(EVENT_ID);
     }
 
-
     @Test
     public void postSyncCompleteWhenNoSenders() {
         givenUserIsLoggedIn();
@@ -122,6 +121,7 @@ public class DataPushSynchroniseTest {
     public void postSyncCompleteWhenNoConfigurableSenders() {
         givenUserIsLoggedIn();
         givenNoConfigurableSenderList();
+        givenSenderList();
         whenSynchronisationIsStarted(EVENT_ID);
         thenAnEventIsRegisteredWithClass(REGISTERED_CLASS);
         thenAnEventIsPostedWithReferenceId(EVENT_ID);

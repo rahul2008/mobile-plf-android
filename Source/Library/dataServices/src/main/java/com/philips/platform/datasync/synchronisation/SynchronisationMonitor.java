@@ -5,6 +5,7 @@
 */
 package com.philips.platform.datasync.synchronisation;
 
+import com.philips.platform.core.events.FetchByDateRange;
 import com.philips.platform.core.events.ReadDataFromBackendRequest;
 import com.philips.platform.core.events.WriteDataToBackendRequest;
 import com.philips.platform.core.monitors.EventMonitor;
@@ -33,7 +34,14 @@ public class SynchronisationMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(ReadDataFromBackendRequest event) {
         synchronized (this) {
-            pullSynchronise.startSynchronise(event.getLastSynchronizationTimestamp(), event.getEventId());
+            pullSynchronise.startSynchronise(event.getEventId());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onEventAsync(FetchByDateRange fetchByDateRange) {
+        synchronized (this) {
+            pullSynchronise.startSynchronise(fetchByDateRange.getStartDate(), fetchByDateRange.getEndDate(), fetchByDateRange.getEventId());
         }
     }
 

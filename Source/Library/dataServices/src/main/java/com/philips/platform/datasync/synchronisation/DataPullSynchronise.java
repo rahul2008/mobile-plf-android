@@ -8,7 +8,6 @@
 package com.philips.platform.datasync.synchronisation;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
@@ -19,8 +18,6 @@ import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.insights.InsightDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.settings.SettingsDataFetcher;
-
-import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +62,7 @@ public class DataPullSynchronise {
     @Inject
     Eventing eventing;
 
-    private volatile RetrofitError fetchResult;
+    private volatile RetrofitError retrofitError;
 
     List<? extends DataFetcher> configurableFetchers;
 
@@ -75,12 +72,10 @@ public class DataPullSynchronise {
     public DataPullSynchronise(@NonNull final List<? extends DataFetcher> fetchers) {
         dataServicesManager = DataServicesManager.getInstance();
         dataServicesManager.getAppComponant().injectDataPullSynchronize(this);
-
         this.fetchers = fetchers;
-
     }
 
-    void startSynchronise(@Nullable final DateTime sinceLastModifiedDate, final int referenceId) {
+    void startSynchronise(final int referenceId) {
         if (!userAccessProvider.isLoggedIn()) {
             postError(referenceId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in")));
             return;
@@ -89,7 +84,21 @@ public class DataPullSynchronise {
         if (executor == null) {
             synchronisationManager.dataSyncComplete();
         } else {
-            fetchData(sinceLastModifiedDate, referenceId);
+            fetchData(referenceId);
+        }
+    }
+
+    void startSynchronise(String startDate, String endDate, final int referenceId) {
+        if (!userAccessProvider.isLoggedIn()) {
+            postError(referenceId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in")));
+            return;
+        }
+
+        initializeFetchersAndExecutor();
+        if (executor == null) {
+            synchronisationManager.dataSyncComplete();
+        } else {
+            fetchDataByDateRange(startDate, endDate);
         }
     }
 
@@ -100,32 +109,59 @@ public class DataPullSynchronise {
         }
     }
 
-    private synchronized void fetchData(final DateTime sinceLastModifiedDate, final int referenceId) {
+    private synchronized void fetchData(final int referenceId) {
         final CountDownLatch countDownLatch = new CountDownLatch(configurableFetchers.size());
 
         for (final DataFetcher fetcher : configurableFetchers) {
             executor.execute(new Runnable() {
                 @Override
                 public void run() {
-                    RetrofitError resultError = fetcher.fetchDataSince(sinceLastModifiedDate);
+                    RetrofitError resultError = fetcher.fetchData();
                     updateResult(resultError);
                     countDownLatch.countDown();
                 }
             });
         }
 
+        waitTillThreadsGetsCompleted(countDownLatch);
+
+        reportResult(retrofitError, referenceId);
+    }
+
+    private synchronized void fetchDataByDateRange(final String startDate, final String endDate) {
+        final CountDownLatch countDownLatch = new CountDownLatch(configurableFetchers.size());
+
+        for (final DataFetcher fetcher : configurableFetchers) {
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    retrofitError = fetcher.fetchDataByDateRange(startDate, endDate);
+                    countDownLatch.countDown();
+                }
+            });
+        }
+
+        waitTillThreadsGetsCompleted(countDownLatch);
+
+        if (retrofitError != null) {
+            synchronisationManager.dataPullFail(retrofitError);
+        } else {
+            synchronisationManager.dataPullSuccess();
+        }
+
+    }
+
+    private void waitTillThreadsGetsCompleted(CountDownLatch countDownLatch) {
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
             //Debug log
         }
-
-        reportResult(fetchResult, referenceId);
     }
 
     private void updateResult(final RetrofitError resultError) {
         if (resultError != null) {
-            this.fetchResult = resultError;
+            this.retrofitError = resultError;
         }
     }
 

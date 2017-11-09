@@ -20,6 +20,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
 
@@ -40,6 +41,8 @@ public class DemoApplication extends MultiDexApplication {
         if (new User(this).isUserSignIn()) {
             SyncScheduler.getInstance().scheduleSync();
         }
+
+        LeakCanary.install(this);
     }
 
     private void initAppInfra() {

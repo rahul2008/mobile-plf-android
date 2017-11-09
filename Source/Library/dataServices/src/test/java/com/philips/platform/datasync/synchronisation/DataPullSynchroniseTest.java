@@ -7,11 +7,10 @@ import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.insights.InsightDataFetcher;
 import com.philips.platform.datasync.moments.MomentsDataFetcher;
 import com.philips.platform.datasync.settings.SettingsDataFetcher;
-import com.philips.platform.datasync.spy.EventingSpy;
 import com.philips.platform.datasync.spy.UserAccessProviderSpy;
+import com.philips.spy.EventingSpy;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -25,13 +24,15 @@ import java.util.Set;
 import retrofit.RetrofitError;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DataPullSynchroniseTest {
     private static final int EVENT_ID = 2344;
 
-    private static final DateTime NOW = DateTime.now(DateTimeZone.UTC);
+    private static final String START_DATE = new DateTime().toString();
+    private static final String END_DATE = new DateTime().toString();
 
     private UserAccessProviderSpy userAccessProviderSpy;
 
@@ -125,9 +126,9 @@ public class DataPullSynchroniseTest {
     }
 
     @Test
-    public void postOkWhenNoConfigurableFetchers(){
+    public void postOkWhenNoConfigurableFetchers() {
         givenUserIsLoggedIn();
-        givenNoConfigurableFetcherList();;
+        givenNoConfigurableFetcherList();
         whenSynchronisationIsStarted(EVENT_ID);
         thenDataPullIsCompleted();
     }
@@ -142,10 +143,46 @@ public class DataPullSynchroniseTest {
         thenAnErrorIsPostedWithReferenceId(EVENT_ID);
     }
 
+    @Test
+    public void startSynchroniseWithDateRangeWhenUserIsNotLoggedIn() {
+        givenUserIsNotLoggedIn();
+        whenStartSynchroniseWithDateRangeIsInvoked();
+        thenAnErrorIsPostedWithReferenceId(EVENT_ID);
+    }
+
+    @Test
+    public void startSynchroniseWithDateRangeWhenFetchersAreAvailable() {
+        givenUserIsLoggedIn();
+        whenStartSynchroniseWithDateRangeIsInvoked();
+        thenDataPullIsCompleted();
+    }
+
+    @Test
+    public void startSynchroniseWithDateRangeWhenFetchersAreNotAvailable() {
+        givenUserIsLoggedIn();
+        givenNoConfigurableFetcherList();
+        givenNoFetchers();
+        whenStartSynchroniseWithDateRangeIsInvoked();
+        thenDataSyncIsCompleted();
+    }
+
+    @Test
+    public void postError_WhenFetchDateByRange() {
+        givenUserIsLoggedIn();
+        givenRetrofitErrorWhileFetchDataByDateRange();
+        whenStartSynchroniseWithDateRangeIsInvoked();
+        thenDataPullIsFailed();
+    }
+
     private RetrofitError givenRetrofitErrorWhileFetchingData() {
         error = mock(RetrofitError.class);
-        Mockito.when(momentsDataFetcherMock.fetchDataSince(NOW)).thenReturn(error);
+        Mockito.when(momentsDataFetcherMock.fetchData()).thenReturn(error);
         return error;
+    }
+
+    private void givenRetrofitErrorWhileFetchDataByDateRange() {
+        error = RetrofitError.unexpectedError("", new RuntimeException("Error"));
+        doThrow(error).when(momentsDataFetcherMock).fetchDataByDateRange(START_DATE, END_DATE);
     }
 
     private void givenUserIsLoggedIn() {
@@ -168,14 +205,17 @@ public class DataPullSynchroniseTest {
         synchronise.configurableFetchers = new ArrayList<>();
     }
 
-    private void givenNoFetchers(){
+    private void givenNoFetchers() {
         synchronise.fetchers = new ArrayList<>();
     }
 
     private void whenSynchronisationIsStarted(final int eventId) {
-        synchronise.startSynchronise(NOW, eventId);
+        synchronise.startSynchronise(eventId);
     }
 
+    private void whenStartSynchroniseWithDateRangeIsInvoked() {
+        synchronise.startSynchronise(START_DATE, END_DATE, EVENT_ID);
+    }
 
     private void thenDataSyncIsCompleted() {
         Mockito.verify(synchronisationManagerMock).dataSyncComplete();
@@ -192,5 +232,4 @@ public class DataPullSynchroniseTest {
     private void thenAnErrorIsPostedWithReferenceId(final int expectedEventId) {
         assertEquals(expectedEventId, eventingSpy.postedEvent.getReferenceId());
     }
-
 }

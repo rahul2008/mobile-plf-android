@@ -18,8 +18,6 @@ import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
-import org.joda.time.DateTime;
-
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -61,7 +59,7 @@ public class InsightDataFetcher extends DataFetcher {
 
     @Nullable
     @Override
-    public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
+    public RetrofitError fetchData() {
 
         if(synchronizationState.get() != DataSender.State.BUSY.getCode()) {
 
@@ -71,6 +69,11 @@ public class InsightDataFetcher extends DataFetcher {
                 getInsights();
             }
         }
+        return null;
+    }
+
+    @Override
+    public RetrofitError fetchDataByDateRange(String startDate, String endDate) {
         return null;
     }
 

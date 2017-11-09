@@ -46,6 +46,6 @@ public class InsightMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(FetchInsightRequest event) {
-       insightDataFetcher.fetchDataSince(new DateTime());
+       insightDataFetcher.fetchData();
     }
 }

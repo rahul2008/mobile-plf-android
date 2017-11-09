@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="app_name_data_sync">Data Services</string>
     <string name="data_sync">Data Sync</string>
@@ -42,6 +42,18 @@
     <string name="save">Add</string>
 
     <string name="fetch_last_moment">Latest moment by type</string>
+
+    <!-- Sync by date range -->
+    <string name="sync_moment_by_date_range">Sync by Date Range</string>
+    <string name="sync_status">Sync Status</string>
+    <string name="sync_date_range">Sync By Date Range</string>
+    <string name="start_sync_date_range">Start Sync By Date Range</string>
+    <string name="enable_sync">Enable Sync</string>
+    <string name="complete_sync">Complete Sync</string>
+    <string name="sync_inProgress">InProgress</string>
+    <string name="sync_completed">Sync-Completed</string>
+    <string name="sync_failed">Sync-Failed</string>
+    <string name="sync_stopped">Sync-Stopped</string>
 
     <!-- Moment by data range-->
     <string name="fetch_moment_by_date_range">Moment by Date Range</string>

@@ -29,9 +29,9 @@ import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.R;
-import com.philips.platform.dscdemo.database.datatypes.MomentType;
 import com.philips.platform.dscdemo.pojo.Pagination;
 
 import java.text.ParseException;
@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MomentByDateRangeFragment extends DSBaseFragment
-		implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener {
+		implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener {
 
 	private Context mContext;
 	private RecyclerView mMomentsRecyclerView;
@@ -114,7 +114,6 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 		mPageNumberEt = (EditText) view.findViewById(R.id.et_moment_pageNumber);
 		mMomentOrdering = (Spinner) view.findViewById(R.id.momentOrdering);
 		mNoMomentInDateRange = (TextView) view.findViewById(R.id.tv_moment_date_range);
-
 		mFetchByDateTypeBtn = (Button) view.findViewById(R.id.btn_fetch_by_date_type);
 		mFetchByDateRangeBtn = (Button) view.findViewById(R.id.btn_fetch_by_date_range);
 
@@ -154,16 +153,16 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 	}
 
 	private void updateStartDate() throws ParseException {
-		String myFormat = "yyyy-MM-dd'T' K mm:ss.SSS Z";
-		SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+		String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+		SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
 		String dateAsString = sdf.format(myCalendar.getTime());
 		mMomentStartDateEt.setText(dateAsString);
 		mStartDate = sdf.parse(dateAsString);
 	}
 
 	private void updateEndDate() throws ParseException {
-		String myFormat = "yyyy-MM-dd'T' K mm:ss.SSS Z";
-		SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+		String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+		SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
 		String dateAsString = sdf.format(myCalendar.getTime());
 		mMomentEndDateEt.setText(dateAsString);
 		mEndDate = sdf.parse(dateAsString);
@@ -270,6 +269,7 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 		}
 	}
 
+
 	private void assignPageLimitAndNumber() {
 		if (mMomentPageLimitEt.getText() != null && !mMomentPageLimitEt.getText().toString().equals("")) {
 			mPageLimit = Integer.parseInt(mMomentPageLimitEt.getText().toString());
@@ -324,4 +324,11 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 		}
 	}
 
+	@Override
+	public void onSyncComplete() {
+	}
+
+	@Override
+	public void onSyncFailed(Exception exception) {
+	}
 }

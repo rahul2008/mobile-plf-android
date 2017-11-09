@@ -16,23 +16,27 @@ import retrofit.http.PUT;
 import retrofit.http.Path;
 import retrofit.http.Query;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-public interface MomentsClient {
+interface MomentsClient {
 
     @GET("/api/users/{userId}/moments/_history")
-    com.philips.platform.datasync.moments.UCoreMomentsHistory getMomentsHistory(
-            @Header("performerId") String performerId,
-            @Path("userId") String userId,
-            @Query(value = "_since", encodeValue = false) String timestamp
+    UCoreMomentsHistory getMomentsHistory(@Header("performerId") String performerId,
+                                          @Path("userId") String userId,
+                                          @Query(value = "_since", encodeValue = false) String timestamp
+    );
+
+    @GET("/api/users/{userId}/moments/_query")
+    UCoreMomentsHistory fetchMomentByDateRange(@Header("performerId") String performerId,
+                                               @Path("userId") String userId,
+                                               @Query(value = "timestampStart", encodeValue = false) String startTimeStamp,
+                                               @Query(value = "timestampEnd", encodeValue = false) String endTimeStamp,
+                                               @Query(value = "lastModifiedStart", encodeValue = false) String lastModifiedStartTimeStamp,
+                                               @Query(value = "lastModifiedEnd", encodeValue = false) String lastModifiedEndTimeStamp
     );
 
     @POST("/api/users/{subjectId}/moments")
-    com.philips.platform.datasync.moments.UCoreMomentSaveResponse saveMoment(@Path("subjectId") String subjectId,
-                                                                                  @Header("performerId") String userId,
-                                                                                  @Body com.philips.platform.datasync.moments.UCoreMoment uCoreMoment);
+    UCoreMomentSaveResponse saveMoment(@Path("subjectId") String subjectId,
+                                       @Header("performerId") String userId,
+                                       @Body com.philips.platform.datasync.moments.UCoreMoment uCoreMoment);
 
     @PUT("/api/users/{userId}/moments/{momentId}")
     Response updateMoment(@Path("userId") String userId,
@@ -44,5 +48,4 @@ public interface MomentsClient {
     Response deleteMoment(@Path("userId") String userId,
                           @Path("momentId") String momentId,
                           @Header("performerId") String performerId);
-
 }

@@ -15,8 +15,6 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
-import org.joda.time.DateTime;
-
 import java.net.HttpURLConnection;
 
 import javax.inject.Inject;
@@ -24,8 +22,6 @@ import javax.inject.Inject;
 import retrofit.RetrofitError;
 
 public abstract class DataFetcher {
-    int UNKNOWN = -1;
-
     @NonNull
     protected final UCoreAdapter uCoreAdapter;
 
@@ -45,10 +41,12 @@ public abstract class DataFetcher {
 
     @CheckResult
     @Nullable
-    public abstract RetrofitError fetchDataSince(@Nullable final DateTime sinceTimestamp);
+    public abstract RetrofitError fetchData();
+
+    public abstract RetrofitError fetchDataByDateRange(String startDate, String endDate);
 
     public RetrofitError fetchAllData() {
-        return fetchDataSince(null);
+        return fetchData();
     }
 
     public void onError(RetrofitError error) {

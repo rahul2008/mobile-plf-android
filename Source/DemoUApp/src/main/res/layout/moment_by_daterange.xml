@@ -100,6 +100,7 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="@string/fetch_moment_by_data_range" />
+
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

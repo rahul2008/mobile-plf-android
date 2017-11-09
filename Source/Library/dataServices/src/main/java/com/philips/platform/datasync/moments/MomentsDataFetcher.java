@@ -18,9 +18,8 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 
-import org.joda.time.DateTime;
-
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -29,6 +28,12 @@ import retrofit.converter.GsonConverter;
 
 public class MomentsDataFetcher extends DataFetcher {
     public static final String TAG = "MomentsDataFetcher";
+    private static final String START_DATE = "START_DATE";
+    private static final String END_DATE = "END_DATE";
+    private static final String LAST_MODIFIED_START_DATE = "LAST_MODIFIED_START_DATE";
+    private static final String LAST_MODIFIED_END_DATE = "LAST_MODIFIED_END_DATE";
+
+    private boolean isMomentUpdated;
 
     @NonNull
     private final MomentsConverter converter;
@@ -52,11 +57,10 @@ public class MomentsDataFetcher extends DataFetcher {
         DataServicesManager.getInstance().getAppComponant().injectMomentsDataFetcher(this);
     }
 
-
     @Override
     @CheckResult
     @Nullable
-    public RetrofitError fetchDataSince(@Nullable final DateTime sinceTimestamp) {
+    public RetrofitError fetchData() {
         if (isUserInvalid()) {
             return null;
         }
@@ -67,23 +71,23 @@ public class MomentsDataFetcher extends DataFetcher {
             final MomentsClient client = uCoreAdapter.getAppFrameworkClient(MomentsClient.class,
                     accessProvider.getAccessToken(), gsonConverter);
 
-            if (client == null) return null;
+            if (client == null) {
+                return null;
+            }
 
-            if (client != null) {
-                UCoreMomentsHistory momentsHistory = client.getMomentsHistory(accessProvider.getUserId(),
-                        accessProvider.getUserId(), momentsLastSyncUrl);
+            UCoreMomentsHistory momentsHistory = client.getMomentsHistory(accessProvider.getUserId(),
+                    accessProvider.getUserId(), momentsLastSyncUrl);
 
-                accessProvider.saveLastSyncTimeStamp(momentsHistory.getSyncurl(), UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
+            accessProvider.saveLastSyncTimeStamp(momentsHistory.getSyncurl(), UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY);
 
-                List<UCoreMoment> uCoreMoments = momentsHistory.getUCoreMoments();
-                if (uCoreMoments == null || uCoreMoments.size() <= 0) {
-                    return null;
-                }
+            List<UCoreMoment> uCoreMoments = momentsHistory.getUCoreMoments();
+            if (uCoreMoments == null || uCoreMoments.size() <= 0) {
+                return null;
+            }
 
-                List<Moment> moments = converter.convert(uCoreMoments);
-                if (moments != null) {
-                    eventing.post(new BackendMomentListSaveRequest(moments, null));
-                }
+            List<Moment> moments = converter.convert(uCoreMoments);
+            if (moments != null) {
+                eventing.post(new BackendMomentListSaveRequest(moments, null));
             }
             return null;
         } catch (RetrofitError ex) {
@@ -93,8 +97,43 @@ public class MomentsDataFetcher extends DataFetcher {
         }
     }
 
+    @Override
+    public RetrofitError fetchDataByDateRange(String startDate, String endDate) {
+        RetrofitError retrofitError = null;
+
+        final MomentsClient client = uCoreAdapter.getAppFrameworkClient(MomentsClient.class, accessProvider.getAccessToken(), gsonConverter);
+        if (client == null) {
+            return RetrofitError.unexpectedError("", new IllegalStateException("Client is not initialized"));
+        }
+
+        Map<String, String> timeStamp = accessProvider.getLastSyncTimeStampByDateRange(startDate, endDate);
+        UCoreMomentsHistory momentHistory;
+        try {
+            do {
+                momentHistory = client.fetchMomentByDateRange(accessProvider.getUserId(), accessProvider.getUserId(),
+                        timeStamp.get(START_DATE), timeStamp.get(END_DATE), timeStamp.get(LAST_MODIFIED_START_DATE), timeStamp.get(LAST_MODIFIED_END_DATE));
+                updateMomentsToDB(momentHistory);
+                timeStamp = accessProvider.getLastSyncTimeStampByDateRange(momentHistory.getSyncurl());
+            } while (momentHistory.getUCoreMoments().size() > 1);
+        } catch (RetrofitError error) {
+            retrofitError = (isMomentUpdated) ? RetrofitError.unexpectedError("", new RuntimeException("Partial Sync Completed till: " + timeStamp.get(START_DATE))) : error;
+        }
+
+        return retrofitError;
+    }
+
     protected boolean isUserInvalid() {
         final String accessToken = accessProvider.getAccessToken();
         return !accessProvider.isLoggedIn() || accessToken == null || accessToken.isEmpty();
+    }
+
+    private void updateMomentsToDB(UCoreMomentsHistory momentsHistory) {
+
+        List<UCoreMoment> uCoreMoments = momentsHistory.getUCoreMoments();
+        if (uCoreMoments != null && !uCoreMoments.isEmpty()) {
+            List<Moment> moments = converter.convert(uCoreMoments);
+            eventing.post(new BackendMomentListSaveRequest(moments, null));
+            isMomentUpdated = true;
+        }
     }
 }

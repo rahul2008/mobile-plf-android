@@ -16,7 +16,12 @@ import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentsDeleteRequest;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.testing.verticals.datatyes.MomentType;
+import com.philips.testing.verticals.table.OrmInsight;
+import com.philips.testing.verticals.table.OrmMoment;
+import com.philips.testing.verticals.table.OrmMomentType;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -27,17 +32,33 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DeletingMonitorTest {
 
-    private DeletingMonitor monitor;
+    private static final String CREATOR_ID = "creator";
+    private static final String SUBJECT_ID = "subject";
+    private static final DateTime NOW = new DateTime();
+
+    private DeletingMonitor deletingMonitor;
+
+    private SQLException sqlException;
+
+    private Moment moment;
+
+    private Insight insight;
+
+    private List<Moment> momentList = new ArrayList<>();
+
+    private List<Insight> insightList = new ArrayList<>();
 
     @Mock
-    private DBDeletingInterface deletingMock;
+    private DBDeletingInterface dbDeletingInterface;
+
+    @Mock
+    DBRequestListener dbRequestListener;
 
     @Mock
     private Eventing eventingMock;
@@ -57,266 +78,244 @@ public class DeletingMonitorTest {
     @Mock
     private SynchronisationData synchronisationMock;
 
-    @Mock
-    DBRequestListener dbRequestListener;
-
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-
-        monitor = new DeletingMonitor(deletingMock);
-        monitor.start(eventingMock);
+        deletingMonitor = new DeletingMonitor(dbDeletingInterface);
+        deletingMonitor.start(eventingMock);
     }
 
     @Test
-    public void DeletionAsked_WhenEventReceived() throws Exception {
-        monitor.onEventBackGround(new DataClearRequest(dbRequestListener));
-        verify(deletingMock).deleteAll(dbRequestListener);
+    public void deleteAll_WhenDataClearRequestIsPosted() throws SQLException {
+        whenDataClearRequestEventIsPosted();
+        thenVerifyDeleteAllIsInvoked();
     }
 
     @Test
-    public void DeletionMomentAsked_WhenEventReceived() throws Exception {
-        monitor.onEventBackGround(new MomentDeleteRequest(momentMock, dbRequestListener));
-        verify(deletingMock).markAsInActive(momentMock, dbRequestListener);
+    public void deleteFailed_WhenExceptionIsThrown_ForDeleteAll() throws SQLException {
+        givenSQLExceptionThrownWhenDeleteAll();
+        whenDataClearRequestEventIsPosted();
+        thenVerifyDeleteFailedIsInvoked(sqlException);
     }
 
     @Test
-    public void MomentBackendDeleteResponse_WhenEventReceived() throws Exception {
-        monitor.onEventBackGround(new MomentBackendDeleteResponse(momentMock, dbRequestListener));
-        verify(deletingMock).deleteMoment(momentMock, dbRequestListener);
+    public void deleteMoment_WhenMomentBackendDeleteResponseIsPosted() throws SQLException {
+        whenMomentBackendDeleteResponseIsPosted();
+        thenVerifyDeleteMomentIsInvoked();
     }
 
     @Test
-    public void DeleteAllMomentsRequest_WhenEventReceived() throws Exception {
-        monitor.onEventBackGround(new DeleteAllMomentsRequest(dbRequestListener));
-        verify(deletingMock).deleteAllMoments(dbRequestListener);
+    public void deleteFailed_WhenExceptionIsThrown_ForDeleteMoment() throws SQLException {
+        givenSQLExceptionThrownWhenDeleteMoment();
+        whenMomentBackendDeleteResponseIsPosted();
+        thenVerifyDeleteFailedIsInvoked(sqlException);
     }
 
     @Test
-    public void MomentsDeleteRequest_WhenEventReceived() throws Exception {
-        List list = new ArrayList();
-        list.add(momentMock);
-        monitor.onEventBackGround(new MomentsDeleteRequest(list, dbRequestListener));
-        verify(deletingMock).markMomentsAsInActive(list, dbRequestListener);
-    }
-
-   /* @Test
-    public void ExceptionEventRaised_WhenExceptionHappens() throws Exception {
-        SQLException exception = new SQLException();
-        doThrow(exception).when(deletingMock).deleteAll();
-
-        monitor.onEventBackgroundThread(new DataClearRequest());
-
-        verify(eventingMock).post(eventCaptor.capture());
-        assertThat(eventCaptor.getValue()).isInstanceOf(ExceptionEvent.class);
-        ExceptionEvent exceptionEvent = (ExceptionEvent) eventCaptor.getValue();
-        assertThat(exceptionEvent.getCause()).isSameAs(exception);
-    }*/
-
-    /*@Test
-    public void ExceptionEventHasReferenceId_WhenExceptionHappens() throws Exception {
-        SQLException exception = new SQLException("test");
-        doThrow(exception).when(deletingMock).deleteAll();
-        DataClearRequest request = new DataClearRequest();
-
-        monitor.onEventBackgroundThread(request);
-
-        verify(eventingMock).post(eventCaptor.capture());
-        ExceptionEvent exceptionEvent = (ExceptionEvent) eventCaptor.getValue();
-        assertThat(exceptionEvent.getReferenceId()).isEqualTo(request.getEventId());
-    }*/
-
-    @Test
-    public void ResponseEventRaised_WhenDeletedHappens() throws Exception {
-        DataClearRequest request = new DataClearRequest(dbRequestListener);
-        monitor.onEventBackGround(request);
-
-       /* verify(eventingMock).post(eventCaptor.capture());
-        assertThat(eventCaptor.getValue()).isInstanceOf(DataClearResponse.class);
-        DataClearResponse responseEvent = (DataClearResponse) eventCaptor.getValue();
-        assertThat(responseEvent.getReferenceId()).isEqualTo(request.getEventId());*/
-    }
-
- /*   @Test
-    public void ShouldDeleteMoment_WhenMomentIsNotSynchronizedWithBackend() throws Exception {
-        when(momentMock.getSynchronisationData()).thenReturn(null);
-        monitor.onEventAsync(new MomentDeleteRequest(momentMock));
-
-        verify(momentMock).setSynchronisationData(any(SynchronisationData.class));
-    }*/
-
-/*    @Test
-    public void ShouldUpdateMomentFieldsOnDeleteRequest_WhenMomentIsSynchronizedWithBackend() throws Exception {
-        when(momentMock.getSynchronisationData()).thenReturn(synchronisationMock);
-
-        monitor.onEventAsync(new MomentDeleteRequest(momentMock));
-
-        verify(synchronisationMock).setInactive(true);
-        verify(momentMock).setSynced(false);
-        verify(savingMock).saveMoment(momentMock);
-    }*/
-
- /*   @Test
-    public void ShouldDeleteMoment_WhenBackendDeleteResponseIsReceived() throws Exception {
-        monitor.onEventBackgroundThread(new MomentBackendDeleteResponse(momentMock));
-
-        verify(deletingMock).markAsInActive(momentMock);
-    }*/
-
-   /* @Test
-    public void ShouldSendExceptionEvent_WhenDeletionFailed() throws Exception {
-        when(momentMock.getSynchronisationData()).thenReturn(synchronisationMock);
-
-        SQLException exception = new SQLException("test");
-        doThrow(exception).when(savingMock).saveMoment(momentMock);
-
-        MomentDeleteRequest requestEvent = new MomentDeleteRequest(momentMock);
-        monitor.onEventAsync(requestEvent);
-
-        verify(eventingMock).post(eventCaptor.capture());
-        ExceptionEvent exceptionEvent = (ExceptionEvent) eventCaptor.getValue();
-        assertThat(exceptionEvent.getReferenceId()).isEqualTo(requestEvent.getEventId());
-        assertThat(exceptionEvent.getCause()).isSameAs(exception);
-    }*/
-
-   /* @Test
-    public void ShouldPostEvent_WhenDeletionCompleted() throws Exception {
-        when(momentMock.getSynchronisationData()).thenReturn(synchronisationMock);
-        MomentDeleteRequest requestEvent = new MomentDeleteRequest(momentMock);
-        monitor.onEventAsync(requestEvent);
-
-        verify(eventingMock).post(eventCaptor.capture());
-        MomentChangeEvent momentChangeEvent = (MomentChangeEvent) eventCaptor.getValue();
-        assertThat(momentChangeEvent.getReferenceId()).isEqualTo(requestEvent.getEventId());
-        assertThat(momentChangeEvent.getMoments()).isSameAs(momentMock);
-    }*/
-
-    /*@Test
-    public void ShouldPostEvent_WhenTemperatureReadingsDeletionIsCompleted() throws Exception {
-        DeleteTemperatureReadingRequest requestEvent = getDeleteThermometerReadingEvent();
-        monitor.onEventBackgroundThread(requestEvent);
-
-        verify(eventingMock).post(isA(DeleteTemperatureReadingResponse.class));
+    public void deleteAllMoments_WhenDeleteAllMomentsRequestIsPosted() throws SQLException {
+        whenDeleteAllMomentsRequestIsPosted();
+        thenVerifyDeleteAllMomentsIsInvoked();
     }
 
     @Test
-    public void ShouldPostException_WhenDeletionIsFailed() throws Exception {
-        DeleteTemperatureReadingRequest requestEvent = getDeleteThermometerReadingEvent();
-        SQLException exception = new SQLException("test");
-
-        doThrow(exception).when(deletingMock).deleteTemperatureReading(any(OrmTemperatureReading.class));
-
-        monitor.onEventBackgroundThread(requestEvent);
-
-        verify(eventingMock).post(isA(ExceptionEvent.class));
-    }
-
-    @NonNull
-    private DeleteTemperatureReadingRequest getDeleteThermometerReadingEvent() {
-        final List<TemperatureReading> readingsList = new ArrayList<>();
-        readingsList.add(new TemperatureReading(DateTime.now(), 330.f));
-        return new DeleteTemperatureReadingRequest(readingsList);
+    public void deleteFailed_WhenExceptionIsThrown_ForDeleteAllMoments() throws SQLException {
+        givenSQLExceptionThrownWhenDeleteAllMoments();
+        whenDeleteAllMomentsRequestIsPosted();
+        thenVerifyDeleteFailedIsInvoked(sqlException);
     }
 
     @Test
-    public void ShouldSetInsightInActiveToTrue_WhenDeleteInsightIsRequested() throws Exception {
-        when(insightMock.getSynchronisationData()).thenReturn(synchronisationMock);
-
-        monitor.onEventBackgroundThread(new InsightDeleteRequest(insightMock));
-
-        verify(insightMock).setSynced(false);
-        verify(synchronisationMock).setInactive(true);
-        verify(eventingMock).post(eventCaptor.capture());
-        InsightChangeEvent insightChangeEvent = (InsightChangeEvent) eventCaptor.getValue();
-        assertThat(insightChangeEvent.getInsight()).isSameAs(insightMock);
+    public void markAsInActive_WhenMomentDeleteRequestIsPosted() throws SQLException {
+        givenMomentToDelete();
+        whenMomentDeleteRequestIsPosted();
+        thenVerifyMarkAsInactiveIsInvoked();
     }
 
     @Test
-    public void ShouldDeleteInsight_WhenEventIsReceived() throws Exception {
-        monitor.onEventBackgroundThread(new InsightDeleteResponse(insightMock));
-
-        verify(deletingMock).deleteInsight(insightMock);
-    }*/
-
-    @Test
-    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_deleteAll() throws Exception {
-        doThrow(SQLException.class).when(deletingMock).deleteAll(dbRequestListener);
-        monitor.onEventBackGround(new DataClearRequest(dbRequestListener));
-        verify(deletingMock).deleteAll(dbRequestListener);
+    public void deleteFailed_WhenExceptionIsThrown_ForMarkAsInActive() throws SQLException {
+        givenMomentToDelete();
+        givenSQLExceptionThrownWhenMarkAsInactive();
+        whenMomentDeleteRequestIsPosted();
+        thenVerifyDeleteFailedIsInvoked(sqlException);
     }
 
     @Test
-    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_deleteAllMoments() throws Exception {
-        doThrow(SQLException.class).when(deletingMock).deleteAllMoments(dbRequestListener);
-        monitor.onEventBackGround(new DeleteAllMomentsRequest(dbRequestListener));
-        verify(deletingMock).deleteAllMoments(dbRequestListener);
+    public void markMomentsAsInActive_WhenMomentsDeleteRequestIsPosted() throws SQLException {
+        givenMomentsDeletedInApp();
+        whenMomentsDeleteRequestIsPosted();
+        thenVerifyMarkMomentsAsInActiveIsInvoked();
     }
 
     @Test
-    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_markAsInActive() throws Exception {
-        doThrow(SQLException.class).when(deletingMock).markAsInActive(momentMock, dbRequestListener);
-        monitor.onEventBackGround(new MomentDeleteRequest(momentMock, dbRequestListener));
-        verify(deletingMock).markAsInActive(momentMock, dbRequestListener);
+    public void deleteFailed_WhenExceptionIsThrown_ForMarkMomentsAsInActive() throws SQLException {
+        givenMomentsDeletedInApp();
+        givenSQLExceptionThrownWhenMarkMomentsAsInactive();
+        whenMomentsDeleteRequestIsPosted();
+        thenVerifyDeleteFailedIsInvoked(sqlException);
     }
 
     @Test
-    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_markMomentsAsInActive() throws Exception {
-        List list = new ArrayList();
-        list.add(momentMock);
-        doThrow(SQLException.class).when(deletingMock).markMomentsAsInActive(list, dbRequestListener);
-        monitor.onEventBackGround(new MomentsDeleteRequest(list, dbRequestListener));
-        verify(deletingMock).markMomentsAsInActive(list, dbRequestListener);
+    public void deleteAllExpiredMoments_WhenDeleteExpiredMomentRequestIsPosted() throws SQLException {
+        whenDeleteExpiredMomentRequestIsPosted();
+        thenVerifyDeleteAllExpiredMomentsIsInvoked();
     }
 
     @Test
-    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_deleteMoment() throws Exception {
-        doThrow(SQLException.class).when(deletingMock).deleteMoment(momentMock, dbRequestListener);
-        monitor.onEventBackGround(new MomentBackendDeleteResponse(momentMock, dbRequestListener));
-        verify(deletingMock).deleteMoment(momentMock, dbRequestListener);
+    public void deleteFailed_WhenExceptionIsThrown_ForDeleteAllExpiredMoments() throws SQLException {
+        givenSQLExceptionThrownWhenDeleteAllExpiredMomentsIsInvoked();
+        whenDeleteExpiredMomentRequestIsPosted();
+        thenVerifyDeleteFailedIsInvoked(sqlException);
     }
 
     @Test
-    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_deleteInsights() throws Exception {
-        List<Insight> insights = new ArrayList<>();
-        insights.add(insightMock);
-        doThrow(SQLException.class).when(deletingMock).markInsightsAsInActive(insights, dbRequestListener);
-        monitor.onEventBackGround(new DeleteInsightFromDB(insights, dbRequestListener));
-        verify(deletingMock).markInsightsAsInActive(insights, dbRequestListener);
+    public void markInsightsAsInActive_WhenDeleteInsightFromDBIsPosted() throws SQLException {
+        givenInsightToDelete();
+        whenDeleteInsightFromDBIsPosted();
+        thenVerifyMarkInsightsAsInActiveIsInvoked();
     }
 
     @Test
-    public void ShouldPostExceptionEvent_WhendeleteInsights_success() throws Exception {
-        List<Insight> insights = new ArrayList<>();
-        insights.add(insightMock);
-        // doThrow(SQLException.class).when(deletingMock).markInsightsAsInActive(insights,dbRequestListener);
-        monitor.onEventBackGround(new DeleteInsightFromDB(insights, dbRequestListener));
-        verify(deletingMock).markInsightsAsInActive(insights, dbRequestListener);
+    public void deleteFailed_WhenExceptionIsThrown_ForMarkInsightsAsInActive() throws SQLException {
+        givenInsightToDelete();
+        givenSQLExceptionThrownWhenMarkInsightsAsInActiveIsInvoked();
+        whenDeleteInsightFromDBIsPosted();
+        thenVerifyDeleteFailedIsInvoked(sqlException);
     }
 
     @Test
-    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_deleteInsight() throws Exception {
-        doThrow(SQLException.class).when(deletingMock).deleteInsight(insightMock, dbRequestListener);
-        monitor.onEventBackGround(new DeleteInsightResponse(insightMock, dbRequestListener));
-        verify(deletingMock).deleteInsight(insightMock, dbRequestListener);
+    public void deleteInsight_WhenDeleteInsightResponseIsPosted() throws SQLException {
+        givenInsightToDelete();
+        whenDeleteInsightResponseIsPosted();
+        thenVerifyDeleteInsightIsInvoked();
     }
 
     @Test
-    public void ShouldPostExceptionEvent_WhendeleteInsight_success() throws Exception {
-        // doThrow(SQLException.class).when(deletingMock).deleteInsight(insightMock,dbRequestListener);
-        monitor.onEventBackGround(new DeleteInsightResponse(insightMock, dbRequestListener));
-        verify(deletingMock).deleteInsight(insightMock, dbRequestListener);
+    public void deleteFailed_WhenExceptionIsThrown_ForDeleteInsight() throws SQLException {
+        givenInsightToDelete();
+        givenSQLExceptionThrownWhenDeleteInsightIsInvoked();
+        whenDeleteInsightResponseIsPosted();
+        thenVerifyDeleteFailedIsInvoked(sqlException);
     }
 
-    @Test
-    public void DeleteAllExpiredMomentsAsked_WhenDeleteExpiredMomentsRequested() throws Exception {
-        monitor.onEventBackGround(new DeleteExpiredMomentRequest(dbRequestListener));
-        verify(deletingMock).deleteAllExpiredMoments(dbRequestListener);
+    private void whenDataClearRequestEventIsPosted() {
+        deletingMonitor.onEventBackGround(new DataClearRequest(dbRequestListener));
     }
 
-    @Test
-    public void ShouldPostExceptionEvent_WhenSQLDeletionFails_For_deleteExpiredMoments() throws Exception {
-        doThrow(SQLException.class).when(deletingMock).deleteAllExpiredMoments(dbRequestListener);
-        monitor.onEventBackGround(new DeleteExpiredMomentRequest(dbRequestListener));
-        verify(deletingMock).deleteFailed(any(SQLException.class), any(dbRequestListener.getClass()));
+    private void whenMomentBackendDeleteResponseIsPosted() {
+        deletingMonitor.onEventBackGround(new MomentBackendDeleteResponse(moment, dbRequestListener));
+    }
+
+    private void whenDeleteAllMomentsRequestIsPosted() {
+        deletingMonitor.onEventBackGround(new DeleteAllMomentsRequest(dbRequestListener));
+    }
+
+    private void whenMomentDeleteRequestIsPosted() {
+        deletingMonitor.onEventBackGround(new MomentDeleteRequest(moment, dbRequestListener));
+    }
+
+    private void whenDeleteExpiredMomentRequestIsPosted() {
+        deletingMonitor.onEventBackGround(new DeleteExpiredMomentRequest(dbRequestListener));
+    }
+
+    private void whenMomentsDeleteRequestIsPosted() {
+        deletingMonitor.onEventBackGround(new MomentsDeleteRequest(momentList, dbRequestListener));
+    }
+
+    private void whenDeleteInsightFromDBIsPosted() {
+        deletingMonitor.onEventBackGround(new DeleteInsightFromDB(insightList, dbRequestListener));
+    }
+
+    private void whenDeleteInsightResponseIsPosted() {
+        deletingMonitor.onEventBackGround(new DeleteInsightResponse(insight, dbRequestListener));
+    }
+
+    private void thenVerifyDeleteAllIsInvoked() throws SQLException {
+        verify(dbDeletingInterface).deleteAll(dbRequestListener);
+    }
+
+    private void thenVerifyDeleteMomentIsInvoked() throws SQLException {
+        verify(dbDeletingInterface).deleteMoment(moment, dbRequestListener);
+    }
+
+    private void thenVerifyDeleteAllMomentsIsInvoked() throws SQLException {
+        verify(dbDeletingInterface).deleteAllMoments(dbRequestListener);
+    }
+
+    private void thenVerifyDeleteFailedIsInvoked(SQLException exception) {
+        verify(dbDeletingInterface).deleteFailed(exception, dbRequestListener);
+    }
+
+    private void thenVerifyMarkAsInactiveIsInvoked() throws SQLException {
+        verify(dbDeletingInterface).markAsInActive(moment, dbRequestListener);
+    }
+
+    private void thenVerifyDeleteAllExpiredMomentsIsInvoked() throws SQLException {
+        verify(dbDeletingInterface).deleteAllExpiredMoments(dbRequestListener);
+    }
+
+    private void thenVerifyMarkMomentsAsInActiveIsInvoked() throws SQLException {
+        verify(dbDeletingInterface).markMomentsAsInActive(momentList, dbRequestListener);
+    }
+
+    private void thenVerifyMarkInsightsAsInActiveIsInvoked() throws SQLException {
+        verify(dbDeletingInterface).markInsightsAsInActive(insightList, dbRequestListener);
+    }
+
+    private void thenVerifyDeleteInsightIsInvoked() throws SQLException {
+        verify(dbDeletingInterface).deleteInsight(insight, dbRequestListener);
+    }
+
+    private void givenSQLExceptionThrownWhenDeleteAll() throws SQLException {
+        sqlException = new SQLException();
+        doThrow(sqlException).when(dbDeletingInterface).deleteAll(dbRequestListener);
+    }
+
+    private void givenSQLExceptionThrownWhenDeleteMoment() throws SQLException {
+        sqlException = new SQLException();
+        doThrow(sqlException).when(dbDeletingInterface).deleteMoment(moment, dbRequestListener);
+    }
+
+    private void givenSQLExceptionThrownWhenDeleteAllMoments() throws SQLException {
+        sqlException = new SQLException();
+        doThrow(sqlException).when(dbDeletingInterface).deleteAllMoments(dbRequestListener);
+    }
+
+    private void givenSQLExceptionThrownWhenMarkAsInactive() throws SQLException {
+        sqlException = new SQLException();
+        doThrow(sqlException).when(dbDeletingInterface).markAsInActive(moment, dbRequestListener);
+    }
+
+    private void givenSQLExceptionThrownWhenDeleteAllExpiredMomentsIsInvoked() throws SQLException {
+        sqlException = new SQLException();
+        doThrow(sqlException).when(dbDeletingInterface).deleteAllExpiredMoments(dbRequestListener);
+    }
+
+    private void givenSQLExceptionThrownWhenMarkMomentsAsInactive() throws SQLException {
+        sqlException = new SQLException();
+        doThrow(sqlException).when(dbDeletingInterface).markMomentsAsInActive(momentList, dbRequestListener);
+    }
+
+    private void givenSQLExceptionThrownWhenMarkInsightsAsInActiveIsInvoked() throws SQLException {
+        sqlException = new SQLException();
+        doThrow(sqlException).when(dbDeletingInterface).markInsightsAsInActive(insightList, dbRequestListener);
+    }
+
+    private void givenSQLExceptionThrownWhenDeleteInsightIsInvoked() throws SQLException {
+        sqlException = new SQLException();
+        doThrow(sqlException).when(dbDeletingInterface).deleteInsight(insight, dbRequestListener);
+    }
+
+    private void givenMomentToDelete() throws SQLException {
+        moment = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW);
+    }
+
+    private void givenMomentsDeletedInApp() throws SQLException {
+        givenMomentToDelete();
+        momentList.add(moment);
+    }
+
+    private void givenInsightToDelete() {
+        insight = new OrmInsight();
+        insightList.add(insight);
     }
 }
