@@ -152,7 +152,6 @@ public class SyncByDateRangeFragment extends DSBaseFragment
                     .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                     myCalendar.get(Calendar.DAY_OF_MONTH)).show();
         } else if (view == btnStartSyncByDateRange) {
-            updateTextView("InProgress");
             fetchSyncByDateRange();
         }
     }
@@ -170,6 +169,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
         } else if (mStartDate != null && mEndDate != null && mStartDate.after(mEndDate)) {
             Toast.makeText(mContext, "Please enter the valid startDate and endDate", Toast.LENGTH_SHORT).show();
         } else {
+            updateTextView("InProgress");
             mMomentPresenter.fetchSyncByDateRange(new DateTime(mStartDate), new DateTime(mEndDate), this);
         }
     }
