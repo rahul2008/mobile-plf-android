@@ -135,7 +135,8 @@ public class DataPullSynchronise {
             executor.execute(new Runnable() {
                 @Override
                 public void run() {
-                    retrofitError = fetcher.fetchDataByDateRange(startDate, endDate);
+                    RetrofitError retrofitError = fetcher.fetchDataByDateRange(startDate, endDate);
+                    updateResult(retrofitError);
                     countDownLatch.countDown();
                 }
             });
@@ -145,6 +146,7 @@ public class DataPullSynchronise {
 
         if (retrofitError != null) {
             synchronisationManager.dataPullFail(retrofitError);
+            retrofitError = null;
         } else {
             synchronisationManager.dataPullSuccess();
         }
