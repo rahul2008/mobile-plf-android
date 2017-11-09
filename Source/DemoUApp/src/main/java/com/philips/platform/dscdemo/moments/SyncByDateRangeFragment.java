@@ -179,13 +179,13 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 	@Override
 	public void onSyncComplete() {
 		updateTextView("Sync-Completed");
-		Toast.makeText(mContext, "OnSyncComplete", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(mContext, "OnSyncComplete", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
 	public void onSyncFailed(Exception exception) {
 		updateTextView("Sync-Failed");
-		Toast.makeText(mContext, "OnSyncFailed", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(mContext, "OnSyncFailed", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -195,7 +195,7 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 
 	@Override
 	public void onFetchFailure(Exception exception) {
-		Toast.makeText(mContext, "onFetchFailure", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(mContext, "onFetchFailure", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -205,18 +205,18 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 
 	@Override
 	public void onFailure(Exception exception) {
-		Toast.makeText(mContext, "onFailure", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(mContext, "onFailure", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
 	public void dBChangeSuccess(SyncType type) {
-		Toast.makeText(mContext, "dBChangeSuccess", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(mContext, "dBChangeSuccess", Toast.LENGTH_SHORT).show();
 
 	}
 
 	@Override
 	public void dBChangeFailed(Exception e) {
-		Toast.makeText(mContext, "dBChangeFailed", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(mContext, "dBChangeFailed", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -251,8 +251,13 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 		mEndDate = sdf.parse(dateAsString);
 	}
 
-	private void updateTextView(String text) {
-		tvSyncStatus.setText(text);
+	private void updateTextView(final String text) {
+		getActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				tvSyncStatus.setText(text);
+			}
+		});
 	}
 
 	@Override
