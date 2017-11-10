@@ -183,8 +183,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
                     }
                     if (subscription.getRelationship().isPrimarySubscriber()) {
                         //if user is  a primary subscriber
-                        ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberCheckBox.setChecked(false);
-                        ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberRelativeLayout.setVisibility(View.GONE);
+                        setPrimarySubscriber();
                     } else {
                         //if user is NOT a primary subscriber
                         ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberCheckBox.setChecked(true);
@@ -204,10 +203,17 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
                     if (subscription.getPrimarySubscriberDateOfBirth() != null) {
                         ((THSInsuranceDetailFragment) mTHSBaseFragment).relationDOBEditBox.setText(subscription.getPrimarySubscriberDateOfBirth().toString());
                     }
+                }else{
+                    setPrimarySubscriber();// in first run
                 }
 
             }
         }
+    }
+
+    private void setPrimarySubscriber(){
+        ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberCheckBox.setChecked(false);
+        ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberRelativeLayout.setVisibility(View.GONE);
     }
 
 

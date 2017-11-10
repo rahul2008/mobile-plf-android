@@ -17,6 +17,7 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 
 import java.net.URL;
 
@@ -71,7 +72,7 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
                 mThsVisitHistoryDetailFragment.showToast(sdkError.getSDKErrorReason().name());
                 return;
             }
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "reportDownloaded");
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "reportDownloaded");
             THSFileUtils fileUtils = new THSFileUtils();
 
             fileUtils.openAttachment(mThsVisitHistoryDetailFragment.getContext(), fileAttachment);

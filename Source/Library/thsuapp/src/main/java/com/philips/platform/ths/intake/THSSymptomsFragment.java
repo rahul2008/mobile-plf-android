@@ -104,7 +104,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_symptoms, container, false);
         visitStartTime=THSTagUtils.getCurrentTime();
         THSManager.getInstance().getThsTagging().trackTimedActionStart("totalPreparationTimePreVisit");
-        THSManager.getInstance().getThsTagging().trackActionWithInfo( "totalPrepartationTimeStart",null,null);
+        THSTagUtils.doTrackActionWithInfo( "totalPrepartationTimeStart",null,null);
 
         thsFileUtils = new THSFileUtils();
         documentRecordList = new ArrayList<>();
@@ -228,7 +228,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.continue_btn) {
-            //THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_FLOATING_BUTTON, "symptomContinue");
+            //THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_FLOATING_BUTTON, "symptomContinue");
             thsSymptomsPresenter.onEvent(R.id.continue_btn);
         } else if (i == R.id.camera_click_button) {
             selectImage();
@@ -256,8 +256,8 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
 
     protected void addTags(){
         if(!(tagActions.isEmpty())) {
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "step1SymptomsForVisit", tagActions);
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step1SymptomsAdded");
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "step1SymptomsForVisit", tagActions);
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step1SymptomsAdded");
         }
     }
 

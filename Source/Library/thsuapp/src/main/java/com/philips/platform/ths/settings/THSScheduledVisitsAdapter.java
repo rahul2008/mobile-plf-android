@@ -26,6 +26,7 @@ import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -39,6 +40,11 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_SCHEDULE_APPOINTMENT;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_CANCEL_APPOINTMENT;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_CANCEL_APPOINTMENT;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_DONT_CANCEL_APPOINTMENT;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_OK;
+import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_TOO_EARLY_FOR_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_EARLY_FOR_APPOINTMENT;
 import static com.philips.platform.ths.visit.THSWaitingRoomFragment.CANCEL_VISIT_ALERT_DIALOG_TAG;
 
@@ -111,7 +117,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
                     mThsScheduledVisitsFragment.doTagging(ANALYTICS_SCHEDULE_APPOINTMENT,mThsScheduledVisitsFragment.getString(R.string.late_for_appointment),false);
                     mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.late_for_appointment));
                 }else if(isUserArrivedEarly(utcCurrentMilliseconds, utcScheduledMilliseconds)){
-                    mThsScheduledVisitsFragment.doTagging(ANALYTICS_SCHEDULE_APPOINTMENT,mThsScheduledVisitsFragment.getString(R.string.early_for_appointment),false);
+                     THSTagUtils.tagInAppNotification(THS_ANALYTICS_TOO_EARLY_FOR_VISIT,THS_ANALYTICS_RESPONSE_OK);
                     mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.early_for_appointment));
                 }else {
                     Bundle bundle = new Bundle();
@@ -179,6 +185,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
                 THSScheduledVisitsPresenter presenter = new THSScheduledVisitsPresenter(mThsScheduledVisitsFragment);
                 presenter.cancelAppointment(appointment);
                 presenter.setProgressBarVisibility(false);
+                THSTagUtils.tagInAppNotification(THS_ANALYTICS_CANCEL_APPOINTMENT,THS_ANALYTICS_RESPONSE_CANCEL_APPOINTMENT);
                 alertDialogFragment.dismiss();
             }
         };
@@ -186,6 +193,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
         final View.OnClickListener negativeButtonListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                THSTagUtils.tagInAppNotification(THS_ANALYTICS_CANCEL_APPOINTMENT,THS_ANALYTICS_RESPONSE_DONT_CANCEL_APPOINTMENT);
                 alertDialogFragment.dismiss();
             }
         };

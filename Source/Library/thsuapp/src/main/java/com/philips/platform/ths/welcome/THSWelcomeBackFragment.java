@@ -22,6 +22,7 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
@@ -110,7 +111,7 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
     public void onClick(View view) {
         int id = view.getId();
         if(id == R.id.ths_get_started){
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "videoVisitStarted");
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "videoVisitStarted");
             mThsWelcomeBackPresenter.onEvent(R.id.ths_get_started);
         }
     }

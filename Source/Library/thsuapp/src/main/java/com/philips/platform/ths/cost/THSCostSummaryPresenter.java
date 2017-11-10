@@ -26,10 +26,12 @@ import com.philips.platform.ths.payment.THSPaymentMethod;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.visit.THSWaitingRoomFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_APPLY_PROMOCODE;
@@ -39,7 +41,6 @@ import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALY
 import static com.philips.platform.ths.utility.THSConstants.IS_LAUNCHED_FROM_COST_SUMMARY;
 import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_COUPON_CODE_ERROR;
 import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_CREATE_VISIT_ERROR;
-import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
@@ -57,7 +58,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.ths_cost_summary_continue_button) {
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "costSummaryViewed");
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "costSummaryViewed");
             THSWaitingRoomFragment thsWaitingRoomFragment = new THSWaitingRoomFragment();
             Bundle bundle = new Bundle();
             bundle.putParcelable(THS_VISIT_ARGUMENT_KEY, mTHSCostSummaryFragment.thsVisit.getVisit());
@@ -310,7 +311,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
             @Override
             public void onClick(View v) {
                 mTHSCostSummaryFragment.alertDialogFragmentCouponCode.dismiss();
-
+                mTHSCostSummaryFragment.doTagging(ANALYTICS_ESTIMATED_VISIT_COST,message,false);
             }
         };
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSCostSummaryFragment.getFragmentActivity())
@@ -324,7 +325,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
         mTHSCostSummaryFragment.alertDialogFragmentCouponCode = builder.setCancelable(false).create();
         mTHSCostSummaryFragment.alertDialogFragmentCouponCode.setPositiveButtonListener(alertDialogFragmentCouponListener);
         mTHSCostSummaryFragment.alertDialogFragmentCouponCode.show(mTHSCostSummaryFragment.getFragmentManager(), THS_COST_SUMMARY_COUPON_CODE_ERROR);
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_IN_APP_NOTIFICATION, "estimatedCostError");
+
     }
 
     private void showCreateVisitError(final boolean showLargeContent, final boolean isWithTitle, final String message) {
@@ -335,6 +336,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
             @Override
             public void onClick(View v) {
                 mTHSCostSummaryFragment.alertDialogFragmentCreateVisit.dismiss();
+                mTHSCostSummaryFragment.doTagging(ANALYTICS_ESTIMATED_VISIT_COST,message,false);
                 mTHSCostSummaryFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
             }
         };
@@ -362,7 +364,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
                 mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_APPLY_PROMOCODE, thssdkError.getSdkError()));
             } else {
                 if (mTHSCostSummaryFragment.isPromoCodeAlreadyApplied.compareAndSet(false, true)) {
-                    THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "promoCodeAppliedSuccessfully");
+                    THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "promoCodeAppliedSuccessfully");
                 }
                 mTHSCostSummaryFragment.thsVisit.setCouponCodeApplied(mTHSCostSummaryFragment.mCouponCodeEdittext.getText().toString().trim());
                 updateCost(mTHSCostSummaryFragment.thsVisit);
