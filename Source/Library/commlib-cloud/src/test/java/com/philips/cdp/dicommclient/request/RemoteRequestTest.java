@@ -28,6 +28,9 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class RemoteRequestTest {
 
+    private static final String AIR_TEST_DATA = "{\"status\":0,\"data\":{\"aqi\":\"3\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"0\",\"fs2\":\"557\",\"fs3\":\"2477\",\"fs4\":\"2477\",\"dtrs\":\"7500\",\"aqit\":\"29\",\"clef1\":\"w\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"731185\",\"psens\":\"1\"}}";
+    private static final int FAILURE = 1;
+
     @Mock
     private CountDownLatch latchMock;
     @Mock
@@ -88,6 +91,42 @@ public class RemoteRequestTest {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
+                subject.onPublishEventReceived(FAILURE, messageId, conversationId);
+                return null;
+            }
+        }).when(latchMock).await(anyLong(), any(TimeUnit.class));
+
+
+        Response response = this.subject.execute();
+        Error result = response.getError();
+        assertNotNull(result);
+    }
+
+    @Test
+    public void givenRequestCreated_whenExecuted_andNonSuccessPublishCallbackReceived_thenShouldReturnResponse() throws Exception {
+        final int messageId = 1337;
+        final String conversationId = testUUID();
+        when(cloudControllerMock.publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString())).thenReturn(messageId);
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                subject.onPublishEventReceived(FAILURE, messageId, conversationId);
+                return null;
+            }
+        }).when(latchMock).await(anyLong(), any(TimeUnit.class));
+
+        Response response = this.subject.execute();
+        assertNotNull(response);
+    }
+
+    @Test
+    public void givenRequestCreated_whenExecuted_andNonSuccessPublishCallbackReceived_thenShouldReturnErrorResponse() throws Exception{
+        final int messageId = 1337;
+        final String conversationId = testUUID();
+        when(cloudControllerMock.publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString())).thenReturn(messageId);
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
                 subject.onPublishEventReceived(RemoteRequest.SUCCESS, messageId, conversationId);
                 return null;
             }
@@ -103,13 +142,12 @@ public class RemoteRequestTest {
     public void givenRequestCreated_whenExecuted_andBothCallbacksReceived_thenShouldReturnResponse() throws Exception{
         final int messageId = 1337;
         final String conversationId = testUUID();
-        final String dcsResponse = "{}";
         when(cloudControllerMock.publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString())).thenReturn(messageId);
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 subject.onPublishEventReceived(RemoteRequest.SUCCESS, messageId, conversationId);
-                subject.onDCSResponseReceived(dcsResponse, conversationId);
+                subject.onDCSResponseReceived(AIR_TEST_DATA, conversationId);
                 return null;
             }
         }).when(latchMock).await(anyLong(), any(TimeUnit.class));
@@ -123,13 +161,12 @@ public class RemoteRequestTest {
     public void givenRequestCreated_whenExecuted_andBothCallbacksReceived_thenShouldReturnNoErrorResponse() throws Exception {
         final int messageId = 1337;
         final String conversationId = testUUID();
-        final String dcsResponse = "{}";
         when(cloudControllerMock.publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString())).thenReturn(messageId);
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 subject.onPublishEventReceived(RemoteRequest.SUCCESS, messageId, conversationId);
-                subject.onDCSResponseReceived(dcsResponse, conversationId);
+                subject.onDCSResponseReceived(AIR_TEST_DATA, conversationId);
                 return null;
             }
         }).when(latchMock).await(anyLong(), any(TimeUnit.class));
@@ -138,6 +175,79 @@ public class RemoteRequestTest {
 
         Error result = response.getError();
         assertNull(result);
+    }
+
+    @Test
+    public void givenRequestCreated_whenExecuted_andBothCallbacksReceivedInWrongOrder_thenShouldReturnNoResponse() throws Exception {
+        final int messageId = 1337;
+        final String conversationId = testUUID();
+        when(cloudControllerMock.publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString())).thenReturn(messageId);
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                subject.onPublishEventReceived(RemoteRequest.SUCCESS, messageId, conversationId);
+                subject.onDCSResponseReceived(AIR_TEST_DATA, conversationId);
+                return null;
+            }
+        }).when(latchMock).await(anyLong(), any(TimeUnit.class));
+
+        Response response = this.subject.execute();
+        assertNotNull(response);
+    }
+
+    @Test
+    public void givenRequestCreated_whenExecuted_andBothCallbacksReceivedInWrongOrder_thenShouldReturnNoErrorResponse() throws Exception {
+        final int messageId = 1337;
+        final String conversationId = testUUID();
+        when(cloudControllerMock.publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString())).thenReturn(messageId);
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                subject.onDCSResponseReceived(AIR_TEST_DATA, conversationId);
+                subject.onPublishEventReceived(RemoteRequest.SUCCESS, messageId, conversationId);
+                return null;
+            }
+        }).when(latchMock).await(anyLong(), any(TimeUnit.class));
+
+        Response response = this.subject.execute();
+        Error result = response.getError();
+        assertNull(result);
+    }
+
+    @Test
+    public void givenRequestCreated_whenExecuted_andEventCallbackReceived_thenShouldReturnResponse() throws Exception {
+        final int messageId = 1337;
+        final String conversationId = testUUID();
+        when(cloudControllerMock.publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString())).thenReturn(messageId);
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                subject.onDCSResponseReceived(AIR_TEST_DATA, conversationId);
+                return null;
+            }
+        }).when(latchMock).await(anyLong(), any(TimeUnit.class));
+
+        Response response = this.subject.execute();
+        assertNotNull(response);
+    }
+
+    @Test
+    public void givenRequestCreated_whenExecuted_andEventCallbackReceived_thenShouldReturnErrorResponse() throws Exception{
+        final int messageId = 1337;
+        final String conversationId = testUUID();
+        when(cloudControllerMock.publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString())).thenReturn(messageId);
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                subject.onDCSResponseReceived(AIR_TEST_DATA, conversationId);
+                return null;
+            }
+        }).when(latchMock).await(anyLong(), any(TimeUnit.class));
+
+
+        Response response = this.subject.execute();
+        Error result = response.getError();
+        assertNotNull(result);
     }
 
     private String testUUID() {

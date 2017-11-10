@@ -38,7 +38,9 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
 
     private String mResponse;
     private int mMessageId;
+    private int mPublishedMessageId;
     private String mConversationId;
+    private String mResponseConversationId;
     private String mPortName;
     private int mProductId;
 
@@ -70,10 +72,8 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
         cloudController.addPublishEventListener(this);
 
         String eventData = createDataToSend(mPortName, mProductId, mDataMap);
-        mConversationId = generateConversationId();
-        DICommLog.d(DICommLog.REMOTEREQUEST, "Self-generated ConversationId: " + mConversationId);
         mMessageId = cloudController.publishEvent(eventData, DICOMM_REQUEST, mRequestType.getMethod(),
-                mConversationId, REQUEST_PRIORITY, REQUEST_TTL, cppId);
+                "", REQUEST_PRIORITY, REQUEST_TTL, cppId);
 
         responseLatch = createCountDownLatch();
 
@@ -112,6 +112,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     @Override
     public void onDCSResponseReceived(final @NonNull String dcsResponse, final @NonNull String conversationId) {
         if (mConversationId != null && mConversationId.equals(conversationId)) {
+            mResponseConversationId = conversationId;
             DICommLog.i(DICommLog.REMOTEREQUEST, "DCSEvent received from the right request");
             mResponse = dcsResponse;
             DICommLog.i(DICommLog.REMOTEREQUEST, "Notified on DCS Response");
@@ -139,35 +140,22 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
         String res = data;
 
         Gson gson = GsonProvider.get();
-//        try {
-            JsonData jsonObject = gson.fromJson(data, JsonData.class);
-//            JSONObject jsonObject = new JSONObject(data);
-            int status = jsonObject.status;
-            String dataObject = jsonObject.data;
-//            int status = jsonObject.getInt("status");
-//            JSONObject dataObject = jsonObject.optJSONObject("data");
+        JsonData jsonObject = gson.fromJson(data, JsonData.class);
+        int status = jsonObject.status;
+        Object dataObject = jsonObject.data;
 
-            if (status > 0) {
-                Log.e(TAG, "extractData: code received: " + status + "");
-            } else if (dataObject == null) {
-                Log.e(TAG, "extractData: no data received: " + data + "");
-            } else {
-//                res = dataObject.toString();
-                res = dataObject;
-            }
-//        } catch (JSONException e) {
-//            DICommLog.i(DICommLog.REMOTEREQUEST, "JSONException: " + e.getMessage());
-//        }
-
+        if (status > 0) {
+            Log.e(TAG, "extractData: code received: " + status + "");
+        } else if (dataObject == null) {
+            Log.e(TAG, "extractData: no data received: " + data + "");
+        } else {
+            res = dataObject.toString();
+        }
         return res;
-    }
-
-    private String generateConversationId() {
-        return UUID.randomUUID().toString();
     }
 
     private class JsonData {
         public int status;
-        public String data;
+        public Object data;
     }
 }
