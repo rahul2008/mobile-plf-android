@@ -125,7 +125,7 @@ node ('Platform-Android-Ehv-003') {
                     then
                         mv referenceApp-leakCanary.apk $APK_NAME
                         curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/referenceApp/LeakCanary/ -T $APK_NAME
-                        echo "$ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/referenceApp/LeakCanary/$APK_NAME" > Source/AppFramework/apkname.txt
+                        echo "$ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/referenceApp/LeakCanary/$APK_NAME" > apkname.txt
                     fi
 
                     if [ $? != 0 ]
