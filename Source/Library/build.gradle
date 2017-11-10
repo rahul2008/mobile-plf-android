@@ -97,6 +97,12 @@ artifactory {
     // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
+//TODO handle it properly once added in the pipeline
+artifactoryPublish {
+    clientConfig.info.setBuildName('ews_android')
+    clientConfig.info.setBuildNumber('0.0.1')
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
