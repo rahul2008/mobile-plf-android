@@ -485,7 +485,7 @@ public class User {
         if (isAcceptTerms) {
             if (!isTermsAndConditionAccepted()) {
                 signedIn = false;
-                clearData();
+      //          clearData();
             }
         }
         return signedIn;
