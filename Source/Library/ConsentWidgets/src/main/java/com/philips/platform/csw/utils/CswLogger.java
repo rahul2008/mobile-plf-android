@@ -3,17 +3,9 @@ package com.philips.platform.csw.utils;
 
 import android.util.Log;
 
-import com.janrain.android.engage.JREngage;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.URInterface;
-import com.philips.dhpclient.util.HsdpLog;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.csw.CswInterface;
-import com.philips.platform.csw.injection.CswComponent;
 import com.philips.platform.mya.consentwidgets.BuildConfig;
-
-import javax.inject.Inject;
 
 /**
  * Consent Widget loggger used for logginan system .

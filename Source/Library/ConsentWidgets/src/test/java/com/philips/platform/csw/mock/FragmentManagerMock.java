@@ -1,11 +1,13 @@
 package com.philips.platform.csw.mock;
 
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.util.List;
-
-import android.os.Bundle;
-import android.support.v4.app.*;
 
 public class FragmentManagerMock extends FragmentManager {
 

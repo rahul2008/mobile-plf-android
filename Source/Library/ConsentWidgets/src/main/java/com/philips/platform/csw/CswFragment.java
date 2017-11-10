@@ -7,15 +7,19 @@
 
 package com.philips.platform.csw;
 
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.csw.permission.PermissionView;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
-
-import android.os.Bundle;
-import android.support.v4.app.*;
-import android.view.*;
 
 public class CswFragment extends Fragment implements BackEventListener {
     private FragmentManager mFragmentManager;

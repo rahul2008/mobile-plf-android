@@ -5,7 +5,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
 import com.philips.platform.csw.CswFragment;
-import com.philips.platform.csw.mock.*;
+import com.philips.platform.csw.mock.FragmentActivityMock;
+import com.philips.platform.csw.mock.FragmentManagerMock;
+import com.philips.platform.csw.mock.FragmentTransactionMock;
 
 public class CswFragmentWrapper extends CswFragment {
     public FragmentManagerMock fragmentManagerMock = new FragmentManagerMock(new FragmentTransactionMock());
@@ -20,7 +22,7 @@ public class CswFragmentWrapper extends CswFragment {
     @Override
     public boolean onBackPressed() {
         if (mockOnBackPressed) {
-            onBackPressedInvoked=true;
+            onBackPressedInvoked = true;
             return true;
         } else {
             return super.onBackPressed();
@@ -28,11 +30,11 @@ public class CswFragmentWrapper extends CswFragment {
     }
 
     @Override
-    protected FragmentManager getmFragmentManager(){
+    protected FragmentManager getmFragmentManager() {
         return fragmentManagerMock;
     }
 
-    protected FragmentActivity getCurrentActivity(){
+    protected FragmentActivity getCurrentActivity() {
         return fragmentActivity;
     }
 }

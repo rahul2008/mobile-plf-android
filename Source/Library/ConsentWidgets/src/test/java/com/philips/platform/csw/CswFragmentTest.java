@@ -1,18 +1,25 @@
 package com.philips.platform.csw;
 
-import static org.junit.Assert.*;
+import android.os.Bundle;
 
-import org.junit.*;
-import org.junit.runner.RunWith;
-import org.robolectric.annotation.Config;
-
-import com.philips.platform.csw.mock.*;
+import com.philips.platform.csw.mock.ActionBarListenerMock;
+import com.philips.platform.csw.mock.FragmentManagerMock;
+import com.philips.platform.csw.mock.FragmentTransactionMock;
+import com.philips.platform.csw.mock.LayoutInflatorMock;
 import com.philips.platform.csw.utils.CustomRobolectricRunner;
 import com.philips.platform.csw.wrapper.CswFragmentWrapper;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-import android.os.Bundle;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.annotation.Config;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = com.philips.platform.mya.consentaccesstoolkit.BuildConfig.class, sdk = 25)

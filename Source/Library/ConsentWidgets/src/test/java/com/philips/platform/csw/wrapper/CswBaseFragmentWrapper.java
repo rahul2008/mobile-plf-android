@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.philips.platform.csw.CswBaseFragment;
-import com.philips.platform.csw.CswFragment;
 import com.philips.platform.csw.mock.ActionBarListenerMock;
 import com.philips.platform.csw.mock.CswFragmentMock;
 
