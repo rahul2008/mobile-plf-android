@@ -1,24 +1,20 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
+
 package com.philips.platform.catk.error;
+
+import com.android.volley.*;
+import com.google.gson.Gson;
+import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.catk.listener.NetworkErrorListener;
+import com.philips.platform.catk.listener.RequestListener;
 
 import android.os.Message;
 import android.util.Log;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
-import com.google.gson.Gson;
-import com.philips.platform.catk.listener.NetworkErrorListener;
-import com.philips.platform.catk.listener.RequestListener;
-import com.philips.platform.catk.CatkConstants;
-
-/**
- * Created by Maqsood on 10/12/17.
- */
 
 public class ConsentNetworkError implements NetworkErrorListener {
 
@@ -26,10 +22,9 @@ public class ConsentNetworkError implements NetworkErrorListener {
     private VolleyError mVolleyError;
     private int mErrorCode = CatkConstants.CONSENT_SUCCESS;
     private String mCustomErrorMessage;
-    private String mServerName;
 
     public ConsentNetworkError(VolleyError error, int requestCode,
-                               RequestListener requestListener) {
+            RequestListener requestListener) {
         initErrorCode(error);
         if (error instanceof com.android.volley.ServerError) {
             setServerError(error);
@@ -79,8 +74,7 @@ public class ConsentNetworkError implements NetworkErrorListener {
         return null;
     }
 
-    public void setCustomErrorMessage(String server, String errorMessage) {
-        mServerName = server;
+    public void setCustomErrorMessage(String errorMessage) {
         mCustomErrorMessage = errorMessage;
     }
 
@@ -108,13 +102,13 @@ public class ConsentNetworkError implements NetworkErrorListener {
                 checkInsufficientStockError(mServerError);
             }
         } catch (Exception e) {
-            Log.e("Network error",e.getMessage());
+            Log.e("Network error", e.getMessage());
         }
     }
 
     private void checkInsufficientStockError(ServerError serverError) {
         if (serverError == null || serverError.getErrors() == null
-                || serverError.getErrors().get(0) == null) {
+            || serverError.getErrors().get(0) == null) {
             return;
         }
         if ("InsufficientStockError".equals(serverError.getErrors().get(0).getType())) {

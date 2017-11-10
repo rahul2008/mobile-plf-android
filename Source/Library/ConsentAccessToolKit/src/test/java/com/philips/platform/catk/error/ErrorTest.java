@@ -1,13 +1,13 @@
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.catk.error;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-/**
- * Created by Maqsood on 11/4/17.
- */
+import org.junit.*;
 
 public class ErrorTest {
 
@@ -15,7 +15,7 @@ public class ErrorTest {
 
     @Before
     public void setUp() throws Exception {
-      error = new Error();
+        error = new Error();
     }
 
     @After

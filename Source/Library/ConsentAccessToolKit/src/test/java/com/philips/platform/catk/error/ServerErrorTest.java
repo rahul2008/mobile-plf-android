@@ -1,16 +1,17 @@
-package com.philips.platform.catk.error;
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+package com.philips.platform.catk.error;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Maqsood on 11/4/17.
- */
+import org.junit.*;
+
 public class ServerErrorTest {
 
     private List<Error> serverErrorList;
@@ -33,7 +34,7 @@ public class ServerErrorTest {
     @After
     public void tearDown() throws Exception {
         serverErrorList = null;
-        error =null;
+        error = null;
     }
 
     @Test
@@ -41,9 +42,8 @@ public class ServerErrorTest {
         Assert.assertNotNull(serverErrorList);
     }
 
-
     @Test
     public void testserverErrorListNotEmty() throws Exception {
-        Assert.assertEquals(1,serverErrorList.size());
+        Assert.assertEquals(1, serverErrorList.size());
     }
 }
