@@ -1,15 +1,13 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016
+ * Copyright (c) 2017 Koninklijke Philips N.V.
  * All rights are reserved. Reproduction or dissemination
- * * in whole or in part is prohibited without the prior written
- * * consent of the copyright holder.
- * /
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
 
 package com.philips.platform.csw;
 
 import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.csw.description.DescriptionView;
 import com.philips.platform.csw.permission.PermissionView;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -18,7 +16,6 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 import android.os.Bundle;
 import android.support.v4.app.*;
 import android.view.*;
-import android.view.View.OnClickListener;
 
 public class CswFragment extends Fragment implements BackEventListener {
     private FragmentManager mFragmentManager;
@@ -26,6 +23,7 @@ public class CswFragment extends Fragment implements BackEventListener {
 
     private String applicationName;
     private String propositionName;
+
     private boolean isAddedToBackStack;
 
     @Override
@@ -35,13 +33,12 @@ public class CswFragment extends Fragment implements BackEventListener {
         if (getArguments() != null) {
             applicationName = getArguments().getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
             propositionName = getArguments().getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
-            isAddedToBackStack = getArguments().getBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK,false);
+            isAddedToBackStack = getArguments().getBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK, false);
         }
 
         mFragmentManager = getmFragmentManager();
 
-            inflatePermissionView();
-
+        inflatePermissionView();
 
         return view;
     }
@@ -98,11 +95,10 @@ public class CswFragment extends Fragment implements BackEventListener {
         return permissionView;
     }
 
-
     public int getFragmentCount() {
         FragmentManager fragmentManager = getmFragmentManager();
-        if(isAddedToBackStack){
-            return fragmentManager.getBackStackEntryCount()+1;
+        if (isAddedToBackStack) {
+            return fragmentManager.getBackStackEntryCount() + 1;
         }
         return fragmentManager.getBackStackEntryCount();
     }
@@ -130,11 +126,7 @@ public class CswFragment extends Fragment implements BackEventListener {
         return !(onBackPressed());
     }
 
-    protected FragmentActivity getCurrentActivity() {
-        return getActivity();
-    }
-
-    public void setArguments(String applicationName, String propositionName,boolean addToBackStack) {
+    public void setArguments(String applicationName, String propositionName, boolean addToBackStack) {
         Bundle b = new Bundle();
         b.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
         b.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
@@ -150,24 +142,15 @@ public class CswFragment extends Fragment implements BackEventListener {
         return propositionName;
     }
 
+    public boolean getIsAddedToBackStack() {
+        return isAddedToBackStack;
+    }
+
     protected FragmentManager getmFragmentManager() {
         return getChildFragmentManager();
     }
 
     protected void setChildFragmentManager(FragmentManager fragmentManager) {
         mFragmentManager = fragmentManager;
-    }
-
-    public void addDiscriptionFragment() {
-        try {
-            if (null != mFragmentManager) {
-                DescriptionView descriptionView = new DescriptionView();
-                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.csw_frame_layout_view_container,descriptionView,"Description");
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commitAllowingStateLoss();
-            }
-        } catch (IllegalStateException ignore) {
-        }
     }
 }

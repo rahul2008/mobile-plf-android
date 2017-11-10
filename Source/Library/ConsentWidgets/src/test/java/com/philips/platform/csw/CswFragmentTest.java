@@ -2,13 +2,10 @@ package com.philips.platform.csw;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
 
-import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.csw.mock.*;
 import com.philips.platform.csw.utils.CustomRobolectricRunner;
 import com.philips.platform.csw.wrapper.CswFragmentWrapper;
@@ -16,11 +13,8 @@ import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.View;
 
 @RunWith(CustomRobolectricRunner.class)
-@Ignore
 @Config(constants = com.philips.platform.mya.consentaccesstoolkit.BuildConfig.class, sdk = 25)
 public class CswFragmentTest {
 
@@ -40,9 +34,17 @@ public class CswFragmentTest {
         thenFragmentCountIs(3);
     }
 
-    //@Test
+    @Test
+    public void getFragmentCountWithBackStack() throws Exception {
+        givenFragmentApplicationAndPropositionNamesAre(APPLICATION_NAME, PROPOSITION_NAME, IS_ADDED_TO_BACKSTACK);
+        givenFragmentCountIs(3);
+        whenGetFragmetCountIsInvoked();
+        thenFragmentCountIs(4);
+    }
+
+    @Test
     public void onCreateView_setsApplicationAndPropositionName() throws Exception {
-        givenArgumentsAre(APPLICATION_NAME, PROPOSITION_NAME);
+        givenArgumentsAre(APPLICATION_NAME, PROPOSITION_NAME, IS_ADDED_TO_BACKSTACK);
         whenOnCreateViewIsInvoked();
         thenApplicationNameIs(APPLICATION_NAME);
         thenPropositionNameIs(PROPOSITION_NAME);
@@ -56,26 +58,27 @@ public class CswFragmentTest {
         thenPropositionNameIs(null);
     }
 
-    //@Test
+    @Test
     public void onCreateView_InvokesInflatorWthRightParams() throws Exception {
-        givenArgumentsAre(APPLICATION_NAME, PROPOSITION_NAME);
+        givenArgumentsAre(APPLICATION_NAME, PROPOSITION_NAME, IS_ADDED_TO_BACKSTACK);
         whenOnCreateViewIsInvoked();
-        thenPermissionViewIsInflatedWith(R.id.csw_frame_layout_view_container, APPLICATION_NAME, PROPOSITION_NAME);
+        thenBuildPermissionViewIsCreatedWith(R.id.csw_frame_layout_view_container, APPLICATION_NAME, PROPOSITION_NAME);
     }
 
-    //@Test
-    public void onCreateView_InflatesPermissionView() throws Exception {
-        givenArgumentsAre(APPLICATION_NAME, PROPOSITION_NAME);
+    @Test
+    public void onCreateView_BuildsPermissionView() throws Exception {
+        givenArgumentsAre(APPLICATION_NAME, PROPOSITION_NAME, IS_ADDED_TO_BACKSTACK);
         whenOnCreateViewIsInvoked();
-        thenInflatorInflateIsCalledWith(R.layout.csw_fragment_consent_widget_root, null, false);
+        thenBuildPermissionViewIsCreatedWith(R.id.csw_frame_layout_view_container, APPLICATION_NAME, PROPOSITION_NAME);
     }
 
     @Test
     public void onViewStateRestored_ReadsApplicationNameAndPropositionNameFromState() {
-        givenBundleStateWithValues(APPLICATION_NAME, PROPOSITION_NAME);
+        givenBundleStateWithValues(APPLICATION_NAME, PROPOSITION_NAME, IS_ADDED_TO_BACKSTACK);
         whenOnViewStateRestoredIsInvoked();
         thenApplicationNameIs(APPLICATION_NAME);
         thenPropositionNameIs(PROPOSITION_NAME);
+        thenIsAddedToBackStackIs(IS_ADDED_TO_BACKSTACK);
     }
 
     @Test
@@ -88,23 +91,17 @@ public class CswFragmentTest {
     @Test
     public void onViewStateSave_savesApplicationNameAndPropositionNameToState() {
         givenEmptyBundleState();
-        givenFragmentApplicationAndPropositionNamesAre(APPLICATION_NAME, PROPOSITION_NAME);
+        givenFragmentApplicationAndPropositionNamesAre(APPLICATION_NAME, PROPOSITION_NAME, IS_ADDED_TO_BACKSTACK);
         whenOnViewStateSaveIsInvoked();
         thenStateContainsApplicationName(APPLICATION_NAME);
         thenStateContainsPropositionName(PROPOSITION_NAME);
+        thenStateContainsIsAddedToBackStack(IS_ADDED_TO_BACKSTACK);
     }
 
     @Test
     public void onViewStateSave_savesApplicationNameAndPropositionNameToState_WhenStateIsNull() {
         whenOnViewStateSaveIsInvoked();
         Assert.assertNull(state);
-    }
-
-    private void givenFragmentApplicationAndPropositionNamesAre(String applicationName, String propositionName) {
-        Bundle bundle = new Bundle();
-        bundle.putString(PROPOSITION_NAME_KEY, propositionName);
-        bundle.putString(APPLICATION_NAME_KEY, applicationName);
-        fragment.onViewStateRestored(bundle);
     }
 
     @Test
@@ -127,21 +124,6 @@ public class CswFragmentTest {
         whenOnBackPressedIsCalled();
         thenOnBackPressedReturns(false);
         thenPopBackStackWasCalled();
-    }
-
-    @Test
-    public void onBackPressedFinishesActivity_WhenFragmentManagerNull() throws Exception {
-        givenFragmentManagerIsNull();
-        whenOnBackPressedIsCalled();
-        thenCurrentActivityIsFinished();
-    }
-
-    private void thenCurrentActivityIsFinished() {
-        assertTrue(fragment.fragmentActivity.finishWasCalled);
-    }
-
-    private void givenFragmentManagerIsNull() {
-        fragment.setChildFragmentManager(null);
     }
 
     @Test
@@ -172,6 +154,14 @@ public class CswFragmentTest {
         thenUpdateTitleListenerReturnedIs(actionBarListenerMock);
     }
 
+    private void givenFragmentApplicationAndPropositionNamesAre(String applicationName, String propositionName, boolean addedToBackStack) {
+        Bundle bundle = new Bundle();
+        bundle.putString(PROPOSITION_NAME_KEY, propositionName);
+        bundle.putString(APPLICATION_NAME_KEY, applicationName);
+        bundle.putBoolean(BUNDLE_KEY_ADDTOBACKSTACK, addedToBackStack);
+        fragment.onViewStateRestored(bundle);
+    }
+
     private void thenUpdateTitleListenerReturnedIs(ActionBarListener expectedActionBarListener) {
         assertEquals(expectedActionBarListener, actualActionBarListener);
     }
@@ -196,10 +186,11 @@ public class CswFragmentTest {
         fragment.onSaveInstanceState(state);
     }
 
-    private void givenBundleStateWithValues(String applicationName, String propositionName) {
+    private void givenBundleStateWithValues(String applicationName, String propositionName, boolean addedToBackStack) {
         state = new Bundle();
         state.putString(PROPOSITION_NAME_KEY, propositionName);
         state.putString(APPLICATION_NAME_KEY, applicationName);
+        state.putBoolean(BUNDLE_KEY_ADDTOBACKSTACK, addedToBackStack);
     }
 
     private void thenResourceIdReturnedIs(int expectedResourceId) {
@@ -218,24 +209,18 @@ public class CswFragmentTest {
         state = new Bundle();
     }
 
-    private void givenOnClickIsMocked() {
-        fragment.mockOnBackPressed = true;
-    }
-
-    private void thenPermissionViewIsInflatedWith(int csw_frame_layout_view_container, String applicationName, String propositionName) {
+    private void thenBuildPermissionViewIsCreatedWith(int csw_frame_layout_view_container, String applicationName, String propositionName) {
         assertEquals(csw_frame_layout_view_container, fragmentTransactionMock.replace_containerId);
         assertEquals(applicationName, fragmentTransactionMock.replace_fragment.getArguments().get("appName"));
         assertEquals(propositionName, fragmentTransactionMock.replace_fragment.getArguments().get("propName"));
     }
 
-    private void thenInflatorInflateIsCalledWith(int csw_fragment_consent_widget_root, Object resource, boolean attachToRoot) {
-        assertEquals(csw_fragment_consent_widget_root, mockLayoutInflater.usedResource);
-        assertEquals(resource, mockLayoutInflater.usedViewGroup);
-        assertEquals(attachToRoot, mockLayoutInflater.usedAttachToRoot);
-    }
-
     private void thenPropositionNameIs(String propositionName) {
         Assert.assertEquals(propositionName, fragment.getPropositionName());
+    }
+
+    private void thenIsAddedToBackStackIs(boolean isAddedToBackstack) {
+        Assert.assertEquals(isAddedToBackstack, fragment.getIsAddedToBackStack());
     }
 
     private void thenApplicationNameIs(String applicationName) {
@@ -243,28 +228,27 @@ public class CswFragmentTest {
     }
 
     private void thenStateContainsApplicationName(String expected) {
-        Assert.assertEquals(expected, state.getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME));
+        Assert.assertEquals(expected, state.getString(APPLICATION_NAME_KEY));
     }
 
     private void thenStateContainsPropositionName(String expected) {
-        Assert.assertEquals(expected, state.getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME));
+        Assert.assertEquals(expected, state.getString(PROPOSITION_NAME_KEY));
+    }
+
+    private void thenStateContainsIsAddedToBackStack(boolean expected) {
+        Assert.assertEquals(expected, state.getBoolean(BUNDLE_KEY_ADDTOBACKSTACK));
     }
 
     private void whenOnCreateViewIsInvoked() {
         fragment.onCreateView(mockLayoutInflater, null, null);
     }
 
-    private void givenArgumentsAre(String applicationName, String propositionName) {
-        //fragment.setArguments(applicationName, propositionName);
+    private void givenArgumentsAre(String applicationName, String propositionName, boolean isAddedToBackStack) {
+        fragment.setArguments(applicationName, propositionName, isAddedToBackStack);
     }
 
     private void givenBackStackDepthIs(int depth) {
         fragmentManagerMock.backStackCount = depth;
-    }
-
-    private void givenViewWithId(int id) {
-        View view = new View(new ContextMock());
-        view.setId(id);
     }
 
     private void whenOnBackPressedIsCalled() {
@@ -292,10 +276,7 @@ public class CswFragmentTest {
     }
 
     private void givenFragmentCountIs(int numberOfFragments) {
-        fragmentManagerMock.fragments = new ArrayList<Fragment>();
-        for (int i = 0; i < numberOfFragments; i++) {
-            fragmentManagerMock.fragments.add(new Fragment());
-        }
+        fragmentManagerMock.backStackCount = numberOfFragments;
     }
 
     private void thenEventIsNotHandled() {
@@ -306,25 +287,22 @@ public class CswFragmentTest {
         assertTrue(handleBackEvent_return);
     }
 
-    private void thenOnBackPressedIsCalled() {
-        Assert.assertTrue(fragment.onBackPressedInvoked);
-    }
-
     private FragmentManagerMock fragmentManagerMock;
     private boolean onBackPressed_return;
     private boolean handleBackEvent_return;
     private FragmentTransactionMock fragmentTransactionMock;
     private CswFragmentWrapper fragment;
     private Bundle state;
-    private View view;
     private int actualFragmentCount;
     private int actualResourceId;
     private ActionBarListener actualActionBarListener;
     private ActionBarListenerMock actionBarListenerMock = new ActionBarListenerMock();
     private static final String APPLICATION_NAME_KEY = "appName";
     private static final String PROPOSITION_NAME_KEY = "propName";
+    public static final String BUNDLE_KEY_ADDTOBACKSTACK = "addToBackStack";
     private static final String PROPOSITION_NAME = "PROPOSITION_NAME";
     private static final String APPLICATION_NAME = "APPLICATION_NAME";
+    private static final boolean IS_ADDED_TO_BACKSTACK = true;
 
     LayoutInflatorMock mockLayoutInflater = LayoutInflatorMock.createMock();
 }
