@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
-import com.philips.cdp2.ews.common.util.DateUtil;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConfirmWifiNetworkBinding;
 import com.philips.cdp2.ews.util.ColorsUtil;
@@ -27,6 +26,8 @@ import com.philips.cdp2.ews.util.TextUtil;
 import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
+
+import java.util.Locale;
 
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
@@ -88,7 +89,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
             getChildFragmentManager().executePendingTransactions();
             TextView textView = view.findViewById(R.id.label_ews_home_network_body);
             ImageView imageView = view.findViewById(R.id.ic_close);
-            String explanation = String.format(DateUtil.getSupportedLocale(), context.getString(R.string.label_ews_home_network_body),
+            String explanation = String.format(Locale.getDefault(), context.getString(R.string.label_ews_home_network_body),
                     context.getString(baseContentConfiguration.getAppName()));
             textView.setText(TextUtil.getHTMLText(explanation));
             FontIconDrawable drawable = new FontIconDrawable(context, context.getResources().getString(R.string.dls_cross_24), TypefaceUtils

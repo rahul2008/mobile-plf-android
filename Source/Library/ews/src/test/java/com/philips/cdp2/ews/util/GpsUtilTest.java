@@ -12,6 +12,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robolectric.util.ReflectionHelpers;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -24,6 +28,14 @@ public class GpsUtilTest {
         stubAndroidSdkVersion(Build.VERSION_CODES.LOLLIPOP);
 
         assertFalse(GpsUtil.isGPSRequiredForWifiScan());
+    }
+
+    @Test
+    public void testGpsUtilConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        Constructor<GpsUtil> constructor = GpsUtil.class.getDeclaredConstructor();
+        assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+        constructor.setAccessible(true);
+        constructor.newInstance();
     }
 
     @Test
@@ -47,4 +59,5 @@ public class GpsUtilTest {
     private void stubAndroidSdkVersion(final int sdkInt) {
         ReflectionHelpers.setStaticField(Build.VERSION.class, "SDK_INT", sdkInt);
     }
+
 }

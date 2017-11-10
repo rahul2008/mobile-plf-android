@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdp2.ews.configuration;
 
 import android.os.Parcel;
@@ -15,9 +19,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by salvatorelafiura on 08/11/2017.
- */
 public class BaseContentConfigurationTest {
 
     @InjectMocks
