@@ -14,14 +14,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
 public class MyaFragmentTest {
 
     @Before
-    public void setup(){
+    public void setup() {
         myaFragment = new MyaFragmentWrapper();
         myaFragment.fragmentActivity = mockFragmentActivity;
     }

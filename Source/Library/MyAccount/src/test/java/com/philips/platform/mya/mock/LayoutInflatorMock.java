@@ -23,7 +23,7 @@ public class LayoutInflatorMock extends LayoutInflater {
         return inflateViewResult;
     }
 
-    public static LayoutInflatorMock createMock(){
+    public static LayoutInflatorMock createMock() {
         return new LayoutInflatorMock(new ContextMock());
     }
 

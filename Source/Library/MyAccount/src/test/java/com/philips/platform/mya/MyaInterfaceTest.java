@@ -10,17 +10,16 @@ import com.philips.platform.mya.mock.FragmentTransactionMock;
 import com.philips.platform.mya.mock.LaunchInputMock;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class MyaInterfaceTest {
 
     //@Before
-    public void setup () {
+    public void setup() {
         myaInterface = new MyaInterface();
         fragmentTransaction = new FragmentTransactionMock();
         fragmentManager = new FragmentManagerMock(fragmentTransaction);

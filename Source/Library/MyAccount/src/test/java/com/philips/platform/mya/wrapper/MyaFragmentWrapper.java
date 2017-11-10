@@ -8,7 +8,7 @@ public class MyaFragmentWrapper extends MyaFragment {
     public FragmentActivity fragmentActivity;
 
     @Override
-    protected FragmentActivity overridableGetActivity(){
+    protected FragmentActivity overridableGetActivity() {
         return fragmentActivity;
     }
 
