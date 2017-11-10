@@ -4,7 +4,6 @@
  */
 package com.philips.cdp2.ews.appliance;
 
-import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 
 import javax.inject.Inject;
@@ -14,19 +13,10 @@ import javax.inject.Singleton;
 @Singleton
 public class ApplianceSessionDetailsInfo {
 
-    private DevicePortProperties devicePortProperties;
     private WifiPortProperties wifiPortProperties;
 
     @Inject
     public ApplianceSessionDetailsInfo() {
-    }
-
-    public DevicePortProperties getDevicePortProperties() {
-        return devicePortProperties;
-    }
-
-    public void setDevicePortProperties(DevicePortProperties devicePortProperties) {
-        this.devicePortProperties = devicePortProperties;
     }
 
     public WifiPortProperties getWifiPortProperties() {
@@ -37,12 +27,7 @@ public class ApplianceSessionDetailsInfo {
         this.wifiPortProperties = wifiPortProperties;
     }
 
-    public String getDeviceName() {
-        return "Wakeup Light";
-    }
-
     public boolean hasSessionProperties() {
-        // TODO :: Currently not fetching device port properties, add the condition once its fixed
         return wifiPortProperties != null;
     }
 
