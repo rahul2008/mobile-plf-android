@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:gravity="center"
-        android:background="#113478"
+        android:background="?attr/uidContentSecondaryBackgroundColor"
         android:text="@string/common_components"
-        android:textColor="@color/white"
+        android:textColor="@color/uid_list_item_text_selector"
         android:textSize="22sp" />
 
     <View

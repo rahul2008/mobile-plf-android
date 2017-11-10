@@ -22,7 +22,7 @@
         android:largeHeap="true"
         android:resizeableActivity="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
 
         tools:replace="android:theme,android:label,android:allowBackup,android:icon,android:name,android:supportsRtl">
 

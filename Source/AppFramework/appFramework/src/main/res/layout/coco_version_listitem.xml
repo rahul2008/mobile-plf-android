@@ -10,22 +10,20 @@
     android:orientation="vertical"
     android:padding="@dimen/margin_eight">
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/coco_name"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:gravity="center_vertical"
         android:padding="5dp"
-        android:textColor="?attr/uikit_listtextselector"
         android:textSize="16sp" />
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/coco_version"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:padding="5dp"
-        android:textColor="?attr/uikit_listtextselector"
         android:textSize="14sp" />
     <View
         android:id="@+id/description_seperator"
@@ -35,15 +33,14 @@
         android:layout_marginRight="2dp"
         android:visibility="gone"
         android:alpha="0.8"
-        android:background="@color/uikit_philips_blue" />
+        android:background="?attr/uidContentPrimaryBackgroundColor" />
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/coco_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lineSpacingExtra="3dip"
         android:padding="5dp"
-        android:textColor="?attr/uikit_listtextselector"
         android:textSize="12sp"
         android:visibility="gone" />
 

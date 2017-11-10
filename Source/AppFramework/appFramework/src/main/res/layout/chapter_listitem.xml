@@ -6,17 +6,13 @@
     android:orientation="vertical"
     >
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/chapter_textview"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center_vertical"
         android:padding="5dp"
-        android:textColor="@color/white"
+        android:textColor="@color/uid_list_item_text_selector"
         android:textSize="22sp" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/white"
-        />
+   <include layout="@layout/uid_horizontal_separator"></include>
 </LinearLayout>
