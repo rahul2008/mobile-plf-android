@@ -175,7 +175,7 @@ public class NavigatorTest {
     }
 
     @Test
-    public void itShouldNavigateBack() throws Exception {
+    public void itShouldVerifyFragmentNavigatorPopIsCalledWhenNavigateBack() throws Exception {
         subject.navigateBack();
 
         verify(mockFragmentNavigator).pop();

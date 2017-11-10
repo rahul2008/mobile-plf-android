@@ -25,17 +25,12 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
-import javax.inject.Inject;
-
 public class ConnectingWithDeviceFragment extends BaseFragment implements
         ConnectingPhoneToHotSpotCallback {
 
     private static final String TAG = "ConnectingWithDeviceFragment";
     @Nullable
     private ConnectingWithDeviceViewModel viewModel;
-
-    @Inject
-    BaseContentConfiguration baseContentConfiguration;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -83,7 +78,7 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
     }
 
     @Override
-    public void showTroubleshootHomeWifiDialog() {
+    public void showTroubleshootHomeWifiDialog(@NonNull  BaseContentConfiguration baseContentConfiguration) {
         Context context = getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.ews_device_conn_unsuccessful_dialog,
                 null, false);
@@ -104,6 +99,7 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
             @Override
             public void onClick(View v) {
                 if (viewModel != null) {
+                    alertDialogFragment.dismiss();
                     viewModel.onHelpNeeded();
                 }
             }
@@ -113,6 +109,7 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
             @Override
             public void onClick(View v) {
                 if (viewModel != null) {
+                    alertDialogFragment.dismiss();
                     viewModel.onHelpNotNeeded();
                 }
             }
