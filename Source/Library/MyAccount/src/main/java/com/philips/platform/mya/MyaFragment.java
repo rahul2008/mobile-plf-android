@@ -1,9 +1,8 @@
 /*
- *  Copyright (c) Koninklijke Philips N.V., 2016
- *  All rights are reserved. Reproduction or dissemination
- *  * in whole or in part is prohibited without the prior written
- *  * consent of the copyright holder.
- * /
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
 
 package com.philips.platform.mya;
@@ -26,7 +25,6 @@ import com.philips.platform.mya.account.AccountView;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
-
 
 public class MyaFragment extends Fragment implements
         BackEventListener {
@@ -87,21 +85,17 @@ public class MyaFragment extends Fragment implements
                 boolean isHandleBack = !((BackEventListener) fragment).handleBackEvent();
                 System.out.println(isHandleBack);
                 //true only one View value left
-                if(isHandleBack){
+                if (isHandleBack) {
                     //remove view from the container
-                   fragment.getActivity().getSupportFragmentManager().popBackStack();
-                   return false;
-                }else{
+                    fragment.getActivity().getSupportFragmentManager().popBackStack();
+                    return false;
+                } else {
                     return false;
                 }
-
-
-
             }
         }
 
-
-       if (mFragmentManager != null) {
+        if (mFragmentManager != null) {
             int count = mFragmentManager.getBackStackEntryCount();
             if (count == 0) {
                 return true;
@@ -137,13 +131,13 @@ public class MyaFragment extends Fragment implements
 
         Fragment fragment = getCswFragment();
         if (fragment != null) {
-            cswChildFragmentCount = ((CswFragment)fragment).getFragmentCount();
-            cswChildFragmentCount = cswChildFragmentCount+1;
+            cswChildFragmentCount = ((CswFragment) fragment).getFragmentCount();
+            cswChildFragmentCount = cswChildFragmentCount + 1;
         }
 
 
-        int fragmentCount = mFragmentManager.getFragments().size()-1;
-        fragmentCount = fragmentCount+cswChildFragmentCount;
+        int fragmentCount = mFragmentManager.getFragments().size() - 1;
+        fragmentCount = fragmentCount + cswChildFragmentCount;
         return fragmentCount;
     }
 
@@ -183,7 +177,7 @@ public class MyaFragment extends Fragment implements
     }
 
     public void launchCswFragment() {
-        FragmentLauncher fragmentLauncher = new FragmentLauncher(getActivity(),R.id.mya_frame_layout_view_container, mActionBarListener);
+        FragmentLauncher fragmentLauncher = new FragmentLauncher(getActivity(), R.id.mya_frame_layout_view_container, mActionBarListener);
         new CswInterface().launch(fragmentLauncher, buildLaunchInput(true));
     }
 
@@ -196,7 +190,7 @@ public class MyaFragment extends Fragment implements
         return cswLaunchInput;
     }
 
-    protected FragmentActivity overridableGetActivity(){
+    protected FragmentActivity overridableGetActivity() {
         return getActivity();
     }
 }
