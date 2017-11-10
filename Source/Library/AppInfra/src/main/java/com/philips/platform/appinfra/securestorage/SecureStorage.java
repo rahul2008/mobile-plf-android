@@ -264,8 +264,8 @@ public class SecureStorage implements SecureStorageInterface {
                 keySharedPreferences.edit().remove(SINGLE_AES_KEY_TAG).apply();
                 SecretKeySpec secretKey = new SecretKeySpec(secretKeyBytes, "AES");
 
-                boolean b = secureStorageHelper.storeKey(SS_WRAP_KEY, secretKey, KEY_FILE_NAME);
-                if(b){
+                boolean storeKeySuccessfully = secureStorageHelper.storeKey(SS_WRAP_KEY, secretKey, KEY_FILE_NAME);
+                if(storeKeySuccessfully){
                     Log.e(TAG, " Successfully stored RSA wrapped data with key " + SS_WRAP_KEY + " value=" + keySharedPreferences.getString(SS_WRAP_KEY, null));
                     Log.e(TAG, " Deleted previous encoded AES key " + SINGLE_AES_KEY_TAG + " value=" + keySharedPreferences.getString(SINGLE_AES_KEY_TAG, null));
                 }
