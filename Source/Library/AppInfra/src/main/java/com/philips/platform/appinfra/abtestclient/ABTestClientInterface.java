@@ -44,6 +44,7 @@ public interface ABTestClientInterface {
 
     /**
      *These tests will be refreshes if you update cache after app restart or update
+     * @since 1.0.0
      */
     interface OnRefreshListener {
         enum ERRORVALUES {NO_NETWORK, EXPERIENCES_PARTIALLY_DOWNLOADED}
@@ -79,7 +80,7 @@ public interface ABTestClientInterface {
 
     /**
      * Download experience values from the server. Call will have no effect if state equals
-     * NO_TESTS_DEFINED or EXPERIENCES_UPDATED and return onSuccess.
+     * NO_TESTS_DEFINED or EXPERIENCES_UPDATED.
      *
      * @param listener for OnRefresh
      * @since 1.0.0

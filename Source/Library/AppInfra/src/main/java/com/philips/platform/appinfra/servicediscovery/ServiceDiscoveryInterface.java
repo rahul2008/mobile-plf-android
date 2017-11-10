@@ -22,6 +22,7 @@ public interface ServiceDiscoveryInterface {
      * This is the callback method Error cases.
      * the call back will have Error method for actions completed with Errors.
      * onSuccess returns the Error response type
+     * @since 1.0.0
      */
     interface OnErrorListener {
         enum ERRORVALUES {
@@ -36,6 +37,7 @@ public interface ServiceDiscoveryInterface {
      * This is the callback method from getHomeCountry() API.
      * the call back will have success method for actions completed successfully.
      * onSuccess returns the successful response
+     * @since 1.0.0
      */
     interface OnGetHomeCountryListener extends OnErrorListener {
         enum SOURCE {STOREDPREFERENCE, SIMCARD, GEOIP}
@@ -47,6 +49,7 @@ public interface ServiceDiscoveryInterface {
      * This is the callback method from getServiceUrlWithLanguagePreference() API.
      * the call back will have success method for actions completed successfully.
      * onSuccess returns the successful response
+     * @since 1.0.0
      */
     interface OnGetServiceUrlListener extends OnErrorListener {
         void onSuccess(URL url);
@@ -56,6 +59,7 @@ public interface ServiceDiscoveryInterface {
      * This is the callback method from getServiceUrlWithLanguagePreference() API.
      * the call back will have success method for actions completed successfully.
      * onSuccess returns the successful response
+     * @since 1.0.0
      */
     interface OnGetServiceUrlMapListener extends OnErrorListener {
         void onSuccess(Map<String, ServiceDiscoveryService> urlMap);
@@ -65,6 +69,7 @@ public interface ServiceDiscoveryInterface {
      * This is the callback method from getServiceLocaleWithLanguagePreference() API.
      * the call back will have success method for actions completed successfully.
      * onSuccess returns the successful response
+     * @since 1.0.0
      */
     interface OnGetServiceLocaleListener extends OnErrorListener {
         void onSuccess(String locale);
@@ -82,6 +87,7 @@ public interface ServiceDiscoveryInterface {
     /**
      * This is the callback method from refresh() API.
      * the call back will have success method for actions completed successfully
+     * @since 1.0.0
      */
     interface OnRefreshListener extends OnErrorListener {
         void onSuccess();
@@ -90,7 +96,6 @@ public interface ServiceDiscoveryInterface {
     /**
      * Fetches the Persistently stored Home country, the value is taken from the variable which has been set by setHomeCountry API.
      * Changing the country automatically clears the cached service list and triggers a refresh.
-     *
      * @param listener country code to persistently store, code must be according to ISO 3166-1
      * @since 1.0.0
      */
@@ -99,6 +104,7 @@ public interface ServiceDiscoveryInterface {
     /**
      * Fetches the Persistently stored Home country, the value is taken from the variable which has been set by setHomeCountry API.
      * Changing the country automatically clears the cached service list and triggers a refresh.
+     * @return Persistently stored Home country
      * @since 1.0.0
      */
     String getHomeCountry();
@@ -113,7 +119,7 @@ public interface ServiceDiscoveryInterface {
     void setHomeCountry(String countryCode);
 
     /**
-     * Returns the URL for a specific service with a preference for the current language.
+     * URL for a specific service with a preference for the current language.
      *
      * @param serviceId name of the service for which the URL is to be retrieved
      * @param listener  asynchronously returns using onSuccess the URL of the requested service;
@@ -123,7 +129,7 @@ public interface ServiceDiscoveryInterface {
     void getServiceUrlWithLanguagePreference(String serviceId, OnGetServiceUrlListener listener);
 
     /**
-     * Returns the URL for a specific service with a preference for the current language.
+     * URL for a specific service with a preference for the current language.
      *
      * @param serviceId   name of the service for which the URL is to be retrieved
      * @param listener    asynchronously returns using onSuccess the URL of the requested service;
@@ -136,7 +142,7 @@ public interface ServiceDiscoveryInterface {
 
 
     /**
-     * Returns Hashmap with  URL  mapped specific service with a preference for the current language.
+     * Hashmap with  URL  mapped specific service with a preference for the current language.
      *
      * @param serviceId ArrayList of the service for which the URL is to be retrieved
      * @param listener  asynchronously returns using onSuccess the URL of the requested service;
@@ -147,7 +153,7 @@ public interface ServiceDiscoveryInterface {
 
 
     /**
-     * Returns Hashmap with  URL  mapped specific service with a preference for the current language.
+     * Hashmap with  URL  mapped specific service with a preference for the current language.
      *
      * @param serviceId   ArrayList of the service for which the URL is to be retrieved
      * @param listener    asynchronously returns using onSuccess the URL of the requested service;
@@ -159,7 +165,7 @@ public interface ServiceDiscoveryInterface {
                                            Map<String, String> replacement);
 
     /**
-     * Returns the URL for a specific service with a preference for the current home country.
+     * URL for a specific service with a preference for the current home country.
      *
      * @param serviceId name of the service for which the URL is to be retrieved
      * @param listener  asynchronously returns using onSuccess the URL of the requested service;
@@ -170,7 +176,7 @@ public interface ServiceDiscoveryInterface {
 
 
     /**
-     * Returns the URL for a specific service with a preference for the current home country.
+     * URL for a specific service with a preference for the current home country.
      *
      * @param serviceId   name of the service for which the URL is to be retrieved
      * @param listener    asynchronously returns using onSuccess the URL of the requested service;
@@ -183,7 +189,7 @@ public interface ServiceDiscoveryInterface {
 
 
     /**
-     * Returns Hashmap with  URL  mapped for a specific service with a
+     * Hashmap with  URL  mapped for a specific service with a
      * preference for the current home country.
      *
      * @param serviceId List of the services for which the URL is to be retrieved
@@ -194,7 +200,7 @@ public interface ServiceDiscoveryInterface {
     void getServicesWithCountryPreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener);
 
     /**
-     * Returns Hashmap with  URL  mapped for a specific service with a
+     * Hashmap with  URL  mapped for a specific service with a
      * preference for the current home country.
      *
      * @param serviceId   List of the services for which the URL is to be retrieved
@@ -208,7 +214,7 @@ public interface ServiceDiscoveryInterface {
 
 
     /**
-     * Returns the locale to be used for a specific service with a preference for the current language.
+     * Locale to be used for a specific service with a preference for the current language.
      *
      * @param serviceId name of the service for which the URL is to be retrieved
      * @param listener  asynchronously returns using onSuccess the recommended locale for the requested service;
@@ -218,7 +224,7 @@ public interface ServiceDiscoveryInterface {
     void getServiceLocaleWithLanguagePreference(String serviceId, OnGetServiceLocaleListener listener);
 
     /**
-     * Returns the locale to be used for a specific service with a preference for the current home country.
+     * Locale to be used for a specific service with a preference for the current home country.
      *
      * @param serviceId name of the service for which the URL is to be retrieved
      * @param listener  asynchronously returns using onSuccess the recommended locale for the requested service;
@@ -228,7 +234,7 @@ public interface ServiceDiscoveryInterface {
     void getServiceLocaleWithCountryPreference(String serviceId, OnGetServiceLocaleListener listener);
 
     /**
-     * Returns the URLs + locales for a set of services with a preference for the current language.
+     * URLs + locales for a set of services with a preference for the current language.
      * @param serviceIds list of service names for which the URL + locale are to be retrieved
      * @param listener asynchronously returns using onSuccess a map containing the requested service names (key)
      *                 and their URL + locale (value), the value will be null if the service is unknown;
@@ -236,7 +242,7 @@ public interface ServiceDiscoveryInterface {
      */
 //    void getServicesWithLanguagePreference(String serviceIds, OnGetServicesListener listener);
     /**
-     * Returns the URLs + locales for a set of services with a preference for the current home country.
+     * URLs + locales for a set of services with a preference for the current home country.
      * @param serviceIds list of service names for which the URL + locale are to be retrieved
      * @param listener asynchronously returns using onSuccess a map containing the requested service names (key)
      *                 and their URL + locale (value), the value will be null if the service is unknown;

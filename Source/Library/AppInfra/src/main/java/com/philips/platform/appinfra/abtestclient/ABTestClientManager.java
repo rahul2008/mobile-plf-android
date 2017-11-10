@@ -46,7 +46,7 @@ public class ABTestClientManager implements ABTestClientInterface {
         mAppInfra = appInfra;
         Context mContext = appInfra.getAppInfraContext();
         isAppRestarted = true;
-       init(mContext);
+        init(mContext);
     }
 
 

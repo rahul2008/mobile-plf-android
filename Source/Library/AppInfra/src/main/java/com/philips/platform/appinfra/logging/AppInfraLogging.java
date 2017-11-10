@@ -76,6 +76,7 @@ public class AppInfraLogging implements LoggingInterface {
      * @param eventId the Event name or Tag
      * @param message the message
      * @param map the dictionary
+     * @since 1.0.0
      */
     @Override
     public void log(LogLevel level, String eventId, String message, Map<String, ?> map) {

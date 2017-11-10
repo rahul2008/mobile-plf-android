@@ -27,6 +27,7 @@ public interface TokenProviderInterface {
          * Gets token type.
          *
          * @return the token type
+         * @since 1.0.0
          */
         TokenType getTokenType();
 
@@ -34,6 +35,7 @@ public interface TokenProviderInterface {
          * Gets token value.
          *
          * @return the token value
+         * @since 1.0.0
          */
         String getTokenValue();
     }
@@ -42,6 +44,7 @@ public interface TokenProviderInterface {
      * Gets token.
      *
      * @return the token
+     * @since 1.0.0
      */
     Token getToken();
 

@@ -42,6 +42,7 @@ public class GsonCustomRequest<T> extends Request<T> {
      * @param url    URL of the request to make
      * @param clazz  Relevant class object, for Gson's reflection
      * @param header Map of request headers
+     * @since 1.0.0
      */
     public GsonCustomRequest(int method, String url, Class<T> clazz,
                              Response.Listener<T> listener, Response.ErrorListener errorListener,
