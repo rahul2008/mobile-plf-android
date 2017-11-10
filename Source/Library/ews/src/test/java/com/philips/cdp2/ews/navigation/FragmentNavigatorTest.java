@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -27,7 +28,7 @@ public class FragmentNavigatorTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        subject = new FragmentNavigator(mockFragmentManager,0);
+        subject = new FragmentNavigator(mockFragmentManager,12345);
     }
 
     @Test
@@ -50,17 +51,24 @@ public class FragmentNavigatorTest {
     }
 
     @Test
-    public void itShouldPopFragmentImmediate() throws Exception {
+    public void itShouldVerifyPopBackStackExclusiveWhenCalled() throws Exception {
         String anyString = "anyString";
         subject.popToFragment(anyString);
 
-        verify(mockFragmentManager).popBackStackImmediate(anyString, 0);
+        verify(mockFragmentManager).popBackStackImmediate(anyString, subject.POP_BACK_STACK_EXCLUSIVE);
     }
 
     @Test
-    public void itShouldPopImmediate() throws Exception {
+    public void itShouldVerifyPopBackStackImmediateWhenCalled() throws Exception {
         subject.pop();
 
         verify(mockFragmentManager).popBackStackImmediate();
     }
+
+    @Test
+    public void itShouldVerifyCorrectContainerIdForFragmentNavigator() throws Exception{
+        assertEquals(12345, subject.getContainerId());
+    }
+
+
 }

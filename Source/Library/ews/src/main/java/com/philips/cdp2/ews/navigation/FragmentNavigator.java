@@ -1,12 +1,14 @@
 package com.philips.cdp2.ews.navigation;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 public class FragmentNavigator {
 
-    private static final int POP_BACK_STACK_EXCLUSIVE = 0;
+    @VisibleForTesting
+    static final int POP_BACK_STACK_EXCLUSIVE = 0;
 
     @NonNull private final FragmentManager fragmentManager;
     private final int containerId;
