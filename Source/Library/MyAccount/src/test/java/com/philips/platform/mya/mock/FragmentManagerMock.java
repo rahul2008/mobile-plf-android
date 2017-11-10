@@ -15,6 +15,7 @@ public class FragmentManagerMock extends FragmentManager {
 
     FragmentTransactionMock fragmentTransactionMock;
     public boolean popBackStack_wasCalled;
+    public boolean beginTransactionCalled;
 
     public FragmentManagerMock(FragmentTransactionMock fragmentTransaction) {
         this.fragmentTransactionMock = fragmentTransaction;
@@ -23,6 +24,7 @@ public class FragmentManagerMock extends FragmentManager {
 
     @Override
     public FragmentTransaction beginTransaction() {
+        beginTransactionCalled = true;
         return fragmentTransactionMock;
     }
 

@@ -1,23 +1,20 @@
 package com.philips.platform.mya;
 
-import android.view.View;
+import android.view.ViewGroup;
 
+import com.philips.platform.mya.mock.FragmentActivityMock;
+import com.philips.platform.mya.mock.FragmentManagerMock;
+import com.philips.platform.mya.mock.FragmentTransactionMock;
+import com.philips.platform.mya.mock.LayoutInflatorMock;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
+import com.philips.platform.mya.wrapper.MyaFragmentWrapper;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-
-import static org.robolectric.shadows.support.v4.Shadows.shadowOf;
-import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
-
-
 import static org.junit.Assert.*;
-
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
@@ -25,25 +22,24 @@ public class MyaFragmentTest {
 
     @Before
     public void setup(){
-        myaFragment = new MyaFragment();
+        myaFragment = new MyaFragmentWrapper();
+        myaFragment.fragmentActivity = mockFragmentActivity;
     }
 
     @Test
-    @Ignore
+    public void onCreate_InvokesInflatorWithRightParameters() throws Exception {
+        whenCallingOnCreateView();
+        thenInflatorIsCalledWith(R.layout.mya_fragment_my_account_root, null, false);
+    }
+
+    @Test
     public void onCreate_inflatesCorrectLayout() throws Exception {
         whenCallingOnCreateView();
-        thenFragmentRootIsRedered();
+        thenAccountViewIsInflatedWith(R.id.mya_frame_layout_view_container);
+
     }
 
     @Test
-    @Ignore
-    public void onCreate_AccountViewIsInstanciated() throws Exception {
-        whenCallingOnCreateView();
-        thenAccountViewIsRendered();
-    }
-
-    @Test
-    @Ignore
     public void onCreate_AttributesAre() throws Exception {
         givenArguments("appName1", "propName1");
         whenCallingOnCreateView();
@@ -56,13 +52,9 @@ public class MyaFragmentTest {
     }
 
     private void whenCallingOnCreateView() {
-        startFragment(myaFragment);
+        myaFragment.onCreateView(mockLayoutInflater, null, null);
     }
 
-    private void thenFragmentRootIsRedered() {
-        assertNotNull(myaFragment.getView());
-        assertEquals(R.id.mya_frame_layout_view_container, myaFragment.getView().getId());
-    }
 
     private void thenApplicationNameIs(String expectedApplicationName) {
         assertEquals(expectedApplicationName, myaFragment.applicationName);
@@ -72,9 +64,22 @@ public class MyaFragmentTest {
         assertEquals(expectedPropositionName, myaFragment.propositionName);
     }
 
-    private void thenAccountViewIsRendered() {
-        assertNotNull(myaFragment.getView().findViewById(R.id.mya_account_permissions));
+    private void thenInflatorIsCalledWith(int layout, ViewGroup group, boolean attachToRoot) {
+        assertEquals(layout, mockLayoutInflater.usedResource);
+        assertEquals(group, mockLayoutInflater.usedViewGroup);
+        assertEquals(attachToRoot, mockLayoutInflater.usedAttachToRoot);
     }
 
-    private MyaFragment myaFragment;
+    private void thenAccountViewIsInflatedWith(int layout) {
+        assertEquals(layout, fragmentTransaction.replace_containerId);
+        assertNotNull(fragmentTransaction.replace_fragment);
+        assertTrue(fragmentTransaction.commitAllowingStateLossWasCalled);
+        assertTrue(fragmentManager.beginTransactionCalled);
+    }
+
+    private MyaFragmentWrapper myaFragment;
+    private LayoutInflatorMock mockLayoutInflater = LayoutInflatorMock.createMock();
+    private FragmentTransactionMock fragmentTransaction = new FragmentTransactionMock();
+    private FragmentManagerMock fragmentManager = new FragmentManagerMock(fragmentTransaction);
+    private FragmentActivityMock mockFragmentActivity = new FragmentActivityMock(fragmentManager);
 }
