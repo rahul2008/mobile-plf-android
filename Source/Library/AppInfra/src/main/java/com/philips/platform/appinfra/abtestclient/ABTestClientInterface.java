@@ -44,6 +44,7 @@ public interface ABTestClientInterface {
 
     /**
      *These tests will be refreshes if you update cache after app restart or update
+     * @since 1.0.0
      */
     interface OnRefreshListener {
         enum ERRORVALUES {NO_NETWORK, EXPERIENCES_PARTIALLY_DOWNLOADED}

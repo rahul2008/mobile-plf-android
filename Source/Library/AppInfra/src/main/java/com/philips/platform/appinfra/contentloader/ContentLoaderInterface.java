@@ -17,11 +17,18 @@ public interface ContentLoaderInterface<Content extends ContentInterface> {
     enum ERROR {CONFIGURATION_ERROR, SERVER_UNAVAILABLE, SERVER_ERROR, DOWNLOAD_IN_PROGRESS,DATABASE_ERROR,NO_DATA_FOUND_IN_DB};
     enum OPERATOR {AND, OR};
 
+    /**
+     * This call back method of OnResultListener, if refersh failure it will calback to onError,if success it will callback to onSuccess
+     * @since 2.1.0
+     */
     interface OnResultListener<Result> {
         void onError(ERROR error, String message);
         void onSuccess(List<Result> contents);
     }
-
+    /**
+     * This call back method of OnRefreshListener, if refersh failure it will calback to onError,if success it will callback to onSuccess
+     * @since 2.1.0
+     */
     interface OnRefreshListener {
         enum REFRESH_RESULT {LOADED_FROM_LOCAL_CACHE, REFRESHED_FROM_SERVER, NO_REFRESH_REQUIRED,REFRESHED_FAILED};
         void onError(ERROR error, String message);

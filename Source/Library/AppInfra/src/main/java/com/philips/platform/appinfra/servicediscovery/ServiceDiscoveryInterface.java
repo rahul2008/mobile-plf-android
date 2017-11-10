@@ -22,6 +22,7 @@ public interface ServiceDiscoveryInterface {
      * This is the callback method Error cases.
      * the call back will have Error method for actions completed with Errors.
      * onSuccess returns the Error response type
+     * @since 1.0.0
      */
     interface OnErrorListener {
         enum ERRORVALUES {
@@ -36,6 +37,7 @@ public interface ServiceDiscoveryInterface {
      * This is the callback method from getHomeCountry() API.
      * the call back will have success method for actions completed successfully.
      * onSuccess returns the successful response
+     * @since 1.0.0
      */
     interface OnGetHomeCountryListener extends OnErrorListener {
         enum SOURCE {STOREDPREFERENCE, SIMCARD, GEOIP}
@@ -47,6 +49,7 @@ public interface ServiceDiscoveryInterface {
      * This is the callback method from getServiceUrlWithLanguagePreference() API.
      * the call back will have success method for actions completed successfully.
      * onSuccess returns the successful response
+     * @since 1.0.0
      */
     interface OnGetServiceUrlListener extends OnErrorListener {
         void onSuccess(URL url);
@@ -56,6 +59,7 @@ public interface ServiceDiscoveryInterface {
      * This is the callback method from getServiceUrlWithLanguagePreference() API.
      * the call back will have success method for actions completed successfully.
      * onSuccess returns the successful response
+     * @since 1.0.0
      */
     interface OnGetServiceUrlMapListener extends OnErrorListener {
         void onSuccess(Map<String, ServiceDiscoveryService> urlMap);
@@ -65,6 +69,7 @@ public interface ServiceDiscoveryInterface {
      * This is the callback method from getServiceLocaleWithLanguagePreference() API.
      * the call back will have success method for actions completed successfully.
      * onSuccess returns the successful response
+     * @since 1.0.0
      */
     interface OnGetServiceLocaleListener extends OnErrorListener {
         void onSuccess(String locale);
@@ -82,6 +87,7 @@ public interface ServiceDiscoveryInterface {
     /**
      * This is the callback method from refresh() API.
      * the call back will have success method for actions completed successfully
+     * @since 1.0.0
      */
     interface OnRefreshListener extends OnErrorListener {
         void onSuccess();
@@ -90,7 +96,6 @@ public interface ServiceDiscoveryInterface {
     /**
      * Fetches the Persistently stored Home country, the value is taken from the variable which has been set by setHomeCountry API.
      * Changing the country automatically clears the cached service list and triggers a refresh.
-     *
      * @param listener country code to persistently store, code must be according to ISO 3166-1
      * @since 1.0.0
      */
@@ -99,6 +104,7 @@ public interface ServiceDiscoveryInterface {
     /**
      * Fetches the Persistently stored Home country, the value is taken from the variable which has been set by setHomeCountry API.
      * Changing the country automatically clears the cached service list and triggers a refresh.
+     * @return Persistently stored Home country
      * @since 1.0.0
      */
     String getHomeCountry();

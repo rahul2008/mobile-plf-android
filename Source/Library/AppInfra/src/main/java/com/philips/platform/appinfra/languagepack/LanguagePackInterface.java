@@ -27,12 +27,20 @@ public interface LanguagePackInterface {
 	 */
 	void activate(OnActivateListener onActivateListener);
 
+	/**
+	 * This call back method of OnRefreshListener, if refersh failure it will calback to onError,if success it will callback to onSuccess
+	 * @since 2.1.0
+	 */
 	interface OnRefreshListener {
 		enum AILPRefreshResult {REFRESHED_FROM_SERVER, NO_REFRESH_REQUIRED, REFRESH_FAILED}
 		void onError(AILPRefreshResult error, String message);
 		void onSuccess(AILPRefreshResult result);
 	}
 
+	/**
+	 * This call back method of OnActivateListener, if refersh failure it will calback to onError,if success it will callback to onSuccess
+	 * @since 2.1.0
+	 */
 	interface OnActivateListener {
 		enum AILPActivateResult {UPDATE_ACTIVATED, NO_UPDATE_STORED, UPDATE_FAILED}
 		void onSuccess(String path);

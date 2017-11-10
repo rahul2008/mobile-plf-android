@@ -68,6 +68,10 @@ public interface AppConfigurationInterface {
      */
     void refreshCloudConfig(OnRefreshListener onRefreshListener);
 
+    /**
+     * This call back method of OnResultListener, if refersh failure it will calback to onError,if success it will callback to onSuccess
+     * @since 2.1.0
+     */
     interface OnRefreshListener {
         enum REFRESH_RESULT { REFRESHED_FROM_SERVER, NO_REFRESH_REQUIRED,REFRESHED_FAILED};
         void onError(AppConfigurationError.AppConfigErrorEnum error, String message);
