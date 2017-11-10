@@ -495,8 +495,6 @@ public class User {
 
             if (!isTermsAndConditionAccepted()) {
                 signedIn = false;
-
-                clearData();
                 RLog.d("isUserSign", "isTermsAndConditionAccepted cleardata"+signedIn);
 
             }
