@@ -95,7 +95,7 @@ public abstract class MyaBaseFragment extends Fragment {
 
 
     private void setCurrentTitle() {
-        MyaFragment fragment =  getMyaFragment();
+        MyaFragment fragment = getMyaFragment();
         if (null != fragment) {
             if (fragment.getFragmentCount() > 1) {
                 if (null != fragment.getUpdateTitleListener()) {

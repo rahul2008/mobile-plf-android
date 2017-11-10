@@ -10,17 +10,12 @@ package com.philips.platform.mya.account;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.csw.CswInterface;
-import com.philips.platform.csw.CswLaunchInput;
 import com.philips.platform.mya.MyaBaseFragment;
 import com.philips.platform.mya.R;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.view.widget.Button;
 
 public class AccountView extends MyaBaseFragment implements
@@ -54,9 +49,6 @@ public class AccountView extends MyaBaseFragment implements
     }
 
 
-
-
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -73,7 +65,6 @@ public class AccountView extends MyaBaseFragment implements
             getMyaFragment().launchCswFragment();
         }
     }
-
 
 
 }

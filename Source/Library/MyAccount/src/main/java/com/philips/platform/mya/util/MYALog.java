@@ -10,6 +10,7 @@ public class MYALog {
     public static void enableLogging(boolean enableLog) {
         isLoggingEnabled = enableLog;
     }
+
     public static boolean isLoggingEnabled() {
         return isLoggingEnabled;
     }

@@ -18,9 +18,9 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswLaunchInput;
-import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -122,7 +122,7 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener,
     }
 
 
-   private void launchCswFragment() {
+    private void launchCswFragment() {
         CswLaunchInput cswLaunchInput = new CswLaunchInput();
         FragmentLauncher fragmentLauncher = new FragmentLauncher
                 (this, R.id.mya_frame_layout_fragment_container, this);
