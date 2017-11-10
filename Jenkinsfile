@@ -149,7 +149,7 @@ node ('Platform-Android-Ehv-003') {
                 if (BranchName =~ /master|develop|release\/platform_.*/) {
 					echo "APK_NAME = ${APK_NAME}"
 					if(params.LeakCanarybuild){                    
-						build job: "Platform-Infrastructure/E2E_Tests/LeakCanary_Android_develop", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
+						build job: "Platform-Infrastructure/E2E_Tests/Reliability/LeakCanary_Android_develop", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
 					} else {
 					  APK_NAME=readFile("Source/AppFramework/apkname.txt").trim()
 						def jobBranchName = BranchName.replace('/', '_')
