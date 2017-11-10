@@ -13,6 +13,7 @@ import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiViewModel;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel;
 import com.philips.cdp2.ews.microapp.EWSInterface;
+import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordViewModel;
 import com.philips.cdp2.ews.setupsteps.FirstSetupStepsViewModel;
 import com.philips.cdp2.ews.setupsteps.SecondSetupStepsViewModel;
@@ -37,6 +38,8 @@ public interface EWSComponent {
     void inject(EWSActivity ewsActivity);
 
     void inject(ConnectingDeviceWithWifiFragment connectingDeviceWithWifiFragment);
+
+    void inject(FragmentNavigator fragmentNavigator);
 
     ResetConnectionTroubleshootingViewModel resetConnectionTroubleshootingViewModel();
 

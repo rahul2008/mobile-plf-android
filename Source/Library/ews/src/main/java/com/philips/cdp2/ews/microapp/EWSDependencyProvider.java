@@ -110,5 +110,6 @@ public class EWSDependencyProvider {
         appInfraInterface = null;
         productKeyMap = null;
         instance = null;
+        ewsComponent = null;
     }
 }

@@ -17,6 +17,7 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.databinding.FragmentStartConnectWithDeviceBinding;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
+import com.philips.cdp2.ews.navigation.FragmentNavigator;
 
 public class StartConnectWithDeviceFragment extends BaseFragment {
 
@@ -40,5 +41,11 @@ public class StartConnectWithDeviceFragment extends BaseFragment {
     @Override
     protected void callTrackPageName() {
         viewModel.trackPageName();
+    }
+
+    @Override
+    public void onDestroy() {
+        viewModel.onDestroy();
+        super.onDestroy();
     }
 }

@@ -5,6 +5,13 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.communication.EventingChannel;
+import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
+import com.philips.platform.uappframework.listener.BackEventListener;
+
+import javax.inject.Inject;
+
 public class FragmentNavigator {
 
     @VisibleForTesting
@@ -30,6 +37,7 @@ public class FragmentNavigator {
 
     void pop() {
         fragmentManager.popBackStackImmediate();
+
     }
 
     boolean popToFragment(@NonNull String tag) {
@@ -38,5 +46,9 @@ public class FragmentNavigator {
 
     public int getContainerId() {
         return containerId;
+    }
+
+    public boolean shouldFinish() {
+        return fragmentManager.getBackStackEntryCount() == 1;
     }
 }

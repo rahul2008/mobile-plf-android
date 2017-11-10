@@ -23,6 +23,11 @@ import com.philips.cdp2.ews.startconnectwithdevice.StartConnectWithDeviceFragmen
 public class Navigator {
 
     @NonNull
+    public FragmentNavigator getFragmentNavigator() {
+        return fragmentNavigator;
+    }
+
+    @NonNull
     private final FragmentNavigator fragmentNavigator;
 
     public Navigator(@NonNull final FragmentNavigator fragmentNavigator) {
