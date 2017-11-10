@@ -253,35 +253,30 @@ public class SecureStorage implements SecureStorageInterface {
     }
 
     private Cipher getCipher(int CipherEncryptOrDecryptMode, SecureStorageError secureStorageError) {
-        byte[] secretKeyBytes;
         Cipher cipher = null;
+        Key key;
         try {
             cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
             SharedPreferences keySharedPreferences = secureStorageHelper.getSharedPreferences(KEY_FILE_NAME);
             if (keySharedPreferences.contains(SINGLE_AES_KEY_TAG)) { // if  key is present
                 final String aesKeyForEncryptDecrypt = keySharedPreferences.getString(SINGLE_AES_KEY_TAG, null);
-                secretKeyBytes = Base64.decode(aesKeyForEncryptDecrypt, Base64.DEFAULT);//  AES key bytes
+                byte[] secretKeyBytes = Base64.decode(aesKeyForEncryptDecrypt, Base64.DEFAULT);//  AES key bytes
                 keySharedPreferences.edit().remove(SINGLE_AES_KEY_TAG).apply();
-                SecretKeySpec secretKey = new SecretKeySpec(secretKeyBytes, "AES");
-
-                boolean storeKeySuccessfully = secureStorageHelper.storeKey(SS_WRAP_KEY, secretKey, KEY_FILE_NAME);
+                key = new SecretKeySpec(secretKeyBytes, "AES");
+                boolean storeKeySuccessfully = secureStorageHelper.storeKey(SS_WRAP_KEY, (SecretKey) key, KEY_FILE_NAME);
                 if(storeKeySuccessfully){
                     Log.e(TAG, " Successfully stored RSA wrapped data with key " + SS_WRAP_KEY + " value=" + keySharedPreferences.getString(SS_WRAP_KEY, null));
                     Log.e(TAG, " Deleted previous encoded AES key " + SINGLE_AES_KEY_TAG + " value=" + keySharedPreferences.getString(SINGLE_AES_KEY_TAG, null));
                 }
-
             } else if (keySharedPreferences.contains(SS_WRAP_KEY)) {
                 final String aesKeyForEncryptDecrypt = keySharedPreferences.getString(SS_WRAP_KEY, null);
-                Key key = secureStorageHelper.fetchKey(aesKeyForEncryptDecrypt, secureStorageError);
+                key = secureStorageHelper.fetchKey(aesKeyForEncryptDecrypt, secureStorageError);
                 Log.e(TAG, " Successfully fetched RSA wrapped data with key " + SS_WRAP_KEY + " value=" + keySharedPreferences.getString(SS_WRAP_KEY, null));
-                secretKeyBytes = key.getEncoded();
             } else {
-                final SecretKey secretKey = secureStorageHelper.generateAESKey(); // generate AES key
-                secureStorageHelper.storeKey(SS_WRAP_KEY, secretKey, KEY_FILE_NAME);
-                secretKeyBytes = secretKey.getEncoded();
+                key = secureStorageHelper.generateAESKey(); // generate AES key
+                secureStorageHelper.storeKey(SS_WRAP_KEY, (SecretKey) key, KEY_FILE_NAME);
                 Log.e(TAG, " Successfully generated new AES Wrapped key " + SS_WRAP_KEY + " value=" + keySharedPreferences.getString(SS_WRAP_KEY, null));
             }
-            final Key key = new SecretKeySpec(secretKeyBytes, "AES");
             final byte[] ivBlockSize = new byte[cipher.getBlockSize()];
             final IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBlockSize);
             cipher.init(CipherEncryptOrDecryptMode, key, ivParameterSpec);
