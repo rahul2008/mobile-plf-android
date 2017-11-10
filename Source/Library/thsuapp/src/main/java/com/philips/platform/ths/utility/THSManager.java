@@ -158,6 +158,11 @@ public class THSManager {
     private THSConsumer mThsParentConsumer;
     private boolean mIsReturningUser = true;
     private String ServerURL=null;
+    private String mCountry="";
+
+    public String getCountry() {
+        return mCountry;
+    }
 
     public String getServerURL() {
         return ServerURL;
@@ -1457,6 +1462,7 @@ public class THSManager {
         this.mAppInfra = mAppInfra;
         this.mAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME);// initialize tagging for ths
         this.mLoggingInterface = mAppInfra.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME);
+        this.mCountry = getAppInfra().getServiceDiscovery().getHomeCountry();
     }
 
     //TODO : error code :No enum sent by amwell for sdkerror code handling

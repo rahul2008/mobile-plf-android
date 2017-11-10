@@ -72,12 +72,12 @@ public  class THSTagUtils {
     public static void doTrackActionWithInfo(String action, String key , String value){
         HashMap<String,String> map =  new HashMap<String,String>();
         map.put(key,value);
-        String country= THSManager.getInstance().getAppInfra().getServiceDiscovery().getHomeCountry();
+        String country= THSManager.getInstance().getCountry();
         map.put("Country",country);
         THSManager.getInstance().getThsTagging().trackActionWithInfo(action, map);
     }
     public static void doTrackActionWithInfo(String action, HashMap<String , String> map){
-        String country= THSManager.getInstance().getAppInfra().getServiceDiscovery().getHomeCountry();
+        String country= THSManager.getInstance().getCountry();
         map.put("Country",country);
         THSManager.getInstance().getThsTagging().trackActionWithInfo(action, map);
     }

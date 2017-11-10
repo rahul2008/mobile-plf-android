@@ -15,6 +15,7 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
@@ -90,6 +91,9 @@ public class THSDependantHistoryFragmentTest {
     @Mock
     Label visitForLabelMock;
 
+    @Mock
+    ServiceDiscoveryInterface serviceDiscoveryMock;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -103,6 +107,7 @@ public class THSDependantHistoryFragmentTest {
         when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
         when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
         when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
+        when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
         mTHSDependantHistoryFragment = new THSDependantHistoryFragment();

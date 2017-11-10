@@ -16,6 +16,7 @@ import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
@@ -115,6 +116,9 @@ public class THSVitalsPresenterTest {
     @Mock
     ProviderInfo providerInfo;
 
+    @Mock
+    ServiceDiscoveryInterface serviceDiscoveryMock;
+
 
     @Before
     public void setUp() throws Exception {
@@ -126,6 +130,7 @@ public class THSVitalsPresenterTest {
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
         when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
+        when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
         THSManager.getInstance().setAppInfra(appInfraInterface);
         when(pthConsumerMock.getConsumer()).thenReturn(consumerMock);
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(activityMock);
