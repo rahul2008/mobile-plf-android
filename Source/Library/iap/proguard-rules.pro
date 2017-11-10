@@ -151,7 +151,6 @@
 -keep  class com.janrain.android.capture.Capture$* {*;}
 
 
-
 #HSDP Lib (Registration)
 -keep  class com.philips.dhpclient.** {*;}
 
