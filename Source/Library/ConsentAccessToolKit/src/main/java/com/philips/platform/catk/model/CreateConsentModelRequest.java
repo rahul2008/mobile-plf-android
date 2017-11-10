@@ -13,11 +13,6 @@ import com.google.gson.JsonArray;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 
-import java.util.HashMap;
-import java.util.Map;
-
-
-
 public class CreateConsentModelRequest extends NetworkAbstractModel {
 
     private String url;
@@ -53,7 +48,7 @@ public class CreateConsentModelRequest extends NetworkAbstractModel {
         model.setStatus(consentStatus);
         model.setSubject(ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID());
         model.setPolicyRule("urn:com.philips.consent:moment/" + ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getCountryCode()
-                + "/0/" + propositionName + "/" + applicationName);
+                            + "/0/" + propositionName + "/" + applicationName);
         return getJsonString(model);
     }
 

@@ -12,10 +12,6 @@ import com.philips.cdp.registration.User;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by philips on 10/30/17.
- */
-
 @Module
 public class UserModule {
 

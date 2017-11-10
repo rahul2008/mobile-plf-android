@@ -11,17 +11,11 @@
  */
 package com.philips.platform.catk.session;
 
-import com.android.volley.NetworkResponse;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.android.volley.*;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HurlStack;
 import com.google.gson.JsonArray;
 import com.philips.platform.catk.request.ConsentRequest;
-
-/**
- * Created by Maqsood on 10/12/17.
- */
 
 public class SynchronizedNetwork {
 

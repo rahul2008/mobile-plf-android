@@ -13,10 +13,6 @@ import com.google.gson.JsonArray;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 
-import java.util.HashMap;
-import java.util.Map;
-
-
 public class GetConsentsModelRequest extends NetworkAbstractModel {
 
     private String url;
@@ -47,7 +43,8 @@ public class GetConsentsModelRequest extends NetworkAbstractModel {
 
     @Override
     public String getUrl() {
-        return new StringBuilder(url).append(url.endsWith("/")?"":"/").append(ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID()).append("?applicationName=")
+        return new StringBuilder(url).append(url.endsWith("/") ? "" : "/").append(ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID())
+                .append("?applicationName=")
                 .append(mApplicationName).append("&propositionName=").append(mPropositionName).toString();
     }
 }

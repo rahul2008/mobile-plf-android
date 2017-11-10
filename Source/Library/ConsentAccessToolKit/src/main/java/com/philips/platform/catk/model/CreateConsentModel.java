@@ -10,10 +10,6 @@ package com.philips.platform.catk.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by philips on 10/25/17.
- */
-
 public class CreateConsentModel {
 
     @SerializedName("resourceType")

@@ -8,7 +8,7 @@
 
 package com.philips.platform.catk.injection;
 
-import android.content.Context;
+import javax.inject.Singleton;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -19,11 +19,11 @@ import com.philips.platform.catk.model.CreateConsentModelRequest;
 import com.philips.platform.catk.model.GetConsentsModelRequest;
 import com.philips.platform.catk.network.NetworkController;
 
-import javax.inject.Singleton;
+import android.content.Context;
 
 import dagger.Component;
 
-@Component(modules = {CatkModule.class,UserModule.class})
+@Component(modules = { CatkModule.class, UserModule.class })
 @Singleton
 public interface CatkComponent {
     Context context();
@@ -41,7 +41,6 @@ public interface CatkComponent {
     void inject(GetConsentsModelRequest getConsentsModelRequest);
 
     void inject(ConsentAccessToolKit consentAccessToolKit);
-
 
     ServiceDiscoveryInterface getServiceDiscoveryInterface();
 }

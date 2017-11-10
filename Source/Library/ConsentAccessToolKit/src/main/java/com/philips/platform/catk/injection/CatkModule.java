@@ -7,14 +7,14 @@
 
 package com.philips.platform.catk.injection;
 
-import android.content.Context;
+import javax.inject.Singleton;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
-import javax.inject.Singleton;
+import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
@@ -24,7 +24,7 @@ public class CatkModule {
     private final Context context;
     private final AppInfraInterface appInfraInterface;
 
-    public CatkModule(Context context,AppInfraInterface appInfraInterface) {
+    public CatkModule(Context context, AppInfraInterface appInfraInterface) {
         this.context = context;
         this.appInfraInterface = appInfraInterface;
     }
@@ -34,7 +34,6 @@ public class CatkModule {
     public Context provideAppContext() {
         return context;
     }
-
 
     @Singleton
     @Provides

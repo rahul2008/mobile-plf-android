@@ -8,12 +8,11 @@
 
 package com.philips.platform.catk.utils;
 
-import android.util.Log;
-
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
 
+import android.util.Log;
 
 /**
  * Consent Widget loggger used for logginan system .
@@ -65,8 +64,10 @@ public class CatkLogger {
     /**
      * Logs at debug level
      *
-     * @param tag     Tag
-     * @param message Logging message
+     * @param tag
+     *            Tag
+     * @param message
+     *            Logging message
      */
     public static void d(String tag, String message) {
         if (isLoggingEnabled) {
@@ -79,8 +80,10 @@ public class CatkLogger {
     /**
      * Logs at error level
      *
-     * @param tag     Tag
-     * @param message Logging message
+     * @param tag
+     *            Tag
+     * @param message
+     *            Logging message
      */
     public static void e(String tag, String message) {
         if (isLoggingEnabled) {
@@ -93,8 +96,10 @@ public class CatkLogger {
     /**
      * Logs at info level
      *
-     * @param tag     Tag
-     * @param message Logging message
+     * @param tag
+     *            Tag
+     * @param message
+     *            Logging message
      */
     public static void i(String tag, String message) {
         if (isLoggingEnabled) {
@@ -107,8 +112,10 @@ public class CatkLogger {
     /**
      * Logs at verbose level
      *
-     * @param tag     Tag
-     * @param message Logging message
+     * @param tag
+     *            Tag
+     * @param message
+     *            Logging message
      */
     public static void v(String tag, String message) {
         if (isLoggingEnabled) {

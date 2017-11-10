@@ -11,37 +11,25 @@
  */
 package com.philips.platform.catk.request;
 
-import android.os.Handler;
-import android.os.Looper;
+import java.io.UnsupportedEncodingException;
+import java.util.Map;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.ParseError;
-import com.android.volley.Request;
-import com.android.volley.Response;
+import com.android.volley.*;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
-import com.android.volley.RetryPolicy;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.HurlStack;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
-import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.listener.RefreshTokenListener;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkHelper;
 import com.philips.platform.catk.session.SynchronizedNetwork;
 import com.philips.platform.catk.session.SynchronizedNetworkListener;
-import com.philips.platform.catk.CatkConstants;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Map;
-
-/**
- * Created by Maqsood on 10/12/17.
- */
+import android.os.Handler;
+import android.os.Looper;
 
 public class ConsentRequest extends Request<JsonArray> {
 
@@ -53,7 +41,7 @@ public class ConsentRequest extends Request<JsonArray> {
     private static final int POST_SUCCESS_CODE = 201;
 
     public ConsentRequest(int method, String url, Map<String, String> header, String params,
-                          Listener<JsonArray> responseListener, ErrorListener errorListener) {
+            Listener<JsonArray> responseListener, ErrorListener errorListener) {
         super(method, url, errorListener);
         this.mResponseListener = responseListener;
         mErrorListener = errorListener;
@@ -143,7 +131,7 @@ public class ConsentRequest extends Request<JsonArray> {
         try {
             NetworkAbstractModel.addAuthorization(ConsentRequest.this.getHeaders());
         } catch (AuthFailureError authFailureError) {
-            
+
         }
         new Thread(new Runnable() {
             @Override

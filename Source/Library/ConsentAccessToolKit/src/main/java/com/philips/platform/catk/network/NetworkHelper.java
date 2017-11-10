@@ -10,11 +10,6 @@ package com.philips.platform.catk.network;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.listener.RefreshTokenListener;
-import com.philips.platform.catk.listener.RequestListener;
-
-/**
- * Created by Maqsood on 10/18/17.
- */
 
 public class NetworkHelper {
 
@@ -39,7 +34,7 @@ public class NetworkHelper {
         getNetworkController().sendConsentRequest(model);
     }
 
-    public void refreshAccessToken(final RefreshTokenListener refreshTokenListener){
+    public void refreshAccessToken(final RefreshTokenListener refreshTokenListener) {
 
         ConsentAccessToolKit.getInstance().getCatkComponent().getUser().refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
@@ -54,7 +49,7 @@ public class NetworkHelper {
 
             @Override
             public void onRefreshLoginSessionInProgress(String s) {
-                //Need to handle
+                // Need to handle
             }
         });
     }

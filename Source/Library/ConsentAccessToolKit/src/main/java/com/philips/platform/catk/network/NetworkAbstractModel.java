@@ -7,19 +7,15 @@
 
 package com.philips.platform.catk.network;
 
-import android.os.Message;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.gson.JsonArray;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.listener.RequestListener;
 import com.philips.platform.catk.model.GetConsentsModel;
 
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * Created by philips on 10/18/17.
- */
+import android.os.Message;
 
 public abstract class NetworkAbstractModel implements RequestListener {
 
@@ -27,6 +23,7 @@ public abstract class NetworkAbstractModel implements RequestListener {
 
     public interface DataLoadListener {
         void onModelDataLoadFinished(Message msg);
+
         int onModelDataError(Message msg);
     }
 
@@ -61,13 +58,13 @@ public abstract class NetworkAbstractModel implements RequestListener {
         header.put("api-version", "1");
         header.put("content-type", "application/json");
         addAuthorization(header);
-        header.put("performerid",ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID());
+        header.put("performerid", ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID());
         header.put("cache-control", "no-cache");
         return header;
     }
 
     public static void addAuthorization(Map<String, String> headers) {
-        headers.put("authorization","bearer "+ ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpAccessToken());
+        headers.put("authorization", "bearer " + ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpAccessToken());
     }
 
     public abstract GetConsentsModel[] parseResponse(JsonArray response);

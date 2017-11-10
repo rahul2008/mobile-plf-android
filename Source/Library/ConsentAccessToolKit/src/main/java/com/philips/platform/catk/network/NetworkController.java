@@ -7,9 +7,7 @@
 
 package com.philips.platform.catk.network;
 
-
-import android.os.Message;
-import android.util.Log;
+import javax.inject.Inject;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -18,17 +16,17 @@ import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.listener.RequestListener;
 import com.philips.platform.catk.request.ConsentRequest;
 
-import javax.inject.Inject;
+import android.os.Message;
+import android.util.Log;
 
 public class NetworkController {
 
     @Inject
     RestInterface restInterface;
 
-    public NetworkController(){
+    public NetworkController() {
         init();
     }
 
@@ -71,12 +69,12 @@ public class NetworkController {
         addRequestToQueue(consentRequest);
     }
 
-    public void addRequestToQueue(ConsentRequest consentRequest){
+    public void addRequestToQueue(ConsentRequest consentRequest) {
         if (consentRequest != null) {
             if (restInterface != null) {
                 restInterface.getRequestQueue().add(consentRequest);
             } else {
-                //Need to error handle
+                // Need to error handle
                 Log.d("Rest client", "Couldn't initialise REST Client");
 
             }
