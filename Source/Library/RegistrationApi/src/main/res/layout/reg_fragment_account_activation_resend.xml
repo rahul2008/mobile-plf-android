@@ -59,7 +59,7 @@
                 android:id="@+id/usr_activationresend_emailormobile_inputValidationLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_dimen_16dp"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
                 app:uidTextBoxValidationErrorText="inline_error_message">
 
@@ -79,7 +79,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_24dp"
-                android:layout_marginTop="@dimen/reg_dimen_12dp"
                 android:indeterminate="false"
                 android:minWidth="@dimen/uid_progress_bar_min_width"
                 android:textSize="@dimen/reg_text_size_16"
@@ -92,7 +91,7 @@
                 android:id="@+id/usr_activationresend_emailResend_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_dimen_12dp"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:enabled="false"
                 app:uidIsIndeterminateProgressIndicator="true"
                 app:uidProgressIndicatorButtonProgressText="@string/reg_DLS_Resend_The_Email_Button_Title"

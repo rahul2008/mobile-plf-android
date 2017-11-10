@@ -272,7 +272,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
                         })
                         .setDimLayer(DialogConstants.DIM_STRONG)
                         .setCancelable(false);
-                builder.setTitle(getString(R.string.reg_DLS_Forgot_Password_Alert_Title));
+                builder.setTitle(getString(R.string.reg_ForgotPwdEmailResendMsg_Title));
                 alertDialogFragment = builder.create();
                 alertDialogFragment.show(getFragmentManager(), null);
             }
@@ -320,7 +320,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_SigIn_TitleTxt;
+        return R.string.reg_DLS_SigIn_TitleTxt;
     }
 
     @Override

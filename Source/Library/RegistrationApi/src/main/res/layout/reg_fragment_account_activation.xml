@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
-                android:layout_marginBottom="@dimen/reg_dimen_12dp"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 app:uidIsIndeterminateProgressIndicator="true"
                 app:uidProgressIndicatorButtonProgressText="@string/reg_DLS_Verify_Email_Verified_Btn_Title_Txt"
                 app:uidProgressIndicatorButtonText="@string/reg_DLS_Verify_Email_Verified_Btn_Title_Txt"/>

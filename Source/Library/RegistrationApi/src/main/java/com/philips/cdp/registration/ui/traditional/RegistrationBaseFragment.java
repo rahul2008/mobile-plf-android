@@ -120,6 +120,8 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
         if (null != fragment && null != fragment.getUpdateTitleListener()
                 && mPrevTitleResourceId != -99) {
+            RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : getFragmentCount"+fragment.getFragmentCount());
+
             if (fragment.getFragmentCount() > 2) {
                 fragment.getUpdateTitleListener().updateActionBar(
                         mPrevTitleResourceId, true);
