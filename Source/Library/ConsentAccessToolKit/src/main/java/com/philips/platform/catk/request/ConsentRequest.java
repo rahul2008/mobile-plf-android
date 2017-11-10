@@ -21,7 +21,9 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.HurlStack;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
+import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.listener.RefreshTokenListener;
+import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkHelper;
 import com.philips.platform.catk.session.SynchronizedNetwork;
 import com.philips.platform.catk.session.SynchronizedNetworkListener;
@@ -131,6 +133,11 @@ public class ConsentRequest extends Request<JsonArray> {
 
     private void persistRequestSend() {
         final SynchronizedNetwork synchronizedNetwork = new SynchronizedNetwork(new HurlStack());
+        try {
+            NetworkAbstractModel.addAuthorization(ConsentRequest.this.getHeaders());
+        } catch (AuthFailureError authFailureError) {
+            
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {

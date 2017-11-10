@@ -53,10 +53,14 @@ public abstract class NetworkAbstractModel implements RequestListener {
         Map<String, String> header = new HashMap<String, String>();
         header.put("api-version", "1");
         header.put("content-type", "application/json");
-        header.put("authorization","bearer "+ ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpAccessToken());
+        addAuthorization(header);
         header.put("performerid",ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID());
         header.put("cache-control", "no-cache");
         return header;
+    }
+
+    public static void addAuthorization(Map<String, String> headers) {
+        headers.put("authorization","bearer "+ ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpAccessToken());
     }
 
     public abstract GetConsentsModel[] parseResponse(JsonArray response);
