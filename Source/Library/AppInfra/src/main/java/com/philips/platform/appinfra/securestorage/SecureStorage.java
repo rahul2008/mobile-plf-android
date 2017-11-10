@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.util.Base64;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
@@ -50,6 +51,7 @@ public class SecureStorage implements SecureStorageInterface {
     private final Lock writeLock;
     private final Lock readLock;
     private SecureStorageHelper secureStorageHelper;
+    private String TAG = getClass().getSimpleName();
 
     public SecureStorage(AppInfra bAppInfra) {
         mAppInfra = bAppInfra;
@@ -261,15 +263,23 @@ public class SecureStorage implements SecureStorageInterface {
                 secretKeyBytes = Base64.decode(aesKeyForEncryptDecrypt, Base64.DEFAULT);//  AES key bytes
                 keySharedPreferences.edit().remove(SINGLE_AES_KEY_TAG).apply();
                 SecretKeySpec secretKey = new SecretKeySpec(secretKeyBytes, "AES");
-                secureStorageHelper.storeKey(SS_WRAP_KEY, secretKey, KEY_FILE_NAME);
+
+                boolean b = secureStorageHelper.storeKey(SS_WRAP_KEY, secretKey, KEY_FILE_NAME);
+                if(b){
+                    Log.e(TAG, " Successfully stored RSA wrapped data with key " + SS_WRAP_KEY + " value=" + keySharedPreferences.getString(SS_WRAP_KEY, null));
+                    Log.e(TAG, " Deleted previous encoded AES key " + SINGLE_AES_KEY_TAG + " value=" + keySharedPreferences.getString(SINGLE_AES_KEY_TAG, null));
+                }
+
             } else if (keySharedPreferences.contains(SS_WRAP_KEY)) {
                 final String aesKeyForEncryptDecrypt = keySharedPreferences.getString(SS_WRAP_KEY, null);
                 Key key = secureStorageHelper.fetchKey(aesKeyForEncryptDecrypt, secureStorageError);
+                Log.e(TAG, " Successfully fetched RSA wrapped data with key " + SS_WRAP_KEY + " value=" + keySharedPreferences.getString(SS_WRAP_KEY, null));
                 secretKeyBytes = key.getEncoded();
             } else {
                 final SecretKey secretKey = secureStorageHelper.generateAESKey(); // generate AES key
                 secureStorageHelper.storeKey(SS_WRAP_KEY, secretKey, KEY_FILE_NAME);
                 secretKeyBytes = secretKey.getEncoded();
+                Log.e(TAG, " Successfully generated new AES Wrapped key " + SS_WRAP_KEY + " value=" + keySharedPreferences.getString(SS_WRAP_KEY, null));
             }
             final Key key = new SecretKeySpec(secretKeyBytes, "AES");
             final byte[] ivBlockSize = new byte[cipher.getBlockSize()];

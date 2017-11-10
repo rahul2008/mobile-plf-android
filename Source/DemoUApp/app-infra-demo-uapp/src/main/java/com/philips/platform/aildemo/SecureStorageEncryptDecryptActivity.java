@@ -43,14 +43,11 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
                 textViewDecrypted.setText(null);
                 textViewDataMatched.setText(null);
                 plainByte=null;
-                if(null==text || text.isEmpty()){
+                if(text.isEmpty()){
                     Toast.makeText(SecureStorageEncryptDecryptActivity.this,"NullData",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                try {
-                    plainByte= text.getBytes("UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                }
+                plainByte= text.getBytes();
                 SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
                 encryptedByte=mSecureStorage.encryptData(plainByte,sseStore);
                 if(null!=sseStore.getErrorCode())
@@ -61,6 +58,7 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
                         String encBytesString = new String(encryptedByte, "UTF-8");
                         textViewEncrypt.setText(encBytesString);
                     } catch (UnsupportedEncodingException e) {
+                        e.getMessage();
                     }
 
                 }
@@ -69,24 +67,19 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
             }
         });
 
-        Button decryptButton   = (Button) findViewById(R.id.buttonDecrypt);
+        Button decryptButton = (Button) findViewById(R.id.buttonDecrypt);
         decryptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
-                byte[] plainData= mSecureStorage.decryptData(encryptedByte,sseStore);
-                if(null!=sseStore.getErrorCode())
-                {
-                    Toast.makeText(SecureStorageEncryptDecryptActivity.this,sseStore.getErrorCode().toString(),Toast.LENGTH_SHORT).show();
-                }else{
-                    String  result = Arrays.equals(plainByte,plainData)?"True":"False";
+                byte[] plainData = mSecureStorage.decryptData(encryptedByte, sseStore);
+                if (null != sseStore.getErrorCode()) {
+                    Toast.makeText(SecureStorageEncryptDecryptActivity.this, sseStore.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
+                } else {
+                    String result = Arrays.equals(plainByte, plainData) ? "True" : "False";
                     textViewDataMatched.setText(result);
-                    try {
-                        String decBytesString = new String(plainByte, "UTF-8");
-                        textViewDecrypted.setText(decBytesString);
-                    } catch (UnsupportedEncodingException e) {
-                    }
-
+                    String decBytesString = new String(plainByte);
+                    textViewDecrypted.setText(decBytesString);
                 }
 
             }
