@@ -71,27 +71,26 @@ node('Android') {
                 archiveArtifacts artifacts: 'Source/Library/ews/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
             }
 
-                boolean publishing = (env.BRANCH_NAME.startsWith("develop") || env.BRANCH_NAME.startsWith("release/platform_") || env.BRANCH_NAME.startsWith("master"))
-                    if (publishing) {
-                        stage('Publish Library on Artifactory') {
-                        echo "Publish Library on Artifactory"
-                         sh """#!/bin/bash -l
-                                chmod -R 755 . 
-                                cd ./Source/Library 
-                                ./gradlew artifactoryPublish
-                            """
-                }
+            boolean publishing = (env.BRANCH_NAME.startsWith("develop") || env.BRANCH_NAME.startsWith("release/platform_") || env.BRANCH_NAME.startsWith("master"))
+                if (publishing) {
+                    stage('Publish Library on Artifactory') {
+                    echo "Publish Library on Artifactory"
+                     sh """#!/bin/bash -l
+                            chmod -R 755 . 
+                            cd ./Source/Library 
+                            ./gradlew artifactoryPublish
+                        """
+            }
 
-                    stage("Publish demouapp") {
-                        echo "Publish demouapp on Artifactory"
-                         sh """#!/bin/bash -l
-                                chmod -R 755 . 
-                                cd ./Source/DemoUApp 
-                                ./gradlew artifactoryPublish
-                            """
-=                    }
+                stage("Publish demouapp") {
+                    echo "Publish demouapp on Artifactory"
+                     sh """#!/bin/bash -l
+                            chmod -R 755 . 
+                            cd ./Source/DemoUApp 
+                            ./gradlew artifactoryPublish
+                        """
                 }
-        
+            }
 
         } catch(err) {
             errors << "errors found: ${err}"
