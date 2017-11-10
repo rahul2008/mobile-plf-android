@@ -6,7 +6,7 @@ JENKINS_ENV = env.JENKINS_ENV
 properties([
     [$class: 'ParametersDefinitionProperty', parameterDefinitions: [
         [$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy'],
-        [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Force PSRA build ', name : 'PSRAbuild']
+        [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Force PSRA build ', name : 'PSRAbuild'],
 		[$class: 'BooleanParameterDefinition', defaultValue: false, description: 'LeakCanary build ', name : 'LeakCanarybuild']
     ]],
 
@@ -144,6 +144,7 @@ node ('Platform-Android-Ehv-003') {
                     ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
                 ''' 
             }
+			
             stage('Trigger E2E Test'){
                 if (BranchName =~ /master|release\/platform_.*/) {
                     APK_NAME = readFile("Source/AppFramework/apkname.txt").trim()
