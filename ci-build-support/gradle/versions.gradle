@@ -13,6 +13,7 @@ ext.versions = [
 		iap_iap                    : "2017.5.0",
 		icf_iconFont               : "2017.5.0",
 		mya_myAccount              : "2017.5.0",
+        catk_consentAccessToolKit  : "2017.5.0",
 		prg_productRegistrationLib : "2017.5.0",
 		prx_prx                    : "2017.5.0",
 		pse_productselection       : "2017.5.0",

@@ -167,6 +167,7 @@ public class UCoreAdapterTest {
         interceptRequest();
 
         verify(requestFacadeMock).addHeader("Content-Type", "application/json");
+        verify(requestFacadeMock).addHeader("api-version", "16");
         verify(requestFacadeMock).addHeader("Authorization", "bearer " + ACCESS_TOKEN);
     }
 

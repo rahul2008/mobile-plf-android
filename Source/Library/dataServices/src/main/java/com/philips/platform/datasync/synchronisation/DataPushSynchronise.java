@@ -6,7 +6,15 @@
 package com.philips.platform.datasync.synchronisation;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
+import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.catk.CatkInputs;
+import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.listener.ConsentResponseListener;
+import com.philips.platform.catk.model.GetConsentsModel;
+import com.philips.platform.catk.response.ConsentStatus;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
@@ -72,6 +80,10 @@ public class DataPushSynchronise extends EventMonitor {
 
     private DataServicesManager mDataServicesManager;
 
+    public static final String CONSENT_TYPE_MOMENT = "moment";
+
+    public static final int version = 0;
+
     public DataPushSynchronise(@NonNull final List<? extends DataSender> senders) {
         mDataServicesManager = DataServicesManager.getInstance();
         mDataServicesManager.getAppComponant().injectDataPushSynchronize(this);
@@ -102,17 +114,27 @@ public class DataPushSynchronise extends EventMonitor {
 
     private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
         final CountDownLatch countDownLatch = new CountDownLatch(configurableSenders.size());
-
         for (final DataSender sender : configurableSenders) {
             executor.execute(new Runnable() {
                 @Override
                 public void run() {
-                    boolean response = sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
-                    countDownLatch.countDown();
+                    if (sender instanceof MomentsDataSender) {
+                        try {
+                            final ConsentAccessToolKit toolkit = getContentAccessToolkit();
+                            syncMoments(sender, nonSynchronizedData, toolkit, countDownLatch);
+                        } catch (Exception ex) {
+                            countDownLatch.countDown();
+                        }
+                    } else {
+                        try {
+                            syncOthers(sender, nonSynchronizedData);
+                        } finally {
+                            countDownLatch.countDown();
+                        }
+                    }
                 }
             });
         }
-
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
@@ -120,6 +142,66 @@ public class DataPushSynchronise extends EventMonitor {
         }
 
         postPushComplete();
+    }
+
+    @NonNull
+    private ConsentAccessToolKit getContentAccessToolkit() {
+        final CatkInputs catkInputs = getCatkInputs();
+        final ConsentAccessToolKit toolkit = ConsentAccessToolKit.getInstance();
+        toolkit.init(catkInputs);
+        return toolkit;
+    }
+
+    @VisibleForTesting
+    void syncMoments(@NonNull final DataSender sender, @NonNull final GetNonSynchronizedDataResponse nonSynchronizedData, @NonNull final ConsentAccessToolKit accessToolKit, final CountDownLatch countDownLatch) {
+        accessToolKit.getStatusForConsentType(CONSENT_TYPE_MOMENT, version, new ConsentResponseListener() {
+            @Override
+            public void onResponseSuccessConsent(List<GetConsentsModel> responseData) {
+
+                if (responseData != null && !responseData.isEmpty()) {
+                    GetConsentsModel consentModel = responseData.get(0);
+                    Log.d(" Consent : ", "status :" + consentModel.getStatus());
+                    if (consentModel.getStatus().equals(ConsentStatus.active)) {
+                        executor.execute(new Runnable() {
+                                             @Override
+                                             public void run() {
+                                                 try {
+                                                     syncOthers(sender, nonSynchronizedData);
+                                                 } finally {
+                                                     countDownLatch.countDown();
+                                                 }
+                                             }
+                                         });
+                    } else {
+                        countDownLatch.countDown();
+                    }
+
+                } else {
+                    countDownLatch.countDown();
+                    Log.d(" Consent : ", "no consent for type found on server");
+                }
+            }
+
+            @Override
+            public int onResponseFailureConsent(int consentError) {
+                Log.d(" Consent : ", "onResponseFailureConsent  :" + consentError);
+                countDownLatch.countDown();
+                return consentError;
+            }
+        });
+    }
+
+    private void syncOthers(final DataSender sender, final GetNonSynchronizedDataResponse nonSynchronizedData) {
+        sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
+    }
+
+    @NonNull
+    private CatkInputs getCatkInputs() {
+        CatkInputs catkInputs = new CatkInputs();
+        catkInputs.setAppInfra(mDataServicesManager.getAppInfra());
+        catkInputs.setApplicationName(CatkConstants.APPLICATION_NAME);
+        catkInputs.setPropositionName(CatkConstants.PROPOSITION_NAME);
+        return catkInputs;
     }
 
     private void registerEvent() {
@@ -146,7 +228,7 @@ public class DataPushSynchronise extends EventMonitor {
     private List<? extends DataSender> getSenders() {
         Set<String> configurableSenders = mDataServicesManager.getSyncTypes();
 
-        if (configurableSenders == null || (configurableSenders != null && configurableSenders.isEmpty())) {
+        if (configurableSenders == null || configurableSenders.isEmpty()) {
             return senders;
         }
 
@@ -155,9 +237,7 @@ public class DataPushSynchronise extends EventMonitor {
         ArrayList<DataSender> customSenders = mDataServicesManager.getCustomSenders();
 
         if (customSenders != null && customSenders.size() != 0) {
-            for (DataSender customSender : customSenders) {
-                dataSenders.add(customSender);
-            }
+            dataSenders.addAll(customSenders);
         }
 
         for (String sender : configurableSenders) {

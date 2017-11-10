@@ -67,7 +67,7 @@ public class DemoAppManager {
         UserRegistrationInterface userRegistrationInterface = new UserRegistrationHandler(context, new User(context));
 
         DSErrorHandler dsErrorHandler = new DSErrorHandler();
-        mDataServicesManager.initializeDataServices(context, creator, userRegistrationInterface, dsErrorHandler);
+        mDataServicesManager.initializeDataServices(context, creator, userRegistrationInterface, dsErrorHandler,mAppInfra);
         injectDBInterfacesToCore(context);
         mDataServicesManager.initializeSyncMonitors(context, null, null);
     }
