@@ -145,13 +145,18 @@ node ('Platform-Android-Ehv-003') {
                 ''' 
             }
             stage('Trigger E2E Test'){
-                if (BranchName =~ /master|develop|release\/platform_.*/) {
+                if (BranchName =~ /master|release\/platform_.*/) {
+                    APK_NAME = readFile("Source/AppFramework/apkname.txt").trim()
+                    echo "APK_NAME = ${APK_NAME}"
+                    build job: "Platform-Infrastructure/E2E_Tests/E2E_Android_release_platform_3.0.0", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
+                } else if (BranchName =~ /develop/) {
                     APK_NAME = readFile("Source/AppFramework/apkname.txt").trim()
                     echo "APK_NAME = ${APK_NAME}"
                     def jobBranchName = BranchName.replace('/', '_')
                     echo "jobBranchName = ${jobBranchName}"
                     build job: "Platform-Infrastructure/E2E_Tests/E2E_Android_${jobBranchName}", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
-                }
+  				
+				}
             }
         } catch(err) {
             errors << "errors found: ${err}"      
