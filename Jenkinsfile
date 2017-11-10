@@ -87,7 +87,7 @@ node ('Platform-Android-Ehv-003') {
                 //}
             }
 			
-			if (params.LeakCanarybuild || (BranchName =~ /master|develop|release\/platform_.*/)) {
+			if (params.LeakCanarybuild) {
             stage('publishing leakcanaryapps') {
                 boolean MasterBranch = (BranchName ==~ /master.*/)
                 boolean ReleaseBranch = (BranchName ==~ /release\/platform_.*/)
@@ -100,7 +100,7 @@ node ('Platform-Android-Ehv-003') {
                     TIMESTAMPEXTENSION=".$TIMESTAMP"
 
                     cd $BASE_PATH/Source/AppFramework/appFramework/build/outputs/apk
-                    PUBLISH_IPA=false
+                    PUBLISH_APK=false
                     APK_NAME="RefApp_LeakCanary_"${TIMESTAMP}".apk"
                     ARTIFACTORY_URL="http://artifactory-ehv.ta.philips.com:8082/artifactory"
                     ARTIFACTORY_REPO="unknown"
@@ -147,11 +147,11 @@ node ('Platform-Android-Ehv-003') {
 			
             stage('Trigger E2E Test'){
                 if (BranchName =~ /master|develop|release\/platform_.*/) {
+                    APK_NAME=readFile("Source/AppFramework/apkname.txt").trim()
 					echo "APK_NAME = ${APK_NAME}"
 					if(params.LeakCanarybuild){                    
 						build job: "Platform-Infrastructure/E2E_Tests/Reliability/LeakCanary_Android_develop", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
-					} else {
-					  APK_NAME=readFile("Source/AppFramework/apkname.txt").trim()
+					} else {					  
 						def jobBranchName = BranchName.replace('/', '_')
 						echo "jobBranchName = ${jobBranchName}"
 						build job: "Platform-Infrastructure/E2E_Tests/E2E_Android_${jobBranchName}", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
