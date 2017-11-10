@@ -333,7 +333,11 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     private void galleryIntent() {
         Intent intent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, RESULT_LOAD_IMAGE);
+        try {
+            startActivityForResult(intent, RESULT_LOAD_IMAGE);
+        }catch (Exception e){
+            showError(getString(R.string.ths_add_photo_no_app_to_handle));
+        }
     }
 
     private void cameraIntent() {
@@ -511,6 +515,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
 
     @Override
     public void setContinueButtonState(boolean enable) {
+        thsImageRecyclerViewAdapter.isClickable = enable;
         ths_camera_image_list_layout.setEnabled(enable);
         imageListView.setEnabled(enable);
         camera_button.setEnabled(enable);

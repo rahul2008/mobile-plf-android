@@ -259,6 +259,11 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_add_photo_error_string">Upload failed with sdk error</string>
     <string name="ths_add_photo_validation_error_string">Validation failure while uploading</string>
     <string name="ths_add_photo_success_string">Success with Document name</string>
+    <string name="ths_add_photo_no_app_to_handle">No app to pick the image from</string>
+    <string name="ths_permission_denied_message">Permission denied : Going to search</string>
+    <string name="ths_gps_not_enabled_message">Do you want to enable GPS?</string>
+    <string name="ths_gps_not_enabled_message_title">GPS not enabled</string>
+
 
     <!-- Insurance screen strings -->
     <string name="ths_insurance_not_verified_confirm_title">Health insurance not verified</string>
@@ -354,6 +359,24 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <!-- Dependent Strings -->
     <string name="ths_dependent_name">Selected patient: <xliff:g name="count">%s</xliff:g> </string>
+
+    <!-- OnBoarding Screen -->
+    <string name="take_tour">Take a tour</string>
+    <string name="skip">Skip</string>
+    <string name="done">Done</string>
+
+    <string name="onboarding_one_text">Filling in your information only takes a few steps and is done in a couple of minutes.\n\nYour information is then stored securely for all future online visits.</string>
+    <string name="onboarding_two_text">Choose the doctor that works for you. We’ll show you list of available doctors, their experience and ratings before starting your visit.</string>
+    <string name="onboarding_three_text">Our mobile app visits use secure, high-quality streaming video. See and speak with a doctor 24 hours a day form home or on the go.</string>
+    <string name="onboarding_four_text">During or after a visit provides can send prescriptions and recommendations for over-the-counter medications to a pharmacy of your choice.</string>
+
+    <string name="onboarding_tour_header">See <b>a provider online,</b> anytime</string>
+
+    <string name="onboarding_tour_video_consults">Video consults in just minutes, right on your smart phone.</string>
+    <string name="onboarding_tour_service_is_provided">This service is provided by</string>
+    <string name="onboarding_tour_curious">Curious how it works?</string>
+
+
     <string name="initialization_failed"><u>Initialization failed</u></string>
 
     <!-- visit Strings -->

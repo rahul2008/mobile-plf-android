@@ -24,6 +24,7 @@ public class THSImageRecyclerViewAdapter extends RecyclerView.Adapter<THSImageRe
     private List<THSSelectedImagePojo> imagesList;
     final int THUMBSIZE = 96;
     private THSSelectedImageCallback selectedImageCallback;
+    public boolean isClickable;
 
     public THSImageRecyclerViewAdapter(List<THSSelectedImagePojo> imagesList, THSSelectedImageCallback selectedImageCallback) {
         this.imagesList = imagesList;
@@ -47,6 +48,9 @@ public class THSImageRecyclerViewAdapter extends RecyclerView.Adapter<THSImageRe
             holder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(!isClickable){
+                        return;
+                    }
                     selectedImageCallback.onImageClicked(position);
                 }
             });

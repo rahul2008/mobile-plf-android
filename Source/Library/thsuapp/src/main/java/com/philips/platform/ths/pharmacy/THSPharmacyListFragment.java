@@ -7,16 +7,12 @@
 package com.philips.platform.ths.pharmacy;
 
 import android.content.Intent;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -55,10 +51,9 @@ import com.philips.platform.ths.pharmacy.customtoggle.SegmentControl;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
-import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSUtilities;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ImageButton;
@@ -69,7 +64,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-import static com.google.android.gms.maps.model.BitmapDescriptorFactory.fromResource;
 import static com.philips.platform.ths.utility.THSConstants.PHARMACY_SEARCH_CONSTANT;
 import static com.philips.platform.ths.utility.THSConstants.THS_PHARMACY_MAP;
 
@@ -89,13 +83,13 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     protected THSPharmacyListPresenter thsPharmacyListPresenter;
     private LatLngBounds.Builder builder;
     private CameraUpdate cu;
-    private Label selectedPharmacyName, selectedPharmacyAddressLineOne, selectedPharmacyAddressLineTwo,
+    protected Label selectedPharmacyName, selectedPharmacyAddressLineOne, selectedPharmacyAddressLineTwo,
             selectedPharmacyState, selectedPharmacyZip, selectedPharmacyPhone, selectedPharmacyEmail, pharmacy_segment_control_one, pharmacy_segment_control_two;
-    private RelativeLayout selectedPharmacyLayout, pharmacy_list_fragment_container;
+    protected RelativeLayout selectedPharmacyLayout, pharmacy_list_fragment_container;
     private SegmentControl pharmacyTypeLayout;
     private Animation slideUpFromBottomAnimation, slideDownFromBottomAnimation, slideUpFromTopAnimation, slideDownFromTopAnimation;
     private boolean handleBack = false;
-    private boolean isListSelected = false;
+    protected boolean isListSelected = false;
     private Button choosePharmacyButton;
     private Pharmacy pharmacy;
     protected THSConsumerWrapper thsConsumerWrapper;
@@ -333,7 +327,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         isListSelected = true;
     }
 
-    private List<Pharmacy> pharmacyRetailList, pharmacyMailOrderList;
+    protected List<Pharmacy> pharmacyRetailList, pharmacyMailOrderList;
 
     @Override
     public void updatePharmacyListView(List<Pharmacy> pharmacies) {
@@ -443,7 +437,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         });
     }
 
-    private void updateCameraBounds(List<Pharmacy> pharmacies) {
+    protected void updateCameraBounds(List<Pharmacy> pharmacies) {
 
         builder = new LatLngBounds.Builder();
         List<LatLng> latLngs = addMarkerOptions(pharmacies, null, false);
@@ -470,20 +464,23 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
 
     private List<LatLng> addMarkerOptions(List<Pharmacy> pharmacies, Pharmacy pharmacy, boolean shouldReset) {
 
-        Drawable locationDefault = THSFileUtils.getGpsDrawableFromFontIcon(getContext(),R.string.dls_location,R.color.uid_blue_level_55,24);
-        Drawable locationSelected = THSFileUtils.getGpsDrawableFromFontIcon(getContext(),R.string.dls_location,R.color.uid_blue_level_55,32);
-        Drawable locationUnSelected = THSFileUtils.getGpsDrawableFromFontIcon(getContext(),R.string.dls_location,R.color.uid_blue_level_5,24);
+        int defaultLocationIcoColor = THSUtilities.getAttributeColor(getContext(),R.attr.uidButtonPrimaryNormalBackgroundColor);
+        int unSelectedLocationIconColor = THSUtilities.getAttributeColor(getContext(),R.attr.uidButtonSecondaryNormalBackgroundColor);
+
+        Drawable locationDefault = THSUtilities.getGpsDrawableFromFontIcon(getContext(),R.string.dls_location,defaultLocationIcoColor,24);
+        Drawable locationSelected = THSUtilities.getGpsDrawableFromFontIcon(getContext(),R.string.dls_location,defaultLocationIcoColor,32);
+        Drawable locationUnSelected = THSUtilities.getGpsDrawableFromFontIcon(getContext(),R.string.dls_location,unSelectedLocationIconColor,24);
 
         List<LatLng> latLngList = new ArrayList<LatLng>();
         map.clear();
         for (final Pharmacy pharmacyItem : pharmacies) {
             LatLng latLng = new LatLng(pharmacyItem.getLatitude(), pharmacyItem.getLongitude());
             if (null != pharmacy && pharmacy.equals(pharmacyItem) && shouldReset) {
-                map.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(THSFileUtils.drawableToBitmap(locationSelected))).position(latLng)).setTag(pharmacyItem);
+                map.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(THSUtilities.drawableToBitmap(locationSelected))).position(latLng)).setTag(pharmacyItem);
             } else if (shouldReset) {
-                map.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(THSFileUtils.drawableToBitmap(locationUnSelected))).position(latLng)).setTag(pharmacyItem);
+                map.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(THSUtilities.drawableToBitmap(locationUnSelected))).position(latLng)).setTag(pharmacyItem);
             } else {
-                map.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(THSFileUtils.drawableToBitmap(locationDefault))).position(latLng)).setTag(pharmacyItem);
+                map.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(THSUtilities.drawableToBitmap(locationDefault))).position(latLng)).setTag(pharmacyItem);
             }
             latLngList.add(latLng);
         }

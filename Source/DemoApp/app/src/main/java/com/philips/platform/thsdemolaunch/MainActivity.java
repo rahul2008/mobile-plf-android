@@ -34,7 +34,6 @@ import com.philips.platform.ths.uappclasses.THSMicroAppLaunchInput;
 import com.philips.platform.ths.uappclasses.THSMicroAppSettings;
 import com.philips.platform.ths.uappclasses.THSVisitCompletionListener;
 import com.philips.platform.ths.utility.AmwellLog;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -75,6 +74,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         setSupportActionBar(toolbar);
         UIDHelper.setTitle(this, "Am well");
         fragmentLauncher = new FragmentLauncher(this, R.id.uappFragmentLayout, this);
+
         User user = new User(this);
         if(user!=null && !user.isUserSignIn()) {
             startRegistrationFragment();
