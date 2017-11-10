@@ -24,7 +24,6 @@ import com.philips.cdp2.commlib.devicetest.appliance.ReferenceAppliance;
 import com.philips.cdp2.commlib.devicetest.appliance.airpurifier.AirPurifier;
 import com.philips.cdp2.commlib.devicetest.port.air.ComfortAirPort;
 import com.philips.cdp2.commlib.devicetest.port.time.TimePort;
-import com.philips.cdp2.commlib.devicetest.util.Android;
 import com.philips.cdp2.commlib.devicetest.util.ApplianceWaiter;
 import com.philips.cdp2.commlib.devicetest.util.CloudSignOnWaiter;
 import com.philips.cdp2.commlib.devicetest.util.PairingWaiter;
@@ -41,8 +40,6 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
-import static android.Manifest.permission.CHANGE_WIFI_STATE;
 import static android.app.Instrumentation.newApplication;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static java.util.Collections.emptyList;
@@ -71,9 +68,11 @@ public class Steps {
 
         // In M+, trying to access bluetooth will trigger a runtime dialog. Make sure
         // the permission is granted before running tests.
-        Log.d(LOGTAG, "Grant permissions");
-        Android.grantPermission(ACCESS_COARSE_LOCATION);
-        Android.grantPermission(CHANGE_WIFI_STATE);
+//        Log.d(LOGTAG, "Grant permissions");
+//        Android.grantPermission(ACCESS_COARSE_LOCATION);
+//        Android.grantPermission(CHANGE_WIFI_STATE);
+//        Android.grantPermission(READ_EXTERNAL_STORAGE);
+//        Android.grantPermission(WRITE_EXTERNAL_STORAGE);
     }
 
     @After
@@ -142,6 +141,11 @@ public class Steps {
         ((ReferenceAppliance) current).getTimePort().subscribe();
     }
 
+    @When("^device subscribes on air port$")
+    public void deviceSubscribesOnAirPort() throws Throwable {
+        ((AirPurifier) current).getAirPort().subscribe();
+    }
+
     @Then("^time value is received without errors$")
     public void timeValueIsReceivedWithoutErrors() throws Throwable {
         timeValueIsReceivedTimesWithoutErrors(1);
@@ -167,16 +171,21 @@ public class Steps {
 
     @Then("^light on value is received without errors$")
     public void lightOnValueIsReceivedWithoutErrors() throws Throwable {
+        lightOnValueIsReceivedTimesWithoutErrors(1);
+    }
+
+    @Then("^light on value is received (\\d+) times without errors$")
+    public void lightOnValueIsReceivedTimesWithoutErrors(int count) throws Throwable {
         Log.d(LOGTAG, String.format("Waiting for airport light update"));
 
         PortListener listener = portListeners.get(ComfortAirPort.class);
-        listener.reset(1);
+        listener.reset(count);
         listener.waitForPortUpdate(1, MINUTES);
 
         scenario.write("Errors:" + listener.errors.toString());
 
         assertEquals(emptyList(), listener.errors);
-        assertEquals(1, listener.receivedCount);
+        assertEquals(count, listener.receivedCount);
 
         final boolean lightOn = ((AirPurifier) current).getAirPort().getPortProperties().getLightOn();
         assertTrue(lightOn);
