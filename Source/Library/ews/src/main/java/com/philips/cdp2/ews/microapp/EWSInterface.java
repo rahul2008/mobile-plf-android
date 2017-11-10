@@ -14,6 +14,7 @@ import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
+import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -64,6 +65,7 @@ public class EWSInterface implements UappInterface {
             EWSDependencyProvider.getInstance().getEwsComponent().inject(this);
             navigator.navigateToGettingStartedScreen();
             ewsEventingChannel.start();
+            EWSTagger.collectLifecycleInfo(fragmentLauncher.getFragmentActivity());
         } catch (Exception e) {
             EWSLogger.e(TAG,
                     "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"

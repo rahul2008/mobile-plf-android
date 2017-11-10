@@ -53,7 +53,7 @@ public class EWSActivity extends DynamicThemeApplyingActivity {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ews_activity_main);
-        initEWSComponent(savedInstanceState);
+        initEWSComponent(getBundle(savedInstanceState));
         setUpToolBar();
         setUpCancelButton();
 
@@ -66,11 +66,14 @@ public class EWSActivity extends DynamicThemeApplyingActivity {
 
     private void initEWSComponent(@Nullable Bundle savedInstanceState) {
         ContentConfiguration contentConfiguration =
-                BundleUtils.extractParcelableFromIntentOrNull(getBundle(savedInstanceState), KEY_CONTENT_CONFIGURATION);
+                BundleUtils.extractParcelableFromIntentOrNull(savedInstanceState, KEY_CONTENT_CONFIGURATION);
 
         if (contentConfiguration == null) {
             contentConfiguration = new ContentConfiguration();
         }
+
+        initMicroAppDependencies(contentConfiguration);
+
         EWSDependencyProvider.getInstance().createEWSComponent(this, R.id.contentFrame,
                 contentConfiguration);
 
@@ -137,10 +140,10 @@ public class EWSActivity extends DynamicThemeApplyingActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         EWSTagger.pauseLifecycleInfo();
         ewsEventingChannel.stop();
         EWSDependencyProvider.getInstance().clear();
+        super.onDestroy();
     }
 
     @Override

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.databinding.FragmentStartConnectWithDeviceBinding;
@@ -45,7 +46,11 @@ public class StartConnectWithDeviceFragment extends BaseFragment {
 
     @Override
     public void onDestroy() {
-        viewModel.onDestroy();
+        if (!(getActivity() instanceof EWSActivity)) {
+            if(viewModel!= null) {
+                viewModel.onDestroy();
+            }
+        }
         super.onDestroy();
     }
 }

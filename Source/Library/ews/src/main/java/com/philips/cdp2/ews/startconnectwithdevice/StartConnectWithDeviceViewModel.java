@@ -94,6 +94,7 @@ public class StartConnectWithDeviceViewModel {
 
     public void onDestroy(){
         if(navigator.getFragmentNavigator().shouldFinish()){
+            EWSTagger.pauseLifecycleInfo();
             ewsEventingChannel.stop();
             EWSDependencyProvider.getInstance().clear();
         }
