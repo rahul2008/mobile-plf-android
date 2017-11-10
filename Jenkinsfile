@@ -6,7 +6,8 @@ JENKINS_ENV = env.JENKINS_ENV
 properties([
     [$class: 'ParametersDefinitionProperty', parameterDefinitions: [
         [$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy'],
-        [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Force PSRA build ', name : 'PSRAbuild']
+        [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Force PSRA build ', name : 'PSRAbuild'],
+		[$class: 'BooleanParameterDefinition', defaultValue: false, description: 'LeakCanary build ', name : 'LeakCanarybuild']
     ]],
 
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '20']]
@@ -48,6 +49,15 @@ node ('Platform-Android-Ehv-003') {
              '''
              }
 		    }
+			if (params.LeakCanarybuild || (BranchName =~ /master|release\/platform_.*/))  {
+			stage ('build LeakCanary') {
+            sh '''#!/bin/bash -l
+                chmod -R 775 .
+                cd ./Source/AppFramework
+				./gradlew -PenvCode=${JENKINS_ENV} assembleLeakCanary
+             '''
+             }
+		    }			
             stage('test') {
                 echo "lint & unit test"
                sh '''#!/bin/bash -l
@@ -76,6 +86,57 @@ node ('Platform-Android-Ehv-003') {
                 //    '''
                 //}
             }
+			
+			if (params.LeakCanarybuild || (BranchName =~ /master|develop|release\/platform_.*/)) {
+            stage('publishing leakcanaryapps') {
+                boolean MasterBranch = (BranchName ==~ /master.*/)
+                boolean ReleaseBranch = (BranchName ==~ /release\/platform_.*/)
+                boolean DevelopBranch = (BranchName ==~ /develop.*/)
+
+                def shellcommand = '''#!/bin/bash -l
+                    export BASE_PATH=`pwd`
+                    echo $BASE_PATH
+                    TIMESTAMP=`date -u +%Y%m%d%H%M%S`
+                    TIMESTAMPEXTENSION=".$TIMESTAMP"
+
+                    cd $BASE_PATH/Source/AppFramework/appFramework/build/outputs/apk
+                    PUBLISH_IPA=false
+                    APK_NAME="RefApp_LeakCanary_"${TIMESTAMP}".apk"
+                    ARTIFACTORY_URL="http://artifactory-ehv.ta.philips.com:8082/artifactory"
+                    ARTIFACTORY_REPO="unknown"
+
+                    if [ '''+MasterBranch+''' = true ]
+                    then
+                        PUBLISH_APK=true
+                        ARTIFACTORY_REPO="platform-pkgs-android-release"
+                    elif [ '''+ReleaseBranch+''' = true ]
+                    then
+                        PUBLISH_APK=true
+                        ARTIFACTORY_REPO="platform-pkgs-android-stage"
+                    elif [ '''+DevelopBranch+''' = true ]
+                    then
+                        PUBLISH_APK=true
+                        ARTIFACTORY_REPO="platform-pkgs-android-snapshot"
+                    else
+                        echo "Not published as build is not on a master, develop or release branch" . $BranchName
+                    fi
+
+                    if [ $PUBLISH_APK = true ]
+                    then
+                        mv referenceApp-leakCanary.apk $APK_NAME
+                        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/referenceApp/LeakCanary/ -T $APK_NAME
+                    fi
+
+                    if [ $? != 0 ]
+                    then
+                        exit 1
+                    else
+                        cd $BASE_PATH
+                    fi
+                '''
+                sh shellcommand
+            }
+            }
             stage ('save dependencies list') {
                 sh '''#!/bin/bash -l       
                     chmod -R 775 . 
@@ -83,14 +144,19 @@ node ('Platform-Android-Ehv-003') {
                     ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
                 ''' 
             }
+			
             stage('Trigger E2E Test'){
                 if (BranchName =~ /master|develop|release\/platform_.*/) {
-                    APK_NAME = readFile("Source/AppFramework/apkname.txt").trim()
-                    echo "APK_NAME = ${APK_NAME}"
-                    def jobBranchName = BranchName.replace('/', '_')
-                    echo "jobBranchName = ${jobBranchName}"
-                    build job: "Platform-Infrastructure/E2E_Tests/E2E_Android_${jobBranchName}", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
-                }
+					echo "APK_NAME = ${APK_NAME}"
+					if(params.LeakCanarybuild){                    
+						build job: "Platform-Infrastructure/E2E_Tests/LeakCanary_Android_develop", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
+					} else {
+					  APK_NAME=readFile("Source/AppFramework/apkname.txt").trim()
+						def jobBranchName = BranchName.replace('/', '_')
+						echo "jobBranchName = ${jobBranchName}"
+						build job: "Platform-Infrastructure/E2E_Tests/E2E_Android_${jobBranchName}", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
+						}
+					} 
             }
         } catch(err) {
             errors << "errors found: ${err}"      
