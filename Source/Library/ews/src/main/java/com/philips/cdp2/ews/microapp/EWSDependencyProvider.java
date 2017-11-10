@@ -25,11 +25,10 @@ public class EWSDependencyProvider {
 
     @VisibleForTesting
     static EWSDependencyProvider instance;
-
+    @VisibleForTesting
+    static EWSComponent ewsComponent;
     private static LoggingInterface loggingInterface;
     private static AppTaggingInterface appTaggingInterface;
-    private static EWSComponent ewsComponent;
-
     private AppInfraInterface appInfraInterface;
     private Map<String, String> productKeyMap;
 

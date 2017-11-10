@@ -19,10 +19,6 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-/*
- * Copyright (c) Mobiquityinc, 2017.
- * All rights reserved.
- */
 public class EWSDemoFragmentActivity extends EWSDemoBaseActivity implements ActionBarListener {
 
 

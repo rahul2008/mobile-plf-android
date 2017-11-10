@@ -6,6 +6,7 @@ package com.philips.cdp2.ews.microapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.EWSActivity;
@@ -30,15 +31,13 @@ public class EWSInterface implements UappInterface {
     public static final String SCREEN_ORIENTATION = "screen.orientation";
     public static final String PRODUCT_NAME = "productName";
     private static final String TAG = "EWSInterface";
-    @Inject
-    Navigator navigator;
-    @Inject
-    EventingChannel<EventingChannel.ChannelCallback> ewsEventingChannel;
+    @Inject Navigator navigator;
+    @Inject EventingChannel<EventingChannel.ChannelCallback> ewsEventingChannel;
     private Context context;
     private ContentConfiguration contentConfiguration;
 
     @Override
-    public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
+    public void init(@NonNull final UappDependencies uappDependencies, @NonNull final UappSettings uappSettings) {
         EWSDependencies ewsDependencies = (EWSDependencies) uappDependencies;
         EWSDependencyProvider.getInstance().initDependencies(uappDependencies.getAppInfra(), ewsDependencies.getProductKeyMap());
         context = uappSettings.getContext();
@@ -46,7 +45,7 @@ public class EWSInterface implements UappInterface {
     }
 
     @Override
-    public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
+    public void launch(@NonNull final UiLauncher uiLauncher, @NonNull final UappLaunchInput uappLaunchInput) {
         if (!EWSDependencyProvider.getInstance().areDependenciesInitialized()) {
             throw new UnsupportedOperationException(ERROR_MSG_INVALID_CALL);
         }
@@ -59,7 +58,7 @@ public class EWSInterface implements UappInterface {
     }
 
     @VisibleForTesting
-    void launchAsFragment(final FragmentLauncher fragmentLauncher, final UappLaunchInput uappLaunchInput) {
+    void launchAsFragment(@NonNull final FragmentLauncher fragmentLauncher, @NonNull final UappLaunchInput uappLaunchInput) {
         try {
             EWSDependencyProvider.getInstance().createEWSComponent(fragmentLauncher, contentConfiguration);
             EWSDependencyProvider.getInstance().getEwsComponent().inject(this);

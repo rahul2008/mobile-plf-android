@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdp2.ews.demoapplication;
 
 import android.content.res.Configuration;
@@ -19,10 +23,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-/*
- * Copyright (c) Mobiquityinc, 2017.
- * All rights reserved.
- */
 public class EWSDemoBaseActivity extends AppCompatActivity {
 
     protected static final String DEFAULT = "Default";
