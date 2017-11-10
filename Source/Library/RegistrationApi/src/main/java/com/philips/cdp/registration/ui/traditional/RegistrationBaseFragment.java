@@ -8,19 +8,28 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.content.res.*;
-import android.os.*;
-import android.support.v4.app.*;
-import android.view.*;
-import android.view.View.*;
-import android.widget.*;
-import android.widget.LinearLayout.*;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ScrollView;
 
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.ui.utils.RLog;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class RegistrationBaseFragment extends Fragment {
 
@@ -120,7 +129,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
         if (null != fragment && null != fragment.getUpdateTitleListener()
                 && mPrevTitleResourceId != -99) {
-            RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : getFragmentCount"+fragment.getFragmentCount());
+            RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : getFragmentCount" + fragment.getFragmentCount());
 
             if (fragment.getFragmentCount() > 2) {
                 fragment.getUpdateTitleListener().updateActionBar(
@@ -160,7 +169,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
         if (null != fragment) {
             if (fragment.getFragmentCount() > 1) {
-                 if (this instanceof HomeFragment && null != fragment.
+                if (this instanceof HomeFragment && null != fragment.
                         getUpdateTitleListener()) {
                     fragment.getUpdateTitleListener().updateActionBar(
                             getTitleResourceId(), false);
@@ -216,6 +225,9 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
     protected void applyParams(Configuration config, View view, int width) {
         if (width < dpToPx((int) getResources().getInteger(R.integer.reg_layout_max_width_648))) {
+            if (view instanceof RecyclerView) {
+                return;
+            }
             applyDefaultMargin(view);
         } else {
             setMaxWidth(view);
