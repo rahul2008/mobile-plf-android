@@ -7,7 +7,6 @@
 
 package com.philips.platform.catk.util;
 
-
 import org.junit.runners.model.InitializationError;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -15,9 +14,6 @@ import org.robolectric.manifest.AndroidManifest;
 import org.robolectric.res.FileFsFile;
 import org.robolectric.res.FsFile;
 
-/**
- * Created by philips on 7/14/17.
- */
 public class CustomRobolectricRunnerCATK extends RobolectricTestRunner {
 
     public CustomRobolectricRunnerCATK(Class<?> klass) throws InitializationError {

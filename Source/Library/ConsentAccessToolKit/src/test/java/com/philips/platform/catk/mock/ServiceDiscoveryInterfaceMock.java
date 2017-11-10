@@ -7,13 +7,13 @@
 
 package com.philips.platform.catk.mock;
 
-import android.content.BroadcastReceiver;
-
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
+
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+
+import android.content.BroadcastReceiver;
 
 public class ServiceDiscoveryInterfaceMock implements ServiceDiscoveryInterface {
 

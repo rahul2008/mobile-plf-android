@@ -7,37 +7,21 @@
 
 package com.philips.platform.catk.model;
 
-import com.android.volley.Request;
-import com.google.gson.JsonArray;
-import com.philips.cdp.registration.User;
-import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.ConsentAccessToolKitManipulator;
-import com.philips.platform.catk.injection.CatkComponent;
-import com.philips.platform.catk.network.NetworkAbstractModel;
-import com.philips.platform.catk.util.CustomRobolectricRunnerCATK;
-import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.configuration.MockitoConfiguration;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.modules.junit4.rule.PowerMockRule;
-import org.robolectric.annotation.Config;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.when;
-
-/**
- * Created by Maqsood on 10/31/17.
- */
+import com.android.volley.Request;
+import com.google.gson.JsonArray;
+import com.philips.cdp.registration.User;
+import com.philips.platform.catk.ConsentAccessToolKitManipulator;
+import com.philips.platform.catk.injection.CatkComponent;
+import com.philips.platform.catk.network.NetworkAbstractModel;
 
 public class CreateConsentModelRequestTest extends MockitoConfiguration {
 
@@ -92,7 +76,7 @@ public class CreateConsentModelRequestTest extends MockitoConfiguration {
 
     @Test
     public void testGetUrl() throws Exception {
-      assertEquals(URL, consentModelRequest.getUrl());
+        assertEquals(URL, consentModelRequest.getUrl());
     }
 
     private static final String EXPECTED_BODY = "{\"resourceType\":\"Consent\",\"language\":\"af-ZA\",\"status\":\"active\",\"subject\":\"17f7ce85-403c-4824-a17f-3b551f325ce0\",\"policyRule\":\"urn:com.philips.consent:moment/null/0/OneBackendProp/OneBackend\"}";

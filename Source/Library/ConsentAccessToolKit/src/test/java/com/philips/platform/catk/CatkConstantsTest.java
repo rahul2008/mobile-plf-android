@@ -7,10 +7,9 @@
 
 package com.philips.platform.catk;
 
-import org.junit.Test;
-
 import static junit.framework.Assert.assertEquals;
 
+import org.junit.Test;
 
 public class CatkConstantsTest {
 
@@ -78,7 +77,6 @@ public class CatkConstantsTest {
     public void testBundleKeyName() {
         assertEquals("appName", new CatkConstants().BUNDLE_KEY_APPLICATION_NAME);
     }
-
 
     @Test
     public void testBundlePropositionName() {

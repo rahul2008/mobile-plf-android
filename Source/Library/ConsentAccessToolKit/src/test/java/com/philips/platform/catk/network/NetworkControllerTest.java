@@ -7,6 +7,15 @@
 
 package com.philips.platform.catk.network;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.junit.*;
+import org.mockito.*;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
@@ -14,39 +23,9 @@ import com.google.gson.JsonArray;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
-import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.injection.CatkComponent;
 import com.philips.platform.catk.model.GetConsentsModelRequest;
 import com.philips.platform.catk.request.ConsentRequest;
-import com.philips.platform.catk.util.CustomRobolectricRunnerCATK;
-import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.Request;
-import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.rule.PowerMockRule;
-import org.robolectric.annotation.Config;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-/**
- * Created by Maqsood on 10/27/17.
- */
 
 public class NetworkControllerTest {
 
@@ -89,7 +68,7 @@ public class NetworkControllerTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         networkController = null;
     }
 
@@ -107,15 +86,15 @@ public class NetworkControllerTest {
         Map<String, String> params = new HashMap<String, String>();
         params.put("api-version", "1");
         params.put("content-type", "application/json");
-        params.put("authorization","bearer x73ywf56h46h5p25");
-        params.put("performerid","17f7ce85-403c-4824-a17f-3b551f325ce0");
+        params.put("authorization", "bearer x73ywf56h46h5p25");
+        params.put("performerid", "17f7ce85-403c-4824-a17f-3b551f325ce0");
         params.put("cache-control", "no-cache");
         return params;
     }
 
-    class NetworkControllerCustom extends NetworkController{
+    class NetworkControllerCustom extends NetworkController {
 
-        protected void init(){
+        protected void init() {
             restInterface = mockRestInterface;
         }
 

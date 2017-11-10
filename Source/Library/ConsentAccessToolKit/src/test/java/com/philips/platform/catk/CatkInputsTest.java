@@ -7,17 +7,12 @@
 
 package com.philips.platform.catk;
 
-import com.philips.platform.catk.mock.ContextMock;
-import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
-import org.robolectric.shadows.ShadowApplication;
-
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
+
+import org.junit.Test;
+
+import com.philips.platform.catk.mock.ContextMock;
 
 public class CatkInputsTest {
 
@@ -40,6 +35,5 @@ public class CatkInputsTest {
         CatkInputs catkLaunchInput = new CatkInputs();;
         assertNull(catkLaunchInput.getContext());
     }
-
 
 }

@@ -7,8 +7,6 @@
 
 package com.philips.platform.catk.mock;
 
-import android.content.Context;
-
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -19,7 +17,9 @@ import com.philips.platform.catk.model.CreateConsentModelRequest;
 import com.philips.platform.catk.model.GetConsentsModelRequest;
 import com.philips.platform.catk.network.NetworkController;
 
-public class CatkComponentMock implements CatkComponent{
+import android.content.Context;
+
+public class CatkComponentMock implements CatkComponent {
 
     public ServiceDiscoveryInterfaceMock getServiceDiscoveryInterface_return;
 

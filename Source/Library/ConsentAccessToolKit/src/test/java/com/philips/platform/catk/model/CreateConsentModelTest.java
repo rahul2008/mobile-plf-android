@@ -7,14 +7,7 @@
 
 package com.philips.platform.catk.model;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-/**
- * Created by philips on 11/2/17.
- */
+import org.junit.*;
 
 public class CreateConsentModelTest {
 

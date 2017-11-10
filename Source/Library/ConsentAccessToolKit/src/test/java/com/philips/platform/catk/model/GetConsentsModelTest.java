@@ -7,16 +7,9 @@
 
 package com.philips.platform.catk.model;
 
+import org.junit.*;
+
 import com.philips.platform.catk.response.ConsentStatus;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-/**
- * Created by Maqsood on 11/2/17.
- */
 
 public class GetConsentsModelTest {
 
