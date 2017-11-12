@@ -38,26 +38,24 @@ public class MyaInterface implements UappInterface {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
-            launchAsActivity(((ActivityLauncher) uiLauncher), (MyaLaunchInput) uappLaunchInput);
+            launchAsActivity((ActivityLauncher) uiLauncher, (MyaLaunchInput) uappLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
             launchAsFragment((FragmentLauncher) uiLauncher, (MyaLaunchInput) uappLaunchInput);
         }
     }
 
-    private void launchAsFragment(FragmentLauncher fragmentLauncher,
-                                  MyaLaunchInput myaLaunchInput) {
+    private void launchAsFragment(FragmentLauncher fragmentLauncher, MyaLaunchInput myaLaunchInput) {
         try {
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
                     getSupportFragmentManager();
-            MyaFragment myaFragment = buildFragment(fragmentLauncher.getActionbarListener(), myaLaunchInput);
+            MyaFragment myaFragment = buildFragment(fragmentLauncher.getActionbarListener());
 
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
                     myaFragment,
                     MyaConstants.MYAFRAGMENT);
 
-            if (((MyaLaunchInput)
-                    myaLaunchInput).isAddtoBackStack()) {
+            if (myaLaunchInput.isAddtoBackStack()) {
                 fragmentTransaction.addToBackStack(MyaConstants.MYAFRAGMENT);
             }
             fragmentTransaction.commitAllowingStateLoss();
@@ -66,7 +64,7 @@ public class MyaInterface implements UappInterface {
         }
     }
 
-    private MyaFragment buildFragment(ActionBarListener listener, MyaLaunchInput myaLaunchInput) {
+    private MyaFragment buildFragment(ActionBarListener listener) {
         MyaFragment myaFragment = new MyaFragment();
         myaFragment.setArguments(applicationName, propositionName);
         myaFragment.setOnUpdateTitleListener(listener);

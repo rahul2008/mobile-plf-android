@@ -26,8 +26,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-public class MyaFragment extends Fragment implements
-        BackEventListener {
+public class MyaFragment extends Fragment implements BackEventListener {
     private FragmentManager mFragmentManager;
     private ActionBarListener mActionBarListener;
 
@@ -76,14 +75,12 @@ public class MyaFragment extends Fragment implements
         return handleBackStack();
     }
 
-
     private boolean handleBackStack() {
         Fragment fragment = getCswFragment();
         if (fragment != null) {
 
             if (fragment != null && fragment instanceof BackEventListener) {
                 boolean isHandleBack = !((BackEventListener) fragment).handleBackEvent();
-                System.out.println(isHandleBack);
                 //true only one View value left
                 if (isHandleBack) {
                     //remove view from the container
@@ -126,7 +123,7 @@ public class MyaFragment extends Fragment implements
     }
 
     public int getFragmentCount() {
-        //First Check is Csw fargment is present then return count from it +1
+        //First Check is Csw fragment is present then return count from it +1
         int cswChildFragmentCount = 0;
 
         Fragment fragment = getCswFragment();
@@ -134,7 +131,6 @@ public class MyaFragment extends Fragment implements
             cswChildFragmentCount = ((CswFragment) fragment).getFragmentCount();
             cswChildFragmentCount = cswChildFragmentCount + 1;
         }
-
 
         int fragmentCount = mFragmentManager.getFragments().size() - 1;
         fragmentCount = fragmentCount + cswChildFragmentCount;

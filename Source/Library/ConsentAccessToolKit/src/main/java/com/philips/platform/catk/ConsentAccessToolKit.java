@@ -31,13 +31,7 @@ public class ConsentAccessToolKit {
 
     private static volatile ConsentAccessToolKit sSoleInstance;
 
-    // private constructor.
-    private ConsentAccessToolKit() {
-
-        // Prevent form the reflection api.
-        if (sSoleInstance != null) {
-            throw new RuntimeException("Use getInstance() method to get the single instance of this class.");
-        }
+    ConsentAccessToolKit() {
     }
 
     public static ConsentAccessToolKit getInstance() {
@@ -59,14 +53,14 @@ public class ConsentAccessToolKit {
     private CatkComponent catkComponent;
 
     public void init(CatkInputs catkInputs) {
-        catkComponent = initDaggerCoponents(catkInputs);
+        catkComponent = initDaggerComponents(catkInputs);
         CatkLogger.init();
         this.applicationName = catkInputs.getApplicationName();
         this.propositionName = catkInputs.getPropositionName();
         CatkLogger.enableLogging();
     }
 
-    private CatkComponent initDaggerCoponents(CatkInputs catkInputs) {
+    private CatkComponent initDaggerComponents(CatkInputs catkInputs) {
         return DaggerCatkComponent.builder()
                 .catkModule(new CatkModule(catkInputs.getContext(), catkInputs.getAppInfra()))
                 .userModule(new UserModule(new User(catkInputs.getContext())))

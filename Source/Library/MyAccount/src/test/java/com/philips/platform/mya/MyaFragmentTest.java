@@ -45,7 +45,6 @@ public class MyaFragmentTest {
     public void onCreate_inflatesCorrectLayout() throws Exception {
         whenCallingOnCreateView();
         thenAccountViewIsInflatedWith(R.id.mya_frame_layout_view_container);
-
     }
 
     @Test

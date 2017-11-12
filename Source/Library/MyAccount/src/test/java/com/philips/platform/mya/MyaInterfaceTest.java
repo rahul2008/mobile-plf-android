@@ -7,9 +7,15 @@
 
 package com.philips.platform.mya;
 
-import com.philips.platform.appinfra.AppInfraInterface;
+import android.content.Context;
+
+import com.philips.cdp.registration.User;
+import com.philips.platform.catk.CatkConsentAccessToolKitManipulator;
+import com.philips.platform.catk.injection.CatkComponent;
+import com.philips.platform.mya.mock.ActionBarListenerMock;
 import com.philips.platform.mya.mock.ActivityLauncherMock;
 import com.philips.platform.mya.mock.AppInfraInterfaceMock;
+import com.philips.platform.mya.mock.ContextMock;
 import com.philips.platform.mya.mock.FragmentActivityMock;
 import com.philips.platform.mya.mock.FragmentLauncherMock;
 import com.philips.platform.mya.mock.FragmentManagerMock;
@@ -18,24 +24,41 @@ import com.philips.platform.mya.mock.LaunchInputMock;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 public class MyaInterfaceTest {
 
-    //@Before
+    @Mock
+    User mockUser;
+
+    @Mock
+    private CatkComponent mockCatkComponent;
+
+    @Before
     public void setup() {
+        MockitoAnnotations.initMocks(this);
         myaInterface = new MyaInterface();
         fragmentTransaction = new FragmentTransactionMock();
         fragmentManager = new FragmentManagerMock(fragmentTransaction);
         fragmentActivity = new FragmentActivityMock(fragmentManager);
         appInfra = new AppInfraInterfaceMock();
         launchInput = new LaunchInputMock();
+        actionBarListener = new ActionBarListenerMock();
+        context = new ContextMock();
+        CatkConsentAccessToolKitManipulator.setCatkComponent(mockCatkComponent);
+        when(mockCatkComponent.getUser()).thenReturn(mockUser);
     }
 
-    //@Test
+    @Test
     public void launchWithFragmentLauncher_correctFragmentIsReplacedInContainer() {
         givenFragmentLauncher(fragmentActivity, A_SPECIFIC_CONTAINER_ID, actionBarListener);
         givenLaunchInput("applicationName1", "propositionName");
@@ -46,7 +69,7 @@ public class MyaInterfaceTest {
         thenFragmentHasBundle();
     }
 
-    //@Test
+    @Test
     public void launchWithFragmentLauncher_dontCallAddToBackStackWhenNotDemanded() {
         givenFragmentLauncher(fragmentActivity, A_SPECIFIC_CONTAINER_ID, actionBarListener);
         givenLaunchInput("applicationName1", "propositionName");
@@ -57,7 +80,7 @@ public class MyaInterfaceTest {
         thenFragmentHasBundle();
     }
 
-    //@Test
+    @Test
     public void launchWithActivityLauncher_correctFragmentIsReplacedInContainer() {
         givenActivityLauncher();
         givenLaunchInput(launchInput);
@@ -86,13 +109,13 @@ public class MyaInterfaceTest {
     }
 
     private void whenCallingLaunchWithAddToBackstack() {
-        myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(null));
+        myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(context));
         givenLaunchInput.addToBackStack(true);
         myaInterface.launch(givenUiLauncher, givenLaunchInput);
     }
 
     private void whenCallingLaunchWithoutAddToBackstack() {
-        myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(null));
+        myaInterface.init(new MyaDependencies(appInfra), new MyaSettings(context));
         givenLaunchInput.addToBackStack(false);
         myaInterface.launch(givenUiLauncher, givenLaunchInput);
     }
@@ -129,15 +152,14 @@ public class MyaInterfaceTest {
     private ActivityLauncherMock givenActivityLauncher;
     private FragmentLauncherMock givenFragmentLauncher;
     private MyaLaunchInput givenLaunchInput;
-    private MyaSettings myaSettings;
 
-    private int containerId = 12345678;
     private ActionBarListener actionBarListener;
     private FragmentActivityMock fragmentActivity;
     private FragmentTransactionMock fragmentTransaction;
     private FragmentManagerMock fragmentManager;
     private LaunchInputMock launchInput;
-    private AppInfraInterface appInfra;
+    private AppInfraInterfaceMock appInfra;
+    private Context context;
 
     private final int A_SPECIFIC_CONTAINER_ID = 12345678;
     public static final String MYAFRAGMENT = "MYAFRAGMENT";

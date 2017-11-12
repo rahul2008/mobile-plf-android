@@ -22,8 +22,6 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class CswInterface implements UappInterface {
-
-
     /**
      * Launches the CswInterface interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
      *
@@ -39,9 +37,7 @@ public class CswInterface implements UappInterface {
         }
     }
 
-    private void launchAsFragment(FragmentLauncher fragmentLauncher,
-                                  CswLaunchInput uappLaunchInput) {
-
+    private void launchAsFragment(FragmentLauncher fragmentLauncher, CswLaunchInput uappLaunchInput) {
         try {
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
                     getSupportFragmentManager();
@@ -63,12 +59,11 @@ public class CswInterface implements UappInterface {
         } catch (IllegalStateException ignore) {
 
         }
-
     }
 
     private void launchAsActivity(ActivityLauncher uiLauncher, CswLaunchInput uappLaunchInput) {
         if (null != uiLauncher && uappLaunchInput != null) {
-            Intent cswIntent = new Intent(((CswLaunchInput) uappLaunchInput).getContext(), CswActivity.class);
+            Intent cswIntent = new Intent(uappLaunchInput.getContext(), CswActivity.class);
             cswIntent.putExtra(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, uappLaunchInput.getApplicationName());
             cswIntent.putExtra(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, uappLaunchInput.getPropositionName());
             cswIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
@@ -84,9 +79,8 @@ public class CswInterface implements UappInterface {
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-
         initConsentToolKit(uappDependencies, uappSettings);
-        cswComponent = initDaggerCoponents(uappDependencies, uappSettings);
+        cswComponent = initDaggerComponents(uappDependencies, uappSettings);
         CswLogger.init();
         CswLogger.enableLogging();
     }
@@ -100,7 +94,7 @@ public class CswInterface implements UappInterface {
         ConsentAccessToolKit.getInstance().init(catkInputs);
     }
 
-    private CswComponent initDaggerCoponents(UappDependencies uappDependencies, UappSettings uappSettings) {
+    private CswComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
         return DaggerCswComponent.builder()
                 .cswModule(new CswModule(uappSettings.getContext()))
                 .appInfraModule(new AppInfraModule(uappDependencies.getAppInfra())).build();
@@ -111,6 +105,4 @@ public class CswInterface implements UappInterface {
     }
 
     private static CswComponent cswComponent;
-
-
 }

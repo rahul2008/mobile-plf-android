@@ -18,8 +18,6 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.csw.CswInterface;
-import com.philips.platform.csw.CswLaunchInput;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -27,8 +25,7 @@ import com.philips.platform.uid.utils.UIDActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MyAccountActivity extends UIDActivity implements OnClickListener,
-        ActionBarListener {
+public class MyAccountActivity extends UIDActivity implements OnClickListener, ActionBarListener {
 
     final String iconFontAssetName = "PUIIcon.ttf";
 
@@ -42,33 +39,20 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener,
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
 
-
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
             applicationName = bundle.getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
             propositionName = bundle.getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
-
-/*            int orientation = 0;
-            if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-            } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-            }*/
         }
 
         setContentView(R.layout.mya_activity_account);
 
-        ivBack = (TextView) findViewById(R.id.mya_textview_back);
+        ivBack = findViewById(R.id.mya_textview_back);
         FontLoader.getInstance().setTypeface(ivBack, iconFontAssetName);
         ivBack.setText(com.philips.cdp.registration.R.string.ic_reg_left);
         ivBack.setOnClickListener(this);
         initUI();
-
     }
 
     @Override
@@ -92,16 +76,14 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener,
 
     @Override
     public void onBackPressed() {
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager
                 .findFragmentById(R.id.mya_frame_layout_fragment_container);
         if (fragment != null && fragment instanceof BackEventListener) {
             boolean isConsumed = ((BackEventListener) fragment).handleBackEvent();
-            if (isConsumed)
-                return;
-
-            super.onBackPressed();
+            if (!isConsumed) {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -120,16 +102,6 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener,
         myaInterface.launch(fragmentLauncher, myaLaunchInput);
     }
 
-
-    private void launchCswFragment() {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput();
-        FragmentLauncher fragmentLauncher = new FragmentLauncher
-                (this, R.id.mya_frame_layout_fragment_container, this);
-        CswInterface cswInterface = new CswInterface();
-        cswInterface.launch(fragmentLauncher, cswLaunchInput);
-    }
-
-
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.mya_textview_back) {
@@ -139,7 +111,7 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener,
 
     @Override
     public void updateActionBar(int titleResourceID, boolean isShowBack) {
-        TextView tvTitle = ((TextView) findViewById(R.id.mya_textview_header_title));
+        TextView tvTitle = findViewById(R.id.mya_textview_header_title);
         tvTitle.setText(getString(titleResourceID));
         if (isShowBack) {
             ivBack.setVisibility(View.VISIBLE);
@@ -150,7 +122,7 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener,
 
     @Override
     public void updateActionBar(String titleResourceText, boolean isShowBack) {
-        TextView tvTitle = ((TextView) findViewById(R.id.mya_textview_header_title));
+        TextView tvTitle = findViewById(R.id.mya_textview_header_title);
         tvTitle.setText(titleResourceText);
         if (isShowBack) {
             ivBack.setVisibility(View.VISIBLE);

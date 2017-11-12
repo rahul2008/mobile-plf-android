@@ -47,14 +47,13 @@ public class AccountView extends MyaBaseFragment implements
         return view;
     }
 
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         accountPresenter = new AccountPresenter(this, getContext());
 
-        myaFragmentLaunch = (Button) getView().findViewById(R.id.mya_account_permissions);
+        myaFragmentLaunch = getView().findViewById(R.id.mya_account_permissions);
         myaFragmentLaunch.setOnClickListener(this);
     }
 
@@ -64,6 +63,4 @@ public class AccountView extends MyaBaseFragment implements
             getMyaFragment().launchCswFragment();
         }
     }
-
-
 }

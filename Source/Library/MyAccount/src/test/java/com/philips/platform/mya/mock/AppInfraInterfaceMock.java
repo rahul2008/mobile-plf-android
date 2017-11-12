@@ -23,6 +23,11 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 
 public class AppInfraInterfaceMock implements AppInfraInterface {
+    private LoggingInterface loggingInterface;
+
+    public AppInfraInterfaceMock() {
+        loggingInterface = new LoggingInterfaceMock();
+    }
 
     @Override
     public SecureStorageInterface getSecureStorage() {
@@ -41,7 +46,7 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
 
     @Override
     public LoggingInterface getLogging() {
-        return null;
+        return loggingInterface;
     }
 
     @Override

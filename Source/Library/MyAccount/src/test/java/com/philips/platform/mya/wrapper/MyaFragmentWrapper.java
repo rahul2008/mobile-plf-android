@@ -18,5 +18,4 @@ public class MyaFragmentWrapper extends MyaFragment {
     protected FragmentActivity overridableGetActivity() {
         return fragmentActivity;
     }
-
 }
