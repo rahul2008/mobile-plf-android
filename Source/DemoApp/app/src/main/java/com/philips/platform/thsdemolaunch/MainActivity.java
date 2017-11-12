@@ -168,7 +168,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input", this);
         PTHMicroAppInterface = new THSMicroAppInterfaceImpl();
 
-        Drawable drawable = getResources().getDrawable(R.drawable.ths_welcome);
+        Drawable drawable = getResources().getDrawable(R.drawable.ths_welcome,getTheme());
         BitmapDrawable bitmapDrawable = ((BitmapDrawable) drawable);
         Bitmap bitmap = bitmapDrawable.getBitmap();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
