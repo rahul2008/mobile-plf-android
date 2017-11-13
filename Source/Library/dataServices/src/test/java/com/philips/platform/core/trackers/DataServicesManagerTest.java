@@ -561,4 +561,10 @@ public class DataServicesManagerTest {
         tracker.getPairedDevices(null);
         verify(eventingMock).post(any(GetPairedDeviceRequestEvent.class));
     }
+
+    @Test
+    public void synchronize_deletesExpiredMoments() {
+        tracker.synchronize();
+        verify(eventingMock).post(any(DeleteExpiredMomentRequest.class));
+    }
 }

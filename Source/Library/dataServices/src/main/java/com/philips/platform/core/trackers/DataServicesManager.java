@@ -245,6 +245,7 @@ public class DataServicesManager {
      * For Pulling and Pushing of data from DataBase to Backend
      */
     public void synchronize() {
+        clearExpiredMoments(null);
         sendPullDataEvent();
     }
 
