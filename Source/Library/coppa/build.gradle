@@ -129,7 +129,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules-cop.pro'
         }
         debug {
             debuggable true
@@ -168,8 +168,9 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
 	
-	def dp = project.ext.has('useprojectdependencies')	
+	def dp = project.ext.has('useprojectdependencies')
     compile(dp ? project(':usr') : project(':RegistrationApi'))
+
 	
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:multidex:1.0.1'

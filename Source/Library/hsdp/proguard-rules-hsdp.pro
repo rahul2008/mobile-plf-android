@@ -16,4 +16,5 @@
 #   public *;
 #}
 
--keep public class com.philips.cdp.registration.coppa.** {*;}
+#HSDP Lib
+-keep  class com.philips.dhpclient.** {*;}

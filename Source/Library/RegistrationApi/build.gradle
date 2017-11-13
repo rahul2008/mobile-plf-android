@@ -176,7 +176,8 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules-usr.pro'
+            proguardFiles 'proguard-rules-usr.pro'
         }
 
         debug {
