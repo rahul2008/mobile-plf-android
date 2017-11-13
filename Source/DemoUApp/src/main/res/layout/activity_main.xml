@@ -8,6 +8,7 @@
 
     <com.philips.platform.uid.view.widget.NavigationContainer
         android:layout_width="match_parent"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
         android:layout_height="match_parent">
 
         <LinearLayout

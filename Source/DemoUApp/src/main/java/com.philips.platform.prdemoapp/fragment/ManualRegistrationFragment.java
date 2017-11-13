@@ -83,7 +83,7 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
             Date mDisplayDate;
             Date mDeviceDate;
             try {
-                final String text = arg1 + "-" + mMonth + "-" + mDate;
+                final String text =   mDate + "-" + mMonth + "-" +arg1;
                 mDisplayDate = dateFormat.parse(text);
                 mDeviceDate = dateFormat.parse(mGetDeviceDate);
                 if (mDisplayDate.after(mDeviceDate)) {

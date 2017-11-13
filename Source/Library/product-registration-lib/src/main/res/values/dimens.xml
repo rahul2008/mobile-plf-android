@@ -50,4 +50,6 @@
     <dimen name="theme_settings_pagemargin">48dp</dimen>
     <dimen name="prg_serial_number_size">12sp</dimen>
     <dimen name="button_layout_divider">1dp</dimen>
+    <dimen name="pr_margin_8dp">8dp</dimen>
+
 </resources>
