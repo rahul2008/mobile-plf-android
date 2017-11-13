@@ -8,4 +8,10 @@ public class CatkConsentAccessToolKitManipulator {
         ConsentAccessToolKit.setInstance(consentAccessToolKitMock);
         consentAccessToolKitMock.setCatkComponent(catkComponent);
     }
+
+    public static void clearCatkComponent() {
+        ConsentAccessToolKit consentAccessToolKitMock = ConsentAccessToolKit.getInstance();
+        ConsentAccessToolKit.setInstance(null);
+        consentAccessToolKitMock.setCatkComponent(null);
+    }
 }

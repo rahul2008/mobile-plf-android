@@ -16,5 +16,4 @@ public class NetworkHelperManipulator {
     public static void setNetworkController(NetworkController networkController) {
         NetworkHelper.getInstance().setNetworkController(networkController);
     }
-
 }
