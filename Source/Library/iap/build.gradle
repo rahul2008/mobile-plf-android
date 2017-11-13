@@ -177,10 +177,15 @@ android {
 
     buildTypes {
         release {
+<<<<<<< HEAD
             //minifyEnabled true
             consumerProguardFiles 'proguard-rules-iap.pro'
             //proguardFiles 'proguard-rules-iap.pro'
             //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules-iap.pro'
+=======
+            minifyEnabled false
+            proguardFiles 'proguard-rules.pro'
+>>>>>>> develop
         }
         debug {
             debuggable true
