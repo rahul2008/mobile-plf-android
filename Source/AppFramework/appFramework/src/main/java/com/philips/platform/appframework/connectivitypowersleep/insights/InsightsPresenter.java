@@ -10,13 +10,19 @@ package com.philips.platform.appframework.connectivitypowersleep.insights;
 
 import android.content.Context;
 
+import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.trackers.DataServicesManager;
 
-public class InsightsPresenter implements InsightsContract.Action {
+import java.util.List;
+
+public class InsightsPresenter implements InsightsContract.Action, DBFetchRequestListner {
 
     private InsightsContract.View view;
 
     private Context context;
+
+    private static final String TAG = InsightsPresenter.class.getSimpleName();
 
     public InsightsPresenter(InsightsContract.View view, Context appContext) {
         this.view=view;
@@ -30,8 +36,22 @@ public class InsightsPresenter implements InsightsContract.Action {
 
     @Override
     public void loadInsights(DataServicesManager dataServicesManager) {
-
+        view.showProgressBar();
+        dataServicesManager.fetchInsights(this);
     }
 
 
+    @Override
+    public void onFetchSuccess(List list) {
+        RALog.d(TAG, "onFetchSuccess : " + list.size());
+        view.hideProgressBar();
+        view.onInsightLoadSuccess(list);
+    }
+
+    @Override
+    public void onFetchFailure(Exception e) {
+        RALog.d(TAG, "onFetchFailure : " + e.getMessage());
+        view.hideProgressBar();
+        view.onInsightLoadError(e.getMessage());
+    }
 }

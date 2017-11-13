@@ -18,12 +18,25 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 import java.util.ArrayList;
 
 public class InsightsAdapter extends RecyclerView.Adapter<InsightsAdapter.InsightsInfoViewHolder> {
+
+    interface InsightItemClickListener {
+        void onInsightsItemClicked(String momentId);
+    }
+
     public static final String TAG =InsightsAdapter.class.getSimpleName();
 
     private ArrayList<String> insightsTitleItemList = null;
     private ArrayList<String> insightsDescItemList = null;
     private Context context;
+    private InsightItemClickListener insightItemClickListener;
 
+    public void setInsightItemClickListener(InsightItemClickListener insightItemClickListener) {
+        this.insightItemClickListener = insightItemClickListener;
+    }
+
+    public void removeInsightItemClickListener() {
+        this.insightItemClickListener = null;
+    }
 
     public InsightsAdapter(Context context, ArrayList<String> insightsTitleItemList, ArrayList<String> insightsDescItemList) {
         this.insightsTitleItemList = insightsTitleItemList;
@@ -43,6 +56,7 @@ public class InsightsAdapter extends RecyclerView.Adapter<InsightsAdapter.Insigh
         RALog.d(TAG, " onBindViewHolder called  ");
         holder.tvTitle.setText(insightsTitleItemList.get(position));
         holder.tvDetail.setText(insightsDescItemList.get(position));
+        holder.tvTitle.setTag("momentId");
     }
 
     @Override
@@ -60,6 +74,15 @@ public class InsightsAdapter extends RecyclerView.Adapter<InsightsAdapter.Insigh
             super(itemView);
             tvDetail = (TextView) itemView.findViewById(R.id.tips_detail);
             tvTitle = (TextView) itemView.findViewById(R.id.tips_title);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (insightItemClickListener != null) {
+                        insightItemClickListener.onInsightsItemClicked((String) tvTitle.getTag());
+                    }
+                }
+            });
         }
     }
 
