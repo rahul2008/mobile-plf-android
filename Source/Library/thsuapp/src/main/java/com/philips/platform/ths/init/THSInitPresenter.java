@@ -172,7 +172,10 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     public void onLoginResponse(THSAuthentication thsAuthentication, THSSDKError sdkError) {
 
         if (sdkError.getSdkError() != null && sdkError.getHttpResponseCode() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
-            if (checkIfRefreshTokenWasTriedBefore()) return;
+            if (checkIfRefreshTokenWasTriedBefore()) {
+                mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_user_not_authenticated));
+                return;
+            }
             isRefreshTokenRequestedBefore = true;
             refreshToken();
             return;

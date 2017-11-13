@@ -90,8 +90,8 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
         else {
             thsFollowUpViewInterfaces.hideProgressButton();
             //update singleton THSManager THSConsumer member
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step5PhoneNumberAdded");
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "TImePrepareYourVisit", THSTagUtils.getVisitPrepareTime(THSSymptomsFragment.visitStartTime));
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step5PhoneNumberAdded");
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "TImePrepareYourVisit", THSTagUtils.getVisitPrepareTime(THSSymptomsFragment.visitStartTime));
             THSManager.getInstance().setPTHConsumer(thsConsumer);
             if (THSManager.getInstance().isMatchMakingVisit()) { // if DOD flow
                 thsFollowUpViewInterfaces.showProviderDetailsFragment();

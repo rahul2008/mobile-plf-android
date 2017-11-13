@@ -26,6 +26,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
+import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
@@ -37,10 +38,12 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,6 +65,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+@RunWith(CustomRobolectricRunnerAmwel.class)
 public class THSInitPresenterTest {
 
     @Mock
@@ -268,6 +272,9 @@ public class THSInitPresenterTest {
 
     @Test
     public void onLoginResponseisRefreshTokenRequestedBeforetrue() throws Exception {
+        THSInitFragment mTHSInitFragmentTest = new THSInitFragmentTestMock();
+        SupportFragmentTestUtil.startFragment(mTHSInitFragmentTest);
+        mThsInitPresenter = new THSInitPresenter(mTHSInitFragmentTest);
         mThsInitPresenter.isRefreshTokenRequestedBefore = true;
         when(THSAuthenticationMock.getAuthentication()).thenReturn(authenticationMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
@@ -275,7 +282,7 @@ public class THSInitPresenterTest {
         when(sdkErrorMock.getHttpResponseCode()).thenReturn(401);
         when(thssdkErrorMock.getHttpResponseCode()).thenReturn(401);
         mThsInitPresenter.onLoginResponse(THSAuthenticationMock, thssdkErrorMock);
-        verifyNoMoreInteractions(userMock);
+        verify(userMock).isUserSignIn();
     }
 
     @Test

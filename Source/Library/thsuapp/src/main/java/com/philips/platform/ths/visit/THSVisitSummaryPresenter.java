@@ -16,6 +16,7 @@ import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 
 import java.util.HashMap;
 
@@ -63,14 +64,14 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
                 HashMap<String, String > map = new HashMap<String, String >();
                 map.put("ratingType","doctor");
                 map.put("rating",""+providerRatingInt);
-                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,map);
+                THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,map);
             }
             int visitRatingInt = Math.round(visitRating);
             if(visitRatingInt>0){
                 HashMap<String, String > map = new HashMap<String, String >();
                 map.put("ratingType","overallExperience");
                 map.put("rating",""+visitRatingInt);
-                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,map);
+                THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,map);
             }
             THSManager.getInstance().sendRatings(mTHSVisitSummaryFragment.getFragmentActivity(), mTHSVisitSummaryFragment.mVisit, providerRatingInt, visitRatingInt, this);
         } catch (AWSDKInstantiationException e) {

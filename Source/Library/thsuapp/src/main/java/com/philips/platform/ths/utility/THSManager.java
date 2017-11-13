@@ -158,6 +158,11 @@ public class THSManager {
     private THSConsumer mThsParentConsumer;
     private boolean mIsReturningUser = true;
     private String ServerURL=null;
+    private String mCountry="";
+
+    public String getCountry() {
+        return mCountry;
+    }
 
     public String getServerURL() {
         return ServerURL;
@@ -376,8 +381,9 @@ public class THSManager {
     public User getUser(Context context) {
         if(TEST_FLAG){
             return mUser;
+        }else {
+            return new User(context);
         }
-        return new User(context);
     }
 
     public void enrollConsumer(final Context context, Date dateOfBirth, String firstName, String lastName, Gender gender, final State state, final THSSDKValidatedCallback<THSConsumerWrapper, SDKError> thssdkValidatedCallback) throws AWSDKInstantiationException {
@@ -487,9 +493,11 @@ public class THSManager {
        /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://stagingOC169.mytelehealth.com");
         initParams.put(AWSDK.InitParam.ApiKey, "dc573250"); //client key*/
 
+        //This is required to be reset in case of logout login case
+        updateParentConsumer(context);
+
         AppConfigurationInterface.AppConfigurationError getConfigError= new AppConfigurationInterface.AppConfigurationError();
         final String APIKey = (String) getAppInfra().getConfigInterface().getPropertyForKey("apiKey","ths",getConfigError);
-
         getAppInfra().getServiceDiscovery().getServiceUrlWithCountryPreference(THS_SDK_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
@@ -1458,6 +1466,7 @@ public class THSManager {
         this.mAppInfra = mAppInfra;
         this.mAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME);// initialize tagging for ths
         this.mLoggingInterface = mAppInfra.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME);
+        this.mCountry = getAppInfra().getServiceDiscovery().getHomeCountry();
     }
 
     //TODO : error code :No enum sent by amwell for sdkerror code handling
@@ -1653,5 +1662,16 @@ public class THSManager {
     public void setThsParentConsumer(THSConsumer mThsParentConsumer) {
         this.mThsParentConsumer = mThsParentConsumer;
         this.mThsConsumer = mThsParentConsumer;
+    }
+
+    public void updateParentConsumer(Context context){
+        final User user = getUser(context);
+        getThsParentConsumer(context).setDob(user.getDateOfBirth());
+        getThsParentConsumer(context).setEmail(user.getEmail());
+        getThsParentConsumer(context).setFirstName(user.getGivenName());
+        getThsParentConsumer(context).setGender(com.philips.cdp.registration.ui.utils.Gender.FEMALE);
+        getThsParentConsumer(context).setHsdoToken(user.getHsdpAccessToken());
+        getThsParentConsumer(context).setLastName(user.getFamilyName());
+        getThsParentConsumer(context).setHsdpUUID(user.getHsdpUUID());
     }
 }

@@ -18,6 +18,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -80,22 +81,18 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_WAITING, null, null);
 
         THSManager.getInstance().getThsTagging().trackTimedActionEnd("totalPreparationTimePreVisit");
-        THSManager.getInstance().getThsTagging().trackActionWithInfo( "totalPrepartationTimeEnd",null,null);
+        THSTagUtils.doTrackActionWithInfo( "totalPrepartationTimeEnd",null,null);
 
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "waitInLineInstantAppointment");
+        THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "waitInLineInstantAppointment");
 
         THSManager.getInstance().getThsTagging().trackTimedActionStart("totalWaitingTimeInstantAppointment");
-        THSManager.getInstance().getThsTagging().trackActionWithInfo( "waitingTimeStartForInstantAppointment",null,null);
+        THSTagUtils.doTrackActionWithInfo( "waitingTimeStartForInstantAppointment",null,null);
     }
 
     protected void doTaggingUponStopWaiting() {
         THSManager.getInstance().getThsTagging().trackTimedActionEnd("totalWaitingTimeInstantAppointment");
-        THSManager.getInstance().getThsTagging().trackActionWithInfo( "waitingTimeEndForInstantAppointment",null,null);
-
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "completeWaitingInstantAppointment");
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VIDEO_CALL, null, null);
-        //THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,"waitingTimeInstantAppointment",THSTagUtils.getVisitPrepareTime(mTHSWaitingRoomFragment.waitingPeriodStartTime));
-    }
+        THSTagUtils.doTrackActionWithInfo( "waitingTimeEndForInstantAppointment",null,null);
+  }
 
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
@@ -135,6 +132,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
             addFragment(thsVisitSummaryFragment, THSVisitSummaryFragment.TAG, bundle, true);
         } else {
             // video call does completed succesfully so sending back user is
+            doTaggingUponStopWaiting();
             THSManager.getInstance().setVisitContext(null);
             THSManager.getInstance().setMatchMakingVisit(false);
             getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);

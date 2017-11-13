@@ -17,6 +17,7 @@ import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
@@ -114,9 +115,9 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
         //
         Fragment mFragment = getFragmentManager().findFragmentByTag(THSWelcomeBackFragment.TAG);
         if (mFragment instanceof THSWelcomeBackFragment){
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,THS_VIDEO_CALL_ENDS);
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,THS_VIDEO_CALL_ENDS);
         }else{
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"completeInstantAppointment");
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"completeInstantAppointment");
 
         }
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VISIT_SUMMARY,null,null);
