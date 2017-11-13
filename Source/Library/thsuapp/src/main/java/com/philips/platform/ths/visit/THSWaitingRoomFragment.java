@@ -133,8 +133,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         } else {
             // video call does completed succesfully so sending back user is
             doTaggingUponStopWaiting();
-            THSManager.getInstance().setVisitContext(null);
-            THSManager.getInstance().setMatchMakingVisit(false);
+            THSManager.getInstance().resetTHSManagerData();
             getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
         }
     }

@@ -23,7 +23,6 @@ import com.philips.platform.ths.intake.THSSDKValidatedCallback;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.HashMap;
@@ -87,37 +86,47 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
         try {
             ///////validate
 
-            ((THSInsuranceDetailFragment) mTHSBaseFragment).showProgressbar();
+
             THSSubscriptionUpdateRequest thsSubscriptionUpdateRequest = getSubscriptionUpdateRequestWithoutVistContext();
             final Subscription subscription = thsSubscriptionUpdateRequest.getSubscriptionUpdateRequest().getSubscription();
             subscription.setHealthPlan(healthPlan);
-            subscription.setSubscriberId(subscriberId);
-            if (healthPlan.isUsesSuffix()) {
-                subscription.setSubscriberSuffix(suffix);
-            }
-            subscription.setRelationship(relationship);
-            if (!relationship.isPrimarySubscriber()) {
-                subscription.setPrimarySubscriberFirstName(firstName);
-                subscription.setPrimarySubscriberLastName(lastName);
-                subscription.setPrimarySubscriberDateOfBirth(SDKLocalDate.valueOf((dob)));
-            }
-            Map<String, ValidationReason> errors = new HashMap<>();
-            THSManager.getInstance().validateSubscriptionUpdateRequest(mTHSBaseFragment.getFragmentActivity(), thsSubscriptionUpdateRequest, errors);
-            if (errors.isEmpty()) {
-                updateInsurance(thsSubscriptionUpdateRequest);
+            if (null == healthPlan) {
+                ((THSInsuranceDetailFragment) mTHSBaseFragment).doTagging(ANALYTICS_UPDATE_HEALTH_PLAN, "Please select Insurance", false);
+                ((THSInsuranceDetailFragment) mTHSBaseFragment).showError(((THSInsuranceDetailFragment) mTHSBaseFragment).getString(R.string.ths_insurance_please_select_insurance));
+                return;
             } else {
-                mTHSBaseFragment.hideProgressBar();
-                AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
-                //showInsuranceNotVerifiedDialog();
-                String missingFields = "";
-                Iterator<Map.Entry<String, ValidationReason>> it = errors.entrySet().iterator();
-                while (it.hasNext()) {
-                    Map.Entry pair = (Map.Entry) it.next();
-                    String[] array = pair.getKey().toString().split("\\.");
-                    missingFields = missingFields + array[array.length - 1] + "     ";
-                    it.remove(); // avoids a ConcurrentModificationException
+                subscription.setSubscriberId(subscriberId);
+                if (healthPlan.isUsesSuffix()) {
+                    subscription.setSubscriberSuffix(suffix);
                 }
-                mTHSBaseFragment.showToast(missingFields + " Field(s) Required");
+                subscription.setRelationship(relationship);
+                if (!relationship.isPrimarySubscriber()) {
+                    subscription.setPrimarySubscriberFirstName(firstName);
+                    subscription.setPrimarySubscriberLastName(lastName);
+                    subscription.setPrimarySubscriberDateOfBirth(SDKLocalDate.valueOf((dob)));
+                }
+                Map<String, ValidationReason> errors = new HashMap<>();
+                THSManager.getInstance().validateSubscriptionUpdateRequest(mTHSBaseFragment.getFragmentActivity(), thsSubscriptionUpdateRequest, errors);
+                if (errors.isEmpty()) {
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).showProgressbar();
+                    updateInsurance(thsSubscriptionUpdateRequest);
+                } else {
+                    mTHSBaseFragment.hideProgressBar();
+                    AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+                    //showInsuranceNotVerifiedDialog();
+                    String missingFields = "";
+                    Iterator<Map.Entry<String, ValidationReason>> it = errors.entrySet().iterator();
+                    while (it.hasNext()) {
+                        Map.Entry pair = (Map.Entry) it.next();
+                        String[] array = pair.getKey().toString().split("\\.");
+                        missingFields = missingFields + array[array.length - 1] + "     ";
+                        it.remove(); // avoids a ConcurrentModificationException
+                    }
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).doTagging(ANALYTICS_UPDATE_HEALTH_PLAN, missingFields + "required", false);
+                    mTHSBaseFragment.showError(missingFields + ((THSInsuranceDetailFragment) mTHSBaseFragment).getString(R.string.ths_insurance_fields_required));
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
+                    return;
+                }
             }
         } catch (Exception e) {
             mTHSBaseFragment.hideProgressBar();
@@ -161,7 +170,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             mTHSBaseFragment.hideProgressBar();
             if (null != tHSSDKError.getSdkError()) {
-                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_FETCH_HEALTH_SUBSCRIPTION,tHSSDKError.getSdkError()),true);
+                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_FETCH_HEALTH_SUBSCRIPTION, tHSSDKError.getSdkError()), true);
             } else {
                 ((THSInsuranceDetailFragment) mTHSBaseFragment).thsSubscriptionExisting = tHSSubscription;
                 Subscription subscription = tHSSubscription.getSubscription();
@@ -203,7 +212,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
                     if (subscription.getPrimarySubscriberDateOfBirth() != null) {
                         ((THSInsuranceDetailFragment) mTHSBaseFragment).relationDOBEditBox.setText(subscription.getPrimarySubscriberDateOfBirth().toString());
                     }
-                }else{
+                } else {
                     setPrimarySubscriber();// in first run
                 }
 
@@ -211,7 +220,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
         }
     }
 
-    private void setPrimarySubscriber(){
+    private void setPrimarySubscriber() {
         ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberCheckBox.setChecked(false);
         ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberRelativeLayout.setVisibility(View.GONE);
     }
@@ -243,7 +252,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
             mTHSBaseFragment.hideProgressBar();
             if (null != sdkError) {
                 if (null != sdkError.getSDKErrorReason()) {
-                    mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPDATE_HEALTH_PLAN,sdkError));
+                    mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPDATE_HEALTH_PLAN, sdkError));
                 }
             } else {
                 showCostSummaryFragment();
