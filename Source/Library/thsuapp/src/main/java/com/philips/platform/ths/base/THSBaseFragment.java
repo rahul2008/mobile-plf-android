@@ -290,7 +290,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 fragmentManager.popBackStack(THSInitFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
-        THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,"exitToUgrow","toUgrowPage");
+        THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,"exitToPropositon","toUgrowPage");
         if (THSManager.getInstance().getThsVisitCompletionListener() != null) {
             THSManager.getInstance().getThsVisitCompletionListener().onTHSVisitComplete(isSuccess);
         }
