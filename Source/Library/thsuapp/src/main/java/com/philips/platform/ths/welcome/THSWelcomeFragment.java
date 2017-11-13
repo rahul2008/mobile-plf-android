@@ -110,8 +110,7 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         // exit from THS, collect tagging data
         if(null!=THSManager.getInstance() ) {
             THSManager.getInstance().getThsTagging().pauseLifecycleInfo();
-            THSManager.getInstance().setVisitContext(null);
-            THSManager.getInstance().setMatchMakingVisit(false);
+            THSManager.getInstance().resetTHSManagerData();
         }
     }
 }

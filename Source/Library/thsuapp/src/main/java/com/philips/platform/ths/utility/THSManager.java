@@ -260,8 +260,9 @@ public class THSManager {
 
     }
 
-    public void resetTHSManager(){
-        sTHSManager = null;
+    public void resetTHSManagerData(){
+         setVisitContext(null);
+         setMatchMakingVisit(false);
     }
 
 

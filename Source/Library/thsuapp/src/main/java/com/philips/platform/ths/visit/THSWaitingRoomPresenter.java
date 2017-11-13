@@ -212,8 +212,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
                 // must  be cancel visit call back
                 THSTagUtils.doTrackActionWithInfo("waitingTimeEndForInstantAppointment", null, null);
                 THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "videoVisitCancelledAtQueue");
-                THSManager.getInstance().setVisitContext(null);
-                THSManager.getInstance().setMatchMakingVisit(false);
+                THSManager.getInstance().resetTHSManagerData();
                 abondonCurrentVisit();
             }
         }
