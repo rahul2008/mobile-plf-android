@@ -28,10 +28,10 @@ public class UCoreAccessProvider implements BackendIdProvider {
     public static final String MOMENT_LAST_SYNC_URL_KEY = "MOMENT_LAST_SYNC_URL_KEY";
     public static final String INSIGHT_LAST_SYNC_URL_KEY = "INSIGHT_LAST_SYNC_URL_KEY";
 
-    private static final String START_DATE = "START_DATE";
-    private static final String END_DATE = "END_DATE";
-    private static final String LAST_MODIFIED_START_DATE = "LAST_MODIFIED_START_DATE";
-    private static final String LAST_MODIFIED_END_DATE = "LAST_MODIFIED_END_DATE";
+    private static final String START_DATE = "timestampStart";
+    private static final String END_DATE = "timestampEnd";
+    private static final String LAST_MODIFIED_START_DATE = "lastModifiedStart";
+    private static final String LAST_MODIFIED_END_DATE = "lastModifiedEnd";
 
     @Inject
     SharedPreferences sharedPreferences;
@@ -100,11 +100,11 @@ public class UCoreAccessProvider implements BackendIdProvider {
         if (syncUrl != null && !syncUrl.isEmpty()) {
             int indexOf = syncUrl.indexOf('?');
             syncUrl = syncUrl.substring(indexOf + 1);
-            String[] timestamp = syncUrl.split("&");
-            timeStampMap.put(START_DATE, timestamp[0].split("=")[1]);
-            timeStampMap.put(END_DATE, timestamp[1].split("=")[1]);
-            timeStampMap.put(LAST_MODIFIED_START_DATE, timestamp[2].split("=")[1]);
-            timeStampMap.put(LAST_MODIFIED_END_DATE, timestamp[3].split("=")[1]);
+            String[] timestampPair = syncUrl.split("&");
+            for (String timestamp : timestampPair) {
+                int index = timestamp.indexOf("=");
+                timeStampMap.put(timestamp.substring(0, index), timestamp.substring(index + 1));
+            }
         }
         return timeStampMap;
     }

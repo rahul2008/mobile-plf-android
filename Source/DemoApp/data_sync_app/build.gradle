@@ -173,7 +173,7 @@ android {
     This defined for signing the apk -- start
      */
     def Properties props = new Properties()
-    println  "  projectDir:   "+ project.projectDir;
+    println "  projectDir:   " + project.projectDir;
     def propFile = new File("${project.projectDir}/signing.properties")
     if (propFile.canRead()) {
         props.load(new FileInputStream(propFile))
@@ -235,6 +235,10 @@ configurations.all {
 }
 
 dependencies {
+    //Coco
+    def dp = project.ext.has('useprojectdependencies')
+    def usrUAppModule = module(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(dp ? project(':usrUApp') : usrUAppModule)
     //Android Support Libraries
     compile 'com.android.support:support-annotations:26.0.2'
     compile 'com.android.support:customtabs:26.0.2'
@@ -248,11 +252,6 @@ dependencies {
 
     //Debug
     debugCompile 'com.facebook.stetho:stetho:1.2.0'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-
-
-    //Release
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 
     //Test
     testCompile 'org.mockito:mockito-core:1.10.19'

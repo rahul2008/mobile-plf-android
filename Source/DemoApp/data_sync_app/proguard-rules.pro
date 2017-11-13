@@ -339,3 +339,6 @@ public static <fields>;
 
 #Secure DB
 -keep public class com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper.**{ public *;}
+
+# from dagger.android.DispatchingAndroidInjector
+-dontwarn com.google.errorprone.annotations.*

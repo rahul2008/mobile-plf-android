@@ -8,190 +8,267 @@ package cdp.philips.com.mydemoapp;
 import android.content.SharedPreferences;
 import android.support.multidex.MultiDexApplication;
 
-import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.ui.utils.URDependancies;
-import com.philips.cdp.registration.ui.utils.URInterface;
-import com.philips.cdp.registration.ui.utils.URSettings;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
-import com.squareup.leakcanary.LeakCanary;
+import com.philips.platform.uappframework.UappInterface;
+import com.philips.platform.urdemo.URDemouAppDependencies;
+import com.philips.platform.urdemo.URDemouAppInterface;
+import com.philips.platform.urdemo.URDemouAppSettings;
 
-import java.util.ArrayList;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_SECRET;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_SHARED;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
 
 public class DemoApplication extends MultiDexApplication {
-    public static AppInfraInterface gAppInfra;
-    public static LoggingInterface loggingInterface;
-    private AppConfigurationInterface.AppConfigurationError configError;
-    final String AI = "appinfra";
+    private static final String CHINA_CODE = "CN";
+    private static final String DEFAULT = "default";
+    private static final String URL_ENCODING = "UTF-8";
+    public AppInfraInterface mAppInfraInterface;
 
     @Override
     public void onCreate() {
         super.onCreate();
         initAppInfra();
 
-        initializeUserRegistrationLibrary(Configuration.STAGING);
-        initHSDP();
+        SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+        String restoredText = prefs.getString("reg_environment", null);
+        if (restoredText != null) {
+            String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
+            if (restoredHSDPText != null && restoredHSDPText.equalsIgnoreCase(restoredText)) {
+                initHSDP(RegUtility.getConfiguration(restoredText));
+            } else {
+                clearHSDP();
+            }
+            initRegistration(RegUtility.getConfiguration(restoredText));
+        } else {
+            initHSDP(Configuration.DEVELOPMENT);
+            initRegistration(Configuration.DEVELOPMENT);
+        }
 
         if (new User(this).isUserSignIn()) {
             SyncScheduler.getInstance().scheduleSync();
         }
-
-        LeakCanary.install(this);
     }
 
     private void initAppInfra() {
-        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
-        configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
+        mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
     }
 
-    /**
-     * For doing dynamic initialisation Of User registration
-     *
-     * @param configuration The environment ype as required by UR
-     */
-    public void initializeUserRegistrationLibrary(Configuration configuration) {
-        final String UR = "UserRegistration";
-
-        AppConfigurationInterface.AppConfigurationError configError = new
+    private void clearHSDP() {
+        AppConfigurationInterface anInterface = mAppInfraInterface.getConfigInterface();
+        final AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        gAppInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.DEVELOPMENT
-                , UR,
-                "8kaxdrpvkwyr7pnp987amu4aqb4wmnte",
-                configError);
-        gAppInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.TESTING
-                , UR,
-                "g52bfma28yjbd24hyjcswudwedcmqy7c",
-                configError);
-        gAppInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.EVALUATION
-                , UR,
-                "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
-                configError);
-        gAppInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.STAGING
-                , UR,
-                "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
-                configError);
-        gAppInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.PRODUCTION
-                , UR,
-                "9z23k3q8bhqyfwx78aru6bz8zksga54u",
-                configError);
 
+        anInterface.setPropertyForKey(HSDP_CONFIGURATION_APPLICATION_NAME,
+                UR, null, configError);
 
-        gAppInfra.getConfigInterface().setPropertyForKey("PILConfiguration." +
-                        "MicrositeID",
-                UR,
-                "77000",
-                configError);
-        gAppInfra.getConfigInterface().setPropertyForKey("PILConfiguration." +
-                        "RegistrationEnvironment",
-                UR,
-                configuration.getValue(),
-                configError);
+        anInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
+                UR, null, configError);
 
-        gAppInfra.
-                getConfigInterface().setPropertyForKey("Flow." +
-                        "EmailVerificationRequired",
-                UR,
-                "" + true,
-                configError);
-        gAppInfra.
-                getConfigInterface().setPropertyForKey("Flow." +
-                        "TermsAndConditionsAcceptanceRequired",
-                UR,
-                "" + true,
-                configError);
+        anInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
+                UR, null, configError);
 
-        String minAge = "{ \"NL\":12 ,\"GB\":0,\"default\": 16}";
-        gAppInfra.
-                getConfigInterface().setPropertyForKey("Flow." +
-                        "MinimumAgeLimit",
-                UR,
-                minAge,
-                configError);
+        anInterface.setPropertyForKey(HSDP_CONFIGURATION_BASE_URL,
+                UR, null, configError);
+    }
 
-        ArrayList<String> providers = new ArrayList<>();
-        providers.add("facebook");
-        providers.add("googleplus");
-        providers.add("sinaweibo");
-        providers.add("qq");
+    public void initRegistration(Configuration configuration) {
+        if (mAppInfraInterface == null) {
+            mAppInfraInterface = new AppInfra.Builder().build(this);
+        }
+        SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
+        editor.putString("reg_environment", configuration.getValue());
+        editor.commit();
 
-        gAppInfra.
-                getConfigInterface().setPropertyForKey("SigninProviders." +
-                        "NL",
-                UR,
-                providers,
-                configError);
+        initAppIdentity(configuration);
 
-        gAppInfra.
-                getConfigInterface().setPropertyForKey("SigninProviders." +
-                        "US",
-                UR,
-                providers,
-                configError);
+        UappInterface standardRegistrationInterface = new URDemouAppInterface();
+        standardRegistrationInterface.init(new URDemouAppDependencies(mAppInfraInterface), new URDemouAppSettings(this));
+    }
 
-        gAppInfra.
-                getConfigInterface().setPropertyForKey("SigninProviders." +
-                        "default",
-                UR,
-                providers,
-                configError);
+    public void initHSDP(Configuration configuration) {
+        if (mAppInfraInterface == null) {
+            mAppInfraInterface = new AppInfra.Builder().build(this);
+        }
+        final AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
 
 
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
-        editor.putString("reg_environment", configuration.getValue());
-        editor.apply();
+        switch (configuration) {
+            case EVALUATION: {
+                AppConfigurationInterface anInterface = mAppInfraInterface.getConfigInterface();
 
-        initAppIdentity(configuration);
-        URDependancies urDependancies = new URDependancies(gAppInfra);
-        URSettings urSettings = new URSettings(this);
-        URInterface urInterface = new URInterface();
-        urInterface.init(urDependancies, urSettings);
+                Map<String, String> hsdpAppNames = new HashMap<>();
+                hsdpAppNames.put(CHINA_CODE, "Sonicare");
+                hsdpAppNames.put(DEFAULT, "uGrow");
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_APPLICATION_NAME,
+                        UR, hsdpAppNames, configError);
+
+                Map<String, String> hsdpSecrets = new HashMap<>();
+                hsdpSecrets.put(CHINA_CODE, "981b4f75-9da5-4939-96e5-3e4e18dd6cb6");
+                hsdpSecrets.put(DEFAULT, "EB7D2C2358E4772070334CD868AA6A802164875D6BEE858D13226234350B156AC8C4917885B5552106DC7F9583CA52CB662110516F8AB02215D51778DE1EF1F3");
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
+                        UR, hsdpSecrets, configError);
+
+                Map<String, String> hsdpSharedIds = new HashMap<>();
+                hsdpSharedIds.put(CHINA_CODE, "758f5467-bb78-45d2-a58a-557c963c30c1");
+                hsdpSharedIds.put(DEFAULT, "e95f5e71-c3c0-4b52-8b12-ec297d8ae960");
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
+                        UR, hsdpSharedIds, configError);
+
+                Map<String, String> hsdpBaseUrls = new HashMap<>();
+                try {
+
+                    hsdpBaseUrls.put(CHINA_CODE, URLEncoder.encode("https://user-registration-assembly-staging.cn1.philips-healthsuite.com.cn", URL_ENCODING));
+                    hsdpBaseUrls.put(DEFAULT, URLEncoder.encode("https://user-registration-assembly-staging.eu-west.philips-healthsuite.com", URL_ENCODING));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_BASE_URL,
+                        UR, hsdpBaseUrls, configError);
+
+                editor.putString("reg_hsdp_environment", configuration.getValue());
+                editor.commit();
+            }
+            break;
+            case DEVELOPMENT: {
+                AppConfigurationInterface anInterface = mAppInfraInterface.getConfigInterface();
+
+                Map<String, String> hsdpAppNames = new HashMap<>();
+                hsdpAppNames.put(CHINA_CODE, "CDP");
+                hsdpAppNames.put(DEFAULT, "uGrow");
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_APPLICATION_NAME,
+                        UR, hsdpAppNames, configError);
+
+                Map<String, String> hsdpSecrets = new HashMap<>();
+                hsdpSecrets.put(CHINA_CODE, "057b97e0-f9b1-11e6-bc64-92361f002671");
+                hsdpSecrets.put(DEFAULT, "c623685e-f02c-11e5-9ce9-5e5517507c66");
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
+                        UR, hsdpSecrets, configError);
+
+                Map<String, String> hsdpSharedIds = new HashMap<>();
+                hsdpSharedIds.put(CHINA_CODE, "fe53a854-f9b0-11e6-bc64-92361f002671");
+                hsdpSharedIds.put(DEFAULT, "c62362a0-f02c-11e5-9ce9-5e5517507c66");
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
+                        UR, hsdpSharedIds, configError);
+
+                Map<String, String> hsdpBaseUrls = new HashMap<>();
+                try {
+                    hsdpBaseUrls.put(CHINA_CODE, URLEncoder.encode("https://user-registration-assembly-hsdpchinadev.cn1.philips-healthsuite.com.cn", URL_ENCODING));
+                    hsdpBaseUrls.put(DEFAULT, URLEncoder.encode("https://ugrow-ds-development.cloud.pcftest.com", URL_ENCODING));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_BASE_URL,
+                        UR, hsdpBaseUrls, configError);
+
+                editor.putString("reg_hsdp_environment", configuration.getValue());
+                editor.commit();
+            }
+            break;
+            case PRODUCTION:
+                SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+                prefs.edit().remove("reg_hsdp_environment").commit();
+                break;
+
+
+            case STAGING: {
+                AppConfigurationInterface anInterface = mAppInfraInterface.getConfigInterface();
+
+                Map<String, String> hsdpAppNames = new HashMap<>();
+                hsdpAppNames.put(CHINA_CODE, "Sonicare");
+                hsdpAppNames.put(DEFAULT, "uGrow");
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_APPLICATION_NAME,
+                        UR, hsdpAppNames, configError);
+
+                Map<String, String> hsdpSecrets = new HashMap<>();
+                hsdpSecrets.put(CHINA_CODE, "981b4f75-9da5-4939-96e5-3e4e18dd6cb6");
+                hsdpSecrets.put(DEFAULT, "EB7D2C2358E4772070334CD868AA6A802164875D6BEE858D13226234350B156AC8C4917885B5552106DC7F9583CA52CB662110516F8AB02215D51778DE1EF1F3");
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
+                        UR, hsdpSecrets, configError);
+
+
+              /*  Map<String, String> hsdpSecrets1 = (Map<String, String>) anInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET,
+                        UR, configError);*/
+
+                Map<String, String> hsdpSharedIds = new HashMap<>();
+                hsdpSharedIds.put(CHINA_CODE, "758f5467-bb78-45d2-a58a-557c963c30c1");
+                hsdpSharedIds.put(DEFAULT, "e95f5e71-c3c0-4b52-8b12-ec297d8ae960");
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
+                        UR, hsdpSharedIds, configError);
+
+                Map<String, String> hsdpBaseUrls = new HashMap<>();
+                try {
+
+                    hsdpBaseUrls.put(CHINA_CODE, URLEncoder.encode("https://user-registration-assembly-staging.cn1.philips-healthsuite.com.cn", URL_ENCODING));
+                    hsdpBaseUrls.put(DEFAULT, URLEncoder.encode("https://user-registration-assembly-staging.eu-west.philips-healthsuite.com", URL_ENCODING));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_BASE_URL,
+                        UR, hsdpBaseUrls, configError);
+
+                editor.putString("reg_hsdp_environment", configuration.getValue());
+                editor.commit();
+            }
+            break;
+
+            case TESTING:
+                prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+                prefs.edit().remove("reg_hsdp_environment").commit();
+                break;
+        }
     }
 
+    final String AI = "appinfra";
+
     private void initAppIdentity(Configuration configuration) {
-        AppIdentityInterface mAppIdentityInterface;
-        mAppIdentityInterface = gAppInfra.getAppIdentity();
 
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
 
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.micrositeId",
-                AI,
-                "77000",
-                configError);
-
-        gAppInfra.
+        mAppInfraInterface.
                 getConfigInterface().setPropertyForKey(
                 "appidentity.sector",
                 AI,
                 "b2c",
                 configError);
 
-        gAppInfra.
+        mAppInfraInterface.
                 getConfigInterface().setPropertyForKey(
                 "appidentity.serviceDiscoveryEnvironment",
                 AI,
                 "Production",
                 configError);
 
-
         switch (configuration) {
             case EVALUATION:
-                gAppInfra.
+                mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -199,7 +276,7 @@ public class DemoApplication extends MultiDexApplication {
                         configError);
                 break;
             case DEVELOPMENT:
-                gAppInfra.
+                mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -208,7 +285,7 @@ public class DemoApplication extends MultiDexApplication {
 
                 break;
             case PRODUCTION:
-                gAppInfra.
+                mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -216,7 +293,7 @@ public class DemoApplication extends MultiDexApplication {
                         configError);
                 break;
             case STAGING:
-                gAppInfra.
+                mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -225,7 +302,7 @@ public class DemoApplication extends MultiDexApplication {
 
                 break;
             case TESTING:
-                gAppInfra.
+                mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -233,44 +310,11 @@ public class DemoApplication extends MultiDexApplication {
                         configError);
                 break;
         }
-
-        AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
-        appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
-        appIdentityInfo.setSector(mAppIdentityInterface.getSector());
-        appIdentityInfo.setMicrositeId(mAppIdentityInterface.getMicrositeId());
-        appIdentityInfo.setAppName(mAppIdentityInterface.getAppName());
-        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
-        appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
-        appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
     }
 
-    public void initHSDP() {
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.ApplicationName",
-                "UserRegistration",
-                "OneBackend",
-                configError);
-
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.Secret",
-                "UserRegistration",
-                "ad3d0618-be4d-4958-adc9-f6bcd01fde16",
-                configError);
-
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.Shared",
-                "UserRegistration",
-                "ba404af2-ee41-4e7c-9157-fd20663f2a6c",
-                configError);
-
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.BaseURL",
-                "UserRegistration",
-                "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
-                configError);
+    public AppInfraInterface getAppInfra() {
+        return mAppInfraInterface;
     }
 }
+
+

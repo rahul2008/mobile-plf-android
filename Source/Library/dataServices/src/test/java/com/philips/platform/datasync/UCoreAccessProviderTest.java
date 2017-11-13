@@ -88,10 +88,10 @@ public class UCoreAccessProviderTest {
     }
 
     private void thenAssertTimeStampMap() throws UnsupportedEncodingException {
-        assertEquals(URLEncoder.encode(START_DATE, "UTF-8"), timeStampMap.get("START_DATE"));
-        assertEquals(URLEncoder.encode(END_DATE, "UTF-8"), timeStampMap.get("END_DATE"));
-        assertEquals(URLEncoder.encode(START_DATE, "UTF-8"), timeStampMap.get("LAST_MODIFIED_START_DATE"));
-        assertNotNull(timeStampMap.get("LAST_MODIFIED_END_DATE"));
+        assertEquals(URLEncoder.encode(START_DATE, "UTF-8"), timeStampMap.get("timestampStart"));
+        assertEquals(URLEncoder.encode(END_DATE, "UTF-8"), timeStampMap.get("timestampEnd"));
+        assertEquals(URLEncoder.encode(START_DATE, "UTF-8"), timeStampMap.get("lastModifiedStart"));
+        assertNotNull(timeStampMap.get("lastModifiedEnd"));
     }
 
     @Test

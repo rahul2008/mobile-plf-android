@@ -1,8 +1,5 @@
 package com.philips.platform.datasync.synchronisation;
 
-import com.philips.platform.core.events.BackendResponse;
-import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
-import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
@@ -15,8 +12,6 @@ import com.philips.platform.datasync.spy.UserAccessProviderSpy;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
@@ -41,25 +36,13 @@ public class DataPushSynchroniseTest {
     private EventingSpy eventingSpy;
 
     @Mock
-    private GetNonSynchronizedDataResponse getNonSynchronizedEventMock;
-
-    @Mock
     private DataSender firstDataSenderMock;
 
     @Mock
     private DataSender secondDataSenderMock;
 
     @Mock
-    private GetNonSynchronizedDataResponse responseEventMock;
-
-    @Mock
     SynchronisationManager synchronisationManagerMock;
-
-    @Captor
-    private ArgumentCaptor<GetNonSynchronizedDataRequest> getNonSynchronizedDataRequestArgumentCaptor;
-
-    @Captor
-    private ArgumentCaptor<BackendResponse> backendResponseArgumentCaptor;
 
     @Mock
     private AppComponent appComponentMock;
