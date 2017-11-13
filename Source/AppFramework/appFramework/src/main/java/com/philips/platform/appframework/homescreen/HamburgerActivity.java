@@ -487,7 +487,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK && requestCode ==START_THEME_SELECTOR) {
             Bundle extras = data.getExtras();
             if (extras != null) {
                 colorRange = (ColorRange) data.getSerializableExtra("CLR");
