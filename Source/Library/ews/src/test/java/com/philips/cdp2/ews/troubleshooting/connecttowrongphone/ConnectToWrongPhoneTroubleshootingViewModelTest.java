@@ -3,36 +3,44 @@ package com.philips.cdp2.ews.troubleshooting.connecttowrongphone;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
-import com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingViewModel;
-import com.philips.cdp2.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingViewModel;
+import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.StringProvider;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(EWSTagger.class)
 public class ConnectToWrongPhoneTroubleshootingViewModelTest {
 
-    @Mock private Navigator mockNavigator;
+    @Mock
+    private Navigator mockNavigator;
 
-    @Mock private TroubleShootContentConfiguration mockTroubleShootContentConfiguration;
+    @Mock
+    private TroubleShootContentConfiguration mockTroubleShootContentConfiguration;
 
-    @Mock private BaseContentConfiguration mockBaseContentConfiguration;
+    @Mock
+    private BaseContentConfiguration mockBaseContentConfiguration;
 
-    @Mock private StringProvider mockStringProvider;
+    @Mock
+    private StringProvider mockStringProvider;
 
     private ConnectToWrongPhoneTroubleshootingViewModel subject;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        mockStatic(EWSTagger.class);
         when(mockTroubleShootContentConfiguration.getConnectWrongPhoneTitle()).thenReturn(1231231);
         when(mockTroubleShootContentConfiguration.getConnectWrongPhoneBody()).thenReturn(1231232);
         when(mockTroubleShootContentConfiguration.getConnectWrongPhoneQuestion()).thenReturn(1231233);
@@ -55,43 +63,50 @@ public class ConnectToWrongPhoneTroubleshootingViewModelTest {
     }
 
     @Test
-    public void itShouldVerifyThatGetTitleShouldBeCalledAtConstructorTime() throws Exception{
+    public void itShouldVerifyThatGetTitleShouldBeCalledAtConstructorTime() throws Exception {
         verify(mockTroubleShootContentConfiguration).getConnectWrongPhoneTitle();
     }
 
     @Test
-    public void itShouldVerifyThatGetBodyShouldBeCalledAtConstructorTime() throws Exception{
+    public void itShouldVerifyThatGetBodyShouldBeCalledAtConstructorTime() throws Exception {
         verify(mockTroubleShootContentConfiguration).getConnectWrongPhoneBody();
     }
 
     @Test
-    public void itShouldVerifyThatGetQuestionShouldBeCalledAtConstructorTime() throws Exception{
+    public void itShouldVerifyThatGetQuestionShouldBeCalledAtConstructorTime() throws Exception {
         verify(mockTroubleShootContentConfiguration).getConnectWrongPhoneQuestion();
     }
 
     @Test
-    public void itShouldVerifyThatGetWrongPhoneImageShouldBeCalledAtConstructorTime() throws Exception{
+    public void itShouldVerifyThatGetWrongPhoneImageShouldBeCalledAtConstructorTime() throws Exception {
         verify(mockTroubleShootContentConfiguration).getConnectWrongPhoneImage();
     }
 
     @Test
     public void itShouldGiveConnectWrongPhoneTitle() throws Exception {
-        verify(mockStringProvider).getString(mockTroubleShootContentConfiguration.getConnectWrongPhoneTitle(),mockBaseContentConfiguration.getDeviceName());
+        verify(mockStringProvider).getString(mockTroubleShootContentConfiguration.getConnectWrongPhoneTitle(), mockBaseContentConfiguration.getDeviceName());
     }
 
     @Test
     public void itShouldGiveConnectWrongPhoneBody() throws Exception {
-        verify(mockStringProvider).getString(mockTroubleShootContentConfiguration.getConnectWrongPhoneBody(),mockBaseContentConfiguration.getDeviceName());
+        verify(mockStringProvider).getString(mockTroubleShootContentConfiguration.getConnectWrongPhoneBody(), mockBaseContentConfiguration.getDeviceName());
     }
 
     @Test
     public void itShouldGiveConnectWrongPhoneQuestion() throws Exception {
-        verify(mockStringProvider).getString(mockTroubleShootContentConfiguration.getConnectWrongPhoneQuestion(),mockBaseContentConfiguration.getDeviceName());
+        verify(mockStringProvider).getString(mockTroubleShootContentConfiguration.getConnectWrongPhoneQuestion(), mockBaseContentConfiguration.getDeviceName());
     }
 
     @Test
     public void itShouldGiveConnectWrongPhoneImage() throws Exception {
         verify(mockStringProvider).getImageResource(mockTroubleShootContentConfiguration.getConnectWrongPhoneImage());
+    }
+
+    @Test
+    public void itShouldVerifyTrackPageName() throws Exception {
+        subject.trackPageName();
+        verifyStatic();
+        EWSTagger.trackPage("connectToWrongPhone");
     }
 
 }

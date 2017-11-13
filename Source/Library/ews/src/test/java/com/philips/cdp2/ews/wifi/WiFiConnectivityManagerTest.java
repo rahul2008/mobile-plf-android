@@ -27,12 +27,10 @@ import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -88,7 +86,7 @@ public class WiFiConnectivityManagerTest {
     }
 
     @Test
-    public void shouldConfigureOpenNetworkWhenApplianceHotspotIsNotFound() throws Exception {
+    public void itShouldConfigureOpenNetworkWhenApplianceHotspotIsNotFound() throws Exception {
         connectivityManager.connectToApplianceHotspotNetwork(APPLIANCE_SSID);
 
         final ArgumentCaptor<WifiConfiguration> wifiConfigurationCaptor = ArgumentCaptor.forClass(WifiConfiguration.class);
@@ -113,7 +111,7 @@ public class WiFiConnectivityManagerTest {
     }
 
     @Test
-    public void shouldNotConnectToApplianceHotspotWhenNoMatchingScannedResultsFound() throws Exception {
+    public void itShouldNotConnectToApplianceHotspotWhenNoMatchingScannedResultsFound() throws Exception {
         final ScanResult scannedResultMock = getScanResult(APPLIANCE_SSID);
         when(wifiManagerMock.getScanResults()).thenReturn(null);
 
@@ -128,7 +126,7 @@ public class WiFiConnectivityManagerTest {
     }
 
     @Test
-    public void shouldNotConnectToApplianceHotspotWhenScannedResultsIsEmpty() throws Exception {
+    public void itShouldNotConnectToApplianceHotspotWhenScannedResultsIsEmpty() throws Exception {
         final ScanResult scannedResultMock = getScanResult(APPLIANCE_SSID);
         when(wifiManagerMock.getScanResults()).thenReturn(new ArrayList<ScanResult>());
 

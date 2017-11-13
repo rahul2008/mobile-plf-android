@@ -5,11 +5,7 @@
   -->
 
 <resources>
-    <dimen name="a">4dp</dimen>
-    <dimen name="b">7dp</dimen>
     <dimen name="c">12dp</dimen>
     <dimen name="d">20dp</dimen>
     <dimen name="e">33dp</dimen>
-    <dimen name="f">53dp</dimen>
-    <dimen name="i">223dp</dimen>
 </resources>

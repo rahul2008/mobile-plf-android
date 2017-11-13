@@ -8,17 +8,21 @@ public class FragmentNavigator {
 
     private static final int POP_BACK_STACK_EXCLUSIVE = 0;
 
-    @NonNull private final FragmentManager fragmentManager;
+    @NonNull
+    private final FragmentManager fragmentManager;
 
     public FragmentNavigator(@NonNull FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
 
     void push(@NonNull Fragment fragment, int containerId) {
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment)
-                .addToBackStack(fragment.getClass().getCanonicalName())
-                .commit();
+        boolean isPresentInStack = popToFragment(fragment.getClass().getCanonicalName());
+        if (!isPresentInStack) {
+            fragmentManager.beginTransaction()
+                    .replace(containerId, fragment)
+                    .addToBackStack(fragment.getClass().getCanonicalName())
+                    .commit();
+        }
     }
 
     void pop() {

@@ -31,7 +31,7 @@ public class EventingChannelTest {
     }
 
     @Test
-    public void shouldStartAllMonitorsWhenStartIsCalled() throws Exception {
+    public void itShouldStartAllMonitorsWhenStartIsCalled() throws Exception {
         eventingChannel.start();
 
         verify(applianceAccessEventMonitorMock).onStart();
@@ -39,7 +39,7 @@ public class EventingChannelTest {
     }
 
     @Test
-    public void shouldStopAllMonitorsWhenStopIsCalled() throws Exception {
+    public void itShouldStopAllMonitorsWhenStopIsCalled() throws Exception {
         eventingChannel.stop();
 
         verify(applianceAccessEventMonitorMock).onStop();

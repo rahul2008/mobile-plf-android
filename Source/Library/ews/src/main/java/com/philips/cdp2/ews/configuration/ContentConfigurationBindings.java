@@ -11,8 +11,6 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp2.ews.util.TextUtil;
-
 public class ContentConfigurationBindings {
 
     @BindingAdapter({"stringFormat", "content"})

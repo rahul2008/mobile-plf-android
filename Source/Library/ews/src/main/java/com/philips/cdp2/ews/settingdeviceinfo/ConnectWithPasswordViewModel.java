@@ -17,8 +17,10 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
+import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.StringProvider;
-import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
+import com.philips.cdp2.ews.connectionestabilish.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
 import javax.inject.Inject;
@@ -114,5 +116,9 @@ public class ConnectWithPasswordViewModel extends BaseObservable {
     String getNote(@NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(R.string.label_ews_password_from_name_title,
                 baseConfig.getDeviceName());
+    }
+
+    public void trackPageName() {
+        EWSTagger.trackPage(Page.CONNECT_WITH_PASSWORD);
     }
 }

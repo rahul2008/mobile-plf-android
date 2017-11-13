@@ -28,6 +28,7 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.util.TextUtil;
 
@@ -40,7 +41,9 @@ import javax.inject.Inject;
 public class Wifi {
 
     private static final int MAX_PRIORITY = 99999;
-    public final ConfigurationSecurities ConfigSec = new ConfigurationSecurities();
+
+    @VisibleForTesting
+    public ConfigurationSecurities ConfigSec = new ConfigurationSecurities();
 
     @Inject
     public Wifi() {
@@ -152,8 +155,7 @@ public class Wifi {
         return pri;
     }
 
-    private WifiConfiguration getWifiConfiguration(
-            final WifiManager wifiMgr, final ScanResult hotspot, String hotspotSecurity) {
+    private WifiConfiguration getWifiConfiguration(final WifiManager wifiMgr, final ScanResult hotspot, String hotspotSecurity) {
         final String ssid = convertToQuotedString(hotspot.SSID);
         if (ssid.length() == 0) {
             return null;
@@ -187,8 +189,7 @@ public class Wifi {
         return null;
     }
 
-    public WifiConfiguration getWifiConfiguration(
-            final WifiManager wifiMgr, final WifiConfiguration configToFind, String security) {
+    public WifiConfiguration getWifiConfiguration(final WifiManager wifiMgr, final WifiConfiguration configToFind, String security) {
         final String ssid = configToFind.SSID;
         if (ssid.length() == 0) {
             return null;

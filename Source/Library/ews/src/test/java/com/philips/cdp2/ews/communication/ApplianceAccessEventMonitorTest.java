@@ -80,14 +80,14 @@ public class ApplianceAccessEventMonitorTest {
     }
 
     @Test
-    public void shouldFetchApplianceDevicePortDetailsWhenRequested() throws Exception {
+    public void itShouldFetchApplianceDevicePortDetailsWhenRequested() throws Exception {
         subject.fetchDevicePortProperties(new FetchDevicePortPropertiesEvent());
 
         verify(applianceAccessManagerMock).fetchDevicePortProperties(isNull(ApplianceAccessManager.FetchCallback.class));
     }
 
     @Test
-    public void shouldConnectApplianceToHomeWiFiEventWhenRequested() throws Exception {
+    public void itShouldConnectApplianceToHomeWiFiEventWhenRequested() throws Exception {
         ArgumentCaptor<String> ssidCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<String> pwdCaptor = ArgumentCaptor.forClass(String.class);
 
@@ -104,27 +104,27 @@ public class ApplianceAccessEventMonitorTest {
     }
 
     @Test
-    public void shouldStartDiscoverApplianceWhenRequested() throws Exception {
+    public void itShouldStartDiscoverApplianceWhenRequested() throws Exception {
         subject.discoverAppliance(new DiscoverApplianceEvent());
 
         verify(discoverManagerMock).startDiscovery(any(DiscoveryHelper.DiscoveryCallback.class));
     }
 
     @Test
-    public void shouldStopDiscoverWhenOnStopIsCalled() throws Exception {
+    public void itShouldStopDiscoverWhenOnStopIsCalled() throws Exception {
         subject.onStop();
         verify(discoverManagerMock).stopDiscovery();
     }
 
     @Test
-    public void shouldCheckForApplianceInCallbackResultAndSendSuccessEvent() throws Exception {
+    public void itShouldCheckForApplianceInCallbackResultAndSendSuccessEvent() throws Exception {
         subject.onApplianceFound(applianceMock);
 
         verify(eventBusMock).post(isA(PairingSuccessEvent.class));
     }
 
     @Test
-    public void shouldSendProductConnectionTagsOnSuccess() throws Exception {
+    public void itShouldSendProductConnectionTagsOnSuccess() throws Exception {
         subject.onApplianceFound(applianceMock);
 
         PowerMockito.verifyStatic();
@@ -137,7 +137,7 @@ public class ApplianceAccessEventMonitorTest {
     }
 
     @Test
-    public void shouldSendStopTimedActionOnSuccess() throws Exception {
+    public void itShouldSendStopTimedActionOnSuccess() throws Exception {
         subject.onApplianceFound(applianceMock);
 
         PowerMockito.verifyStatic();

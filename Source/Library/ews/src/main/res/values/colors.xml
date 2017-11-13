@@ -3,11 +3,8 @@
     <color name="white">#ffffff</color>
 
     <color name="color_panel">#0D012334</color>
-    <color name="cancel_dialog_background">#B3000000</color>
-
     <color name="ews_product_accent">#FFEBB626</color>
     <color name="ews_product_border">#FFE5EAEC</color>
-    <color name="ews_product_letters">#FF062433</color>
     <color name="ews_hotspot_curve_color">#FCF2CA</color>
 
     <color name="primary_opacity_95">#F2012334</color>

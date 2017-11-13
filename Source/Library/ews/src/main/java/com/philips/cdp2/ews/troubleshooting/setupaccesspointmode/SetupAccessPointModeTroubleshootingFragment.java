@@ -8,22 +8,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.base.BaseTroubleShootingFragment;
 import com.philips.cdp2.ews.databinding.FragmentSetupAccessPointTroubleshootingLayoutBinding;
-import com.philips.cdp2.ews.view.BaseTroubleShootingFragment;
-import com.philips.cdp2.ews.view.EWSActivity;
 
 public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShootingFragment {
 
     @NonNull
     FragmentSetupAccessPointTroubleshootingLayoutBinding setupAccessPointTroubleshootingLayoutBinding;
 
+    @NonNull
+    SetupAccessPointModeTroubleshootingViewModel viewModel;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        setupAccessPointTroubleshootingLayoutBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_setup_access_point_troubleshooting_layout, container, false);
+        setupAccessPointTroubleshootingLayoutBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_setup_access_point_troubleshooting_layout, container, false);
         return setupAccessPointTroubleshootingLayoutBinding.getRoot();
     }
 
@@ -31,7 +34,7 @@ public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShoo
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final SetupAccessPointModeTroubleshootingViewModel viewModel = ((EWSActivity) getActivity()).getEWSComponent()
+        viewModel = ((EWSActivity) getActivity()).getEWSComponent()
                 .setupAccessPointModeTroubleshootingViewModel();
         setupAccessPointTroubleshootingLayoutBinding.setViewmodel(viewModel);
 
@@ -42,5 +45,11 @@ public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShoo
                         viewModel.onDoneButtonClicked();
                     }
                 });
+    }
+
+    @NonNull
+    @Override
+    protected void callTrackPageName() {
+        viewModel.trackPageName();
     }
 }

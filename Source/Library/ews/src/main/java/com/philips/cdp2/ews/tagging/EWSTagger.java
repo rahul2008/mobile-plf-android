@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.tagging;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -32,8 +33,14 @@ public class EWSTagger {
         getAppTaggingInterface().trackActionWithInfo(action, map);
     }
 
-    public static void trackPage(String pageName) {
+    public static void trackPage(@NonNull String pageName) {
         getAppTaggingInterface().trackPageWithInfo(pageName, null);
+    }
+
+    public static void trackActionSendData(@NonNull final String key, @NonNull final String value) {
+        Map<String, String> map = new HashMap<>();
+        map.put(key, value);
+        trackAction(Tag.KEY.SEND_DATA, map);
     }
 
     @SuppressWarnings("unchecked")
@@ -43,7 +50,8 @@ public class EWSTagger {
         getAppTaggingInterface().trackActionWithInfo(action, commonGoalsMap);
     }
 
-    private static AppTaggingInterface getAppTaggingInterface() {
+    @VisibleForTesting()
+    static AppTaggingInterface getAppTaggingInterface() {
         return EWSDependencyProvider.getInstance().getTaggingInterface();
     }
 

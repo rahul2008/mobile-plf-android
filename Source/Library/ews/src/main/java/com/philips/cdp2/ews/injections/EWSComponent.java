@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.injections;
 
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiViewModel;
+import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceFragment;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel;
 import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordViewModel;
 import com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingViewModel;
@@ -15,14 +16,13 @@ import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshooti
 import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingViewModel;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WIFIConnectionUnsuccessfulViewModel;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkViewModel;
-import com.philips.cdp2.ews.view.EWSActivity;
-import com.philips.cdp2.ews.view.dialog.TroubleshootDeviceAPModeFragment;
-import com.philips.cdp2.ews.viewmodel.BaseTroubleShootingViewModel;
-import com.philips.cdp2.ews.viewmodel.ConfirmWifiNetworkViewModel;
-import com.philips.cdp2.ews.viewmodel.ConnectionSuccessfulViewModel;
-import com.philips.cdp2.ews.viewmodel.FirstSetupStepsViewModel;
-import com.philips.cdp2.ews.viewmodel.SecondSetupStepsViewModel;
-import com.philips.cdp2.ews.viewmodel.StartConnectWithDeviceViewModel;
+import com.philips.cdp2.ews.EWSActivity;
+import com.philips.cdp2.ews.base.BaseTroubleShootingViewModel;
+import com.philips.cdp2.ews.confirmwifi.ConfirmWifiNetworkViewModel;
+import com.philips.cdp2.ews.connectionsuccessful.ConnectionSuccessfulViewModel;
+import com.philips.cdp2.ews.setupsteps.FirstSetupStepsViewModel;
+import com.philips.cdp2.ews.setupsteps.SecondSetupStepsViewModel;
+import com.philips.cdp2.ews.startconnectwithdevice.StartConnectWithDeviceViewModel;
 
 import javax.inject.Singleton;
 
@@ -34,9 +34,9 @@ public interface EWSComponent {
 
     void inject(EWSActivity ewsActivity);
 
-    void inject(TroubleshootDeviceAPModeFragment troubleshootDeviceAPModeFragment);
-
     void inject(ConnectingDeviceWithWifiFragment connectingDeviceWithWifiFragment);
+
+    void inject(ConnectingWithDeviceFragment connectingWithDeviceFragment);
 
     ResetConnectionTroubleshootingViewModel resetConnectionTroubleshootingViewModel();
 

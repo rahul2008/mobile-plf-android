@@ -1,0 +1,3 @@
+include ':app'
+include 'ews'
+project(':ews').projectDir=new File('../Library/ews')

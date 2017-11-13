@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -23,36 +24,37 @@ public class ApplianceSessionDetailsInfoTest {
 
     @Before
     public void setup() {
-        applianceSessionDetailsInfo = new ApplianceSessionDetailsInfo();
         initMocks(this);
+        applianceSessionDetailsInfo = new ApplianceSessionDetailsInfo();
     }
 
     @Test
-    public void shouldNotHaveSessionPropertiesOnCreation() {
+    public void itShouldNotHaveSessionPropertiesOnCreation() {
         assertEquals(applianceSessionDetailsInfo.hasSessionProperties(), false);
     }
 
     @Test
-    public void shouldHaveSessionPropertiesOnSettingWifiProperties() {
+    public void itShouldHaveSessionPropertiesOnSettingWifiProperties() {
         applianceSessionDetailsInfo.setWifiPortProperties(wifiPortPropertiesMock);
         assertEquals(applianceSessionDetailsInfo.hasSessionProperties(), true);
     }
 
+    @Test
+    public void itShouldWifiPropertiesWhileGet() {
+        applianceSessionDetailsInfo.setWifiPortProperties(wifiPortPropertiesMock);
+        assertNotNull(applianceSessionDetailsInfo.getWifiPortProperties());
+    }
+
     @Test(expected = IllegalStateException.class)
-    public void shouldThrowExceptionOnTryingToGetCppId() {
+    public void itShouldThrowExceptionOnTryingToGetCppId() {
         applianceSessionDetailsInfo.getCppId();
     }
 
     @Test
-    public void shouldFetchCppIdWhenPortPropertiesSet() {
+    public void itShouldFetchCppIdWhenPortPropertiesSet() {
         applianceSessionDetailsInfo.setWifiPortProperties(wifiPortPropertiesMock);
         when(wifiPortPropertiesMock.getCppid()).thenReturn("C++11");
         assertEquals(applianceSessionDetailsInfo.getCppId(), "C++11");
-    }
-
-    @Test
-    public void shouldReturnWakeupLightDeviceName() {
-        assertEquals(applianceSessionDetailsInfo.getDeviceName(), "Wakeup Light");
     }
 
 }
