@@ -126,7 +126,8 @@ public class NetworkController implements ConsentRequestListener, Response.Error
             public void run() {
                 if (model != null && error != null) {
                     Message msg = Message.obtain();
-                    msg.obj = new ConsentNetworkError(error, model.getMethod());
+                    msg.what = model.getMethod();
+                    msg.obj = new ConsentNetworkError(error);
                     model.onResponseError(msg);
                 }
             }

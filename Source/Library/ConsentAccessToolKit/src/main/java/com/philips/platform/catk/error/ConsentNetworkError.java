@@ -7,7 +7,6 @@
 
 package com.philips.platform.catk.error;
 
-import android.os.Message;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -25,20 +24,13 @@ public class ConsentNetworkError implements NetworkErrorListener {
     private int mErrorCode = CatkConstants.CONSENT_SUCCESS;
     private String mCustomErrorMessage;
 
-    public ConsentNetworkError(VolleyError error, int requestCode) {
+    public ConsentNetworkError(VolleyError error) {
         initErrorCode(error);
         if (error instanceof com.android.volley.ServerError) {
             setServerError(error);
         } else {
             mVolleyError = error;
         }
-        initMessage(requestCode);
-    }
-
-    void initMessage(int requestCode) {
-        Message msg = Message.obtain();
-        msg.what = requestCode;
-        msg.obj = this;
     }
 
     private void initErrorCode(final VolleyError error) {

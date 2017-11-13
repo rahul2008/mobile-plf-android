@@ -7,19 +7,23 @@
 
 package com.philips.platform.catk.error;
 
-import static junit.framework.Assert.assertEquals;
+import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.catk.util.CustomRobolectricRunnerCATK;
+import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.annotation.Config;
 
-import com.android.volley.*;
-import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.catk.listener.RequestListener;
-import com.philips.platform.catk.util.CustomRobolectricRunnerCATK;
-import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
+import static junit.framework.Assert.assertEquals;
 
 @RunWith(CustomRobolectricRunnerCATK.class)
 @Config(constants = BuildConfig.class, sdk = 25)
@@ -29,9 +33,6 @@ public class ConsentNetworkErrorTest {
 
     @Mock
     private NoConnectionError mockNoConnectionError;
-
-    @Mock
-    RequestListener mockRequestListener;
 
     @Mock
     com.android.volley.ServerError mockServerError;
@@ -57,67 +58,91 @@ public class ConsentNetworkErrorTest {
 
     @Test
     public void testInit() throws Exception {
-        consentNetworkError = new ConsentNetworkError(mockVolleyError, 3, mockRequestListener);
-        consentNetworkError.initMessage(1, mockRequestListener);
+        givenConsentNetworkErrorWithType(mockVolleyError);
+        thenConsentNetworkErrorCodeIs(CatkConstants.CONSENT_ERROR_UNKNOWN);
     }
 
     @Test
     public void tesGetMessage() throws Exception {
-        consentNetworkError = new ConsentNetworkError(mockTimeoutError, 3, mockRequestListener);
-        consentNetworkError.initMessage(1, mockRequestListener);
-        consentNetworkError.setCustomErrorMessage(CUSTOM_ERROR_MESSAGE);
-        assertEquals(CUSTOM_ERROR_MESSAGE, consentNetworkError.getMessage());
+        givenConsentNetworkErrorWithType(mockTimeoutError);
+        givenCustomErrorMessageIs(CUSTOM_ERROR_MESSAGE);
+        thenConsentNetworkErrorCodeIs(CatkConstants.CONSENT_ERROR_CONNECTION_TIME_OUT);
+        thenErrorMessageIs(CUSTOM_ERROR_MESSAGE);
     }
 
     @Test
     public void tesGetMessageServerError() throws Exception {
-        consentNetworkError = new ConsentNetworkError(mockTimeoutError, 3, mockRequestListener);
-        consentNetworkError.initMessage(5, mockRequestListener);
-        consentNetworkError.setErrorCode(2);
-        consentNetworkError.setCustomErrorMessage(CUSTOM_ERROR_MESSAGE);
-        Assert.assertNotNull(consentNetworkError.getMessage());
+        givenConsentNetworkErrorWithType(mockTimeoutError);
+        givenErrorCodeIs(CatkConstants.CONSENT_ERROR_NO_CONNECTION);
+        givenCustomErrorMessageIs(CUSTOM_ERROR_MESSAGE);
+        thenConsentNetworkErrorCodeIs(CatkConstants.CONSENT_ERROR_NO_CONNECTION);
+        thenErrorMessageIs(CUSTOM_ERROR_MESSAGE);
     }
 
     @Test
     public void tesGetStatusCode() throws Exception {
-        consentNetworkError = new ConsentNetworkError(mockTimeoutError, 3, mockRequestListener);
-        consentNetworkError.initMessage(5, mockRequestListener);
-        consentNetworkError.setErrorCode(3);
-        consentNetworkError.setCustomErrorMessage(CUSTOM_ERROR_MESSAGE);
-        assertEquals(3, consentNetworkError.getStatusCode());
+        givenConsentNetworkErrorWithType(mockTimeoutError);
+        givenErrorCodeIs(CatkConstants.CONSENT_ERROR_CONNECTION_TIME_OUT);
+        givenCustomErrorMessageIs(CUSTOM_ERROR_MESSAGE);
+        thenConsentNetworkErrorCodeIs(CatkConstants.CONSENT_ERROR_CONNECTION_TIME_OUT);
+        thenStatusCodeIs(CatkConstants.CONSENT_ERROR_CONNECTION_TIME_OUT);
     }
 
     @Test
     public void testSuccessCode() throws Exception {
-        consentNetworkError = new ConsentNetworkError(mockTimeoutError, 3, mockRequestListener);
-        consentNetworkError.initMessage(5, mockRequestListener);
-        consentNetworkError.setErrorCode(CatkConstants.CONSENT_SUCCESS);
-        consentNetworkError.setCustomErrorMessage(CUSTOM_ERROR_MESSAGE);
-        assertEquals(CatkConstants.CONSENT_SUCCESS, consentNetworkError.getStatusCode());
+        givenConsentNetworkErrorWithType(mockTimeoutError);
+        givenErrorCodeIs(CatkConstants.CONSENT_SUCCESS);
+        givenCustomErrorMessageIs(CUSTOM_ERROR_MESSAGE);
+        thenConsentNetworkErrorCodeIs(CatkConstants.CONSENT_SUCCESS);
+        thenStatusCodeIs(CatkConstants.CONSENT_SUCCESS);
     }
 
     @Test
     public void testNoConnectionErrorType() throws Exception {
-        consentNetworkError = new ConsentNetworkError(mockNoConnectionError, 3, mockRequestListener);
-        consentNetworkError.initMessage(2, mockRequestListener);
+        givenConsentNetworkErrorWithType(mockNoConnectionError);
+        thenConsentNetworkErrorCodeIs(CatkConstants.CONSENT_ERROR_NO_CONNECTION);
     }
 
     @Test
     public void testServerErrorErrorType() throws Exception {
-        consentNetworkError = new ConsentNetworkError(mockServerError, 3, mockRequestListener);
-        consentNetworkError.initMessage(3, mockRequestListener);
+        givenConsentNetworkErrorWithType(mockServerError);
+        thenConsentNetworkErrorCodeIs(CatkConstants.CONSENT_ERROR_SERVER_ERROR);
     }
 
     @Test
     public void testAuthFailureErrorType() throws Exception {
-        consentNetworkError = new ConsentNetworkError(mockAuthFailureError, 3, mockRequestListener);
-        consentNetworkError.initMessage(4, mockRequestListener);
+        givenConsentNetworkErrorWithType(mockAuthFailureError);
+        thenConsentNetworkErrorCodeIs(CatkConstants.CONSENT_ERROR_AUTHENTICATION_FAILURE);
     }
 
     @Test
     public void testTimeOutErrorType() throws Exception {
-        consentNetworkError = new ConsentNetworkError(mockTimeoutError, 3, mockRequestListener);
-        consentNetworkError.initMessage(5, mockRequestListener);
+        givenConsentNetworkErrorWithType(mockTimeoutError);
+        thenConsentNetworkErrorCodeIs(CatkConstants.CONSENT_ERROR_CONNECTION_TIME_OUT);
+    }
+
+    private void givenConsentNetworkErrorWithType(VolleyError error) {
+        consentNetworkError = new ConsentNetworkError(error);
+    }
+
+    private void givenCustomErrorMessageIs(String errorMessage) {
+        consentNetworkError.setCustomErrorMessage(errorMessage);
+    }
+
+    private void givenErrorCodeIs(int errorCode) {
+        consentNetworkError.setErrorCode(errorCode);
+    }
+
+    private void thenConsentNetworkErrorCodeIs(int errorCode) {
+        assertEquals(errorCode, consentNetworkError.getErrorCode());
+    }
+
+    private void thenErrorMessageIs(String errorMessage) {
+        assertEquals(errorMessage, consentNetworkError.getMessage());
+    }
+
+    private void thenStatusCodeIs(int statusCode) {
+        assertEquals(statusCode, consentNetworkError.getStatusCode());
     }
 
     private static final String CUSTOM_ERROR_MESSAGE = "error";
