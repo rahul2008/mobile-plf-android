@@ -24,6 +24,7 @@ import com.philips.platform.mya.mock.LaunchInputMock;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -56,6 +57,11 @@ public class MyaInterfaceTest {
         context = new ContextMock();
         CatkConsentAccessToolKitManipulator.setCatkComponent(mockCatkComponent);
         when(mockCatkComponent.getUser()).thenReturn(mockUser);
+    }
+
+    @After
+    public void tearDown() {
+        CatkConsentAccessToolKitManipulator.clearCatkComponent();
     }
 
     @Test
