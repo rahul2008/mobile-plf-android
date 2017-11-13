@@ -19,7 +19,6 @@ class ScheduleSyncReceiver {
 
     void onReceive(final Context context) {
         DataServicesManager mDataServicesManager = DataServicesManager.getInstance();
-        mDataServicesManager.clearExpiredMoments(null);
         if (mUtility.isOnline(context)) {
             mDataServicesManager.synchronize();
         }
