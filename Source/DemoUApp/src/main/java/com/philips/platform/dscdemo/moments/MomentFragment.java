@@ -270,9 +270,9 @@ public class MomentFragment extends DSBaseFragment
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mSharedPreferences.getBoolean("isSynced", false)) {
+              //  if (mSharedPreferences.getBoolean("isSynced", false)) {
                     dismissProgressDialog();
-                }
+               // }
             }
         });
     }

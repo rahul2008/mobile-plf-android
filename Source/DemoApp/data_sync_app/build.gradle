@@ -235,6 +235,10 @@ configurations.all {
 }
 
 dependencies {
+    //Coco
+    def dp = project.ext.has('useprojectdependencies')
+    def usrUAppModule = module(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(dp ? project(':usrUApp') : usrUAppModule)
     //Android Support Libraries
     compile 'com.android.support:support-annotations:26.0.2'
     compile 'com.android.support:customtabs:26.0.2'
