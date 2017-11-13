@@ -148,6 +148,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         socialButton.setImageDrawable(VectorDrawableCompat.create(getResources(),
                 providerLogoDrawableId, getContext().getTheme()));
         socialButton.setEnabled(true);
+        socialButton.setId(providerLogoDrawableId);
         if (homePresenter.isNetworkAvailable()
                 && UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             socialButton.setEnabled(true);
@@ -156,7 +157,10 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         }
         socialButton.setOnClickListener(v -> {
             trackPage(AppTaggingPages.CREATE_ACCOUNT);
-            RLog.d(RLog.ONCLICK, "HomeFragment : " + providerName);
+            RLog.d(RLog.ONCLICK, "HomeFragment : socialButton providerName" + providerName);
+            RLog.d(RLog.ONCLICK, "HomeFragment : socialButton getId" + socialButton.getId());
+
+
             if (mRegError.isShown()) mRegError.hideError();
             if (homePresenter.isNetworkAvailable()) {
                 homePresenter.setFlowDeligate(HomePresenter.FLOWDELIGATE.SOCIALPROVIDER);
@@ -754,7 +758,6 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
     @Override
     public void initFailed() {
-        hideProgressDialog();
         hideProgressDialog();
     }
 
