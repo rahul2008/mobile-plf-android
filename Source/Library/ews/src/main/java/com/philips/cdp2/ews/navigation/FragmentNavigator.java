@@ -41,7 +41,7 @@ public class FragmentNavigator {
     }
 
     boolean popToFragment(@NonNull String tag) {
-        return fragmentManager.popBackStackImmediate(tag, POP_BACK_STACK_EXCLUSIVE);
+        return fragmentManager.findFragmentByTag(tag) != null && fragmentManager.popBackStackImmediate(tag, POP_BACK_STACK_EXCLUSIVE);
     }
 
     public int getContainerId() {

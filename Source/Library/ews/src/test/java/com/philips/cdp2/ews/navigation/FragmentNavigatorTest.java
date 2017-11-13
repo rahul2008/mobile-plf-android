@@ -20,21 +20,25 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class FragmentNavigatorTest {
 
-    @Mock private FragmentManager mockFragmentManager;
-    @Mock private FragmentTransaction mockFragmentTransaction;
+    @Mock
+    private FragmentManager mockFragmentManager;
+    @Mock
+    private FragmentTransaction mockFragmentTransaction;
 
     private FragmentNavigator subject;
+    Fragment mockFragment;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        subject = new FragmentNavigator(mockFragmentManager,12345);
+        subject = new FragmentNavigator(mockFragmentManager, 12345);
+        mockFragment = new Fragment();
     }
 
     @Test
     public void itShouldReplaceFragmentAndAddToBackStackWhenPushed() throws Exception {
         int containerId = 50;
-        Fragment mockFragment = new Fragment();
+
 
         when(mockFragmentManager.beginTransaction()).thenReturn(mockFragmentTransaction);
         when(mockFragmentTransaction.replace(anyInt(), any(Fragment.class))).thenReturn(mockFragmentTransaction);
@@ -53,8 +57,10 @@ public class FragmentNavigatorTest {
     @Test
     public void itShouldVerifyPopBackStackExclusiveWhenCalled() throws Exception {
         String anyString = "anyString";
+        when(mockFragmentManager.findFragmentByTag(anyString)).thenReturn(mockFragment);
         subject.popToFragment(anyString);
 
+        verify(mockFragmentManager).findFragmentByTag(anyString);
         verify(mockFragmentManager).popBackStackImmediate(anyString, subject.POP_BACK_STACK_EXCLUSIVE);
     }
 
@@ -66,9 +72,13 @@ public class FragmentNavigatorTest {
     }
 
     @Test
-    public void itShouldVerifyCorrectContainerIdForFragmentNavigator() throws Exception{
+    public void itShouldVerifyCorrectContainerIdForFragmentNavigator() throws Exception {
         assertEquals(12345, subject.getContainerId());
     }
 
-
+    @Test
+    public void itShouldFinishWhenCalled() throws Exception {
+        when(mockFragmentManager.getBackStackEntryCount()).thenReturn(1);
+        assertEquals(true, subject.shouldFinish());
+    }
 }
