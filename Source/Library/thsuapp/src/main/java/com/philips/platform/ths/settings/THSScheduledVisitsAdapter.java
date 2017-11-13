@@ -105,6 +105,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
 
                 Calendar scheduledCalendar = Calendar.getInstance();
                 scheduledCalendar.setTime(dateScheduled);
+                scheduledCalendar.add(Calendar.MINUTE, 15);
                 Long utcScheduledMilliseconds = scheduledCalendar.getTime().getTime();
 
                 if(utcCurrentMilliseconds>utcScheduledMilliseconds){

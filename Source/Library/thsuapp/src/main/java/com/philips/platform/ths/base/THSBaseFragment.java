@@ -226,6 +226,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
     }
 
     public void showError( String message, final boolean shouldGoBack) {
+        hideProgressBar();
         if (isFragmentAttached()) {
             if(null==message){  // if message is not identified make it THS_GENERIC_SERVER_ERROR
                 message = getString(R.string.ths_se_server_error_toast_message);
