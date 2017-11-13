@@ -33,12 +33,33 @@
             android:layout_gravity="center_horizontal" />
     </ScrollView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="Scroll up"
+            android:id="@+id/buttonEncrypt_scroll_up"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Encrypt Data"
         android:id="@+id/buttonEncrypt"
         android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="Scroll bottom"
+            android:id="@+id/buttonEncrypt_scroll_bottom"/>
+
+    </LinearLayout>
 
 
 
@@ -63,14 +84,34 @@
         android:background="@android:color/darker_gray"
         android:layout_height="1dp"/>
 
-
-    <Button
-
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Decrypt Data"
-        android:id="@+id/buttonDecrypt"
-        android:layout_gravity="center_horizontal" />
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="Scroll up"
+            android:id="@+id/buttonDecrypt_scroll_up"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Decrypt Data"
+            android:id="@+id/buttonDecrypt"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="Scroll bottom"
+            android:id="@+id/buttonDecrypt_scroll_bottom"/>
+
+    </LinearLayout>
+
 
 
 
