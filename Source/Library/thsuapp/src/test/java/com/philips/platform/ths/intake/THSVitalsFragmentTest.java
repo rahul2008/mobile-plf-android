@@ -241,7 +241,6 @@ public class THSVitalsFragmentTest {
         when(presenterMock.stringToInteger("30")).thenReturn(30);
 
         thsVitalsFragment.validateBloodPressure();
-        verify(presenterMock).checkIfValueEntered(thsVitalsFragment.mDiastolic);
         verify(presenterMock).checkIfValueEntered(thsVitalsFragment.mSystolic);
     }
 }
