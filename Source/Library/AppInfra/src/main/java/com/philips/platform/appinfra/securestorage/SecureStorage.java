@@ -252,16 +252,18 @@ public class SecureStorage implements SecureStorageInterface {
         return decryptedBytes;
     }
 
-    private Cipher getCipher(int CipherEncryptOrDecryptMode, SecureStorageError secureStorageError) {
+    Cipher getCipher(int CipherEncryptOrDecryptMode, SecureStorageError secureStorageError) {
         Cipher cipher = null;
         Key key;
         try {
             cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
-            SharedPreferences keySharedPreferences = secureStorageHelper.getSharedPreferences(KEY_FILE_NAME);
+            SharedPreferences keySharedPreferences = getSharedPreferences();
             if (keySharedPreferences.contains(SINGLE_AES_KEY_TAG)) { // if  key is present
                 final String aesKeyForEncryptDecrypt = keySharedPreferences.getString(SINGLE_AES_KEY_TAG, null);
                 byte[] secretKeyBytes = Base64.decode(aesKeyForEncryptDecrypt, Base64.DEFAULT);//  AES key bytes
-                keySharedPreferences.edit().remove(SINGLE_AES_KEY_TAG).apply();
+                SharedPreferences.Editor editor = keySharedPreferences.edit();
+                editor.remove(SINGLE_AES_KEY_TAG);
+                editor.apply();
                 key = new SecretKeySpec(secretKeyBytes, "AES");
                 boolean storeKeySuccessfully = secureStorageHelper.storeKey(SS_WRAP_KEY, (SecretKey) key, KEY_FILE_NAME);
                 if(storeKeySuccessfully){
@@ -284,6 +286,10 @@ public class SecureStorage implements SecureStorageInterface {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "getCipher error", e.getMessage());
         }
         return cipher;
+    }
+
+    SharedPreferences getSharedPreferences() {
+        return secureStorageHelper.getSharedPreferences(KEY_FILE_NAME);
     }
 
     @Override

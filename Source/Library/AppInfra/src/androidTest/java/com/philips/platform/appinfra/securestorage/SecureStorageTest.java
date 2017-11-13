@@ -6,6 +6,7 @@
 package com.philips.platform.appinfra.securestorage;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
@@ -18,6 +19,8 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Random;
 
+import javax.crypto.Cipher;
+
 
 /**
  * SecureStorage Test class.
@@ -25,6 +28,7 @@ import java.util.Random;
 
 public class SecureStorageTest extends AppInfraInstrumentation {
     SecureStorageInterface mSecureStorage = null;
+    private AppInfra mAppInfra;
 
     @Override
     protected void setUp() throws Exception {
@@ -32,7 +36,7 @@ public class SecureStorageTest extends AppInfraInstrumentation {
 
         Context context = getInstrumentation().getContext();
         assertNotNull(context);
-        AppInfra mAppInfra = new AppInfra.Builder().build(context);
+        mAppInfra = new AppInfra.Builder().build(context);
         mSecureStorage = mAppInfra.getSecureStorage();
         assertNotNull(mSecureStorage);
 
@@ -273,5 +277,31 @@ public class SecureStorageTest extends AppInfraInstrumentation {
         byte[] decBtyes1 = mSecureStorage.decryptData(encBtyes1, sse);
         assertTrue(Arrays.equals(plainByte1, decBtyes1));
         assertNull(sse.getErrorCode());
+    }
+
+    public void testGetCipher() throws Exception {
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+        SecureStorageHelper secureStorageHelper = new SecureStorageHelper(mAppInfra);
+        final SharedPreferences sharedPreferencesMock = secureStorageHelper.getSharedPreferences("AppInfra.Storage.kfile");
+        SecureStorage secureStorage = new SecureStorage(mAppInfra) {
+            @Override
+            SharedPreferences getSharedPreferences() {
+                return sharedPreferencesMock;
+            }
+        };
+
+        boolean storeKey = secureStorageHelper.storeKey("AppInfra.aes", secureStorageHelper.generateAESKey(), "AppInfra.Storage.kfile");
+        if (storeKey) {
+            secureStorage.getCipher(Cipher.ENCRYPT_MODE, sse);
+            assertFalse(sharedPreferencesMock.contains("AppInfra.aes"));
+            assertNotNull(sharedPreferencesMock.getString("AppInfra.ss", null));
+        }
+        SharedPreferences.Editor edit = sharedPreferencesMock.edit();
+        edit.remove("AppInfra.ss");
+        edit.apply();
+        secureStorage.getCipher(Cipher.ENCRYPT_MODE, sse);
+        assertNotNull(sharedPreferencesMock.getString("AppInfra.ss", null));
+        assertNotNull(secureStorage.getCipher(Cipher.DECRYPT_MODE, sse));
+        assertNotNull(secureStorage.getCipher(Cipher.ENCRYPT_MODE, sse));
     }
 }
