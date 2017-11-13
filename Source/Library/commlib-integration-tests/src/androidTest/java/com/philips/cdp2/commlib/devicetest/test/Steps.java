@@ -45,6 +45,7 @@ import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static java.util.Collections.emptyList;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -65,22 +66,28 @@ public class Steps {
         this.commCentral = app.getCommCentral();
 
         Log.i(LOGTAG, app.toString());
-
-        // In M+, trying to access bluetooth will trigger a runtime dialog. Make sure
-        // the permission is granted before running tests.
-//        Log.d(LOGTAG, "Grant permissions");
-//        Android.grantPermission(ACCESS_COARSE_LOCATION);
-//        Android.grantPermission(CHANGE_WIFI_STATE);
-//        Android.grantPermission(READ_EXTERNAL_STORAGE);
-//        Android.grantPermission(WRITE_EXTERNAL_STORAGE);
     }
 
     @After
-    public void cleanup() {
+    public void cleanup() throws InterruptedException {
         if (commCentral != null) {
             commCentral.stopDiscovery();
         }
-        app.getCommCentral().getApplianceManager().forgetStoredAppliance(current);
+
+        if(current != null) {
+            app.getCommCentral().getApplianceManager().forgetStoredAppliance(current);
+            current.getCommunicationStrategy().forceStrategyType(null);
+
+            if (current instanceof ReferenceAppliance) {
+                PortListener listener = portListeners.get(TimePort.class);
+                ((ReferenceAppliance) current).getTimePort().removePortListener(listener);
+            }
+            if (current instanceof AirPurifier) {
+                PortListener listener = portListeners.get(ComfortAirPort.class);
+                ((AirPurifier) current).getAirPort().removePortListener(listener);
+            }
+        }
+
         portListeners.clear();
     }
 
@@ -106,11 +113,10 @@ public class Steps {
             current = (BaseAppliance) waiter.waitForAppliance(1, MINUTES).getAppliance();
             commCentral.stopDiscovery();
         }
-        if (current == null) {
-            throw new Exception("Appliance not found!");
-        }
-        Log.i(LOGTAG, "Found our referenceAppliance!");
 
+        assertNotNull("Appliance not found!", current);
+
+        Log.i(LOGTAG, "Found our referenceAppliance!");
 
         if (current instanceof ReferenceAppliance) {
             PortListener listener = new PortListener();
@@ -141,9 +147,19 @@ public class Steps {
         ((ReferenceAppliance) current).getTimePort().subscribe();
     }
 
+    @When("^device unsubscribes on time port$")
+    public void deviceUnsubscribesOnTimePort() throws Throwable {
+        ((ReferenceAppliance) current).getTimePort().unsubscribe();
+    }
+
     @When("^device subscribes on air port$")
     public void deviceSubscribesOnAirPort() throws Throwable {
         ((AirPurifier) current).getAirPort().subscribe();
+    }
+
+    @When("^device unsubscribes on air port$")
+    public void deviceUnsubscribesOnAirPort() throws Throwable {
+        ((AirPurifier) current).getAirPort().unsubscribe();
     }
 
     @Then("^time value is received without errors$")
@@ -161,8 +177,8 @@ public class Steps {
 
         scenario.write("Errors:" + listener.errors.toString());
 
-        assertEquals(emptyList(), listener.errors);
-        assertEquals(count, listener.receivedCount);
+        assertEquals("Errors received from time port", emptyList(), listener.errors);
+        assertEquals("Did not receive enough time values from port", count, listener.receivedCount);
 
         final String datetime = ((ReferenceAppliance) current).getTimePort().getPortProperties().datetime;
         scenario.write("Got time: " + datetime);
@@ -184,26 +200,22 @@ public class Steps {
 
         scenario.write("Errors:" + listener.errors.toString());
 
-        assertEquals(emptyList(), listener.errors);
-        assertEquals(count, listener.receivedCount);
+        assertEquals("Errors received from air port", emptyList(), listener.errors);
+        assertEquals("Did not receive enough values from air port", count, listener.receivedCount);
 
         final boolean lightOn = ((AirPurifier) current).getAirPort().getPortProperties().getLightOn();
-        assertTrue(lightOn);
+        assertTrue("Light is not turned on!", lightOn);
     }
 
     @Given("^device is connected to SSID \"(.*?)\"$")
     public void deviceIsConnectedToSSID(String ssid) throws Throwable {
         WifiManager wifiManager = (WifiManager) app.getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        if (wifiInfo.getSupplicantState() == SupplicantState.COMPLETED) {
-            ssid = String.format("\"%s\"", ssid); // According to spec the getSSID is returned with double quotes
-            if (!wifiInfo.getSSID().equals(ssid)) {
-                throw new Exception(String.format("Connected to wrong network: expected %s, actual %s", ssid, wifiInfo.getSSID()));
-            }
-        } else {
-            throw new Exception("Wifi turned off");
-        }
 
+        assertEquals("Wifi turned off", SupplicantState.COMPLETED, wifiInfo.getSupplicantState());
+
+        ssid = String.format("\"%s\"", ssid); // According to spec the getSSID is returned with double quotes
+        assertEquals("Connected to wrong network", ssid, wifiInfo.getSSID());
     }
 
     @Given("^bluetooth is turned on$")
@@ -224,9 +236,7 @@ public class Steps {
 
         pairingWaiter.waitForPairingCompleted(1, MINUTES);
 
-        if (!pairingWaiter.pairingSucceeded) {
-            throw new Exception("Pairing failed");
-        }
+        assertTrue("Pairing failed", pairingWaiter.pairingSucceeded);
     }
 
     @Given("^appliance is stored on device$")
@@ -258,9 +268,7 @@ public class Steps {
 
         cloudController.removeSignOnListener(cloudSignOnWaiter);
 
-        if (!cloudController.isSignOn()) {
-            throw new Exception("Sign on failed");
-        }
+        assertTrue("Sign on failed", cloudController.isSignOn());
     }
 
     @Then("^the light on the appliance is turned off$")
@@ -279,6 +287,6 @@ public class Steps {
         assertEquals(1, listener.receivedCount);
 
         final boolean lightOn = ((AirPurifier) current).getAirPort().getPortProperties().getLightOn();
-        assertFalse(lightOn);
+        assertFalse("Light is turned on!", lightOn);
     }
 }
