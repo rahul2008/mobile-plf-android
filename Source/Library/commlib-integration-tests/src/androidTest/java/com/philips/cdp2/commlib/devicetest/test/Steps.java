@@ -272,7 +272,7 @@ public class Steps {
     }
 
     @Then("^the light on the appliance is turned off$")
-    public void theLlightOnTheApplianceIsTurnedOff() throws Throwable {
+    public void theLightOnTheApplianceIsTurnedOff() throws Throwable {
         Log.d(LOGTAG, String.format("Setting airport light off"));
 
         ((AirPurifier) current).getAirPort().setLight(false);
