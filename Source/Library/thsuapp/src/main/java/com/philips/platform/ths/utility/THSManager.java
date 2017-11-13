@@ -256,6 +256,15 @@ public class THSManager {
         return sTHSManager;
     }
 
+    private THSManager(){
+
+    }
+
+    public void resetTHSManagerData(){
+         setVisitContext(null);
+         setMatchMakingVisit(false);
+    }
+
 
     public AWSDK getAwsdk(Context context) throws AWSDKInstantiationException {
         if (mAwsdk == null) {
