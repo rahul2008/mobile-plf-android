@@ -9,9 +9,9 @@ devices=$($adb devices | grep -v 'List of devices' | cut -f1 | grep -c '.')
 if (($devices > 0))
 then
     echo "Setting permissions"
-	
-	package=$($adb shell pm list packages | grep 'package\:$package_name' | grep -vc 'package\:$package_name\.')
-	
+
+	package=$($adb shell pm list packages | grep "package\:$package_name" | grep -vc "package\:$package_name\.")
+
 	if (($package > 0))
 	then
 	   echo "Package already installed";

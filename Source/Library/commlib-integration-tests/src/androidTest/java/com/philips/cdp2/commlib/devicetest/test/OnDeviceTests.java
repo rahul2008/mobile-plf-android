@@ -15,8 +15,8 @@ import cucumber.api.junit.Cucumber;
         plugin = {"pretty"},
         glue = {"com.philips.cdp2.commlib.devicetest.test"},
         format = {
-                "json:/sdcard/Android/data/com.philips.cdp2.commlib.devicetest/report.json",
-                "html:/sdcard/Android/data/com.philips.cdp2.commlib.devicetest/cucumber-reports/html"
+                "json:/data/data/com.philips.cdp2.commlib.devicetest/report.json",
+                "html:/data/data/com.philips.cdp2.commlib.devicetest/cucumber-reports/html"
         },
         features = "features",
         tags = {"@automated", "@android", "~@not_android", "@target", "~@broken", "~@disabled"}
