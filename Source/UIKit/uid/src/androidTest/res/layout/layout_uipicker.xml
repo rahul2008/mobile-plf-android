@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/ui_picker"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label android:id="@+id/ui_picker_text1"
+        style="@style/UIDUIPickerItem"
+        android:text="@string/uipicker_item_text"/>
+
+</LinearLayout>

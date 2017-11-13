@@ -161,6 +161,7 @@
     <dimen name="uipicker_item_height">48dp</dimen>
     <dimen name="uipicker_item_text_size">16sp</dimen>
     <dimen name="uipicker_item_text_left_right_padding">16dp</dimen>
+    <dimen name="uipicker_item_width">300dp</dimen>
 
     <!--Sidebar dimens -->
     <dimen name="sidebar_elevation">5dp</dimen>

@@ -70,7 +70,7 @@ public class UIPicker extends ListPopupWindow{
     private boolean isDistanceToTopLarger;
 
     public UIPicker(@NonNull Context context) {
-        this(context, null, android.support.v7.appcompat.R.attr.listPopupWindowStyle);
+        this(context, null);
         this.context = context;
     }
 
