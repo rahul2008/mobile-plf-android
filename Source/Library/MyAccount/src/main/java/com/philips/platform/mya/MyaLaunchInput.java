@@ -17,34 +17,17 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 public class MyaLaunchInput extends UappLaunchInput {
 
-    private String applicationName;
-    private String propositionName;
-
-    public String getApplicationName() {
-        return applicationName;
-    }
-
-    public void setApplicationName(String applicationName) {
-        this.applicationName = applicationName;
-    }
-
-    public String getPropositionName() {
-        return propositionName;
-    }
-
-    public void setPropositionName(String propositionName) {
-        this.propositionName = propositionName;
-    }
+    private Context context;
+    private boolean isAddToBackStack;
 
     public Context getContext() {
         return context;
     }
 
-    private Context context;
-
     public void setContext(Context context) {
         this.context = context;
     }
+
 
     /**
      * Get status of is current fragment need to add to backstack or no.
@@ -55,7 +38,6 @@ public class MyaLaunchInput extends UappLaunchInput {
         return isAddToBackStack;
     }
 
-
     /**
      * Enable  add to back stack for current fragment.
      *
@@ -64,6 +46,4 @@ public class MyaLaunchInput extends UappLaunchInput {
     public void addToBackStack(boolean isAddToBackStack) {
         this.isAddToBackStack = isAddToBackStack;
     }
-
-    private boolean isAddToBackStack;
 }
