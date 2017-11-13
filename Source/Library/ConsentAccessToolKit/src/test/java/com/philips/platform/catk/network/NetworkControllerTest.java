@@ -7,19 +7,7 @@
 
 package com.philips.platform.catk.network;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.*;
-import org.mockito.*;
-
 import com.android.volley.AuthFailureError;
-import com.android.volley.Response;
-import com.google.gson.JsonArray;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
@@ -27,6 +15,24 @@ import com.philips.platform.catk.injection.CatkComponent;
 import com.philips.platform.catk.model.GetConsentsModelRequest;
 import com.philips.platform.catk.request.ConsentRequest;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+@RunWith(RobolectricTestRunner.class)
 public class NetworkControllerTest {
 
     private NetworkControllerCustom networkController;
@@ -93,12 +99,13 @@ public class NetworkControllerTest {
     }
 
     class NetworkControllerCustom extends NetworkController {
-
+        @Override
         protected void init() {
             restInterface = mockRestInterface;
         }
 
-        protected ConsentRequest getConsentJsonRequest(final NetworkAbstractModel model, final Response.ErrorListener error, final Response.Listener<JsonArray> response) {
+        @Override
+        protected ConsentRequest getConsentJsonRequest(final NetworkAbstractModel model) {
             return mockConsentRequest;
         }
 
