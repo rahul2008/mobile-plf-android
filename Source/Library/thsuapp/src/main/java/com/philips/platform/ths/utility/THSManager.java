@@ -256,6 +256,14 @@ public class THSManager {
         return sTHSManager;
     }
 
+    private THSManager(){
+
+    }
+
+    public void resetTHSManager(){
+        sTHSManager = null;
+    }
+
 
     public AWSDK getAwsdk(Context context) throws AWSDKInstantiationException {
         if (mAwsdk == null) {
