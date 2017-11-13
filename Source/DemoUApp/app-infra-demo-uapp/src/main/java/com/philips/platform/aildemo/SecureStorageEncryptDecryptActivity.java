@@ -12,7 +12,6 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
 /**
@@ -49,18 +48,12 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
                 }
                 plainByte= text.getBytes();
                 SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
-                encryptedByte=mSecureStorage.encryptData(plainByte,sseStore);
-                if(null!=sseStore.getErrorCode())
-                {
-                    Toast.makeText(SecureStorageEncryptDecryptActivity.this,sseStore.getErrorCode().toString(),Toast.LENGTH_SHORT).show();
-                }else{
-                    try {
-                        String encBytesString = new String(encryptedByte, "UTF-8");
-                        textViewEncrypt.setText(encBytesString);
-                    } catch (UnsupportedEncodingException e) {
-                        e.getMessage();
-                    }
-
+                encryptedByte = mSecureStorage.encryptData(plainByte, sseStore);
+                if (null != sseStore.getErrorCode()) {
+                    Toast.makeText(SecureStorageEncryptDecryptActivity.this, sseStore.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
+                } else {
+                    String encBytesString = new String(encryptedByte);
+                    textViewEncrypt.setText(encBytesString);
                 }
 
 
