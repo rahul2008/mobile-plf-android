@@ -13,6 +13,7 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
@@ -73,6 +74,9 @@ public class THSInitFragmentTest {
     @Mock
     ActionBarListener actionBarListenerMock;
 
+    @Mock
+    ServiceDiscoveryInterface serviceDiscoveryMock;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -84,6 +88,7 @@ public class THSInitFragmentTest {
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
         when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
         when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
+        when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
 

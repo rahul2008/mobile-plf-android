@@ -125,11 +125,11 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
 
             if (i == R.id.vitals_continue_btn) {
                 if(validateFields()) {
-                    //THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_FLOATING_BUTTON, "vitalsContinue");
+                    //THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_FLOATING_BUTTON, "vitalsContinue");
                     mThsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
                 }
             } else if (i == R.id.vitals_skip) {
-                THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "stepsSkipped", "vitals");
+                THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "stepsSkipped", "vitals");
                 mThsVitalsPresenter.onEvent(R.id.vitals_skip);
             }
 
@@ -186,7 +186,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
             tagActions = THSTagUtils.addActions(tagActions, "weight");
         }
         if (!tagActions.isEmpty()) {
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "step2VitalsForVisit", tagActions);
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "step2VitalsForVisit", tagActions);
         }
     }
 
@@ -231,14 +231,26 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     }
 
     public boolean validateFields() {
-        validateSystolicView();
-        validateDiastolicView();
-        validateTemperatureView();
-        if(mFarenheitInputLayoutContainer.isShowingError() || mSystolicInputValidationLayout.isShowingError() || mDiastolicInputValidationLayout.isShowingError()){
-            return false;
-        }else {
-            return true;
+
+        if(mThsVitalsPresenter.checkIfValueEntered(mSystolic) && mThsVitalsPresenter.checkIfValueEntered(mDiastolic)){
+            validateSystolicView();
+            validateDiastolicView();
+            validateTemperatureView();
+            if(mFarenheitInputLayoutContainer.isShowingError() || mSystolicInputValidationLayout.isShowingError() || mDiastolicInputValidationLayout.isShowingError()){
+                return false;
+            }else {
+                return true;
+            }
         }
+        else {
+           validateTemperatureView();
+            if(mFarenheitInputLayoutContainer.isShowingError()){
+                return false;
+            }else {
+                return true;
+            }
+        }
+
     }
 
     public void validateTemperatureView() {

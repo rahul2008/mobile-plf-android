@@ -24,6 +24,7 @@ import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 
 import java.util.Date;
 
@@ -159,7 +160,7 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
 
     public RemindOptions getReminderOptions(){
         if(remindOptions!=RemindOptions.NO_REMINDER){
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"reminderSet");
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"reminderSet");
         }
         return remindOptions;
     }

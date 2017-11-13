@@ -12,6 +12,7 @@ import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.manager.VisitManager;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
@@ -105,6 +106,9 @@ public class THSSymptomsFragmentTest {
     @Mock
     THSConsumer thsConsumerMock;
 
+    @Mock
+    ServiceDiscoveryInterface serviceDiscoveryMock;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -119,6 +123,7 @@ public class THSSymptomsFragmentTest {
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
         when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
+        when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
 

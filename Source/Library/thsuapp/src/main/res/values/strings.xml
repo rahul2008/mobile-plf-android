@@ -241,7 +241,8 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_insurance_visit_shall_be_cancelled">Your visit shall be cancelled</string>
     <string name="ths_insurance_yes_cancel_visit">Yes, cancel my visit</string>
     <string name="ths_insurance_no_continue_waiting">No, continue waiting</string>
-
+    <string name="ths_insurance_please_select_insurance">Please select an Insurance</string>
+    <string name="ths_insurance_fields_required">Field(s) Required</string>
 
 
 

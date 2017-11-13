@@ -16,6 +16,7 @@ import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.view.widget.EditText;
 
 import java.util.Map;
@@ -102,7 +103,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
 
 
     private void tagSuccess(){
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, "step2VitalsAdded");
+        THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, "step2VitalsAdded");
 
     }
     int stringToInteger(String value) {

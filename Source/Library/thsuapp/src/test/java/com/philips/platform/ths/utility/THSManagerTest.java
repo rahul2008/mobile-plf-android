@@ -35,6 +35,7 @@ import com.americanwell.sdk.manager.VisitManager;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.intake.THSConditionsCallBack;
@@ -253,6 +254,9 @@ public class THSManagerTest {
     @Mock
     LoggingInterface loggingInterface;
 
+    @Mock
+    ServiceDiscoveryInterface serviceDiscoveryMock;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -264,6 +268,7 @@ public class THSManagerTest {
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
         when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
         when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
+        when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
         thsManager.setAwsdk(awsdkMock);

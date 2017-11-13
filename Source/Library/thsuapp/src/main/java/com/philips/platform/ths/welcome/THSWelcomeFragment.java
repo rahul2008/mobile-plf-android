@@ -84,16 +84,16 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.appointments) {
-           // THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+ THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER);
+           // THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+ THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER);
             presenter.onEvent(R.id.appointments);
         }else if(i == R.id.visit_history){
-            //THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_VISIT_HISTORY_LIST);
+            //THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_VISIT_HISTORY_LIST);
             presenter.onEvent(R.id.visit_history);
         }else if(i == R.id.how_it_works){
-            //THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_HOW_IT_WORKS);
+            //THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_HOW_IT_WORKS);
             presenter.onEvent(R.id.how_it_works);
         }else if(i == R.id.ths_start){
-           // THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_PRACTICE_PAGE);
+           // THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_PRACTICE_PAGE);
             presenter.onEvent(R.id.ths_start);
         }
     }
@@ -108,6 +108,9 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     public void onDestroy() {
         super.onDestroy();
         // exit from THS, collect tagging data
-        THSManager.getInstance().getThsTagging().pauseLifecycleInfo();
+        if(null!=THSManager.getInstance() ) {
+            THSManager.getInstance().getThsTagging().pauseLifecycleInfo();
+            THSManager.getInstance().resetTHSManagerData();
+        }
     }
 }

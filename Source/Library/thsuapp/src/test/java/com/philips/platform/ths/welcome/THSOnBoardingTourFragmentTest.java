@@ -11,6 +11,7 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
@@ -86,6 +87,9 @@ public class THSOnBoardingTourFragmentTest {
     @Mock
     LoggingInterface loggingInterface;
 
+    @Mock
+    ServiceDiscoveryInterface serviceDiscoveryMock;
+
 
     @Before
     public void setUp() throws Exception {
@@ -98,6 +102,7 @@ public class THSOnBoardingTourFragmentTest {
         when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
         when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
+        when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
 
         THSManager.getInstance().setAppInfra(appInfraInterface);
 

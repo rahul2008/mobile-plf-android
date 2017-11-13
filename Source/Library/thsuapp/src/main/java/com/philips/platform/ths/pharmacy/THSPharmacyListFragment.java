@@ -7,16 +7,12 @@
 package com.philips.platform.ths.pharmacy;
 
 import android.content.Intent;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -55,11 +51,9 @@ import com.philips.platform.ths.pharmacy.customtoggle.SegmentControl;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
-import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSUtilities;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ImageButton;
@@ -70,7 +64,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-import static com.google.android.gms.maps.model.BitmapDescriptorFactory.fromResource;
 import static com.philips.platform.ths.utility.THSConstants.PHARMACY_SEARCH_CONSTANT;
 import static com.philips.platform.ths.utility.THSConstants.THS_PHARMACY_MAP;
 
@@ -90,13 +83,13 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     protected THSPharmacyListPresenter thsPharmacyListPresenter;
     private LatLngBounds.Builder builder;
     private CameraUpdate cu;
-    private Label selectedPharmacyName, selectedPharmacyAddressLineOne, selectedPharmacyAddressLineTwo,
+    protected Label selectedPharmacyName, selectedPharmacyAddressLineOne, selectedPharmacyAddressLineTwo,
             selectedPharmacyState, selectedPharmacyZip, selectedPharmacyPhone, selectedPharmacyEmail, pharmacy_segment_control_one, pharmacy_segment_control_two;
-    private RelativeLayout selectedPharmacyLayout, pharmacy_list_fragment_container;
+    protected RelativeLayout selectedPharmacyLayout, pharmacy_list_fragment_container;
     private SegmentControl pharmacyTypeLayout;
     private Animation slideUpFromBottomAnimation, slideDownFromBottomAnimation, slideUpFromTopAnimation, slideDownFromTopAnimation;
     private boolean handleBack = false;
-    private boolean isListSelected = false;
+    protected boolean isListSelected = false;
     private Button choosePharmacyButton;
     private Pharmacy pharmacy;
     protected THSConsumerWrapper thsConsumerWrapper;
@@ -334,7 +327,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         isListSelected = true;
     }
 
-    private List<Pharmacy> pharmacyRetailList, pharmacyMailOrderList;
+    protected List<Pharmacy> pharmacyRetailList, pharmacyMailOrderList;
 
     @Override
     public void updatePharmacyListView(List<Pharmacy> pharmacies) {
@@ -444,7 +437,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         });
     }
 
-    private void updateCameraBounds(List<Pharmacy> pharmacies) {
+    protected void updateCameraBounds(List<Pharmacy> pharmacies) {
 
         builder = new LatLngBounds.Builder();
         List<LatLng> latLngs = addMarkerOptions(pharmacies, null, false);
