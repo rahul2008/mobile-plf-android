@@ -294,7 +294,8 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
         if (THSManager.getInstance().getThsVisitCompletionListener() != null) {
             THSManager.getInstance().getThsVisitCompletionListener().onTHSVisitComplete(isSuccess);
         }
-        THSManager.getInstance().resetTHSManager();// reset singleton
+        THSManager.getInstance().setVisitContext(null);
+        THSManager.getInstance().setMatchMakingVisit(false);
     }
 
     @Override
