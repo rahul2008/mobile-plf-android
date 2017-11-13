@@ -119,6 +119,19 @@ public class MomentsSegregatorTest {
     }
 
     @Test
+    public void should_not_processMoment_when_momentExpired() throws SQLException {
+        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1, MomentType.TEMPERATURE), new DateTime().minusMinutes(1));
+        SynchronisationData synchronisationData = new OrmSynchronisationData("1234", false, new DateTime().minus(1), 1);
+        synchronisationData.setVersion(2);
+        moment1.setSynchronisationData(synchronisationData);
+        when(dbFetchingInterface.fetchMomentByGuid(synchronisationData.getGuid())).thenReturn(ormMomentMock);
+        when(dbFetchingInterface.fetchMomentByGuid("1234")).thenReturn(ormMomentMock);
+        when(ormSynchronisationDataMock.getGuid()).thenReturn("-1");
+        int count = momentsSegregator.processMoments(Arrays.asList(moment1), dbRequestListener);
+        assertEquals(count, 0);
+    }
+
+    @Test
     public void should_processMoment_when_processMomentsReceivedFromBackend_called_withSynData() throws SQLException {
         Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1, MomentType.TEMPERATURE), null);
         SynchronisationData synchronisationData = new OrmSynchronisationData("abc", false, new DateTime(), 1);
