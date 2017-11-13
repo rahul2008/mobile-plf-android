@@ -29,10 +29,11 @@ public class MyAccountState extends BaseState {
         FragmentLauncher fragmentLauncher = (FragmentLauncher)uiLauncher;
         Context actContext = fragmentLauncher.getFragmentActivity();
 
-        ((AbstractAppFrameworkBaseActivity)actContext).handleFragmentBackStack(new MyaFragment(),MyaFragment.TAG,getUiStateData().getFragmentLaunchState());
+        ((AbstractAppFrameworkBaseActivity)actContext).handleFragmentBackStack(null,MyaFragment.TAG,getUiStateData().getFragmentLaunchState());
 
         MyaLaunchInput launchInput = new MyaLaunchInput();
         launchInput.setContext(actContext);
+        launchInput.addToBackStack(true);
         MyaInterface myaInterface = getInterface();
         myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
         myaInterface.launch(fragmentLauncher, launchInput);
