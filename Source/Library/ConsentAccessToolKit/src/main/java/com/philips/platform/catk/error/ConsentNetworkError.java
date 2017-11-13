@@ -7,14 +7,16 @@
 
 package com.philips.platform.catk.error;
 
-import com.android.volley.*;
+import android.os.Message;
+import android.util.Log;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.listener.NetworkErrorListener;
-import com.philips.platform.catk.listener.RequestListener;
-
-import android.os.Message;
-import android.util.Log;
 
 public class ConsentNetworkError implements NetworkErrorListener {
 
@@ -23,24 +25,20 @@ public class ConsentNetworkError implements NetworkErrorListener {
     private int mErrorCode = CatkConstants.CONSENT_SUCCESS;
     private String mCustomErrorMessage;
 
-    public ConsentNetworkError(VolleyError error, int requestCode,
-            RequestListener requestListener) {
+    public ConsentNetworkError(VolleyError error, int requestCode) {
         initErrorCode(error);
         if (error instanceof com.android.volley.ServerError) {
             setServerError(error);
         } else {
             mVolleyError = error;
         }
-        initMessage(requestCode, requestListener);
+        initMessage(requestCode);
     }
 
-    void initMessage(int requestCode, RequestListener requestListener) {
+    void initMessage(int requestCode) {
         Message msg = Message.obtain();
         msg.what = requestCode;
         msg.obj = this;
-        if (requestListener != null) {
-            requestListener.onResponseError(msg);
-        }
     }
 
     private void initErrorCode(final VolleyError error) {
@@ -108,7 +106,7 @@ public class ConsentNetworkError implements NetworkErrorListener {
 
     private void checkInsufficientStockError(ServerError serverError) {
         if (serverError == null || serverError.getErrors() == null
-            || serverError.getErrors().get(0) == null) {
+                || serverError.getErrors().get(0) == null) {
             return;
         }
         if ("InsufficientStockError".equals(serverError.getErrors().get(0).getType())) {
