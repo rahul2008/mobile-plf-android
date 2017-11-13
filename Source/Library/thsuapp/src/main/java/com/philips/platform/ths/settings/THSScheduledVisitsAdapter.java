@@ -46,7 +46,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
     List<Appointment> mAppointmentList;
     THSScheduledVisitsFragment mThsScheduledVisitsFragment;
     AlertDialogFragment alertDialogFragment;
-    final int FIFTEEN = 15;
+    final int THIRTY = 30;
 
     public THSScheduledVisitsAdapter(List<Appointment> appointments, THSScheduledVisitsFragment thsScheduledVisitsFragment) {
         mAppointmentList = appointments;
@@ -138,7 +138,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
     }
 
     private boolean isUserArrivedEarly(long utcCurrentMilliseconds, Long utcScheduledMilliseconds) {
-        if (Math.abs(utcScheduledMilliseconds - utcCurrentMilliseconds) > TimeUnit.MINUTES.toMillis(FIFTEEN)) {
+        if (Math.abs(utcScheduledMilliseconds - utcCurrentMilliseconds) > TimeUnit.MINUTES.toMillis(THIRTY)) {
             return true;
         }
         return false;
