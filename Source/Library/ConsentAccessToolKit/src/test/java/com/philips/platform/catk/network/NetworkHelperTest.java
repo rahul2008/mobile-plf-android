@@ -7,18 +7,19 @@
 
 package com.philips.platform.catk.network;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
 import com.philips.platform.catk.ConsentAccessToolKitManipulator;
 import com.philips.platform.catk.injection.CatkComponent;
 import com.philips.platform.catk.mock.ModelDataLoadListenerMock;
 import com.philips.platform.catk.mock.NetworkControllerMock;
 import com.philips.platform.catk.model.GetConsentsModelRequest;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.junit.Assert.assertEquals;
 
 public class NetworkHelperTest {
 
@@ -35,6 +36,11 @@ public class NetworkHelperTest {
         networkController = new NetworkControllerMock();
         NetworkHelperManipulator.setNetworkController(networkController);
         getConsentsModelRequest = new GetConsentsModelRequest(URL, "applicationName1", "propositionName1", new ModelDataLoadListenerMock());
+    }
+
+    @After
+    public void tearDown() {
+        NetworkHelperManipulator.setNetworkController(null);
     }
 
     @Test

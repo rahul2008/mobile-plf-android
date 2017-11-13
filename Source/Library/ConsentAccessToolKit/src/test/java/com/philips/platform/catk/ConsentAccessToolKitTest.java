@@ -7,14 +7,6 @@
 
 package com.philips.platform.catk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import org.junit.*;
-import org.mockito.*;
-
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.catk.injection.CatkComponent;
@@ -23,8 +15,23 @@ import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.mock.CatkComponentMock;
 import com.philips.platform.catk.model.CreateConsentModelRequest;
 import com.philips.platform.catk.model.GetConsentsModelRequest;
-import com.philips.platform.catk.network.*;
+import com.philips.platform.catk.network.NetworkAbstractModel;
+import com.philips.platform.catk.network.NetworkHelper;
+import com.philips.platform.catk.network.NetworkHelperManipulator;
 import com.philips.platform.catk.response.ConsentStatus;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class ConsentAccessToolKitTest {
 
@@ -75,6 +82,8 @@ public class ConsentAccessToolKitTest {
 
     @After
     public void tearDown() throws Exception {
+        consentAccessToolKit.setCatkComponent(null);
+        NetworkHelperManipulator.setInstance(null);
         mockNetworkHelper = null;
         listnerMock = null;
     }
