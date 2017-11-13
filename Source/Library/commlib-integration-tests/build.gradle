@@ -129,6 +129,8 @@ dependencies {
     androidTestCompile deps.cucumber
     androidTestCompile deps.cucumber_junit
     androidTestCompile deps.dexmaker
+
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
 }
 
 tasks.whenTaskAdded { task ->

@@ -23,6 +23,7 @@ then
 
 	echo "Setting permissions"
 	$adb shell pm grant $package_name android.permission.ACCESS_COARSE_LOCATION
+	$adb shell pm grant $package_name android.permission.READ_EXTERNAL_STORAGE
 	$adb shell pm grant $package_name android.permission.WRITE_EXTERNAL_STORAGE
 	echo "Permissions set successful"
 fi
