@@ -20,20 +20,25 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class FragmentNavigatorTest {
 
-    @InjectMocks private FragmentNavigator subject;
+    @InjectMocks
+    private FragmentNavigator subject;
 
-    @Mock private FragmentManager mockFragmentManager;
-    @Mock private FragmentTransaction mockFragmentTransaction;
+    @Mock
+    private FragmentManager mockFragmentManager;
+    @Mock
+    private FragmentTransaction mockFragmentTransaction;
+
+    Fragment mockFragment;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        mockFragment = new Fragment();
     }
 
     @Test
     public void itShouldReplaceFragmentAndAddToBackStackWhenPushed() throws Exception {
         int containerId = 50;
-        Fragment mockFragment = new Fragment();
 
         when(mockFragmentManager.beginTransaction()).thenReturn(mockFragmentTransaction);
         when(mockFragmentTransaction.replace(anyInt(), any(Fragment.class))).thenReturn(mockFragmentTransaction);
@@ -52,8 +57,9 @@ public class FragmentNavigatorTest {
     @Test
     public void itShouldPopFragmentImmediate() throws Exception {
         String anyString = "anyString";
+        when(mockFragmentManager.findFragmentByTag(anyString)).thenReturn(mockFragment);
         subject.popToFragment(anyString);
-
+        verify(mockFragmentManager).findFragmentByTag(anyString);
         verify(mockFragmentManager).popBackStackImmediate(anyString, 0);
     }
 
