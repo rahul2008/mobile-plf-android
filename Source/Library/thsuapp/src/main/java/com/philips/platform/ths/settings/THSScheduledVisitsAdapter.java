@@ -8,7 +8,6 @@ package com.philips.platform.ths.settings;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -39,14 +38,14 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_SCHEDULE_APPOINTMENT;
-import static com.philips.platform.ths.utility.THSConstants.THS_EARLY_FOR_APPOINTMENT;
 import static com.philips.platform.ths.visit.THSWaitingRoomFragment.CANCEL_VISIT_ALERT_DIALOG_TAG;
 
 public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduledVisitsAdapter.CustomViewHolder>  {
     List<Appointment> mAppointmentList;
     THSScheduledVisitsFragment mThsScheduledVisitsFragment;
     AlertDialogFragment alertDialogFragment;
-    final int THIRTY = 30;
+    final int THIRTYONE = 31;
+    final int SIXTEEN = 16;
 
     public THSScheduledVisitsAdapter(List<Appointment> appointments, THSScheduledVisitsFragment thsScheduledVisitsFragment) {
         mAppointmentList = appointments;
@@ -105,7 +104,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
 
                 Calendar scheduledCalendar = Calendar.getInstance();
                 scheduledCalendar.setTime(dateScheduled);
-                scheduledCalendar.add(Calendar.MINUTE, 15);
+                scheduledCalendar.add(Calendar.MINUTE, SIXTEEN);
                 Long utcScheduledMilliseconds = scheduledCalendar.getTime().getTime();
 
                 if(utcCurrentMilliseconds>utcScheduledMilliseconds){
@@ -138,7 +137,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
     }
 
     private boolean isUserArrivedEarly(long utcCurrentMilliseconds, Long utcScheduledMilliseconds) {
-        if (Math.abs(utcScheduledMilliseconds - utcCurrentMilliseconds) > TimeUnit.MINUTES.toMillis(THIRTY)) {
+        if (Math.abs(utcScheduledMilliseconds - utcCurrentMilliseconds) > TimeUnit.MINUTES.toMillis(THIRTYONE)) {
             return true;
         }
         return false;
