@@ -6,18 +6,14 @@
 package com.philips.cdp.prodreg.fragments;
 
 import android.app.*;
+import android.graphics.*;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.text.Editable;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.text.style.TextAppearanceSpan;
+import android.text.*;
+import android.text.style.*;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,11 +32,11 @@ import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.summary.Data;
-import com.philips.cdp.prodreg.register.ProdRegRegistrationController;
-import com.philips.cdp.prodreg.register.RegisteredProduct;
+import com.philips.cdp.prodreg.register.*;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.cdp.registration.ui.traditional.*;
 import com.philips.platform.uid.text.utils.UIDClickableSpan;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -64,9 +60,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     public static final String TAG = ProdRegRegistrationFragment.class.getName();
     private ImageLoader imageLoader;
-    private LinearLayout dateParentLayout, serialNumberParentLayout, successLayout;
-    private Label productTitleTextView, productCtnTextView,prSuccessConfigurableTextView,prg_product_title,team_member_name,prg_product_description;
-    private ImageView productImageView,success_background_image,team_member_icon;
+    private LinearLayout dateParentLayout, serialNumberParentLayout ;
+    private Label productTitleTextView, productCtnTextView;
+    private ImageView productImageView;
     private ValidationEditText date_EditText;
     private ProdRegRegistrationController prodRegRegistrationController;
     private boolean textWatcherCalled = false;
@@ -80,9 +76,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private ValidationEditText field_serial;
     private boolean isRegisterButtonClicked = false;
     private String minDate;
-    private Label prg_success_thanks_textView;
-    String warntyPeriod=null;
     AlertDialogFragment alertDialogFragment;
+    Bundle bundle;
+    private boolean isFirstLaunch;
 
     @SuppressWarnings("SimpleDateFormat")
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -97,7 +93,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             final Calendar mCalendar = Calendar.getInstance();
             final String mGetDeviceDate = dateFormat.format(mCalendar.getTime());
             try {
-                final String text = arg1 + "-" + mMonth + "-" + mDate;
+                final String text =  mDate + "-" + mMonth + "-" + arg1;
                 final Date mDisplayDate = dateFormat.parse(text);
                 final Date mDeviceDate = dateFormat.parse(mGetDeviceDate);
                 if (!mDisplayDate.after(mDeviceDate)) {
@@ -152,27 +148,17 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         UIDHelper.injectCalligraphyFonts();
         dateParentLayout = (LinearLayout) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_Layout);
         serialNumberParentLayout = (LinearLayout) view.findViewById(R.id.prg_registerScreen_serialNumber_layout);
-        successLayout = (LinearLayout) view.findViewById(R.id.successLayout);
-        prg_success_thanks_textView=(Label)view.findViewById(R.id.prg_success_thanks_textView);
-        success_background_image=(ImageView)view.findViewById(R.id.success_background_image);
-        prg_product_title=(Label) view.findViewById(R.id.prg_product_title);
         productTitleTextView = (Label) view.findViewById(R.id.prg_registerScreen_productTitle_label);
         productCtnTextView = (Label) view.findViewById(R.id.prg_registerScreen_ctn_label);
         date_input_field = (InputValidationLayout) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_validationLayout);
         date_EditText = (ValidationEditText) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_validationEditText);
         imageLoader = ImageRequestHandler.getInstance(mActivity.getApplicationContext()).getImageLoader();
-        prSuccessConfigurableTextView = (Label) view.findViewById(R.id.prg_success_configurable_textView);
         registerButton = (ProgressBarButton) view.findViewById(R.id.prg_registerScreen_register_button);
-        final Button continueButton = (Button) view.findViewById(R.id.continueButton);
         productImageView = (ImageView) view.findViewById(R.id.prg_registerScreen_product_image);
-        team_member_icon=(ImageView)view.findViewById(R.id.team_member_icon);
-        team_member_name = (Label) view.findViewById(R.id.team_member_name);
-        prg_product_description = (Label) view.findViewById(R.id.prg_product_description);
 
         registerButton.setOnClickListener(onClickRegister());
         date_EditText.setKeyListener(null);
         date_EditText.setOnTouchListener(onClickPurchaseDate());
-        continueButton.setOnClickListener(onClickContinue());
         ProdRegTagging.getInstance().trackPage("RegistrationScreen", "trackPage", "RegistrationScreen");
         findSerialTextView = (Label)view.findViewById(R.id.prg_registerScreen_findSerialNumber_Label);
         makeTextViewHyperlink(findSerialTextView);
@@ -210,18 +196,30 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public void onStart() {
    //     dismissLoadingDialog();
         super.onStart();
+        //resetErrorDialogIfExists();
+        final Bundle arguments = getArguments();
+        prodRegRegistrationController.process(arguments);
     }
+
 
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         textWatcherCalled = false;
-        Bundle bundle = getArguments();
-        if (savedInstanceState == null || !savedInstanceState.getBoolean(ProdRegConstants.PRODUCT_REGISTERED)) {
-            prodRegRegistrationController.init(bundle);
-            prodRegRegistrationController.handleState();
+        bundle = getArguments();
+        if (bundle != null) {
+            isFirstLaunch = bundle.getBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH);
+        }
+        setRetainInstance(true);
+        final FragmentActivity activity = getActivity();
+        prodRegRegistrationController = new ProdRegRegistrationController(this, activity);
+        if (savedInstanceState == null) {
+            final ProdRegCache prodRegCache = new ProdRegCache();
+            new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_SCAN_COUNT, 1);
+            ProdRegTagging.getInstance().trackAction("ProdRegProcessPopUpEvent", "noOfScannedProducts", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_SCAN_COUNT)));
+            showLoadingDialog();
         } else {
-            showSuccessLayout();
+            prodRegRegistrationController.setLaunchedRegistration(savedInstanceState.getBoolean(ProdRegConstants.IS_SIGN_IN_CALLED, false));
         }
     }
 
@@ -229,6 +227,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(ProdRegConstants.PROGRESS_STATE, prodRegRegistrationController.isApiCallingProgress());
         outState.putBoolean(ProdRegConstants.PRODUCT_REGISTERED, prodRegRegistrationController.isProductRegistered());
+        outState.putBoolean(ProdRegConstants.IS_SIGN_IN_CALLED, prodRegRegistrationController.isLaunchedRegistration());
+        super.onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
     }
 
@@ -293,8 +293,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void showErrorMessageDate() {
+        hideProgressDialog();
         if(date_EditText.length() != 0 || (date_EditText.length()==0 &&isRegisterButtonClicked)) {
-            hideProgressDialog();
             date_input_field.showError();
             date_input_field.setErrorMessage(new ErrorHandler().getError(mActivity,
                     ProdRegError.INVALID_DATE.getCode()).getDescription());
@@ -377,6 +377,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             @Override
             public void onClick(final View v) {
                 intiateRegistration();
+                hideKeyboard();
                 // registerButton.setEnabled(false);
 
             }
@@ -404,6 +405,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void showAlertOnError(int responseCode){
+        hideProgressDialog();
         super.showAlertOnError(responseCode);
     }
 
@@ -433,7 +435,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         if(!validSerialNumber)
             showErrorMessageSerialNumber();
     }
-
+String imageURL;
     @Override
     public void setSummaryView(final Data summaryData) {
         if (summaryData != null) {
@@ -441,18 +443,15 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             if (!TextUtils.isEmpty(productTitle)) {
                 productTitleTextView.setVisibility(View.VISIBLE);
                 productTitleTextView.setText(productTitle);
-                prg_product_title.setText(productTitle);
             } else {
                 productTitleTextView.setVisibility(View.GONE);
-                prg_product_title.setVisibility(View.GONE);
             }
             minDate = summaryData.getSop();
             int width = getResources().getDisplayMetrics().widthPixels;
             productImageView.getLayoutParams().height = (int) ((width));
 
-            imageLoader.get(summaryData.getImageURL(),ImageLoader.getImageListener(productImageView,
-                    R.drawable.product_placeholder, R.drawable.product_placeholder));
-            imageLoader.get(summaryData.getImageURL(),ImageLoader.getImageListener(success_background_image,
+             imageURL = summaryData.getImageURL();
+            imageLoader.get(imageURL,ImageLoader.getImageListener(productImageView,
                     R.drawable.product_placeholder, R.drawable.product_placeholder));
             productImageView.requestLayout();
             field_serial.addTextChangedListener(getWatcher());
@@ -467,11 +466,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         if (!TextUtils.isEmpty(registeredProduct.getCtn())) {
             productCtnTextView.setVisibility(View.VISIBLE);
             productCtnTextView.setText(productCtn);
-            prg_product_description.setText(productCtn);
         }
         else {
             productCtnTextView.setVisibility(View.GONE);
-            prg_product_description.setVisibility(View.GONE);
         }
 
         handleDateEditTextOnError();
@@ -502,40 +499,20 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public void showSuccessLayout() {
         hideProgressDialog();
-        serialNumberParentLayout.setVisibility(View.GONE);
-        dateParentLayout.setVisibility(View.GONE);
-        registerButton.setVisibility(View.GONE);
-        productCtnTextView.setVisibility(View.GONE);
-        successLayout.setVisibility(View.VISIBLE);
-        RegisteredProduct registeredProduct = this.getRegisteredProduct();
-        if (!registeredProduct.getEmail()) {
-            prSuccessConfigurableTextView.setVisibility(View.GONE);
-        }
-        warntyPeriod=registeredProduct.getEndWarrantyDate();
-        if(warntyPeriod.isEmpty()) {
-            prg_success_thanks_textView.setVisibility(View.GONE);
-        }
-        else {
-            String defaultString="  "+warntyPeriod;
-            int defaultStringLength=defaultString.length();
-            SpannableStringBuilder builder = new SpannableStringBuilder(defaultString);
-            builder.setSpan(new TextAppearanceSpan(getActivity(),R.style.SuccessRegisterTheme), 0, defaultStringLength, 0);
-            prg_success_thanks_textView.setText(getString(R.string.PPR_Extended_Warranty_Lbltxt)+builder);
-            prg_success_thanks_textView.setVisibility(View.VISIBLE);
-        }
-        if (getActivity() != null && getActivity() instanceof ProdRegBaseActivity &&
-                ((ProdRegBaseActivity) getActivity()).getSupportActionBar() != null) { // need to modify this later.
-            ((ProdRegBaseActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            ((ProdRegBaseActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
-        }
-        productImageView.setVisibility(View.GONE);
-        productTitleTextView.setVisibility(View.GONE);
+        ProdRegSuccessFragment prodRegSuccessFragment = new ProdRegSuccessFragment();
+        bundle.putString(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID,imageURL);
+        bundle.putString(ProdRegConstants.PROD_REG_CTN,productCtnTextView.getText().toString());
+        bundle.putString(ProdRegConstants.PROD_REG_TITLE,productTitleTextView.getText().toString());
+        bundle.putString(ProdRegConstants.PROD_REG_WARRANTY,this.getRegisteredProduct().getEndWarrantyDate());
+        prodRegSuccessFragment.setArguments(bundle);
+        showFragment(prodRegSuccessFragment);
     }
 
     /** should be moved to dls dialog **/
     @Override
     public void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct) {
         try {
+            hideProgressDialog();
             LayoutInflater layoutInflater = getActivity().getLayoutInflater();
             LayoutInflater lf = layoutInflater.cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
             View view = lf.inflate(R.layout.prodreg_already_registered_dialog, null);
@@ -553,11 +530,12 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             Button closeDialog = (Button) view.findViewById(R.id.closeButton);
             if (!TextUtils.isEmpty(registeredProduct.getPurchaseDate())) {
                 serialNumberRegisteredOn.setVisibility(View.VISIBLE);
-                serialNumberRegisteredOn.setText(getString(R.string.PRG_registered_on).concat(" ").concat(registeredProduct.getPurchaseDate()));
+                serialNumberRegisteredOn.setText(generateSpannableText(getString(R.string.PRG_registered_on)," " + registeredProduct.getPurchaseDate()));
+
             }
             if (!TextUtils.isEmpty(registeredProduct.getEndWarrantyDate())) {
                 serialNumberWarranty.setVisibility(View.VISIBLE);
-                serialNumberWarranty.setText(getString(R.string.PRG_warranty_until).concat(" ").concat(registeredProduct.getEndWarrantyDate()));
+                serialNumberWarranty.setText(generateSpannableText(getString(R.string.PRG_warranty_until)," " + registeredProduct.getEndWarrantyDate()));
             }
             changeSerialNumber.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -572,13 +550,19 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 @Override
                 public void onClick(View v) {
                     alertDialogFragment.dismiss();
-                    hideProgressDialog();
                 }
             });
         }catch (Exception e) {
             ProdRegLogger.i("Exception ***", "" + e.getMessage());
         }
 
+    }
+
+   SpannableString generateSpannableText(String normal,String bold){
+       int length= normal.length()+bold.length();
+        SpannableString str = new SpannableString(normal +bold);
+        str.setSpan(new StyleSpan(Typeface.BOLD), normal.length(),length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return str;
     }
 
 
@@ -589,7 +573,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void showLoadingDialog() {
-        showProdRegLoadingDialog(getString(R.string.PPR_Registering_Products_Lbltxt),"prg_dialog");
+        showProdRegLoadingDialog(getString(R.string.PRG_Looking_For_Products_Lbltxt),"prg_dialog");
     }
 
     @Override

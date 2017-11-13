@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     tools:ignore="MissingPrefix">
 
     <RelativeLayout
@@ -16,20 +17,9 @@
         android:layout_marginRight="@dimen/fab_margin">
 
         <include
-            android:layout_marginLeft="@dimen/fab_margin"
-            android:layout_marginRight="@dimen/fab_margin"
             layout="@layout/prodreg_register_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-        <include
-            android:layout_marginLeft="@dimen/fab_margin"
-            android:layout_marginRight="@dimen/fab_margin"
-            android:id="@+id/successLayout"
-            layout="@layout/prodreg_success_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
     </RelativeLayout>
 </ScrollView>
 
