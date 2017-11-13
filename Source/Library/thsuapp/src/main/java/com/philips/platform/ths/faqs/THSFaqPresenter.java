@@ -44,8 +44,7 @@ public class THSFaqPresenter implements THSBasePresenter{
             @Override
             public void onSuccess(URL url) {
                 mTHSRestClient = new THSRestClient(THSFaqPresenter.this);
-                //TODO: Spoorti - Remove the hardcoding after the service discovery starts returning the right value
-                mTHSRestClient.execute("https://www.philips.com/dam/b2c/apps/70000/en_US/thsfaq.json");
+                mTHSRestClient.execute(url.toString());
             }
         });
     }
