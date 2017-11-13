@@ -62,7 +62,6 @@ allprojects {
         flatDir {
             dirs 'libs'
         }
-        google()
     }
 
     // Increasing number of errors displayed by JavaCompiler to 400, so that we can see root cause

@@ -26,7 +26,7 @@ public class EWSDependencyProvider {
     @VisibleForTesting
     static EWSDependencyProvider instance;
     @VisibleForTesting
-    static EWSComponent ewsComponent;
+    EWSComponent ewsComponent;
     private static LoggingInterface loggingInterface;
     private static AppTaggingInterface appTaggingInterface;
     private AppInfraInterface appInfraInterface;

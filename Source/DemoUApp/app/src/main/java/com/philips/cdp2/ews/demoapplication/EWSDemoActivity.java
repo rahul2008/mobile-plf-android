@@ -53,6 +53,7 @@ public class EWSDemoActivity extends EWSDemoBaseActivity implements View.OnClick
                 break;
             case R.id.btnFragmentLaunch:
                 startDemoFragmentActivity();
+                break;
             default:
                 break;
         }
