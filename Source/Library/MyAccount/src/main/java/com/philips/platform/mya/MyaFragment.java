@@ -26,14 +26,16 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-public class MyaFragment extends Fragment implements BackEventListener {
+public class MyaFragment extends Fragment {
+
+    public static String TAG = MyaFragment.class.getSimpleName();
+
     private FragmentManager mFragmentManager;
     private ActionBarListener mActionBarListener;
 
     public String applicationName;
     public String propositionName;
 
-    static String BACK_STACK_ID = MyaFragment.class.getSimpleName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,37 +71,6 @@ public class MyaFragment extends Fragment implements BackEventListener {
             state.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
             state.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
         }
-    }
-
-    public boolean onBackPressed() {
-        return handleBackStack();
-    }
-
-    private boolean handleBackStack() {
-        Fragment fragment = getCswFragment();
-        if (fragment != null) {
-
-            if (fragment != null && fragment instanceof BackEventListener) {
-                boolean isHandleBack = !((BackEventListener) fragment).handleBackEvent();
-                //true only one View value left
-                if (isHandleBack) {
-                    //remove view from the container
-                    fragment.getActivity().getSupportFragmentManager().popBackStack();
-                    return false;
-                } else {
-                    return false;
-                }
-            }
-        }
-
-        if (mFragmentManager != null) {
-            int count = mFragmentManager.getBackStackEntryCount();
-            if (count == 0) {
-                return true;
-            }
-            mFragmentManager.popBackStack();
-        }
-        return true;
     }
 
     private Fragment getCswFragment() {
@@ -153,12 +124,6 @@ public class MyaFragment extends Fragment implements BackEventListener {
 
     public int getResourceID() {
         return titleResourceID;
-    }
-
-
-    @Override
-    public boolean handleBackEvent() {
-        return !(onBackPressed());
     }
 
     protected void setChildFragmentManager(FragmentManager fragmentManager) {
