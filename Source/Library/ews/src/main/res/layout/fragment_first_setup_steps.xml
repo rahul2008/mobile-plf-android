@@ -51,7 +51,7 @@
                 android:layout_marginTop="@dimen/default_image_top_margin"
                 android:background="@drawable/ews_product_bg_orig"
                 android:contentDescription="@null"
-                app:setAnimationDrawable="@{@drawable/ic_ews_device_apmode_blinking}" />
+                app:setAnimationDrawable="@{viewModel.firstSetupStepsImage}" />
 
             <Space
                 android:layout_width="match_parent"

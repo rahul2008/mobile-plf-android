@@ -54,12 +54,14 @@ public class FirstSetupStepsViewModelTest {
     @Test
     public void itShouldVerifyGetBody() throws Exception{
         when(mockBaseContentConfiguration.getDeviceName()).thenReturn(2131362066);
-        subject.getBody(mockBaseContentConfiguration);
-        verify(mockStringProvider).getString(R.string.label_ews_plug_in_body_default, mockBaseContentConfiguration.getDeviceName());
+        when(mockHappyFlowConfiguration.getSetUpScreenBody()).thenReturn(R.string.label_ews_plug_in_body_default);
+        subject.getBody(mockBaseContentConfiguration,mockHappyFlowConfiguration);
+        verify(mockStringProvider).getString(mockHappyFlowConfiguration.getSetUpScreenBody(), mockBaseContentConfiguration.getDeviceName());
     }
 
     @Test
     public void itShouldVerifyTitleText() throws Exception {
+        when(mockBaseContentConfiguration.getDeviceName()).thenReturn(2131362066);
         when(mockHappyFlowConfiguration.getSetUpScreenTitle()).thenReturn(R.string.label_ews_plug_in_title_default);
         subject.getTitle(mockHappyFlowConfiguration);
         verify(mockStringProvider).getString(mockHappyFlowConfiguration.getSetUpScreenTitle());

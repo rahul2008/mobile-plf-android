@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.communication.events.DeviceConnectionErrorEvent;
+import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.connectionestabilish.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.dialog.GPSEnableDialogFragment;
 import com.philips.cdp2.ews.logger.EWSLogger;
@@ -17,6 +18,7 @@ import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.GpsUtil;
+import com.philips.cdp2.ews.util.StringProvider;
 
 import org.greenrobot.eventbus.EventBus;
 import org.junit.Before;
@@ -70,6 +72,10 @@ public class SecondSetupStepsViewModelTest {
     @Mock
     private DialogFragment unsuccessfulDialogMock;
 
+    @Mock private StringProvider mockStringProvider;
+
+    @Mock private HappyFlowContentConfiguration mockHappyFlowConfiguration;
+
 
     @Before
     public void setUp() throws Exception {
@@ -78,7 +84,8 @@ public class SecondSetupStepsViewModelTest {
         mockStatic(EWSTagger.class);
         setupImmediateHandler();
         subject = new SecondSetupStepsViewModel(navigatorMock, eventBusMock, permissionHandlerMock,
-                connectingDialogMock, unsuccessfulDialogMock, gpsEnableDialogFragmentMock, handlerMock);
+                connectingDialogMock, unsuccessfulDialogMock, gpsEnableDialogFragmentMock, handlerMock,
+                mockStringProvider, mockHappyFlowConfiguration);
 
         subject.setFragment(fragmentMock);
     }
@@ -164,6 +171,34 @@ public class SecondSetupStepsViewModelTest {
         subject.trackPageName();
         verifyStatic();
         EWSTagger.trackPage("setupStep2");
+    }
+
+    @Test
+    public void itShouldVerifyGetQuestionText() throws Exception{
+        when(mockHappyFlowConfiguration.getSetUpVerifyScreenQuestion()).thenReturn(R.string.label_ews_verify_ready_question_default);
+        subject.getQuestion(mockHappyFlowConfiguration);
+        verify(mockStringProvider).getString(mockHappyFlowConfiguration.getSetUpVerifyScreenQuestion());
+    }
+
+    @Test
+    public void itShouldVerifyTitleText() throws Exception {
+        when(mockHappyFlowConfiguration.getSetUpVerifyScreenTitle()).thenReturn(R.string.label_ews_verify_ready_title_default);
+        subject.getTitle(mockHappyFlowConfiguration);
+        verify(mockStringProvider).getString(mockHappyFlowConfiguration.getSetUpVerifyScreenTitle());
+    }
+
+    @Test
+    public void itShouldVerifyYesButtonText() throws Exception {
+        when(mockHappyFlowConfiguration.getSetUpVerifyScreenYesButton()).thenReturn(R.string.button_ews_verify_ready_yes_default);
+        subject.getYesButton(mockHappyFlowConfiguration);
+        verify(mockStringProvider).getString(mockHappyFlowConfiguration.getSetUpVerifyScreenYesButton());
+    }
+
+    @Test
+    public void itShouldVerifyNoButtonText() throws Exception {
+        when(mockHappyFlowConfiguration.getSetUpVerifyScreenNoButton()).thenReturn(R.string.button_ews_verify_ready_no_default);
+        subject.getNoButton(mockHappyFlowConfiguration);
+        verify(mockStringProvider).getString(mockHappyFlowConfiguration.getSetUpVerifyScreenNoButton());
     }
 
     private void setupImmediateHandler() {
