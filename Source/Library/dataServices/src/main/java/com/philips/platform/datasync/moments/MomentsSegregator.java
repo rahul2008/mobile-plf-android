@@ -101,28 +101,30 @@ public class MomentsSegregator {
         List<Moment> momentsToDelete = new ArrayList<>();
 
         for (Moment moment : momentList) {
-            final Moment momentInDatabase = getOrmMomentFromDatabase(moment);
-            if (momentInDatabase == null) {
-                if (moment.getSynchronisationData() != null && !(moment.getSynchronisationData().isInactive())) {
-                    SynchronisationData synchronisationData =
-                            mBaseAppDataCreator.createSynchronisationData(moment.getSynchronisationData().getGuid(), moment.getSynchronisationData().isInactive(),
-                                    new DateTime(moment.getDateTime()), moment.getSynchronisationData().getVersion());
-                    moment.setSynchronisationData(synchronisationData);
-                    moment.setSynced(true);
-                    momentsToCreate.add(moment);
-                }
-            } else if (hasDifferentMomentVersion(moment, momentInDatabase)) {
-                if (isMomentDeletedFromBackend(moment.getSynchronisationData())) {
-                    momentsToDelete.add(momentInDatabase);
-                } else if (isMomentDeletedFromApplicationDB(momentInDatabase)) {
-                    moment.setSynced(false);
-                    moment.getSynchronisationData().setInactive(true);
-                    moment.setId(moment.getId());
-                    momentsToUpdate.add(moment);
-                } else if (!isMomentUpdatedFromBackend(moment, momentInDatabase)) {
-                    moment.setSynced(true);
-                    moment.setId(momentInDatabase.getId());
-                    momentsToUpdate.add(moment);
+            if (moment.getExpirationDate() == null || moment.getExpirationDate().isAfterNow()) {
+                final Moment momentInDatabase = getOrmMomentFromDatabase(moment);
+                if (momentInDatabase == null) {
+                    if (moment.getSynchronisationData() != null && !(moment.getSynchronisationData().isInactive())) {
+                        SynchronisationData synchronisationData =
+                                mBaseAppDataCreator.createSynchronisationData(moment.getSynchronisationData().getGuid(), moment.getSynchronisationData().isInactive(),
+                                        new DateTime(moment.getDateTime()), moment.getSynchronisationData().getVersion());
+                        moment.setSynchronisationData(synchronisationData);
+                        moment.setSynced(true);
+                        momentsToCreate.add(moment);
+                    }
+                } else if (hasDifferentMomentVersion(moment, momentInDatabase)) {
+                    if (isMomentDeletedFromBackend(moment.getSynchronisationData())) {
+                        momentsToDelete.add(momentInDatabase);
+                    } else if (isMomentDeletedFromApplicationDB(momentInDatabase)) {
+                        moment.setSynced(false);
+                        moment.getSynchronisationData().setInactive(true);
+                        moment.setId(moment.getId());
+                        momentsToUpdate.add(moment);
+                    } else if (!isMomentUpdatedFromBackend(moment, momentInDatabase)) {
+                        moment.setSynced(true);
+                        moment.setId(momentInDatabase.getId());
+                        momentsToUpdate.add(moment);
+                    }
                 }
             }
         }

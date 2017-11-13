@@ -87,7 +87,7 @@ public class MomentsSegregatorTest {
         momentsSegregator.dbSavingInterface = dbSavingInterface;
         momentsSegregator.mBaseAppDataCreator = dataCreatorMock;
 
-        moment = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW);
+        moment = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW.plusMinutes(10));
         SynchronisationData ormSynchronisationData = new OrmSynchronisationData(GUID_ID, false, NOW, 1);
         moment.setSynchronisationData(ormSynchronisationData);
         momentList.add(moment);
@@ -126,6 +126,19 @@ public class MomentsSegregatorTest {
         givenMomentsIsDeletedFromBackend();
         whenProcessMomentsReceivedFromBackendIsInvoked();
         thenAssertUpdateCountIs(1);
+    }
+
+    @Test
+    public void should_not_processMoment_when_momentExpired() throws SQLException {
+        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1, MomentType.TEMPERATURE), new DateTime().minusMinutes(1));
+        SynchronisationData synchronisationData = new OrmSynchronisationData("1234", false, new DateTime().minus(1), 1);
+        synchronisationData.setVersion(2);
+        moment1.setSynchronisationData(synchronisationData);
+        when(dbFetchingInterface.fetchMomentByGuid(synchronisationData.getGuid())).thenReturn(ormMomentMock);
+        when(dbFetchingInterface.fetchMomentByGuid("1234")).thenReturn(ormMomentMock);
+        when(ormSynchronisationDataMock.getGuid()).thenReturn("-1");
+        int count = momentsSegregator.processMoments(Arrays.asList(moment1), dbRequestListener);
+        assertEquals(0, count);
     }
 
     @Test
