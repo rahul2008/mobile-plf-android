@@ -15,21 +15,18 @@ import android.util.Log;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HurlStack;
 import com.google.gson.JsonArray;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.error.ConsentNetworkError;
+import com.philips.platform.catk.listener.ConsentRequestListener;
 import com.philips.platform.catk.listener.RefreshTokenListener;
 import com.philips.platform.catk.request.ConsentRequest;
-import com.philips.platform.catk.session.SynchronizedNetwork;
-import com.philips.platform.catk.session.SynchronizedNetworkListener;
 
 import javax.inject.Inject;
 
-public class NetworkController implements Response.Listener<JsonArray>, Response.ErrorListener {
-    private ConsentRequest request;
+public class NetworkController implements ConsentRequestListener, Response.ErrorListener {
     private NetworkAbstractModel model;
     private Handler mHandler;
 
@@ -47,7 +44,7 @@ public class NetworkController implements Response.Listener<JsonArray>, Response
 
     public void sendConsentRequest(final NetworkAbstractModel model) {
         this.model = model;
-        this.request = getConsentJsonRequest(model);
+        ConsentRequest request = getConsentJsonRequest(model);
         addRequestToQueue(request);
     }
 
@@ -57,7 +54,7 @@ public class NetworkController implements Response.Listener<JsonArray>, Response
                 restInterface.getRequestQueue().add(consentRequest);
             } else {
                 // Need to error handle
-                Log.d("Rest client", "Couldn't initialise REST Client");
+                Log.e("Rest client", "Couldn't initialise REST Client");
             }
         }
     }
@@ -67,24 +64,34 @@ public class NetworkController implements Response.Listener<JsonArray>, Response
     }
 
     @Override
-    public void onResponse(JsonArray response) {
+    public void onResponse(ConsentRequest request, JsonArray response) {
         postSuccessResponseOnUIThread(response);
     }
 
     @Override
-    public void onErrorResponse(final VolleyError error) {
+    public void onErrorResponse(ConsentRequest request, VolleyError error) {
         if (error instanceof AuthFailureError) {
-            performRefreshToken(error);
+            performRefreshToken(request, error);
         } else {
             postErrorResponseOnUIThread(error);
         }
     }
 
-    private void performRefreshToken(final VolleyError error) {
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        postErrorResponseOnUIThread(error);
+    }
+
+    private void performRefreshToken(final ConsentRequest request, final VolleyError error) {
         NetworkHelper.getInstance().refreshAccessToken(new RefreshTokenListener() {
             @Override
             public void onRefreshSuccess() {
-                persistRequestSend();
+                try {
+                    NetworkAbstractModel.addAuthorization(request.getHeaders());
+                } catch (AuthFailureError authFailureError) {
+                    authFailureError.printStackTrace();
+                }
+                addRequestToQueue(request);
             }
 
             @Override
@@ -92,31 +99,6 @@ public class NetworkController implements Response.Listener<JsonArray>, Response
                 postErrorResponseOnUIThread(error);
             }
         });
-    }
-
-    private void persistRequestSend() {
-        final SynchronizedNetwork synchronizedNetwork = new SynchronizedNetwork(new HurlStack());
-        try {
-            NetworkAbstractModel.addAuthorization(request.getHeaders());
-        } catch (AuthFailureError authFailureError) {
-
-        }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                synchronizedNetwork.performRequest(request, new SynchronizedNetworkListener() {
-                    @Override
-                    public void onSyncRequestSuccess(final Response<JsonArray> jsonObjectResponse) {
-                        postSuccessResponseOnUIThread(jsonObjectResponse.result);
-                    }
-
-                    @Override
-                    public void onSyncRequestError(final VolleyError volleyError) {
-                        postErrorResponseOnUIThread(volleyError);
-                    }
-                });
-            }
-        }).start();
     }
 
     private void postSuccessResponseOnUIThread(final JsonArray response) {

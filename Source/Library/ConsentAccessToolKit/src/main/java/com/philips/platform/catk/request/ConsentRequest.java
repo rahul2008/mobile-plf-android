@@ -23,22 +23,21 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.catk.listener.ConsentRequestListener;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 public class ConsentRequest extends Request<JsonArray> {
-    private Response.Listener<JsonArray> mResponseListener;
-    private Response.ErrorListener mErrorListener;
+    private ConsentRequestListener mResponseListener;
     private String body;
     private Map<String, String> header;
 
     private static final int POST_SUCCESS_CODE = 201;
 
-    public ConsentRequest(int method, String url, Map<String, String> header, String params, Response.Listener<JsonArray> responseListener, Response.ErrorListener errorListener) {
+    public ConsentRequest(int method, String url, Map<String, String> header, String params, ConsentRequestListener responseListener, Response.ErrorListener errorListener) {
         super(method, url, errorListener);
         this.mResponseListener = responseListener;
-        this.mErrorListener = errorListener;
         this.body = params;
         this.header = header;
     }
@@ -84,18 +83,18 @@ public class ConsentRequest extends Request<JsonArray> {
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             ParseError error = new ParseError(e);
-            mErrorListener.onErrorResponse(error);
+            mResponseListener.onErrorResponse(this, error);
             return Response.error(error);
         }
     }
 
     @Override
     protected void deliverResponse(JsonArray response) {
-        mResponseListener.onResponse(response);
+        mResponseListener.onResponse(this, response);
     }
 
     @Override
     public void deliverError(final VolleyError error) {
-        mErrorListener.onErrorResponse(error);
+        mResponseListener.onErrorResponse(this, error);
     }
 }
