@@ -6,6 +6,7 @@
 package com.philips.platform.appframework.connectivitypowersleep.insights;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +15,11 @@ import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.core.datatypes.Insight;
+import com.philips.platform.core.datatypes.InsightMetadata;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class InsightsAdapter extends RecyclerView.Adapter<InsightsAdapter.InsightsInfoViewHolder> {
 
@@ -24,11 +28,9 @@ public class InsightsAdapter extends RecyclerView.Adapter<InsightsAdapter.Insigh
     }
 
     public static final String TAG =InsightsAdapter.class.getSimpleName();
-
-    private ArrayList<String> insightsTitleItemList = null;
-    private ArrayList<String> insightsDescItemList = null;
     private Context context;
     private InsightItemClickListener insightItemClickListener;
+    private List<Insight> insightList;
 
     public void setInsightItemClickListener(InsightItemClickListener insightItemClickListener) {
         this.insightItemClickListener = insightItemClickListener;
@@ -38,9 +40,8 @@ public class InsightsAdapter extends RecyclerView.Adapter<InsightsAdapter.Insigh
         this.insightItemClickListener = null;
     }
 
-    public InsightsAdapter(Context context, ArrayList<String> insightsTitleItemList, ArrayList<String> insightsDescItemList) {
-        this.insightsTitleItemList = insightsTitleItemList;
-        this.insightsDescItemList = insightsDescItemList;
+    public InsightsAdapter(Context context, List<Insight> insightList) {
+        this.insightList = insightList;
         this.context = context;
     }
 
@@ -54,15 +55,20 @@ public class InsightsAdapter extends RecyclerView.Adapter<InsightsAdapter.Insigh
     @Override
     public void onBindViewHolder(final InsightsInfoViewHolder holder, int position) {
         RALog.d(TAG, " onBindViewHolder called  ");
-        holder.tvTitle.setText(insightsTitleItemList.get(position));
-        holder.tvDetail.setText(insightsDescItemList.get(position));
-        holder.tvTitle.setTag("momentId");
+        Insight insight = insightList.get(position);
+        holder.tvTitle.setText(insight.getTitle());
+        StringBuffer sb = new StringBuffer("");
+        sb.append("\nDate : " + insight.getTimeStamp());
+        sb.append("\nMomentId : " + insight.getMomentId());
+        holder.tvDetail.setText(sb.toString());
+
+        holder.tvTitle.setTag(insight.getRuleId());
     }
 
     @Override
     public int getItemCount() {
-        if (insightsTitleItemList != null) {
-            return insightsTitleItemList.size();
+        if (insightList != null) {
+            return insightList.size();
         }
         return 0;
     }

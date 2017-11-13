@@ -32,7 +32,7 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
     private ArrayList<String> insightsTitleItemList = new ArrayList<String>();
     private ArrayList<String> insightsDescItemList = new ArrayList<String>();
 
-    private ArrayList<? extends Insight> mInsightList = new ArrayList();
+    private List<Insight> mInsightList = new ArrayList();
     private DataServicesManager dataServicesManager;
 
 
@@ -84,27 +84,13 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        initializeTipsList();
         insightPresenter= getInsightsPresenter();
 
-        adapter = new InsightsAdapter(getActivity(), insightsTitleItemList, insightsDescItemList);
+        adapter = new InsightsAdapter(getActivity(), mInsightList);
         adapter.setInsightItemClickListener(this);
         recyclerViewInsights.setAdapter(adapter);
 
         insightPresenter.loadInsights(dataServicesManager);
-    }
-
-    public void initializeTipsList() {
-
-        /*insightsTitleItemList.add(getString(R.string.sleep_tip_title_1));
-        insightsTitleItemList.add(getString(R.string.sleep_tip_title_2));
-        insightsTitleItemList.add(getString(R.string.sleep_tip_title_3));
-
-        insightsDescItemList.add(getString(R.string.sleep_tip_desc_1));
-        insightsDescItemList.add(getString(R.string.sleep_tip_desc_2));
-        insightsDescItemList.add(getString(R.string.sleep_tip_desc_3));*/
-
-
     }
 
     @Override
@@ -123,21 +109,15 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
     }
 
     @Override
-    public void onInsightLoadSuccess(List<Insight> insightList) {
+    public void onInsightLoadSuccess(final List<Insight> insightList) {
         RALog.d(TAG, "onInsightLoadSuccess : size - " + insightList.size());
-        for (Insight insight : insightList) {
-            insightsTitleItemList.add(insight.getRuleId());
-            StringBuffer sb = new StringBuffer("");
-            sb.append("\nDate : " + insight.getTimeStamp());
-            sb.append("\nMomentId : " + insight.getMomentId());
-
-            insightsDescItemList.add(sb.toString());
-        }
 
         if (getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    mInsightList.clear();
+                    mInsightList.addAll(insightList);
                     adapter.notifyDataSetChanged();
                 }
             });
