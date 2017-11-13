@@ -93,9 +93,6 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener, A
 
     private void launchAccountFragment() {
         MyaLaunchInput myaLaunchInput = new MyaLaunchInput();
-        myaLaunchInput.setApplicationName(applicationName);
-        myaLaunchInput.setPropositionName(propositionName);
-
         FragmentLauncher fragmentLauncher = new FragmentLauncher
                 (this, R.id.mya_frame_layout_fragment_container, this);
         MyaInterface myaInterface = new MyaInterface();
