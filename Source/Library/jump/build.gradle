@@ -154,7 +154,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFile 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules-jump.pro'
         }
         debug {
             minifyEnabled false

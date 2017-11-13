@@ -77,6 +77,13 @@
 -keep  class com.janrain.android.Jump$* {*;}
 -keep  class com.janrain.android.capture.Capture$* {*;}
 
+-keepclasseswithmembernames public class com.janrain.android.** {*;}
+-keepclasseswithmembernames public class com.janrain.android.Jump {*;}
+-keepclasseswithmembernames public class com.janrain.android.JumpConfig {*;}
+-keepclasseswithmembernames public class com.janrain.android.TradSignInUi {*;}
+-dontwarn com.janrain.android.**
+
+
 
 -keep public class com.philips.cdp.security.SecurityHelper {
     public static void init(android.content.Context);
@@ -110,10 +117,7 @@
 
 
 
--keepclasseswithmembernames public class com.janrain.android.** {*;}
--keepclasseswithmembernames public class com.janrain.android.Jump {*;}
--keepclasseswithmembernames public class com.janrain.android.JumpConfig {*;}
--keepclasseswithmembernames public class com.janrain.android.TradSignInUi {*;}
+
 
 
 
@@ -138,7 +142,7 @@
 #notification
 -dontwarn android.app.Notification
 -dontwarn okio.**
--dontwarn com.janrain.android.**
+
 
 -keep class com.squareup.** { *; }
 -keep class java.nio.**
