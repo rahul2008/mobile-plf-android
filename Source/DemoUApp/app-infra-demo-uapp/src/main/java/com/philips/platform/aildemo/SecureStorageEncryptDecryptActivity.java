@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
     SecureStorageInterface mSecureStorage=null;
     byte[] plainByte;
     byte[] encryptedByte;
+    ScrollView encryptScrollView, decryptScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +34,15 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
         final TextView textViewEncrypt = (TextView)findViewById(R.id.textViewEncrypted);
         final TextView textViewDecrypted = (TextView)findViewById(R.id.textViewDecrpted);
         final TextView textViewDataMatched = (TextView)findViewById(R.id.textViewDataMatched);
+        encryptScrollView = findViewById(R.id.SCROLLER_ID2);
+        decryptScrollView = findViewById(R.id.SCROLLER_ID1);
 
         final EditText et = (EditText)findViewById(R.id.plainText);
         Button encryptButton   = (Button) findViewById(R.id.buttonEncrypt);
         encryptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String text= et.getText().toString();
                 textViewDecrypted.setText(null);
                 textViewDataMatched.setText(null);
@@ -77,5 +82,18 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void onClick(View view) {
+        int id = view.getId();
+        if (id == R.id.buttonEncrypt_scroll_up) {
+            encryptScrollView.fullScroll(ScrollView.FOCUS_UP);
+        } else if (id == R.id.buttonEncrypt_scroll_bottom) {
+            encryptScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+        } else if (id == R.id.buttonDecrypt_scroll_up) {
+            decryptScrollView.fullScroll(ScrollView.FOCUS_UP);
+        } else if (id == R.id.buttonDecrypt_scroll_bottom) {
+            decryptScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+        }
     }
 }
