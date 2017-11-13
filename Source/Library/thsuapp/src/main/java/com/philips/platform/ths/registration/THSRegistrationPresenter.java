@@ -45,7 +45,7 @@ import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALY
 public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidatedCallback <THSConsumerWrapper, SDKError>{
 
     private THSBaseFragment mTHSBaseFragment;
-    private static String NAME_REGEX = "^[a-zA-Z0-9]+$";
+    private static String NAME_REGEX = "[A-Z0-9a-z\\s]{1,25}";
 
     THSRegistrationPresenter(THSBaseFragment thsBaseFragment){
         mTHSBaseFragment = thsBaseFragment;
