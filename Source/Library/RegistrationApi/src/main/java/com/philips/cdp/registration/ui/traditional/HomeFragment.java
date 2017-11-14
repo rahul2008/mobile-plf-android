@@ -79,7 +79,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     LinearLayout usr_startScreen_baseLayout_LinearLayout;
 
     @BindView(R2.id.usr_StartScreen_privacyNotice_country_LinearLayout)
-    LinearLayout usr_StartScreen_privacyNotice_country_LinearLayout;
+    RelativeLayout usr_StartScreen_privacyNotice_country_LinearLayout;
 
     @BindView(R2.id.usr_StartScreen_country_label)
     TextView mCountryDisplay;

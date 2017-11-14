@@ -92,7 +92,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/usr_StartScreen_privacyNotice_country_LinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -101,17 +101,15 @@
         android:layout_above="@+id/usr_StartScreen_privacyNotice_country2_LinearLayout"
         android:layout_marginBottom="@dimen/reg_dimen_16dp"
         android:visibility="invisible"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:orientation="horizontal">
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/usr_StartScreen_privacyNotice_label"
             style="@style/UIDLabel"
+            android:layout_alignParentStart="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/reg_text_size_12"
-            android:layout_weight="1"
-            android:ellipsize="end"
             android:lines="1"
             android:padding="@dimen/reg_dimen_4dp"
             android:text="@string/reg_PrivacyNoticeText"/>
@@ -120,17 +118,15 @@
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/usr_StartScreen_country_label"
             style="@style/UIDLabel"
+            android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
             android:textSize="@dimen/reg_text_size_12"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:gravity="end"
             android:lines="1"
             android:padding="@dimen/reg_dimen_4dp"
             android:text="@string/reg_Country"/>
-    </LinearLayout>
+    </RelativeLayout>
+
 
 
     <LinearLayout
