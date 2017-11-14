@@ -74,7 +74,7 @@ public class Steps {
             commCentral.stopDiscovery();
         }
 
-        if(current != null) {
+        if (current != null) {
             app.getCommCentral().getApplianceManager().forgetStoredAppliance(current);
             current.getCommunicationStrategy().forceStrategyType(null);
 
@@ -172,8 +172,7 @@ public class Steps {
         Log.d(LOGTAG, String.format("Waiting for %d timeport updates", count));
 
         PortListener listener = portListeners.get(TimePort.class);
-        listener.reset(count);
-        listener.waitForPortUpdate(1, MINUTES);
+        listener.waitForPortUpdates(count, 1, MINUTES);
 
         scenario.write("Errors:" + listener.errors.toString());
 
@@ -195,8 +194,7 @@ public class Steps {
         Log.d(LOGTAG, String.format("Waiting for airport light update"));
 
         PortListener listener = portListeners.get(ComfortAirPort.class);
-        listener.reset(count);
-        listener.waitForPortUpdate(1, MINUTES);
+        listener.waitForPortUpdates(count, 1, MINUTES);
 
         scenario.write("Errors:" + listener.errors.toString());
 
@@ -278,7 +276,6 @@ public class Steps {
         ((AirPurifier) current).getAirPort().setLight(false);
 
         PortListener listener = portListeners.get(ComfortAirPort.class);
-        listener.reset(1);
         listener.waitForPortUpdate(1, MINUTES);
 
         scenario.write("Errors:" + listener.errors.toString());
