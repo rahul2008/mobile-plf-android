@@ -3,11 +3,11 @@ package com.philips.platform.mya.demouapp;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.philips.platform.mya.demouapp.R;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
+import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 public class MyaLaunchFragmentActivity extends AppCompatActivity implements MyaListener {
@@ -18,7 +18,7 @@ public class MyaLaunchFragmentActivity extends AppCompatActivity implements MyaL
         setContentView(R.layout.activity_mya_launch_fragment);
 
         MyaInterface myaInterface = new MyaInterface();
-        myaInterface.init(new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra()), null);
+        myaInterface.init(new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra()), new MyaSettings(this));
         MyaLaunchInput uappLaunchInput = new MyaLaunchInput(this, this);
         myaInterface.launch(new FragmentLauncher(this, R.id.main_container, null), uappLaunchInput);
 

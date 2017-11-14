@@ -1,22 +1,28 @@
 /*
- * Copyright (c) Koninklijke Philips N.V. 2017
- * All rights are reserved. Reproduction or dissemination in whole or in part
- * is prohibited without the prior written consent of the copyright holder.
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
+
 package com.philips.platform.mya.launcher;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.mya.activity.MyAccountActivity;
+import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.csw.CswDependencies;
+import com.philips.platform.csw.CswInterface;
+import com.philips.platform.csw.CswSettings;
+import com.philips.platform.mya.MyaFragment;
 import com.philips.platform.mya.MyaUiHelper;
+import com.philips.platform.mya.activity.MyAccountActivity;
 import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
@@ -25,33 +31,67 @@ import static com.philips.platform.mya.util.MyaConstants.MYA_DLS_THEME;
 
 public class MyaInterface implements UappInterface {
 
+    private static String applicationName;
+    private static String propositionName;
     private MyaUiHelper myaUiHelper;
 
-    @Override
-    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        myaUiHelper = MyaUiHelper.getInstance();
-        myaUiHelper.setAppInfra((AppInfra) uappDependencies.getAppInfra());
-    }
-
+    /**
+     * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
+     *
+     * @param uiLauncher      - ActivityLauncher or FragmentLauncher
+     * @param uappLaunchInput - MyaLaunchInput
+     */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         MyaLaunchInput myaLaunchInput = (MyaLaunchInput) uappLaunchInput;
-        FragmentActivity context = (FragmentActivity) myaLaunchInput.getContext();
         myaUiHelper.setMyaListener(myaLaunchInput.getMyaListener());
         if (uiLauncher instanceof ActivityLauncher) {
-            Intent intent = new Intent(context, MyAccountActivity.class);
-            Bundle bundle = new Bundle();
-
-            ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
-            bundle.putInt(MYA_DLS_THEME, activityLauncher.getUiKitTheme());
-            myaUiHelper.setThemeConfiguration(activityLauncher.getDlsThemeConfiguration());
-            intent.putExtras(bundle);
-            context.startActivity(intent);
-        } else {
-            MyaTabFragment myaTabFragment = new MyaTabFragment();
-            myaUiHelper.setFragmentLauncher((FragmentLauncher)uiLauncher);
-            myaTabFragment.showFragment(myaTabFragment, (FragmentLauncher)uiLauncher);
+            launchAsActivity((ActivityLauncher) uiLauncher, myaLaunchInput);
+        } else if (uiLauncher instanceof FragmentLauncher) {
+            launchAsFragment((FragmentLauncher) uiLauncher, myaLaunchInput);
         }
     }
 
+    private void launchAsFragment(FragmentLauncher fragmentLauncher, MyaLaunchInput myaLaunchInput) {
+        MyaTabFragment myaTabFragment = new MyaTabFragment();
+        myaUiHelper.setFragmentLauncher(fragmentLauncher);
+        myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
+    }
+
+    private MyaFragment buildFragment(ActionBarListener listener) {
+        MyaFragment myaFragment = new MyaFragment();
+        myaFragment.setArguments(applicationName, propositionName);
+        myaFragment.setOnUpdateTitleListener(listener);
+        return myaFragment;
+    }
+
+    private void launchAsActivity(ActivityLauncher uiLauncher, MyaLaunchInput myaLaunchInput) {
+        if (null != uiLauncher && myaLaunchInput != null) {
+            Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyAccountActivity.class);
+            myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
+            myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+            myAccountIntent.putExtra(MYA_DLS_THEME, uiLauncher.getUiKitTheme());
+            myaLaunchInput.getContext().startActivity(myAccountIntent);
+        }
+    }
+
+    /**
+     * Entry point for MyAccount. Please make sure no User registration components are being used before MyaInterface$init.
+     *
+     * @param uappDependencies - With an AppInfraInterface instance.
+     * @param uappSettings     - With an application provideAppContext.
+     */
+    @Override
+    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
+        CswDependencies cswDependencies = new CswDependencies(uappDependencies.getAppInfra());
+        applicationName = ((MyaDependencies) uappDependencies).getApplicationName();
+        propositionName = ((MyaDependencies) uappDependencies).getPropositionName();
+        cswDependencies.setApplicationName(applicationName == null ? CatkConstants.APPLICATION_NAME : applicationName);
+        cswDependencies.setPropositionName(propositionName == null ? CatkConstants.PROPOSITION_NAME : propositionName);
+        CswSettings cswSettings = new CswSettings(uappSettings.getContext());
+        CswInterface cswInterface = new CswInterface();
+        cswInterface.init(cswDependencies, cswSettings);
+        myaUiHelper = MyaUiHelper.getInstance();
+        myaUiHelper.setAppInfra((AppInfra) uappDependencies.getAppInfra());
+    }
 }

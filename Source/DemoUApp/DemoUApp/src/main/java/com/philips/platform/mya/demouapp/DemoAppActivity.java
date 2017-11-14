@@ -18,8 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.philips.platform.mya.demouapp.MyaConstants;
-import com.philips.platform.mya.demouapp.R;
 import com.philips.platform.mya.demouapp.fragment.LaunchFragment;
 import com.philips.platform.mya.demouapp.theme.NavigationController;
 import com.philips.platform.mya.demouapp.theme.events.AccentColorChangedEvent;
@@ -43,6 +41,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 
 public class DemoAppActivity extends UIDActivity implements View.OnClickListener {
     private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_Bright;
@@ -71,15 +70,16 @@ public class DemoAppActivity extends UIDActivity implements View.OnClickListener
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         EventBus.getDefault().register(this);
 
+
         navigationController = new NavigationController(this, getIntent(), activityMainBinding);
         navigationController.init(savedInstanceState);
         if (savedInstanceState == null) {
             LaunchFragment launchFragment = new LaunchFragment();
             navigationController.switchFragment(launchFragment);
+
+
         }
-
     }
-
 
 
     public void onClick(View view) {
