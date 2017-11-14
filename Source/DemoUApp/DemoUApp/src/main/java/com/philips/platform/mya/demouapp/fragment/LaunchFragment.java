@@ -100,7 +100,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                     }));
         } else {
             MyaInterface myaInterface = new MyaInterface();
-            myaInterface.init(new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra()), null);
+            myaInterface.init(new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra()),  new MyaSettings(((com.philips.platform.mya.demouapp.DemoAppActivity) getActivity())));
             MyaLaunchInput uappLaunchInput =  new MyaLaunchInput(((com.philips.platform.mya.demouapp.DemoAppActivity) getActivity()), new MyaListener() {
                 @Override
                 public boolean onClickMyaItem(String itemName) {
