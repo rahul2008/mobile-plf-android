@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +34,10 @@ public class DialogTestFragment extends Fragment implements View.OnClickListener
         Drawable iconDrawable = new ColorDrawable(getResources().getColor(R.color.uidColorBlack));
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
-                .setPositiveButton("Positive", this)
-                .setNegativeButton("Negative", this)
+                .setDialogStyle(DialogFragment.STYLE_NORMAL)
+                .setMessage(com.philips.platform.uid.test.R.string.dialog_message)
+                .setPositiveButton(com.philips.platform.uid.test.R.string.dialog_positive, this)
+                .setNegativeButton(com.philips.platform.uid.test.R.string.dialog_negative, this)
                 .setDialogLayout(com.philips.platform.uid.test.R.layout.dialog_container)
                 .setIcon(iconDrawable)
                 .setTitle(com.philips.platform.uid.test.R.string.dialog_title)

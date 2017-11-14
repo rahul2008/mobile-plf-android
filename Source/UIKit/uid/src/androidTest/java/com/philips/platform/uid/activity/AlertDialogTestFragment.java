@@ -31,14 +31,15 @@ public class AlertDialogTestFragment extends Fragment implements View.OnClickLis
         final View view = super.onCreateView(inflater, container, savedInstanceState);
         View dialogLayout = inflater.inflate(com.philips.platform.uid.test.R.layout.dialog_container, container);
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
-                .setMessage("Hello").
-                        setPositiveButton("Positive", this).
-                        setNegativeButton("Negative", this)
+                .setMessage("Hello")
+                .setPositiveButton("Positive", this)
+                .setNegativeButton("Negative", this)
                 .setDialogView(dialogLayout);
         final Bundle arguments = getArguments();
         if (arguments == null) {
             builder.setTitle("dialog_screen_title_text");
             builder.setIcon(android.R.drawable.ic_menu_more);
+            builder.setAlternateButton(com.philips.platform.uid.test.R.string.dialog_alternate,this);
         }
         final AlertDialogFragment alertDialogFragment = builder.setCancelable(false).create();
         alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);

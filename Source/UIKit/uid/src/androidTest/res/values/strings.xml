@@ -25,6 +25,10 @@
     <string name="test_sidebar_open">Open</string>
     <string name="test_sidebar_close">Close</string>
     <string name="dialog_title">dialog_screen_title_text</string>
+    <string name="dialog_positive">Okay</string>
+    <string name="dialog_negative">Cancel</string>
+    <string name="dialog_alternate">Maybe</string>
+    <string name="dialog_message">Lorem ipsum dolor sit amet consectetur adipiscing elit duis a feugiat tortor</string>
 
     <string name="about_screen_appname">Philips application name</string>
     <string name="about_screen_appversion">Version 3.1</string>
