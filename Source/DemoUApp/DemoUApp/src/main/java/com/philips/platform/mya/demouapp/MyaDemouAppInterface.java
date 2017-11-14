@@ -50,12 +50,12 @@ public class MyaDemouAppInterface implements UappInterface {
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         MyaLaunchInput myaLaunchInput = new MyaLaunchInput();
         myaLaunchInput.setContext(((MyaDemouAppLaunchInput)uappLaunchInput).getContext());
-        myaLaunchInput.setConsentDefinition(getConsentDefinitions(myaLaunchInput.getContext(), Locale.getDefault()));
+        myaLaunchInput.setConsentDefinition(createConsentDefinitions(myaLaunchInput.getContext(), Locale.getDefault()));
         myaInterface.launch(uiLauncher, myaLaunchInput);
     }
 
     @NonNull
-    private List<ConsentDefinition> getConsentDefinitions(Context context, Locale currentLocale) {
+    private List<ConsentDefinition> createConsentDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> consentDefinitions = new ArrayList<>();
         consentDefinitions.add( new ConsentDefinition(context.getString(R.string.consent_moment_description), context.getString(R.string.consent_moment_help), "moment", 1 , currentLocale));
         return consentDefinitions;
