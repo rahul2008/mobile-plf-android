@@ -111,11 +111,12 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.detailsButtonOne) {
-            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "startInstantAppointment");
+
             if (THSManager.getInstance().isMatchMakingVisit()) {
                 // go to pharmacy and shipping if DOD
                 mThsBaseFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null, true);
             } else {
+                THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "startInstantAppointment");
                 THSConsumerWrapper THSConsumer = new THSConsumerWrapper();
                 THSConsumer.setConsumer(viewInterface.getConsumerInfo());
                 Bundle bundle = new Bundle();

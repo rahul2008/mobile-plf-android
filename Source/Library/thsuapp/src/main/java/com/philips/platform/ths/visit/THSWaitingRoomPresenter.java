@@ -99,7 +99,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     }
 
-    void handleVisitFinish(Intent intent) {
+   /* void handleVisitFinish(Intent intent) {
         final Bundle visitExtras = intent.getBundleExtra(VISIT_FINISHED_EXTRAS);
         if (visitExtras != null) {
 
@@ -115,7 +115,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
             mTHSWaitingRoomFragment.addFragment(new THSVisitSummaryFragment(), THSVisitSummaryFragment.TAG, bundle, true);
 
         }
-    }
+    }*/
 
     void cancelVisit() {
         try {
@@ -210,7 +210,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
                 return;
             } else {
                 // must  be cancel visit call back
-                THSTagUtils.doTrackActionWithInfo("waitingTimeEndForInstantAppointment", null, null);
+                mTHSWaitingRoomFragment.doTaggingUponStopWaiting();
                 THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "videoVisitCancelledAtQueue");
                 THSManager.getInstance().resetTHSManagerData();
                 abondonCurrentVisit();
