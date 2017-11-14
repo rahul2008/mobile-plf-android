@@ -16,7 +16,6 @@ import android.util.Log;
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
-import com.philips.cdp2.commlib.*;
 import com.philips.cdp2.commlib.BuildConfig;
 import com.philips.cdp2.commlib.cloud.communication.CloudCommunicationStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
@@ -24,7 +23,6 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.devicetest.TestApplication;
 import com.philips.cdp2.commlib.devicetest.appliance.ReferenceAppliance;
 import com.philips.cdp2.commlib.devicetest.port.time.TimePort;
-import com.philips.cdp2.commlib.devicetest.util.Android;
 import com.philips.cdp2.commlib.devicetest.util.ApplianceWaiter;
 import com.philips.cdp2.commlib.devicetest.util.CloudSignOnWaiter;
 import com.philips.cdp2.commlib.devicetest.util.PairingWaiter;
@@ -36,7 +34,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -70,7 +67,7 @@ public class Steps {
     }
 
     @After
-        public void cleanup() throws InterruptedException {
+    public void cleanup() throws InterruptedException {
         Log.i(LOGTAG, "Start cleanup");
 
         if (current != null) {
@@ -109,7 +106,7 @@ public class Steps {
         scenario.write("---- Logging environment ----");
     }
 
-    @And("^stay connected is disabled$")
+    @Given("^stay connected is disabled$")
     public void stayConnectedIsDisabled() throws Throwable {
         current.disableCommunication();
     }
@@ -139,39 +136,6 @@ public class Steps {
         PortListener listener = new PortListener();
         portListeners.put(TimePort.class, listener);
         current.getTimePort().addPortListener(listener);
-    }
-
-    @When("^device requests time value from time port$")
-    public void deviceRequestsTimeValueFromTimePort() throws Throwable {
-        Log.d(LOGTAG, "Reloading timeport");
-        current.getTimePort().reloadProperties();
-    }
-
-    @When("^device subscribes on time port$")
-    public void deviceSubscribesOnTimePort() throws Throwable {
-        current.getTimePort().subscribe();
-    }
-
-    @Then("^time value is received without errors$")
-    public void timeValueIsReceivedWithoutErrors() throws Throwable {
-        timeValueIsReceivedTimesWithoutErrors(1);
-    }
-
-    @Then("^time value is received (\\d+) times without errors$")
-    public void timeValueIsReceivedTimesWithoutErrors(int count) throws Throwable {
-        Log.d(LOGTAG, String.format("Waiting for %d timeport updates", count));
-
-        PortListener listener = portListeners.get(TimePort.class);
-        listener.waitForPortUpdates(count, 1, MINUTES);
-
-        scenario.write("Errors:" + listener.errors.toString());
-
-        assertEquals("Errors received from time port", emptyList(), listener.errors);
-        assertThat(listener.receivedCount).as("Time values received from timeport").isGreaterThanOrEqualTo(count);
-
-        final String datetime = current.getTimePort().getPortProperties().datetime;
-        scenario.write("Got time: " + datetime);
-        Log.d(LOGTAG, datetime);
     }
 
     @Given("^device is connected to SSID \"(.*?)\"$")
@@ -236,5 +200,38 @@ public class Steps {
         cloudController.removeSignOnListener(cloudSignOnWaiter);
 
         assertTrue("Sign on failed", cloudController.isSignOn());
+    }
+
+    @When("^device requests time value from time port$")
+    public void deviceRequestsTimeValueFromTimePort() throws Throwable {
+        Log.d(LOGTAG, "Reloading timeport");
+        current.getTimePort().reloadProperties();
+    }
+
+    @When("^device subscribes on time port$")
+    public void deviceSubscribesOnTimePort() throws Throwable {
+        current.getTimePort().subscribe();
+    }
+
+    @Then("^time value is received without errors$")
+    public void timeValueIsReceivedWithoutErrors() throws Throwable {
+        timeValueIsReceivedTimesWithoutErrors(1);
+    }
+
+    @Then("^time value is received (\\d+) times without errors$")
+    public void timeValueIsReceivedTimesWithoutErrors(int count) throws Throwable {
+        Log.d(LOGTAG, String.format("Waiting for %d timeport updates", count));
+
+        PortListener listener = portListeners.get(TimePort.class);
+        listener.waitForPortUpdates(count, 1, MINUTES);
+
+        scenario.write("Errors:" + listener.errors.toString());
+
+        assertEquals("Errors received from time port", emptyList(), listener.errors);
+        assertThat(listener.receivedCount).as("Time values received from timeport").isGreaterThanOrEqualTo(count);
+
+        final String datetime = current.getTimePort().getPortProperties().datetime;
+        scenario.write("Got time: " + datetime);
+        Log.d(LOGTAG, datetime);
     }
 }
