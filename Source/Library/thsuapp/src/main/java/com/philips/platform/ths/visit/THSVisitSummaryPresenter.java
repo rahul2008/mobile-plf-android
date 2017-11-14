@@ -6,6 +6,7 @@ import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
+import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.visit.VisitReport;
 import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -34,6 +35,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSummaryCallbacks.THSVisitSummaryCallback<THSVisitSummary, THSSDKError>, THSSDKCallback<Void, SDKError>, THSVisitReportListCallback<List<VisitReport>,SDKError> {
 
     THSVisitSummaryFragment mTHSVisitSummaryFragment;
+    private ProviderInfo mProviderInfo;
 
     public THSVisitSummaryPresenter(THSVisitSummaryFragment mTHSVisitSummaryFragment) {
         this.mTHSVisitSummaryFragment = mTHSVisitSummaryFragment;
@@ -117,6 +119,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     private void updateView(THSVisitSummary tHSVisitSummary) {
         VisitSummary visitSummary = tHSVisitSummary.getVisitSummary();
         mTHSVisitSummaryFragment.providerName.setText(visitSummary.getAssignedProviderInfo().getFullName());
+        mProviderInfo=visitSummary.getAssignedProviderInfo();
         mTHSVisitSummaryFragment.providerPractice.setText(visitSummary.getAssignedProviderInfo().getPracticeInfo().getName());
         if (tHSVisitSummary.getVisitSummary().getVisitCost().isFree()) {
             mTHSVisitSummaryFragment.visitCost.setText("$ 0");
@@ -180,7 +183,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
         int doctorLoyality=1; // current visit
         if(null!=visitReports && visitReports.size()>0){
              for(VisitReport visitReport:visitReports){
-                 if(visitReport.getConsumerName().equalsIgnoreCase(THSManager.getInstance().getPthVisitContext().getVisitContext().getProviderName())){
+                 if(visitReport.getProviderName().equalsIgnoreCase(mProviderInfo.getFullName())){
                      doctorLoyality++;
                  }
              }

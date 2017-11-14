@@ -99,7 +99,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     protected String tagActions = "";
     public static long visitStartTime;
     private Label mLabelPatientName;
-    protected int NumberOfConditionSelected=0;
+    protected static int NumberOfConditionSelected=0;
 
     @Nullable
     @Override
@@ -265,6 +265,8 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     protected void addTags(){
         if(NumberOfConditionSelected>0){
             tagActions = THSTagUtils.addActions(tagActions, "SymptomsChecked");
+        }else{
+            tagActions = tagActions.replace("SymptomsChecked","");
         }
         if(!(tagActions.isEmpty())) {
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "step1SymptomsForVisit", tagActions);
