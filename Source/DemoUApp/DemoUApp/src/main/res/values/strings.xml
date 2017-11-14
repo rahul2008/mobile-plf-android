@@ -1,7 +1,13 @@
 <resources>
-    <string name="app_name">My Account</string>
+    <string name="app_name">DemoUApp</string>
     <string name="button_launch">Launch</string>
-    <string name="button_myAccounts">Launch My Accounts</string>
+<string name="button_myAccounts">Launch My Accounts</string>
+
+    <!-- My Account - Consent -->
+    <string name="consent_moment_description">I allow Philips to store my data in cloud</string>
+    <string name="consent_moment_help">The actual content of the help text here</string>
+
+
     <string name="color_ranges_label">Color range</string>
     <string name="my_account_demo">My Account App</string>
     <string name="page_title_theme_settings">Theme Setting</string>
@@ -13,4 +19,5 @@
     <string name="accent_color_range_text">Accent color range</string>
     <string name="content_desc_close">close</string>
     <string name="warning_text">This color is not selectable with current theme combination. Please re-select alternatives above to use this color.</string>
+
 </resources>

@@ -8,6 +8,8 @@ package com.philips.platform.mya.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 
@@ -103,10 +106,17 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager
+                .findFragmentById(MyaUiHelper.getInstance().getFragmentLauncher().getParentContainerResourceID());
+        if (fragment != null && fragment instanceof BackEventListener) {
+            boolean isConsumed = ((BackEventListener) fragment).handleBackEvent();
+            if (!isConsumed) {
+                super.onBackPressed();
+            }
+        } else {
             super.onBackPressed();
-        } else
-            finish();
+        }
     }
 
 
