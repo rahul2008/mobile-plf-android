@@ -13,8 +13,12 @@ import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.visit.VisitContext;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ConsumerManager;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.intake.THSVisitContext;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
@@ -32,6 +36,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.List;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -98,6 +103,17 @@ public class THSShippingAddressFragmentTest {
     @Mock
     Country countryMock;
 
+    @Mock
+    AppInfraInterface appInfraInterface;
+
+    @Mock
+    AppTaggingInterface appTaggingInterface;
+
+    @Mock
+    LoggingInterface loggingInterface;
+
+    @Mock
+    ServiceDiscoveryInterface serviceDiscoveryMock;
 
 
     @Before
@@ -105,7 +121,6 @@ public class THSShippingAddressFragmentTest {
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
         THSManager.getInstance().setAwsdk(awsdkMock);
-
 
         THSManager.getInstance().setPTHConsumer(thsConsumerWrapper);
         THSManager.getInstance().setVisitContext(pthVisitContext);
@@ -120,21 +135,26 @@ public class THSShippingAddressFragmentTest {
         when(awsdkMock.getConsumerManager().getValidShippingStates(countryMock)).thenReturn(stateListMock);
         when(thsShippingAddressFragmentMock.getValidShippingStates(countryListMock)).thenReturn(stateListMock);
 
+        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
+        when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
+        when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
+        THSManager.getInstance().setAppInfra(appInfraInterface);
+
         thsShippingAddressFragment.setConsumerAndAddress(thsConsumerWrapper,address);
         thsShippingAddressFragment.setFragmentLauncher(fragmentLauncherMock);
     }
 
     @Test
     public void launchShippingFragment(){
+        when(countryListMock.size()).thenReturn(1);
+        when(stateListMock.size()).thenReturn(1);
+        when(countryListMock.get(0)).thenReturn(countryMock);
         thsShippingAddressFragment.supportedCountries = countryListMock;
-        when(awsdkMock.getConsumerManager().getValidShippingStates(countryMock)).thenReturn(stateListMock);
-        try {
-            when(thsShippingAddressFragment.getValidShippingStates(countryListMock)).thenReturn(stateListMock);
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        }
+        when(awsdkMock.getSupportedCountries()).thenReturn(countryListMock);
+        when(consumerManagerMock.getValidShippingStates(countryMock)).thenReturn(stateListMock);
+
         SupportFragmentTestUtil.startFragment(thsShippingAddressFragment);
-        thsShippingAddressFragmentMock.onClick(any(View.class));
-        verify(thsShippingAddressFragmentMock).onClick(any(View.class));
     }
 }

@@ -14,10 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.Country;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
@@ -148,8 +150,22 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
         return THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getSupportedCountries();
     }
 
+    void setSupportedCountries(List<Country> countryList){
+        supportedCountries = countryList;
+    }
+
     public List<State> getValidShippingStates(List<Country> supportedCountries) throws AWSDKInstantiationException {
-        return THSManager.getInstance().getAwsdk(getContext()).getConsumerManager().getValidShippingStates(supportedCountries.get(0));
+
+        Country country = supportedCountries.get(0);
+        AWSDK awsdk = THSManager.getInstance().getAwsdk(getContext());
+        ConsumerManager consumerManager = awsdk.getConsumerManager();
+        List<State> validShippingStates = consumerManager.getValidShippingStates(country);
+
+        return validShippingStates;
+    }
+
+    void setValidShippingState(List<State> stateList){
+        this.stateList = stateList;
     }
 
     public void setConsumerAndAddress(THSConsumerWrapper thsConsumerWrapper, Address address) {
