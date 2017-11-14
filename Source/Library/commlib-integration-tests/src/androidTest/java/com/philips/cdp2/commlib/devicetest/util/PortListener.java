@@ -33,12 +33,17 @@ public class PortListener implements DICommPortListener {
         latch.countDown();
     }
 
-    public void waitForPortUpdate(long time, TimeUnit unit) throws InterruptedException {
-        waitForPortUpdates(1, time, unit);
+    public void reset() {
+        reset(1);
     }
 
-    public void waitForPortUpdates(int numberOfUpdates, long time, TimeUnit unit) throws InterruptedException {
+    public void reset(int numberOfUpdates) {
+        errors.clear();
+        receivedCount = 0;
         latch = new CountDownLatch(numberOfUpdates);
+    }
+
+    public void waitForPortUpdates(long time, TimeUnit unit) throws InterruptedException {
         latch.await(time, unit);
     }
 }

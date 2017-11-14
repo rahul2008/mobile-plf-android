@@ -56,12 +56,16 @@ public class Steps {
     private ReferenceAppliance current;
     private final Map<Class<? extends DICommPort<?>>, PortListener> portListeners = new ConcurrentHashMap<>();
     private Scenario scenario;
+    private boolean subscribed;
+    private boolean stored;
 
     @Before
     public void before(Scenario scenario) throws Throwable {
         this.scenario = scenario;
         this.app = (TestApplication) newApplication(TestApplication.class, getTargetContext());
         this.commCentral = app.getCommCentral();
+        this.subscribed = false;
+        this.stored = false;
 
         Log.i(LOGTAG, app.toString());
     }
@@ -71,28 +75,33 @@ public class Steps {
         Log.i(LOGTAG, "Start cleanup");
 
         if (current != null) {
-            current.getTimePort().unsubscribe();
-
             PortListener listener = portListeners.get(TimePort.class);
-            listener.waitForPortUpdates(1, 1, MINUTES);
 
-            commCentral.getApplianceManager().forgetStoredAppliance(current);
+            if(subscribed) {
+                Log.i(LOGTAG, "Unsubscribe from timeport");
+                listener.reset();
+                current.getTimePort().unsubscribe();
+                listener.waitForPortUpdates(1, MINUTES);
+            }
 
-            current.disableCommunication();
+            if(stored) {
+                Log.i(LOGTAG, "Forget stored appliance");
+                commCentral.getApplianceManager().forgetStoredAppliance(current);
+            }
+
+            Log.i(LOGTAG, "Remove listeners and set default strategy");
             current.getTimePort().removePortListener(listener);
             current.getCommunicationStrategy().forceStrategyType(null);
-
             current = null;
         }
 
+        Log.i(LOGTAG, "Stop discovery and finalize objects");
         commCentral.stopDiscovery();
         commCentral = null;
-
         portListeners.clear();
+        app = null;
 
-        Log.i(LOGTAG, "End cleanup");
-
-        this.app = null;
+        Log.i(LOGTAG, "Finished cleanup");
     }
 
     @Given("^The environment is logged$")
@@ -111,6 +120,7 @@ public class Steps {
     @Given("^stay connected is disabled$")
     public void stayConnectedIsDisabled() throws Throwable {
         current.disableCommunication();
+        Thread.sleep(1000); //Let the device disconnect properly
     }
 
     @Given("^distance between device and appliance is (\\d+) cm$")
@@ -175,6 +185,7 @@ public class Steps {
     @Given("^appliance is stored on device$")
     public void applianceIsStoredOnDevice() throws Throwable {
         app.getCommCentral().getApplianceManager().storeAppliance(current);
+        stored = true;
     }
 
     @Given("^cloudCommunication is used$")
@@ -212,7 +223,17 @@ public class Steps {
 
     @When("^device subscribes on time port$")
     public void deviceSubscribesOnTimePort() throws Throwable {
+        Log.d(LOGTAG, String.format("Subscribing to timeport"));
+
+        PortListener listener = portListeners.get(TimePort.class);
+        listener.reset();
+
         current.getTimePort().subscribe();
+        listener.waitForPortUpdates(1, MINUTES);
+
+        assertThat(listener.receivedCount).as("Time values received from timeport").isGreaterThanOrEqualTo(1);
+
+        subscribed = true;
     }
 
     @Then("^time value is received without errors$")
@@ -225,7 +246,9 @@ public class Steps {
         Log.d(LOGTAG, String.format("Waiting for %d timeport updates", count));
 
         PortListener listener = portListeners.get(TimePort.class);
-        listener.waitForPortUpdates(count, 1, MINUTES);
+        listener.reset(count);
+
+        listener.waitForPortUpdates(1, MINUTES);
 
         scenario.write("Errors:" + listener.errors.toString());
 
