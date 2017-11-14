@@ -91,6 +91,8 @@ public class Steps {
         portListeners.clear();
 
         Log.i(LOGTAG, "End cleanup");
+
+        this.app = null;
     }
 
     @Given("^The environment is logged$")
