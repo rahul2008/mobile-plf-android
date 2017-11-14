@@ -19,10 +19,7 @@ import com.philips.cdp2.commlib.cloud.communication.CloudCommunicationStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.devicetest.TestApplication;
-import com.philips.cdp2.commlib.devicetest.appliance.BaseAppliance;
 import com.philips.cdp2.commlib.devicetest.appliance.ReferenceAppliance;
-import com.philips.cdp2.commlib.devicetest.appliance.airpurifier.AirPurifier;
-import com.philips.cdp2.commlib.devicetest.port.air.ComfortAirPort;
 import com.philips.cdp2.commlib.devicetest.port.time.TimePort;
 import com.philips.cdp2.commlib.devicetest.util.ApplianceWaiter;
 import com.philips.cdp2.commlib.devicetest.util.CloudSignOnWaiter;
@@ -44,7 +41,6 @@ import static android.app.Instrumentation.newApplication;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static java.util.Collections.emptyList;
 import static java.util.concurrent.TimeUnit.MINUTES;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -55,7 +51,7 @@ public class Steps {
 
     private CommCentral commCentral;
     private TestApplication app;
-    private BaseAppliance current;
+    private ReferenceAppliance current;
     private final Map<Class<? extends DICommPort<?>>, PortListener> portListeners = new ConcurrentHashMap<>();
     private Scenario scenario;
 
@@ -78,14 +74,8 @@ public class Steps {
             app.getCommCentral().getApplianceManager().forgetStoredAppliance(current);
             current.getCommunicationStrategy().forceStrategyType(null);
 
-            if (current instanceof ReferenceAppliance) {
-                PortListener listener = portListeners.get(TimePort.class);
-                ((ReferenceAppliance) current).getTimePort().removePortListener(listener);
-            }
-            if (current instanceof AirPurifier) {
-                PortListener listener = portListeners.get(ComfortAirPort.class);
-                ((AirPurifier) current).getAirPort().removePortListener(listener);
-            }
+            PortListener listener = portListeners.get(TimePort.class);
+            current.getTimePort().removePortListener(listener);
         }
 
         portListeners.clear();
@@ -103,14 +93,14 @@ public class Steps {
 
     @Given("^an appliance with cppId \"([^\"]*)\" is discovered and selected$")
     public void anApplianceWithCppIdIsDiscoveredAndSelected(final String cppId) throws Throwable {
-        current = (BaseAppliance) commCentral.getApplianceManager().findApplianceByCppId(cppId);
+        current = (ReferenceAppliance) commCentral.getApplianceManager().findApplianceByCppId(cppId);
         if (current == null) {
             ApplianceWaiter.Waiter<Appliance> waiter = ApplianceWaiter.forCppId(cppId);
 
             commCentral.getApplianceManager().addApplianceListener(waiter);
             commCentral.startDiscovery();
 
-            current = (BaseAppliance) waiter.waitForAppliance(1, MINUTES).getAppliance();
+            current = (ReferenceAppliance) waiter.waitForAppliance(1, MINUTES).getAppliance();
             commCentral.stopDiscovery();
         }
 
@@ -118,28 +108,15 @@ public class Steps {
 
         Log.i(LOGTAG, "Found our referenceAppliance!");
 
-        if (current instanceof ReferenceAppliance) {
-            PortListener listener = new PortListener();
-            portListeners.put(TimePort.class, listener);
-            ((ReferenceAppliance) current).getTimePort().addPortListener(listener);
-        }
-        if (current instanceof AirPurifier) {
-            PortListener listener = new PortListener();
-            portListeners.put(ComfortAirPort.class, listener);
-            ((AirPurifier) current).getAirPort().addPortListener(listener);
-        }
+        PortListener listener = new PortListener();
+        portListeners.put(TimePort.class, listener);
+        current.getTimePort().addPortListener(listener);
     }
 
     @When("^device requests time value from time port$")
     public void deviceRequestsTimeValueFromTimePort() throws Throwable {
         Log.d(LOGTAG, "Reloading timeport");
         ((ReferenceAppliance) current).getTimePort().reloadProperties();
-    }
-
-    @When("^device requests light on from air port$")
-    public void deviceRequestsLightOnFromAirPort() throws Throwable {
-        Log.d(LOGTAG, "Turning light on");
-        ((AirPurifier) current).getAirPort().setLight(true);
     }
 
     @When("^device subscribes on time port$")
@@ -150,16 +127,6 @@ public class Steps {
     @When("^device unsubscribes on time port$")
     public void deviceUnsubscribesOnTimePort() throws Throwable {
         ((ReferenceAppliance) current).getTimePort().unsubscribe();
-    }
-
-    @When("^device subscribes on air port$")
-    public void deviceSubscribesOnAirPort() throws Throwable {
-        ((AirPurifier) current).getAirPort().subscribe();
-    }
-
-    @When("^device unsubscribes on air port$")
-    public void deviceUnsubscribesOnAirPort() throws Throwable {
-        ((AirPurifier) current).getAirPort().unsubscribe();
     }
 
     @Then("^time value is received without errors$")
@@ -179,30 +146,9 @@ public class Steps {
         assertEquals("Errors received from time port", emptyList(), listener.errors);
         assertEquals("Did not receive enough time values from port", count, listener.receivedCount);
 
-        final String datetime = ((ReferenceAppliance) current).getTimePort().getPortProperties().datetime;
+        final String datetime = current.getTimePort().getPortProperties().datetime;
         scenario.write("Got time: " + datetime);
         Log.d(LOGTAG, datetime);
-    }
-
-    @Then("^light on value is received without errors$")
-    public void lightOnValueIsReceivedWithoutErrors() throws Throwable {
-        lightOnValueIsReceivedTimesWithoutErrors(1);
-    }
-
-    @Then("^light on value is received (\\d+) times without errors$")
-    public void lightOnValueIsReceivedTimesWithoutErrors(int count) throws Throwable {
-        Log.d(LOGTAG, String.format("Waiting for airport light update"));
-
-        PortListener listener = portListeners.get(ComfortAirPort.class);
-        listener.waitForPortUpdates(count, 1, MINUTES);
-
-        scenario.write("Errors:" + listener.errors.toString());
-
-        assertEquals("Errors received from air port", emptyList(), listener.errors);
-        assertEquals("Did not receive enough values from air port", count, listener.receivedCount);
-
-        final boolean lightOn = ((AirPurifier) current).getAirPort().getPortProperties().getLightOn();
-        assertTrue("Light is not turned on!", lightOn);
     }
 
     @Given("^device is connected to SSID \"(.*?)\"$")
@@ -267,23 +213,5 @@ public class Steps {
         cloudController.removeSignOnListener(cloudSignOnWaiter);
 
         assertTrue("Sign on failed", cloudController.isSignOn());
-    }
-
-    @Then("^the light on the appliance is turned off$")
-    public void theLightOnTheApplianceIsTurnedOff() throws Throwable {
-        Log.d(LOGTAG, String.format("Setting airport light off"));
-
-        ((AirPurifier) current).getAirPort().setLight(false);
-
-        PortListener listener = portListeners.get(ComfortAirPort.class);
-        listener.waitForPortUpdate(1, MINUTES);
-
-        scenario.write("Errors:" + listener.errors.toString());
-
-        assertEquals(emptyList(), listener.errors);
-        assertEquals(1, listener.receivedCount);
-
-        final boolean lightOn = ((AirPurifier) current).getAirPort().getPortProperties().getLightOn();
-        assertFalse("Light is turned on!", lightOn);
     }
 }

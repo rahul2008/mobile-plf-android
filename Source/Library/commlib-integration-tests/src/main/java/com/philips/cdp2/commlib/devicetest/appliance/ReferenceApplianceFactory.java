@@ -13,9 +13,6 @@ import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.devicetest.CombinedCommunicationTestingStrategy;
-import com.philips.cdp2.commlib.devicetest.appliance.airpurifier.AirPurifier;
-import com.philips.cdp2.commlib.devicetest.appliance.airpurifier.ComfortAirPurifier;
-import com.philips.cdp2.commlib.devicetest.appliance.airpurifier.JaguarAirPurifier;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 
 import java.util.HashSet;
@@ -54,17 +51,8 @@ public final class ReferenceApplianceFactory implements ApplianceFactory {
                     cloudTransportContext.createCommunicationStrategyFor(networkNode));
 
             switch (networkNode.getDeviceType()) {
-                case AirPurifier.DEVICETYPE:
-                    networkNode.useLegacyHttp();
-
-                    if (ComfortAirPurifier.MODELID.equals(networkNode.getModelId())) {
-                        return new ComfortAirPurifier(networkNode, communicationStrategy);
-                    } else {
-                        return new JaguarAirPurifier(networkNode, communicationStrategy);
-                    }
                 case BleReferenceAppliance.DEVICETYPE:
                     return new BleReferenceAppliance(networkNode, communicationStrategy);
-                case "Wake-up Light":
                 case WifiReferenceAppliance.DEVICETYPE:
                     return new WifiReferenceAppliance(networkNode, communicationStrategy);
                 default:
