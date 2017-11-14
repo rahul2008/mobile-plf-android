@@ -199,6 +199,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_how_it_works">How it works</string>
     <string name="ths_welcome">Welcome</string>
     <string name="ths_welcome_back">Welcome back</string>
+    <string name="ths_refresh_signon_failed">Refresh Signon failed. Please logout and login again</string>
 
     <!--Provider details strings -->
     <string name="ths_see_this_doctor_now_button_text">See this provider now</string>

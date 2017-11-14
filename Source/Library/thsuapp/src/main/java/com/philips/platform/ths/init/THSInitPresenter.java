@@ -201,7 +201,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
 
             @Override
             public void onRefreshLoginSessionFailedWithError(int i) {
-                mThsInitFragment.showToast("Refresh Signon failed with the following status code " + i + " please logout and login again");
+                mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_refresh_signon_failed));
                 mThsInitFragment.hideProgressBar();
             }
 
