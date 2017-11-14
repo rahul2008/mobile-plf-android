@@ -10,5 +10,5 @@ package com.philips.platform.catk.response;
 public enum ConsentStatus {
     active,
     rejected,
-    inactive;
+    inactive
 }

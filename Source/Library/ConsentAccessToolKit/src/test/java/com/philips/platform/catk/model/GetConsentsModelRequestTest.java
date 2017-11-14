@@ -7,15 +7,6 @@
 
 package com.philips.platform.catk.model;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-
-import org.junit.*;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.configuration.MockitoConfiguration;
-
 import com.android.volley.Request;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -23,7 +14,19 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.catk.ConsentAccessToolKitManipulator;
 import com.philips.platform.catk.injection.CatkComponent;
 import com.philips.platform.catk.network.NetworkAbstractModel;
+import com.philips.platform.catk.network.NetworkController;
 import com.philips.platform.catk.response.ConsentStatus;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.configuration.MockitoConfiguration;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 public class GetConsentsModelRequestTest extends MockitoConfiguration {
 
@@ -69,12 +72,12 @@ public class GetConsentsModelRequestTest extends MockitoConfiguration {
 
     @Test
     public void testRequestHeader() throws Exception {
-        Assert.assertNotNull(consentModelRequest.requestHeader());
-        assertEquals("1", consentModelRequest.requestHeader().get("api-version"));
-        assertEquals("application/json", consentModelRequest.requestHeader().get("content-type"));
-        assertEquals("bearer x73ywf56h46h5p25", consentModelRequest.requestHeader().get("authorization"));
-        assertEquals(subject, consentModelRequest.requestHeader().get("performerid"));
-        assertEquals("no-cache", consentModelRequest.requestHeader().get("cache-control"));
+        Assert.assertNotNull(NetworkController.requestHeader());
+        assertEquals("1", NetworkController.requestHeader().get("api-version"));
+        assertEquals("application/json", NetworkController.requestHeader().get("content-type"));
+        assertEquals("bearer x73ywf56h46h5p25", NetworkController.requestHeader().get("authorization"));
+        assertEquals(subject, NetworkController.requestHeader().get("performerid"));
+        assertEquals("no-cache", NetworkController.requestHeader().get("cache-control"));
     }
 
     @Test
@@ -107,6 +110,6 @@ public class GetConsentsModelRequestTest extends MockitoConfiguration {
     private final String status = "active";
     private final String subject = "17f7ce85-403c-4824-a17f-3b551f325ce0";
     private final String resourceType = "Consent";
-    private GetConsentsModel[] expectedConsentModelRequest = new GetConsentsModel[] { new GetConsentsModel(dateTime, language, policyRule, resourceType,
-            ConsentStatus.valueOf(status), subject) };
+    private GetConsentsModel[] expectedConsentModelRequest = new GetConsentsModel[]{new GetConsentsModel(dateTime, language, policyRule, resourceType,
+            ConsentStatus.valueOf(status), subject)};
 }

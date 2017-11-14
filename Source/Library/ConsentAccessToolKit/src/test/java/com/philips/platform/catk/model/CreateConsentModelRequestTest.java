@@ -7,8 +7,13 @@
 
 package com.philips.platform.catk.model;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
+import com.android.volley.Request;
+import com.google.gson.JsonArray;
+import com.philips.cdp.registration.User;
+import com.philips.platform.catk.ConsentAccessToolKitManipulator;
+import com.philips.platform.catk.injection.CatkComponent;
+import com.philips.platform.catk.network.NetworkAbstractModel;
+import com.philips.platform.catk.network.NetworkController;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,12 +21,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.configuration.MockitoConfiguration;
 
-import com.android.volley.Request;
-import com.google.gson.JsonArray;
-import com.philips.cdp.registration.User;
-import com.philips.platform.catk.ConsentAccessToolKitManipulator;
-import com.philips.platform.catk.injection.CatkComponent;
-import com.philips.platform.catk.network.NetworkAbstractModel;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.when;
 
 public class CreateConsentModelRequestTest extends MockitoConfiguration {
 
@@ -61,12 +64,12 @@ public class CreateConsentModelRequestTest extends MockitoConfiguration {
 
     @Test
     public void testRequestHeader() throws Exception {
-        assertNotNull(consentModelRequest.requestHeader());
-        assertEquals("1", consentModelRequest.requestHeader().get("api-version"));
-        assertEquals("application/json", consentModelRequest.requestHeader().get("content-type"));
-        assertEquals("bearer x73ywf56h46h5p25", consentModelRequest.requestHeader().get("authorization"));
-        assertEquals(SUBJECT, consentModelRequest.requestHeader().get("performerid"));
-        assertEquals("no-cache", consentModelRequest.requestHeader().get("cache-control"));
+        assertNotNull(NetworkController.requestHeader());
+        assertEquals("1", NetworkController.requestHeader().get("api-version"));
+        assertEquals("application/json", NetworkController.requestHeader().get("content-type"));
+        assertEquals("bearer x73ywf56h46h5p25", NetworkController.requestHeader().get("authorization"));
+        assertEquals(SUBJECT, NetworkController.requestHeader().get("performerid"));
+        assertEquals("no-cache", NetworkController.requestHeader().get("cache-control"));
     }
 
     @Test

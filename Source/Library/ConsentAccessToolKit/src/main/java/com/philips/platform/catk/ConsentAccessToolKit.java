@@ -93,11 +93,8 @@ public class ConsentAccessToolKit {
             }
 
             @Override
-            public int onModelDataError(Message msg) {
-                if (msg.obj instanceof ConsentNetworkError) {
-                    return consentListener.onResponseFailureConsent(((ConsentNetworkError) msg.obj).getErrorCode());
-                }
-                return CatkConstants.CONSENT_ERROR_UNKNOWN;
+            public int onModelDataError(ConsentNetworkError error) {
+                return consentListener.onResponseFailureConsent(error.getErrorCode());
             }
         });
         NetworkHelper.getInstance().sendRequest(model);
@@ -125,11 +122,8 @@ public class ConsentAccessToolKit {
                             }
 
                             @Override
-                            public int onModelDataError(Message msg) {
-                                if (msg.obj instanceof ConsentNetworkError) {
-                                    return consentListener.onFailure(((ConsentNetworkError) msg.obj).getErrorCode());
-                                }
-                                return CatkConstants.CONSENT_ERROR_UNKNOWN;
+                            public int onModelDataError(ConsentNetworkError error) {
+                                return consentListener.onFailure(error.getErrorCode());
                             }
                         });
                 NetworkHelper.getInstance().sendRequest(model);
@@ -137,7 +131,7 @@ public class ConsentAccessToolKit {
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-
+                Log.e("Consent access toolkit", "Could not get locale");
             }
         });
     }
@@ -171,5 +165,4 @@ public class ConsentAccessToolKit {
     static void setInstance(ConsentAccessToolKit sSoleInstance) {
         ConsentAccessToolKit.sSoleInstance = sSoleInstance;
     }
-
 }

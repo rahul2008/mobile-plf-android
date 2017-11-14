@@ -7,9 +7,10 @@
 
 package com.philips.platform.catk.mock;
 
-import com.philips.platform.catk.network.NetworkAbstractModel;
-
 import android.os.Message;
+
+import com.philips.platform.catk.error.ConsentNetworkError;
+import com.philips.platform.catk.network.NetworkAbstractModel;
 
 public class ModelDataLoadListenerMock implements NetworkAbstractModel.DataLoadListener {
 
@@ -19,7 +20,7 @@ public class ModelDataLoadListenerMock implements NetworkAbstractModel.DataLoadL
     }
 
     @Override
-    public int onModelDataError(Message msg) {
+    public int onModelDataError(ConsentNetworkError error) {
         return 0;
     }
 }

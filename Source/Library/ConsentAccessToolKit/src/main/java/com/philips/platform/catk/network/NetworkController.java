@@ -24,6 +24,9 @@ import com.philips.platform.catk.listener.ConsentRequestListener;
 import com.philips.platform.catk.listener.RefreshTokenListener;
 import com.philips.platform.catk.request.ConsentRequest;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 
 public class NetworkController implements ConsentRequestListener, Response.ErrorListener {
@@ -60,7 +63,7 @@ public class NetworkController implements ConsentRequestListener, Response.Error
     }
 
     protected ConsentRequest getConsentJsonRequest(final NetworkAbstractModel model) {
-        return new ConsentRequest(model.getMethod(), model.getUrl(), model.requestHeader(), model.requestBody(), this, this);
+        return new ConsentRequest(model.getMethod(), model.getUrl(), requestHeader(), model.requestBody(), this, this);
     }
 
     @Override
@@ -82,12 +85,26 @@ public class NetworkController implements ConsentRequestListener, Response.Error
         postErrorResponseOnUIThread(error);
     }
 
+    public static Map<String, String> requestHeader() {
+        Map<String, String> header = new HashMap<>();
+        header.put("api-version", "1");
+        header.put("content-type", "application/json");
+        addAuthorization(header);
+        header.put("performerid", ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID());
+        header.put("cache-control", "no-cache");
+        return header;
+    }
+
+    public static void addAuthorization(Map<String, String> headers) {
+        headers.put("authorization", "bearer " + ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpAccessToken());
+    }
+
     private void performRefreshToken(final ConsentRequest request, final VolleyError error) {
         NetworkHelper.getInstance().refreshAccessToken(new RefreshTokenListener() {
             @Override
             public void onRefreshSuccess() {
                 try {
-                    NetworkAbstractModel.addAuthorization(request.getHeaders());
+                    addAuthorization(request.getHeaders());
                 } catch (AuthFailureError authFailureError) {
                     authFailureError.printStackTrace();
                 }
@@ -125,10 +142,7 @@ public class NetworkController implements ConsentRequestListener, Response.Error
             @Override
             public void run() {
                 if (model != null && error != null) {
-                    Message msg = Message.obtain();
-                    msg.what = model.getMethod();
-                    msg.obj = new ConsentNetworkError(error);
-                    model.onResponseError(msg);
+                    model.onResponseError(new ConsentNetworkError(error));
                 }
             }
         });
