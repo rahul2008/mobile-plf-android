@@ -68,10 +68,10 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         mLabelPatientName.setText(name);
 
         mSystolicInputValidationLayout = (InputValidationLayout) view.findViewById(R.id.intake_systolic_container);
-        mSystolicInputValidationLayout.setValidator(new THSVitalsSystolicValidator());
+        // mSystolicInputValidationLayout.setValidator(new THSVitalsSystolicValidator());
 
         mDiastolicInputValidationLayout = (InputValidationLayout) view.findViewById(R.id.intake_diasystolic_container);
-        mDiastolicInputValidationLayout.setValidator(new THSVitalsSystolicValidator());
+        //mDiastolicInputValidationLayout.setValidator(new THSVitalsSystolicValidator());
 
         mFarenheitInputLayoutContainer = (InputValidationLayout) view.findViewById(R.id.intake_farenheit_container);
         mFarenheitInputLayoutContainer.setValidator(new THSVitalsTemperatureValidator());
@@ -79,7 +79,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         mWeightInputLayoutContainer = (InputValidationLayout) view.findViewById(R.id.pounds_container);
         mWeightInputLayoutContainer.setValidator(new THSVitalsWeightValidator());
 
-        mThsVitalsPresenter = new THSVitalsPresenter(this,this);
+        mThsVitalsPresenter = new THSVitalsPresenter(this, this);
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_prepare_your_visit), true);
         }
@@ -105,7 +105,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
 
     private void prepopulateData() {
         final THSConsumer thsConsumer = THSManager.getInstance().getThsConsumer(getContext());
-        if(thsConsumer==null){
+        if (thsConsumer == null) {
             return;
         }
 
@@ -123,15 +123,15 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     public void onClick(View view) {
         int i = view.getId();
 
-            if (i == R.id.vitals_continue_btn) {
-                if(validateFields()) {
-                    //THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_FLOATING_BUTTON, "vitalsContinue");
-                    mThsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
-                }
-            } else if (i == R.id.vitals_skip) {
-                THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "stepsSkipped", "vitals");
-                mThsVitalsPresenter.onEvent(R.id.vitals_skip);
+        if (i == R.id.vitals_continue_btn) {
+            if (validateFields()) {
+                //THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_FLOATING_BUTTON, "vitalsContinue");
+                mThsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
             }
+        } else if (i == R.id.vitals_skip) {
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "stepsSkipped", "vitals");
+            mThsVitalsPresenter.onEvent(R.id.vitals_skip);
+        }
 
     }
 
@@ -155,14 +155,18 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     public void updateUI(THSVitals thsVitals) {
         mTHSVitals = thsVitals;
 
-        if (mTHSVitals.getSystolic() != null)
+        if (mTHSVitals.getSystolic() != null && mTHSVitals.getSystolic() != 0) {
             mSystolic.setText(String.valueOf(thsVitals.getSystolic()));
-        if (mTHSVitals.getDiastolic() != null)
+        }
+        if (mTHSVitals.getDiastolic() != null && mTHSVitals.getDiastolic() != 0) {
             mDiastolic.setText(String.valueOf(thsVitals.getDiastolic()));
-        if (mTHSVitals.getTemperature() != null)
+        }
+        if (mTHSVitals.getTemperature() != null && mTHSVitals.getTemperature() != 0) {
             mTemperature.setText(String.valueOf(thsVitals.getTemperature()));
-        if (mTHSVitals.getWeight() != null)
+        }
+        if (mTHSVitals.getWeight() != null && mTHSVitals.getWeight() != 0) {
             mWeight.setText(String.valueOf(thsVitals.getWeight()));
+        }
 
         mContinue.setEnabled(true);
     }
@@ -208,7 +212,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
 
     public boolean validateBloodPressure() {
 
-        if (mThsVitalsPresenter.checkIfValueEntered(mSystolic) || mThsVitalsPresenter.checkIfValueEntered(mDiastolic)) {
+        if (mThsVitalsPresenter.checkIfValueEntered(mSystolic) && mThsVitalsPresenter.checkIfValueEntered(mDiastolic)) {
             String systolic = mThsVitalsPresenter.getTextFromEditText(mSystolic);
             String diastolic = mThsVitalsPresenter.getTextFromEditText(mDiastolic);
             return mThsVitalsPresenter.stringToInteger(diastolic) <= mThsVitalsPresenter.stringToInteger(systolic);
@@ -232,21 +236,20 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
 
     public boolean validateFields() {
 
-        if(mThsVitalsPresenter.checkIfValueEntered(mSystolic) && mThsVitalsPresenter.checkIfValueEntered(mDiastolic)){
+        if (mThsVitalsPresenter.checkIfValueEntered(mSystolic) || mThsVitalsPresenter.checkIfValueEntered(mDiastolic)) {
             validateSystolicView();
             validateDiastolicView();
             validateTemperatureView();
-            if(mFarenheitInputLayoutContainer.isShowingError() || mSystolicInputValidationLayout.isShowingError() || mDiastolicInputValidationLayout.isShowingError()){
+            if (mFarenheitInputLayoutContainer.isShowingError() || mSystolicInputValidationLayout.isShowingError() || mDiastolicInputValidationLayout.isShowingError()) {
                 return false;
-            }else {
+            } else {
                 return true;
             }
-        }
-        else {
-           validateTemperatureView();
-            if(mFarenheitInputLayoutContainer.isShowingError()){
+        } else {
+            validateTemperatureView();
+            if (mFarenheitInputLayoutContainer.isShowingError()) {
                 return false;
-            }else {
+            } else {
                 return true;
             }
         }
@@ -254,38 +257,38 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     }
 
     public void validateTemperatureView() {
-        if(!validateTemperature()){
+        if (!validateTemperature()) {
             mFarenheitInputLayoutContainer.setErrorMessage(R.string.ths_vitals_temperature_error);
             mFarenheitInputLayoutContainer.showError();
-            doTagging(ANALYTICS_UPDATE_VITALS,getString(R.string.ths_vitals_temperature_error),false);
-        }else {
+            doTagging(ANALYTICS_UPDATE_VITALS, getString(R.string.ths_vitals_temperature_error), false);
+        } else {
             mFarenheitInputLayoutContainer.hideError();
         }
     }
 
     public void validateDiastolicView() {
-        if(!validateBloodPressure()){
+        if (!validateBloodPressure()) {
             mDiastolicInputValidationLayout.setErrorMessage(R.string.ths_vitals_diastolic_error);
             mDiastolicInputValidationLayout.showError();
-            doTagging(ANALYTICS_UPDATE_VITALS,getString(R.string.ths_vitals_diastolic_error),false);
-        }else {
+            doTagging(ANALYTICS_UPDATE_VITALS, getString(R.string.ths_vitals_diastolic_error), false);
+        } else {
             mDiastolicInputValidationLayout.hideError();
         }
     }
 
     public void validateSystolicView() {
-        if(!validateBloodPressure()){
+        if (!validateBloodPressure()) {
             mSystolicInputValidationLayout.setErrorMessage(R.string.ths_vitals_diastolic_error);
             mSystolicInputValidationLayout.showError();
-            doTagging(ANALYTICS_UPDATE_VITALS,getString(R.string.ths_vitals_diastolic_error),false);
-        }else {
+            doTagging(ANALYTICS_UPDATE_VITALS, getString(R.string.ths_vitals_diastolic_error), false);
+        } else {
             mSystolicInputValidationLayout.hideError();
         }
     }
 
     private boolean validateTemperature() {
-        if(mTemperature.getText().toString().length() <= 0 || mTemperature.getText().toString().isEmpty()){
+        if (mTemperature.getText().toString().length() <= 0 || mTemperature.getText().toString().isEmpty()) {
             return false;
-        }else return Double.parseDouble(mTemperature.getText().toString()) <= 120;
+        } else return Double.parseDouble(mTemperature.getText().toString()) <= 120;
     }
 }
