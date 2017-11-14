@@ -6,6 +6,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="@dimen/ths_fab_margin">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_intake_follow_up_label"
@@ -16,7 +22,7 @@
         android:id="@+id/ths_follow_up_patient_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/ths_image_size"
+        android:layout_marginTop="@dimen/ths_fab_margin"
         android:layout_marginBottom="@dimen/ths_margin_between_buttons"
         android:layout_marginLeft="@dimen/ths_fab_margin"
         android:layout_marginRight="@dimen/ths_fab_margin"
@@ -106,14 +112,16 @@
 
     <com.philips.platform.uid.view.widget.ProgressBarButton
         android:id="@+id/pth_intake_follow_up_continue_button"
+        android:layout_below="@+id/pth_intake_follow_up_i_agree_link_text"
         android:layout_marginLeft="@dimen/ths_fab_margin"
         android:layout_marginRight="@dimen/ths_fab_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:enabled="false"
-        android:layout_marginTop="@dimen/ths_margin_top"
+        android:layout_marginTop="@dimen/ths_fab_margin"
         app:uidIsIndeterminateProgressIndicator="true"
         app:uidProgressIndicatorButtonProgressText="Loading.."
         app:uidProgressIndicatorButtonText="Continue" />
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

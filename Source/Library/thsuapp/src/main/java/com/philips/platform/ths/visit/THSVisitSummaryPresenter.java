@@ -6,6 +6,8 @@ import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
+import com.americanwell.sdk.entity.provider.ProviderInfo;
+import com.americanwell.sdk.entity.visit.VisitReport;
 import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
@@ -13,12 +15,14 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSDKCallback;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
+import com.philips.platform.ths.settings.THSVisitReportListCallback;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 
 import java.util.HashMap;
+import java.util.List;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_RATING;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
@@ -28,9 +32,10 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
  * Created by philips on 8/4/17.
  */
 
-public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSummaryCallbacks.THSVisitSummaryCallback<THSVisitSummary, THSSDKError>, THSSDKCallback<Void, SDKError> {
+public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSummaryCallbacks.THSVisitSummaryCallback<THSVisitSummary, THSSDKError>, THSSDKCallback<Void, SDKError>, THSVisitReportListCallback<List<VisitReport>,SDKError> {
 
     THSVisitSummaryFragment mTHSVisitSummaryFragment;
+    private ProviderInfo mProviderInfo;
 
     public THSVisitSummaryPresenter(THSVisitSummaryFragment mTHSVisitSummaryFragment) {
         this.mTHSVisitSummaryFragment = mTHSVisitSummaryFragment;
@@ -114,6 +119,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     private void updateView(THSVisitSummary tHSVisitSummary) {
         VisitSummary visitSummary = tHSVisitSummary.getVisitSummary();
         mTHSVisitSummaryFragment.providerName.setText(visitSummary.getAssignedProviderInfo().getFullName());
+        mProviderInfo=visitSummary.getAssignedProviderInfo();
         mTHSVisitSummaryFragment.providerPractice.setText(visitSummary.getAssignedProviderInfo().getPracticeInfo().getName());
         if (tHSVisitSummary.getVisitSummary().getVisitCost().isFree()) {
             mTHSVisitSummaryFragment.visitCost.setText("$ 0");
@@ -140,6 +146,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
         updateShippingAddressView(address, consumerFullName);
         Pharmacy pharmacy = visitSummary.getPharmacy();
         updatePharmacyDetailsView(pharmacy);
+        getVisitHistory();
     }
 
 
@@ -160,6 +167,29 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
             mTHSVisitSummaryFragment.doTagging(ANALYTICS_RATING,mTHSVisitSummaryFragment.getResources().getString(R.string.ths_se_server_error_toast_message),true);
             mTHSVisitSummaryFragment.showError(mTHSVisitSummaryFragment.getResources().getString(R.string.ths_se_server_error_toast_message),true);
         }
+    }
+
+
+    protected void getVisitHistory(){
+        try {
+            THSManager.getInstance().getVisitHistory(mTHSVisitSummaryFragment.getContext(),null, this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+    // fetch report callback
+    @Override
+    public void onResponse(List<VisitReport> visitReports, SDKError sdkError) {
+        int doctorLoyality=1; // current visit
+        if(null!=visitReports && visitReports.size()>0){
+             for(VisitReport visitReport:visitReports){
+                 if(visitReport.getProviderName().equalsIgnoreCase(mProviderInfo.getFullName())){
+                     doctorLoyality++;
+                 }
+             }
+        }
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,"doctorLoyalty",""+doctorLoyality);
+
     }
 
 

@@ -17,12 +17,13 @@ import android.widget.RelativeLayout;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 
 
-
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_WELCOME;
 
 public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickListener {
@@ -109,6 +110,7 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         super.onDestroy();
         // exit from THS, collect tagging data
         if(null!=THSManager.getInstance() ) {
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,"exitToPropositon","toUgrowPage");
             THSManager.getInstance().getThsTagging().pauseLifecycleInfo();
             THSManager.getInstance().resetTHSManagerData();
         }
