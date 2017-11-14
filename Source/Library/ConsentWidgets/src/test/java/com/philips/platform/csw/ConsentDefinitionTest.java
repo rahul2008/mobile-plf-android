@@ -1,4 +1,6 @@
-package com.philips.platform.mya;
+package com.philips.platform.csw;
+
+import com.philips.platform.csw.ConsentDefinition;
 
 import org.junit.Test;
 
