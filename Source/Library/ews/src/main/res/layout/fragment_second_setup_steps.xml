@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_image_top_margin"
                 android:adjustViewBounds="true"
-                android:background="@{viewModel.secondSetupStepsImage}"
+                android:background="@{viewModel.image}"
                 android:contentDescription="@null"
                 app:setAnimationDrawable="@{@drawable/ic_ews_device_apmode_blinking}" />
 

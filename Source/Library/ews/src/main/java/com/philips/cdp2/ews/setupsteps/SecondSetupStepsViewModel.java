@@ -33,7 +33,7 @@ public class SecondSetupStepsViewModel extends ConnectPhoneToDeviceAPModeViewMod
     @NonNull
     public final ObservableField<String> question;
     @NonNull
-    public final Drawable Image;
+    public final Drawable image;
     @NonNull
     public final ObservableField<String> yesButton;
     @NonNull
@@ -55,7 +55,7 @@ public class SecondSetupStepsViewModel extends ConnectPhoneToDeviceAPModeViewMod
         this.stringProvider = stringProvider;
         this.question = new ObservableField<>(getQuestion(happyFlowContentConfiguration));
         this.title = new ObservableField<>(getTitle(happyFlowContentConfiguration));
-        this.Image = getImage(happyFlowContentConfiguration);
+        this.image = getImage(happyFlowContentConfiguration);
         this.yesButton = new ObservableField<>(getYesButton(happyFlowContentConfiguration));
         this.noButton = new ObservableField<>(getNoButton(happyFlowContentConfiguration));
     }
