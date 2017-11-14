@@ -16,7 +16,6 @@ import android.util.Log;
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
-import com.philips.cdp2.commlib.*;
 import com.philips.cdp2.commlib.BuildConfig;
 import com.philips.cdp2.commlib.cloud.communication.CloudCommunicationStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
@@ -24,7 +23,6 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.devicetest.TestApplication;
 import com.philips.cdp2.commlib.devicetest.appliance.ReferenceAppliance;
 import com.philips.cdp2.commlib.devicetest.port.time.TimePort;
-import com.philips.cdp2.commlib.devicetest.util.Android;
 import com.philips.cdp2.commlib.devicetest.util.ApplianceWaiter;
 import com.philips.cdp2.commlib.devicetest.util.CloudSignOnWaiter;
 import com.philips.cdp2.commlib.devicetest.util.PairingWaiter;
@@ -94,6 +92,8 @@ public class Steps {
         portListeners.clear();
 
         Log.i(LOGTAG, "End cleanup");
+
+        this.app = null;
     }
 
     @Given("^The environment is logged$")
