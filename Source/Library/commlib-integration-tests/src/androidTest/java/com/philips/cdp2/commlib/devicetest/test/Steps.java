@@ -10,17 +10,21 @@ import android.content.Context;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.util.Log;
 
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
+import com.philips.cdp2.commlib.*;
+import com.philips.cdp2.commlib.BuildConfig;
 import com.philips.cdp2.commlib.cloud.communication.CloudCommunicationStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.devicetest.TestApplication;
 import com.philips.cdp2.commlib.devicetest.appliance.ReferenceAppliance;
 import com.philips.cdp2.commlib.devicetest.port.time.TimePort;
+import com.philips.cdp2.commlib.devicetest.util.Android;
 import com.philips.cdp2.commlib.devicetest.util.ApplianceWaiter;
 import com.philips.cdp2.commlib.devicetest.util.CloudSignOnWaiter;
 import com.philips.cdp2.commlib.devicetest.util.PairingWaiter;
@@ -90,6 +94,19 @@ public class Steps {
         portListeners.clear();
 
         Log.i(LOGTAG, "End cleanup");
+    }
+
+    @Given("^The environment is logged$")
+    public void environmentIsLogged() {
+        scenario.write("---- Logging environment ----");
+        scenario.write("CommLib version: " + BuildConfig.LIBRARY_VERSION);
+        scenario.write("BlueLib version: " + com.philips.pins.shinelib.BuildConfig.LIBRARY_VERSION);
+        scenario.write("Phone mfg: " + Build.MANUFACTURER);
+        scenario.write("Phone brand: " + Build.BRAND);
+        scenario.write("Phone model: " + Build.MODEL);
+        scenario.write("Phone codename: " + Build.DEVICE);
+        scenario.write("Android version: " + Build.VERSION.RELEASE + " " + Build.VERSION.SECURITY_PATCH);
+        scenario.write("---- Logging environment ----");
     }
 
     @And("^stay connected is disabled$")
