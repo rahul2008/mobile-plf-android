@@ -84,6 +84,8 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener, A
             if (!isConsumed) {
                 super.onBackPressed();
             }
+        } else {
+            super.onBackPressed();
         }
     }
 
