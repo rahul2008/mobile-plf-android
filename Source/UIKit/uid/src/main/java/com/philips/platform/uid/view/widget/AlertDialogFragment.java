@@ -56,7 +56,7 @@ import com.philips.platform.uid.utils.UIDUtils;
 
 public class AlertDialogFragment extends DialogFragment {
 
-    private AlertDialogController.DialogParams dialogParams;
+    private AlertDialogParams dialogParams;
     private TextView titleTextView;
     private MaxHeightScrollView messageContainer;
     private NestedScrollView dialogContainer;
@@ -74,7 +74,7 @@ public class AlertDialogFragment extends DialogFragment {
     private int dimColor = Color.BLACK;
 
     public AlertDialogFragment() {
-        dialogParams = new AlertDialogController.DialogParams();
+        dialogParams = new AlertDialogParams();
     }
 
     @Nullable
@@ -372,7 +372,7 @@ public class AlertDialogFragment extends DialogFragment {
         }
     }
 
-    void setDialogParams(final AlertDialogController.DialogParams dialogParams) {
+    void setDialogParams(final AlertDialogParams dialogParams) {
         this.dialogParams = dialogParams;
     }
 
@@ -421,7 +421,7 @@ public class AlertDialogFragment extends DialogFragment {
     }
 
     public static class Builder {
-        final AlertDialogController.DialogParams params;
+        final AlertDialogParams params;
         final int theme;
         int dialogStyle;
 
@@ -430,7 +430,7 @@ public class AlertDialogFragment extends DialogFragment {
         }
 
         public Builder(@NonNull Context context, @StyleRes int themeResId) {
-            params = new AlertDialogController.DialogParams();
+            params = new AlertDialogParams();
             params.setContext(context);
             theme = themeResId;
         }

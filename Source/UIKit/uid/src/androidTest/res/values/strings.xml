@@ -24,6 +24,7 @@
     <string name="sidebar_right_label">Sidebar right label</string>
     <string name="test_sidebar_open">Open</string>
     <string name="test_sidebar_close">Close</string>
+    <string name="dialog_title">dialog_screen_title_text</string>
 
     <string name="about_screen_appname">Philips application name</string>
     <string name="about_screen_appversion">Version 3.1</string>

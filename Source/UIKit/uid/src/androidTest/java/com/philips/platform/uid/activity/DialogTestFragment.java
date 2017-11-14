@@ -6,6 +6,8 @@
 
 package com.philips.platform.uid.activity;
 
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.uid.R;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
@@ -27,13 +30,16 @@ public class DialogTestFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
+        Drawable iconDrawable = new ColorDrawable(getResources().getColor(R.color.uidColorBlack));
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setPositiveButton("Positive", this)
                 .setNegativeButton("Negative", this)
                 .setDialogLayout(com.philips.platform.uid.test.R.layout.dialog_container)
-                .setIcon(android.R.drawable.ic_menu_more)
-                .setTitle("dialog_screen_title_text");
+                .setIcon(iconDrawable)
+                .setTitle(com.philips.platform.uid.test.R.string.dialog_title)
+                .setDimLayer(DialogConstants.DIM_STRONG);
+
         final Bundle arguments = getArguments();
         if (arguments != null) {
             builder.setDividers(true);
