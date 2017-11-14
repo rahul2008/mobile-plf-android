@@ -4,7 +4,7 @@
 **/*.iml
 /.gradle/**
 /captures
-/build
+
 /launchDigitalCare/build/
 /launchDigitalCare/gradle/wrapper/
 /.idea/
