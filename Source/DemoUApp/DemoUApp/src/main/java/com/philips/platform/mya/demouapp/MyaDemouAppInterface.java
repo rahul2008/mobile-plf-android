@@ -1,8 +1,9 @@
 
 package com.philips.platform.mya.demouapp;
 
-import com.philips.platform.mya.MyaDependencies;
-import com.philips.platform.mya.MyaLaunchInput;
+import com.philips.platform.mya.interfaces.MyaListener;
+import com.philips.platform.mya.launcher.MyaDependencies;
+import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.uappframework.UappInterface;
@@ -14,7 +15,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 /**
  * Interface for My account Initialization and launch of UI
  */
-public class MyaDemouAppInterface implements UappInterface {
+public class MyaDemouAppInterface implements UappInterface, MyaListener {
 
     private MyaInterface myaInterface;
 
@@ -39,8 +40,13 @@ public class MyaDemouAppInterface implements UappInterface {
      */
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
-        MyaLaunchInput myaLaunchInput = new MyaLaunchInput();
+        MyaLaunchInput myaLaunchInput = new MyaLaunchInput(((MyaDemouAppLaunchInput)uappLaunchInput).getContext(),this);
         myaLaunchInput.setContext(((MyaDemouAppLaunchInput)uappLaunchInput).getContext());
         myaInterface.launch(uiLauncher, myaLaunchInput);
+    }
+
+    @Override
+    public boolean onClickMyaItem(String itemName) {
+        return false;
     }
 }

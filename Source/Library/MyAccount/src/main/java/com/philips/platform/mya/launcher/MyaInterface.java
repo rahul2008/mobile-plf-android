@@ -16,7 +16,6 @@ import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswSettings;
 import com.philips.platform.mya.*;
-import com.philips.platform.mya.MyaDependencies;
 import com.philips.platform.mya.activity.MyAccountActivity;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -43,13 +42,13 @@ public class MyaInterface implements UappInterface {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
-            launchAsActivity((ActivityLauncher) uiLauncher, (com.philips.platform.mya.MyaLaunchInput) uappLaunchInput);
+            launchAsActivity((ActivityLauncher) uiLauncher, (MyaLaunchInput) uappLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
-            launchAsFragment((FragmentLauncher) uiLauncher, (com.philips.platform.mya.MyaLaunchInput) uappLaunchInput);
+            launchAsFragment((FragmentLauncher) uiLauncher, (MyaLaunchInput) uappLaunchInput);
         }
     }
 
-    private void launchAsFragment(FragmentLauncher fragmentLauncher, com.philips.platform.mya.MyaLaunchInput myaLaunchInput) {
+    private void launchAsFragment(FragmentLauncher fragmentLauncher, MyaLaunchInput myaLaunchInput) {
         try {
             FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
                     getSupportFragmentManager();
@@ -76,7 +75,7 @@ public class MyaInterface implements UappInterface {
         return myaFragment;
     }
 
-    private void launchAsActivity(ActivityLauncher uiLauncher, com.philips.platform.mya.MyaLaunchInput myaLaunchInput) {
+    private void launchAsActivity(ActivityLauncher uiLauncher, MyaLaunchInput myaLaunchInput) {
         if (null != uiLauncher && myaLaunchInput != null) {
             Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyAccountActivity.class);
             myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
@@ -95,7 +94,7 @@ public class MyaInterface implements UappInterface {
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         CswDependencies cswDependencies = new CswDependencies(uappDependencies.getAppInfra());
-        applicationName = ((com.philips.platform.mya.MyaDependencies) uappDependencies).getApplicationName();
+        applicationName = ((MyaDependencies) uappDependencies).getApplicationName();
         propositionName = ((MyaDependencies) uappDependencies).getPropositionName();
         cswDependencies.setApplicationName(applicationName == null ? CatkConstants.APPLICATION_NAME : applicationName);
         cswDependencies.setPropositionName(propositionName == null ? CatkConstants.PROPOSITION_NAME : propositionName);

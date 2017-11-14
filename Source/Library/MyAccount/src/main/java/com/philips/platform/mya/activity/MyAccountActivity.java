@@ -12,11 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.MyaUiHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
+import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
