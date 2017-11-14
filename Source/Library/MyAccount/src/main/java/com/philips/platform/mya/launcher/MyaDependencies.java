@@ -5,7 +5,7 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.mya;
+package com.philips.platform.mya.launcher;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;

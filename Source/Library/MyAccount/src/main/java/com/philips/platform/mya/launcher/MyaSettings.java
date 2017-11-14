@@ -5,7 +5,7 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.mya;
+package com.philips.platform.mya.launcher;
 
 import android.content.Context;
 

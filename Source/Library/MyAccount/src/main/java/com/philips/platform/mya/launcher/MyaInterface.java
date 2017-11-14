@@ -5,16 +5,19 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.mya;
+package com.philips.platform.mya.launcher;
 
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswSettings;
+import com.philips.platform.mya.MyaFragment;
+import com.philips.platform.mya.MyaUiHelper;
+import com.philips.platform.mya.activity.MyAccountActivity;
+import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -24,10 +27,13 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
+import static com.philips.platform.mya.util.MyaConstants.MYA_DLS_THEME;
+
 public class MyaInterface implements UappInterface {
 
     private static String applicationName;
     private static String propositionName;
+    private MyaUiHelper myaUiHelper;
 
     /**
      * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
@@ -37,31 +43,19 @@ public class MyaInterface implements UappInterface {
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
+        MyaLaunchInput myaLaunchInput = (MyaLaunchInput) uappLaunchInput;
+        myaUiHelper.setMyaListener(myaLaunchInput.getMyaListener());
         if (uiLauncher instanceof ActivityLauncher) {
-            launchAsActivity((ActivityLauncher) uiLauncher, (MyaLaunchInput) uappLaunchInput);
+            launchAsActivity((ActivityLauncher) uiLauncher, myaLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
-            launchAsFragment((FragmentLauncher) uiLauncher, (MyaLaunchInput) uappLaunchInput);
+            launchAsFragment((FragmentLauncher) uiLauncher, myaLaunchInput);
         }
     }
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher, MyaLaunchInput myaLaunchInput) {
-        try {
-            FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
-                    getSupportFragmentManager();
-            MyaFragment myaFragment = buildFragment(fragmentLauncher.getActionbarListener());
-
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
-                    myaFragment,
-                    MyaConstants.MYAFRAGMENT);
-
-            if (myaLaunchInput.isAddtoBackStack()) {
-                fragmentTransaction.addToBackStack(MyaConstants.MYAFRAGMENT);
-            }
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException ignore) {
-
-        }
+        MyaTabFragment myaTabFragment = new MyaTabFragment();
+        myaUiHelper.setFragmentLauncher(fragmentLauncher);
+        myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
     }
 
     private MyaFragment buildFragment(ActionBarListener listener) {
@@ -76,7 +70,7 @@ public class MyaInterface implements UappInterface {
             Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyAccountActivity.class);
             myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
             myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
-            myAccountIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+            myAccountIntent.putExtra(MYA_DLS_THEME, uiLauncher.getUiKitTheme());
             myaLaunchInput.getContext().startActivity(myAccountIntent);
         }
     }
@@ -97,5 +91,7 @@ public class MyaInterface implements UappInterface {
         CswSettings cswSettings = new CswSettings(uappSettings.getContext());
         CswInterface cswInterface = new CswInterface();
         cswInterface.init(cswDependencies, cswSettings);
+        myaUiHelper = MyaUiHelper.getInstance();
+        myaUiHelper.setAppInfra((AppInfra) uappDependencies.getAppInfra());
     }
 }

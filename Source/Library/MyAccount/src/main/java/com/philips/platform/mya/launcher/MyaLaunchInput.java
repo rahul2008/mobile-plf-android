@@ -5,11 +5,12 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.mya;
+package com.philips.platform.mya.launcher;
 
 import android.content.Context;
 
-import com.philips.platform.csw.ConsentDefinition;
+import com.philips.platform.mya.ConsentDefinition;
+import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import java.util.List;
@@ -23,6 +24,14 @@ public class MyaLaunchInput extends UappLaunchInput {
     private Context context;
     private List<ConsentDefinition> consentDefinition;
     private boolean isAddToBackStack;
+
+
+    private MyaListener myaListener;
+
+    public MyaLaunchInput(Context context, MyaListener myaListener) {
+        this.context = context;
+        this.myaListener = myaListener;
+    }
 
 
     public List<ConsentDefinition> getConsentDefinition() {
@@ -57,6 +66,10 @@ public class MyaLaunchInput extends UappLaunchInput {
      */
     public void addToBackStack(boolean isAddToBackStack) {
         this.isAddToBackStack = isAddToBackStack;
+    }
+
+    public MyaListener getMyaListener() {
+        return myaListener;
     }
 
 }
