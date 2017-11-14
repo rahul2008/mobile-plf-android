@@ -17,6 +17,7 @@ import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
+import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -84,7 +85,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
     public void onClick(View v) {
         if (checkedId == R.id.radioButton) {
             MyaInterface myaInterface = new MyaInterface();
-            myaInterface.init(new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra()), null);
+            myaInterface.init(new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra()), new MyaSettings(((com.philips.platform.mya.demouapp.DemoAppActivity) getActivity())));
 
             ActivityLauncher  activityLauncher = new ActivityLauncher(ActivityLauncher.
                     ActivityOrientation.SCREEN_ORIENTATION_SENSOR, ((com.philips.platform.mya.demouapp.DemoAppActivity) getActivity()).getThemeConfig(),
