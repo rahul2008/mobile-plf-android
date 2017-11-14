@@ -42,6 +42,7 @@ import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static java.util.Collections.emptyList;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static junit.framework.Assert.assertNotNull;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -66,17 +67,19 @@ public class Steps {
 
     @After
     public void cleanup() throws InterruptedException {
-        if (commCentral != null) {
-            commCentral.stopDiscovery();
-        }
-
         if (current != null) {
-            app.getCommCentral().getApplianceManager().forgetStoredAppliance(current);
+            commCentral.getApplianceManager().forgetStoredAppliance(current);
             current.getCommunicationStrategy().forceStrategyType(null);
+            current.getTimePort().unsubscribe();
+            current.disableCommunication();
 
             PortListener listener = portListeners.get(TimePort.class);
             current.getTimePort().removePortListener(listener);
+            current = null;
         }
+
+        commCentral.stopDiscovery();
+        commCentral = null;
 
         portListeners.clear();
     }
@@ -124,11 +127,6 @@ public class Steps {
         ((ReferenceAppliance) current).getTimePort().subscribe();
     }
 
-    @When("^device unsubscribes on time port$")
-    public void deviceUnsubscribesOnTimePort() throws Throwable {
-        ((ReferenceAppliance) current).getTimePort().unsubscribe();
-    }
-
     @Then("^time value is received without errors$")
     public void timeValueIsReceivedWithoutErrors() throws Throwable {
         timeValueIsReceivedTimesWithoutErrors(1);
@@ -144,7 +142,7 @@ public class Steps {
         scenario.write("Errors:" + listener.errors.toString());
 
         assertEquals("Errors received from time port", emptyList(), listener.errors);
-        assertEquals("Did not receive enough time values from port", count, listener.receivedCount);
+        assertThat(listener.receivedCount).as("Time values received from timeport").isGreaterThanOrEqualTo(count);
 
         final String datetime = current.getTimePort().getPortProperties().datetime;
         scenario.write("Got time: " + datetime);
