@@ -47,7 +47,8 @@ public class THSDatePickerFragmentUtility {
         Date today = new Date();
         Calendar c = Calendar.getInstance();
         c.setTime(today);
-        c.add( Calendar.MONTH, 6 );
+        //c.add( Calendar.MONTH, 6 );
+        c.add(Calendar.DATE,179); // current + 179 = 180 days(6 month)
         long maxDate = c.getTime().getTime();
 
         if (thsDateEnum.getValue() == THSDateEnum.HIDEPREVIOUSDATE.getValue()) {

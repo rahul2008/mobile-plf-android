@@ -240,7 +240,9 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                                 public void onClick(View v) {
                                     alertDialogFragment.dismiss();
                                     if (shouldGoBack) {
-                                        getActivity().getSupportFragmentManager().popBackStack();
+                                        if(null!=getActivity()) {
+                                            getActivity().getSupportFragmentManager().popBackStack();
+                                        }
                                     }
                                 }
                             }).setCancelable(false).create();

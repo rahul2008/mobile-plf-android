@@ -99,7 +99,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     }
 
-    void handleVisitFinish(Intent intent) {
+   /* void handleVisitFinish(Intent intent) {
         final Bundle visitExtras = intent.getBundleExtra(VISIT_FINISHED_EXTRAS);
         if (visitExtras != null) {
 
@@ -115,7 +115,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
             mTHSWaitingRoomFragment.addFragment(new THSVisitSummaryFragment(), THSVisitSummaryFragment.TAG, bundle, true);
 
         }
-    }
+    }*/
 
     void cancelVisit() {
         try {
