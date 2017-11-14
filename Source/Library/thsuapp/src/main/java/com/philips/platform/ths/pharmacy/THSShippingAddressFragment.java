@@ -40,8 +40,8 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
     private THSConsumerWrapper thsConsumerWrapper;
     private Address address;
     private EditText addressLineOne, addressLineTwo, postalCode, town;
-    private Button updateAddressButton;
-    private THSShippingAddressPresenter thsShippingAddressPresenter;
+    protected Button updateAddressButton;
+    protected THSShippingAddressPresenter thsShippingAddressPresenter;
     private AppCompatSpinner spinner;
     private THSSpinnerAdapter spinnerAdapter;
     private List<State> stateList = null;
@@ -124,14 +124,14 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
         return view;
     }
 
-    private void updateContinueBtnState() {
+    protected void updateContinueBtnState() {
         boolean enableContinueBtn = false;
         enableContinueBtn = thsShippingAddressPresenter.validateZip(postalCode.getText().toString()) && validateString(town.getText().toString()) &&
                 validateString(addressLineOne.getText().toString());
         updateAddressButton.setEnabled(enableContinueBtn);
     }
 
-    private boolean validateString(String s) {
+    protected boolean validateString(String s) {
         if (null == s || s.isEmpty()) {
             addressValidationLayout.setErrorMessage(R.string.ths_address_validation_empty_string);
             cityValidationLayout.setErrorMessage(R.string.ths_address_validation_city_empty_string);
@@ -150,10 +150,6 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
         return THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getSupportedCountries();
     }
 
-    void setSupportedCountries(List<Country> countryList){
-        supportedCountries = countryList;
-    }
-
     public List<State> getValidShippingStates(List<Country> supportedCountries) throws AWSDKInstantiationException {
 
         Country country = supportedCountries.get(0);
@@ -162,10 +158,6 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
         List<State> validShippingStates = consumerManager.getValidShippingStates(country);
 
         return validShippingStates;
-    }
-
-    void setValidShippingState(List<State> stateList){
-        this.stateList = stateList;
     }
 
     public void setConsumerAndAddress(THSConsumerWrapper thsConsumerWrapper, Address address) {

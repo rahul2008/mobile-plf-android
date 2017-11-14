@@ -20,8 +20,10 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.intake.THSVisitContext;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -37,6 +39,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -115,12 +118,21 @@ public class THSShippingAddressFragmentTest {
     @Mock
     ServiceDiscoveryInterface serviceDiscoveryMock;
 
+    @Mock
+    THSShippingAddressPresenter thsShippingAddressPresenterMock;
+
+    @Mock
+    THSConsumer thsConsumerMock;
 
     @Before
     public void setUp() throws  Exception{
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
         THSManager.getInstance().setAwsdk(awsdkMock);
+
+        THSManager.getInstance().setThsConsumer(thsConsumerMock);
+        THSManager.getInstance().setThsParentConsumer(thsConsumerMock);
+        when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
 
         THSManager.getInstance().setPTHConsumer(thsConsumerWrapper);
         THSManager.getInstance().setVisitContext(pthVisitContext);
@@ -144,17 +156,50 @@ public class THSShippingAddressFragmentTest {
 
         thsShippingAddressFragment.setConsumerAndAddress(thsConsumerWrapper,address);
         thsShippingAddressFragment.setFragmentLauncher(fragmentLauncherMock);
-    }
 
-    @Test
-    public void launchShippingFragment(){
         when(countryListMock.size()).thenReturn(1);
         when(stateListMock.size()).thenReturn(1);
         when(countryListMock.get(0)).thenReturn(countryMock);
         thsShippingAddressFragment.supportedCountries = countryListMock;
         when(awsdkMock.getSupportedCountries()).thenReturn(countryListMock);
         when(consumerManagerMock.getValidShippingStates(countryMock)).thenReturn(stateListMock);
+    }
 
+    @Test
+    public void validateStringAddressNull(){
         SupportFragmentTestUtil.startFragment(thsShippingAddressFragment);
+        boolean value = thsShippingAddressFragment.validateString(null);
+        assertEquals(false,value);
+    }
+
+    @Test
+    public void validateStringAdressValid(){
+        SupportFragmentTestUtil.startFragment(thsShippingAddressFragment);
+        boolean value = thsShippingAddressFragment.validateString("Testing");
+        assertEquals(true,value);
+    }
+    @Test
+    public void validateStringAdressLengthValid(){
+        SupportFragmentTestUtil.startFragment(thsShippingAddressFragment);
+        boolean value = thsShippingAddressFragment.validateString("testingngngngngngngngngngngngng");
+        assertEquals(false,value);
+    }
+
+    @Test
+    public void testUpdateContinueButton(){
+        SupportFragmentTestUtil.startFragment(thsShippingAddressFragment);
+        thsShippingAddressFragment.updateContinueBtnState();
+        assertEquals(false,thsShippingAddressFragment.updateAddressButton.isEnabled());
+    }
+
+    @Test
+    public void testOnClick(){
+        when(awsdkMock.getNewAddress()).thenReturn(addressMock);
+        SupportFragmentTestUtil.startFragment(thsShippingAddressFragment);
+        thsShippingAddressFragment.thsShippingAddressPresenter = thsShippingAddressPresenterMock;
+        final View viewById = thsShippingAddressFragment.getView().findViewById(R.id.update_shipping_address);
+        viewById.performClick();
+        verify(thsShippingAddressPresenterMock).updateShippingAddress(any(Address.class));
+
     }
 }
