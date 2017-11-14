@@ -13,17 +13,17 @@ class CommlibUappKpsConfigurationInfo extends KpsConfigurationInfo {
 
     @Override
     public String getBootStrapId() {
-        return "000000ffe0000003";
+        return "000000fff0000012";
     }
 
     @Override
     public String getBootStrapKey() {
-        return "45240d84f206035f9f19856fd266e59b";
+        return "68b6717490cc1265a6e31884ad16e0e5";
     }
 
     @Override
     public String getProductId() {
-        return "FI-AIR_KPSPROV";
+        return "CDP_KPSPROV";
     }
 
     @Override
@@ -33,7 +33,7 @@ class CommlibUappKpsConfigurationInfo extends KpsConfigurationInfo {
 
     @Override
     public String getComponentId() {
-        return "FI-AIR-AND";
+        return "CDP-APP-AND";
     }
 
     @Override
@@ -52,7 +52,7 @@ class CommlibUappKpsConfigurationInfo extends KpsConfigurationInfo {
     }
 
     public String getAppType() {
-        return "FI-AIR-AND-DEV";
+        return "CDP-AND-DEV";
     }
 
     @Override
