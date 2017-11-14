@@ -46,7 +46,13 @@ public class MyAccountState extends BaseState {
         myaInterface.launch(fragmentLauncher, launchInput);
     }
 
-    private List<ConsentDefinition> getConsentDefinitions(Context context, Locale currentLocale) {
+    /**
+     * <p>Creates a list of ConsentDefinitions</p
+     * @param context : can be used to for localized strings <code>context.getString(R.string.consent_definition)</code>
+     * @param currentLocale : locale of the strings
+     * @return non-null list (may be empty though)
+     */
+    private List<ConsentDefinition> createConsentDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
         definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", "moment", 1, currentLocale));
         return definitions;
@@ -54,7 +60,7 @@ public class MyAccountState extends BaseState {
 
     @Override
     public void init(Context context) {
-        consentDefinitionList = getConsentDefinitions(context, Locale.getDefault());
+        consentDefinitionList = createConsentDefinitions(context, Locale.getDefault());
     }
 
 
