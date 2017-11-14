@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<RelativeLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/shipping_address_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/uidContentPrimaryBackgroundColor"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="@dimen/ths_fab_margin">
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/shipping_address_text_label"
@@ -139,9 +145,13 @@
 
     </android.support.v7.widget.AppCompatSpinner>
 
+
+</RelativeLayout>
+    </ScrollView>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/ths_fab_margin"
         android:layout_alignParentBottom="true">
 
         <com.philips.platform.uid.view.widget.Button
