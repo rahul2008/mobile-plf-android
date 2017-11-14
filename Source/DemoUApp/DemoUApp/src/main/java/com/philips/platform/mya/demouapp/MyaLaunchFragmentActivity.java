@@ -3,7 +3,6 @@ package com.philips.platform.mya.demouapp;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.philips.platform.mya.demouapp.R;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;

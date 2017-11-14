@@ -2,9 +2,9 @@
 package com.philips.platform.mya.demouapp;
 
 import com.philips.platform.mya.MyaDependencies;
-import com.philips.platform.mya.MyaInterface;
 import com.philips.platform.mya.MyaLaunchInput;
-import com.philips.platform.mya.MyaSettings;
+import com.philips.platform.mya.launcher.MyaInterface;
+import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
