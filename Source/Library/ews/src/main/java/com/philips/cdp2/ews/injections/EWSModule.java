@@ -159,15 +159,16 @@ public class EWSModule {
             @NonNull final Navigator navigator,
             @NonNull final @Named("ews.event.bus") EventBus eventBus,
             @NonNull final PermissionHandler permissionHandler,
-            @NonNull BaseContentConfiguration baseContentConfiguration,
             @NonNull HappyFlowContentConfiguration happyFlowContentConfiguration,
             @NonNull StringProvider stringProvider) {
+
         final ConnectionEstablishDialogFragment dialogFragment =
                 ConnectionEstablishDialogFragment
                         .getInstance(R.string.label_ews_establishing_connection_body);
+
         return new SecondSetupStepsViewModel(navigator, eventBus, permissionHandler,
-                dialogFragment,
-                null, new GPSEnableDialogFragment(), new Handler(context.getMainLooper())
+                dialogFragment,null,
+                new GPSEnableDialogFragment(), new Handler(context.getMainLooper())
                 , stringProvider, happyFlowContentConfiguration);
     }
 

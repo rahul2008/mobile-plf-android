@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.DialogFragment;
 
-import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
@@ -34,7 +33,7 @@ public class SecondSetupStepsViewModel extends ConnectPhoneToDeviceAPModeViewMod
     @NonNull
     public final ObservableField<String> question;
     @NonNull
-    public final Drawable secondSetupStepsImage;
+    public final Drawable Image;
     @NonNull
     public final ObservableField<String> yesButton;
     @NonNull
@@ -56,7 +55,7 @@ public class SecondSetupStepsViewModel extends ConnectPhoneToDeviceAPModeViewMod
         this.stringProvider = stringProvider;
         this.question = new ObservableField<>(getQuestion(happyFlowContentConfiguration));
         this.title = new ObservableField<>(getTitle(happyFlowContentConfiguration));
-        this.secondSetupStepsImage = getSecondSetupStepsImage(happyFlowContentConfiguration);
+        this.Image = getImage(happyFlowContentConfiguration);
         this.yesButton = new ObservableField<>(getYesButton(happyFlowContentConfiguration));
         this.noButton = new ObservableField<>(getNoButton(happyFlowContentConfiguration));
     }
@@ -75,7 +74,7 @@ public class SecondSetupStepsViewModel extends ConnectPhoneToDeviceAPModeViewMod
 
     @NonNull
     @VisibleForTesting
-    Drawable getSecondSetupStepsImage(@NonNull HappyFlowContentConfiguration happyFlowContentConfiguration) {
+    Drawable getImage(@NonNull HappyFlowContentConfiguration happyFlowContentConfiguration) {
         return stringProvider.getImageResource(happyFlowContentConfiguration.getSetUpVerifyScreenImage());
     }
 

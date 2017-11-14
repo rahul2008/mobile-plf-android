@@ -26,7 +26,7 @@ public class FirstSetupStepsViewModel {
     @NonNull
     public final ObservableField<String> title;
     @NonNull
-    public final Drawable firstSetupStepsImage;
+    public final Drawable image;
     @NonNull
     private final Navigator navigator;
     @NonNull
@@ -41,7 +41,7 @@ public class FirstSetupStepsViewModel {
         this.stringProvider = stringProvider;
         this.body = new ObservableField<>(getBody(baseConfiguration, happyFlowContentConfiguration));
         this.title = new ObservableField<>(getTitle(happyFlowContentConfiguration));
-        this.firstSetupStepsImage = getFirstSetupStepsImage(happyFlowContentConfiguration);
+        this.image = getImage(happyFlowContentConfiguration);
     }
 
     @VisibleForTesting
@@ -58,7 +58,7 @@ public class FirstSetupStepsViewModel {
 
     @NonNull
     @VisibleForTesting
-    Drawable getFirstSetupStepsImage(@NonNull HappyFlowContentConfiguration happyFlowContentConfiguration) {
+    Drawable getImage(@NonNull HappyFlowContentConfiguration happyFlowContentConfiguration) {
         return stringProvider.getImageResource(happyFlowContentConfiguration.getSetUpScreenImage());
     }
 
