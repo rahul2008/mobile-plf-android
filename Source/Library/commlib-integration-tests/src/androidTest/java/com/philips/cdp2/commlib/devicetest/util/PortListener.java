@@ -21,16 +21,6 @@ public class PortListener implements DICommPortListener {
     public int receivedCount = 0;
     CountDownLatch latch = new CountDownLatch(1);
 
-    public void reset() {
-        reset(1);
-    }
-
-    public void reset(int count) {
-        errors.clear();
-        receivedCount = 0;
-        latch = new CountDownLatch(count);
-    }
-
     @Override
     public void onPortUpdate(DICommPort port) {
         receivedCount++;
@@ -43,7 +33,12 @@ public class PortListener implements DICommPortListener {
         latch.countDown();
     }
 
-    public void waitForPortUpdate(long t, TimeUnit unit) throws InterruptedException {
-        latch.await(t, unit);
+    public void waitForPortUpdate(long time, TimeUnit unit) throws InterruptedException {
+        waitForPortUpdates(1, time, unit);
+    }
+
+    public void waitForPortUpdates(int numberOfUpdates, long time, TimeUnit unit) throws InterruptedException {
+        latch = new CountDownLatch(numberOfUpdates);
+        latch.await(time, unit);
     }
 }

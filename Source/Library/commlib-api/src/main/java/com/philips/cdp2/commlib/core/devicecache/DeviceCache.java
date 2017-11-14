@@ -30,7 +30,9 @@ public class DeviceCache<T extends CacheData> implements ObservableCollection<St
     }
 
     public void clear() {
-        deviceMap.clear();
+        for (String ccpId : deviceMap.keySet()) {
+            remove(ccpId);
+        }
     }
 
     public void stopTimers() {
