@@ -41,7 +41,7 @@ public class AlertDialogTestFragment extends Fragment implements View.OnClickLis
             builder.setIcon(android.R.drawable.ic_menu_more);
             builder.setAlternateButton(com.philips.platform.uid.test.R.string.dialog_alternate,this);
         }
-        final AlertDialogFragment alertDialogFragment = builder.setCancelable(false).create();
+        final AlertDialogFragment alertDialogFragment = builder.setCancelable(true).create();
         alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
         return view;
     }
