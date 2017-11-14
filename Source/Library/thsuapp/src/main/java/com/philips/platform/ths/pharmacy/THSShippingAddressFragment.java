@@ -45,6 +45,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
     private List<State> stateList = null;
     private ActionBarListener actionBarListener;
     private InputValidationLayout postCodeValidationLayout, addressValidationLayout, cityValidationLayout;
+    List<Country> supportedCountries;
 
     @Nullable
     @Override
@@ -57,7 +58,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
         spinner = (AppCompatSpinner) view.findViewById(R.id.sa_state_spinner);
 
         try {
-            final List<Country> supportedCountries = getSupportedCountries();
+            supportedCountries = getSupportedCountries();
             stateList = getValidShippingStates(supportedCountries);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
@@ -148,7 +149,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
     }
 
     public List<State> getValidShippingStates(List<Country> supportedCountries) throws AWSDKInstantiationException {
-        return THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getConsumerManager().getValidShippingStates(supportedCountries.get(0));
+        return THSManager.getInstance().getAwsdk(getContext()).getConsumerManager().getValidShippingStates(supportedCountries.get(0));
     }
 
     public void setConsumerAndAddress(THSConsumerWrapper thsConsumerWrapper, Address address) {

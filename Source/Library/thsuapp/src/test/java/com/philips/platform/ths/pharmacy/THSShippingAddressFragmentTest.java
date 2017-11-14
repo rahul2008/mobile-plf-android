@@ -13,6 +13,7 @@ import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.visit.VisitContext;
+import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.intake.THSVisitContext;
@@ -97,6 +98,8 @@ public class THSShippingAddressFragmentTest {
     @Mock
     Country countryMock;
 
+
+
     @Before
     public void setUp() throws  Exception{
         MockitoAnnotations.initMocks(this);
@@ -123,7 +126,14 @@ public class THSShippingAddressFragmentTest {
 
     @Test
     public void launchShippingFragment(){
-        SupportFragmentTestUtil.startFragment(thsShippingAddressFragmentMock);
+        thsShippingAddressFragment.supportedCountries = countryListMock;
+        when(awsdkMock.getConsumerManager().getValidShippingStates(countryMock)).thenReturn(stateListMock);
+        try {
+            when(thsShippingAddressFragment.getValidShippingStates(countryListMock)).thenReturn(stateListMock);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+        SupportFragmentTestUtil.startFragment(thsShippingAddressFragment);
         thsShippingAddressFragmentMock.onClick(any(View.class));
         verify(thsShippingAddressFragmentMock).onClick(any(View.class));
     }
