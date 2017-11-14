@@ -40,7 +40,9 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-version = objcdp.getVersion(versions.mya_myAccount)
+
+version = objcdp.getVersion(versions.ews_ews)
+
 allprojects {
     repositories {
         maven {
@@ -99,8 +101,8 @@ artifactory {
 
 //TODO handle it properly once added in the pipeline
 artifactoryPublish {
-    clientConfig.info.setBuildName('ews_android')
-    clientConfig.info.setBuildNumber('0.0.1')
+    clientConfig.info.setBuildName("ews-android")
+    clientConfig.info.setBuildNumber(version)
 }
 
 task clean(type: Delete) {
