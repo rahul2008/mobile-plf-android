@@ -66,15 +66,21 @@ public class Steps {
     }
 
     @After
-    public void cleanup() throws InterruptedException {
+        public void cleanup() throws InterruptedException {
+        Log.i(LOGTAG, "Start cleanup");
+
         if (current != null) {
-            commCentral.getApplianceManager().forgetStoredAppliance(current);
-            current.getCommunicationStrategy().forceStrategyType(null);
             current.getTimePort().unsubscribe();
-            current.disableCommunication();
 
             PortListener listener = portListeners.get(TimePort.class);
+            listener.waitForPortUpdates(1, 1, MINUTES);
+
+            commCentral.getApplianceManager().forgetStoredAppliance(current);
+
+            current.disableCommunication();
             current.getTimePort().removePortListener(listener);
+            current.getCommunicationStrategy().forceStrategyType(null);
+
             current = null;
         }
 
@@ -82,6 +88,8 @@ public class Steps {
         commCentral = null;
 
         portListeners.clear();
+
+        Log.i(LOGTAG, "End cleanup");
     }
 
     @And("^stay connected is disabled$")
@@ -119,12 +127,12 @@ public class Steps {
     @When("^device requests time value from time port$")
     public void deviceRequestsTimeValueFromTimePort() throws Throwable {
         Log.d(LOGTAG, "Reloading timeport");
-        ((ReferenceAppliance) current).getTimePort().reloadProperties();
+        current.getTimePort().reloadProperties();
     }
 
     @When("^device subscribes on time port$")
     public void deviceSubscribesOnTimePort() throws Throwable {
-        ((ReferenceAppliance) current).getTimePort().subscribe();
+        current.getTimePort().subscribe();
     }
 
     @Then("^time value is received without errors$")
