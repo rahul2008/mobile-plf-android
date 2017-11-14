@@ -14,6 +14,7 @@ import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
+import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.mya.util.MYALog;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -51,7 +52,7 @@ public class DemoAppActivity extends UIDActivity {
     public void onClickMyAccounts(View view) {
         if (checkedId == R.id.radioButton) {
             MyaInterface myaInterface = new MyaInterface();
-            myaInterface.init(new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra()), null);
+            myaInterface.init(new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra()), new MyaSettings(this));
             myaInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, getDLSThemeConfiguration(this), R.style.Theme_DLS_Orange_Bright, null), new MyaLaunchInput(this, new MyaListener() {
                 @Override
                 public boolean onClickMyaItem(String itemName) {

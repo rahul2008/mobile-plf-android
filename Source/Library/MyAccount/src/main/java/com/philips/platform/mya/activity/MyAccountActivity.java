@@ -18,6 +18,7 @@ import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
+import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.UIDHelper;
@@ -61,7 +62,7 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
 
     private void launchTabFragment() {
         MyaInterface myaInterface = new MyaInterface();
-        myaInterface.init(new MyaDependencies(myaUiHelper.getAppInfra()), null);
+        myaInterface.init(new MyaDependencies(myaUiHelper.getAppInfra()), new MyaSettings(this));
         myaInterface.launch(new FragmentLauncher(this, R.id.fragmentPlaceHolder, new ActionBarListener() {
             @Override
             public void updateActionBar(int i, boolean b) {
