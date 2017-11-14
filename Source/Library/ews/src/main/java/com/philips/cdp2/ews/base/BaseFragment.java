@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.injections.EWSComponent;
+import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -88,6 +90,10 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     public void onResume() {
         super.onResume();
         callTrackPageName();
+    }
+
+    public EWSComponent getEWSComponent() {
+        return EWSDependencyProvider.getInstance().getEwsComponent();
     }
 
     protected abstract void callTrackPageName();

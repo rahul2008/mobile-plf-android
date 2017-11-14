@@ -49,7 +49,7 @@ public class WrongWifiNetworkFragment extends BaseFragment {
 
     @NonNull
     private WrongWifiNetworkViewModel createViewModel() {
-        return EWSDependencyProvider.getInstance().getEwsComponent().wrongWifiNetworkViewModel();
+        return getEWSComponent().wrongWifiNetworkViewModel();
     }
 
     @NonNull

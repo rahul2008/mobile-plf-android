@@ -54,7 +54,7 @@ public class WifiConnectionUnsuccessfulFragment extends BaseFragment {
 
     @NonNull
     private WIFIConnectionUnsuccessfulViewModel createViewModel() {
-        return EWSDependencyProvider.getInstance().getEwsComponent().wIFIConnectionUnsuccessfulViewModel();
+        return getEWSComponent().wIFIConnectionUnsuccessfulViewModel();
     }
 
     @NonNull

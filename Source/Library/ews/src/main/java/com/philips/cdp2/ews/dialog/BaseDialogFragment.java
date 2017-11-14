@@ -41,7 +41,6 @@ public abstract class BaseDialogFragment<T extends ViewDataBinding> extends Dial
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        injectDependencies();
         viewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
         setCancelable(false);
         bindViewModel(viewDataBinding);
@@ -52,11 +51,6 @@ public abstract class BaseDialogFragment<T extends ViewDataBinding> extends Dial
 
     protected abstract int getLayoutId();
 
-    protected abstract void inject(final EWSComponent ewsComponent);
-
-    private void injectDependencies() {
-        inject(EWSDependencyProvider.getInstance().getEwsComponent());
-    }
 
     @Override
     public void onResume() {

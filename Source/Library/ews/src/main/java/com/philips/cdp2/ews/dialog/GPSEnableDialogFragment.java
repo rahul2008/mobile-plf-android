@@ -27,10 +27,6 @@ public class GPSEnableDialogFragment extends BaseDialogFragment<EnableGpsSetting
     }
 
     @Override
-    protected void inject(final EWSComponent ewsComponent) {
-    }
-
-    @Override
     public void onClick(final View view) {
         getActivity().startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         dismissAllowingStateLoss();

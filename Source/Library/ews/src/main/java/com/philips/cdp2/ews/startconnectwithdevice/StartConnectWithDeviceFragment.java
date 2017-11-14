@@ -36,7 +36,7 @@ public class StartConnectWithDeviceFragment extends BaseFragment {
 
     @NonNull
     private StartConnectWithDeviceViewModel createViewModel() {
-        return EWSDependencyProvider.getInstance().getEwsComponent().ewsGettingStartedViewModel();
+        return getEWSComponent().ewsGettingStartedViewModel();
     }
 
     @Override

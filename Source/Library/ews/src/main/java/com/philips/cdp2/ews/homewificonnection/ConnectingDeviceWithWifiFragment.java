@@ -44,7 +44,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EWSDependencyProvider.getInstance().getEwsComponent().inject(ConnectingDeviceWithWifiFragment.this);
+        getEWSComponent().inject(ConnectingDeviceWithWifiFragment.this);
     }
 
     public static Fragment newInstance(@NonNull String homeWiFiSSID,
@@ -125,7 +125,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
 
     @NonNull
     private ConnectingDeviceWithWifiViewModel createViewModel() {
-        return EWSDependencyProvider.getInstance().getEwsComponent().connectingDeviceWithWifiViewModel();
+        return getEWSComponent().connectingDeviceWithWifiViewModel();
     }
 
     @Override

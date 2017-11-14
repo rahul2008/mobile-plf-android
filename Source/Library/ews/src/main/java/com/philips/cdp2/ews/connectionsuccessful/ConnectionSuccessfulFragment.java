@@ -50,7 +50,7 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
 
     @NonNull
     private ConnectionSuccessfulViewModel createViewModel() {
-        return EWSDependencyProvider.getInstance().getEwsComponent().connectionSuccessfulViewModel();
+        return getEWSComponent().connectionSuccessfulViewModel();
     }
 
     @Override

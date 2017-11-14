@@ -56,7 +56,7 @@ public class ConnectWithPasswordFragment extends BaseFragment {
 
     @NonNull
     private ConnectWithPasswordViewModel createViewModel() {
-        return EWSDependencyProvider.getInstance().getEwsComponent().connectWithPasswordViewModel();
+        return getEWSComponent().connectWithPasswordViewModel();
     }
 
     @Override

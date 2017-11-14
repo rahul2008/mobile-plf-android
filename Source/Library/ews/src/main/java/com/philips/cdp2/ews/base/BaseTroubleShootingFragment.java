@@ -24,7 +24,7 @@ public abstract class BaseTroubleShootingFragment extends BaseFragment {
     @Override
     public void handleCancelButtonClicked(@StringRes int stringId) {
         BaseTroubleShootingViewModel viewModel =
-                EWSDependencyProvider.getInstance().getEwsComponent().baseTroubleShootingViewModel();
+                getEWSComponent().baseTroubleShootingViewModel();
         viewModel.onCancelButtonClicked();
     }
 

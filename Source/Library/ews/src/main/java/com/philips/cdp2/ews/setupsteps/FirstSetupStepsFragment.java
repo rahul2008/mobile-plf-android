@@ -36,7 +36,7 @@ public class FirstSetupStepsFragment extends BaseFragment {
 
     @NonNull
     private FirstSetupStepsViewModel createViewModel() {
-        return EWSDependencyProvider.getInstance().getEwsComponent().firstSetupStepsViewModel();
+        return getEWSComponent().firstSetupStepsViewModel();
     }
 
     @Override

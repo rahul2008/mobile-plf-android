@@ -52,7 +52,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
     @VisibleForTesting
     @NonNull
     private ConfirmWifiNetworkViewModel createViewModel() {
-        return EWSDependencyProvider.getInstance().getEwsComponent().confirmWifiNetworkViewModel();
+        return getEWSComponent().confirmWifiNetworkViewModel();
     }
 
     @Override

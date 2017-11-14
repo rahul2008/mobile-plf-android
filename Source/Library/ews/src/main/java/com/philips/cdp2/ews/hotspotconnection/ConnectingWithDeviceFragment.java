@@ -136,6 +136,6 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
     }
 
     private ConnectingWithDeviceViewModel createViewModel() {
-        return EWSDependencyProvider.getInstance().getEwsComponent().connectingWithDeviceViewModel();
+        return getEWSComponent().connectingWithDeviceViewModel();
     }
 }
