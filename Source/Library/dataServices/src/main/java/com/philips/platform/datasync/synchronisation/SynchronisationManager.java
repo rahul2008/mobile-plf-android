@@ -13,6 +13,8 @@ import com.philips.platform.core.listeners.SynchronisationChangeListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
+import org.joda.time.DateTime;
+
 import javax.inject.Inject;
 
 public class SynchronisationManager implements SynchronisationChangeListener {
@@ -28,15 +30,15 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         DataServicesManager.getInstance().getAppComponant().injectSynchronisationManager(this);
     }
 
-    public void startSync(String startDate, String endDate, SynchronisationCompleteListener synchronisationCompleteListner) {
+    public void startSync(DateTime startDate, DateTime endDate, SynchronisationCompleteListener synchronisationCompleteListner) {
         synchronized (this) {
             mSynchronisationCompleteListener = synchronisationCompleteListner;
             if (isSyncComplete) {
                 isSyncComplete = false;
-                if (startDate == null && endDate == null) {
+                if (startDate == null || endDate == null) {
                     mEventing.post(new ReadDataFromBackendRequest());
                 } else {
-                    mEventing.post(new FetchByDateRange(startDate, endDate));
+                    mEventing.post(new FetchByDateRange(startDate.toString(), endDate.toString()));
                 }
             }
         }
@@ -67,7 +69,7 @@ public class SynchronisationManager implements SynchronisationChangeListener {
         postOnSyncComplete();
     }
 
-    private void postEventToStartPush(){
+    private void postEventToStartPush() {
         mEventing.post(new WriteDataToBackendRequest());
     }
 

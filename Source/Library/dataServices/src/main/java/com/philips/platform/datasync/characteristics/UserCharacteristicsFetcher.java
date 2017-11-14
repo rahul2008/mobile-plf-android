@@ -56,7 +56,7 @@ public class UserCharacteristicsFetcher extends DataFetcher {
                 List<Characteristics> characteristicsList = mUserCharacteristicsConverter.convertToCharacteristics(uCoreUserCharacteristics,
                         mUCoreAccessProvider.getUserId());
 
-                if(characteristicsList!=null) {
+                if (characteristicsList != null) {
                     eventing.post(new UCDBUpdateFromBackendRequest(characteristicsList, null));
                 }
             }
@@ -66,10 +66,5 @@ public class UserCharacteristicsFetcher extends DataFetcher {
             onError(exception);
             return exception;
         }
-    }
-
-    @Override
-    public RetrofitError fetchDataByDateRange(String startDate, String endDate) {
-        return null;
     }
 }

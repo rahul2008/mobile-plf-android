@@ -17,8 +17,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class SynchronisationManagerTest {
 
-    private static final String START_DATE = new DateTime().toString();
-    private static final String END_DATE = new DateTime().toString();
+    private static final DateTime START_DATE = new DateTime();
+    private static final DateTime END_DATE = new DateTime();
 
     private EventingSpy eventingSpy;
 
@@ -86,7 +86,7 @@ public class SynchronisationManagerTest {
         thenVerifyEventIsPosted("FetchByDateRange");
     }
 
-    private void whenStartFetchIsInvoked(String startDate, String endDate, SynchronisationCompleteListener synchronisationCompleteListenerMock) {
+    private void whenStartFetchIsInvoked(DateTime startDate, DateTime endDate, SynchronisationCompleteListener synchronisationCompleteListenerMock) {
         synchronisationManager.startSync(startDate, endDate, synchronisationCompleteListenerMock);
     }
 

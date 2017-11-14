@@ -74,11 +74,6 @@ public class ConsentsDataFetcher extends DataFetcher {
         return null;
     }
 
-    @Override
-    public RetrofitError fetchDataByDateRange(String startDate, String endDate) {
-        return null;
-    }
-
     public List<ConsentDetail> getConsentDetails() {
         return consentDetails;
     }

@@ -263,10 +263,10 @@ public class DataServicesManager {
         }
     }
 
-    public void synchronizeWithFetchByDateRange(DateTime startDate, DateTime endDate, SynchronisationCompleteListener synchronisationCompleteListener) {
+    public void synchronizeMomentsByDateRange(DateTime startDate, DateTime endDate, SynchronisationCompleteListener synchronisationCompleteListener) {
         synchronized (this) {
             startMonitors();
-            mSynchronisationManager.startSync(startDate.toString(), endDate.toString(), synchronisationCompleteListener);
+            mSynchronisationManager.startSync(startDate, endDate, synchronisationCompleteListener);
         }
     }
 

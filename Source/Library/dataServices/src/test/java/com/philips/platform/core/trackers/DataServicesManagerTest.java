@@ -611,8 +611,8 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void pullSyncByDateRange() {
-        whenPullSyncIsInvoked();
+    public void synchronizeMomentsByDateRange() {
+        whenSynchronizeMomentsByDateRange();
         thenVerifyMonitorsAreInitialized();
         thenVerifySynchronisationManagerIsCalled();
     }
@@ -621,8 +621,8 @@ public class DataServicesManagerTest {
         mDataServicesManager.synchronize();
     }
 
-    private void whenPullSyncIsInvoked() {
-        mDataServicesManager.synchronizeWithFetchByDateRange(START_DATE, END_DATE, synchronisationCompleteListenerMock);
+    private void whenSynchronizeMomentsByDateRange() {
+        mDataServicesManager.synchronizeMomentsByDateRange(START_DATE, END_DATE, synchronisationCompleteListenerMock);
     }
 
     private void thenVerifyMonitorsAreInitialized() {
@@ -635,7 +635,7 @@ public class DataServicesManagerTest {
     }
 
     private void thenVerifySynchronisationManagerIsCalled() {
-        verify(synchronisationManagerMock).startSync(START_DATE.toString(), END_DATE.toString(), synchronisationCompleteListenerMock);
+        verify(synchronisationManagerMock).startSync(START_DATE, END_DATE, synchronisationCompleteListenerMock);
     }
 
     private static final DateTime START_DATE = new DateTime();
