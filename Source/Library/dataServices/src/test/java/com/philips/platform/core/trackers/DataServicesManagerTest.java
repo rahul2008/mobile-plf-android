@@ -641,5 +641,11 @@ public class DataServicesManagerTest {
     private static final DateTime START_DATE = new DateTime();
     private static final DateTime END_DATE = new DateTime();
 
+    @Test
+    public void synchronize_deletesExpiredMoments() {
+        mDataServicesManager.synchronize();
+        verify(eventingMock).post(any(DeleteExpiredMomentRequest.class));
+    }
+
 }
 
