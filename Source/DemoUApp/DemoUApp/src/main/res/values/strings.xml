@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">DemoUApp</string>
     <string name="button_launch">Launch</string>
+<string name="button_myAccounts">Launch My Accounts</string>
 </resources>

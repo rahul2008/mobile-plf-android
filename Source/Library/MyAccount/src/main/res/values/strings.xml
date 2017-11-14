@@ -3,4 +3,26 @@
     <string name="mya_account">My Account</string>
     <string name="mya_permissions">Privacy Settings</string>
     <string name="mya_launch_activity">Launch as Activity</string>
+
+    <string name="mya_profile">Profile</string>
+    <string name="MYA_My_account">My account</string>
+    <string name="mya_settings">Settings</string>
+    <string name="allow_track_use">I allow Philips to track/use my personal data</string>
+    <string name="MYA_Account_settings">Account settings</string>
+    <string name="MYA_My_details">My details</string>
+    <string name="MYA_My_orders">My orders</string>
+    <string name="MYA_My_products">My products</string>
+    <string name="MYA_Login_details">Login details</string>
+    <string name="allow_send_promotional_on_behavior">I allow Philips to send promotional communications of Philips, based on my preferences and online behavior</string>
+    <string name="MYA_Email_address">Email address</string>
+    <string name="MYA_Mobile_number">Mobile number</string>
+    <string name="MYA_Personal_details">Personal details</string>
+    <string name="MYA_Name">Name</string>
+    <string name="MYA_Gender">Gender</string>
+    <string name="MYA_Date_of_birth">Date of birth</string>
+    <string name="MYA_Address">Address</string>
+
+    <string name="MYA_Country">Country</string>
+    <string name="MYA_Log_Out">Log out</string>
+    <string name="Mya_Privacy_Settings">Privacy settings</string>
 </resources>

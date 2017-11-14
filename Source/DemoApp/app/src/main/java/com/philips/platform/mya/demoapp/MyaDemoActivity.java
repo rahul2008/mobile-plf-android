@@ -4,22 +4,26 @@ package com.philips.platform.mya.demoapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
 import com.philips.platform.mya.demouapp.MyaDemouAppDependencies;
 import com.philips.platform.mya.demouapp.MyaDemouAppInterface;
 import com.philips.platform.mya.demouapp.MyaDemouAppLaunchInput;
 import com.philips.platform.mya.demouapp.MyaDemouAppSettings;
+import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.utils.UIDActivity;
-
+import com.philips.platform.urdemo.R;
 import com.philips.platform.urdemo.URDemouAppDependencies;
 import com.philips.platform.urdemo.URDemouAppInterface;
 import com.philips.platform.urdemo.URDemouAppSettings;
 import com.philips.themesettings.ThemeSettingsActivity;
-import com.philips.platform.urdemo.R;
 
 public class MyaDemoActivity extends UIDActivity {
 
@@ -60,7 +64,8 @@ public class MyaDemoActivity extends UIDActivity {
             @Override
             public void onClick(View v) {
                if (isUserLoggedIn()) {
-                    launchMyAccount();
+//                    launchMyAccount();
+                   launch();
                 } else {
                     Toast.makeText(MyaDemoActivity.this, "please login before launching My account", Toast.LENGTH_SHORT).show();
                 }
@@ -82,6 +87,13 @@ public class MyaDemoActivity extends UIDActivity {
         MyaDemouAppLaunchInput myaDemouAppLaunchInput = new MyaDemouAppLaunchInput();
         myaDemouAppLaunchInput.setContext(this.getApplicationContext());
         uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), myaDemouAppLaunchInput);
+    }
+
+    public void launch() {
+        MyAccountDemoUAppInterface myAccountDemoUAppInterface = new MyAccountDemoUAppInterface();
+        MyaDemoApplication applicationContext = (MyaDemoApplication) getApplicationContext();
+        myAccountDemoUAppInterface.init(new MyaDependencies(applicationContext.getAppInfra()), new UappSettings(this));
+        myAccountDemoUAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null, -1, null), null);
     }
 
     public boolean isUserLoggedIn() {
