@@ -12,11 +12,13 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswLaunchInput;
 import com.philips.platform.mya.MyaUiHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.util.mvp.MyaBaseFragment;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 
 public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClickListener {
@@ -56,13 +58,19 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
     @Override
     public void onClick(View view) {
-        new CswInterface().launch(MyaUiHelper.getInstance().getFragmentLauncher(), buildLaunchInput(true));
+        CswInterface cswInterface = new CswInterface();
+        CswDependencies cswDependencies = new CswDependencies(MyaUiHelper.getInstance().getAppInfra());
+        cswDependencies.setApplicationName("shetty");
+        cswDependencies.setPropositionName("loves somebody");
+        UappSettings uappSettings = new UappSettings(getContext());
+        cswInterface.init(cswDependencies,uappSettings);
+        cswInterface.launch(MyaUiHelper.getInstance().getFragmentLauncher(), buildLaunchInput(true));
     }
 
     private CswLaunchInput buildLaunchInput(boolean addToBackStack) {
         CswLaunchInput cswLaunchInput = new CswLaunchInput();
         cswLaunchInput.setPropositionName("Shetty");
-        cswLaunchInput.setApplicationName("loves kavya");
+        cswLaunchInput.setApplicationName("loves somebody");
         cswLaunchInput.addToBackStack(addToBackStack);
         cswLaunchInput.setContext(getContext());
         return cswLaunchInput;

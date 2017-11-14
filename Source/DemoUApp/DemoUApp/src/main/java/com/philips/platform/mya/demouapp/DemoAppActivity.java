@@ -6,13 +6,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.philips.platform.mya.demouapp.R;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
@@ -27,10 +24,9 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 
-public class DemoAppActivity extends UIDActivity implements View.OnClickListener {
+public class DemoAppActivity extends UIDActivity {
     private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_Bright;
 
-    Button launchButton;
     public int checkedId = R.id.radioButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +37,6 @@ public class DemoAppActivity extends UIDActivity implements View.OnClickListener
         MYALog.enableLogging(true);
         setContentView(R.layout.demo_u_app_layout);
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-        launchButton = (Button)findViewById(R.id.launch_consent);
-        launchButton.setOnClickListener(this);
 
         showAppVersion();
 
@@ -66,12 +60,6 @@ public class DemoAppActivity extends UIDActivity implements View.OnClickListener
             }));
         } else {
             startActivity(new Intent(this, MyaLaunchFragmentActivity.class));
-        }
-    }
-
-    public void onClick(View view) {
-        if (view == launchButton) {
-            Log.i("djfhlaksdfhlaf", "askdjfhaksdfhaksdjfhasd");
         }
     }
 

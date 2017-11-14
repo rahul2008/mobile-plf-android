@@ -4,11 +4,6 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/launch_consent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_launch"/>
-    <Button
         android:id="@+id/launch_my_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
