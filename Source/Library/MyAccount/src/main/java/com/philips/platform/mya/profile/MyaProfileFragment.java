@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.philips.platform.mya.MyaUiHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.util.mvp.MyaBaseFragment;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mya_profile_fragment, container, false);
+        UIDHelper.injectCalligraphyFonts();
         recyclerView = (RecyclerView) view.findViewById(R.id.profile_recycler_view);
         presenter = new MyaProfilePresenter(this);
         return view;

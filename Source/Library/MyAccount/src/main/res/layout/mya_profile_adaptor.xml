@@ -8,7 +8,8 @@
     android:orientation="horizontal">
 
     <com.philips.platform.uid.view.widget.Label
-        style="@style/UIDLabel.MarginStart"
+        android:layout_marginLeft="@dimen/MYA_start_margin"
+        android:layout_marginRight="@dimen/MYA_end_margin"
         android:id="@+id/profile_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

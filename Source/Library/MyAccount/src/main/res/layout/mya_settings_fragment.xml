@@ -21,12 +21,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:id="@+id/country_heading"
-            style="@style/UIDLabel.MarginStart"
+            android:layout_marginLeft="@dimen/MYA_start_margin"
+            android:layout_marginRight="@dimen/MYA_end_margin"
             android:text="@string/MYA_Country" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/settings_country_value"
-            style="@style/UIDLabel.MarginStart"
+            android:layout_marginLeft="@dimen/MYA_start_margin"
+            android:layout_marginRight="@dimen/MYA_end_margin"
             android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
             android:layout_below="@+id/country_heading"
             android:layout_width="match_parent"
@@ -64,7 +66,8 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:id="@+id/privacy_settings_heading"
-            style="@style/UIDLabel.MarginStart"
+            android:layout_marginLeft="@dimen/MYA_start_margin"
+            android:layout_marginRight="@dimen/MYA_end_margin"
             android:text="@string/Mya_Privacy_Settings" />
 
         <ImageButton
@@ -93,5 +96,21 @@
         android:layout_marginEnd="@dimen/MYA_end_margin"
         android:layout_marginTop="@dimen/MYA_top_margin"
         android:text="@string/MYA_Log_Out"/>
+    <com.philips.platform.uid.view.widget.Label
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/MYA_top_margin"
+        android:layout_marginLeft="@dimen/MYA_start_margin"
+        android:layout_marginRight="@dimen/MYA_end_margin"
+        style="@style/UIDLabel.Header"
+        android:text="@string/MYA_visit_website"/>
+    <com.philips.platform.uid.view.widget.Label
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/MYA_start_margin"
+        android:layout_marginRight="@dimen/MYA_end_margin"
+        style="@style/UIDLabel.Header"
+        android:text="@string/MYA_philips_website"/>
+
 
 </LinearLayout>

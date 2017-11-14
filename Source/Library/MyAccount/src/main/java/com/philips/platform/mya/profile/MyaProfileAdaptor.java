@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.philips.platform.mya.MyaUiHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.details.MyaDetailsFragment;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
@@ -39,6 +40,7 @@ class MyaProfileAdaptor extends RecyclerView.Adapter<MyaProfileAdaptor.ProfileVi
     public ProfileViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.mya_profile_adaptor, parent, false);
+        UIDHelper.injectCalligraphyFonts();
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

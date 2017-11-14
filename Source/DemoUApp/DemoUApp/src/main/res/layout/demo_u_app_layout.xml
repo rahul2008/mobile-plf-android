@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_marginLeft="@dimen/MYA_start_margin"
+    android:layout_marginRight="@dimen/MYA_end_margin"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/launch_my_account"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onClickMyAccounts"
-        android:text="@string/button_myAccounts"/>
 
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/MYA_start_margin"
         android:layout_marginStart="@dimen/MYA_top_margin"
         android:id="@+id/radioGroup"
         android:orientation="vertical">
+
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -32,11 +30,11 @@
             android:checked="false" />
     </RadioGroup>
 
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/appversion"
-        android:layout_width="wrap_content"
+
+    <Button
+        android:id="@+id/launch_my_account"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center_horizontal" />
+        android:text="@string/button_myAccounts"/>
 
 </LinearLayout>

@@ -27,9 +27,11 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
 
     private TextView mTitle;
     private MyaUiHelper myaUiHelper;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        UIDHelper.injectCalligraphyFonts();
         myaUiHelper = MyaUiHelper.getInstance();
         initDLSThemeIfExists();
         super.onCreate(savedInstanceState);
