@@ -156,7 +156,7 @@ public class DownloadPDFService extends Service {
             } catch (SocketTimeoutException e) {
                 file.delete();
                 showNotification(mContext.getResources().getString(R.string.download_error));
-                System.out.println("More than 15s elapsed.");
+                DigiCareLogger.e(TAG, "More than 15s elapsed.");
                 return false;
             } catch (Exception e) {
                 if(file!=null){
