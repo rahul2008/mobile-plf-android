@@ -9,6 +9,7 @@ package com.philips.platform.mya;
 
 import android.content.Context;
 
+import com.philips.platform.csw.ConsentDefinition;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import java.util.List;
