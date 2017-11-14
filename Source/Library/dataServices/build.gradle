@@ -223,7 +223,7 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     def myaModule = module(group: 'com.philips.cdp', name: 'ConsentAccessToolKit', version: versions.catk_consentAccessToolKit + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    compile(dp ? project(:ConsentAccessToolKit) : myaModule ) 
+    compile(dp ? project(':ConsentAccessToolKit') : myaModule ) 
             {
                 exclude group: 'com.google.code.findbugs', module: 'jsr305'
                 transitive true
