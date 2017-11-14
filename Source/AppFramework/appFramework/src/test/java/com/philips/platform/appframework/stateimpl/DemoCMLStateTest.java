@@ -13,12 +13,14 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -64,6 +66,11 @@ public class DemoCMLStateTest {
         @Override
         public CommlibUapp getCommLibUApp() {
             return commlibUapp;
+        }
+
+        @Override
+        protected ThemeConfiguration getDLSThemeConfiguration(Context context) {
+            return mock(ThemeConfiguration.class);
         }
     }
 }

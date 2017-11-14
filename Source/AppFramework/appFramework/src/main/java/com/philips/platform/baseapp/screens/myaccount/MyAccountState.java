@@ -9,6 +9,7 @@ import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.mya.MyaDependencies;
+import com.philips.platform.mya.MyaFragment;
 import com.philips.platform.mya.MyaInterface;
 import com.philips.platform.mya.MyaLaunchInput;
 import com.philips.platform.mya.MyaSettings;
@@ -28,10 +29,11 @@ public class MyAccountState extends BaseState {
         FragmentLauncher fragmentLauncher = (FragmentLauncher)uiLauncher;
         Context actContext = fragmentLauncher.getFragmentActivity();
 
-        ((AbstractAppFrameworkBaseActivity)actContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
+        ((AbstractAppFrameworkBaseActivity)actContext).handleFragmentBackStack(null,MyaFragment.TAG,getUiStateData().getFragmentLaunchState());
 
         MyaLaunchInput launchInput = new MyaLaunchInput();
         launchInput.setContext(actContext);
+        launchInput.addToBackStack(true);
         MyaInterface myaInterface = getInterface();
         myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
         myaInterface.launch(fragmentLauncher, launchInput);
