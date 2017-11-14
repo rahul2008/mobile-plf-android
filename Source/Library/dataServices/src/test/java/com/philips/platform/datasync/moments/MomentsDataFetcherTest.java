@@ -33,9 +33,9 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class MomentsDataFetcherTest {
-    public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
-    public static final String USER_ID = "TEST_GUID";
-    public static final String SUBJECT_ID = "SUBJECT_ID";
+    private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
+    private static final String USER_ID = "TEST_GUID";
+    private static final String SUBJECT_ID = "SUBJECT_ID";
 
     private static final String TEST_MOMENT_SYNC_URL = "TEST_MOMENT_SYNC_URL";
     private static final String START_DATE = "timestampStart";

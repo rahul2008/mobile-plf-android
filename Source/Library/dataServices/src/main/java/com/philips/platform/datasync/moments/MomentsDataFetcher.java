@@ -97,7 +97,6 @@ public class MomentsDataFetcher extends DataFetcher {
         }
     }
 
-    @Override
     public RetrofitError fetchDataByDateRange(String startDate, String endDate) {
         RetrofitError retrofitError = null;
 

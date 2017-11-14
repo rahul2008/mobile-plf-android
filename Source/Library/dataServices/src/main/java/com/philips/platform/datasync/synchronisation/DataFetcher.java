@@ -43,8 +43,6 @@ public abstract class DataFetcher {
     @Nullable
     public abstract RetrofitError fetchData();
 
-    public abstract RetrofitError fetchDataByDateRange(String startDate, String endDate);
-
     public RetrofitError fetchAllData() {
         return fetchData();
     }

@@ -129,20 +129,12 @@ public class DataPullSynchronise {
     }
 
     private synchronized void fetchDataByDateRange(final String startDate, final String endDate) {
-        final CountDownLatch countDownLatch = new CountDownLatch(configurableFetchers.size());
 
         for (final DataFetcher fetcher : configurableFetchers) {
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    RetrofitError retrofitError = fetcher.fetchDataByDateRange(startDate, endDate);
-                    updateResult(retrofitError);
-                    countDownLatch.countDown();
-                }
-            });
+            if (fetcher instanceof MomentsDataFetcher) {
+                retrofitError = ((MomentsDataFetcher) fetcher).fetchDataByDateRange(startDate, endDate);
+            }
         }
-
-        waitTillThreadsGetsCompleted(countDownLatch);
 
         if (retrofitError != null) {
             synchronisationManager.dataPullFail(retrofitError);

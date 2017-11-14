@@ -68,11 +68,6 @@ public class SettingsDataFetcher extends DataFetcher {
         return null;
     }
 
-    @Override
-    public RetrofitError fetchDataByDateRange(String startDate, String endDate) {
-        return null;
-    }
-
     public void getSettings() {
 
         if (isUserInvalid()) {

@@ -73,11 +73,6 @@ public class InsightDataFetcher extends DataFetcher {
     }
 
     @Override
-    public RetrofitError fetchDataByDateRange(String startDate, String endDate) {
-        return null;
-    }
-
-    @Override
     public RetrofitError fetchAllData() {
         return super.fetchAllData();
     }
