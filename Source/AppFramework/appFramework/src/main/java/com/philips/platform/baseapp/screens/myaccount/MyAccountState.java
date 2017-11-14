@@ -3,6 +3,7 @@ package com.philips.platform.baseapp.screens.myaccount;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -52,7 +53,8 @@ public class MyAccountState extends BaseState {
      * @param currentLocale : locale of the strings
      * @return non-null list (may be empty though)
      */
-    private List<ConsentDefinition> createConsentDefinitions(Context context, Locale currentLocale) {
+    @VisibleForTesting
+    List<ConsentDefinition> createConsentDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
         definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", "moment", 1, currentLocale));
         return definitions;
