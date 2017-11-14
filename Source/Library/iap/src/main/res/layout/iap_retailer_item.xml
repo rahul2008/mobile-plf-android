@@ -37,7 +37,7 @@
             android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
     </LinearLayout>
 
-    <com.shamanland.fonticon.FontIconTextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/retailer_arrow"
         style="@style/iap_right_arrow_product_catalog"
         android:layout_alignParentEnd="true"

@@ -25,7 +25,6 @@ import com.philips.cdp.di.iap.products.ProductCatalogData;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -229,17 +228,17 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         TextView mProductName;
         TextView mProductOutOfStock;
         TextView mPrice;
-        FontIconTextView mArrow;
+        TextView mArrow;
         TextView mDiscountedPrice;
 
         ProductCatalogViewHolder(View itemView) {
             super(itemView);
-            mProductImage = (NetworkImageView) itemView.findViewById(R.id.image);
-            mProductName = (TextView) itemView.findViewById(R.id.iap_retailerItem_productName_lebel);
-            mProductOutOfStock = (TextView) itemView.findViewById(R.id.iap_retaileritem_product_outOfStock_label);
-            mPrice = (TextView) itemView.findViewById(R.id.iap_retailerItem_price_lebel);
-            mArrow = (FontIconTextView) itemView.findViewById(R.id.arrow);
-            mDiscountedPrice = (TextView) itemView.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel);
+            mProductImage = itemView.findViewById(R.id.image);
+            mProductName = itemView.findViewById(R.id.iap_retailerItem_productName_lebel);
+            mProductOutOfStock = itemView.findViewById(R.id.iap_retaileritem_product_outOfStock_label);
+            mPrice = itemView.findViewById(R.id.iap_retailerItem_price_lebel);
+            mArrow = itemView.findViewById(R.id.arrow);
+            mDiscountedPrice = itemView.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel);
             itemView.setOnClickListener(this);
         }
 
@@ -258,7 +257,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         public EmptyViewHolder(View itemView) {
             super(itemView);
-            tvEmptyMsg = (TextView) itemView.findViewById(R.id.tv_empty_list_found);
+            tvEmptyMsg = itemView.findViewById(R.id.tv_empty_list_found);
         }
     }
 

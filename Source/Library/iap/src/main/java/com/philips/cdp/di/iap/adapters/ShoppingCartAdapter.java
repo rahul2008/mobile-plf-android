@@ -239,8 +239,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 for (int i = 0; i < mData.size(); i++) {
                     View priceInfo = View.inflate(mContext, R.layout.iap_price_item, null);
-                    TextView mProductName = (TextView) priceInfo.findViewById(R.id.product_name);
-                    TextView mProductPrice = (TextView) priceInfo.findViewById(R.id.product_price);
+                    TextView mProductName = priceInfo.findViewById(R.id.product_name);
+                    TextView mProductPrice = priceInfo.findViewById(R.id.product_price);
                     mProductName.setText(Integer.toString(mData.get(i).getQuantity()) + "x " + mData.get(i).getProductTitle().toString());
                     mProductPrice.setText(mData.get(i).getFormattedTotalPrice().toString());
                     shoppingCartFooter.mPriceContainer.addView(priceInfo);
@@ -350,15 +350,15 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ShoppingCartProductHolder(final View shoppingCartView) {
             super(shoppingCartView);
             this.shoppingCartView = shoppingCartView;
-            mNetworkImage = (NetworkImageView) shoppingCartView.findViewById(R.id.image);
-            mTvPrice = (TextView) shoppingCartView.findViewById(R.id.price_label);
-            mTvActualPrice = (TextView) shoppingCartView.findViewById(R.id.actual_price);
-            mQuantityLayout = (RelativeLayout) shoppingCartView.findViewById(R.id.quantity_count_layout);
-            mTvAfterDiscountPrice = (TextView) shoppingCartView.findViewById(R.id.after_discount_price);
-            mTvQuantity = (TextView) shoppingCartView.findViewById(R.id.quantity_val);
-            mIvOptions = (TextView) shoppingCartView.findViewById(R.id.right_arrow);
-            deleteBtn = (Button) shoppingCartView.findViewById(R.id.delete_btn);
-            viewBottomSpace=(View) shoppingCartView.findViewById(R.id.bottom_space);
+            mNetworkImage = shoppingCartView.findViewById(R.id.image);
+            mTvPrice = shoppingCartView.findViewById(R.id.price_label);
+            mTvActualPrice = shoppingCartView.findViewById(R.id.actual_price);
+            mQuantityLayout = shoppingCartView.findViewById(R.id.quantity_count_layout);
+            mTvAfterDiscountPrice = shoppingCartView.findViewById(R.id.after_discount_price);
+            mTvQuantity = shoppingCartView.findViewById(R.id.quantity_val);
+            mIvOptions = shoppingCartView.findViewById(R.id.right_arrow);
+            deleteBtn = shoppingCartView.findViewById(R.id.delete_btn);
+            viewBottomSpace= shoppingCartView.findViewById(R.id.bottom_space);
 
         }
     }
@@ -379,18 +379,18 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
-            mDeliveryPrice = (TextView) itemView.findViewById(R.id.delivery_price);
-            mVatValue = (TextView) itemView.findViewById(R.id.including_tax_val);
-            mVatInclusiveValue = (TextView) itemView.findViewById(R.id.vat_inclusive);
-            mTotalItems = (TextView) itemView.findViewById(R.id.total_label);
-            mTotalCost = (TextView) itemView.findViewById(R.id.total_cost_val);
-            mDeliveryVia = (TextView) itemView.findViewById(delivery_via_ups);
-            mDeliveryUpsVal = (TextView) itemView.findViewById(R.id.delivery_ups_val);
-            mExtraOption = (TextView) itemView.findViewById(R.id.extra_option);
-            mEditIcon = (ImageView) itemView.findViewById(R.id.edit_icon);
-            mDeliveryTitle = (TextView) itemView.findViewById(R.id.delivery_ups_title);
-            mPriceContainer = (LinearLayout) itemView.findViewById(R.id.price_container);
-            mDeliveryUPSParcelContainer = (RelativeLayout) itemView.findViewById(R.id.delivery_ups_parcel_container);
+            mDeliveryPrice = itemView.findViewById(R.id.delivery_price);
+            mVatValue = itemView.findViewById(R.id.including_tax_val);
+            mVatInclusiveValue = itemView.findViewById(R.id.vat_inclusive);
+            mTotalItems = itemView.findViewById(R.id.total_label);
+            mTotalCost = itemView.findViewById(R.id.total_cost_val);
+            mDeliveryVia = itemView.findViewById(delivery_via_ups);
+            mDeliveryUpsVal = itemView.findViewById(R.id.delivery_ups_val);
+            mExtraOption = itemView.findViewById(R.id.extra_option);
+            mEditIcon = itemView.findViewById(R.id.edit_icon);
+            mDeliveryTitle = itemView.findViewById(R.id.delivery_ups_title);
+            mPriceContainer = itemView.findViewById(R.id.price_container);
+            mDeliveryUPSParcelContainer = itemView.findViewById(R.id.delivery_ups_parcel_container);
         }
     }
 

@@ -77,7 +77,7 @@
 
         </LinearLayout>
 
-        <com.shamanland.fonticon.FontIconTextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/arrow"
             style="@style/iap_right_arrow_product_catalog"
             android:layout_alignParentEnd="true"

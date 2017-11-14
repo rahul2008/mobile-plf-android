@@ -32,7 +32,6 @@ import com.philips.cdp.di.iap.screens.ShoppingCartFragment;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -41,10 +40,13 @@ import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.UIDActivity;
 
 import java.util.ArrayList;
 
-public class IAPActivity extends UiKitActivity implements ActionBarListener, IAPListener {
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+public class IAPActivity extends UIDActivity implements ActionBarListener, IAPListener {
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     private TextView mTitleTextView;
     private TextView mCountText;
@@ -52,6 +54,11 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     private FrameLayout mCartContainer;
     private String mTitle;
     private ProgressDialog mProgressDialog = null;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +72,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     }
 
     private void createActionBar() {
-        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.iap_header_back_button);
+        FrameLayout frameLayout = findViewById(R.id.iap_header_back_button);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -73,15 +80,15 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
             }
         });
 
-        mBackImage = (ImageView) findViewById(R.id.iap_iv_header_back_button);
+        mBackImage = findViewById(R.id.iap_iv_header_back_button);
         Drawable mBackDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_back_arrow);
         mBackImage.setBackground(mBackDrawable);
-        mTitleTextView = (TextView) findViewById(R.id.iap_actionBar_headerTitle_lebel);
+        mTitleTextView = findViewById(R.id.iap_actionBar_headerTitle_lebel);
         setTitle(getString(R.string.iap_app_name));
 
-        mCartContainer = (FrameLayout) findViewById(R.id.cart_container);
-        ImageView mCartIcon = (ImageView) findViewById(R.id.cart_icon);
-        mCountText = (TextView) findViewById(R.id.item_count);
+        mCartContainer = findViewById(R.id.cart_container);
+        ImageView mCartIcon = findViewById(R.id.cart_icon);
+        mCountText = findViewById(R.id.item_count);
         Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
         mCartIcon.setBackground(mCartIconDrawable);
         mCartIcon.setOnClickListener(new View.OnClickListener() {

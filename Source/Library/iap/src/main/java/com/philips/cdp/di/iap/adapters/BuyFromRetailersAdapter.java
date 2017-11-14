@@ -18,7 +18,6 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
 
@@ -105,14 +104,14 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         NetworkImageView mLogo;
         TextView mStoreName;
         TextView mProductAvailability;
-        FontIconTextView mArrow;
+        TextView mArrow;
 
         public RetailerViewHolder(View itemView) {
             super(itemView);
-            mLogo = (NetworkImageView) itemView.findViewById(R.id.iap_retailer_image);
-            mStoreName = (TextView) itemView.findViewById(R.id.iap_retailerItem_onlineStoreName_lebel);
-            mProductAvailability = (TextView) itemView.findViewById(R.id.iap_retailerItem_onlineStoreAvailability_lebel);
-            mArrow = (FontIconTextView) itemView.findViewById(R.id.retailer_arrow);
+            mLogo = itemView.findViewById(R.id.iap_retailer_image);
+            mStoreName = itemView.findViewById(R.id.iap_retailerItem_onlineStoreName_lebel);
+            mProductAvailability = itemView.findViewById(R.id.iap_retailerItem_onlineStoreAvailability_lebel);
+            mArrow = itemView.findViewById(R.id.retailer_arrow);
             itemView.setOnClickListener(this);
         }
 

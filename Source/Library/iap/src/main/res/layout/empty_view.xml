@@ -11,7 +11,7 @@
         android:drawablePadding="4dp"
         style="@style/iapCentralesansBoldFont"
         android:text="@string/iap_zero_results_found"
-        android:background="@color/uikit_white"
+        android:background="@color/uidColorWhite"
         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         android:textSize="16sp"
         android:gravity="center_vertical"
@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/iap_zero_results_message"
-        android:background="@color/uikit_white"
+        android:background="@color/uidColorWhite"
         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         android:textSize="16sp"
         />

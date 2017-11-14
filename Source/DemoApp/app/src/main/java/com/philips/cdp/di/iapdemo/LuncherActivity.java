@@ -26,11 +26,11 @@ public class LuncherActivity extends Activity {
         setContentView(R.layout.activity_luncher);
     }
 
-    public void launch(View v){
+    public void launch(View v) {
         DemoApplication demoApplication = (DemoApplication) getApplicationContext();
         AppInfra appInfra = demoApplication.getAppInfra();
-        iapDemoUAppInterface=new IapDemoUAppInterface();
-        iapDemoUAppInterface.init(new IapDemoUAppDependencies(appInfra),new IapDemoAppSettings(this));
-        iapDemoUAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,0),new IapLaunchInput());
+        iapDemoUAppInterface = new IapDemoUAppInterface();
+        iapDemoUAppInterface.init(new IapDemoUAppDependencies(appInfra), new IapDemoAppSettings(this));
+        iapDemoUAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), new IapLaunchInput());
     }
 }

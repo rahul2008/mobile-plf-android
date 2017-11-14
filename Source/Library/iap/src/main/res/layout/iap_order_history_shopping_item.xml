@@ -86,9 +86,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
 
-        <com.shamanland.fonticon.FontIconTextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/arrow"
-            style="@style/iap_order_right_arrow"
+            style="@style/iap_right_arrow_product_catalog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center"
