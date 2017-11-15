@@ -12,14 +12,14 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/country_selection_header_TextView"
-        android:layout_marginTop="@dimen/reg_dimen_24dp"
-        android:layout_marginBottom="@dimen/reg_dimen_24dp"
+        android:padding="@dimen/uid_recyclerview_margin_left_right"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textSize="@dimen/reg_text_size_16"
         android:text="Choose the country you live in. This lets us tailor the warranty and other information to your location"
-        android:textColor="?attr/uidContentItemTertiaryNormalTextColor"/>
+        android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+        />
 
 </LinearLayout>
 

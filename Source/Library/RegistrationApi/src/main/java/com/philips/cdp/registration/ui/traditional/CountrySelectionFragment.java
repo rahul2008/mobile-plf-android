@@ -1,31 +1,35 @@
 package com.philips.cdp.registration.ui.traditional;
 
-import android.content.res.*;
-import android.os.*;
-import android.support.v7.widget.*;
-import android.view.*;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.dao.*;
-import com.philips.cdp.registration.listener.*;
-import com.philips.cdp.registration.ui.traditional.countrySelection.*;
-import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.uid.view.widget.*;
+import com.philips.cdp.registration.R2;
+import com.philips.cdp.registration.dao.Country;
+import com.philips.cdp.registration.listener.CountrySelectionListener;
+import com.philips.cdp.registration.ui.traditional.countrySelection.CountrySelectionAdapter;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-import butterknife.*;
-
-import static com.janrain.android.engage.JREngage.*;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class CountrySelectionFragment extends RegistrationBaseFragment implements
         Comparator<Country> {
     @BindView(R2.id.country_recycler_view)
     RecyclerView countryListView;
-
-    @BindView(R2.id.country_selection_header_TextView)
-    Label country_selection_header_TextView;
 
     private CountrySelectionAdapter countryListAdapter;
 
@@ -62,7 +66,6 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
     @Override
     protected void setViewParams(Configuration config, int width) {
         applyParams(config, countryListView, width);
-        applyParams(config, country_selection_header_TextView, width);
     }
 
     @Override
@@ -84,7 +87,7 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
         ButterKnife.bind(this, view);
 
         countryListView.setHasFixedSize(true);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         countryListView.setLayoutManager(mLayoutManager);
         separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
         countryListView.addItemDecoration(separatorItemDecoration);

@@ -12,15 +12,19 @@ import com.philips.platform.uid.view.widget.*;
 
 import java.util.*;
 
-public class CountrySelectionAdapter extends RecyclerView.Adapter<CountrySelectionAdapter.CountryPickerHolder> {
+public class CountrySelectionAdapter extends RecyclerView.Adapter< RecyclerView.ViewHolder> {
 
+    private static final int HEADER_COUNT = 1;
     private List<Country> countries;
 
     private SelectedCountryListener mSelectedCountryListener;
 
-    private int position = 0;
+    private int selected_position = 1; //
 
     private Handler handler = new Handler();
+
+    private static final int VIEW_TYPE_HEADER= 0;
+    private static final int VIEW_TYPE_LIST= 1;
 
     class CountryPickerHolder extends RecyclerView.ViewHolder {
         private Label countryName;
@@ -35,42 +39,79 @@ public class CountrySelectionAdapter extends RecyclerView.Adapter<CountrySelecti
         }
     }
 
+
+    class CountryPickerHeaderHolder extends RecyclerView.ViewHolder {
+        CountryPickerHeaderHolder(View view) {
+            super(view);
+        }
+    }
+
     public CountrySelectionAdapter(List<Country> countries, SelectedCountryListener selectedCountryListener) {
         super();
         this.countries = countries;
         mSelectedCountryListener = selectedCountryListener;
     }
 
+
     @Override
-    public CountryPickerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.country_selection_item, parent, false);
-        return new CountryPickerHolder(itemView);
+    public int getItemViewType(int position) {
+        if(position==0){
+            return VIEW_TYPE_HEADER;
+        }
+        return VIEW_TYPE_LIST;
     }
 
     @Override
-    public void onBindViewHolder(CountryPickerHolder holder, int position) {
-        Country country = countries.get(position);
-        holder.countryName.setText(country.getName());
-        if (position == this.position) {
-            holder.checked.setVisibility(View.VISIBLE);
-        } else {
-            holder.checked.setVisibility(View.GONE);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        RecyclerView.ViewHolder viewHolder;
+        if(viewType==VIEW_TYPE_HEADER){
+
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.country_selection_header, parent, false);
+            viewHolder=new CountryPickerHeaderHolder(itemView);
+
+        }else{
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.country_selection_item, parent, false);
+            viewHolder=new CountryPickerHolder(itemView);
         }
-        holder.itemView.setOnClickListener(view -> {
-            setSelectedPosition(position);
-            handler.removeCallbacksAndMessages(null);
-            handler.postDelayed(() -> mSelectedCountryListener.onCountrySelected(position), 500);
-        });
+
+
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+
+        if(viewHolder == null) return;
+
+        if(viewHolder instanceof CountryPickerHolder){
+
+            CountryPickerHolder holder=(CountryPickerHolder)viewHolder;
+            Country country = countries.get(position-HEADER_COUNT); //As we added header in 0th position
+            holder.countryName.setText(country.getName());
+            if (position == this.selected_position) {
+                holder.checked.setVisibility(View.VISIBLE);
+            } else {
+                holder.checked.setVisibility(View.GONE);
+            }
+            holder.itemView.setOnClickListener(view -> {
+                setSelectedPosition(position);
+                handler.removeCallbacksAndMessages(null);
+                handler.postDelayed(() -> mSelectedCountryListener.onCountrySelected(position), 500);
+            });
+        }
+
     }
 
     @Override
     public int getItemCount() {
-        return countries.size();
+        return countries.size()+HEADER_COUNT;
     }
 
     private void setSelectedPosition(int posistion) {
-        position = posistion;
+        selected_position = posistion;
         notifyDataSetChanged();
     }
 }

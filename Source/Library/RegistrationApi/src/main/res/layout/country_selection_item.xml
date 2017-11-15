@@ -9,6 +9,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/title"
         style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
+        android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
         android:layout_width="match_parent"
         android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
         android:layout_alignEnd="@+id/tick"
@@ -20,6 +21,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/tick"
         style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
+        android:textColor="?attr/uidNavigationPrimaryBackgroundColor"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
         android:layout_alignParentEnd="true"
