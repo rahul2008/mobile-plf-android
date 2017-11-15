@@ -10,9 +10,6 @@ package com.philips.platform.mya.launcher;
 import android.content.Intent;
 
 import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.csw.CswDependencies;
-import com.philips.platform.csw.CswInterface;
-import com.philips.platform.csw.CswSettings;
 import com.philips.platform.mya.activity.MyAccountActivity;
 import com.philips.platform.mya.injection.DaggerMyaDependencyComponent;
 import com.philips.platform.mya.injection.DaggerMyaUiComponent;
@@ -60,7 +57,7 @@ public class MyaInterface implements UappInterface {
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher, MyaLaunchInput myaLaunchInput) {
         myaUiComponent = DaggerMyaUiComponent.builder()
-                .myaUiModule(new MyaUiModule(fragmentLauncher, myaLaunchInput.getMyaListener(), null)).build();
+                .myaUiModule(new MyaUiModule(fragmentLauncher, myaLaunchInput.getMyaListener())).build();
         MyaTabFragment myaTabFragment = new MyaTabFragment();
         myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
     }
@@ -83,15 +80,9 @@ public class MyaInterface implements UappInterface {
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        CswDependencies cswDependencies = new CswDependencies(uappDependencies.getAppInfra());
         MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
-        applicationName = (myaDependencies).getApplicationName();
-        propositionName = (myaDependencies).getPropositionName();
-        cswDependencies.setApplicationName(applicationName == null ? CatkConstants.APPLICATION_NAME : applicationName);
-        cswDependencies.setPropositionName(propositionName == null ? CatkConstants.PROPOSITION_NAME : propositionName);
-        CswSettings cswSettings = new CswSettings(uappSettings.getContext());
-        CswInterface cswInterface = new CswInterface();
-        cswInterface.init(cswDependencies, cswSettings);
+        applicationName = myaDependencies.getApplicationName();
+        propositionName = myaDependencies.getPropositionName();
         myaDependencyComponent = DaggerMyaDependencyComponent.builder()
                 .myaDependencyModule(new MyaDependencyModule(myaDependencies.getAppInfra())).build();
     }
