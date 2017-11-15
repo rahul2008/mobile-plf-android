@@ -5,29 +5,39 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.mya;
+package com.philips.platform.mya.launcher;
 
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswSettings;
+import com.philips.platform.mya.activity.MyAccountActivity;
+import com.philips.platform.mya.injection.DaggerMyaDependencyComponent;
+import com.philips.platform.mya.injection.DaggerMyaUiComponent;
+import com.philips.platform.mya.injection.MyaDependencyComponent;
+import com.philips.platform.mya.injection.MyaDependencyModule;
+import com.philips.platform.mya.injection.MyaUiComponent;
+import com.philips.platform.mya.injection.MyaUiModule;
+import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+
+import static com.philips.platform.mya.util.MyaConstants.MYA_DLS_THEME;
 
 public class MyaInterface implements UappInterface {
 
     private static String applicationName;
     private static String propositionName;
+    private static MyaDependencyComponent myaDependencyComponent;
+    private static MyaUiComponent myaUiComponent;
 
     /**
      * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
@@ -37,38 +47,19 @@ public class MyaInterface implements UappInterface {
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
+        MyaLaunchInput myaLaunchInput = (MyaLaunchInput) uappLaunchInput;
         if (uiLauncher instanceof ActivityLauncher) {
-            launchAsActivity((ActivityLauncher) uiLauncher, (MyaLaunchInput) uappLaunchInput);
+            launchAsActivity((ActivityLauncher) uiLauncher, myaLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
-            launchAsFragment((FragmentLauncher) uiLauncher, (MyaLaunchInput) uappLaunchInput);
+            launchAsFragment((FragmentLauncher) uiLauncher, myaLaunchInput);
         }
     }
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher, MyaLaunchInput myaLaunchInput) {
-        try {
-            FragmentManager mFragmentManager = fragmentLauncher.getFragmentActivity().
-                    getSupportFragmentManager();
-            MyaFragment myaFragment = buildFragment(fragmentLauncher.getActionbarListener());
-
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
-                    myaFragment,
-                    MyaConstants.MYAFRAGMENT);
-
-            if (myaLaunchInput.isAddtoBackStack()) {
-                fragmentTransaction.addToBackStack(MyaConstants.MYAFRAGMENT);
-            }
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException ignore) {
-
-        }
-    }
-
-    private MyaFragment buildFragment(ActionBarListener listener) {
-        MyaFragment myaFragment = new MyaFragment();
-        myaFragment.setArguments(applicationName, propositionName);
-        myaFragment.setOnUpdateTitleListener(listener);
-        return myaFragment;
+        myaUiComponent = DaggerMyaUiComponent.builder()
+                .myaUiModule(new MyaUiModule(fragmentLauncher, myaLaunchInput.getMyaListener(), null)).build();
+        MyaTabFragment myaTabFragment = new MyaTabFragment();
+        myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
     }
 
     private void launchAsActivity(ActivityLauncher uiLauncher, MyaLaunchInput myaLaunchInput) {
@@ -76,7 +67,7 @@ public class MyaInterface implements UappInterface {
             Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyAccountActivity.class);
             myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
             myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
-            myAccountIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+            myAccountIntent.putExtra(MYA_DLS_THEME, uiLauncher.getUiKitTheme());
             myaLaunchInput.getContext().startActivity(myAccountIntent);
         }
     }
@@ -90,12 +81,32 @@ public class MyaInterface implements UappInterface {
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         CswDependencies cswDependencies = new CswDependencies(uappDependencies.getAppInfra());
-        applicationName = ((MyaDependencies) uappDependencies).getApplicationName();
-        propositionName = ((MyaDependencies) uappDependencies).getPropositionName();
+        MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
+        applicationName = (myaDependencies).getApplicationName();
+        propositionName = (myaDependencies).getPropositionName();
         cswDependencies.setApplicationName(applicationName == null ? CatkConstants.APPLICATION_NAME : applicationName);
         cswDependencies.setPropositionName(propositionName == null ? CatkConstants.PROPOSITION_NAME : propositionName);
         CswSettings cswSettings = new CswSettings(uappSettings.getContext());
         CswInterface cswInterface = new CswInterface();
         cswInterface.init(cswDependencies, cswSettings);
+        myaDependencyComponent = DaggerMyaDependencyComponent.builder()
+                .myaDependencyModule(new MyaDependencyModule((AppInfra) myaDependencies.getAppInfra())).build();
+    }
+
+
+    public static MyaDependencyComponent getMyaDependencyComponent() {
+        return myaDependencyComponent;
+    }
+
+    public static String getApplicationName() {
+        return applicationName;
+    }
+
+    public static String getPropositionName() {
+        return propositionName;
+    }
+
+    public static MyaUiComponent getMyaUiComponent() {
+        return myaUiComponent;
     }
 }
