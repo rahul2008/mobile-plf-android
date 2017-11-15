@@ -1,175 +1,138 @@
 package com.philips.cdp2.ews.demoapplication;
 
-import android.content.res.Configuration;
+import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
-import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
-import com.philips.cdp2.ews.configuration.ContentConfiguration;
-import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
-import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
-import com.philips.cdp2.ews.microapp.EWSDependencies;
-import com.philips.cdp2.ews.microapp.EWSInterface;
-import com.philips.cdp2.ews.microapp.EWSLauncherInput;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uappframework.uappinput.UappDependencies;
-import com.philips.platform.uappframework.uappinput.UappSettings;
+import com.philips.cdp2.ews.demoapplication.themesettinngs.ThemeHelper;
+import com.philips.cdp2.ews.demoapplication.themesettinngs.ThemeSettingsFragment;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.UIDActivity;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+public class EWSDemoActivity extends UIDActivity {
 
-import static com.philips.platform.uappframework.launcher.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT;
+    private SharedPreferences defaultSharedPreferences;
+    private OptionSelectionFragment optionSelectionFragment;
 
-public class EWSDemoActivity extends AppCompatActivity implements View.OnClickListener {
+    public ColorRange colorRange = ColorRange.GROUP_BLUE;
+    public ContentColor contentColor = ContentColor.VERY_DARK;
+    public AccentRange accentColorRange = AccentRange.ORANGE;
+    public NavigationColor navigationColor = NavigationColor.VERY_DARK;
 
-    private Spinner configSpinner;
-    private static final String WAKEUP_LIGHT = "wl";
-    private static final String AIRPURIFIER = "ap";
-    private static final String DEFAULT = "Default";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Theme_DLS_GroupBlue_UltraLight);
+        UIDHelper.init(new ThemeConfiguration(this, colorRange, navigationColor,
+                contentColor));
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ewsdemo);
-        findViewById(R.id.btnLaunchEws).setOnClickListener(this);
+        setContentView(R.layout.activity_main);
+        defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        this.optionSelectionFragment = new OptionSelectionFragment();
+        showConfigurationOptScreen();
+        updateColorFromPref();
+        setUpToolBar();
+    }
 
-        configSpinner = (Spinner) findViewById(R.id.configurationSelection);
-        configSpinner.setOnItemSelectedListener(itemSelectedListener);
-
-        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,
-                getResources().getStringArray(R.array.configurations));
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        configSpinner.setAdapter(aa);
+    private void setUpToolBar() {
+        Toolbar toolbar = findViewById(com.philips.cdp2.ews.R.id.ews_toolbar);
+        setSupportActionBar(toolbar);
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
+        }
+        toolbar.inflateMenu(R.menu.option_menu);
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnLaunchEws:
-                launchEwsUApp();
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_set_theme_settings:
+                saveThemeSettings();
+                showConfigurationOptScreen();
                 break;
             default:
-                break;
+                return super.onOptionsItemSelected(item);
         }
+        return true;
     }
 
-    private void launchEwsUApp() {
-        AppInfraInterface appInfra = new AppInfra.Builder().build(getApplicationContext());
-        EWSInterface ewsInterface = new EWSInterface();
-        ewsInterface.init(createUappDependencies(appInfra, createProductMap()), new UappSettings(getApplicationContext()));
-        ewsInterface.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, -1), new EWSLauncherInput());
+    private void showConfigurationOptScreen() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.mainContainer, optionSelectionFragment)
+                .addToBackStack(optionSelectionFragment.getClass().getCanonicalName())
+                .commit();
     }
 
-    @NonNull
-    private UappDependencies createUappDependencies(AppInfraInterface appInfra,
-                                                    Map<String, String> productKeyMap) {
-        return new EWSDependencies(appInfra, productKeyMap,
-                new ContentConfiguration(createBaseContentConfiguration(),
-                                        createHappyFlowConfiguration(),
-                                        createTroubleShootingConfiguration()));
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
-    @NonNull
-    private Map<String, String> createProductMap() {
-        Map<String, String> productKeyMap = new HashMap<>();
-        productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.lbl_devicename));
-        return productKeyMap;
+    public void updateContentColor(ContentColor contentColor) {
+        this.contentColor = contentColor;
     }
 
-    @NonNull
-    private BaseContentConfiguration createBaseContentConfiguration(){
-        if (isDefaultValueSelected()){
-            return new BaseContentConfiguration();
-        }else{
-            return new BaseContentConfiguration(R.string.lbl_devicename, R.string.lbl_appname);
-        }
+    public void updateColorRange(ColorRange colorRange) {
+        this.colorRange = colorRange;
     }
 
-    @NonNull
-    private HappyFlowContentConfiguration createHappyFlowConfiguration(){
-        if(isDefaultValueSelected()){
-            return new HappyFlowContentConfiguration.Builder().build();
-        }else{
-            return new HappyFlowContentConfiguration.Builder()
-                    .setGettingStartedScreenTitle(R.string.label_ews_get_started_title)
-                    .setSetUpScreenTitle(R.string.lbl_setup_screen_title)
-                    .setSetUpScreenBody(R.string.lbl_setup_screen_body)
-                    .setSetUpVerifyScreenTitle(R.string.lbl_setup_verifyscreen_title)
-                    .setSetUpVerifyScreenQuestion(R.string.lbl_setup_verifyscreen_body)
-                    .setSetUpVerifyScreenYesButton(R.string.lbl_setup_verifyscreen_yesbutton)
-                    .setSetUpVerifyScreenNoButton(R.string.lbl_setup_verifyscreen_nobutton)
-                    .build();
-        }
+    public void updateNavigationColor(NavigationColor navigationColor) {
+        this.navigationColor = navigationColor;
     }
 
-    private void updateCurrentContent(String currentContent) {
-        try {
-            Configuration config = new Configuration(getResources().getConfiguration());
-            config.setLocale(new Locale(currentContent));
-            getResources().getConfiguration().updateFrom(config);
-        } catch (Exception e) {
-            Log.e(EWSDemoActivity.class.getName(), e.toString());
-        }
+    public void updateAccentColor(AccentRange accentColorRange) {
+        this.accentColorRange = accentColorRange;
     }
 
-    private boolean isDefaultValueSelected(){
-        if (configSpinner.getSelectedItem().equals(DEFAULT)){
-            return true;
-        }
-        return false;
+    @SuppressLint("CommitPrefEdits")
+    private void saveThemeValues(final String key, final String name) {
+        final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
+        edit.putString(key, name);
+        edit.commit();
     }
 
-    private AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            switch (position){
-                case 1:
-                    updateCurrentContent(WAKEUP_LIGHT);
-                    break;
-                case 2:
-                    updateCurrentContent(AIRPURIFIER);
-                    break;
-                case 0:
-                default:
-                    updateCurrentContent("");
-                    break;
-            }
-        }
+    public void saveThemeSettings() {
+        saveThemeValues(UIDHelper.COLOR_RANGE, colorRange.name());
+        saveThemeValues(UIDHelper.NAVIGATION_RANGE, navigationColor.name());
+        saveThemeValues(UIDHelper.CONTENT_TONAL_RANGE, contentColor.name());
+        saveThemeValues(UIDHelper.ACCENT_RANGE, accentColorRange.name());
+    }
 
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-            // do nothing
-        }
-    };
+    private void updateColorFromPref() {
+        final ThemeHelper themeHelper = new ThemeHelper(defaultSharedPreferences, this);
+        colorRange = themeHelper.initColorRange();
+        navigationColor = themeHelper.initNavigationRange();
+        contentColor = themeHelper.initContentTonalRange();
+        accentColorRange = themeHelper.initAccentRange();
+    }
 
-    @NonNull
-    private TroubleShootContentConfiguration createTroubleShootingConfiguration(){
-        return new TroubleShootContentConfiguration.Builder()
-                .setResetConnectionTitle(R.string.label_ews_support_reset_connection_title)
-                .setResetConnectionBody(R.string.label_ews_support_reset_connection_body)
-                .setResetConnectionImage(R.drawable.ic_ews_enable_ap_mode)
+    public ThemeConfiguration getThemeConfig() {
+        updateColorFromPref();
+        return new ThemeConfiguration(this, colorRange, navigationColor, contentColor, accentColorRange);
+    }
 
-                .setResetDeviceTitle(R.string.label_ews_support_reset_device_title)
-                .setResetDeviceBody(R.string.label_ews_support_reset_device_body)
-                .setResetDeviceImage(R.drawable.ic_ews_enable_ap_mode)
-
-                .setSetUpAccessPointTitle(R.string.label_ews_setup_access_point_mode_title)
-                .setSetUpAccessPointBody(R.string.label_ews_setup_access_point_mode_body)
-                .setSetUpAccessPointImage(R.drawable.ic_ews_enable_ap_mode)
-
-                .setConnectWrongPhoneTitle(R.string.label_ews_connect_to_wrongphone_title)
-                .setConnectWrongPhoneBody(R.string.label_ews_connect_to_wrongphone_body)
-                .setConnectWrongPhoneImage(R.drawable.ic_ews_enable_ap_mode)
-                .setConnectWrongPhoneQuestion(R.string.label_ews_connect_to_wrongphone_question)
-                .build();
+    public void openThemeScreen() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, new ThemeSettingsFragment()).commit();
     }
 }

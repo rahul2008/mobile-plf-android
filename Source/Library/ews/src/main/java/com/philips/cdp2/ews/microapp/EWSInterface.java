@@ -16,9 +16,10 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 @SuppressWarnings("WeakerAccess")
-public class EWSInterface implements UappInterface {
+public abstract class EWSInterface implements UappInterface {
 
     public static final String ERROR_MSG_UNSUPPORTED_LAUNCHER_TYPE = "EWS does not support FragmentLauncher at present. Please use ActivityLauncher approach";
     public static final String ERROR_MSG_INVALID_CALL = "Please call \"init\" method, before calling launching ews with valid params";
@@ -30,6 +31,7 @@ public class EWSInterface implements UappInterface {
 
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
+        EWSDependencyProvider.getInstance().applyTheme(getTheme());
         EWSDependencies ewsDependencies = (EWSDependencies) uappDependencies;
         EWSDependencyProvider.getInstance().initDependencies(uappDependencies.getAppInfra(), ewsDependencies.getProductKeyMap());
         context = uappSettings.getContext();
@@ -53,4 +55,8 @@ public class EWSInterface implements UappInterface {
 
         context.startActivity(intent);
     }
+
+    public abstract ThemeConfiguration getTheme() ;
+
+
 }

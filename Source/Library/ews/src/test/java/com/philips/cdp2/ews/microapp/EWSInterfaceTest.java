@@ -12,6 +12,7 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -71,7 +72,12 @@ public class EWSInterfaceTest {
         PowerMockito.mock(EWSDependencyProvider.class);
         PowerMockito.mock(EWSCallbackNotifier.class);
 
-        ewsInterface = new EWSInterface();
+        ewsInterface = new EWSInterface() {
+            @Override
+            public ThemeConfiguration getTheme() {
+                return null;
+            }
+        };
         productKeyMap = new HashMap<>();
         productKeyMap.put(EWSInterface.PRODUCT_NAME, "product");
     }

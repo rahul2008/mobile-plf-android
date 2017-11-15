@@ -9,10 +9,11 @@ import android.support.annotation.NonNull;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import java.util.Map;
 
-public class EWSDependencyProvider {
+public class EWSDependencyProvider implements EWSThemeInterface{
 
     private static EWSDependencyProvider instance;
 
@@ -20,6 +21,7 @@ public class EWSDependencyProvider {
     private static AppTaggingInterface appTaggingInterface;
     private AppInfraInterface appInfraInterface;
     private Map<String, String> productKeyMap;
+    private ThemeConfiguration themeConfiguration;
 
     private EWSDependencyProvider() {
     }
@@ -81,5 +83,14 @@ public class EWSDependencyProvider {
         appInfraInterface = null;
         productKeyMap = null;
         instance = null;
+    }
+
+    @Override
+    public void applyTheme(ThemeConfiguration themeConfiguration) {
+        this.themeConfiguration = themeConfiguration;
+    }
+
+    public ThemeConfiguration getThemeConfiguration() {
+        return themeConfiguration;
     }
 }

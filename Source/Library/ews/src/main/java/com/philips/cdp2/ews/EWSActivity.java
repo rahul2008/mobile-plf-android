@@ -133,7 +133,7 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements ActionB
     }
 
     private void setUpToolBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.ews_toolbar);
+        Toolbar toolbar = findViewById(R.id.ews_toolbar);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

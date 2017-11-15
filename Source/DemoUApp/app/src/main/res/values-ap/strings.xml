@@ -28,5 +28,8 @@
     <string name="label_ews_connect_to_wrongphone_title">Accidently connect with wrong phone?</string>
     <string name="label_ews_connect_to_wrongphone_body">If your device has been connected to another phone by accident, then you can control the AirPurifier with that phone.</string>
     <string name="label_ews_connect_to_wrongphone_question">Do you see this screen?</string>
+    <string name="ews">EWS !</string>
+    <string name="select_configuration">Select Configuration:</string>
+    <string name="change_theme">Change Theme</string>
 
 </resources>
