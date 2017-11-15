@@ -135,10 +135,10 @@ public class THSConstants {
     public static final String THS_SCHEDULE_APPOINTMENT_CONFIRMED = "TH_03_06b Appointment confirmed";
 
     public static final String ON_BOARDING_START = "TH_99_00 Onboarding";
-    public static final String ONBOARDING_PAGE_1 = "TH_99_01 Onboarding";
-    public static final String ONBOARDING_PAGE_2 = "TH_99_02 Onboarding";
-    public static final String ONBOARDING_PAGE_3 = "TH_99_03 Onboarding";
-    public static final String ONBOARDING_PAGE_4 = "TH_99_04 Onboarding";
+    public static final String ON_BOARDING_PAGE_1 = "TH_99_01 Onboarding";
+    public static final String ON_BOARDING_PAGE_2 = "TH_99_02 Onboarding";
+    public static final String ON_BOARDING_PAGE_3 = "TH_99_03 Onboarding";
+    public static final String ON_BOARDING_PAGE_4 = "TH_99_04 Onboarding";
 
 
     // end of tags

@@ -8,11 +8,18 @@ class OnBoardingTourContentModel {
     private int tourBackgroundDrawable;
     private List<OnBoardingSpanValue> spanValues;
 
+    public String getPageTitle() {
+        return pageTitle;
+    }
 
-    OnBoardingTourContentModel(int tourPageTextId, int tourBackgroundDrawable, List<OnBoardingSpanValue> spanValues) {
+    private final String pageTitle;
+
+
+    OnBoardingTourContentModel(int tourPageTextId, int tourBackgroundDrawable, List<OnBoardingSpanValue> spanValues, String pageTitle) {
         this.tourPageTextId = tourPageTextId;
         this.tourBackgroundDrawable = tourBackgroundDrawable;
         this.spanValues = spanValues;
+        this.pageTitle = pageTitle;
     }
 
     List<OnBoardingSpanValue> getSpanValues() {

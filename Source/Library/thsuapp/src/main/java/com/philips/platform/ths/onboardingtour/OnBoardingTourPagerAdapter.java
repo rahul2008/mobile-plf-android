@@ -50,7 +50,7 @@ class OnBoardingTourPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public CharSequence getPageTitle(int position) {
-        return context.getString(R.string.ths_welcome);
+    public String getPageTitle(int position) {
+        return onBoardingTourContentModelList.get(position).getPageTitle();
     }
 }
