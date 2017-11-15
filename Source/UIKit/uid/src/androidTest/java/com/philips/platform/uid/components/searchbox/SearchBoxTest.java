@@ -26,6 +26,7 @@ import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.test.BuildConfig;
 import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDResources;
@@ -57,7 +58,7 @@ public class SearchBoxTest extends BaseTest {
 
     @Before
     public void setUp() throws Exception {
-        final Intent launchIntent = getLaunchIntent(NavigationColor.BRIGHT.ordinal(), ColorRange.GROUP_BLUE.ordinal());
+        final Intent launchIntent = getLaunchIntent(NavigationColor.BRIGHT.ordinal(), ContentColor.ULTRA_LIGHT.ordinal(), ColorRange.BLUE.ordinal());
         activity = testRule.launchActivity(launchIntent);
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_searchbox);
         IdlingResource idlingResource = activity.getIdlingResource();

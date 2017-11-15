@@ -35,6 +35,7 @@ import java.util.Locale;
 public class BaseTestActivity extends UIDActivity implements DelayerCallback {
     public static final String CONTENT_COLOR_KEY = "ContentColor";
     public static final String NAVIGATION_COLOR_KEY = "NavigationColor";
+    public static final String COLOR_RANGE_KEY = "ColorRange";
 
     private Toolbar toolbar;
     private SideBar sideBar;
@@ -66,24 +67,26 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         int navigationColor = NavigationColor.BRIGHT.ordinal();
-        int contentColor = 0;
+        int contentColor = ContentColor.ULTRA_LIGHT.ordinal();
+        int colorRange = ColorRange.GROUP_BLUE.ordinal();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (getIntent() != null && getIntent().getExtras() != null) {
             final Bundle extras = getIntent().getExtras();
             navigationColor = extras.getInt(NAVIGATION_COLOR_KEY, 1);
             contentColor = extras.getInt(CONTENT_COLOR_KEY, 0);
+            colorRange = extras.getInt(COLOR_RANGE_KEY, 0);
         }
 
-        setTheme(getThemeResourceId(ContentColor.values()[contentColor], ColorRange.GROUP_BLUE));
+        setTheme(getThemeResourceId(ContentColor.values()[contentColor], ColorRange.values()[colorRange]));
         UIDHelper.injectCalligraphyFonts();
         UIDLocaleHelper.getInstance().setFilePath(getCatalogAppJSONAssetPath());
-        UIDHelper.init(getThemeConfig(navigationColor, contentColor));
+        UIDHelper.init(getThemeConfig(navigationColor, contentColor, colorRange));
 
         super.onCreate(savedInstanceState);
     }
 
-    private ThemeConfiguration getThemeConfig(final int navigationColor, final int contentColor) {
-        return new ThemeConfiguration(this, ContentColor.values()[contentColor], NavigationColor.values()[navigationColor], AccentRange.PURPLE);
+    private ThemeConfiguration getThemeConfig(final int navigationColor, final int contentColor, final int colorRange) {
+        return new ThemeConfiguration(this, ColorRange.values()[colorRange], ContentColor.values()[contentColor], NavigationColor.values()[navigationColor], AccentRange.PURPLE);
     }
 
     public void switchTo(final int layout) {

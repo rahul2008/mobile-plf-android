@@ -11,6 +11,7 @@ import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.InputValidationMatcher;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
@@ -31,7 +32,7 @@ public class InputValidationLayoutTest extends BaseTest {
 
     @Before
     public void setUp() throws Exception {
-        final Intent launchIntent = getLaunchIntent(NavigationColor.BRIGHT.ordinal(), ColorRange.GROUP_BLUE.ordinal());
+        final Intent launchIntent = getLaunchIntent(NavigationColor.BRIGHT.ordinal(), ContentColor.ULTRA_LIGHT.ordinal(),ColorRange.AQUA.ordinal());
         activity = testRule.launchActivity(launchIntent);
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_validation_text);
         resources = activity.getResources();

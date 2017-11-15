@@ -17,6 +17,7 @@ import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
+import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.TestConstants;
@@ -44,7 +45,7 @@ public class ToggleSwitchTest extends BaseTest {
 
     @Before
     public void setUp() {
-        final BaseTestActivity activity = mActivityTestRule.launchActivity(getLaunchIntent(NavigationColor.ULTRA_LIGHT.ordinal(), ContentColor.VERY_DARK.ordinal()));
+        final BaseTestActivity activity = mActivityTestRule.launchActivity(getLaunchIntent(NavigationColor.ULTRA_LIGHT.ordinal(), ContentColor.ULTRA_LIGHT.ordinal(), ColorRange.PINK.ordinal()));
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_toggle_switch);
         resources = getInstrumentation().getContext().getResources();
         context = activity;
