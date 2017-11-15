@@ -385,6 +385,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
 
             RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                     onPrivacyPolicyClick(getRegistrationFragment().getParentActivity());
+        }else {
+            RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
         }
 
     }
@@ -542,6 +544,8 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
         if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
             RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                     onUserRegistrationComplete(getRegistrationFragment().getParentActivity());
+        }else {
+            RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
         }
     }
 

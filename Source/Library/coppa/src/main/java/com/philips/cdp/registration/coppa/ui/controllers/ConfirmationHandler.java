@@ -133,6 +133,8 @@ public class ConfirmationHandler implements RefreshUserHandler {
                                             getUserRegistrationUIEventListener().
                                             onUserRegistrationComplete(
                                                     mParentalConsentFragment.getActivity());
+                                }else {
+                                    RegUtility.showErrorMessage(mParentalConsentFragment.getActivity());
                                 }
                                 AppTagging.trackAction(AppTagingConstants.SEND_DATA,
                                         AppCoppaTaggingConstants.SECOND_LEVEL_CONSENT, "Yes");
@@ -189,6 +191,8 @@ public class ConfirmationHandler implements RefreshUserHandler {
                         getUserRegistrationUIEventListener().
                         onUserRegistrationComplete(
                                 mParentalConsentFragment.getActivity());
+            }else {
+                RegUtility.showErrorMessage(mParentalConsentFragment.getActivity());
             }
         }
     }

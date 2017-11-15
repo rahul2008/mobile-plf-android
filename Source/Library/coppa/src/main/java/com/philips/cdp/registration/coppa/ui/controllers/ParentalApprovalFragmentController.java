@@ -58,6 +58,8 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
             if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
                 RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                         onUserRegistrationComplete( mParentalApprovalFragment.getActivity());
+            }else {
+                RegUtility.showErrorMessage(mParentalApprovalFragment.getActivity());
             }
         }
     };
@@ -209,6 +211,8 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
                         getUserRegistrationUIEventListener() != null) {
                     RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                             onUserRegistrationComplete( mParentalApprovalFragment.getActivity());
+                }else {
+                    RegUtility.showErrorMessage(mParentalApprovalFragment.getActivity());
                 }
             }
         }
@@ -256,6 +260,8 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler,
                         getUserRegistrationUIEventListener() != null) {
                     RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                             onUserRegistrationComplete( mParentalApprovalFragment.getActivity());
+                }else {
+                    RegUtility.showErrorMessage(mParentalApprovalFragment.getActivity());
                 }
             }
         }

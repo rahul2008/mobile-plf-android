@@ -42,6 +42,7 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.dhpclient.BuildConfig;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -121,6 +122,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworkStateL
             if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
                 RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                         onPrivacyPolicyClick(activity);
+            }else {
+                RegUtility.showErrorMessage(activity);
             }
         }
 
@@ -129,6 +132,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworkStateL
             if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
                 RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                         onTermsAndConditionClick(activity);
+            }else {
+                RegUtility.showErrorMessage(activity);
             }
         }
     };
@@ -267,6 +272,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworkStateL
                 if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
                     RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                             onUserRegistrationComplete(getParentActivity());
+                }else {
+                    RegUtility.showErrorMessage(getParentActivity());
                 }
             } else {
                 addParentalApprovalFragmentonLaunch();

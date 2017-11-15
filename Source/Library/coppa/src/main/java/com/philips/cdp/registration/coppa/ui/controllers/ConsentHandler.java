@@ -118,6 +118,8 @@ public class ConsentHandler implements RefreshUserHandler {
                                             getUserRegistrationUIEventListener().
                                             onUserRegistrationComplete(mParentalApprovalFragment.
                                                     getActivity());
+                                }else {
+                                    RegUtility.showErrorMessage(mParentalApprovalFragment.getActivity());
                                 }
                                 AppTagging.trackAction(AppTagingConstants.SEND_DATA,
                                         AppCoppaTaggingConstants.FIRST_LEVEL_CONSENT, "Yes");
@@ -186,6 +188,8 @@ public class ConsentHandler implements RefreshUserHandler {
             if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
                 RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                         onUserRegistrationComplete(mParentalApprovalFragment.getActivity());
+            }else {
+                RegUtility.showErrorMessage(mParentalApprovalFragment.getActivity());
             }
         }
     }
@@ -198,6 +202,8 @@ public class ConsentHandler implements RefreshUserHandler {
             if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
                 RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                         onUserRegistrationComplete(mParentalApprovalFragment.getActivity());
+            }else {
+                RegUtility.showErrorMessage(mParentalApprovalFragment.getActivity());
             }
         }
     }

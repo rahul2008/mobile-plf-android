@@ -43,8 +43,15 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
     private ClickableSpan privacyLinkClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
-                    onPrivacyPolicyClick(getActivity());
+
+            if(RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener()!=null){
+
+                RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
+                        onPrivacyPolicyClick(getActivity());
+            }else{
+                RegUtility.showErrorMessage(getActivity());
+            }
+
         }
     };
 
@@ -166,6 +173,8 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
             if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
                 RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                         onUserRegistrationComplete(getActivity());
+            }else {
+                RegUtility.showErrorMessage(getActivity());
             }
         }
     }
