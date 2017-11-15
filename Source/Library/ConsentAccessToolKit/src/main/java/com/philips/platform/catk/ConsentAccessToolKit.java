@@ -7,10 +7,8 @@
 
 package com.philips.platform.catk;
 
-import android.os.Message;
 import android.util.Log;
 
-import com.janrain.android.utils.StringUtils;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.catk.dto.CreateConsentModelRequest;
@@ -28,8 +26,6 @@ import com.philips.platform.catk.network.NetworkHelper;
 import com.philips.platform.catk.response.ConsentStatus;
 import com.philips.platform.catk.utils.CatkLogger;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -90,15 +86,8 @@ public class ConsentAccessToolKit {
     public void getConsentDetails(final ConsentResponseListener consentListener) {
         GetConsentsModelRequest model = new GetConsentsModelRequest(URL, applicationName, propositionName, new NetworkAbstractModel.DataLoadListener() {
             @Override
-            public void onModelDataLoadFinished(Message msg) {
-                ArrayList<GetConsentsModel> consentModels;
-                if (StringUtils.trim(msg.obj.toString()) != "") {
-                    GetConsentsModel[] modelResults = (GetConsentsModel[]) msg.obj;
-                    consentModels = new ArrayList<>(Arrays.asList(modelResults));
-                } else {
-                    consentModels = new ArrayList<>();
-                }
-                consentListener.onResponseSuccessConsent(consentModels);
+            public void onModelDataLoadFinished(List<GetConsentsModel> consents) {
+                consentListener.onResponseSuccessConsent(consents);
             }
 
             @Override
@@ -124,8 +113,8 @@ public class ConsentAccessToolKit {
                 CreateConsentModelRequest model = new CreateConsentModelRequest(URL, applicationName, String.valueOf(consentStatus), propositionName, locale,
                         new NetworkAbstractModel.DataLoadListener() {
                             @Override
-                            public void onModelDataLoadFinished(Message msg) {
-                                if (msg.arg1 == 0) {
+                            public void onModelDataLoadFinished(List<GetConsentsModel> consents) {
+                                if (consents == null) {
                                     consentListener.onSuccess(CatkConstants.CONSENT_SUCCESS);
                                 }
                             }
