@@ -11,7 +11,7 @@
     <string name="lbl_setup_screen_body">Put the power wire in the power socket. You will see the time on your screen.</string>
 
     <string name="lbl_setup_verifyscreen_title">3. Is the device in setup-mode?</string>
-    <string name="lbl_setup_verifyscreen_body">1) Press the Home button\n 2) Press the Gear button\n 3) Long press the Wi-Fi button\n Is the Wi-Fi light blinking?</string>
+    <string name="lbl_setup_verifyscreen_body">1) Press the Home button\n2) Press the Gear button\n3) Long press the Wi-Fi button\n\nIs the Wi-Fi light blinking?</string>
     <string name="lbl_setup_verifyscreen_yesbutton">Yes, Wi-Fi is blinking</string>
     <string name="lbl_setup_verifyscreen_nobutton">No, Wi-Fi is not blinking</string>
 

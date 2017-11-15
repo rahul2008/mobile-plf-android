@@ -6,6 +6,7 @@ package com.philips.cdp2.ews.setupsteps;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.StringProvider;
@@ -35,11 +36,13 @@ public class FirstSetupStepsViewModelTest {
 
     @Mock private BaseContentConfiguration mockBaseContentConfiguration;
 
+    @Mock private HappyFlowContentConfiguration mockHappyFlowConfiguration;
+
     @Before
     public void setUp() throws Exception {
         mockStatic(EWSTagger.class);
         initMocks(this);
-        subject = new FirstSetupStepsViewModel(mockNavigator, mockStringProvider, mockBaseContentConfiguration);
+        subject = new FirstSetupStepsViewModel(mockNavigator, mockStringProvider, mockBaseContentConfiguration, mockHappyFlowConfiguration);
     }
 
     @Test
@@ -51,12 +54,21 @@ public class FirstSetupStepsViewModelTest {
     @Test
     public void itShouldVerifyGetBody() throws Exception{
         when(mockBaseContentConfiguration.getDeviceName()).thenReturn(2131362066);
-        subject.getBody(mockBaseContentConfiguration);
-        verify(mockStringProvider).getString(R.string.label_ews_plug_in_body_default, mockBaseContentConfiguration.getDeviceName());
+        when(mockHappyFlowConfiguration.getSetUpScreenBody()).thenReturn(R.string.label_ews_plug_in_body_default);
+        subject.getBody(mockBaseContentConfiguration,mockHappyFlowConfiguration);
+        verify(mockStringProvider).getString(mockHappyFlowConfiguration.getSetUpScreenBody(), mockBaseContentConfiguration.getDeviceName());
     }
 
     @Test
-    public void itShouldVerifyTaggerTrackPageCalledWithCorrectTag() throws Exception{
+    public void itShouldVerifyTitleText() throws Exception {
+        when(mockBaseContentConfiguration.getDeviceName()).thenReturn(2131362066);
+        when(mockHappyFlowConfiguration.getSetUpScreenTitle()).thenReturn(R.string.label_ews_plug_in_title_default);
+        subject.getTitle(mockHappyFlowConfiguration);
+        verify(mockStringProvider).getString(mockHappyFlowConfiguration.getSetUpScreenTitle());
+    }
+
+    @Test
+    public void itShouldVerifyTaggerTrackPageCalledWithCorrectTag() throws Exception {
         subject.trackPageName();
         verifyStatic();
         EWSTagger.trackPage("setupStep1");
