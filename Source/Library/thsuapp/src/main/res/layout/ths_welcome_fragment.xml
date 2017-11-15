@@ -10,11 +10,18 @@
         android:layout_height="wrap_content">
 
         <include
+            android:id="@+id/customer_support"
+            layout="@layout/ths_customer_support"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeight"
+            android:layout_alignParentBottom="true" />
+
+        <include
             android:id="@+id/how_it_works"
             layout="@layout/how_it_works_layout"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/listPreferredItemHeight"
-            android:layout_alignParentBottom="true" />
+            android:layout_above="@id/customer_support" />
 
         <include
             android:id="@+id/visit_history"

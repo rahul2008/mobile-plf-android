@@ -197,6 +197,13 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_appointments">Appointments</string>
     <string name="ths_visit_history">Visit history</string>
     <string name="ths_how_it_works">How it works</string>
+    <string name="ths_customer_support">Customer support</string>
+    <string name="ths_customer_support_can_we_help_you_with_something">Can we help you with something?</string>
+    <string name="ths_customer_support_call_or_mail">If you need any assistance you can call or mail the amwell support team.</string>
+    <string name="ths_customer_support_for_support">For support:</string>
+    <string name="ths_customer_support_phone_number">800-552-4111</string>
+    <string name="ths_customer_support_mail">ugrow.support@americanwell.com</string>
+
     <string name="ths_welcome">Welcome</string>
     <string name="ths_welcome_back">Welcome back</string>
     <string name="ths_refresh_signon_failed">Refresh Signon failed. Please logout and login again</string>
