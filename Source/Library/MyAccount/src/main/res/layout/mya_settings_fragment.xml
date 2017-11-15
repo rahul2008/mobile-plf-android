@@ -105,6 +105,7 @@
         style="@style/UIDLabel.Header"
         android:text="@string/MYA_visit_website"/>
     <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/philips_website"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/MYA_start_margin"
