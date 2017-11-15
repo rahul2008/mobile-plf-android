@@ -7,7 +7,7 @@
 
 package com.philips.platform.catk.mapper;
 
-import com.philips.platform.catk.dto.GetConsentsModel;
+import com.philips.platform.catk.dto.GetConsentDto;
 import com.philips.platform.catk.model.Consent;
 
 import java.util.Locale;
@@ -19,7 +19,7 @@ public class DtoToConsentMapper {
     private static int IDX_LANGUAGE = 0;
     private static int IDX_COUNTRY = 1;
 
-    public static Consent map(GetConsentsModel consentDto) {
+    public static Consent map(GetConsentDto consentDto) {
         String[] policyParts = parsePolicyUrn(consentDto.getPolicyRule());
         return new Consent(getLocale(consentDto.getLanguage()), consentDto.getStatus(), policyParts[IDX_TYPE], Integer.parseInt(policyParts[IDX_VERSION]));
     }

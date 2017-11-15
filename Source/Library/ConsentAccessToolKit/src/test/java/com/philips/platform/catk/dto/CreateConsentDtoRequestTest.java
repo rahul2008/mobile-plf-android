@@ -12,7 +12,6 @@ import com.google.gson.JsonArray;
 import com.philips.cdp.registration.User;
 import com.philips.platform.catk.ConsentAccessToolKitManipulator;
 import com.philips.platform.catk.injection.CatkComponent;
-import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkController;
@@ -23,14 +22,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.configuration.MockitoConfiguration;
 
-import java.util.Locale;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
-public class CreateConsentModelRequestTest extends MockitoConfiguration {
+public class CreateConsentDtoRequestTest extends MockitoConfiguration {
 
     private CreateConsentModelRequest consentModelRequest;
 
@@ -51,7 +48,7 @@ public class CreateConsentModelRequestTest extends MockitoConfiguration {
         when(mockUser.getHsdpAccessToken()).thenReturn("x73ywf56h46h5p25");
         when(mockUser.getHsdpUUID()).thenReturn(SUBJECT);
         String policyRule = buildPolicyRule("moment", 1, "IN", PROPOSITION_NAME, APPLICATION_NAME);
-        CreateConsentModel consent = new CreateConsentModel("af-ZA", policyRule, "Consent", ConsentStatus.active.name(), "17f7ce85-403c-4824-a17f-3b551f325ce0");
+        CreateConsentDto consent = new CreateConsentDto("af-ZA", policyRule, "Consent", ConsentStatus.active.name(), "17f7ce85-403c-4824-a17f-3b551f325ce0");
         consentModelRequest = new CreateConsentModelRequest(URL, consent, mockDataLoadListener);
     }
 

@@ -11,7 +11,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.philips.platform.catk.model.ConsentStatus;
 
-public class GetConsentsModel {
+public class GetConsentDto {
 
     @SerializedName("dateTime")
     @Expose
@@ -33,10 +33,10 @@ public class GetConsentsModel {
     @Expose
     private String subject;
 
-    public GetConsentsModel() {
+    public GetConsentDto() {
     }
     
-    public GetConsentsModel(String dateTime, String language, String policyRule, String resourceType, ConsentStatus status, String subject) {
+    public GetConsentDto(String dateTime, String language, String policyRule, String resourceType, ConsentStatus status, String subject) {
         this.dateTime = dateTime;
         this.language = language;
         this.policyRule = policyRule;
@@ -96,9 +96,9 @@ public class GetConsentsModel {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof GetConsentsModel)) return false;
+        if (!(o instanceof GetConsentDto)) return false;
 
-        GetConsentsModel that = (GetConsentsModel) o;
+        GetConsentDto that = (GetConsentDto) o;
 
         if (dateTime != null ? !dateTime.equals(that.dateTime) : that.dateTime != null)
             return false;

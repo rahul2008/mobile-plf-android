@@ -17,16 +17,16 @@ import java.util.List;
 public class CreateConsentModelRequest extends NetworkAbstractModel {
 
     private String url;
-    CreateConsentModel dto;
+    CreateConsentDto dto;
 
-    public CreateConsentModelRequest(String url, CreateConsentModel dto, DataLoadListener dataLoadListener) {
+    public CreateConsentModelRequest(String url, CreateConsentDto dto, DataLoadListener dataLoadListener) {
         super(dataLoadListener);
         this.url = url;
         this.dto = dto;
     }
 
     @Override
-    public List<GetConsentsModel> parseResponse(JsonArray response) {
+    public List<GetConsentDto> parseResponse(JsonArray response) {
         return null;
     }
 

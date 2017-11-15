@@ -30,11 +30,11 @@ public class GetConsentsModelRequest extends NetworkAbstractModel {
     }
 
     @Override
-    public List<GetConsentsModel> parseResponse(JsonArray response) {
-        List<GetConsentsModel> consents = new ArrayList<>();
+    public List<GetConsentDto> parseResponse(JsonArray response) {
+        List<GetConsentDto> consents = new ArrayList<>();
         if (response != null && response.size() > 0) {
-            GetConsentsModel[] modelResults = new Gson().fromJson(response, GetConsentsModel[].class);
-            for (GetConsentsModel modelResult : modelResults) {
+            GetConsentDto[] modelResults = new Gson().fromJson(response, GetConsentDto[].class);
+            for (GetConsentDto modelResult : modelResults) {
                 consents.add(modelResult);
             }
         }

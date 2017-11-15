@@ -10,7 +10,7 @@ package com.philips.platform.catk.dto;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CreateConsentModel {
+public class CreateConsentDto {
 
     @SerializedName("resourceType")
     @Expose
@@ -28,10 +28,10 @@ public class CreateConsentModel {
     @Expose
     private String policyRule;
 
-    public CreateConsentModel() {
+    public CreateConsentDto() {
     }
 
-    public CreateConsentModel(String language, String policyRule, String resourceType, String status, String subject) {
+    public CreateConsentDto(String language, String policyRule, String resourceType, String status, String subject) {
         this.resourceType = resourceType;
         this.language = language;
         this.status = status;

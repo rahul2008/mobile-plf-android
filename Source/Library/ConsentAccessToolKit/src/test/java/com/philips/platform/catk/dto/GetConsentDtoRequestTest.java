@@ -13,7 +13,6 @@ import com.google.gson.JsonObject;
 import com.philips.cdp.registration.User;
 import com.philips.platform.catk.ConsentAccessToolKitManipulator;
 import com.philips.platform.catk.injection.CatkComponent;
-import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkController;
@@ -31,7 +30,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-public class GetConsentsModelRequestTest extends MockitoConfiguration {
+public class GetConsentDtoRequestTest extends MockitoConfiguration {
 
     private GetConsentsModelRequest consentModelRequest;
 
@@ -113,5 +112,5 @@ public class GetConsentsModelRequestTest extends MockitoConfiguration {
     private final String status = "active";
     private final String subject = "17f7ce85-403c-4824-a17f-3b551f325ce0";
     private final String resourceType = "Consent";
-    private GetConsentsModel[] expectedConsentModelRequest = new GetConsentsModel[]{new GetConsentsModel(dateTime, "en-GB", policyRule, resourceType, ConsentStatus.valueOf(status), subject)};
+    private GetConsentDto[] expectedConsentModelRequest = new GetConsentDto[]{new GetConsentDto(dateTime, "en-GB", policyRule, resourceType, ConsentStatus.valueOf(status), subject)};
 }

@@ -7,12 +7,9 @@
 
 package com.philips.platform.catk;
 
-import android.util.Log;
-
 import com.philips.cdp.registration.User;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.catk.dto.CreateConsentModelRequest;
-import com.philips.platform.catk.dto.GetConsentsModel;
+import com.philips.platform.catk.dto.GetConsentDto;
 import com.philips.platform.catk.dto.GetConsentsModelRequest;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.injection.CatkComponent;
@@ -24,7 +21,6 @@ import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.mapper.ConsentToDtoMapper;
 import com.philips.platform.catk.mapper.DtoToConsentMapper;
 import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkHelper;
 import com.philips.platform.catk.utils.CatkLogger;
@@ -90,10 +86,10 @@ public class ConsentAccessToolKit {
     public void getConsentDetails(final ConsentResponseListener consentListener) {
         GetConsentsModelRequest model = new GetConsentsModelRequest(URL, applicationName, propositionName, new NetworkAbstractModel.DataLoadListener() {
             @Override
-            public void onModelDataLoadFinished(List<GetConsentsModel> dtos) {
+            public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
                 List<Consent> consents = new ArrayList<>();
                 DtoToConsentMapper mapper = new DtoToConsentMapper();
-                for (GetConsentsModel dto: dtos) {
+                for (GetConsentDto dto: dtos) {
                     consents.add(mapper.map(dto));
                 }
                 consentListener.onResponseSuccessConsent(consents);
@@ -111,7 +107,7 @@ public class ConsentAccessToolKit {
         ConsentToDtoMapper mapper = new ConsentToDtoMapper(catkComponent.getUser().getHsdpUUID(), catkComponent.getUser().getCountryCode(), propositionName, applicationName);
         CreateConsentModelRequest model = new CreateConsentModelRequest(URL, mapper.map(consent), new NetworkAbstractModel.DataLoadListener() {
                     @Override
-                    public void onModelDataLoadFinished(List<GetConsentsModel> dtos) {
+                    public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
                         if (dtos == null) {
                             consentListener.onSuccess(CatkConstants.CONSENT_SUCCESS);
                         }

@@ -7,7 +7,7 @@
 
 package com.philips.platform.catk.mapper;
 
-import com.philips.platform.catk.dto.GetConsentsModel;
+import com.philips.platform.catk.dto.GetConsentDto;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentStatus;
 
@@ -21,13 +21,13 @@ import static org.junit.Assert.assertEquals;
 public class DtoToConsentMapperTest {
     private Consent result;
     private DtoToConsentMapper givenMapper;
-    private GetConsentsModel givenGetDto;
-    private GetConsentsModel getActiveFromIndiaTypeMomentLocaleEnUsDto;
+    private GetConsentDto givenGetDto;
+    private GetConsentDto getActiveFromIndiaTypeMomentLocaleEnUsDto;
 
     @Before
     public void setUp() throws Exception {
         givenMapper = new DtoToConsentMapper();
-        getActiveFromIndiaTypeMomentLocaleEnUsDto = new GetConsentsModel("2017-10-02", "en-US", "urn:com.philips.consent:moment/IN/1/someProposition/someApplication", "Consent", ConsentStatus.active, "someSubjectId");
+        getActiveFromIndiaTypeMomentLocaleEnUsDto = new GetConsentDto("2017-10-02", "en-US", "urn:com.philips.consent:moment/IN/1/someProposition/someApplication", "Consent", ConsentStatus.active, "someSubjectId");
     }
 
     @Test
@@ -38,7 +38,7 @@ public class DtoToConsentMapperTest {
         thenLocaleStringIs("en_US");
     }
 
-    private void givenDto(GetConsentsModel getDto) {
+    private void givenDto(GetConsentDto getDto) {
         this.givenGetDto = getDto;
     }
 
