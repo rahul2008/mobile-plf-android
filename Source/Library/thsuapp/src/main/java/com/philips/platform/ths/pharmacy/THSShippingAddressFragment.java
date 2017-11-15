@@ -14,10 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.Country;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
@@ -38,13 +40,14 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
     private THSConsumerWrapper thsConsumerWrapper;
     private Address address;
     private EditText addressLineOne, addressLineTwo, postalCode, town;
-    private Button updateAddressButton;
-    private THSShippingAddressPresenter thsShippingAddressPresenter;
+    protected Button updateAddressButton;
+    protected THSShippingAddressPresenter thsShippingAddressPresenter;
     private AppCompatSpinner spinner;
     private THSSpinnerAdapter spinnerAdapter;
     private List<State> stateList = null;
     private ActionBarListener actionBarListener;
     private InputValidationLayout postCodeValidationLayout, addressValidationLayout, cityValidationLayout;
+    List<Country> supportedCountries;
 
     @Nullable
     @Override
@@ -57,7 +60,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
         spinner = (AppCompatSpinner) view.findViewById(R.id.sa_state_spinner);
 
         try {
-            final List<Country> supportedCountries = getSupportedCountries();
+            supportedCountries = getSupportedCountries();
             stateList = getValidShippingStates(supportedCountries);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
@@ -121,14 +124,14 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
         return view;
     }
 
-    private void updateContinueBtnState() {
+    protected void updateContinueBtnState() {
         boolean enableContinueBtn = false;
         enableContinueBtn = thsShippingAddressPresenter.validateZip(postalCode.getText().toString()) && validateString(town.getText().toString()) &&
                 validateString(addressLineOne.getText().toString());
         updateAddressButton.setEnabled(enableContinueBtn);
     }
 
-    private boolean validateString(String s) {
+    protected boolean validateString(String s) {
         if (null == s || s.isEmpty()) {
             addressValidationLayout.setErrorMessage(R.string.ths_address_validation_empty_string);
             cityValidationLayout.setErrorMessage(R.string.ths_address_validation_city_empty_string);
@@ -148,7 +151,13 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
     }
 
     public List<State> getValidShippingStates(List<Country> supportedCountries) throws AWSDKInstantiationException {
-        return THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getConsumerManager().getValidShippingStates(supportedCountries.get(0));
+
+        Country country = supportedCountries.get(0);
+        AWSDK awsdk = THSManager.getInstance().getAwsdk(getContext());
+        ConsumerManager consumerManager = awsdk.getConsumerManager();
+        List<State> validShippingStates = consumerManager.getValidShippingStates(country);
+
+        return validShippingStates;
     }
 
     public void setConsumerAndAddress(THSConsumerWrapper thsConsumerWrapper, Address address) {

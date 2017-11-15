@@ -28,7 +28,7 @@ public class THSVitalsSystolicValidatorTest {
 
     @Test
     public void validateboundryFirstinput() throws Exception {
-        boolean validate = thsVitalsSystolicValidator.validate("0");
+        boolean validate = thsVitalsSystolicValidator.validate("-1");
         assertFalse(validate);
     }
 
