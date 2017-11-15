@@ -18,7 +18,7 @@ import java.util.Date;
 public class THSDatePickerFragmentUtility {
     public static final String TAG = THSDatePickerFragmentUtility.class.getSimpleName();
 
-    private Date date;
+    protected Date date;
     private Calendar calendar;
     private THSBaseFragment mThsBaseFragment;
     private THSDateEnum thsDateEnum;
