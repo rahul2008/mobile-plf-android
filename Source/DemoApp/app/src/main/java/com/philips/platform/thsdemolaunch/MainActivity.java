@@ -232,7 +232,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
 
 
         final THSMicroAppDependencies uappDependencies = new THSMicroAppDependencies(((THSDemoApplication) this.getApplicationContext()).getAppInfra());
-       // uappDependencies.setThsConsumer(thsConsumer);
+        uappDependencies.setThsConsumer(thsConsumer);
         PTHMicroAppInterface.init(uappDependencies, new THSMicroAppSettings(this.getApplicationContext()));
         PTHMicroAppInterface.launch(fragmentLauncher, PTHMicroAppLaunchInput);
 
