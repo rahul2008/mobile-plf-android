@@ -18,6 +18,6 @@ public class THSVitalsSystolicValidator implements InputValidationLayout.Validat
         }
 
         int systolicValue = Integer.parseInt(charSequence.toString());
-        return systolicValue > 0 && systolicValue < 250;
+        return systolicValue >= 0 && systolicValue < 250;
     }
 }
