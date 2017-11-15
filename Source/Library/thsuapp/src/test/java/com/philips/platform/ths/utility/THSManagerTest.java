@@ -57,7 +57,7 @@ import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.THSRegistrationDetailCallback;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
-import com.philips.platform.ths.uappclasses.THSVisitCompletionListener;
+import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
 
 import org.junit.Before;
@@ -100,7 +100,7 @@ public class THSManagerTest {
 
 
     @Mock
-    THSVisitCompletionListener thsVisitCompletionListenerMock;
+    THSCompletionProtocol thsCompletionProtocolMock;
 
     @Mock
     THSProviderInfo THSProviderInfo;
@@ -700,10 +700,10 @@ public class THSManagerTest {
 
     @Test
     public void getTHSVisitCompletionListener(){
-        thsManager.setThsVisitCompletionListener(thsVisitCompletionListenerMock);
-        final THSVisitCompletionListener thsVisitCompletionListener = thsManager.getThsVisitCompletionListener();
-        assertNotNull(thsVisitCompletionListener);
-        assertThat(thsVisitCompletionListener).isInstanceOf(THSVisitCompletionListener.class);
+        thsManager.setThsCompletionProtocol(thsCompletionProtocolMock);
+        final THSCompletionProtocol thsCompletionProtocol = thsManager.getThsCompletionProtocol();
+        assertNotNull(thsCompletionProtocol);
+        assertThat(thsCompletionProtocol).isInstanceOf(THSCompletionProtocol.class);
     }
 
     @Test

@@ -49,7 +49,7 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         if( uappLaunchInput instanceof THSMicroAppLaunchInput){
             THSMicroAppLaunchInput thsMicroAppLaunchInput=(THSMicroAppLaunchInput)uappLaunchInput;
-            THSManager.getInstance().setThsVisitCompletionListener(thsMicroAppLaunchInput.getThsVisitCompletionListener());
+            THSManager.getInstance().setThsCompletionProtocol(thsMicroAppLaunchInput.getThsCompletionProtocol());
         }
         THSManager.getInstance().setAppInfra(appInfra);
         if (uiLauncher instanceof ActivityLauncher) {

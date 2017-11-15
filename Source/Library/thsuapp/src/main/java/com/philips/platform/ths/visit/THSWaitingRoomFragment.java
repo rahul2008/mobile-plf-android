@@ -131,10 +131,9 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
             THSVisitSummaryFragment thsVisitSummaryFragment = new THSVisitSummaryFragment();
             addFragment(thsVisitSummaryFragment, THSVisitSummaryFragment.TAG, bundle, true);
         } else {
-            // video call does completed succesfully so sending back user is
+            // video call does not completed succesfully so sending back user is
             doTaggingUponStopWaiting();
-            THSManager.getInstance().resetTHSManagerData();
-            getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
+            mTHSWaitingRoomPresenter.showVisitUnSuccess(true,true,false);
         }
     }
 

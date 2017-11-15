@@ -13,15 +13,15 @@ public class THSMicroAppLaunchInput extends UappLaunchInput {
 
     private String welcomeMessage;
 
-    public THSVisitCompletionListener getThsVisitCompletionListener() {
-        return thsVisitCompletionListener;
+    public THSCompletionProtocol getThsCompletionProtocol() {
+        return thsCompletionProtocol;
     }
 
-    private final THSVisitCompletionListener thsVisitCompletionListener;
+    private final THSCompletionProtocol thsCompletionProtocol;
 
-    public THSMicroAppLaunchInput(String welcomeMessage, THSVisitCompletionListener thsVisitCompletionListener) {
+    public THSMicroAppLaunchInput(String welcomeMessage, THSCompletionProtocol thsCompletionProtocol) {
         this.welcomeMessage = welcomeMessage;
-        this.thsVisitCompletionListener = thsVisitCompletionListener;
+        this.thsCompletionProtocol = thsCompletionProtocol;
     }
 
     public String getWelcomeMessage() {
