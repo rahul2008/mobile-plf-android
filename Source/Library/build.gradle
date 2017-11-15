@@ -40,7 +40,9 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-version = objcdp.getVersion(versions.mya_myAccount)
+
+version = objcdp.getVersion(versions.ews_ews)
+
 allprojects {
     repositories {
         maven {
@@ -95,6 +97,12 @@ artifactory {
     }
     clientConfig.timeout = 600
     // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+//TODO handle it properly once added in the pipeline
+artifactoryPublish {
+    clientConfig.info.setBuildName("ews-android")
+    clientConfig.info.setBuildNumber(version)
 }
 
 task clean(type: Delete) {
