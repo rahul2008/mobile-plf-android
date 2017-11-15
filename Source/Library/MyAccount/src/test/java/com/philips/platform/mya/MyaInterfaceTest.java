@@ -67,7 +67,7 @@ public class MyaInterfaceTest {
     @Test
     public void launchWithFragmentLauncher_correctFragmentIsReplacedInContainer() {
         givenFragmentLauncher(fragmentActivity, A_SPECIFIC_CONTAINER_ID, actionBarListener);
-        givenLaunchInput("applicationName1", "propositionName");
+        givenLaunchInput();
         whenCallingLaunchWithAddToBackstack();
         thenReplaceWasCalledWith(A_SPECIFIC_CONTAINER_ID, MyaFragment.class, MYAFRAGMENT);
         thenAddToBackStackWasCalled(MYAFRAGMENT);
@@ -78,7 +78,7 @@ public class MyaInterfaceTest {
     @Test
     public void launchWithFragmentLauncher_dontCallAddToBackStackWhenNotDemanded() {
         givenFragmentLauncher(fragmentActivity, A_SPECIFIC_CONTAINER_ID, actionBarListener);
-        givenLaunchInput("applicationName1", "propositionName");
+        givenLaunchInput();
         whenCallingLaunchWithoutAddToBackstack();
         thenReplaceWasCalledWith(A_SPECIFIC_CONTAINER_ID, MyaFragment.class, MYAFRAGMENT);
         thenAddToBackStackWasNotCalled();
@@ -94,10 +94,8 @@ public class MyaInterfaceTest {
         thenStartActivityWasCalledWithIntent();
     }
 
-    private void givenLaunchInput(String applicationName, String propositionName) {
+    private void givenLaunchInput() {
         givenLaunchInput = new MyaLaunchInput();
-        givenLaunchInput.setApplicationName(applicationName);
-        givenLaunchInput.setPropositionName(propositionName);
     }
 
     private void givenLaunchInput(MyaLaunchInput launchInput) {

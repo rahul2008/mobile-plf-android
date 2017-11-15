@@ -5,7 +5,9 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.catk.model;
+package com.philips.platform.catk.dto;
+
+import com.philips.platform.catk.dto.CreateConsentModel;
 
 import org.junit.*;
 

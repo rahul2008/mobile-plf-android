@@ -10,8 +10,8 @@ package com.philips.platform.catk.network;
 import android.os.Message;
 
 import com.google.gson.JsonArray;
+import com.philips.platform.catk.dto.GetConsentsModel;
 import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.model.GetConsentsModel;
 
 public abstract class NetworkAbstractModel {
 

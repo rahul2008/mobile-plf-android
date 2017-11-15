@@ -9,7 +9,10 @@ package com.philips.platform.mya;
 
 import android.content.Context;
 
+import com.philips.platform.csw.ConsentDefinition;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
+
+import java.util.List;
 
 /**
  * This class is used to provide input parameters and customizations for myaccount.
@@ -17,30 +20,22 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 public class MyaLaunchInput extends UappLaunchInput {
 
-    private String applicationName;
-    private String propositionName;
+    private Context context;
+    private List<ConsentDefinition> consentDefinition;
+    private boolean isAddToBackStack;
 
-    public String getApplicationName() {
-        return applicationName;
+
+    public List<ConsentDefinition> getConsentDefinition() {
+        return consentDefinition;
     }
 
-    public void setApplicationName(String applicationName) {
-        this.applicationName = applicationName;
-    }
-
-    public String getPropositionName() {
-        return propositionName;
-    }
-
-    public void setPropositionName(String propositionName) {
-        this.propositionName = propositionName;
+    public void setConsentDefinition(List<ConsentDefinition> consentDefinition) {
+        this.consentDefinition = consentDefinition;
     }
 
     public Context getContext() {
         return context;
     }
-
-    private Context context;
 
     public void setContext(Context context) {
         this.context = context;
@@ -55,7 +50,6 @@ public class MyaLaunchInput extends UappLaunchInput {
         return isAddToBackStack;
     }
 
-
     /**
      * Enable  add to back stack for current fragment.
      *
@@ -65,5 +59,4 @@ public class MyaLaunchInput extends UappLaunchInput {
         this.isAddToBackStack = isAddToBackStack;
     }
 
-    private boolean isAddToBackStack;
 }

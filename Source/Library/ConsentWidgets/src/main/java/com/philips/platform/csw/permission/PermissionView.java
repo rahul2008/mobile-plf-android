@@ -22,7 +22,7 @@ import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
-import com.philips.platform.catk.model.GetConsentsModel;
+import com.philips.platform.catk.dto.GetConsentsModel;
 import com.philips.platform.catk.response.ConsentStatus;
 import com.philips.platform.csw.CswBaseFragment;
 import com.philips.platform.mya.consentwidgets.R;

@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">DemoUApp</string>
     <string name="button_launch">Launch</string>
+
+    <!-- My Account - Consent -->
+    <string name="consent_moment_description">I allow Philips to store my data in cloud</string>
+    <string name="consent_moment_help">The actual content of the help text here</string>
 </resources>

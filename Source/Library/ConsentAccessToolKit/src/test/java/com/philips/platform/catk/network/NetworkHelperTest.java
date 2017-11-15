@@ -11,7 +11,7 @@ import com.philips.platform.catk.ConsentAccessToolKitManipulator;
 import com.philips.platform.catk.injection.CatkComponent;
 import com.philips.platform.catk.mock.ModelDataLoadListenerMock;
 import com.philips.platform.catk.mock.NetworkControllerMock;
-import com.philips.platform.catk.model.GetConsentsModelRequest;
+import com.philips.platform.catk.dto.GetConsentsModelRequest;
 
 import org.junit.After;
 import org.junit.Before;

@@ -5,10 +5,11 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.catk.model;
+package com.philips.platform.catk.dto;
 
 import org.junit.*;
 
+import com.philips.platform.catk.dto.GetConsentsModel;
 import com.philips.platform.catk.response.ConsentStatus;
 
 public class GetConsentsModelTest {

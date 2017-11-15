@@ -7,22 +7,31 @@
 
 package com.philips.platform.catk;
 
-import java.util.*;
+import android.os.Message;
+import android.util.Log;
 
 import com.janrain.android.utils.StringUtils;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.catk.dto.CreateConsentModelRequest;
+import com.philips.platform.catk.dto.GetConsentsModel;
+import com.philips.platform.catk.dto.GetConsentsModelRequest;
 import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.injection.*;
+import com.philips.platform.catk.injection.CatkComponent;
+import com.philips.platform.catk.injection.CatkModule;
+import com.philips.platform.catk.injection.DaggerCatkComponent;
+import com.philips.platform.catk.injection.UserModule;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
-import com.philips.platform.catk.model.*;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkHelper;
 import com.philips.platform.catk.response.ConsentStatus;
 import com.philips.platform.catk.utils.CatkLogger;
 
-import android.os.Message;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class ConsentAccessToolKit {
 
