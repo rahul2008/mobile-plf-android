@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -33,7 +35,6 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -260,7 +261,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         });
 
         ImageView mBackImage = findViewById(R.id.iap_iv_header_back_button);
-        Drawable mBackDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.back_arrow);
+        Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.back_arrow, getTheme());
         mBackImage.setBackground(mBackDrawable);
         mTitleTextView = findViewById(R.id.iap_header_title);
         setTitle(getString(R.string.iap_app_name));
@@ -270,7 +271,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         //if (!mIAPSettings.isUseLocalData()) {
 //        mCartIcon.setVisibility(View.VISIBLE);
 //        mCountText.setVisibility(View.VISIBLE);
-        Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
+        Drawable mCartIconDrawable = VectorDrawableCompat.create(getResources(), R.drawable.iap_shopping_cart, getTheme());
         mCartIcon.setBackground(mCartIconDrawable);
         mShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override

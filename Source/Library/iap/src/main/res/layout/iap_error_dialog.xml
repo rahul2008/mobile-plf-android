@@ -1,56 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/iap_match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical">
 
     <LinearLayout
         android:id="@+id/parent_id"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/iap_match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/uikit_modal_alert"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/uid_alert_bg"
         android:orientation="vertical">
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/dialogTitle"
             style="@style/iapCentralesansBookFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/uikit_modal_alert_button_left_margin"
-            android:layout_marginTop="@dimen/uikit_modal_alert_text_top_margin"
-            android:text="@string/uikit_modal_alert_label"
-            android:textColor="?attr/uikit_baseColor"
-            android:textSize="@dimen/uikit_modal_alert_label_text_size" />
+            android:layout_marginTop="@dimen/iap_margin_20dp"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="@dimen/iap_text_size_20sp" />
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/dialogDescription"
             style="@style/iapCentralesansBookFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/uikit_modal_alert_text_right_margin"
-            android:layout_marginStart="@dimen/uikit_modal_alert_button_left_margin"
-            android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
-            android:text="@string/uikit_about_screen_actionbar_title"
-            android:textColor="?attr/uikit_baseColor"
-            android:textSize="@dimen/uikit_modal_alert_message_text_size" />
+            android:layout_marginTop="@dimen/iap_margin_20dp"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="@dimen/iap_text_size_16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/uikit_modal_alert_bottom_layout_margin"
-            android:layout_marginStart="@dimen/uikit_modal_alert_bottom_layout_margin"
-            android:layout_marginTop="@dimen/uikit_modal_alert_bottom_margin"
+            android:layout_marginTop="@dimen/iap_margin_20dp"
             android:orientation="horizontal">
 
-            <Button
+            <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/btn_dialog_ok"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minWidth="@dimen/uikit_modal_alert_button_width"
-                android:textSize="@dimen/uikit_modal_alert_message_text_size" />
+                android:layout_marginTop="10dp"
+                android:enabled="true"
+                app:uidComponentType="Primary" />
 
         </LinearLayout>
 
     </LinearLayout>
-</FrameLayout>
+</RelativeLayout>

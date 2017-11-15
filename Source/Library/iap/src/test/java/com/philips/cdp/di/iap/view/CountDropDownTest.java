@@ -7,7 +7,6 @@ import android.view.View;
 import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.uikit.utils.RowItem;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,9 +16,6 @@ import org.mockito.Mockito;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import java.util.List;
-
-import static org.junit.Assert.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -53,7 +49,7 @@ public class CountDropDownTest {
 
     @Test(expected = NullPointerException.class)
     public void shouldCreatePopUp() throws Exception {
-        countDropDown.createPopUp();
+        countDropDown.createPopUp(v, data.getQuantity());
 
     }
 }

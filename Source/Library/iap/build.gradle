@@ -234,11 +234,11 @@ dependencies {
     //Coco
 	def dp = project.ext.has('useprojectdependencies')
 	
-	def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar')
-	compile(dp ? project(':uit') : uitModule)
-	{
-		transitive = true
-	}
+//	def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar')
+//	compile(dp ? project(':uit') : uitModule)
+//	{
+//		transitive = true
+//	}
 
 	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
 	compile(dp ? project(':uid') : uidModule) 

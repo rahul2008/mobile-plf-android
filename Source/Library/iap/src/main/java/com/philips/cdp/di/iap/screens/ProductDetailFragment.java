@@ -11,6 +11,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -51,7 +52,6 @@ import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.UIPicker;
@@ -338,7 +338,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             countArrow.setColorFilter(new
                     PorterDuffColorFilter(mContext.getResources().getColor(R.color.uid_quiet_button_icon_selector), PorterDuff.Mode.MULTIPLY));
         } else {
-            countArrow = VectorDrawable.create(context, R.drawable.iap_product_disable_count_drop_down);
+            countArrow = VectorDrawableCompat.create(context.getResources(), R.drawable.iap_product_disable_count_drop_down, mContext.getTheme());
         }
         int width = (int) mContext.getResources().getDimension(R.dimen.iap_count_drop_down_icon_width);
         int height = (int) mContext.getResources().getDimension(R.dimen.iap_count_drop_down_icon_height);
@@ -351,7 +351,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             public void onClick(final View v) {
                 // final ShoppingCartData data = mData.get(position);
 
-                CountDropDown countPopUp = new CountDropDown(v,v.getContext(), stockLevel, quantity, new CountDropDown.CountUpdateListener() {
+                CountDropDown countPopUp = new CountDropDown(v, v.getContext(), stockLevel, quantity, new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
                         // mSelectedItemPosition = position;
@@ -360,7 +360,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                         EventHelper.getInstance().notifyEventOccurred(IAP_UPDATE_PRODUCT_COUNT);
                     }
                 });
-                countPopUp.createPopUp();
+                countPopUp.createPopUp(v, stockLevel);
                 mPopupWindow = countPopUp.getPopUpWindow();
                 countPopUp.show();
             }
@@ -411,7 +411,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             //  mBuyFromRetailers.setText(R.string.iap_buy_from_retailers);
             mAddToCart.setVisibility(View.VISIBLE);
             mAddToCart.setOnClickListener(this);
-            // Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
+            // Drawable shoppingCartIcon = VectorDrawableCompat.create(mContext, R.drawable.iap_shopping_cart);
             //mAddToCart.setCompoundDrawablesWithIntrinsicBounds(shoppingCartIcon, null, null, null);
 
             setCartIconVisibility(true);
@@ -647,7 +647,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mPrice.setText(actualPrice);
         if (discountedPrice == null || discountedPrice.equalsIgnoreCase("")) {
             mProductDiscountedPrice.setVisibility(View.GONE);
-            mPrice.setTextColor(Utility.getThemeColor(mContext));
+           // mPrice.setTextColor(Utility.getThemeColor(mContext));
         } else if (actualPrice != null && discountedPrice.equalsIgnoreCase(actualPrice)) {
             mPrice.setVisibility(View.GONE);
             mProductDiscountedPrice.setVisibility(View.VISIBLE);

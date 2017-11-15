@@ -8,7 +8,7 @@
         android:id="@+id/tv_time_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/uikit_enricher7">
+       >
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/tv_time"
@@ -94,7 +94,6 @@
             android:layout_gravity="end|center"
             android:gravity="center"
             android:paddingEnd="@dimen/border16_margin_left_right"
-            android:text="@string/uikit_fonticon_arrow_right"
             android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/iap_text_size_16sp" />
 

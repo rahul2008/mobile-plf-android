@@ -7,11 +7,9 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.IBinder;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 
-import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.Country;
@@ -25,8 +23,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static com.philips.cdp.di.iap.utils.NetworkUtility.ALERT_DIALOG_TAG;
-import static org.mockito.Matchers.anyChar;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -92,13 +88,13 @@ public class UtilityTest {
         utility.getFormattedDate(anyString());
     }
 
-    @Test(expected = NullPointerException.class)
-    public void shouldReturnThemeCalor_fromContext() throws Exception {
-        when(themeMock.obtainStyledAttributes(new int[]{R.attr.uikit_baseColor})).thenReturn(typedArrayMock);
-        when(contextMock.getTheme()).thenReturn(themeMock);
-        when(typedArrayMock.getColor(0, ContextCompat.getColor(activity, R.color.uikit_philips_blue))).thenReturn(anyInt());
-        utility.getThemeColor(contextMock);
-    }
+//    @Test(expected = NullPointerException.class)
+//    public void shouldReturnThemeCalor_fromContext() throws Exception {
+//        when(themeMock.obtainStyledAttributes(new int[]{R.attr.uikit_baseColor})).thenReturn(typedArrayMock);
+//        when(contextMock.getTheme()).thenReturn(themeMock);
+//        when(typedArrayMock.getColor(0, ContextCompat.getColor(activity, R.color.uikit_philips_blue))).thenReturn(anyInt());
+//        utility.getThemeColor(contextMock);
+//    }
 
     @Test
     public void shouldAddCountryPrefrence() throws Exception {

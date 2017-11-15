@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,6 @@ import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.view.CountDropDown;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.util.ArrayList;
@@ -72,7 +72,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             countArrow.setColorFilter(new
                     PorterDuffColorFilter(mContext.getResources().getColor(R.color.uid_quiet_button_icon_selector), PorterDuff.Mode.MULTIPLY));
         } else {
-            countArrow = VectorDrawable.create(context, R.drawable.iap_product_disable_count_drop_down);
+            countArrow = VectorDrawableCompat.create(context.getResources(), R.drawable.iap_product_disable_count_drop_down, mContext.getTheme());
         }
         int width = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_width);
         int height = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_height);
@@ -119,7 +119,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_UPDATE_PRODUCT_COUNT);
                     }
                 });
-                countPopUp.createPopUp();
+                System.out.println("Item Quantity = "+data.getQuantity());
+                countPopUp.createPopUp(v,data.getStockLevel());
                 mPopupWindow = countPopUp.getPopUpWindow();
                 countPopUp.show();
             }
@@ -276,7 +277,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private void checkForOutOfStock(int pStockLevel, int pQuantity, ShoppingCartProductHolder pShoppingCartProductHolder) {
         if (pStockLevel == 0) {
             pShoppingCartProductHolder.mTvAfterDiscountPrice.setVisibility(View.VISIBLE);
-            pShoppingCartProductHolder.mTvAfterDiscountPrice.setText(mResources.getString(R.string.iap_out_of_stock));
+            //pShoppingCartProductHolder.mTvAfterDiscountPrice.setText(mResources.getString(R.string.iap_out_of_stock));
             pShoppingCartProductHolder.mQuantityLayout.setEnabled(false);
             pShoppingCartProductHolder.mQuantityLayout.setClickable(false);
             setCountArrow(mContext, false);

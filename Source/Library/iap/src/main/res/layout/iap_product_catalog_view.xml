@@ -8,20 +8,19 @@
     <LinearLayout
         android:id="@+id/iap_ll_search_box"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/uikit_enricher7">
+        android:layout_height="wrap_content">
 
         <com.philips.platform.uid.view.widget.SearchBox
             android:id="@+id/iap_search_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="@dimen/border16_margin_left_right"
-            android:layout_marginEnd="@dimen/border16_margin_left_right"
             android:layout_marginBottom="@dimen/border8_margin"
+            android:layout_marginEnd="@dimen/border16_margin_left_right"
+            android:layout_marginStart="@dimen/border16_margin_left_right"
             android:layout_marginTop="@dimen/border8_margin"
-            android:paddingTop="@dimen/border8_margin"
-            android:paddingBottom="@dimen/border8_margin"/>
+            android:paddingBottom="@dimen/border8_margin"
+            android:paddingTop="@dimen/border8_margin" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

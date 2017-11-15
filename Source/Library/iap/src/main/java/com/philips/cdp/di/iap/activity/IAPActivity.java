@@ -7,8 +7,10 @@ package com.philips.cdp.di.iap.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -32,7 +34,6 @@ import com.philips.cdp.di.iap.screens.ShoppingCartFragment;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -81,7 +82,7 @@ public class IAPActivity extends UIDActivity implements ActionBarListener, IAPLi
         });
 
         mBackImage = findViewById(R.id.iap_iv_header_back_button);
-        Drawable mBackDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_back_arrow);
+        Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.iap_back_arrow, getTheme());
         mBackImage.setBackground(mBackDrawable);
         mTitleTextView = findViewById(R.id.iap_actionBar_headerTitle_lebel);
         setTitle(getString(R.string.iap_app_name));
@@ -89,7 +90,7 @@ public class IAPActivity extends UIDActivity implements ActionBarListener, IAPLi
         mCartContainer = findViewById(R.id.cart_container);
         ImageView mCartIcon = findViewById(R.id.cart_icon);
         mCountText = findViewById(R.id.item_count);
-        Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
+        Drawable mCartIconDrawable = VectorDrawableCompat.create(getResources(), R.drawable.iap_shopping_cart,getTheme());
         mCartIcon.setBackground(mCartIconDrawable);
         mCartIcon.setOnClickListener(new View.OnClickListener() {
             @Override

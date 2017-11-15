@@ -24,7 +24,6 @@
                 style="@style/iapCentralesansBookFont"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/uikit_enricher7"
                 android:paddingBottom="@dimen/border16_margin_left_right"
                 android:paddingLeft="@dimen/border16_margin_left_right"
                 android:paddingTop="@dimen/border16_margin_left_right"
@@ -34,7 +33,6 @@
                 android:visibility="gone" />
 
             <android.support.v7.widget.RecyclerView
-                android:background="@color/uikit_enricher7"
                 android:id="@+id/shopping_cart_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

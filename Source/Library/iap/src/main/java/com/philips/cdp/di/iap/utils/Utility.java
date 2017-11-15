@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -19,7 +21,6 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.text.ParseException;
@@ -31,6 +32,7 @@ import static com.philips.cdp.di.iap.utils.NetworkUtility.ALERT_DIALOG_TAG;
 
 public class Utility {
     public static final String TAG = Utility.class.getName();
+    private static AlertDialogFragment alertDialogFragment;
 
     public static void hideKeypad(Activity pContext) {
         InputMethodManager inputMethodManager = (InputMethodManager)
@@ -62,18 +64,19 @@ public class Utility {
         return sdf.format(convertedDate);
     }
 
-    public static int getThemeColor(Context context) {
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
-        int mThemeBaseColor = a.getColor(0, ContextCompat.getColor(context, R.color.uikit_philips_blue));
-        a.recycle();
-        return mThemeBaseColor;
-    }
+//    public static int getThemeColor(Context context) {
+//        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
+//        int mThemeBaseColor = a.getColor(0, ContextCompat.getColor(context, R.color.uikit_philips_blue));
+//        a.recycle();
+//        return mThemeBaseColor;
+//    }
 
-    public static void addCountryInPreference( SharedPreferences sharedPreferences, String key, String value) {
+    public static void addCountryInPreference(SharedPreferences sharedPreferences, String key, String value) {
         SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
         prefsEditor.putString(key, value);
         prefsEditor.apply();
     }
+
     protected static void appendAddressWithNewLineIfNotNull(StringBuilder sb, String code) {
         if (!TextUtils.isEmpty(code)) {
             sb.append(code).append(IAPConstant.NEW_LINE_ESCAPE_CHARACTER);
@@ -149,37 +152,36 @@ public class Utility {
         return fields;
     }
 
-    private static AlertDialogFragment alertDialogFragment;
     public static void showActionDialog(final Context context, String positiveBtnText, String negativeBtnText,
-                                        String pErrorString, String descriptionText, final FragmentManager pFragmentManager,final AlertListener alertListener) {
+                                        String pErrorString, String descriptionText, final FragmentManager pFragmentManager, final AlertListener alertListener) {
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context);
-        if(!TextUtils.isEmpty(descriptionText)){
+        if (!TextUtils.isEmpty(descriptionText)) {
             builder.setMessage(descriptionText);
         }
 
-        if(!TextUtils.isEmpty(pErrorString)){
+        if (!TextUtils.isEmpty(pErrorString)) {
             builder.setTitle(pErrorString);
         }
         builder.setPositiveButton(positiveBtnText, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         alertListener.onPositiveBtnClick();
-                        dismissAlertFragmentDialog(alertDialogFragment,pFragmentManager);
+                        dismissAlertFragmentDialog(alertDialogFragment, pFragmentManager);
                     }
-              }
+                }
         );
         builder.setNegativeButton(negativeBtnText, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 alertListener.onNegativeBtnClick();
-                dismissAlertFragmentDialog(alertDialogFragment,pFragmentManager);
+                dismissAlertFragmentDialog(alertDialogFragment, pFragmentManager);
             }
         });
         alertDialogFragment = builder.setCancelable(false).create();
         alertDialogFragment.show(pFragmentManager, ALERT_DIALOG_TAG);
     }
 
-    static void dismissAlertFragmentDialog(AlertDialogFragment alertDialogFragment,FragmentManager fragmentManager) {
+    static void dismissAlertFragmentDialog(AlertDialogFragment alertDialogFragment, FragmentManager fragmentManager) {
         if (alertDialogFragment != null) {
             alertDialogFragment.dismiss();
         } else {
@@ -188,14 +190,14 @@ public class Utility {
         }
     }
 
-   /**
-            * Utility function for find the substring in a string.
-            *
-            * @param ignoreCase pass for case sensitive comparison
+    /**
+     * Utility function for find the substring in a string.
+     *
+     * @param ignoreCase pass for case sensitive comparison
      * @param str        Primary charsequence in which substring need to searched.
      * @param subString  substring to be searched.
      * @return 0 if main string contains substring else -1
-            */
+     */
     public static int indexOfSubString(boolean ignoreCase, final CharSequence str, final CharSequence subString) {
         if (str == null || subString == null) {
             return -1;
@@ -278,7 +280,7 @@ public class Utility {
     public static Drawable getImageArrow(Context mContext) {
         int width = (int) mContext.getResources().getDimension(R.dimen.iap_count_drop_down_icon_width);
         int height = (int) mContext.getResources().getDimension(R.dimen.iap_count_drop_down_icon_height);
-        Drawable imageArrow = VectorDrawable.create(mContext, R.drawable.iap_product_count_drop_down);
+        Drawable imageArrow = VectorDrawableCompat.create(mContext.getResources(), R.drawable.iap_product_count_drop_down, mContext.getTheme());
         imageArrow.setBounds(0, 0, width, height);
         return imageArrow;
     }

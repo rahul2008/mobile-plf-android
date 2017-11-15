@@ -117,7 +117,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         if (discountedPrice == null || discountedPrice.equalsIgnoreCase("")) {
             productHolder.mDiscountedPrice.setVisibility(View.GONE);
-            productHolder.mPrice.setTextColor(Utility.getThemeColor(mContext));
+           // productHolder.mPrice.setTextColor(Utility.getThemeColor(mContext));
         } else if (formattedPrice != null && discountedPrice.equalsIgnoreCase(formattedPrice)) {
             productHolder.mPrice.setVisibility(View.GONE);
             productHolder.mDiscountedPrice.setVisibility(View.VISIBLE);

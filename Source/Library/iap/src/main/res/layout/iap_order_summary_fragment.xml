@@ -28,7 +28,6 @@
                 style="@style/iapCentralesansBookFont"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/uikit_enricher7"
                 android:paddingBottom="@dimen/border16_margin_left_right"
                 android:paddingLeft="@dimen/border16_margin_left_right"
                 android:paddingTop="@dimen/border16_margin_left_right"
@@ -41,7 +40,6 @@
                 android:id="@+id/shopping_cart_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/uikit_enricher7"
                 android:listSelector="@android:color/transparent" />
         </LinearLayout>
     </ScrollView>
