@@ -66,7 +66,6 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -127,7 +126,7 @@ import com.philips.platform.ths.settings.THSGetAppointmentsCallback;
 import com.philips.platform.ths.settings.THSVisitReportAttachmentCallback;
 import com.philips.platform.ths.settings.THSVisitReportDetailCallback;
 import com.philips.platform.ths.settings.THSVisitReportListCallback;
-import com.philips.platform.ths.uappclasses.THSVisitCompletionListener;
+import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
 import com.philips.platform.ths.visit.THSCancelVisitCallBack;
 import com.philips.platform.ths.visit.THSStartVisitCallback;
 import com.philips.platform.ths.visit.THSVisitSummary;
@@ -174,15 +173,15 @@ public class THSManager {
 
     private ArrayList<DocumentRecord> documentRecordList;
 
-    public THSVisitCompletionListener getThsVisitCompletionListener() {
-        return thsVisitCompletionListener;
+    public THSCompletionProtocol getThsCompletionProtocol() {
+        return thsCompletionProtocol;
     }
 
-    public void setThsVisitCompletionListener(THSVisitCompletionListener thsVisitCompletionListener) {
-        this.thsVisitCompletionListener = thsVisitCompletionListener;
+    public void setThsCompletionProtocol(THSCompletionProtocol thsCompletionProtocol) {
+        this.thsCompletionProtocol = thsCompletionProtocol;
     }
 
-    THSVisitCompletionListener thsVisitCompletionListener;
+    THSCompletionProtocol thsCompletionProtocol;
 
 
     @VisibleForTesting

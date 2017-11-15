@@ -16,11 +16,15 @@ import android.widget.ImageView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
+
+import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_PAGE_1;
+import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_START;
 
 /**
  * <b></b>Introduction screen are the screen that acts as the Welcome screens. It may be used to make the user learn about the functionality of the app</b>
@@ -108,12 +112,13 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
             }
         });
 
-
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(ON_BOARDING_PAGE_1, null, null);
         return view;
     }
 
     protected void startAppTagging(int position) {
-        onBoardingTourPagerAdapter.getPageTitle(position);
+        String pageTitle = onBoardingTourPagerAdapter.getPageTitle(position);
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(pageTitle, null, null);
     }
 
     @Override
