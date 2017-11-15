@@ -352,7 +352,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_registration_location_validation_error">Please select a location</string>
 
     <!-- Vitals validation strings -->
-    <string name="ths_vitals_systolic_error">Enter values between 1 and 250</string>
+    <string name="ths_vitals_systolic_error">Enter values between 1 and 250,systolic value should be more than diastolic</string>
     <string name="ths_vitals_diastolic_error">Enter values between 0 and 249,systolic value should be more than diastolic</string>
     <string name="ths_vitals_weight_error">Enter values between 0 and 500</string>
     <string name="ths_vitals_temperature_error">Enter values between 60 and 120</string>
