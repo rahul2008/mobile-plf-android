@@ -6,7 +6,7 @@
         android:theme="@style/Theme.DLS">
         <activity
             android:name="com.philips.platform.uid.activity.OrientationChangeActivity"
-            android:theme="@style/Theme.DLS.GroupBlue.UltraLight">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>

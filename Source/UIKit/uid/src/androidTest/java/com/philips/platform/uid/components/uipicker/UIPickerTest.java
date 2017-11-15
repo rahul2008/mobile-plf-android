@@ -65,7 +65,7 @@ public class UIPickerTest extends BaseTest {
 
     @Before
     public void setUpTheme() {
-        final Intent intent = getLaunchIntent(NavigationColor.BRIGHT.ordinal(), ContentColor.ULTRA_LIGHT.ordinal(), ColorRange.PURPLE.ordinal());
+        final Intent intent = getLaunchIntent(NavigationColor.BRIGHT.ordinal(), ContentColor.BRIGHT.ordinal(), ColorRange.PURPLE.ordinal());
         activity = mActivityTestRule.launchActivity(intent);
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_uipicker);
         resources = activity.getResources();
