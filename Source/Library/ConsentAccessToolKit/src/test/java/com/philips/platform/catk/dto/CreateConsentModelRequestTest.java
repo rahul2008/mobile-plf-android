@@ -5,7 +5,7 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.catk.model;
+package com.philips.platform.catk.dto;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
@@ -20,6 +20,7 @@ import com.android.volley.Request;
 import com.google.gson.JsonArray;
 import com.philips.cdp.registration.User;
 import com.philips.platform.catk.ConsentAccessToolKitManipulator;
+import com.philips.platform.catk.dto.CreateConsentModelRequest;
 import com.philips.platform.catk.injection.CatkComponent;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 

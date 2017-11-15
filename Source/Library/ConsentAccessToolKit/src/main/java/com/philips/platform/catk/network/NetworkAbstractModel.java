@@ -13,7 +13,7 @@ import java.util.Map;
 import com.google.gson.JsonArray;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.listener.RequestListener;
-import com.philips.platform.catk.model.GetConsentsModel;
+import com.philips.platform.catk.dto.GetConsentsModel;
 
 import android.os.Message;
 

@@ -24,7 +24,7 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
 import com.philips.platform.catk.injection.CatkComponent;
-import com.philips.platform.catk.model.GetConsentsModelRequest;
+import com.philips.platform.catk.dto.GetConsentsModelRequest;
 import com.philips.platform.catk.request.ConsentRequest;
 
 public class NetworkControllerTest {

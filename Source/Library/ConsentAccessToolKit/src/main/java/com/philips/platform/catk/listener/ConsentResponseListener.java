@@ -9,7 +9,7 @@ package com.philips.platform.catk.listener;
 
 import java.util.List;
 
-import com.philips.platform.catk.model.GetConsentsModel;
+import com.philips.platform.catk.dto.GetConsentsModel;
 
 public interface ConsentResponseListener {
     void onResponseSuccessConsent(List<GetConsentsModel> responseData);
