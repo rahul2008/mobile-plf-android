@@ -10,8 +10,6 @@ public class DtoToConsentMapper {
     private int IDX_VERSION = 2;
 
     public Consent map(GetConsentsModel consentDto) {
-
-        //urn:com.philips.consent:moment/IN/1/someProposition/someApplication
         String[] policyParts = parsePolicyUrn(consentDto.getPolicyRule());
         return new Consent(consentDto.getLanguage(), consentDto.getStatus(), policyParts[IDX_TYPE], Integer.parseInt(policyParts[IDX_VERSION]));
     }

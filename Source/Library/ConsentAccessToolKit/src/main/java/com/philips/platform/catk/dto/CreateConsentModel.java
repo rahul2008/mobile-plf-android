@@ -79,4 +79,29 @@ public class CreateConsentModel {
         this.policyRule = policyRule;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CreateConsentModel)) return false;
+
+        CreateConsentModel that = (CreateConsentModel) o;
+
+        if (resourceType != null ? !resourceType.equals(that.resourceType) : that.resourceType != null)
+            return false;
+        if (language != null ? !language.equals(that.language) : that.language != null)
+            return false;
+        if (status != null ? !status.equals(that.status) : that.status != null) return false;
+        if (subject != null ? !subject.equals(that.subject) : that.subject != null) return false;
+        return policyRule != null ? policyRule.equals(that.policyRule) : that.policyRule == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = resourceType != null ? resourceType.hashCode() : 0;
+        result = 31 * result + (language != null ? language.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (subject != null ? subject.hashCode() : 0);
+        result = 31 * result + (policyRule != null ? policyRule.hashCode() : 0);
+        return result;
+    }
 }
