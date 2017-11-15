@@ -45,6 +45,7 @@
     <string name="cml_pairing_port">Pairing Port</string>
     <string name="cml_air_port">Air Port</string>
     <string name="cml_time_port">Time Port</string>
+    <string name="cml_pinning">Pinning</string>
     <string name="cml_ble_appliance">BLE Appliance</string>
     <string name="cml_continuous_connection">Continuous connection</string>
     <string name="cml_ms">milliseconds</string>
@@ -91,4 +92,6 @@
 
     <string name="cml_wakeup_port">Wake-up</string>
     <string name="cml_wakeup_alarm_state">Wake-up alarm (read only)</string>
+    <string name="cml_pin_to_set">Enter pin to set</string>
+    <string name="base64_pin_error">Please provide a correct base64 encoded pin!</string>
 </resources>

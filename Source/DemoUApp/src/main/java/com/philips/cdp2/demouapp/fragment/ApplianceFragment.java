@@ -82,6 +82,8 @@ public class ApplianceFragment extends Fragment {
         if(currentAppliance instanceof PolarisAppliance) {
             addFragment(new PairingFragment());
         }
+        
+        addFragment(new PinFragment());
     }
 
     public void addFragment(Fragment fragment) {
