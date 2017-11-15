@@ -3,10 +3,10 @@ package com.philips.platform.csw.permission;
 import android.content.Context;
 
 import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.dto.GetConsentsModel;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
-import com.philips.platform.catk.response.ConsentStatus;
+import com.philips.platform.catk.model.Consent;
+import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.csw.utils.CswLogger;
 
 import java.util.List;
@@ -40,17 +40,11 @@ public class PermissionPresenter implements ConsentResponseListener, CreateConse
     }
 
     @Override
-    public void onResponseSuccessConsent(List<GetConsentsModel> responseData) {
+    public void onResponseSuccessConsent(List<Consent> responseData) {
         if (responseData != null && !responseData.isEmpty()) {
-            GetConsentsModel consentModel = responseData.get(0);
+            Consent consent = responseData.get(0);
             permissionInterface.hideProgressDialog();
-            permissionInterface.updateSwitchStatus(consentModel.getStatus().equals(ConsentStatus.active));
-            CswLogger.d(" Consent : ", "getDateTime :" + consentModel.getDateTime());
-            CswLogger.d(" Consent : ", "getLanguage :" + consentModel.getLanguage());
-            CswLogger.d(" Consent : ", "status :" + consentModel.getStatus());
-            CswLogger.d(" Consent : ", "policyRule :" + consentModel.getPolicyRule());
-            CswLogger.d(" Consent : ", "Resource type :" + consentModel.getResourceType());
-            CswLogger.d(" Consent : ", "subject  :" + consentModel.getSubject());
+            permissionInterface.updateSwitchStatus(consent.getStatus().equals(ConsentStatus.active));
         } else {
             permissionInterface.hideProgressDialog();
             permissionInterface.updateSwitchStatus(false);

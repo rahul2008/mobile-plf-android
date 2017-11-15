@@ -21,9 +21,10 @@ import com.philips.platform.catk.injection.DaggerCatkComponent;
 import com.philips.platform.catk.injection.UserModule;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
+import com.philips.platform.catk.model.Consent;
+import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkHelper;
-import com.philips.platform.catk.response.ConsentStatus;
 import com.philips.platform.catk.utils.CatkLogger;
 
 import java.util.Collections;
@@ -86,7 +87,7 @@ public class ConsentAccessToolKit {
     public void getConsentDetails(final ConsentResponseListener consentListener) {
         GetConsentsModelRequest model = new GetConsentsModelRequest(URL, applicationName, propositionName, new NetworkAbstractModel.DataLoadListener() {
             @Override
-            public void onModelDataLoadFinished(List<GetConsentsModel> consents) {
+            public void onModelDataLoadFinished(List<Consent> consents) {
                 consentListener.onResponseSuccessConsent(consents);
             }
 
@@ -113,7 +114,7 @@ public class ConsentAccessToolKit {
                 CreateConsentModelRequest model = new CreateConsentModelRequest(URL, applicationName, String.valueOf(consentStatus), propositionName, locale,
                         new NetworkAbstractModel.DataLoadListener() {
                             @Override
-                            public void onModelDataLoadFinished(List<GetConsentsModel> consents) {
+                            public void onModelDataLoadFinished(List<Consent> consents) {
                                 if (consents == null) {
                                     consentListener.onSuccess(CatkConstants.CONSENT_SUCCESS);
                                 }
@@ -134,14 +135,13 @@ public class ConsentAccessToolKit {
         });
     }
 
-    public void getStatusForConsentType(String consentType, int version, final ConsentResponseListener consentListener) {
-        final String policyRule = buildPolicyRule(consentType, version, getCatkComponent().getUser().getCountryCode(), propositionName, applicationName);
+    public void getStatusForConsentType(final String consentType, int version, final ConsentResponseListener consentListener) {
         getConsentDetails(new ConsentResponseListener() {
 
             @Override
-            public void onResponseSuccessConsent(List<GetConsentsModel> responseData) {
-                for (GetConsentsModel consent : responseData) {
-                    if (policyRule.equals(consent.getPolicyRule())) {
+            public void onResponseSuccessConsent(List<Consent> responseData) {
+                for (Consent consent : responseData) {
+                    if (consentType.equals(consent.getType())) {
                         consentListener.onResponseSuccessConsent(Collections.singletonList(consent));
                         return;
                     }

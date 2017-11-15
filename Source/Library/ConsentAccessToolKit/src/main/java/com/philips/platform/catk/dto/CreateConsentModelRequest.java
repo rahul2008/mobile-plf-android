@@ -11,6 +11,7 @@ import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class CreateConsentModelRequest extends NetworkAbstractModel {
     }
 
     @Override
-    public List<GetConsentsModel> parseResponse(JsonArray response) {
+    public List<Consent> parseResponse(JsonArray response) {
         return null;
     }
 

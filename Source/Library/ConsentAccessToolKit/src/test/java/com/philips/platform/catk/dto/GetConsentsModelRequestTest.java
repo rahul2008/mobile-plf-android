@@ -13,9 +13,10 @@ import com.google.gson.JsonObject;
 import com.philips.cdp.registration.User;
 import com.philips.platform.catk.ConsentAccessToolKitManipulator;
 import com.philips.platform.catk.injection.CatkComponent;
+import com.philips.platform.catk.model.Consent;
+import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkController;
-import com.philips.platform.catk.response.ConsentStatus;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -106,10 +107,9 @@ public class GetConsentsModelRequestTest extends MockitoConfiguration {
     private static final String PROPOSITION_NAME = "OneBackendProp";
     private final String dateTime = "2017-11-01T17:27:16.000Z";
     private final String language = "af-ZA";
-    private final String policyRule = "urn:com.philips.consent";
+    private final String policyRule = "urn:com.philips.consent:moment/IN/1/OneBackendProp/OneBackend";
     private final String status = "active";
     private final String subject = "17f7ce85-403c-4824-a17f-3b551f325ce0";
     private final String resourceType = "Consent";
-    private GetConsentsModel[] expectedConsentModelRequest = new GetConsentsModel[]{new GetConsentsModel(dateTime, language, policyRule, resourceType,
-            ConsentStatus.valueOf(status), subject)};
+    private Consent[] expectedConsentModelRequest = new Consent[]{new Consent(language, ConsentStatus.valueOf(status), "moment", 1)};
 }

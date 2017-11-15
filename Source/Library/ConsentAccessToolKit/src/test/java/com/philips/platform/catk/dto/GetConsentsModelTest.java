@@ -9,7 +9,7 @@ package com.philips.platform.catk.dto;
 
 import org.junit.*;
 
-import com.philips.platform.catk.response.ConsentStatus;
+import com.philips.platform.catk.model.ConsentStatus;
 
 public class GetConsentsModelTest {
 

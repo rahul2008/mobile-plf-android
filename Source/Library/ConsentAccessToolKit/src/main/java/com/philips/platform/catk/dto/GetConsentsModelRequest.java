@@ -11,10 +11,11 @@ import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.mapper.DtoToConsentMapper;
+import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class GetConsentsModelRequest extends NetworkAbstractModel {
@@ -31,12 +32,15 @@ public class GetConsentsModelRequest extends NetworkAbstractModel {
     }
 
     @Override
-    public List<GetConsentsModel> parseResponse(JsonArray response) {
+    public List<Consent> parseResponse(JsonArray response) {
+        List<Consent> consents = new ArrayList<>();
         if (response != null && response.size() > 0) {
             GetConsentsModel[] modelResults = new Gson().fromJson(response, GetConsentsModel[].class);
-            return new ArrayList<>(Arrays.asList(modelResults));
+            for (GetConsentsModel modelResult : modelResults) {
+                consents.add(DtoToConsentMapper.map(modelResult));
+            }
         }
-        return new ArrayList<>();
+        return consents;
     }
 
     @Override

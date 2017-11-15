@@ -18,7 +18,7 @@ import com.philips.platform.catk.dto.GetConsentsModelRequest;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkHelper;
 import com.philips.platform.catk.network.NetworkHelperManipulator;
-import com.philips.platform.catk.response.ConsentStatus;
+import com.philips.platform.catk.model.ConsentStatus;
 
 import org.junit.After;
 import org.junit.Before;

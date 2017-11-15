@@ -9,7 +9,7 @@ package com.philips.platform.catk.dto;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.philips.platform.catk.response.ConsentStatus;
+import com.philips.platform.catk.model.ConsentStatus;
 
 public class GetConsentsModel {
 

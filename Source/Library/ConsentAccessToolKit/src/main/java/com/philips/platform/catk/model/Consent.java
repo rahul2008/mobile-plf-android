@@ -7,8 +7,6 @@
 
 package com.philips.platform.catk.model;
 
-import com.philips.platform.catk.response.ConsentStatus;
-
 public class Consent {
     private String locale;
     private ConsentStatus status;

@@ -9,7 +9,7 @@ package com.philips.platform.catk.mapper;
 
 import com.philips.platform.catk.dto.GetConsentsModel;
 import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.response.ConsentStatus;
+import com.philips.platform.catk.model.ConsentStatus;
 
 import org.junit.Before;
 import org.junit.Test;
