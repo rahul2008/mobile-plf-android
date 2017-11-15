@@ -140,6 +140,7 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
                     break;
                 default:
                     break;
+                    
             }
         }
 
