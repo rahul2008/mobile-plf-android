@@ -25,6 +25,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.configuration.MockitoConfiguration;
 
+import java.util.Locale;
+
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -57,7 +59,7 @@ public class GetConsentsModelRequestTest extends MockitoConfiguration {
         JsonArray jsonArray = new JsonArray();
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("dateTime", dateTime);
-        jsonObject.addProperty("language", language);
+        jsonObject.addProperty("language", locale.getLanguage() + "-" + locale.getCountry());
         jsonObject.addProperty("policyRule", policyRule);
         jsonObject.addProperty("resourceType", resourceType);
         jsonObject.addProperty("status", status);
@@ -106,10 +108,10 @@ public class GetConsentsModelRequestTest extends MockitoConfiguration {
     private static final String APPLICATION_NAME = "OneBackend";
     private static final String PROPOSITION_NAME = "OneBackendProp";
     private final String dateTime = "2017-11-01T17:27:16.000Z";
-    private final String language = "af-ZA";
+    private final Locale locale = new Locale("en", "GB");
     private final String policyRule = "urn:com.philips.consent:moment/IN/1/OneBackendProp/OneBackend";
     private final String status = "active";
     private final String subject = "17f7ce85-403c-4824-a17f-3b551f325ce0";
     private final String resourceType = "Consent";
-    private Consent[] expectedConsentModelRequest = new Consent[]{new Consent(language, ConsentStatus.valueOf(status), "moment", 1)};
+    private Consent[] expectedConsentModelRequest = new Consent[]{new Consent(locale, ConsentStatus.valueOf(status), "moment", 1)};
 }

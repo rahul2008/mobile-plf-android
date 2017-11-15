@@ -7,24 +7,26 @@
 
 package com.philips.platform.catk.model;
 
+import java.util.Locale;
+
 public class Consent {
-    private String locale;
+    private Locale locale;
     private ConsentStatus status;
     private String type;
     private int version;
 
-    public Consent(String locale, ConsentStatus status, String type, int version) {
+    public Consent(Locale locale, ConsentStatus status, String type, int version) {
         this.locale = locale;
         this.status = status;
         this.type = type;
         this.version = version;
     }
 
-    public String getLocale() {
+    public Locale getLocale() {
         return locale;
     }
 
-    public void setLocale(String locale) {
+    public void setLocale(Locale locale) {
         this.locale = locale;
     }
 

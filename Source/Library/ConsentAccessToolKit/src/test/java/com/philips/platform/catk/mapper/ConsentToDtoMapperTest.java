@@ -14,6 +14,8 @@ import com.philips.platform.catk.model.ConsentStatus;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Locale;
+
 import static org.junit.Assert.assertEquals;
 
 public class ConsentToDtoMapperTest {
@@ -25,7 +27,7 @@ public class ConsentToDtoMapperTest {
     @Before
     public void setUp() throws Exception {
         givenMapper = new ConsentToDtoMapper("someSubjectId", "IN", "OneBackendProp", "OneBackend");
-        activeTypeMomentLocaleNlNlVersion1Consent = new Consent("nl-NL", ConsentStatus.active, "moment", 1);
+        activeTypeMomentLocaleNlNlVersion1Consent = new Consent(new Locale("nl", "NL"), ConsentStatus.active, "moment", 1);
     }
 
     @Test

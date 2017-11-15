@@ -14,6 +14,8 @@ import com.philips.platform.catk.model.ConsentStatus;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Locale;
+
 import static org.junit.Assert.assertEquals;
 
 public class DtoToConsentMapperTest {
@@ -32,7 +34,8 @@ public class DtoToConsentMapperTest {
     public void map_mapsCorrectly() {
         givenDto(getActiveFromIndiaTypeMomentLocaleEnUsDto);
         whenCallingMapWith();
-        thenConsentIs(new Consent("en-US", ConsentStatus.active, "moment", 1));
+        thenConsentIs(new Consent(Locale.US, ConsentStatus.active, "moment", 1));
+        thenLocaleStringIs("en_US");
     }
 
     private void givenDto(GetConsentsModel getDto) {
@@ -45,5 +48,9 @@ public class DtoToConsentMapperTest {
 
     private void thenConsentIs(Consent expectedConsent) {
         assertEquals(expectedConsent, result);
+    }
+
+    private void thenLocaleStringIs(String expectedLocaleString) {
+        assertEquals(expectedLocaleString, result.getLocale().toString());
     }
 }
