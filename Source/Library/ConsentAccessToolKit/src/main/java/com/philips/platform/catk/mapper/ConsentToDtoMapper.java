@@ -1,5 +1,11 @@
-package com.philips.platform.catk.mapper;
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 
+package com.philips.platform.catk.mapper;
 
 import com.philips.platform.catk.dto.CreateConsentModel;
 import com.philips.platform.catk.model.Consent;
@@ -25,5 +31,4 @@ public class ConsentToDtoMapper {
     private String buildPolicyRule(String type, int version) {
         return "urn:com.philips.consent:" + type + "/" + country + "/" + version + "/" + propositionName + "/" + applicationName;
     }
-
 }

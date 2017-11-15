@@ -1,13 +1,18 @@
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.catk.mapper;
 
 import com.philips.platform.catk.dto.GetConsentsModel;
 import com.philips.platform.catk.model.Consent;
 
 public class DtoToConsentMapper {
-
-
-    private int IDX_TYPE = 0;
-    private int IDX_VERSION = 2;
+    private final int IDX_TYPE = 0;
+    private final int IDX_VERSION = 2;
 
     public Consent map(GetConsentsModel consentDto) {
         String[] policyParts = parsePolicyUrn(consentDto.getPolicyRule());
@@ -18,5 +23,4 @@ public class DtoToConsentMapper {
         String[] urnParts = privacyRule.split(":");
         return urnParts[urnParts.length - 1].split("/");
     }
-
 }

@@ -11,10 +11,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.philips.platform.catk.response.ConsentStatus;
 
-/**
- * Created by Maqsood on 10/13/17.
- */
-
 public class GetConsentsModel {
 
     @SerializedName("dateTime")
@@ -37,9 +33,9 @@ public class GetConsentsModel {
     @Expose
     private String subject;
 
-    public GetConsentsModel() {}
-
-
+    public GetConsentsModel() {
+    }
+    
     public GetConsentsModel(String dateTime, String language, String policyRule, String resourceType, ConsentStatus status, String subject) {
         this.dateTime = dateTime;
         this.language = language;

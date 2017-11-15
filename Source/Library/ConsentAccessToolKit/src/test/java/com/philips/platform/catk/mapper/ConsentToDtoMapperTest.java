@@ -1,23 +1,25 @@
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.catk.mapper;
 
 import com.philips.platform.catk.dto.CreateConsentModel;
-import com.philips.platform.catk.dto.GetConsentsModel;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.response.ConsentStatus;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ConsentToDtoMapperTest {
-
     private CreateConsentModel result;
-
     private ConsentToDtoMapper givenMapper;
-
     private Consent givenConsent;
-
     private Consent activeTypeMomentLocaleNlNlVersion1Consent;
 
     @Before
@@ -48,5 +50,4 @@ public class ConsentToDtoMapperTest {
         assertEquals(expectedDto.getStatus(), result.getStatus());
         assertEquals(expectedDto.getSubject(), result.getSubject());
     }
-
 }

@@ -42,6 +42,7 @@ public class NetworkController implements ConsentRequestListener, Response.Error
     public void sendConsentRequest(final NetworkAbstractModel model) {
         this.model = model;
         ConsentRequest request = getConsentJsonRequest(model);
+        request.setShouldCache(false);
         addRequestToQueue(request);
     }
 
@@ -92,6 +93,7 @@ public class NetworkController implements ConsentRequestListener, Response.Error
     }
 
     private static void addAuthorization(Map<String, String> headers) {
+        headers.remove("authorization");
         headers.put("authorization", "bearer " + ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpAccessToken());
     }
 

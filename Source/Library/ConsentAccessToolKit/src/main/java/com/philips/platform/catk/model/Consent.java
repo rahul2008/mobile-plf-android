@@ -1,16 +1,18 @@
-package com.philips.platform.catk.model;
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 
+package com.philips.platform.catk.model;
 
 import com.philips.platform.catk.response.ConsentStatus;
 
 public class Consent {
-
     private String locale;
-
     private ConsentStatus status;
-
     private String type;
-
     private int version;
 
     public Consent(String locale, ConsentStatus status, String type, int version) {
