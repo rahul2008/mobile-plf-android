@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.*;
@@ -56,18 +57,6 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
             AppTagging.collectLifecycleData(RegistrationActivity.this);
         }
     };
-
-    public static UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
-        return userRegistrationUIEventListener;
-    }
-
-    public static void setUserRegistrationUIEventListener(
-            UserRegistrationUIEventListener userRegistrationUIEventListener) {
-        RegistrationActivity.userRegistrationUIEventListener = userRegistrationUIEventListener;
-    }
-
-    private static UserRegistrationUIEventListener userRegistrationUIEventListener;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,7 +164,6 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onDestroy");
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity Unregister: NetworStateListener," +
                 "Context");
-        RegistrationActivity.setUserRegistrationUIEventListener(null);
         super.onDestroy();
     }
 
@@ -205,7 +193,7 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
         urLaunchInput.setEndPointScreen(registrationLaunchMode);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
-        urLaunchInput.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
+        urLaunchInput.setUserRegistrationUIEventListener(RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener());
         urLaunchInput.setUIFlow(uiFlow);
         FragmentLauncher fragmentLauncher = new FragmentLauncher
                 (this,R.id.fl_reg_fragment_container,this);

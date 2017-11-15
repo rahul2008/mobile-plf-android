@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.ui.controllers.ParentalConsentFragmentController;
 import com.philips.cdp.registration.coppa.utils.CoppaInterface;
@@ -47,11 +48,8 @@ public class ParentalConsentFragment extends RegistrationCoppaBaseFragment
     private ClickableSpan privacyLinkClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            if(getRegistrationFragment().getUserRegistrationUIEventListener()!=null){
-                getRegistrationFragment().getUserRegistrationUIEventListener().
-                        onPrivacyPolicyClick(getActivity());
-            }
-
+            RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
+                    onPrivacyPolicyClick(getActivity());
         }
     };
     private ProgressDialog mProgressDialog;

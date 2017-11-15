@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
@@ -59,7 +60,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworkStateL
     RegistrationContentConfiguration registrationContentConfiguration;
 
 
-    public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
+   /* public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
         return userRegistrationCoppaUIEventListener;
     }
 
@@ -68,7 +69,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworkStateL
         userRegistrationCoppaUIEventListener = userRegistrationUIEventListener;
     }
 
-    private UserRegistrationUIEventListener userRegistrationCoppaUIEventListener;
+    private UserRegistrationUIEventListener userRegistrationCoppaUIEventListener;*/
 
     private NetworkStateReceiver mNetworkReceiver = new NetworkStateReceiver();
 
@@ -117,16 +118,16 @@ public class RegistrationCoppaFragment extends Fragment implements NetworkStateL
 
         @Override
         public void onPrivacyPolicyClick(Activity activity) {
-            if (getUserRegistrationUIEventListener() != null) {
-                getUserRegistrationUIEventListener().
+            if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
+                RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                         onPrivacyPolicyClick(activity);
             }
         }
 
         @Override
         public void onTermsAndConditionClick(Activity activity) {
-            if (getUserRegistrationUIEventListener() != null) {
-                getUserRegistrationUIEventListener().
+            if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
+                RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                         onTermsAndConditionClick(activity);
             }
         }
@@ -263,8 +264,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworkStateL
                             CoppaStatus.kDICOPPAConsentNotGiven ||
                     mCoppaExtension.getCoppaEmailConsentStatus() ==
                             CoppaStatus.kDICOPPAConfirmationNotGiven) {
-                if (getUserRegistrationUIEventListener() != null) {
-                    getUserRegistrationUIEventListener().
+                if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
+                    RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                             onUserRegistrationComplete(getParentActivity());
                 }
             } else {
@@ -373,7 +374,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworkStateL
         mFragmentManager = null;
         RegistrationCoppaBaseFragment.mWidth = 0;
         RegistrationCoppaBaseFragment.mHeight = 0;
-        setUserRegistrationUIEventListener(null);
         super.onDestroy();
     }
 
@@ -549,7 +549,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworkStateL
             bundle.putSerializable(RegConstants.REGISTRATION_CONTENT_CONFIG,getContentConfiguration());
             registrationFragment.setArguments(bundle);
             registrationFragment.setPreviousResourceId(mtitleResourceId);
-            registrationFragment.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
+            RegistrationConfiguration.getInstance().setUserRegistrationUIEventListener(userRegistrationUIEventListener);
             registrationFragment.setOnUpdateTitleListener(new ActionBarListener() {
                 @Override
                 public void updateActionBar(int titleResourceID, boolean isShowBack) {
@@ -615,7 +615,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworkStateL
         try {
             final RegistrationFragment registrationFragment = new RegistrationFragment();
             final Bundle bundle = new Bundle();
-            registrationFragment.setUserRegistrationUIEventListener(userRegistrationUIEventListener);
+            RegistrationConfiguration.getInstance().setUserRegistrationUIEventListener(userRegistrationUIEventListener);
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
             bundle.putSerializable(RegConstants.REGISTRATION_CONTENT_CONFIG,getContentConfiguration());
             registrationFragment.setArguments(bundle);

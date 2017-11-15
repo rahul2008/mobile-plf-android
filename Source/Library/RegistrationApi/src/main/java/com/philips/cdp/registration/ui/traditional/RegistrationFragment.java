@@ -61,17 +61,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     private int titleResourceID = -99;
 
-    public UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
-        return userRegistrationUIEventListener;
-    }
-
-    public void setUserRegistrationUIEventListener(UserRegistrationUIEventListener
-                                                           userRegistrationUIEventListener) {
-        this.userRegistrationUIEventListener = userRegistrationUIEventListener;
-    }
-
-    private UserRegistrationUIEventListener userRegistrationUIEventListener;
-
     private NetworkStateReceiver mNetworkReceiver = new NetworkStateReceiver();
 
     private boolean isCounterRunning;
@@ -158,7 +147,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         RegistrationBaseFragment.mWidth = 0;
         RegistrationBaseFragment.mHeight = 0;
         setPrevTiltle();
-        setUserRegistrationUIEventListener(null);
         super.onDestroy();
     }
 
@@ -303,8 +291,8 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     }
 
     public void userRegistrationComplete() {
-        if (getUserRegistrationUIEventListener() != null) {
-            getUserRegistrationUIEventListener().
+        if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
+            RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                     onUserRegistrationComplete(getParentActivity());
         }else {
             RegUtility.showErrorMessage(getParentActivity());
