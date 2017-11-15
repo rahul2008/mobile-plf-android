@@ -18,7 +18,8 @@ import com.philips.platform.mya.util.mvp.MyaBasePresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.philips.platform.mya.util.MyaConstants.MY_ACCOUNTS;
+import static com.philips.platform.mya.MyaConstants.MY_ACCOUNTS;
+
 
 class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> implements MyaProfileContract.Presenter {
 
@@ -49,13 +50,15 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
 
     private ArrayList<String> getLocalisedList(Context context, ArrayList propertyForKey) {
         ArrayList<String> localizedStrings = new ArrayList<>();
-        for (int i = 0; i < propertyForKey.size(); i++) {
-            String profileKey = (String) propertyForKey.get(i);
-            String stringResourceByName = getStringResourceByName(context, profileKey);
-            if (!TextUtils.isEmpty(stringResourceByName))
-                localizedStrings.add(stringResourceByName);
-            else
-                localizedStrings.add(profileKey);
+        if (propertyForKey != null && propertyForKey.size() != 0) {
+            for (int i = 0; i < propertyForKey.size(); i++) {
+                String profileKey = (String) propertyForKey.get(i);
+                String stringResourceByName = getStringResourceByName(context, profileKey);
+                if (!TextUtils.isEmpty(stringResourceByName))
+                    localizedStrings.add(stringResourceByName);
+                else
+                    localizedStrings.add(profileKey);
+            }
         }
         return localizedStrings;
     }

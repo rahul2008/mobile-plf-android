@@ -30,7 +30,7 @@ import com.philips.platform.uid.utils.UIDActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-import static com.philips.platform.mya.util.MyaConstants.MYA_DLS_THEME;
+import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
 
 public class MyAccountActivity extends UIDActivity implements MyaListener {
 

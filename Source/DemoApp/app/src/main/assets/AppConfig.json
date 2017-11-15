@@ -140,5 +140,18 @@
   },
   "dataservices": {
     "appname": "OneBackend"
+  },
+  "mya": {
+    "profile.menuItems": [
+      "MYA_My_details",
+      "MYA_My_products",
+      "MYA_My_subscriptions",
+      "MYA_My_orders"
+    ],
+    "settings.menuItems": [
+      "MYA_Country",
+      "MYA_Notifications",
+      "MYA_Permissions"
+    ]
   }
 }

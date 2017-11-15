@@ -3,6 +3,13 @@
     package="com.philips.platform.mya.demouapp">
 
     <application>
+        <activity
+            android:name=".DemoAppActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
+        <activity
+            android:name=".MyaLaunchFragmentActivity"
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
 
     </application>
 

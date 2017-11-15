@@ -27,7 +27,8 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
-import static com.philips.platform.mya.util.MyaConstants.MYA_DLS_THEME;
+import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
+
 
 public class MyaInterface implements UappInterface {
 
