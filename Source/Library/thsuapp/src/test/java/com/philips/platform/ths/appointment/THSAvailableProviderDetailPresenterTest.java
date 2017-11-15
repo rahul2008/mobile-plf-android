@@ -161,7 +161,7 @@ public class THSAvailableProviderDetailPresenterTest {
         verify(thsProviderDetailsDisplayHelperMock).launchSetRemainderDialogFragment(any(THSBaseFragment.class));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void onEvent_calendar_container() throws Exception {
         when(thsAvailableProviderDetailFragmentMock.getContext()).thenReturn(contextMock);
         mThsAvailableProviderDetailPresenter.onEvent(R.id.calendar_container);
