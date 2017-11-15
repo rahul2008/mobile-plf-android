@@ -17,8 +17,8 @@ import com.philips.platform.uid.view.widget.RadioGroup;
 public class THSSetReminderDialogFragment extends DialogFragment implements View.OnClickListener {
 
     public static String TAG = THSSetReminderDialogFragment.class.getSimpleName();
-    private RadioGroup radioGroup;
-    private THSDialogFragmentCallback<String> thsDialogFragmentCallback;
+    protected RadioGroup radioGroup;
+    protected THSDialogFragmentCallback<String> thsDialogFragmentCallback;
 
     public void setDialogFragmentCallback(THSDialogFragmentCallback<String> thsDialogFragmentCallback){
         this.thsDialogFragmentCallback = thsDialogFragmentCallback;

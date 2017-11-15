@@ -39,7 +39,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
 
     private Provider mProvider;
     private THSProviderEntity mThsProviderEntity;
-    private THSProviderNotAvailablePresenter mThsProviderNotAvailablePresenter;
+    protected THSProviderNotAvailablePresenter mThsProviderNotAvailablePresenter;
     private Label mChangeAppointDateView;
     private RelativeLayout providerListItemLayoutBasedOnDate;
 
