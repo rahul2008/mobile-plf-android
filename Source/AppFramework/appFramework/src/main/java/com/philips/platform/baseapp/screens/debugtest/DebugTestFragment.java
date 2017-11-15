@@ -79,9 +79,9 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implemen
     protected void setUpView(final View view) {
         String configurationType[] =
                 {
+                        AppStateConfiguration.DEVELOPMENT.getValue(),
                         AppStateConfiguration.STAGING.getValue(),
-                        AppStateConfiguration.TEST.getValue(),
-                        AppStateConfiguration.DEVELOPMENT.getValue()
+                        AppStateConfiguration.TEST.getValue()
                 };
 
         context = getActivity();

@@ -6,7 +6,9 @@
  */
 package com.philips.platform.appframework.homescreen;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -21,6 +23,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -37,12 +41,17 @@ import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
-import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
+import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
+import com.philips.platform.themesettings.ThemeSelectionActivity;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
@@ -52,6 +61,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.philips.platform.prdemoapp.activity.MainActivity.THEMESETTINGS_ACTIVITY_RESTART;
 
 /**
  * This is the Main activity which host the main hamburger menu
@@ -64,14 +75,13 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     private LinearLayout navigationView;
     private Toolbar toolbar;
     private int selectedIndex=0;
-    //shoppingCartLayout;
-    //    private UserRegistrationState userRegistrationState;
+
     private SharedPreferenceUtility sharedPreferenceUtility;
     private boolean isBackButtonVisible = false;
     Handler handler = new Handler();
     private SideBar sideBar;
     private ActionBarDrawerToggle drawerToggle;
-
+    private int START_THEME_SELECTOR=101;
     @BindView(R.id.hamburger_menu_footer_container)
     LinearLayout hamburgerFooterParent;
 
@@ -79,6 +89,9 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     @BindView(R.id.rap_avatar_name)
     Label avatarName;
+
+    @BindView(R.id.rap_env_name)
+    Label envInfo;
 
     @BindView(R.id.hamburger_log_out)
     Label hamburgerLogoutLabel;
@@ -92,9 +105,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     private HamburgerMenuAdapter hamburgerMenuAdapter;
 
 
-   /* private ImageView cartIcon;
-    private TextView cartCount;
-    private boolean isCartVisible = true;*/
+
 
     /**
      * For instantiating the view and actionabar and hamburger menu initialization
@@ -103,7 +114,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         RALog.d(TAG, " OnCreate ");
-//        setTheme(R.style.Theme_Philips_DarkBlue_Gradient_NoActionBar);
         /*
          * Setting Philips UI KIT standard BLUE theme.
          */
@@ -115,10 +125,17 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         initializeActivityContents();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.catalog_view_menu, menu);
+        return true;
+    }
+
     protected AbstractUIBasePresenter getActivityPresenter() {
         return new HamburgerActivityPresenter(this);
     }
-
     protected void initializeActivityContents() {
         initViews();
 
@@ -203,8 +220,11 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
             hamburgerLogoutLabel.setText(R.string.RA_Settings_Login);
             avatarName.setText(getString(R.string.RA_DLSS_avatar_default_text));
         } else {
-            hamburgerLogoutLabel.setText(R.string.RA_Settings_Logout);
+            String appState = ((AppFrameworkApplication) getApplicationContext()).getAppState();
             avatarName.setText(user.getGivenName());
+            hamburgerLogoutLabel.setText(R.string.RA_Settings_Logout);
+            envInfo.setText(appState);
+
         }
     }
 
@@ -251,15 +271,13 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
             } else if (currentFrag instanceof BackEventListener) {
                 backState = ((BackEventListener) currentFrag).handleBackEvent();
                 if (!backState) {
-//                    ((AppFrameworkApplication)getApplicationContext()).getTargetFlowManager().getBackState();
-                  //  adapter.setSelectedIndex(0);
+
                     if (fragmentManager.getBackStackEntryCount() == 2) {
                         updateSelectionIndex(0);
                     }
                     super.onBackPressed();
                 }
             } else {
-//                ((AppFrameworkApplication)getApplicationContext()).getTargetFlowManager().getBackState();
                 if (fragmentManager.getBackStackEntryCount() == 2) {
                     updateSelectionIndex(0);
                 }
@@ -280,7 +298,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         RALog.d(TAG, " onDestroy ");
         super.onDestroy();
         removeListeners();
-//        userRegistrationState.unregisterUserRegistrationListener();
     }
 
     protected void removeListeners() {
@@ -289,23 +306,8 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     }
 
 
-    /* private void addIapCartCount() {
-         try {
 
-             IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIap().getIapInterface();
-             iapInterface.getProductCartCount(this);
-         }catch (RuntimeException e){
-         }
-     }*/
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        userRegistrationState = new UserRegistrationSettingsState();
-//        if(userRegistrationState.getUserObject(this).isUserSignIn()){
-//           // addIapCartCount();
-//        }
 
-    }
 
     /**
      * For Updating the actionbar title as coming from other components
@@ -471,9 +473,32 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                 } else {
                     sideBar.openDrawer(navigationView);
                 }
-                return true;
+                break;
+
+            case R.id.menu_theme_settings:
+                Intent intent=new Intent(this,ThemeSelectionActivity.class);
+                startActivityForResult(intent, START_THEME_SELECTOR);
+                break;
+
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == Activity.RESULT_OK && requestCode ==START_THEME_SELECTOR) {
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                colorRange = (ColorRange) data.getSerializableExtra("CLR");
+                navigationColor=(NavigationColor) data.getSerializableExtra("NR");
+                contentColor=(ContentColor) data.getSerializableExtra("CR");
+                accentColorRange=(AccentRange) data.getSerializableExtra("AR");
+            }
+            restartActivity();
+            }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -521,4 +546,14 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         Toast.makeText(HamburgerActivity.this, errorMessage, Toast.LENGTH_LONG).show();
         hideProgressBar();
     }
+
+
+    private void restartActivity()
+    {
+        Intent intent = new Intent(this,HamburgerActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(THEMESETTINGS_ACTIVITY_RESTART,true);
+        startActivity(intent);
+    }
+
+
 }

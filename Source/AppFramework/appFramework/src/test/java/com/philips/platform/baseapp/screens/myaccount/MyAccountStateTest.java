@@ -5,6 +5,7 @@
 */
 package com.philips.platform.baseapp.screens.myaccount;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,6 +14,7 @@ import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.csw.ConsentDefinition;
 import com.philips.platform.mya.MyaDependencies;
 import com.philips.platform.mya.MyaInterface;
 import com.philips.platform.mya.MyaLaunchInput;
@@ -24,11 +26,17 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.List;
+import java.util.Locale;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -65,6 +73,10 @@ public class MyAccountStateTest {
     @Mock
     UIStateData uiStateData;
 
+    @Mock
+    private Context mockContext;
+    private static final String LANGUAGE_TAG = "en-NL";
+
     @Before
     public void setUp() {
         myAccountState = new MyAccountStateMock(myaInterface);
@@ -87,6 +99,39 @@ public class MyAccountStateTest {
         verify(myaInterface).launch(any(FragmentLauncher.class), any(MyaLaunchInput.class));
     }
 
+    @Test
+    public void init_testApplicationAndPropositionName() {
+        ArgumentCaptor<MyaDependencies> myaDependencies = ArgumentCaptor.forClass(MyaDependencies.class);
+        myAccountState.setUiStateData(uiStateData);
+        myAccountState.navigate(fragmentLauncher);
+        verify(myaInterface).init(myaDependencies.capture(), any(MyaSettings.class));
+        assertEquals("OneBackend", myaDependencies.getValue().getApplicationName());
+        assertEquals("OneBackendProp", myaDependencies.getValue().getPropositionName());
+    }
+
+    @Test
+    public void shouldCreateNonNullListOfConsentDefinitions() throws Exception {
+        assertNotNull(givenListOfConsentDefinitions());
+    }
+
+    @Test
+    public void shouldAddOneSampleConsentDefinition() throws Exception {
+        final List<ConsentDefinition> definitions = givenListOfConsentDefinitions();
+        assertEquals(1, definitions.size());
+    }
+
+    @Test
+    public void shouldHaveDummyContent() throws Exception {
+        final List<ConsentDefinition> definitions = givenListOfConsentDefinitions();
+        final ConsentDefinition sample = definitions.get(0);
+
+        assertEquals("I allow Philips to store my data in cloud", sample.getText());
+        assertEquals("The actual content of the help text here", sample.getHelpText());
+        assertEquals(LANGUAGE_TAG, sample.getLocale());
+        assertEquals("moment", sample.getType());
+        assertEquals(1, sample.getVersion());
+    }
+
     @After
     public void tearDown() {
         myaInterface = null;
@@ -96,6 +141,10 @@ public class MyAccountStateTest {
         appInfraInterface = null;
         myAccountState = null;
         uiStateData = null;
+    }
+
+    private List<ConsentDefinition> givenListOfConsentDefinitions() {
+        return myAccountState.createConsentDefinitions(mockContext, Locale.forLanguageTag(LANGUAGE_TAG));
     }
 
     class MyAccountStateMock extends MyAccountState {
