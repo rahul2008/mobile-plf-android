@@ -7,8 +7,6 @@
 
 package com.philips.platform.catk.network;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
@@ -31,7 +29,6 @@ import javax.inject.Inject;
 
 public class NetworkController implements ConsentRequestListener, Response.ErrorListener {
     private NetworkAbstractModel model;
-    private Handler mHandler;
 
     @Inject
     RestInterface restInterface;
@@ -42,7 +39,6 @@ public class NetworkController implements ConsentRequestListener, Response.Error
 
     protected void init() {
         ConsentAccessToolKit.getInstance().getCatkComponent().inject(this);
-        this.mHandler = new Handler(Looper.getMainLooper());
     }
 
     public void sendConsentRequest(final NetworkAbstractModel model) {
@@ -95,7 +91,7 @@ public class NetworkController implements ConsentRequestListener, Response.Error
         return header;
     }
 
-    public static void addAuthorization(Map<String, String> headers) {
+    private static void addAuthorization(Map<String, String> headers) {
         headers.put("authorization", "bearer " + ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpAccessToken());
     }
 
@@ -106,6 +102,8 @@ public class NetworkController implements ConsentRequestListener, Response.Error
                 try {
                     addAuthorization(request.getHeaders());
                 } catch (AuthFailureError authFailureError) {
+                    // This should never happen since our getHeaders implementation does not throw.
+                    // However, the interface enforces this exception so catch it here.
                     authFailureError.printStackTrace();
                 }
                 addRequestToQueue(request);
@@ -119,32 +117,20 @@ public class NetworkController implements ConsentRequestListener, Response.Error
     }
 
     private void postSuccessResponseOnUIThread(final JsonArray response) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (model != null) {
-                    Message msg = Message.obtain();
-                    msg.what = model.getMethod();
+        if (model != null) {
+            Message msg = Message.obtain();
+            msg.what = model.getMethod();
 
-                    if (response != null && response.size() == 0) {
-                        msg.obj = CatkConstants.EMPTY_RESPONSE;
-                    } else {
-                        msg.obj = model.parseResponse(response);
-                    }
-                    model.onResponseSuccess(msg);
-                }
+            if (response != null && response.size() == 0) {
+                msg.obj = CatkConstants.EMPTY_RESPONSE;
+            } else {
+                msg.obj = model.parseResponse(response);
             }
-        });
+            model.onResponseSuccess(msg);
+        }
     }
 
     private void postErrorResponseOnUIThread(final VolleyError error) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (model != null && error != null) {
-                    model.onResponseError(new ConsentNetworkError(error));
-                }
-            }
-        });
+        model.onResponseError(new ConsentNetworkError(error));
     }
 }
