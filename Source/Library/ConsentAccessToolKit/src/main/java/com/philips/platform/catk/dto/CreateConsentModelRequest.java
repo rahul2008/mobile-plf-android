@@ -34,7 +34,7 @@ public class CreateConsentModelRequest extends NetworkAbstractModel {
     }
 
     @Override
-    public List<Consent> parseResponse(JsonArray response) {
+    public List<GetConsentsModel> parseResponse(JsonArray response) {
         return null;
     }
 

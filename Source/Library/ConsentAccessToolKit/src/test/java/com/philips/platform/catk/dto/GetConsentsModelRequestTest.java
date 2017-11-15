@@ -113,5 +113,5 @@ public class GetConsentsModelRequestTest extends MockitoConfiguration {
     private final String status = "active";
     private final String subject = "17f7ce85-403c-4824-a17f-3b551f325ce0";
     private final String resourceType = "Consent";
-    private Consent[] expectedConsentModelRequest = new Consent[]{new Consent(locale, ConsentStatus.valueOf(status), "moment", 1)};
+    private GetConsentsModel[] expectedConsentModelRequest = new GetConsentsModel[]{new GetConsentsModel(dateTime, "en-GB", policyRule, resourceType, ConsentStatus.valueOf(status), subject)};
 }

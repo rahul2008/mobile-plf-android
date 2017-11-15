@@ -21,12 +21,14 @@ import com.philips.platform.catk.injection.DaggerCatkComponent;
 import com.philips.platform.catk.injection.UserModule;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
+import com.philips.platform.catk.mapper.DtoToConsentMapper;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkHelper;
 import com.philips.platform.catk.utils.CatkLogger;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -87,7 +89,12 @@ public class ConsentAccessToolKit {
     public void getConsentDetails(final ConsentResponseListener consentListener) {
         GetConsentsModelRequest model = new GetConsentsModelRequest(URL, applicationName, propositionName, new NetworkAbstractModel.DataLoadListener() {
             @Override
-            public void onModelDataLoadFinished(List<Consent> consents) {
+            public void onModelDataLoadFinished(List<GetConsentsModel> dtos) {
+                List<Consent> consents = new ArrayList<>();
+                DtoToConsentMapper mapper = new DtoToConsentMapper();
+                for (GetConsentsModel dto: dtos) {
+                    consents.add(mapper.map(dto));
+                }
                 consentListener.onResponseSuccessConsent(consents);
             }
 
@@ -114,8 +121,8 @@ public class ConsentAccessToolKit {
                 CreateConsentModelRequest model = new CreateConsentModelRequest(URL, applicationName, String.valueOf(consentStatus), propositionName, locale,
                         new NetworkAbstractModel.DataLoadListener() {
                             @Override
-                            public void onModelDataLoadFinished(List<Consent> consents) {
-                                if (consents == null) {
+                            public void onModelDataLoadFinished(List<GetConsentsModel> dtos) {
+                                if (dtos == null) {
                                     consentListener.onSuccess(CatkConstants.CONSENT_SUCCESS);
                                 }
                             }
