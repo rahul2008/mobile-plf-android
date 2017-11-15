@@ -74,7 +74,7 @@ public class UpdatingMonitor extends EventMonitor {
         this.dbFetchingInterface = dbFetchingInterface;
         this.dbSavingInterface = dbSavingInterface;
 
-        DataServicesManager.getInstance().getAppComponant().injectUpdatingMonitor(this);
+        DataServicesManager.getInstance().getAppComponent().injectUpdatingMonitor(this);
     }
 
     //Moments

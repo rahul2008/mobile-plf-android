@@ -62,7 +62,7 @@ public class UCoreAccessProviderTest {
     @Before
     public void setUp() {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         uCoreAccessProvider = new UCoreAccessProvider(userRegistrationFacadeMock);
         uCoreAccessProvider.sharedPreferences = sharedPreferencesMock;
     }

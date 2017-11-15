@@ -86,7 +86,7 @@ public class DataPushSynchronise extends EventMonitor {
 
     public DataPushSynchronise(@NonNull final List<? extends DataSender> senders) {
         mDataServicesManager = DataServicesManager.getInstance();
-        mDataServicesManager.getAppComponant().injectDataPushSynchronize(this);
+        mDataServicesManager.getAppComponent().injectDataPushSynchronize(this);
         this.senders = senders;
     }
 

@@ -22,7 +22,7 @@ public class SettingsSegregator {
     DBFetchingInterface dbFetchingInterface;
 
     public SettingsSegregator() {
-        DataServicesManager.getInstance().getAppComponant().injectSettingsSegregator(this);
+        DataServicesManager.getInstance().getAppComponent().injectSettingsSegregator(this);
     }
 
     public Map<Class, List<?>> putSettingsForSync(Map<Class, List<?>> dataToSync) {

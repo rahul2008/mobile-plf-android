@@ -37,7 +37,7 @@ public class ErrorMonitor extends EventMonitor {
     //TODO: String to be passed instead of status codes
     //String and int to be held in Object and object to be sent to verticals
     public ErrorMonitor(ErrorHandlingInterface errorHandlingInterface) {
-        DataServicesManager.getInstance().getAppComponant().injectErrorMonitor(this);
+        DataServicesManager.getInstance().getAppComponent().injectErrorMonitor(this);
         mErrorHandlingInterface = errorHandlingInterface;
     }
 

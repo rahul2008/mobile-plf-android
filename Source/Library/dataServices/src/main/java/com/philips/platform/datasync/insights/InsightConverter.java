@@ -9,10 +9,8 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.InsightMetadata;
-import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.moments.UCoreMoment;
 
 import org.joda.time.DateTime;
 
@@ -30,7 +28,7 @@ public class InsightConverter {
 
     @Inject
     public InsightConverter() {
-        DataServicesManager.getInstance().getAppComponant().injectInsightConverter(this);
+        DataServicesManager.getInstance().getAppComponent().injectInsightConverter(this);
     }
 
     @NonNull

@@ -63,7 +63,7 @@ public class ConsentsDataFetcher extends DataFetcher {
         this.uCoreAdapter = uCoreAdapter;
         this.gsonConverter = gsonConverter;
         this.consentsConverter = consentsConverter;
-        DataServicesManager.getInstance().getAppComponant().injectConsentsDataFetcher(this);
+        DataServicesManager.getInstance().getAppComponent().injectConsentsDataFetcher(this);
     }
 
     @Nullable

@@ -90,7 +90,7 @@ public class MomentsDataFetcherTest {
         setTowUserMoments();
         setOneMoment();
 
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         fetcher = new MomentsDataFetcher(coreAdapterMock, converterMock, gsonConverterMock);
         fetcher.eventing = eventingSpy;
         fetcher.accessProvider = accessProviderMock;

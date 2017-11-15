@@ -32,7 +32,7 @@ public class SettingsConverterTest {
         initMocks(this);
 
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         settingsConverter = new SettingsConverter();
         settingsConverter.dataCreator = verticalDataCreater;
     }

@@ -69,7 +69,7 @@ public class DataPushSynchroniseTest {
         userAccessProviderSpy = new UserAccessProviderSpy();
         eventingSpy = new EventingSpy();
 
-        DataServicesManager.getInstance().setAppComponant(appComponentMock);
+        DataServicesManager.getInstance().setAppComponent(appComponentMock);
 
         synchronise = new DataPushSynchronise(Arrays.asList(firstDataSenderMock, secondDataSenderMock));
 

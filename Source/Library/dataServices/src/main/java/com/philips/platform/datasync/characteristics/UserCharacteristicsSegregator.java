@@ -23,7 +23,7 @@ public class UserCharacteristicsSegregator {
     DBUpdatingInterface dbUpdatingInterface;
 
     public UserCharacteristicsSegregator() {
-        DataServicesManager.getInstance().getAppComponant().injectUserCharacteristicsSegregator(this);
+        DataServicesManager.getInstance().getAppComponent().injectUserCharacteristicsSegregator(this);
     }
 
     public boolean isUCSynced() throws SQLException {

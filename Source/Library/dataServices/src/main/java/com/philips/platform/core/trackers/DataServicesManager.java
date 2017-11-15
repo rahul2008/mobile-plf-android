@@ -77,6 +77,7 @@ import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
 import com.philips.platform.core.listeners.SubjectProfileListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.utils.DataServicesConstants;
+import com.philips.platform.core.utils.DataServicesLogger;
 import com.philips.platform.core.utils.EventingImpl;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.subjectProfile.UCoreCreateSubjectProfileRequest;
@@ -191,14 +192,16 @@ public class DataServicesManager {
      * @param errorHandlingInterface ErrorHandlingInterface Implementation for handling sync errors @{@link ErrorHandlingInterface}
      */
     public void initializeDataServices(Context context, BaseAppDataCreator creator,
-                                       UserRegistrationInterface facade, ErrorHandlingInterface errorHandlingInterface ,AppInfraInterface mAppInfra) {
-        //mContext = context;
+                                       UserRegistrationInterface facade, ErrorHandlingInterface errorHandlingInterface, AppInfraInterface mAppInfra) {
+        DataServicesLogger.init();
         fetchUrlFromServiceDiscovery(context);
 
         this.mDataCreater = creator;
         this.userRegistrationInterface = facade;
         this.errorHandlingInterface = errorHandlingInterface;
-        this.mAppInfra=mAppInfra;
+        this.mAppInfra = mAppInfra;
+
+        DataServicesLogger.enableLogging();
     }
 
     @Deprecated
@@ -714,7 +717,7 @@ public class DataServicesManager {
      *
      * @return retuns an AppComponant Object
      */
-    public AppComponent getAppComponant() {
+    public AppComponent getAppComponent() {
         return mAppComponent;
     }
 
@@ -723,7 +726,7 @@ public class DataServicesManager {
      *
      * @param appComponent returns the AppComponant Object
      */
-    public void setAppComponant(AppComponent appComponent) {
+    public void setAppComponent(AppComponent appComponent) {
         mAppComponent = appComponent;
     }
 

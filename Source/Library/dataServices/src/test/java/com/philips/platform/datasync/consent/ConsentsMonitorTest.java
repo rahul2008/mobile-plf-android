@@ -25,9 +25,6 @@ import java.util.List;
 
 import retrofit.converter.GsonConverter;
 
-import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -108,7 +105,7 @@ public class ConsentsMonitorTest {
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         errorHandlerImplTest = new ErrorHandlerImplTest();
 
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         consentsMonitor = new ConsentsMonitor(consentDataSenderMock, consentsDataFetcherMock);
         consentsMonitor.uCoreAccessProvider = accessProviderMock;
         consentsMonitor.start(eventingMock);

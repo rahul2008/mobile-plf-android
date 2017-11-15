@@ -27,7 +27,7 @@ public abstract class DataSender {
     public SynchronisationManager synchronisationManager;
 
     public DataSender() {
-        DataServicesManager.getInstance().getAppComponant().injectDataSender(this);
+        DataServicesManager.getInstance().getAppComponent().injectDataSender(this);
     }
 
     public enum State {

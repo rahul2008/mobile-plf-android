@@ -13,8 +13,6 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.sql.SQLException;
-
 import javax.inject.Inject;
 
 public class PushNotificationMonitor extends EventMonitor {
@@ -25,7 +23,7 @@ public class PushNotificationMonitor extends EventMonitor {
     @Inject
     public PushNotificationMonitor(@NonNull PushNotificationController pushNotificationController) {
         mPushNotificationController = pushNotificationController;
-        DataServicesManager.getInstance().getAppComponant().injectPushNotificationMonitor(this);
+        DataServicesManager.getInstance().getAppComponent().injectPushNotificationMonitor(this);
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)

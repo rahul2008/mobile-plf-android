@@ -1,7 +1,6 @@
 package com.philips.platform.datasync.settings;
 
 import com.philips.platform.core.Eventing;
-import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
@@ -12,8 +11,6 @@ import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.platform.datasync.characteristics.UCoreUserCharacteristics;
-import com.philips.platform.datasync.characteristics.UserCharacteristicsClient;
 import com.philips.platform.datasync.synchronisation.DataSender;
 import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 
@@ -89,7 +86,7 @@ public class SettingsDataSenderTest {
     @Before
     public void setUp() {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         settingsDataSender = new SettingsDataSender(uCoreAdapterMock, gsonConverterMock, settingsConverterMock);
         settingsDataSender.eventing = eventingMock;
         settingsDataSender.uCoreAccessProvider = uCoreAccessProviderMock;

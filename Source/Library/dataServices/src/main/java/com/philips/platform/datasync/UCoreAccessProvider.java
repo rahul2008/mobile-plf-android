@@ -41,7 +41,7 @@ public class UCoreAccessProvider implements BackendIdProvider {
 
     @Inject
     public UCoreAccessProvider(@NonNull final UserRegistrationInterface userRegistrationInterface) {
-        DataServicesManager.getInstance().getAppComponant().injectAccessProvider(this);
+        DataServicesManager.getInstance().getAppComponent().injectAccessProvider(this);
         this.userRegistrationInterface = userRegistrationInterface;
     }
 

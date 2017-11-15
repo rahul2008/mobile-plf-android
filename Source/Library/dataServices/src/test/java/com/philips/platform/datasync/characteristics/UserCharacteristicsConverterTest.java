@@ -51,7 +51,7 @@ public class UserCharacteristicsConverterTest {
         initMocks(this);
 
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         userCharacteristicsConvertor = new UserCharacteristicsConverter();
         userCharacteristicsConvertor.dataCreator = verticalDataCreater;
     }

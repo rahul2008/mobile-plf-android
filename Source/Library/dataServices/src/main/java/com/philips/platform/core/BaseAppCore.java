@@ -47,7 +47,7 @@ public class BaseAppCore implements BaseAppDataCreator {
 
     @Inject
     public BaseAppCore() {
-        DataServicesManager.getInstance().getAppComponant().injectBaseAppCore(this);
+        DataServicesManager.getInstance().getAppComponent().injectBaseAppCore(this);
     }
 
     public void start() {

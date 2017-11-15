@@ -47,7 +47,7 @@ public class UserCharacteristicsSender extends DataSender {
     @Inject
     public UserCharacteristicsSender(@NonNull final UserCharacteristicsConverter userCharacteristicsConverter,
                                      @NonNull final GsonConverter gsonConverter) {
-        DataServicesManager.getInstance().getAppComponant().injectUserCharacteristicsSender(this);
+        DataServicesManager.getInstance().getAppComponent().injectUserCharacteristicsSender(this);
         this.mUserCharacteristicsConverter = userCharacteristicsConverter;
         this.mGsonConverter = gsonConverter;
     }

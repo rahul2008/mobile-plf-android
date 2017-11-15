@@ -62,7 +62,7 @@ public class PushNotificationControllerTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(mAppComponent);
+        DataServicesManager.getInstance().setAppComponent(mAppComponent);
         mPushNotificationController = new PushNotificationController(mUCoreAdapter, mGsonConverter);
         mPushNotificationController.uCoreAccessProvider = mUCoreAccessProvider;
         mPushNotificationController.eventing = mEventing;

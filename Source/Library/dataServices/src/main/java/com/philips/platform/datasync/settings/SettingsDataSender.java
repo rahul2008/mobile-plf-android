@@ -54,7 +54,7 @@ public class SettingsDataSender extends DataSender {
         this.uCoreAdapter = uCoreAdapter;
         this.gsonConverter = gsonConverter;
         this.settingsConverter = settingsConverter;
-        DataServicesManager.getInstance().getAppComponant().injectSettingsDataSender(this);
+        DataServicesManager.getInstance().getAppComponent().injectSettingsDataSender(this);
     }
 
     @Override

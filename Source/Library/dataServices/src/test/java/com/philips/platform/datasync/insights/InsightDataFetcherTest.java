@@ -13,7 +13,6 @@ import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -94,7 +93,7 @@ public class InsightDataFetcherTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         insightDataFetcher = new InsightDataFetcher(uCoreAdapterMock, gsonConverterMock, insightConverterMock);
         insightDataFetcher.uCoreAccessProvider = accessProviderMock;
         insightDataFetcher.eventing = eventingMock;

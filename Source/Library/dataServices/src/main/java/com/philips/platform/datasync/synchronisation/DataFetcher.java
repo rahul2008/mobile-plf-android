@@ -35,7 +35,7 @@ public abstract class DataFetcher {
     ErrorHandlingInterface errorHandlingInterface;
 
     public DataFetcher(@NonNull final UCoreAdapter uCoreAdapter) {
-        DataServicesManager.getInstance().getAppComponant().injectDataFetcher(this);
+        DataServicesManager.getInstance().getAppComponent().injectDataFetcher(this);
         this.uCoreAdapter = uCoreAdapter;
     }
 

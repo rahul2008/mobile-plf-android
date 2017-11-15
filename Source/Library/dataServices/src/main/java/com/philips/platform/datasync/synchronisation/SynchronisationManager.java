@@ -27,7 +27,7 @@ public class SynchronisationManager implements SynchronisationChangeListener {
     Eventing mEventing;
 
     public SynchronisationManager() {
-        DataServicesManager.getInstance().getAppComponant().injectSynchronisationManager(this);
+        DataServicesManager.getInstance().getAppComponent().injectSynchronisationManager(this);
     }
 
     public void startSync(DateTime startDate, DateTime endDate, SynchronisationCompleteListener synchronisationCompleteListner) {

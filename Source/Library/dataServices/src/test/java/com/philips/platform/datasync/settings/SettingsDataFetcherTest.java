@@ -2,17 +2,14 @@ package com.philips.platform.datasync.settings;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Settings;
-import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.SettingsBackendGetRequest;
 import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.platform.datasync.characteristics.UserCharacteristicsClient;
 import com.philips.platform.datasync.synchronisation.DataSender;
 
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -24,7 +21,6 @@ import retrofit.converter.GsonConverter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doThrow;
@@ -69,7 +65,7 @@ public class SettingsDataFetcherTest {
     @Before
     public void setUp() {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         settingsDataFetcher = new SettingsDataFetcher(uCoreAdapterMock, gsonConverterMock, settingsConverterMock);
         settingsDataFetcher.uCoreAccessProvider = accessProviderMock;
         settingsDataFetcher.eventing = eventingMock;

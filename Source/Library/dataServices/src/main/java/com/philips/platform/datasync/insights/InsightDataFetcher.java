@@ -54,7 +54,7 @@ public class InsightDataFetcher extends DataFetcher {
         this.uCoreAdapter = uCoreAdapter;
         this.gsonConverter = gsonConverter;
         this.insightConverter = insightConverter;
-        DataServicesManager.getInstance().getAppComponant().injectInsightsDataFetcher(this);
+        DataServicesManager.getInstance().getAppComponent().injectInsightsDataFetcher(this);
     }
 
     @Nullable

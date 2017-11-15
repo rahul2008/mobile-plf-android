@@ -120,7 +120,7 @@ public class ConsentsDataFetcherTest {
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         errorHandlerImplTest = new ErrorHandlerImplTest();
 
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         consentDataFetcher=new ConsentsDataFetcher(uCoreAdapterMock,gsonConverterMock,consentsConverterMock);
         consentDataFetcher.uCoreAccessProvider = uCoreAccessProviderMock;
         consentDataFetcher.eventing=eventingMock;

@@ -122,7 +122,7 @@ public class FetchingMonitorTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         fetchingMonitor = new FetchingMonitor(fetching);
         fetchingMonitor.momentsSegregator = momentsSegregatorMock;
         fetchingMonitor.consentsSegregator = consentsSegregatorMock;

@@ -39,7 +39,7 @@ public class MomentsSegregator {
     BaseAppDataCreator mBaseAppDataCreator;
 
     public MomentsSegregator() {
-        DataServicesManager.getInstance().getAppComponant().injectMomentsSegregator(this);
+        DataServicesManager.getInstance().getAppComponent().injectMomentsSegregator(this);
     }
 
     public int processMomentsReceivedFromBackend(final List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {

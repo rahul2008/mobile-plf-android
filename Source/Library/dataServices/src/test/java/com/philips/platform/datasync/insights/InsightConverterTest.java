@@ -44,7 +44,7 @@ public class InsightConverterTest {
     public void setUp() {
         initMocks(this);
         BaseAppDataCreator mBaseAppDataCreator = new OrmCreatorTest(new UuidGenerator());
-        DataServicesManager.getInstance().setAppComponant(mAppComponent);
+        DataServicesManager.getInstance().setAppComponent(mAppComponent);
         mInsightConverter = new InsightConverter();
         mInsightConverter.dataCreator = mBaseAppDataCreator;
     }

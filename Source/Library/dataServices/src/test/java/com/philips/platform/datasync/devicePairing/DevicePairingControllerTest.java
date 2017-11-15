@@ -63,7 +63,7 @@ public class DevicePairingControllerTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(mAppComponent);
+        DataServicesManager.getInstance().setAppComponent(mAppComponent);
         mDevicePairingController = new DevicePairingController(mUCoreAdapter, mGsonConverter);
         mDevicePairingController.uCoreAccessProvider = mUCoreAccessProvider;
         mDevicePairingController.mEventing = mEventing;

@@ -24,7 +24,7 @@ public class DevicePairingMonitor extends EventMonitor {
     @Inject
     public DevicePairingMonitor(@NonNull DevicePairingController devicePairingController) {
         mDevicePairingController = devicePairingController;
-        DataServicesManager.getInstance().getAppComponant().injectDevicePairingMonitor(this);
+        DataServicesManager.getInstance().getAppComponent().injectDevicePairingMonitor(this);
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)

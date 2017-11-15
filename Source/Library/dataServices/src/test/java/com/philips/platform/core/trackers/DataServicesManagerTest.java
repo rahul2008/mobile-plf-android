@@ -220,7 +220,7 @@ public class DataServicesManagerTest {
         MockitoAnnotations.initMocks(this);
 
         mDataServicesManager = DataServicesManager.getInstance();
-        mDataServicesManager.setAppComponant(appComponantMock);
+        mDataServicesManager.setAppComponent(appComponantMock);
 
         baseAppDataCreator = new VerticalCreater();
         userRegistrationInterface = new VerticalUserRegistrationInterface();

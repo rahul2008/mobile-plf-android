@@ -55,7 +55,7 @@ public class SettingsDataFetcher extends DataFetcher {
         this.uCoreAdapter = uCoreAdapter;
         this.gsonConverter = gsonConverter;
         this.settingsConverter = settingsConverter;
-        DataServicesManager.getInstance().getAppComponant().injectSettingsDataFetcher(this);
+        DataServicesManager.getInstance().getAppComponent().injectSettingsDataFetcher(this);
     }
 
     @Nullable

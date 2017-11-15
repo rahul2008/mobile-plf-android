@@ -59,7 +59,7 @@ public class DevicePairingMonitorTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(mAppComponent);
+        DataServicesManager.getInstance().setAppComponent(mAppComponent);
         mDevicePairingMonitor = new DevicePairingMonitor(mDevicePairingController);
     }
 

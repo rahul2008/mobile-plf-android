@@ -76,7 +76,7 @@ public class DataPullSynchroniseTest {
         userAccessProviderSpy = new UserAccessProviderSpy();
         eventingSpy = new EventingSpy();
 
-        DataServicesManager.getInstance().setAppComponant(appComponentMock);
+        DataServicesManager.getInstance().setAppComponent(appComponentMock);
 
         synchronise = new DataPullSynchronise(
                 Arrays.asList(firstFetcherMock, secondFetcherMock)

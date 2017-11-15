@@ -106,7 +106,7 @@ public class UCoreAdapterTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         DataServicesManager.getInstance().setServiceDiscoveryInterface(serviceDiscoveryInterfaceMock);
         DataServicesManager.getInstance().mDataServicesBaseUrl = TEST_BASE_URL;
         DataServicesManager.getInstance().mDataServicesCoachingServiceUrl = TEST_INSIGHTS_URL;

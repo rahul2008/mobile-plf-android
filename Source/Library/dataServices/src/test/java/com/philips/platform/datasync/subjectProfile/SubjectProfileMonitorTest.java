@@ -65,7 +65,7 @@ public class SubjectProfileMonitorTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(mAppComponent);
+        DataServicesManager.getInstance().setAppComponent(mAppComponent);
         mSubjectProfileMonitor = new SubjectProfileMonitor(mSubjectProfileController);
     }
 

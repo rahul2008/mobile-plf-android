@@ -8,6 +8,7 @@ package com.philips.platform.core.utils;
 public class DataServicesConstants {
     //Application name
     public static final String DATA_SERVICES = "dataservices";
+    public static final String COMPONENT_NAME = "dsc";
 
     //Service Discovery Key
     public static final String BASE_URL_KEY = "ds.dataservice";

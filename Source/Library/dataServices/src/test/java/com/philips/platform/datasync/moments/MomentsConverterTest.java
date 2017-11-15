@@ -35,7 +35,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.when;
@@ -104,7 +103,7 @@ public class MomentsConverterTest {
 
         ormCreatorTest = new OrmCreatorTest(new UuidGenerator());
 
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         momentsConverter = new MomentsConverter();
         momentsConverter.baseAppDataCreater = verticalDataCreater;

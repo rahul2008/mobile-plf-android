@@ -28,7 +28,7 @@ public class SynchronisationMonitor extends EventMonitor {
 
     @Inject
     public SynchronisationMonitor() {
-        DataServicesManager.getInstance().getAppComponant().injectSynchronizationMonitor(this);
+        DataServicesManager.getInstance().getAppComponent().injectSynchronizationMonitor(this);
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
