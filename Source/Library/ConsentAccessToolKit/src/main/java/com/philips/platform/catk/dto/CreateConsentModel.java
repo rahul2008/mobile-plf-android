@@ -28,6 +28,17 @@ public class CreateConsentModel {
     @Expose
     private String policyRule;
 
+    public CreateConsentModel() {
+    }
+
+    public CreateConsentModel(String language, String policyRule, String resourceType, String status, String subject) {
+        this.resourceType = resourceType;
+        this.language = language;
+        this.status = status;
+        this.subject = subject;
+        this.policyRule = policyRule;
+    }
+
     public String getResourceType() {
         return resourceType;
     }

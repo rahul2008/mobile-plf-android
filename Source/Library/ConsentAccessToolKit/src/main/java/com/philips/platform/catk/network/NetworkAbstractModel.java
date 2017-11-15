@@ -39,6 +39,7 @@ public abstract class NetworkAbstractModel {
         }
     }
 
+
     public abstract List<GetConsentsModel> parseResponse(JsonArray response);
 
     public abstract int getMethod();

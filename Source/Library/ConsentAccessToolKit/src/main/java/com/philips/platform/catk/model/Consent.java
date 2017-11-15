@@ -1,17 +1,19 @@
 package com.philips.platform.catk.model;
 
 
+import com.philips.platform.catk.response.ConsentStatus;
+
 public class Consent {
 
     private String locale;
 
-    private String status;
+    private ConsentStatus status;
 
     private String type;
 
     private int version;
 
-    public Consent(String locale, String status, String type, int version) {
+    public Consent(String locale, ConsentStatus status, String type, int version) {
         this.locale = locale;
         this.status = status;
         this.type = type;
@@ -26,11 +28,11 @@ public class Consent {
         this.locale = locale;
     }
 
-    public String getStatus() {
+    public ConsentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ConsentStatus status) {
         this.status = status;
     }
 
@@ -48,5 +50,27 @@ public class Consent {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Consent)) return false;
+
+        Consent consent = (Consent) o;
+
+        if (version != consent.version) return false;
+        if (locale != null ? !locale.equals(consent.locale) : consent.locale != null) return false;
+        if (status != consent.status) return false;
+        return type != null ? type.equals(consent.type) : consent.type == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = locale != null ? locale.hashCode() : 0;
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + version;
+        return result;
     }
 }

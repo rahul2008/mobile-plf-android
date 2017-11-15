@@ -9,57 +9,56 @@ package com.philips.platform.catk.dto;
 
 import org.junit.*;
 
-import com.philips.platform.catk.dto.GetConsentsModel;
 import com.philips.platform.catk.response.ConsentStatus;
 
 public class GetConsentsModelTest {
 
-    private GetConsentsModel getConsentsModel;
+    private GetConsentsModel getConsentModel;
 
     @Before
     public void setUp() throws Exception {
-        getConsentsModel = new GetConsentsModel();
+        getConsentModel = new GetConsentsModel();
     }
 
     @After
     public void tearDown() throws Exception {
-        getConsentsModel = null;
+        getConsentModel = null;
     }
 
     @Test
     public void getDateTime() throws Exception {
-        getConsentsModel.setDateTime("017-11-01T17:27:16.000Z");
-        Assert.assertNotNull(getConsentsModel.getDateTime());
+        getConsentModel.setDateTime("017-11-01T17:27:16.000Z");
+        Assert.assertNotNull(getConsentModel.getDateTime());
     }
 
     @Test
     public void getResourceType() throws Exception {
-        getConsentsModel.setResourceType("Consent");
-        Assert.assertNotNull(getConsentsModel.getResourceType());
+        getConsentModel.setResourceType("Consent");
+        Assert.assertNotNull(getConsentModel.getResourceType());
     }
 
     @Test
     public void getLanguage() throws Exception {
-        getConsentsModel.setLanguage("af-ZA");
-        Assert.assertNotNull(getConsentsModel.getLanguage());
+        getConsentModel.setLanguage("af-ZA");
+        Assert.assertNotNull(getConsentModel.getLanguage());
     }
 
     @Test
     public void getStatus() throws Exception {
-        getConsentsModel.setStatus(ConsentStatus.active);
-        Assert.assertNotNull(getConsentsModel.getStatus());
+        getConsentModel.setStatus(ConsentStatus.active);
+        Assert.assertNotNull(getConsentModel.getStatus());
     }
 
     @Test
     public void getSubject() throws Exception {
-        getConsentsModel.setSubject("17f7ce85-403c-4824-a17f-3b551f325ce0");
-        Assert.assertNotNull(getConsentsModel.getSubject());
+        getConsentModel.setSubject("17f7ce85-403c-4824-a17f-3b551f325ce0");
+        Assert.assertNotNull(getConsentModel.getSubject());
     }
 
     @Test
     public void getPolicyRule() throws Exception {
-        getConsentsModel.setPolicyRule("urn:com.philips.consent:moment/");
-        Assert.assertNotNull(getConsentsModel.getPolicyRule());
+        getConsentModel.setPolicyRule("urn:com.philips.consent:moment/");
+        Assert.assertNotNull(getConsentModel.getPolicyRule());
     }
 
 }
