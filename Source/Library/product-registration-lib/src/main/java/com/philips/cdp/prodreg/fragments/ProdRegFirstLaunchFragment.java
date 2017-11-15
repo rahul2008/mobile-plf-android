@@ -113,7 +113,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
                 final FragmentActivity activity = getActivity();
                 final User user = new User(activity);
                 if (user.isUserSignIn()) {
-                    final ProdRegProcessFragment processFragment = new ProdRegProcessFragment();
+                    final ProdRegRegistrationFragment processFragment = new ProdRegRegistrationFragment();
                     processFragment.setArguments(dependencies);
                     ProdRegTagging.getInstance().trackAction("ProductRegistrationEvent", "specialEvents", "productregistrationOptin");
                     final ProdRegCache prodRegCache = new ProdRegCache();

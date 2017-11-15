@@ -51,7 +51,7 @@
     <string name="PPR_OK">OK </string>
     <string name="PPR_Find_Serial_Number">Where can I find my serial number?</string>
     <string name="PPR_find_serial_number_help_message">Engraved on the back of the product, in the compartment under the plastic cover, under the trimmer or under the shaving head</string>
-    <string name="PPR_ok_i_found_it">OK, I\'ve found it</string>
+    <string name="PPR_ok_i_found_it">OK, I found it</string>
     <string name="PPR_registered">Registered</string>
     <string name="PPR_registered_on">Registered on</string>
     <string name="PPR_warranty_until">Warranty until</string>

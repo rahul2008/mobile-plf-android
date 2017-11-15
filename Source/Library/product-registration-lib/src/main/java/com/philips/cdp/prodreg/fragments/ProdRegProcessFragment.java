@@ -50,7 +50,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
 
     @Override
     public List<RegisteredProduct> getRegisteredProducts() {
-        return prodRegProcessController.getRegisteredProductsList();
+        return null;
     }
 
     private void setImageBackground() {
@@ -63,22 +63,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final Bundle arguments = getArguments();
-        if (arguments != null) {
-            isFirstLaunch = arguments.getBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH);
-            resId = arguments.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
-        }
-        setRetainInstance(true);
-        final FragmentActivity activity = getActivity();
-        prodRegProcessController = new ProdRegProcessController(this, activity);
-        if (savedInstanceState == null) {
-            final ProdRegCache prodRegCache = new ProdRegCache();
-            new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_SCAN_COUNT, 1);
-            ProdRegTagging.getInstance().trackAction("ProdRegProcessPopUpEvent", "noOfScannedProducts", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_SCAN_COUNT)));
-            showLoadingDialog();
-        } else {
-            prodRegProcessController.setLaunchedRegistration(savedInstanceState.getBoolean(ProdRegConstants.IS_SIGN_IN_CALLED, false));
-        }
+
     }
 
     @Override
@@ -90,9 +75,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     @Override
     public void onStart() {
         super.onStart();
-        //resetErrorDialogIfExists();
-        final Bundle arguments = getArguments();
-        prodRegProcessController.process(arguments);
+
     }
 
     @Override
@@ -103,12 +86,9 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
 
     @Override
     public void onSaveInstanceState(final Bundle outState) {
-        outState.putBoolean(ProdRegConstants.PROGRESS_STATE, prodRegProcessController.isApiCallingProgress());
-        outState.putBoolean(ProdRegConstants.IS_SIGN_IN_CALLED, prodRegProcessController.isLaunchedRegistration());
-        super.onSaveInstanceState(outState);
+
     }
 
-    @Override
     public void exitProductRegistration() {
         clearFragmentStack();
         unRegisterProdRegListener();
@@ -121,7 +101,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
         isFailedOnError = true;
     }
 
-    @Override
+
     public void buttonEnable() {
 
     }
@@ -131,12 +111,11 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
         super.showFragment(fragment);
     }
 
-    @Override
+
     public void showLoadingDialog() {
-        showProdRegLoadingDialog(getString(R.string.PPR_Looking_For_Products_Lbltxt), "prg_dialog");
+        showProdRegLoadingDialog(getString(R.string.PRG_Looking_For_Products_Lbltxt), "prg_dialog");
     }
 
-    @Override
     public void dismissLoadingDialog() {
         dismissProdRegLoadingDialog();
     }

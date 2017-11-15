@@ -24,14 +24,14 @@ public class ProdRegUtil {
     public boolean isValidDate(final String date) {
         if (date != null) {
             String[] dates = date.split("-");
-            return dates.length > 1 && Integer.parseInt(dates[0]) > 1999 && !isFutureDate(date);
+            return dates.length > 1 && Integer.parseInt(dates[2]) > 1999 && !isFutureDate(date);
         } else return false;
     }
 
     @SuppressWarnings("SimpleDateFormat")
     public boolean isFutureDate(String date) {
         try {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Calendar calendar = Calendar.getInstance();
         final String mGetDeviceDate = dateFormat.format(calendar.getTime());
             final Date mDisplayDate = dateFormat.parse(date);

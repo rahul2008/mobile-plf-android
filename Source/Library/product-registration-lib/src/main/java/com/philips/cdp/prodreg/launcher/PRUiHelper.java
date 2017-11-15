@@ -21,8 +21,7 @@ import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
-import com.philips.cdp.prodreg.fragments.ProdRegFirstLaunchFragment;
-import com.philips.cdp.prodreg.fragments.ProdRegProcessFragment;
+import com.philips.cdp.prodreg.fragments.*;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.prodreg.register.Product;
@@ -144,7 +143,7 @@ public class PRUiHelper {
                 if (fragmentLauncher.getFragmentActivity() instanceof ProdRegBaseActivity)
                     fragmentLauncher.getFragmentActivity().finish();
             } else {
-                ProdRegProcessFragment prodRegProcessFragment = new ProdRegProcessFragment();
+                ProdRegRegistrationFragment prodRegProcessFragment = new ProdRegRegistrationFragment();
                 prodRegProcessFragment.setArguments(arguments);
                 prodRegProcessFragment.showFragment(prodRegProcessFragment,
                         fragmentLauncher, fragmentLauncher.getEnterAnimation(), fragmentLauncher.getExitAnimation());

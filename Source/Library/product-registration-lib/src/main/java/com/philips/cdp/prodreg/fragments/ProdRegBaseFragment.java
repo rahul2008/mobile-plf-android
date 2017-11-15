@@ -143,7 +143,7 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
                         mExitAnimation, mEnterAnimation, mExitAnimation);
             }
             final String simpleName = fragment.getClass().getSimpleName();
-            fragmentTransaction.replace(containerId, fragment, simpleName);
+            fragmentTransaction.add(containerId, fragment, simpleName);
             Fragment currentFrag = fragmentActivity.getSupportFragmentManager()
                     .findFragmentById(getId());
 

@@ -4,40 +4,34 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_gravity="center"
-              android:layout_marginLeft="@dimen/fab_margin"
-              android:layout_marginRight="@dimen/fab_margin"
-              android:orientation="vertical"
-              android:padding="10dp">
+              android:paddingRight="@dimen/fab_margin"
+              android:paddingLeft="@dimen/fab_margin"
+              android:orientation="vertical">
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/serial_number_title_message"
         style="@style/UIDLabel.ProductRegistrationHeaderTitleTheme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/serial_number_registered_message"
         style="@style/UIDLabel.ProductRegistrationProductSubTitleTheme"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pr_registration_margin_top"
-        android:text=""
         android:visibility="gone"/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/serial_number_warranty_message"
         style="@style/UIDLabel.ProductRegistrationProductSubTitleTheme"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
         android:visibility="gone"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin"
         android:layout_marginTop="@dimen/margin_bottom"
         >
 
@@ -53,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/button_continue"
-            android:layout_marginTop="@dimen/pr_c_value_sm"
+            android:layout_marginTop="@dimen/pr_margin_8dp"
             android:text="@string/PRG_Close"
             android:textAllCaps="false"
             app:uidComponentType="Secondary"
