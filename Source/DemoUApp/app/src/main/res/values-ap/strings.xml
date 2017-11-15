@@ -2,31 +2,31 @@
 <resources>
 
     <!-- happy flow configuration -->
-    <string name="lbl_appname">AirPurifier solution</string>
-    <string name="lbl_devicename">AirPurifier</string>
+    <string name="ews_app_name_default">AirPurifier solution</string>
+    <string name="ews_device_name_default">AirPurifier</string>
 
     <string name="label_ews_get_started_title">Connect with your AirPurifier</string>
 
-    <string name="lbl_setup_screen_title">2. Make sure your device is powered on </string>
-    <string name="lbl_setup_screen_body">Press the power button to turn your device on.</string>
+    <string name="label_ews_plug_in_title_default">2. Make sure your device is powered on </string>
+    <string name="label_ews_plug_in_body_default">Press the power button to turn your device on.</string>
 
-    <string name="lbl_setup_verifyscreen_title">3. Is the device in setup-mode?</string>
-    <string name="lbl_setup_verifyscreen_body">Follow the instructions to put your device in Setup-mode.\n\nIs the Wi-Fi light blinking?</string>
-    <string name="lbl_setup_verifyscreen_yesbutton">Yes, Wi-Fi is blinking</string>
-    <string name="lbl_setup_verifyscreen_nobutton">No, Wi-Fi is not blinking</string>
+    <string name="label_ews_verify_ready_title_default">3. Is the device in setup-mode?</string>
+    <string name="label_ews_verify_ready_question_default">Follow the instructions to put your device in Setup-mode.\n\nIs the Wi-Fi light blinking?</string>
+    <string name="button_ews_verify_ready_yes_default">Yes, Wi-Fi is blinking</string>
+    <string name="button_ews_verify_ready_no_default">No, Wi-Fi is not blinking</string>
 
     <!-- Trouble shoot flow configuration -->
-    <string name="label_ews_support_reset_connection_title">Has %1$s left setup?</string>
-    <string name="label_ews_support_reset_connection_body">Has your %1$s left setup mode?\n Is the Wi-Fi light still blinking?</string>
+    <string name="label_ews_support_reset_connection_title_default">Has %1$s left setup?</string>
+    <string name="label_ews_support_reset_connection_body_default">Has your %1$s left setup mode?\n Is the Wi-Fi light still blinking?</string>
 
-    <string name="label_ews_support_reset_device_title">Enable the setup mode on the %1$s</string>
-    <string name="label_ews_support_reset_device_body">Please, enable the setup mode on the %1$s</string>
+    <string name="label_ews_support_reset_device_title_default">Enable the setup mode on the %1$s</string>
+    <string name="label_ews_support_reset_device_body_default">Please, enable the setup mode on the %1$s</string>
 
-    <string name="label_ews_setup_access_point_mode_title">Try setting up regardless</string>
-    <string name="label_ews_setup_access_point_mode_body">Usually you can setup device in this state, Please try setting it up. \nOtherwise, try to enable setup mode again.</string>
+    <string name="label_ews_support_setup_access_point_title_default">Try setting up regardless</string>
+    <string name="label_ews_support_setup_access_point_body_default">Usually you can setup device in this state, Please try setting it up. \nOtherwise, try to enable setup mode again.</string>
 
-    <string name="label_ews_connect_to_wrongphone_title">Accidently connect with wrong phone?</string>
-    <string name="label_ews_connect_to_wrongphone_body">If your device has been connected to another phone by accident, then you can control the AirPurifier with that phone.</string>
-    <string name="label_ews_connect_to_wrongphone_question">Do you see this screen?</string>
+    <string name="label_ews_support_wrong_phone_title_default">Accidently connect with wrong phone?</string>
+    <string name="label_ews_support_wrong_phone_body_default">If your device has been connected to another phone by accident, then you can control the AirPurifier with that phone.</string>
+    <string name="label_ews_support_wrong_phone_question_default">Do you see this screen?</string>
 
 </resources>

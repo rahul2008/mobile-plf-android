@@ -81,7 +81,7 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
     @NonNull
     private Map<String, String> createProductMap() {
         Map<String, String> productKeyMap = new HashMap<>();
-        productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.lbl_devicename));
+        productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.ews_device_name_default));
         return productKeyMap;
     }
 
@@ -90,7 +90,7 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
         if (isDefaultValueSelected()){
             return new BaseContentConfiguration();
         }else{
-            return new BaseContentConfiguration(R.string.lbl_devicename, R.string.lbl_appname);
+            return new BaseContentConfiguration(R.string.ews_device_name_default, R.string.ews_app_name_default);
         }
     }
 
@@ -101,12 +101,12 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
         }else{
             return new HappyFlowContentConfiguration.Builder()
                     .setGettingStartedScreenTitle(R.string.label_ews_get_started_title)
-                    .setSetUpScreenTitle(R.string.lbl_setup_screen_title)
-                    .setSetUpScreenBody(R.string.lbl_setup_screen_body)
-                    .setSetUpVerifyScreenTitle(R.string.lbl_setup_verifyscreen_title)
-                    .setSetUpVerifyScreenQuestion(R.string.lbl_setup_verifyscreen_body)
-                    .setSetUpVerifyScreenYesButton(R.string.lbl_setup_verifyscreen_yesbutton)
-                    .setSetUpVerifyScreenNoButton(R.string.lbl_setup_verifyscreen_nobutton)
+                    .setSetUpScreenTitle(R.string.label_ews_plug_in_title_default)
+                    .setSetUpScreenBody(R.string.label_ews_plug_in_body_default)
+                    .setSetUpVerifyScreenTitle(R.string.label_ews_verify_ready_title_default)
+                    .setSetUpVerifyScreenQuestion(R.string.label_ews_verify_ready_question_default)
+                    .setSetUpVerifyScreenYesButton(R.string.button_ews_verify_ready_yes_default)
+                    .setSetUpVerifyScreenNoButton(R.string.button_ews_verify_ready_no_default)
                     .build();
         }
     }
@@ -138,9 +138,7 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
                 case 2:
                     updateCurrentContent(AIRPURIFIER);
                     break;
-                case 0:
                 default:
-                    updateCurrentContent("");
                     break;
             }
         }
@@ -154,22 +152,22 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
     @NonNull
     private TroubleShootContentConfiguration createTroubleShootingConfiguration(){
         return new TroubleShootContentConfiguration.Builder()
-                .setResetConnectionTitle(R.string.label_ews_support_reset_connection_title)
-                .setResetConnectionBody(R.string.label_ews_support_reset_connection_body)
+                .setResetConnectionTitle(R.string.label_ews_support_reset_connection_title_default)
+                .setResetConnectionBody(R.string.label_ews_support_reset_connection_body_default)
                 .setResetConnectionImage(R.drawable.ic_ews_enable_ap_mode)
 
-                .setResetDeviceTitle(R.string.label_ews_support_reset_device_title)
-                .setResetDeviceBody(R.string.label_ews_support_reset_device_body)
+                .setResetDeviceTitle(R.string.label_ews_support_reset_device_title_default)
+                .setResetDeviceBody(R.string.label_ews_support_reset_device_body_default)
                 .setResetDeviceImage(R.drawable.ic_ews_enable_ap_mode)
 
-                .setSetUpAccessPointTitle(R.string.label_ews_setup_access_point_mode_title)
-                .setSetUpAccessPointBody(R.string.label_ews_setup_access_point_mode_body)
+                .setSetUpAccessPointTitle(R.string.label_ews_support_setup_access_point_title_default)
+                .setSetUpAccessPointBody(R.string.label_ews_support_setup_access_point_body_default)
                 .setSetUpAccessPointImage(R.drawable.ic_ews_enable_ap_mode)
 
-                .setConnectWrongPhoneTitle(R.string.label_ews_connect_to_wrongphone_title)
-                .setConnectWrongPhoneBody(R.string.label_ews_connect_to_wrongphone_body)
+                .setConnectWrongPhoneTitle(R.string.label_ews_support_wrong_phone_title_default)
+                .setConnectWrongPhoneBody(R.string.label_ews_support_wrong_phone_body_default)
                 .setConnectWrongPhoneImage(R.drawable.ic_ews_enable_ap_mode)
-                .setConnectWrongPhoneQuestion(R.string.label_ews_connect_to_wrongphone_question)
+                .setConnectWrongPhoneQuestion(R.string.label_ews_support_wrong_phone_question_default)
                 .build();
     }
 }
