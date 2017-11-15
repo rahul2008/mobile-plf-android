@@ -21,10 +21,9 @@ import com.philips.platform.csw.CswConstants;
 import com.philips.platform.csw.CswFragment;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswLaunchInput;
-import com.philips.platform.mya.account.AccountView;
+import com.philips.platform.mya.profile.MyaProfileFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.listener.BackEventListener;
 
 public class MyaFragment extends Fragment {
 
@@ -88,9 +87,8 @@ public class MyaFragment extends Fragment {
         }
     }
 
-    private AccountView buildAccountView() {
-        AccountView accountView = new AccountView();
-        return accountView;
+    private Fragment buildAccountView() {
+        return new MyaProfileFragment();
     }
 
     public int getFragmentCount() {

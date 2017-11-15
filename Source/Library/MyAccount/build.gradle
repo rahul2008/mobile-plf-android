@@ -288,6 +288,15 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-web:2.2.2'
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
     compile project(':ConsentWidgets')
+
+    def daggerVer = 2.11
+
+    compile "com.google.dagger:dagger:$daggerVer"
+    compile "com.google.dagger:dagger-android-support:$daggerVer"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVer"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVer"
+
+
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

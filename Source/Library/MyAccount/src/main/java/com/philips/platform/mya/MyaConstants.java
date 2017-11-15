@@ -9,4 +9,8 @@ package com.philips.platform.mya;
 
 public class MyaConstants {
     public static final String MYAFRAGMENT = "MYAFRAGMENT";
+    public static final String MY_ACCOUNTS= "My_Accounts";
+    public static final String MY_ACCOUNTS_CALLEE_TAG= "My_Accounts_callee_tag";
+    public static final String MYA_DLS_THEME= "Mya_dls_theme";
+
 }
