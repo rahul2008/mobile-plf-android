@@ -209,19 +209,23 @@ dependencies {
 	
 	def dp = project.ext.has('useprojectdependencies')
 
-	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
-	compile(dp ? project(':uid') : uidModule) 
-	{
-		transitive = true
-	}
+    if(dp) {
+        project(':uid')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            transitive = true
+        }
+    }
 
     compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
-	
-	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) 
-	compile(dp ? project(':ufw') : ufwModule) 
-	{
-		transitive = true
-	}
+
+    if(dp) {
+        project(':ufw')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {
+            transitive = true
+        }
+    }
 
     compile group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '7.7.1'
 
