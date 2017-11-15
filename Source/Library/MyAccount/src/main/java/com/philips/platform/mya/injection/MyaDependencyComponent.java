@@ -7,7 +7,7 @@
  */
 package com.philips.platform.mya.injection;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import javax.inject.Singleton;
 
@@ -16,5 +16,5 @@ import dagger.Component;
 @Component(modules = {MyaDependencyModule.class})
 @Singleton
 public interface MyaDependencyComponent {
-    AppInfra getAppInfra();
+    AppInfraInterface getAppInfra();
 }
