@@ -171,6 +171,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         if (id == R.id.ths_continue) {
             enableDisableContinueBtn();
             if (validateUserDetails()) {
+
                 mContinueButton.showProgressIndicator();
 
                 if(THSManager.getInstance().getThsConsumer(getContext()).isDependent()){

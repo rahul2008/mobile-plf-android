@@ -32,7 +32,7 @@ import com.philips.platform.ths.uappclasses.THSMicroAppDependencies;
 import com.philips.platform.ths.uappclasses.THSMicroAppInterfaceImpl;
 import com.philips.platform.ths.uappclasses.THSMicroAppLaunchInput;
 import com.philips.platform.ths.uappclasses.THSMicroAppSettings;
-import com.philips.platform.ths.uappclasses.THSVisitCompletionListener;
+import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -52,7 +52,7 @@ import java.util.Calendar;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends UIDActivity implements ActionBarListener, UserRegistrationListener, UserRegistrationUIEventListener,THSVisitCompletionListener {
+public class MainActivity extends UIDActivity implements ActionBarListener, UserRegistrationListener, UserRegistrationUIEventListener,THSCompletionProtocol {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
     private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_Bright;
@@ -276,7 +276,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
     }
 
     @Override
-    public void onTHSVisitComplete(boolean isTHSVisitComplete) {
-        AmwellLog.d(this.getClass().getName(),Boolean.toString(isTHSVisitComplete));
+    public void didExitTHS(THSExitType thsExitType) {
+        AmwellLog.d(this.getClass().getName(),thsExitType.toString());
     }
 }

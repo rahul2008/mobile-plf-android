@@ -17,7 +17,6 @@ import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.settings.THSVisitReportListCallback;
 import com.philips.platform.ths.utility.AmwellLog;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 
@@ -25,8 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_RATING;
+import static com.philips.platform.ths.uappclasses.THSCompletionProtocol.THSExitType.visitSuccessful;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
-import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 /**
  * Created by philips on 8/4/17.
@@ -45,7 +44,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     public void onEvent(int componentID) {
 
         if (componentID == R.id.ths_visit_summary_continue_button) {
-            mTHSVisitSummaryFragment.exitFromAmWell(true);
+            mTHSVisitSummaryFragment.exitFromAmWell(visitSuccessful);
         }
 
     }
