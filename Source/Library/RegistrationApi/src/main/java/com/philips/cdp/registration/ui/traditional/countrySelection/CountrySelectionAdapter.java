@@ -82,9 +82,9 @@ public class CountrySelectionAdapter extends RecyclerView.Adapter< RecyclerView.
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
 
-        if(viewHolder == null) return;
+        if(viewHolder == null || viewHolder instanceof CountryPickerHeaderHolder) return;
 
         if(viewHolder instanceof CountryPickerHolder){
 
@@ -99,7 +99,7 @@ public class CountrySelectionAdapter extends RecyclerView.Adapter< RecyclerView.
             holder.itemView.setOnClickListener(view -> {
                 setSelectedPosition(position);
                 handler.removeCallbacksAndMessages(null);
-                handler.postDelayed(() -> mSelectedCountryListener.onCountrySelected(position), 500);
+                handler.postDelayed(() -> mSelectedCountryListener.onCountrySelected(position-HEADER_COUNT), 500);
             });
         }
 
