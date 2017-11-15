@@ -26,9 +26,14 @@ import com.philips.platform.catk.dto.GetConsentsModel;
 import com.philips.platform.catk.response.ConsentStatus;
 import com.philips.platform.csw.CswBaseFragment;
 import com.philips.platform.mya.consentwidgets.R;
+import com.philips.platform.mya.consentwidgets.R2;
 import com.philips.platform.uid.view.widget.Switch;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class PermissionView extends CswBaseFragment implements
         PermissionInterface, CompoundButton.OnCheckedChangeListener {
@@ -44,9 +49,13 @@ public class PermissionView extends CswBaseFragment implements
     private String applicationName;
     private String propositionName;
 
+    private Unbinder unbinder;
 
-    private RelativeLayout csw_relative_layout_switch_container;
-    private RelativeLayout csw_relative_layout_what_container;
+    @BindView(R2.id.csw_relative_layout_switch_container)
+    RelativeLayout csw_relative_layout_switch_container;
+
+    @BindView(R2.id.csw_relative_layout_what_container)
+    RelativeLayout csw_relative_layout_what_container;
 
     @Override
     protected void setViewParams(Configuration config, int width) {
@@ -67,14 +76,14 @@ public class PermissionView extends CswBaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.csw_permission_view, container, false);
+        unbinder = ButterKnife.bind(this, view);
         if (getArguments() != null) {
             applicationName = getArguments().getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
             propositionName = getArguments().getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
         }
+
         mConsentSwitch = (Switch) view.findViewById(R.id.toggleicon);
         getConsentStatus();
-        csw_relative_layout_switch_container = (RelativeLayout) view.findViewById(R.id.csw_relative_layout_switch_container);
-        csw_relative_layout_what_container = (RelativeLayout) view.findViewById(R.id.csw_relative_layout_what_container);
         handleOrientation(view);
         consumeTouch(view);
         return view;
@@ -84,6 +93,14 @@ public class PermissionView extends CswBaseFragment implements
     public void onDestroyView() {
         super.onDestroyView();
         mConsentSwitch.setOnCheckedChangeListener(null);
+        unbindView();
+
+    }
+
+    private void unbindView() {
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
     }
 
     @Override
@@ -109,33 +126,33 @@ public class PermissionView extends CswBaseFragment implements
         ConsentAccessToolKit.getInstance().
                 getStatusForConsentType(CONSENT_TYPE_MOMENT, version, new ConsentResponseListener() {
 
-            @Override
-            public void onResponseSuccessConsent(List<GetConsentsModel> responseData) {
-                if (responseData != null && !responseData.isEmpty()) {
-                    GetConsentsModel consentModel = responseData.get(0);
-                    hideProgressDialog();
-                    mConsentSwitch.setChecked(consentModel.getStatus().equals(ConsentStatus.active));
-                    Log.d(" Consent : ", "getDateTime :" + consentModel.getDateTime());
-                    Log.d(" Consent : ", "getLanguage :" + consentModel.getLanguage());
-                    Log.d(" Consent : ", "status :" + consentModel.getStatus());
-                    Log.d(" Consent : ", "policyRule :" + consentModel.getPolicyRule());
-                    Log.d(" Consent : ", "Resource type :" + consentModel.getResourceType());
-                    Log.d(" Consent : ", "subject  :" + consentModel.getSubject());
-                } else {
-                    hideProgressDialog();
-                    mConsentSwitch.setChecked(false);
-                    Log.d(" Consent : ", "no consent for type found on server");
-                }
-                mConsentSwitch.setOnCheckedChangeListener(PermissionView.this);
-            }
+                    @Override
+                    public void onResponseSuccessConsent(List<GetConsentsModel> responseData) {
+                        if (responseData != null && !responseData.isEmpty()) {
+                            GetConsentsModel consentModel = responseData.get(0);
+                            hideProgressDialog();
+                            mConsentSwitch.setChecked(consentModel.getStatus().equals(ConsentStatus.active));
+                            Log.d(" Consent : ", "getDateTime :" + consentModel.getDateTime());
+                            Log.d(" Consent : ", "getLanguage :" + consentModel.getLanguage());
+                            Log.d(" Consent : ", "status :" + consentModel.getStatus());
+                            Log.d(" Consent : ", "policyRule :" + consentModel.getPolicyRule());
+                            Log.d(" Consent : ", "Resource type :" + consentModel.getResourceType());
+                            Log.d(" Consent : ", "subject  :" + consentModel.getSubject());
+                        } else {
+                            hideProgressDialog();
+                            mConsentSwitch.setChecked(false);
+                            Log.d(" Consent : ", "no consent for type found on server");
+                        }
+                        mConsentSwitch.setOnCheckedChangeListener(PermissionView.this);
+                    }
 
-            @Override
-            public int onResponseFailureConsent(int consentError) {
-                hideProgressDialog();
-                Log.d(" Consent : ", "fail  :" + consentError);
-                return consentError;
-            }
-        });
+                    @Override
+                    public int onResponseFailureConsent(int consentError) {
+                        hideProgressDialog();
+                        Log.d(" Consent : ", "fail  :" + consentError);
+                        return consentError;
+                    }
+                });
     }
 
     private void createConsentStatus(boolean isChecked) {
