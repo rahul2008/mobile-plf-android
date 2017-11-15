@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.mya.R;
+import com.philips.platform.mya.injection.MyaUiComponent;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
@@ -94,26 +95,32 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
     }
 
     public void initDLSThemeIfExists() {
-        ThemeConfiguration themeConfiguration = MyaInterface.getMyaUiComponent().getThemeConfiguration();
-        if (getIntent().getExtras() != null && themeConfiguration !=null) {
-            Bundle extras = getIntent().getExtras();
-            UIDHelper.init(themeConfiguration);
-            getTheme().applyStyle(extras.getInt(MYA_DLS_THEME), true);
+        MyaUiComponent myaUiComponent = MyaInterface.getMyaUiComponent();
+        if (myaUiComponent != null) {
+            ThemeConfiguration themeConfiguration = MyaInterface.getThemeConfiguration();
+            if (getIntent().getExtras() != null && themeConfiguration != null) {
+                Bundle extras = getIntent().getExtras();
+                UIDHelper.init(themeConfiguration);
+                getTheme().applyStyle(extras.getInt(MYA_DLS_THEME), true);
+            }
         }
     }
-
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager
-                .findFragmentById(MyaInterface.getMyaUiComponent().getFragmentLauncher().getParentContainerResourceID());
-        if (fragment != null && fragment instanceof BackEventListener) {
-            boolean isConsumed = ((BackEventListener) fragment).handleBackEvent();
-            if (!isConsumed) {
+        boolean backState = false;
+        Fragment currentFrag = fragmentManager
+                .findFragmentById(R.id.fragmentPlaceHolder);
+        if (fragmentManager.getBackStackEntryCount() == 1) {
+            finish();
+        } else {
+            if (currentFrag != null && currentFrag instanceof BackEventListener) {
+                backState = ((BackEventListener) currentFrag).handleBackEvent();
+            }
+
+            if (!backState) {
                 super.onBackPressed();
             }
-        } else {
-            super.onBackPressed();
         }
     }
 

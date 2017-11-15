@@ -9,7 +9,7 @@ package com.philips.platform.mya.profile;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.util.MYALog;
@@ -29,7 +29,7 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
     }
 
     @Override
-    public void getProfileItems(Context context, AppInfra appInfra) {
+    public void getProfileItems(Context context, AppInfraInterface appInfra) {
         view.showProfileItems(getProfileList(context, MyaInterface.getMyaDependencyComponent().getAppInfra().getConfigInterface()));
     }
 

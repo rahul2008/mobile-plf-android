@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswLaunchInput;
@@ -26,7 +26,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
     private TextView countryTextView;
     private RelativeLayout consentLayout;
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

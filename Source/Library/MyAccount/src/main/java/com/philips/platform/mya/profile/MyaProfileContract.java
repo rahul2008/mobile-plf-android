@@ -7,7 +7,7 @@ package com.philips.platform.mya.profile;
 
 import android.content.Context;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.util.mvp.MyaBaseView;
 import com.philips.platform.mya.util.mvp.MyaPresenterInterface;
 
@@ -25,6 +25,6 @@ interface MyaProfileContract {
 
     interface Presenter extends MyaPresenterInterface<View> {
 
-        void getProfileItems(Context context, AppInfra appInfra);
+        void getProfileItems(Context context, AppInfraInterface appInfra);
     }
 }

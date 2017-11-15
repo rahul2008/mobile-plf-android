@@ -14,12 +14,10 @@ public class MyaUiModule {
 
     private FragmentLauncher fragmentLauncher;
     private MyaListener myaListener;
-    private ThemeConfiguration themeConfiguration;
 
     public MyaUiModule(FragmentLauncher fragmentLauncher, MyaListener myaListener, ThemeConfiguration themeConfiguration) {
         this.fragmentLauncher = fragmentLauncher;
         this.myaListener = myaListener;
-        this.themeConfiguration = themeConfiguration;
     }
 
     @Singleton
@@ -34,9 +32,4 @@ public class MyaUiModule {
         return myaListener;
     }
 
-    @Singleton
-    @Provides
-    public ThemeConfiguration getThemeConfiguration() {
-        return themeConfiguration;
-    }
 }
