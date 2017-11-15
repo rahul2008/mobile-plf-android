@@ -55,9 +55,10 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         mSystolic.setOnFocusChangeListener(this);
         mDiastolic.setOnFocusChangeListener(this);
         mTemperature.setOnFocusChangeListener(this);
-        THSInputFilters<Double> thsInputFilters = new THSInputFilters<>(0.0, 249.0);
-        mSystolic.setFilters(new InputFilter[]{thsInputFilters});
-        mDiastolic.setFilters(new InputFilter[]{thsInputFilters});
+        THSInputFilters<Double> thsSystolicInputFilters = new THSInputFilters<>(1.0, 250.0);
+        THSInputFilters<Double> thsDiastolicInputFilters = new THSInputFilters<>(0.0, 249.0);
+        mSystolic.setFilters(new InputFilter[]{thsSystolicInputFilters});
+        mDiastolic.setFilters(new InputFilter[]{thsDiastolicInputFilters});
         THSInputFilters<Integer> thsInputFiltersInt = new THSInputFilters<>(0, 500);
         mWeight = (EditText) view.findViewById(R.id.ponds);
         mWeight.setFilters(new InputFilter[]{thsInputFiltersInt});
@@ -253,6 +254,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
             validateSystolicView();
             validateDiastolicView();
             validateTemperatureView();
+            validateWeightView();
             return !(mFarenheitInputLayoutContainer.isShowingError() || mSystolicInputValidationLayout.isShowingError() || mDiastolicInputValidationLayout.isShowingError());
         } else if(mThsVitalsPresenter.checkIfValueEntered(mTemperature)){
             validateTemperatureView();

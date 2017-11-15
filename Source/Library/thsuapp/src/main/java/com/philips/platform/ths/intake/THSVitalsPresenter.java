@@ -98,7 +98,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
     }
 
     public boolean checkIfValueEntered(EditText editText) {
-        return !(editText.toString().isEmpty() || editText.getText().length() == 0);
+        return !(editText.getText().toString().isEmpty() || editText.getText().length() == 0);
     }
 
 

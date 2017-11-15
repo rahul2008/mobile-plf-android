@@ -1,5 +1,6 @@
 package com.philips.platform.ths.intake;
 
+import android.text.Editable;
 import android.view.View;
 
 import com.americanwell.sdk.AWSDK;
@@ -19,6 +20,7 @@ import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 
 import junit.framework.Assert;
@@ -98,8 +100,11 @@ public class THSVitalsFragmentTest {
     @Mock
     ServiceDiscoveryInterface serviceDiscoveryMock;
 
+    @Mock
+    EditText mSystolicMock;
 
-
+    @Mock
+    Editable editableMock;
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -161,6 +166,11 @@ public class THSVitalsFragmentTest {
         thsVitalsFragment.mFarenheitInputLayoutContainer = inputValidationLayoutMock;
         thsVitalsFragment.mSystolicInputValidationLayout = inputValidationLayoutMock;
         thsVitalsFragment.mDiastolicInputValidationLayout = inputValidationLayoutMock;
+        thsVitalsFragment.mWeightInputLayoutContainer = inputValidationLayoutMock;
+        thsVitalsFragment.mSystolic = mSystolicMock;
+        when(mSystolicMock.getText()).thenReturn(editableMock);
+        when(mSystolicMock.getText().toString()).thenReturn("68");
+        when(presenterMock.checkIfValueEntered(mSystolicMock)).thenReturn(true);
         when(inputValidationLayoutMock.isShowingError()).thenReturn(false);
         final View viewById = thsVitalsFragment.getView().findViewById(R.id.vitals_continue_btn);
         viewById.performClick();
