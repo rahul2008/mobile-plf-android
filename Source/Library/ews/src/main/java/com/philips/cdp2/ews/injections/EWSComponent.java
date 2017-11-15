@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.injections;
 
 import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.base.BaseTroubleShootingViewModel;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.confirmwifi.ConfirmWifiNetworkViewModel;
 import com.philips.cdp2.ews.connectionsuccessful.ConnectionSuccessfulViewModel;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
@@ -70,4 +71,6 @@ public interface EWSComponent {
     ConnectWithPasswordViewModel connectWithPasswordViewModel();
 
     ConnectionSuccessfulViewModel connectionSuccessfulViewModel();
+
+    BaseContentConfiguration getBaseContentConfiguration();
 }

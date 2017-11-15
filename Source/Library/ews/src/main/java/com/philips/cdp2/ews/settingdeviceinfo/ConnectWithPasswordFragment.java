@@ -19,7 +19,6 @@ import android.view.inputmethod.InputMethodManager;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.databinding.FragmentConnectWithPasswordBinding;
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.util.BundleUtils;
 
 public class ConnectWithPasswordFragment extends BaseFragment {

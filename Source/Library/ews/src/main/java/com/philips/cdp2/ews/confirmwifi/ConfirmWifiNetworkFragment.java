@@ -20,7 +20,6 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConfirmWifiNetworkBinding;
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.util.ColorsUtil;
 import com.philips.cdp2.ews.util.TextUtil;
 import com.philips.platform.uid.drawable.FontIconDrawable;

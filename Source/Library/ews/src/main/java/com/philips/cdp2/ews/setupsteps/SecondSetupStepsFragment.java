@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.databinding.FragmentSecondSetupStepsBinding;
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 
 public class SecondSetupStepsFragment extends BaseFragment {
 

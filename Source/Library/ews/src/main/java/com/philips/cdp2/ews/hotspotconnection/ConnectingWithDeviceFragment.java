@@ -12,14 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConnectingWithDeviceBinding;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel.ConnectingPhoneToHotSpotCallback;
 import com.philips.cdp2.ews.logger.EWSLogger;
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
+import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -35,10 +34,7 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (getActivity() instanceof EWSActivity) {
-            EWSActivity activity = (EWSActivity) getActivity();
-            activity.hideCloseButton();
-        }
+        ((EWSActionBarListener) getContext()).closeButton(false);
     }
 
     @Nullable

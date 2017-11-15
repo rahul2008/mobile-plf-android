@@ -61,7 +61,7 @@ public class EWSDemoActivity extends EWSDemoBaseActivity implements View.OnClick
 
     private void startDemoFragmentActivity() {
         Bundle bundle = new Bundle();
-        bundle.putString("SelectedConfig", selection.get());
+        bundle.putString(SELECTED_CONFIG, selection.get());
         Intent intent = new Intent(this, EWSDemoFragmentActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);

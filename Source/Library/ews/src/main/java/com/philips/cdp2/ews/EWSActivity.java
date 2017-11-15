@@ -17,6 +17,7 @@ import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
+import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.navigation.Navigator;
@@ -34,7 +35,7 @@ import javax.inject.Inject;
 
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
-public class EWSActivity extends DynamicThemeApplyingActivity {
+public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActionBarListener {
 
     public static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
     public static final String EWS_STEPS = "EWS_STEPS";
@@ -130,14 +131,6 @@ public class EWSActivity extends DynamicThemeApplyingActivity {
         }
     }
 
-    public void showCloseButton() {
-        findViewById(R.id.ic_close).setVisibility(View.VISIBLE);
-    }
-
-    public void hideCloseButton() {
-        findViewById(R.id.ic_close).setVisibility(View.GONE);
-    }
-
     @Override
     protected void onDestroy() {
         EWSTagger.pauseLifecycleInfo();
@@ -173,11 +166,26 @@ public class EWSActivity extends DynamicThemeApplyingActivity {
 
     protected void handleCancelButtonClicked() {
         BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-        baseFragment.handleCancelButtonClicked(baseContentConfiguration.getDeviceName());
+        baseFragment.handleCancelButtonClicked();
     }
 
     public void setToolbarTitle(String s) {
         Toolbar toolbar = (Toolbar) findViewById(R.id.ews_toolbar);
         ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText(s);
+    }
+
+    @Override
+    public void closeButton(boolean visibility) {
+        findViewById(R.id.ic_close).setVisibility(visibility ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void updateActionBar(int i, boolean b) {
+        setToolbarTitle(getString(i));
+    }
+
+    @Override
+    public void updateActionBar(String s, boolean b) {
+     setToolbarTitle(s);
     }
 }

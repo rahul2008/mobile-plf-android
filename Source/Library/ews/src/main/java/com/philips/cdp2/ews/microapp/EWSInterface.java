@@ -29,6 +29,7 @@ import javax.inject.Inject;
 public class EWSInterface implements UappInterface {
 
     public static final String ERROR_MSG_INVALID_CALL = "Please call \"init\" method, before calling launching ews with valid params";
+    public static final String ERROR_MSG_INVALID_IMPLEMENTATION = "Please implement EWSActionBarListener in Activity";
     public static final String SCREEN_ORIENTATION = "screen.orientation";
     public static final String PRODUCT_NAME = "productName";
     private static final String TAG = "EWSInterface";
@@ -52,6 +53,9 @@ public class EWSInterface implements UappInterface {
         }
 
         if (uiLauncher instanceof FragmentLauncher) {
+            if (!(((FragmentLauncher) uiLauncher).getFragmentActivity() instanceof EWSActionBarListener)) {
+                throw new UnsupportedOperationException(ERROR_MSG_INVALID_IMPLEMENTATION);
+            }
             launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
         } else if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity();
@@ -63,6 +67,8 @@ public class EWSInterface implements UappInterface {
         try {
             EWSDependencyProvider.getInstance().createEWSComponent(fragmentLauncher, contentConfiguration);
             EWSDependencyProvider.getInstance().getEwsComponent().inject(this);
+            ((EWSLauncherInput)uappLaunchInput).setContainerFrameId(fragmentLauncher.getParentContainerResourceID());
+            ((EWSLauncherInput)uappLaunchInput).setFragmentManager(fragmentLauncher.getFragmentActivity().getSupportFragmentManager());
             navigator.navigateToGettingStartedScreen();
             ewsEventingChannel.start();
             EWSTagger.collectLifecycleInfo(fragmentLauncher.getFragmentActivity());

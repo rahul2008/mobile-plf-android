@@ -2,11 +2,9 @@ package com.philips.cdp2.ews.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
-import com.philips.cdp2.ews.EWSActivity;
+import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 
 public abstract class BaseTroubleShootingFragment extends BaseFragment {
 
@@ -18,11 +16,11 @@ public abstract class BaseTroubleShootingFragment extends BaseFragment {
 
     @Override
     public void setToolbarTitle() {
-        ((EWSActivity) getActivity()).setToolbarTitle(getString(R.string.ews_support_title));
+        ((EWSActionBarListener) getContext()).updateActionBar(R.string.ews_support_title, true);
     }
 
     @Override
-    public void handleCancelButtonClicked(@StringRes int stringId) {
+    public void handleCancelButtonClicked() {
         BaseTroubleShootingViewModel viewModel =
                 getEWSComponent().baseTroubleShootingViewModel();
         viewModel.onCancelButtonClicked();
@@ -30,7 +28,7 @@ public abstract class BaseTroubleShootingFragment extends BaseFragment {
 
     @Override
     public boolean handleBackEvent() {
-        handleCancelButtonClicked(-1);
+        handleCancelButtonClicked();
         return true;
     }
 

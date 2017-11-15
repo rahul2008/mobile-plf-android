@@ -23,8 +23,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 
 public abstract class BaseDialogFragment<T extends ViewDataBinding> extends DialogFragment {
 

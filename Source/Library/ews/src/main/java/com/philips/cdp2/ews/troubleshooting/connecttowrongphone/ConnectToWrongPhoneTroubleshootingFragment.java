@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseTroubleShootingFragment;
 import com.philips.cdp2.ews.databinding.FragmentConnectToWrongPhoneTroubleshootingLayoutBinding;
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 
 public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShootingFragment {
 

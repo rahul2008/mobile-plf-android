@@ -13,12 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
 import com.philips.cdp2.ews.databinding.FragmentConnectionSuccessfulBinding;
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
+import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 
 import javax.inject.Inject;
 
@@ -31,10 +30,7 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (getActivity() instanceof EWSActivity) {
-            EWSActivity activity = (EWSActivity) getActivity();
-            activity.hideCloseButton();
-        }
+        ((EWSActionBarListener) getContext()).closeButton(false);
     }
 
     @SuppressWarnings("ConstantConditions")

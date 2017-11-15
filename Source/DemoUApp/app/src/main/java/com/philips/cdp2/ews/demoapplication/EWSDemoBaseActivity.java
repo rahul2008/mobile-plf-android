@@ -26,6 +26,7 @@ import java.util.Map;
 public class EWSDemoBaseActivity extends AppCompatActivity {
 
     protected static final String DEFAULT = "Default";
+    public static final String SELECTED_CONFIG = "SelectedConfig";
 
     @NonNull
     protected UappDependencies createUappDependencies(AppInfraInterface appInfra,

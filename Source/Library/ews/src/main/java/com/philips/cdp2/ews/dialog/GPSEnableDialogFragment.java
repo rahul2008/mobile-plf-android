@@ -11,7 +11,6 @@ import android.view.View;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.EnableGpsSettingsBinding;
-import com.philips.cdp2.ews.injections.EWSComponent;
 
 public class GPSEnableDialogFragment extends BaseDialogFragment<EnableGpsSettingsBinding> implements View.OnClickListener {
 

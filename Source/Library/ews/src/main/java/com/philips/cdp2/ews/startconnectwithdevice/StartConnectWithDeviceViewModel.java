@@ -8,7 +8,6 @@ package com.philips.cdp2.ews.startconnectwithdevice;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.Fragment;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.communication.EventingChannel;
@@ -21,7 +20,6 @@ import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.StringProvider;
-import com.philips.platform.uappframework.listener.BackEventListener;
 
 import javax.inject.Inject;
 
