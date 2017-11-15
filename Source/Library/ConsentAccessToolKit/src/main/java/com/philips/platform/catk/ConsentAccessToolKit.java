@@ -156,10 +156,6 @@ public class ConsentAccessToolKit {
         });
     }
 
-    public String buildPolicyRule(String consentType, int version, String country, String propositionName, String applicationName) {
-        return "urn:com.philips.consent:" + consentType + "/" + country + "/" + version + "/" + propositionName + "/" + applicationName;
-    }
-
     static void setInstance(ConsentAccessToolKit sSoleInstance) {
         ConsentAccessToolKit.sSoleInstance = sSoleInstance;
     }

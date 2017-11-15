@@ -103,12 +103,6 @@ public class ConsentAccessToolKitTest {
         assertTrue(captorNetworkAbstractModel.getValue() instanceof CreateConsentModelRequest);
     }
 
-    @Test
-    public void buildPolicyRule() {
-        assertEquals("urn:com.philips.consent:consentType1" + "/" + COUNTRY_CODE + "/1/" + propName + "/" + appName,
-                consentAccessToolKit.buildPolicyRule("consentType1", 1, COUNTRY_CODE, propName, appName));
-    }
-
     private void givenLocale(String locale) {
         catkComponent.getServiceDiscoveryInterface_return.getServiceLocaleWithCountryPreference_return = locale;
     }
