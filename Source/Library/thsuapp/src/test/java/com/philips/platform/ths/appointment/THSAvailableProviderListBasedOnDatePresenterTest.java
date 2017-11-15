@@ -15,10 +15,12 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.AvailableProviders;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
+import com.philips.cdp.registration.User;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -27,7 +29,9 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
@@ -85,16 +89,35 @@ public class THSAvailableProviderListBasedOnDatePresenterTest {
     @Mock
     PracticeProvidersManager practiceProvidersManagerMock;
 
+    @Mock
+    User userMock;
+
+    @Mock
+    THSConsumer thsConsumerMock;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        THSManager.getInstance().TEST_FLAG = true;
+        when(userMock.getHsdpUUID()).thenReturn("abc");
+        when(userMock.getGivenName()).thenReturn("Spoorti");
+        when(userMock.getEmail()).thenReturn("sssss");
+        when(userMock.getHsdpAccessToken()).thenReturn("2233");
+        when(userMock.getHsdpAccessToken()).thenReturn("eeee");
+        THSManager.getInstance().setUser(userMock);
+
+        when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
+        List list = new ArrayList();
+        list.add(thsConsumerMock);
+        when(thsConsumerMock.getDependents()).thenReturn(list);
+        when(thsConsumerMock.getDependents()).thenReturn(list);
         when(thsAvailableProviderListMock.getAvailableProviders()).thenReturn(availableProvidersMock);
         when(thssdkError.getSdkError()).thenReturn(sdkError);
         THSManager.getInstance().setAwsdk(awsdkMock);
         mThsAvailableProviderListBasedOnDatePresenter = new THSAvailableProviderListBasedOnDatePresenter(thsAvailableProviderListBasedOnDateFragmentMock,onDateSetChangedInterfaceMock);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void onEvent() throws Exception {
         mThsAvailableProviderListBasedOnDatePresenter.onEvent(R.id.calendar_view);
     }

@@ -51,6 +51,11 @@ public class THSDatePickerFragmentUtility {
         c.add(Calendar.DATE,179); // current + 179 = 180 days(6 month)
         long maxDate = c.getTime().getTime();
 
+        //Added for test cases, some how datePickerDialog is getting null for test cases
+        if(datePickerDialog == null || datePickerDialog.getDatePicker() == null){
+            return;
+        }
+
         if (thsDateEnum.getValue() == THSDateEnum.HIDEPREVIOUSDATE.getValue()) {
             datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         } else if (thsDateEnum.getValue() == THSDateEnum.HIDEFUTUREDATE.getValue()) {

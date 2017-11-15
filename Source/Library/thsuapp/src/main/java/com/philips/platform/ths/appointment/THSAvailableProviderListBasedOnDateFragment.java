@@ -40,7 +40,7 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
     public static final String TAG = THSAvailableProviderListBasedOnDateFragment.class.getSimpleName();
 
     protected Date mDate;
-    private THSAvailableProviderListBasedOnDatePresenter mTHSAvailableProviderListBasedOnDatePresenter;
+    protected THSAvailableProviderListBasedOnDatePresenter mTHSAvailableProviderListBasedOnDatePresenter;
 
     private Practice mPractice;
     private RecyclerView recyclerView;

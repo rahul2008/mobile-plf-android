@@ -37,12 +37,12 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     public static final String TAG = THSAvailableProviderDetailFragment.class.getSimpleName();
 
     private Date mDate;
-    private THSProviderEntity thsProviderEntity;
-    private THSAvailableProviderDetailPresenter thsAvailableDetailProviderPresenter;
+    protected THSProviderEntity thsProviderEntity;
+    protected THSAvailableProviderDetailPresenter thsAvailableDetailProviderPresenter;
     private Practice mPractice;
-    private THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper;
+    protected THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper;
     private int position;
-    private RemindOptions remindOptions;
+    protected RemindOptions remindOptions;
 
     @Nullable
     @Override
