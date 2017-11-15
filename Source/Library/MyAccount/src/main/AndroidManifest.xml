@@ -3,15 +3,13 @@
     package="com.philips.platform.mya">
 
     <application
-        android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true"
         >
         <activity
-            android:name=".activity.MyAccountActivity"
+            android:name=".MyAccountActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             />
     </application>
-
 
 </manifest>

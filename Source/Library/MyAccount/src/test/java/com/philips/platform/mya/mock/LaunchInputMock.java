@@ -9,7 +9,7 @@ package com.philips.platform.mya.mock;
 
 import android.content.Context;
 
-import com.philips.platform.mya.launcher.MyaLaunchInput;
+import com.philips.platform.mya.MyaLaunchInput;
 
 public class LaunchInputMock extends MyaLaunchInput {
 

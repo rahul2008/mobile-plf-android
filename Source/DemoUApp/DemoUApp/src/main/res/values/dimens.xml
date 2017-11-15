@@ -1,6 +1,0 @@
-<resources>
-
-    <dimen name="done_button_width">12dp</dimen>
-    <dimen name="theme_settings_pagemargin">48dp</dimen>
-
-</resources>
