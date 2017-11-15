@@ -7,7 +7,6 @@
 
 package com.philips.platform.catk.network;
 
-import android.os.Message;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -15,7 +14,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.JsonArray;
 import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.listener.ConsentRequestListener;
@@ -64,7 +62,9 @@ public class NetworkController implements ConsentRequestListener, Response.Error
 
     @Override
     public void onResponse(ConsentRequest request, JsonArray response) {
-        postSuccessResponseOnUIThread(response);
+        if (model != null) {
+            model.onResponseSuccess(model.parseResponse(response));
+        }
     }
 
     @Override
@@ -72,13 +72,13 @@ public class NetworkController implements ConsentRequestListener, Response.Error
         if (error instanceof AuthFailureError) {
             performRefreshToken(request, error);
         } else {
-            postErrorResponseOnUIThread(error);
+            model.onResponseError(new ConsentNetworkError(error));
         }
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        postErrorResponseOnUIThread(error);
+        model.onResponseError(new ConsentNetworkError(error));
     }
 
     public static Map<String, String> requestHeader() {
@@ -111,26 +111,8 @@ public class NetworkController implements ConsentRequestListener, Response.Error
 
             @Override
             public void onRefreshFailed(int errCode) {
-                postErrorResponseOnUIThread(error);
+                model.onResponseError(new ConsentNetworkError(error));
             }
         });
-    }
-
-    private void postSuccessResponseOnUIThread(final JsonArray response) {
-        if (model != null) {
-            Message msg = Message.obtain();
-            msg.what = model.getMethod();
-
-            if (response != null && response.size() == 0) {
-                msg.obj = CatkConstants.EMPTY_RESPONSE;
-            } else {
-                msg.obj = model.parseResponse(response);
-            }
-            model.onResponseSuccess(msg);
-        }
-    }
-
-    private void postErrorResponseOnUIThread(final VolleyError error) {
-        model.onResponseError(new ConsentNetworkError(error));
     }
 }

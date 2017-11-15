@@ -12,8 +12,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.philips.cdp.registration.User;
 import com.philips.platform.catk.ConsentAccessToolKitManipulator;
-import com.philips.platform.catk.dto.GetConsentsModel;
-import com.philips.platform.catk.dto.GetConsentsModelRequest;
 import com.philips.platform.catk.injection.CatkComponent;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkController;
@@ -64,7 +62,7 @@ public class GetConsentsModelRequestTest extends MockitoConfiguration {
         jsonObject.addProperty("status", status);
         jsonObject.addProperty("subject", subject);
         jsonArray.add(jsonObject);
-        assertArrayEquals(expectedConsentModelRequest, consentModelRequest.parseResponse(jsonArray));
+        assertArrayEquals(expectedConsentModelRequest, consentModelRequest.parseResponse(jsonArray).toArray());
     }
 
     @Test

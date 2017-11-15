@@ -13,6 +13,10 @@ import com.google.gson.JsonArray;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class GetConsentsModelRequest extends NetworkAbstractModel {
 
     private String url;
@@ -27,8 +31,12 @@ public class GetConsentsModelRequest extends NetworkAbstractModel {
     }
 
     @Override
-    public GetConsentsModel[] parseResponse(JsonArray response) {
-        return new Gson().fromJson(response, GetConsentsModel[].class);
+    public List<GetConsentsModel> parseResponse(JsonArray response) {
+        if (response != null && response.size() > 0) {
+            GetConsentsModel[] modelResults = new Gson().fromJson(response, GetConsentsModel[].class);
+            return new ArrayList<>(Arrays.asList(modelResults));
+        }
+        return new ArrayList<>();
     }
 
     @Override

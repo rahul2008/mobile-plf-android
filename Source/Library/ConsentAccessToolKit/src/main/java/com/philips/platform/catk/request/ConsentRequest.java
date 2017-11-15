@@ -69,10 +69,7 @@ public class ConsentRequest extends Request<JsonArray> {
     public Response<JsonArray> parseNetworkResponse(NetworkResponse response) {
         try {
             if (response.statusCode == POST_SUCCESS_CODE) {
-                JsonArray postResultArray = new JsonArray();
-                postResultArray.add(POST_SUCCESS_CODE);
-                return Response.success(postResultArray,
-                        HttpHeaderParser.parseCacheHeaders(response));
+                return Response.success(null, HttpHeaderParser.parseCacheHeaders(response));
             }
             String jsonString = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers));
