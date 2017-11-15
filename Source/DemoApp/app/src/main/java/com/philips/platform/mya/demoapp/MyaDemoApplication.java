@@ -75,8 +75,8 @@ public class MyaDemoApplication extends Application {
             }
             initRegistration(RegUtility.getConfiguration(restoredText));
         } else {
-            initHSDP(Configuration.STAGING);
-            initRegistration(Configuration.STAGING);
+            initHSDP(Configuration.DEVELOPMENT);
+            initRegistration(Configuration.DEVELOPMENT);
         }
 
         boolean abc = RegistrationConfiguration.getInstance().isHsdpFlow();
@@ -187,21 +187,21 @@ public class MyaDemoApplication extends Application {
 
                 Map<String, String> hsdpAppNames = new HashMap<>();
                 hsdpAppNames.put(CHINA_CODE, "CDP");
-                hsdpAppNames.put(DEFAULT, "uGrow");
+                hsdpAppNames.put(DEFAULT, "OneBackend");
 
                 anInterface.setPropertyForKey(HSDP_CONFIGURATION_APPLICATION_NAME,
                         UR, hsdpAppNames, configError);
 
                 Map<String, String> hsdpSecrets = new HashMap<>();
                 hsdpSecrets.put(CHINA_CODE, "057b97e0-f9b1-11e6-bc64-92361f002671");
-                hsdpSecrets.put(DEFAULT, "c623685e-f02c-11e5-9ce9-5e5517507c66");
+                hsdpSecrets.put(DEFAULT, "b4b97ffd-38e1-4bec-b848-a5ca4020cc0c");
 
                 anInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
                         UR, hsdpSecrets, configError);
 
                 Map<String, String> hsdpSharedIds = new HashMap<>();
                 hsdpSharedIds.put(CHINA_CODE, "fe53a854-f9b0-11e6-bc64-92361f002671");
-                hsdpSharedIds.put(DEFAULT, "c62362a0-f02c-11e5-9ce9-5e5517507c66");
+                hsdpSharedIds.put(DEFAULT, "a76448bf-b2d9-4a88-b435-8135f5b3d0b0");
 
                 anInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
                         UR, hsdpSharedIds, configError);
@@ -209,7 +209,7 @@ public class MyaDemoApplication extends Application {
                 Map<String, String> hsdpBaseUrls = new HashMap<>();
                 try {
                     hsdpBaseUrls.put(CHINA_CODE, URLEncoder.encode("https://user-registration-assembly-hsdpchinadev.cn1.philips-healthsuite.com.cn", URL_ENCODING));
-                    hsdpBaseUrls.put(DEFAULT, URLEncoder.encode("https://ugrow-ds-development.cloud.pcftest.com", URL_ENCODING));
+                    hsdpBaseUrls.put(DEFAULT, URLEncoder.encode("https://user-registration-assembly-testing.us-east.philips-healthsuite.com", URL_ENCODING));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -233,14 +233,14 @@ public class MyaDemoApplication extends Application {
 
                 Map<String, String> hsdpAppNames = new HashMap<>();
                 hsdpAppNames.put(CHINA_CODE, "Sonicare");
-                hsdpAppNames.put(DEFAULT, "uGrow");
+                hsdpAppNames.put(DEFAULT, "OneBackend");
 
                 anInterface.setPropertyForKey(HSDP_CONFIGURATION_APPLICATION_NAME,
                         UR, hsdpAppNames, configError);
 
                 Map<String, String> hsdpSecrets = new HashMap<>();
                 hsdpSecrets.put(CHINA_CODE, "981b4f75-9da5-4939-96e5-3e4e18dd6cb6");
-                hsdpSecrets.put(DEFAULT, "EB7D2C2358E4772070334CD868AA6A802164875D6BEE858D13226234350B156AC8C4917885B5552106DC7F9583CA52CB662110516F8AB02215D51778DE1EF1F3");
+                hsdpSecrets.put(DEFAULT, "f5b62a26d680e5ae8001522a8e3268f966545a1a14a47ea2040793ea825484cd12fce9c46b43e2c2604cb836db64362a0c8b39eb7b162b8b3e83740143337eda");
 
                 anInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
                         UR, hsdpSecrets, configError);
@@ -252,7 +252,7 @@ public class MyaDemoApplication extends Application {
 
                 Map<String, String> hsdpSharedIds = new HashMap<>();
                 hsdpSharedIds.put(CHINA_CODE, "758f5467-bb78-45d2-a58a-557c963c30c1");
-                hsdpSharedIds.put(DEFAULT, "e95f5e71-c3c0-4b52-8b12-ec297d8ae960");
+                hsdpSharedIds.put(DEFAULT, "f52cd90d-c955-43e1-8380-999e03d0d4c0");
 
                 anInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
                         UR, hsdpSharedIds, configError);
