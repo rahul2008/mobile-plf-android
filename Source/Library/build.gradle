@@ -74,37 +74,8 @@ allprojects {
         }
     }
 }
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
-
-//TODO handle it properly once added in the pipeline
-artifactoryPublish {
-    clientConfig.info.setBuildName("ews-android")
-    clientConfig.info.setBuildNumber(version)
-}
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
