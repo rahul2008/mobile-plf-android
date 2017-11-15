@@ -11,7 +11,7 @@
     <string name="lbl_setup_screen_body">Press the power button to turn your device on.</string>
 
     <string name="lbl_setup_verifyscreen_title">3. Is the device in setup-mode?</string>
-    <string name="lbl_setup_verifyscreen_body">Follow the instructions to put your device in Setup-mode.\n Is the Wi-Fi light blinking?</string>
+    <string name="lbl_setup_verifyscreen_body">Follow the instructions to put your device in Setup-mode.\n\nIs the Wi-Fi light blinking?</string>
     <string name="lbl_setup_verifyscreen_yesbutton">Yes, Wi-Fi is blinking</string>
     <string name="lbl_setup_verifyscreen_nobutton">No, Wi-Fi is not blinking</string>
 

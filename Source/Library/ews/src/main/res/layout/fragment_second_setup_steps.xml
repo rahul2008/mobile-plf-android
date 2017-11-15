@@ -33,14 +33,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_screen_top_margin"
-                android:text="@string/label_ews_verify_ready_title_default" />
+                android:text="@{viewModel.title}" />
 
             <com.philips.platform.uid.view.widget.Label
                 style="@style/Txt.Body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_body_labels_margin"
-                android:text="@string/label_ews_verify_ready_question_default" />
+                android:text="@{viewModel.question}" />
 
             <ImageView
                 android:id="@+id/ews_press_and_play_icon"
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_image_top_margin"
                 android:adjustViewBounds="true"
-                android:background="@drawable/ews_product_bg_orig"
+                android:background="@{viewModel.image}"
                 android:contentDescription="@null"
                 app:setAnimationDrawable="@{@drawable/ic_ews_device_apmode_blinking}" />
 
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> viewModel.onNextButtonClicked()}"
                 android:layout_marginTop="@dimen/default_main_button_top_margin"
-                android:text="@string/button_ews_verify_ready_yes_default"
+                android:text="@{viewModel.yesButton}"
                 app:uidComponentType="Primary" />
 
             <com.philips.platform.uid.view.widget.Button
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_between_button_margin"
                 android:onClick="@{() -> viewModel.onNoButtonClicked()}"
-                android:text="@string/button_ews_verify_ready_no_default"
+                android:text="@{viewModel.noButton}"
                 app:uidComponentType="Secondary" />
         </LinearLayout>
 

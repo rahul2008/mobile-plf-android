@@ -103,6 +103,10 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
                     .setGettingStartedScreenTitle(R.string.label_ews_get_started_title)
                     .setSetUpScreenTitle(R.string.lbl_setup_screen_title)
                     .setSetUpScreenBody(R.string.lbl_setup_screen_body)
+                    .setSetUpVerifyScreenTitle(R.string.lbl_setup_verifyscreen_title)
+                    .setSetUpVerifyScreenQuestion(R.string.lbl_setup_verifyscreen_body)
+                    .setSetUpVerifyScreenYesButton(R.string.lbl_setup_verifyscreen_yesbutton)
+                    .setSetUpVerifyScreenNoButton(R.string.lbl_setup_verifyscreen_nobutton)
                     .build();
         }
     }

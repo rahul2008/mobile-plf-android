@@ -27,14 +27,15 @@ import com.philips.cdp2.ews.communication.DiscoveryHelper;
 import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.communication.WiFiEventMonitor;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
+import com.philips.cdp2.ews.connectionestabilish.ConnectionEstablishDialogFragment;
+import com.philips.cdp2.ews.dialog.GPSEnableDialogFragment;
 import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
 import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordViewModel;
-import com.philips.cdp2.ews.util.StringProvider;
-import com.philips.cdp2.ews.connectionestabilish.ConnectionEstablishDialogFragment;
-import com.philips.cdp2.ews.dialog.GPSEnableDialogFragment;
 import com.philips.cdp2.ews.setupsteps.SecondSetupStepsViewModel;
+import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -157,13 +158,18 @@ public class EWSModule {
     SecondSetupStepsViewModel provideSecondSetupStepsViewModel(
             @NonNull final Navigator navigator,
             @NonNull final @Named("ews.event.bus") EventBus eventBus,
-            @NonNull final PermissionHandler permissionHandler) {
+            @NonNull final PermissionHandler permissionHandler,
+            @NonNull HappyFlowContentConfiguration happyFlowContentConfiguration,
+            @NonNull StringProvider stringProvider) {
+
         final ConnectionEstablishDialogFragment dialogFragment =
                 ConnectionEstablishDialogFragment
                         .getInstance(R.string.label_ews_establishing_connection_body);
+
         return new SecondSetupStepsViewModel(navigator, eventBus, permissionHandler,
-                dialogFragment,
-                null, new GPSEnableDialogFragment(), new Handler(context.getMainLooper()));
+                dialogFragment,null,
+                new GPSEnableDialogFragment(), new Handler(context.getMainLooper())
+                , stringProvider, happyFlowContentConfiguration);
     }
 
 
