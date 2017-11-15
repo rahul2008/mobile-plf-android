@@ -222,12 +222,14 @@ dependencies {
         exclude module: "support-annotations"
     }
 
-	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-	compile(dp ? project(':uid') : uidModule) 	
-	{
-		exclude group: 'com.android.support'
-		transitive = true
-	}
+    if(dp) {
+        project(':uid')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {		   
+            exclude group: 'com.android.support'
+			transitive = true
+        }
+    }
 
     compile 'com.github.bumptech.glide:glide:3.7.0'
     androidTestCompile 'org.apache.commons:commons-lang3:3.4'
