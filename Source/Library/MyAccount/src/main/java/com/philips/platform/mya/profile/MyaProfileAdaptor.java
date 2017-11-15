@@ -11,9 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.mya.MyaUiHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.details.MyaDetailsFragment;
+import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -44,7 +44,7 @@ class MyaProfileAdaptor extends RecyclerView.Adapter<MyaProfileAdaptor.ProfileVi
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean onClickMyaItem = MyaUiHelper.getInstance().getMyaListener().onClickMyaItem(profileList.get(viewType));
+                boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(profileList.get(viewType));
                 handleTransition(onClickMyaItem,profileList.get(viewType));
             }
         });
@@ -56,7 +56,7 @@ class MyaProfileAdaptor extends RecyclerView.Adapter<MyaProfileAdaptor.ProfileVi
             switch (profileItem) {
                 case "My details":
                     MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
-                    myaDetailsFragment.showFragment(myaDetailsFragment, MyaUiHelper.getInstance().getFragmentLauncher());
+                    myaDetailsFragment.showFragment(myaDetailsFragment, MyaInterface.getMyaUiComponent().getFragmentLauncher());
             }
         }
     }

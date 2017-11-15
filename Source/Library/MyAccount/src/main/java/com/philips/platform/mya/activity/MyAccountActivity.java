@@ -14,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.mya.MyaUiHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
@@ -24,6 +23,7 @@ import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 
@@ -34,15 +34,12 @@ import static com.philips.platform.mya.util.MyaConstants.MYA_DLS_THEME;
 public class MyAccountActivity extends UIDActivity implements MyaListener {
 
     private TextView mTitle;
-    private MyaUiHelper myaUiHelper;
-    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
     private String applicationName;
     private String propositionName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         UIDHelper.injectCalligraphyFonts();
-        myaUiHelper = MyaUiHelper.getInstance();
         initDLSThemeIfExists();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mya_myaccounts_activity);
@@ -67,7 +64,7 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
 
     private void launchTabFragment() {
         MyaInterface myaInterface = new MyaInterface();
-        myaInterface.init(new MyaDependencies(myaUiHelper.getAppInfra()), new MyaSettings(this));
+        myaInterface.init(new MyaDependencies(MyaInterface.getMyaDependencyComponent().getAppInfra()), new MyaSettings(this));
         myaInterface.launch(new FragmentLauncher(this, R.id.fragmentPlaceHolder, new ActionBarListener() {
             @Override
             public void updateActionBar(int i, boolean b) {
@@ -97,9 +94,10 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
     }
 
     public void initDLSThemeIfExists() {
-        if (getIntent().getExtras() != null && myaUiHelper.getThemeConfiguration()!=null) {
+        ThemeConfiguration themeConfiguration = MyaInterface.getMyaUiComponent().getThemeConfiguration();
+        if (getIntent().getExtras() != null && themeConfiguration !=null) {
             Bundle extras = getIntent().getExtras();
-            UIDHelper.init(myaUiHelper.getThemeConfiguration());
+            UIDHelper.init(themeConfiguration);
             getTheme().applyStyle(extras.getInt(MYA_DLS_THEME), true);
         }
     }
@@ -108,7 +106,7 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager
-                .findFragmentById(MyaUiHelper.getInstance().getFragmentLauncher().getParentContainerResourceID());
+                .findFragmentById(MyaInterface.getMyaUiComponent().getFragmentLauncher().getParentContainerResourceID());
         if (fragment != null && fragment instanceof BackEventListener) {
             boolean isConsumed = ((BackEventListener) fragment).handleBackEvent();
             if (!isConsumed) {

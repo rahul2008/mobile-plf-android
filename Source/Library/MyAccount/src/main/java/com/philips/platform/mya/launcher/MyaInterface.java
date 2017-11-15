@@ -14,15 +14,18 @@ import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswSettings;
-import com.philips.platform.mya.MyaFragment;
-import com.philips.platform.mya.MyaUiHelper;
 import com.philips.platform.mya.activity.MyAccountActivity;
+import com.philips.platform.mya.injection.DaggerMyaDependencyComponent;
+import com.philips.platform.mya.injection.DaggerMyaUiComponent;
+import com.philips.platform.mya.injection.MyaDependencyComponent;
+import com.philips.platform.mya.injection.MyaDependencyModule;
+import com.philips.platform.mya.injection.MyaUiComponent;
+import com.philips.platform.mya.injection.MyaUiModule;
 import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
@@ -33,7 +36,8 @@ public class MyaInterface implements UappInterface {
 
     private static String applicationName;
     private static String propositionName;
-    private MyaUiHelper myaUiHelper;
+    private static MyaDependencyComponent myaDependencyComponent;
+    private static MyaUiComponent myaUiComponent;
 
     /**
      * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
@@ -44,7 +48,6 @@ public class MyaInterface implements UappInterface {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         MyaLaunchInput myaLaunchInput = (MyaLaunchInput) uappLaunchInput;
-        myaUiHelper.setMyaListener(myaLaunchInput.getMyaListener());
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity((ActivityLauncher) uiLauncher, myaLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
@@ -53,16 +56,10 @@ public class MyaInterface implements UappInterface {
     }
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher, MyaLaunchInput myaLaunchInput) {
+        myaUiComponent = DaggerMyaUiComponent.builder()
+                .myaUiModule(new MyaUiModule(fragmentLauncher, myaLaunchInput.getMyaListener(), null)).build();
         MyaTabFragment myaTabFragment = new MyaTabFragment();
-        myaUiHelper.setFragmentLauncher(fragmentLauncher);
         myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
-    }
-
-    private MyaFragment buildFragment(ActionBarListener listener) {
-        MyaFragment myaFragment = new MyaFragment();
-        myaFragment.setArguments(applicationName, propositionName);
-        myaFragment.setOnUpdateTitleListener(listener);
-        return myaFragment;
     }
 
     private void launchAsActivity(ActivityLauncher uiLauncher, MyaLaunchInput myaLaunchInput) {
@@ -84,14 +81,32 @@ public class MyaInterface implements UappInterface {
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         CswDependencies cswDependencies = new CswDependencies(uappDependencies.getAppInfra());
-        applicationName = ((MyaDependencies) uappDependencies).getApplicationName();
-        propositionName = ((MyaDependencies) uappDependencies).getPropositionName();
+        MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
+        applicationName = (myaDependencies).getApplicationName();
+        propositionName = (myaDependencies).getPropositionName();
         cswDependencies.setApplicationName(applicationName == null ? CatkConstants.APPLICATION_NAME : applicationName);
         cswDependencies.setPropositionName(propositionName == null ? CatkConstants.PROPOSITION_NAME : propositionName);
         CswSettings cswSettings = new CswSettings(uappSettings.getContext());
         CswInterface cswInterface = new CswInterface();
         cswInterface.init(cswDependencies, cswSettings);
-        myaUiHelper = MyaUiHelper.getInstance();
-        myaUiHelper.setAppInfra((AppInfra) uappDependencies.getAppInfra());
+        myaDependencyComponent = DaggerMyaDependencyComponent.builder()
+                .myaDependencyModule(new MyaDependencyModule((AppInfra) myaDependencies.getAppInfra())).build();
+    }
+
+
+    public static MyaDependencyComponent getMyaDependencyComponent() {
+        return myaDependencyComponent;
+    }
+
+    public static String getApplicationName() {
+        return applicationName;
+    }
+
+    public static String getPropositionName() {
+        return propositionName;
+    }
+
+    public static MyaUiComponent getMyaUiComponent() {
+        return myaUiComponent;
     }
 }

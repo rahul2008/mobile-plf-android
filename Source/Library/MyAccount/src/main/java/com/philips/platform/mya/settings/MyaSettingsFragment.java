@@ -31,7 +31,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mya_settings_fragment, container, false);
-        this.appInfra = MyaInterface.getMyaComponent().getAppInfra();
+        this.appInfra = MyaInterface.getMyaDependencyComponent().getAppInfra();
         countryTextView = (TextView) view.findViewById(R.id.settings_country_value);
         consentLayout = (RelativeLayout) view.findViewById(R.id.consent_layout);
         countryTextView.setText(appInfra.getServiceDiscovery().getHomeCountry());
@@ -67,7 +67,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         cswDependencies.setPropositionName(MyaInterface.getPropositionName());
         UappSettings uappSettings = new UappSettings(getContext());
         cswInterface.init(cswDependencies,uappSettings);
-        cswInterface.launch(MyaInterface.getMyaComponent().getFragmentLauncher(), buildLaunchInput(true));
+        cswInterface.launch(MyaInterface.getMyaUiComponent().getFragmentLauncher(), buildLaunchInput(true));
     }
 
     private CswLaunchInput buildLaunchInput(boolean addToBackStack) {

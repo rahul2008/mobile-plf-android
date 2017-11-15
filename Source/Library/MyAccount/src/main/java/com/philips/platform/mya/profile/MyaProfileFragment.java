@@ -13,8 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.mya.MyaUiHelper;
 import com.philips.platform.mya.R;
+import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.util.mvp.MyaBaseFragment;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
@@ -51,7 +51,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        presenter.getProfileItems(getContext(), MyaUiHelper.getInstance().getAppInfra());
+        presenter.getProfileItems(getContext(), MyaInterface.getMyaDependencyComponent().getAppInfra());
     }
 
 

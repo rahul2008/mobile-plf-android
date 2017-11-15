@@ -4,7 +4,7 @@ package com.philips.platform.mya.demouapp;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.philips.platform.mya.ConsentDefinition;
+import com.philips.platform.csw.ConsentDefinition;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
