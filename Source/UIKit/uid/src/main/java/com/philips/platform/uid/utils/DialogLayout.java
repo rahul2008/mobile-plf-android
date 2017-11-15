@@ -58,25 +58,7 @@ public class DialogLayout extends ConstraintLayout {
     private int getContentAreaHeight(){
         DisplayMetrics metrics = new DisplayMetrics();
         this.getDisplay().getMetrics(metrics);
-        int totalHeight = getStatusBarHeight() + getActionBarHeight();
+        int totalHeight = UIDUtils.getStatusBarHeight(getContext()) + UIDUtils.getActionBarHeight(getContext());
         return metrics.heightPixels - totalHeight;
-    }
-
-    private int getStatusBarHeight() {
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            return getResources().getDimensionPixelSize(resourceId);
-        }
-        return 0;
-    }
-
-    private int getActionBarHeight() {
-        TypedValue tv = new TypedValue();
-        int actionBarHeight = 0;
-        if (getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
-        {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getContext().getResources().getDisplayMetrics());
-        }
-        return actionBarHeight;
     }
 }
