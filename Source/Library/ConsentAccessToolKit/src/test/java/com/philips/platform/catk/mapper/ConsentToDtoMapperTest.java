@@ -42,7 +42,11 @@ public class ConsentToDtoMapperTest {
     }
 
     private void thenConsentIs(CreateConsentModel expectedDto) {
-        assertEquals(expectedDto, result);
+        assertEquals(expectedDto.getLanguage(), result.getLanguage());
+        assertEquals(expectedDto.getPolicyRule(), result.getPolicyRule());
+        assertEquals(expectedDto.getResourceType(), result.getResourceType());
+        assertEquals(expectedDto.getStatus(), result.getStatus());
+        assertEquals(expectedDto.getSubject(), result.getSubject());
     }
 
 }
