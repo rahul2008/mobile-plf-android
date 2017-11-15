@@ -21,6 +21,7 @@ import com.philips.platform.catk.injection.DaggerCatkComponent;
 import com.philips.platform.catk.injection.UserModule;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
+import com.philips.platform.catk.mapper.ConsentToDtoMapper;
 import com.philips.platform.catk.mapper.DtoToConsentMapper;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentStatus;
@@ -106,41 +107,24 @@ public class ConsentAccessToolKit {
         NetworkHelper.getInstance().sendRequest(model);
     }
 
-    public void createConsent(ConsentStatus consentStatus, final CreateConsentListener consentListener) {
-        getLocaleAndProceed(consentStatus, consentListener);
+    public void createConsent(final Consent consent, final CreateConsentListener consentListener) {
+        ConsentToDtoMapper mapper = new ConsentToDtoMapper(catkComponent.getUser().getHsdpUUID(), catkComponent.getUser().getCountryCode(), propositionName, applicationName);
+        CreateConsentModelRequest model = new CreateConsentModelRequest(URL, mapper.map(consent), new NetworkAbstractModel.DataLoadListener() {
+                    @Override
+                    public void onModelDataLoadFinished(List<GetConsentsModel> dtos) {
+                        if (dtos == null) {
+                            consentListener.onSuccess(CatkConstants.CONSENT_SUCCESS);
+                        }
+                    }
 
+                    @Override
+                    public int onModelDataError(ConsentNetworkError error) {
+                        return consentListener.onFailure(error.getErrorCode());
+                    }
+                });
+        NetworkHelper.getInstance().sendRequest(model);
     }
 
-    private void getLocaleAndProceed(final ConsentStatus consentStatus, final CreateConsentListener consentListener) {
-
-        getCatkComponent().getServiceDiscoveryInterface().getServiceLocaleWithCountryPreference("ds.consentservice", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-            @Override
-            public void onSuccess(String s) {
-                String locale = s.replace("_", "-");
-
-                CreateConsentModelRequest model = new CreateConsentModelRequest(URL, applicationName, String.valueOf(consentStatus), propositionName, locale,
-                        new NetworkAbstractModel.DataLoadListener() {
-                            @Override
-                            public void onModelDataLoadFinished(List<GetConsentsModel> dtos) {
-                                if (dtos == null) {
-                                    consentListener.onSuccess(CatkConstants.CONSENT_SUCCESS);
-                                }
-                            }
-
-                            @Override
-                            public int onModelDataError(ConsentNetworkError error) {
-                                return consentListener.onFailure(error.getErrorCode());
-                            }
-                        });
-                NetworkHelper.getInstance().sendRequest(model);
-            }
-
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                Log.e("Consent access toolkit", "Could not get locale");
-            }
-        });
-    }
 
     public void getStatusForConsentType(final String consentType, int version, final ConsentResponseListener consentListener) {
         getConsentDetails(new ConsentResponseListener() {
