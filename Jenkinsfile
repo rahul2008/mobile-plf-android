@@ -48,6 +48,16 @@ node ('android&&docker') {
                     ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
                 '''
             }
+
+           if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release\/platform_.*/)) {
+                stage ('callIntegrationPipeline') {
+                    if (BranchName =~ "/") {
+                        BranchName = BranchName.replaceAll('/','%2F')
+                        echo "BranchName changed to ${BranchName}"
+                    }
+                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'mya'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+                }            
+            }
            
         } catch(err) {
             errors << "errors found: ${err}"      
