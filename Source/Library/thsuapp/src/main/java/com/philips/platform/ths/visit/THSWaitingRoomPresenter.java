@@ -7,7 +7,6 @@
 package com.philips.platform.ths.visit;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 
@@ -15,7 +14,6 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.visit.ChatReport;
-import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.entity.visit.VisitEndReason;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
@@ -31,20 +29,16 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.util.Map;
 
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_FINISHED_EXTRAS;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_RESULT_CODE;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP_SERVER_DISCONNECTED;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_PROVIDER_CONNECTED;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
+
 import static com.americanwell.sdk.entity.visit.VisitEndReason.PROVIDER_DECLINE;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_START_VISIT;
-import static com.philips.platform.ths.utility.THSConstants.CVV_HELP_TEXT;
+import static com.philips.platform.ths.uappclasses.THSCompletionProtocol.THSExitType.visitUnsuccessful;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_VIDEO_CALL;
-import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
+import static com.philips.platform.ths.utility.THSConstants.VISIT_UNSUCCESSFUL;
+
 
 public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitCallback, THSCancelVisitCallBack.SDKCallback<Void, SDKError> {
 
@@ -239,7 +233,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
                                 @Override
                                 public void onClick(View v) {
                                     mTHSWaitingRoomFragment.alertDialogFragment.dismiss();
-                                    mTHSWaitingRoomFragment.exitFromAmWell(false);
+                                    mTHSWaitingRoomFragment.exitFromAmWell(visitUnsuccessful);
                                 }
                             });
 
@@ -248,7 +242,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
             }
             mTHSWaitingRoomFragment.alertDialogFragment = builder.setCancelable(false).create();
-            mTHSWaitingRoomFragment.alertDialogFragment.show(mTHSWaitingRoomFragment.getFragmentManager(), CVV_HELP_TEXT);
+            mTHSWaitingRoomFragment.alertDialogFragment.show(mTHSWaitingRoomFragment.getFragmentManager(), VISIT_UNSUCCESSFUL);
         }
 
     }

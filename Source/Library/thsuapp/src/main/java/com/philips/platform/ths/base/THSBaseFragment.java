@@ -22,8 +22,8 @@ import android.widget.Toast;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.init.THSInitFragment;
+import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
 import com.philips.platform.ths.utility.AmwellLog;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSNetworkStateListener;
 import com.philips.platform.ths.utility.THSTagUtils;
@@ -273,7 +273,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
         return result;
     }
 
-    public void exitFromAmWell(boolean isSuccess) {
+    public void exitFromAmWell(THSCompletionProtocol.THSExitType tHSExitType) {
 
         if (this.getActivity() instanceof THSLaunchActivity) {
             THSLaunchActivity thsLaunchActivity = (THSLaunchActivity) this.getActivity();
@@ -294,8 +294,8 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
             }
         }
         THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,"exitToPropositon","toUgrowPage");
-        if (THSManager.getInstance().getThsVisitCompletionListener() != null) {
-            THSManager.getInstance().getThsVisitCompletionListener().onTHSVisitComplete(isSuccess);
+        if (THSManager.getInstance().getThsCompletionProtocol() != null) {
+            THSManager.getInstance().getThsCompletionProtocol().didExitTHS(tHSExitType);
         }
         THSManager.getInstance().resetTHSManagerData();
     }

@@ -45,6 +45,7 @@ public class THSConstants {
     public static final String IS_PAYMENT_METHOD_AVAILABLE_KEY = "IS_PAYMENT_METHOD_AVAILABLE_KEY";
     public static final String IS_LAUNCHED_FROM_COST_SUMMARY = "IS_LAUNCHED_FROM_COST_SUMMARY";
     public static final String CVV_HELP_TEXT = "CVV_HELP_TEXT";
+    public static final String VISIT_UNSUCCESSFUL = "VISIT_UNSUCCESSFUL";
 
     public static final int SET_REMINDER_DIALOG_ON_ACTIVITY_RESULT = 7070;
     public static final String THS_SET_REMINDER_EXTRA_KEY = "THS_SET_REMINDER_EXTRA_KEY";
@@ -132,6 +133,12 @@ public class THSConstants {
     public static final String THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER = "TH_03_02 Available provider";
     public static final String THS_SCHEDULE_APPOINTMENT_PICK_TIME = "TH_03_03a Pick a time";
     public static final String THS_SCHEDULE_APPOINTMENT_CONFIRMED = "TH_03_06b Appointment confirmed";
+
+    public static final String ON_BOARDING_START = "TH_99_00 Onboarding";
+    public static final String ONBOARDING_PAGE_1 = "TH_99_01 Onboarding";
+    public static final String ONBOARDING_PAGE_2 = "TH_99_02 Onboarding";
+    public static final String ONBOARDING_PAGE_3 = "TH_99_03 Onboarding";
+    public static final String ONBOARDING_PAGE_4 = "TH_99_04 Onboarding";
 
 
     // end of tags
