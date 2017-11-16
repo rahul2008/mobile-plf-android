@@ -7,6 +7,7 @@
 package com.philips.platform.appframework.connectivitypowersleep.insights;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,10 @@ import android.view.View;
 import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.connectivitypowersleep.datamodels.MomentInsight;
+import com.philips.platform.core.datatypes.Insight;
+import com.philips.platform.core.datatypes.InsightMetadata;
+import com.philips.platform.core.datatypes.SynchronisationData;
 
 import org.junit.After;
 import org.junit.Before;
@@ -23,6 +28,8 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -43,7 +50,7 @@ public class InsightsAdapterTest {
     public void setUp() {
         context = RuntimeEnvironment.application;
         initializeTipsList();
-        insightsAdapter = new InsightsAdapter(context, insightsTitleItemList, insightsDescItemList);
+        insightsAdapter = new InsightsAdapter(context, insightList);
         insightsAdapter.onAttachedToRecyclerView(new RecyclerView(context));
         LayoutInflater inflater = (LayoutInflater) RuntimeEnvironment.application.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //We have a layout especially for the items in our recycler view. We will see it in a moment.
@@ -54,13 +61,12 @@ public class InsightsAdapterTest {
 
     @Test
     public void testListItemDataAreValid() {
-        assertEquals(holder.tvTitle.getText().toString(), context.getString(R.string.sleep_tip_title_1));
-        assertEquals(holder.tvDetail.getText().toString(), context.getString(R.string.sleep_tip_desc_1));
+        assertEquals("HIGH_DEEP_SLEEP", holder.tvTitle.getText().toString());
     }
 
     @Test
     public void testGetItemCountWithNullList() {
-        insightsAdapter = new InsightsAdapter(context, null, null);
+        insightsAdapter = new InsightsAdapter(context, null);
         assertEquals(0, insightsAdapter.getItemCount());
     }
     @After
@@ -70,21 +76,17 @@ public class InsightsAdapterTest {
         holder = null;
         listItemView = null;
     }
-    private ArrayList<String> insightsTitleItemList;
-    private ArrayList<String> insightsDescItemList;
+    private List<Insight> insightList;
 
     public void initializeTipsList() {
 
-        insightsTitleItemList = new ArrayList<String>();
-        insightsTitleItemList.add(context.getString(R.string.sleep_tip_title_1));
-        insightsTitleItemList.add(context.getString(R.string.sleep_tip_title_2));
-        insightsTitleItemList.add(context.getString(R.string.sleep_tip_title_3));
+        insightList = new ArrayList<Insight>();
 
-        insightsDescItemList = new ArrayList<String>();
-        insightsDescItemList.add(context.getString(R.string.sleep_tip_desc_1));
-        insightsDescItemList.add(context.getString(R.string.sleep_tip_desc_2));
-        insightsDescItemList.add(context.getString(R.string.sleep_tip_desc_3));
+        Insight insight = new MomentInsight();
+        insight.setRuleId("HIGH_DEEP_SLEEP");
 
-
+        insightList.add(insight);
     }
+
+
 }

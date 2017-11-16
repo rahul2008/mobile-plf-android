@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
@@ -25,15 +26,17 @@ import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class InsightsFragment extends AbstractAppFrameworkBaseFragment implements InsightsContract.View, DBChangeListener, InsightsAdapter.InsightItemClickListener ,FragmentView{
     public static final String TAG = InsightsFragment.class.getSimpleName();
-    private RecyclerView recyclerViewInsights;
-    private ArrayList<String> insightsTitleItemList = new ArrayList<String>();
-    private ArrayList<String> insightsDescItemList = new ArrayList<String>();
 
     private List<Insight> mInsightList = new ArrayList();
     private DataServicesManager dataServicesManager;
@@ -42,6 +45,12 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
     private InsightsAdapter adapter;
 
     private InsightsContract.Action insightPresenter;
+
+    @BindView(R.id.insights_error)
+    Label errorLabel;
+
+    @BindView(R.id.insights_recycler_view)
+    RecyclerView recyclerViewInsights;
 
     @Override
     public void onResume() {
@@ -58,7 +67,7 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_insights, container, false);
-        recyclerViewInsights = (RecyclerView) view.findViewById(R.id.insights_recycler_view);
+        ButterKnife.bind(this, view);
         recyclerViewInsights.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         startAppTagging(TAG);
 
@@ -67,7 +76,7 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
         return view;
     }
 
-    private InsightsContract.Action getInsightsPresenter() {
+    protected InsightsContract.Action getInsightsPresenter() {
         return new InsightsPresenter(this, getActivity().getApplicationContext());
     }
 
@@ -98,12 +107,10 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
 
     @Override
     public void showProgressBar() {
-
     }
 
     @Override
     public void hideProgressBar() {
-
     }
 
     @Override
@@ -122,6 +129,8 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
                     mInsightList.clear();
                     mInsightList.addAll(insightList);
                     adapter.notifyDataSetChanged();
+
+                    setErrorViewVisibility(adapter.getItemCount() == 0);
                 }
             });
         }
@@ -130,8 +139,12 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
     @Override
     public void onInsightLoadError(String errorMessage) {
         RALog.d(TAG, "onInsightLoadError : " + errorMessage);
+        setErrorViewVisibility(adapter.getItemCount() == 0);
     }
 
+    private void setErrorViewVisibility(boolean isVisible) {
+        errorLabel.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+    }
 
 
     @Override
@@ -170,4 +183,9 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
         return R.id.frame_container;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        adapter.removeInsightItemClickListener();
+    }
 }

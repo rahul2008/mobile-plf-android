@@ -22,10 +22,12 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.termsandconditions.WebViewEnum;
 import com.philips.platform.baseapp.screens.termsandconditions.WebViewStateData;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class InsightsPresenter implements InsightsContract.Action, DBFetchRequestListner {
@@ -76,6 +78,13 @@ public class InsightsPresenter implements InsightsContract.Action, DBFetchReques
     public void onFetchSuccess(List list) {
         RALog.d(TAG, "onFetchSuccess : " + list.size());
         view.hideProgressBar();
+        Iterator iterable = list.iterator();
+        while (iterable.hasNext()) {
+            Insight insight = (Insight) iterable.next();
+            if (!insight.getRuleId().equals("HIGH_DEEP_SLEEP") && !insight.getRuleId().equals("LOW_DEEP_SLEEP")) {
+                iterable.remove();
+            }
+        }
         view.onInsightLoadSuccess(list);
     }
 
