@@ -92,9 +92,9 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
             @Override
             public void onClick(View view) {
                 int viewType = recyclerView.indexOfChild(view);
-                boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(profileList.get(viewType));
-                if (appConfigList != null)
-                    handleTransition(onClickMyaItem, appConfigList.get(viewType));
+                boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(appConfigList.get(viewType));
+                if (appConfigList != null && appConfigList.size() != 0)
+                    handleTransition(onClickMyaItem, profileList.get(viewType));
                 else
                     handleTransition(onClickMyaItem, getContext().getString(R.string.MYA_My_details));
             }

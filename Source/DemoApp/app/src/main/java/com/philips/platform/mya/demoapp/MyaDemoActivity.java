@@ -74,7 +74,10 @@ public class MyaDemoActivity extends UIDActivity {
     public void launch() {
         MyAccountDemoUAppInterface myAccountDemoUAppInterface = new MyAccountDemoUAppInterface();
         MyaDemoApplication applicationContext = (MyaDemoApplication) getApplicationContext();
-        myAccountDemoUAppInterface.init(new MyaDependencies(applicationContext.getAppInfra()), new UappSettings(this));
+        MyaDependencies uappDependencies = new MyaDependencies(applicationContext.getAppInfra());
+        uappDependencies.setPropositionName(PROPOSITION_NAME);
+        uappDependencies.setApplicationName(APPLICATION_NAME);
+        myAccountDemoUAppInterface.init(uappDependencies, new UappSettings(this));
         myAccountDemoUAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null, -1, null), null);
     }
 
