@@ -114,5 +114,18 @@
     <string name="label_ews_enable_gps_settings_body">GPS is disabled.You need to enable location services to complete the pairing. Then press back to return to the app.</string>
     <string name="button_ews_enable_gps_settings">go to location settings</string>
 
-
+    <!--Not Used(Added for Default Missing Warning) -->
+    <string name="button_ews_contact_us">Contact Us</string>
+    <string name="button_ews_phone_not_found_on_network_still_having_issues">Having issues?</string>
+    <string name="label_ews_select_wifi_title">Connect to %1$s</string>
+    <string name="label_ews_select_wifi_body">Follow these steps to connect your phone to PHILIPS Setup.</string>
+    <string name="label_ews_select_wifi_step1">1. Go to Settings on your phone and tap Wi-Fi</string>
+    <string name="label_ews_select_wifi_step2">2. Under network, select PHILIPS Setup</string>
+    <string name="label_ews_select_wifi_step3">3. Return to %1$s</string>
+    <string name="button_ews_select_wifi_next">Ok, I did it</string>
+    <string name="button_ews_select_wifi_having_issues">Having trouble?</string>
+    <string name="ews_placeholder_home_network">HOME WIFI</string>
+    <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_connection_unsuccesful_title">Problem connecting to PHILIPS Setup Wi-Fi</string>
+    <string name="label_ews_connection_unsuccesful_body">Please try:\n1) Enable Wi-Fi on your phone.\n2) Make sure your phone and your %1$s are in the same room during setup.</string>
 </resources>
