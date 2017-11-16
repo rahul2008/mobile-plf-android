@@ -511,11 +511,15 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                     urLogoutInterface.performLogout(this, ((AppFrameworkApplication) getApplicationContext())
                                     .getUserRegistrationState().getUserObject(this));
                 } else {
+                    selectedIndex=Constants.LOGIN_BUTTON_CLICK_CONSTANT;
+                    hamburgerMenuAdapter.setSelectedPosition(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
                     presenter.onEvent(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
                 }
                 break;
             case R.id.hamburger_menu_header_container:
                 if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this).isUserSignIn()) {
+                    selectedIndex=Constants.HAMBURGER_MY_ACCOUNT_CLICK;
+                    hamburgerMenuAdapter.setSelectedPosition(Constants.HAMBURGER_MY_ACCOUNT_CLICK);
                     presenter.onEvent(Constants.HAMBURGER_MY_ACCOUNT_CLICK);
                 }
                 break;
