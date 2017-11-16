@@ -22,12 +22,11 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import javax.inject.Inject;
 
 @SuppressWarnings("WeakerAccess")
-public abstract class EWSInterface implements UappInterface {
+public class EWSInterface implements UappInterface {
 
     public static final String ERROR_MSG_INVALID_CALL = "Please call \"init\" method, before calling launching ews with valid params";
     public static final String ERROR_MSG_INVALID_IMPLEMENTATION = "Please implement EWSActionBarListener in Activity";
@@ -88,8 +87,4 @@ public abstract class EWSInterface implements UappInterface {
         context.startActivity(intent);
 
     }
-
-    public abstract ThemeConfiguration getTheme() ;
-
-
 }
