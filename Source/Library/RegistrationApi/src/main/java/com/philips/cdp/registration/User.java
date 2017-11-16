@@ -500,13 +500,13 @@ public class User {
         boolean isValidMobileNo = FieldsValidator.isValidMobileNumber(mobileNo);
         boolean isValidEmail = FieldsValidator.isValidEmail(email);
         if (isValidMobileNo && isValidEmail) {
-            return getStoredState(mContext, mobileNo) &&
-                    getStoredState(mContext, email);
+            return getTermsAndConditionState(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, mobileNo) &&
+                    getTermsAndConditionState(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, email);
         }
         if (isValidMobileNo) {
-            return getStoredState(mContext, mobileNo);
+            return getTermsAndConditionState(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, mobileNo);
         }
-        return isValidEmail && getStoredState(mContext, email);
+        return isValidEmail && getTermsAndConditionState(mContext,RegConstants.TERMS_N_CONDITIONS_ACCEPTED, email);
     }
 
     /**

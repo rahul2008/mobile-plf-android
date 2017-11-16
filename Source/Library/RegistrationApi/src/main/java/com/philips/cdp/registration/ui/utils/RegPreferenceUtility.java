@@ -15,14 +15,21 @@ import com.philips.platform.appinfra.securestorage.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
 
 import static com.philips.cdp.registration.settings.RegistrationSettings.*;
 
 
 public class RegPreferenceUtility {
 
-    public static void storePreference(Context context, String key, boolean value) {
-        Jump.getSecureStorageInterface().storeValueForKey(key, String.valueOf(value), new SecureStorageInterface.SecureStorageError());
+    public static void storePreference(Context context, String key, String value) {
+        String oldVal = Jump.getSecureStorageInterface().fetchValueForKey(key, new SecureStorageInterface.SecureStorageError());
+        List<String> oldValArray = stringToList(oldVal);
+        oldValArray.add(value);
+        String newVal = listToString(oldValArray);
+        Jump.getSecureStorageInterface().storeValueForKey(key, newVal, new SecureStorageInterface.SecureStorageError());
     }
 
     public static boolean getStoredState(Context context, String key) {
@@ -59,5 +66,55 @@ public class RegPreferenceUtility {
 
     private static boolean isFileExists(String fileName) {
         return new File(fileName).exists();
+    }
+
+    public static void deletePreference( String key) {
+        Jump.getSecureStorageInterface().removeValueForKey(key);
+    }
+
+    public static boolean isKeyExist(String key){
+        return Boolean.parseBoolean(Jump.getSecureStorageInterface().fetchValueForKey(key, new SecureStorageInterface.SecureStorageError()));
+    }
+
+    public static boolean getTermsAndConditionState(Context context,String key, String value) {
+        if (isKeyExist(value)) {
+            storePreference(context, key, value);
+            deletePreference(value);
+            return true;
+        } else {
+            String prefValue =Jump.getSecureStorageInterface().fetchValueForKey(key,
+                    new SecureStorageInterface.SecureStorageError());
+
+            if(prefValue == null){
+                return false;
+            }
+
+            prefValue = prefValue.replace("[","");
+            prefValue = prefValue.replace("]","");
+
+            List<String> valArray=stringToList(prefValue);
+            for (int i=0;i < valArray.size();i++)
+            {
+                if(valArray.get(i).trim().equals(value)){
+                    return true;
+                }
+            }
+            return  false;
+        }
+    }
+
+   static String listToString(List<String> list)
+   {
+        return Arrays.toString(list.toArray());
+   }
+
+     static List<String> stringToList(String args) {
+         List<String> myList;
+         if(args == null){
+             myList = new ArrayList<String>();
+         } else{
+           myList = new ArrayList<String>(Arrays.asList(args.split(",")));
+         }
+        return myList;
     }
 }

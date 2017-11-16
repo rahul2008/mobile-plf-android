@@ -362,8 +362,8 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     }
 
     public void storePreference(String emailOrMobileNumber) {
-        RegPreferenceUtility.storePreference(getRegistrationFragment().getContext(),
-                emailOrMobileNumber, true);
+        RegPreferenceUtility.storePreference(getRegistrationFragment().getContext(),RegConstants.TERMS_N_CONDITIONS_ACCEPTED,
+                emailOrMobileNumber);
     }
 
     private OnClickListener mContinueBtnClick = view -> RegAlertDialog.dismissDialog();

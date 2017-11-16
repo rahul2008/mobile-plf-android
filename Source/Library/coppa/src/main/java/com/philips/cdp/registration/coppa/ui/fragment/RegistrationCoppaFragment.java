@@ -10,6 +10,7 @@ package com.philips.cdp.registration.coppa.ui.fragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.*;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -149,7 +150,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworkStateL
                             "occured in before scheduling  :"
                             + e.getMessage());
             RegPreferenceUtility.storePreference(getParentActivity().getApplicationContext(),
-                    "doPopBackStack", true);
+                    "PopBackStack", "doPopBackStack");
         }
     }
 
@@ -163,7 +164,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworkStateL
                     "Parental Access");
             fragmentTransaction.commitAllowingStateLoss();
             RegPreferenceUtility.storePreference(getParentActivity().getApplicationContext(),
-                    "doPopBackStack", false);
+                    "PopBackStack", "noPopBackStack");
         }
     }
 
@@ -340,14 +341,27 @@ public class RegistrationCoppaFragment extends Fragment implements NetworkStateL
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onResume");
         mActivity = getActivity();
         mFragmentManager = getChildFragmentManager();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onResume"
-                + RegPreferenceUtility.getStoredState(
-                getParentActivity().getApplicationContext(), "doPopBackStack"));
-        if (RegPreferenceUtility.getStoredState(
-                getParentActivity().getApplicationContext(), "doPopBackStack")) {
-            performReplaceWithPerentalAccess();
-        }
+//        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onResume"
+//                + RegPreferenceUtility.getStoredState(
+//                getParentActivity().getApplicationContext(), "doPopBackStack"));
 
+        try {
+            if (RegPreferenceUtility.getStoredState(
+                    getParentActivity().getApplicationContext(), "doPopBackStack")) {
+                RegPreferenceUtility.storePreference(getParentActivity().getApplicationContext(),
+                        "PopBackStack", "doPopBackStack");
+                RegPreferenceUtility.deletePreference("doPopBackStack");
+            }
+
+            if (RegPreferenceUtility.getTermsAndConditionState(
+                    getParentActivity().getApplicationContext(), "PopBackStack", "doPopBackStack")) {
+                performReplaceWithPerentalAccess();
+            }
+
+        } catch (Exception e){
+            RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : popbackstack pref" +e);
+
+        }
         networkUtility.registerNetworkListener(mNetworkReceiver);
     }
 

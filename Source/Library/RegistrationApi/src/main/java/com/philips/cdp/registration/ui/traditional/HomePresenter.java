@@ -325,7 +325,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
         }
         if (emailorMobile != null && RegistrationConfiguration.getInstance().
                 isTermsAndConditionsAcceptanceRequired() &&
-                !RegPreferenceUtility.getStoredState(homeContract.getActivityContext(), emailorMobile) || !user.getReceiveMarketingEmail()) {
+                !RegPreferenceUtility.getTermsAndConditionState(homeContract.getActivityContext(), RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailorMobile) || !user.getReceiveMarketingEmail()) {
             homeContract.navigateToAcceptTermsScreen();
             return;
         }
