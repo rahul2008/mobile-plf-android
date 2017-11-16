@@ -19,6 +19,7 @@
 
     <com.philips.platform.uid.view.widget.Button
         style="@style/UIDDefaultButton"
+        android:id="@+id/mya_dialog_logout_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/MYA_start_margin"
@@ -28,6 +29,7 @@
 
     <com.philips.platform.uid.view.widget.Button
         style="@style/UIDDefaultButton"
+        android:id="@+id/mya_dialog_cancel_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/MYA_start_margin"

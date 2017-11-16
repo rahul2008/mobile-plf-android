@@ -100,18 +100,32 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     }
 
     private void showDialog(String title, String message) {
+        View view = View.inflate(getContext(), R.layout.mya_dialog_label, null);
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
-                .setDialogType(DialogConstants.TYPE_ALERT)
-                .setDialogLayout(R.layout.mya_dialog_label)
+                .setDialogType(DialogConstants.TYPE_DIALOG)
+                .setDialogView(view)
                 .setMessage(message)
                 .setDimLayer(DialogConstants.DIM_SUBTLE)
-                .setTitle(title)
-                .setPositiveButton(R.string.MYA_Log_Out, this)
-                .setNegativeButton(R.string.MYA_Cancel, this)
-                .setCancelable(true);
-
-        AlertDialogFragment alertDialogFragment = builder.create();
+                .setCancelable(true)
+                .setTitle(title);
+        TextView textView = (TextView) view.findViewById(R.id.message_label);
+        Button logout = (Button) view.findViewById(R.id.mya_dialog_logout_btn);
+        Button cancel = (Button) view.findViewById(R.id.mya_dialog_cancel_btn);
+        textView.setText(message);
+        final AlertDialogFragment alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
+
+        logout.setOnClickListener(handleOnClick(alertDialogFragment));
+        cancel.setOnClickListener(handleOnClick(alertDialogFragment));
+    }
+
+    private View.OnClickListener handleOnClick(final AlertDialogFragment alertDialogFragment) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialogFragment.dismiss();
+            }
+        };
     }
 
 }
