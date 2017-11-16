@@ -33,8 +33,11 @@ public class ConsentAccessToolKit {
 
     // This field has to remove later(url should take from service discovery)
     private static final String URL = "https://platforminfra-css-platforminfradev.cloud.pcftest.com/consent";
-
     private static volatile ConsentAccessToolKit sSoleInstance;
+
+    private CatkComponent catkComponent;
+    private String applicationName;
+    private String propositionName;
 
     ConsentAccessToolKit() {
     }
@@ -46,17 +49,12 @@ public class ConsentAccessToolKit {
                     sSoleInstance = new ConsentAccessToolKit();
             }
         }
-
         return sSoleInstance;
     }
 
-    // Make singleton from serialize and deserialize operation.
-    protected ConsentAccessToolKit readResolve() {
-        return getInstance();
+    static void setInstance(ConsentAccessToolKit sSoleInstance) {
+        ConsentAccessToolKit.sSoleInstance = sSoleInstance;
     }
-
-    private CatkComponent catkComponent;
-
 
     public void init(CatkInputs catkInputs) {
         catkComponent = initDaggerComponents(catkInputs);
@@ -81,16 +79,13 @@ public class ConsentAccessToolKit {
         catkComponent = component;
     }
 
-    private String applicationName;
-    private String propositionName;
-
     public void getConsentDetails(final ConsentResponseListener consentListener) {
         GetConsentsModelRequest model = new GetConsentsModelRequest(URL, applicationName, propositionName, new NetworkAbstractModel.DataLoadListener() {
             @Override
             public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
                 List<Consent> consents = new ArrayList<>();
                 DtoToConsentMapper mapper = new DtoToConsentMapper();
-                for (GetConsentDto dto: dtos) {
+                for (GetConsentDto dto : dtos) {
                     consents.add(mapper.map(dto));
                 }
                 consentListener.onResponseSuccessConsent(consents);
@@ -107,21 +102,20 @@ public class ConsentAccessToolKit {
     public void createConsent(final Consent consent, final CreateConsentListener consentListener) {
         ConsentToDtoMapper mapper = new ConsentToDtoMapper(catkComponent.getUser().getHsdpUUID(), catkComponent.getUser().getCountryCode(), propositionName, applicationName);
         CreateConsentModelRequest model = new CreateConsentModelRequest(URL, mapper.map(consent), new NetworkAbstractModel.DataLoadListener() {
-                    @Override
-                    public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
-                        if (dtos == null) {
-                            consentListener.onSuccess(CatkConstants.CONSENT_SUCCESS);
-                        }
-                    }
+            @Override
+            public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
+                if (dtos == null) {
+                    consentListener.onSuccess(CatkConstants.CONSENT_SUCCESS);
+                }
+            }
 
-                    @Override
-                    public int onModelDataError(ConsentNetworkError error) {
-                        return consentListener.onFailure(error.getErrorCode());
-                    }
-                });
+            @Override
+            public int onModelDataError(ConsentNetworkError error) {
+                return consentListener.onFailure(error.getErrorCode());
+            }
+        });
         NetworkHelper.getInstance().sendRequest(model);
     }
-
 
     public void getStatusForConsentType(final String consentType, int version, final ConsentResponseListener consentListener) {
         getConsentDetails(new ConsentResponseListener() {
@@ -142,9 +136,5 @@ public class ConsentAccessToolKit {
                 return consentListener.onResponseFailureConsent(consentError);
             }
         });
-    }
-
-    static void setInstance(ConsentAccessToolKit sSoleInstance) {
-        ConsentAccessToolKit.sSoleInstance = sSoleInstance;
     }
 }
