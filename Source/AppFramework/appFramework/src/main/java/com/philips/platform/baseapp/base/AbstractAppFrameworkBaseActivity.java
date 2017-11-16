@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -28,7 +29,6 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.themesettings.ThemeHelper;
-import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -41,21 +41,21 @@ import java.util.ArrayList;
 /**
  * AbstractAppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
  */
-public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity implements ActionBarListener {
+public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity implements EWSActionBarListener {
     private static final String TAG = AbstractAppFrameworkBaseActivity.class.getName();
 
     public AbstractUIBasePresenter presenter;
-    int containerId;
-    private FragmentTransaction fragmentTransaction;
-
-    public abstract int getContainerId();
-
     protected ContentColor contentColor;
     protected ColorRange colorRange;
     protected NavigationColor navigationColor;
     protected SharedPreferences defaultSharedPreferences;
     protected AccentRange accentColorRange;
+    int containerId;
+    private FragmentTransaction fragmentTransaction;
     private ProgressDialog progressDialog;
+
+    public abstract int getContainerId();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initUIKIT();
@@ -65,9 +65,11 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
         progressDialog.setMessage(getString(R.string.RA_Settings_Progress_Title));
         progressDialog.setCancelable(false);
     }
+
     public void initUIKIT() {
         getTheme().applyStyle(R.style.Theme_Philips_DarkBlue_NoActionBar, true);
     }
+
     protected void initTheme() {
         defaultSharedPreferences = new SharedPreferenceUtility(this).getMyPreferences();
         final ThemeConfiguration themeConfig = getThemeConfig();
@@ -85,8 +87,9 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
 
         return resources.getIdentifier(themeName, "style", packageName);
     }
+
     public ThemeConfiguration getThemeConfig() {
-        final ThemeHelper themeHelper = new ThemeHelper(defaultSharedPreferences,this);
+        final ThemeHelper themeHelper = new ThemeHelper(defaultSharedPreferences, this);
         colorRange = themeHelper.initColorRange();
         navigationColor = themeHelper.initNavigationRange();
         contentColor = themeHelper.initContentTonalRange();
@@ -151,7 +154,6 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
         fragmentTransaction.addToBackStack(fragmentTag);
         fragmentTransaction.commitAllowingStateLoss();
     }
-
 
 
     public abstract void updateActionBarIcon(boolean b);
@@ -241,6 +243,21 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
         if (progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
+    }
+
+    @Override
+    public void closeButton(boolean visibility) {
+
+    }
+
+    @Override
+    public void updateActionBar(int i, boolean b) {
+
+    }
+
+    @Override
+    public void updateActionBar(String s, boolean b) {
+
     }
 
 }

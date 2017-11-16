@@ -5,13 +5,13 @@
 */
 package com.philips.platform.baseapp.base;
 
-import android.app.Application;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.StrictMode;
 
 import com.crittercism.app.Crittercism;
 import com.philips.cdp.uikit.utils.UikitLocaleHelper;
+import com.philips.cdp2.ews.EWSApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
@@ -37,7 +37,7 @@ import com.squareup.leakcanary.LeakCanary;
 /**
  * Application class is used for initialization
  */
-public class AppFrameworkApplication extends Application {
+public class AppFrameworkApplication extends EWSApplication {
     private static final String LOG = AppFrameworkApplication.class.getSimpleName();
     private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
     public static final String Apteligent_APP_ID = "69bb94377f0949908f3eeba142b8b21100555300";
