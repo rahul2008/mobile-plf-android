@@ -28,6 +28,7 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
             EWSActivity activity = (EWSActivity) getActivity();
             activity.showCloseButton();
         }
+        callTrackPageName();
     }
 
     @Override
@@ -53,7 +54,7 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
                 .setDialogView(view)
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDimLayer(DialogConstants.DIM_STRONG)
-                .setCancelable(true);
+                .setCancelable(false);
         final AlertDialogFragment alertDialogFragment = builder.create();
         alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
 
@@ -66,10 +67,10 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
                 getActivity().finish();
             }
         });
-
         noButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                callTrackPageName();
                 alertDialogFragment.dismiss();
             }
         });
@@ -82,12 +83,6 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
 
     public void setToolbarTitle() {
         ((EWSActivity) getActivity()).updateActionBar(getString(R.string.ews_title), true);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        callTrackPageName();
     }
 
     protected abstract void callTrackPageName();
