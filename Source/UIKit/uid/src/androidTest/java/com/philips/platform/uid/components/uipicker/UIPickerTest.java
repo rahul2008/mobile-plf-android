@@ -27,6 +27,7 @@ import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
 import com.philips.platform.uid.view.widget.Label;
@@ -65,7 +66,7 @@ public class UIPickerTest extends BaseTest {
 
     @Before
     public void setUpTheme() {
-        final Intent intent = getLaunchIntent(NavigationColor.BRIGHT.ordinal(), ContentColor.BRIGHT.ordinal(), ColorRange.PURPLE.ordinal());
+        final Intent intent = getLaunchIntent(NavigationColor.VERY_DARK.ordinal(), ContentColor.ULTRA_LIGHT.ordinal(), ColorRange.PURPLE.ordinal());
         activity = mActivityTestRule.launchActivity(intent);
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_uipicker);
         resources = activity.getResources();
@@ -147,7 +148,7 @@ public class UIPickerTest extends BaseTest {
             @Override
             public void run() {
                 Label selectedLabel = (Label) activity.findViewById(com.philips.platform.uid.test.R.id.ui_picker_text1);
-                final UIPicker uiPicker = new UIPicker(activity);
+                final UIPicker uiPicker = new UIPicker(UIDHelper.getContentThemedContext(activity));
                 ArrayAdapter adapter = new UIPickerAdapter(activity, com.philips.platform.uid.test.R.layout.ui_picker_item, STATES);
                 uiPicker.setAdapter(adapter);
                 uiPicker.setAnchorView(selectedLabel);
@@ -175,7 +176,7 @@ public class UIPickerTest extends BaseTest {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                final UIPicker uiPicker= new UIPicker(activity);
+                final UIPicker uiPicker= new UIPicker(UIDHelper.getNavigationThemedContext(activity));
                 ArrayAdapter adapter = new UIPickerAdapter(activity, com.philips.platform.uid.test.R.layout.ui_picker_item, STATES);
                 Label selectedLabel = (Label) activity.findViewById(com.philips.platform.uid.test.R.id.ui_picker_text1);
                 uiPicker.setAdapter(adapter);
