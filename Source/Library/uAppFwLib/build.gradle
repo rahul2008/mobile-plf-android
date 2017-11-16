@@ -172,6 +172,10 @@ android {
             buildOutputDir = "debug"
         }
     }
+      lintOptions {
+            abortOnError false
+        }
+
 }
 
 configurations.all {
