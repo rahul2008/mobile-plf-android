@@ -42,35 +42,33 @@ public class ApplianceManager {
 
     /**
      * Listen to {@link Appliance}s being found or lost.
-     *
-     * @param <A> Type of {@link Appliance} to listen for.
      */
-    public interface ApplianceListener<A extends Appliance> {
+    public interface ApplianceListener {
         /**
          * Called when an {@link Appliance} is found.
          *
          * @param foundAppliance
          */
-        void onApplianceFound(@NonNull A foundAppliance);
+        void onApplianceFound(@NonNull Appliance foundAppliance);
 
         /**
          * Called when an {@link Appliance} is updated due to new information from Discovery.
          *
          * @param updatedAppliance
          */
-        void onApplianceUpdated(@NonNull A updatedAppliance);
+        void onApplianceUpdated(@NonNull Appliance updatedAppliance);
 
         /**
          * Called when an {@link Appliance} is lost.
          *
          * @param lostAppliance
          */
-        void onApplianceLost(@NonNull A lostAppliance);
+        void onApplianceLost(@NonNull Appliance lostAppliance);
     }
 
     private final ApplianceFactory applianceFactory;
 
-    private final Set<ApplianceListener<Appliance>> applianceListeners = new CopyOnWriteArraySet<>();
+    private final Set<ApplianceListener> applianceListeners = new CopyOnWriteArraySet<>();
     private Map<String, Appliance> availableAppliances = new ConcurrentHashMap<>();
     private Map<String, Appliance> allAppliances = new ConcurrentHashMap<>();
 
@@ -254,7 +252,7 @@ public class ApplianceManager {
      * @return <code>true</code> if the listener didn't exist yet and was therefore added.
      * @see ApplianceListener
      */
-    public boolean addApplianceListener(@NonNull ApplianceListener<Appliance> applianceListener) {
+    public boolean addApplianceListener(@NonNull ApplianceListener applianceListener) {
         return applianceListeners.add(applianceListener);
     }
 
@@ -265,7 +263,7 @@ public class ApplianceManager {
      * @return <code>true</code> if the listener was present and therefore removed.
      * @see ApplianceListener
      */
-    public boolean removeApplianceListener(@NonNull ApplianceListener<Appliance> applianceListener) {
+    public boolean removeApplianceListener(@NonNull ApplianceListener applianceListener) {
         return applianceListeners.remove(applianceListener);
     }
 
@@ -289,7 +287,7 @@ public class ApplianceManager {
 
     private <A extends Appliance> void notifyApplianceFound(final @NonNull A appliance) {
         DICommLog.v(DICommLog.APPLIANCE_MANAGER, "Appliance found " + appliance.toString());
-        for (final ApplianceListener<Appliance> listener : applianceListeners) {
+        for (final ApplianceListener listener : applianceListeners) {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -300,7 +298,7 @@ public class ApplianceManager {
     }
 
     private void notifyApplianceUpdated(final @NonNull Appliance appliance) {
-        for (final ApplianceListener<Appliance> listener : applianceListeners) {
+        for (final ApplianceListener listener : applianceListeners) {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -312,7 +310,7 @@ public class ApplianceManager {
 
     private void notifyApplianceLost(final @NonNull Appliance appliance) {
         DICommLog.v(DICommLog.APPLIANCE_MANAGER, "Appliance lost " + appliance.toString());
-        for (final ApplianceListener<Appliance> listener : applianceListeners) {
+        for (final ApplianceListener listener : applianceListeners) {
             handler.post(new Runnable() {
                 @Override
                 public void run() {

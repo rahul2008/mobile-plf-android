@@ -36,6 +36,7 @@ Version {next}
 * CommLib - `TransportContext` instances are now contructed with a `RuntimeConfiguration` object to allow for app-specific configuration options
 * CommLib - `DiCommPort` no longer has the `isResponseForThisPort` method. This is handled internally by CommLib.
 * CommLib - the method `getDICommPortName` has been made public in order to determine the correct destination for incoming port data.
+* CommLib - `ApplianceManager.ApplianceListener` is not generic typed anymore.
 
 ### Defects solved
 * CommLib - \#72227 Timeout callback not called
