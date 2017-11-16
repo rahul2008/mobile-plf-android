@@ -10,6 +10,8 @@ package com.philips.platform.catk.mapper;
 import com.philips.platform.catk.dto.GetConsentDto;
 import com.philips.platform.catk.model.Consent;
 
+import org.joda.time.DateTime;
+
 import java.util.Locale;
 
 public class DtoToConsentMapper {
@@ -21,7 +23,9 @@ public class DtoToConsentMapper {
 
     public static Consent map(GetConsentDto consentDto) {
         String[] policyParts = parsePolicyUrn(consentDto.getPolicyRule());
-        return new Consent(getLocale(consentDto.getLanguage()), consentDto.getStatus(), policyParts[IDX_TYPE], Integer.parseInt(policyParts[IDX_VERSION]));
+        Consent consent = new Consent(getLocale(consentDto.getLanguage()), consentDto.getStatus(), policyParts[IDX_TYPE], Integer.parseInt(policyParts[IDX_VERSION]));
+        consent.setTimestamp(new DateTime(consentDto.getDateTime()));
+        return consent;
     }
 
     private static String[] parsePolicyUrn(String privacyRule) {
@@ -33,5 +37,4 @@ public class DtoToConsentMapper {
         String[] localeParts = language.split("-");
         return new Locale(localeParts[IDX_LANGUAGE], localeParts[IDX_COUNTRY]);
     }
-
 }

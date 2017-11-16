@@ -7,6 +7,8 @@
 
 package com.philips.platform.catk.model;
 
+import org.joda.time.DateTime;
+
 import java.util.Locale;
 
 public class Consent {
@@ -14,6 +16,7 @@ public class Consent {
     private ConsentStatus status;
     private String type;
     private int version;
+    private DateTime timestamp;
 
     public Consent(Locale locale, ConsentStatus status, String type, int version) {
         this.locale = locale;
@@ -54,6 +57,10 @@ public class Consent {
         this.version = version;
     }
 
+    public DateTime getTimestamp() { return timestamp; }
+
+    public void setTimestamp(DateTime timestamp) { this.timestamp = timestamp; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,7 +71,8 @@ public class Consent {
         if (version != consent.version) return false;
         if (locale != null ? !locale.equals(consent.locale) : consent.locale != null) return false;
         if (status != consent.status) return false;
-        return type != null ? type.equals(consent.type) : consent.type == null;
+        if (type != null ? !type.equals(consent.type) : consent.type != null) return false;
+        return timestamp != null ? timestamp.equals(consent.timestamp) : consent.timestamp == null;
     }
 
     @Override
@@ -73,6 +81,7 @@ public class Consent {
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + version;
+        result = 31 * result + (timestamp != null ? timestamp.hashCode() : 0);
         return result;
     }
 }
