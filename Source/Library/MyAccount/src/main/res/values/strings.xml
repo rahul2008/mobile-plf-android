@@ -33,4 +33,18 @@
     <string name="MYA_visit_website">Do you want to change your login ID or password? visit our website. </string>
     <string name="MYA_philips_website"><a href="www.philips.com">www.philips.com</a></string>
 
+    <string name="MYA_Cancel">Cancel</string>
+    <string name="MYA_change_country">Logout to change country</string>
+    <string name="MYA_change_country_message">Please logout to change the country you live in. This will lets us tailor the warranty and other information to your location</string>
+    <string name="MYA_logout_title">Are you sure you want to log out?</string>
+    <string name="MYA_logout_message">You will be logged out of the application. You can login back using login credentials.</string>
+    <string name="MYA_Info">Do you want to change your login ID or password? Visit our website.</string>
+
 </resources>
+
+
+
+
+
+
+

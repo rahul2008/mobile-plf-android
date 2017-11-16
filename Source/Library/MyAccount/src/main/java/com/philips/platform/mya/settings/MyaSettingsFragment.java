@@ -22,23 +22,33 @@ import com.philips.platform.mya.R;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.util.mvp.MyaBaseFragment;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+import com.philips.platform.uid.utils.DialogConstants;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
+import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
 
 public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClickListener {
 
-    private RelativeLayout consentLayout;
     private AppInfraInterface appInfra;
-    Label philipsWebsite;
+    private Label philipsWebsite;
+    public static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mya_settings_fragment, container, false);
         this.appInfra = MyaInterface.getMyaDependencyComponent().getAppInfra();
         TextView countryTextView = (TextView) view.findViewById(R.id.settings_country_value);
-        consentLayout = (RelativeLayout) view.findViewById(R.id.consent_layout);
+        Button logOutButton = (Button) view.findViewById(R.id.mya_settings_logout_btn);
+        RelativeLayout consentLayout = (RelativeLayout) view.findViewById(R.id.consent_layout);
+        RelativeLayout countryLayout = (RelativeLayout) view.findViewById(R.id.country_layout);
         countryTextView.setText(appInfra.getServiceDiscovery().getHomeCountry());
         philipsWebsite=  (Label) view.findViewById(R.id.philips_website);
+        consentLayout.setOnClickListener(this);
+        countryLayout.setOnClickListener(this);
+        philipsWebsite.setOnClickListener(this);
+        logOutButton.setOnClickListener(this);
         return view;
     }
 
@@ -58,13 +68,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        consentLayout.setOnClickListener(this);
-        philipsWebsite.setOnClickListener(this);
-    }
-
-    @Override
     public void onClick(View view) {
         int viewId = view.getId();
         if (viewId== R.id.consent_layout) {
@@ -81,6 +84,10 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
             i.setAction(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
             startActivity(i);
+        } else if(viewId == R.id.country_layout) {
+            showDialog(getString(R.string.MYA_change_country),getString(R.string.MYA_change_country_message));
+        } else if(viewId == R.id.mya_settings_logout_btn) {
+            showDialog(getString(R.string.MYA_logout_title),getString(R.string.MYA_logout_message));
         }
     }
 
@@ -92,4 +99,20 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         cswLaunchInput.setContext(getContext());
         return cswLaunchInput;
     }
+
+    private void showDialog(String title, String message) {
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
+                .setDialogType(DialogConstants.TYPE_ALERT)
+                .setDialogLayout(R.layout.mya_dialog_label)
+                .setMessage(message)
+                .setDimLayer(DialogConstants.DIM_SUBTLE)
+                .setTitle(title)
+                .setPositiveButton(R.string.MYA_Log_Out, this)
+                .setNegativeButton(R.string.MYA_Cancel, this)
+                .setCancelable(true);
+
+        AlertDialogFragment alertDialogFragment = builder.create();
+        alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
+    }
+
 }
