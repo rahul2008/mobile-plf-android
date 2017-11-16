@@ -70,7 +70,7 @@ public class EWSModule {
     @NonNull
     private CommCentral commCentral;
 
-    public EWSModule(@NonNull Context context, @NonNull FragmentManager fragmentManager, @IdRes int parentContainerResourceID, CommCentral commCentral) {
+    public EWSModule(@NonNull Context context, @NonNull FragmentManager fragmentManager, @IdRes int parentContainerResourceID,@NonNull CommCentral commCentral) {
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.parentContainerResourceID = parentContainerResourceID;
