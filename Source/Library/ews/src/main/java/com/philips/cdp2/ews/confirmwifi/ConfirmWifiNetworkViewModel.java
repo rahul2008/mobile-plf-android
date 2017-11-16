@@ -27,13 +27,18 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
         void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
     }
 
-    @NonNull private final Navigator navigator;
-    @NonNull private final WiFiUtil wiFiUtil;
+    @NonNull
+    private final Navigator navigator;
+    @NonNull
+    private final WiFiUtil wiFiUtil;
 
-    @NonNull private final StringProvider stringProvider;
+    @NonNull
+    private final StringProvider stringProvider;
 
-    @Nullable private ViewCallback viewCallback;
-    @NonNull private BaseContentConfiguration baseContentConfiguration;
+    @Nullable
+    private ViewCallback viewCallback;
+    @NonNull
+    private BaseContentConfiguration baseContentConfiguration;
 
     @Inject
     public ConfirmWifiNetworkViewModel(@NonNull final Navigator navigator,
@@ -88,7 +93,7 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
     @Bindable
     @NonNull
     public String getTitle() {
-        return stringProvider.getString(R.string.label_ews_confirm_connection_currently_connected, getHomeWiFiSSID());
+        return getHomeWiFiSSID();
     }
 
     @Bindable
@@ -100,10 +105,18 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
 
     @Bindable
     @NonNull
-    public String getHelper() {
-        return stringProvider.getString(R.string.label_ews_confirm_connection_tip,
-                baseContentConfiguration.getDeviceName(), baseContentConfiguration.getDeviceName());
+    public String getHelperUpper() {
+        return stringProvider.getString(R.string.label_ews_confirm_connection_tip_upper,
+                baseContentConfiguration.getDeviceName());
     }
+
+    @Bindable
+    @NonNull
+    public String getHelperLower() {
+        return stringProvider.getString(R.string.label_ews_confirm_connection_tip_lower,
+                baseContentConfiguration.getDeviceName());
+    }
+
 
     @NonNull
     public void trackPageName() {

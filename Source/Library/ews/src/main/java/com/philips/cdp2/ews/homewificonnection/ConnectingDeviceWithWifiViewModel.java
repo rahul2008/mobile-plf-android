@@ -116,14 +116,14 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
 
     @NonNull
     private DiscoveryHelper.DiscoveryCallback discoveryCallback = new DiscoveryHelper.DiscoveryCallback() {
-                @Override
-                public void onApplianceFound(Appliance appliance) {
-                    if (appliance.getNetworkNode().getCppId().equalsIgnoreCase(cppId)) {
-                        removeTimeoutRunnable();
-                        discoveryHelper.stopDiscovery();
-                        onDeviceConnectedToWifi();
-                    }
-                }
+        @Override
+        public void onApplianceFound(Appliance appliance) {
+            if (appliance.getNetworkNode().getCppId().equalsIgnoreCase(cppId)) {
+                removeTimeoutRunnable();
+                discoveryHelper.stopDiscovery();
+                onDeviceConnectedToWifi();
+            }
+        }
     };
 
     @NonNull
@@ -165,6 +165,11 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         this.discoveryHelper = discoveryHelper;
         this.stringProvider = stringProvider;
         this.title = new ObservableField<>(getTitle(baseContentConfiguration));
+    }
+
+    @Nullable
+    public String getHomeWiFiSSID() {
+        return wiFiUtil.getHomeWiFiSSD();
     }
 
     public void setFragmentCallback(@Nullable ConnectingDeviceToWifiCallback fragmentCallback) {
@@ -267,7 +272,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     @NonNull
     String getTitle(@NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(R.string.label_ews_connecting_device_title,
-                baseConfig.getDeviceName());
+                baseConfig.getDeviceName(), getHomeWiFiSSID());
     }
 
     public void trackPageName() {

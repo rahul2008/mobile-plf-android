@@ -89,7 +89,7 @@ public class StartConnectWithDeviceViewModelTest {
     @Test
     public void itShouldVerifyNoteForViewModel() throws Exception {
         subject.getNote(baseContentConfigurationMock);
-        verify(stringProviderMock).getString(R.string.label_ews_get_started_note,
+        verify(stringProviderMock).getString(R.string.label_ews_get_started_body,
                 baseContentConfigurationMock.getDeviceName());
     }
 

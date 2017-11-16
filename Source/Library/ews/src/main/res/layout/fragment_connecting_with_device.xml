@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_main_button_top_margin"
                 android:onClick="@{() -> viewModel.handleCancelButtonClicked()}"
-                android:text="@string/button_cancel"
+                android:text="@string/button_ews_connecting_device_cancel"
                 app:uidComponentType="Secondary" />
 
         </LinearLayout>

@@ -141,8 +141,8 @@ public class ConfirmWifiNetworkViewModelTest {
 
     @Test
     public void itShouldGiveHelperText() throws Exception {
-        subject.getHelper();
-        verify(mockStringProvider).getString(R.string.label_ews_confirm_connection_tip, mockBaseContentConfig.getDeviceName(), mockBaseContentConfig.getDeviceName());
+        subject.getHelperUpper();
+        verify(mockStringProvider).getString(R.string.label_ews_confirm_connection_tip_upper, mockBaseContentConfig.getDeviceName(), mockBaseContentConfig.getDeviceName());
     }
 
     @Test

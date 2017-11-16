@@ -16,10 +16,16 @@ import javax.inject.Inject;
 public class WIFIConnectionUnsuccessfulViewModel {
 
     @NonNull
-    public final ObservableField<String> description;
+    public final ObservableField<String> upperBody;
 
     @NonNull
-    public final ObservableField<String> notes;
+    public final ObservableField<String> step2;
+
+    @NonNull
+    public final ObservableField<String> upperHelper;
+
+    @NonNull
+    public final ObservableField<String> lowerHelper;
 
     @NonNull
     private final Navigator navigator;
@@ -27,16 +33,26 @@ public class WIFIConnectionUnsuccessfulViewModel {
     @Inject
     public WIFIConnectionUnsuccessfulViewModel(@NonNull Navigator navigator) {
         this.navigator = navigator;
-        description = new ObservableField<>();
-        notes = new ObservableField<>();
+        upperBody = new ObservableField<>();
+        step2 = new ObservableField<>();
+        upperHelper = new ObservableField<>();
+        lowerHelper = new ObservableField<>();
     }
 
-    public void setDescription(@NonNull String description) {
-        this.description.set(description);
+    public void setUpperBody(@NonNull String upperBody) {
+        this.upperBody.set(upperBody);
     }
 
-    public void setNotes(@NonNull String notes) {
-        this.notes.set(notes);
+    public void setStep2(@NonNull String step2) {
+        this.step2.set(step2);
+    }
+
+    public void setUpperHelper(@NonNull String upperHelper) {
+        this.upperHelper.set(upperHelper);
+    }
+
+    public void setLowerHelper(@NonNull String lowerHelper) {
+        this.lowerHelper.set(lowerHelper);
     }
 
     public void onTryAgainClicked() {

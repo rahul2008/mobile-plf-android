@@ -66,7 +66,7 @@ public class StartConnectWithDeviceViewModel {
     @VisibleForTesting
     @NonNull
     public String getNote(@NonNull BaseContentConfiguration baseConfig) {
-        return stringProvider.getString(R.string.label_ews_get_started_note,
+        return stringProvider.getString(R.string.label_ews_get_started_body,
                 baseConfig.getDeviceName());
     }
 

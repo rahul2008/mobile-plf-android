@@ -32,13 +32,55 @@
                 android:text="@string/label_ews_phone_reconnected_different_network_title" />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ews_04_00a_label_phone_reconnected_different_network_body"
+                android:id="@+id/ews_04_00a_label_phone_reconnected_different_network_upper_body"
                 style="@style/Txt.Body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_body_labels_margin"
-                android:text="@{viewModel.description}"
-                tools:text="@string/label_ews_phone_reconnected_different_network_body"/>
+                android:text="@{viewModel.upperDescription}"
+                tools:text="@string/label_ews_phone_reconnected_different_network_upper_body"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ews_04_00a_label_phone_reconnected_different_network_bottom_body"
+                style="@style/Txt.Body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_body_labels_margin"
+                android:text="@string/label_ews_phone_reconnected_different_network_bottom_body"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ews_04_00a_label_phone_reconnected_different_network_step_1"
+                style="@style/Txt.Body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_body_labels_margin"
+                android:text="@string/label_ews_phone_reconnected_different_network_step_1"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ews_04_00a_label_phone_reconnected_different_network_step_2"
+                style="@style/Txt.Body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_body_labels_margin"
+                android:text="@string/label_ews_phone_reconnected_different_network_step_2"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ews_04_00a_label_phone_reconnected_different_network_step_3"
+                style="@style/Txt.Body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_body_labels_margin"
+                android:text="@{viewModel.lowerDescription}"
+                tools:text="@string/label_ews_phone_reconnected_different_network_step_3"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ews_04_00a_label_phone_reconnected_different_network_step_4"
+                style="@style/Txt.Body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_body_labels_margin"
+                android:text="@{viewModel.appName}"
+                tools:text="@string/label_ews_phone_reconnected_different_network_step_4"/>
 
             <ImageView
                 android:id="@+id/ic_wrong_wifi"
