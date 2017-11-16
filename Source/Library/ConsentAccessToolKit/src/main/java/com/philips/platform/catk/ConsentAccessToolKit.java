@@ -57,6 +57,7 @@ public class ConsentAccessToolKit {
 
     private CatkComponent catkComponent;
 
+
     public void init(CatkInputs catkInputs) {
         catkComponent = initDaggerComponents(catkInputs);
         CatkLogger.init();
@@ -76,7 +77,7 @@ public class ConsentAccessToolKit {
         return catkComponent;
     }
 
-    void setCatkComponent(CatkComponent component) {
+    public void setCatkComponent(CatkComponent component) {
         catkComponent = component;
     }
 

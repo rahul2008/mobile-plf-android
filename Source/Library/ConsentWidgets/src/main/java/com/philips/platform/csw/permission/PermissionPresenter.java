@@ -24,17 +24,22 @@ public class PermissionPresenter implements ConsentResponseListener, CreateConse
 
     public PermissionPresenter(
             PermissionInterface permissionInterface, Context context) {
-        this.permissionInterface = permissionInterface;
+       this.permissionInterface = permissionInterface;
         this.context = context;
     }
 
-    void getConsentStatus() {
+
+    public void getConsentStatus() {
         permissionInterface.showProgressDialog();
-        ConsentAccessToolKit.getInstance().
+        getCatkInstance().
                 getStatusForConsentType(CONSENT_TYPE_MOMENT, version, this);
     }
 
-    void createConsentStatus(boolean status) {
+    protected ConsentAccessToolKit getCatkInstance() {
+        return ConsentAccessToolKit.getInstance();
+    }
+
+    public void createConsentStatus(boolean status) {
         permissionInterface.showProgressDialog();
         ConsentStatus consentStatus = status ? ConsentStatus.active : ConsentStatus.rejected;
         Consent consent = new Consent(Locale.US, consentStatus, "moment", 0);   // locale, type and version come from ConsentDefinition
