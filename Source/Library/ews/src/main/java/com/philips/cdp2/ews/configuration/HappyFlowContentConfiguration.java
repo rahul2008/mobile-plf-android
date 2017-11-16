@@ -137,7 +137,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
         @DrawableRes private int setUpVerifyScreenImage;
 
         public Builder() {
-            gettingStartedScreenTitle = R.string.label_ews_get_started_title;
+            gettingStartedScreenTitle = R.string.label_ews_get_started_title_default;
 
             setUpScreenTitle = R.string.label_ews_plug_in_title_default;
             setUpScreenBody = R.string.label_ews_plug_in_body_default;

@@ -34,7 +34,7 @@ public class HappyFlowContentConfigurationTest {
 
     @Test
     public void itShouldVerifyDefaultGettingStartedScreenTitle() throws Exception{
-        assertEquals(subject.getGettingStartedScreenTitle(), R.string.label_ews_get_started_title);
+        assertEquals(subject.getGettingStartedScreenTitle(), R.string.label_ews_get_started_title_default);
     }
 
     @Test
