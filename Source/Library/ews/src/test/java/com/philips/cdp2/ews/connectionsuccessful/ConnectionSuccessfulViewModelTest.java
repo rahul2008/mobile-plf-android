@@ -10,11 +10,11 @@ import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.StringProvider;
+import com.philips.cdp2.ews.wifi.WiFiUtil;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -33,7 +33,6 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 public class ConnectionSuccessfulViewModelTest {
 
-    @InjectMocks
     private ConnectionSuccessfulViewModel subject;
 
     @Mock
@@ -45,12 +44,15 @@ public class ConnectionSuccessfulViewModelTest {
 
     @Mock
     private StringProvider mockStringProvider;
+    @Mock
+    private WiFiUtil mockWiFiUtil;
 
     @Before
     public void setup() {
         initMocks(this);
         mockStatic(EWSTagger.class);
         PowerMockito.mockStatic(EWSCallbackNotifier.class);
+        subject = new ConnectionSuccessfulViewModel(mockBaseContentConfig, mockStringProvider, mockWiFiUtil);
         when(EWSCallbackNotifier.getInstance()).thenReturn(callbackNotifierMock);
         when(mockBaseContentConfig.getDeviceName()).thenReturn(R.string.ews_device_name_default);
         subject.setFragmentCallback(mockFragmentCallback);
@@ -83,7 +85,7 @@ public class ConnectionSuccessfulViewModelTest {
     public void itShouldVerifyTitleForViewModel() throws Exception {
         subject.getTitle(mockBaseContentConfig);
         verify(mockStringProvider).getString(R.string.label_ews_succesful_body,
-                mockBaseContentConfig.getDeviceName());
+                mockBaseContentConfig.getDeviceName(),mockWiFiUtil.getHomeWiFiSSD());
 
     }
 
