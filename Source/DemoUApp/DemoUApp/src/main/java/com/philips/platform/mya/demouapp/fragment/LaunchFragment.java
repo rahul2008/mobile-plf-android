@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -86,14 +88,14 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
     public void onClick(View v) {
         if (checkedId == R.id.radioButton) {
             MyaInterface myaInterface = new MyaInterface();
-            myaInterface.init(new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra()), new MyaSettings(((DemoAppActivity) getActivity())));
+            myaInterface.init(new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra()), new MyaSettings((getActivity())));
 
             ActivityLauncher  activityLauncher = new ActivityLauncher(ActivityLauncher.
                     ActivityOrientation.SCREEN_ORIENTATION_SENSOR, ((DemoAppActivity) getActivity()).getThemeConfig(),
                     ((DemoAppActivity) getActivity()).getThemeResourceId(), null);
 
             myaInterface.launch(activityLauncher,
-                    new MyaLaunchInput(((DemoAppActivity) getActivity()), new MyaListener() {
+                    new MyaLaunchInput(getActivity(), new MyaListener() {
                         @Override
                         public boolean onClickMyaItem(String itemName) {
                             return false;
@@ -101,14 +103,24 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                     }));
         } else {
             MyaInterface myaInterface = new MyaInterface();
-            myaInterface.init(new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra()),  new MyaSettings(((DemoAppActivity) getActivity())));
-            MyaLaunchInput uappLaunchInput =  new MyaLaunchInput(((DemoAppActivity) getActivity()), new MyaListener() {
+            myaInterface.init(new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra()),  new MyaSettings(getActivity()));
+            MyaLaunchInput uappLaunchInput =  new MyaLaunchInput(getActivity(), new MyaListener() {
                 @Override
                 public boolean onClickMyaItem(String itemName) {
                     return false;
                 }
             });
-            myaInterface.launch(new FragmentLauncher((DemoAppActivity) getActivity(), R.id.mainContainer, null), uappLaunchInput);
+            myaInterface.launch(new FragmentLauncher(getActivity(), R.id.mainContainer, new ActionBarListener() {
+                @Override
+                public void updateActionBar(@StringRes int i, boolean b) {
+                    ((DemoAppActivity) getActivity()).setTitle(i);
+                }
+
+                @Override
+                public void updateActionBar(String s, boolean b) {
+                    ((DemoAppActivity) getActivity()).setTitle(s);
+                }
+            }), uappLaunchInput);
         }
     }
 }

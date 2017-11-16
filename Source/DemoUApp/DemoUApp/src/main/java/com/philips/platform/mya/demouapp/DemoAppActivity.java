@@ -14,9 +14,10 @@ import android.support.annotation.StyleRes;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.TextView;
 
 import com.philips.platform.mya.demouapp.fragment.LaunchFragment;
 import com.philips.platform.mya.demouapp.theme.events.AccentColorChangedEvent;
@@ -43,7 +44,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
-public class DemoAppActivity extends UIDActivity implements View.OnClickListener {
+public class DemoAppActivity extends UIDActivity {
     private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_Bright;
 
     public static final String TITLE_TEXT = "TITLE_TEXT";
@@ -57,13 +58,13 @@ public class DemoAppActivity extends UIDActivity implements View.OnClickListener
     private SharedPreferences defaultSharedPreferences;
     private AccentRange accentColorRange;
     private  int  themeResourceId=0;
-    private FragmentManager fragmentManager;
+    private TextView mTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         initTheme();
-        //  initThemeIfExists();
         super.onCreate(savedInstanceState);
         MYALog.enableLogging(true);
 
@@ -76,26 +77,9 @@ public class DemoAppActivity extends UIDActivity implements View.OnClickListener
         if (savedInstanceState == null) {
             LaunchFragment launchFragment = new LaunchFragment();
             navigationController.switchFragment(launchFragment);
-
-
         }
-    }
-
-
-    public void onClick(View view) {
-
-    }
-
-    private void initThemeIfExists() {
-        int themeIndex = getIntent().getIntExtra(MyaConstants.MYA_THEME, DEFAULT_THEME);
-        if (themeIndex <= 0) {
-            themeIndex = DEFAULT_THEME;
-        }
-        getTheme().applyStyle(themeIndex, true);
-        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
-
-
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
+        mTitle = (TextView) toolbar.findViewById(R.id.uid_toolbar_title);
     }
 
     public void initTheme() {
@@ -104,19 +88,7 @@ public class DemoAppActivity extends UIDActivity implements View.OnClickListener
         themeConfig.add(navigationColor);
         themeConfig.add(accentColorRange);
         setTheme(themeResourceId);
-        // UIDLocaleHelper.getInstance().setFilePath(getCatalogAppJSONAssetPath());
-
         UIDHelper.init(themeConfig);
-
-    }
-
-
-
-    protected ThemeConfiguration getDLSThemeConfiguration(Context context) {
-        return new ThemeConfiguration(context, ColorRange.ORANGE, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE);
-    }
-    public NavigationController getNavigationController() {
-        return navigationController;
     }
 
     @VisibleForTesting
@@ -158,7 +130,7 @@ public class DemoAppActivity extends UIDActivity implements View.OnClickListener
     private void saveThemeValues(final String key, final String name) {
         final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
         edit.putString(key, name);
-        edit.commit();
+        edit.apply();
     }
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
@@ -207,14 +179,6 @@ public class DemoAppActivity extends UIDActivity implements View.OnClickListener
     public int getThemeResourceId()
     {
         return  themeResourceId;
-    }
-
-    public  NavigationColor getNavigationColor(){
-        return navigationColor;
-    }
-
-    public AccentRange getAccentColorRange(){
-        return accentColorRange;
     }
 
     @StyleRes
@@ -274,13 +238,19 @@ public class DemoAppActivity extends UIDActivity implements View.OnClickListener
                 super.onBackPressed();
             }
         }
-
-
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    public void setTitle(String data) {
+        mTitle.setText(data);
+    }
+
+    public void setTitle(int resId) {
+        mTitle.setText(resId);
     }
 
 
