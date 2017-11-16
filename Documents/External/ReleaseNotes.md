@@ -54,7 +54,8 @@ Version {next}
 	* Ports are no longer required to determine if JSON matches their port properties.
 * CommLib - \#91908 NPE in LanCommunicationStrategy fixed. 
 * CommLib - \#81027 Subscriptions continue to work when security key changes.
-
+* CommLib - \#18943 On wifi switch, change from local request to remote request
+* CommLib - \#18964 On wifi switch, clear the devices found on the local network
 
 
 ### Residual anomalies

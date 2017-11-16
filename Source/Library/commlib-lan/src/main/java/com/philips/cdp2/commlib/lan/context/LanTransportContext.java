@@ -49,6 +49,7 @@ public class LanTransportContext implements TransportContext<LanTransportContext
         @Override
         public void onAvailabilityChanged(@NonNull ConnectivityMonitor connectivityMonitor) {
             isAvailable = connectivityMonitor.isAvailable();
+            deviceCache.clear();
             notifyAvailabilityListeners();
         }
     };
@@ -58,12 +59,13 @@ public class LanTransportContext implements TransportContext<LanTransportContext
 
     public LanTransportContext(@NonNull final RuntimeConfiguration runtimeConfiguration) {
         this.connectivityMonitor = ConnectivityMonitor.forNetworkTypes(runtimeConfiguration.getContext(), TYPE_WIFI);
-        this.connectivityMonitor.addAvailabilityListener(lanAvailabilityListener);
 
         this.wifiNetworkProvider = WifiNetworkProvider.get(runtimeConfiguration.getContext());
 
         this.deviceCache = new LanDeviceCache(Executors.newSingleThreadScheduledExecutor());
         this.discoveryStrategy = createLanDiscoveryStrategy();
+
+        this.connectivityMonitor.addAvailabilityListener(lanAvailabilityListener);
     }
 
     @VisibleForTesting

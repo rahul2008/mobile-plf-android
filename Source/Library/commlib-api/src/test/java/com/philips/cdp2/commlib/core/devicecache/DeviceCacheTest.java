@@ -6,6 +6,7 @@
 package com.philips.cdp2.commlib.core.devicecache;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.core.util.ObservableCollection;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,6 +42,9 @@ public class DeviceCacheTest {
     CacheData cacheDataMock;
     @Mock
     CacheData secondCacheDataMock;
+
+    @Mock
+    ObservableCollection.ModificationListener<String> listener;
 
     @Before
     public void setUp() throws Exception {
@@ -103,13 +107,35 @@ public class DeviceCacheTest {
     }
 
     @Test
-    public void whenClearingCache_ThenDataIsRemoved() {
+    public void whenClearingCache_ThenDataIsRemoved_AndListenersNotified() {
         deviceCache.add(cacheDataMock);
         deviceCache.add(secondCacheDataMock);
+
+        deviceCache.addModificationListener(networkNodeMock.getCppId(), listener);
 
         deviceCache.clear();
 
         assertThat(deviceCache.contains(networkNodeMock.getCppId())).isFalse();
         assertThat(deviceCache.contains(secondNetworkNodeMock.getCppId())).isFalse();
+
+        verify(listener).onRemoved(networkNodeMock.getCppId());
+    }
+
+    @Test
+    public void whenDeviceAdded_ThenListenerIsNotified() {
+        deviceCache.addModificationListener(networkNodeMock.getCppId(), listener);
+
+        deviceCache.add(cacheDataMock);
+
+        verify(listener).onAdded(networkNodeMock.getCppId());
+    }
+
+    @Test
+    public void whenDeviceRemoved_ThenListenerIsNotified() {
+        deviceCache.addModificationListener(networkNodeMock.getCppId(), listener);
+
+        deviceCache.remove(networkNodeMock.getCppId());
+
+        verify(listener).onRemoved(networkNodeMock.getCppId());
     }
 }
