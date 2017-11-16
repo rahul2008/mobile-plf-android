@@ -3,7 +3,7 @@
     android:id="@+id/ths_how_it_works_container"
     android:layout_width="match_parent"
     android:background="?attr/uidContentPrimaryBackgroundColor"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:paddingTop="24dp"
     android:paddingBottom="@dimen/ths_fab_margin"
     android:paddingLeft="@dimen/ths_fab_margin"
@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/ths_margin_top"
+        android:layout_alignParentTop="true"
         android:text="@string/ths_customer_support_can_we_help_you_with_something"
         android:textColor="?attr/uidLabelRegularNormalTextColor"
         fontPath="fonts/centralesansbold.ttf"
@@ -52,6 +53,7 @@
         android:layout_marginTop="4dp"
         android:text="@string/ths_customer_support_phone_number"
         android:textColor="?attr/uidLabelRegularNormalTextColor"
+        android:linksClickable="true"
         android:textSize="18sp"
         fontPath="fonts/centralesansbook.ttf"/>
 

@@ -30,7 +30,8 @@ public class THSCustomerSupportFragment extends THSBaseFragment implements View.
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_customer_support_detail, container, false);
         mPhoneNumber  = (Label)view.findViewById(ths_customer_support_phone_number_id);
-        return  null;
+        mPhoneNumber.setOnClickListener(this);
+        return  view;
     }
 
     @Override
