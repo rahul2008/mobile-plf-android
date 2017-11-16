@@ -55,4 +55,6 @@
   <string name="dls_navigationright_bold_24" translatable="false">\uF035</string>
   <string name="dls_personportrait" translatable="false">\uF036</string>
   <string name="dls_search" translatable="false">\uF037</string>
+  <string name="dls_threedotshorizontal" translatable="false">\uF038</string>
+  <string name="dls_threedotsvertical" translatable="false">\uF039</string>
 </resources>
