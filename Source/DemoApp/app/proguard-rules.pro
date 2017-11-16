@@ -80,7 +80,14 @@
 -keep public class com.adobe.mobile.** {*;}
 -keep public class com.philips.cdp.tagging.** {*;}
 
+#Gson
+-dontwarn com.google.gson.**
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.** {*;}
+-keep class com.google.gson.examples.android.model.** { *; }
 
+# MyAccount Enums
+-keep enum com.philips.platform.catk.model.ConsentStatus { *; }
 
 
 #HSDP Lib
