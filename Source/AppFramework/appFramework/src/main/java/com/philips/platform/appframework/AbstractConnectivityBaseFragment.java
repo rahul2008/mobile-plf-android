@@ -18,12 +18,12 @@ import android.widget.Toast;
 
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceApplianceFactory;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
@@ -83,20 +83,21 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
         return commCentral;
     }
 
-    protected final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener<BleReferenceAppliance>() {
+    protected final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener() {
         @Override
-        public void onApplianceFound(@NonNull BleReferenceAppliance foundAppliance) {
-            RALog.d(TAG, "Device found :" + foundAppliance.getName());
-            bleScanDialogFragment.addDevice(foundAppliance);
+        public void onApplianceFound(@NonNull Appliance appliance) {
+            RALog.d(TAG, "Device found :" + appliance.getName());
+//            bleScanDialogFragment.addDevice(foundAppliance);
         }
 
         @Override
-        public void onApplianceUpdated(@NonNull BleReferenceAppliance bleReferenceAppliance) {
-            // NOOP
+        public void onApplianceUpdated(@NonNull Appliance appliance) {
+
         }
 
         @Override
-        public void onApplianceLost(@NonNull BleReferenceAppliance bleReferenceAppliance) {
+        public void onApplianceLost(@NonNull Appliance appliance) {
+
         }
     };
 
