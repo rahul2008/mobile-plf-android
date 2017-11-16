@@ -22,6 +22,7 @@ import android.view.ViewTreeObserver;
 
 import com.philips.cdp2.ews.demoapplication.EWSDemoActivity;
 import com.philips.cdp2.ews.demoapplication.R;
+import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.platform.uid.drawable.SeparatorDrawable;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
@@ -94,6 +95,12 @@ public class ThemeSettingsFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((EWSActionBarListener) getActivity()).updateActionBar("EWS Theme", true);
     }
 
     @Override

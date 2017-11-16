@@ -18,6 +18,7 @@ import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
+import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.cdp2.ews.microapp.EWSDependencies;
 import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.microapp.EWSLauncherInput;
@@ -49,7 +50,6 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
     private static final String AIRPURIFIER = "ap";
     private static final String DEFAULT = "Default";
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -66,6 +66,12 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
         configSpinner.setAdapter(aa);
         return view;
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((EWSActionBarListener) getActivity()).updateActionBar("EWS Ref App", true);
     }
 
     @Override
