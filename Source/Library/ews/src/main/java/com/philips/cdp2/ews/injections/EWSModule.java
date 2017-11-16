@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
@@ -31,6 +32,7 @@ import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.connectionestabilish.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.dialog.GPSEnableDialogFragment;
+import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
@@ -65,11 +67,14 @@ public class EWSModule {
     private Map<String, Serializable> configurationMap;
 
     @IdRes int parentContainerResourceID;
+    @NonNull
+    private CommCentral commCentral;
 
-    public EWSModule(@NonNull Context context, @NonNull FragmentManager fragmentManager,@IdRes int parentContainerResourceID) {
+    public EWSModule(@NonNull Context context, @NonNull FragmentManager fragmentManager, @IdRes int parentContainerResourceID, CommCentral commCentral) {
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.parentContainerResourceID = parentContainerResourceID;
+        this.commCentral = commCentral;
     }
 
     @Provides
@@ -139,8 +144,7 @@ public class EWSModule {
 
     @Provides
     DiscoveryHelper providesDiscoverHelper() {
-        return new DiscoveryHelper(
-                ((EWSApplication) context.getApplicationContext()).getCommCentral());
+        return new DiscoveryHelper(commCentral);
     }
 
 

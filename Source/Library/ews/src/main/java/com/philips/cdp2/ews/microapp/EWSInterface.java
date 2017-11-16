@@ -44,6 +44,7 @@ public abstract class EWSInterface implements UappInterface {
         EWSDependencies ewsDependencies = (EWSDependencies) uappDependencies;
         EWSDependencyProvider.getInstance().initDependencies(uappDependencies.getAppInfra(), ewsDependencies.getProductKeyMap());
         context = uappSettings.getContext();
+        EWSDependencyProvider.getInstance().setContext(context);
         contentConfiguration = ewsDependencies.getContentConfiguration();
     }
 
