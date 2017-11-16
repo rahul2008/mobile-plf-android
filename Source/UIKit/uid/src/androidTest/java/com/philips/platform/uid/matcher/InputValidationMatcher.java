@@ -17,7 +17,6 @@ public class InputValidationMatcher {
             @Override
             protected boolean matchesSafely(View view) {
                 InputValidationLayout layout = (InputValidationLayout) view;
-                layout.showError();
                 Label errorView = layout.getErrorLabelView();
                 return TextViewPropertiesMatchers.isSameTextColor(R.attr.uid_state_error, expectedValue).matches(errorView);
             }
@@ -30,7 +29,6 @@ public class InputValidationMatcher {
             @Override
             protected boolean matchesSafely(View view) {
                 InputValidationLayout layout = (InputValidationLayout) view;
-                layout.showError();
                 ImageView errorImageView = layout.getErrorIconView();
                 return ViewPropertiesMatchers.isSameEndMargin(expectedValue).matches(errorImageView);
             }
@@ -43,7 +41,6 @@ public class InputValidationMatcher {
             @Override
             protected boolean matchesSafely(View view) {
                 InputValidationLayout layout = (InputValidationLayout) view;
-                layout.showError();
                 Label errorView = layout.getErrorLabelView();
                 return TextViewPropertiesMatchers.isSameFontSize(expectedValue).matches(errorView);
             }

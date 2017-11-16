@@ -7,9 +7,7 @@
     <com.philips.platform.uid.view.widget.InputValidationLayout
         android:id="@+id/validation_layout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:uidTextBoxValidationErrorDrawable="@android:drawable/ic_delete"
-        app:uidTextBoxValidationErrorText="Hello World">
+        android:layout_height="wrap_content">
         <com.philips.platform.uid.view.widget.ValidationEditText
             android:id="@+id/edit_text"
             android:layout_width="wrap_content"
