@@ -159,6 +159,6 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
     @Override
     public void storePreference(String emailOrMobileNumber) {
         RegPreferenceUtility.storePreference(
-                getRegistrationFragment().getContext(), emailOrMobileNumber, true);
+                getRegistrationFragment().getContext(), RegConstants.TERMS_N_CONDITIONS_ACCEPTED,emailOrMobileNumber);
     }
 }
