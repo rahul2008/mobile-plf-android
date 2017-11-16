@@ -15,7 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswLaunchInput;
@@ -77,7 +76,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
             UappSettings uappSettings = new UappSettings(getContext());
             cswInterface.init(cswDependencies, uappSettings);
             cswInterface.launch(MyaInterface.getMyaUiComponent().getFragmentLauncher(), buildLaunchInput(true));
-
         } else if (viewId == R.id.philips_website) {
             String url = "http://www.Philips.com";
             Intent i = new Intent();
