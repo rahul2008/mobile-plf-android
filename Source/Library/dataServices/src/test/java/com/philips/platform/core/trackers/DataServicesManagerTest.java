@@ -93,6 +93,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class DataServicesManagerTest {
+    private static final DateTime START_DATE = new DateTime();
+    private static final DateTime END_DATE = new DateTime();
 
     public static final int TEST_REFERENCE_ID = 111;
     public static final String TEST_USER_ID = "TEST_USER_ID";
@@ -604,6 +606,19 @@ public class DataServicesManagerTest {
     }
 
     @Test
+    public void synchronize_deletesExpiredMoments() {
+        mDataServicesManager.synchronize();
+        verify(eventingMock).post(any(DeleteExpiredMomentRequest.class));
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void postException_WhenServiceDiscoveryInterfaceIsNull() {
+        givenNullServiceDiscoveryInterface();
+        whenFetchBaseUrlIsInvoked();
+        whenFetchCoachingServiceUrlIsInvoked();
+    }
+
+    @Test
     public void synchronize() {
         whenSynchronizeIsInvoked();
         thenVerifyMonitorsAreInitialized();
@@ -638,14 +653,16 @@ public class DataServicesManagerTest {
         verify(synchronisationManagerMock).startSync(START_DATE, END_DATE, synchronisationCompleteListenerMock);
     }
 
-    private static final DateTime START_DATE = new DateTime();
-    private static final DateTime END_DATE = new DateTime();
-
-    @Test
-    public void synchronize_deletesExpiredMoments() {
-        mDataServicesManager.synchronize();
-        verify(eventingMock).post(any(DeleteExpiredMomentRequest.class));
+    private void givenNullServiceDiscoveryInterface() {
+        mDataServicesManager.setServiceDiscoveryInterface(null);
     }
 
+    private void whenFetchBaseUrlIsInvoked() {
+        mDataServicesManager.fetchBaseUrlFromServiceDiscovery();
+    }
+
+    private void whenFetchCoachingServiceUrlIsInvoked() {
+        mDataServicesManager.fetchCoachingServiceUrlFromServiceDiscovery();
+    }
 }
 

@@ -18,7 +18,6 @@ import com.philips.platform.dscdemo.database.OrmDeletingInterfaceImpl;
 import com.philips.platform.dscdemo.database.OrmFetchingInterfaceImpl;
 import com.philips.platform.dscdemo.database.OrmSaving;
 import com.philips.platform.dscdemo.database.OrmUpdating;
-import com.philips.platform.dscdemo.database.table.BaseAppDateTime;
 import com.philips.platform.dscdemo.database.table.OrmCharacteristics;
 import com.philips.platform.dscdemo.database.table.OrmConsentDetail;
 import com.philips.platform.dscdemo.database.table.OrmDCSync;
@@ -33,6 +32,7 @@ import com.philips.platform.dscdemo.database.table.OrmMomentDetail;
 import com.philips.platform.dscdemo.database.table.OrmSettings;
 import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
 import com.philips.platform.dscdemo.utility.DSErrorHandler;
+import com.philips.platform.dscdemo.utility.DemoUAppLog;
 import com.philips.platform.dscdemo.utility.UserRegistrationHandler;
 
 import java.sql.SQLException;
@@ -56,18 +56,23 @@ public class DemoAppManager {
     void initPreRequisite(Context context, AppInfraInterface appInfra) {
         this.mAppInfra = appInfra;
         mDatabaseHelper = DatabaseHelper.getInstance(context, mAppInfra);
-        initAppInfra(mAppInfra);
-        init(context);
+        initLogger();
+        initDataServicesLibrary(context);
     }
 
-    private void init(Context context) {
+    private void initLogger() {
+        DemoUAppLog.init();
+        DemoUAppLog.enableLogging();
+    }
+
+    private void initDataServicesLibrary(Context context) {
         mDataServicesManager = DataServicesManager.getInstance();
+
         OrmCreator creator = new OrmCreator(new UuidGenerator());
-
         UserRegistrationInterface userRegistrationInterface = new UserRegistrationHandler(context, new User(context));
-
         DSErrorHandler dsErrorHandler = new DSErrorHandler();
-        mDataServicesManager.initializeDataServices(context, creator, userRegistrationInterface, dsErrorHandler,mAppInfra);
+
+        mDataServicesManager.initializeDataServices(context, creator, userRegistrationInterface, dsErrorHandler, mAppInfra);
         injectDBInterfacesToCore(context);
         mDataServicesManager.initializeSyncMonitors(context, null, null);
     }
@@ -94,7 +99,6 @@ public class DemoAppManager {
                     synchronisationDataDao, consentDetailsDao, measurementGroup, measurementGroupDetails,
                     characteristicsesDao, settingsDao, insightsDao, insightMetaDataDao, dcSyncDao);
 
-
             OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao, settingsDao,
                     consentDetailsDao, dcSyncDao, measurementGroup, synchronisationDataDao, measurementGroupDetails);
             OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDetailsDao, characteristicsesDao,
@@ -102,8 +106,6 @@ public class DemoAppManager {
             OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
                     measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDetailsDao, characteristicsesDao, settingsDao, dcSyncDao, insightsDao, insightMetaDataDao);
 
-
-            BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
             ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving, updating, deleting);
             OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting, saving, fetching);
             ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving, updating, fetching, deleting);
@@ -117,10 +119,6 @@ public class DemoAppManager {
     }
 
 
-    private void initAppInfra(AppInfraInterface gAppInfra) {
-        gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
-    }
-
     public AppInfraInterface getAppInfra() {
         return mAppInfra;
     }
@@ -128,5 +126,4 @@ public class DemoAppManager {
     public DatabaseHelper getDatabaseHelper() {
         return mDatabaseHelper;
     }
-
 }
