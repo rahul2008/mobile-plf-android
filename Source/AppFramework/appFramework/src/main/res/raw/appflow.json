@@ -23,7 +23,7 @@
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "terms_and_conditions"
+                "nextState": "web_view"
               }
             ]
           }
@@ -38,6 +38,20 @@
               {
                 "condition": [],
                 "nextState": "insights"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "insights",
+        "events": [
+          {
+            "eventId": "article",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
               }
             ]
           }
@@ -60,7 +74,7 @@
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "terms_and_conditions"
+                "nextState": "web_view"
               }
             ]
           },
@@ -258,7 +272,7 @@
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "terms_and_conditions"
+                "nextState": "web_view"
               }
             ]
           }
@@ -313,7 +327,7 @@
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "terms_and_conditions"
+                "nextState": "web_view"
               }
             ]
           }

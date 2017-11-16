@@ -19,7 +19,8 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.screens.termsandconditions.TermsAndPrivacyStateData;
+import com.philips.platform.baseapp.screens.termsandconditions.WebViewStateData;
+import com.philips.platform.baseapp.screens.termsandconditions.WebViewEnum;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -50,7 +51,7 @@ public class AboutScreenPresenter implements AboutScreenContract.Action {
     }
 
     @Override
-    public void loadTermsAndPrivacy(TermsAndPrivacyStateData.TermsAndPrivacyEnum termsAndPrivacyEnum) {
+    public void loadTermsAndPrivacy(WebViewEnum webViewEnum) {
         BaseFlowManager targetFlowManager = getTargetFlowManager();
         BaseState baseState = null;
         try {
@@ -61,9 +62,9 @@ public class AboutScreenPresenter implements AboutScreenContract.Action {
             Toast.makeText(getApplicationContext(), context.getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
         }
         if (null != baseState) {
-            TermsAndPrivacyStateData termsAndPrivacyStateData=new TermsAndPrivacyStateData();
-            termsAndPrivacyStateData.setTermsAndPrivacyEnum(termsAndPrivacyEnum);
-            baseState.setUiStateData(termsAndPrivacyStateData);
+            WebViewStateData webViewStateData =new WebViewStateData();
+            webViewStateData.setWebViewEnum(webViewEnum);
+            baseState.setUiStateData(webViewStateData);
             baseState.navigate(new FragmentLauncher(activity, R.id.frame_container, (ActionBarListener) activity));
         }
     }

@@ -21,7 +21,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.net.URL;
 
-import static com.philips.platform.baseapp.screens.termsandconditions.TermsAndConditionsPresenter.PRIVACY;
+import static com.philips.platform.baseapp.screens.termsandconditions.WebViewPresenter.PRIVACY;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -32,15 +32,15 @@ import static org.mockito.Mockito.when;
  * Created by philips on 27/07/17.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class TermsAndConditionsPresenterTest {
+public class WebViewPresenterTest {
 
     @Mock
     private Context context;
 
     @Mock
-    private TermsAndConditionsContract.View view;
+    private WebViewContract.View view;
 
-    TermsAndConditionsPresenter termsAndConditionsPresenter;
+    WebViewPresenter webViewPresenter;
 
     @Captor
     private ArgumentCaptor<ServiceDiscoveryInterface.OnGetServiceUrlListener> captor;
@@ -51,14 +51,14 @@ public class TermsAndConditionsPresenterTest {
 
     @Before
     public void setUp() {
-        termsAndConditionsPresenter = new TermsAndConditionsPresenter(view, context);
+        webViewPresenter = new WebViewPresenter(view, context);
         AppInfraInterface appInfraInterfaceMock = mock(AppInfraInterface.class);
         AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         serviceDiscoveryInterfaceMock = mock(ServiceDiscoveryInterface.class);
         when(appInfraInterfaceMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);
         when(appFrameworkApplicationMock.getAppInfra()).thenReturn(appInfraInterfaceMock);
         when(context.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
-        termsAndConditionsPresenter.loadTermsAndConditionsUrl(TermsAndPrivacyStateData.TermsAndPrivacyEnum.PRIVACY_CLICKED);
+        webViewPresenter.loadUrl(WebViewEnum.PRIVACY_CLICKED);
         verify(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(eq(PRIVACY), captor.capture());
         value= captor.getValue();
 

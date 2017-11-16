@@ -21,7 +21,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.aboutscreen.AboutScreenState;
-import com.philips.platform.baseapp.screens.termsandconditions.TermsAndConditionsState;
+import com.philips.platform.baseapp.screens.termsandconditions.WebViewState;
 import com.philips.platform.baseapp.screens.termsandconditions.WebViewActivity;
 import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -90,7 +90,7 @@ public class UserRegistrationStateTest {
         userRegState.navigate(fragmentLauncher);
         when(appFrameworkApplication.getTargetFlowManager()).thenReturn(flowManager);
         when(flowManager.getCurrentState()).thenReturn(new AboutScreenState());
-        when(flowManager.getNextState(any(BaseState.class), any(String.class))).thenReturn(new TermsAndConditionsState());
+        when(flowManager.getNextState(any(BaseState.class), any(String.class))).thenReturn(new WebViewState());
     }
 
     @Test

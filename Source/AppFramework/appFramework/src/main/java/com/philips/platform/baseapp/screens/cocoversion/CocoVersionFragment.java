@@ -90,7 +90,7 @@ public class CocoVersionFragment extends AbstractAppFrameworkBaseFragment {
         CocoVersionItem iap = new CocoVersionItem();
         iap.setTitle(getResources().getString(R.string.RA_COCO_IAP));
         iap.setDescription(getResources().getString(R.string.RA_COCO_IAP_desc));
-        //iap.setVersion(com.philips.cdp.di.iap.BuildConfig.VERSION_NAME);
+        iap.setVersion("");
 
         CocoVersionItem digitalCare = new CocoVersionItem();
         digitalCare.setTitle(getResources().getString(R.string.RA_COCO_CC));

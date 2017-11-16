@@ -7,6 +7,8 @@ package com.philips.platform.baseapp.screens.termsandconditions;
 
 import android.os.Bundle;
 import android.support.annotation.StringRes;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,31 +25,53 @@ import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetExc
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
-public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements TermsAndConditionsContract.View {
+import java.net.URL;
+
+public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements WebViewContract.View {
 
     private static final String TAG = WebViewActivity.class.getSimpleName();
     public static String STATE="state";
+    public static final String URL_TO_LOAD="url to load";
+    public static final String LOW_DEEPSLEEPSCORE="low_deepsleepscore";
+    public static final String HIGH_DEEPSLEEPSCORE="high_deepsleepscore";
 
     private WebView webView;
 
-    private TermsAndConditionsContract.Action termsAndConditionsAction;
+    private WebViewContract.Action termsAndConditionsAction;
 
-    private TermsAndPrivacyStateData.TermsAndPrivacyEnum state;
+    private WebViewEnum state;
+
+    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
-        state=(TermsAndPrivacyStateData.TermsAndPrivacyEnum) getIntent().getSerializableExtra(STATE);
+        state=(WebViewEnum) getIntent().getSerializableExtra(STATE);
+        url=(String)getIntent().getSerializableExtra(URL_TO_LOAD);
         webView = (WebView) findViewById(R.id.web_view);
-        termsAndConditionsAction = new TermsAndConditionsPresenter(this, this);
-        if(state== TermsAndPrivacyStateData.TermsAndPrivacyEnum.PRIVACY_CLICKED){
-            setTitle(R.string.global_privacy_link);
-        }else{
-            setTitle(R.string.global_terms_link);
+        UIDHelper.setupToolbar(this);
+        termsAndConditionsAction = new WebViewPresenter(this, this);
+//        if(!TextUtils.isEmpty(url)){
+//            updateUiOnUrlLoaded(url);
+//        }else{
+//            termsAndConditionsAction.loadUrl(state);
+//        }
+        if(state== WebViewEnum.PRIVACY_CLICKED){
+            UIDHelper.setTitle(this,R.string.global_privacy_link);
+            termsAndConditionsAction.loadUrl(state);
+        }else if(state==WebViewEnum.TERMS_CLICKED){
+            UIDHelper.setTitle(this,R.string.global_terms_link);
+            termsAndConditionsAction.loadUrl(state);
+        }else if(state==WebViewEnum.LOW_DEEP_SLEEP_ARTICLE_CLICKED){
+//            setTitle(R.string.article);
+            updateUiOnUrlLoaded("");
+        }else if(state==WebViewEnum.HIGH_DEEP_SLEEP_ARTICLE_CLICKED){
+//            setTitle(R.string.article);
+            updateUiOnUrlLoaded("");
         }
-        termsAndConditionsAction.loadTermsAndConditionsUrl(state);
 
     }
 
@@ -92,12 +116,40 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
 
     @Override
     public void updateUiOnUrlLoaded(String url) {
+        switch(state){
+            case PRIVACY_CLICKED:
+            case TERMS_CLICKED:
+                showWebPage(url);
+                break;
+            case LOW_DEEP_SLEEP_ARTICLE_CLICKED:
+                termsAndConditionsAction.loadArticle("app.articlehighsleepscore",LOW_DEEPSLEEPSCORE);
+                break;
+            case HIGH_DEEP_SLEEP_ARTICLE_CLICKED:
+                termsAndConditionsAction.loadArticle("app.articlehighsleepscore",HIGH_DEEPSLEEPSCORE);
+                break;
+            default:
+                showToast("Action event not recognized");
+        }
+    }
+
+    protected void showWebPage(String url) {
+        url=url.replaceAll("^\"|\"$", "");
         webView.loadUrl(url);
     }
 
     @Override
     public void onUrlLoadError(String errorMessage) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showToast(String message) {
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onArticleLoaded(String articleWebPageUrl) {
+        showWebPage(articleWebPageUrl);
     }
 
     @Override

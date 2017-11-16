@@ -5,7 +5,7 @@
 */
 package com.philips.platform.baseapp.screens.aboutscreen;
 
-import com.philips.platform.baseapp.screens.termsandconditions.TermsAndPrivacyStateData;
+import com.philips.platform.baseapp.screens.termsandconditions.WebViewEnum;
 
 /**
  * Created by philips on 25/07/17.
@@ -16,6 +16,6 @@ public interface AboutScreenContract {
     }
 
     interface Action {
-        void loadTermsAndPrivacy(TermsAndPrivacyStateData.TermsAndPrivacyEnum termsAndPrivacyEnum);
+        void loadTermsAndPrivacy(WebViewEnum termsAndPrivacyEnum);
     }
 }

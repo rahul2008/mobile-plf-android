@@ -13,7 +13,8 @@ import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
-import com.philips.platform.baseapp.screens.termsandconditions.TermsAndPrivacyStateData;
+import com.philips.platform.baseapp.screens.termsandconditions.WebViewEnum;
+import com.philips.platform.baseapp.screens.termsandconditions.WebViewStateData;
 
 import org.junit.After;
 import org.junit.Before;
@@ -67,13 +68,13 @@ public class AboutScreenFragmentTest {
     @Test
     public void testTermsClick() {
         aboutScreenFragment.getView().findViewById(R.id.uid_about_screen_terms).performClick();
-        verify(aboutScreenActionListener).loadTermsAndPrivacy(TermsAndPrivacyStateData.TermsAndPrivacyEnum.TERMS_CLICKED);
+        verify(aboutScreenActionListener).loadTermsAndPrivacy(WebViewEnum.TERMS_CLICKED);
     }
 
     @Test
     public void testPrivacyClick() {
         aboutScreenFragment.getView().findViewById(R.id.uid_about_screen_privacy).performClick();
-        verify(aboutScreenActionListener).loadTermsAndPrivacy(TermsAndPrivacyStateData.TermsAndPrivacyEnum.PRIVACY_CLICKED);
+        verify(aboutScreenActionListener).loadTermsAndPrivacy(WebViewEnum.PRIVACY_CLICKED);
     }
 
     @Test

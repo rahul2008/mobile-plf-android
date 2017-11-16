@@ -7,6 +7,7 @@ package com.philips.platform.appframework.connectivitypowersleep.insights;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,15 +19,17 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InsightsFragment extends AbstractAppFrameworkBaseFragment implements InsightsContract.View, DBChangeListener, InsightsAdapter.InsightItemClickListener {
+public class InsightsFragment extends AbstractAppFrameworkBaseFragment implements InsightsContract.View, DBChangeListener, InsightsAdapter.InsightItemClickListener ,FragmentView{
     public static final String TAG = InsightsFragment.class.getSimpleName();
     private RecyclerView recyclerViewInsights;
     private ArrayList<String> insightsTitleItemList = new ArrayList<String>();
@@ -148,6 +151,23 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
     public void onInsightsItemClicked(String momentId) {
         RALog.d(TAG, "Moment id : " + momentId);
         Toast.makeText(getActivity(), "Moment id : " + momentId, Toast.LENGTH_LONG).show();
+        insightPresenter.showArticle(momentId);
+    }
+
+
+    @Override
+    public FragmentActivity getFragmentActivity() {
+        return getActivity();
+    }
+
+    @Override
+    public ActionBarListener getActionBarListener() {
+        return null;
+    }
+
+    @Override
+    public int getContainerId() {
+        return R.id.frame_container;
     }
 
 }

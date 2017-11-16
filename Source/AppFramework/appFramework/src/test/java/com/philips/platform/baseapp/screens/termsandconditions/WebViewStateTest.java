@@ -29,8 +29,8 @@ import static org.robolectric.Shadows.shadowOf;
  */
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
-public class TermsAndConditionsStateTest extends TestCase{
-    private TermsAndConditionsState termsAndConditionsState;
+public class WebViewStateTest extends TestCase{
+    private WebViewState webViewState;
     private FragmentLauncher fragmentLauncher;
     private HamburgerActivity launchActivity;
     private ActivityController<TestActivity> activityController;
@@ -42,20 +42,20 @@ public class TermsAndConditionsStateTest extends TestCase{
     @Before
     public void setUp() throws Exception{
         super.setUp();
-        termsAndConditionsState = new TermsAndConditionsState();
+        webViewState = new WebViewState();
         activityController= Robolectric.buildActivity(TestActivity.class);
         launchActivity=activityController.create().start().get();
-        termsAndConditionsState.init(launchActivity);
-        termsAndConditionsState.updateDataModel();
+        webViewState.init(launchActivity);
+        webViewState.updateDataModel();
         fragmentLauncher = new FragmentLauncher(launchActivity, R.id.frame_container, launchActivity);
     }
 
     @Test
     public void navigateTest(){
-        TermsAndPrivacyStateData termsAndPrivacyStateData=new TermsAndPrivacyStateData();
-        termsAndPrivacyStateData.setTermsAndPrivacyEnum(TermsAndPrivacyStateData.TermsAndPrivacyEnum.TERMS_CLICKED);
-        termsAndConditionsState.setUiStateData(termsAndPrivacyStateData);
-        termsAndConditionsState.navigate(fragmentLauncher);
+        WebViewStateData webViewStateData =new WebViewStateData();
+        webViewStateData.setWebViewEnum(WebViewEnum.TERMS_CLICKED);
+        webViewState.setUiStateData(webViewStateData);
+        webViewState.navigate(fragmentLauncher);
         assertNotNull(shadowOf(launchActivity).getNextStartedActivity());
     }
 }

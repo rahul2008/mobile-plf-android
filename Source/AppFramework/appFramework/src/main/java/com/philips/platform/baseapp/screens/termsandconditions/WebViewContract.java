@@ -9,15 +9,21 @@ package com.philips.platform.baseapp.screens.termsandconditions;
  * Created by philips on 25/07/17.
  */
 
-public interface TermsAndConditionsContract {
+public interface WebViewContract {
     interface View {
         void updateUiOnUrlLoaded(String url);
 
         void onUrlLoadError(String errorMessage);
+
+        void showToast(String message);
+
+        void onArticleLoaded(String articleWebPageUrl);
     }
 
     interface Action {
-        void loadTermsAndConditionsUrl(TermsAndPrivacyStateData.TermsAndPrivacyEnum state);
+        void loadUrl(WebViewEnum state);
+
+        void loadArticle(String articleServiceId,String articleTitle);
     }
 
 }

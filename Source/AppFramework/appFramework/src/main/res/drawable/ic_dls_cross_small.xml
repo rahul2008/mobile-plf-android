@@ -9,6 +9,6 @@
     android:viewportWidth="48.0"
     android:width="@dimen/control_icon_medium_size">
   <path
-      android:fillColor="@color/white"
+      android:fillColor="?attr/uidNavigationPrimaryIconColor"
       android:pathData="M41.56,8.56l-2.12,-2.12l-15.44,15.44l-15.44,-15.44l-2.12,2.12l15.44,15.44l-15.44,15.44l2.12,2.12l15.44,-15.44l15.44,15.44l2.12,-2.12l-15.44,-15.44z"/>
 </vector>
