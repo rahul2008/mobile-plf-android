@@ -12,19 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConnectingWithDeviceBinding;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel.ConnectingPhoneToHotSpotCallback;
 import com.philips.cdp2.ews.logger.EWSLogger;
+import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
-
-import javax.inject.Inject;
 
 public class ConnectingWithDeviceFragment extends BaseFragment implements
         ConnectingPhoneToHotSpotCallback {
@@ -33,21 +31,10 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
     @Nullable
     private ConnectingWithDeviceViewModel viewModel;
 
-    @Inject
-    BaseContentConfiguration baseContentConfiguration;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((EWSActivity) getActivity()).getEWSComponent().inject(this);
-    }
-
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        EWSActivity activity = (EWSActivity) getActivity();
-        activity.hideCloseButton();
+        ((EWSActionBarListener) getContext()).closeButton(false);
     }
 
     @Nullable
@@ -87,7 +74,7 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
     }
 
     @Override
-    public void showTroubleshootHomeWifiDialog() {
+    public void showTroubleshootHomeWifiDialog(@NonNull  BaseContentConfiguration baseContentConfiguration) {
         Context context = getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.ews_device_conn_unsuccessful_dialog,
                 null, false);
@@ -108,6 +95,7 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
             @Override
             public void onClick(View v) {
                 if (viewModel != null) {
+                    alertDialogFragment.dismiss();
                     viewModel.onHelpNeeded();
                 }
             }
@@ -117,6 +105,7 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
             @Override
             public void onClick(View v) {
                 if (viewModel != null) {
+                    alertDialogFragment.dismiss();
                     viewModel.onHelpNotNeeded();
                 }
             }
@@ -143,6 +132,6 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
     }
 
     private ConnectingWithDeviceViewModel createViewModel() {
-        return ((EWSActivity) getActivity()).getEWSComponent().connectingWithDeviceViewModel();
+        return getEWSComponent().connectingWithDeviceViewModel();
     }
 }

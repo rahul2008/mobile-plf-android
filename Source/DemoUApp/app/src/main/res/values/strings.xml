@@ -26,6 +26,9 @@
     <string name="label_ews_connect_to_wrongphone_title">Accidentally connect with the wrong phone?</string>
     <string name="label_ews_connect_to_wrongphone_body">If your device has been connected to another phone by accident, you may see this screen prematurely.</string>
     <string name="label_ews_connect_to_wrongphone_question">Do you see this screen?</string>
+    <string name="ews_activity_launch">EWS Activity Launch!</string>
+    <string name="ews_fragment_launch">EWS Fragment Launch!</string>
+    <string name="select_configuration">Select Configuration:</string>
     <string name="app_name">DemoApp</string>
 
 </resources>

@@ -13,6 +13,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameFetcher;
 import com.philips.cdp2.ews.tagging.EWSTagger;
@@ -33,7 +34,7 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
 
         void unregisterReceiver(@NonNull BroadcastReceiver receiver);
 
-        void showTroubleshootHomeWifiDialog();
+        void showTroubleshootHomeWifiDialog(@NonNull  BaseContentConfiguration baseContentConfiguration);
 
         Fragment getFragment();
     }
@@ -53,6 +54,9 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
     @VisibleForTesting
     @NonNull
     Handler handler;
+
+    @NonNull
+    private BaseContentConfiguration baseContentConfiguration;
 
     @Nullable
     private ConnectingPhoneToHotSpotCallback fragmentCallback;
@@ -87,12 +91,14 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
                                   @NonNull DeviceFriendlyNameFetcher deviceFriendlyNameFetcher,
                                   @NonNull WiFiUtil wiFiUtil,
                                   @NonNull Navigator navigator,
-                                  @NonNull @Named("mainLooperHandler") Handler handler) {
+                                  @NonNull @Named("mainLooperHandler") Handler handler,
+                                  @NonNull BaseContentConfiguration baseContentConfiguration) {
         this.wiFiConnectivityManager = wiFiConnectivityManager;
         this.deviceFriendlyNameFetcher = deviceFriendlyNameFetcher;
         this.wiFiUtil = wiFiUtil;
         this.navigator = navigator;
         this.handler = handler;
+        this.baseContentConfiguration = baseContentConfiguration;
     }
 
     public void connectToHotSpot() {
@@ -136,7 +142,7 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
     void showUnsuccessfulDialog() {
         if (fragmentCallback != null) {
             EWSTagger.trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
-            fragmentCallback.showTroubleshootHomeWifiDialog();
+            fragmentCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration);
         } else{
             Log.e(TAG,"FragmentCallback not set in showUnsuccessfulDialog" );
         }

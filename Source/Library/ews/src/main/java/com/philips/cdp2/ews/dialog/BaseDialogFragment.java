@@ -23,8 +23,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.EWSActivity;
 
 public abstract class BaseDialogFragment<T extends ViewDataBinding> extends DialogFragment {
 
@@ -41,7 +39,6 @@ public abstract class BaseDialogFragment<T extends ViewDataBinding> extends Dial
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        injectDependencies();
         viewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
         setCancelable(false);
         bindViewModel(viewDataBinding);
@@ -52,11 +49,6 @@ public abstract class BaseDialogFragment<T extends ViewDataBinding> extends Dial
 
     protected abstract int getLayoutId();
 
-    protected abstract void inject(final EWSComponent ewsComponent);
-
-    private void injectDependencies() {
-        inject(((EWSActivity) getActivity()).getEWSComponent());
-    }
 
     @Override
     public void onResume() {
