@@ -64,16 +64,6 @@ public class CatkConstantsTest {
     }
 
     @Test
-    public void testApplicationName() {
-        assertEquals("OneBackend", new CatkConstants().APPLICATION_NAME);
-    }
-
-    @Test
-    public void testPropositionName() {
-        assertEquals("OneBackendProp", new CatkConstants().PROPOSITION_NAME);
-    }
-
-    @Test
     public void testBundleKeyName() {
         assertEquals("appName", new CatkConstants().BUNDLE_KEY_APPLICATION_NAME);
     }
