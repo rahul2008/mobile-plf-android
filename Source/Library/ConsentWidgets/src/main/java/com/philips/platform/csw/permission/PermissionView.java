@@ -25,6 +25,7 @@ import com.philips.platform.uid.view.widget.Switch;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.Unbinder;
 
 public class PermissionView extends CswBaseFragment implements
@@ -75,13 +76,9 @@ public class PermissionView extends CswBaseFragment implements
         }
         handleOrientation(view);
         consumeTouch(view);
-        initUi();
         return view;
     }
 
-    private void initUi() {
-        mConsentSwitch.setOnCheckedChangeListener(this);
-    }
 
     @Override
     public void onDestroyView() {
@@ -144,7 +141,7 @@ public class PermissionView extends CswBaseFragment implements
         mConsentSwitch.setChecked(status);
     }
 
-    @Override
+    @OnCheckedChanged(R2.id.toggleicon)
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         permissionPresenter.createConsentStatus(isChecked);
     }

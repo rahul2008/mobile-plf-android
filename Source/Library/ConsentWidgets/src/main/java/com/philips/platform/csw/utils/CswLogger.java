@@ -1,6 +1,7 @@
 
 package com.philips.platform.csw.utils;
 
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -48,7 +49,7 @@ public class CswLogger {
         return isLoggingEnabled;
     }
 
-    private static void validateLoggerInitialization() {
+    public static void validateLoggerInitialization() {
         if (mLoggingInterface == null) {
             throw new RuntimeException("Please initiate Consent widget Logger by calling CswLogger.init()");
         }
@@ -108,5 +109,9 @@ public class CswLogger {
         }
         validateLoggerInitialization();
         mLoggingInterface.log(LoggingInterface.LogLevel.VERBOSE, tag, message);
+    }
+    @VisibleForTesting
+    public static void setLoogerInterface(LoggingInterface loggingInterface){
+        mLoggingInterface = loggingInterface;
     }
 }
