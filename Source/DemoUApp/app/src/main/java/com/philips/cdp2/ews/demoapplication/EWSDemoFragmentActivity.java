@@ -7,7 +7,10 @@ package com.philips.cdp2.ews.demoapplication;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.cdp2.ews.microapp.EWSInterface;
@@ -40,9 +43,20 @@ public class EWSDemoFragmentActivity extends EWSDemoBaseActivity implements EWSA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_activity_demo);
         launchEWSFragmentUApp();
+        setUpToolBar();
         setUpCancelButton();
     }
 
+    private void setUpToolBar() {
+        Toolbar toolbar = (Toolbar) findViewById(com.philips.cdp2.ews.R.id.ews_toolbar);
+        setSupportActionBar(toolbar);
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
+        }
+    }
     private void setUpCancelButton() {
         FontIconDrawable drawable = new FontIconDrawable(this, getResources().getString(R.string.dls_cross_24), TypefaceUtils.load(getAssets(), "fonts/iconfont.ttf"))
                 .sizeRes(R.dimen.ews_gs_icon_size);
@@ -74,14 +88,19 @@ public class EWSDemoFragmentActivity extends EWSDemoBaseActivity implements EWSA
         ewsInterface.launch(fragmentLauncher, ewsLauncherInput);
     }
 
+    public void setToolbarTitle(String s) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.ews_toolbar);
+        ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText(s);
+    }
+
     @Override
     public void updateActionBar(int i, boolean b) {
-        //todo add logic of updating title
+        setToolbarTitle(getString(i));
     }
 
     @Override
     public void updateActionBar(String s, boolean b) {
-        //todo add logic of updating title
+        setToolbarTitle(s);
     }
 
     @Override
