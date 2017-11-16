@@ -14,12 +14,12 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
-import com.philips.cdp2.ews.EWSApplication;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.appliance.EWSGenericAppliance;
@@ -65,11 +65,14 @@ public class EWSModule {
     private Map<String, Serializable> configurationMap;
 
     @IdRes int parentContainerResourceID;
+    @NonNull
+    private CommCentral commCentral;
 
-    public EWSModule(@NonNull Context context, @NonNull FragmentManager fragmentManager,@IdRes int parentContainerResourceID) {
+    public EWSModule(@NonNull Context context, @NonNull FragmentManager fragmentManager, @IdRes int parentContainerResourceID, CommCentral commCentral) {
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.parentContainerResourceID = parentContainerResourceID;
+        this.commCentral = commCentral;
     }
 
     @Provides
@@ -139,8 +142,7 @@ public class EWSModule {
 
     @Provides
     DiscoveryHelper providesDiscoverHelper() {
-        return new DiscoveryHelper(
-                ((EWSApplication) context.getApplicationContext()).getCommCentral());
+        return new DiscoveryHelper(commCentral);
     }
 
 

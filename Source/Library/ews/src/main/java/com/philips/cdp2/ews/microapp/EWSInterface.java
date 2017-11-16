@@ -22,11 +22,12 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import javax.inject.Inject;
 
 @SuppressWarnings("WeakerAccess")
-public class EWSInterface implements UappInterface {
+public abstract class EWSInterface implements UappInterface {
 
     public static final String ERROR_MSG_INVALID_CALL = "Please call \"init\" method, before calling launching ews with valid params";
     public static final String ERROR_MSG_INVALID_IMPLEMENTATION = "Please implement EWSActionBarListener in Activity";
@@ -38,11 +39,11 @@ public class EWSInterface implements UappInterface {
     private Context context;
     private ContentConfiguration contentConfiguration;
 
-    @Override
-    public void init(@NonNull final UappDependencies uappDependencies, @NonNull final UappSettings uappSettings) {
+    public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         EWSDependencies ewsDependencies = (EWSDependencies) uappDependencies;
         EWSDependencyProvider.getInstance().initDependencies(uappDependencies.getAppInfra(), ewsDependencies.getProductKeyMap());
         context = uappSettings.getContext();
+        EWSDependencyProvider.getInstance().setContext(context);
         contentConfiguration = ewsDependencies.getContentConfiguration();
     }
 
@@ -87,4 +88,8 @@ public class EWSInterface implements UappInterface {
         context.startActivity(intent);
 
     }
+
+    public abstract ThemeConfiguration getTheme() ;
+
+
 }

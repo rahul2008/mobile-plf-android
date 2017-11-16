@@ -4,11 +4,16 @@
  */
 package com.philips.cdp2.ews.microapp;
 
+import android.content.Context;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 
+import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
+import com.philips.cdp2.commlib.lan.context.LanTransportContext;
+import com.philips.cdp2.ews.appliance.BEApplianceFactory;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSComponent;
@@ -18,6 +23,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import java.util.Map;
 
@@ -31,6 +37,11 @@ public class EWSDependencyProvider {
     private static AppTaggingInterface appTaggingInterface;
     private AppInfraInterface appInfraInterface;
     private Map<String, String> productKeyMap;
+    private ThemeConfiguration themeConfiguration;
+
+    private Context context;
+    private static CommCentral commCentral;
+
 
     @VisibleForTesting
     EWSDependencyProvider() {
@@ -46,12 +57,16 @@ public class EWSDependencyProvider {
         return instance;
     }
 
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
     public void initDependencies(@NonNull final AppInfraInterface appInfraInterface,
                                  @NonNull final Map<String, String> productKeyMap) {
         this.appInfraInterface = appInfraInterface;
         this.productKeyMap = productKeyMap;
 
-        if(productKeyMap == null || !productKeyMap.containsKey(EWSInterface.PRODUCT_NAME)) {
+        if (productKeyMap == null || !productKeyMap.containsKey(EWSInterface.PRODUCT_NAME)) {
             throw new IllegalArgumentException("productKeyMap does not contain the productName");
         }
     }
@@ -83,7 +98,7 @@ public class EWSDependencyProvider {
         ewsComponent = DaggerEWSComponent.builder()
                 .eWSModule(new EWSModule(fragmentActivity
                         , fragmentActivity.getSupportFragmentManager()
-                        , parentContainerResourceID))
+                        , parentContainerResourceID, getCommCentral()))
                 .eWSConfigurationModule(new EWSConfigurationModule(fragmentActivity, contentConfiguration))
                 .build();
     }
@@ -94,7 +109,7 @@ public class EWSDependencyProvider {
 
     @NonNull
     public String getProductName() {
-        if(productKeyMap == null) {
+        if (productKeyMap == null) {
             throw new IllegalStateException("Product keymap not initialized");
         }
         return productKeyMap.get(EWSInterface.PRODUCT_NAME);
@@ -111,5 +126,25 @@ public class EWSDependencyProvider {
         productKeyMap = null;
         instance = null;
         ewsComponent = null;
+    }
+
+    public CommCentral getCommCentral() {
+        if (commCentral == null) {
+            commCentral = createCommCentral();
+        }
+        return commCentral;
+    }
+
+    @NonNull
+    private CommCentral createCommCentral() {
+        LanTransportContext lanTransportContext = new LanTransportContext(
+                new RuntimeConfiguration(context, appInfraInterface));
+        BEApplianceFactory factory = new BEApplianceFactory(lanTransportContext);
+        return new CommCentral(factory, lanTransportContext);
+    }
+
+
+    public ThemeConfiguration getThemeConfiguration() {
+        return themeConfiguration;
     }
 }
