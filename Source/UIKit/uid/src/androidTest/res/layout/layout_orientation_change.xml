@@ -3,66 +3,69 @@
   ~ All rights reserved.
   ~
   -->
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.philips.platform.uid.view.widget.NavigationContainer xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/label_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Calories" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <com.philips.platform.uid.view.widget.EditText
-        android:id="@+id/edittext1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Enter Text" />
-
-    <com.philips.platform.uid.view.widget.InputValidationLayout
-        android:id="@+id/validation_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:uidTextBoxValidationErrorDrawable="@android:drawable/ic_delete"
-        app:uidTextBoxValidationErrorText="Hello World">
-
-        <com.philips.platform.uid.view.widget.ValidationEditText
-            android:id="@+id/edit_text"
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/label_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </com.philips.platform.uid.view.widget.InputValidationLayout>
+            android:layout_height="wrap_content"
+            android:text="Calories" />
 
-    <com.philips.platform.uid.view.widget.ProgressBarButton
-        android:id="@+id/progressButtonsNormalIndeterminate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        app:uidIsIndeterminateProgressIndicator="true" />
+        <com.philips.platform.uid.view.widget.EditText
+            android:id="@+id/edittext1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter Text" />
 
-    <com.philips.platform.uid.view.widget.ProgressBarWithLabel
-        android:id="@+id/progressbarWithLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Loading"
-        app:uidCircularProgressBarSize="small"
-        app:uidIsIndeterminateProgressIndicator="true"
-        app:uidLabelPosition="bottom_center"/>
+        <com.philips.platform.uid.view.widget.InputValidationLayout
+            android:id="@+id/validation_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:uidTextBoxValidationErrorDrawable="@android:drawable/ic_delete"
+            app:uidTextBoxValidationErrorText="Hello World">
 
-    <com.philips.platform.uid.view.widget.SearchBox
-        android:id="@+id/test_search_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:uidSearchDecoyHintText="Search"
-        app:uidSearchInputHintText="Search"/>
+            <com.philips.platform.uid.view.widget.ValidationEditText
+                android:id="@+id/edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </com.philips.platform.uid.view.widget.InputValidationLayout>
 
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/links"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/test_links_description" />
+        <com.philips.platform.uid.view.widget.ProgressBarButton
+            android:id="@+id/progressButtonsNormalIndeterminate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:uidIsIndeterminateProgressIndicator="true" />
 
+        <com.philips.platform.uid.view.widget.ProgressBarWithLabel
+            android:id="@+id/progressbarWithLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loading"
+            app:uidCircularProgressBarSize="small"
+            app:uidIsIndeterminateProgressIndicator="true"
+            app:uidLabelPosition="bottom_center" />
 
-</LinearLayout>
+        <com.philips.platform.uid.view.widget.SearchBox
+            android:id="@+id/test_search_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:uidSearchDecoyHintText="Search"
+            app:uidSearchInputHintText="Search" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/links"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/test_links_description" />
+
+    </LinearLayout>
+</com.philips.platform.uid.view.widget.NavigationContainer>

@@ -14,6 +14,7 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import com.philips.platform.uid.R;
+import com.philips.platform.uid.utils.UIDUtils;
 
 /**
  * Top level layout to provide shadows as per DLS specs below action bar if used as primary shadowType.
@@ -70,7 +71,7 @@ public class NavigationContainer extends FrameLayout {
         setDefaultShadowDrawable(context, a);
 
         shadowDrawable.setCallback(this);
-        shadowTopOffset = a.getDimensionPixelSize(R.styleable.UIDNavigationContainer_uidShadowOffset, getActionBarSize());
+        shadowTopOffset = a.getDimensionPixelSize(R.styleable.UIDNavigationContainer_uidShadowOffset, UIDUtils.getActionBarSize(context));
 
         setWillNotDraw(shadowDrawable == null);//Necessary to draw the shadow
         a.recycle();
@@ -91,14 +92,6 @@ public class NavigationContainer extends FrameLayout {
     public void draw(Canvas canvas) {
         super.draw(canvas);
         shadowDrawable.draw(canvas);
-    }
-
-    private int getActionBarSize() {
-        final TypedArray styledAttributes = getContext().getTheme()
-                .obtainStyledAttributes(new int[]{R.attr.actionBarSize});
-        int size = (int) styledAttributes.getDimension(0, 0);
-        styledAttributes.recycle();
-        return size;
     }
 
     private void setDefaultShadowDrawable(Context context, TypedArray array) {
