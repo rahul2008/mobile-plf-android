@@ -168,7 +168,7 @@ dependencies {
 	
 	compile(dp ? project(':ufw') : project(':uAppFwLib'))
 
-    compile 'com.google.code.gson:gson:2.2.4'
+  
 }
 
 tasks.withType(Test) {
