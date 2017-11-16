@@ -181,6 +181,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles 'proguard-rules.pro'
+            consumerProguardFiles 'consumer-proguard-rules.pro'
         }
         debug {
             debuggable true
