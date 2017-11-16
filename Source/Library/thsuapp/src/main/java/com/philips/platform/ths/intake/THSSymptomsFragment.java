@@ -10,10 +10,8 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -76,7 +74,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     protected THSOnDemandSpeciality thsOnDemandSpeciality;
     protected LinearLayout topicLayout;
     private ImageButton camera_button;
-    private Button mContinue;
+    protected Button mContinue;
     private RelativeLayout mRelativeLayout, ths_symptoms_relative_layout, ths_camera_image_list_layout;
     protected THSVisitContext mThsVisitContext;
     private String userChosenTask;
@@ -85,7 +83,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     private ArrayList<THSSelectedImagePojo> selectedImagePojoList;
     public static final int REQUEST_READ_EXTERNAL_STORAGE_AN_CAMERA = 123;
     public static final int REQUEST_WRITE_EXTERNAL_STORAGE = 124;
-    private Dialog dialog;
+    protected Dialog dialog;
     private Uri mCapturedImageURI;
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
@@ -166,7 +164,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_prepare_your_visit), true);
         }
-        getVisistContext();
+        getVisitContext();
         return view;
     }
 
@@ -180,7 +178,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         return false;
     }
 
-    private void getVisistContext() {
+    protected void getVisitContext() {
         if (mThsVisitContext == null) {
             createCustomProgressBar(mRelativeLayout, BIG);
             mContinue.setEnabled(false);
@@ -202,7 +200,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     public void addTopicsToView(THSVisitContext visitContext) {
         ths_symptoms_relative_layout.setVisibility(View.VISIBLE);
         mThsVisitContext = visitContext;
-        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/centralesansbook.ttf");
+        Typeface typeface = getTypeface();
         if (getContext() != null) {
             List<Topic> topics = visitContext.getTopics();
             for (final Topic topic : topics) {
@@ -230,6 +228,10 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             }
         }
         mContinue.setEnabled(true);
+    }
+
+    public Typeface getTypeface() {
+        return Typeface.createFromAsset(getActivity().getAssets(), "fonts/centralesansbook.ttf");
     }
 
     @Override
@@ -311,8 +313,8 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     }
 
     private void requestPermission() {
-        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED &&
+        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE,android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                             Manifest.permission.CAMERA},
@@ -332,7 +334,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
 
     private void requestWritePermission() {
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                             Manifest.permission.READ_EXTERNAL_STORAGE},

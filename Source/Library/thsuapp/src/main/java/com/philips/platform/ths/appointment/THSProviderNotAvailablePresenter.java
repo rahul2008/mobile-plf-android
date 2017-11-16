@@ -64,7 +64,7 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter {
         }
     }
 
-    private void launchProviderDetailsBasedOnAvailibilty(final Practice practice, final Date date, final THSProviderEntity thsProviderEntity) {
+    protected void launchProviderDetailsBasedOnAvailibilty(final Practice practice, final Date date, final THSProviderEntity thsProviderEntity) {
         try {
             THSManager.getInstance().getAvailableProvidersBasedOnDate(mThsBaseFragment.getContext(), practice, null, null, date, null, new THSAvailableProvidersBasedOnDateCallback<THSAvailableProviderList, THSSDKError>() {
                 @Override
@@ -98,7 +98,7 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter {
         }
     }
 
-    private THSAvailableProvider isAvailableListContainsProviderChosen(THSAvailableProviderList availableProviders) {
+    protected THSAvailableProvider isAvailableListContainsProviderChosen(THSAvailableProviderList availableProviders) {
 
         final List<AvailableProvider> availableProvidersList = availableProviders.getAvailableProviders().getAvailableProviders();
         final Provider providerSelected = ((THSProviderNotAvailableFragment) mThsBaseFragment).getProvider();
