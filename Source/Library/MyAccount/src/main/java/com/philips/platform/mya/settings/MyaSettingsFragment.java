@@ -31,7 +31,6 @@ import com.philips.platform.uid.view.widget.Label;
 public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClickListener {
 
     private AppInfraInterface appInfra;
-    private Label philipsWebsite;
     public static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
 
 
@@ -44,7 +43,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         RelativeLayout consentLayout = (RelativeLayout) view.findViewById(R.id.consent_layout);
         RelativeLayout countryLayout = (RelativeLayout) view.findViewById(R.id.country_layout);
         countryTextView.setText(appInfra.getServiceDiscovery().getHomeCountry());
-        philipsWebsite=  (Label) view.findViewById(R.id.philips_website);
+        Label philipsWebsite = (Label) view.findViewById(R.id.philips_website);
         consentLayout.setOnClickListener(this);
         countryLayout.setOnClickListener(this);
         philipsWebsite.setOnClickListener(this);
