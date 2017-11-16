@@ -4,26 +4,38 @@
  */
 package com.philips.cdp2.ews.microapp;
 
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
+import android.support.v4.app.FragmentActivity;
 
+import com.philips.cdp2.ews.configuration.ContentConfiguration;
+import com.philips.cdp2.ews.injections.DaggerEWSComponent;
+import com.philips.cdp2.ews.injections.EWSComponent;
+import com.philips.cdp2.ews.injections.EWSConfigurationModule;
+import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.Map;
 
 public class EWSDependencyProvider implements EWSThemeInterface{
 
-    private static EWSDependencyProvider instance;
-
+    @VisibleForTesting
+    static EWSDependencyProvider instance;
+    @VisibleForTesting
+    EWSComponent ewsComponent;
     private static LoggingInterface loggingInterface;
     private static AppTaggingInterface appTaggingInterface;
     private AppInfraInterface appInfraInterface;
     private Map<String, String> productKeyMap;
     private ThemeConfiguration themeConfiguration;
 
-    private EWSDependencyProvider() {
+    @VisibleForTesting
+    EWSDependencyProvider() {
     }
 
     public static EWSDependencyProvider getInstance() {
@@ -65,6 +77,23 @@ public class EWSDependencyProvider implements EWSThemeInterface{
         return appTaggingInterface;
     }
 
+    void createEWSComponent(@NonNull FragmentLauncher fragmentLauncher, @NonNull ContentConfiguration contentConfiguration) {
+        createEWSComponent(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(), contentConfiguration);
+    }
+
+    public void createEWSComponent(@NonNull FragmentActivity fragmentActivity, @IdRes int parentContainerResourceID, @NonNull ContentConfiguration contentConfiguration) {
+        ewsComponent = DaggerEWSComponent.builder()
+                .eWSModule(new EWSModule(fragmentActivity
+                        , fragmentActivity.getSupportFragmentManager()
+                        , parentContainerResourceID))
+                .eWSConfigurationModule(new EWSConfigurationModule(fragmentActivity, contentConfiguration))
+                .build();
+    }
+
+    public EWSComponent getEwsComponent() {
+        return ewsComponent;
+    }
+
     @NonNull
     public String getProductName() {
         if(productKeyMap == null) {
@@ -83,6 +112,7 @@ public class EWSDependencyProvider implements EWSThemeInterface{
         appInfraInterface = null;
         productKeyMap = null;
         instance = null;
+        ewsComponent = null;
     }
 
     @Override

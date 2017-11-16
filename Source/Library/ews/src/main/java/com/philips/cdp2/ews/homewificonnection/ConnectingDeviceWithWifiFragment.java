@@ -15,12 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConnectingDeviceWithWifiBinding;
 import com.philips.cdp2.ews.logger.EWSLogger;
+import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.cdp2.ews.util.BundleUtils;
 
 import javax.inject.Inject;
@@ -43,7 +43,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((EWSActivity) getActivity()).getEWSComponent().inject(ConnectingDeviceWithWifiFragment.this);
+        getEWSComponent().inject(ConnectingDeviceWithWifiFragment.this);
     }
 
     public static Fragment newInstance(@NonNull String homeWiFiSSID,
@@ -70,8 +70,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        EWSActivity activity = (EWSActivity) getActivity();
-        activity.hideCloseButton();
+        ((EWSActionBarListener) getContext()).closeButton(false);
     }
 
     @Nullable
@@ -122,7 +121,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
 
     @NonNull
     private ConnectingDeviceWithWifiViewModel createViewModel() {
-        return ((EWSActivity) getActivity()).getEWSComponent().connectingDeviceWithWifiViewModel();
+        return getEWSComponent().connectingDeviceWithWifiViewModel();
     }
 
     @Override
@@ -147,7 +146,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
 
     @Override
     public void showCancelDialog() {
-        handleCancelButtonClicked(baseContentConfiguration.getDeviceName());
+        handleCancelButtonClicked();
     }
 
     @Override

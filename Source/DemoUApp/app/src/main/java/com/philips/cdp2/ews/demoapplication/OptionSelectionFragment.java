@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
@@ -23,6 +24,8 @@ import com.philips.cdp2.ews.microapp.EWSLauncherInput;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
@@ -46,12 +49,14 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
     private static final String AIRPURIFIER = "ap";
     private static final String DEFAULT = "Default";
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_ewsdemo, container, false);
         view.findViewById(R.id.btnLaunchEws).setOnClickListener(this);
         view.findViewById(R.id.btnTheme).setOnClickListener(this);
+        view.findViewById(R.id.btnLaunchFragmentEws).setOnClickListener(this);
         configSpinner = view.findViewById(R.id.configurationSelection);
         configSpinner.setOnItemSelectedListener(itemSelectedListener);
 
@@ -69,8 +74,11 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
             case R.id.btnLaunchEws:
                 launchEwsUApp();
                 break;
+            case R.id.btnLaunchFragmentEws:
+                launchEWSFragmentUApp();
+                break;
             case R.id.btnTheme:
-                ((EWSDemoActivity)getActivity()).openThemeScreen();
+                ((EWSDemoActivity) getActivity()).openThemeScreen();
                 break;
             default:
                 break;
@@ -86,9 +94,22 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
             }
         };
         ewsInterface.init(createUappDependencies(appInfra, createProductMap()), new UappSettings(getActivity()));
-        ewsInterface.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, ((EWSDemoActivity) getActivity()).getThemeConfig(), -1, null), new EWSLauncherInput());
+        ewsInterface.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, ((EWSDemoActivity) getActivity()).getThemeConfig(), -1, null), ((EWSDemoActivity) getActivity()).getEwsLauncherInput());
     }
 
+    private void launchEWSFragmentUApp() {
+        AppInfraInterface appInfra = new AppInfra.Builder().build(getActivity());
+        EWSInterface ewsInterface = new EWSInterface() {
+            @Override
+            public ThemeConfiguration getTheme() {
+                return ((EWSDemoActivity) getActivity()).getThemeConfig();
+            }
+        };
+        ewsInterface.init(createUappDependencies(appInfra, createProductMap()), new UappSettings(getActivity()));
+        FragmentLauncher fragmentLauncher = new FragmentLauncher
+                (getActivity(), R.id.mainContainer, ((ActionBarListener) getActivity()));
+        ewsInterface.launch(fragmentLauncher, ((EWSDemoActivity) getActivity()).getEwsLauncherInput());
+    }
 
     @NonNull
     private UappDependencies createUappDependencies(AppInfraInterface appInfra,

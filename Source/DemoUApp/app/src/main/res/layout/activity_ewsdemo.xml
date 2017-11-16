@@ -17,7 +17,14 @@
         android:id="@+id/btnLaunchEws"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ews"
+        android:text="@string/ews_activity_launch"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/btnLaunchFragmentEws"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ews_fragment_launch"
         android:layout_marginTop="20dp"/>
 
     <LinearLayout

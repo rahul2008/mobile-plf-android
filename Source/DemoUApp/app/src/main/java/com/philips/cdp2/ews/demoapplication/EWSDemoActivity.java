@@ -1,6 +1,7 @@
 package com.philips.cdp2.ews.demoapplication;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -9,9 +10,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.philips.cdp2.ews.demoapplication.themesettinngs.ThemeHelper;
 import com.philips.cdp2.ews.demoapplication.themesettinngs.ThemeSettingsFragment;
+import com.philips.cdp2.ews.microapp.EWSActionBarListener;
+import com.philips.cdp2.ews.microapp.EWSLauncherInput;
+import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -20,7 +25,9 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 
-public class EWSDemoActivity extends UIDActivity {
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
+
+public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener {
 
     private SharedPreferences defaultSharedPreferences;
     private OptionSelectionFragment optionSelectionFragment;
@@ -30,19 +37,26 @@ public class EWSDemoActivity extends UIDActivity {
     public AccentRange accentColorRange = AccentRange.ORANGE;
     public NavigationColor navigationColor = NavigationColor.VERY_DARK;
 
+    private EWSLauncherInput ewsLauncherInput;
+    private ThemeHelper themeHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Theme_DLS_GroupBlue_UltraLight);
-        UIDHelper.init(new ThemeConfiguration(this, colorRange, navigationColor,
-                contentColor));
+        defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        themeHelper = new ThemeHelper(defaultSharedPreferences, this);
+        updateColorFromPref();
+        injectNewTheme(colorRange, contentColor, navigationColor, accentColorRange);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        ewsLauncherInput = new EWSLauncherInput();
         this.optionSelectionFragment = new OptionSelectionFragment();
         showConfigurationOptScreen();
-        updateColorFromPref();
         setUpToolBar();
+    }
+
+    public EWSLauncherInput getEwsLauncherInput() {
+        return ewsLauncherInput;
     }
 
     private void setUpToolBar() {
@@ -55,6 +69,23 @@ public class EWSDemoActivity extends UIDActivity {
             actionBar.setDisplayShowCustomEnabled(true);
         }
         toolbar.inflateMenu(R.menu.option_menu);
+        setUpCancelButton();
+    }
+
+    private void setUpCancelButton() {
+        FontIconDrawable drawable = new FontIconDrawable(this, getResources().getString(R.string.dls_cross_24), TypefaceUtils.load(getAssets(), "fonts/iconfont.ttf"))
+                .sizeRes(R.dimen.ews_gs_icon_size);
+        findViewById(R.id.ic_close).setBackground(drawable);
+        findViewById(R.id.ic_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Todo need to handle close button with current fragment instance
+                /*
+                if(ewsLauncherInput != null) {
+                    ewsLauncherInput.handleCloseButtonClick();
+                }*/
+            }
+        });
     }
 
     @Override
@@ -69,7 +100,8 @@ public class EWSDemoActivity extends UIDActivity {
         switch (item.getItemId()) {
             case R.id.menu_set_theme_settings:
                 saveThemeSettings();
-                showConfigurationOptScreen();
+                restartActivity();
+                //showConfigurationOptScreen();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -120,7 +152,6 @@ public class EWSDemoActivity extends UIDActivity {
     }
 
     private void updateColorFromPref() {
-        final ThemeHelper themeHelper = new ThemeHelper(defaultSharedPreferences, this);
         colorRange = themeHelper.initColorRange();
         navigationColor = themeHelper.initNavigationRange();
         contentColor = themeHelper.initContentTonalRange();
@@ -134,5 +165,45 @@ public class EWSDemoActivity extends UIDActivity {
 
     public void openThemeScreen() {
         getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, new ThemeSettingsFragment()).commit();
+    }
+
+    @Override
+    public void closeButton(boolean visibility) {
+        findViewById(R.id.ic_close).setVisibility(visibility ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void updateActionBar(int i, boolean b) {
+
+    }
+
+    @Override
+    public void updateActionBar(String s, boolean b) {
+
+    }
+
+    void restartActivity() {
+        injectNewTheme(colorRange, contentColor, navigationColor, accentColorRange);
+        Intent intent = new Intent(this, EWSDemoActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    public void injectNewTheme(ColorRange colorRange, ContentColor contentColor, NavigationColor navigationColor, AccentRange accentRange) {
+        if (colorRange != null) {
+            this.colorRange = colorRange;
+        }
+        if (contentColor != null) {
+            this.contentColor = contentColor;
+        }
+        if (navigationColor != null) {
+            this.navigationColor = navigationColor;
+        }
+        if (accentRange != null) {
+            this.accentColorRange = accentRange;
+        }
+        String themeName = String.format("Theme.DLS.%s.%s", this.colorRange.getThemeName(), this.contentColor.getThemeName());
+        getTheme().applyStyle(getResources().getIdentifier(themeName, "style", getPackageName()), true);
+        ThemeConfiguration themeConfiguration = new ThemeConfiguration(this, this.colorRange, this.contentColor, this.navigationColor, this.accentColorRange);
+        UIDHelper.init(themeConfiguration);
     }
 }

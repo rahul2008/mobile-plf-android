@@ -26,6 +26,9 @@
     <string name="label_ews_connect_to_wrongphone_title">Accidentally connect with the wrong phone?</string>
     <string name="label_ews_connect_to_wrongphone_body">If your device has been connected to another phone by accident, you may see this screen prematurely.</string>
     <string name="label_ews_connect_to_wrongphone_question">Do you see this screen?</string>
+    <string name="ews_activity_launch">EWS Activity Launch!</string>
+    <string name="ews_fragment_launch">EWS Fragment Launch!</string>
+    <string name="select_configuration">Select Configuration:</string>
     <string name="app_name">DemoApp</string>
 
     <string name="color_ranges_label">Color range</string>
@@ -37,7 +40,5 @@
     <string name="warning_text">This color is not selectable with current theme combination. Please re-select alternatives above to use this color.</string>
     <string name="page_title_theme_settings">Theme Setting</string>
     <string name="set_theme_settings">Set</string>
-    <string name="ews">EWS !</string>
-    <string name="select_configuration">Select Configuration:</string>
     <string name="change_theme">Change Theme</string>
 </resources>

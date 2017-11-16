@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.util.Log;
 
-import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;

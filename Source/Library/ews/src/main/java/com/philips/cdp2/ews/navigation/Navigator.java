@@ -5,23 +5,27 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.confirmwifi.ConfirmWifiNetworkFragment;
+import com.philips.cdp2.ews.connectionsuccessful.ConnectionSuccessfulFragment;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceFragment;
 import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordFragment;
+import com.philips.cdp2.ews.setupsteps.FirstSetupStepsFragment;
+import com.philips.cdp2.ews.setupsteps.SecondSetupStepsFragment;
+import com.philips.cdp2.ews.startconnectwithdevice.StartConnectWithDeviceFragment;
 import com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WifiConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
-import com.philips.cdp2.ews.confirmwifi.ConfirmWifiNetworkFragment;
-import com.philips.cdp2.ews.connectionsuccessful.ConnectionSuccessfulFragment;
-import com.philips.cdp2.ews.setupsteps.FirstSetupStepsFragment;
-import com.philips.cdp2.ews.setupsteps.SecondSetupStepsFragment;
-import com.philips.cdp2.ews.startconnectwithdevice.StartConnectWithDeviceFragment;
 
 public class Navigator {
+
+    @NonNull
+    public FragmentNavigator getFragmentNavigator() {
+        return fragmentNavigator;
+    }
 
     @NonNull
     private final FragmentNavigator fragmentNavigator;
@@ -99,6 +103,6 @@ public class Navigator {
     }
 
     private void pushFragment(@NonNull Fragment fragment) {
-        fragmentNavigator.push(fragment, R.id.contentFrame);
+        fragmentNavigator.push(fragment,fragmentNavigator.getContainerId());
     }
 }
