@@ -83,4 +83,15 @@
         <item>@drawable/uikit_arrow_up</item>
         <item>@drawable/uikit_arrow_down</item>
     </array>
+
+
+    <!-- About Screen -->
+    <string name="uikit_about_screen_apptitle">移动应用</string>
+    <string name="uikit_about_screen_actionbar_title">关于</string>
+    <string name="uikit_about_screen_version">版 1.0.1</string>
+    <string name="uikit_about_screen_copyright">Copyright \u00A9 2014 Philips</string>
+    <string name="uikit_about_screen_terms">Terms &amp; conditions \u203A</string>
+    <string name="uikit_about_screen_privacy">隐私政策 \u203A</string>
+    <string name="uikit_about_screen_content">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa.</string>
+
 </resources>

@@ -1,6 +1,10 @@
 PhilipsUIKit for Android Release Notes
 ======================================
 
+Version -3.9.0								Date: 16-11-2017
+-------------------------------------------------------------
+1.	Bug 95580:[Polaris] UI KIT Android from PI 17.3 onwards contains <string name="uikit_splash_title">Hallo Wereld</string>
+
 Version -3.8.0								Date: 13-04-2017
 -------------------------------------------------------------
 1.	Added Language pack update - provides text lookup functions for the downloaded language pack.
