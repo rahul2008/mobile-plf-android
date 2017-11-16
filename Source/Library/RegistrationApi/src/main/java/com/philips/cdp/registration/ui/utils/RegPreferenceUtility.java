@@ -76,7 +76,7 @@ public class RegPreferenceUtility {
         return Boolean.parseBoolean(Jump.getSecureStorageInterface().fetchValueForKey(key, new SecureStorageInterface.SecureStorageError()));
     }
 
-    public static boolean getTermsAndConditionState(Context context,String key, String value) {
+    public static boolean getPreferenceValue(Context context, String key, String value) {
         if (isKeyExist(value)) {
             storePreference(context, key, value);
             deletePreference(value);

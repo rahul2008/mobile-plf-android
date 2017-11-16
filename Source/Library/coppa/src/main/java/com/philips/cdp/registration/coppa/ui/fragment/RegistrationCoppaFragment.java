@@ -10,7 +10,6 @@ package com.philips.cdp.registration.coppa.ui.fragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.*;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -353,7 +352,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworkStateL
                 RegPreferenceUtility.deletePreference("doPopBackStack");
             }
 
-            if (RegPreferenceUtility.getTermsAndConditionState(
+            if (RegPreferenceUtility.getPreferenceValue(
                     getParentActivity().getApplicationContext(), "PopBackStack", "doPopBackStack")) {
                 performReplaceWithPerentalAccess();
             }

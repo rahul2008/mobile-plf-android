@@ -620,7 +620,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         }
 
         if ((mUser.isEmailVerified() || mUser.isMobileVerified()) || !RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-            if (RegPreferenceUtility.getTermsAndConditionState(mContext,RegConstants.TERMS_N_CONDITIONS_ACCEPTED,  mEmailOrMobile) && mUser.getReceiveMarketingEmail()) {
+            if (RegPreferenceUtility.getPreferenceValue(mContext,RegConstants.TERMS_N_CONDITIONS_ACCEPTED,  mEmailOrMobile) && mUser.getReceiveMarketingEmail()) {
                 completeRegistration();
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                         AppTagingConstants.SUCCESS_LOGIN);

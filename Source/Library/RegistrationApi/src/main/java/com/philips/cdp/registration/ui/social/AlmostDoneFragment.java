@@ -565,7 +565,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     public boolean getPreferenceStoredState(String emailOrMobileNumber) {
-        return RegPreferenceUtility.getTermsAndConditionState(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailOrMobileNumber);
+        return RegPreferenceUtility.getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailOrMobileNumber);
     }
 
     @Override
