@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 
 import com.philips.platform.mya.demouapp.DemoAppActivity;
 import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
+import com.philips.platform.mya.demouapp.MyaConstants;
 import com.philips.platform.mya.demouapp.R;
 import com.philips.platform.mya.demouapp.theme.fragments.BaseFragment;
 import com.philips.platform.mya.interfaces.MyaListener;
@@ -84,31 +85,26 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        if (checkedId == R.id.radioButton) {
-            MyaInterface myaInterface = new MyaInterface();
-            myaInterface.init(new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra()), new MyaSettings(((DemoAppActivity) getActivity())));
+        MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra());
+        MyaLaunchInput launchInput = new MyaLaunchInput(((DemoAppActivity) getActivity()), new MyaListener() {
+            @Override
+            public boolean onClickMyaItem(String itemName) {
+                return false;
+            }
+        });
 
-            ActivityLauncher  activityLauncher = new ActivityLauncher(ActivityLauncher.
+        MyaInterface myaInterface = new MyaInterface();
+        myaInterface.init(uappDependencies, new MyaSettings(((DemoAppActivity) getActivity())));
+
+        if (checkedId == R.id.radioButton) {
+
+            ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
                     ActivityOrientation.SCREEN_ORIENTATION_SENSOR, ((DemoAppActivity) getActivity()).getThemeConfig(),
                     ((DemoAppActivity) getActivity()).getThemeResourceId(), null);
 
-            myaInterface.launch(activityLauncher,
-                    new MyaLaunchInput(((DemoAppActivity) getActivity()), new MyaListener() {
-                        @Override
-                        public boolean onClickMyaItem(String itemName) {
-                            return false;
-                        }
-                    }));
+            myaInterface.launch(activityLauncher, launchInput);
         } else {
-            MyaInterface myaInterface = new MyaInterface();
-            myaInterface.init(new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra()),  new MyaSettings(((DemoAppActivity) getActivity())));
-            MyaLaunchInput uappLaunchInput =  new MyaLaunchInput(((DemoAppActivity) getActivity()), new MyaListener() {
-                @Override
-                public boolean onClickMyaItem(String itemName) {
-                    return false;
-                }
-            });
-            myaInterface.launch(new FragmentLauncher((DemoAppActivity) getActivity(), R.id.mainContainer, null), uappLaunchInput);
+            myaInterface.launch(new FragmentLauncher((DemoAppActivity) getActivity(), R.id.mainContainer, null), launchInput);
         }
     }
 }

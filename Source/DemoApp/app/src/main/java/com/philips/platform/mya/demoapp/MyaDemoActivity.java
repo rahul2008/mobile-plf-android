@@ -68,13 +68,10 @@ public class MyaDemoActivity extends UIDActivity {
         });
     }
 
-    public static final String APPLICATION_NAME = "OneBackend";
-    public static final String PROPOSITION_NAME = "OneBackendProp";
-
     public void launch() {
         MyAccountDemoUAppInterface myAccountDemoUAppInterface = new MyAccountDemoUAppInterface();
         MyaDemoApplication applicationContext = (MyaDemoApplication) getApplicationContext();
-        myAccountDemoUAppInterface.init(new MyaDependencies(applicationContext.getAppInfra()), new UappSettings(this));
+        myAccountDemoUAppInterface.init(new MyAccountDemoUAppDependencies(applicationContext.getAppInfra()), new UappSettings(this));
         myAccountDemoUAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null, -1, null), null);
     }
 

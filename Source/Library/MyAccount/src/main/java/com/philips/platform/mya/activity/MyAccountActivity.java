@@ -65,7 +65,11 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
 
     private void launchTabFragment() {
         MyaInterface myaInterface = new MyaInterface();
-        myaInterface.init(new MyaDependencies(MyaInterface.getMyaDependencyComponent().getAppInfra()), new MyaSettings(this));
+        MyaDependencies uappDependencies = new MyaDependencies(MyaInterface.getMyaDependencyComponent().getAppInfra());
+        uappDependencies.setApplicationName(applicationName);
+        uappDependencies.setPropositionName(propositionName);
+
+        myaInterface.init(uappDependencies, new MyaSettings(this));
         myaInterface.launch(new FragmentLauncher(this, R.id.fragmentPlaceHolder, new ActionBarListener() {
             @Override
             public void updateActionBar(int i, boolean b) {
