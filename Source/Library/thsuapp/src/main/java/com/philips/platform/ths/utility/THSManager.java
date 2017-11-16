@@ -601,7 +601,7 @@ public class THSManager {
 
     public void getVisitContext(Context context, final THSProviderInfo thsProviderInfo, final THSVisitContextCallBack<THSVisitContext, THSSDKError> THSVisitContextCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
 
-        getAwsdk(context).getVisitManager().getVisitContext(getPTHConsumer(context).getConsumer(), thsProviderInfo.getProviderInfo(), new SDKCallback<VisitContext, SDKError>() {
+        getAwsdk(context).getVisitManager().getVisitContext(getThsConsumer(context).getConsumer(), thsProviderInfo.getProviderInfo(), new SDKCallback<VisitContext, SDKError>() {
                     @Override
                     public void onResponse(VisitContext visitContext, SDKError sdkError) {
 
