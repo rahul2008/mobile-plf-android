@@ -8,7 +8,7 @@ package com.philips.cdp2.commlib.devicetest.util;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
+import com.philips.cdp2.commlib.core.appliance.ApplianceManager.ApplianceListener;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +17,7 @@ import static java.util.Objects.requireNonNull;
 
 public class ApplianceWaiter {
 
-    public interface Waiter<A extends Appliance> extends ApplianceManager.ApplianceListener<A> {
+    public interface Waiter<A extends Appliance> extends ApplianceListener {
         Waiter<A> waitForAppliance(long time, TimeUnit timeUnit) throws InterruptedException;
 
         A getAppliance();
@@ -40,13 +40,13 @@ public class ApplianceWaiter {
         }
 
         @Override
-        public void onApplianceUpdated(@NonNull A updatedAppliance) {
-
+        public void onApplianceUpdated(@NonNull Appliance updatedAppliance) {
+            // NOP
         }
 
         @Override
-        public void onApplianceLost(@NonNull A lostAppliance) {
-
+        public void onApplianceLost(@NonNull Appliance lostAppliance) {
+            // NOP
         }
     }
 
@@ -54,9 +54,10 @@ public class ApplianceWaiter {
         requireNonNull(cppId);
         return new BaseWaiter<A>() {
             @Override
-            public void onApplianceFound(@NonNull A foundAppliance) {
+            @SuppressWarnings("unchecked")
+            public void onApplianceFound(@NonNull Appliance foundAppliance) {
                 if (cppId.equals(foundAppliance.getNetworkNode().getCppId())) {
-                    appliance = requireNonNull(foundAppliance);
+                    appliance = (A) requireNonNull(foundAppliance);
                     latch.countDown();
                 }
             }
