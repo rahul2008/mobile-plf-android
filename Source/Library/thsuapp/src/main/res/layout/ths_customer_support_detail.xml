@@ -53,7 +53,7 @@
         android:layout_marginTop="4dp"
         android:text="@string/ths_customer_support_phone_number"
         android:textColor="?attr/uidLabelRegularNormalTextColor"
-        android:linksClickable="true"
+        android:autoLink="phone"
         android:textSize="18sp"
         fontPath="fonts/centralesansbook.ttf"/>
 

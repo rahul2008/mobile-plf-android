@@ -15,11 +15,13 @@ import android.view.ViewGroup;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.practice.THSPracticeFragment;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
 import static com.philips.platform.ths.R.id.ths_customer_support_phone_number_id;
+import static com.philips.platform.ths.utility.THSConstants.THS_CUSTOMER_SUPPORT;
+
 
 public class THSCustomerSupportFragment extends THSBaseFragment implements View.OnClickListener{
     public static final String TAG = THSCustomerSupportFragment.class.getSimpleName();
@@ -41,6 +43,7 @@ public class THSCustomerSupportFragment extends THSBaseFragment implements View.
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_customer_support),true);
         }
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_CUSTOMER_SUPPORT,null,null);
     }
 
     @Override
