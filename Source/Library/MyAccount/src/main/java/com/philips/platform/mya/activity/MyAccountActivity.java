@@ -77,9 +77,9 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
         myaInterface.init(new MyaDependencies(MyaInterface.getMyaDependencyComponent().getAppInfra()), new MyaSettings(this));
         myaInterface.launch(new FragmentLauncher(this, R.id.mainContainer, new ActionBarListener() {
             @Override
-            public void updateActionBar(int i, boolean b) {
+            public void updateActionBar(int i, boolean shouldBackEnable) {
                 setTitle(i);
-                if (b) {
+                if (!shouldBackEnable) {
                     setLeftImage(R.drawable.mya_cross_icon);
                 } else {
                     setLeftImage(R.drawable.mya_back_icon);
@@ -87,8 +87,13 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
             }
 
             @Override
-            public void updateActionBar(String s, boolean b) {
+            public void updateActionBar(String s, boolean shouldBackEnable) {
                 setTitle(s);
+                if (!shouldBackEnable) {
+                    setLeftImage(R.drawable.mya_cross_icon);
+                } else {
+                    setLeftImage(R.drawable.mya_back_icon);
+                }
             }
         }), new MyaLaunchInput(this, this));
     }

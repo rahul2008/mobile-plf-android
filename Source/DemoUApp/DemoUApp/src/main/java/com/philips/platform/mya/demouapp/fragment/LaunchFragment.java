@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,6 +99,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                     new MyaLaunchInput(getActivity(), new MyaListener() {
                         @Override
                         public boolean onClickMyaItem(String itemName) {
+                            Log.d("Testing call back = ",itemName);
                             return false;
                         }
                     }));

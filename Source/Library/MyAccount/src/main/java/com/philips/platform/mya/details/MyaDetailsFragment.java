@@ -98,6 +98,6 @@ public class MyaDetailsFragment extends MyaBaseFragment {
 
     @Override
     public boolean getBackButtonState() {
-        return false;
+        return true;
     }
 }

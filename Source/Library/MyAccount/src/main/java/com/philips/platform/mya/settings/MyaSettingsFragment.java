@@ -27,7 +27,6 @@ import com.philips.platform.uid.view.widget.Label;
 
 public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClickListener {
 
-    private TextView countryTextView;
     private RelativeLayout consentLayout;
     private AppInfraInterface appInfra;
     Label philipsWebsite;
@@ -36,7 +35,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mya_settings_fragment, container, false);
         this.appInfra = MyaInterface.getMyaDependencyComponent().getAppInfra();
-        countryTextView = (TextView) view.findViewById(R.id.settings_country_value);
+        TextView countryTextView = (TextView) view.findViewById(R.id.settings_country_value);
         consentLayout = (RelativeLayout) view.findViewById(R.id.consent_layout);
         countryTextView.setText(appInfra.getServiceDiscovery().getHomeCountry());
         philipsWebsite=  (Label) view.findViewById(R.id.philips_website);
@@ -55,7 +54,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
     @Override
     public boolean getBackButtonState() {
-        return true;
+        return false;
     }
 
     @Override

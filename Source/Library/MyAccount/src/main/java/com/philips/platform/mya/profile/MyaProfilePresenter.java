@@ -11,6 +11,7 @@ import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.mya.R;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.util.MYALog;
 import com.philips.platform.mya.util.mvp.MyaBasePresenter;
@@ -59,6 +60,8 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
                 else
                     localizedStrings.add(profileKey);
             }
+        } else {
+            localizedStrings.add(context.getResources().getString(R.string.MYA_My_details));
         }
         return localizedStrings;
     }

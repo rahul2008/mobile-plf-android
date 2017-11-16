@@ -6,6 +6,7 @@
 package com.philips.platform.mya.profile;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.mya.R;
+import com.philips.platform.mya.details.MyaDetailsFragment;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.util.mvp.MyaBaseFragment;
 import com.philips.platform.uid.thememanager.UIDHelper;
@@ -67,11 +69,11 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
 
     @Override
     public boolean getBackButtonState() {
-        return true;
+        return false;
     }
 
     @Override
-    public void showProfileItems(List<String> profileList) {
+    public void showProfileItems(final List<String> profileList) {
         MyaProfileAdaptor myaProfileAdaptor = new MyaProfileAdaptor(profileList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         RecyclerViewSeparatorItemDecoration contentThemedRightSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
@@ -79,10 +81,38 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         recyclerView.addItemDecoration(contentThemedRightSeparatorItemDecoration);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(myaProfileAdaptor);
+
+        myaProfileAdaptor.setOnClickListener(getOnClickListener(profileList));
+    }
+
+    @NonNull
+    private View.OnClickListener getOnClickListener(final List<String> profileList) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int viewType = recyclerView.indexOfChild(view);
+                boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(profileList.get(viewType));
+                handleTransition(onClickMyaItem,profileList.get(viewType));
+            }
+
+        };
     }
 
     @Override
     public void setUserName(String userName) {
 
+    }
+
+
+    private void handleTransition(boolean onClickMyaItem, String profileItem) {
+        if (!onClickMyaItem) {
+            switch (profileItem) {
+                case "My details":
+                    MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
+                    myaDetailsFragment.showFragment(myaDetailsFragment, MyaInterface.getMyaUiComponent().getFragmentLauncher());
+                default:
+                    break;
+            }
+        }
     }
 }
