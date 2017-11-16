@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -42,21 +43,28 @@ public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements 
     protected void onCreate(Bundle savedInstanceState) {
         RALog.d(TAG, " onCreate called  ");
         super.onCreate(savedInstanceState);
-        presenter = new LaunchActivityPresenter(this);
+        presenter = getLaunchActivityPresenter();
         setContentView(R.layout.af_launch_activity);
         initToolBar();
         presenter.onEvent(LaunchActivityPresenter.APP_LAUNCH_STATE);
     }
 
+    protected AbstractUIBasePresenter getLaunchActivityPresenter() {
+        return new LaunchActivityPresenter(this);
+    }
+
     private void initToolBar() {
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
         UIDHelper.setupToolbar(this);
-        toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.left_arrow, getTheme()));
     }
 
     @Override
-    public void updateActionBarIcon(boolean b) {
-
+    public void updateActionBarIcon(boolean showBackButton) {
+        if (showBackButton) {
+            toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.left_arrow, getTheme()));
+        } else {
+            toolbar.setNavigationIcon(null);
+        }
     }
 
     @Override
@@ -92,11 +100,13 @@ public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
         UIDHelper.setTitle(this, getResources().getString(i));
+        updateActionBarIcon(b);
     }
 
     @Override
     public void updateActionBar(String title, boolean b) {
         UIDHelper.setTitle(this, title);
+        updateActionBarIcon(b);
     }
 
 

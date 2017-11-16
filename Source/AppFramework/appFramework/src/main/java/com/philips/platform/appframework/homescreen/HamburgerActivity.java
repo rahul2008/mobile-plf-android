@@ -41,6 +41,7 @@ import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
+import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
@@ -88,6 +89,9 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     @BindView(R.id.rap_avatar_name)
     Label avatarName;
+
+    @BindView(R.id.rap_env_name)
+    Label envInfo;
 
     @BindView(R.id.hamburger_log_out)
     Label hamburgerLogoutLabel;
@@ -216,8 +220,11 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
             hamburgerLogoutLabel.setText(R.string.RA_Settings_Login);
             avatarName.setText(getString(R.string.RA_DLSS_avatar_default_text));
         } else {
-            hamburgerLogoutLabel.setText(R.string.RA_Settings_Logout);
+            String appState = ((AppFrameworkApplication) getApplicationContext()).getAppState();
             avatarName.setText(user.getGivenName());
+            hamburgerLogoutLabel.setText(R.string.RA_Settings_Logout);
+            envInfo.setText(appState);
+
         }
     }
 
@@ -480,7 +487,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK && requestCode ==START_THEME_SELECTOR) {
             Bundle extras = data.getExtras();
             if (extras != null) {
                 colorRange = (ColorRange) data.getSerializableExtra("CLR");
@@ -504,11 +511,15 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                     urLogoutInterface.performLogout(this, ((AppFrameworkApplication) getApplicationContext())
                                     .getUserRegistrationState().getUserObject(this));
                 } else {
+                    selectedIndex=Constants.LOGIN_BUTTON_CLICK_CONSTANT;
+                    hamburgerMenuAdapter.setSelectedPosition(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
                     presenter.onEvent(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
                 }
                 break;
             case R.id.hamburger_menu_header_container:
                 if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this).isUserSignIn()) {
+                    selectedIndex=Constants.HAMBURGER_MY_ACCOUNT_CLICK;
+                    hamburgerMenuAdapter.setSelectedPosition(Constants.HAMBURGER_MY_ACCOUNT_CLICK);
                     presenter.onEvent(Constants.HAMBURGER_MY_ACCOUNT_CLICK);
                 }
                 break;

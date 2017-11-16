@@ -50,7 +50,9 @@
 -renamesourcefileattribute SourceFile
 -keepattributes SourceFile,LineNumberTable
 -keepattributes InnerClasses,Exceptions
-
+#This Rule is required for gson
+-keep class com.google.gson.** {*;}
+-dontwarn com.google.gson.**
 
 #Hockey app and enabling excpetion catching
 -keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
@@ -280,39 +282,18 @@
 #------------------------------InAppPurchase ends here------------------------------------
 
 #--------------------------AppInfra starts here-----------
--keep public class javax.net.ssl.**
--keepclassmembers public class javax.net.ssl.** {*;}
--keepclassmembers public class org.apache.http.** {*;}
--keepattributes InnerClasses,Exceptions
-
--dontwarn org.apache.**
--keep class org.apache.http.** { *; }
--keep class android.net.http.** { *; }
-
-
-
-#Tagging lib and jar
--keep public class com.adobe.mobile.** {*;}
-
-
-#app-infra
--keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
--keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
-
-#UappFramework
--keep public class com.philips.platform.appframework.flowmanager.models.** { *; }
-
--keep class sun.misc.Unsafe { *; }
--keep class com.google.gson.** {*;}
--keep class com.google.gson.examples.android.model.** { *; }
--dontwarn com.google.gson.**
-
-
+#Applied Consumer Proguard Rule
 #-----------------------------app infra ends here-----------------------------------
 
-#-----------------------------PRX starts here-----------------------------------
 
--keep class com.philips.cdp.prxclient.datamodels.** { *; }
+#--------------------------UappFramework starts here-----------
+#Applied Consumer Proguard Rule
+
+#-----------------------------UappFramework ends here-----------------------------------
+
+
+#-----------------------------PRX starts here-----------------------------------
+#Applied Consumer Proguard Rule
 
 #-----------------------------PRX ends here-----------------------------------
 
