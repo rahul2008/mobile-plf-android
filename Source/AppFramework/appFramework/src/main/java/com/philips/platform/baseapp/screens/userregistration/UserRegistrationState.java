@@ -12,10 +12,12 @@ import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
@@ -267,6 +269,10 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setUserRegistrationUIEventListener(this);
         urLaunchInput.enableAddtoBackStack(true);
+        RegistrationContentConfiguration contentConfiguration = new RegistrationContentConfiguration();
+        contentConfiguration.enableContinueWithouAccount(true);
+        RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
+        urLaunchInput.setRegistrationContentConfiguration(contentConfiguration);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);

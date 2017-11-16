@@ -15,11 +15,11 @@ import com.philips.platform.ths.uappclasses.THSMicroAppDependencies;
 import com.philips.platform.ths.uappclasses.THSMicroAppInterfaceImpl;
 import com.philips.platform.ths.uappclasses.THSMicroAppLaunchInput;
 import com.philips.platform.ths.uappclasses.THSMicroAppSettings;
-import com.philips.platform.ths.uappclasses.THSVisitCompletionListener;
+import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-public class TeleHealthServicesState extends BaseState implements THSVisitCompletionListener {
+public class TeleHealthServicesState extends BaseState implements THSCompletionProtocol {
     private FragmentLauncher fragmentLauncher;
 
     public TeleHealthServicesState() {
@@ -59,7 +59,7 @@ public class TeleHealthServicesState extends BaseState implements THSVisitComple
     }
 
     @Override
-    public void onTHSVisitComplete(boolean isTHSVisitComplete) {
+    public void didExitTHS(THSExitType thsExitType) {
 
     }
 }

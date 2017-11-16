@@ -17,6 +17,7 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import org.junit.After;
 import org.junit.Before;
@@ -83,6 +84,11 @@ public class DemoBLLStateTest {
         @Override
         protected UappSettings getUappSettings() {
             return bleDemoMicroAppSettings;
+        }
+
+        @Override
+        protected ThemeConfiguration getDLSThemeConfiguration(Context context) {
+            return new ThemeConfiguration(context);
         }
     }
 
