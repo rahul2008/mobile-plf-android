@@ -2,6 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'jacoco-android'
 apply from: "../../../ci-build-support/gradle/versions.gradle"
 apply plugin: 'cdpSCM'
+apply plugin: 'maven-publish'
+
 import com.philips.cdp.cdpSCM
 
 def environment = 'production'
@@ -12,8 +14,8 @@ if (project.hasProperty('envCode')) {
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-version = objcdp.getVersion(versions.mya_myAccount)
-
+version = objcdp.getVersion(versions.ews_ews)
+archivesBaseName = "ews-android"
 buildscript {
     repositories {
         jcenter()
@@ -23,8 +25,65 @@ buildscript {
     }
 }
 
+//start publishing
+artifactory {
+    contextUrl = objcdp.getArtifactoryContextUrl()
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications('aar')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
+            }
+        }
+    }
+    resolve {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+        }
+    }
+
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            /*
+            release in the path done here to prevent local publishing, possibility to publish only release
+             which comes from jenkins
+             */
+            artifact("$buildDir/outputs/aar/${archivesBaseName}_release.aar")
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                }
+            }
+        }
+    }
+}
+
+//end publishing
+
 android {
-    def assignedVersionNumber = version + "(" + objcdp.getCommitHash() + ")"
+    def assignedVersionNumber = version
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
     publishNonDefault true
@@ -75,9 +134,14 @@ android {
 
     libraryVariants.all { variant ->
         variant.outputs.each { output ->
-            def libName = "ews"
+            def libName = archivesBaseName
             def buildType = variant.variantData.variantConfiguration.buildType.name
-            def newName = "${libName}_${buildType}_${assignedVersionNumber}.aar"
+            def newName
+            if (buildType.equalsIgnoreCase("debug")) {
+                 newName = "${libName}_${buildType}_${assignedVersionNumber}.aar"
+            } else {
+                 newName = "${libName}_${buildType}.aar"
+            }
             output.outputFile = new File(output.outputFile.parent, newName)
         }
     }

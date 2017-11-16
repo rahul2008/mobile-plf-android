@@ -9,9 +9,6 @@ import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 
-/**
- * Created by architsureja on 08/11/17.
- */
 public class StartConnectionModelTest {
 
     public StartConnectionModel subject;

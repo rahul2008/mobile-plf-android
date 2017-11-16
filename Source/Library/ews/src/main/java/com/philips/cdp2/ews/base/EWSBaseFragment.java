@@ -16,11 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.navigation.ScreenFlowParticipant;
-import com.philips.cdp2.ews.tagging.EWSTagger;
-import com.philips.cdp2.ews.EWSActivity;
 
 //todo ready to be removed
 public abstract class EWSBaseFragment<T extends ViewDataBinding> extends BaseFragment implements ScreenFlowParticipant {
@@ -31,7 +30,6 @@ public abstract class EWSBaseFragment<T extends ViewDataBinding> extends BaseFra
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        injectDependencies();
         viewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
         bindViewModel(viewDataBinding);
 
@@ -47,18 +45,10 @@ public abstract class EWSBaseFragment<T extends ViewDataBinding> extends BaseFra
     @Nullable
     protected abstract String getPageName();
 
-    private void injectDependencies() {
-        inject(getEwsComponent());
-    }
 
     @NonNull
     protected EWSActivity getEwsActivity() {
         return ((EWSActivity) getActivity());
-    }
-
-    @NonNull
-    protected EWSComponent getEwsComponent() {
-        return getEwsActivity().getEWSComponent();
     }
 
     protected abstract void bindViewModel(final T viewDataBinding);

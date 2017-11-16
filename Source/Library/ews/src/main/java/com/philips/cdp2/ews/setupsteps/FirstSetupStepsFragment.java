@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.databinding.FragmentFirstSetupStepsBinding;
@@ -36,7 +35,7 @@ public class FirstSetupStepsFragment extends BaseFragment {
 
     @NonNull
     private FirstSetupStepsViewModel createViewModel() {
-        return ((EWSActivity) getActivity()).getEWSComponent().firstSetupStepsViewModel();
+        return getEWSComponent().firstSetupStepsViewModel();
     }
 
     @Override
