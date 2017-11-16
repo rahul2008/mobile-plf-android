@@ -32,6 +32,7 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     private RelativeLayout mRelativeLayoutAppointments;
     private RelativeLayout mRelativeLayoutVisitHostory;
     private RelativeLayout mRelativeLayoutHowItWorks;
+    private RelativeLayout mCustomerSupport;
     private Button mButton;
     private RelativeLayout mRelativeLayoutInitContainer;
 
@@ -55,11 +56,13 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         mRelativeLayoutAppointments = (RelativeLayout)view.findViewById(R.id.appointments);
         mRelativeLayoutVisitHostory  = (RelativeLayout) view.findViewById(R.id.visit_history);
         mRelativeLayoutHowItWorks = (RelativeLayout) view.findViewById(R.id.how_it_works);
+        mCustomerSupport = (RelativeLayout) view.findViewById(R.id.customer_support);
         mButton = (Button) view.findViewById(R.id.ths_start);
 
         mRelativeLayoutAppointments.setOnClickListener(this);
         mRelativeLayoutVisitHostory.setOnClickListener(this);
         mRelativeLayoutHowItWorks.setOnClickListener(this);
+        mCustomerSupport.setOnClickListener(this);
         mButton.setOnClickListener(this);
 
         ActionBarListener actionBarListener = getActionBarListener();
@@ -85,17 +88,20 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.appointments) {
-           // THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+ THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER);
+
             presenter.onEvent(R.id.appointments);
         }else if(i == R.id.visit_history){
-            //THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_VISIT_HISTORY_LIST);
+
             presenter.onEvent(R.id.visit_history);
         }else if(i == R.id.how_it_works){
-            //THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_HOW_IT_WORKS);
+
             presenter.onEvent(R.id.how_it_works);
         }else if(i == R.id.ths_start){
-           // THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_PRACTICE_PAGE);
+
             presenter.onEvent(R.id.ths_start);
+        }else if(i == R.id.customer_support){
+
+            presenter.onEvent(R.id.customer_support);
         }
     }
 
