@@ -2,6 +2,7 @@ package com.philips.platform.mya.demouapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
@@ -26,6 +27,7 @@ public class MyaLaunchFragmentActivity extends AppCompatActivity implements MyaL
 
     @Override
     public boolean onClickMyaItem(String itemName) {
+        Log.d("Testing call back = ",itemName);
         return false;
     }
 

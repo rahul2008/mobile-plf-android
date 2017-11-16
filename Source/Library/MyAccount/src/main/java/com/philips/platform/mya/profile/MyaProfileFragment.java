@@ -6,7 +6,6 @@
 package com.philips.platform.mya.profile;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +27,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
 
     private RecyclerView recyclerView;
     private MyaProfileContract.Presenter presenter;
+    private List<String> appConfigList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,6 +35,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         UIDHelper.injectCalligraphyFonts();
         recyclerView = (RecyclerView) view.findViewById(R.id.profile_recycler_view);
         presenter = new MyaProfilePresenter(this);
+        appConfigList = presenter.getAppConfigProfileItems(getContext(),MyaInterface.getMyaDependencyComponent().getAppInfra().getConfigInterface());
         return view;
     }
 
@@ -74,6 +75,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
 
     @Override
     public void showProfileItems(final List<String> profileList) {
+
         MyaProfileAdaptor myaProfileAdaptor = new MyaProfileAdaptor(profileList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         RecyclerViewSeparatorItemDecoration contentThemedRightSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
@@ -85,16 +87,17 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         myaProfileAdaptor.setOnClickListener(getOnClickListener(profileList));
     }
 
-    @NonNull
     private View.OnClickListener getOnClickListener(final List<String> profileList) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int viewType = recyclerView.indexOfChild(view);
                 boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(profileList.get(viewType));
-                handleTransition(onClickMyaItem,profileList.get(viewType));
+                if (appConfigList != null)
+                    handleTransition(onClickMyaItem, appConfigList.get(viewType));
+                else
+                    handleTransition(onClickMyaItem, getContext().getString(R.string.MYA_My_details));
             }
-
         };
     }
 
@@ -106,12 +109,9 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
 
     private void handleTransition(boolean onClickMyaItem, String profileItem) {
         if (!onClickMyaItem) {
-            switch (profileItem) {
-                case "My details":
-                    MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
-                    myaDetailsFragment.showFragment(myaDetailsFragment, MyaInterface.getMyaUiComponent().getFragmentLauncher());
-                default:
-                    break;
+            if (profileItem.equals(getContext().getString(R.string.MYA_My_details))) {
+                MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
+                myaDetailsFragment.showFragment(myaDetailsFragment, MyaInterface.getMyaUiComponent().getFragmentLauncher());
             }
         }
     }

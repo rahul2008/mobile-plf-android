@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -100,6 +101,7 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
 
     @Override
     public boolean onClickMyaItem(String itemName) {
+        Log.d("Testing call back = ",itemName);
         return false;
     }
 

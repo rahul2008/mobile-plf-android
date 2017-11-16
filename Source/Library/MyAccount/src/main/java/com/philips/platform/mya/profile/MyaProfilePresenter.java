@@ -35,6 +35,21 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
         view.showProfileItems(getProfileList(context, MyaInterface.getMyaDependencyComponent().getAppInfra().getConfigInterface()));
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<String> getAppConfigProfileItems(Context context, AppConfigurationInterface appConfigurationManager) {
+        String profileItems = "profile.menuItems";
+        try {
+            final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
+                    .AppConfigurationError();
+            return (ArrayList) appConfigurationManager.getPropertyForKey
+                    (profileItems, "mya", configError);
+        } catch (IllegalArgumentException exception) {
+            MYALog.e(MY_ACCOUNTS, " Error in reading profile menu items ");
+        }
+        return null;
+    }
+
     private List<String> getProfileList(Context context, AppConfigurationInterface appConfigurationManager) {
         String profileItems = "profile.menuItems";
         try {
@@ -42,7 +57,7 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
                     .AppConfigurationError();
             ArrayList propertyForKey = (ArrayList) appConfigurationManager.getPropertyForKey
                     (profileItems, "mya", configError);
-            return getLocalisedList(context, propertyForKey);
+            return getLocalisedList(context,propertyForKey);
         } catch (IllegalArgumentException exception) {
             MYALog.e(MY_ACCOUNTS, " Error in reading profile menu items ");
         }
