@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.platform.catk.CatkConstants;
@@ -37,6 +39,7 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
     private TextView mTitle;
     private String applicationName;
     private String propositionName;
+    private ImageView leftImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +48,15 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mya_myaccounts_activity);
         fetchConsentData();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
-        mTitle = (TextView) toolbar.findViewById(R.id.uid_toolbar_title);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.mya_toolbar);
+        mTitle = (TextView) toolbar.findViewById(R.id.mya_toolbar_title);
+        leftImageView = (ImageView) toolbar.findViewById(R.id.mya_toolbar_left_image);
+        leftImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -70,6 +79,11 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
             @Override
             public void updateActionBar(int i, boolean b) {
                 setTitle(i);
+                if (b) {
+                    setLeftImage(R.drawable.mya_cross_icon);
+                } else {
+                    setLeftImage(R.drawable.mya_back_icon);
+                }
             }
 
             @Override
@@ -105,6 +119,7 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
             }
         }
     }
+
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -143,4 +158,10 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
+    private void setLeftImage(int resId) {
+        leftImageView.setBackgroundResource(resId);
+    }
+
+
 }

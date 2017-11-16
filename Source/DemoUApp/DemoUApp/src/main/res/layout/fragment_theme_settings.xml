@@ -127,7 +127,7 @@
                 android:layout_gravity="top|start"
                 android:contentDescription="@string/content_desc_close"
                 android:paddingTop="5dp"
-                app:srcCompat="@drawable/ic_cross_icon"/>
+                app:srcCompat="@drawable/mya_cross_icon"/>
 
             <TextView
                 android:layout_width="match_parent"

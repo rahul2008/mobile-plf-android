@@ -55,7 +55,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
     @Override
     public boolean getBackButtonState() {
-        return false;
+        return true;
     }
 
     @Override

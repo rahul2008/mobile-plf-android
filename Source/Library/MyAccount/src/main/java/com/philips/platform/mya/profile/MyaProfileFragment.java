@@ -67,7 +67,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
 
     @Override
     public boolean getBackButtonState() {
-        return false;
+        return true;
     }
 
     @Override
