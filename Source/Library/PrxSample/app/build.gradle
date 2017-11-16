@@ -142,11 +142,11 @@ android {
         }
     }
 	
-	    android {
+
         lintOptions {
             abortOnError false
         }
-    }
+
 	
 		/*
     This defined for signing the apk -- start
