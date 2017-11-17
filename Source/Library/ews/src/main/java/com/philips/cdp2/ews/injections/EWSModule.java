@@ -20,7 +20,6 @@ import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
-import com.philips.cdp2.ews.EWSApplication;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.appliance.EWSGenericAppliance;
@@ -32,7 +31,6 @@ import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.connectionestabilish.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.dialog.GPSEnableDialogFragment;
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
@@ -63,14 +61,14 @@ public class EWSModule {
     private final Context context;
     @NonNull
     private final FragmentManager fragmentManager;
+    @IdRes
+    int parentContainerResourceID;
     @NonNull
     private Map<String, Serializable> configurationMap;
-
-    @IdRes int parentContainerResourceID;
     @NonNull
     private CommCentral commCentral;
 
-    public EWSModule(@NonNull Context context, @NonNull FragmentManager fragmentManager, @IdRes int parentContainerResourceID,@NonNull CommCentral commCentral) {
+    public EWSModule(@NonNull Context context, @NonNull FragmentManager fragmentManager, @IdRes int parentContainerResourceID, @NonNull CommCentral commCentral) {
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.parentContainerResourceID = parentContainerResourceID;
@@ -174,7 +172,7 @@ public class EWSModule {
                         .getInstance(R.string.label_ews_establishing_connection_body);
 
         return new SecondSetupStepsViewModel(navigator, eventBus, permissionHandler,
-                dialogFragment,null,
+                dialogFragment, null,
                 new GPSEnableDialogFragment(), new Handler(context.getMainLooper())
                 , stringProvider, happyFlowContentConfiguration);
     }
@@ -182,7 +180,7 @@ public class EWSModule {
 
     @Provides
     Navigator provideNavigator() {
-        return new Navigator(new FragmentNavigator(fragmentManager,parentContainerResourceID));
+        return new Navigator(new FragmentNavigator(fragmentManager, parentContainerResourceID));
     }
 
     @Provides
