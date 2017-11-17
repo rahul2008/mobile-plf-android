@@ -110,7 +110,6 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         insights.setEnabled(false);
         insights.setAlpha(0.5f);
         mCommCentral = getCommCentral(ConnectivityDeviceType.POWER_SLEEP);
-//        mCommCentral = getCommCentral();
 
         setHasOptionsMenu(true);
         startAppTagging(TAG);
