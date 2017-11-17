@@ -84,23 +84,23 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
             @Override
             public void updateActionBar(int i, boolean shouldBackEnable) {
                 setTitle(i);
-                if (!shouldBackEnable) {
-                    setLeftImage(R.drawable.mya_cross_icon);
-                } else {
-                    setLeftImage(R.drawable.mya_back_icon);
-                }
+                handleLeftImage(shouldBackEnable);
             }
 
             @Override
             public void updateActionBar(String s, boolean shouldBackEnable) {
                 setTitle(s);
-                if (!shouldBackEnable) {
-                    setLeftImage(R.drawable.mya_cross_icon);
-                } else {
-                    setLeftImage(R.drawable.mya_back_icon);
-                }
+                handleLeftImage(shouldBackEnable);
             }
         }), new MyaLaunchInput(this, this));
+    }
+
+    private void handleLeftImage(boolean shouldBackEnable) {
+        if (!shouldBackEnable) {
+            setLeftImage(R.drawable.mya_cross_icon);
+        } else {
+            setLeftImage(R.drawable.mya_back_icon);
+        }
     }
 
     @Override

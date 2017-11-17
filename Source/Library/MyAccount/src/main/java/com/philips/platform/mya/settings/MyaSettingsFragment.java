@@ -100,13 +100,13 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     }
 
     private void showDialog(String title, String message) {
-        View view = View.inflate(getContext(), R.layout.mya_dialog, null);
+        View view = View.inflate(getContext(), R.layout.mya_dialog_layout, null);
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDialogView(view)
                 .setMessage(message)
                 .setDimLayer(DialogConstants.DIM_SUBTLE)
-                .setCancelable(true)
+                .setCancelable(false)
                 .setTitle(title);
         TextView textView = (TextView) view.findViewById(R.id.message_label);
         Button logout = (Button) view.findViewById(R.id.mya_dialog_logout_btn);
