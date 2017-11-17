@@ -24,7 +24,6 @@ import com.philips.platform.uid.view.widget.Label;
 import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_PAGE_1;
-import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_START;
 
 /**
  * <b></b>Introduction screen are the screen that acts as the Welcome screens. It may be used to make the user learn about the functionality of the app</b>
@@ -41,8 +40,8 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
     private Label doneButton;
     private Label skipButton;
     private DotNavigationIndicator indicator;
-    private OnBoardingTourPresenter presenter;
-    private ViewPager pager;
+    protected OnBoardingTourPresenter presenter;
+    protected ViewPager pager;
 
     List<OnBoardingTourContentModel> onBoardingTourContentModelList;
     private OnBoardingTourPagerAdapter onBoardingTourPagerAdapter;
@@ -61,7 +60,9 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
 
         View view = inflater.inflate(R.layout.ths_on_boarding_tour_fragment, container, false);
         ActionBarListener actionBarListener = getActionBarListener();
-        actionBarListener.updateActionBar(R.string.ths_welcome, false);
+        if(actionBarListener!=null) {
+            actionBarListener.updateActionBar(R.string.ths_welcome, false);
+        }
 
         pager = (ViewPager) view.findViewById(R.id.welcome_pager);
         onBoardingTourPagerAdapter = new OnBoardingTourPagerAdapter(getActivity().getSupportFragmentManager(), onBoardingTourContentModelList, getActivity());
@@ -80,6 +81,13 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
         indicator = (DotNavigationIndicator) view.findViewById(R.id.welcome_indicator);
         indicator.setViewPager(pager);
 
+        addPageChangeListener();
+
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(ON_BOARDING_PAGE_1, null, null);
+        return view;
+    }
+
+    protected void addPageChangeListener() {
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -111,9 +119,6 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
             public void onPageScrollStateChanged(int state) {
             }
         });
-
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(ON_BOARDING_PAGE_1, null, null);
-        return view;
     }
 
     protected void startAppTagging(int position) {

@@ -33,8 +33,8 @@ import java.util.List;
 public class OnBoardingTourPageFragment extends THSBaseFragment {
     public static final String TAG =  OnBoardingTourPageFragment.class.getSimpleName();
 
-    private static final String ARG_PAGE_TITLE = "pageTitle";
-    private static final String ARG_PAGE_BG_ID = "pageBgId";
+    protected static final String ARG_PAGE_TITLE = "pageTitle";
+    protected static final String ARG_PAGE_BG_ID = "pageBgId";
 
     // Store instance variables
     @StringRes private int titleId;
@@ -56,9 +56,12 @@ public class OnBoardingTourPageFragment extends THSBaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        titleId = getArguments().getInt(ARG_PAGE_TITLE, 0);
-        backgroundId = getArguments().getInt(ARG_PAGE_BG_ID, R.drawable.ths_welcome);
-        spanValues = (List<OnBoardingSpanValue>) getArguments().getSerializable("INDEX_PAIRS");
+        final Bundle arguments = getArguments();
+        if(arguments!=null) {
+            titleId = arguments.getInt(ARG_PAGE_TITLE, 0);
+            backgroundId = arguments.getInt(ARG_PAGE_BG_ID, R.drawable.ths_welcome);
+            spanValues = (List<OnBoardingSpanValue>) arguments.getSerializable("INDEX_PAIRS");
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -78,7 +81,7 @@ public class OnBoardingTourPageFragment extends THSBaseFragment {
     }
 
     @NonNull
-    private SpannableStringBuilder getSpannableStringBuilder() {
+    protected SpannableStringBuilder getSpannableStringBuilder() {
         Typeface centraleSansBold = Typeface.createFromAsset(getActivity().getAssets(), "fonts/centralesansbold.ttf");
         Typeface centraleSansBook = Typeface.createFromAsset(getActivity().getAssets(), "fonts/centralesansbook.ttf");
 
