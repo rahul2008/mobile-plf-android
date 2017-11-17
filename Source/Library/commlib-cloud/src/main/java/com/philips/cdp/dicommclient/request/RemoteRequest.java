@@ -37,6 +37,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     private final String cppId;
 
     private String mResponse;
+    private String mTempResponse;
     private int mMessageId;
     private int mPublishedMessageId;
     private String mConversationId;
@@ -111,15 +112,15 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
 
     @Override
     public void onDCSResponseReceived(final @NonNull String dcsResponse, final @NonNull String conversationId) {
-        if (mConversationId != null && mConversationId.equals(conversationId)) {
-            mResponseConversationId = conversationId;
-            DICommLog.i(DICommLog.REMOTEREQUEST, "DCSEvent received from the right request");
-            mResponse = dcsResponse;
-            DICommLog.i(DICommLog.REMOTEREQUEST, "Notified on DCS Response");
-            responseLatch.countDown();
-        } else {
-            DICommLog.i(DICommLog.REMOTEREQUEST, "DCSEvent received from different request - ignoring");
+        mResponseConversationId = conversationId;
+        if(mConversationId == null) {
+            DICommLog.i(DICommLog.REMOTEREQUEST, "onDCSResponseReceived before setting conv. ID");
         }
+        DICommLog.i(DICommLog.REMOTEREQUEST, "DCSEvent received from the right request");
+        mTempResponse = dcsResponse;
+        DICommLog.i(DICommLog.REMOTEREQUEST, "Notified on DCS Response");
+
+        finishRequestIfPossible();
     }
 
     @Override
@@ -128,11 +129,19 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
             DICommLog.i(DICommLog.REMOTEREQUEST, "Publish event received from the right request - status: " + status);
             if (status == SUCCESS) {
                 mConversationId = conversationId;
+                finishRequestIfPossible();
             } else {
                 responseLatch.countDown();
             }
         } else {
             DICommLog.i(DICommLog.REMOTEREQUEST, "Publish event received from different request - ignoring");
+        }
+    }
+
+    private void finishRequestIfPossible() {
+        if (mConversationId != null && mTempResponse != null && mResponseConversationId.equals(mConversationId)) {
+            mResponse = mTempResponse;
+            responseLatch.countDown();
         }
     }
 
@@ -155,7 +164,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     }
 
     private class JsonData {
-        public int status;
+        int status;
         public Object data;
     }
 }
