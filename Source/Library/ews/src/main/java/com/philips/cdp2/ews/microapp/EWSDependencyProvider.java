@@ -29,7 +29,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.Map;
 
-public class EWSDependencyProvider implements EWSThemeInterface {
+public class EWSDependencyProvider {
 
     @VisibleForTesting
     static EWSDependencyProvider instance;
@@ -40,6 +40,7 @@ public class EWSDependencyProvider implements EWSThemeInterface {
     EWSComponent ewsComponent;
     private AppInfraInterface appInfraInterface;
     private Map<String, String> productKeyMap;
+    @Nullable
     private ThemeConfiguration themeConfiguration;
 
     @Nullable
@@ -146,8 +147,7 @@ public class EWSDependencyProvider implements EWSThemeInterface {
         return new CommCentral(factory, lanTransportContext);
     }
 
-    @Override
-    public void applyTheme(ThemeConfiguration themeConfiguration) {
+    public void setThemeConfiguration(@Nullable ThemeConfiguration themeConfiguration) {
         this.themeConfiguration = themeConfiguration;
     }
 

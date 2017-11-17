@@ -85,7 +85,6 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
         closeImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Todo need to handle close button with current fragment instance
                 if (ewsLauncherInput != null) {
                     ewsLauncherInput.handleCloseButtonClick();
                 }
@@ -150,7 +149,6 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
     private void showConfigurationOptScreen() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.mainContainer, optionSelectionFragment)
-                .addToBackStack(optionSelectionFragment.getClass().getCanonicalName())
                 .commit();
         updateActionBar();
     }

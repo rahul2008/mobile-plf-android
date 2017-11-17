@@ -1,6 +1,7 @@
 package com.philips.cdp2.ews.demoapplication;
 
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
@@ -21,7 +21,6 @@ import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.cdp2.ews.microapp.EWSDependencies;
 import com.philips.cdp2.ews.microapp.EWSInterface;
-import com.philips.cdp2.ews.microapp.EWSLauncherInput;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -29,7 +28,6 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -49,6 +47,7 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
     private static final String WAKEUP_LIGHT = "wl";
     private static final String AIRPURIFIER = "ap";
     private static final String DEFAULT = "Default";
+    private AppInfraInterface appInfra;
 
     @Nullable
     @Override
@@ -57,9 +56,9 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
         view.findViewById(R.id.btnLaunchEws).setOnClickListener(this);
         view.findViewById(R.id.btnTheme).setOnClickListener(this);
         view.findViewById(R.id.btnLaunchFragmentEws).setOnClickListener(this);
+        appInfra = new AppInfra.Builder().build(getActivity());
         configSpinner = view.findViewById(R.id.configurationSelection);
         configSpinner.setOnItemSelectedListener(itemSelectedListener);
-
         ArrayAdapter aa = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item,
                 getResources().getStringArray(R.array.configurations));
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -92,25 +91,14 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
     }
 
     private void launchEwsUApp() {
-        AppInfraInterface appInfra = new AppInfra.Builder().build(getActivity());
-        EWSInterface ewsInterface = new EWSInterface() {
-            @Override
-            public ThemeConfiguration getTheme() {
-                return ((EWSDemoActivity) getActivity()).getThemeConfig();
-            }
-        };
+        EWSInterface ewsInterface = new EWSInterface();
         ewsInterface.init(createUappDependencies(appInfra, createProductMap()), new UappSettings(getActivity()));
-        ewsInterface.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, ((EWSDemoActivity) getActivity()).getThemeConfig(), -1, null), ((EWSDemoActivity) getActivity()).getEwsLauncherInput());
+        //its upto propotion to pass theme or not ,if not passing theme then it will show default theme of library
+        ewsInterface.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, ((EWSDemoActivity)getActivity()).getThemeConfig(), -1, null), ((EWSDemoActivity) getActivity()).getEwsLauncherInput());
     }
 
     private void launchEWSFragmentUApp() {
-        AppInfraInterface appInfra = new AppInfra.Builder().build(getActivity());
-        EWSInterface ewsInterface = new EWSInterface() {
-            @Override
-            public ThemeConfiguration getTheme() {
-                return ((EWSDemoActivity) getActivity()).getThemeConfig();
-            }
-        };
+        EWSInterface ewsInterface = new EWSInterface();
         ewsInterface.init(createUappDependencies(appInfra, createProductMap()), new UappSettings(getActivity()));
         FragmentLauncher fragmentLauncher = new FragmentLauncher
                 (getActivity(), R.id.mainContainer, ((ActionBarListener) getActivity()));
@@ -129,7 +117,7 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
     @NonNull
     private Map<String, String> createProductMap() {
         Map<String, String> productKeyMap = new HashMap<>();
-        productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.lbl_devicename));
+        productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.ews_device_name_default));
         return productKeyMap;
     }
 
@@ -138,7 +126,7 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
         if (isDefaultValueSelected()) {
             return new BaseContentConfiguration();
         } else {
-            return new BaseContentConfiguration(R.string.lbl_devicename, R.string.lbl_appname);
+            return new BaseContentConfiguration(R.string.ews_device_name_default, R.string.ews_app_name_default);
         }
     }
 
@@ -157,11 +145,14 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
 
     private void updateCurrentContent(String currentContent) {
         try {
-            Configuration config = new Configuration(getResources().getConfiguration());
-            config.setLocale(new Locale(currentContent));
-            getResources().getConfiguration().updateFrom(config);
+            Locale locale = new Locale(currentContent);
+            Locale.setDefault(locale);
+            Resources res = getResources();
+            Configuration config = new Configuration(res.getConfiguration());
+            config.locale = locale;
+            res.updateConfiguration(config, res.getDisplayMetrics());
         } catch (Exception e) {
-            Log.e(EWSDemoActivity.class.getName(), e.toString());
+            Log.e(OptionSelectionFragment.class.getName(), e.toString());
         }
     }
 

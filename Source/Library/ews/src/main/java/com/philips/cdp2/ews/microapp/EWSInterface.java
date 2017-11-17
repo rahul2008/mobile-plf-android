@@ -27,7 +27,7 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import javax.inject.Inject;
 
 @SuppressWarnings("WeakerAccess")
-public abstract class EWSInterface implements UappInterface {
+public class EWSInterface implements UappInterface {
 
     public static final String ERROR_MSG_INVALID_CALL = "Please call \"init\" method, before calling launching ews with valid params";
     public static final String ERROR_MSG_INVALID_IMPLEMENTATION = "Please implement EWSActionBarListener in Activity";
@@ -42,7 +42,6 @@ public abstract class EWSInterface implements UappInterface {
     private ContentConfiguration contentConfiguration;
 
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
-        EWSDependencyProvider.getInstance().applyTheme(getTheme());
         EWSDependencies ewsDependencies = (EWSDependencies) uappDependencies;
         EWSDependencyProvider.getInstance().initDependencies(uappDependencies.getAppInfra(), ewsDependencies.getProductKeyMap());
         context = uappSettings.getContext();
@@ -62,6 +61,7 @@ public abstract class EWSInterface implements UappInterface {
             }
             launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
         } else if (uiLauncher instanceof ActivityLauncher) {
+            EWSDependencyProvider.getInstance().setThemeConfiguration(((ActivityLauncher)uiLauncher).getDlsThemeConfiguration());
             launchAsActivity();
         }
     }
@@ -91,8 +91,5 @@ public abstract class EWSInterface implements UappInterface {
         context.startActivity(intent);
 
     }
-
-    public abstract ThemeConfiguration getTheme() ;
-
 
 }

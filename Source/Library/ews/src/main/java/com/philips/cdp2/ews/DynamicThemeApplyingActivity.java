@@ -2,6 +2,7 @@ package com.philips.cdp2.ews;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
@@ -28,12 +29,37 @@ public class DynamicThemeApplyingActivity extends UIDActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        /*setTheme(R.style.Theme_DLS_GroupBlue_UltraLight);
-        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE,  NavigationColor.VERY_DARK,
-                ContentColor.VERY_DARK));*/
         initTheme();
         UIDHelper.injectCalligraphyFonts();
         super.onCreate(savedInstanceState);
+    }
+
+    private ColorRange getColorRange() {
+        if (colorRange == null) {
+            colorRange =  ColorRange.GROUP_BLUE;
+        }
+        return colorRange;
+    }
+
+    private ContentColor getContentColor() {
+        if (contentColor == null) {
+            contentColor = ContentColor.ULTRA_LIGHT;
+        }
+        return contentColor;
+    }
+
+    private NavigationColor getNavigationColor() {
+        if (navigationColor == null) {
+            navigationColor = NavigationColor.BRIGHT;
+        }
+        return navigationColor;
+    }
+
+    private AccentRange getAccentColorRange() {
+        if (accentColorRange == null) {
+            accentColorRange = AccentRange.ORANGE;
+        }
+        return accentColorRange;
     }
 
     @Override
@@ -42,9 +68,9 @@ public class DynamicThemeApplyingActivity extends UIDActivity {
     }
 
     private void injectNewTheme(ColorRange colorRange, ContentColor contentColor, NavigationColor navigationColor, AccentRange accentRange) {
-        String themeName = String.format("Theme.DLS.%s.%s", this.colorRange.getThemeName(), this.contentColor.getThemeName());
+        String themeName = String.format("Theme.DLS.%s.%s", colorRange.getThemeName(), contentColor.getThemeName());
         getTheme().applyStyle(getResources().getIdentifier(themeName, "style", getPackageName()), true);
-        ThemeConfiguration themeConfiguration = new ThemeConfiguration(this, this.colorRange, this.contentColor, this.navigationColor, this.accentColorRange);
+        ThemeConfiguration themeConfiguration = new ThemeConfiguration(this, colorRange, contentColor, navigationColor, accentRange);
         UIDHelper.init(themeConfiguration);
     }
 
@@ -58,19 +84,19 @@ public class DynamicThemeApplyingActivity extends UIDActivity {
                     contentColor = (ContentColor) config;
                 } else if (config instanceof AccentRange) {
                     accentColorRange = (AccentRange) config;
-                } else if(config instanceof NavigationColor) {
+                } else if (config instanceof NavigationColor) {
                     navigationColor = (NavigationColor) config;
                 }
             }
-           injectNewTheme(colorRange, contentColor, navigationColor, accentColorRange);
         }
+        injectNewTheme(getColorRange(), getContentColor(), getNavigationColor(), getAccentColorRange());
     }
 
     static String toProperCase(String s) {
         return s.substring(0, 1).toUpperCase() +
                 s.substring(1).toLowerCase();
     }
-
+    
     static String toCamelCase(String s) {
         String[] parts = s.split("_");
         String camelCaseString = "";

@@ -2,8 +2,8 @@
 <resources>
 
     <!-- happy flow configuration -->
-    <string name="lbl_appname">AirPurifier solution</string>
-    <string name="lbl_devicename">AirPurifier</string>
+    <string name="ews_app_name_default">AirPurifier solution</string>
+    <string name="ews_device_name_default">AirPurifier</string>
 
     <string name="label_ews_get_started_title">Connect with your AirPurifier</string>
 
