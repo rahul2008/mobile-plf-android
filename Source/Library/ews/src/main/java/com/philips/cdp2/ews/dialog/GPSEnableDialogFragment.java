@@ -15,22 +15,15 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.EnableGpsSettingsBinding;
+import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
+import com.philips.cdp2.ews.util.BundleUtils;
 
 public class GPSEnableDialogFragment extends BaseDialogFragment<EnableGpsSettingsBinding> implements View.OnClickListener {
-
-    String str;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle bundle = getArguments();
-        str = bundle.getString("DeviceName");
-    }
 
     @Override
     protected void bindViewModel(final EnableGpsSettingsBinding viewDataBinding) {
         viewDataBinding.setListener(this);
-        viewDataBinding.ewsVerifyDeviceBody.setText(getString(R.string.label_ews_enable_gps_settings_body, str));
+        viewDataBinding.ewsVerifyDeviceBody.setText(getString(R.string.label_ews_enable_gps_settings_body, BundleUtils.extractStringFromBundleOrThrow(getArguments(), ConnectingDeviceWithWifiFragment.DEVICE_NAME)));
         setCancelable(true);
     }
 

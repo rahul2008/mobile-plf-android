@@ -32,6 +32,7 @@ import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.connectionestabilish.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.dialog.GPSEnableDialogFragment;
+import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
@@ -173,7 +174,7 @@ public class EWSModule {
 
         GPSEnableDialogFragment gpsEnableDialogFragment= new GPSEnableDialogFragment();
         Bundle bundle= new Bundle();
-        bundle.putString("DeviceName",stringProvider.getString(baseContentConfiguration.getDeviceName()));
+        bundle.putString(ConnectingDeviceWithWifiFragment.DEVICE_NAME,stringProvider.getString(baseContentConfiguration.getDeviceName()));
         gpsEnableDialogFragment.setArguments(bundle);
 
         return new SecondSetupStepsViewModel(navigator, eventBus, permissionHandler,
