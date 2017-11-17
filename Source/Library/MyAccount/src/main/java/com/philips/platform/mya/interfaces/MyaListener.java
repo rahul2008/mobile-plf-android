@@ -9,4 +9,6 @@ package com.philips.platform.mya.interfaces;
 public interface MyaListener {
 
     boolean onClickMyaItem(String itemName);
+
+    boolean onLogOut();
 }

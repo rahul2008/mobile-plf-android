@@ -12,7 +12,6 @@ import android.widget.RadioGroup;
 
 import com.philips.platform.mya.demouapp.DemoAppActivity;
 import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
-import com.philips.platform.mya.demouapp.MyaConstants;
 import com.philips.platform.mya.demouapp.R;
 import com.philips.platform.mya.demouapp.theme.fragments.BaseFragment;
 import com.philips.platform.mya.interfaces.MyaListener;
@@ -89,6 +88,11 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         MyaLaunchInput launchInput = new MyaLaunchInput(((DemoAppActivity) getActivity()), new MyaListener() {
             @Override
             public boolean onClickMyaItem(String itemName) {
+                return false;
+            }
+
+            @Override
+            public boolean onLogOut() {
                 return false;
             }
         });

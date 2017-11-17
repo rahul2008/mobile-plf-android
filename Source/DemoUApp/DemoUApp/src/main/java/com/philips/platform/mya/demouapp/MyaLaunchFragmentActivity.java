@@ -36,6 +36,11 @@ public class MyaLaunchFragmentActivity extends AppCompatActivity implements MyaL
     }
 
     @Override
+    public boolean onLogOut() {
+        return false;
+    }
+
+    @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
             super.onBackPressed();

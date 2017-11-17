@@ -100,7 +100,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     }
 
     private void showDialog(String title, String message) {
-        View view = View.inflate(getContext(), R.layout.mya_dialog_label, null);
+        View view = View.inflate(getContext(), R.layout.mya_dialog, null);
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDialogView(view)
@@ -115,15 +115,26 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         final AlertDialogFragment alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
 
-        logout.setOnClickListener(handleOnClick(alertDialogFragment));
-        cancel.setOnClickListener(handleOnClick(alertDialogFragment));
+        logout.setOnClickListener(handleOnClickLogOut(alertDialogFragment));
+        cancel.setOnClickListener(handleOnClickCancel(alertDialogFragment));
     }
 
-    private View.OnClickListener handleOnClick(final AlertDialogFragment alertDialogFragment) {
+    private View.OnClickListener handleOnClickCancel(final AlertDialogFragment alertDialogFragment) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 alertDialogFragment.dismiss();
+            }
+        };
+    }
+
+    private View.OnClickListener handleOnClickLogOut(final AlertDialogFragment alertDialogFragment) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialogFragment.dismiss();
+                clearFragmentStack();
+                MyaInterface.getMyaUiComponent().getMyaListener().onLogOut();
             }
         };
     }

@@ -110,6 +110,11 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
     }
 
     @Override
+    public boolean onLogOut() {
+        return false;
+    }
+
+    @Override
     public void setTitle(CharSequence title) {
         mTitle.setText(title);
     }
