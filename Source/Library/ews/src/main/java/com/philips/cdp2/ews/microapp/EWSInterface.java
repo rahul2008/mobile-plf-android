@@ -33,11 +33,14 @@ public class EWSInterface implements UappInterface {
     public static final String SCREEN_ORIENTATION = "screen.orientation";
     public static final String PRODUCT_NAME = "productName";
     private static final String TAG = "EWSInterface";
-    @Inject Navigator navigator;
-    @Inject EventingChannel<EventingChannel.ChannelCallback> ewsEventingChannel;
+    @Inject
+    Navigator navigator;
+    @Inject
+    EventingChannel<EventingChannel.ChannelCallback> ewsEventingChannel;
     private Context context;
     private ContentConfiguration contentConfiguration;
 
+    @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         EWSDependencies ewsDependencies = (EWSDependencies) uappDependencies;
         EWSDependencyProvider.getInstance().initDependencies(uappDependencies.getAppInfra(), ewsDependencies.getProductKeyMap());
@@ -67,8 +70,8 @@ public class EWSInterface implements UappInterface {
         try {
             EWSDependencyProvider.getInstance().createEWSComponent(fragmentLauncher, contentConfiguration);
             EWSDependencyProvider.getInstance().getEwsComponent().inject(this);
-            ((EWSLauncherInput)uappLaunchInput).setContainerFrameId(fragmentLauncher.getParentContainerResourceID());
-            ((EWSLauncherInput)uappLaunchInput).setFragmentManager(fragmentLauncher.getFragmentActivity().getSupportFragmentManager());
+            ((EWSLauncherInput) uappLaunchInput).setContainerFrameId(fragmentLauncher.getParentContainerResourceID());
+            ((EWSLauncherInput) uappLaunchInput).setFragmentManager(fragmentLauncher.getFragmentActivity().getSupportFragmentManager());
             navigator.navigateToGettingStartedScreen();
             ewsEventingChannel.start();
             EWSTagger.collectLifecycleInfo(fragmentLauncher.getFragmentActivity());

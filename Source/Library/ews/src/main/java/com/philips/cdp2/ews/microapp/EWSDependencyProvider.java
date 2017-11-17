@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.microapp;
 import android.content.Context;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 
@@ -23,7 +24,6 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import java.util.Map;
 
@@ -31,16 +31,15 @@ public class EWSDependencyProvider {
 
     @VisibleForTesting
     static EWSDependencyProvider instance;
-    @VisibleForTesting
-    EWSComponent ewsComponent;
     private static LoggingInterface loggingInterface;
     private static AppTaggingInterface appTaggingInterface;
+    private static CommCentral commCentral;
+    @VisibleForTesting
+    EWSComponent ewsComponent;
     private AppInfraInterface appInfraInterface;
     private Map<String, String> productKeyMap;
-    private ThemeConfiguration themeConfiguration;
-
+    @Nullable
     private Context context;
-    private static CommCentral commCentral;
 
 
     @VisibleForTesting
@@ -57,7 +56,7 @@ public class EWSDependencyProvider {
         return instance;
     }
 
-    public void setContext(Context context) {
+    public void setContext(@Nullable Context context) {
         this.context = context;
     }
 
@@ -141,10 +140,5 @@ public class EWSDependencyProvider {
                 new RuntimeConfiguration(context, appInfraInterface));
         BEApplianceFactory factory = new BEApplianceFactory(lanTransportContext);
         return new CommCentral(factory, lanTransportContext);
-    }
-
-
-    public ThemeConfiguration getThemeConfiguration() {
-        return themeConfiguration;
     }
 }
