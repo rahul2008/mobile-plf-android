@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
@@ -83,20 +84,24 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
         return commCentral;
     }
 
-    protected final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener<BleReferenceAppliance>() {
+    protected final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener() {
         @Override
-        public void onApplianceFound(@NonNull BleReferenceAppliance foundAppliance) {
+        public void onApplianceFound(@NonNull Appliance foundAppliance) {
             RALog.d(TAG, "Device found :" + foundAppliance.getName());
-            bleScanDialogFragment.addDevice(foundAppliance);
+            if(foundAppliance instanceof BleReferenceAppliance) {
+                bleScanDialogFragment.addDevice((BleReferenceAppliance) foundAppliance);
+            } else {
+                RALog.i(TAG, "Appliance is not a BleReferenceAppliance");
+            }
         }
 
         @Override
-        public void onApplianceUpdated(@NonNull BleReferenceAppliance bleReferenceAppliance) {
+        public void onApplianceUpdated(@NonNull Appliance bleReferenceAppliance) {
             // NOOP
         }
 
         @Override
-        public void onApplianceLost(@NonNull BleReferenceAppliance bleReferenceAppliance) {
+        public void onApplianceLost(@NonNull Appliance bleReferenceAppliance) {
         }
     };
 
