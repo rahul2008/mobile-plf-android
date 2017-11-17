@@ -40,7 +40,7 @@ class OnBoardingTourPagerAdapter extends FragmentStatePagerAdapter {
                 onBoardingTourContentModelList.get(position).getTourBackgroundDrawable(), onBoardingTourContentModelList.get(position).getSpanValues());
     }
 
-    private boolean isValidPosition(int position) {
+    protected boolean isValidPosition(int position) {
         return position < getCount();
     }
 

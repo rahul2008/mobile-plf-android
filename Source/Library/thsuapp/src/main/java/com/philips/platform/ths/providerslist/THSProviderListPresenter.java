@@ -147,7 +147,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                 mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_ON_DEMAND_SPECIALITIES, sdkError.getSdkError()));
             } else {
                 if (onDemandSpecialties == null || onDemandSpecialties.size() == 0) {
-                    mThsBaseFragment.showToast("No OnDemandSpecialities available at present, please try after some time");
+                    mThsBaseFragment.showToast("No OnDemandSpecialities available at present, please try after addPageChangeListener time");
                     mThsBaseFragment.hideProgressBar();
                     return;
                 }
