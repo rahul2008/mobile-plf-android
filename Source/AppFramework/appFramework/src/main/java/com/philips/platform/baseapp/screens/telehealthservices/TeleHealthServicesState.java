@@ -6,11 +6,14 @@
 
 package com.philips.platform.baseapp.screens.telehealthservices;
 
+import android.app.Activity;
 import android.content.Context;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.ths.uappclasses.THSMicroAppDependencies;
 import com.philips.platform.ths.uappclasses.THSMicroAppInterfaceImpl;
 import com.philips.platform.ths.uappclasses.THSMicroAppLaunchInput;
@@ -20,6 +23,9 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class TeleHealthServicesState extends BaseState implements THSCompletionProtocol {
+
+    private static final String TAG = TeleHealthServicesState.class.getSimpleName();
+
     private FragmentLauncher fragmentLauncher;
 
     public TeleHealthServicesState() {
@@ -60,6 +66,10 @@ public class TeleHealthServicesState extends BaseState implements THSCompletionP
 
     @Override
     public void didExitTHS(THSExitType thsExitType) {
-
+        RALog.d(TAG, "thsExitType : "+thsExitType);
+        Activity activity = fragmentLauncher.getFragmentActivity();
+        if (activity instanceof IndexSelectionListener) {
+            ((IndexSelectionListener) activity).updateSelectionIndex(0);
+        }
     }
 }
