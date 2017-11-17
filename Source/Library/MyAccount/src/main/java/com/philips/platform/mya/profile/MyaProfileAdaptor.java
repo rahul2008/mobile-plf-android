@@ -15,11 +15,11 @@ import com.philips.platform.mya.R;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Label;
 
-import java.util.List;
+import java.util.TreeMap;
 
 class MyaProfileAdaptor extends RecyclerView.Adapter<MyaProfileAdaptor.ProfileViewHolder> {
 
-    private List<String> profileList;
+    private TreeMap<String,String> profileList;
     private View.OnClickListener onClickListener;
 
     void setOnClickListener(View.OnClickListener onClickListener) {
@@ -35,7 +35,7 @@ class MyaProfileAdaptor extends RecyclerView.Adapter<MyaProfileAdaptor.ProfileVi
         }
     }
 
-     MyaProfileAdaptor(List<String> profileList) {
+     MyaProfileAdaptor(TreeMap<String,String> profileList) {
         this.profileList = profileList;
     }
 
@@ -51,8 +51,9 @@ class MyaProfileAdaptor extends RecyclerView.Adapter<MyaProfileAdaptor.ProfileVi
 
     @Override
     public void onBindViewHolder(ProfileViewHolder holder, int position) {
-        String title = profileList.get(position);
-        holder.profileTitle.setText(title);
+        String key = (String) profileList.keySet().toArray()[position];
+        String title = profileList.get(key);
+        holder.profileTitle.setText(title!=null?title:key);
     }
 
     @Override

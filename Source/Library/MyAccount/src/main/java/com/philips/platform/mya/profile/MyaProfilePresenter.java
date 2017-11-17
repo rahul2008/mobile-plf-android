@@ -7,7 +7,6 @@ package com.philips.platform.mya.profile;
 
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -17,7 +16,7 @@ import com.philips.platform.mya.util.MYALog;
 import com.philips.platform.mya.util.mvp.MyaBasePresenter;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.TreeMap;
 
 import static com.philips.platform.mya.MyaConstants.MY_ACCOUNTS;
 
@@ -35,22 +34,7 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
         view.showProfileItems(getProfileList(context, MyaInterface.getMyaDependencyComponent().getAppInfra().getConfigInterface()));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<String> getAppConfigProfileItems(Context context, AppConfigurationInterface appConfigurationManager) {
-        String profileItems = "profile.menuItems";
-        try {
-            final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
-                    .AppConfigurationError();
-            return (ArrayList) appConfigurationManager.getPropertyForKey
-                    (profileItems, "mya", configError);
-        } catch (IllegalArgumentException exception) {
-            MYALog.e(MY_ACCOUNTS, " Error in reading profile menu items ");
-        }
-        return null;
-    }
-
-    private List<String> getProfileList(Context context, AppConfigurationInterface appConfigurationManager) {
+    private TreeMap<String,String> getProfileList(Context context, AppConfigurationInterface appConfigurationManager) {
         String profileItems = "profile.menuItems";
         try {
             final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
@@ -64,21 +48,18 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
         return null;
     }
 
-    private ArrayList<String> getLocalisedList(Context context, ArrayList propertyForKey) {
-        ArrayList<String> localizedStrings = new ArrayList<>();
+    private TreeMap<String, String> getLocalisedList(Context context, ArrayList propertyForKey) {
+        TreeMap<String, String> profileList = new TreeMap<>();
         if (propertyForKey != null && propertyForKey.size() != 0) {
             for (int i = 0; i < propertyForKey.size(); i++) {
                 String profileKey = (String) propertyForKey.get(i);
                 String stringResourceByName = getStringResourceByName(context, profileKey);
-                if (!TextUtils.isEmpty(stringResourceByName))
-                    localizedStrings.add(stringResourceByName);
-                else
-                    localizedStrings.add(profileKey);
+                profileList.put(profileKey, stringResourceByName);
             }
         } else {
-            localizedStrings.add(context.getResources().getString(R.string.MYA_My_details));
+            profileList.put("MYA_My_details", context.getResources().getString(R.string.MYA_My_details));
         }
-        return localizedStrings;
+        return profileList;
     }
 
     private String getStringResourceByName(Context context, String aString) {
