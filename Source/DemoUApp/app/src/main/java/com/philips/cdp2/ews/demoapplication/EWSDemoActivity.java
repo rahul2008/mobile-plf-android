@@ -70,7 +70,7 @@ public class EWSDemoActivity extends EWSDemoBaseActivity implements View.OnClick
     private void launchEwsUApp() {
         AppInfraInterface appInfra = new AppInfra.Builder().build(getApplicationContext());
         EWSInterface ewsInterface = new EWSInterface();
-        ewsInterface.init(createUappDependencies(appInfra, createProductMap(), isDefaultValueSelected((String) configSpinner.getSelectedItem())), new UappSettings(getApplicationContext()));
+        ewsInterface.init(createUappDependencies(appInfra, isDefaultValueSelected((String) configSpinner.getSelectedItem())), new UappSettings(getApplicationContext()));
         ewsInterface.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, null, -1, null), new EWSLauncherInput());
     }
 
@@ -86,11 +86,9 @@ public class EWSDemoActivity extends EWSDemoBaseActivity implements View.OnClick
                     selection.set(AIRPURIFIER);
                     updateCurrentContent(AIRPURIFIER);
                     break;
-                case 0:
                 default:
-                    selection.set(DEFAULT);
-                    updateCurrentContent("");
                     break;
+                    
             }
         }
 
