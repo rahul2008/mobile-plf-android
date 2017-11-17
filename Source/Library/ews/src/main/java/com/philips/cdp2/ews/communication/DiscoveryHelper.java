@@ -21,8 +21,8 @@ public class DiscoveryHelper {
 
     @Nullable private DiscoveryCallback callback;
 
-    @NonNull private final ApplianceManager.ApplianceListener<Appliance>
-            applianceListener = new ApplianceManager.ApplianceListener<Appliance>() {
+    @NonNull private final ApplianceManager.ApplianceListener
+            applianceListener = new ApplianceManager.ApplianceListener() {
         @Override
         public void onApplianceFound(@NonNull Appliance appliance) {
             if (callback != null) {

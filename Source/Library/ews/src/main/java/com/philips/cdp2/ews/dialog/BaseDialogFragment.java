@@ -32,7 +32,7 @@ public abstract class BaseDialogFragment<T extends ViewDataBinding> extends Dial
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO themes has to be dynamically passed
-        setStyle(STYLE_NO_FRAME, R.style.Theme_DLS_Blue_VeryDark);
+        //setStyle(STYLE_NO_FRAME, R.style.Theme_DLS_Blue_VeryDark);
     }
 
     @CallSuper

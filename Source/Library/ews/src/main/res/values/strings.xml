@@ -110,9 +110,9 @@
 
 
     <!--GPS Strings Missing in localisation-->
-    <string name="label_ews_enable_gps_settings_title">Enable GPS Settings</string>
-    <string name="label_ews_enable_gps_settings_body">GPS is disabled.You need to enable location services to complete the pairing. Then press back to return to the app.</string>
-    <string name="button_ews_enable_gps_settings">go to location settings</string>
+    <string name="label_ews_enable_gps_settings_title">Enable in system Location Settings</string>
+    <string name="label_ews_enable_gps_settings_body">To find %1$s’s PHILIPS Setup Wi-Fi network, we need Location Services enabled.  Please enable Location Services in Location Settings and return to the app.</string>
+    <string name="button_ews_enable_gps_settings">Go to Location Settings</string>
 
     <!--Not Used(Added for Default Missing Warning) -->
     <string name="button_ews_contact_us">Contact Us</string>

@@ -7,7 +7,7 @@
     <string name="label_ews_get_started_title">Connect with your</string>
 
     <string name="lbl_setup_screen_title">2. Make sure your device is powered on. </string>
-    <string name="lbl_setup_screen_body">Press the power button on your %@ to start it.</string>
+    <string name="lbl_setup_screen_body">Press the power button on your %1$s to start it.</string>
 
     <string name="lbl_setup_verifyscreen_title">3. Is device in setup-mode?</string>
     <string name="lbl_setup_verifyscreen_body">Is the Wi-Fi light blinking?</string>

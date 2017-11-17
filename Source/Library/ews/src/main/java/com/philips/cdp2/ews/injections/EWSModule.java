@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.injections;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.IdRes;
@@ -163,15 +164,21 @@ public class EWSModule {
             @NonNull final @Named("ews.event.bus") EventBus eventBus,
             @NonNull final PermissionHandler permissionHandler,
             @NonNull HappyFlowContentConfiguration happyFlowContentConfiguration,
-            @NonNull StringProvider stringProvider) {
+            @NonNull StringProvider stringProvider,
+            @NonNull BaseContentConfiguration baseContentConfiguration) {
 
         final ConnectionEstablishDialogFragment dialogFragment =
                 ConnectionEstablishDialogFragment
                         .getInstance(R.string.label_ews_establishing_connection_body);
 
+        GPSEnableDialogFragment gpsEnableDialogFragment= new GPSEnableDialogFragment();
+        Bundle bundle= new Bundle();
+        bundle.putString("DeviceName",stringProvider.getString(baseContentConfiguration.getDeviceName()));
+        gpsEnableDialogFragment.setArguments(bundle);
+
         return new SecondSetupStepsViewModel(navigator, eventBus, permissionHandler,
                 dialogFragment,null,
-                new GPSEnableDialogFragment(), new Handler(context.getMainLooper())
+                gpsEnableDialogFragment, new Handler(context.getMainLooper())
                 , stringProvider, happyFlowContentConfiguration);
     }
 
