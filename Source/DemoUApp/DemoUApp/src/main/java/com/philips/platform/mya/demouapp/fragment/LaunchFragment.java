@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 
+import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.mya.demouapp.DemoAppActivity;
 import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
+import com.philips.platform.mya.demouapp.MyaConstants;
 import com.philips.platform.mya.demouapp.R;
 import com.philips.platform.mya.demouapp.theme.fragments.BaseFragment;
 import com.philips.platform.mya.interfaces.MyaListener;
@@ -85,6 +87,8 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra());
+        uappDependencies.setApplicationName(MyaConstants.APPLICATION_NAME);
+        uappDependencies.setPropositionName(MyaConstants.PROPOSITION_NAME);
         MyaLaunchInput launchInput = new MyaLaunchInput(((DemoAppActivity) getActivity()), new MyaListener() {
             @Override
             public boolean onClickMyaItem(String itemName) {
