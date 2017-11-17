@@ -9,11 +9,11 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
-public class SampleAppliance extends Appliance {
+class SampleAppliance extends Appliance {
 
-    public static final String DEVICE_TYPE = "";
+    static final String DEVICE_TYPE = "";
 
-    public SampleAppliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
+    SampleAppliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
     }
 
