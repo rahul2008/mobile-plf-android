@@ -1,6 +1,6 @@
 package com.philips.platform.csw.permission;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.listener.ConsentResponseListener;
@@ -13,69 +13,53 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class PermissionPresenter implements ConsentResponseListener, CreateConsentListener {
+public class PermissionPresenter implements ConsentResponseListener {
 
     private PermissionInterface permissionInterface;
-    private Context context;
+    private ConsentInteractor consentInteractor;
     public static final int version = 0;
 
-    public static final String CONSENT_TYPE_MOMENT_SYNC = "momentsync";
-    public static final String CONSENT_TYPE_MOMENT = "moment";
-
-    public PermissionPresenter(
-            PermissionInterface permissionInterface, Context context) {
-       this.permissionInterface = permissionInterface;
-        this.context = context;
+    PermissionPresenter(
+            PermissionInterface permissionInterface, ConsentInteractor consentInteractor) {
+        this.permissionInterface = permissionInterface;
+        this.consentInteractor = consentInteractor;
     }
 
 
-    public void getConsentStatus() {
+    void getConsentStatus() {
         permissionInterface.showProgressDialog();
-        getCatkInstance().
-                getStatusForConsentType(CONSENT_TYPE_MOMENT, version, this);
+        consentInteractor.getConsents(this);
     }
 
-    protected ConsentAccessToolKit getCatkInstance() {
-        return ConsentAccessToolKit.getInstance();
-    }
-
-    public void createConsentStatus(boolean status) {
-        permissionInterface.showProgressDialog();
-        ConsentStatus consentStatus = status ? ConsentStatus.active : ConsentStatus.rejected;
-        Consent consent = new Consent(Locale.US, consentStatus, "moment", 0);   // locale, type and version come from ConsentDefinition
-        ConsentAccessToolKit.getInstance().createConsent(consent, this);
-    }
+//    void createConsentStatus(boolean status) {
+//        permissionInterface.showProgressDialog();
+//        ConsentStatus consentStatus = status ? ConsentStatus.active : ConsentStatus.rejected;
+//        Consent consent = new Consent(Locale.US, consentStatus, "moment", 0);   // locale, type and version come from ConsentDefinition
+//        ConsentAccessToolKit.getInstance().createConsent(consent, this);
+//    }
 
     @Override
     public void onResponseSuccessConsent(List<Consent> responseData) {
-        if (responseData != null && !responseData.isEmpty()) {
-            Consent consent = responseData.get(0);
-            permissionInterface.hideProgressDialog();
-            permissionInterface.updateSwitchStatus(consent.getStatus().equals(ConsentStatus.active));
-        } else {
-            permissionInterface.hideProgressDialog();
-            permissionInterface.updateSwitchStatus(false);
-            CswLogger.d(" Consent : ", "no consent for type found on server");
-        }
+        permissionInterface.onConsentsRetrieved(responseData);
+        permissionInterface.hideProgressDialog();
     }
 
     @Override
     public int onResponseFailureConsent(int consentError) {
         permissionInterface.hideProgressDialog();
-        CswLogger.d(" Consent : ", "fail  :" + consentError);
-        return consentError;
+        return 0;
     }
 
-    @Override
-    public void onSuccess(int code) {
-        CswLogger.d(" Create Consent: ", "Success : " + code);
-        permissionInterface.hideProgressDialog();
-    }
-
-    @Override
-    public int onFailure(int errCode) {
-        CswLogger.d(" Create Consent: ", "Failed : " + errCode);
-        permissionInterface.hideProgressDialog();
-        return errCode;
-    }
+//    @Override
+//    public void onSuccess(int code) {
+//        CswLogger.d(" Create Consent: ", "Success : " + code);
+//        permissionInterface.hideProgressDialog();
+//    }
+//
+//    @Override
+//    public int onFailure(int errCode) {
+//        CswLogger.d(" Create Consent: ", "Failed : " + errCode);
+//        permissionInterface.hideProgressDialog();
+//        return errCode;
+//    }
 }

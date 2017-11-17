@@ -11,27 +11,31 @@ package com.philips.platform.csw.permission;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.RelativeLayout;
 
 import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.model.Consent;
+import com.philips.platform.csw.ConsentDefinition;
 import com.philips.platform.csw.CswBaseFragment;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.mya.consentwidgets.R2;
-import com.philips.platform.uid.view.widget.Switch;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.Unbinder;
 
 public class PermissionView extends CswBaseFragment implements
-        PermissionInterface, CompoundButton.OnCheckedChangeListener {
-
-    private PermissionPresenter permissionPresenter;
+        PermissionInterface {
 
     private ProgressDialog mProgressDialog;
 
@@ -41,19 +45,14 @@ public class PermissionView extends CswBaseFragment implements
 
     private Unbinder unbinder;
 
-    @BindView(R2.id.csw_relative_layout_switch_container)
-    RelativeLayout csw_relative_layout_switch_container;
+    private PermissionsAdapter permissionAdapter;
 
-    @BindView(R2.id.csw_relative_layout_what_container)
-    RelativeLayout csw_relative_layout_what_container;
-
-    @BindView(R2.id.toggleicon)
-    Switch mConsentSwitch;
+    @BindView(R2.id.consentList)
+    RecyclerView recyclerView;
 
     @Override
     protected void setViewParams(Configuration config, int width) {
-        applyParams(config, csw_relative_layout_switch_container, width);
-        applyParams(config, csw_relative_layout_what_container, width);
+        applyParams(config, recyclerView, width);
     }
 
     @Override
@@ -74,8 +73,9 @@ public class PermissionView extends CswBaseFragment implements
             applicationName = getArguments().getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
             propositionName = getArguments().getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
         }
+
         handleOrientation(view);
-        consumeTouch(view);
+//        consumeTouch(view);
         return view;
     }
 
@@ -113,8 +113,62 @@ public class PermissionView extends CswBaseFragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        permissionPresenter = new PermissionPresenter(this, getContext());
+
+        List<ConsentDefinition> consentDefinitions = createConsentDefinitions();
+
+        PermissionPresenter permissionPresenter = new PermissionPresenter(this, new ConsentInteractor(ConsentAccessToolKit.getInstance(), consentDefinitions));
         permissionPresenter.getConsentStatus();
+
+        permissionAdapter = new PermissionsAdapter(consentDefinitions);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(permissionAdapter);
+    }
+
+    @NonNull
+    private List<ConsentDefinition> createConsentDefinitions() {
+        // TODO: SHould come from ConsentAccessToolkit
+        final List<ConsentDefinition> temporaryList = new ArrayList<>();
+        temporaryList.add(new ConsentDefinition("text1", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text2", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
+        temporaryList.add(new ConsentDefinition("asdflasdkjf asdlfj asdf asd3", "help", "moment", 0, Locale.getDefault()));
+        return temporaryList;
     }
 
     @Override
@@ -137,13 +191,10 @@ public class PermissionView extends CswBaseFragment implements
     }
 
     @Override
-    public void updateSwitchStatus(boolean status) {
-        mConsentSwitch.setChecked(status);
-    }
-
-    @OnCheckedChanged(R2.id.toggleicon)
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        permissionPresenter.createConsentStatus(isChecked);
+    public void onConsentsRetrieved(@NonNull List<Consent> consentList) {
+        if(permissionAdapter != null) {
+            permissionAdapter.onConsentsRetrieved(consentList);
+        }
     }
 
     public void setArguments(String applicationName, String propositionName) {
