@@ -134,7 +134,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
     @Override
     public void showSettingsItems(LinkedHashMap<String, SettingsModel> dataModelLinkedHashMap) {
-        MyaSettingsAdaptor myaSettingsAdaptor = new MyaSettingsAdaptor(dataModelLinkedHashMap);
+        MyaSettingsAdapter myaSettingsAdaptor = new MyaSettingsAdapter(dataModelLinkedHashMap);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         RecyclerViewSeparatorItemDecoration contentThemedRightSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
