@@ -10,24 +10,31 @@
         android:layout_height="wrap_content">
 
         <include
+            android:id="@+id/customer_support"
+            layout="@layout/ths_customer_support"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ths_list_item_height"
+            android:layout_alignParentBottom="true" />
+
+        <include
             android:id="@+id/how_it_works"
             layout="@layout/how_it_works_layout"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/listPreferredItemHeight"
-            android:layout_alignParentBottom="true" />
+            android:layout_height="@dimen/ths_list_item_height"
+            android:layout_above="@id/customer_support" />
 
         <include
             android:id="@+id/visit_history"
             layout="@layout/visit_history_layout"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/listPreferredItemHeight"
+            android:layout_height="@dimen/ths_list_item_height"
             android:layout_above="@id/how_it_works" />
 
         <include
             android:id="@+id/appointments"
             layout="@layout/appointment_layout"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/listPreferredItemHeight"
+            android:layout_height="@dimen/ths_list_item_height"
             android:layout_above="@id/visit_history" />
 
         <RelativeLayout
@@ -63,8 +70,8 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginLeft="@dimen/ths_fab_margin"
                 android:layout_marginRight="@dimen/ths_fab_margin"
-                android:layout_marginBottom="@dimen/ths_image_size"
-                android:layout_marginTop="@dimen/ths_image_size"
+                android:layout_marginBottom="@dimen/ths_margin_between_buttons"
+                android:layout_marginTop="@dimen/ths_margin_between_buttons"
                 app:uidComponentType="Secondary"
                 android:text="@string/ths_see_doctor" />
 
@@ -100,6 +107,7 @@
                 android:background="@android:color/transparent"
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
+                android:maxLines="2"
                 android:text="@string/ths_quick_visit" />
 
             <com.philips.platform.uid.view.widget.Label

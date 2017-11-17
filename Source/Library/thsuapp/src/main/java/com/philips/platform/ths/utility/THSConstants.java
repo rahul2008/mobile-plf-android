@@ -139,7 +139,7 @@ public class THSConstants {
     public static final String ON_BOARDING_PAGE_2 = "TH_99_02 Onboarding";
     public static final String ON_BOARDING_PAGE_3 = "TH_99_03 Onboarding";
     public static final String ON_BOARDING_PAGE_4 = "TH_99_04 Onboarding";
-
+    public static final String THS_CUSTOMER_SUPPORT = "TH_00_10 Costumer Support";
 
     // end of tags
 

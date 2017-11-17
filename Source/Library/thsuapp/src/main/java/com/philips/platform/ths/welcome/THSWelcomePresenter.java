@@ -24,6 +24,7 @@ import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.registration.dependantregistration.THSDependantHistoryFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
+import com.philips.platform.ths.settings.THSCustomerSupportFragment;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.ths.utility.THSConstants;
@@ -69,6 +70,8 @@ class THSWelcomePresenter implements THSBasePresenter{
             }else {
                 uiBaseView.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
             }
+        } else if(componentID == R.id.customer_support){
+            uiBaseView.addFragment(new THSCustomerSupportFragment(), THSPracticeFragment.TAG, null, false);
         }
     }
 
