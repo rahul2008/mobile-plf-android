@@ -16,11 +16,6 @@ public class FragmentActivityMock extends FragmentActivity {
     }
 
     @Override
-    public Intent getIntent() {
-        return intent;
-    }
-
-    @Override
     public FragmentManager getSupportFragmentManager() {
         return fragmentManagerMock;
     }
