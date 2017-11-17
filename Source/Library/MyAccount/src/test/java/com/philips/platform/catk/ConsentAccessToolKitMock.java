@@ -1,6 +1,7 @@
 package com.philips.platform.catk;
 
 import com.philips.platform.catk.injection.CatkComponent;
+import com.philips.platform.catk.provider.ComponentProvider;
 
 public class ConsentAccessToolKitMock extends ConsentAccessToolKit {
 
@@ -15,7 +16,7 @@ public class ConsentAccessToolKitMock extends ConsentAccessToolKit {
     }
 
     @Override
-    public void init(CatkInputs catkInputs) {
+    public void init(CatkInputs catkInputs, ComponentProvider componentProvider) {
 
     }
 }
