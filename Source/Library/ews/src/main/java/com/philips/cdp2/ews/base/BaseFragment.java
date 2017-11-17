@@ -1,5 +1,5 @@
 /**
- * (C) Koninklijke Philips N.V., 2017.
+ * Copyright (c) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
 package com.philips.cdp2.ews.base;
@@ -42,11 +42,6 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
         if (getChildFragmentManager().getFragments().isEmpty()){
             callTrackPageName();
         }
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
     }
 
     public void handleCancelButtonClicked() {

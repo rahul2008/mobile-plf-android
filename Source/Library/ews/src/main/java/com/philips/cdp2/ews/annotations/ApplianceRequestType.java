@@ -1,5 +1,5 @@
-/*
- * (C) Koninklijke Philips N.V., 2017.
+/**
+ * Copyright (c) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
 package com.philips.cdp2.ews.annotations;
