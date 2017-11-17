@@ -50,6 +50,7 @@ public class RefAppBleReferenceApplianceFactoryTest {
     @Before
     public void setUp(){
         bleReferenceApplianceFactory=new RefAppApplianceFactory(bleTransportContext, lanTransportContext, cloudTransportContext);
+        bleReferenceApplianceFactory.setDeviceType(ConnectivityDeviceType.REFERENCE_NODE);
         when(networkNode.getDeviceType())
                 .thenReturn(RefAppBleReferenceAppliance.MODELNAME);
         when(bleTransportContext.createCommunicationStrategyFor(networkNode)).thenReturn(communicationStrategy);
