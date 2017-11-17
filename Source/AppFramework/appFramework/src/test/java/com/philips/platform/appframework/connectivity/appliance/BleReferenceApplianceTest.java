@@ -27,17 +27,17 @@ public class BleReferenceApplianceTest {
     CommunicationStrategy communicationStrategy;
     @Test
     public void getDeviceType_ReturnsTrue(){
-        assertEquals("ReferenceNode", new BleReferenceAppliance(networkNode,communicationStrategy, ConnectivityDeviceType.REFERENCE_NODE).getDeviceType());
+        assertEquals("ReferenceNode", new RefAppBleReferenceAppliance(networkNode,communicationStrategy, ConnectivityDeviceType.REFERENCE_NODE).getDeviceType());
     }
 
     @Test
     public void getDeviceMeasurement_NotNull(){
-        assertNotNull(new BleReferenceAppliance(networkNode,communicationStrategy, ConnectivityDeviceType.REFERENCE_NODE).getDeviceMeasurementPort());
+        assertNotNull(new RefAppBleReferenceAppliance(networkNode,communicationStrategy, ConnectivityDeviceType.REFERENCE_NODE).getDeviceMeasurementPort());
     }
 
     @Test
     public void getSessionDataPortTest() {
-        BleReferenceAppliance bleReferenceAppliance = new BleReferenceAppliance(networkNode, communicationStrategy, ConnectivityDeviceType.POWER_SLEEP);
+        RefAppBleReferenceAppliance bleReferenceAppliance = new RefAppBleReferenceAppliance(networkNode, communicationStrategy, ConnectivityDeviceType.POWER_SLEEP);
         assertNotNull(bleReferenceAppliance.getSessionDataPort());
     }
 

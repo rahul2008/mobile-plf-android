@@ -26,12 +26,14 @@ public class RefAppBleReferenceAppliance extends Appliance {
     public static final String MODEL_NAME_HHS = "HHS";
 
     private static final int PRODUCT_ID = 1;
+    private CommunicationStrategy communicationStrategy;
 
     @NonNull
     private SessionDataPort powerSleepSessionDataPort;
 
     public RefAppBleReferenceAppliance(@NonNull NetworkNode networkNode, @NonNull CommunicationStrategy communicationStrategy, ConnectivityDeviceType deviceType) {
         super(networkNode, communicationStrategy);
+        this.communicationStrategy = communicationStrategy;
  		initializePorts(deviceType, communicationStrategy);
     }
 

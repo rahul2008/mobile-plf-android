@@ -56,6 +56,10 @@ public class RefAppApplianceFactory implements ApplianceFactory {
         this.deviceType = deviceType;
     }
 
+    public ConnectivityDeviceType getConnectivityDeviceType() {
+        return deviceType;
+    }
+
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
         return networkNode.isValid();
