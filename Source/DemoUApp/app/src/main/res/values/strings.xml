@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-
     <string name="ews_activity_launch">EWS Activity Launch!</string>
     <string name="ews_fragment_launch">EWS Fragment Launch!</string>
     <string name="select_configuration">Select Configuration:</string>

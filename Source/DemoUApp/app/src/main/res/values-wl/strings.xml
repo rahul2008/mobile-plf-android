@@ -2,18 +2,18 @@
 <resources>
 
     <!-- happy flow configuration -->
-    <string name="ews_app_name_default">Healthy sleep solution</string>
-    <string name="ews_device_name_default">BrightEyes</string>
+    <string name="ews_app_name">Healthy sleep solution</string>
+    <string name="ews_device_name">BrightEyes</string>
 
     <string name="label_ews_get_started_title">Connect with your BrightEyes</string>
 
-    <string name="lbl_setup_screen_title">2. Make sure your device is powered on </string>
-    <string name="lbl_setup_screen_body">Put the power wire in the power socket. You will see the time on your screen.</string>
+    <string name="label_ews_plug_in_title">2. Make sure your device is powered on </string>
+    <string name="label_ews_plug_in_body">Put the power wire in the power socket. You will see the time on your screen.</string>
 
-    <string name="lbl_setup_verifyscreen_title">3. Is the device in setup-mode?</string>
-    <string name="lbl_setup_verifyscreen_body">1) Press the Home button\n2) Press the Gear button\n3) Long press the Wi-Fi button\n\nIs the Wi-Fi light blinking?</string>
-    <string name="lbl_setup_verifyscreen_yesbutton">Yes, Wi-Fi is blinking</string>
-    <string name="lbl_setup_verifyscreen_nobutton">No, Wi-Fi is not blinking</string>
+    <string name="label_ews_verify_ready_title">3. Is the device in setup-mode?</string>
+    <string name="label_ews_verify_ready_question">1) Press the Home button\n2) Press the Gear button\n3) Long press the Wi-Fi button\n\nIs the Wi-Fi light blinking?</string>
+    <string name="button_ews_verify_ready_yes">Yes, Wi-Fi is blinking</string>
+    <string name="button_ews_verify_ready_no">No, Wi-Fi is not blinking</string>
 
     <!-- Trouble shoot flow configuration -->
     <string name="label_ews_support_reset_connection_title">Has your %1$s left setup?</string>
@@ -22,8 +22,8 @@
     <string name="label_ews_support_reset_device_title">Enable the setup mode on the %1$s</string>
     <string name="label_ews_support_reset_device_body">Follow the steps to enable the setup mode on the %1$s</string>
 
-    <string name="label_ews_setup_access_point_mode_title">Try setting up regardless</string>
-    <string name="label_ews_setup_access_point_mode_body">Usually you can setup device in this state, Please try setting it up. Otherwise, try to enable setup mode again.</string>
+    <string name="label_ews_support_setup_access_point_title">Try setting up regardless</string>
+    <string name="label_ews_support_setup_access_point_body">Usually you can setup device in this state, Please try setting it up. Otherwise, try to enable setup mode again.</string>
 
     <string name="label_ews_connect_to_wrongphone_title">Accidently connected with wrong phone?</string>
     <string name="label_ews_connect_to_wrongphone_body">If your device has been connected to another phone by accident, then you can try to set it up again with the correct phone.</string>
