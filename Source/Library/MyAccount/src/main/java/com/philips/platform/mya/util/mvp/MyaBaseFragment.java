@@ -12,7 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.mya.MyaConstants;
-import com.philips.platform.mya.activity.MyAccountActivity;
+import com.philips.platform.mya.activity.MyaAccountActivity;
 import com.philips.platform.mya.util.MYALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -71,7 +71,7 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
         }
     }
 
-    protected void showFragment(Fragment fragment) {
+    public void showFragment(Fragment fragment) {
         final FragmentActivity fragmentActivity = getActivity();
         if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
             addFragment(fragment, fragmentActivity, getId());
@@ -128,7 +128,7 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
         final FragmentActivity activity = getActivity();
         try {
             if (activity != null && !activity.isFinishing()) {
-                if (activity instanceof MyAccountActivity) {
+                if (activity instanceof MyaAccountActivity) {
                     activity.finish();
                 } else {
                     FragmentManager fragManager = activity.getSupportFragmentManager();

@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.util.mvp.MyaBaseFragment;
@@ -33,7 +32,6 @@ import java.util.LinkedHashMap;
 
 public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClickListener,MyaSettingsContract.View {
 
-    private AppInfraInterface appInfra;
     public static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
     private MyaSettingsContract.Presenter presenter;
     private RecyclerView recyclerView;
@@ -45,8 +43,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         UIDHelper.injectCalligraphyFonts();
         initViews(view);
         recyclerView.setNestedScrollingEnabled(false);
-        presenter = new MyaSettingsPresenter(this);
-        this.appInfra = MyaInterface.getMyaDependencyComponent().getAppInfra();
         presenter = new MyaSettingsPresenter(this);
         return view;
     }
@@ -137,21 +133,8 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     }
 
     @Override
-    public void showSettingsItems(LinkedHashMap<String, String> profileList) {
-        MyaSettingsAdaptor myaSettingsAdaptor = new MyaSettingsAdaptor(profileList,getContext());
-        myaSettingsAdaptor.setHomeCountry(appInfra.getServiceDiscovery().getHomeCountry());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        RecyclerViewSeparatorItemDecoration contentThemedRightSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(contentThemedRightSeparatorItemDecoration);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(myaSettingsAdaptor);
-//        myaSettingsAdaptor.setOnClickListener(getOnClickListener(profileList));
-    }
-
-    @Override
-    public void showSettingsItems(LinkedHashMap<String, SettingsModel> dataModelLinkedHashMap, String some) {
-        MyaSettingsDataModelAdaptor myaSettingsAdaptor = new MyaSettingsDataModelAdaptor(dataModelLinkedHashMap);
+    public void showSettingsItems(LinkedHashMap<String, SettingsModel> dataModelLinkedHashMap) {
+        MyaSettingsAdaptor myaSettingsAdaptor = new MyaSettingsAdaptor(dataModelLinkedHashMap);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         RecyclerViewSeparatorItemDecoration contentThemedRightSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
         recyclerView.setLayoutManager(mLayoutManager);

@@ -11,20 +11,20 @@ import android.support.v4.app.Fragment;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.util.mvp.MyaBaseView;
 import com.philips.platform.mya.util.mvp.MyaPresenterInterface;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.LinkedHashMap;
 
 interface MyaSettingsContract {
 
     interface View extends MyaBaseView {
-        void showSettingsItems(LinkedHashMap<String, String> profileList);
-        void showSettingsItems(LinkedHashMap<String, SettingsModel> dataModelLinkedHashMap,String some);
+        void showSettingsItems(LinkedHashMap<String, SettingsModel> dataModelLinkedHashMap);
         void showFragment(Fragment fragment);
         void showDialog(String title, String message);
     }
 
     interface Presenter extends MyaPresenterInterface<View> {
         void getSettingItems(Context context, AppInfraInterface appInfra);
-        void onClickRecyclerItem(Context context, String key, SettingsModel settingsModel);
+        void onClickRecyclerItem(Context context, String key, SettingsModel settingsModel, FragmentLauncher fragmentLauncher);
     }
 }

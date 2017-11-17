@@ -76,7 +76,6 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
 
     @Override
     public void showProfileItems(final TreeMap<String,String> profileList) {
-
         MyaProfileAdaptor myaProfileAdaptor = new MyaProfileAdaptor(profileList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         RecyclerViewSeparatorItemDecoration contentThemedRightSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());

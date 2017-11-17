@@ -37,7 +37,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     @Override
     public void getSettingItems(Context context, AppInfraInterface appInfra) {
         this.appInfraInterface = appInfra;
-        view.showSettingsItems(getSettingsMap(context,appInfra),"");
+        view.showSettingsItems(getSettingsMap(context, appInfra));
     }
 
     @Override
@@ -62,7 +62,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
                     .AppConfigurationError();
             ArrayList propertyForKey = (ArrayList) appInfraInterface.getConfigInterface().getPropertyForKey
                     (profileItems, "mya", configError);
-            return getLocalisedList(context,propertyForKey,appInfraInterface);
+            return getLocalisedList(context, propertyForKey, appInfraInterface);
         } catch (IllegalArgumentException exception) {
             MYALog.e(MY_ACCOUNTS, " Error in reading settings menu items ");
         }

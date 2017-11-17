@@ -24,10 +24,11 @@ public class MyaTabFragment extends MyaBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (view == null) {
             view = inflater.inflate(R.layout.mya_tab_fragment, container, false);
-            TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
-            ViewPager viewPager = (ViewPager) view.findViewById(R.id.pager);
+            TabLayout tabLayout = view.findViewById(R.id.tab_layout);
+            ViewPager viewPager = view.findViewById(R.id.pager);
             addTabs(tabLayout);
             MyaPager adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount());
+            adapter.setArguments(getArguments());
             viewPager.setAdapter(adapter);
             tabLayout.addOnTabSelectedListener(getTabListener(viewPager));
         }

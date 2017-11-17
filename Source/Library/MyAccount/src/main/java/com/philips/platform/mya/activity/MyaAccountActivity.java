@@ -24,6 +24,7 @@ import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
+import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -35,7 +36,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
 
-public class MyAccountActivity extends UIDActivity implements MyaListener {
+public class MyaAccountActivity extends UIDActivity implements MyaListener {
 
     private TextView mTitle;
     private String applicationName;
@@ -49,9 +50,9 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mya_myaccounts_activity);
         fetchConsentData();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.mya_toolbar);
-        mTitle = (TextView) toolbar.findViewById(R.id.mya_toolbar_title);
-        leftImageView = (ImageView) toolbar.findViewById(R.id.mya_toolbar_left_image);
+        Toolbar toolbar = findViewById(R.id.mya_toolbar);
+        mTitle = toolbar.findViewById(R.id.mya_toolbar_title);
+        leftImageView = toolbar.findViewById(R.id.mya_toolbar_left_image);
         leftImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -177,6 +178,31 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
 
     private void setLeftImage(int resId) {
         leftImageView.setBackgroundResource(resId);
+    }
+
+    private void launchAsFragment() {
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            extras = new Bundle();
+        }
+        extras.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
+        extras.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.mainContainer, new ActionBarListener() {
+            @Override
+            public void updateActionBar(int i, boolean shouldBackEnable) {
+                setTitle(i);
+                handleLeftImage(shouldBackEnable);
+            }
+
+            @Override
+            public void updateActionBar(String s, boolean shouldBackEnable) {
+                setTitle(s);
+                handleLeftImage(shouldBackEnable);
+            }
+        });
+        MyaTabFragment myaTabFragment = new MyaTabFragment();
+        myaTabFragment.setArguments(extras);
+        myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
     }
 
 

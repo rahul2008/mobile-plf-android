@@ -8,9 +8,10 @@
 package com.philips.platform.mya.launcher;
 
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.mya.activity.MyAccountActivity;
+import com.philips.platform.mya.activity.MyaAccountActivity;
 import com.philips.platform.mya.injection.DaggerMyaDependencyComponent;
 import com.philips.platform.mya.injection.DaggerMyaUiComponent;
 import com.philips.platform.mya.injection.MyaDependencyComponent;
@@ -58,14 +59,21 @@ public class MyaInterface implements UappInterface {
     }
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher) {
+        Bundle extras = fragmentLauncher.getFragmentActivity().getIntent().getExtras();
+        if (extras == null) {
+            extras = new Bundle();
+        }
+        extras.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
+        extras.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
         myaUiModule.setFragmentLauncher(fragmentLauncher);
         MyaTabFragment myaTabFragment = new MyaTabFragment();
+        myaTabFragment.setArguments(extras);
         myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
     }
 
     private void launchAsActivity(ActivityLauncher uiLauncher, MyaLaunchInput myaLaunchInput) {
         if (null != uiLauncher && myaLaunchInput != null) {
-            Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyAccountActivity.class);
+            Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyaAccountActivity.class);
             myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
             myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
             myAccountIntent.putExtra(MYA_DLS_THEME, uiLauncher.getUiKitTheme());
