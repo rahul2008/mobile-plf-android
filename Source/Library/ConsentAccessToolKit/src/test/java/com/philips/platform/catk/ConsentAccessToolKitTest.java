@@ -15,6 +15,7 @@ import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.mock.CatkComponentMock;
 import com.philips.platform.catk.dto.CreateConsentModelRequest;
 import com.philips.platform.catk.dto.GetConsentsModelRequest;
+import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkHelper;
 import com.philips.platform.catk.network.NetworkHelperManipulator;
@@ -27,6 +28,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -97,16 +100,10 @@ public class ConsentAccessToolKitTest {
 
     @Test
     public void shouldCallNetworkHelperSendRequestMethodWhenCreateConsentDetailsMethodISCalled() {
-        givenLocale("nl-NL");
-        consentAccessToolKit.createConsent(ConsentStatus.active, mockCreateConsentListener);
+        Consent consent = new Consent(new Locale("nl","NL"), ConsentStatus.active, "moment", 1);
+        consentAccessToolKit.createConsent(consent, mockCreateConsentListener);
         verify(mockNetworkHelper).sendRequest(captorNetworkAbstractModel.capture());
         assertTrue(captorNetworkAbstractModel.getValue() instanceof CreateConsentModelRequest);
-    }
-
-    @Test
-    public void buildPolicyRule() {
-        assertEquals("urn:com.philips.consent:consentType1" + "/" + COUNTRY_CODE + "/1/" + propName + "/" + appName,
-                consentAccessToolKit.buildPolicyRule("consentType1", 1, COUNTRY_CODE, propName, appName));
     }
 
     private void givenLocale(String locale) {

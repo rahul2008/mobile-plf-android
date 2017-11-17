@@ -12,6 +12,7 @@ import com.google.gson.JsonArray;
 import com.philips.cdp.registration.User;
 import com.philips.platform.catk.ConsentAccessToolKitManipulator;
 import com.philips.platform.catk.injection.CatkComponent;
+import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkController;
 
@@ -26,7 +27,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
-public class CreateConsentModelRequestTest extends MockitoConfiguration {
+public class CreateConsentDtoRequestTest extends MockitoConfiguration {
 
     private CreateConsentModelRequest consentModelRequest;
 
@@ -46,8 +47,9 @@ public class CreateConsentModelRequestTest extends MockitoConfiguration {
         when(mockCatkComponent.getUser()).thenReturn(mockUser);
         when(mockUser.getHsdpAccessToken()).thenReturn("x73ywf56h46h5p25");
         when(mockUser.getHsdpUUID()).thenReturn(SUBJECT);
-        consentModelRequest = new CreateConsentModelRequest(URL, APPLICATION_NAME, "active",
-                PROPOSITION_NAME, "af-ZA", mockDataLoadListener);
+        String policyRule = buildPolicyRule("moment", 1, "IN", PROPOSITION_NAME, APPLICATION_NAME);
+        CreateConsentDto consent = new CreateConsentDto("af-ZA", policyRule, "Consent", ConsentStatus.active.name(), "17f7ce85-403c-4824-a17f-3b551f325ce0");
+        consentModelRequest = new CreateConsentModelRequest(URL, consent, mockDataLoadListener);
     }
 
     @Test
@@ -82,7 +84,11 @@ public class CreateConsentModelRequestTest extends MockitoConfiguration {
         assertEquals(URL, consentModelRequest.getUrl());
     }
 
-    private static final String EXPECTED_BODY = "{\"resourceType\":\"Consent\",\"language\":\"af-ZA\",\"status\":\"active\",\"subject\":\"17f7ce85-403c-4824-a17f-3b551f325ce0\",\"policyRule\":\"urn:com.philips.consent:moment/null/0/OneBackendProp/OneBackend\"}";
+    public String buildPolicyRule(String consentType, int version, String country, String propositionName, String applicationName) {
+        return "urn:com.philips.consent:" + consentType + "/" + country + "/" + version + "/" + propositionName + "/" + applicationName;
+    }
+
+    private static final String EXPECTED_BODY = "{\"resourceType\":\"Consent\",\"language\":\"af-ZA\",\"status\":\"active\",\"subject\":\"17f7ce85-403c-4824-a17f-3b551f325ce0\",\"policyRule\":\"urn:com.philips.consent:moment/IN/1/OneBackendProp/OneBackend\"}";
     private static final String APPLICATION_NAME = "OneBackend";
     private static final String PROPOSITION_NAME = "OneBackendProp";
     private final String URL = "https://hdc-css-mst.cloud.pcftest.com/consent";

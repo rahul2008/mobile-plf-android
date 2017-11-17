@@ -7,35 +7,44 @@
 
 package com.philips.platform.catk.mapper;
 
-import com.philips.platform.catk.dto.GetConsentsModel;
+import com.philips.platform.catk.dto.GetConsentDto;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentStatus;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 
 public class DtoToConsentMapperTest {
     private Consent result;
     private DtoToConsentMapper givenMapper;
-    private GetConsentsModel givenGetDto;
-    private GetConsentsModel getActiveFromIndiaTypeMomentLocaleEnUsDto;
+    private GetConsentDto givenGetDto;
+
+    private GetConsentDto getActiveFromIndiaTypeMomentLocaleEnUsDto;
+    private Consent getActiveFromIndiaTypeMomentLocaleEnUsModel;
+    private static final String TIMESTAMP = "2017-10-02T13:32:45.000Z";
 
     @Before
     public void setUp() throws Exception {
         givenMapper = new DtoToConsentMapper();
-        getActiveFromIndiaTypeMomentLocaleEnUsDto = new GetConsentsModel("2017-10-02", "en-US", "urn:com.philips.consent:moment/IN/1/someProposition/someApplication", "Consent", ConsentStatus.active, "someSubjectId");
+        getActiveFromIndiaTypeMomentLocaleEnUsDto = new GetConsentDto(TIMESTAMP, "en-US", "urn:com.philips.consent:moment/IN/1/someProposition/someApplication", "Consent", ConsentStatus.active, "someSubjectId");
+        getActiveFromIndiaTypeMomentLocaleEnUsModel = new Consent(Locale.US, ConsentStatus.active, "moment", 1);
+        getActiveFromIndiaTypeMomentLocaleEnUsModel.setTimestamp(new DateTime(TIMESTAMP));
     }
 
     @Test
     public void map_mapsCorrectly() {
         givenDto(getActiveFromIndiaTypeMomentLocaleEnUsDto);
         whenCallingMapWith();
-        thenConsentIs(new Consent("en-US", ConsentStatus.active, "moment", 1));
+        thenConsentIs(getActiveFromIndiaTypeMomentLocaleEnUsModel);
+        thenLocaleStringIs("en_US");
     }
 
-    private void givenDto(GetConsentsModel getDto) {
+    private void givenDto(GetConsentDto getDto) {
         this.givenGetDto = getDto;
     }
 
@@ -45,5 +54,9 @@ public class DtoToConsentMapperTest {
 
     private void thenConsentIs(Consent expectedConsent) {
         assertEquals(expectedConsent, result);
+    }
+
+    private void thenLocaleStringIs(String expectedLocaleString) {
+        assertEquals(expectedLocaleString, result.getLocale().toString());
     }
 }

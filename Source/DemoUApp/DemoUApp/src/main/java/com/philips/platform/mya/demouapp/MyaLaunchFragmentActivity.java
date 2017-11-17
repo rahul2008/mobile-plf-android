@@ -19,7 +19,11 @@ public class MyaLaunchFragmentActivity extends AppCompatActivity implements MyaL
         setContentView(R.layout.activity_mya_launch_fragment);
 
         MyaInterface myaInterface = new MyaInterface();
-        myaInterface.init(new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra()), new MyaSettings(this));
+        MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra());
+        uappDependencies.setApplicationName(MyaConstants.APPLICATION_NAME);
+        uappDependencies.setPropositionName(MyaConstants.PROPOSITION_NAME);
+
+        myaInterface.init(uappDependencies, new MyaSettings(this));
         MyaLaunchInput uappLaunchInput = new MyaLaunchInput(this, this);
         myaInterface.launch(new FragmentLauncher(this, R.id.main_container, null), uappLaunchInput);
 

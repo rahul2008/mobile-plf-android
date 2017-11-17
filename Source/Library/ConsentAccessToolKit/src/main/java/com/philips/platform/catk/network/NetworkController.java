@@ -13,6 +13,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.JsonArray;
+import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.error.ConsentNetworkError;
@@ -98,7 +99,7 @@ public class NetworkController implements ConsentRequestListener, Response.Error
     }
 
     private void performRefreshToken(final ConsentRequest request, final VolleyError error) {
-        NetworkHelper.getInstance().refreshAccessToken(new RefreshTokenListener() {
+        refreshAccessToken(new RefreshTokenListener() {
             @Override
             public void onRefreshSuccess() {
                 try {
@@ -114,6 +115,25 @@ public class NetworkController implements ConsentRequestListener, Response.Error
             @Override
             public void onRefreshFailed(int errCode) {
                 model.onResponseError(new ConsentNetworkError(error));
+            }
+        });
+    }
+
+    private void refreshAccessToken(final RefreshTokenListener refreshTokenListener) {
+        ConsentAccessToolKit.getInstance().getCatkComponent().getUser().refreshLoginSession(new RefreshLoginSessionHandler() {
+            @Override
+            public void onRefreshLoginSessionSuccess() {
+                refreshTokenListener.onRefreshSuccess();
+            }
+
+            @Override
+            public void onRefreshLoginSessionFailedWithError(int errCode) {
+                refreshTokenListener.onRefreshFailed(errCode);
+            }
+
+            @Override
+            public void onRefreshLoginSessionInProgress(String s) {
+                // Need to handle
             }
         });
     }

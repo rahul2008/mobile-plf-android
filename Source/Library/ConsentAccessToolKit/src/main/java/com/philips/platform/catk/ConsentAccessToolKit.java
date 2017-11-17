@@ -7,12 +7,9 @@
 
 package com.philips.platform.catk;
 
-import android.util.Log;
-
 import com.philips.cdp.registration.User;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.catk.dto.CreateConsentModelRequest;
-import com.philips.platform.catk.dto.GetConsentsModel;
+import com.philips.platform.catk.dto.GetConsentDto;
 import com.philips.platform.catk.dto.GetConsentsModelRequest;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.injection.CatkComponent;
@@ -21,12 +18,14 @@ import com.philips.platform.catk.injection.DaggerCatkComponent;
 import com.philips.platform.catk.injection.UserModule;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
+import com.philips.platform.catk.mapper.ConsentToDtoMapper;
+import com.philips.platform.catk.mapper.DtoToConsentMapper;
 import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkHelper;
 import com.philips.platform.catk.utils.CatkLogger;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,8 +33,11 @@ public class ConsentAccessToolKit {
 
     // This field has to remove later(url should take from service discovery)
     private static final String URL = "https://platforminfra-css-platforminfradev.cloud.pcftest.com/consent";
-
     private static volatile ConsentAccessToolKit sSoleInstance;
+
+    private CatkComponent catkComponent;
+    private String applicationName;
+    private String propositionName;
 
     ConsentAccessToolKit() {
     }
@@ -47,16 +49,12 @@ public class ConsentAccessToolKit {
                     sSoleInstance = new ConsentAccessToolKit();
             }
         }
-
         return sSoleInstance;
     }
 
-    // Make singleton from serialize and deserialize operation.
-    protected ConsentAccessToolKit readResolve() {
-        return getInstance();
+    static void setInstance(ConsentAccessToolKit sSoleInstance) {
+        ConsentAccessToolKit.sSoleInstance = sSoleInstance;
     }
-
-    private CatkComponent catkComponent;
 
     public void init(CatkInputs catkInputs) {
         catkComponent = initDaggerComponents(catkInputs);
@@ -77,17 +75,19 @@ public class ConsentAccessToolKit {
         return catkComponent;
     }
 
-    void setCatkComponent(CatkComponent component) {
+    public void setCatkComponent(CatkComponent component) {
         catkComponent = component;
     }
-
-    private String applicationName;
-    private String propositionName;
 
     public void getConsentDetails(final ConsentResponseListener consentListener) {
         GetConsentsModelRequest model = new GetConsentsModelRequest(URL, applicationName, propositionName, new NetworkAbstractModel.DataLoadListener() {
             @Override
-            public void onModelDataLoadFinished(List<Consent> consents) {
+            public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
+                List<Consent> consents = new ArrayList<>();
+                DtoToConsentMapper mapper = new DtoToConsentMapper();
+                for (GetConsentDto dto : dtos) {
+                    consents.add(mapper.map(dto));
+                }
                 consentListener.onResponseSuccessConsent(consents);
             }
 
@@ -99,40 +99,22 @@ public class ConsentAccessToolKit {
         NetworkHelper.getInstance().sendRequest(model);
     }
 
-    public void createConsent(ConsentStatus consentStatus, final CreateConsentListener consentListener) {
-        getLocaleAndProceed(consentStatus, consentListener);
-
-    }
-
-    private void getLocaleAndProceed(final ConsentStatus consentStatus, final CreateConsentListener consentListener) {
-
-        getCatkComponent().getServiceDiscoveryInterface().getServiceLocaleWithCountryPreference("ds.consentservice", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+    public void createConsent(final Consent consent, final CreateConsentListener consentListener) {
+        ConsentToDtoMapper mapper = new ConsentToDtoMapper(catkComponent.getUser().getHsdpUUID(), catkComponent.getUser().getCountryCode(), propositionName, applicationName);
+        CreateConsentModelRequest model = new CreateConsentModelRequest(URL, mapper.map(consent), new NetworkAbstractModel.DataLoadListener() {
             @Override
-            public void onSuccess(String s) {
-                String locale = s.replace("_", "-");
-
-                CreateConsentModelRequest model = new CreateConsentModelRequest(URL, applicationName, String.valueOf(consentStatus), propositionName, locale,
-                        new NetworkAbstractModel.DataLoadListener() {
-                            @Override
-                            public void onModelDataLoadFinished(List<Consent> consents) {
-                                if (consents == null) {
-                                    consentListener.onSuccess(CatkConstants.CONSENT_SUCCESS);
-                                }
-                            }
-
-                            @Override
-                            public int onModelDataError(ConsentNetworkError error) {
-                                return consentListener.onFailure(error.getErrorCode());
-                            }
-                        });
-                NetworkHelper.getInstance().sendRequest(model);
+            public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
+                if (dtos == null) {
+                    consentListener.onSuccess(CatkConstants.CONSENT_SUCCESS);
+                }
             }
 
             @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                Log.e("Consent access toolkit", "Could not get locale");
+            public int onModelDataError(ConsentNetworkError error) {
+                return consentListener.onFailure(error.getErrorCode());
             }
         });
+        NetworkHelper.getInstance().sendRequest(model);
     }
 
     public void getStatusForConsentType(final String consentType, int version, final ConsentResponseListener consentListener) {
@@ -154,13 +136,5 @@ public class ConsentAccessToolKit {
                 return consentListener.onResponseFailureConsent(consentError);
             }
         });
-    }
-
-    public String buildPolicyRule(String consentType, int version, String country, String propositionName, String applicationName) {
-        return "urn:com.philips.consent:" + consentType + "/" + country + "/" + version + "/" + propositionName + "/" + applicationName;
-    }
-
-    static void setInstance(ConsentAccessToolKit sSoleInstance) {
-        ConsentAccessToolKit.sSoleInstance = sSoleInstance;
     }
 }

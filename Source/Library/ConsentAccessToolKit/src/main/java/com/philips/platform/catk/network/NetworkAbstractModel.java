@@ -8,8 +8,8 @@
 package com.philips.platform.catk.network;
 
 import com.google.gson.JsonArray;
+import com.philips.platform.catk.dto.GetConsentDto;
 import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.model.Consent;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public abstract class NetworkAbstractModel {
     protected DataLoadListener mDataLoadListener;
 
     public interface DataLoadListener {
-        void onModelDataLoadFinished(List<Consent> consents);
+        void onModelDataLoadFinished(List<GetConsentDto> consents);
 
         int onModelDataError(ConsentNetworkError error);
     }
@@ -27,7 +27,7 @@ public abstract class NetworkAbstractModel {
         mDataLoadListener = listener;
     }
 
-    public void onResponseSuccess(final List<Consent> consents) {
+    public void onResponseSuccess(final List<GetConsentDto> consents) {
         if (mDataLoadListener != null) {
             mDataLoadListener.onModelDataLoadFinished(consents);
         }
@@ -40,7 +40,7 @@ public abstract class NetworkAbstractModel {
     }
 
 
-    public abstract List<Consent> parseResponse(JsonArray response);
+    public abstract List<GetConsentDto> parseResponse(JsonArray response);
 
     public abstract int getMethod();
 

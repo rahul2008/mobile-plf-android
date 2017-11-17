@@ -7,20 +7,34 @@
 
 package com.philips.platform.catk.mapper;
 
-import com.philips.platform.catk.dto.GetConsentsModel;
+import com.philips.platform.catk.dto.GetConsentDto;
 import com.philips.platform.catk.model.Consent;
+
+import org.joda.time.DateTime;
+
+import java.util.Locale;
 
 public class DtoToConsentMapper {
     private static int IDX_TYPE = 0;
     private static int IDX_VERSION = 2;
 
-    public static Consent map(GetConsentsModel consentDto) {
+    private static int IDX_LANGUAGE = 0;
+    private static int IDX_COUNTRY = 1;
+
+    public static Consent map(GetConsentDto consentDto) {
         String[] policyParts = parsePolicyUrn(consentDto.getPolicyRule());
-        return new Consent(consentDto.getLanguage(), consentDto.getStatus(), policyParts[IDX_TYPE], Integer.parseInt(policyParts[IDX_VERSION]));
+        Consent consent = new Consent(getLocale(consentDto.getLanguage()), consentDto.getStatus(), policyParts[IDX_TYPE], Integer.parseInt(policyParts[IDX_VERSION]));
+        consent.setTimestamp(new DateTime(consentDto.getDateTime()));
+        return consent;
     }
 
     private static String[] parsePolicyUrn(String privacyRule) {
         String[] urnParts = privacyRule.split(":");
         return urnParts[urnParts.length - 1].split("/");
+    }
+
+    private static Locale getLocale(String language) {
+        String[] localeParts = language.split("-");
+        return new Locale(localeParts[IDX_LANGUAGE], localeParts[IDX_COUNTRY]);
     }
 }

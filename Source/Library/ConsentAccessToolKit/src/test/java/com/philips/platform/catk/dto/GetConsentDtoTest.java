@@ -11,13 +11,13 @@ import org.junit.*;
 
 import com.philips.platform.catk.model.ConsentStatus;
 
-public class GetConsentsModelTest {
+public class GetConsentDtoTest {
 
-    private GetConsentsModel getConsentModel;
+    private GetConsentDto getConsentModel;
 
     @Before
     public void setUp() throws Exception {
-        getConsentModel = new GetConsentsModel();
+        getConsentModel = new GetConsentDto();
     }
 
     @After

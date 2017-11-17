@@ -10,8 +10,6 @@ package com.philips.platform.catk.dto;
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 
 import java.util.List;
@@ -19,22 +17,16 @@ import java.util.List;
 public class CreateConsentModelRequest extends NetworkAbstractModel {
 
     private String url;
-    private String applicationName;
-    private String propositionName;
-    private String consentStatus;
-    private String locale;
+    CreateConsentDto dto;
 
-    public CreateConsentModelRequest(String url, String applicationName, String consentStatus, String propositionName, String locale, DataLoadListener dataLoadListener) {
+    public CreateConsentModelRequest(String url, CreateConsentDto dto, DataLoadListener dataLoadListener) {
         super(dataLoadListener);
         this.url = url;
-        this.applicationName = applicationName;
-        this.propositionName = propositionName;
-        this.consentStatus = consentStatus;
-        this.locale = locale;
+        this.dto = dto;
     }
 
     @Override
-    public List<Consent> parseResponse(JsonArray response) {
+    public List<GetConsentDto> parseResponse(JsonArray response) {
         return null;
     }
 
@@ -45,14 +37,7 @@ public class CreateConsentModelRequest extends NetworkAbstractModel {
 
     @Override
     public String requestBody() {
-        CreateConsentModel model = new CreateConsentModel();
-        model.setResourceType("Consent");
-        model.setLanguage(locale);
-        model.setStatus(consentStatus);
-        model.setSubject(ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID());
-        model.setPolicyRule("urn:com.philips.consent:moment/" + ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getCountryCode()
-                + "/0/" + propositionName + "/" + applicationName);
-        return getJsonString(model);
+        return new Gson().toJson(dto);
     }
 
     @Override
@@ -60,8 +45,4 @@ public class CreateConsentModelRequest extends NetworkAbstractModel {
         return url;
     }
 
-    private String getJsonString(CreateConsentModel model) {
-        Gson gson = new Gson();
-        return gson.toJson(model);
-    }
 }

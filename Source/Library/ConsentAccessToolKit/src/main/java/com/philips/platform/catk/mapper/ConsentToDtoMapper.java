@@ -7,7 +7,7 @@
 
 package com.philips.platform.catk.mapper;
 
-import com.philips.platform.catk.dto.CreateConsentModel;
+import com.philips.platform.catk.dto.CreateConsentDto;
 import com.philips.platform.catk.model.Consent;
 
 public class ConsentToDtoMapper {
@@ -24,8 +24,8 @@ public class ConsentToDtoMapper {
         this.propositionName = propositionName;
     }
 
-    public CreateConsentModel map(Consent consent) {
-        return new CreateConsentModel(consent.getLocale(), buildPolicyRule(consent.getType(), consent.getVersion()), "Consent", consent.getStatus().name(), subjectId);
+    public CreateConsentDto map(Consent consent) {
+        return new CreateConsentDto(consent.getLocale().toString().replace('_', '-'), buildPolicyRule(consent.getType(), consent.getVersion()), "Consent", consent.getStatus().name(), subjectId);
     }
 
     private String buildPolicyRule(String type, int version) {
