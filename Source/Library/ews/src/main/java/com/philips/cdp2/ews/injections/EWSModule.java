@@ -22,7 +22,6 @@ import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
-import com.philips.cdp2.ews.appliance.BEApplianceFactory;
 import com.philips.cdp2.ews.appliance.EWSGenericAppliance;
 import com.philips.cdp2.ews.communication.ApplianceAccessEventMonitor;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
@@ -145,12 +144,6 @@ public class EWSModule {
     DiscoveryHelper providesDiscoverHelper() {
         return new DiscoveryHelper(commCentral);
     }
-
-    @Provides
-    BEApplianceFactory providesBEApplianceFactory() {
-        return ((EWSApplication) context.getApplicationContext()).getBEApplianceFactory();
-    }
-
 
     @Provides
     ConnectWithPasswordViewModel providesSetDeviceConnectViewModel(@NonNull final WiFiUtil wifiUtil,
