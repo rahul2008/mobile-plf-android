@@ -111,7 +111,9 @@ public class ConsentAccessToolKit {
         NetworkHelper.getInstance().sendRequest(model);
     }
 
-    public void getStatusForConsentType(final String consentType, int version, final ConsentResponseListener consentListener) {
+    public void  getStatusForConsentType(final String consentType, int version, final ConsentResponseListener consentListener) {
+
+
         getConsentDetails(new ConsentResponseListener() {
 
             @Override

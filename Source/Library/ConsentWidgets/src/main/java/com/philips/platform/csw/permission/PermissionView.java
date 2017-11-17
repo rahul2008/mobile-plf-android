@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.model.Consent;
 import com.philips.platform.csw.ConsentDefinition;
 import com.philips.platform.csw.CswBaseFragment;
 import com.philips.platform.mya.consentwidgets.R;
@@ -114,60 +113,26 @@ public class PermissionView extends CswBaseFragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        List<ConsentDefinition> consentDefinitions = createConsentDefinitions();
+        List<ConsentView> consentDefinitions = createConsentDefinitions();
 
-        PermissionPresenter permissionPresenter = new PermissionPresenter(this, new ConsentInteractor(ConsentAccessToolKit.getInstance(), consentDefinitions));
+        CreateConsentInteractor createConsentInteractor = new CreateConsentInteractor();
+        GetConsentInteractor getConsentInteractor = new GetConsentInteractor(ConsentAccessToolKit.getInstance(), consentDefinitions);
+
+
+        PermissionPresenter permissionPresenter = new PermissionPresenter(this, getConsentInteractor);
         permissionPresenter.getConsentStatus();
 
-        permissionAdapter = new PermissionsAdapter(consentDefinitions);
+        permissionAdapter = new PermissionsAdapter(consentDefinitions, createConsentInteractor);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(permissionAdapter);
     }
 
     @NonNull
-    private List<ConsentDefinition> createConsentDefinitions() {
-        // TODO: SHould come from ConsentAccessToolkit
-        final List<ConsentDefinition> temporaryList = new ArrayList<>();
-        temporaryList.add(new ConsentDefinition("text1", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text2", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("text3", "help", "moment", 0, Locale.getDefault()));
-        temporaryList.add(new ConsentDefinition("asdflasdkjf asdlfj asdf asd3", "help", "moment", 0, Locale.getDefault()));
+    private List<ConsentView> createConsentDefinitions() {
+        // TODO: Should come from ConsentAccessToolkit
+        final List<ConsentView> temporaryList = new ArrayList<>();
+        temporaryList.add(new ConsentView(new ConsentDefinition("text1", "help", "moment", 0, Locale.getDefault())));
+        temporaryList.add(new ConsentView(new ConsentDefinition("asdflasdkjf asdlfj asdf asd3", "help", "moment", 0, Locale.getDefault())));
         return temporaryList;
     }
 
@@ -191,9 +156,9 @@ public class PermissionView extends CswBaseFragment implements
     }
 
     @Override
-    public void onConsentsRetrieved(@NonNull List<Consent> consentList) {
+    public void onConsentRetrieved(@NonNull ConsentView consent) {
         if(permissionAdapter != null) {
-            permissionAdapter.onConsentsRetrieved(consentList);
+            permissionAdapter.onConsentRetrieved(consent);
         }
     }
 
