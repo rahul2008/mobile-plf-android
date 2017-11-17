@@ -133,6 +133,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         } else {
             // video call does not completed succesfully so sending back user is
             doTaggingUponStopWaiting();
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "videoVisitCancelledAtQueue");
             mTHSWaitingRoomPresenter.showVisitUnSuccess(true,true,false);
         }
     }

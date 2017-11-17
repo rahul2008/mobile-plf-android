@@ -241,7 +241,17 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                                     alertDialogFragment.dismiss();
                                     if (shouldGoBack) {
                                         if(null!=getActivity()) {
-                                            getActivity().getSupportFragmentManager().popBackStack();
+                                            if (getFragmentManager().getBackStackEntryCount() > 1) {
+                                                Fragment fragment = getFragmentManager().findFragmentByTag(THSInitFragment.TAG);
+                                                getActivity().getSupportFragmentManager().popBackStack();
+                                                if (fragment instanceof THSInitFragment) {
+                                                    if (THSManager.getInstance().getThsCompletionProtocol() != null) {
+                                                        THSManager.getInstance().getThsCompletionProtocol().didExitTHS(THSCompletionProtocol.THSExitType.Other);
+                                                        THSManager.getInstance().resetTHSManagerData();
+                                                    }
+
+                                                }
+                                            }
                                         }
                                     }
                                 }

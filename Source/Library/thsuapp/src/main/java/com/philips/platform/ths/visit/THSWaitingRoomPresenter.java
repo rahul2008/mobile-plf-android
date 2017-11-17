@@ -163,6 +163,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
         AmwellLog.v("call end", visitEndReason.toString());
         if (visitEndReason == PROVIDER_DECLINE) {
             mTHSWaitingRoomFragment.doTaggingUponStopWaiting();
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "videoVisitCancelledAtQueue");
             showVisitUnSuccess(true, true, false);
 
         }

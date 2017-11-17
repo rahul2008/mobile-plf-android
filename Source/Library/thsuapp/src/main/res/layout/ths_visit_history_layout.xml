@@ -27,6 +27,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/provider_details_layout_relative_layout"
         android:layout_below="@+id/ths_scheduled_appointment_separator">
 
         <com.philips.platform.uid.view.widget.Label
@@ -60,6 +61,6 @@
         android:id="@+id/ths_scheduled_appintment_below_provider_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ths_list_space"
-        android:layout_below="@+id/provider_details_layout_container"
+        android:layout_below="@+id/provider_details_layout_relative_layout"
         android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 </RelativeLayout>
