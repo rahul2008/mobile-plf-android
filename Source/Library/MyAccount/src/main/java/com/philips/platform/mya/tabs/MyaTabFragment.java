@@ -70,6 +70,6 @@ public class MyaTabFragment extends MyaBaseFragment {
 
     @Override
     public boolean getBackButtonState() {
-        return true;
+        return false;
     }
 }

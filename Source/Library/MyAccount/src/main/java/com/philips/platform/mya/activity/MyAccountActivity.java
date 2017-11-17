@@ -122,7 +122,7 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
     public void initDLSThemeIfExists() {
         MyaUiComponent myaUiComponent = MyaInterface.getMyaUiComponent();
         if (myaUiComponent != null) {
-            ThemeConfiguration themeConfiguration = MyaInterface.getThemeConfiguration();
+            ThemeConfiguration themeConfiguration = MyaInterface.getMyaUiComponent().getThemeConfiguration();
             if (getIntent().getExtras() != null && themeConfiguration != null) {
                 Bundle extras = getIntent().getExtras();
                 UIDHelper.init(themeConfiguration);

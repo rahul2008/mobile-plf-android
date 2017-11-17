@@ -7,7 +7,10 @@
 package com.philips.platform.mya.injection;
 
 import com.philips.platform.mya.interfaces.MyaListener;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.launcher.UiLauncher;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import javax.inject.Singleton;
 
@@ -19,10 +22,13 @@ public class MyaUiModule {
 
     private FragmentLauncher fragmentLauncher;
     private MyaListener myaListener;
+    private ThemeConfiguration themeConfiguration;
 
-    public MyaUiModule(FragmentLauncher fragmentLauncher, MyaListener myaListener) {
-        this.fragmentLauncher = fragmentLauncher;
+    public MyaUiModule(UiLauncher uiLauncher, MyaListener myaListener) {
         this.myaListener = myaListener;
+        if (uiLauncher instanceof ActivityLauncher) {
+            this.themeConfiguration = ((ActivityLauncher) uiLauncher).getDlsThemeConfiguration();
+        }
     }
 
     @Singleton
@@ -31,10 +37,19 @@ public class MyaUiModule {
         return fragmentLauncher;
     }
 
+    public void setFragmentLauncher(FragmentLauncher fragmentLauncher) {
+        this.fragmentLauncher = fragmentLauncher;
+    }
+
     @Singleton
     @Provides
     public MyaListener getMyaListener() {
         return myaListener;
     }
 
+    @Singleton
+    @Provides
+    public ThemeConfiguration getThemeConfiguration() {
+        return themeConfiguration;
+    }
 }

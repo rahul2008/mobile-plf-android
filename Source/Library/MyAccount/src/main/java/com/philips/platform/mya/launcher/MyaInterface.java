@@ -25,7 +25,6 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
 
@@ -36,7 +35,7 @@ public class MyaInterface implements UappInterface {
     private static String propositionName;
     private static MyaDependencyComponent myaDependencyComponent;
     private static MyaUiComponent myaUiComponent;
-    private static ThemeConfiguration themeConfiguration;
+    private MyaUiModule myaUiModule;
 
     /**
      * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
@@ -47,18 +46,19 @@ public class MyaInterface implements UappInterface {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         MyaLaunchInput myaLaunchInput = (MyaLaunchInput) uappLaunchInput;
+        myaUiModule = new MyaUiModule(uiLauncher, myaLaunchInput.getMyaListener());
+        myaUiComponent = DaggerMyaUiComponent.builder()
+                .myaUiModule(myaUiModule).build();
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
-            themeConfiguration = activityLauncher.getDlsThemeConfiguration();
             launchAsActivity(activityLauncher, myaLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
-            launchAsFragment((FragmentLauncher) uiLauncher, myaLaunchInput);
+            launchAsFragment((FragmentLauncher) uiLauncher);
         }
     }
 
-    private void launchAsFragment(FragmentLauncher fragmentLauncher, MyaLaunchInput myaLaunchInput) {
-        myaUiComponent = DaggerMyaUiComponent.builder()
-                .myaUiModule(new MyaUiModule(fragmentLauncher, myaLaunchInput.getMyaListener())).build();
+    private void launchAsFragment(FragmentLauncher fragmentLauncher) {
+        myaUiModule.setFragmentLauncher(fragmentLauncher);
         MyaTabFragment myaTabFragment = new MyaTabFragment();
         myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
     }
@@ -103,9 +103,5 @@ public class MyaInterface implements UappInterface {
 
     public static MyaUiComponent getMyaUiComponent() {
         return myaUiComponent;
-    }
-
-    public static ThemeConfiguration getThemeConfiguration() {
-        return themeConfiguration;
     }
 }
