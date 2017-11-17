@@ -76,22 +76,24 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
         return mCommCentral;
     }
 
-    private final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener() {
+    protected final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener() {
         @Override
         public void onApplianceFound(@NonNull Appliance foundAppliance) {
-            RALog.d(TAG, "Device found : -> " + foundAppliance.getName());
-            bleScanDialogFragment.addDevice((RefAppBleReferenceAppliance) foundAppliance);
-            Toast.makeText(context, "Device found name:" + foundAppliance.getName(), Toast.LENGTH_SHORT).show();
+            RALog.d(TAG, "Device found :" + foundAppliance.getName());
+            if(foundAppliance instanceof RefAppBleReferenceAppliance) {
+                bleScanDialogFragment.addDevice((RefAppBleReferenceAppliance) foundAppliance);
+            } else {
+                RALog.i(TAG, "Appliance is not a BleReferenceAppliance");
+            }
         }
 
         @Override
-        public void onApplianceUpdated(@NonNull final Appliance appliance) {
-            //noop
+        public void onApplianceUpdated(@NonNull Appliance bleReferenceAppliance) {
+            // NOOP
         }
 
         @Override
-        public void onApplianceLost(@NonNull final Appliance appliance) {
-            //noop
+        public void onApplianceLost(@NonNull Appliance bleReferenceAppliance) {
         }
     };
 
