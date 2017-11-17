@@ -14,12 +14,12 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
-import com.philips.cdp2.ews.EWSApplication;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.appliance.BEApplianceFactory;
@@ -62,15 +62,18 @@ public class EWSModule {
     private final Context context;
     @NonNull
     private final FragmentManager fragmentManager;
+    @IdRes
+    int parentContainerResourceID;
     @NonNull
     private Map<String, Serializable> configurationMap;
+    @NonNull
+    private CommCentral commCentral;
 
-    @IdRes int parentContainerResourceID;
-
-    public EWSModule(@NonNull Context context, @NonNull FragmentManager fragmentManager,@IdRes int parentContainerResourceID) {
+    public EWSModule(@NonNull Context context, @NonNull FragmentManager fragmentManager, @IdRes int parentContainerResourceID, @NonNull CommCentral commCentral) {
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.parentContainerResourceID = parentContainerResourceID;
+        this.commCentral = commCentral;
     }
 
     @Provides
@@ -140,8 +143,7 @@ public class EWSModule {
 
     @Provides
     DiscoveryHelper providesDiscoverHelper() {
-        return new DiscoveryHelper(
-                ((EWSApplication) context.getApplicationContext()).getCommCentral());
+        return new DiscoveryHelper(commCentral);
     }
 
     @Provides
@@ -176,7 +178,7 @@ public class EWSModule {
                         .getInstance(R.string.label_ews_establishing_connection_body);
 
         return new SecondSetupStepsViewModel(navigator, eventBus, permissionHandler,
-                dialogFragment,null,
+                dialogFragment, null,
                 new GPSEnableDialogFragment(), new Handler(context.getMainLooper())
                 , stringProvider, happyFlowContentConfiguration);
     }
@@ -184,7 +186,7 @@ public class EWSModule {
 
     @Provides
     Navigator provideNavigator() {
-        return new Navigator(new FragmentNavigator(fragmentManager,parentContainerResourceID));
+        return new Navigator(new FragmentNavigator(fragmentManager, parentContainerResourceID));
     }
 
     @Provides
