@@ -61,14 +61,14 @@ public class EWSModule {
     private final Context context;
     @NonNull
     private final FragmentManager fragmentManager;
+    @IdRes
+    int parentContainerResourceID;
     @NonNull
     private Map<String, Serializable> configurationMap;
-
-    @IdRes int parentContainerResourceID;
     @NonNull
     private CommCentral commCentral;
 
-    public EWSModule(@NonNull Context context, @NonNull FragmentManager fragmentManager, @IdRes int parentContainerResourceID, CommCentral commCentral) {
+    public EWSModule(@NonNull Context context, @NonNull FragmentManager fragmentManager, @IdRes int parentContainerResourceID, @NonNull CommCentral commCentral) {
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.parentContainerResourceID = parentContainerResourceID;
@@ -172,7 +172,7 @@ public class EWSModule {
                         .getInstance(R.string.label_ews_establishing_connection_body);
 
         return new SecondSetupStepsViewModel(navigator, eventBus, permissionHandler,
-                dialogFragment,null,
+                dialogFragment, null,
                 new GPSEnableDialogFragment(), new Handler(context.getMainLooper())
                 , stringProvider, happyFlowContentConfiguration);
     }
@@ -180,7 +180,7 @@ public class EWSModule {
 
     @Provides
     Navigator provideNavigator() {
-        return new Navigator(new FragmentNavigator(fragmentManager,parentContainerResourceID));
+        return new Navigator(new FragmentNavigator(fragmentManager, parentContainerResourceID));
     }
 
     @Provides
