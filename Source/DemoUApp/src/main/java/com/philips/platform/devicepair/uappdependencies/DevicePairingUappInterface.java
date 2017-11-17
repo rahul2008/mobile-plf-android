@@ -10,10 +10,6 @@ import android.content.Intent;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
-import com.philips.cdp2.commlib.lan.context.LanTransportContext;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.devicepair.devicesetup.SampleApplianceFactory;
 import com.philips.platform.devicepair.ui.DevicePairingBaseFragment;
 import com.philips.platform.devicepair.ui.DevicePairingLaunchActivity;
 import com.philips.platform.devicepair.ui.PairingFragment;
@@ -31,9 +27,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class DevicePairingUappInterface implements UappInterface {
     private Context mContext;
-    private AppInfraInterface mAppInfraInterface;
-    private static CommCentral commCentral;
-
+    private static DevicePairingUappDependencies devicePairingUappDependencies;
 
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
@@ -41,27 +35,13 @@ public class DevicePairingUappInterface implements UappInterface {
 
         DSDemoAppuAppSettings dsDemoAppuAppSettings = new DSDemoAppuAppSettings(mContext);
         DSDemoAppuAppInterface dsDemoAppuAppInterface = new DSDemoAppuAppInterface();
-        mAppInfraInterface = uappDependencies.getAppInfra();
+        devicePairingUappDependencies = ((DevicePairingUappDependencies) uappDependencies);
 
-        initCommLib();
-
-        dsDemoAppuAppInterface.init(new DSDemoAppuAppDependencies(mAppInfraInterface), dsDemoAppuAppSettings);
+        dsDemoAppuAppInterface.init(new DSDemoAppuAppDependencies(uappDependencies.getAppInfra()), dsDemoAppuAppSettings);
 
         User user = new User(mContext);
         if (user.isUserSignIn()) {
             SyncScheduler.getInstance().scheduleSync();
-        }
-    }
-
-    private void initCommLib() {
-        final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(mContext, getAppInfraInterface());
-        final LanTransportContext lanTransportContext = new LanTransportContext(runtimeConfiguration);
-        final SampleApplianceFactory applianceFactory = new SampleApplianceFactory(lanTransportContext);
-
-        try {
-            commCentral = new CommCentral(applianceFactory, lanTransportContext);
-        } catch (UnsupportedOperationException e) {
-            //Debug log
         }
     }
 
@@ -86,11 +66,7 @@ public class DevicePairingUappInterface implements UappInterface {
         pairingFragment.showFragment(pairingFragment, fragmentLauncher);
     }
 
-    private AppInfraInterface getAppInfraInterface() {
-        return mAppInfraInterface;
-    }
-
     public static CommCentral getCommCentral() {
-        return commCentral;
+        return devicePairingUappDependencies.getCommCentral();
     }
 }
