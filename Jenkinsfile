@@ -62,6 +62,16 @@ node('Android') {
                                 ./gradlew  -PbuildNumber=${env.BUILD_NUMBER} assembleRelease 
                             """
             }
+
+            stage ('Save dependencies list') {
+            sh '''#!/bin/bash -l
+            	chmod -R 775 . 
+                cd ./Source/DemoApp 
+                ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
+            	cd ../Library 
+                ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
+            '''
+            }
                 
             stage('Archive results') {
                 echo "stage Archive results"
@@ -69,6 +79,7 @@ node('Android') {
 
                 archiveArtifacts artifacts: 'Source/DemoUApp/app/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
                 archiveArtifacts artifacts: 'Source/Library/ews/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
+                archiveArtifacts '**/*dependencies*.lock'
             }
 
             boolean publishing = (env.BRANCH_NAME.startsWith("develop") || env.BRANCH_NAME.startsWith("release/platform_") || env.BRANCH_NAME.startsWith("master"))
@@ -111,9 +122,7 @@ node('Android') {
                     }
                 }                
             }
-                stage ('Reporting') {
-                archiveArtifacts '**/*dependencies*.lock'
-            }   
+  
             stage('Clean up workspace') {
                 step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
             }
