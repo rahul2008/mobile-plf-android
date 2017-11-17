@@ -80,7 +80,7 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
         uappDependencies.setPropositionName(propositionName);
 
         myaInterface.init(uappDependencies, new MyaSettings(this));
-        myaInterface.launch(new FragmentLauncher(this, R.id.fragmentPlaceHolder, new ActionBarListener() {
+        myaInterface.launch(new FragmentLauncher(this, R.id.mainContainer, new ActionBarListener() {
             @Override
             public void updateActionBar(int i, boolean shouldBackEnable) {
                 setTitle(i);
@@ -136,7 +136,7 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
         FragmentManager fragmentManager = getSupportFragmentManager();
         boolean backState = false;
         Fragment currentFrag = fragmentManager
-                .findFragmentById(R.id.fragmentPlaceHolder);
+                .findFragmentById(R.id.mainContainer);
         if (fragmentManager.getBackStackEntryCount() == 1) {
             finish();
         } else {
