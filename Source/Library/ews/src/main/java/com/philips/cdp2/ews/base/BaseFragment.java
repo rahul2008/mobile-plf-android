@@ -51,7 +51,6 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
 
     public void handleCancelButtonClicked() {
         showCancelDialog(getEWSComponent().getBaseContentConfiguration().getDeviceName());
-        EWSTagger.trackPage(Page.CANCEL_WIFI_SETUP);
     }
 
     @VisibleForTesting
