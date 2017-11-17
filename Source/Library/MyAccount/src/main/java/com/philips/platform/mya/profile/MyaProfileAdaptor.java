@@ -31,7 +31,7 @@ class MyaProfileAdaptor extends RecyclerView.Adapter<MyaProfileAdaptor.ProfileVi
 
          ProfileViewHolder(View view) {
             super(view);
-            profileTitle = (Label) view.findViewById(R.id.profile_title);
+            profileTitle = (Label) view.findViewById(R.id.item_title);
         }
     }
 
@@ -42,7 +42,7 @@ class MyaProfileAdaptor extends RecyclerView.Adapter<MyaProfileAdaptor.ProfileVi
     @Override
     public ProfileViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.mya_profile_adaptor, parent, false);
+                .inflate(R.layout.mya_single_item_layout, parent, false);
         UIDHelper.injectCalligraphyFonts();
         itemView.setOnClickListener(onClickListener);
         return new ProfileViewHolder(itemView);

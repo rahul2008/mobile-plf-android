@@ -124,7 +124,7 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
         context = null;
     }
 
-    public boolean clearFragmentStack() {
+    public boolean exitMyAccounts() {
         final FragmentActivity activity = getActivity();
         try {
             if (activity != null && !activity.isFinishing()) {

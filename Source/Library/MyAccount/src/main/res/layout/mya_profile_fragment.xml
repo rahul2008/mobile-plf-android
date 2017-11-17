@@ -5,6 +5,7 @@
 
     <com.philips.platform.uid.view.widget.Label
         style="@style/UIDLabel.Header"
+        android:id="@+id/mya_user_name"
         android:text="Robin smith "/>
 
     <android.support.v7.widget.RecyclerView

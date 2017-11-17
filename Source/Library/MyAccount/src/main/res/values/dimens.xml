@@ -11,5 +11,6 @@
     <dimen name="mya_tab_bar_height">48dp</dimen>
     <dimen name="MYA_start_margin">16dp</dimen>
     <dimen name="MYA_end_margin">16dp</dimen>
-    <dimen name="MYA_top_margin">10dp</dimen>
+    <dimen name="MYA_bottom_margin">16dp</dimen>
+    <dimen name="MYA_top_margin">16dp</dimen>
 </resources>

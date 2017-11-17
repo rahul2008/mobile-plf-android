@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.details.MyaDetailsFragment;
@@ -27,12 +28,14 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
 
     private RecyclerView recyclerView;
     private MyaProfileContract.Presenter presenter;
+    private TextView userNameTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mya_profile_fragment, container, false);
         UIDHelper.injectCalligraphyFonts();
-        recyclerView = (RecyclerView) view.findViewById(R.id.profile_recycler_view);
+        recyclerView = view.findViewById(R.id.profile_recycler_view);
+        userNameTextView = view.findViewById(R.id.mya_user_name);
         presenter = new MyaProfilePresenter(this);
         return view;
     }
@@ -99,12 +102,12 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
 
     @Override
     public void setUserName(String userName) {
-
+        userNameTextView.setText(userName);
     }
 
     private void handleTransition(boolean onClickMyaItem, String profileItem) {
         if (!onClickMyaItem) {
-            if (profileItem.equals(getContext().getString(R.string.MYA_My_details))) {
+            if (profileItem.equals(getContext().getString(R.string.MYA_My_details)) || profileItem.equalsIgnoreCase("MYA_My_details")) {
                 MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
                 myaDetailsFragment.showFragment(myaDetailsFragment, MyaInterface.getMyaUiComponent().getFragmentLauncher());
             }
