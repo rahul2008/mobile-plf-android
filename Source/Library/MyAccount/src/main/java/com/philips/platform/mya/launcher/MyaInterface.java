@@ -59,7 +59,10 @@ public class MyaInterface implements UappInterface {
     }
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher) {
-        Bundle extras = fragmentLauncher.getFragmentActivity().getIntent().getExtras();
+        Bundle extras = null;
+        if (fragmentLauncher.getFragmentActivity().getIntent() != null) {
+            extras = fragmentLauncher.getFragmentActivity().getIntent().getExtras();
+        }
         if (extras == null) {
             extras = new Bundle();
         }
