@@ -15,10 +15,10 @@ import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.csw.ConsentDefinition;
-import com.philips.platform.mya.MyaDependencies;
-import com.philips.platform.mya.MyaInterface;
-import com.philips.platform.mya.MyaLaunchInput;
-import com.philips.platform.mya.MyaSettings;
+import com.philips.platform.mya.launcher.MyaDependencies;
+import com.philips.platform.mya.launcher.MyaInterface;
+import com.philips.platform.mya.launcher.MyaLaunchInput;
+import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import org.junit.After;

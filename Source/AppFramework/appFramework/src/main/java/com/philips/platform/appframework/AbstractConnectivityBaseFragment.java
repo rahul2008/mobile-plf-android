@@ -24,6 +24,7 @@ import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
+import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceApplianceFactory;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
@@ -85,19 +86,22 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
 
     protected final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener() {
         @Override
-        public void onApplianceFound(@NonNull Appliance appliance) {
-            RALog.d(TAG, "Device found :" + appliance.getName());
-//            bleScanDialogFragment.addDevice(foundAppliance);
+        public void onApplianceFound(@NonNull Appliance foundAppliance) {
+            RALog.d(TAG, "Device found :" + foundAppliance.getName());
+            if(foundAppliance instanceof BleReferenceAppliance) {
+                bleScanDialogFragment.addDevice((BleReferenceAppliance) foundAppliance);
+            } else {
+                RALog.i(TAG, "Appliance is not a BleReferenceAppliance");
+            }
         }
 
         @Override
-        public void onApplianceUpdated(@NonNull Appliance appliance) {
-
+        public void onApplianceUpdated(@NonNull Appliance bleReferenceAppliance) {
+            // NOOP
         }
 
         @Override
-        public void onApplianceLost(@NonNull Appliance appliance) {
-
+        public void onApplianceLost(@NonNull Appliance bleReferenceAppliance) {
         }
     };
 
