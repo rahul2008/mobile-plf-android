@@ -17,6 +17,7 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
+import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 
@@ -68,7 +69,7 @@ public class BLEScanDialogFragmentTest {
         FragmentManager fm = testActivity.getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         applianceSet= new HashSet<>();
-        applianceSet.add(new RefAppBleReferenceAppliance(networkNode,bleCommunicationStrategy));
+        applianceSet.add(new RefAppBleReferenceAppliance(networkNode,bleCommunicationStrategy, ConnectivityDeviceType.REFERENCE_NODE));
         bleScanDialogFragment.show(ft, "fragment");
         bleScanDialogFragment.setSavedApplianceList(applianceSet);
     }

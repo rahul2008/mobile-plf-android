@@ -9,6 +9,7 @@ import android.content.Context;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 
 import junit.framework.Assert;
@@ -47,7 +48,7 @@ public class BleDeviceListAdapterTest {
     }
     @Test
     public void addDevice() throws Exception {
-        adapter.addDevice(new RefAppBleReferenceAppliance(networkNode,bleDiscoveryStrategy));
+        adapter.addDevice(new RefAppBleReferenceAppliance(networkNode,bleDiscoveryStrategy, ConnectivityDeviceType.REFERENCE_NODE));
         Assert.assertEquals(1,adapter.getCount());
     }
 
