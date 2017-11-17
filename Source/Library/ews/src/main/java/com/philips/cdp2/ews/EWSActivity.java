@@ -73,7 +73,7 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
             contentConfiguration = new ContentConfiguration();
         }
 
-        initMicroAppDependencies(contentConfiguration);
+        //initMicroAppDependencies(contentConfiguration);
 
         EWSDependencyProvider.getInstance().createEWSComponent(this, R.id.contentFrame,
                 contentConfiguration);

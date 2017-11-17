@@ -61,4 +61,10 @@ public class BEApplianceFactory implements ApplianceFactory {
     private CommunicationStrategy createCommunicationStrategy(@NonNull NetworkNode networkNode) {
         return lanTransportContext.createCommunicationStrategyFor(networkNode);
     }
+
+    @NonNull
+    public LanTransportContext getLanTransportContext() {
+        return lanTransportContext;
+    }
+
 }

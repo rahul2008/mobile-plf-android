@@ -21,8 +21,8 @@ public class DiscoveryHelper {
 
     @Nullable private DiscoveryCallback callback;
 
-    @NonNull private final ApplianceManager.ApplianceListener<Appliance>
-            applianceListener = new ApplianceManager.ApplianceListener<Appliance>() {
+    @NonNull private final ApplianceManager.ApplianceListener
+            applianceListener = new ApplianceManager.ApplianceListener() {
         @Override
         public void onApplianceFound(@NonNull Appliance appliance) {
             if (callback != null) {
@@ -48,6 +48,7 @@ public class DiscoveryHelper {
     public void startDiscovery(@NonNull DiscoveryCallback callback) {
         this.callback = callback;
         try {
+
             commCentral.getApplianceManager().addApplianceListener(applianceListener);
             commCentral.startDiscovery();
         } catch (MissingPermissionException e) {
@@ -60,4 +61,10 @@ public class DiscoveryHelper {
         commCentral.stopDiscovery();
         callback = null;
     }
+
+    public String findApplianceByCppId(@NonNull final String cppId){
+        Appliance appliance =  commCentral.getApplianceManager().findApplianceByCppId(cppId);
+        return appliance.getNetworkNode().getPin();
+    }
 }
+

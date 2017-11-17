@@ -19,6 +19,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
@@ -30,6 +31,7 @@ import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameChanger;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.util.SecureStorageUtility;
 import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
@@ -73,14 +75,15 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     @VisibleForTesting
     @Nullable
     StartConnectionModel startConnectionModel;
-    @NonNull
-    private String cppId;
 
     @NonNull
     public final ObservableField<String> title;
 
     @NonNull
     private final StringProvider stringProvider;
+
+    @NonNull
+    private final SecureStorageUtility secureStorageUtility;
 
     @NonNull
     private final Runnable timeoutRunnable = new Runnable() {
@@ -101,7 +104,8 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         @Override
         public void onPropertiesSet(WifiPortProperties wifiPortProperties) {
             if (startConnectionModel != null) {
-                cppId = wifiPortProperties.getCppid();
+                String cppId = wifiPortProperties.getCppid();
+                secureStorageUtility.storeString(SecureStorageUtility.CPP_ID, cppId);
                 connectToHomeWifiInternal(startConnectionModel.getHomeWiFiSSID());
             } else {
                 EWSLogger.e(TAG, "startConnectionModel cannot be null");
@@ -118,9 +122,13 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private DiscoveryHelper.DiscoveryCallback discoveryCallback = new DiscoveryHelper.DiscoveryCallback() {
                 @Override
                 public void onApplianceFound(Appliance appliance) {
+                    String cppId = secureStorageUtility.loadString(SecureStorageUtility.CPP_ID, null);
+                    String appliancePin = secureStorageUtility.loadString(SecureStorageUtility.APPLIANCE_PIN, null);
                     if (appliance.getNetworkNode().getCppId().equalsIgnoreCase(cppId)) {
                         removeTimeoutRunnable();
                         discoveryHelper.stopDiscovery();
+                        appliance.getNetworkNode().setPin(appliancePin);
+                        LanTransportContext.acceptNewPinFor(appliance);
                         onDeviceConnectedToWifi();
                     }
                 }
@@ -155,7 +163,8 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
                                              @NonNull @Named("mainLooperHandler") Handler handler,
                                              @NonNull DiscoveryHelper discoveryHelper,
                                              @NonNull final BaseContentConfiguration baseContentConfiguration,
-                                             @NonNull final StringProvider stringProvider) {
+                                             @NonNull final StringProvider stringProvider,
+                                             @NonNull SecureStorageUtility secureStorageUtility) {
         this.applianceAccessManager = applianceAccessManager;
         this.navigator = navigator;
         this.wiFiConnectivityManager = wiFiConnectivityManager;
@@ -165,6 +174,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         this.discoveryHelper = discoveryHelper;
         this.stringProvider = stringProvider;
         this.title = new ObservableField<>(getTitle(baseContentConfiguration));
+        this.secureStorageUtility = secureStorageUtility;
     }
 
     public void setFragmentCallback(@Nullable ConnectingDeviceToWifiCallback fragmentCallback) {

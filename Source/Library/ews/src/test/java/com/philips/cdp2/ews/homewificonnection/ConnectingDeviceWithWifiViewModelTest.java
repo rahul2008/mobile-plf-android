@@ -24,6 +24,7 @@ import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameChanger;
 import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.util.SecureStorageUtility;
 import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
@@ -119,6 +120,9 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Mock
     private StringProvider mockStringProvider;
 
+    @Mock
+    private SecureStorageUtility mockSecureStorageUtility;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -133,7 +137,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
         EWSDependencyProvider.getInstance().initDependencies(mockAppInfraInterface, mockMap);
         subject = new ConnectingDeviceWithWifiViewModel(mockApplianceAccessManager, mockNavigator,
                 mockWiFiConnectivityManager, mockWiFiUtil, mockDeviceFriendlyNameChanger,
-                mockHandler, mockDiscoveryHelper, mockBaseContentConfiguration, mockStringProvider);
+                mockHandler, mockDiscoveryHelper, mockBaseContentConfiguration, mockStringProvider, mockSecureStorageUtility);
         subject.setFragmentCallback(mockFragmentCallback);
     }
 

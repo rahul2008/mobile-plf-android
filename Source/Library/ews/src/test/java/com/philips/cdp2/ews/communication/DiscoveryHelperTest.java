@@ -36,7 +36,7 @@ public class DiscoveryHelperTest {
     @Mock private Appliance mockAppliance;
     @Mock private EWSLogger mockEWSLogger;
 
-    @Captor private ArgumentCaptor<ApplianceManager.ApplianceListener<Appliance>> captor;
+    @Captor private ArgumentCaptor<ApplianceManager.ApplianceListener> captor;
 
     @Before
     public void setUp() throws Exception {

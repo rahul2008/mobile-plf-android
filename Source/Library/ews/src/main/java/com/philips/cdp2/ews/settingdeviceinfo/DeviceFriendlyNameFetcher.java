@@ -7,7 +7,9 @@ import android.support.annotation.VisibleForTesting;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.cdp2.ews.appliance.EWSGenericAppliance;
+import com.philips.cdp2.ews.util.SecureStorageUtility;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -24,6 +26,8 @@ public class DeviceFriendlyNameFetcher {
 
     @Nullable private Callback callback;
 
+    @NonNull private final SecureStorageUtility secureStorageUtility;
+
     @NonNull private final DICommPortListener<DevicePort> portListener = new DICommPortListener<DevicePort>() {
         @Override
         public void onPortUpdate(DevicePort devicePort) {
@@ -37,8 +41,10 @@ public class DeviceFriendlyNameFetcher {
     };
 
     @Inject
-    public DeviceFriendlyNameFetcher(@NonNull @Named("ews.temporary.appliance") EWSGenericAppliance appliance) {
+    public DeviceFriendlyNameFetcher(@NonNull @Named("ews.temporary.appliance") EWSGenericAppliance appliance,
+                                     @NonNull SecureStorageUtility secureStorageUtility) {
         this.appliance = appliance;
+        this.secureStorageUtility = secureStorageUtility;
     }
 
     public void fetchFriendlyName() {
@@ -60,6 +66,8 @@ public class DeviceFriendlyNameFetcher {
     private void handleSuccessfulGetProps(@Nullable DevicePort devicePort) {
         if (callback == null) return;
         if (devicePort != null && devicePort.getPortProperties() != null) {
+            String pin = LanTransportContext.readPin(appliance);
+            secureStorageUtility.storeString(SecureStorageUtility.APPLIANCE_PIN, pin);
             callback.onFriendlyNameFetchingSuccess(devicePort.getPortProperties().getName());
         } else {
             callback.onFriendlyNameFetchingFailed();
