@@ -229,7 +229,6 @@ configurations.all {
 
 dependencies {
     //3rd party
-    compile 'com.google.code.gson:gson:2.2.4'
 
     //Coco
     def dp = project.ext.has('useprojectdependencies')
@@ -339,18 +338,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
 
     classDirectories = fileTree(
             dir: '../iap/build/intermediates/classes/debug',
-//            excludes: ['**/R.class',
-//                       '**/R$*.class',
-//                       '**/BuildConfig.*',
-//                       '**/response/*/*.class',
-//                       '**/view/*.class',
-//                       '**/adapters/*.class',
-//                       '**/analytics/*.class',
-//                       '**/utils/*.class',
-//                       '**/activity/*.class',
-//                       '**/screens/*.class',
-//                       '**/store/IAPUser.class',
-//                       '**/integration/IAPInterface.class']
     )
 
     additionalSourceDirs = files(coverageSourceDirs)

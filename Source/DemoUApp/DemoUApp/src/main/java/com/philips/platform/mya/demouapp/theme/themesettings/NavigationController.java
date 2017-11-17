@@ -70,7 +70,7 @@ public class NavigationController {
     }
 
     private void toggleHamburgerIcon() {
-        toolbar.setNavigationIcon(VectorDrawableCompat.create(mainActivity.getResources(), R.drawable.ic_back_icon, mainActivity.getTheme()));
+        toolbar.setNavigationIcon(VectorDrawableCompat.create(mainActivity.getResources(), R.drawable.mya_back_icon, mainActivity.getTheme()));
         hamburgerIconVisible = false;
     }
 

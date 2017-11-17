@@ -11,6 +11,7 @@ import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.mya.R;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.util.MYALog;
 import com.philips.platform.mya.util.mvp.MyaBasePresenter;
@@ -34,6 +35,21 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
         view.showProfileItems(getProfileList(context, MyaInterface.getMyaDependencyComponent().getAppInfra().getConfigInterface()));
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<String> getAppConfigProfileItems(Context context, AppConfigurationInterface appConfigurationManager) {
+        String profileItems = "profile.menuItems";
+        try {
+            final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
+                    .AppConfigurationError();
+            return (ArrayList) appConfigurationManager.getPropertyForKey
+                    (profileItems, "mya", configError);
+        } catch (IllegalArgumentException exception) {
+            MYALog.e(MY_ACCOUNTS, " Error in reading profile menu items ");
+        }
+        return null;
+    }
+
     private List<String> getProfileList(Context context, AppConfigurationInterface appConfigurationManager) {
         String profileItems = "profile.menuItems";
         try {
@@ -41,7 +57,7 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
                     .AppConfigurationError();
             ArrayList propertyForKey = (ArrayList) appConfigurationManager.getPropertyForKey
                     (profileItems, "mya", configError);
-            return getLocalisedList(context, propertyForKey);
+            return getLocalisedList(context,propertyForKey);
         } catch (IllegalArgumentException exception) {
             MYALog.e(MY_ACCOUNTS, " Error in reading profile menu items ");
         }
@@ -59,6 +75,8 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
                 else
                     localizedStrings.add(profileKey);
             }
+        } else {
+            localizedStrings.add(context.getResources().getString(R.string.MYA_My_details));
         }
         return localizedStrings;
     }

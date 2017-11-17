@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.platform.catk.CatkConstants;
@@ -37,6 +40,7 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
     private TextView mTitle;
     private String applicationName;
     private String propositionName;
+    private ImageView leftImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +50,14 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
         setContentView(R.layout.mya_myaccounts_activity);
         fetchConsentData();
         Toolbar toolbar = (Toolbar) findViewById(R.id.mya_toolbar);
-        mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-
+        mTitle = (TextView) toolbar.findViewById(R.id.mya_toolbar_title);
+        leftImageView = (ImageView) toolbar.findViewById(R.id.mya_toolbar_left_image);
+        leftImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -70,21 +80,37 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
         uappDependencies.setPropositionName(propositionName);
 
         myaInterface.init(uappDependencies, new MyaSettings(this));
-        myaInterface.launch(new FragmentLauncher(this, R.id.fragmentPlaceHolder, new ActionBarListener() {
+        myaInterface.launch(new FragmentLauncher(this, R.id.mainContainer, new ActionBarListener() {
             @Override
-            public void updateActionBar(int i, boolean b) {
+            public void updateActionBar(int i, boolean shouldBackEnable) {
                 setTitle(i);
+                handleLeftImage(shouldBackEnable);
             }
 
             @Override
-            public void updateActionBar(String s, boolean b) {
+            public void updateActionBar(String s, boolean shouldBackEnable) {
                 setTitle(s);
+                handleLeftImage(shouldBackEnable);
             }
         }), new MyaLaunchInput(this, this));
     }
 
+    private void handleLeftImage(boolean shouldBackEnable) {
+        if (!shouldBackEnable) {
+            setLeftImage(R.drawable.mya_cross_icon);
+        } else {
+            setLeftImage(R.drawable.mya_back_icon);
+        }
+    }
+
     @Override
     public boolean onClickMyaItem(String itemName) {
+        Log.d("Testing call back = ",itemName);
+        return false;
+    }
+
+    @Override
+    public boolean onLogOut() {
         return false;
     }
 
@@ -101,7 +127,7 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
     public void initDLSThemeIfExists() {
         MyaUiComponent myaUiComponent = MyaInterface.getMyaUiComponent();
         if (myaUiComponent != null) {
-            ThemeConfiguration themeConfiguration = MyaInterface.getThemeConfiguration();
+            ThemeConfiguration themeConfiguration = MyaInterface.getMyaUiComponent().getThemeConfiguration();
             if (getIntent().getExtras() != null && themeConfiguration != null) {
                 Bundle extras = getIntent().getExtras();
                 UIDHelper.init(themeConfiguration);
@@ -109,12 +135,13 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
             }
         }
     }
+
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         boolean backState = false;
         Fragment currentFrag = fragmentManager
-                .findFragmentById(R.id.fragmentPlaceHolder);
+                .findFragmentById(R.id.mainContainer);
         if (fragmentManager.getBackStackEntryCount() == 1) {
             finish();
         } else {
@@ -147,4 +174,10 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
+    private void setLeftImage(int resId) {
+        leftImageView.setBackgroundResource(resId);
+    }
+
+
 }

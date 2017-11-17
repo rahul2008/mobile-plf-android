@@ -22,19 +22,16 @@ public class MyaTabFragment extends MyaBaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.mya_tab_fragment, container, false);
+        if (view == null) {
+            view = inflater.inflate(R.layout.mya_tab_fragment, container, false);
+            TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
+            ViewPager viewPager = (ViewPager) view.findViewById(R.id.pager);
+            addTabs(tabLayout);
+            MyaPager adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount());
+            viewPager.setAdapter(adapter);
+            tabLayout.addOnTabSelectedListener(getTabListener(viewPager));
+        }
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.pager);
-        addTabs(tabLayout);
-        MyaPager adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(adapter);
-        tabLayout.addOnTabSelectedListener(getTabListener(viewPager));
     }
 
     private void addTabs(TabLayout tabLayout) {
@@ -57,7 +54,6 @@ public class MyaTabFragment extends MyaBaseFragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         };
     }
@@ -74,6 +70,6 @@ public class MyaTabFragment extends MyaBaseFragment {
 
     @Override
     public boolean getBackButtonState() {
-        return true;
+        return false;
     }
 }

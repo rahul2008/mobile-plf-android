@@ -12,8 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.details.MyaDetailsFragment;
-import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -22,8 +20,13 @@ import java.util.List;
 class MyaProfileAdaptor extends RecyclerView.Adapter<MyaProfileAdaptor.ProfileViewHolder> {
 
     private List<String> profileList;
+    private View.OnClickListener onClickListener;
 
-     class ProfileViewHolder extends RecyclerView.ViewHolder {
+    void setOnClickListener(View.OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    class ProfileViewHolder extends RecyclerView.ViewHolder {
          Label profileTitle;
 
          ProfileViewHolder(View view) {
@@ -41,25 +44,10 @@ class MyaProfileAdaptor extends RecyclerView.Adapter<MyaProfileAdaptor.ProfileVi
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.mya_profile_adaptor, parent, false);
         UIDHelper.injectCalligraphyFonts();
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(profileList.get(viewType));
-                handleTransition(onClickMyaItem,profileList.get(viewType));
-            }
-        });
+        itemView.setOnClickListener(onClickListener);
         return new ProfileViewHolder(itemView);
     }
 
-    private void handleTransition(boolean onClickMyaItem, String profileItem) {
-        if(!onClickMyaItem) {
-            switch (profileItem) {
-                case "My details":
-                    MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
-                    myaDetailsFragment.showFragment(myaDetailsFragment, MyaInterface.getMyaUiComponent().getFragmentLauncher());
-            }
-        }
-    }
 
     @Override
     public void onBindViewHolder(ProfileViewHolder holder, int position) {
@@ -71,4 +59,6 @@ class MyaProfileAdaptor extends RecyclerView.Adapter<MyaProfileAdaptor.ProfileVi
     public int getItemCount() {
         return profileList.size();
     }
+
+
 }

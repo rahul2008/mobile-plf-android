@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.mya.R;
+import com.philips.platform.mya.details.MyaDetailsFragment;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.util.mvp.MyaBaseFragment;
 import com.philips.platform.uid.thememanager.UIDHelper;
@@ -26,6 +27,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
 
     private RecyclerView recyclerView;
     private MyaProfileContract.Presenter presenter;
+    private List<String> appConfigList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         UIDHelper.injectCalligraphyFonts();
         recyclerView = (RecyclerView) view.findViewById(R.id.profile_recycler_view);
         presenter = new MyaProfilePresenter(this);
+        appConfigList = presenter.getAppConfigProfileItems(getContext(),MyaInterface.getMyaDependencyComponent().getAppInfra().getConfigInterface());
         return view;
     }
 
@@ -71,7 +74,8 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     }
 
     @Override
-    public void showProfileItems(List<String> profileList) {
+    public void showProfileItems(final List<String> profileList) {
+
         MyaProfileAdaptor myaProfileAdaptor = new MyaProfileAdaptor(profileList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         RecyclerViewSeparatorItemDecoration contentThemedRightSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
@@ -79,10 +83,36 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         recyclerView.addItemDecoration(contentThemedRightSeparatorItemDecoration);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(myaProfileAdaptor);
+
+        myaProfileAdaptor.setOnClickListener(getOnClickListener(profileList));
+    }
+
+    private View.OnClickListener getOnClickListener(final List<String> profileList) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int viewType = recyclerView.indexOfChild(view);
+                boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(appConfigList.get(viewType));
+                if (appConfigList != null && appConfigList.size() != 0)
+                    handleTransition(onClickMyaItem, profileList.get(viewType));
+                else
+                    handleTransition(onClickMyaItem, getContext().getString(R.string.MYA_My_details));
+            }
+        };
     }
 
     @Override
     public void setUserName(String userName) {
 
+    }
+
+
+    private void handleTransition(boolean onClickMyaItem, String profileItem) {
+        if (!onClickMyaItem) {
+            if (profileItem.equals(getContext().getString(R.string.MYA_My_details))) {
+                MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
+                myaDetailsFragment.showFragment(myaDetailsFragment, MyaInterface.getMyaUiComponent().getFragmentLauncher());
+            }
+        }
     }
 }

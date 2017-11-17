@@ -47,7 +47,7 @@ public class MyaFragment extends Fragment {
             propositionName = getArguments().getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
         }
 
-        if (overridableGetActivity().findViewById(R.id.mya_linear_layout) == null) {
+        if (overridableGetActivity().findViewById(R.id.mya_frame_layout_view_container) == null) {
             inflateAccountView();
         }
 

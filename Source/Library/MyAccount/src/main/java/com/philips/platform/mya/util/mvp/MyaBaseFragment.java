@@ -8,9 +8,11 @@ package com.philips.platform.mya.util.mvp;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.mya.MyaConstants;
+import com.philips.platform.mya.activity.MyAccountActivity;
 import com.philips.platform.mya.util.MYALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -120,5 +122,23 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
     public void onDetach() {
         super.onDetach();
         context = null;
+    }
+
+    public boolean clearFragmentStack() {
+        final FragmentActivity activity = getActivity();
+        try {
+            if (activity != null && !activity.isFinishing()) {
+                if (activity instanceof MyAccountActivity) {
+                    activity.finish();
+                } else {
+                    FragmentManager fragManager = activity.getSupportFragmentManager();
+                    return fragManager.popBackStackImmediate(MyaConstants.MY_ACCOUNTS_CALLEE_TAG,
+                            FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                }
+            }
+        } catch (IllegalStateException e) {
+            MYALog.e(TAG, e.getMessage());
+        }
+        return false;
     }
 }

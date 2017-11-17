@@ -31,10 +31,14 @@
     </RadioGroup>
 
 
-    <Button
+
+    <com.philips.platform.uid.view.widget.Button
+        style="@style/UIDDefaultButton"
         android:id="@+id/launch_my_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_myAccounts"/>
+
+
 
 </LinearLayout>
