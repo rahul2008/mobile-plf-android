@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.util.mvp.MyaBaseView;
 import com.philips.platform.mya.util.mvp.MyaPresenterInterface;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.LinkedHashMap;
 
@@ -25,6 +24,6 @@ interface MyaSettingsContract {
 
     interface Presenter extends MyaPresenterInterface<View> {
         void getSettingItems(Context context, AppInfraInterface appInfra);
-        void onClickRecyclerItem(Context context, String key, SettingsModel settingsModel, FragmentLauncher fragmentLauncher);
+        void onClickRecyclerItem(Context context, String key, SettingsModel settingsModel);
     }
 }
