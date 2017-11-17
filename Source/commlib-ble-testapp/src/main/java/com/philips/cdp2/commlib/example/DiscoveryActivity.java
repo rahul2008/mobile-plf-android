@@ -28,9 +28,8 @@ import android.widget.TextView;
 
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
+import com.philips.cdp2.commlib.core.appliance.ApplianceManager.ApplianceListener;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
-import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -53,9 +52,9 @@ public class DiscoveryActivity extends AppCompatActivity {
 
     private Runnable permissionCallback;
 
-    private final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener<BleReferenceAppliance>() {
+    private final ApplianceListener applianceListener = new ApplianceListener() {
         @Override
-        public void onApplianceFound(@NonNull BleReferenceAppliance foundAppliance) {
+        public void onApplianceFound(@NonNull Appliance foundAppliance) {
             Log.d(TAG, "Found appliance: " + foundAppliance.getNetworkNode().getCppId());
 
             applianceAdapter.clear();
@@ -63,12 +62,12 @@ public class DiscoveryActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onApplianceUpdated(@NonNull BleReferenceAppliance bleReferenceAppliance) {
+        public void onApplianceUpdated(@NonNull Appliance bleReferenceAppliance) {
             // NOOP
         }
 
         @Override
-        public void onApplianceLost(@NonNull BleReferenceAppliance lostAppliance) {
+        public void onApplianceLost(@NonNull Appliance lostAppliance) {
             Log.d(TAG, "Lost appliance: " + lostAppliance.getNetworkNode().getCppId());
 
             applianceAdapter.clear();

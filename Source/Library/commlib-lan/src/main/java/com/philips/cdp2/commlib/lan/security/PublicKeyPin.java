@@ -35,7 +35,7 @@ public class PublicKeyPin {
         pinBytes = digest.digest(spki);
     }
 
-    PublicKeyPin(@NonNull String spkiPin) {
+    public PublicKeyPin(@NonNull String spkiPin) {
         pinBytes = Base64.decode(spkiPin, Base64.DEFAULT);
         if (pinBytes.length != 32) {
             throw new IllegalArgumentException("Invalid pin: length is not 32 bytes");
