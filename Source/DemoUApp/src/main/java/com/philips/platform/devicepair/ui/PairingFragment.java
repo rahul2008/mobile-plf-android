@@ -61,7 +61,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     private CommCentral commCentral;
     private Runnable permissionCallback;
 
-    private ApplianceManager.ApplianceListener<Appliance> applianceListener = new ApplianceManager.ApplianceListener<Appliance>() {
+    private ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener() {
 
         @Override
         public void onApplianceFound(@NonNull Appliance appliance) {
