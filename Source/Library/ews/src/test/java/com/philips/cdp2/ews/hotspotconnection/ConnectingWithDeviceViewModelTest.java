@@ -157,8 +157,6 @@ public class ConnectingWithDeviceViewModelTest {
     @Test
     public void itShouldShowUnsuccessfulDialogOnConnectionAttemptTimedOut() {
         subject.onConnectionAttemptTimedOut();
-        verifyStatic();
-        EWSTagger.trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
         verify(mockFragmentCallback, times(1)).showTroubleshootHomeWifiDialog();
 
     }
@@ -224,8 +222,6 @@ public class ConnectingWithDeviceViewModelTest {
 
     private void verifyShowingUnsuccessfulDialog() {
         verify(mockFragmentCallback, times(1)).showTroubleshootHomeWifiDialog();
-        verifyStatic();
-        EWSTagger.trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
     }
 
     private void verifyFriendlyNameFetching(int times) {

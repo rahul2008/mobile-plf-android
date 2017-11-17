@@ -2,6 +2,7 @@ package com.philips.cdp2.ews.hotspotconnection;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -17,8 +18,11 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConnectingWithDeviceBinding;
+import com.philips.cdp2.ews.dialog.EWSAlertDialogFragment;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel.ConnectingPhoneToHotSpotCallback;
 import com.philips.cdp2.ews.logger.EWSLogger;
+import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -92,12 +96,38 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
         View view = LayoutInflater.from(context).inflate(R.layout.ews_device_conn_unsuccessful_dialog,
                 null, false);
 
-        AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context)
+        EWSAlertDialogFragment.Builder builder = new EWSAlertDialogFragment.Builder(context)
                 .setDialogView(view)
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDimLayer(DialogConstants.DIM_STRONG)
                 .setCancelable(false);
-        final AlertDialogFragment alertDialogFragment = builder.create();
+        final EWSAlertDialogFragment alertDialogFragment = (EWSAlertDialogFragment) builder.create(new EWSAlertDialogFragment());
+        alertDialogFragment.setFragmentLifeCycleListener(new EWSAlertDialogFragment.FragmentLifeCycleListener() {
+            @Override
+            public void onStart() {
+                EWSTagger.trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
+            }
+
+            @Override
+            public void onStop() {
+
+            }
+
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+
+            }
+
+            @Override
+            public void onCancel(DialogInterface dialog) {
+
+            }
+
+            @Override
+            public void onActivityCreated(Bundle savedInstanceState) {
+
+            }
+        });
         alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
         getChildFragmentManager().executePendingTransactions();
         ((Label) view.findViewById(R.id.connection_unsuccessful_body)).setText(getString(R.string.label_ews_connection_problem_body, getString(baseContentConfiguration.getDeviceName())));
