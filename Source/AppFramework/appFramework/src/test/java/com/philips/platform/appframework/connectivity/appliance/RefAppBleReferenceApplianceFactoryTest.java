@@ -5,6 +5,8 @@ import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
+import com.philips.cdp2.demouapp.appliance.reference.BleReferenceAppliance;
+import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.connectivity.demouapp.RefAppApplianceFactory;
 
 import org.junit.Before;
@@ -65,6 +67,8 @@ public class RefAppBleReferenceApplianceFactoryTest {
         when(lanTransportContext.createCommunicationStrategyFor(networkNode)).thenReturn(communicationStrategy);
         when(networkNode.getModelId()).thenReturn("PS1234");
         when(networkNode.getName()).thenReturn("DiCommBLEReference");
+        when(networkNode.isValid()).thenReturn(true);
+        when(networkNode.getDeviceType()).thenReturn(BleReferenceAppliance.DEVICETYPE);
         assertNotNull(bleReferenceApplianceFactory.createApplianceForNode(networkNode));
     }
 
