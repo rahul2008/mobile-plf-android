@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdp2.ews.configuration;
 
 import android.content.Context;
@@ -25,10 +29,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/*
- * Copyright (c) Mobiquityinc, 2017.
- * All rights reserved.
- */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(TextUtils.class)
 public class ContentConfigurationBindingsTest {

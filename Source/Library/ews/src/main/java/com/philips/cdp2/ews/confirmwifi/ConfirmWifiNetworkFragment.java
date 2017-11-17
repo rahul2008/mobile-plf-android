@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
@@ -51,8 +50,8 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
 
     @VisibleForTesting
     @NonNull
-    public ConfirmWifiNetworkViewModel createViewModel() {
-        return ((EWSActivity) getActivity()).getEWSComponent().confirmWifiNetworkViewModel();
+    private ConfirmWifiNetworkViewModel createViewModel() {
+        return getEWSComponent().confirmWifiNetworkViewModel();
     }
 
     @Override

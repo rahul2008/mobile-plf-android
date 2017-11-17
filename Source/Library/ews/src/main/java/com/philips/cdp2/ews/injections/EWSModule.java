@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 
@@ -60,13 +61,15 @@ public class EWSModule {
     private final Context context;
     @NonNull
     private final FragmentManager fragmentManager;
-
     @NonNull
     private Map<String, Serializable> configurationMap;
 
-    public EWSModule(Context context, @NonNull FragmentManager fragmentManager) {
+    @IdRes int parentContainerResourceID;
+
+    public EWSModule(@NonNull Context context, @NonNull FragmentManager fragmentManager,@IdRes int parentContainerResourceID) {
         this.context = context;
         this.fragmentManager = fragmentManager;
+        this.parentContainerResourceID = parentContainerResourceID;
     }
 
     @Provides
@@ -175,7 +178,7 @@ public class EWSModule {
 
     @Provides
     Navigator provideNavigator() {
-        return new Navigator(new FragmentNavigator(fragmentManager));
+        return new Navigator(new FragmentNavigator(fragmentManager,parentContainerResourceID));
     }
 
     @Provides

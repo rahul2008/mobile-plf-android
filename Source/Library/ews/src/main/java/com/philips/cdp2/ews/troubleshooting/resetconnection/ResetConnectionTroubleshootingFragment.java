@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseTroubleShootingFragment;
 import com.philips.cdp2.ews.databinding.FragmentResetConnectionTroubleshootingLayoutBinding;
@@ -33,7 +32,7 @@ public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingF
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ((EWSActivity) getActivity()).getEWSComponent()
+        viewModel = getEWSComponent()
                 .resetConnectionTroubleshootingViewModel();
         fragmentResetConnectionTroubleshootingLayoutBinding.setViewModel(viewModel);
 
