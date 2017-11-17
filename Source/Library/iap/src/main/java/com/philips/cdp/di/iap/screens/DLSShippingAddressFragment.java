@@ -84,6 +84,11 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         return view;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
     private void initializeViews(View rootView) {
 
         mParentFragment = (DLSAddressFragment) DLSShippingAddressFragment.this.getParentFragment();
@@ -198,7 +203,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
         mEtState.setCompoundDrawables(null, null, Utility.getImageArrow(mContext), null);
         mStateDropDown = new StateDropDown(this);
-        mStateDropDown.createPopUp(mEtState,mContext);
+        mStateDropDown.createPopUp(mEtState, mContext);
         mEtState.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

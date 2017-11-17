@@ -67,7 +67,7 @@
         />
     <View
         android:id="@+id/bottom_space"
-        android:background="@attr/uidContentItemTertiaryNormalTextColor"
+        style="@style/iap_button_border"
         android:layout_width="match_parent"
         android:layout_height="@dimen/border8_margin"
         android:layout_below="@+id/payment_options"/>

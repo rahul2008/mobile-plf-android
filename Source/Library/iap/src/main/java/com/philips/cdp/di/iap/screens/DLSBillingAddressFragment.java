@@ -71,7 +71,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
     private PhoneNumberUtil phoneNumberUtil;
     private StateDropDown mStateDropDownBilling;
     private Validator mValidator;
-    private DLSAddressFragment mParentFragment;
+    private DLSAddressFragment dlsAddressFragment;
     AddressFields billingAddressFields;
     private String mRegionIsoCode;
 
@@ -82,10 +82,14 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         return view;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
     private void initializeViews(View rootView) {
         billingAddressFields = new AddressFields();
 
-        mParentFragment = (DLSAddressFragment) DLSBillingAddressFragment.this.getParentFragment();
+        dlsAddressFragment = (DLSAddressFragment) DLSBillingAddressFragment.this.getParentFragment();
 
         phoneNumberUtil = PhoneNumberUtil.getInstance();
 
@@ -235,8 +239,8 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
     public void updateFields(Map<String, String> mAddressFieldsHashmap) {
         if (mAddressFieldsHashmap == null) return;
-        mParentFragment.mBtnContinue.setText(getString(R.string.iap_continue));
-        mParentFragment.mBtnContinue.setEnabled(true);
+        dlsAddressFragment.mBtnContinue.setText(getString(R.string.iap_continue));
+        dlsAddressFragment.mBtnContinue.setEnabled(true);
         CartModelContainer.getInstance().setAddressId(mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
 
         mEtFirstNameBilling.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));
@@ -413,7 +417,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
             checkBillingAddressFields();
         }
         if (!result) {
-            mParentFragment.mBtnContinue.setEnabled(false);
+            dlsAddressFragment.mBtnContinue.setEnabled(false);
         } else {
             checkBillingAddressFields();
         }
@@ -443,10 +447,10 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
             setBillingAddressFields(billingAddressFields);
             IAPLog.d(IAPLog.LOG, billingAddressFields.toString());
-            mParentFragment.setBillingAddressFields(billingAddressFields);
-            mParentFragment.mBtnContinue.setEnabled(true);
+            dlsAddressFragment.setBillingAddressFields(billingAddressFields);
+            dlsAddressFragment.mBtnContinue.setEnabled(true);
         } else {
-            mParentFragment.mBtnContinue.setEnabled(false);
+            dlsAddressFragment.mBtnContinue.setEnabled(false);
         }
     }
 
