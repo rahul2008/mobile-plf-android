@@ -64,13 +64,13 @@ node('Android') {
             }
 
             stage ('Save dependencies list') {
-            sh '''#!/bin/bash -l
-            	chmod -R 775 . 
-                cd ./Source/DemoApp 
-                ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
-            	cd ../Library 
-                ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
-            '''
+            sh """#!/bin/bash -l
+            	        chmod -R 775 . 
+                        cd ./Source/DemoApp 
+                        ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
+            	        cd ../Library 
+                        ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
+                    """
             }
                 
             stage('Archive results') {
