@@ -76,7 +76,7 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
         return commCentral;
     }
 
-    private final ApplianceManager.ApplianceListener<Appliance> applianceListener = new ApplianceManager.ApplianceListener<Appliance>() {
+    private final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener() {
         @Override
         public void onApplianceFound(@NonNull Appliance foundAppliance) {
             RALog.d(TAG, "Device found : -> " + foundAppliance.getName());
