@@ -52,6 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:contentDescription="@null"
+                    style="@style/EWS.ImageScale"
                     android:src="@{viewmodel.connectWrongImage}" />
 
                 <com.philips.platform.uid.view.widget.Label
