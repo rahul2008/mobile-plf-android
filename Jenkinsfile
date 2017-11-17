@@ -91,7 +91,15 @@ node('Android') {
                         """
                 }
             }
-
+        if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release\/platform_.*/)) {
+                stage ('callIntegrationPipeline') {
+                    if (BranchName =~ "/") {
+                        BranchName = BranchName.replaceAll('/','%2F')
+                        echo "BranchName changed to ${BranchName}"
+                    }
+                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ews'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+                }            
+            }
         } catch(err) {
             errors << "errors found: ${err}"
         } finally {
@@ -103,6 +111,9 @@ node('Android') {
                     }
                 }                
             }
+                stage ('Reporting') {
+                archiveArtifacts '**/*dependencies*.lock'
+            }   
             stage('Clean up workspace') {
                 step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
             }
