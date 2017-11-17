@@ -23,6 +23,7 @@ import com.philips.platform.catk.mapper.DtoToConsentMapper;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkHelper;
+import com.philips.platform.catk.provider.ComponentProvider;
 import com.philips.platform.catk.utils.CatkLogger;
 
 import java.util.ArrayList;
@@ -56,19 +57,12 @@ public class ConsentAccessToolKit {
         ConsentAccessToolKit.sSoleInstance = sSoleInstance;
     }
 
-    public void init(CatkInputs catkInputs) {
-        catkComponent = initDaggerComponents(catkInputs);
+    public void init(CatkInputs catkInputs, ComponentProvider componentProvider) {
+        catkComponent = componentProvider.getComponent(catkInputs);
         CatkLogger.init();
         this.applicationName = catkInputs.getApplicationName();
         this.propositionName = catkInputs.getPropositionName();
         CatkLogger.enableLogging();
-    }
-
-    private CatkComponent initDaggerComponents(CatkInputs catkInputs) {
-        return DaggerCatkComponent.builder()
-                .catkModule(new CatkModule(catkInputs.getContext(), catkInputs.getAppInfra()))
-                .userModule(new UserModule(new User(catkInputs.getContext())))
-                .build();
     }
 
     public CatkComponent getCatkComponent() {

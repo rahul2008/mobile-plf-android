@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.RadioGroup;
 
 import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.csw.ConsentDefinition;
 import com.philips.platform.mya.demouapp.DemoAppActivity;
 import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
 import com.philips.platform.mya.demouapp.MyaConstants;
@@ -28,6 +29,10 @@ import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -101,6 +106,8 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
             }
         });
 
+        launchInput.setConsentDefinition(createConsentDefinitions(null, Locale.US));
+
         MyaInterface myaInterface = new MyaInterface();
         myaInterface.init(uappDependencies, new MyaSettings(((DemoAppActivity) getActivity())));
 
@@ -114,5 +121,11 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         } else {
             myaInterface.launch(new FragmentLauncher((DemoAppActivity) getActivity(), R.id.mainContainer, null), launchInput);
         }
+    }
+
+    private List<ConsentDefinition> createConsentDefinitions(Context context, Locale currentLocale) {
+        final List<ConsentDefinition> definitions = new ArrayList<>();
+        definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", "moment", 1, currentLocale));
+        return definitions;
     }
 }

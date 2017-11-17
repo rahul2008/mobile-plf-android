@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.injection.CatkComponentFactory;
 import com.philips.platform.csw.injection.AppInfraModule;
 import com.philips.platform.csw.injection.CswComponent;
 import com.philips.platform.csw.injection.CswModule;
@@ -91,7 +92,7 @@ public class CswInterface implements UappInterface {
         catkInputs.setAppInfra(uappDependencies.getAppInfra());
         catkInputs.setApplicationName(((CswDependencies) uappDependencies).getApplicationName());
         catkInputs.setPropositionName(((CswDependencies) uappDependencies).getPropositionName());
-        ConsentAccessToolKit.getInstance().init(catkInputs);
+        ConsentAccessToolKit.getInstance().init(catkInputs, new CatkComponentFactory());
     }
 
     private CswComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
