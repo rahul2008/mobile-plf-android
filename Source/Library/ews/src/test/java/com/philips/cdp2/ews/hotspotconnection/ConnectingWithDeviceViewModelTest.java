@@ -13,6 +13,7 @@ import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.util.Log;
 
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameFetcher;
 import com.philips.cdp2.ews.tagging.EWSTagger;
@@ -76,6 +77,8 @@ public class ConnectingWithDeviceViewModelTest {
     private ArgumentCaptor<Runnable> timeoutRunnableCaptor;
     @Mock
     private NetworkInfo mockNetworkInfo;
+    @Mock
+    private BaseContentConfiguration mockBaseContentConfiguration;
 
 
     @Before
@@ -83,7 +86,8 @@ public class ConnectingWithDeviceViewModelTest {
         initMocks(this);
         mockStatic(EWSTagger.class);
         mockStatic(Log.class);
-        subject = new ConnectingWithDeviceViewModel(mockWiFiConnectivityManager, mockDeviceFriendlyNameFetcher, mockWiFiUtil, mockNavigator, mockHandler);
+        subject = new ConnectingWithDeviceViewModel(mockWiFiConnectivityManager, mockDeviceFriendlyNameFetcher,
+                mockWiFiUtil, mockNavigator, mockHandler, mockBaseContentConfiguration);
         subject.setFragmentCallback(mockFragmentCallback);
     }
 
@@ -157,7 +161,7 @@ public class ConnectingWithDeviceViewModelTest {
     @Test
     public void itShouldShowUnsuccessfulDialogOnConnectionAttemptTimedOut() {
         subject.onConnectionAttemptTimedOut();
-        verify(mockFragmentCallback, times(1)).showTroubleshootHomeWifiDialog();
+        verify(mockFragmentCallback, times(1)).showTroubleshootHomeWifiDialog(mockBaseContentConfiguration);
 
     }
 
@@ -167,7 +171,7 @@ public class ConnectingWithDeviceViewModelTest {
         subject.onConnectionAttemptTimedOut();
         verifyStatic(never());
         EWSTagger.trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
-        verify(mockFragmentCallback, never()).showTroubleshootHomeWifiDialog();
+        verify(mockFragmentCallback, never()).showTroubleshootHomeWifiDialog(mockBaseContentConfiguration);
         verifyStatic();
         Log.e(anyString(), anyString());
     }
@@ -221,7 +225,7 @@ public class ConnectingWithDeviceViewModelTest {
     }
 
     private void verifyShowingUnsuccessfulDialog() {
-        verify(mockFragmentCallback, times(1)).showTroubleshootHomeWifiDialog();
+        verify(mockFragmentCallback, times(1)).showTroubleshootHomeWifiDialog(mockBaseContentConfiguration);
     }
 
     private void verifyFriendlyNameFetching(int times) {

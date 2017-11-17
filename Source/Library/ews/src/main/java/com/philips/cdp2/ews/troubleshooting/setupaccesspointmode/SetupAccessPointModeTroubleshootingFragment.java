@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseTroubleShootingFragment;
 import com.philips.cdp2.ews.databinding.FragmentSetupAccessPointTroubleshootingLayoutBinding;
@@ -34,8 +33,7 @@ public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShoo
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ((EWSActivity) getActivity()).getEWSComponent()
-                .setupAccessPointModeTroubleshootingViewModel();
+        viewModel = getEWSComponent().setupAccessPointModeTroubleshootingViewModel();
         setupAccessPointTroubleshootingLayoutBinding.setViewmodel(viewModel);
 
         view.findViewById(R.id.ews_H_03_04_button_done)

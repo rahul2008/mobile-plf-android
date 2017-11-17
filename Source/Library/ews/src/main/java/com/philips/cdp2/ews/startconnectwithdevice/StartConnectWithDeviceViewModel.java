@@ -10,9 +10,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
+import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
@@ -30,11 +32,12 @@ public class StartConnectWithDeviceViewModel {
     @NonNull
     public final ObservableField<String> description;
 
-
     @NonNull
     private final Navigator navigator;
     @NonNull
     private final StringProvider stringProvider;
+    @Inject
+    EventingChannel<EventingChannel.ChannelCallback> ewsEventingChannel;
 
     @Inject
     public StartConnectWithDeviceViewModel(@NonNull final Navigator navigator,
@@ -85,5 +88,14 @@ public class StartConnectWithDeviceViewModel {
 
     public void trackPageName() {
         EWSTagger.trackPage(Page.GET_STARTED);
+    }
+
+    public void onDestroy(){
+        if(navigator.getFragmentNavigator().shouldFinish()){
+            EWSTagger.pauseLifecycleInfo();
+            ewsEventingChannel.stop();
+            EWSDependencyProvider.getInstance().clear();
+        }
+
     }
 }

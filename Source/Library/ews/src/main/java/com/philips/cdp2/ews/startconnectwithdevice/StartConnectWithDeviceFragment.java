@@ -34,11 +34,21 @@ public class StartConnectWithDeviceFragment extends BaseFragment {
 
     @NonNull
     private StartConnectWithDeviceViewModel createViewModel() {
-        return ((EWSActivity) getActivity()).getEWSComponent().ewsGettingStartedViewModel();
+        return getEWSComponent().ewsGettingStartedViewModel();
     }
 
     @Override
     protected void callTrackPageName() {
         viewModel.trackPageName();
+    }
+
+    @Override
+    public void onDestroy() {
+        if (!(getActivity() instanceof EWSActivity)) {
+            if(viewModel!= null) {
+                viewModel.onDestroy();
+            }
+        }
+        super.onDestroy();
     }
 }

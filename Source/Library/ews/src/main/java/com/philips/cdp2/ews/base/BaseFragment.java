@@ -15,9 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.dialog.EWSAlertDialogFragment;
+import com.philips.cdp2.ews.injections.EWSComponent;
+import com.philips.cdp2.ews.microapp.EWSActionBarListener;
+import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -30,18 +32,13 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (getActivity() instanceof EWSActivity) {
-            EWSActivity activity = (EWSActivity) getActivity();
-            activity.showCloseButton();
-        }
+        ((EWSActionBarListener) getContext()).closeButton(true);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        if (getActivity() instanceof EWSActivity) {
-            setToolbarTitle();
-        }
+        setToolbarTitle();
         if (getChildFragmentManager().getFragments().isEmpty()){
             callTrackPageName();
         }
@@ -52,13 +49,9 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
         super.onViewStateRestored(savedInstanceState);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    public void handleCancelButtonClicked(@StringRes int stringId) {
-        showCancelDialog(stringId);
+    public void handleCancelButtonClicked() {
+        showCancelDialog(getEWSComponent().getBaseContentConfiguration().getDeviceName());
+        EWSTagger.trackPage(Page.CANCEL_WIFI_SETUP);
     }
 
     @VisibleForTesting
@@ -125,7 +118,11 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     }
 
     public void setToolbarTitle() {
-        ((EWSActivity) getActivity()).updateActionBar(getString(R.string.ews_title), true);
+        ((EWSActionBarListener) getContext()).updateActionBar(R.string.ews_title, true);
+    }
+
+    public EWSComponent getEWSComponent() {
+        return EWSDependencyProvider.getInstance().getEwsComponent();
     }
 
     protected abstract void callTrackPageName();
