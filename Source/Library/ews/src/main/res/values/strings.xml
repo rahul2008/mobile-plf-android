@@ -4,7 +4,7 @@
     <string name="ews_app_name_default">name</string>
     <string name="ews_device_name_default">device name</string>
     <!--EWS_01_00 start -->
-    <string name="label_ews_get_started_title">Connect with your</string>
+    <string name="label_ews_get_started_title_default">Connect with your</string>
     <string name="label_ews_get_started_body">Connect your %1$s to the Wi-Fi to enjoy this app and all its features.</string>
     <string name="label_ews_get_started_description">To successfully connect, position your %1$s close to your router. Obstacles such as walls may affect signal strength.</string>
     <string name="ews_support_title">Philips support</string>
