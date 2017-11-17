@@ -32,7 +32,33 @@ public class RegPreferenceUtility {
         Jump.getSecureStorageInterface().storeValueForKey(key, newVal, new SecureStorageInterface.SecureStorageError());
     }
 
-    public static boolean getStoredState(Context context, String key) {
+    public static boolean getPreferenceValue(Context context, String key, String value) {
+        if (getStoredState(context, value)) {
+            storePreference(context, key, value);
+            deletePreference(value);
+            return true;
+        } else {
+            String prefValue = Jump.getSecureStorageInterface().fetchValueForKey(key,
+                    new SecureStorageInterface.SecureStorageError());
+
+            if (prefValue == null) {
+                return false;
+            }
+
+            prefValue = prefValue.replace("[", "");
+            prefValue = prefValue.replace("]", "");
+
+            List<String> valArray = stringToList(prefValue);
+            for (int i = 0; i < valArray.size(); i++) {
+                if (valArray.get(i).trim().equals(value)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    private static boolean getStoredState(Context context, String key) {
         String oldPrefeFile = context.getFilesDir().getParent() + "/shared_prefs/" +
                 REGISTRATION_API_PREFERENCE + ".xml";
         String oldPrefeFileBackUp = context.getFilesDir().getParent() + "/shared_prefs/" +
@@ -68,53 +94,21 @@ public class RegPreferenceUtility {
         return new File(fileName).exists();
     }
 
-    public static void deletePreference( String key) {
+    private static void deletePreference(String key) {
         Jump.getSecureStorageInterface().removeValueForKey(key);
     }
 
-    public static boolean isKeyExist(String key){
-        return Boolean.parseBoolean(Jump.getSecureStorageInterface().fetchValueForKey(key, new SecureStorageInterface.SecureStorageError()));
-    }
-
-    public static boolean getPreferenceValue(Context context, String key, String value) {
-        if (isKeyExist(value)) {
-            storePreference(context, key, value);
-            deletePreference(value);
-            return true;
-        } else {
-            String prefValue =Jump.getSecureStorageInterface().fetchValueForKey(key,
-                    new SecureStorageInterface.SecureStorageError());
-
-            if(prefValue == null){
-                return false;
-            }
-
-            prefValue = prefValue.replace("[","");
-            prefValue = prefValue.replace("]","");
-
-            List<String> valArray=stringToList(prefValue);
-            for (int i=0;i < valArray.size();i++)
-            {
-                if(valArray.get(i).trim().equals(value)){
-                    return true;
-                }
-            }
-            return  false;
-        }
-    }
-
-   static String listToString(List<String> list)
-   {
+    private static String listToString(List<String> list) {
         return Arrays.toString(list.toArray());
-   }
+    }
 
-     static List<String> stringToList(String args) {
-         List<String> myList;
-         if(args == null){
-             myList = new ArrayList<String>();
-         } else{
-           myList = new ArrayList<String>(Arrays.asList(args.split(",")));
-         }
+    private static List<String> stringToList(String args) {
+        List<String> myList;
+        if (args == null) {
+            myList = new ArrayList<String>();
+        } else {
+            myList = new ArrayList<String>(Arrays.asList(args.split(",")));
+        }
         return myList;
     }
 }
