@@ -107,8 +107,7 @@ public class ConnectivityFragment extends AbstractConnectivityBaseFragment imple
         Button btnStartConnectivity = (Button) rootView.findViewById(R.id.start_connectivity_button);
         btnStartConnectivity.setOnClickListener(this);
         connectionState = (TextView) rootView.findViewById(R.id.connectionState);
-//        mCommCentral = getCommCentral(ConnectivityDeviceType.REFERENCE_NODE);
-        mCommCentral = getCommCentral();
+        mCommCentral = getCommCentral(ConnectivityDeviceType.REFERENCE_NODE);
         startAppTagging(TAG);
         return rootView;
     }

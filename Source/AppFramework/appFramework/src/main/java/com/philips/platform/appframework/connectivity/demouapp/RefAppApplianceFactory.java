@@ -22,6 +22,7 @@ import com.philips.cdp2.demouapp.appliance.brighteyes.BrightEyesAppliance;
 import com.philips.cdp2.demouapp.appliance.polaris.PolarisAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.BleReferenceAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.WifiReferenceAppliance;
+import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
@@ -43,10 +44,16 @@ public class RefAppApplianceFactory implements ApplianceFactory {
     @NonNull
     private final CloudTransportContext cloudTransportContext;
 
+    private ConnectivityDeviceType deviceType;
+
     public RefAppApplianceFactory(@NonNull final BleTransportContext bleTransportContext, @NonNull final LanTransportContext lanTransportContext, @NonNull final CloudTransportContext cloudTransportContext) {
         this.bleTransportContext = bleTransportContext;
         this.lanTransportContext = lanTransportContext;
         this.cloudTransportContext = cloudTransportContext;
+    }
+
+    public void setDeviceType(ConnectivityDeviceType deviceType) {
+        this.deviceType = deviceType;
     }
 
     @Override
@@ -75,7 +82,7 @@ public class RefAppApplianceFactory implements ApplianceFactory {
                 case BleReferenceAppliance.DEVICETYPE:
                     if(networkNode.getName().equals(DI_COMM_BLE_REFERENCE) ||
                             networkNode.getModelId().equals(PRODUCT_STUB_BOARD)) {
-                        return new RefAppBleReferenceAppliance(networkNode, communicationStrategy);
+                        return new RefAppBleReferenceAppliance(networkNode, communicationStrategy, deviceType);
                     }
                     else {
                         return new BleReferenceAppliance(networkNode, communicationStrategy);

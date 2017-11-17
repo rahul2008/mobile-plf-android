@@ -61,15 +61,16 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
     /**
      * Setup comm central
      */
-    protected CommCentral getCommCentral() {
+    protected CommCentral getCommCentral(ConnectivityDeviceType deviceType) {
         // Setup CommCentral
         RALog.i(TAG, "Setup CommCentral ");
         CommCentral commCentral = null;
         try {
             AppFrameworkApplication appContext = ((AppFrameworkApplication) context.getApplicationContext().getApplicationContext());
             commCentral = appContext.getCommCentralInstance();
+            appContext.getApplianceFactory().setDeviceType(deviceType);
             commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
-            RALog.i("testing","ConnectivityFragment getCommCentralInstance - " + commCentral);
+            RALog.i(TAG,"ConnectivityFragment getCommCentralInstance - " + commCentral);
         } catch (TransportUnavailableException e) {
             RALog.d(TAG, "Blutooth hardware unavailable");
         }

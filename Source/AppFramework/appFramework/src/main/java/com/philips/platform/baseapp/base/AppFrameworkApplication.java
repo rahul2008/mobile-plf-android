@@ -23,6 +23,7 @@ import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.platform.appframework.BuildConfig;
+import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.ConnectivityFragment;
 import com.philips.platform.appframework.connectivity.demouapp.RefAppApplianceFactory;
@@ -66,6 +67,7 @@ public class AppFrameworkApplication extends Application {
     private LanguagePackInterface languagePackInterface;
     private ConnectivityChangeReceiver connectivityChangeReceiver;
     private CommCentral commCentral = null;
+    private RefAppApplianceFactory applianceFactory;
 
     public static final String TAG = AppFrameworkApplication.class.getSimpleName();
 
@@ -263,6 +265,10 @@ public class AppFrameworkApplication extends Application {
         return commCentral;
     }
 
+    public RefAppApplianceFactory getApplianceFactory() {
+        return applianceFactory;
+    }
+
     private CommCentral createCommCentral(final @NonNull Context context, final @Nullable AppInfraInterface appInfraInterface) {
         final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(context, appInfraInterface);
 
@@ -272,8 +278,7 @@ public class AppFrameworkApplication extends Application {
         final BleTransportContext bleTransportContext = new BleTransportContext(runtimeConfiguration, true);
         final LanTransportContext lanTransportContext = new LanTransportContext(runtimeConfiguration);
 
-        final RefAppApplianceFactory applianceFactory = new RefAppApplianceFactory(bleTransportContext, lanTransportContext, cloudTransportContext);
-
+        applianceFactory = new RefAppApplianceFactory(bleTransportContext, lanTransportContext, cloudTransportContext);
         return new CommCentral(applianceFactory, bleTransportContext, lanTransportContext, cloudTransportContext);
     }
 

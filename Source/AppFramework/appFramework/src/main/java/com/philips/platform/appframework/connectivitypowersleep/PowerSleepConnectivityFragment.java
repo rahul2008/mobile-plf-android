@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
+import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
 import com.philips.platform.appframework.connectivity.ConnectivityUtils;
@@ -108,8 +109,9 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         insights.setOnClickListener(this);
         insights.setEnabled(false);
         insights.setAlpha(0.5f);
-//        mCommCentral = getCommCentral(ConnectivityDeviceType.POWER_SLEEP);
-        mCommCentral = getCommCentral();
+        mCommCentral = getCommCentral(ConnectivityDeviceType.POWER_SLEEP);
+//        mCommCentral = getCommCentral();
+
         setHasOptionsMenu(true);
         startAppTagging(TAG);
         return view;
