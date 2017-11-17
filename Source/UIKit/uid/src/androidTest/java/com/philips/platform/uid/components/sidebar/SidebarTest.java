@@ -17,6 +17,8 @@ import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.DrawerMatcher;
 import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.UIDTestUtils;
 import com.philips.platform.uid.utils.UIDUtils;
 import org.hamcrest.Matcher;
@@ -38,7 +40,7 @@ public class SidebarTest extends BaseTest {
 
     @Before
     public void setUpTheme() {
-        final Intent intent = getLaunchIntent(ULTRA_LIGHT, ColorRange.GROUP_BLUE.ordinal());
+        final Intent intent = getLaunchIntent(NavigationColor.BRIGHT.ordinal(), ContentColor.ULTRA_LIGHT.ordinal(), ColorRange.ORANGE.ordinal());
         activity = mActivityTestRule.launchActivity(intent);
         activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
         resources = activity.getResources();

@@ -39,7 +39,27 @@ public class BaseTest {
     protected Intent getIntentWithContentRange(final int contentColorIndex) {
         final Bundle bundleExtra = new Bundle();
         final Intent intent = new Intent(Intent.ACTION_MAIN);
-        bundleExtra.putInt(CONTENT_COLOR_KEY, contentColorIndex);
+        bundleExtra.putInt(BaseTestActivity.CONTENT_COLOR_KEY, contentColorIndex);
+        intent.putExtras(bundleExtra);
+        return intent;
+    }
+
+    @NonNull
+    protected Intent getIntentWithColorRange(final int colorRangeIndex) {
+        final Bundle bundleExtra = new Bundle();
+        final Intent intent = new Intent(Intent.ACTION_MAIN);
+        bundleExtra.putInt(BaseTestActivity.COLOR_RANGE_KEY, colorRangeIndex);
+        intent.putExtras(bundleExtra);
+        return intent;
+    }
+
+    @NonNull
+    protected Intent getLaunchIntent(final int navigationColor, final int contentColor, final int colorRange) {
+        final Bundle bundleExtra = new Bundle();
+        bundleExtra.putInt(BaseTestActivity.NAVIGATION_COLOR_KEY, navigationColor);
+        bundleExtra.putInt(BaseTestActivity.CONTENT_COLOR_KEY, contentColor);
+        bundleExtra.putInt(BaseTestActivity.COLOR_RANGE_KEY, colorRange);
+        final Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.putExtras(bundleExtra);
         return intent;
     }

@@ -75,6 +75,7 @@
     <dimen name="alert_content_top_margin_when_no_title">24dp</dimen>
     <dimen name="dialog_divider_height">1dp</dimen>
     <dimen name="alert_width">272dp</dimen>
+    <dimen name="uid_alert_dialog_positive_button_margin_end">12dp</dimen>
 
     <!-- Navigation bar-->
     <dimen name="navigation_height">56dp</dimen>
@@ -161,6 +162,7 @@
     <dimen name="uipicker_item_height">48dp</dimen>
     <dimen name="uipicker_item_text_size">16sp</dimen>
     <dimen name="uipicker_item_text_left_right_padding">16dp</dimen>
+    <dimen name="uipicker_item_width">300dp</dimen>
 
     <!--Sidebar dimens -->
     <dimen name="sidebar_elevation">5dp</dimen>

@@ -15,6 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.view.WindowManager;
@@ -85,11 +86,20 @@ public final class UIDUtils {
     }
 
     public static int getStatusBarHeight(Context context) {
-        int height = 0;
-        int resId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resId > 0) {
-            height = context.getResources().getDimensionPixelSize(resId);
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            return context.getResources().getDimensionPixelSize(resourceId);
         }
-        return height;
+        return 0;
+    }
+
+    public static int getActionBarHeight(Context context) {
+        TypedValue tv = new TypedValue();
+        int actionBarHeight = 0;
+        if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+        {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
+        }
+        return actionBarHeight;
     }
 }

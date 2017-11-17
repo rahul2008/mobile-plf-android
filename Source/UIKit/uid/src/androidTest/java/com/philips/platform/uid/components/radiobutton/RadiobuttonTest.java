@@ -22,6 +22,8 @@ import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
 import com.philips.platform.uid.view.widget.RadioButton;
@@ -50,7 +52,7 @@ public class RadiobuttonTest extends BaseTest {
 
     @Before
     public void setUpTheme() {
-        final Intent intent = getLaunchIntent(ULTRA_LIGHT, ColorRange.GROUP_BLUE.ordinal());
+        final Intent intent = getLaunchIntent(NavigationColor.BRIGHT.ordinal(), ContentColor.ULTRA_LIGHT.ordinal(), ColorRange.GREEN.ordinal());
         activity = mActivityTestRule.launchActivity(intent);
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_radiobutton);
         resources = activity.getResources();
