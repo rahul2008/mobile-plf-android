@@ -8,7 +8,6 @@ import com.philips.platform.catk.model.Consent;
 public class ConsentAccessToolKitEmulator extends ConsentAccessToolKit {
 
     public CatkInputs init_catkInputs;
-    public ConfigCompletionListener init_listner;
 
     public String getStatusForConsentType_consentType;
     public int getStatusForConsentType_version;
@@ -16,10 +15,8 @@ public class ConsentAccessToolKitEmulator extends ConsentAccessToolKit {
 
 
     @Override
-    public void init(CatkInputs catkInputs, ConfigCompletionListener listner) {
+    public void init(CatkInputs catkInputs) {
         this.init_catkInputs = catkInputs;
-        this.init_listner = listner;
-        listner.onConfigurationCompletion();
     }
 
     @Override

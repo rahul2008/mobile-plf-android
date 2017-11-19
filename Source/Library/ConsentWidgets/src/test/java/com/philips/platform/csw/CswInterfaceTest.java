@@ -41,10 +41,10 @@ public class CswInterfaceTest {
         appInfraInterface = new AppInfraInterfaceMock();
         context = new MockContext();
         launchInput = new LaunchInputMock();
+        CswConsentAccessToolKitManipulator.setInstance(consentAccessToolKit);
         CswDependencies cswDependencies = new CswDependencies(appInfraInterface);
         CswSettings cswSettings = new CswSettings(context);
         cswInterface.init(cswDependencies, cswSettings);
-        CswConsentAccessToolKitManipulator.setInstance(consentAccessToolKit);
     }
 
     @Test

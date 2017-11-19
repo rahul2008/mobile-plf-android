@@ -25,7 +25,6 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class CswInterface implements UappInterface {
 
-    private CatkInputs catkInputs;
     private UiLauncher uiLauncher;
     private CswLaunchInput cswLaunchInput;
 
@@ -39,11 +38,7 @@ public class CswInterface implements UappInterface {
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         this.uiLauncher = uiLauncher;
         this.cswLaunchInput = (CswLaunchInput)uappLaunchInput;
-        ConsentAccessToolKit.getInstance().init(catkInputs, getConfigCompletionListener());
-    }
-
-    ConsentAccessToolKit.ConfigCompletionListener getConfigCompletionListener() {
-        return new CompletionListener();
+        launch();
     }
 
     private void launch() {
@@ -97,17 +92,19 @@ public class CswInterface implements UappInterface {
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         initConsentToolKit(uappDependencies, uappSettings);
+        ConsentAccessToolKit.getInstance().init(initConsentToolKit(uappDependencies, uappSettings));
         cswComponent = initDaggerComponents(uappDependencies, uappSettings);
         CswLogger.init();
         CswLogger.enableLogging();
     }
 
-    public void initConsentToolKit(UappDependencies uappDependencies, UappSettings uappSettings) {
-        catkInputs = new CatkInputs();
+    public CatkInputs initConsentToolKit(UappDependencies uappDependencies, UappSettings uappSettings) {
+        CatkInputs catkInputs = new CatkInputs();
         catkInputs.setContext(uappSettings.getContext());
         catkInputs.setAppInfra(uappDependencies.getAppInfra());
         catkInputs.setApplicationName(((CswDependencies) uappDependencies).getApplicationName());
         catkInputs.setPropositionName(((CswDependencies) uappDependencies).getPropositionName());
+        return catkInputs;
     }
 
     private CswComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
@@ -121,12 +118,5 @@ public class CswInterface implements UappInterface {
     }
 
     private static CswComponent cswComponent;
-
-    class CompletionListener implements ConsentAccessToolKit.ConfigCompletionListener {
-        @Override
-        public void onConfigurationCompletion() {
-            launch();
-        }
-    };
 
 }

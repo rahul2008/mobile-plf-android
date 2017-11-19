@@ -34,7 +34,6 @@ import java.util.List;
 public class ConsentAccessToolKit {
 
     private static volatile ConsentAccessToolKit sSoleInstance;
-    private String cssUrl;
 
     private CatkComponent catkComponent;
     private String applicationName;
@@ -55,7 +54,7 @@ public class ConsentAccessToolKit {
         return sSoleInstance;
     }
 
-    public void init(CatkInputs catkInputs, ConfigCompletionListener listner) {
+    public void init(CatkInputs catkInputs) {
         componentProvider = componentProvider == null ? new CatkComponentFactory() : componentProvider;
         serviceInfoProvider = serviceInfoProvider == null ? new InfraServiceInfoProvider() : serviceInfoProvider;
         catkComponent = componentProvider.getComponent(catkInputs);
@@ -63,15 +62,13 @@ public class ConsentAccessToolKit {
         CatkLogger.enableLogging();
         this.applicationName = catkInputs.getApplicationName();
         this.propositionName = catkInputs.getPropositionName();
-        retrieveConsentServiceInfo(listner);
     }
 
     private void retrieveConsentServiceInfo(final ConfigCompletionListener listner) {
         ServiceInfoProvider.ResponseListener responseListener = new ServiceInfoProvider.ResponseListener() {
             @Override
             public void onResponse(AppInfraInfo info) {
-                cssUrl = info.getCssUrl();
-                listner.onConfigurationCompletion();
+                listner.onConfigurationCompletion(info.getCssUrl());
             }
 
             @Override
@@ -87,41 +84,51 @@ public class ConsentAccessToolKit {
     }
 
     public void getConsentDetails(final ConsentResponseListener consentListener) {
-        GetConsentsModelRequest model = new GetConsentsModelRequest(cssUrl, applicationName, propositionName, new NetworkAbstractModel.DataLoadListener() {
+        retrieveConsentServiceInfo(new ConfigCompletionListener() {
             @Override
-            public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
-                List<Consent> consents = new ArrayList<>();
-                DtoToConsentMapper mapper = new DtoToConsentMapper();
-                for (GetConsentDto dto : dtos) {
-                    consents.add(mapper.map(dto));
-                }
-                consentListener.onResponseSuccessConsent(consents);
+            public void onConfigurationCompletion(String cssUrl) {
+                GetConsentsModelRequest model = new GetConsentsModelRequest(cssUrl, applicationName, propositionName, new NetworkAbstractModel.DataLoadListener() {
+                    @Override
+                    public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
+                        List<Consent> consents = new ArrayList<>();
+                        DtoToConsentMapper mapper = new DtoToConsentMapper();
+                        for (GetConsentDto dto : dtos) {
+                            consents.add(mapper.map(dto));
+                        }
+                        consentListener.onResponseSuccessConsent(consents);
+                    }
+                    @Override
+                    public int onModelDataError(ConsentNetworkError error) {
+                        return consentListener.onResponseFailureConsent(error.getErrorCode());
+                    }
+                });
+                NetworkHelper.getInstance().sendRequest(model);
             }
 
-            @Override
-            public int onModelDataError(ConsentNetworkError error) {
-                return consentListener.onResponseFailureConsent(error.getErrorCode());
-            }
         });
-        NetworkHelper.getInstance().sendRequest(model);
     }
 
     public void createConsent(final Consent consent, final CreateConsentListener consentListener) {
-        ConsentToDtoMapper mapper = new ConsentToDtoMapper(catkComponent.getUser().getHsdpUUID(), catkComponent.getUser().getCountryCode(), propositionName, applicationName);
-        CreateConsentModelRequest model = new CreateConsentModelRequest(cssUrl, mapper.map(consent), new NetworkAbstractModel.DataLoadListener() {
+        retrieveConsentServiceInfo(new ConfigCompletionListener() {
             @Override
-            public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
-                if (dtos == null) {
-                    consentListener.onSuccess(CatkConstants.CONSENT_SUCCESS);
-                }
-            }
+            public void onConfigurationCompletion(String cssUrl) {
+                ConsentToDtoMapper mapper = new ConsentToDtoMapper(catkComponent.getUser().getHsdpUUID(), catkComponent.getUser().getCountryCode(), propositionName, applicationName);
+                CreateConsentModelRequest model = new CreateConsentModelRequest(cssUrl, mapper.map(consent), new NetworkAbstractModel.DataLoadListener() {
+                    @Override
+                    public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
+                        if (dtos == null) {
+                            consentListener.onSuccess(CatkConstants.CONSENT_SUCCESS);
+                        }
+                    }
 
-            @Override
-            public int onModelDataError(ConsentNetworkError error) {
-                return consentListener.onFailure(error.getErrorCode());
+                    @Override
+                    public int onModelDataError(ConsentNetworkError error) {
+                        return consentListener.onFailure(error.getErrorCode());
+                    }
+                });
+                NetworkHelper.getInstance().sendRequest(model);
             }
         });
-        NetworkHelper.getInstance().sendRequest(model);
     }
 
     public void getStatusForConsentType(final String consentType, int version, final ConsentResponseListener consentListener) {
@@ -145,8 +152,8 @@ public class ConsentAccessToolKit {
         });
     }
 
-    public interface ConfigCompletionListener {
-        void onConfigurationCompletion();
+    interface ConfigCompletionListener {
+        void onConfigurationCompletion(String cssUrl);
     }
 
     void setCatkComponent(CatkComponent component) {
