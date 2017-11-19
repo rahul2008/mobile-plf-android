@@ -19,6 +19,8 @@ import com.philips.platform.catk.network.NetworkController;
 
 import android.content.Context;
 
+import java.util.Map;
+
 public class CatkComponentMock implements CatkComponent {
 
     public ServiceDiscoveryInterfaceMock getServiceDiscoveryInterface_return;
@@ -36,7 +38,22 @@ public class CatkComponentMock implements CatkComponent {
 
     @Override
     public LoggingInterface getLoggingInterface() {
-        return null;
+        return new LoggingInterface() {
+            @Override
+            public LoggingInterface createInstanceForComponent(String s, String s1) {
+                return this;
+            }
+
+            @Override
+            public void log(LogLevel logLevel, String s, String s1) {
+
+            }
+
+            @Override
+            public void log(LogLevel logLevel, String s, String s1, Map<String, ?> map) {
+
+            }
+        };
     }
 
     @Override

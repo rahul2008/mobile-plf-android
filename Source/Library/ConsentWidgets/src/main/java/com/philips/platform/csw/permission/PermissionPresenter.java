@@ -25,7 +25,6 @@ public class PermissionPresenter implements ConsentResponseListener {
         this.consentInteractor = consentInteractor;
     }
 
-
     void getConsentStatus() {
         permissionInterface.showProgressDialog();
         consentInteractor.getConsents(this);
@@ -62,4 +61,5 @@ public class PermissionPresenter implements ConsentResponseListener {
 //        permissionInterface.hideProgressDialog();
 //        return errCode;
 //    }
+
 }

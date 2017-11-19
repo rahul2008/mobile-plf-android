@@ -7,15 +7,13 @@
 
 package com.philips.platform.catk;
 
-import com.philips.cdp.registration.User;
 import com.philips.platform.catk.dto.CreateConsentModelRequest;
 import com.philips.platform.catk.dto.GetConsentDto;
 import com.philips.platform.catk.dto.GetConsentsModelRequest;
 import com.philips.platform.catk.error.ConsentNetworkError;
+import com.philips.platform.catk.infra.InfraServiceInfoProvider;
 import com.philips.platform.catk.injection.CatkComponent;
-import com.philips.platform.catk.injection.CatkModule;
-import com.philips.platform.catk.injection.DaggerCatkComponent;
-import com.philips.platform.catk.injection.UserModule;
+import com.philips.platform.catk.injection.CatkComponentFactory;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.mapper.ConsentToDtoMapper;
@@ -24,6 +22,9 @@ import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkHelper;
 import com.philips.platform.catk.provider.ComponentProvider;
+
+import com.philips.platform.catk.provider.AppInfraInfo;
+import com.philips.platform.catk.provider.ServiceInfoProvider;
 import com.philips.platform.catk.utils.CatkLogger;
 
 import java.util.ArrayList;
@@ -32,13 +33,14 @@ import java.util.List;
 
 public class ConsentAccessToolKit {
 
-    // This field has to remove later(url should take from service discovery)
-    private static final String URL = "https://platforminfra-css-platforminfradev.cloud.pcftest.com/consent";
     private static volatile ConsentAccessToolKit sSoleInstance;
+    private String cssUrl;
 
     private CatkComponent catkComponent;
     private String applicationName;
     private String propositionName;
+    private ComponentProvider componentProvider;
+    private ServiceInfoProvider serviceInfoProvider;
 
     ConsentAccessToolKit() {
     }
@@ -53,28 +55,39 @@ public class ConsentAccessToolKit {
         return sSoleInstance;
     }
 
-    static void setInstance(ConsentAccessToolKit sSoleInstance) {
-        ConsentAccessToolKit.sSoleInstance = sSoleInstance;
-    }
-
-    public void init(CatkInputs catkInputs, ComponentProvider componentProvider) {
+    public void init(CatkInputs catkInputs, ConfigCompletionListener listner) {
+        componentProvider = componentProvider == null ? new CatkComponentFactory() : componentProvider;
+        serviceInfoProvider = serviceInfoProvider == null ? new InfraServiceInfoProvider() : serviceInfoProvider;
         catkComponent = componentProvider.getComponent(catkInputs);
         CatkLogger.init();
+        CatkLogger.enableLogging();
         this.applicationName = catkInputs.getApplicationName();
         this.propositionName = catkInputs.getPropositionName();
-        CatkLogger.enableLogging();
+        retrieveConsentServiceInfo(listner);
+    }
+
+    private void retrieveConsentServiceInfo(final ConfigCompletionListener listner) {
+        ServiceInfoProvider.ResponseListener responseListener = new ServiceInfoProvider.ResponseListener() {
+            @Override
+            public void onResponse(AppInfraInfo info) {
+                cssUrl = info.getCssUrl();
+                listner.onConfigurationCompletion();
+            }
+
+            @Override
+            public void onError(String message) {
+                CatkLogger.e("ConsentAccessToolKit", "cssurl: " + message);
+            }
+        };
+        serviceInfoProvider.retrieveInfo(catkComponent.getServiceDiscoveryInterface(), responseListener);
     }
 
     public CatkComponent getCatkComponent() {
         return catkComponent;
     }
 
-    public void setCatkComponent(CatkComponent component) {
-        catkComponent = component;
-    }
-
     public void getConsentDetails(final ConsentResponseListener consentListener) {
-        GetConsentsModelRequest model = new GetConsentsModelRequest(URL, applicationName, propositionName, new NetworkAbstractModel.DataLoadListener() {
+        GetConsentsModelRequest model = new GetConsentsModelRequest(cssUrl, applicationName, propositionName, new NetworkAbstractModel.DataLoadListener() {
             @Override
             public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
                 List<Consent> consents = new ArrayList<>();
@@ -95,7 +108,7 @@ public class ConsentAccessToolKit {
 
     public void createConsent(final Consent consent, final CreateConsentListener consentListener) {
         ConsentToDtoMapper mapper = new ConsentToDtoMapper(catkComponent.getUser().getHsdpUUID(), catkComponent.getUser().getCountryCode(), propositionName, applicationName);
-        CreateConsentModelRequest model = new CreateConsentModelRequest(URL, mapper.map(consent), new NetworkAbstractModel.DataLoadListener() {
+        CreateConsentModelRequest model = new CreateConsentModelRequest(cssUrl, mapper.map(consent), new NetworkAbstractModel.DataLoadListener() {
             @Override
             public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
                 if (dtos == null) {
@@ -131,4 +144,25 @@ public class ConsentAccessToolKit {
             }
         });
     }
+
+    public interface ConfigCompletionListener {
+        void onConfigurationCompletion();
+    }
+
+    void setCatkComponent(CatkComponent component) {
+        catkComponent = component;
+    }
+
+    void setComponentProvider(ComponentProvider componentProvider) {
+        this.componentProvider = componentProvider;
+    }
+
+    void setServiceInfoProvider(ServiceInfoProvider serviceInfoProvider) {
+        this.serviceInfoProvider = serviceInfoProvider;
+    }
+
+    static void setInstance(ConsentAccessToolKit sSoleInstance) {
+        ConsentAccessToolKit.sSoleInstance = sSoleInstance;
+    }
+
 }
