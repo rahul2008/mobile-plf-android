@@ -8,7 +8,6 @@ import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.cdp2.ews.appliance.EWSGenericAppliance;
-import com.philips.cdp2.ews.util.SecureStorageUtility;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +29,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({SecureStorageUtility.class, LanTransportContext.class})
+@PrepareForTest({LanTransportContext.class})
 public class DeviceFriendlyNameFetcherTest {
 
     private DeviceFriendlyNameFetcher subject;
@@ -39,16 +38,14 @@ public class DeviceFriendlyNameFetcherTest {
     @Mock private DevicePort mockDevicePort;
     @Mock private DevicePortProperties mockDevicePortProperties;
     @Mock private DeviceFriendlyNameFetcher.Callback mockCallback;
-    @Mock private SecureStorageUtility mockSecureStorageUtility;
 
     @Captor private ArgumentCaptor<DICommPortListener> portListenerCaptor;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        mockStatic(SecureStorageUtility.class);
         mockStatic(LanTransportContext.class);
-        subject = new DeviceFriendlyNameFetcher(mockAppliance, mockSecureStorageUtility);
+        subject = new DeviceFriendlyNameFetcher(mockAppliance, null);
         when(mockAppliance.getDevicePort()).thenReturn(mockDevicePort);
     }
 

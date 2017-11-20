@@ -20,7 +20,6 @@ import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.injections.EWSConfigurationModule;
 import com.philips.cdp2.ews.injections.EWSModule;
-import com.philips.cdp2.ews.injections.SecureStorageModule;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -100,7 +99,6 @@ public class EWSDependencyProvider {
                         , fragmentActivity.getSupportFragmentManager()
                         , parentContainerResourceID, getCommCentral()))
                 .eWSConfigurationModule(new EWSConfigurationModule(fragmentActivity, contentConfiguration))
-                .secureStorageModule(new SecureStorageModule())
                 .build();
     }
 

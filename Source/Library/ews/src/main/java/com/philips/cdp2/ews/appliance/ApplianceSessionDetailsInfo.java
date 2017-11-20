@@ -15,6 +15,8 @@ public class ApplianceSessionDetailsInfo {
 
     private WifiPortProperties wifiPortProperties;
 
+    private String appliancePin;
+
     @Inject
     public ApplianceSessionDetailsInfo() {
     }
@@ -36,5 +38,13 @@ public class ApplianceSessionDetailsInfo {
             throw new IllegalStateException("Trying to get cpp id, without wifi properties being set");
         }
         return this.wifiPortProperties.getCppid();
+    }
+
+    public String getAppliancePin() {
+        return appliancePin;
+    }
+
+    public void setAppliancePin(String appliancePin) {
+        this.appliancePin = appliancePin;
     }
 }

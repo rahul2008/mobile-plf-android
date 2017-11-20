@@ -22,6 +22,7 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
+import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.logger.EWSLogger;
@@ -31,7 +32,6 @@ import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameChanger;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.tagging.Tag;
-import com.philips.cdp2.ews.util.SecureStorageUtility;
 import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
@@ -83,8 +83,10 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private final StringProvider stringProvider;
 
     @NonNull
-    private final SecureStorageUtility secureStorageUtility;
+    private final ApplianceSessionDetailsInfo applianceSessionDetailsInfo;
 
+    @NonNull
+    private String cppId;
     @NonNull
     private final Runnable timeoutRunnable = new Runnable() {
         @Override
@@ -104,8 +106,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         @Override
         public void onPropertiesSet(WifiPortProperties wifiPortProperties) {
             if (startConnectionModel != null) {
-                String cppId = wifiPortProperties.getCppid();
-                secureStorageUtility.storeString(SecureStorageUtility.CPP_ID, cppId);
+                cppId = wifiPortProperties.getCppid();
                 connectToHomeWifiInternal(startConnectionModel.getHomeWiFiSSID());
             } else {
                 EWSLogger.e(TAG, "startConnectionModel cannot be null");
@@ -122,13 +123,12 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private DiscoveryHelper.DiscoveryCallback discoveryCallback = new DiscoveryHelper.DiscoveryCallback() {
                 @Override
                 public void onApplianceFound(Appliance appliance) {
-                    String cppId = secureStorageUtility.loadString(SecureStorageUtility.CPP_ID, null);
-                    String appliancePin = secureStorageUtility.loadString(SecureStorageUtility.APPLIANCE_PIN, null);
+                    String appliancePin = applianceSessionDetailsInfo.getAppliancePin();
                     if (appliance.getNetworkNode().getCppId().equalsIgnoreCase(cppId)) {
                         removeTimeoutRunnable();
                         discoveryHelper.stopDiscovery();
-                        appliance.getNetworkNode().setPin(appliancePin);
-                        LanTransportContext.acceptNewPinFor(appliance);
+                        LanTransportContext.acceptPinFor(appliance, appliancePin);
+                        applianceSessionDetailsInfo.setAppliancePin(null);
                         onDeviceConnectedToWifi();
                     }
                 }
@@ -164,7 +164,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
                                              @NonNull DiscoveryHelper discoveryHelper,
                                              @NonNull final BaseContentConfiguration baseContentConfiguration,
                                              @NonNull final StringProvider stringProvider,
-                                             @NonNull SecureStorageUtility secureStorageUtility) {
+                                             @NonNull ApplianceSessionDetailsInfo applianceSessionDetailsInfo) {
         this.applianceAccessManager = applianceAccessManager;
         this.navigator = navigator;
         this.wiFiConnectivityManager = wiFiConnectivityManager;
@@ -174,7 +174,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         this.discoveryHelper = discoveryHelper;
         this.stringProvider = stringProvider;
         this.title = new ObservableField<>(getTitle(baseContentConfiguration));
-        this.secureStorageUtility = secureStorageUtility;
+        this.applianceSessionDetailsInfo = applianceSessionDetailsInfo;
     }
 
     public void setFragmentCallback(@Nullable ConnectingDeviceToWifiCallback fragmentCallback) {

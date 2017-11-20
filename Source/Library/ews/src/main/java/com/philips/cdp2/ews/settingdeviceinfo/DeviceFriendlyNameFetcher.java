@@ -8,8 +8,8 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
+import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.appliance.EWSGenericAppliance;
-import com.philips.cdp2.ews.util.SecureStorageUtility;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -26,7 +26,7 @@ public class DeviceFriendlyNameFetcher {
 
     @Nullable private Callback callback;
 
-    @NonNull private final SecureStorageUtility secureStorageUtility;
+    @NonNull private final ApplianceSessionDetailsInfo applianceSessionDetailsInfo;
 
     @NonNull private final DICommPortListener<DevicePort> portListener = new DICommPortListener<DevicePort>() {
         @Override
@@ -42,9 +42,9 @@ public class DeviceFriendlyNameFetcher {
 
     @Inject
     public DeviceFriendlyNameFetcher(@NonNull @Named("ews.temporary.appliance") EWSGenericAppliance appliance,
-                                     @NonNull SecureStorageUtility secureStorageUtility) {
+                                     @NonNull ApplianceSessionDetailsInfo applianceSessionDetailsInfo) {
         this.appliance = appliance;
-        this.secureStorageUtility = secureStorageUtility;
+        this.applianceSessionDetailsInfo = applianceSessionDetailsInfo;
     }
 
     public void fetchFriendlyName() {
@@ -67,7 +67,8 @@ public class DeviceFriendlyNameFetcher {
         if (callback == null) return;
         if (devicePort != null && devicePort.getPortProperties() != null) {
             String pin = LanTransportContext.readPin(appliance);
-            secureStorageUtility.storeString(SecureStorageUtility.APPLIANCE_PIN, pin);
+            applianceSessionDetailsInfo.setAppliancePin(pin);
+            //secureStorageUtility.storeString(SecureStorageUtility.APPLIANCE_PIN, pin);
             callback.onFriendlyNameFetchingSuccess(devicePort.getPortProperties().getName());
         } else {
             callback.onFriendlyNameFetchingFailed();
