@@ -10,8 +10,6 @@ import java.util.Map;
 
 public class InfraServiceInfoProvider implements ServiceInfoProvider {
 
-    // This field has to remove later(cssUrl should take from service discovery)
-    private static final String URL = "https://platforminfra-css-platforminfradev.cloud.pcftest.com/consent";
     private static final String CSS_SERVICE_DISCOVERY_KEY = "ds.consentservice";
 
     public void retrieveInfo(ServiceDiscoveryInterface serviceDiscovery, ResponseListener responseListener) {
@@ -32,7 +30,9 @@ public class InfraServiceInfoProvider implements ServiceInfoProvider {
         @Override
         public void onSuccess(Map<String, ServiceDiscoveryService> map) {
             ArrayList<ServiceDiscoveryService>  services = new ArrayList<>(map.values());
-            listener.onResponse(new AppInfraInfo(URL));
+            if (services.size() > 0) {
+                listener.onResponse(new AppInfraInfo(services.get(0).getConfigUrls()));
+            }
         }
 
         @Override
