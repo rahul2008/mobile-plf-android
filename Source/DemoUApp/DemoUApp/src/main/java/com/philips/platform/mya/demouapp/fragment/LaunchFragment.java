@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 
-import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.csw.ConsentDefinition;
 import com.philips.platform.mya.demouapp.DemoAppActivity;
 import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
