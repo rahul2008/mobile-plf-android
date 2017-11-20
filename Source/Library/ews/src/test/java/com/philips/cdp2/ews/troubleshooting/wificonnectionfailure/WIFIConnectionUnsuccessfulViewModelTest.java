@@ -38,29 +38,29 @@ public class WIFIConnectionUnsuccessfulViewModelTest {
     @Test
     public void itShouldUpdateUpperBody() throws Exception {
         String description = "Awesome description";
-        subject.setUpperBody(description);
-        assertEquals(description, subject.upperBody.get());
+        subject.setUpperBodyText(description);
+        assertEquals(description, subject.upperBodyText.get());
     }
 
     @Test
     public void itShouldUpdateStep2() throws Exception {
         String description = "Awesome description";
-        subject.setStep2(description);
-        assertEquals(description, subject.step2.get());
+        subject.setStepTwoText(description);
+        assertEquals(description, subject.stepTwoText.get());
     }
 
     @Test
     public void itShouldUpdateUpperHelper() throws Exception {
         String description = "Awesome description";
-        subject.setUpperHelper(description);
-        assertEquals(description, subject.upperHelper.get());
+        subject.setUpperHelperText(description);
+        assertEquals(description, subject.upperHelperText.get());
     }
 
     @Test
     public void isShouldLowerHelper() throws Exception{
         String note = "Updated Notes";
-        subject.setLowerHelper(note);
-        assertEquals(note, subject.lowerHelper.get());
+        subject.setLowerHelperText(note);
+        assertEquals(note, subject.lowerHelperText.get());
     }
 
     @Test

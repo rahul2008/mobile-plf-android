@@ -170,18 +170,10 @@ public class EWSModule {
             @NonNull StringProvider stringProvider,
             @NonNull BaseContentConfiguration baseContentConfiguration) {
 
-        final ConnectionEstablishDialogFragment dialogFragment =
-                ConnectionEstablishDialogFragment
-                        .getInstance(R.string.label_ews_establishing_connection_body);
-
-        GPSEnableDialogFragment gpsEnableDialogFragment= new GPSEnableDialogFragment();
-        Bundle bundle= new Bundle();
-        bundle.putString(ConnectingDeviceWithWifiFragment.DEVICE_NAME,stringProvider.getString(baseContentConfiguration.getDeviceName()));
-        gpsEnableDialogFragment.setArguments(bundle);
-
         return new SecondSetupStepsViewModel(navigator, eventBus, permissionHandler,
-                dialogFragment, null,
-                gpsEnableDialogFragment, new Handler(context.getMainLooper())
+                ConnectionEstablishDialogFragment
+                        .getInstance(R.string.label_ews_establishing_connection_body), null,
+                createGPSDialogFragment(stringProvider, baseContentConfiguration), new Handler(context.getMainLooper())
                 , stringProvider, happyFlowContentConfiguration);
     }
 
@@ -197,4 +189,14 @@ public class EWSModule {
         return new Handler(Looper.getMainLooper());
     }
 
+    private GPSEnableDialogFragment createGPSDialogFragment(StringProvider stringProvider, BaseContentConfiguration baseContentConfiguration) {
+        GPSEnableDialogFragment gpsEnableDialogFragment = new GPSEnableDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(ConnectingDeviceWithWifiFragment.DEVICE_NAME, stringProvider.getString(baseContentConfiguration.getDeviceName()));
+        gpsEnableDialogFragment.setArguments(bundle);
+        return gpsEnableDialogFragment;
+    }
+
 }
+
+

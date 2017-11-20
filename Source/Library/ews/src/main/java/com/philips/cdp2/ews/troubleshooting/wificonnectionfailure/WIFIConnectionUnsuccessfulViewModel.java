@@ -16,16 +16,16 @@ import javax.inject.Inject;
 public class WIFIConnectionUnsuccessfulViewModel {
 
     @NonNull
-    public final ObservableField<String> upperBody;
+    public final ObservableField<String> upperBodyText;
 
     @NonNull
-    public final ObservableField<String> step2;
+    public final ObservableField<String> stepTwoText;
 
     @NonNull
-    public final ObservableField<String> upperHelper;
+    public final ObservableField<String> upperHelperText;
 
     @NonNull
-    public final ObservableField<String> lowerHelper;
+    public final ObservableField<String> lowerHelperText;
 
     @NonNull
     private final Navigator navigator;
@@ -33,26 +33,26 @@ public class WIFIConnectionUnsuccessfulViewModel {
     @Inject
     public WIFIConnectionUnsuccessfulViewModel(@NonNull Navigator navigator) {
         this.navigator = navigator;
-        upperBody = new ObservableField<>();
-        step2 = new ObservableField<>();
-        upperHelper = new ObservableField<>();
-        lowerHelper = new ObservableField<>();
+        upperBodyText = new ObservableField<>();
+        stepTwoText = new ObservableField<>();
+        upperHelperText = new ObservableField<>();
+        lowerHelperText = new ObservableField<>();
     }
 
-    public void setUpperBody(@NonNull String upperBody) {
-        this.upperBody.set(upperBody);
+    public void setUpperBodyText(@NonNull String upperBodyText) {
+        this.upperBodyText.set(upperBodyText);
     }
 
-    public void setStep2(@NonNull String step2) {
-        this.step2.set(step2);
+    public void setStepTwoText(@NonNull String stepTwoText) {
+        this.stepTwoText.set(stepTwoText);
     }
 
-    public void setUpperHelper(@NonNull String upperHelper) {
-        this.upperHelper.set(upperHelper);
+    public void setUpperHelperText(@NonNull String upperHelperText) {
+        this.upperHelperText.set(upperHelperText);
     }
 
-    public void setLowerHelper(@NonNull String lowerHelper) {
-        this.lowerHelper.set(lowerHelper);
+    public void setLowerHelperText(@NonNull String lowerHelperText) {
+        this.lowerHelperText.set(lowerHelperText);
     }
 
     public void onTryAgainClicked() {

@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_body_labels_margin"
-                android:text="@{viewModel.upperBody}" />
+                android:text="@{viewModel.upperBodyText}" />
 
 
             <com.philips.platform.uid.view.widget.Label
@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_body_labels_margin"
-                android:text="@{viewModel.step2}" />
+                android:text="@{viewModel.stepTwoText}" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -81,7 +81,7 @@
                 android:paddingEnd="@dimen/default_main_helper_padding"
                 android:paddingStart="@dimen/default_main_helper_padding"
                 android:paddingTop="@dimen/default_main_helper_padding"
-                android:text="@{viewModel.upperHelper}"/>
+                android:text="@{viewModel.upperHelperText}"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/wrong_wifi_lower_helper"
@@ -92,7 +92,7 @@
                 android:paddingEnd="@dimen/default_main_helper_padding"
                 android:paddingStart="@dimen/default_main_helper_padding"
                 android:paddingTop="@dimen/default_main_helper_padding"
-                android:text="@{viewModel.lowerHelper}"/>
+                android:text="@{viewModel.lowerHelperText}"/>
             </LinearLayout>
             <android.support.v4.widget.Space
                 android:layout_width="match_parent"

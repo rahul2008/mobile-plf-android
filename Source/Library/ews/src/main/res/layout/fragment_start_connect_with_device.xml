@@ -56,7 +56,7 @@
                     style="@style/Txt.Body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.note}"
+                    android:text="@{viewModel.body}"
                     tools:text="@string/label_ews_get_started_body" />
 
                 <LinearLayout

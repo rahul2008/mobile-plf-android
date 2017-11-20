@@ -167,11 +167,6 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         this.title = new ObservableField<>(getTitle(baseContentConfiguration));
     }
 
-    @Nullable
-    public String getHomeWiFiSSID() {
-        return wiFiUtil.getHomeWiFiSSD();
-    }
-
     public void setFragmentCallback(@Nullable ConnectingDeviceToWifiCallback fragmentCallback) {
         this.fragmentCallback = fragmentCallback;
     }
@@ -277,6 +272,11 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
 
     public void trackPageName() {
         EWSTagger.trackPage(Page.CONNECTING_DEVICE_WITH_WIFI);
+    }
+
+    @Nullable
+    public String getHomeWiFiSSID() {
+        return wiFiUtil.getHomeWiFiSSD();
     }
 
 }
