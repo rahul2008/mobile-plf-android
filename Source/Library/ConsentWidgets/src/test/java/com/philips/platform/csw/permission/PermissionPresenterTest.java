@@ -2,7 +2,6 @@ package com.philips.platform.csw.permission;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.ConsentAccessToolKitEmulator;
 import com.philips.platform.catk.CswConsentAccessToolKitManipulator;
 import com.philips.platform.catk.model.Consent;
@@ -38,8 +37,6 @@ public class PermissionPresenterTest {
     private CatkComponentMock catkComponent;
 
     private ConsentAccessToolKitEmulator consentAccessToolKit;
-    @Mock
-    private NetworkHelper mockNetworkHelper;
 
     @Before
     public void setUp() throws Exception {
@@ -94,7 +91,7 @@ public class PermissionPresenterTest {
 
     @Test
     public void testonResponseSuccessConsent() throws Exception {
-          Consent consent = new Consent(new Locale("nl","NL"), ConsentStatus.active, "moment", 1);
+        Consent consent = new Consent(new Locale("nl", "NL"), ConsentStatus.active, "moment", 1);
 
         List<Consent> responseData = new ArrayList<Consent>();
         responseData.add(consent);
