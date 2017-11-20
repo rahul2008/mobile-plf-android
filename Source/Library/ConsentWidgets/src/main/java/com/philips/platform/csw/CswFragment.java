@@ -8,6 +8,7 @@
 package com.philips.platform.csw;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,6 +23,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CswFragment extends Fragment implements BackEventListener {
     private FragmentManager mFragmentManager;
@@ -134,6 +136,10 @@ public class CswFragment extends Fragment implements BackEventListener {
 
     public String getPropositionName() {
         return config.getPropositionName();
+    }
+
+    public List<ConsentDefinition> getConsentDefinitions() {
+        return config.getConsentDefinitions();
     }
 
     public boolean getIsAddedToBackStack() {

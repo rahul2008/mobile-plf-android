@@ -30,9 +30,8 @@ class GetConsentInteractor {
         this.consentDefinitionList = consentDefinitionList;
     }
 
-    void getConsents(@NonNull final Callback callback, PermissionInterface permissionInterface) {
+    void getConsents(@NonNull final Callback callback) {
         instance.getConsentDetails(new ConsentViewResponseListener(consentDefinitionList, callback));
-        permissionInterface.hideProgressDialog();
     }
 
     class ConsentViewResponseListener implements ConsentResponseListener {

@@ -19,16 +19,17 @@ public class PermissionPresenter implements GetConsentInteractor.Callback {
 
     void getConsentStatus() {
         permissionInterface.showProgressDialog();
-        getConsentInteractor.getConsents(this, permissionInterface);
+        getConsentInteractor.getConsents(this);
     }
 
     @Override
     public void onConsentFailed(int error) {
-
+        permissionInterface.hideProgressDialog();
     }
 
     @Override
     public void onConsentRetrieved(@NonNull List<ConsentView> consent) {
         permissionInterface.onConsentRetrieved(consent);
+        permissionInterface.hideProgressDialog();
     }
 }
