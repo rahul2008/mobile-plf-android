@@ -117,7 +117,11 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
     @NonNull
     private Map<String, String> createProductMap() {
         Map<String, String> productKeyMap = new HashMap<>();
-        productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.ews_device_name_default));
+        if (isDefaultValueSelected()) {
+            productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.ews_device_name_default));
+        } else {
+            productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.ews_device_name));
+        }
         return productKeyMap;
     }
 
@@ -126,7 +130,7 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
         if (isDefaultValueSelected()) {
             return new BaseContentConfiguration();
         } else {
-            return new BaseContentConfiguration(R.string.ews_device_name_default, R.string.ews_app_name_default);
+            return new BaseContentConfiguration(R.string.ews_device_name, R.string.ews_app_name);
         }
     }
 
