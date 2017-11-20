@@ -41,27 +41,20 @@
                 android:layout_marginTop="@dimen/default_body_labels_margin"
                 android:text="@{viewmodel.description}" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <ImageView
+                style="@style/EWS.ImageScale"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
+                android:layout_marginTop="@dimen/default_image_top_margin"
+                android:contentDescription="@null"
+                android:src="@{viewmodel.connectWrongImage}" />
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/Txt.Body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_body_labels_margin"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@null"
-                    style="@style/EWS.ImageScale"
-                    android:src="@{viewmodel.connectWrongImage}" />
-
-                <com.philips.platform.uid.view.widget.Label
-                    style="@style/Txt.Body"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_body_labels_margin"
-                    android:text="@{viewmodel.questions}" />
-            </LinearLayout>
+                android:text="@{viewmodel.questions}" />
 
             <android.support.v4.widget.Space
                 android:layout_width="match_parent"
