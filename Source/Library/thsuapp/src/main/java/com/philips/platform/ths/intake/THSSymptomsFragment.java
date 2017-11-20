@@ -152,6 +152,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         imageListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
         thsImageRecyclerViewAdapter = new THSImageRecyclerViewAdapter(selectedImagePojoList, this);
+        thsImageRecyclerViewAdapter.isClickable = true;
         imageListView.setAdapter(thsImageRecyclerViewAdapter);
         topicLayout = (LinearLayout) view.findViewById(R.id.checkbox_container);
         camera_button = (ImageButton) view.findViewById(R.id.camera_click_button);
