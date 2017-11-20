@@ -1,6 +1,11 @@
+/**
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdp2.ews.base;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -11,6 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.dialog.EWSAlertDialogFragment;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
@@ -33,12 +39,13 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     public void onStart() {
         super.onStart();
         setToolbarTitle();
+        if (getChildFragmentManager().getFragments().isEmpty()){
+            callTrackPageName();
+        }
     }
-
 
     public void handleCancelButtonClicked() {
         showCancelDialog(getEWSComponent().getBaseContentConfiguration().getDeviceName());
-        EWSTagger.trackPage(Page.CANCEL_WIFI_SETUP);
     }
 
     @VisibleForTesting
@@ -51,8 +58,34 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
                 .setDialogView(view)
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDimLayer(DialogConstants.DIM_STRONG)
-                .setCancelable(true);
-        final AlertDialogFragment alertDialogFragment = builder.create();
+                .setCancelable(false);
+
+        final EWSAlertDialogFragment alertDialogFragment = (EWSAlertDialogFragment) builder.create(new EWSAlertDialogFragment());
+        alertDialogFragment.setFragmentLifeCycleListener(new EWSAlertDialogFragment.FragmentLifeCycleListener() {
+            @Override
+            public void onStart() {
+                EWSTagger.trackPage(Page.CANCEL_WIFI_SETUP);
+            }
+
+            @Override
+            public void onStop() {
+
+            }
+
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+            }
+
+            @Override
+            public void onCancel(DialogInterface dialog) {
+            }
+
+            @Override
+            public void onActivityCreated(Bundle savedInstanceState) {
+
+            }
+        });
+
         alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
 
         Button yesButton = (Button) view.findViewById(R.id.ews_04_02_button_cancel_setup_yes);
@@ -64,10 +97,10 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
                 getActivity().finish();
             }
         });
-
         noButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                callTrackPageName();
                 alertDialogFragment.dismiss();
             }
         });
@@ -80,12 +113,6 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
 
     public void setToolbarTitle() {
         ((EWSActionBarListener) getContext()).updateActionBar(R.string.ews_title, true);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        callTrackPageName();
     }
 
     public EWSComponent getEWSComponent() {
