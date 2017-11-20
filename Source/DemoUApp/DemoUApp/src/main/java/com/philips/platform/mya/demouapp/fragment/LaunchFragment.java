@@ -101,8 +101,11 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                     cswDependencies.setPropositionName(PROPOSITION_NAME);
                     UappSettings uappSettings = new UappSettings(getContext());
                     cswInterface.init(cswDependencies, uappSettings);
-                    DemoAppActivity activity = (DemoAppActivity) getActivity();
-                    cswInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, activity.getThemeResourceId()), buildLaunchInput(true, getContext()));
+                    ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
+                            ActivityOrientation.SCREEN_ORIENTATION_SENSOR, ((DemoAppActivity) getActivity()).getThemeConfig(),
+                            ((DemoAppActivity) getActivity()).getThemeResourceId(), null);
+
+                    cswInterface.launch(activityLauncher, buildLaunchInput(true, getContext()));
                     return true;
                 }
                 return false;

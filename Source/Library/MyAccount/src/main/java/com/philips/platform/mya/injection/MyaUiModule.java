@@ -8,7 +8,6 @@ package com.philips.platform.mya.injection;
 
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
@@ -20,7 +19,6 @@ import dagger.Provides;
 @Module
 public class MyaUiModule {
 
-    private FragmentLauncher fragmentLauncher;
     private MyaListener myaListener;
     private ThemeConfiguration themeConfiguration;
 
@@ -28,19 +26,7 @@ public class MyaUiModule {
         this.myaListener = myaListener;
         if (uiLauncher instanceof ActivityLauncher) {
             this.themeConfiguration = ((ActivityLauncher) uiLauncher).getDlsThemeConfiguration();
-        } else {
-            this.fragmentLauncher = (FragmentLauncher) uiLauncher;
         }
-    }
-
-    @Singleton
-    @Provides
-    public FragmentLauncher getFragmentLauncher() {
-        return fragmentLauncher;
-    }
-
-    public void setFragmentLauncher(FragmentLauncher fragmentLauncher) {
-        this.fragmentLauncher = fragmentLauncher;
     }
 
     @Singleton

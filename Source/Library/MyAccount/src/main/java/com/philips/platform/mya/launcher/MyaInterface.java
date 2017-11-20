@@ -36,7 +36,6 @@ public class MyaInterface implements UappInterface {
     private static String propositionName;
     private static MyaDependencyComponent myaDependencyComponent;
     private static MyaUiComponent myaUiComponent;
-    private MyaUiModule myaUiModule;
 
     /**
      * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
@@ -47,9 +46,8 @@ public class MyaInterface implements UappInterface {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         MyaLaunchInput myaLaunchInput = (MyaLaunchInput) uappLaunchInput;
-        myaUiModule = new MyaUiModule(uiLauncher, myaLaunchInput.getMyaListener());
         myaUiComponent = DaggerMyaUiComponent.builder()
-                .myaUiModule(myaUiModule).build();
+                .myaUiModule(new MyaUiModule(uiLauncher, myaLaunchInput.getMyaListener())).build();
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
             launchAsActivity(activityLauncher, myaLaunchInput);
@@ -68,7 +66,6 @@ public class MyaInterface implements UappInterface {
         }
         extras.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
         extras.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
-        myaUiModule.setFragmentLauncher(fragmentLauncher);
         MyaTabFragment myaTabFragment = new MyaTabFragment();
         myaTabFragment.setArguments(extras);
         myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
