@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.csw.ConsentBundleConfig;
+import com.philips.platform.csw.ConsentDefinition;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.injection.MyaUiComponent;
 import com.philips.platform.mya.interfaces.MyaListener;
@@ -31,6 +33,8 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 
+import java.util.ArrayList;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
@@ -38,17 +42,16 @@ import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
 public class MyAccountActivity extends UIDActivity implements MyaListener {
 
     private TextView mTitle;
-    private String applicationName;
-    private String propositionName;
     private ImageView leftImageView;
+    private ConsentBundleConfig config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         UIDHelper.injectCalligraphyFonts();
         initDLSThemeIfExists();
         super.onCreate(savedInstanceState);
+        config = new ConsentBundleConfig(getIntent().getExtras());
         setContentView(R.layout.mya_myaccounts_activity);
-        fetchConsentData();
         Toolbar toolbar = (Toolbar) findViewById(R.id.mya_toolbar);
         mTitle = (TextView) toolbar.findViewById(R.id.mya_toolbar_title);
         leftImageView = (ImageView) toolbar.findViewById(R.id.mya_toolbar_left_image);
@@ -65,21 +68,13 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
         launchTabFragment();
     }
 
-    private void fetchConsentData() {
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            applicationName = bundle.getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
-            propositionName = bundle.getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
-        }
-    }
-
     private void launchTabFragment() {
         MyaInterface myaInterface = new MyaInterface();
         MyaDependencies uappDependencies = new MyaDependencies(MyaInterface.getMyaDependencyComponent().getAppInfra());
-        uappDependencies.setApplicationName(applicationName);
-        uappDependencies.setPropositionName(propositionName);
+        uappDependencies.setApplicationName(config.getApplicationName());
+        uappDependencies.setPropositionName(config.getPropositionName());
 
-        myaInterface.init(uappDependencies, new MyaSettings(this));
+        myaInterface.init(uappDependencies, new MyaSettings(this, config.getConsentDefinitions()));
         myaInterface.launch(new FragmentLauncher(this, R.id.mainContainer, new ActionBarListener() {
             @Override
             public void updateActionBar(int i, boolean shouldBackEnable) {
@@ -155,19 +150,18 @@ public class MyAccountActivity extends UIDActivity implements MyaListener {
         }
     }
 
-
     @Override
     protected void onRestoreInstanceState(Bundle state) {
         super.onRestoreInstanceState(state);
-        applicationName = state.getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
-        propositionName = state.getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        if (state != null) {
+            config = new ConsentBundleConfig(state);
+        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
-        state.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
-        state.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        state.putAll(config.toBundle());
     }
 
     @Override

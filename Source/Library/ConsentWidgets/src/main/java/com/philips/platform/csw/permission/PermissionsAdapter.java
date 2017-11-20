@@ -51,7 +51,7 @@ class PermissionsAdapter extends RecyclerView.Adapter<PermissionsAdapter.Permiss
     void onConsentRetrieved(@NonNull List<ConsentView> consentViews) {
         items.clear();
         items.addAll(consentViews);
-        notifyItemRangeInserted(0, consentViews.size());
+        notifyItemRangeChanged(0, consentViews.size());
     }
 
     static class PermissionViewHolder extends RecyclerView.ViewHolder{

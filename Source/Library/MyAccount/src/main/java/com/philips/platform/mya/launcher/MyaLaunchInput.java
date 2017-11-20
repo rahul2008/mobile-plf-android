@@ -22,7 +22,6 @@ import java.util.List;
 public class MyaLaunchInput extends UappLaunchInput {
 
     private Context context;
-    private List<ConsentDefinition> consentDefinition;
     private boolean isAddToBackStack;
 
 
@@ -35,14 +34,6 @@ public class MyaLaunchInput extends UappLaunchInput {
         this.myaListener = myaListener;
     }
 
-
-    public List<ConsentDefinition> getConsentDefinition() {
-        return consentDefinition;
-    }
-
-    public void setConsentDefinition(List<ConsentDefinition> consentDefinition) {
-        this.consentDefinition = consentDefinition;
-    }
 
     public Context getContext() {
         return context;

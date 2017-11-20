@@ -2,6 +2,7 @@ package com.philips.platform.csw;
 
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
@@ -56,7 +57,10 @@ public class CswInterface implements UappInterface {
             CswFragment cswFragment = new CswFragment();
             cswFragment.setOnUpdateTitleListener(fragmentLauncher.
                     getActionbarListener());
-            cswFragment.setArguments(uappLaunchInput.getApplicationName(), uappLaunchInput.getPropositionName(), uappLaunchInput.isAddtoBackStack());
+
+            Bundle fragmentConfig = uappLaunchInput.getConfig().toBundle();
+            fragmentConfig.putBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK, uappLaunchInput.isAddtoBackStack());
+            cswFragment.setArguments(fragmentConfig);
 
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
@@ -76,8 +80,8 @@ public class CswInterface implements UappInterface {
     private void launchAsActivity(ActivityLauncher uiLauncher, CswLaunchInput uappLaunchInput) {
         if (null != uiLauncher && uappLaunchInput != null) {
             Intent cswIntent = new Intent(uappLaunchInput.getContext(), CswActivity.class);
-            cswIntent.putExtra(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, uappLaunchInput.getApplicationName());
-            cswIntent.putExtra(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, uappLaunchInput.getPropositionName());
+            cswIntent.putExtras(uappLaunchInput.getConfig().toBundle());
+
             cswIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             uappLaunchInput.getContext().startActivity(cswIntent);
         }
@@ -91,7 +95,6 @@ public class CswInterface implements UappInterface {
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        initConsentToolKit(uappDependencies, uappSettings);
         ConsentAccessToolKit.getInstance().init(initConsentToolKit(uappDependencies, uappSettings));
         cswComponent = initDaggerComponents(uappDependencies, uappSettings);
         CswLogger.init();

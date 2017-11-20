@@ -135,20 +135,6 @@ public class MyaFragment extends Fragment {
         this.setArguments(b);
     }
 
-    public void launchCswFragment() {
-        FragmentLauncher fragmentLauncher = new FragmentLauncher(getActivity(), R.id.mya_frame_layout_view_container, mActionBarListener);
-        new CswInterface().launch(fragmentLauncher, buildLaunchInput(true));
-    }
-
-    private CswLaunchInput buildLaunchInput(boolean addToBackStack) {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput();
-        cswLaunchInput.setPropositionName(propositionName);
-        cswLaunchInput.setApplicationName(applicationName);
-        cswLaunchInput.addToBackStack(addToBackStack);
-        cswLaunchInput.setContext(getContext());
-        return cswLaunchInput;
-    }
-
     protected FragmentActivity overridableGetActivity() {
         return getActivity();
     }

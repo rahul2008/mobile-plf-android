@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.profile.MyaProfileFragment;
 import com.philips.platform.mya.settings.MyaSettingsFragment;
@@ -20,13 +21,15 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 public class MyaPager extends FragmentStatePagerAdapter {
 
     private int tabCount;
+    private final ConsentBundleConfig config;
     private AppInfra appInfra;
     private FragmentLauncher fragmentLauncher;
     private MyaListener myaListener;
 
-    public MyaPager(FragmentManager fm, int tabCount) {
+    public MyaPager(FragmentManager fm, int tabCount, ConsentBundleConfig config) {
         super(fm);
         this.tabCount= tabCount;
+        this.config = config;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class MyaPager extends FragmentStatePagerAdapter {
             case 0:
                 return new MyaProfileFragment();
             case 1:
-                return new MyaSettingsFragment();
+                return MyaSettingsFragment.newInstance(config);
             default:
                 return null;
         }

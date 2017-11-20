@@ -73,14 +73,9 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         launch_my_account.setOnClickListener(this);
     }
 
-
-
-
     protected ThemeConfiguration getDLSThemeConfiguration(Context context) {
         return new ThemeConfiguration(context, ColorRange.ORANGE, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE);
     }
-
-
 
     @Override
     public int getPageTitle() {
@@ -105,10 +100,8 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
             }
         });
 
-        launchInput.setConsentDefinition(createConsentDefinitions(null, Locale.US));
-
         MyaInterface myaInterface = new MyaInterface();
-        myaInterface.init(uappDependencies, new MyaSettings(((DemoAppActivity) getActivity())));
+        myaInterface.init(uappDependencies, new MyaSettings((DemoAppActivity) getActivity(), createConsentDefinitions(null, Locale.US)));
 
         if (checkedId == R.id.radioButton) {
 
@@ -125,6 +118,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
     private List<ConsentDefinition> createConsentDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
         definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", "moment", 1, currentLocale));
+        definitions.add(new ConsentDefinition("I allow don't Philips to store my data in cloud", "No one is able to see this text in the app", "tnemom", 1, currentLocale));
         return definitions;
     }
 }

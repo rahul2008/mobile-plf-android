@@ -4,39 +4,28 @@ import android.content.Context;
 
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
+import java.util.List;
+
 /**
  * This class is used to provide input parameters and customizations for myaccount.
  */
 
 public class CswLaunchInput extends UappLaunchInput {
 
-    private String applicationName;
-    private String propositionName;
+    private ConsentBundleConfig config;
+    private final Context context;
 
-    public String getApplicationName() {
-        return applicationName;
+    public CswLaunchInput(ConsentBundleConfig config, Context context) {
+        this.config = config;
+        this.context = context;
     }
 
-    public void setApplicationName(String applicationName) {
-        this.applicationName = applicationName;
-    }
-
-    public String getPropositionName() {
-        return propositionName;
-    }
-
-    public void setPropositionName(String propositionName) {
-        this.propositionName = propositionName;
+    public ConsentBundleConfig getConfig() {
+        return config;
     }
 
     public Context getContext() {
         return context;
-    }
-
-    private Context context;
-
-    public void setContext(Context context) {
-        this.context = context;
     }
 
     /**

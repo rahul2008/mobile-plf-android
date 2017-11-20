@@ -10,6 +10,7 @@ package com.philips.platform.csw;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -25,6 +26,8 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.utils.UIDActivity;
 
+import java.util.ArrayList;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class CswActivity extends UIDActivity implements OnClickListener,
@@ -33,9 +36,7 @@ public class CswActivity extends UIDActivity implements OnClickListener,
     final String iconFontAssetName = "PUIIcon.ttf";
 
     private TextView ivBack;
-
-    private String applicationName;
-    private String propositionName;
+    private ConsentBundleConfig config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +45,7 @@ public class CswActivity extends UIDActivity implements OnClickListener,
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            applicationName = bundle.getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
-            propositionName = bundle.getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
-
-            /*if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-            } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-            }*/
+            config = new ConsentBundleConfig(bundle);
         }
 
         setContentView(R.layout.csw_activity);
@@ -72,15 +62,15 @@ public class CswActivity extends UIDActivity implements OnClickListener,
     @Override
     protected void onRestoreInstanceState(Bundle state) {
         super.onRestoreInstanceState(state);
-        applicationName = state.getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
-        propositionName = state.getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        if (state != null) {
+            config = new ConsentBundleConfig(state);
+        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
-        state.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
-        state.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        state.putAll(config.toBundle());
     }
 
     @Override
@@ -112,10 +102,7 @@ public class CswActivity extends UIDActivity implements OnClickListener,
     }
 
     private CswLaunchInput buildLaunchInput() {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput();
-        cswLaunchInput.setApplicationName(applicationName);
-        cswLaunchInput.setPropositionName(propositionName);
-        return cswLaunchInput;
+        return new CswLaunchInput(config, this);
     }
 
     @Override
