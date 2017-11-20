@@ -7,7 +7,6 @@
 package com.philips.platform.ths.registration;
 
 import android.os.Bundle;
-import android.support.annotation.IntegerRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
@@ -71,8 +70,8 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         if (bundle != null) {
             mLaunchInput = bundle.getInt(THSConstants.THS_LAUNCH_INPUT, -1);
         }
-        setView(view);
         mThsRegistrationPresenter = new THSRegistrationPresenter(this);
+        setView(view);
         return view;
     }
 
@@ -85,8 +84,8 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         mEditTextLastName = (EditText) view.findViewById(R.id.ths_edit_last_name);
         mEditTextLastName.setOnFocusChangeListener(this);
         mDateOfBirth = (EditText) view.findViewById(R.id.ths_edit_dob);
-        firstNameValidationLayout = view.findViewById(R.id.ths_edit_first_name_container);
-        lastNameValidationLayout = view.findViewById(R.id.ths_edit_last_name_container);
+        firstNameValidationLayout = (InputValidationLayout) view.findViewById(R.id.ths_edit_first_name_container);
+        lastNameValidationLayout = (InputValidationLayout) view.findViewById(R.id.ths_edit_last_name_container);
         mDateOfBirth.setFocusable(false);
         mDateOfBirth.setClickable(true);
         mDateOfBirth.setOnClickListener(this);
@@ -106,53 +105,41 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
             e.printStackTrace();
         }
 
-
         spinnerAdapter = new THSSpinnerAdapter(getActivity(), R.layout.ths_pharmacy_spinner_layout, mValidStates);
         mStateSpinner.setAdapter(spinnerAdapter);
         mStateSpinner.setSelection(0);
         mStateSpinner.setOnItemSelectedEvenIfUnchangedListener(this);
-        mContinueButton.setEnabled(false);
         prePopulateData();
     }
 
     private void prePopulateData() {
 
         THSConsumer user = THSManager.getInstance().getThsConsumer(getContext());
-
         if (user.getFirstName() != null) {
             mEditTextFirstName.setText(user.getFirstName());
         }
         if (user.getLastName() != null) {
             mEditTextLastName.setText(user.getLastName());
         }
-        if (mEditTextFirstName.getText().length() <= 0 && mEditTextLastName.getText().length() <= 0) {
-            mContinueButton.setEnabled(true);
-        }
         if (user.getDob() != null) {
             mDob = user.getDob();
             setDate(user.getDob());
-
         }
-
         final com.philips.cdp.registration.ui.utils.Gender gender = user.getGender();
         if (gender == null)
             return;
-
         if (gender == com.philips.cdp.registration.ui.utils.Gender.FEMALE) {
             mCheckBoxFemale.setChecked(true);
         } else {
             mCheckBoxMale.setSelected(true);
         }
+
     }
 
-    private void enableDisableContinueBtn() {
+    protected boolean validateNameFields() {
         validateFirstNameField();
         validateLastNameField();
-        if (!(firstNameValidationLayout.isShowingError() || lastNameValidationLayout.isShowingError())) {
-            mContinueButton.setEnabled(true);
-        }else {
-            mContinueButton.setEnabled(false);
-        }
+        return !(firstNameValidationLayout.isShowingError() || lastNameValidationLayout.isShowingError());
     }
 
     @Override
@@ -169,12 +156,11 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.ths_continue) {
-            enableDisableContinueBtn();
             if (validateUserDetails()) {
 
                 mContinueButton.showProgressIndicator();
 
-                if(THSManager.getInstance().getThsConsumer(getContext()).isDependent()){
+                if (THSManager.getInstance().getThsConsumer(getContext()).isDependent()) {
                     mThsRegistrationPresenter.enrollDependent(mDob, mEditTextFirstName.getText().toString(),
                             mEditTextLastName.getText().toString(), Gender.MALE, mValidStates.get(mStateSpinner.getSelectedItemPosition()));
                 } else {
@@ -185,25 +171,27 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
         }
         if (id == R.id.ths_edit_dob) {
-            enableDisableContinueBtn();
             mThsRegistrationPresenter.onEvent(R.id.ths_edit_dob);
         }
         if (id == R.id.ths_edit_location_container) {
-            enableDisableContinueBtn();
             mStateSpinner.performClick();
         }
     }
 
     private boolean validateUserDetails() {
-        if (mThsRegistrationPresenter.validateDOB(mDob)) {
-            if (mThsRegistrationPresenter.validateLocation(mEditTextStateSpinner.getText().toString())) {
-                showError(getString(R.string.ths_registration_location_validation_error));
+        if (validateNameFields()) {
+            if (mThsRegistrationPresenter.validateDOB(mDob)) {
+                if (mThsRegistrationPresenter.validateLocation(mEditTextStateSpinner.getText().toString())) {
+                    showError(getString(R.string.ths_registration_location_validation_error));
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                showError(getString(R.string.ths_registration_dob_validation_error));
                 return false;
-            }else {
-                return true;
             }
         } else {
-            showError(getString(R.string.ths_registration_dob_validation_error));
             return false;
         }
     }
@@ -240,7 +228,6 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         } else if (view.getId() == R.id.ths_edit_last_name && !hasFocus) {
             validateLastNameField();
         }
-        enableDisableContinueBtn();
     }
 
     public void validateLastNameField() {

@@ -36,7 +36,8 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.booleanThat;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -225,7 +226,7 @@ public class THSVitalsFragmentTest {
         SupportFragmentTestUtil.startFragment(thsVitalsFragment);
         thsVitalsFragment.mThsVitalsPresenter = presenterMock;
         thsVitalsFragment.validateBloodPressure();
-        verify(presenterMock).checkIfValueEntered(thsVitalsFragment.mSystolic);
+        verify(presenterMock,atLeastOnce()).stringToInteger(any(String.class));
     }
 
     @Test
@@ -250,7 +251,8 @@ public class THSVitalsFragmentTest {
         when(presenterMock.stringToInteger("20")).thenReturn(20);
         when(presenterMock.stringToInteger("30")).thenReturn(30);
 
-        thsVitalsFragment.validateBloodPressure();
-        verify(presenterMock).checkIfValueEntered(thsVitalsFragment.mSystolic);
+        boolean test = thsVitalsFragment.validateBloodPressure();
+        assertTrue(!test);
+
     }
 }
