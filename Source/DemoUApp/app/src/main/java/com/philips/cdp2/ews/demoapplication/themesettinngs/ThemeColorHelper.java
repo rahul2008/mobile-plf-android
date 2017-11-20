@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.demoapplication.themesettinngs;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
 
 import com.philips.cdp2.ews.demoapplication.R;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -32,7 +33,7 @@ public class ThemeColorHelper {
     }
 
 
-    public int getColorResourceId(final Resources resources, final String basecolor, final String level, final String packageName) {
+    public int getColorResourceId(@NonNull final Resources resources, final String basecolor, final String level, final String packageName) {
         return resources.getIdentifier(String.format(Locale.getDefault(), "uid_%s_level_%s", basecolor, level), "color", packageName);
     }
 
@@ -60,7 +61,7 @@ public class ThemeColorHelper {
         return R.color.uidColorWhite;
     }
 
-    public List<ColorModel> getNavigationColorModelsList(final ColorRange colorRange, final Context context) {
+    public List<ColorModel> getNavigationColorModelsList(@NonNull final ColorRange colorRange, @NonNull final Context context) {
         final List<ColorModel> navigationColorModelList = new ArrayList<>();
 
         final String color = colorRange.name().toLowerCase();
@@ -84,7 +85,7 @@ public class ThemeColorHelper {
         };
     }
 
-    public List<ColorModel> getAccentColorsList(final ColorRange colorRange, final Resources resources, final String packageName) {
+    public List<ColorModel> getAccentColorsList(@NonNull final ColorRange colorRange, @NonNull final Resources resources, final String packageName) {
         final List<ColorModel> colorRangeModelsList = new ArrayList<>();
         for (AccentRange accentRange : accentMap.get(colorRange.name())) {
             final String shortName = getShortName(accentRange.name());

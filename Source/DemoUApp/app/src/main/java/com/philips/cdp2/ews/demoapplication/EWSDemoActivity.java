@@ -165,11 +165,6 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
         updateActionBar();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
     public void updateContentColor(ContentColor contentColor) {
         this.contentColor = contentColor;
     }
