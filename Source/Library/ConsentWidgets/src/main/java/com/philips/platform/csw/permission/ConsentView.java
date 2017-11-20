@@ -42,8 +42,12 @@ public class ConsentView {
         return this;
     }
 
-    boolean isSwitchEnabled() {
-        return consent != null && consent.getStatus().equals(ConsentStatus.active);
+    boolean isEnabled() {
+        return consent == null || definition.getVersion() >= consent.getVersion();
+    }
+
+    boolean isChecked() {
+        return consent != null && consent.getStatus().equals(ConsentStatus.active) && consent.getVersion() == definition.getVersion();
     }
 
     ConsentDefinition getDefinition() {

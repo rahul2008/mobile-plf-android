@@ -80,7 +80,7 @@ class PermissionsAdapter extends RecyclerView.Adapter<PermissionsAdapter.Permiss
             label.setText(definition.getConsentText());
             progress.setVisibility(definition.isLoading() ? View.VISIBLE : View.GONE);
 
-            toggle.setChecked(definition.isSwitchEnabled());
+            toggle.setChecked(definition.isChecked());
             toggle.setVisibility(definition.isLoading() ? View.INVISIBLE : View.VISIBLE);
             toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
