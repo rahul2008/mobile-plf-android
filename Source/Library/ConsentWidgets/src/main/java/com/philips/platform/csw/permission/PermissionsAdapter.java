@@ -47,10 +47,10 @@ class PermissionsAdapter extends RecyclerView.Adapter<PermissionsAdapter.Permiss
         return items.size();
     }
 
-    void onConsentRetrieved(@NonNull ConsentView consentView) {
-        int index = items.indexOf(consentView);
-        items.set(index, consentView);
-        notifyItemChanged(index);
+    void onConsentRetrieved(@NonNull List<ConsentView> consentViews) {
+        items.clear();
+        items.addAll(consentViews);
+        notifyItemRangeInserted(0, consentViews.size());
     }
 
     static class PermissionViewHolder extends RecyclerView.ViewHolder{

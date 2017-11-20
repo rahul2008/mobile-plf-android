@@ -156,9 +156,9 @@ public class PermissionView extends CswBaseFragment implements
     }
 
     @Override
-    public void onConsentRetrieved(@NonNull ConsentView consent) {
+    public void onConsentRetrieved(@NonNull List<ConsentView> consents) {
         if(permissionAdapter != null) {
-            permissionAdapter.onConsentRetrieved(consent);
+            permissionAdapter.onConsentRetrieved(consents);
         }
     }
 

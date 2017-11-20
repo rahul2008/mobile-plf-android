@@ -2,6 +2,8 @@ package com.philips.platform.csw.permission;
 
 import android.support.annotation.NonNull;
 
+import java.util.List;
+
 
 public class PermissionPresenter implements GetConsentInteractor.Callback {
 
@@ -27,7 +29,7 @@ public class PermissionPresenter implements GetConsentInteractor.Callback {
     }
 
     @Override
-    public void onConsentRetrieved(@NonNull ConsentView consent) {
+    public void onConsentRetrieved(@NonNull List<ConsentView> consent) {
         permissionInterface.onConsentRetrieved(consent);
     }
 }

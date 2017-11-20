@@ -5,15 +5,18 @@ import android.support.annotation.NonNull;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.model.Consent;
+import com.philips.platform.csw.ConsentDefinition;
 import com.philips.platform.csw.utils.CswLogger;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 class GetConsentInteractor {
 
     interface Callback {
-        void onConsentRetrieved(@NonNull final ConsentView consent);
+        void onConsentRetrieved(@NonNull final List<ConsentView> consent);
 
         void onConsentFailed(int error);
     }
@@ -29,26 +32,26 @@ class GetConsentInteractor {
     }
 
     void getConsents(@NonNull final Callback callback, PermissionInterface permissionInterface) {
-        for (ConsentView consentView : consentDefinitionList) {
-            instance.getStatusForConsentType(consentView.getType(), consentView.getVersion(), new ConsentViewResponseListener(consentView, callback));
-        }
+        instance.getConsentDetails(new ConsentViewResponseListener(consentDefinitionList, callback));
         permissionInterface.hideProgressDialog();
     }
 
     class ConsentViewResponseListener implements ConsentResponseListener {
 
-        private ConsentView consentView;
+        private List<ConsentView> consentView;
         private Callback listener;
 
-        ConsentViewResponseListener(ConsentView consentView, Callback listener) {
+        ConsentViewResponseListener(List<ConsentView> consentViews, Callback listener) {
             this.consentView = consentView;
             this.listener = listener;
         }
 
         @Override
         public void onResponseSuccessConsent(List<Consent> responseData) {
+
+
             if (responseData != null && !responseData.isEmpty()) {
-                this.listener.onConsentRetrieved(consentView.storeConsent(responseData.get(0)));
+                filterConsentsByDefinitions(responseData);
             } else {
                 this.listener.onConsentFailed(-1);
                 CswLogger.d(" Consent : ", "no consent for type found on server");
@@ -60,6 +63,24 @@ class GetConsentInteractor {
             CswLogger.d(" Consent : ", "response failure:" + consentError);
             this.listener.onConsentFailed(consentError);
             return 0;
+        }
+
+        private void filterConsentsByDefinitions(List<Consent> receivedConsents) {
+            Map<String, Consent> consentsMap = toMap(receivedConsents);
+            for (ConsentView consentView: consentView) {
+                Consent consent = consentsMap.get(consentView.getType());
+                if (consent != null) {
+                    consentView.storeConsent(consent);
+                }
+            }
+        }
+
+        private Map<String,Consent> toMap(List<Consent> responseData) {
+            Map<String, Consent> map = new HashMap<>();
+            for (Consent consent: responseData) {
+                map.put(consent.getType(), consent);
+            }
+            return map;
         }
     }
 }

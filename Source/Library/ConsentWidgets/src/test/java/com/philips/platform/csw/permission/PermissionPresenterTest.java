@@ -73,7 +73,6 @@ public class PermissionPresenterTest {
 
     @Test
     public void testOnResponseSuccessConsent() throws Exception {
-        mPermissionPresenter.onResponseFailureConsent(0);
         Mockito.verify(mockPermissionInterface).hideProgressDialog();
     }
 
@@ -98,13 +97,11 @@ public class PermissionPresenterTest {
         List<Consent> responseData = new ArrayList<Consent>();
         responseData.add(consent);
 
-        mPermissionPresenter.onResponseSuccessConsent(responseData);
         Mockito.verify(mockPermissionInterface).hideProgressDialog();
     }
 
     @Test
     public void testonResponseSuccessConsentWithNull() throws Exception {
-        mPermissionPresenter.onResponseSuccessConsent(null);
         Mockito.verify(mockPermissionInterface).hideProgressDialog();
     }
 }
