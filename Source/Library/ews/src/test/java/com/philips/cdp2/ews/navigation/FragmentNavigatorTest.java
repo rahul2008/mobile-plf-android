@@ -51,7 +51,7 @@ public class FragmentNavigatorTest {
         inOrder.verify(mockFragmentManager).beginTransaction();
         inOrder.verify(mockFragmentTransaction).replace(containerId, mockFragment);
         inOrder.verify(mockFragmentTransaction).addToBackStack("android.support.v4.app.Fragment");
-        inOrder.verify(mockFragmentTransaction).commit();
+        inOrder.verify(mockFragmentTransaction).commitAllowingStateLoss();
     }
 
     @Test
