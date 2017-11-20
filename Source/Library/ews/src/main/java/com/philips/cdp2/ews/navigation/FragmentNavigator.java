@@ -6,6 +6,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 public class FragmentNavigator {
 
@@ -20,13 +21,17 @@ public class FragmentNavigator {
         this.containerId = containerId;
     }
 
-    void push(@NonNull Fragment fragment, int containerId) {
+    void push(@NonNull Fragment fragment, int containerId,boolean allowingStateLoss) {
         boolean isPresentInStack = popToFragment(fragment.getClass().getCanonicalName());
         if (!isPresentInStack) {
-            fragmentManager.beginTransaction()
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
                     .replace(containerId, fragment)
-                    .addToBackStack(fragment.getClass().getCanonicalName())
-                    .commitAllowingStateLoss();
+                    .addToBackStack(fragment.getClass().getCanonicalName());
+            if(allowingStateLoss){
+                fragmentTransaction.commitAllowingStateLoss();
+            }else {
+                fragmentTransaction.commit();
+            }
         }
     }
 

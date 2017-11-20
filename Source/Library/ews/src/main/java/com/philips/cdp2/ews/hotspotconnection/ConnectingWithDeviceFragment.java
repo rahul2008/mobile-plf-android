@@ -85,7 +85,7 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
                 .setDimLayer(DialogConstants.DIM_STRONG)
                 .setCancelable(false);
         final AlertDialogFragment alertDialogFragment = builder.create();
-        alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
+        alertDialogFragment.showAllowingStateLoss(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
         getChildFragmentManager().executePendingTransactions();
         ((Label) view.findViewById(R.id.connection_unsuccessful_body)).setText(getString(R.string.label_ews_connection_problem_body, getString(baseContentConfiguration.getDeviceName())));
 

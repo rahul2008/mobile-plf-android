@@ -35,74 +35,74 @@ public class Navigator {
     }
 
     public void navigateToGettingStartedScreen() {
-        pushFragment(new StartConnectWithDeviceFragment());
+        pushFragment(new StartConnectWithDeviceFragment(), false);
     }
 
     public void navigateToHomeNetworkConfirmationScreen() {
-        pushFragment(new ConfirmWifiNetworkFragment());
+        pushFragment(new ConfirmWifiNetworkFragment(), false);
     }
 
     public void navigateToDevicePoweredOnConfirmationScreen() {
-        pushFragment(new FirstSetupStepsFragment());
+        pushFragment(new FirstSetupStepsFragment(), false);
     }
 
     public void navigateToCompletingDeviceSetupScreen() {
-        pushFragment(new SecondSetupStepsFragment());
+        pushFragment(new SecondSetupStepsFragment(), false);
     }
 
     public void navigateToConnectToDeviceWithPasswordScreen(String friendlyName) {
-        pushFragment(ConnectWithPasswordFragment.newInstance(friendlyName));
+        pushFragment(ConnectWithPasswordFragment.newInstance(friendlyName), true);
     }
 
     public void navigateToPairingSuccessScreen() {
-        pushFragment(new ConnectionSuccessfulFragment());
+        pushFragment(new ConnectionSuccessfulFragment(), false);
     }
 
     public void navigateToResetConnectionTroubleShootingScreen() {
-        pushFragment(new ResetConnectionTroubleshootingFragment());
+        pushFragment(new ResetConnectionTroubleshootingFragment(), false);
     }
 
     public void navigateToResetDeviceTroubleShootingScreen() {
-        pushFragment(new ResetDeviceTroubleshootingFragment());
+        pushFragment(new ResetDeviceTroubleshootingFragment(), false);
     }
 
     public void navigateToConnectToWrongPhoneTroubleShootingScreen() {
-        pushFragment(new ConnectToWrongPhoneTroubleshootingFragment());
+        pushFragment(new ConnectToWrongPhoneTroubleshootingFragment(), false);
     }
 
     public void navigateSetupAccessPointModeScreen() {
-        pushFragment(new SetupAccessPointModeTroubleshootingFragment());
+        pushFragment(new SetupAccessPointModeTroubleshootingFragment(), false);
     }
 
     public void navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(@NonNull String deviceName, @NonNull String wifiSSID) {
-        pushFragment(WifiConnectionUnsuccessfulFragment.newInstance(deviceName, wifiSSID));
+        pushFragment(WifiConnectionUnsuccessfulFragment.newInstance(deviceName, wifiSSID), true);
     }
 
     public void navigateToConnectingPhoneToHotspotWifiScreen() {
-        pushFragment(new ConnectingWithDeviceFragment());
+        pushFragment(new ConnectingWithDeviceFragment(), false);
     }
 
     public void navigateToConnectingDeviceWithWifiScreen(@NonNull final String homeWiFiSSID, @NonNull final String homeWiFiPassword, @NonNull final String deviceName, @NonNull final String deviceFriendlyName) {
-        pushFragment(ConnectingDeviceWithWifiFragment.newInstance(homeWiFiSSID, homeWiFiPassword, deviceName, deviceFriendlyName));
+        pushFragment(ConnectingDeviceWithWifiFragment.newInstance(homeWiFiSSID, homeWiFiPassword, deviceName, deviceFriendlyName), false);
     }
 
     public void navigateToConnectingDeviceWithWifiScreen(@Nullable Bundle bundle) {
-        pushFragment(ConnectingDeviceWithWifiFragment.newInstance(bundle));
+        pushFragment(ConnectingDeviceWithWifiFragment.newInstance(bundle), false);
     }
 
     public void navigateToEWSWiFiPairedScreen() {
-        pushFragment(new ConnectionSuccessfulFragment());
+        pushFragment(new ConnectionSuccessfulFragment(), true);
     }
 
     public void navigateToWrongWifiNetworkScreen(Bundle bundle) {
-        pushFragment(WrongWifiNetworkFragment.newInstance(bundle));
+        pushFragment(WrongWifiNetworkFragment.newInstance(bundle), true);
     }
 
     public void navigateBack() {
         fragmentNavigator.pop();
     }
 
-    private void pushFragment(@NonNull Fragment fragment) {
-        fragmentNavigator.push(fragment,fragmentNavigator.getContainerId());
+    private void pushFragment(@NonNull Fragment fragment,boolean allowingStateLoss) {
+        fragmentNavigator.push(fragment,fragmentNavigator.getContainerId(),allowingStateLoss);
     }
 }
