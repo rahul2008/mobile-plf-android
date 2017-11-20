@@ -395,7 +395,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                 } else {
 
                     if(isAdded()) {
-                        FaqListFragment faqFragment = new FaqListFragment();
+                        FaqListFragment faqFragment = new FaqListFragment(getActivity());
                         faqFragment.setSupportModel(supportModel);
                         showFragment(faqFragment);
                     }

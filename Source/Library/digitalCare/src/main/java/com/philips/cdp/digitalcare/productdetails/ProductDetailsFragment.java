@@ -442,7 +442,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 if (supportModel == null && getActivity() != null) {
                     showAlert(getString(R.string.NO_SUPPORT_KEY));
                 } else {
-                    FaqListFragment faqListFragment = new FaqListFragment();
+                    FaqListFragment faqListFragment = new FaqListFragment(getActivity());
                     faqListFragment.setSupportModel(supportModel);
                     showFragment(faqListFragment);
                 }
