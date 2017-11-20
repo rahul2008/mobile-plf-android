@@ -47,7 +47,7 @@ public class CatkComponentMock implements CatkComponent {
         return new LoggingInterface() {
             @Override
             public LoggingInterface createInstanceForComponent(String s, String s1) {
-                return  createInstanceForComponent("csw", BuildConfig.VERSION_NAME);
+                return this;
             }
 
             @Override

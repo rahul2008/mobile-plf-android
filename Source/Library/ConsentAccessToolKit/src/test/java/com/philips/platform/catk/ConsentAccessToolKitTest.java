@@ -15,11 +15,13 @@ import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.mock.CatkComponentMock;
 import com.philips.platform.catk.dto.CreateConsentModelRequest;
 import com.philips.platform.catk.dto.GetConsentsModelRequest;
+import com.philips.platform.catk.mock.ServiceInfoProviderMock;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkHelper;
 import com.philips.platform.catk.network.NetworkHelperManipulator;
 import com.philips.platform.catk.model.ConsentStatus;
+import com.philips.platform.catk.provider.AppInfraInfo;
 
 import org.junit.After;
 import org.junit.Before;
@@ -32,6 +34,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -78,8 +81,12 @@ public class ConsentAccessToolKitTest {
         consentAccessToolKit = ConsentAccessToolKit.getInstance();
         catkComponent = new CatkComponentMock();
         catkComponent.getUser_return = user;
+        AppInfraInfo appInfraInfo = new AppInfraInfo("http://someurl.com");
         when(user.getCountryCode()).thenReturn(COUNTRY_CODE);
         consentAccessToolKit.setCatkComponent(catkComponent);
+        serviceInfoProvider = new ServiceInfoProviderMock();
+        serviceInfoProvider.retrievedInfo = appInfraInfo;
+        consentAccessToolKit.setServiceInfoProvider(serviceInfoProvider);
         NetworkHelperManipulator.setInstance(mockNetworkHelper);
     }
 
@@ -96,6 +103,7 @@ public class ConsentAccessToolKitTest {
         consentAccessToolKit.getConsentDetails(listnerMock);
         verify(mockNetworkHelper).sendRequest(captorNetworkAbstractModel.capture());
         assertTrue(captorNetworkAbstractModel.getValue() instanceof GetConsentsModelRequest);
+        thenServiceInfoProviderWasCalled();
     }
 
     @Test
@@ -104,10 +112,13 @@ public class ConsentAccessToolKitTest {
         consentAccessToolKit.createConsent(consent, mockCreateConsentListener);
         verify(mockNetworkHelper).sendRequest(captorNetworkAbstractModel.capture());
         assertTrue(captorNetworkAbstractModel.getValue() instanceof CreateConsentModelRequest);
+        thenServiceInfoProviderWasCalled();
     }
 
-    private void givenLocale(String locale) {
-        catkComponent.getServiceDiscoveryInterface_return.getServiceLocaleWithCountryPreference_return = locale;
+    private void thenServiceInfoProviderWasCalled() {
+        assertNotNull(serviceInfoProvider.responseListener);
+        assertNotNull(serviceInfoProvider.serviceDiscovery);
     }
 
+    private ServiceInfoProviderMock serviceInfoProvider;
 }

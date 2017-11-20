@@ -13,11 +13,14 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 
 public class ServiceDiscoveryInterfaceMock implements ServiceDiscoveryInterface {
 
     public String getServiceLocaleWithCountryPreference_return = "en_US";
+
+    public URL url;
 
     @Override
     public void getHomeCountry(OnGetHomeCountryListener onGetHomeCountryListener) {
@@ -41,12 +44,12 @@ public class ServiceDiscoveryInterfaceMock implements ServiceDiscoveryInterface 
 
     @Override
     public void getServiceUrlWithLanguagePreference(String s, OnGetServiceUrlListener onGetServiceUrlListener, Map<String, String> map) {
-
+        onGetServiceUrlListener.onSuccess(url);
     }
 
     @Override
     public void getServicesWithLanguagePreference(ArrayList<String> arrayList, OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
-
+        onGetServiceUrlMapListener.onSuccess(null);
     }
 
     @Override
@@ -81,7 +84,6 @@ public class ServiceDiscoveryInterfaceMock implements ServiceDiscoveryInterface 
 
     @Override
     public void getServiceLocaleWithCountryPreference(String s, OnGetServiceLocaleListener onGetServiceLocaleListener) {
-        onGetServiceLocaleListener.onSuccess(getServiceLocaleWithCountryPreference_return);
     }
 
     @Override

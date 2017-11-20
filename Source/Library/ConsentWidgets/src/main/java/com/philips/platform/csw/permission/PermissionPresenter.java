@@ -17,7 +17,6 @@ public class PermissionPresenter implements GetConsentInteractor.Callback {
         this.getConsentInteractor = getConsentInteractor;
     }
 
-
     void getConsentStatus() {
         permissionInterface.showProgressDialog();
         getConsentInteractor.getConsents(this, permissionInterface);

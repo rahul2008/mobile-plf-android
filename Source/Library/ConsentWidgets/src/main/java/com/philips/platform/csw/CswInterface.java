@@ -9,6 +9,7 @@ import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.injection.CatkComponentFactory;
+import com.philips.platform.catk.provider.ComponentProvider;
 import com.philips.platform.csw.injection.AppInfraModule;
 import com.philips.platform.csw.injection.CswComponent;
 import com.philips.platform.csw.injection.CswModule;
@@ -23,6 +24,10 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class CswInterface implements UappInterface {
+
+    private UiLauncher uiLauncher;
+    private CswLaunchInput cswLaunchInput;
+
     /**
      * Launches the CswInterface interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
      *
@@ -31,10 +36,16 @@ public class CswInterface implements UappInterface {
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
+        this.uiLauncher = uiLauncher;
+        this.cswLaunchInput = (CswLaunchInput)uappLaunchInput;
+        launch();
+    }
+
+    private void launch() {
         if (uiLauncher instanceof ActivityLauncher) {
-            launchAsActivity(((ActivityLauncher) uiLauncher), (CswLaunchInput) uappLaunchInput);
+            launchAsActivity(((ActivityLauncher) uiLauncher), cswLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
-            launchAsFragment((FragmentLauncher) uiLauncher, (CswLaunchInput) uappLaunchInput);
+            launchAsFragment((FragmentLauncher) uiLauncher, cswLaunchInput);
         }
     }
 
@@ -81,18 +92,19 @@ public class CswInterface implements UappInterface {
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         initConsentToolKit(uappDependencies, uappSettings);
+        ConsentAccessToolKit.getInstance().init(initConsentToolKit(uappDependencies, uappSettings));
         cswComponent = initDaggerComponents(uappDependencies, uappSettings);
         CswLogger.init();
         CswLogger.enableLogging();
     }
 
-    private void initConsentToolKit(UappDependencies uappDependencies, UappSettings uappSettings) {
+    public CatkInputs initConsentToolKit(UappDependencies uappDependencies, UappSettings uappSettings) {
         CatkInputs catkInputs = new CatkInputs();
         catkInputs.setContext(uappSettings.getContext());
         catkInputs.setAppInfra(uappDependencies.getAppInfra());
         catkInputs.setApplicationName(((CswDependencies) uappDependencies).getApplicationName());
         catkInputs.setPropositionName(((CswDependencies) uappDependencies).getPropositionName());
-        ConsentAccessToolKit.getInstance().init(catkInputs, new CatkComponentFactory());
+        return catkInputs;
     }
 
     private CswComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
@@ -106,4 +118,5 @@ public class CswInterface implements UappInterface {
     }
 
     private static CswComponent cswComponent;
+
 }

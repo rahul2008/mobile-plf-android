@@ -3,6 +3,8 @@ package com.philips.platform.csw.permission;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.ConsentAccessToolKitEmulator;
+import com.philips.platform.catk.CswConsentAccessToolKitManipulator;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.csw.mock.CatkComponentMock;
@@ -35,27 +37,26 @@ public class PermissionPresenterTest {
 
     private CatkComponentMock catkComponent;
 
-    private ConsentAccessToolKit consentAccessToolKit;
+    private ConsentAccessToolKitEmulator consentAccessToolKit;
+    @Mock
+    private NetworkHelper mockNetworkHelper;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        mPermissionPresenter
-                = new PermissionPresenter(mockPermissionInterface, mockInteractor);
-        consentAccessToolKit = ConsentAccessToolKit.getInstance();
+        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, mockInteractor);
 
+        consentAccessToolKit = new ConsentAccessToolKitEmulator();
         catkComponent = new CatkComponentMock();
         User mockUser = mock(User.class);
         catkComponent.getUser_return = mockUser;
         when(mockUser.getCountryCode()).thenReturn("US");
-        consentAccessToolKit.setCatkComponent(catkComponent);
+        CswConsentAccessToolKitManipulator.setCatkComponent(catkComponent);
         ServiceDiscoveryInterface.OnGetServiceLocaleListener onGetServiceLocaleListener = mock(ServiceDiscoveryInterface.OnGetServiceLocaleListener.class);
-
         catkComponent.getServiceDiscoveryInterface_return = mock(ServiceDiscoveryInterfaceMock.class);
         catkComponent.getServiceDiscoveryInterface_return.getServiceLocaleWithCountryPreference("en_US", onGetServiceLocaleListener);
-
         CswLogger.setLoogerInterface(catkComponent.getLoggingInterface());
-
+        CswConsentAccessToolKitManipulator.setInstance(consentAccessToolKit);
     }
 
     @Test
@@ -63,6 +64,7 @@ public class PermissionPresenterTest {
         mPermissionPresenter.getConsentStatus();
         Mockito.verify(mockPermissionInterface).showProgressDialog();
     }
+
 
     @Ignore("Move to specific Consent Item click")
     @Test

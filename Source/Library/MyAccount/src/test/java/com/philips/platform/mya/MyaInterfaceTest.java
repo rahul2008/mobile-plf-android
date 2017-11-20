@@ -10,7 +10,6 @@ package com.philips.platform.mya;
 import android.content.Context;
 
 import com.philips.cdp.registration.User;
-import com.philips.platform.catk.CatkConsentAccessToolKitManipulator;
 import com.philips.platform.catk.injection.CatkComponent;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
@@ -39,7 +38,6 @@ import static com.philips.platform.mya.MyaConstants.MY_ACCOUNTS_CALLEE_TAG;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
 
 public class MyaInterfaceTest {
 
@@ -60,13 +58,6 @@ public class MyaInterfaceTest {
         launchInput = new LaunchInputMock();
         actionBarListener = new ActionBarListenerMock();
         context = new ContextMock();
-        CatkConsentAccessToolKitManipulator.setCatkComponent(mockCatkComponent);
-        when(mockCatkComponent.getUser()).thenReturn(mockUser);
-    }
-
-    @After
-    public void tearDown() {
-        CatkConsentAccessToolKitManipulator.clearCatkComponent();
     }
 
     @Test
