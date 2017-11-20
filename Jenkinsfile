@@ -34,7 +34,7 @@ node('android && device') {
                     sh '''#!/bin/bash -l
                         chmod -R 755 .
                         cd ./Source/CatalogApp
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease artifactoryPublish
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease saveResDep artifactoryPublish
                     '''
                 }
                 stage('Unit Tests') {
