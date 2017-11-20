@@ -33,7 +33,7 @@ public class DtoToConsentMapper {
         return urnParts[urnParts.length - 1].split("/");
     }
 
-    private static Locale getLocale(String language) {
+    public static Locale getLocale(String language) {
         String[] localeParts = language.split("-");
         return new Locale(localeParts[IDX_LANGUAGE], localeParts[IDX_COUNTRY]);
     }

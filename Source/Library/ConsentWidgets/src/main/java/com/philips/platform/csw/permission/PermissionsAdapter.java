@@ -1,13 +1,14 @@
 package com.philips.platform.csw.permission;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 
-import com.philips.platform.catk.model.Consent;
-import com.philips.platform.csw.ConsentDefinition;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.Switch;
@@ -21,10 +22,12 @@ import java.util.List;
 
 class PermissionsAdapter extends RecyclerView.Adapter<PermissionsAdapter.PermissionViewHolder> {
 
-    private final List<ConsentDefinition> items;
+    private final List<ConsentView> items;
+    private final CreateConsentInteractor createConsentInteractor;
 
-    PermissionsAdapter(List<ConsentDefinition> definitions) {
+    PermissionsAdapter(List<ConsentView> definitions, CreateConsentInteractor createConsentInteractor) {
         this.items = new ArrayList<>(definitions);
+        this.createConsentInteractor = createConsentInteractor;
     }
 
     @Override
@@ -35,7 +38,8 @@ class PermissionsAdapter extends RecyclerView.Adapter<PermissionsAdapter.Permiss
 
     @Override
     public void onBindViewHolder(PermissionViewHolder holder, int position) {
-        final ConsentDefinition consentItem = items.get(position);
+        final ConsentView consentItem = items.get(position);
+        holder.setCreateInteractor(createConsentInteractor);
         holder.setDefinition(consentItem);
     }
 
@@ -44,9 +48,10 @@ class PermissionsAdapter extends RecyclerView.Adapter<PermissionsAdapter.Permiss
         return items.size();
     }
 
-    void onConsentsRetrieved(@NonNull List<Consent> consentList) {
-
-//        notifyItemRangeChanged(0, consentList.size());
+    void onConsentRetrieved(@NonNull List<ConsentView> consentViews) {
+        items.clear();
+        items.addAll(consentViews);
+        notifyItemRangeChanged(0, consentViews.size());
     }
 
     static class PermissionViewHolder extends RecyclerView.ViewHolder{
@@ -54,18 +59,37 @@ class PermissionsAdapter extends RecyclerView.Adapter<PermissionsAdapter.Permiss
         private Switch toggle;
         private Label label;
         private Label help;
+        private ProgressBar progress;
+        @Nullable
+        private CreateConsentInteractor createConsentInteractor;
 
         PermissionViewHolder(View itemView) {
             super(itemView);
-            toggle = itemView.findViewById(R.id.toggleicon);
-            label = itemView.findViewById(R.id.consentText);
-            help = itemView.findViewById(R.id.consentHelp);
+            this.toggle = itemView.findViewById(R.id.toggleicon);
+            this.label = itemView.findViewById(R.id.consentText);
+            this.help = itemView.findViewById(R.id.consentHelp);
+            this.progress = itemView.findViewById(R.id.progressBar);
         }
 
-        void setDefinition(final ConsentDefinition definition) {
+        void setCreateInteractor(CreateConsentInteractor createConsentInteractor){
+            this.createConsentInteractor = createConsentInteractor;
+        }
+
+        void setDefinition(final ConsentView definition) {
             // Update UI here
-            label.setText(definition.getText());
-            toggle.setChecked(false);
+            label.setText(definition.getConsentText());
+            progress.setVisibility(definition.isLoading() ? View.VISIBLE : View.GONE);
+
+            toggle.setChecked(definition.isSwitchEnabled());
+            toggle.setVisibility(definition.isLoading() ? View.INVISIBLE : View.VISIBLE);
+            toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if (createConsentInteractor != null) {
+                        createConsentInteractor.createConsentStatus(definition, b);
+                    }
+                }
+            });
         }
     }
 }

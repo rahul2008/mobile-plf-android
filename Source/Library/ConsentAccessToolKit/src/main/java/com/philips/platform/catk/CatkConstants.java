@@ -15,6 +15,7 @@ public class CatkConstants {
     }
 
     public static final int DEFAULT_TIMEOUT_MS = 30000;
+
     public static final String EMPTY_RESPONSE = "";
     public static final int CONSENT_SUCCESS = 0;
     public static final int CONSENT_ERROR = -1;
@@ -28,4 +29,5 @@ public class CatkConstants {
     public static final String BUNDLE_KEY_APPLICATION_NAME = "appName";
     public static final String BUNDLE_KEY_PROPOSITION_NAME = "propName";
     public static final String BUNDLE_KEY_ADDTOBACKSTACK = "addToBackStack";
+    public static final String BUNDLE_KEY_CONSENT_DEFINITIONS = "consentDefinitions";
 }

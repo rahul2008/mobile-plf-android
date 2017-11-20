@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswLaunchInput;
@@ -31,12 +32,19 @@ import com.philips.platform.uid.view.widget.Label;
 public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClickListener {
 
     private AppInfraInterface appInfra;
+    private ConsentBundleConfig config;
     public static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
 
+    public static MyaSettingsFragment newInstance(ConsentBundleConfig config){
+        final MyaSettingsFragment fragment = new MyaSettingsFragment();
+        fragment.setArguments(config.toBundle());
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mya_settings_fragment, container, false);
+        this.config = new ConsentBundleConfig(getArguments());
         this.appInfra = MyaInterface.getMyaDependencyComponent().getAppInfra();
         TextView countryTextView = (TextView) view.findViewById(R.id.settings_country_value);
         Button logOutButton = (Button) view.findViewById(R.id.mya_settings_logout_btn);
@@ -49,6 +57,20 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         philipsWebsite.setOnClickListener(this);
         logOutButton.setOnClickListener(this);
         return view;
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            config = new ConsentBundleConfig(savedInstanceState);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putAll(config.toBundle());
     }
 
     @Override
@@ -72,8 +94,8 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         if (viewId== R.id.consent_layout) {
             CswInterface cswInterface = new CswInterface();
             CswDependencies cswDependencies = new CswDependencies(appInfra);
-            cswDependencies.setApplicationName(MyaInterface.getApplicationName());
-            cswDependencies.setPropositionName(MyaInterface.getPropositionName());
+            cswDependencies.setApplicationName(config.getApplicationName());
+            cswDependencies.setPropositionName(config.getPropositionName());
             UappSettings uappSettings = new UappSettings(getContext());
             cswInterface.init(cswDependencies, uappSettings);
             cswInterface.launch(MyaInterface.getMyaUiComponent().getFragmentLauncher(), buildLaunchInput(true));
@@ -91,11 +113,8 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     }
 
     private CswLaunchInput buildLaunchInput(boolean addToBackStack) {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput();
-        cswLaunchInput.setPropositionName(MyaInterface.getPropositionName());
-        cswLaunchInput.setApplicationName(MyaInterface.getApplicationName());
+        CswLaunchInput cswLaunchInput = new CswLaunchInput(config, getContext());
         cswLaunchInput.addToBackStack(addToBackStack);
-        cswLaunchInput.setContext(getContext());
         return cswLaunchInput;
     }
 

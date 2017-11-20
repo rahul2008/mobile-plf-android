@@ -11,7 +11,9 @@ import com.philips.platform.csw.ConsentDefinition;
 import com.philips.platform.csw.utils.CswLogger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ConsentInteractor implements ConsentResponseListener {
 
@@ -31,38 +33,48 @@ public class ConsentInteractor implements ConsentResponseListener {
 
     void getConsents(@NonNull final ConsentResponseListener listener) {
         this.listener = listener;
-        for(ConsentDefinition definition : consentDefinitionList) {
-            instance.getStatusForConsentType(definition.getType(), definition.getVersion(), this);
-        }
+        instance.getConsentDetails(this);
     }
 
     @Override
     public void onResponseSuccessConsent(List<Consent> responseData) {
         if (responseData != null && !responseData.isEmpty()) {
-            this.consentList.add(responseData.get(0));
+            filterConsentsByDefinitions(responseData);
         } else {
             this.consentList.add(new ConsentError(CONSENT_NOT_FOUND));
             CswLogger.d(" Consent : ", CONSENT_NOT_FOUND);
         }
+        if(listener != null){
+            listener.onResponseSuccessConsent(consentList);
+        }
+    }
 
-        reportResultIfAllConsentsWhereFetched();
+    private void filterConsentsByDefinitions(List<Consent> receivedConsents) {
+        Map<String, Consent> consentsMap = toMap(receivedConsents);
+        for (ConsentDefinition consentDefinition: consentDefinitionList) {
+            Consent consent = consentsMap.get(consentDefinition.getType());
+            if (consent != null) {
+                this.consentList.add(consentsMap.get(consentDefinition.getType()));
+            }
+        }
+    }
+
+
+    private Map<String,Consent> toMap(List<Consent> responseData) {
+        Map<String, Consent> map = new HashMap<>();
+        for (Consent consent: responseData) {
+            map.put(consent.getType(), consent);
+        }
+        return map;
     }
 
     @Override
     public int onResponseFailureConsent(int consentError) {
         this.consentList.add(new ConsentError(REQUEST_ERROR));
         CswLogger.d(" Consent : ", "response failure:" + consentError);
-        reportResultIfAllConsentsWhereFetched();
-        return 0;
-    }
-
-    private void reportResultIfAllConsentsWhereFetched() {
-        if(listener != null && allConsentsFetched()){
+        if(listener != null){
             listener.onResponseSuccessConsent(consentList);
         }
-    }
-
-    private boolean allConsentsFetched() {
-        return consentDefinitionList.size() == consentList.size();
+        return 0;
     }
 }
