@@ -16,6 +16,8 @@ public class MyaDependencies extends UappDependencies {
         super(appInfra);
     }
 
+    // TODO: Deepthi, why do we need app and proposition name to launch MYA
+
     public void setApplicationName(String applicationName) {
         this.applicationName = applicationName;
     }

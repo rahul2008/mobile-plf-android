@@ -10,6 +10,7 @@ package com.philips.platform.mya.util;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 public class MYALog {
+    // TODO: Deepthi, Remove the usages, use app infra logger directly  and this class if possible
     public final static String LOG = "mya";
     public static boolean isLoggingEnabled = false;
     public static LoggingInterface sAppLoggingInterface;

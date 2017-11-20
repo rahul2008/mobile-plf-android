@@ -1,4 +1,4 @@
-package com.philips.platform.mya.uappadaptor;
+package uappadaptor;
 
 import java.util.Date;
 
@@ -11,7 +11,7 @@ public class UserDataModel implements DataModel {
     String name;
     Date birthday;
     String gender;
-    String janrainAccessToken;
+    String accessToken;
     String email;
     String mobileNumber;
     boolean isMobileVerified;
@@ -51,12 +51,12 @@ public class UserDataModel implements DataModel {
         this.gender = gender;
     }
 
-    public String getJanrainAccessToken() {
-        return janrainAccessToken;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setJanrainAccessToken(String janrainAccessToken) {
-        this.janrainAccessToken = janrainAccessToken;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
     public String getEmail() {

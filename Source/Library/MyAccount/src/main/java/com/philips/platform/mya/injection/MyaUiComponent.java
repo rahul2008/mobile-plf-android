@@ -7,6 +7,7 @@
 package com.philips.platform.mya.injection;
 
 import com.philips.platform.mya.interfaces.MyaListener;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import javax.inject.Singleton;
@@ -21,5 +22,6 @@ public interface MyaUiComponent {
 
     ThemeConfiguration getThemeConfiguration();
 
+    FragmentLauncher getFragmentLauncher();
 
 }

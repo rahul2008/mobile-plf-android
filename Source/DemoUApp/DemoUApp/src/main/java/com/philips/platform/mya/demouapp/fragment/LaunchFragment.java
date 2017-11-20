@@ -25,11 +25,6 @@ import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
-import com.philips.platform.uid.thememanager.AccentRange;
-import com.philips.platform.uid.thememanager.ColorRange;
-import com.philips.platform.uid.thememanager.ContentColor;
-import com.philips.platform.uid.thememanager.NavigationColor;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import static com.philips.platform.mya.demouapp.MyaConstants.APPLICATION_NAME;
 import static com.philips.platform.mya.demouapp.MyaConstants.PROPOSITION_NAME;
@@ -72,15 +67,6 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         Button launch_my_account=(Button)view.findViewById(R.id.launch_my_account);
         launch_my_account.setOnClickListener(this);
     }
-
-
-
-
-    protected ThemeConfiguration getDLSThemeConfiguration(Context context) {
-        return new ThemeConfiguration(context, ColorRange.ORANGE, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE);
-    }
-
-
 
     @Override
     public int getPageTitle() {

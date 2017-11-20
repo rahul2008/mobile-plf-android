@@ -14,10 +14,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.philips.platform.mya.injection.DaggerMyaUiComponent;
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.injection.MyaUiComponent;
+import com.philips.platform.mya.injection.MyaUiModule;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -31,9 +32,12 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
 
-public class MyaAccountActivity extends UIDActivity {
+// TODO: Deepthi check if this can be removed
+
+public class MyaActivity extends UIDActivity {
 
     private TextView mTitle;
+    // TODO: Deepthi, check below can be removed, catkconstants should be removed
     private String applicationName;
     private String propositionName;
     private ImageView leftImageView;
@@ -44,6 +48,7 @@ public class MyaAccountActivity extends UIDActivity {
         initDLSThemeIfExists();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mya_myaccounts_activity);
+        // TODO: Deepthi, remove this API
         fetchConsentData();
         Toolbar toolbar = findViewById(R.id.mya_toolbar);
         mTitle = toolbar.findViewById(R.id.mya_toolbar_title);
@@ -64,6 +69,7 @@ public class MyaAccountActivity extends UIDActivity {
     private void fetchConsentData() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
+            // TODO: Deepthi, discuss with OBE to remove dependency on CSW directly
             applicationName = bundle.getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
             propositionName = bundle.getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
         }
@@ -162,6 +168,11 @@ public class MyaAccountActivity extends UIDActivity {
                 handleLeftImage(shouldBackEnable);
             }
         });
+
+        MyaUiModule myaUiModule = new MyaUiModule(fragmentLauncher, MyaInterface.getMyaUiComponent().getMyaListener());
+        MyaUiComponent myaUiComponent = DaggerMyaUiComponent.builder()
+                .myaUiModule(myaUiModule).build();
+        MyaInterface.setMyaUiComponent(myaUiComponent);
         MyaTabFragment myaTabFragment = new MyaTabFragment();
         myaTabFragment.setArguments(extras);
         myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);

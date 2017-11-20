@@ -108,7 +108,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         if (!onClickMyaItem) {
             if (profileItem.equals(getContext().getString(R.string.MYA_My_details)) || profileItem.equalsIgnoreCase("MYA_My_details")) {
                 MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
-                showFragment(myaDetailsFragment);
+                showFragment(myaDetailsFragment,MyaInterface.getMyaUiComponent().getFragmentLauncher());
             }
         }
     }

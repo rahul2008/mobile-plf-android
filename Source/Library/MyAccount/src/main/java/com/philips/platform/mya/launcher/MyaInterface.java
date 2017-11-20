@@ -11,7 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.mya.activity.MyaAccountActivity;
+import com.philips.platform.mya.activity.MyaActivity;
 import com.philips.platform.mya.injection.DaggerMyaDependencyComponent;
 import com.philips.platform.mya.injection.DaggerMyaUiComponent;
 import com.philips.platform.mya.injection.MyaDependencyComponent;
@@ -32,10 +32,16 @@ import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
 
 public class MyaInterface implements UappInterface {
 
+    // TODO: Deepthi, remove application and proposition name
     private static String applicationName;
     private static String propositionName;
     private static MyaDependencyComponent myaDependencyComponent;
     private static MyaUiComponent myaUiComponent;
+    private MyaUiModule myaUiModule;
+
+    public static void setMyaUiComponent(MyaUiComponent myaUiComponent) {
+        MyaInterface.myaUiComponent = myaUiComponent;
+    }
 
     /**
      * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
@@ -46,8 +52,9 @@ public class MyaInterface implements UappInterface {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         MyaLaunchInput myaLaunchInput = (MyaLaunchInput) uappLaunchInput;
+        myaUiModule = new MyaUiModule(uiLauncher, myaLaunchInput.getMyaListener());
         myaUiComponent = DaggerMyaUiComponent.builder()
-                .myaUiModule(new MyaUiModule(uiLauncher, myaLaunchInput.getMyaListener())).build();
+                .myaUiModule(myaUiModule).build();
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
             launchAsActivity(activityLauncher, myaLaunchInput);
@@ -58,6 +65,7 @@ public class MyaInterface implements UappInterface {
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher) {
         Bundle extras = null;
+        myaUiModule.setFragmentLauncher(fragmentLauncher);
         if (fragmentLauncher.getFragmentActivity().getIntent() != null) {
             extras = fragmentLauncher.getFragmentActivity().getIntent().getExtras();
         }
@@ -73,7 +81,7 @@ public class MyaInterface implements UappInterface {
 
     private void launchAsActivity(ActivityLauncher uiLauncher, MyaLaunchInput myaLaunchInput) {
         if (null != uiLauncher && myaLaunchInput != null) {
-            Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyaAccountActivity.class);
+            Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyaActivity.class);
             myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
             myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
             myAccountIntent.putExtra(MYA_DLS_THEME, uiLauncher.getUiKitTheme());

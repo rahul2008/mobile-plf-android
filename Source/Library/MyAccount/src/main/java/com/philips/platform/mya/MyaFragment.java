@@ -25,6 +25,7 @@ import com.philips.platform.mya.profile.MyaProfileFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
+// TODO: Deepthi, can we remove this class and we should not have dependency on CSW
 public class MyaFragment extends Fragment {
 
     public static String TAG = MyaFragment.class.getSimpleName();
@@ -32,6 +33,7 @@ public class MyaFragment extends Fragment {
     private FragmentManager mFragmentManager;
     private ActionBarListener mActionBarListener;
 
+    // TODO: Deepthi, check below can be removed
     public String applicationName;
     public String propositionName;
 
@@ -134,6 +136,7 @@ public class MyaFragment extends Fragment {
         b.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
         this.setArguments(b);
     }
+
 
     public void launchCswFragment() {
         FragmentLauncher fragmentLauncher = new FragmentLauncher(getActivity(), R.id.mya_frame_layout_view_container, mActionBarListener);

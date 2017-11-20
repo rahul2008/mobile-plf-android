@@ -12,12 +12,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.mya.MyaConstants;
-import com.philips.platform.mya.activity.MyaAccountActivity;
+import com.philips.platform.mya.activity.MyaActivity;
 import com.philips.platform.mya.util.MYALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-
+// TODO: Deepthi, change package name to base
 public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
 
 
@@ -128,7 +128,7 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
         final FragmentActivity activity = getActivity();
         try {
             if (activity != null && !activity.isFinishing()) {
-                if (activity instanceof MyaAccountActivity) {
+                if (activity instanceof MyaActivity) {
                     activity.finish();
                 } else {
                     FragmentManager fragManager = activity.getSupportFragmentManager();

@@ -43,6 +43,7 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
                     (profileItems, "mya", configError);
             return getLocalisedList(context,propertyForKey);
         } catch (IllegalArgumentException exception) {
+            // TODO: Deepthi, use TLA while logging
             MYALog.e(MY_ACCOUNTS, " Error in reading profile menu items ");
         }
         return null;
