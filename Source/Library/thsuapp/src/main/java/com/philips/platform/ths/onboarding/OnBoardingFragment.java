@@ -19,7 +19,7 @@ import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_START;
 public class OnBoardingFragment  extends THSBaseFragment implements View.OnClickListener{
 
     public static final String TAG = OnBoardingFragment.class.getSimpleName();
-    private OnBoardingPresenter onBoardingPresenter;
+    protected OnBoardingPresenter onBoardingPresenter;
     private TextView tv_skip;
     private Button btn_take_tour;
 
@@ -39,7 +39,9 @@ public class OnBoardingFragment  extends THSBaseFragment implements View.OnClick
         tv_skip.setOnClickListener(this);
         btn_take_tour.setOnClickListener(this);
         ActionBarListener actionBarListener = getActionBarListener();
-        actionBarListener.updateActionBar(R.string.ths_welcome, false);
+        if (actionBarListener != null) {
+            actionBarListener.updateActionBar(R.string.ths_welcome, false);
+        }
         return view;
     }
 
