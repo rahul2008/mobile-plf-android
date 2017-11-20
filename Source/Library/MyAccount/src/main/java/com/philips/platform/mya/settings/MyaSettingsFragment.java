@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.launcher.MyaInterface;
-import com.philips.platform.mya.util.mvp.MyaBaseFragment;
+import com.philips.platform.mya.base.mvp.MyaBaseFragment;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;

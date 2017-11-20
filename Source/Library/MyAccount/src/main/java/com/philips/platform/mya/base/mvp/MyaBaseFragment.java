@@ -3,7 +3,7 @@
  * All rights are reserved. Reproduction or dissemination in whole or in part
  * is prohibited without the prior written consent of the copyright holder.
  */
-package com.philips.platform.mya.util.mvp;
+package com.philips.platform.mya.base.mvp;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.mya.MyaConstants;
 import com.philips.platform.mya.activity.MyaActivity;
-import com.philips.platform.mya.util.MYALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -98,7 +97,7 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
 
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
-            MYALog.e(TAG, e.getMessage());
+            e.getMessage();
         }
     }
 
@@ -137,7 +136,7 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
                 }
             }
         } catch (IllegalStateException e) {
-            MYALog.e(TAG, e.getMessage());
+            e.getMessage();
         }
         return false;
     }

@@ -297,6 +297,7 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVer"
 
 
+    compile project(path: ':MyaPlugin')
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

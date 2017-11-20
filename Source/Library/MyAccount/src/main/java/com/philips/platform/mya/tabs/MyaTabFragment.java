@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.philips.platform.mya.MyaPager;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.util.mvp.MyaBaseFragment;
+import com.philips.platform.mya.base.mvp.MyaBaseFragment;
 
 public class MyaTabFragment extends MyaBaseFragment {
 

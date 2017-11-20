@@ -39,10 +39,6 @@ public class MyaInterface implements UappInterface {
     private static MyaUiComponent myaUiComponent;
     private MyaUiModule myaUiModule;
 
-    public static void setMyaUiComponent(MyaUiComponent myaUiComponent) {
-        MyaInterface.myaUiComponent = myaUiComponent;
-    }
-
     /**
      * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
      *
@@ -113,4 +109,7 @@ public class MyaInterface implements UappInterface {
         return myaUiComponent;
     }
 
+    public static void setMyaUiComponent(MyaUiComponent myaUiComponent) {
+        MyaInterface.myaUiComponent = myaUiComponent;
+    }
 }

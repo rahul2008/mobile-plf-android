@@ -9,8 +9,8 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.mya.util.mvp.MyaBaseView;
-import com.philips.platform.mya.util.mvp.MyaPresenterInterface;
+import com.philips.platform.mya.base.mvp.MyaBaseView;
+import com.philips.platform.mya.base.mvp.MyaPresenterInterface;
 
 import java.util.LinkedHashMap;
 

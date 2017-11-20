@@ -1,10 +1,12 @@
 package uappadaptor;
 
+import java.io.Serializable;
+
 /**
  * Created by philips on 11/16/17.
  */
 
-public class ConsentDataModel implements DataModel {
+public class ConsentDataModel implements DataModel, Serializable {
     String applicationName;
     String propositionName;
     String consentsDefination;

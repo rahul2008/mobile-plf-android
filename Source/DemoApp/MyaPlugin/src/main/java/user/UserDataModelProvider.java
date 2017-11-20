@@ -4,13 +4,15 @@ import android.content.Context;
 
 import com.philips.cdp.registration.User;
 
+import java.io.Serializable;
+
 import uappadaptor.DataModel;
 import uappadaptor.DataModelType;
 import uappadaptor.UserDataModel;
 import uappadaptor.UserInterface;
 
 
-public class UserDataModelProvider extends UserInterface {
+public class UserDataModelProvider extends UserInterface implements Serializable {
 
     //UserInterface userInterface;
 

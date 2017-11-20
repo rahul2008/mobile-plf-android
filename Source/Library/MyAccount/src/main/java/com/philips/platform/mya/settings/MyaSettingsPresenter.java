@@ -11,13 +11,10 @@ import android.content.Context;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.util.MYALog;
-import com.philips.platform.mya.util.mvp.MyaBasePresenter;
+import com.philips.platform.mya.base.mvp.MyaBasePresenter;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-
-import static com.philips.platform.mya.MyaConstants.MY_ACCOUNTS;
 
 
 class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> implements MyaSettingsContract.Presenter {
@@ -51,7 +48,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
                     (profileItems, "mya", configError);
             return getLocalisedList(context, propertyForKey, appInfraInterface);
         } catch (IllegalArgumentException exception) {
-            MYALog.e(MY_ACCOUNTS, " Error in reading settings menu items ");
+            exception.getMessage();
         }
         return null;
     }

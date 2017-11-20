@@ -173,6 +173,7 @@ public class MyaActivity extends UIDActivity {
         MyaUiComponent myaUiComponent = DaggerMyaUiComponent.builder()
                 .myaUiModule(myaUiModule).build();
         MyaInterface.setMyaUiComponent(myaUiComponent);
+
         MyaTabFragment myaTabFragment = new MyaTabFragment();
         myaTabFragment.setArguments(extras);
         myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);

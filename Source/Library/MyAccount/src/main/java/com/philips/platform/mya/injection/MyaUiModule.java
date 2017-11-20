@@ -28,6 +28,8 @@ public class MyaUiModule {
         this.myaListener = myaListener;
         if (uiLauncher instanceof ActivityLauncher) {
             this.themeConfiguration = ((ActivityLauncher) uiLauncher).getDlsThemeConfiguration();
+        } else {
+            this.fragmentLauncher = (FragmentLauncher) uiLauncher;
         }
     }
 

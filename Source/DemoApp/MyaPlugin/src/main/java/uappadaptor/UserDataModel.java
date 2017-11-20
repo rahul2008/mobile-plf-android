@@ -1,22 +1,23 @@
 package uappadaptor;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by philips on 11/16/17.
  */
 
-public class UserDataModel implements DataModel {
-    String givenName;
-    String name;
-    Date birthday;
-    String gender;
-    String accessToken;
-    String email;
-    String mobileNumber;
-    boolean isMobileVerified;
-    boolean isEmailVerified;
-    boolean isVerified;
+public class UserDataModel implements DataModel, Serializable {
+    private String givenName;
+    private String name;
+    private Date birthday;
+    private String gender;
+    private String accessToken;
+    private String email;
+    private String mobileNumber;
+    private boolean isMobileVerified;
+    private boolean isEmailVerified;
+    private boolean isVerified;
 
 
     public String getGivenName() {

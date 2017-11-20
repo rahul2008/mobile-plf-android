@@ -9,19 +9,22 @@
 package com.philips.platform.mya.details;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.util.mvp.MyaBaseFragment;
+import com.philips.platform.mya.base.mvp.MyaBaseFragment;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import uappadaptor.DataModelType;
+import uappadaptor.UserDataModel;
+import user.UserDataModelProvider;
 
 
 public class MyaDetailsFragment extends MyaBaseFragment {
@@ -44,10 +47,14 @@ public class MyaDetailsFragment extends MyaBaseFragment {
         email_address= (Label) view.findViewById(R.id.email_address_value);
         mobile_number= (Label) view.findViewById(R.id.mobile_number_value);
 
-
-        name.setText(printFirstCharacter("Philips Bangalore"));
-        Log.e("MyaDetails","printFirstCharacter"+printFirstCharacter("Philips Bangalore"));
-
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            UserDataModelProvider userDataModelProvider = (UserDataModelProvider) bundle.getSerializable("user_plugin");
+            if (userDataModelProvider != null) {
+                UserDataModel data = (UserDataModel) userDataModelProvider.getData(DataModelType.USER);
+                name.setText(printFirstCharacter(data.getGivenName()));
+            }
+        }
         if(email==null)
         {
             email_arrow.setVisibility(View.VISIBLE);

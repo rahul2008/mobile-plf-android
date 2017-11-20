@@ -6,9 +6,14 @@
 package com.philips.platform.mya.interfaces;
 
 
+import uappadaptor.DataInterface;
+import uappadaptor.DataModelType;
+
 public interface MyaListener {
 
     boolean onClickMyaItem(String itemName);
 
     boolean onLogOut();
+
+    DataInterface getDataInterface(DataModelType modelType);
 }

@@ -12,13 +12,10 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.launcher.MyaInterface;
-import com.philips.platform.mya.util.MYALog;
-import com.philips.platform.mya.util.mvp.MyaBasePresenter;
+import com.philips.platform.mya.base.mvp.MyaBasePresenter;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
-
-import static com.philips.platform.mya.MyaConstants.MY_ACCOUNTS;
 
 
 class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> implements MyaProfileContract.Presenter {
@@ -44,7 +41,7 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
             return getLocalisedList(context,propertyForKey);
         } catch (IllegalArgumentException exception) {
             // TODO: Deepthi, use TLA while logging
-            MYALog.e(MY_ACCOUNTS, " Error in reading profile menu items ");
+            exception.getMessage();
         }
         return null;
     }

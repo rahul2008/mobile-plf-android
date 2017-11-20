@@ -26,6 +26,10 @@ import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
+import uappadaptor.DataInterface;
+import uappadaptor.DataModelType;
+import user.UserDataModelProvider;
+
 import static com.philips.platform.mya.demouapp.MyaConstants.APPLICATION_NAME;
 import static com.philips.platform.mya.demouapp.MyaConstants.PROPOSITION_NAME;
 
@@ -94,12 +98,20 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                     cswInterface.launch(activityLauncher, buildLaunchInput(true, getContext()));
                     return true;
                 }
+
+
+
                 return false;
             }
 
             @Override
             public boolean onLogOut() {
                 return false;
+            }
+
+            @Override
+            public DataInterface getDataInterface(DataModelType modelType) {
+                return LaunchFragment.this.getDataInterface();
             }
         });
 
@@ -126,5 +138,9 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         cswLaunchInput.addToBackStack(addToBackStack);
         cswLaunchInput.setContext(context);
         return cswLaunchInput;
+    }
+
+    public DataInterface getDataInterface(){
+        return new UserDataModelProvider(this.getActivity());
     }
 }

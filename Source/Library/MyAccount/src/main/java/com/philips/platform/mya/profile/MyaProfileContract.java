@@ -8,8 +8,8 @@ package com.philips.platform.mya.profile;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.mya.util.mvp.MyaBaseView;
-import com.philips.platform.mya.util.mvp.MyaPresenterInterface;
+import com.philips.platform.mya.base.mvp.MyaBaseView;
+import com.philips.platform.mya.base.mvp.MyaPresenterInterface;
 
 import java.util.TreeMap;
 
