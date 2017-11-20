@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uid.view.widget.Label;
@@ -58,6 +59,7 @@ class PermissionsAdapter extends RecyclerView.Adapter<PermissionsAdapter.Permiss
         private Switch toggle;
         private Label label;
         private Label help;
+        private ProgressBar progress;
         @Nullable
         private CreateConsentInteractor createConsentInteractor;
 
@@ -66,6 +68,7 @@ class PermissionsAdapter extends RecyclerView.Adapter<PermissionsAdapter.Permiss
             this.toggle = itemView.findViewById(R.id.toggleicon);
             this.label = itemView.findViewById(R.id.consentText);
             this.help = itemView.findViewById(R.id.consentHelp);
+            this.progress = itemView.findViewById(R.id.progressBar);
         }
 
         void setCreateInteractor(CreateConsentInteractor createConsentInteractor){
@@ -75,9 +78,10 @@ class PermissionsAdapter extends RecyclerView.Adapter<PermissionsAdapter.Permiss
         void setDefinition(final ConsentView definition) {
             // Update UI here
             label.setText(definition.getConsentText());
-            toggle.setChecked(definition.isSwitchEnabled());
-            help.setText(definition.getHelpText());
+            progress.setVisibility(definition.isLoading() ? View.VISIBLE : View.GONE);
 
+            toggle.setChecked(definition.isSwitchEnabled());
+            toggle.setVisibility(definition.isLoading() ? View.INVISIBLE : View.VISIBLE);
             toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

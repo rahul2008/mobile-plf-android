@@ -13,6 +13,7 @@ import com.philips.platform.csw.ConsentDefinition;
 public class ConsentView {
 
     private final ConsentDefinition definition;
+    private boolean isLoading = true;
     @Nullable private Consent consent;
 
     ConsentView(final ConsentDefinition definition) {
@@ -37,11 +38,20 @@ public class ConsentView {
 
     ConsentView storeConsent(Consent consent) {
         this.consent = consent;
+        this.isLoading = false;
         return this;
     }
 
     boolean isSwitchEnabled() {
         return consent != null && consent.getStatus().equals(ConsentStatus.active);
+    }
+
+    ConsentDefinition getDefinition() {
+        return definition;
+    }
+
+    boolean isLoading() {
+        return isLoading;
     }
 
     @Override
@@ -60,9 +70,5 @@ public class ConsentView {
         int result = definition.hashCode();
         result = 31 * result + (consent != null ? consent.hashCode() : 0);
         return result;
-    }
-
-    ConsentDefinition getDefinition() {
-        return definition;
     }
 }

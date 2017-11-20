@@ -18,7 +18,7 @@ public class CreateConsentInteractor implements CreateConsentListener {
 
     private final ConsentAccessToolKit consentAccessToolKit;
 
-    public CreateConsentInteractor() {
+    CreateConsentInteractor() {
         consentAccessToolKit = ConsentAccessToolKit.getInstance();
     }
 
