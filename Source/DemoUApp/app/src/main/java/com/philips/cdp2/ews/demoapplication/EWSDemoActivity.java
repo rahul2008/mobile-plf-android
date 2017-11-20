@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
+
 package com.philips.cdp2.ews.demoapplication;
 
 import android.annotation.SuppressLint;
@@ -146,7 +151,6 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
             case R.id.menu_set_theme_settings:
                 saveThemeSettings();
                 restartActivity();
-                //showConfigurationOptScreen();
                 break;
             default:
                 return super.onOptionsItemSelected(item);

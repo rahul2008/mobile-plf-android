@@ -1,7 +1,6 @@
-/*
- * (C) Koninklijke Philips N.V., 2016.
+/**
+ * Copyright (c) Koninklijke Philips N.V., 2017.
  * All rights reserved.
- *
  */
 
 package com.philips.cdp2.ews.demoapplication.themesettinngs;
@@ -11,6 +10,8 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.support.annotation.IntDef;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
@@ -93,7 +94,7 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
         }
     }
 
-    private void setPickerTextColor(final @NonNull ViewHolder holder, final ColorModel colorModel, final Context context) {
+    private void setPickerTextColor(@NonNull final ViewHolder holder, @NonNull final ColorModel colorModel, @NonNull final Context context) {
         if (colorModel.getContentColor() == R.color.uidColorWhite) {
             holder.colorRangeTittleLabel.setTextColor(Color.WHITE);
         } else {
@@ -106,7 +107,7 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
         return ContextCompat.getColor(context, colorResourceId75);
     }
 
-    private void setTickMarckColor(final @NonNull ViewHolder holder, final int adapterPosition, final ColorModel colorModel, final Context context) {
+    private void setTickMarckColor(final @NonNull ViewHolder holder, final int adapterPosition, @NonNull final ColorModel colorModel, @NonNull final Context context) {
         if (adapterPosition == selectedPosition) {
             final Drawable mutate = drawableCompat.mutate();
             final Drawable wrap = DrawableCompat.wrap(mutate);
@@ -121,12 +122,12 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
         }
     }
 
-    private int getColorResourceId75(final ColorModel colorModel, final Context context) {
+    private int getColorResourceId75(@NonNull final ColorModel colorModel, @NonNull final Context context) {
         ThemeColorHelper themeColorHelper = new ThemeColorHelper();
         return themeColorHelper.getColorResourceId(context.getResources(), colorModel.getName(), "75", context.getPackageName());
     }
 
-    private void setColorPickerBackground(final @NonNull ViewHolder holder, final ColorModel colorModel, final ThemeColorHelper colorListHelper, final Context context) {
+    private void setColorPickerBackground(final @NonNull ViewHolder holder, @NonNull final ColorModel colorModel, @NonNull final ThemeColorHelper colorListHelper, @NonNull final Context context) {
         if (colorModel.getStartColor() != -1 && colorModel.getEndColor() != -1) {
             int startColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), String.valueOf(colorModel.getStartColor()), context.getPackageName());
             int endColors = colorListHelper.getColorResourceId(context.getResources(), colorModel.getName(), String.valueOf(colorModel.getEndColor()), context.getPackageName());

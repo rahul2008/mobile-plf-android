@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
+
 package com.philips.cdp2.ews.demoapplication;
 
 import android.content.res.Configuration;
@@ -34,11 +39,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import static com.philips.platform.uappframework.launcher.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT;
-
-/*
- * Copyright (c) Mobiquityinc, 2017.
- * All rights reserved.
- */
 
 public class OptionSelectionFragment extends Fragment implements View.OnClickListener {
 

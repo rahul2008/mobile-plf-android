@@ -1,12 +1,15 @@
+/**
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
+
 package com.philips.cdp2.ews;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
-import android.util.Log;
 
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -36,7 +39,7 @@ public class DynamicThemeApplyingActivity extends UIDActivity {
 
     private ColorRange getColorRange() {
         if (colorRange == null) {
-            colorRange =  ColorRange.GROUP_BLUE;
+            colorRange = ColorRange.GROUP_BLUE;
         }
         return colorRange;
     }
@@ -96,7 +99,7 @@ public class DynamicThemeApplyingActivity extends UIDActivity {
         return s.substring(0, 1).toUpperCase() +
                 s.substring(1).toLowerCase();
     }
-    
+
     static String toCamelCase(String s) {
         String[] parts = s.split("_");
         String camelCaseString = "";

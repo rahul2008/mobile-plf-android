@@ -1,8 +1,8 @@
-/*
- * (C) Koninklijke Philips N.V., 2016.
+/**
+ * Copyright (c) Koninklijke Philips N.V., 2017.
  * All rights reserved.
- *
  */
+
 package com.philips.cdp2.ews.demoapplication.themesettinngs;
 
 import android.content.Context;
@@ -68,12 +68,4 @@ public class ThemeHelper {
                 s.substring(1).toLowerCase();
     }
 
-    public
-    @StyleRes
-    int getThemeResourceId(Resources resources, final String packageName) {
-        final ColorRange colorRange = initColorRange();
-        final ContentColor contentColor = initContentTonalRange();
-        int colorResourceId = getColorResourceId(resources, colorRange.name(), contentColor.name(), packageName);
-        return colorResourceId;
-    }
 }

@@ -1,7 +1,6 @@
-/*
- * (C) Koninklijke Philips N.V., 2016.
+/**
+ * Copyright (c) Koninklijke Philips N.V., 2017.
  * All rights reserved.
- *
  */
 
 package com.philips.cdp2.ews.demoapplication.themesettinngs;
@@ -43,7 +42,6 @@ public class ThemeColorHelper {
         final int colorResourceId75 = getColorResourceId(context.getResources(), color, "75", context.getPackageName());
         tonalRangelist.add(new ColorModel("VD", color, getUidColorWhite(), 75, 70));
         tonalRangelist.add(new ColorModel("B", color, getUidColorWhite(), 45, 40));
-//        tonalRangelist.add(new ColorModel("L", color, getUidColorWhite(), 30, 25));
         tonalRangelist.add(new ColorModel("VL", color, colorResourceId75, 15, 10));
         tonalRangelist.add(new ColorModel("UL", color, colorResourceId75, 5, 0));
         return tonalRangelist;
@@ -71,7 +69,6 @@ public class ThemeColorHelper {
         final int[] navigationColors = getNavigationColorsArray(color, context.getPackageName(), context.getResources());
         navigationColorModelList.add(new ColorModel("VD", color, navigationColors[0], getUidColorWhite()));
         navigationColorModelList.add(new ColorModel("B", color, navigationColors[1], getUidColorWhite()));
-//        navigationColorModelList.add(new ColorModel("L", color, navigationColors[2], getUidColorWhite()));
         navigationColorModelList.add(new ColorModel("VL", color, navigationColors[3], colorResourceId75));
         navigationColorModelList.add(new ColorModel("UL", color, navigationColors[4], colorResourceId75));
         return navigationColorModelList;
