@@ -42,11 +42,6 @@ public class ConnectionSuccessfulViewModel {
         title = new ObservableField<>(getTitle(baseConfig));
     }
 
-    @Nullable
-    public String getHomeWiFiSSID() {
-        return wiFiUtil.getHomeWiFiSSD();
-    }
-
     public void setFragmentCallback(@NonNull FragmentCallback fragmentCallback) {
         this.fragmentCallback = fragmentCallback;
     }
@@ -58,11 +53,15 @@ public class ConnectionSuccessfulViewModel {
         }
     }
 
-    @VisibleForTesting
     @NonNull
     public String getTitle(@NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(R.string.label_ews_succesful_body,
                 baseConfig.getDeviceName(), getHomeWiFiSSID());
+    }
+
+    @Nullable
+    public String getHomeWiFiSSID() {
+        return wiFiUtil.getHomeWiFiSSD();
     }
 
     public void trackPageName() {

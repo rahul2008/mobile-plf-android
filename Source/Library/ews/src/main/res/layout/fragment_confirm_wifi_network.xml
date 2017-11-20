@@ -68,7 +68,7 @@
                     android:layout_marginEnd="@dimen/default_body_labels_margin"
                     android:layout_marginStart="@dimen/default_body_labels_margin"
                     android:layout_marginTop="@dimen/default_body_labels_margin"
-                    android:text="@{viewModel.helperUpper}" />
+                    android:text="@{viewModel.helperTitle}" />
 
 
                 <com.philips.platform.uid.view.widget.Label
@@ -80,7 +80,7 @@
                     android:layout_marginEnd="@dimen/default_body_labels_margin"
                     android:layout_marginStart="@dimen/default_body_labels_margin"
                     android:layout_marginTop="@dimen/default_body_labels_margin"
-                    android:text="@{viewModel.helperLower}" />
+                    android:text="@{viewModel.helperDescription}" />
             </LinearLayout>
 
             <com.philips.platform.uid.view.widget.Label

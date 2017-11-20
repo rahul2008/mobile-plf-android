@@ -105,14 +105,14 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
 
     @Bindable
     @NonNull
-    public String getHelperUpper() {
+    public String getHelperTitle() {
         return stringProvider.getString(R.string.label_ews_confirm_connection_tip_upper,
                 baseContentConfiguration.getDeviceName());
     }
 
     @Bindable
     @NonNull
-    public String getHelperLower() {
+    public String getHelperDescription() {
         return stringProvider.getString(R.string.label_ews_confirm_connection_tip_lower,
                 baseContentConfiguration.getDeviceName());
     }
