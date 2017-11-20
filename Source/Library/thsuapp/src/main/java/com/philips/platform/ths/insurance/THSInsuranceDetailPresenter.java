@@ -20,6 +20,7 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
+import com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
@@ -108,7 +109,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
                 Map<String, ValidationReason> errors = new HashMap<>();
                 THSManager.getInstance().validateSubscriptionUpdateRequest(mTHSBaseFragment.getFragmentActivity(), thsSubscriptionUpdateRequest, errors);
                 if (errors.isEmpty()) {
-                    ((THSInsuranceDetailFragment) mTHSBaseFragment).showProgressbar();
+
                     updateInsurance(thsSubscriptionUpdateRequest);
                 } else {
                     mTHSBaseFragment.hideProgressBar();
@@ -241,7 +242,10 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
     public void onValidationFailure(Map<String, ValidationReason> var1) {
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             mTHSBaseFragment.hideProgressBar();
-            AmwellLog.i("updateInsurance", "fail");
+
+            String errorMessage= (null!=var1)?var1.toString():"null";
+            AmwellLog.i("updateInsurance", "onValidationFailure: "+errorMessage);
+            ((THSInsuranceDetailFragment) mTHSBaseFragment).doTagging(ANALYTICS_UPDATE_HEALTH_PLAN, errorMessage, false);
             showInsuranceNotVerifiedDialog();
         }
     }
@@ -252,7 +256,9 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
             mTHSBaseFragment.hideProgressBar();
             if (null != sdkError) {
                 if (null != sdkError.getSDKErrorReason()) {
-                    mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPDATE_HEALTH_PLAN, sdkError));
+                    THSSDKErrorFactory.getErrorType(ANALYTICS_UPDATE_HEALTH_PLAN,sdkError);
+                    AmwellLog.e("updateInsurance", "onResponse: "+ sdkError.getSDKErrorReason().toString());
+                    showInsuranceNotVerifiedDialog();
                 }
             } else {
                 showCostSummaryFragment();
@@ -264,7 +270,9 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
     public void onFailure(Throwable throwable) {
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             mTHSBaseFragment.hideProgressBar();
-            mTHSBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+            String errorMessage= (null!=throwable)?throwable.getMessage():"null";
+            AmwellLog.i("updateInsurance", "onFailure: "+errorMessage);
+            ((THSInsuranceDetailFragment) mTHSBaseFragment).doTagging(ANALYTICS_UPDATE_HEALTH_PLAN, errorMessage, false);
             showInsuranceNotVerifiedDialog();
         }
 
