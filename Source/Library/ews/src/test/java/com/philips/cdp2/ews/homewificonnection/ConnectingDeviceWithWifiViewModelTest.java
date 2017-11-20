@@ -43,6 +43,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
@@ -59,7 +60,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({EWSTagger.class,EWSLogger.class})
+@PrepareForTest({EWSTagger.class,EWSLogger.class, SecureStorageUtility.class})
 public class ConnectingDeviceWithWifiViewModelTest {
 
     private static final String HOME_SSID = "homeSsid";
@@ -128,6 +129,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
         initMocks(this);
         mockStatic(EWSTagger.class);
         mockStatic(EWSLogger.class);
+        mockStatic(SecureStorageUtility.class);
 
         AppInfraInterface mockAppInfraInterface = mock(AppInfraInterface.class);
         AppTaggingInterface mockTaggingInterface = mock(AppTaggingInterface.class);
@@ -196,6 +198,18 @@ public class ConnectingDeviceWithWifiViewModelTest {
         simulatePutPropsSucceeded();
 
         verify(mockWiFiConnectivityManager).connectToHomeWiFiNetwork(HOME_SSID);
+    }
+
+    @Test
+    public void itShouldVerifyCppIdIsStoredCorrectlywhenPutPropsIsSuccess() throws Exception {
+        simulatePutPropsSucceeded();
+        verify(mockSecureStorageUtility).storeString(SecureStorageUtility.CPP_ID, mockWifiPortProperties.getCppid());
+    }
+
+    @Test
+    public void itShouldVerifyCppIdIsEqualWhenPutPropsSucceed() throws Exception {
+        simulatePutPropsSucceeded();
+        assertEquals("MOCKEDCPPID12345678", mockSecureStorageUtility.loadString(SecureStorageUtility.CPP_ID, null));
     }
 
     @Test
@@ -329,6 +343,15 @@ public class ConnectingDeviceWithWifiViewModelTest {
     }
 
     @Test
+    public void itShouldVerifyNewPinIsSetWhenApplianceFoundInHomeNetwork() throws Exception {
+        simulateApplianceFound();
+
+        // invocation will be done 2 times, as first setPin is done on network node and other in LanTransportContext
+        verify(mockNetworkNode, times(2)).setPin(anyString());
+    }
+
+
+    @Test
     public void itShouldNotRemoveTimeoutRunnableWhenWrongApplianceFoundInHomeNetwork() throws Exception {
         simulateWorngApplianceFound();
         verify(mockHandler, times(0)).removeCallbacks(any(Runnable.class));
@@ -448,6 +471,8 @@ public class ConnectingDeviceWithWifiViewModelTest {
         verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture());
         when(mockAppliance.getNetworkNode()).thenReturn(mockNetworkNode);
         when(mockAppliance.getNetworkNode().getCppId()).thenReturn("MOCKEDCPPID12345678");
+        when(mockSecureStorageUtility.loadString(SecureStorageUtility.CPP_ID, null)).thenReturn("MOCKEDCPPID12345678");
+        when(mockSecureStorageUtility.loadString(SecureStorageUtility.APPLIANCE_PIN, null)).thenReturn("MOCKEDPIN12345678");
         discoveryCallbackArgumentCaptor.getValue().onApplianceFound(mockAppliance);
     }
 
@@ -480,6 +505,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
         verify(mockApplianceAccessManager).connectApplianceToHomeWiFiEvent(anyString(), anyString(),
                 putPropsCallbackCaptor.capture());
         when(mockWifiPortProperties.getCppid()).thenReturn("MOCKEDCPPID12345678");
+        when(mockSecureStorageUtility.loadString(SecureStorageUtility.CPP_ID, null)).thenReturn("MOCKEDCPPID12345678");
         putPropsCallbackCaptor.getValue().onPropertiesSet(mockWifiPortProperties);
     }
 
