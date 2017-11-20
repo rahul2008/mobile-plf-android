@@ -128,7 +128,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
                         removeTimeoutRunnable();
                         discoveryHelper.stopDiscovery();
                         LanTransportContext.acceptPinFor(appliance, appliancePin);
-                        applianceSessionDetailsInfo.setAppliancePin(null);
+                        applianceSessionDetailsInfo.clear();
                         onDeviceConnectedToWifi();
                     }
                 }

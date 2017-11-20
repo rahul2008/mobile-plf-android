@@ -47,4 +47,8 @@ public class ApplianceSessionDetailsInfo {
     public void setAppliancePin(String appliancePin) {
         this.appliancePin = appliancePin;
     }
+
+    public void clear() {
+        this.appliancePin = null;
+    }
 }

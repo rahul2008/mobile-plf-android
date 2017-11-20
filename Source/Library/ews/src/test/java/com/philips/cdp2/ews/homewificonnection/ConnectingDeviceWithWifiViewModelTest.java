@@ -44,6 +44,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
@@ -201,15 +202,9 @@ public class ConnectingDeviceWithWifiViewModelTest {
     }
 
     @Test
-    public void itShouldVerifyCppIdIsStoredCorrectlywhenPutPropsIsSuccess() throws Exception {
-        simulatePutPropsSucceeded();
-        //verify(mockSecureStorageUtility).storeString(SecureStorageUtility.CPP_ID, mockWifiPortProperties.getCppid());
-    }
-
-    @Test
     public void itShouldVerifyCppIdIsEqualWhenPutPropsSucceed() throws Exception {
         simulatePutPropsSucceeded();
-        //assertEquals("MOCKEDCPPID12345678", mockSecureStorageUtility.loadString(SecureStorageUtility.CPP_ID, null));
+        assertEquals("MOCKEDCPPID12345678", mockWifiPortProperties.getCppid());
     }
 
     @Test
@@ -353,25 +348,25 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Test
     public void itShouldVerifyApplianceSessionDetailPinIsSetNullAfterApplianceFound() throws Exception {
         simulateApplianceFound();
-        verify(mockApplianceSessionDetailInfo).setAppliancePin(null);
+        verify(mockApplianceSessionDetailInfo).clear();
     }
 
 
     @Test
     public void itShouldNotRemoveTimeoutRunnableWhenWrongApplianceFoundInHomeNetwork() throws Exception {
-        simulateWorngApplianceFound();
+        simulateWrongApplianceFound();
         verify(mockHandler, times(0)).removeCallbacks(any(Runnable.class));
     }
 
     @Test
     public void itShouldNotStopDiscoveryWhenWrongApplianceFoundInHomeNetwork() throws Exception {
-        simulateWorngApplianceFound();
+        simulateWrongApplianceFound();
         verify(mockDiscoveryHelper, times(0)).stopDiscovery();
     }
 
     @Test
     public void itShouldNotNavigateToSuccessScreenWhenWrongApplianceFoundInHomeNetwork() throws Exception {
-        simulateWorngApplianceFound();
+        simulateWrongApplianceFound();
         verify(mockNavigator, times(0)).navigateToEWSWiFiPairedScreen();
     }
 
@@ -398,7 +393,6 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
     @Test
     public void itShouldNavigateToErrorScreenWhenTimeoutAndHomeWifiConnected() throws Exception {
-        //subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME));
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
         verify(mockHandler).postDelayed(timeoutRunnableCaptor.capture(), anyLong());
         timeoutRunnableCaptor.getValue().run();
@@ -408,7 +402,6 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
     @Test
     public void itShouldNavigateToWrongWifiErrorScreenWhenTimeoutAndHomeWifiNotConnected() throws Exception {
-        //subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME));
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.UNKNOWN_WIFI);
         verify(mockHandler).postDelayed(timeoutRunnableCaptor.capture(), anyLong());
         timeoutRunnableCaptor.getValue().run();
@@ -478,12 +471,10 @@ public class ConnectingDeviceWithWifiViewModelTest {
         when(mockAppliance.getNetworkNode()).thenReturn(mockNetworkNode);
         when(mockAppliance.getNetworkNode().getCppId()).thenReturn("MOCKEDCPPID12345678");
         when(mockApplianceSessionDetailInfo.getAppliancePin()).thenReturn("MOCKEDPIN12345678");
-        //when(mockSecureStorageUtility.loadString(SecureStorageUtility.CPP_ID, null)).thenReturn("MOCKEDCPPID12345678");
-        //when(mockSecureStorageUtility.loadString(SecureStorageUtility.APPLIANCE_PIN, null)).thenReturn("MOCKEDPIN12345678");
         discoveryCallbackArgumentCaptor.getValue().onApplianceFound(mockAppliance);
     }
 
-    private void simulateWorngApplianceFound() {
+    private void simulateWrongApplianceFound() {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
         verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture());
         when(mockAppliance.getNetworkNode()).thenReturn(mockNetworkNode);
@@ -512,7 +503,6 @@ public class ConnectingDeviceWithWifiViewModelTest {
         verify(mockApplianceAccessManager).connectApplianceToHomeWiFiEvent(anyString(), anyString(),
                 putPropsCallbackCaptor.capture());
         when(mockWifiPortProperties.getCppid()).thenReturn("MOCKEDCPPID12345678");
-        //when(mockSecureStorageUtility.loadString(SecureStorageUtility.CPP_ID, null)).thenReturn("MOCKEDCPPID12345678");
         putPropsCallbackCaptor.getValue().onPropertiesSet(mockWifiPortProperties);
     }
 
