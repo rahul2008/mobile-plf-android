@@ -68,7 +68,6 @@ public class DeviceFriendlyNameFetcher {
         if (devicePort != null && devicePort.getPortProperties() != null) {
             String pin = LanTransportContext.readPin(appliance);
             applianceSessionDetailsInfo.setAppliancePin(pin);
-            //secureStorageUtility.storeString(SecureStorageUtility.APPLIANCE_PIN, pin);
             callback.onFriendlyNameFetchingSuccess(devicePort.getPortProperties().getName());
         } else {
             callback.onFriendlyNameFetchingFailed();

@@ -7,6 +7,7 @@ import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
+import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.appliance.EWSGenericAppliance;
 
 import org.junit.Before;
@@ -27,6 +28,7 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({LanTransportContext.class})
@@ -38,6 +40,7 @@ public class DeviceFriendlyNameFetcherTest {
     @Mock private DevicePort mockDevicePort;
     @Mock private DevicePortProperties mockDevicePortProperties;
     @Mock private DeviceFriendlyNameFetcher.Callback mockCallback;
+    @Mock private ApplianceSessionDetailsInfo mockApplianceSessionDetailInfo;
 
     @Captor private ArgumentCaptor<DICommPortListener> portListenerCaptor;
 
@@ -45,7 +48,7 @@ public class DeviceFriendlyNameFetcherTest {
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(LanTransportContext.class);
-        subject = new DeviceFriendlyNameFetcher(mockAppliance, null);
+        subject = new DeviceFriendlyNameFetcher(mockAppliance, mockApplianceSessionDetailInfo);
         when(mockAppliance.getDevicePort()).thenReturn(mockDevicePort);
     }
 
@@ -65,8 +68,7 @@ public class DeviceFriendlyNameFetcherTest {
 
     @Test
     public void itShouldForwardSuccessToCallbackWhenGetPropsIsSuccess() throws Exception {
-        when(mockDevicePortProperties.getName()).thenReturn("mockFriendlyName");
-        when(mockDevicePort.getPortProperties()).thenReturn(mockDevicePortProperties);
+        simulateForwardCall();
         simulateGetPropsSuccess(mockDevicePort, mockCallback);
 
         verify(mockCallback).onFriendlyNameFetchingSuccess(anyString());
@@ -74,12 +76,28 @@ public class DeviceFriendlyNameFetcherTest {
 
     @Test
     public void itShouldForwardCorrectNameToCallbackWhenGetPropsIsSuccess() throws Exception {
-        when(mockDevicePortProperties.getName()).thenReturn("mockFriendlyName");
-        when(mockDevicePort.getPortProperties()).thenReturn(mockDevicePortProperties);
+        simulateForwardCall();
         simulateGetPropsSuccess(mockDevicePort, mockCallback);
 
         verify(mockCallback).onFriendlyNameFetchingSuccess(eq("mockFriendlyName"));
     }
+
+    @Test
+    public void itShouldReadAppliancePinWhenGetPropSucceed() throws Exception{
+        simulateForwardCall();
+        simulateGetPropsSuccess(mockDevicePort, mockCallback);
+        verifyStatic();
+        LanTransportContext.readPin(mockAppliance);
+    }
+
+    @Test
+    public void itShouldSetAppliancePinWhenGetPropSucceed() throws Exception{
+        simulateForwardCall();
+        simulateGetPropsSuccess(mockDevicePort, mockCallback);
+        verify(mockApplianceSessionDetailInfo).setAppliancePin(anyString());
+    }
+
+
 
     @Test
     public void itShouldForwardFailureToCallbackWhenGetPropsIsSuccessAndPortIsNull() throws Exception {
@@ -124,6 +142,11 @@ public class DeviceFriendlyNameFetcherTest {
         subject.clear();
 
         assertNull(subject.getCallback());
+    }
+
+    private void simulateForwardCall(){
+        when(mockDevicePortProperties.getName()).thenReturn("mockFriendlyName");
+        when(mockDevicePort.getPortProperties()).thenReturn(mockDevicePortProperties);
     }
 
     private void simulateGetPropsSuccess(@Nullable DevicePort port, @Nullable DeviceFriendlyNameFetcher.Callback callback) {
