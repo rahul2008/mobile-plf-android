@@ -118,15 +118,9 @@ publishing {
 
             artifact zipDocuments
 
-            /* if (new File("$buildDir/outputs/aar/${archivesBaseName}-release.aar").exists()) {
-                artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-            }  else if (new File("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar").exists()) {
-                artifact("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar")
-            } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-debug.aar").exists()) {
-                artifact("$buildDir/outputs/aar/${archivesBaseName}-debug.aar")
-            } else {
-                throw new GradleException('no artifact published')
-            } */
+            artifact("$projectDir/dependencies.lock") {
+                classifier = '1stleveldependencies'
+            }
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
