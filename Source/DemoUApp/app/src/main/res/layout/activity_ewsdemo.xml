@@ -7,20 +7,20 @@
     android:gravity="center">
 
 
-    <Button
+    <com.philips.platform.uid.view.widget.Button
         android:id="@+id/btnTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/change_theme" />
 
-    <Button
+    <com.philips.platform.uid.view.widget.Button
         android:id="@+id/btnLaunchEws"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/ews_activity_launch"
         android:layout_marginTop="20dp"/>
 
-    <Button
+    <com.philips.platform.uid.view.widget.Button
         android:id="@+id/btnLaunchFragmentEws"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,13 +33,12 @@
         android:orientation="horizontal"
         android:layout_marginTop="20dp">
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/labelSelectConfiguration"
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:gravity="center"
             android:text="@string/select_configuration"
-            android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
 

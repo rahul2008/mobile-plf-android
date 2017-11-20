@@ -1,6 +1,7 @@
 package com.philips.cdp2.ews.demoapplication;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener {
@@ -52,6 +54,7 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
         themeHelper = new ThemeHelper(defaultSharedPreferences, this);
         updateColorFromPref();
         injectNewTheme(colorRange, contentColor, navigationColor, accentColorRange);
+        UIDHelper.injectCalligraphyFonts();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         closeImageView = findViewById(R.id.ic_close);
@@ -59,6 +62,11 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
         this.optionSelectionFragment = new OptionSelectionFragment();
         showConfigurationOptScreen();
         setUpToolBar();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     public EWSLauncherInput getEwsLauncherInput() {
