@@ -66,10 +66,8 @@ node('Android') {
             stage ('Save dependencies list') {
             sh """#!/bin/bash -l
             	        chmod -R 775 . 
-                        cd ./Source/DemoApp 
-                        ./gradlew -PenvCode=${JENKINS_ENV} :ews:saveResDep :ews:saveAllResolvedDependencies :ews:saveAllResolvedDependenciesGradleFormat
             	        cd ../Library 
-                        ./gradlew -PenvCode=${JENKINS_ENV} :ews:saveResDep :ews:saveAllResolvedDependencies :ews:saveAllResolvedDependenciesGradleFormat
+                        ./gradlew -PbuildNumber=${env.BUILD_NUMBER} :ews:saveResDep :ews:saveAllResolvedDependencies :ews:saveAllResolvedDependenciesGradleFormat
                     """
             }
                 
