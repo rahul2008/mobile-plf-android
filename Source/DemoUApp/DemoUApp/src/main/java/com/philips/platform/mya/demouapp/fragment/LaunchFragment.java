@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 
+import com.philips.platform.csw.CswDependencies;
+import com.philips.platform.csw.CswInterface;
+import com.philips.platform.csw.CswLaunchInput;
 import com.philips.platform.mya.demouapp.DemoAppActivity;
 import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
 import com.philips.platform.mya.demouapp.R;
@@ -21,6 +24,7 @@ import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -35,7 +39,6 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 public class LaunchFragment extends BaseFragment implements View.OnClickListener {
 
     public int checkedId = R.id.radioButton;
-
 
     @Nullable
     @Override
@@ -87,7 +90,17 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra());
         MyaLaunchInput launchInput = new MyaLaunchInput(((DemoAppActivity) getActivity()), new MyaListener() {
             @Override
-            public boolean onClickMyaItem(String itemName) {
+            public boolean onClickMyaItem(String itemName, FragmentLauncher fragmentLauncher) {
+                if (itemName.equals("Mya_Privacy_Settings")) {
+                    CswInterface cswInterface = new CswInterface();
+                    CswDependencies cswDependencies = new CswDependencies(MyAccountDemoUAppInterface.getAppInfra());
+                    cswDependencies.setApplicationName(MyaInterface.getApplicationName());
+                    cswDependencies.setPropositionName(MyaInterface.getPropositionName());
+                    UappSettings uappSettings = new UappSettings(getContext());
+                    cswInterface.init(cswDependencies, uappSettings);
+                    cswInterface.launch(fragmentLauncher, buildLaunchInput(true, getContext()));
+                    return true;
+                }
                 return false;
             }
 
@@ -110,5 +123,15 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         } else {
             myaInterface.launch(new FragmentLauncher((DemoAppActivity) getActivity(), R.id.mainContainer, null), launchInput);
         }
+    }
+
+
+    private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
+        CswLaunchInput cswLaunchInput = new CswLaunchInput();
+        cswLaunchInput.setPropositionName(MyaInterface.getPropositionName());
+        cswLaunchInput.setApplicationName(MyaInterface.getApplicationName());
+        cswLaunchInput.addToBackStack(addToBackStack);
+        cswLaunchInput.setContext(context);
+        return cswLaunchInput;
     }
 }

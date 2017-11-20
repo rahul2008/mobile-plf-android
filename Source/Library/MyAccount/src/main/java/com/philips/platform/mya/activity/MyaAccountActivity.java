@@ -11,19 +11,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.philips.platform.mya.injection.DaggerMyaUiComponent;
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.injection.MyaUiComponent;
-import com.philips.platform.mya.interfaces.MyaListener;
-import com.philips.platform.mya.launcher.MyaDependencies;
+import com.philips.platform.mya.injection.MyaUiModule;
 import com.philips.platform.mya.launcher.MyaInterface;
-import com.philips.platform.mya.launcher.MyaLaunchInput;
-import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -36,7 +32,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
 
-public class MyaAccountActivity extends UIDActivity implements MyaListener {
+public class MyaAccountActivity extends UIDActivity {
 
     private TextView mTitle;
     private String applicationName;
@@ -74,45 +70,12 @@ public class MyaAccountActivity extends UIDActivity implements MyaListener {
         }
     }
 
-    private void launchTabFragment() {
-        MyaInterface myaInterface = new MyaInterface();
-        MyaDependencies uappDependencies = new MyaDependencies(MyaInterface.getMyaDependencyComponent().getAppInfra());
-        uappDependencies.setApplicationName(applicationName);
-        uappDependencies.setPropositionName(propositionName);
-
-        myaInterface.init(uappDependencies, new MyaSettings(this));
-        myaInterface.launch(new FragmentLauncher(this, R.id.mainContainer, new ActionBarListener() {
-            @Override
-            public void updateActionBar(int i, boolean shouldBackEnable) {
-                setTitle(i);
-                handleLeftImage(shouldBackEnable);
-            }
-
-            @Override
-            public void updateActionBar(String s, boolean shouldBackEnable) {
-                setTitle(s);
-                handleLeftImage(shouldBackEnable);
-            }
-        }), new MyaLaunchInput(this, this));
-    }
-
     private void handleLeftImage(boolean shouldBackEnable) {
         if (!shouldBackEnable) {
             setLeftImage(R.drawable.mya_cross_icon);
         } else {
             setLeftImage(R.drawable.mya_back_icon);
         }
-    }
-
-    @Override
-    public boolean onClickMyaItem(String itemName) {
-        Log.d("Testing call back = ",itemName);
-        return false;
-    }
-
-    @Override
-    public boolean onLogOut() {
-        return false;
     }
 
     @Override
@@ -180,7 +143,7 @@ public class MyaAccountActivity extends UIDActivity implements MyaListener {
         leftImageView.setBackgroundResource(resId);
     }
 
-    private void launchAsFragment() {
+    private void launchTabFragment() {
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
             extras = new Bundle();
@@ -200,6 +163,10 @@ public class MyaAccountActivity extends UIDActivity implements MyaListener {
                 handleLeftImage(shouldBackEnable);
             }
         });
+        MyaUiModule myaUiModule = new MyaUiModule(fragmentLauncher, MyaInterface.getMyaUiComponent().getMyaListener());
+        MyaUiComponent myaUiComponent = DaggerMyaUiComponent.builder()
+                .myaUiModule(myaUiModule).build();
+        MyaInterface.setMyaUiComponent(myaUiComponent);
         MyaTabFragment myaTabFragment = new MyaTabFragment();
         myaTabFragment.setArguments(extras);
         myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);

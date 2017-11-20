@@ -6,9 +6,11 @@
 package com.philips.platform.mya.interfaces;
 
 
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+
 public interface MyaListener {
 
-    boolean onClickMyaItem(String itemName);
+    boolean onClickMyaItem(String itemName, FragmentLauncher fragmentLauncher);
 
     boolean onLogOut();
 }

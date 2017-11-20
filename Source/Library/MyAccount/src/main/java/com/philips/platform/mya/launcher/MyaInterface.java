@@ -115,4 +115,8 @@ public class MyaInterface implements UappInterface {
     public static MyaUiComponent getMyaUiComponent() {
         return myaUiComponent;
     }
+
+    public static void setMyaUiComponent(MyaUiComponent myaUiComponent) {
+        MyaInterface.myaUiComponent = myaUiComponent;
+    }
 }

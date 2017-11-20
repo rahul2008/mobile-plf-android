@@ -10,14 +10,9 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.csw.CswDependencies;
-import com.philips.platform.csw.CswInterface;
-import com.philips.platform.csw.CswLaunchInput;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.util.MYALog;
 import com.philips.platform.mya.util.mvp.MyaBasePresenter;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -42,17 +37,9 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     @Override
     public void onClickRecyclerItem(Context context, String key, SettingsModel settingsModel) {
-        if (key.equals("Mya_Privacy_Settings")) {
-            CswInterface cswInterface = new CswInterface();
-            CswDependencies cswDependencies = new CswDependencies(appInfraInterface);
-            cswDependencies.setApplicationName(MyaInterface.getApplicationName());
-            cswDependencies.setPropositionName(MyaInterface.getPropositionName());
-            UappSettings uappSettings = new UappSettings(context);
-            cswInterface.init(cswDependencies, uappSettings);
-            cswInterface.launch(MyaInterface.getMyaUiComponent().getFragmentLauncher(), buildLaunchInput(true, context));
-        } else if (key.equals("MYA_Country")) {
+       if (key.equals("MYA_Country")) {
             view.showDialog(context.getString(R.string.MYA_change_country), context.getString(R.string.MYA_change_country_message));
-        }
+       }
     }
 
     private LinkedHashMap<String, SettingsModel> getSettingsMap(Context context, AppInfraInterface appInfraInterface) {
@@ -103,14 +90,4 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             return null;
         }
     }
-
-    private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput();
-        cswLaunchInput.setPropositionName(MyaInterface.getPropositionName());
-        cswLaunchInput.setApplicationName(MyaInterface.getApplicationName());
-        cswLaunchInput.addToBackStack(addToBackStack);
-        cswLaunchInput.setContext(context);
-        return cswLaunchInput;
-    }
-
 }

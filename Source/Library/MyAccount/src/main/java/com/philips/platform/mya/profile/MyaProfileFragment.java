@@ -93,7 +93,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
                 int viewType = recyclerView.indexOfChild(view);
                 String key = (String) profileList.keySet().toArray()[viewType];
                 String value = profileList.get(key);
-                boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(key);
+                boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(key, MyaInterface.getMyaUiComponent().getFragmentLauncher());
                 handleTransition(onClickMyaItem, value != null ? value : key);
             }
         };
@@ -108,7 +108,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         if (!onClickMyaItem) {
             if (profileItem.equals(getContext().getString(R.string.MYA_My_details)) || profileItem.equalsIgnoreCase("MYA_My_details")) {
                 MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
-                myaDetailsFragment.showFragment(myaDetailsFragment, MyaInterface.getMyaUiComponent().getFragmentLauncher());
+                myaDetailsFragment.showFragment(myaDetailsFragment);
             }
         }
     }
