@@ -14,11 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.philips.platform.mya.injection.DaggerMyaUiComponent;
+
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.injection.MyaUiComponent;
-import com.philips.platform.mya.injection.MyaUiModule;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -163,10 +162,6 @@ public class MyaAccountActivity extends UIDActivity {
                 handleLeftImage(shouldBackEnable);
             }
         });
-        MyaUiModule myaUiModule = new MyaUiModule(fragmentLauncher, MyaInterface.getMyaUiComponent().getMyaListener());
-        MyaUiComponent myaUiComponent = DaggerMyaUiComponent.builder()
-                .myaUiModule(myaUiModule).build();
-        MyaInterface.setMyaUiComponent(myaUiComponent);
         MyaTabFragment myaTabFragment = new MyaTabFragment();
         myaTabFragment.setArguments(extras);
         myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);

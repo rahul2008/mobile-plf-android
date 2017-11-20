@@ -104,19 +104,8 @@ public class MyaInterface implements UappInterface {
         return myaDependencyComponent;
     }
 
-    public static String getApplicationName() {
-        return applicationName;
-    }
-
-    public static String getPropositionName() {
-        return propositionName;
-    }
-
     public static MyaUiComponent getMyaUiComponent() {
         return myaUiComponent;
     }
 
-    public static void setMyaUiComponent(MyaUiComponent myaUiComponent) {
-        MyaInterface.myaUiComponent = myaUiComponent;
-    }
 }

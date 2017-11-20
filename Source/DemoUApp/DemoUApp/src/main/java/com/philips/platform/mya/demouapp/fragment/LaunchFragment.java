@@ -31,6 +31,9 @@ import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
+import static com.philips.platform.mya.demouapp.MyaConstants.APPLICATION_NAME;
+import static com.philips.platform.mya.demouapp.MyaConstants.PROPOSITION_NAME;
+
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -90,15 +93,16 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra());
         MyaLaunchInput launchInput = new MyaLaunchInput(((DemoAppActivity) getActivity()), new MyaListener() {
             @Override
-            public boolean onClickMyaItem(String itemName, FragmentLauncher fragmentLauncher) {
+            public boolean onClickMyaItem(String itemName) {
                 if (itemName.equals("Mya_Privacy_Settings")) {
                     CswInterface cswInterface = new CswInterface();
                     CswDependencies cswDependencies = new CswDependencies(MyAccountDemoUAppInterface.getAppInfra());
-                    cswDependencies.setApplicationName(MyaInterface.getApplicationName());
-                    cswDependencies.setPropositionName(MyaInterface.getPropositionName());
+                    cswDependencies.setApplicationName(APPLICATION_NAME);
+                    cswDependencies.setPropositionName(PROPOSITION_NAME);
                     UappSettings uappSettings = new UappSettings(getContext());
                     cswInterface.init(cswDependencies, uappSettings);
-                    cswInterface.launch(fragmentLauncher, buildLaunchInput(true, getContext()));
+                    DemoAppActivity activity = (DemoAppActivity) getActivity();
+                    cswInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, activity.getThemeResourceId()), buildLaunchInput(true, getContext()));
                     return true;
                 }
                 return false;
@@ -128,8 +132,8 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
 
     private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
         CswLaunchInput cswLaunchInput = new CswLaunchInput();
-        cswLaunchInput.setPropositionName(MyaInterface.getPropositionName());
-        cswLaunchInput.setApplicationName(MyaInterface.getApplicationName());
+        cswLaunchInput.setPropositionName(PROPOSITION_NAME);
+        cswLaunchInput.setApplicationName(APPLICATION_NAME);
         cswLaunchInput.addToBackStack(addToBackStack);
         cswLaunchInput.setContext(context);
         return cswLaunchInput;

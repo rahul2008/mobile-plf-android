@@ -156,7 +156,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
                 int viewType = recyclerView.indexOfChild(view);
                 String key = (String) profileList.keySet().toArray()[viewType];
                 SettingsModel value = profileList.get(key);
-                boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(key,MyaInterface.getMyaUiComponent().getFragmentLauncher());
+                boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(key);
                 if (!onClickMyaItem)
                     presenter.onClickRecyclerItem(getContext(), key, value);
             }
