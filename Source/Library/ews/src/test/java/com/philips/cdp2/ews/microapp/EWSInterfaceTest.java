@@ -102,12 +102,7 @@ public class EWSInterfaceTest {
         mockStatic(EWSLogger.class);
         initMocks(this);
 
-        subject = spy(new EWSInterface() {
-            @Override
-            public ThemeConfiguration getTheme() {
-                return null;
-            }
-        });
+        subject = spy(new EWSInterface());
         productKeyMap = new HashMap<>();
         productKeyMap.put(EWSInterface.PRODUCT_NAME, "product");
 
