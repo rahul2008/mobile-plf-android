@@ -39,6 +39,8 @@ import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -46,6 +48,7 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -320,7 +323,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     @Override
     public void onUserLogoutSuccess() {
         RALog.d(TAG," User Logout success  ");
-
     }
 
     @Override

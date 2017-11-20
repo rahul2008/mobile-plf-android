@@ -14,8 +14,12 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.referenceapp.PushNotificationManager;
+
+import java.util.List;
 
 
 public class URLogout implements URLogoutInterface{
@@ -73,7 +77,17 @@ public class URLogout implements URLogoutInterface{
                 if (urLogoutListener != null) {
                     urLogoutListener.onLogoutResultSuccess();
                 }
+                DataServicesManager.getInstance().deleteAll(new DBRequestListener() {
+                    @Override
+                    public void onSuccess(List list) {
+                        RALog.d(TAG,"Deleted saved data from database");
+                    }
 
+                    @Override
+                    public void onFailure(Exception e) {
+                        RALog.d(TAG,"Fetch to delete data from database");
+                    }
+                });
                 if (!BaseAppUtil.isDSPollingEnabled(activityContext.getApplicationContext())) {
                     getPushNotificationInstance().saveTokenRegistrationState(activityContext.getApplicationContext(), false);
                     ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterDSForRegisteringToken();

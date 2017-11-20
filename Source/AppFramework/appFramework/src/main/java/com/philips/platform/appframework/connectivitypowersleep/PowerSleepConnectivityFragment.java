@@ -10,7 +10,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.registration.User;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
 import com.philips.platform.appframework.ConnectivityDeviceType;
@@ -28,15 +29,18 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
 import com.philips.platform.appframework.connectivity.ConnectivityUtils;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
-import com.philips.platform.appframework.connectivitypowersleep.datamodels.Session;
-import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPortProperties;
-import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionsOldestToNewest;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.UIView;
 import com.philips.platform.baseapp.screens.utility.RALog;
-
-import org.joda.time.DateTime;
+import com.philips.platform.core.datatypes.Measurement;
+import com.philips.platform.core.datatypes.MeasurementGroup;
+import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.datatypes.SyncType;
+import com.philips.platform.core.listeners.DBChangeListener;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
+import com.philips.platform.core.listeners.SynchronisationCompleteListener;
+import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
@@ -45,7 +49,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFragment implements View.OnClickListener, ConnectivityPowerSleepContract.View, UIView {
+public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFragment implements View.OnClickListener, ConnectivityPowerSleepContract.View, UIView, SynchronisationCompleteListener,DBChangeListener {
     public static final String TAG = PowerSleepConnectivityFragment.class.getSimpleName();
     private ProgressDialog dialog = null;
     private Handler handler = new Handler();
@@ -67,6 +71,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     private final int PROGRESS_PERCENTAGE_MAX = 100;
     private final int IDEAL_DEEP_SLEEP_TIME = 120;
     private final int PROGRESS_DRAW_TIME = 1500;
+    private User user;
 
     @Override
     public void onAttach(Context context) {
@@ -92,11 +97,92 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
         connectivityFragmentWeakReference = new WeakReference<PowerSleepConnectivityFragment>(this);
-
+        user=new User(getActivity());
+        if(user.isUserSignIn()) {
+            DataServicesManager.getInstance().registerSynchronisationCompleteListener(this);
+            DataServicesManager.getInstance().synchronize();
+        }else{
+            showToast("Please sign in!");
+        }
         mBluetoothAdapter = getBluetoothAdapter();
     }
 
+
     private View view;
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        populateScreenWithLatestDataAvailable();
+    }
+
+    public void populateScreenWithLatestDataAvailable() {
+        connectivityPresenter.getLatestPowerSleepSession(new DBFetchRequestListner<Moment>() {
+            @Override
+            public void onFetchSuccess(final List<? extends Moment> list) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(list!=null && list.size()>0) {
+                            Moment moment=list.get(0);
+                            Summary summary=getSummaryInfoFromMoment(moment);
+                            updateSessionData(summary.getTotalSleepTime(),0,summary.getDeepSleepTime(),summary.getDate().getTime());
+                        }else{
+                            showToast("Data not available.");
+                        }
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFetchFailure(final Exception e) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToast("Error while fetching data from power sleep device. Error::"+e.getMessage());
+                    }
+                });
+            }
+        });
+    }
+
+    protected Summary getSummaryInfoFromMoment(Moment moment){
+        Summary summary=null;
+        try {
+            ArrayList<? extends MeasurementGroup> measurementGroupParent = new ArrayList<>(moment.getMeasurementGroups());
+            ArrayList<? extends MeasurementGroup> measurementGroupChild = new ArrayList<>(measurementGroupParent.get(0).getMeasurementGroups());
+            ArrayList<? extends Measurement> measurements = new ArrayList<>(measurementGroupChild.get(0).getMeasurements());
+            String deepSleepTime = null,totalSleepTime = null;
+
+            for(int count=0;count<measurements.size();count++){
+                switch (count){
+                    case 0:
+                       deepSleepTime=measurements.get(0).getValue();
+                        break;
+                    case 1:
+                        totalSleepTime=measurements.get(1).getValue();
+                        break;
+                }
+            }
+            Float dstFloat=Float.parseFloat(deepSleepTime);
+            long dst=dstFloat.longValue();
+
+            Float tstFloat=Float.parseFloat(totalSleepTime);
+            long tst=tstFloat.longValue();
+
+            summary=new Summary(new Date(moment.getDateTime().getMillis()),dst,tst);
+            return summary;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            RALog.e(TAG,"Error while converting moment data to summary"+e.getMessage());
+        } catch (IndexOutOfBoundsException e) {
+            RALog.e(TAG,"Error while converting moment data to summary"+e.getMessage());
+        } catch (Exception e) {
+            RALog.e(TAG,"Error while converting moment data to summary"+e.getMessage());
+        }
+        return summary;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -135,15 +221,6 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
                 break;
             case R.id.insights:
                 connectivityPresenter.onEvent(R.id.insights);
-//                List<Session> sessionList=new ArrayList<>();
-//                Session session=new Session(new Summary(new Date(System.currentTimeMillis()),30253560,5950712));
-//                sessionList.add(session);
-//                SessionDataPortProperties sessionDataPortProperties = new SessionDataPortProperties();
-//                sessionDataPortProperties.setDeepSleepTime(183787218L);
-//                sessionDataPortProperties.setTotalSleepTime(823846387L);
-//                List<SessionDataPortProperties> sessionDataPortProperties1 = new ArrayList<>();
-//                sessionDataPortProperties1.add(sessionDataPortProperties);
-//                connectivityPresenter.savePowerSleepMomentsData(sessionList);
                 break;
         }
     }
@@ -167,7 +244,9 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
                 if (isFragmentLive()) {
                     try {
                         bleScanDialogFragment = new BLEScanDialogFragment();
-                        bleScanDialogFragment.setSavedApplianceList(mCommCentral.getApplianceManager().getAvailableAppliances());
+                        if(mCommCentral.getApplianceManager()!=null) {
+                            bleScanDialogFragment.setSavedApplianceList(mCommCentral.getApplianceManager().getAvailableAppliances());
+                        }
                         bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), BLE_SCAN_DIALOG_TAG);
                         bleScanDialogFragment.setCancelable(false);
                         bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
@@ -198,17 +277,23 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     }
 
     @Override
-    public void updateSessionData(long sleepTime, long numberOfInteruptions, long deepSleepTime, long timeStamp) {
+    public void updateSessionData(final long sleepTime, final long numberOfInteruptions, final long deepSleepTime, final long timeStamp) {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
         RALog.d(TAG, "Session data updated");
         insights.setEnabled(true);
         insights.setAlpha(1.0f);
-        this.sleepTime.setText(getString(R.string.label_sleep_time_format, TimeUnit.MILLISECONDS.toMinutes(sleepTime)));
-        this.deepSleepTime.setText(getString(R.string.label_sleep_time_format, TimeUnit.MILLISECONDS.toMinutes(deepSleepTime)));
-        setLastSyncDate();
-        setSleepProgressPercentage(TimeUnit.MILLISECONDS.toMinutes(deepSleepTime));
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                PowerSleepConnectivityFragment.this.sleepTime.setText(getString(R.string.label_sleep_time_format, TimeUnit.MILLISECONDS.toMinutes(sleepTime)));
+                PowerSleepConnectivityFragment.this.deepSleepTime.setText(getString(R.string.label_sleep_time_format, TimeUnit.MILLISECONDS.toMinutes(deepSleepTime)));
+                setLastSyncDate();
+                setSleepProgressPercentage(TimeUnit.MILLISECONDS.toMinutes(deepSleepTime));
+            }
+        });
+
     }
 
     @Override
@@ -261,6 +346,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     public void onDestroy() {
         RALog.d(TAG, " Connectivity Fragment Destroyed");
         connectivityFragmentWeakReference = null;
+        user=null;
         super.onDestroy();
     }
 
@@ -284,5 +370,24 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     @Override
     public FragmentActivity getFragmentActivity() {
         return getActivity();
+    }
+
+    @Override
+    public void onSyncComplete() {
+        populateScreenWithLatestDataAvailable();
+    }
+
+    @Override
+    public void onSyncFailed(Exception e) {
+    }
+
+    @Override
+    public void dBChangeSuccess(SyncType syncType) {
+        populateScreenWithLatestDataAvailable();
+    }
+
+    @Override
+    public void dBChangeFailed(Exception e) {
+
     }
 }

@@ -73,7 +73,7 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
     @Override
     public void synchroniseSessionData(final BleReferenceAppliance bleReferenceAppliance) {
         connectivityViewListener.showProgressDialog();
-        dataServicesManager.fetchLatestMomentByType(MomentType.SLEEP_SESSION, new DBFetchRequestListner<Moment>() {
+        getLatestPowerSleepSession(new DBFetchRequestListner<Moment>() {
             @Override
             public void onFetchSuccess(final List<? extends Moment> list) {
                 DateTime latestSessionDateTime;
@@ -89,7 +89,11 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
                             connectivityViewListener.hideProgressDialog();
                             connectivityViewListener.showToast("Moment list size::" + sleepDataList.getSortedList().size());
                         }
-                        savePowerSleepMomentsData(sleepDataList.getSortedList());
+                        if(sleepDataList!=null && sleepDataList.size()>0) {
+                            savePowerSleepMomentsData(sleepDataList.getSortedList());
+                        }else{
+                            onNoNewSessionsAvailable();
+                        }
                     }
 
                     @Override
@@ -125,6 +129,7 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
         dataServicesManager.saveMoments(momentList, new DBRequestListener<Moment>() {
             @Override
             public void onSuccess(List<? extends Moment> list) {
+                connectivityViewListener.populateScreenWithLatestDataAvailable();
                 DataServicesManager.getInstance().synchronize();
                 connectivityViewListener.showToast("Power sleep data pushed to DB" + list.size());
             }
@@ -178,5 +183,9 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
             RALog.d(TAG, e.getMessage());
             Toast.makeText(getApplicationContext(), context.getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void getLatestPowerSleepSession(DBFetchRequestListner<Moment> dbFetchRequestListener) {
+        dataServicesManager.fetchLatestMomentByType(MomentType.SLEEP_SESSION,dbFetchRequestListener);
     }
 }

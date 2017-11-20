@@ -25,6 +25,8 @@ public interface ConnectivityPowerSleepContract {
 
         void showToast(String message);
 
+        void populateScreenWithLatestDataAvailable();
+
     }
 
     interface UserActionsListener {
