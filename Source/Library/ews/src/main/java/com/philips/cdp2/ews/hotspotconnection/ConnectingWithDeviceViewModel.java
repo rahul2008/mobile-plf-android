@@ -141,7 +141,6 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
     @VisibleForTesting
     void showUnsuccessfulDialog() {
         if (fragmentCallback != null) {
-            EWSTagger.trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
             fragmentCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration);
         } else{
             Log.e(TAG,"FragmentCallback not set in showUnsuccessfulDialog" );
