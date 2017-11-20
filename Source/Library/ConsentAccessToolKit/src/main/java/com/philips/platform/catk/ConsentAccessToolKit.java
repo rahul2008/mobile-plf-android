@@ -20,10 +20,9 @@ import com.philips.platform.catk.mapper.ConsentToDtoMapper;
 import com.philips.platform.catk.mapper.DtoToConsentMapper;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.network.NetworkAbstractModel;
-import com.philips.platform.catk.network.NetworkHelper;
-import com.philips.platform.catk.provider.ComponentProvider;
-
+import com.philips.platform.catk.network.NetworkController;
 import com.philips.platform.catk.provider.AppInfraInfo;
+import com.philips.platform.catk.provider.ComponentProvider;
 import com.philips.platform.catk.provider.ServiceInfoProvider;
 import com.philips.platform.catk.utils.CatkLogger;
 
@@ -35,6 +34,7 @@ public class ConsentAccessToolKit {
 
     private static volatile ConsentAccessToolKit sSoleInstance;
 
+    private NetworkController controller;
     private CatkComponent catkComponent;
     private String applicationName;
     private String propositionName;
@@ -97,14 +97,14 @@ public class ConsentAccessToolKit {
                         }
                         consentListener.onResponseSuccessConsent(consents);
                     }
+
                     @Override
                     public int onModelDataError(ConsentNetworkError error) {
                         return consentListener.onResponseFailureConsent(error.getErrorCode());
                     }
                 });
-                NetworkHelper.getInstance().sendRequest(model);
+                sendRequest(model);
             }
-
         });
     }
 
@@ -126,7 +126,7 @@ public class ConsentAccessToolKit {
                         return consentListener.onFailure(error.getErrorCode());
                     }
                 });
-                NetworkHelper.getInstance().sendRequest(model);
+                sendRequest(model);
             }
         });
     }
@@ -172,4 +172,14 @@ public class ConsentAccessToolKit {
         ConsentAccessToolKit.sSoleInstance = sSoleInstance;
     }
 
+    private void sendRequest(NetworkAbstractModel model) {
+        if (controller == null) {
+            controller = new NetworkController();
+        }
+        controller.sendConsentRequest(model);
+    }
+
+    public void setNetworkController(NetworkController networkController) {
+        controller = networkController;
+    }
 }

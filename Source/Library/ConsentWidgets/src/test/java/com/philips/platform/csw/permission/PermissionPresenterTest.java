@@ -1,7 +1,5 @@
 package com.philips.platform.csw.permission;
 
-import android.content.Context;
-
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.catk.ConsentAccessToolKit;
@@ -9,7 +7,6 @@ import com.philips.platform.catk.ConsentAccessToolKitEmulator;
 import com.philips.platform.catk.CswConsentAccessToolKitManipulator;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentStatus;
-import com.philips.platform.catk.network.NetworkHelper;
 import com.philips.platform.csw.mock.CatkComponentMock;
 import com.philips.platform.csw.mock.ServiceDiscoveryInterfaceMock;
 import com.philips.platform.csw.utils.CswLogger;
