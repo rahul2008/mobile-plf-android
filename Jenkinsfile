@@ -66,7 +66,7 @@ node('Android') {
             stage ('Save dependencies list') {
             sh """#!/bin/bash -l
             	        chmod -R 775 . 
-            	        cd ../Library 
+            	        cd ./Source/Library 
                         ./gradlew -PbuildNumber=${env.BUILD_NUMBER} :ews:saveResDep :ews:saveAllResolvedDependencies :ews:saveAllResolvedDependenciesGradleFormat
                     """
             }
