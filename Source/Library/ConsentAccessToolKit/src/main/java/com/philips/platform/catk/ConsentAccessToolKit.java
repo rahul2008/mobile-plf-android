@@ -73,7 +73,7 @@ public class ConsentAccessToolKit {
 
             @Override
             public void onError(String message) {
-                CatkLogger.e("ConsentAccessToolKit", "cssurl: " + message);
+                CatkLogger.e("ConsentAccessToolKit", "error retrieving cssUrl: " + message);
             }
         };
         serviceInfoProvider.retrieveInfo(catkComponent.getServiceDiscoveryInterface(), responseListener);
