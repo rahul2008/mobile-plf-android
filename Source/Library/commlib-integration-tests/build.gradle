@@ -129,4 +129,34 @@ dependencies {
     androidTestCompile deps.cucumber
     androidTestCompile deps.cucumber_junit
     androidTestCompile deps.dexmaker
+
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name.equals('build')) {
+        println("Installing build app with right permissions..")
+
+        def absolutePath = file('.')
+        def stdout = new ByteArrayOutputStream()
+
+        exec {
+            def rootDir = project.rootDir
+            def localProperties = new File(rootDir, "local.properties")
+            if (localProperties.exists()) {
+                Properties properties = new Properties()
+                localProperties.withInputStream { instr ->
+                    properties.load(instr)
+                }
+
+                def sdkDir = properties.getProperty('sdk.dir')
+                def packageName = "com.philips.cdp2.commlib.devicetest"
+                def apk_name = "commlib-integration-tests-debug"
+
+                commandLine "$absolutePath/install_with_permissions.sh", sdkDir, packageName, apk_name
+            }
+        }
+
+        print stdout
+    }
 }

@@ -18,18 +18,12 @@ import java.util.concurrent.TimeUnit;
 
 public class PortListener implements DICommPortListener {
     public List<Error> errors = new ArrayList<>();
-    public boolean valueWasReceived = false;
+    public int receivedCount = 0;
     CountDownLatch latch = new CountDownLatch(1);
-
-    public void reset() {
-        errors.clear();
-        valueWasReceived = false;
-        latch = new CountDownLatch(1);
-    }
 
     @Override
     public void onPortUpdate(DICommPort port) {
-        valueWasReceived = true;
+        receivedCount++;
         latch.countDown();
     }
 
@@ -39,7 +33,17 @@ public class PortListener implements DICommPortListener {
         latch.countDown();
     }
 
-    public void waitForPortUpdate(long t, TimeUnit unit) throws InterruptedException {
-        latch.await(t, unit);
+    public void reset() {
+        reset(1);
+    }
+
+    public void reset(int numberOfUpdates) {
+        errors.clear();
+        receivedCount = 0;
+        latch = new CountDownLatch(numberOfUpdates);
+    }
+
+    public void waitForPortUpdates(long time, TimeUnit unit) throws InterruptedException {
+        latch.await(time, unit);
     }
 }

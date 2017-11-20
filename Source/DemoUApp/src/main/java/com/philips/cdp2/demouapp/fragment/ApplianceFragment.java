@@ -64,6 +64,7 @@ public class ApplianceFragment extends Fragment {
 
             if (currentAppliance instanceof WifiReferenceAppliance) {
                 addFragment(new PairingPortFragment());
+                addFragment(new PairingFragment());
             }
 
             addFragment(new TimePortFragment());

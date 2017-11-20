@@ -9,14 +9,15 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
-import com.philips.cdp2.commlib.devicetest.time.TimePort;
+import com.philips.cdp2.commlib.devicetest.CombinedCommunicationTestingStrategy;
+import com.philips.cdp2.commlib.devicetest.port.time.TimePort;
 
-public abstract class ReferenceAppliance extends Appliance {
+public abstract class ReferenceAppliance extends BaseAppliance {
 
     private final TimePort timePort;
 
-    public ReferenceAppliance(NetworkNode networkNode, final @NonNull CommunicationStrategy communicationStrategy) {
+
+    public ReferenceAppliance(NetworkNode networkNode, final @NonNull CombinedCommunicationTestingStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
 
         timePort = new TimePort(communicationStrategy);
@@ -26,4 +27,6 @@ public abstract class ReferenceAppliance extends Appliance {
     public TimePort getTimePort() {
         return timePort;
     }
+
+
 }
