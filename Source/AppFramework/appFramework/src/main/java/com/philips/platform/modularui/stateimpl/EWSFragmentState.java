@@ -10,10 +10,11 @@ import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSDependencies;
 import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.microapp.EWSLauncherInput;
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -43,31 +44,48 @@ public class EWSFragmentState extends BaseState {
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        RALog.d(TAG, " navigate called ");
-        final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-        AppInfraInterface appInfra = new AppInfra.Builder().build(context);
-        EWSInterface ewsInterface = new EWSInterface();
-        ewsInterface.init(createUappDependencies(appInfra, createProductMap(), true), new UappSettings(context));
-        EWSLauncherInput ewsLauncherInput = new EWSLauncherInput();
-
-        ewsInterface.launch(fragmentLauncher, ewsLauncherInput);
+        RALog.d(TAG, " navigate to EWS Launcher called");
+        EWSInterface ewsInterface = getEwsApp();
+        ewsInterface.init(getUappDependencies(), getUappSettings());
+        ewsInterface.launch(getFragmentLauncher(uiLauncher), new EWSLauncherInput());
     }
 
+    @NonNull
+    protected EWSInterface getEwsApp() {
+        return new EWSInterface();
+    }
 
     @NonNull
-    private UappDependencies createUappDependencies(AppInfraInterface appInfra,
-                                                    Map<String, String> productKeyMap, Boolean b) {
-        return new EWSDependencies(appInfra, productKeyMap,
+    protected FragmentLauncher getFragmentLauncher(UiLauncher uiLauncher) {
+        return (FragmentLauncher) uiLauncher;
+    }
+
+    @NonNull
+    protected UappSettings getUappSettings() {
+        return new UappSettings(context.getApplicationContext());
+    }
+
+    @NonNull
+    protected UappDependencies getUappDependencies() {
+        AppInfraInterface appInfra = ((AppFrameworkApplication) context.getApplicationContext()).getAppInfra();
+
+        /*
+        our component required to have 3 different content initialization, in case of the ref app
+        we use defaults only - Base, Happy flow and Trouble shooting flow
+        */
+
+        return new EWSDependencies(appInfra, createProductMap(),
                 new ContentConfiguration(new BaseContentConfiguration(),
                         new HappyFlowContentConfiguration.Builder().build(),
                         new TroubleShootContentConfiguration.Builder().build()));
     }
 
 
+    // creating default product name which will be used by EWS Component
     @NonNull
     protected Map<String, String> createProductMap() {
         Map<String, String> productKeyMap = new HashMap<>();
-        productKeyMap.put(EWSInterface.PRODUCT_NAME, "Device name");
+        productKeyMap.put(EWSInterface.PRODUCT_NAME, context.getString(R.string.ews_device_name_default));
         return productKeyMap;
     }
 

@@ -29,6 +29,7 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.themesettings.ThemeHelper;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 /**
  * AbstractAppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
  */
-public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity implements EWSActionBarListener {
+public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity implements ActionBarListener, EWSActionBarListener {
     private static final String TAG = AbstractAppFrameworkBaseActivity.class.getName();
 
     public AbstractUIBasePresenter presenter;
