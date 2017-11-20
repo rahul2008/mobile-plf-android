@@ -151,7 +151,7 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
         try {
             Locale locale = new Locale(currentContent);
             Locale.setDefault(locale);
-            Resources res = getResources();
+            Resources res = getActivity().getApplication().getResources();
             Configuration config = new Configuration(res.getConfiguration());
             config.locale = locale;
             res.updateConfiguration(config, res.getDisplayMetrics());
