@@ -5,6 +5,7 @@
 package com.philips.cdp2.ews.confirmwifi;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +21,9 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConfirmWifiNetworkBinding;
+import com.philips.cdp2.ews.dialog.EWSAlertDialogFragment;
+import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.ColorsUtil;
 import com.philips.cdp2.ews.util.TextUtil;
 import com.philips.platform.uid.drawable.FontIconDrawable;
@@ -83,7 +87,31 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
                     .setDialogType(DialogConstants.TYPE_DIALOG)
                     .setDimLayer(DialogConstants.DIM_STRONG)
                     .setCancelable(false);
-            final AlertDialogFragment alertDialogFragment = builder.create();
+            final EWSAlertDialogFragment alertDialogFragment = (EWSAlertDialogFragment) builder.create(new EWSAlertDialogFragment());
+            alertDialogFragment.setFragmentLifeCycleListener(new EWSAlertDialogFragment.FragmentLifeCycleListener() {
+                @Override
+                public void onStart() {
+                    EWSTagger.trackPage(Page.SELECT_HOME_WIFI);
+                }
+
+                @Override
+                public void onStop() {
+
+                }
+
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                }
+
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                }
+
+                @Override
+                public void onActivityCreated(Bundle savedInstanceState) {
+
+                }
+            });
             alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
             getChildFragmentManager().executePendingTransactions();
             TextView textView = view.findViewById(R.id.label_ews_home_network_body);
@@ -98,6 +126,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    callTrackPageName();
                     alertDialogFragment.dismiss();
                     getChildFragmentManager().popBackStackImmediate();
                     viewModel.refresh();

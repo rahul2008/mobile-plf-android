@@ -29,18 +29,21 @@ public class EWSDemoBaseActivity extends AppCompatActivity {
     public static final String SELECTED_CONFIG = "SelectedConfig";
 
     @NonNull
-    protected UappDependencies createUappDependencies(AppInfraInterface appInfra,
-                                                    Map<String, String> productKeyMap, boolean isDefaultValueSelected) {
-        return new EWSDependencies(appInfra, productKeyMap,
+    protected UappDependencies createUappDependencies(AppInfraInterface appInfra, boolean isDefaultValueSelected) {
+        return new EWSDependencies(appInfra, createProductMap(isDefaultValueSelected),
                 new ContentConfiguration(createBaseContentConfiguration(isDefaultValueSelected),
                         createHappyFlowConfiguration(isDefaultValueSelected),
-                        createTroubleShootingConfiguration()));
+                        createTroubleShootingConfiguration(isDefaultValueSelected)));
     }
 
     @NonNull
-    protected Map<String, String> createProductMap() {
+    protected Map<String, String> createProductMap(boolean isDefaultValueSelected) {
         Map<String, String> productKeyMap = new HashMap<>();
-        productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.lbl_devicename));
+        if(isDefaultValueSelected){
+            productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.ews_device_name_default));
+        }else {
+            productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.ews_device_name));
+        }
         return productKeyMap;
     }
 
@@ -49,7 +52,7 @@ public class EWSDemoBaseActivity extends AppCompatActivity {
         if (isDefaultValueSelected){
             return new BaseContentConfiguration();
         }else{
-            return new BaseContentConfiguration(R.string.lbl_devicename, R.string.lbl_appname);
+            return new BaseContentConfiguration(R.string.ews_device_name, R.string.ews_app_name);
         }
     }
 
@@ -64,8 +67,15 @@ public class EWSDemoBaseActivity extends AppCompatActivity {
         }else{
             return new HappyFlowContentConfiguration.Builder()
                     .setGettingStartedScreenTitle(R.string.label_ews_get_started_title)
-                    .setSetUpScreenTitle(R.string.lbl_setup_screen_title)
-                    .setSetUpScreenBody(R.string.lbl_setup_screen_body)
+                    .setGettingStartedScreenImage(R.drawable.ews_start)
+                    .setSetUpScreenTitle(R.string.label_ews_plug_in_title)
+                    .setSetUpScreenBody(R.string.label_ews_plug_in_body)
+                    .setSetUpScreenImage(R.drawable.ews_setup)
+                    .setSetUpVerifyScreenTitle(R.string.label_ews_verify_ready_title)
+                    .setSetUpVerifyScreenQuestion(R.string.label_ews_verify_ready_question)
+                    .setSetUpVerifyScreenYesButton(R.string.button_ews_verify_ready_yes)
+                    .setSetUpVerifyScreenNoButton(R.string.button_ews_verify_ready_no)
+                    .setSetUpVerifyScreenImage(R.drawable.ews_setup)
                     .build();
         }
     }
@@ -84,24 +94,28 @@ public class EWSDemoBaseActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private TroubleShootContentConfiguration createTroubleShootingConfiguration(){
-        return new TroubleShootContentConfiguration.Builder()
-                .setResetConnectionTitle(R.string.label_ews_support_reset_connection_title)
-                .setResetConnectionBody(R.string.label_ews_support_reset_connection_body)
-                .setResetConnectionImage(R.drawable.ic_ews_enable_ap_mode)
+    private TroubleShootContentConfiguration createTroubleShootingConfiguration(boolean isDefaultValueSelected){
+        if(isDefaultValueSelected){
+            return new TroubleShootContentConfiguration.Builder().build();
+        }else {
+            return new TroubleShootContentConfiguration.Builder()
+                    .setResetConnectionTitle(R.string.label_ews_support_reset_connection_title)
+                    .setResetConnectionBody(R.string.label_ews_support_reset_connection_body)
+                    .setResetConnectionImage(R.drawable.ews_support)
 
-                .setResetDeviceTitle(R.string.label_ews_support_reset_device_title)
-                .setResetDeviceBody(R.string.label_ews_support_reset_device_body)
-                .setResetDeviceImage(R.drawable.ic_ews_enable_ap_mode)
+                    .setResetDeviceTitle(R.string.label_ews_support_reset_device_title)
+                    .setResetDeviceBody(R.string.label_ews_support_reset_device_body)
+                    .setResetDeviceImage(R.drawable.ews_support)
 
-                .setSetUpAccessPointTitle(R.string.label_ews_setup_access_point_mode_title)
-                .setSetUpAccessPointBody(R.string.label_ews_setup_access_point_mode_body)
-                .setSetUpAccessPointImage(R.drawable.ic_ews_enable_ap_mode)
+                    .setSetUpAccessPointTitle(R.string.label_ews_support_setup_access_point_title)
+                    .setSetUpAccessPointBody(R.string.label_ews_support_setup_access_point_body)
+                    .setSetUpAccessPointImage(R.drawable.ews_support)
 
-                .setConnectWrongPhoneTitle(R.string.label_ews_connect_to_wrongphone_title)
-                .setConnectWrongPhoneBody(R.string.label_ews_connect_to_wrongphone_body)
-                .setConnectWrongPhoneImage(R.drawable.ic_ews_enable_ap_mode)
-                .setConnectWrongPhoneQuestion(R.string.label_ews_connect_to_wrongphone_question)
-                .build();
+                    .setConnectWrongPhoneTitle(R.string.label_ews_support_wrong_phone_title)
+                    .setConnectWrongPhoneBody(R.string.label_ews_support_wrong_phone_body)
+                    .setConnectWrongPhoneImage(R.drawable.ews_support)
+                    .setConnectWrongPhoneQuestion(R.string.label_ews_support_wrong_phone_question)
+                    .build();
+        }
     }
 }

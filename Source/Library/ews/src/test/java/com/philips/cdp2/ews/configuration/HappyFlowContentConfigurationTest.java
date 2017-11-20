@@ -34,7 +34,12 @@ public class HappyFlowContentConfigurationTest {
 
     @Test
     public void itShouldVerifyDefaultGettingStartedScreenTitle() throws Exception{
-        assertEquals(subject.getGettingStartedScreenTitle(), R.string.label_ews_get_started_title);
+        assertEquals(subject.getGettingStartedScreenTitle(), R.string.label_ews_get_started_title_default);
+    }
+
+    @Test
+    public void itShouldVerifyDefaultGettingStartedScreenImage() throws Exception{
+        assertEquals(subject.getGettingStartedScreenImage(), R.drawable.philips_logo_default);
     }
 
     @Test
@@ -49,7 +54,7 @@ public class HappyFlowContentConfigurationTest {
 
     @Test
     public void itShouldVerifyDefaultSetupScreenImage() throws Exception{
-        assertEquals(subject.getSetUpScreenImage(), R.drawable.ic_ews_device_apmode_blinking);
+        assertEquals(subject.getSetUpScreenImage(), R.drawable.power_button_default);
     }
 
     @Test
@@ -74,7 +79,7 @@ public class HappyFlowContentConfigurationTest {
 
     @Test
     public void itShouldVerifyDefaultSetupVerifyScreenImage() throws Exception{
-        assertEquals(subject.getSetUpVerifyScreenImage(), R.drawable.ic_ews_device_apmode_blinking);
+        assertEquals(subject.getSetUpVerifyScreenImage(), R.drawable.power_button_default);
     }
 
     @Test
@@ -140,6 +145,6 @@ public class HappyFlowContentConfigurationTest {
     @Test
     public void itShouldWriteOnParcelDestOnWriteToParcel() {
         subject.writeToParcel(mockParcel, anyInt());
-        verify(mockParcel, times(9)).writeInt(anyInt());
+        verify(mockParcel, times(10)).writeInt(anyInt());
     }
 }

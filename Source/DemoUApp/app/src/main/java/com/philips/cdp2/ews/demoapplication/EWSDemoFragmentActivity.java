@@ -80,7 +80,7 @@ public class EWSDemoFragmentActivity extends EWSDemoBaseActivity implements EWSA
         String selectedOption = getIntent().getExtras().getString(SELECTED_CONFIG);
         AppInfraInterface appInfra = new AppInfra.Builder().build(getApplicationContext());
         EWSInterface ewsInterface = new EWSInterface();
-        ewsInterface.init(createUappDependencies(appInfra, createProductMap(), isDefaultValueSelected(selectedOption)), new UappSettings(getApplicationContext()));
+        ewsInterface.init(createUappDependencies(appInfra, isDefaultValueSelected(selectedOption)), new UappSettings(getApplicationContext()));
 
         ewsLauncherInput = new EWSLauncherInput();
         FragmentLauncher fragmentLauncher = new FragmentLauncher
