@@ -67,9 +67,9 @@ node('Android') {
             sh """#!/bin/bash -l
             	        chmod -R 775 . 
                         cd ./Source/DemoApp 
-                        ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
+                        ./gradlew -PenvCode=${JENKINS_ENV} :ews:saveResDep :ews:saveAllResolvedDependencies :ews:saveAllResolvedDependenciesGradleFormat
             	        cd ../Library 
-                        ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
+                        ./gradlew -PenvCode=${JENKINS_ENV} :ews:saveResDep :ews:saveAllResolvedDependencies :ews:saveAllResolvedDependenciesGradleFormat
                     """
             }
                 
