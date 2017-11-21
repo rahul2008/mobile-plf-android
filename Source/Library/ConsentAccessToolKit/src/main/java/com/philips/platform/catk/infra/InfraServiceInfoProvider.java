@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class InfraServiceInfoProvider implements ServiceInfoProvider {
 
-    private static final String CSS_SERVICE_DISCOVERY_KEY = "ds.consentservice";
+    private static final String CSS_SERVICE_DISCOVERY_KEY = "css.consentservice";
     private static final String CSS_CONTEXT_PATH = "consent";
 
     public void retrieveInfo(ServiceDiscoveryInterface serviceDiscovery, ResponseListener responseListener) {
