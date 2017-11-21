@@ -58,7 +58,7 @@ public class RegPreferenceUtility {
         }
     }
 
-    private static boolean getStoredState(Context context, String key) {
+    public static boolean getStoredState(Context context, String key) {
         String oldPrefeFile = context.getFilesDir().getParent() + "/shared_prefs/" +
                 REGISTRATION_API_PREFERENCE + ".xml";
         String oldPrefeFileBackUp = context.getFilesDir().getParent() + "/shared_prefs/" +
@@ -94,7 +94,7 @@ public class RegPreferenceUtility {
         return new File(fileName).exists();
     }
 
-    private static void deletePreference(String key) {
+    public static void deletePreference(String key) {
         Jump.getSecureStorageInterface().removeValueForKey(key);
     }
 
