@@ -14,7 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 
 import java.util.ArrayList;
 
@@ -23,18 +23,18 @@ import java.util.ArrayList;
  */
 
 public class BleDeviceListAdapter extends BaseAdapter {
-    private ArrayList<BleReferenceAppliance> mLeDevices;
+    private ArrayList<RefAppBleReferenceAppliance> mLeDevices;
     private LayoutInflater mInflator;
     private Context context;
 
-    public BleDeviceListAdapter(Context context, @NonNull ArrayList<BleReferenceAppliance> bleReferenceApplianceList) {
+    public BleDeviceListAdapter(Context context, @NonNull ArrayList<RefAppBleReferenceAppliance> refAppBleReferenceApplianceList) {
         super();
         this.context=context;
-        mLeDevices = bleReferenceApplianceList;
+        mLeDevices = refAppBleReferenceApplianceList;
         mInflator = LayoutInflater.from(context);
     }
 
-    public void addDevice(@NonNull BleReferenceAppliance device) {
+    public void addDevice(@NonNull RefAppBleReferenceAppliance device) {
         if (!mLeDevices.contains(device)) {
             mLeDevices.add(device);
             notifyDataSetChanged();
@@ -70,7 +70,7 @@ public class BleDeviceListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        BleReferenceAppliance device = (BleReferenceAppliance) getItem(i);
+        RefAppBleReferenceAppliance device = (RefAppBleReferenceAppliance) getItem(i);
         final String deviceName = device.getName();
         if (deviceName != null && deviceName.length() > 0)
             viewHolder.deviceName.setText(deviceName);

@@ -3,7 +3,7 @@ package com.philips.platform.appframework.connectivity;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -30,6 +30,6 @@ public interface ConnectivityContract {
     interface UserActionsListener {
         void processMoment(String momentValue);
 
-        void setUpApplicance(@NonNull BleReferenceAppliance appliance);
+        void setUpApplicance(@NonNull RefAppBleReferenceAppliance appliance);
     }
 }

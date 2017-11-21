@@ -94,14 +94,14 @@ public class DemoDataServicesStateTest {
         assertEquals(shadowNotificationManager.size(), 1);
     }
 
-    @Config(sdk = 26)
+    /*@Config(sdk = 26)
     @Test
     public void sendNotificationAndroidOTest() {
         demoDataServiceStateMock.handlePushNotification("This is reference app");
         NotificationManager notificationService = (NotificationManager) application.getSystemService(Context.NOTIFICATION_SERVICE);
         ShadowNotificationManager shadowNotificationManager = shadowOf(notificationService);
         assertEquals(shadowNotificationManager.size(), 1);
-    }
+    }*/
 
     @Test
     public void getUappDependenciesTest() {

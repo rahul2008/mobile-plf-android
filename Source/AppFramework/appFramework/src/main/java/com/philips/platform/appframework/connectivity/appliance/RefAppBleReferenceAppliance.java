@@ -16,25 +16,25 @@ import com.philips.platform.appframework.connectivitypowersleep.datamodels.Sessi
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPortProperties;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
-public class BleReferenceAppliance extends Appliance {
+public class RefAppBleReferenceAppliance extends Appliance {
 
     public static final String MODELNAME = "ReferenceNode";
-    public static final String TAG = "BleReferenceAppliance";
+    public static final String TAG = "RefAppBleReferenceAppliance";
 
     private DeviceMeasurementPort deviceMeasurementPort;
     public static final String MODEL_NAME_HH1600 = "HH1600";
     public static final String MODEL_NAME_HHS = "HHS";
 
     private static final int PRODUCT_ID = 1;
+    private CommunicationStrategy communicationStrategy;
 
     @NonNull
     private SessionDataPort powerSleepSessionDataPort;
 
-    public BleReferenceAppliance(@NonNull NetworkNode networkNode, @NonNull CommunicationStrategy communicationStrategy, ConnectivityDeviceType deviceType) {
+    public RefAppBleReferenceAppliance(@NonNull NetworkNode networkNode, @NonNull CommunicationStrategy communicationStrategy, ConnectivityDeviceType deviceType) {
         super(networkNode, communicationStrategy);
-
-        initializePorts(deviceType, communicationStrategy);
-
+        this.communicationStrategy = communicationStrategy;
+ 		initializePorts(deviceType, communicationStrategy);
     }
 
     private void initializePorts(ConnectivityDeviceType deviceType, CommunicationStrategy communicationStrategy) {
@@ -58,7 +58,7 @@ public class BleReferenceAppliance extends Appliance {
     }
 
 
-    public DeviceMeasurementPort getDeviceMeasurementPort() {
+    public DeviceMeasurementPort getDeviceMeasurementPort(){
         return deviceMeasurementPort;
     }
 
@@ -66,5 +66,4 @@ public class BleReferenceAppliance extends Appliance {
     public SessionDataPort getSessionDataPort() {
         return powerSleepSessionDataPort;
     }
-
 }

@@ -2,10 +2,13 @@ package com.philips.platform.appframework.connectivity.appliance;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
+import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.lan.context.LanTransportContext;
+import com.philips.cdp2.demouapp.appliance.reference.BleReferenceAppliance;
 import com.philips.platform.appframework.ConnectivityDeviceType;
+import com.philips.platform.appframework.connectivity.demouapp.RefAppApplianceFactory;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,16 +18,23 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
  * Created by philips on 16/01/17.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class BleReferenceApplianceFactoryTest {
+public class RefAppBleReferenceApplianceFactoryTest {
 
     @Mock
     BleTransportContext bleTransportContext;
+
+    @Mock
+    CloudTransportContext cloudTransportContext;
+
+    @Mock
+    LanTransportContext lanTransportContext;
 
     @Mock
     NetworkNode networkNode;
@@ -35,14 +45,16 @@ public class BleReferenceApplianceFactoryTest {
     @Mock
     CommunicationStrategy communicationStrategy;
 
-    BleReferenceApplianceFactory bleReferenceApplianceFactory;
+    RefAppApplianceFactory bleReferenceApplianceFactory;
 
     @Before
     public void setUp(){
-        bleReferenceApplianceFactory=new BleReferenceApplianceFactory(bleTransportContext, ConnectivityDeviceType.REFERENCE_NODE);
+        bleReferenceApplianceFactory=new RefAppApplianceFactory(bleTransportContext, lanTransportContext, cloudTransportContext);
+        bleReferenceApplianceFactory.setDeviceType(ConnectivityDeviceType.REFERENCE_NODE);
         when(networkNode.getDeviceType())
-                .thenReturn(BleReferenceAppliance.MODELNAME);
+                .thenReturn(RefAppBleReferenceAppliance.MODELNAME);
         when(bleTransportContext.createCommunicationStrategyFor(networkNode)).thenReturn(communicationStrategy);
+        when(networkNode.isValid()).thenReturn(true);
     }
     @Test
     public void checkCanCreateApplianceForNode_True(){
@@ -52,6 +64,12 @@ public class BleReferenceApplianceFactoryTest {
 
     @Test
     public void createApplianceForNode_For_Not_Null(){
+        when(cloudTransportContext.createCommunicationStrategyFor(networkNode)).thenReturn(communicationStrategy);
+        when(lanTransportContext.createCommunicationStrategyFor(networkNode)).thenReturn(communicationStrategy);
+        when(networkNode.getModelId()).thenReturn("PS1234");
+        when(networkNode.getName()).thenReturn("DiCommBLEReference");
+        when(networkNode.isValid()).thenReturn(true);
+        when(networkNode.getDeviceType()).thenReturn(BleReferenceAppliance.DEVICETYPE);
         assertNotNull(bleReferenceApplianceFactory.createApplianceForNode(networkNode));
     }
 
@@ -64,23 +82,6 @@ public class BleReferenceApplianceFactoryTest {
 
     @Test
     public void getSupportedDeviceTypes_Contains_Ble_Model_Name(){
-        assertTrue(bleReferenceApplianceFactory.getSupportedDeviceTypes().contains(BleReferenceAppliance.MODELNAME));
-    }
-
-    @Test
-    public void canCreateApplianceForNodeForPowerSleepTest() {
-        bleReferenceApplianceFactory=new BleReferenceApplianceFactory(bleTransportContext, ConnectivityDeviceType.POWER_SLEEP);
-        when(networkNode.getModelId())
-                .thenReturn(BleReferenceAppliance.MODEL_NAME_HH1600);
-        assertTrue(bleReferenceApplianceFactory.canCreateApplianceForNode(networkNode));
-    }
-
-    @After
-    public void tearDown() {
-        bleReferenceApplianceFactory = null;
-        communicationStrategy = null;
-        networkNodeModelNameNull = null;
-        networkNode = null;
-        bleTransportContext = null;
+        assertTrue(bleReferenceApplianceFactory.getSupportedDeviceTypes().contains(RefAppBleReferenceAppliance.MODELNAME));
     }
 }

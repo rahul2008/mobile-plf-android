@@ -7,6 +7,7 @@ package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
 
+import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -41,9 +42,11 @@ public class DemoDevicePairingState extends BaseState {
 
     @Override
     public void init(Context context) {
-        final AppInfraInterface appInfraInterface = ((AppFrameworkApplication) context.getApplicationContext()).getAppInfra();
-        DevicePairingUappSettings devicePairingUappSettings = new DevicePairingUappSettings(context.getApplicationContext());
-        DevicePairingUappDependencies devicePairingUappDependencies = new DevicePairingUappDependencies(appInfraInterface);
+        AppFrameworkApplication appContext = ((AppFrameworkApplication) context.getApplicationContext());
+        final AppInfraInterface appInfraInterface = appContext.getAppInfra();
+        DevicePairingUappSettings devicePairingUappSettings = new DevicePairingUappSettings(appContext);
+        DevicePairingUappDependencies devicePairingUappDependencies = new DevicePairingUappDependencies(appInfraInterface,
+                appContext.getCommCentralInstance());
         mDevicePairingUappInterface = new DevicePairingUappInterface();
 
         mDevicePairingUappInterface.init(devicePairingUappDependencies, devicePairingUappSettings);

@@ -8,7 +8,12 @@ package com.philips.platform;
 import android.content.Context;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp2.commlib.ble.context.BleTransportContext;
+import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
+import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.connectivity.demouapp.RefAppApplianceFactory;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
 import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
@@ -98,6 +103,8 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
 
     @Mock
     private User user;
+	
+	CommCentral commCentral;
 
     @Test
     public void shouldPass() {
@@ -171,6 +178,20 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
     public DemoDataServicesState getDataServiceState() {
         return mockDSState;
     }
+	
+	 @Override
+    public CommCentral getCommCentralInstance() {
+        if(commCentral == null) {
+            final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(getApplicationContext(), appInfraInterface);
+            final BleTransportContext bleTransportContext = new BleTransportContext(runtimeConfiguration, true);
+            ApplianceFactory applianceFactory = mock(RefAppApplianceFactory.class);
+
+            commCentral = new CommCentral(applianceFactory, bleTransportContext);
+        }
+        return commCentral;
+    }
+
+
 
     public IAPState getIap() {
         return iapState;

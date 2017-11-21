@@ -26,7 +26,7 @@ import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
 import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.lang.ref.WeakReference;
@@ -130,7 +130,7 @@ public class ConnectivityFragment extends AbstractConnectivityBaseFragment imple
                         bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), "BleScanDialog");
                         bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
                             @Override
-                            public void onDeviceSelected(BleReferenceAppliance bleRefAppliance) {
+                            public void onDeviceSelected(RefAppBleReferenceAppliance bleRefAppliance) {
                                 if (bleRefAppliance.getDeviceMeasurementPort() != null && bleRefAppliance.getDeviceMeasurementPort().getPortProperties() != null) {
                                     bleRefAppliance.getDeviceMeasurementPort().reloadProperties();
                                 } else {

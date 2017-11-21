@@ -11,7 +11,7 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.platform.TestActivity;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPort;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPortProperties;
 import com.philips.platform.appframework.connectivitypowersleep.insights.InsightsFragmentState;
@@ -59,7 +59,7 @@ public class PowerSleepConnectivityPresenterTest {
     private ArgumentCaptor<DICommPortListener<SessionDataPort>> portListenerArgumentCaptor;
 
     @Mock
-    private BleReferenceAppliance bleReferenceAppliance;
+    private RefAppBleReferenceAppliance bleReferenceAppliance;
 
     @Mock
     private SessionDataPort sessionDataPort;

@@ -484,6 +484,12 @@ dependencies {
 		transitive = true
 	}
 
+
+    def ewsModule = module(group: 'com.philips.cdp', name: 'ews-android', version: versions.ews_ews+ objcdp.getVersionSuffix(), ext: 'aar')
+    compile(dp ? project(':ews') : ewsModule) {
+        transitive = true
+    }
+
     def shinelibUAppModule = module(group: 'com.philips.cdp', name: 'shinelibDemoUApp', version: versions.bll_shinelib+ objcdp.getVersionSuffix(), ext: 'aar')
         compile(dp ? project(':shinelibUApp') : shinelibUAppModule) {
             transitive = true
