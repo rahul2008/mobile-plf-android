@@ -3,7 +3,7 @@
  * All rights are reserved. Reproduction or dissemination in whole or in part
  * is prohibited without the prior written consent of the copyright holder.
  */
-package com.philips.platform.mya.util.mvp;
+package com.philips.platform.mya.base.mvp;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -12,12 +12,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.mya.MyaConstants;
-import com.philips.platform.mya.activity.MyAccountActivity;
-import com.philips.platform.mya.util.MYALog;
+import com.philips.platform.mya.activity.MyaActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-
+// TODO: Deepthi, change package name to base
 public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
 
 
@@ -71,7 +70,7 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
         }
     }
 
-    protected void showFragment(Fragment fragment) {
+    public void showFragment(Fragment fragment) {
         final FragmentActivity fragmentActivity = getActivity();
         if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
             addFragment(fragment, fragmentActivity, getId());
@@ -98,7 +97,7 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
 
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
-            MYALog.e(TAG, e.getMessage());
+            e.getMessage();
         }
     }
 
@@ -124,11 +123,11 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
         context = null;
     }
 
-    public boolean clearFragmentStack() {
+    public boolean exitMyAccounts() {
         final FragmentActivity activity = getActivity();
         try {
             if (activity != null && !activity.isFinishing()) {
-                if (activity instanceof MyAccountActivity) {
+                if (activity instanceof MyaActivity) {
                     activity.finish();
                 } else {
                     FragmentManager fragManager = activity.getSupportFragmentManager();
@@ -137,7 +136,7 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
                 }
             }
         } catch (IllegalStateException e) {
-            MYALog.e(TAG, e.getMessage());
+            e.getMessage();
         }
         return false;
     }

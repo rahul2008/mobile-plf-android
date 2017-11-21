@@ -15,11 +15,11 @@ import com.philips.platform.mya.R;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Label;
 
-import java.util.List;
+import java.util.TreeMap;
 
 class MyaProfileAdaptor extends RecyclerView.Adapter<MyaProfileAdaptor.ProfileViewHolder> {
 
-    private List<String> profileList;
+    private TreeMap<String,String> profileList;
     private View.OnClickListener onClickListener;
 
     void setOnClickListener(View.OnClickListener onClickListener) {
@@ -31,18 +31,18 @@ class MyaProfileAdaptor extends RecyclerView.Adapter<MyaProfileAdaptor.ProfileVi
 
          ProfileViewHolder(View view) {
             super(view);
-            profileTitle = (Label) view.findViewById(R.id.profile_title);
+            profileTitle = (Label) view.findViewById(R.id.item_title);
         }
     }
 
-     MyaProfileAdaptor(List<String> profileList) {
+     MyaProfileAdaptor(TreeMap<String,String> profileList) {
         this.profileList = profileList;
     }
 
     @Override
     public ProfileViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.mya_profile_adaptor, parent, false);
+                .inflate(R.layout.mya_single_item_layout, parent, false);
         UIDHelper.injectCalligraphyFonts();
         itemView.setOnClickListener(onClickListener);
         return new ProfileViewHolder(itemView);
@@ -51,8 +51,9 @@ class MyaProfileAdaptor extends RecyclerView.Adapter<MyaProfileAdaptor.ProfileVi
 
     @Override
     public void onBindViewHolder(ProfileViewHolder holder, int position) {
-        String title = profileList.get(position);
-        holder.profileTitle.setText(title);
+        String key = (String) profileList.keySet().toArray()[position];
+        String title = profileList.get(key);
+        holder.profileTitle.setText(title!=null?title:key);
     }
 
     @Override

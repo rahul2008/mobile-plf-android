@@ -1,0 +1,29 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V. 2017
+ * All rights are reserved. Reproduction or dissemination in whole or in part
+ * is prohibited without the prior written consent of the copyright holder.
+ */
+package com.philips.platform.mya.settings;
+
+import android.content.Context;
+import android.support.v4.app.Fragment;
+
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.mya.base.mvp.MyaBaseView;
+import com.philips.platform.mya.base.mvp.MyaPresenterInterface;
+
+import java.util.LinkedHashMap;
+
+interface MyaSettingsContract {
+
+    interface View extends MyaBaseView {
+        void showSettingsItems(LinkedHashMap<String, SettingsModel> dataModelLinkedHashMap);
+        void showFragment(Fragment fragment);
+        void showDialog(String title, String message);
+    }
+
+    interface Presenter extends MyaPresenterInterface<View> {
+        void getSettingItems(Context context, AppInfraInterface appInfra);
+        void onClickRecyclerItem(Context context, String key, SettingsModel settingsModel);
+    }
+}

@@ -150,8 +150,8 @@
     ],
     "settings.menuItems": [
       "MYA_Country",
-      "MYA_Notifications",
-      "MYA_Permissions"
+      "Mya_Privacy_Settings",
+      "MYA_Notifications"
     ]
   }
 }

@@ -8,7 +8,6 @@
 package com.philips.platform.csw;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,7 +21,6 @@ import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CswFragment extends Fragment implements BackEventListener {
@@ -95,7 +93,7 @@ public class CswFragment extends Fragment implements BackEventListener {
 
     private PermissionView buildPermissionView() {
         PermissionView permissionView = new PermissionView();
-        permissionView.setArguments(config.toBundle());
+       permissionView.setArguments(config.toBundle());
         return permissionView;
     }
 

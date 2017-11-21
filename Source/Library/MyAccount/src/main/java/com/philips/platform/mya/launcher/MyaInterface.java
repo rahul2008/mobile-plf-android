@@ -11,9 +11,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.mya.activity.MyaActivity;
 import com.philips.platform.csw.ConsentBundleConfig;
-import com.philips.platform.csw.ConsentDefinition;
-import com.philips.platform.mya.activity.MyAccountActivity;
 import com.philips.platform.mya.injection.DaggerMyaDependencyComponent;
 import com.philips.platform.mya.injection.DaggerMyaUiComponent;
 import com.philips.platform.mya.injection.MyaDependencyComponent;
@@ -32,11 +31,15 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.android.volley.Request.Method.HEAD;
 import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
 
 
 public class MyaInterface implements UappInterface {
 
+    // TODO: Deepthi, remove application and proposition name
+    private static String applicationName;
+    private static String propositionName;
     private ConsentBundleConfig config;
     private static MyaDependencyComponent myaDependencyComponent;
     private static MyaUiComponent myaUiComponent;
@@ -63,16 +66,30 @@ public class MyaInterface implements UappInterface {
     }
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher) {
+        Bundle extras = null;
         myaUiModule.setFragmentLauncher(fragmentLauncher);
+        if (fragmentLauncher.getFragmentActivity().getIntent() != null) {
+            extras = fragmentLauncher.getFragmentActivity().getIntent().getExtras();
+        }
+        if (extras == null) {
+            extras = new Bundle();
+        }
+        extras.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
+        extras.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
         MyaTabFragment myaTabFragment = new MyaTabFragment();
-        myaTabFragment.setArguments(config.toBundle());
+        myaTabFragment.setArguments(extras);
+
+      //  myaTabFragment.setArguments(config.toBundle());
+
         myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
     }
 
     private void launchAsActivity(ActivityLauncher uiLauncher, MyaLaunchInput myaLaunchInput) {
         if (null != uiLauncher && myaLaunchInput != null) {
-            Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyAccountActivity.class);
-            myAccountIntent.putExtras(config.toBundle());
+            Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyaActivity.class);
+            myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
+            myAccountIntent.putExtra(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+           // myAccountIntent.putExtras(config.toBundle());
             myAccountIntent.putExtra(MYA_DLS_THEME, uiLauncher.getUiKitTheme());
             myaLaunchInput.getContext().startActivity(myAccountIntent);
         }
@@ -88,6 +105,7 @@ public class MyaInterface implements UappInterface {
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
         config = new ConsentBundleConfig(myaDependencies.getApplicationName(), myaDependencies.getPropositionName(), ((MyaSettings)uappSettings).getConsentDefinitions());
+
         myaDependencyComponent = DaggerMyaDependencyComponent.builder()
                 .myaDependencyModule(new MyaDependencyModule(myaDependencies.getAppInfra())).build();
     }
@@ -99,5 +117,9 @@ public class MyaInterface implements UappInterface {
 
     public static MyaUiComponent getMyaUiComponent() {
         return myaUiComponent;
+    }
+
+    public static void setMyaUiComponent(MyaUiComponent myaUiComponent) {
+        MyaInterface.myaUiComponent = myaUiComponent;
     }
 }

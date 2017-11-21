@@ -21,9 +21,11 @@ public class ConsentBundleConfig {
     }
 
     public ConsentBundleConfig(Bundle bundle) {
-        this.applicationName = bundle.getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
-        this.propositionName = bundle.getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
-        this.consentDefinitions = bundle.getParcelableArrayList(CatkConstants.BUNDLE_KEY_CONSENT_DEFINITIONS);
+        if(bundle!=null) {
+            this.applicationName = bundle.getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
+            this.propositionName = bundle.getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
+            this.consentDefinitions = bundle.getParcelableArrayList(CatkConstants.BUNDLE_KEY_CONSENT_DEFINITIONS);
+        }
     }
 
     public Bundle toBundle() {

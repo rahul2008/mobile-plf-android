@@ -114,7 +114,7 @@ public class MyaDemoApplication extends Application {
         }
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
-        editor.commit();
+        editor.apply();
 
         initAppIdentity(configuration);
 

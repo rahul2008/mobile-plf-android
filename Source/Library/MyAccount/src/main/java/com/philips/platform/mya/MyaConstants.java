@@ -7,6 +7,7 @@
 
 package com.philips.platform.mya;
 
+// TODO: Deepthi, remove this class
 public class MyaConstants {
     public static final String MYAFRAGMENT = "MYAFRAGMENT";
     public static final String MY_ACCOUNTS= "My_Accounts";

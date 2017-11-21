@@ -18,11 +18,10 @@ import dagger.Component;
 @Singleton
 public interface MyaUiComponent {
 
-    FragmentLauncher getFragmentLauncher();
-
     MyaListener getMyaListener();
 
     ThemeConfiguration getThemeConfiguration();
 
+    FragmentLauncher getFragmentLauncher();
 
 }

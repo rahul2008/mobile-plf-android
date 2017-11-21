@@ -27,7 +27,6 @@ import com.philips.platform.mya.demouapp.theme.events.NavigationColorChangedEven
 import com.philips.platform.mya.demouapp.theme.events.OptionMenuClickedEvent;
 import com.philips.platform.mya.demouapp.theme.themesettings.NavigationController;
 import com.philips.platform.mya.demouapp.theme.themesettings.ThemeHelper;
-import com.philips.platform.mya.util.MYALog;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
@@ -66,7 +65,6 @@ public class DemoAppActivity extends UIDActivity {
 
         initTheme();
         super.onCreate(savedInstanceState);
-        MYALog.enableLogging(true);
 
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         EventBus.getDefault().register(this);

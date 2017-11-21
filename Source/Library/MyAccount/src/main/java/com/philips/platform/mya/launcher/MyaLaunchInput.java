@@ -22,6 +22,10 @@ import java.util.List;
 public class MyaLaunchInput extends UappLaunchInput {
 
     private Context context;
+
+    // TODO: Deepthi, need to refactor this to depend on consent datamodel instead of hardcoding here.
+    private List<ConsentDefinition> consentDefinition;
+
     private boolean isAddToBackStack;
 
 

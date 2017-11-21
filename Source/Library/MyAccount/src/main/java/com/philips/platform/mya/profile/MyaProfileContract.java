@@ -8,26 +8,22 @@ package com.philips.platform.mya.profile;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.mya.util.mvp.MyaBaseView;
-import com.philips.platform.mya.util.mvp.MyaPresenterInterface;
+import com.philips.platform.mya.base.mvp.MyaBaseView;
+import com.philips.platform.mya.base.mvp.MyaPresenterInterface;
 
-import java.util.List;
+import java.util.TreeMap;
 
 interface MyaProfileContract {
 
     interface View extends MyaBaseView {
 
-        void showProfileItems(List<String> profileList);
+        void showProfileItems(TreeMap<String,String> profileList);
 
         void setUserName(String userName);
 
     }
 
     interface Presenter extends MyaPresenterInterface<View> {
-
         void getProfileItems(Context context, AppInfraInterface appInfra);
-
-        List<String> getAppConfigProfileItems(Context context, AppConfigurationInterface appConfigurationManager);
     }
 }

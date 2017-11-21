@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.injection.CatkComponentFactory;
-import com.philips.platform.catk.provider.ComponentProvider;
 import com.philips.platform.csw.injection.AppInfraModule;
 import com.philips.platform.csw.injection.CswComponent;
 import com.philips.platform.csw.injection.CswModule;
@@ -57,8 +56,14 @@ public class CswInterface implements UappInterface {
             CswFragment cswFragment = new CswFragment();
             cswFragment.setOnUpdateTitleListener(fragmentLauncher.
                     getActionbarListener());
+            if (uappLaunchInput.getConfig()==null){
+                Log.i("Deepthi", "config = null ");
+            }
+            Log.i("Deepthi", "config app name = " + uappLaunchInput.getConfig().getApplicationName());
+            Log.i("Deepthi", "config pro name = " + uappLaunchInput.getConfig().getPropositionName());
+            Log.i("Deepthi", "config List name = " + uappLaunchInput.getConfig().getConsentDefinitions().toString());
 
-            Bundle fragmentConfig = uappLaunchInput.getConfig().toBundle();
+           Bundle fragmentConfig = uappLaunchInput.getConfig().toBundle();
             fragmentConfig.putBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK, uappLaunchInput.isAddtoBackStack());
             cswFragment.setArguments(fragmentConfig);
 
@@ -80,6 +85,13 @@ public class CswInterface implements UappInterface {
     private void launchAsActivity(ActivityLauncher uiLauncher, CswLaunchInput uappLaunchInput) {
         if (null != uiLauncher && uappLaunchInput != null) {
             Intent cswIntent = new Intent(uappLaunchInput.getContext(), CswActivity.class);
+            if (uappLaunchInput.getConfig()==null){
+                Log.i("Deepthi", "Activity config = null ");
+            }
+            Log.i("Deepthi", "Activity config app name = " + uappLaunchInput.getConfig().getApplicationName());
+            Log.i("Deepthi", "Activity config pro name = " + uappLaunchInput.getConfig().getPropositionName());
+            Log.i("Deepthi", "Activity config List name = " + uappLaunchInput.getConfig().getConsentDefinitions().toString());
+
             cswIntent.putExtras(uappLaunchInput.getConfig().toBundle());
 
             cswIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);

@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         >
         <activity
-            android:name=".activity.MyAccountActivity"
+            android:name=".activity.MyaActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             />
     </application>
