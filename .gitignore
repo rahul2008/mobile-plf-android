@@ -27,3 +27,5 @@ build/
 .characteristics
 .classpath
 .project
+
+Source/DemoApp/\.idea/runConfigurations\.xml
