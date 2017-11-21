@@ -4,9 +4,12 @@
     android:layout_height="match_parent">
 
     <com.philips.platform.uid.view.widget.Label
-        style="@style/UIDLabel.Header"
         android:id="@+id/mya_user_name"
-        android:text="Robin smith "/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        style="@style/UIDLabel.Header"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/profile_recycler_view"

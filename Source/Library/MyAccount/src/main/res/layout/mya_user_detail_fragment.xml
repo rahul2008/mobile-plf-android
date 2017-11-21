@@ -67,7 +67,7 @@
                 android:layout_below="@+id/email_address_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Yogesh.hs@philips.com" />
+                />
 
             <ImageButton
                 android:id="@+id/email_right_arrow"
@@ -125,7 +125,7 @@
                 android:layout_below="@+id/mobile_number_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="9742181076" />
+                />
         </RelativeLayout>
 
         <com.philips.platform.uid.view.widget.Label
@@ -156,7 +156,7 @@
                 android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Yogesh HS" />
+                />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/gender_heading"
@@ -176,7 +176,7 @@
                 android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Male" />
+                />
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -201,13 +201,14 @@
                 android:layout_marginTop="@dimen/MYA_top_margin"/>
 
             <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/dob_value"
                 android:layout_below="@+id/DOB_heading"
                 android:layout_marginLeft="@dimen/MYA_start_margin"
                 android:layout_marginRight="@dimen/MYA_end_margin"
                 android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="22nd August 1999" />
+                />
         </RelativeLayout>
 
         <View
@@ -231,7 +232,7 @@
             android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Camden Lock place 232 \nLondon, NWI Bal, \nUnited Kingdom" />
+            />
     </LinearLayout>
 
 </ScrollView>
