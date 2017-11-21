@@ -631,7 +631,7 @@ public class DataServicesManagerTest {
     }
 
     private void thenVerifySynchronisationManagerForSynchronizeIsCalled() {
-        verify(synchronisationManagerMock).startSync(null, null, synchronisationCompleteListenerMock);
+        verify(synchronisationManagerMock).startSync(synchronisationCompleteListenerMock);
     }
 
     private void thenVerifySynchronisationManagerIsCalled() {
