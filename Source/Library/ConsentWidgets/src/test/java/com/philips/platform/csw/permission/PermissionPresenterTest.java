@@ -19,7 +19,7 @@ public class PermissionPresenterTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, mockInteractor);
+        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, mockInteractor, createConsentInteractor);
     }
 
     @Test

@@ -23,11 +23,11 @@ import java.util.List;
 class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.PermissionViewHolder> {
 
     private final List<ConsentView> items;
-    private final CreateConsentInteractor createConsentInteractor;
+    private final ConsentToggleListener createConsentInteractor;
 
-    PermissionAdapter(List<ConsentView> definitions, CreateConsentInteractor createConsentInteractor) {
+    PermissionAdapter(List<ConsentView> definitions, ConsentToggleListener consentToggleListener) {
         this.items = new ArrayList<>(definitions);
-        this.createConsentInteractor = createConsentInteractor;
+        this.createConsentInteractor = consentToggleListener;
     }
 
     @Override
@@ -39,7 +39,7 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
     @Override
     public void onBindViewHolder(PermissionViewHolder holder, int position) {
         final ConsentView consentItem = items.get(position);
-        holder.setCreateInteractor(createConsentInteractor);
+        holder.setToggleListener(createConsentInteractor);
         holder.setDefinition(consentItem);
     }
 
@@ -61,7 +61,7 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
         private Label help;
         private ProgressBar progress;
         @Nullable
-        private CreateConsentInteractor createConsentInteractor;
+        private ConsentToggleListener createConsentInteractor;
 
         PermissionViewHolder(View itemView) {
             super(itemView);
@@ -71,22 +71,22 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
             this.progress = itemView.findViewById(R.id.progressBar);
         }
 
-        void setCreateInteractor(CreateConsentInteractor createConsentInteractor){
+        void setToggleListener(ConsentToggleListener createConsentInteractor){
             this.createConsentInteractor = createConsentInteractor;
         }
 
-        void setDefinition(final ConsentView definition) {
+        void setDefinition(final ConsentView consentView) {
             // Update UI here
-            label.setText(definition.getConsentText());
-            progress.setVisibility(definition.isLoading() ? View.VISIBLE : View.GONE);
-            toggle.setEnabled(definition.isEnabled());
-            toggle.setChecked(definition.isChecked());
-            toggle.setVisibility(definition.isLoading() ? View.INVISIBLE : View.VISIBLE);
+            label.setText(consentView.getConsentText());
+            progress.setVisibility(consentView.isLoading() ? View.VISIBLE : View.GONE);
+            toggle.setEnabled(consentView.isEnabled());
+            toggle.setChecked(consentView.isChecked());
+            toggle.setVisibility(consentView.isLoading() ? View.INVISIBLE : View.VISIBLE);
             toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if (createConsentInteractor != null) {
-                        createConsentInteractor.createConsentStatus(definition, b);
+                        createConsentInteractor.onToggledConsent(consentView.getDefinition(), b);
                     }
                 }
             });

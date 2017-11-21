@@ -113,10 +113,10 @@ public class PermissionView extends CswBaseFragment implements
         CreateConsentInteractor createConsentInteractor = new CreateConsentInteractor(instance);
         GetConsentInteractor getConsentInteractor = new GetConsentInteractor(instance, consentDefinitions);
 
-        PermissionPresenter permissionPresenter = new PermissionPresenter(this, getConsentInteractor);
+        PermissionPresenter permissionPresenter = new PermissionPresenter(this, getConsentInteractor, createConsentInteractor);
         permissionPresenter.getConsentStatus();
 
-        permissionAdapter = new PermissionAdapter(consentDefinitions, createConsentInteractor);
+        permissionAdapter = new PermissionAdapter(consentDefinitions, permissionPresenter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(permissionAdapter);
     }

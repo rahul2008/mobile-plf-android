@@ -18,9 +18,9 @@ public class CreateConsentInteractor implements CreateConsentListener {
         this.consentAccessToolKit = consentAccessToolKit;
     }
 
-    void createConsentStatus(ConsentView consentView, boolean switchChecked) {
+    void createConsentStatus(ConsentDefinition definition, boolean switchChecked) {
         ConsentStatus consentStatus = switchChecked ? ConsentStatus.active : ConsentStatus.rejected;
-        Consent consent = createConsent(consentView.getDefinition(), consentStatus);
+        Consent consent = createConsent(definition, consentStatus);
         consentAccessToolKit.createConsent(consent, this);
     }
 
