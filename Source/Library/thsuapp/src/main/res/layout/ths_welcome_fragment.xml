@@ -70,8 +70,8 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginLeft="@dimen/ths_fab_margin"
                 android:layout_marginRight="@dimen/ths_fab_margin"
-                android:layout_marginBottom="@dimen/ths_margin_between_buttons"
-                android:layout_marginTop="@dimen/ths_margin_between_buttons"
+                android:layout_marginBottom="@dimen/ths_list_space"
+                android:layout_marginTop="@dimen/ths_list_space"
                 app:uidComponentType="Secondary"
                 android:text="@string/ths_see_doctor" />
 
@@ -82,7 +82,6 @@
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
                 android:src="@mipmap/amwell_white_logo"
-                android:layout_marginTop="@dimen/ths_checkbox_bottom_margin"
                 android:layout_height="wrap_content" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -119,7 +118,6 @@
                 android:enabled="false"
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
-                android:paddingTop="@dimen/ths_conditions_margin_top"
                 android:text="@string/ths_see_provider"
                 android:textSize="@dimen/ths_see_provider" />
 

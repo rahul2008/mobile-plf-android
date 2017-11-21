@@ -43,7 +43,6 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 public class THSVitalsPresenterTest {
@@ -123,7 +122,7 @@ public class THSVitalsPresenterTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        thsVitalsPresenter = new THSVitalsPresenter(thsvItalsUIInterface,pTHBaseViewMock);
+        thsVitalsPresenter = new THSVitalsPresenter(thsvItalsUIInterface, pTHBaseViewMock);
         THSManager.getInstance().setAwsdk(awsdkMock);
         THSManager.getInstance().setPTHConsumer(pthConsumerMock);
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
@@ -148,40 +147,28 @@ public class THSVitalsPresenterTest {
     }
 
     @Test
-    public void onEventContinueBtnWhenInputIsInvalid() throws Exception {
-        thsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
-        verifyNoMoreInteractions(awsdkMock);
-    }
-
-    @Test
     public void onEventSkipBtn() throws Exception {
         thsVitalsPresenter.onEvent(R.id.vitals_skip);
         verify(thsvItalsUIInterface).launchMedicationFragment();
     }
- /*   @Test
-    public void onEventInvalidBtn() throws Exception {
-        thsVitalsPresenter.onEvent(R.id.view_having_problem);
-        verifyNoMoreInteractions(pTHBaseViewMock);
-    }*/
 
     @Test
     public void onEventContinueBtnWhenInputIsValidUpdateConditionsThrowsException() throws Exception {
-        doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).updateVitals(any(Consumer.class),any(Vitals.class),any(VisitContext.class),any(SDKValidatedCallback.class));;
+        doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).updateVitals(any(Consumer.class), any(Vitals.class), any(VisitContext.class), any(SDKValidatedCallback.class));
         when(thsvItalsUIInterface.getTHSVitals()).thenReturn(thsVitals);
-        when(thsvItalsUIInterface.validate()).thenReturn(true);
         thsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
-        verify(consumerManagerMock).updateVitals(any(Consumer.class),any(Vitals.class),any(VisitContext.class),any(SDKValidatedCallback.class));
+        verify(consumerManagerMock).updateVitals(any(Consumer.class), any(Vitals.class), any(VisitContext.class), any(SDKValidatedCallback.class));
     }
 
     @Test
     public void getVitals() throws Exception {
         thsVitalsPresenter.getVitals();
-        verify(consumerManagerMock).getVitals(any(Consumer.class),any(VisitContext.class),any(SDKCallback.class));
+        verify(consumerManagerMock).getVitals(any(Consumer.class), any(VisitContext.class), any(SDKCallback.class));
     }
 
     @Test
     public void onResponse() throws Exception {
-        thsVitalsPresenter.onResponse(thsVitals,pthsdkError);
+        thsVitalsPresenter.onResponse(thsVitals, pthsdkError);
         verify(thsvItalsUIInterface).updateUI(thsVitals);
     }
 
@@ -229,7 +216,7 @@ public class THSVitalsPresenterTest {
     public void stringToDouble() throws Exception {
         Double aDouble = thsVitalsPresenter.stringToDouble("30.5");
         assertNotNull(aDouble);
-        assert  aDouble == 30.5;
+        assert aDouble == 30.5;
     }
 
 
@@ -261,15 +248,15 @@ public class THSVitalsPresenterTest {
     }
 
     @Test
-    public void checkIfValueEntered(){
+    public void checkIfValueEntered() {
         when(editTextMock.getText()).thenReturn(editableMock);
         when(editableMock.length()).thenReturn(0);
         boolean isvalue = thsVitalsPresenter.checkIfValueEntered(editTextMock);
-        assertFalse(isvalue);
+        assertFalse(!isvalue);
     }
 
     @Test
-    public void checkIfValueEnteredIsValidTrue(){
+    public void checkIfValueEnteredIsValidTrue() {
         when(editTextMock.getText()).thenReturn(editableMock);
         when(editableMock.length()).thenReturn(1);
         boolean isvalue = thsVitalsPresenter.checkIfValueEntered(editTextMock);

@@ -25,7 +25,6 @@ import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
 
 import static com.philips.platform.ths.R.id.systolic;
-import static com.philips.platform.ths.R.string.temperature;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPDATE_VITALS;
 import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
@@ -139,7 +138,6 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
 
         if (i == R.id.vitals_continue_btn) {
             if (validateFields()) {
-                //THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_FLOATING_BUTTON, "vitalsContinue");
                 mThsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
             }
         } else if (i == R.id.vitals_skip) {
@@ -147,22 +145,6 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
             mThsVitalsPresenter.onEvent(R.id.vitals_skip);
         }
 
-    }
-
-
-    @Override
-    public boolean validate() {
-        boolean enableContinue;
-        if (mThsVitalsPresenter.checkIfValueEntered(mTemperature) || mThsVitalsPresenter.checkIfValueEntered(mWeight)) {
-            enableContinue = !mThsVitalsPresenter.checkIfValueEntered(mSystolic) && !mThsVitalsPresenter.checkIfValueEntered(mDiastolic) || validateBloodPressure();
-
-        } else if (validateBloodPressure()) {
-            enableContinue = true;
-        } else {
-            showToast("Please enter the values");
-            enableContinue = false;
-        }
-        return enableContinue;
     }
 
     @Override
@@ -225,15 +207,9 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
 
 
     public boolean validateBloodPressure() {
-
-        if (mThsVitalsPresenter.checkIfValueEntered(mSystolic) || mThsVitalsPresenter.checkIfValueEntered(mDiastolic)) {
-            String systolic = mThsVitalsPresenter.getTextFromEditText(mSystolic);
-            String diastolic = mThsVitalsPresenter.getTextFromEditText(mDiastolic);
-            return mThsVitalsPresenter.stringToInteger(diastolic) < mThsVitalsPresenter.stringToInteger(systolic);
-
-        } else {
-            return false;
-        }
+        String systolic = mThsVitalsPresenter.getTextFromEditText(mSystolic);
+        String diastolic = mThsVitalsPresenter.getTextFromEditText(mDiastolic);
+        return mThsVitalsPresenter.stringToInteger(diastolic) < mThsVitalsPresenter.stringToInteger(systolic);
     }
 
     @Override
@@ -249,21 +225,48 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     }
 
     public boolean validateFields() {
+        return (validateBPField() && validateTmpField() && validateWeightField());
+    }
 
+    private boolean validateWeightField() {
+
+        if (mThsVitalsPresenter.checkIfValueEntered(mWeight)) {
+            validateWeightView();
+            return !(mWeightInputLayoutContainer.isShowingError());
+        } else {
+            if(mWeightInputLayoutContainer.isShowingError()){
+                mWeightInputLayoutContainer.hideError();
+            }
+            return true;
+        }
+    }
+
+    public boolean validateBPField() {
         if (mThsVitalsPresenter.checkIfValueEntered(mSystolic) || mThsVitalsPresenter.checkIfValueEntered(mDiastolic)) {
             validateSystolicView();
             validateDiastolicView();
-            validateTemperatureView();
-            validateWeightView();
-            return !(mFarenheitInputLayoutContainer.isShowingError() || mSystolicInputValidationLayout.isShowingError() || mDiastolicInputValidationLayout.isShowingError());
-        } else if(mThsVitalsPresenter.checkIfValueEntered(mTemperature)){
+            return !(mSystolicInputValidationLayout.isShowingError() || mDiastolicInputValidationLayout.isShowingError());
+        } else {
+            if(mSystolicInputValidationLayout.isShowingError()) {
+                mSystolicInputValidationLayout.hideError();
+            }
+            if(mDiastolicInputValidationLayout.isShowingError()) {
+                mDiastolicInputValidationLayout.hideError();
+            }
+            return true;
+        }
+    }
+
+    private boolean validateTmpField() {
+        if (mThsVitalsPresenter.checkIfValueEntered(mTemperature)) {
             validateTemperatureView();
             return !mFarenheitInputLayoutContainer.isShowingError();
-        } else if(mThsVitalsPresenter.checkIfValueEntered(mWeight)){
-            validateWeightView();
-            return !mWeightInputLayoutContainer.isShowingError();
-        } else return false;
-
+        } else {
+            if(mFarenheitInputLayoutContainer.isShowingError()) {
+               mFarenheitInputLayoutContainer.hideError();
+            }
+            return true;
+        }
     }
 
     public void validateTemperatureView() {
@@ -273,6 +276,35 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
             doTagging(ANALYTICS_UPDATE_VITALS, getString(R.string.ths_vitals_temperature_error), false);
         } else {
             mFarenheitInputLayoutContainer.hideError();
+        }
+    }
+
+
+    public boolean validateTemperature() {
+        String temp = mTemperature.getText().toString();
+        if (temp.length() <= 0 || temp.isEmpty()) {
+            return false;
+        } else {
+            return (Double.parseDouble(temp) >= 60 && Double.parseDouble(temp) <= 120);
+        }
+    }
+
+    public void validateWeightView() {
+        if (!validateWeight()) {
+            mWeightInputLayoutContainer.setErrorMessage(R.string.ths_vitals_weight_error);
+            mWeightInputLayoutContainer.showError();
+            doTagging(ANALYTICS_UPDATE_VITALS, getString(R.string.ths_vitals_weight_error), false);
+        } else {
+            mWeightInputLayoutContainer.hideError();
+        }
+    }
+
+    private boolean validateWeight() {
+        String weight = mWeight.getText().toString();
+        if (weight.length() <= 0 || weight.isEmpty()) {
+            return false;
+        } else {
+            return (Double.parseDouble(weight) <= 500 && Double.parseDouble(weight) >= 0);
         }
     }
 
@@ -296,31 +328,5 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         }
     }
 
-    public void validateWeightView(){
-        if(!validateWeight()){
-            mWeightInputLayoutContainer.setErrorMessage(R.string.ths_vitals_weight_error);
-            mWeightInputLayoutContainer.showError();
-            doTagging(ANALYTICS_UPDATE_VITALS, getString(R.string.ths_vitals_weight_error), false);
-        }else {
-            mWeightInputLayoutContainer.hideError();
-        }
-    }
 
-    private boolean validateWeight() {
-        String weight = mWeight.getText().toString();
-        if (weight.length() <= 0 || weight.isEmpty()) {
-            return false;
-        } else {
-            return (Double.parseDouble(weight) <= 500 && Double.parseDouble(weight) >= 0);
-        }
-    }
-
-    private boolean validateTemperature() {
-        String temperature = mTemperature.getText().toString();
-        if (temperature.length() <= 0 || temperature.isEmpty()) {
-            return false;
-        } else {
-            return (Double.parseDouble(temperature) <= 120 && Double.parseDouble(temperature) >= 60);
-        }
-    }
 }

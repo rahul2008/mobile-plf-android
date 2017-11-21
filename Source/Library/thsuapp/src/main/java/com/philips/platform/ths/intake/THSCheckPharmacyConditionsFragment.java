@@ -13,7 +13,10 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -56,12 +59,23 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     Location mCurrentLocation;
     Intent gpsSettingsIntent;
     private AlertDialogFragment alertDialogFragment;
+    private RelativeLayout relativeLayout;
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(INTERVAL);
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.ths_conditions_fragment_layout,container,false);
+        relativeLayout = view.findViewById(R.id.ths_conditions_fragment_container);
+        createCustomProgressBar(relativeLayout,BIG);
+        return view;
     }
 
     @Override
@@ -111,6 +125,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     }
 
     public void disconnectGoogleApiClient() {
+        hideProgressBar();
         if (mGoogleApiClient != null) {
             if (mGoogleApiClient.isConnected()) {
                 stopLocationUpdates();
@@ -121,6 +136,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
 
 
     protected void stopLocationUpdates() {
+        hideProgressBar();
         FusedLocationApi.removeLocationUpdates(
                 mGoogleApiClient, this);
         AmwellLog.d(TAG, "Location update stopped .......................");
@@ -164,6 +180,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     }
 
     private void callPharmacyListFragment(Location location) {
+        hideProgressBar();
         if (isFragmentAttached()) {
             getActivity().getSupportFragmentManager().popBackStack();
             THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
@@ -174,6 +191,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     }
 
     private void showPharmacySearch() {
+        hideProgressBar();
         if (isFragmentAttached()) {
             getActivity().getSupportFragmentManager().popBackStack();
             THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
@@ -182,6 +200,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     }
 
     public void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address) {
+        hideProgressBar();
         if (isFragmentAttached()) {
             getActivity().getSupportFragmentManager().popBackStack();
             THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();

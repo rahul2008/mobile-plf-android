@@ -125,28 +125,24 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
 
     @Override
     public void onPostData(String o) {
-        if(null != o){
+        if (null != o) {
             thsProviderDetailsDisplayHelper.setReminderValue(o);
-            if(o.equalsIgnoreCase(THSConstants.THS_NO_REMINDER_STRING)){
+            if (o.equalsIgnoreCase(THSConstants.THS_NO_REMINDER_STRING)) {
                 remindOptions = RemindOptions.NO_REMINDER;
-            }
-            if(o.equalsIgnoreCase(THSConstants.THS_15_MINS_REMINDER)){
+            } else if (o.equalsIgnoreCase(THSConstants.THS_15_MINS_REMINDER)) {
                 remindOptions = RemindOptions.FIFTEEN_MIN;
-            }
-            if(o.equalsIgnoreCase(THSConstants.THS_ONE_HOUR_REMINDER)){
+            } else if (o.equalsIgnoreCase(THSConstants.THS_ONE_HOUR_REMINDER)) {
                 remindOptions = RemindOptions.ONE_HOUR;
-            }
-            if(o.equalsIgnoreCase(THSConstants.THS_FOUR_HOURS_REMINDER)){
+            } else if (o.equalsIgnoreCase(THSConstants.THS_FOUR_HOURS_REMINDER)) {
                 remindOptions = RemindOptions.FOUR_HOURS;
-            }
-            if(o.equalsIgnoreCase(THSConstants.THS_EIGHT_HOURS_REMINDER)){
+            } else if (o.equalsIgnoreCase(THSConstants.THS_EIGHT_HOURS_REMINDER)) {
                 remindOptions = RemindOptions.EIGHT_HOURS;
-            }
-            if(o.equalsIgnoreCase(THSConstants.THS_ONE_DAY_REMINDER)){
+            } else if (o.equalsIgnoreCase(THSConstants.THS_ONE_DAY_REMINDER)) {
                 remindOptions = RemindOptions.ONE_DAY;
-            }
-            if(o.equalsIgnoreCase(THSConstants.THS_ONE_WEEK_REMINDER)){
+            } else if (o.equalsIgnoreCase(THSConstants.THS_ONE_WEEK_REMINDER)) {
                 remindOptions = RemindOptions.ONE_WEEK;
+            }else {
+                remindOptions = RemindOptions.NO_REMINDER;
             }
 
         }
@@ -157,8 +153,11 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
         thsProviderDetailsDisplayHelper.updateEstimateCost(estimatedVisitCost);
     }
 
-
+    @Override
     public RemindOptions getReminderOptions(){
+        if(remindOptions == null){
+            remindOptions = RemindOptions.NO_REMINDER;
+        }
         if(remindOptions!=RemindOptions.NO_REMINDER){
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"reminderSet");
         }
