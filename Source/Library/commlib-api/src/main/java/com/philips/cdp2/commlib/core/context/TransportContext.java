@@ -25,6 +25,13 @@ import com.philips.cdp2.commlib.core.util.Availability;
  */
 public interface TransportContext<A extends Availability> extends Availability<A> {
 
+    /**
+     * Get the {@link DiscoveryStrategy} for this transport.
+     * <p>
+     * Typically this will always return the same object.
+     *
+     * @return the {@link DiscoveryStrategy} for this transport
+     */
     @Nullable
     DiscoveryStrategy getDiscoveryStrategy();
 

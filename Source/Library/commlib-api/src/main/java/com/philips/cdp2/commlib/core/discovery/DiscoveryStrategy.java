@@ -81,8 +81,6 @@ public interface DiscoveryStrategy {
      * Start discovery and filter for specific device types.
      * <p>
      * Only {@link Appliance}s matching the device types provided should be returned.
-     * Usually this is called by {@link CommCentral}.
-     * To start all {@link DiscoveryStrategy}s one typically calls {@link CommCentral#startDiscovery(Set)}.
      *
      * @param deviceTypes set of device types which should be filtered for.
      * @throws MissingPermissionException    thrown if additional permissions are required.
@@ -94,6 +92,8 @@ public interface DiscoveryStrategy {
      * Start discovery and filter for specific device types and model ids.
      * <p>
      * Only {@link Appliance}s matching both one of the device types and one of the model ids provided should be returned.
+     * Usually this is called by {@link CommCentral}.
+     * To start all {@link DiscoveryStrategy}s one typically calls {@link CommCentral#startDiscovery(Set)}.
      *
      * @param deviceTypes set of device types which should be filtered for.
      * @param modelIds    set of model ids which should be filtered for.
