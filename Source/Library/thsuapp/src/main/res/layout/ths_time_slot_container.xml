@@ -115,7 +115,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/reminderLabel"
-            android:text="@string/ths_rb_15_mins_reminder"
+            android:text="@string/ths_rb_no_reminder"
             android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
             android:textSize="14sp" />
 
