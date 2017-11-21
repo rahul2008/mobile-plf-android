@@ -381,12 +381,14 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     }
 
     private void handlePrivacyPolicy() {
-        if(getRegistrationFragment().getUserRegistrationUIEventListener()!=null) {
-            getRegistrationFragment().getUserRegistrationUIEventListener().
+        if( RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener()!=null){
+
+            RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                     onPrivacyPolicyClick(getRegistrationFragment().getParentActivity());
         }else {
-                RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
-            }
+            RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
+        }
+
     }
 
     private void handleLoginSuccess() {
@@ -539,9 +541,11 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     void skipButtonClick() {
         if (mRegError.isShown()) mRegError.hideError();
 
-        if (getRegistrationFragment().getUserRegistrationUIEventListener() != null) {
-            getRegistrationFragment().getUserRegistrationUIEventListener().
+        if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
+            RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                     onUserRegistrationComplete(getRegistrationFragment().getParentActivity());
+        }else {
+            RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
         }
     }
 

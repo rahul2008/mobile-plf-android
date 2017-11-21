@@ -55,17 +55,6 @@ public class RegistrationCoppaActivity extends UIDActivity implements OnClickLis
     private TextView ivBack;
     private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.DEFAULT;
 
-    public static UserRegistrationUIEventListener getUserRegistrationUIEventListener() {
-        return userRegistrationUIEventListener;
-    }
-
-    public static void setUserRegistrationUIEventListener(UserRegistrationUIEventListener
-                                                                  userRegistrationUIEventListener) {
-        RegistrationCoppaActivity.userRegistrationUIEventListener = userRegistrationUIEventListener;
-    }
-
-    private static UserRegistrationUIEventListener userRegistrationUIEventListener;
-
     RegistrationContentConfiguration registrationContentConfiguration ;
 
 
@@ -168,7 +157,6 @@ public class RegistrationCoppaActivity extends UIDActivity implements OnClickLis
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationCoppaActivity : onDestroy");
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationCoppaActivity Unregister:" +
                 " NetworStateListener,Context");
-        RegistrationCoppaActivity.setUserRegistrationUIEventListener(null);
         super.onDestroy();
     }
 
@@ -200,7 +188,7 @@ public class RegistrationCoppaActivity extends UIDActivity implements OnClickLis
         urLaunchInput.setRegistrationContentConfiguration(registrationContentConfiguration);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         urLaunchInput.setUIFlow(uiFlow);
-        urLaunchInput.setUserRegistrationUIEventListener(RegistrationCoppaActivity.
+        urLaunchInput.setUserRegistrationUIEventListener(RegistrationConfiguration.getInstance().
                 getUserRegistrationUIEventListener());
         FragmentLauncher fragmentLauncher = new FragmentLauncher
                 (this, R.id.fl_reg_fragment_container,this);
