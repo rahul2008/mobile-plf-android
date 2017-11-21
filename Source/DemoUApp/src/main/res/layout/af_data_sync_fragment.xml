@@ -8,39 +8,35 @@
         android:id="@+id/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:clickable="true"
-        android:src="@android:drawable/ic_input_add"
         android:layout_alignBottom="@+id/tv_set_characteristics"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp" />
+        android:layout_gravity="end"
+        android:layout_marginEnd="10dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_input_add" />
 
     <ImageButton
         android:id="@+id/delete_moments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:src="@android:drawable/ic_menu_delete"
         android:layout_alignBottom="@+id/tv_logout"
-        android:layout_alignStart="@+id/add" />
+        android:layout_alignStart="@+id/add"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_delete" />
 
     <LinearLayout
         android:id="@+id/moment_parent"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:orientation="vertical"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/tv_add_moment_with_type"
-        android:layout_marginTop="13dp">
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_moments_count"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
             android:layout_marginBottom="10dp"
             android:background="@android:color/darker_gray"
             android:text="Moments count : 0"
