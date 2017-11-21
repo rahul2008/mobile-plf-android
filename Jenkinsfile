@@ -78,18 +78,9 @@ node('Android') {
                      sh """#!/bin/bash -l
                             chmod -R 755 . 
                             cd ./Source/Library 
-                            ./gradlew artifactoryPublish
+                            ./gradlew :ews:artifactoryPublish
                         """
             }
-
-                stage("Publish demouapp") {
-                    echo "Publish demouapp on Artifactory"
-                     sh """#!/bin/bash -l
-                            chmod -R 755 . 
-                            cd ./Source/DemoUApp 
-                            ./gradlew artifactoryPublish
-                        """
-                }
             }
 
         } catch(err) {
