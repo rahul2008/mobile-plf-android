@@ -25,7 +25,8 @@ public class ConsentToDtoMapper {
     }
 
     public CreateConsentDto map(Consent consent) {
-        return new CreateConsentDto(consent.getLocale().toString().replace('_', '-'), buildPolicyRule(consent.getType(), consent.getVersion()), "Consent", consent.getStatus().name(), subjectId);
+        final String language = LocaleMapper.toLanguageString(consent.getLocale());
+        return new CreateConsentDto(language, buildPolicyRule(consent.getType(), consent.getVersion()), "Consent", consent.getStatus().name(), subjectId);
     }
 
     private String buildPolicyRule(String type, int version) {

@@ -39,7 +39,7 @@ public class PermissionView extends CswBaseFragment implements
 
     private Unbinder unbinder;
 
-    private PermissionsAdapter permissionAdapter;
+    private PermissionAdapter permissionAdapter;
 
     private ConsentBundleConfig config;
 
@@ -109,13 +109,14 @@ public class PermissionView extends CswBaseFragment implements
 
         List<ConsentView> consentDefinitions = createConsentDefinitions();
 
-        CreateConsentInteractor createConsentInteractor = new CreateConsentInteractor();
-        GetConsentInteractor getConsentInteractor = new GetConsentInteractor(ConsentAccessToolKit.getInstance(), consentDefinitions);
+        ConsentAccessToolKit instance = ConsentAccessToolKit.getInstance();
+        CreateConsentInteractor createConsentInteractor = new CreateConsentInteractor(instance);
+        GetConsentInteractor getConsentInteractor = new GetConsentInteractor(instance, consentDefinitions);
 
         PermissionPresenter permissionPresenter = new PermissionPresenter(this, getConsentInteractor);
         permissionPresenter.getConsentStatus();
 
-        permissionAdapter = new PermissionsAdapter(consentDefinitions, createConsentInteractor);
+        permissionAdapter = new PermissionAdapter(consentDefinitions, createConsentInteractor);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(permissionAdapter);
     }

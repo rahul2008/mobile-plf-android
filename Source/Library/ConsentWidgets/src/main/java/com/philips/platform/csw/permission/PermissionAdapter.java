@@ -20,12 +20,12 @@ import java.util.List;
  * Created by Entreco on 17/11/2017.
  */
 
-class PermissionsAdapter extends RecyclerView.Adapter<PermissionsAdapter.PermissionViewHolder> {
+class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.PermissionViewHolder> {
 
     private final List<ConsentView> items;
     private final CreateConsentInteractor createConsentInteractor;
 
-    PermissionsAdapter(List<ConsentView> definitions, CreateConsentInteractor createConsentInteractor) {
+    PermissionAdapter(List<ConsentView> definitions, CreateConsentInteractor createConsentInteractor) {
         this.items = new ArrayList<>(definitions);
         this.createConsentInteractor = createConsentInteractor;
     }

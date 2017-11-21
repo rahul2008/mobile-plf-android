@@ -2,7 +2,7 @@ package com.philips.platform.csw.permission;
 
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.listener.CreateConsentListener;
-import com.philips.platform.catk.mapper.DtoToConsentMapper;
+import com.philips.platform.catk.mapper.LocaleMapper;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.csw.ConsentDefinition;
@@ -10,16 +10,12 @@ import com.philips.platform.csw.utils.CswLogger;
 
 import java.util.Locale;
 
-/**
- * Created by Entreco on 17/11/2017.
- */
-
 public class CreateConsentInteractor implements CreateConsentListener {
 
     private final ConsentAccessToolKit consentAccessToolKit;
 
-    CreateConsentInteractor() {
-        consentAccessToolKit = ConsentAccessToolKit.getInstance();
+    CreateConsentInteractor(ConsentAccessToolKit consentAccessToolKit) {
+        this.consentAccessToolKit = consentAccessToolKit;
     }
 
     void createConsentStatus(ConsentView consentView, boolean switchChecked) {
@@ -29,7 +25,7 @@ public class CreateConsentInteractor implements CreateConsentListener {
     }
 
     private Consent createConsent(ConsentDefinition definition, ConsentStatus status) {
-        Locale locale = DtoToConsentMapper.getLocale(definition.getLocale());
+        Locale locale = LocaleMapper.toLocale(definition.getLocaleString());
         return new Consent(locale, status, definition.getType(), definition.getVersion());
     }
 

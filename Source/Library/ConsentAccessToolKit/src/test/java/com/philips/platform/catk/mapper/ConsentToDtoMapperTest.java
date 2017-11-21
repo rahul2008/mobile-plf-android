@@ -23,18 +23,34 @@ public class ConsentToDtoMapperTest {
     private ConsentToDtoMapper givenMapper;
     private Consent givenConsent;
     private Consent activeTypeMomentLocaleNlNlVersion1Consent;
+    private Consent activityTypeWithMissingCountry;
+    private Consent activityTypeWithMissingLanguage;
 
     @Before
     public void setUp() throws Exception {
         givenMapper = new ConsentToDtoMapper("someSubjectId", "IN", "OneBackendProp", "OneBackend");
         activeTypeMomentLocaleNlNlVersion1Consent = new Consent(new Locale("nl", "NL"), ConsentStatus.active, "moment", 1);
+        activityTypeWithMissingLanguage = new Consent(new Locale("", "NL"), ConsentStatus.active, "moment", 1);
+        activityTypeWithMissingCountry = new Consent(new Locale("nl", ""), ConsentStatus.active, "moment", 1);
     }
 
     @Test
-    public void map_mapsCorrectly() {
+    public void map_correctlyTo_nlNL() {
         givenConsent(activeTypeMomentLocaleNlNlVersion1Consent);
         whenCallingMapWith();
         thenConsentIs(new CreateConsentDto("nl-NL", "urn:com.philips.consent:moment/IN/1/OneBackendProp/OneBackend", "Consent", "active", "someSubjectId"));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void itShouldThrowExceptionWhenLocaleIsMissingCountry() {
+        givenConsent(activityTypeWithMissingCountry);
+        whenCallingMapWith();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void itShouldThrowExceptionWhenLocaleIsMissingLanguage() {
+        givenConsent(activityTypeWithMissingLanguage);
+        whenCallingMapWith();
     }
 
     private void givenConsent(Consent consent) {

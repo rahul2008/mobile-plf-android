@@ -52,7 +52,7 @@ public class ConsentDefinition implements Parcelable {
         this.version = version;
     }
 
-    public String getLocale() {
+    public String getLocaleString() {
         return locale;
     }
 
