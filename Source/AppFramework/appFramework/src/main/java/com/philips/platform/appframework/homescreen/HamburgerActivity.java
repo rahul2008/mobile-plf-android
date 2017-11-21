@@ -104,6 +104,9 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     private HamburgerMenuAdapter hamburgerMenuAdapter;
 
+    private static final String NAVIGATION_CONTENT_DESC_HAMBURGER = "hamburger";
+
+    private static final String NAVIGATION_CONTENT_DESC_BACK = "back";
 
 
 
@@ -212,6 +215,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         navigationView = (LinearLayout) findViewById(R.id.navigation_view);
         UIDHelper.setupToolbar(this);
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_hamburger_icon, getTheme()));
+        toolbar.setNavigationContentDescription(NAVIGATION_CONTENT_DESC_HAMBURGER);
     }
 
     private void setUserNameAndLogoutText() {
@@ -343,7 +347,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         RALog.d(TAG, " updateActionBarIcon : " + isBackButtonVisible);
         int navigationDrawableId = isBackButtonVisible ? R.drawable.left_arrow : R.drawable.ic_hamburger_icon;
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), navigationDrawableId, getTheme()));
-        toolbar.setNavigationContentDescription(String.valueOf(navigationDrawableId));
+        toolbar.setNavigationContentDescription(isBackButtonVisible ? NAVIGATION_CONTENT_DESC_BACK : NAVIGATION_CONTENT_DESC_HAMBURGER);
         this.isBackButtonVisible = isBackButtonVisible;
     }
 
