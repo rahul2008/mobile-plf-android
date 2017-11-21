@@ -33,6 +33,8 @@ import java.util.concurrent.Executors;
 import static android.net.ConnectivityManager.TYPE_WIFI;
 
 /**
+ * Implementation of the TransportContext for local network traffic.
+ * Handles all communication to an appliance in case it's a local Wi-Fi appliance.
  * @publicApi
  */
 public class LanTransportContext implements TransportContext<LanTransportContext> {
@@ -57,6 +59,10 @@ public class LanTransportContext implements TransportContext<LanTransportContext
     private boolean isAvailable;
     private Set<AvailabilityListener<LanTransportContext>> availabilityListeners = new CopyOnWriteArraySet<>();
 
+    /**
+     * Instantiates a LanTransportContext.
+     * @param runtimeConfiguration RuntimeConfiguration Configuration to be used by CommLib
+     */
     public LanTransportContext(@NonNull final RuntimeConfiguration runtimeConfiguration) {
         this.connectivityMonitor = ConnectivityMonitor.forNetworkTypes(runtimeConfiguration.getContext(), TYPE_WIFI);
 
@@ -74,12 +80,21 @@ public class LanTransportContext implements TransportContext<LanTransportContext
         return new LanDiscoveryStrategy(deviceCache, connectivityMonitor, wifiNetworkProvider);
     }
 
+    /**
+     * Returns a DiscoveryStrategy for local discovery.
+     * @return DiscoveryStrategy A discovery strategy to discover appliances in the local network.
+     */
     @Override
     @NonNull
     public DiscoveryStrategy getDiscoveryStrategy() {
         return this.discoveryStrategy;
     }
 
+    /**
+     * Creates a CommunicationStrategy for communicating within a local network.
+     * @param networkNode NetworkNode the network node
+     * @return CommunicationStrategy A communication strategy for communicating with an appliance in the local network.
+     */
     @Override
     @NonNull
     public CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {

@@ -18,6 +18,11 @@ import java.util.Map;
 
 import static com.philips.platform.appinfra.appidentity.AppIdentityInterface.AppState.PRODUCTION;
 
+/**
+ * The RuntimeConfiguration holds configurable objects for CommLib to work with.
+ * The workings of CommLib are partially dependant on this object.
+ * @publicApi
+ */
 @SuppressWarnings("unchecked")
 public class RuntimeConfiguration {
 
@@ -32,11 +37,21 @@ public class RuntimeConfiguration {
 
     private Context context;
 
+    /**
+     * Instantiates a RuntimeConfiguration
+     * @param context Context The Context object that holds the CommCentral instance.
+     * @param appInfra AppInfraInterface Instance of AppInfra to read additional configuration from
+     */
     public RuntimeConfiguration(final @NonNull Context context, final @Nullable AppInfraInterface appInfra) {
         this.context = context;
         this.appInfraInterface = appInfra;
     }
 
+    /**
+     * Indicates if logging should be enabled or disabled.
+     * The outcome of this is based on the configuration in AppInfra.
+     * @return boolean True if configuration is allowed, false if configuration must be disabled.
+     */
     public boolean isLogEnabled() {
         if (appInfraInterface == null) {
             return true;
@@ -60,6 +75,10 @@ public class RuntimeConfiguration {
         return isLogEnabled;
     }
 
+    /**
+     * Returns the Context to use in CommLib
+     * @return Context
+     */
     public Context getContext() {
         return context;
     }

@@ -29,6 +29,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executors;
 
 /**
+ * Implementation of a TransportContext for BLE traffic.
+ * Handles all communication to an appliance in case it is a BLE appliance.
  * @publicApi
  */
 public class BleTransportContext implements TransportContext<BleTransportContext> {
@@ -86,11 +88,20 @@ public class BleTransportContext implements TransportContext<BleTransportContext
         isAvailable = shnCentral.isBluetoothAdapterEnabled();
     }
 
+    /**
+     * Returns a DiscoveryStrategy for discovering BLE appliances.
+     * @return DiscoveryStrategy A discovery strategy to discover BLE appliances.
+     */
     @Override
     public DiscoveryStrategy getDiscoveryStrategy() {
         return this.discoveryStrategy;
     }
 
+    /**
+     * Creates a CommunicationStrategy for communicating with BLE appliances.
+     * @param networkNode NetworkNode The network node
+     * @return CommunicationStrategy A communication strategy for communicating with BLE appliances.
+     */
     @NonNull
     @Override
     public CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {

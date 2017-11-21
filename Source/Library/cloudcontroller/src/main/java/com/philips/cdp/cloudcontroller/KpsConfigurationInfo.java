@@ -7,6 +7,9 @@
 package com.philips.cdp.cloudcontroller;
 
 /**
+ * Configuration object for signing in to Philips DeviceCloud.
+ * Values to return need to be agreed with DeviceCloud operations/development team.
+ * Invalid values will lead to sign-in failures.
  * @publicApi
  */
 public abstract class KpsConfigurationInfo {
@@ -37,28 +40,76 @@ public abstract class KpsConfigurationInfo {
         return MAX_NUMBER_RETRIES;
     }
 
+    /**
+     * Returns Bootstrap ID for the mobile app to use when communicating
+     * @return String
+     */
     public abstract String getBootStrapId();
 
+    /**
+     * Returns a key to help sign in to DeviceCloud
+     * @return String
+     */
     public abstract String getBootStrapKey();
 
+    /**
+     * Returns the ID of the product as configured in DeviceCloud
+     * @return String
+     */
     public abstract String getProductId();
 
+    /**
+     * Returns the version of the product
+     * @return String
+     */
     public abstract int getProductVersion();
 
+    /**
+     * Returns the name of this component in the system/product.
+     * @return String
+     */
     public abstract String getComponentId();
 
+    /**
+     * Returns the total component count in the product
+     * @return int
+     */
     public abstract int getComponentCount();
 
+    /**
+     * Returns the package name of the app signing in to DeviceCloud.
+     * @return String
+     */
     public abstract String getAppId();
 
+    /**
+     * Returns the version of the app signing in to DeviceCloud.
+     * @return int
+     */
     public abstract int getAppVersion();
 
+    /**
+     * Returns the type of app signing in to DeviceCloud.
+     * @return String
+     */
     public abstract String getAppType();
 
+    /**
+     * Returns the country code for the user signing in.
+     * @return String
+     */
     public abstract String getCountryCode();
 
+    /**
+     * Returns the language code for the user signing in.
+     * @return String
+     */
     public abstract String getLanguageCode();
 
+    /**
+     * Returns the gateway URL to the DeviceCloud.
+     * @return String
+     */
     public abstract String getDevicePortUrl();
 
 }
