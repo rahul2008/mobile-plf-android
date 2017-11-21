@@ -91,6 +91,21 @@ public class SHNCentral {
 
     }
 
+    /**
+     * A listener for changes in the bond state of the {@code BluetoothDevice}.
+     */
+    public interface SHNBondStatusListener {
+        /**
+         * Called when the bond state of the {@code BluetoothDevice} was changed.
+         *
+         * @param device Device the bond changed for
+         * @param bondState New bond state of the device
+         * @param previousBondState Previous bond state of the device
+         */
+        void onBondStatusChanged(BluetoothDevice device, int bondState, int previousBondState);
+
+    }
+
     private static final String TAG = "SHNCentral";
 
     private SHNUserConfiguration shnUserConfiguration;
@@ -205,6 +220,11 @@ public class SHNCentral {
         }
     }
 
+    /**
+     * Get the {@Link BleUtilities}, used to scan for device
+     *
+     * @return BLE utilities
+     */
     @NonNull
     BleUtilities getBleUtilities() {
         return bleUtilities;
@@ -266,10 +286,22 @@ public class SHNCentral {
         return new DataMigrater();
     }
 
+    /**
+     * Register a {@Link SHNBondStatusListener} for device with specific address.
+     *
+     * @param shnBondStatusListener listener to register
+     * @param address Address of the device
+     */
     public void registerBondStatusListenerForAddress(SHNBondStatusListener shnBondStatusListener, String address) {
         shnBondStatusListeners.put(address, new WeakReference<>(shnBondStatusListener));
     }
 
+    /**
+     * Unregister a {@Link SHNBondStatusListener} for device with specific address.
+     *
+     * @param shnBondStatusListener listener to unregister
+     * @param address Address of the device
+     */
     public void unregisterBondStatusListenerForAddress(SHNBondStatusListener shnBondStatusListener, String address) {
         shnBondStatusListeners.remove(address);
     }
@@ -383,10 +415,6 @@ public class SHNCentral {
     private void migrateDataFromOldKeysToNewKeys(Context context, SharedPreferencesProvider sharedPreferencesProvider) {
         DataMigrater dataMigrater = createDataMigrater();
         dataMigrater.execute(context, createPersistentStorageFactory(sharedPreferencesProvider));
-    }
-
-    public interface SHNBondStatusListener {
-        void onBondStatusChanged(BluetoothDevice device, int bondState, int previousBondState);
     }
 
     /**

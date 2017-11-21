@@ -26,7 +26,7 @@ import java.util.UUID;
 import static com.philips.pins.shinelib.SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed;
 
 /**
- * @publicPluginApi
+ * @publicApi
  */
 public class SHNDeviceScannerInternal {
     private static final String TAG = SHNDeviceScannerInternal.class.getSimpleName();
