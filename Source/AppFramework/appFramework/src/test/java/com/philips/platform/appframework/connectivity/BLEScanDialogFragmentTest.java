@@ -19,7 +19,7 @@ import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 
 import org.junit.After;
 import org.junit.Before;
@@ -69,7 +69,7 @@ public class BLEScanDialogFragmentTest {
         FragmentManager fm = testActivity.getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         applianceSet= new HashSet<>();
-        applianceSet.add(new BleReferenceAppliance(networkNode,bleCommunicationStrategy, ConnectivityDeviceType.REFERENCE_NODE));
+        applianceSet.add(new RefAppBleReferenceAppliance(networkNode,bleCommunicationStrategy, ConnectivityDeviceType.REFERENCE_NODE));
         bleScanDialogFragment.show(ft, "fragment");
         bleScanDialogFragment.setSavedApplianceList(applianceSet);
     }

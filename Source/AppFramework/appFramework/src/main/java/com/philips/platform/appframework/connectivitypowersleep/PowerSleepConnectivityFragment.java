@@ -27,7 +27,7 @@ import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
 import com.philips.platform.appframework.connectivity.ConnectivityUtils;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.UIView;
 import com.philips.platform.baseapp.screens.utility.RALog;
@@ -110,6 +110,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         insights.setEnabled(false);
         insights.setAlpha(0.5f);
         mCommCentral = getCommCentral(ConnectivityDeviceType.POWER_SLEEP);
+
         setHasOptionsMenu(true);
         startAppTagging(TAG);
         return view;
@@ -132,7 +133,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         }
     }
 
-    private BleReferenceAppliance bleReferenceAppliance = null;
+    private RefAppBleReferenceAppliance bleReferenceAppliance = null;
 
 
     /**
@@ -157,7 +158,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
                         bleScanDialogFragment.setCancelable(false);
                         bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
                             @Override
-                            public void onDeviceSelected(final BleReferenceAppliance bleRefAppliance) {
+                            public void onDeviceSelected(final RefAppBleReferenceAppliance bleRefAppliance) {
                                 bleReferenceAppliance = bleRefAppliance;
                                 connectivityPresenter.setUpApplicance(bleRefAppliance);
 
@@ -181,7 +182,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         dialog.setCancelable(false);
     }
 
-    private void fetchData(BleReferenceAppliance bleRefAppliance) {
+    private void fetchData(RefAppBleReferenceAppliance bleRefAppliance) {
         showProgressBar();
         bleRefAppliance.getSessionDataPort().reloadProperties();
     }
@@ -254,12 +255,6 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
             handler.removeCallbacksAndMessages(null);
         }
         super.onDestroyView();
-    }
-
-    protected void removeApplianceListener() {
-        if (mCommCentral != null && mCommCentral.getApplianceManager() != null) {
-            mCommCentral.getApplianceManager().removeApplianceListener(this.applianceListener);
-        }
     }
 
     @Override

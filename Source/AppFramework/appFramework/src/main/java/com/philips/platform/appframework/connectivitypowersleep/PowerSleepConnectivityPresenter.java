@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPort;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -46,14 +46,14 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
     }
 
     @Override
-    public void removeSessionPortListener(BleReferenceAppliance appliance) {
+    public void removeSessionPortListener(RefAppBleReferenceAppliance appliance) {
         if (appliance != null) {
             appliance.getSessionDataPort().removePortListener(diCommPortListener);
         }
     }
 
     @Override
-    public void setUpApplicance(@NonNull BleReferenceAppliance appliance) {
+    public void setUpApplicance(@NonNull RefAppBleReferenceAppliance appliance) {
         if (appliance == null) {
             throw new IllegalArgumentException("Cannot create bleReferenceAppliance for provided NetworkNode.");
         }

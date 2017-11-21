@@ -8,7 +8,7 @@ package com.philips.platform.appframework.connectivitypowersleep;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 
 public interface ConnectivityPowerSleepContract {
 
@@ -22,8 +22,8 @@ public interface ConnectivityPowerSleepContract {
 
     interface UserActionsListener {
 
-        void setUpApplicance(@NonNull BleReferenceAppliance appliance);
+        void setUpApplicance(@NonNull RefAppBleReferenceAppliance appliance);
 
-        void removeSessionPortListener(BleReferenceAppliance appliance);
+        void removeSessionPortListener(RefAppBleReferenceAppliance appliance);
     }
 }

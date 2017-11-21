@@ -10,8 +10,8 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.DeviceMeasurementPort;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.models.Measurement;
 import com.philips.platform.appframework.connectivity.models.MomentDetail;
 import com.philips.platform.appframework.connectivity.models.UserMoment;
@@ -124,7 +124,7 @@ public class ConnectivityPresenter implements ConnectivityContract.UserActionsLi
     }
 
     @Override
-    public void setUpApplicance(@NonNull BleReferenceAppliance appliance) {
+    public void setUpApplicance(@NonNull RefAppBleReferenceAppliance appliance) {
         if (appliance == null) {
             throw new IllegalArgumentException("Cannot create bleReferenceAppliance for provided NetworkNode.");
         }
