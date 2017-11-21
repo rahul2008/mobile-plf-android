@@ -440,6 +440,15 @@
             ]
           },
           {
+            "eventId": "ews",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "ews"
+              }
+            ]
+          },
+          {
             "eventId": "device_pairing",
             "nextStates": [
               {
