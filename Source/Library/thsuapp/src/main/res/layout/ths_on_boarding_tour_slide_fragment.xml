@@ -10,6 +10,7 @@
         android:id="@+id/welcome_slide_fragment_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
         android:orientation="vertical"
         android:paddingLeft="@dimen/activity_vertical_margin"
         android:paddingRight="@dimen/activity_vertical_margin">
@@ -34,7 +35,7 @@
             android:layout_alignParentBottom="true"
             android:lineSpacingExtra="8dp"
             android:textSize="20sp"
-            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textColor="?attr/uidLoginScreenDefaultTextColor"
             android:paddingBottom="80dp"
             android:gravity="start" />
 
