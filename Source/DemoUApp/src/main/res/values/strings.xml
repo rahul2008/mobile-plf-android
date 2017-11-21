@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <string name="app_name_data_sync">Data Services</string>
     <string name="data_sync">Data Sync</string>
@@ -49,7 +49,7 @@
     <string name="sync_date_range">Sync By Date Range</string>
     <string name="start_sync_date_range">Start Sync By Date Range</string>
     <string name="enable_sync">Enable Sync</string>
-    <string name="complete_sync">Complete Sync</string>
+    <string name="complete_sync">Start Complete Sync</string>
     <string name="sync_inProgress">InProgress</string>
     <string name="sync_completed">Sync-Completed</string>
     <string name="sync_failed">Sync-Failed</string>

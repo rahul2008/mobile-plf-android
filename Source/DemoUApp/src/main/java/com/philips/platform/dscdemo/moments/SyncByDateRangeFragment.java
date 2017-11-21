@@ -42,231 +42,236 @@ import java.util.List;
 import java.util.Locale;
 
 public class SyncByDateRangeFragment extends DSBaseFragment
-		implements View.OnClickListener, DBFetchRequestListner<Moment>,
-		DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener, SyncScheduler.UpdateSyncStatus {
+        implements View.OnClickListener, DBFetchRequestListner<Moment>,
+        DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener, SyncScheduler.UpdateSyncStatus {
 
-	private Context mContext;
-	private MomentPresenter mMomentPresenter;
-	private Button btnCompleteSync;
-	private Button btnStartSyncByDateRange;
+    private Context mContext;
+    private MomentPresenter mMomentPresenter;
+    private Button btnCompleteSync;
+    private Button btnStartSyncByDateRange;
 
-	private Date mStartDate;
-	private Date mEndDate;
-	private EditText mMomentStartDateEt;
-	private EditText mMomentEndDateEt;
-	private Calendar myCalendar;
-	private TextView tvSyncStatus;
-
-
-	final DatePickerDialog.OnDateSetListener startDate = new DatePickerDialog.OnDateSetListener() {
-		@Override
-		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-			myCalendar.set(Calendar.YEAR, year);
-			myCalendar.set(Calendar.MONTH, monthOfYear);
-			myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-			try {
-				updateStartDate();
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-		}
-	};
-
-	final DatePickerDialog.OnDateSetListener endDate = new DatePickerDialog.OnDateSetListener() {
-		@Override
-		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-			myCalendar.set(Calendar.YEAR, year);
-			myCalendar.set(Calendar.MONTH, monthOfYear);
-			myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-			try {
-				updateEndDate();
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-		}
-	};
+    private Date mStartDate;
+    private DateTime jodaStartDate;
+    private Date mEndDate;
+    private DateTime jodaEndDate;
+    private EditText mMomentStartDateEt;
+    private EditText mMomentEndDateEt;
+    private Calendar myCalendar;
+    private TextView tvSyncStatus;
 
 
-	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		mMomentPresenter = new MomentPresenter(mContext, this);
-		myCalendar = Calendar.getInstance();
-	}
+    final DatePickerDialog.OnDateSetListener startDate = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            try {
+                updateStartDate();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    };
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.momentsync_by_daterange, container, false);
-		btnCompleteSync = view.findViewById(R.id.btn_completeSync);
-		mMomentStartDateEt = view.findViewById(R.id.et_moment_startDate);
-		mMomentEndDateEt = view.findViewById(R.id.et_moment_endDate);
-		btnStartSyncByDateRange = view.findViewById(R.id.btn_startSyncBy_dateRange);
-		tvSyncStatus = view.findViewById(R.id.tvSyncStatus);
-		ToggleButton mEnableDisableSync = view.findViewById(R.id.toggleButton);
-
-		SyncScheduler.getInstance().setListener(this);
-		if (!SyncScheduler.getInstance().isSyncEnabled()) {
-			mEnableDisableSync.setChecked(false);
-		}
-
-		mEnableDisableSync.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (isChecked) {
-					SyncScheduler.getInstance().setSyncEnable(true);
-					SyncScheduler.getInstance().scheduleSync();
-				} else {
-					SyncScheduler.getInstance().setSyncEnable(false);
-					SyncScheduler.getInstance().stopSync();
-				}
-			}
-		});
-
-		if (SyncScheduler.getInstance().getSyncStatus()) {
-			updateTextView(getString(R.string.sync_inProgress));
-		} else {
-			updateTextView(getString(R.string.sync_stopped));
-		}
-
-		btnCompleteSync.setOnClickListener(this);
-		mMomentStartDateEt.setOnClickListener(this);
-		mMomentEndDateEt.setOnClickListener(this);
-		btnStartSyncByDateRange.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public void onClick(View view) {
-		if (view == btnCompleteSync) {
-			updateTextView(getString(R.string.sync_inProgress));
-			DataServicesManager.getInstance().synchronize();
-		} else if (view == mMomentStartDateEt) {
-			new DatePickerDialog(mContext, startDate, myCalendar
-					.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-					myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-		} else if (view == mMomentEndDateEt) {
-			new DatePickerDialog(mContext, endDate, myCalendar
-					.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-					myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-		} else if (view == btnStartSyncByDateRange) {
-			fetchSyncByDateRange();
-		}
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		DataServicesManager.getInstance().registerDBChangeListener(this);
-		DataServicesManager.getInstance().registerSynchronisationCompleteListener(this);
-	}
-
-	private void fetchSyncByDateRange() {
-		if (mStartDate == null && mEndDate == null) {
-			Toast.makeText(mContext, "Please enter startDate and endDate", Toast.LENGTH_SHORT).show();
-		} else if (mStartDate != null && mEndDate != null && mStartDate.after(mEndDate)) {
-			Toast.makeText(mContext, "Please enter the valid startDate and endDate", Toast.LENGTH_SHORT).show();
-		} else {
-			updateTextView(getString(R.string.sync_inProgress));
-			mMomentPresenter.fetchSyncByDateRange(new DateTime(mStartDate), new DateTime(mEndDate), this);
-		}
-	}
-
-	@Override
-	public void onAttach(Context context) {
-		super.onAttach(context);
-		mContext = context;
-	}
+    final DatePickerDialog.OnDateSetListener endDate = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            try {
+                updateEndDate();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    };
 
 
-	@Override
-	public void onSyncComplete() {
-		updateTextView(getString(R.string.sync_completed));
-	}
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mMomentPresenter = new MomentPresenter(mContext, this);
+        myCalendar = Calendar.getInstance();
+    }
 
-	@Override
-	public void onSyncFailed(Exception exception) {
-		updateTextView(getString(R.string.sync_failed));
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.momentsync_by_daterange, container, false);
+        btnCompleteSync = view.findViewById(R.id.btn_completeSync);
+        mMomentStartDateEt = view.findViewById(R.id.et_moment_startDate);
+        mMomentEndDateEt = view.findViewById(R.id.et_moment_endDate);
+        btnStartSyncByDateRange = view.findViewById(R.id.btn_startSyncBy_dateRange);
+        tvSyncStatus = view.findViewById(R.id.tvSyncStatus);
+        ToggleButton mEnableDisableSync = view.findViewById(R.id.toggleButton);
 
-	@Override
-	public void onFetchSuccess(List<? extends Moment> data) {
+        SyncScheduler.getInstance().setListener(this);
+        if (!SyncScheduler.getInstance().isSyncEnabled()) {
+            mEnableDisableSync.setChecked(false);
+        }
 
-	}
+        mEnableDisableSync.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    SyncScheduler.getInstance().setSyncEnable(true);
+                    SyncScheduler.getInstance().scheduleSync();
+                } else {
+                    SyncScheduler.getInstance().setSyncEnable(false);
+                    SyncScheduler.getInstance().stopSync();
+                }
+            }
+        });
 
-	@Override
-	public void onFetchFailure(Exception exception) {
-	}
+        if (SyncScheduler.getInstance().getSyncStatus()) {
+            updateTextView(getString(R.string.sync_inProgress));
+        } else {
+            updateTextView(getString(R.string.sync_stopped));
+        }
 
-	@Override
-	public void onSuccess(List<? extends Moment> data) {
+        btnCompleteSync.setOnClickListener(this);
+        mMomentStartDateEt.setOnClickListener(this);
+        mMomentEndDateEt.setOnClickListener(this);
+        btnStartSyncByDateRange.setOnClickListener(this);
+        return view;
+    }
 
-	}
+    @Override
+    public void onClick(View view) {
+        if (view == btnCompleteSync) {
+            updateTextView(getString(R.string.sync_inProgress));
+            DataServicesManager.getInstance().synchronize();
+        } else if (view == mMomentStartDateEt) {
+            new DatePickerDialog(mContext, startDate, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+        } else if (view == mMomentEndDateEt) {
+            new DatePickerDialog(mContext, endDate, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+        } else if (view == btnStartSyncByDateRange) {
+            fetchSyncByDateRange();
+        }
+    }
 
-	@Override
-	public void onFailure(Exception exception) {
-	}
+    @Override
+    public void onStart() {
+        super.onStart();
+        DataServicesManager.getInstance().registerDBChangeListener(this);
+        DataServicesManager.getInstance().registerSynchronisationCompleteListener(this);
+    }
 
-	@Override
-	public void dBChangeSuccess(SyncType type) {
-	}
+    private void fetchSyncByDateRange() {
+        jodaStartDate = (mStartDate == null) ? null : new DateTime(mStartDate);
+        jodaEndDate = (mEndDate == null) ? null : new DateTime(mEndDate);
+        if (jodaStartDate != null && jodaEndDate != null) {
+            updateTextView(getString(R.string.sync_inProgress));
+        }
+        mMomentPresenter.fetchSyncByDateRange(jodaStartDate, jodaEndDate, this);
+    }
 
-	@Override
-	public void dBChangeFailed(Exception e) {
-	}
-
-	@Override
-	public int getActionbarTitleResId() {
-		return 0;
-	}
-
-	@Override
-	public String getActionbarTitle() {
-		return null;
-	}
-
-	@Override
-	public boolean getBackButtonState() {
-		return true;
-	}
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
 
-	private void updateStartDate() throws ParseException {
-		String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-		SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
-		String dateAsString = sdf.format(myCalendar.getTime());
-		mMomentStartDateEt.setText(dateAsString);
-		mStartDate = sdf.parse(dateAsString);
-	}
+    @Override
+    public void onSyncComplete() {
+        updateTextView(getString(R.string.sync_completed));
+    }
 
-	private void updateEndDate() throws ParseException {
-		String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-		SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
-		String dateAsString = sdf.format(myCalendar.getTime());
-		mMomentEndDateEt.setText(dateAsString);
-		mEndDate = sdf.parse(dateAsString);
-	}
+    @Override
+    public void onSyncFailed(Exception exception) {
+        if (exception.getClass().getSimpleName().equalsIgnoreCase("SyncException")) {
+            Toast.makeText(mContext, exception.getMessage(), Toast.LENGTH_LONG).show();
+        } else {
+            updateTextView(getString(R.string.sync_failed));
+        }
 
-	private void updateTextView(final String text) {
-		getActivity().runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				tvSyncStatus.setText(text);
-			}
-		});
-	}
+    }
 
-	@Override
-	public void onStop() {
-		super.onStop();
-		DataServicesManager.getInstance().unRegisterDBChangeListener();
-		DataServicesManager.getInstance().unRegisterSynchronisationCosmpleteListener();
-	}
+    @Override
+    public void onFetchSuccess(List<? extends Moment> data) {
 
-	@Override
-	public void onSyncStatusChanged(boolean isRunning) {
-		if (isRunning) {
-			updateTextView(getString(R.string.sync_inProgress));
-		} else {
-			updateTextView(getString(R.string.sync_stopped));
-		}
-	}
+    }
+
+    @Override
+    public void onFetchFailure(Exception exception) {
+    }
+
+    @Override
+    public void onSuccess(List<? extends Moment> data) {
+
+    }
+
+    @Override
+    public void onFailure(Exception exception) {
+    }
+
+    @Override
+    public void dBChangeSuccess(SyncType type) {
+    }
+
+    @Override
+    public void dBChangeFailed(Exception e) {
+    }
+
+    @Override
+    public int getActionbarTitleResId() {
+        return 0;
+    }
+
+    @Override
+    public String getActionbarTitle() {
+        return null;
+    }
+
+    @Override
+    public boolean getBackButtonState() {
+        return true;
+    }
+
+
+    private void updateStartDate() throws ParseException {
+        String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
+        String dateAsString = sdf.format(myCalendar.getTime());
+        mMomentStartDateEt.setText(dateAsString);
+        mStartDate = sdf.parse(dateAsString);
+    }
+
+    private void updateEndDate() throws ParseException {
+        String myFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
+        String dateAsString = sdf.format(myCalendar.getTime());
+        mMomentEndDateEt.setText(dateAsString);
+        mEndDate = sdf.parse(dateAsString);
+    }
+
+    private void updateTextView(final String text) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                tvSyncStatus.setText(text);
+            }
+        });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        DataServicesManager.getInstance().unRegisterDBChangeListener();
+        DataServicesManager.getInstance().unRegisterSynchronisationCosmpleteListener();
+    }
+
+    @Override
+    public void onSyncStatusChanged(boolean isRunning) {
+        if (isRunning) {
+            updateTextView(getString(R.string.sync_inProgress));
+        } else {
+            updateTextView(getString(R.string.sync_stopped));
+        }
+    }
 }

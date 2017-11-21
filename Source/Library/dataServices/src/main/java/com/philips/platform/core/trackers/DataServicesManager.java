@@ -219,7 +219,7 @@ public class DataServicesManager {
         clearExpiredMoments(null);
         synchronized (this) {
             startMonitors();
-            mSynchronisationManager.startSync(null, null, mSynchronisationCompleteListener);
+            mSynchronisationManager.startSync(mSynchronisationCompleteListener);
         }
     }
 

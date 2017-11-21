@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
-import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.listener.ConsentResponseListener;
@@ -21,6 +20,7 @@ import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.core.utils.DataServicesConstants;
 import com.philips.platform.datasync.UserAccessProvider;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
 import com.philips.platform.datasync.consent.ConsentDataSender;
@@ -198,8 +198,8 @@ public class DataPushSynchronise extends EventMonitor {
     private CatkInputs getCatkInputs() {
         CatkInputs catkInputs = new CatkInputs();
         catkInputs.setAppInfra(mDataServicesManager.getAppInfra());
-        catkInputs.setApplicationName(CatkConstants.APPLICATION_NAME);
-        catkInputs.setPropositionName(CatkConstants.PROPOSITION_NAME);
+        catkInputs.setApplicationName(DataServicesConstants.APPLICATION_NAME);
+        catkInputs.setPropositionName(DataServicesConstants.PROPOSITION_NAME);
         return catkInputs;
     }
 
