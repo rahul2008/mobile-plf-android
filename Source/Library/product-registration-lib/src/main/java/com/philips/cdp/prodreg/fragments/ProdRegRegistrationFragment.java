@@ -37,6 +37,7 @@ import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.ui.traditional.*;
+import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uid.text.utils.UIDClickableSpan;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -79,25 +80,28 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     AlertDialogFragment alertDialogFragment;
     Bundle bundle;
     private boolean isFirstLaunch;
+    private String purchaseDateStr;
+    ProdRegUtil prodRegUtil;
+
 
     @SuppressWarnings("SimpleDateFormat")
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
             final int mMonthInt = (arg2 + 1);
-            final ProdRegUtil prodRegUtil = new ProdRegUtil();
             String mMonth = prodRegUtil.getValidatedString(mMonthInt);
             String mDate = prodRegUtil.getValidatedString(arg3);
-            SimpleDateFormat dateFormat = new SimpleDateFormat(getResources().getString(R.string.date_format));
+            SimpleDateFormat dateFormat = new SimpleDateFormat(ProdRegConstants.PROD_REG_DATE_FORMAT_SERVER);
             dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
             final Calendar mCalendar = Calendar.getInstance();
             final String mGetDeviceDate = dateFormat.format(mCalendar.getTime());
             try {
-                final String text =  mDate + "-" + mMonth + "-" + arg1;
+                final String text =  arg1 + "-" + mMonth + "-" + mDate;
                 final Date mDisplayDate = dateFormat.parse(text);
                 final Date mDeviceDate = dateFormat.parse(mGetDeviceDate);
                 if (!mDisplayDate.after(mDeviceDate)) {
-                    date_EditText.setText(text);
+                    purchaseDateStr = text;
+                    date_EditText.setText(prodRegUtil.getDisplayDate(text));
                     prodRegRegistrationController.isValidDate(text);
                 }
             } catch (ParseException e) {
@@ -173,9 +177,10 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         date_input_field.setValidator(new InputValidationLayout.Validator() {
             @Override
             public boolean validate(CharSequence charSequence) {
-                return prodRegRegistrationController.isValidDate(date_EditText.getText().toString());
+                return prodRegRegistrationController.isValidDate(purchaseDateStr);
             }
         });
+        prodRegUtil = new ProdRegUtil();
 
         return view;
     }
@@ -287,7 +292,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             @Override
             public void onFocusChange(final View v, final boolean hasFocus) {
                 if (!hasFocus)
-                    prodRegRegistrationController.isValidDate(date_EditText.getText().toString());
+                    prodRegRegistrationController.isValidDate(purchaseDateStr);
             }
         });
     }
@@ -335,8 +340,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                     int mYear;
                     int mMonthInt;
                     int mDay;
-                    if (!date_EditText.getText().toString().equalsIgnoreCase("")) {
-                        final String[] mEditDisplayDate = date_EditText.getText().toString().split("-");
+                    if (!purchaseDateStr.equalsIgnoreCase("")) {
+                        final String[] mEditDisplayDate = purchaseDateStr.toString().split("-");
                         mYear = Integer.parseInt(mEditDisplayDate[0]);
                         mMonthInt = Integer.parseInt(mEditDisplayDate[1]) - 1;
                         mDay = Integer.parseInt(mEditDisplayDate[2]);
@@ -348,7 +353,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                     }
                     datePickerDialog = new DatePickerDialog(mActivity,R.style.UIDDatePickerDialogTheme,
                             myDateListener, mYear, mMonthInt, mDay);
-                    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmmm:ss.SSSZ",Locale.ENGLISH);
+                    DateFormat formatter = new SimpleDateFormat(ProdRegConstants.PROD_REG_DATE_FORMAT_SERVER,Locale.ENGLISH);
 
                     long dateInLong =0;
                     try {
@@ -460,7 +465,8 @@ String imageURL;
 
     @Override
     public void setProductView(final RegisteredProduct registeredProduct) {
-        date_EditText.setText(registeredProduct.getPurchaseDate());
+        purchaseDateStr = registeredProduct.getPurchaseDate();
+        date_EditText.setText(prodRegUtil.getDisplayDate(registeredProduct.getPurchaseDate()));
         field_serial.setText(registeredProduct.getSerialNumber());
         final String productCtn = registeredProduct.getCtn();
         if (!TextUtils.isEmpty(registeredProduct.getCtn())) {
@@ -530,12 +536,12 @@ String imageURL;
             Button closeDialog = (Button) view.findViewById(R.id.closeButton);
             if (!TextUtils.isEmpty(registeredProduct.getPurchaseDate())) {
                 serialNumberRegisteredOn.setVisibility(View.VISIBLE);
-                serialNumberRegisteredOn.setText(generateSpannableText(getString(R.string.PRG_registered_on)," " + registeredProduct.getPurchaseDate()));
+                serialNumberRegisteredOn.setText(prodRegUtil.generateSpannableText(getString(R.string.PRG_registered_on)," " + prodRegUtil.getDisplayDate(registeredProduct.getPurchaseDate())));
 
             }
             if (!TextUtils.isEmpty(registeredProduct.getEndWarrantyDate())) {
                 serialNumberWarranty.setVisibility(View.VISIBLE);
-                serialNumberWarranty.setText(generateSpannableText(getString(R.string.PRG_warranty_until)," " + registeredProduct.getEndWarrantyDate()));
+                serialNumberWarranty.setText(prodRegUtil.generateSpannableText(getString(R.string.PRG_warranty_until)," " + prodRegUtil.getDisplayDate(registeredProduct.getEndWarrantyDate())));
             }
             changeSerialNumber.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -558,12 +564,7 @@ String imageURL;
 
     }
 
-   SpannableString generateSpannableText(String normal,String bold){
-       int length= normal.length()+bold.length();
-        SpannableString str = new SpannableString(normal +bold);
-        str.setSpan(new StyleSpan(Typeface.BOLD), normal.length(),length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return str;
-    }
+
 
 
     @Override
@@ -595,7 +596,7 @@ String imageURL;
             if (!mProgressDialog.isShowing()) {
                 mProgressDialog.show();
                 isRegisterButtonClicked = true;
-                prodRegRegistrationController.registerProduct(date_EditText.getText().toString(),
+                prodRegRegistrationController.registerProduct(purchaseDateStr,
                         field_serial.getText().toString());
             }
 

@@ -46,6 +46,8 @@ public class ProdRegConstants {
     public static final String PROD_REG_CTN="ctn_number";
     public static final String PROD_REG_TITLE="prod_title";
     public static final String PROD_REG_WARRANTY="ctn_number";
+    public static final String PROD_REG_DATE_FORMAT_SERVER = "yyyy-MM-dd";
+    public static final String PROD_REG_DATE_FORMAT_UI = "dd-MM-yyyy";
 
 
 
