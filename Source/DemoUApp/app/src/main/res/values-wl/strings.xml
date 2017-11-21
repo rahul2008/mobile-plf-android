@@ -25,8 +25,11 @@
     <string name="label_ews_support_setup_access_point_title">Try setting up regardless</string>
     <string name="label_ews_support_setup_access_point_body">Usually you can setup device in this state, Please try setting it up. Otherwise, try to enable setup mode again.</string>
 
-    <string name="label_ews_support_wrong_phone_title">Accidently connected with wrong phone?</string>
-    <string name="label_ews_support_wrong_phone_body">If your device has been connected to another phone by accident, then you can try to set it up again with the correct phone.</string>
-    <string name="label_ews_support_wrong_phone_question">Do you see this screen?</string>
+    <string name="label_ews_connect_to_wrongphone_title">Accidently connected with wrong phone?</string>
+    <string name="label_ews_connect_to_wrongphone_body">If your device has been connected to another phone by accident, then you can try to set it up again with the correct phone.</string>
+    <string name="label_ews_connect_to_wrongphone_question">Do you see this screen?</string>
+    <string name="ews">EWS !</string>
+    <string name="select_configuration">Select Configuration:</string>
+    <string name="change_theme">Change Theme</string>
 
 </resources>
