@@ -3,7 +3,7 @@ package com.philips.platform.csw.permission;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.model.Consent;
-import com.philips.platform.csw.ConsentDefinition;
+import com.philips.platform.catk.model.ConsentDefinition;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class CreateConsentInteractorTest {
 
     private CreateConsentInteractor subject;
     @Mock private ConsentAccessToolKit mockCatk;
-    private ConsentView givenConsentView;
+    private ConsentDefinition givenConsentDefinition;
     @Captor
     private ArgumentCaptor<Consent> captorConsent;
 
@@ -33,7 +33,7 @@ public class CreateConsentInteractorTest {
     @Test
     public void itShouldCallCreateConsentOnTheCatk() throws Exception {
         givenCreateConsentInteractor();
-        givenConsentViewWithLocale(Locale.getDefault());
+        givenConsentDefinition(Locale.getDefault());
         whenCallingCreateConsentInGivenState(true);
         thenCreateConsentIsCalledOnTheCatk();
     }
@@ -41,7 +41,7 @@ public class CreateConsentInteractorTest {
     @Test(expected = IllegalStateException.class)
     public void itShouldThrowIllegalStateWhenUsingDefinitionWithLocaleThatIsMissingCountry() throws Exception {
         givenCreateConsentInteractor();
-        givenConsentViewWithLocale(new Locale("nl", ""));
+        givenConsentDefinition(new Locale("nl", ""));
         whenCallingCreateConsentInGivenState(true);
         thenCreateConsentIsCalledOnTheCatk();
     }
@@ -49,7 +49,7 @@ public class CreateConsentInteractorTest {
     @Test(expected = IllegalStateException.class)
     public void itShouldThrowIllegalStateWhenUsingDefinitionWithLocaleThatIsMissingLanguage() throws Exception {
         givenCreateConsentInteractor();
-        givenConsentViewWithLocale(new Locale("", "NL"));
+        givenConsentDefinition(new Locale("", "NL"));
         whenCallingCreateConsentInGivenState(true);
         thenCreateConsentIsCalledOnTheCatk();
     }
@@ -58,12 +58,12 @@ public class CreateConsentInteractorTest {
         subject = new CreateConsentInteractor(mockCatk);
     }
 
-    private void givenConsentViewWithLocale(Locale locale) {
-        givenConsentView = new ConsentView(new ConsentDefinition("text", "help", "moment", 0, locale));
+    private void givenConsentDefinition(Locale locale) {
+        givenConsentDefinition = new ConsentDefinition("text", "help", "moment", 0, locale);
     }
 
     private void whenCallingCreateConsentInGivenState(boolean checked) {
-        subject.createConsentStatus(givenConsentView, checked);
+        subject.createConsentStatus(givenConsentDefinition, checked);
     }
 
     private void thenCreateConsentIsCalledOnTheCatk() {

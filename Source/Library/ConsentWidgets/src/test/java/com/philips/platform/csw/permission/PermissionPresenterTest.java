@@ -14,12 +14,14 @@ public class PermissionPresenterTest {
     @Mock
     PermissionInterface mockPermissionInterface;
     @Mock
-    GetConsentInteractor mockInteractor;
+    GetConsentInteractor mockGetInteractor;
+    @Mock
+    CreateConsentInteractor mockCreateInteractor;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, mockInteractor, createConsentInteractor);
+        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, mockGetInteractor, mockCreateInteractor);
     }
 
     @Test
@@ -31,7 +33,7 @@ public class PermissionPresenterTest {
     @Test
     public void testGetConsentsIsCalledOnInteractor() throws Exception {
         mPermissionPresenter.getConsentStatus();
-        Mockito.verify(mockInteractor).getConsents(mPermissionPresenter);
+        Mockito.verify(mockGetInteractor).getConsents(mPermissionPresenter);
     }
 
     @Test
