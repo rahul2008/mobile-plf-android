@@ -21,36 +21,36 @@ class GetConsentInteractor {
     }
 
     @NonNull
-    private final ConsentAccessToolKit instance;
+    private final ConsentAccessToolKit consentAccessToolKit;
     @NonNull
     private final List<ConsentView> consentDefinitionList;
 
-    GetConsentInteractor(@NonNull final ConsentAccessToolKit instance, @NonNull final List<ConsentView> consentDefinitionList) {
-        this.instance = instance;
+    GetConsentInteractor(@NonNull final ConsentAccessToolKit consentAccessToolKit, @NonNull final List<ConsentView> consentDefinitionList) {
+        this.consentAccessToolKit = consentAccessToolKit;
         this.consentDefinitionList = consentDefinitionList;
     }
 
     void getConsents(@NonNull final Callback callback) {
-        instance.getConsentDetails(new ConsentViewResponseListener(consentDefinitionList, callback));
+        consentAccessToolKit.getConsentDetails(new ConsentViewResponseListener(consentDefinitionList, callback));
     }
 
     class ConsentViewResponseListener implements ConsentResponseListener {
 
         private List<ConsentView> consentViews;
-        private Callback listener;
+        private Callback callback;
 
-        ConsentViewResponseListener(@NonNull final List<ConsentView> consentViews, @NonNull final Callback listener) {
+        ConsentViewResponseListener(@NonNull final List<ConsentView> consentViews, @NonNull final Callback callback) {
             this.consentViews = consentViews;
-            this.listener = listener;
+            this.callback = callback;
         }
 
         @Override
         public void onResponseSuccessConsent(List<Consent> responseData) {
             if (responseData != null && !responseData.isEmpty()) {
                 filterConsentsByDefinitions(responseData);
-                listener.onConsentRetrieved(consentViews);
+                callback.onConsentRetrieved(consentViews);
             } else {
-                this.listener.onConsentFailed(-1);
+                this.callback.onConsentFailed(-1);
                 CswLogger.d(" Consent : ", "no consent for type found on server");
             }
         }
@@ -58,7 +58,7 @@ class GetConsentInteractor {
         @Override
         public int onResponseFailureConsent(int consentError) {
             CswLogger.d(" Consent : ", "response failure:" + consentError);
-            this.listener.onConsentFailed(consentError);
+            this.callback.onConsentFailed(consentError);
             return 0;
         }
 
