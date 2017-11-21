@@ -9,6 +9,10 @@ import android.support.annotation.Nullable;
 
 import com.philips.cdp.dicommclient.request.Error;
 
+/**
+ * @param <P> The type of DICommPort to subscribe to.
+ * @publicApi
+ */
 public interface DICommPortListener<P extends DICommPort> {
 
     /**
@@ -29,6 +33,13 @@ public interface DICommPortListener<P extends DICommPort> {
      */
     void onPortUpdate(P port);
 
+    /**
+     * Called when an action to a port was not completed or returned an error.
+     * The <code>error</code> parameter contains additional information about the issue.
+     * @param port P
+     * @param error Error
+     * @param errorData String
+     */
     void onPortError(P port, Error error, @Nullable String errorData);
 
 }

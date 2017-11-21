@@ -15,6 +15,7 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.cloud.communication.CloudCommunicationStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.context.TransportContext;
@@ -28,6 +29,10 @@ import static android.net.ConnectivityManager.TYPE_MOBILE;
 import static android.net.ConnectivityManager.TYPE_WIFI;
 
 /**
+ * Concrete implementation for a transport layer.
+ * <p>
+ * Used make a {@link CloudCommunicationStrategy}
+ * for {@link Appliance}s using that transport.
  * @publicApi
  */
 public class CloudTransportContext implements TransportContext<CloudTransportContext> {
@@ -63,6 +68,10 @@ public class CloudTransportContext implements TransportContext<CloudTransportCon
 
     private boolean isAvailable;
 
+    /**
+     * @param runtimeConfiguration RuntimeConfiguration
+     * @param cloudController CloudController
+     */
     public CloudTransportContext(final @NonNull RuntimeConfiguration runtimeConfiguration, @NonNull final CloudController cloudController) {
         this.connectivityMonitor = ConnectivityMonitor.forNetworkTypes(runtimeConfiguration.getContext(), TYPE_MOBILE, TYPE_WIFI);
         this.connectivityMonitor.addAvailabilityListener(availabilityListener);
@@ -114,6 +123,9 @@ public class CloudTransportContext implements TransportContext<CloudTransportCon
         availabilityListeners.remove(listener);
     }
 
+    /**
+     * @return CloudController The instance
+     */
     public static CloudController getCloudController() {
         return cloudController;
     }

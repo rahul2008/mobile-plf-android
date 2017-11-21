@@ -13,7 +13,6 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.port.common.PairingPort;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
-import com.philips.cdp.dicommclient.port.common.WifiUIPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CombinedCommunicationStrategy;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
@@ -38,7 +37,6 @@ public abstract class Appliance implements Availability<Appliance> {
     private final FirmwarePort firmwarePort;
     private final PairingPort pairingPort;
     private final WifiPort wifiPort;
-    private final WifiUIPort wifiUIPort;
 
     protected final CommunicationStrategy communicationStrategy;
 
@@ -70,13 +68,11 @@ public abstract class Appliance implements Availability<Appliance> {
         firmwarePort = new FirmwarePort(this.communicationStrategy);
         pairingPort = new PairingPort(this.communicationStrategy);
         wifiPort = new WifiPort(this.communicationStrategy);
-        wifiUIPort = new WifiUIPort(this.communicationStrategy);
 
         addPort(devicePort);
         addPort(firmwarePort);
         addPort(pairingPort);
         addPort(wifiPort);
-        addPort(wifiUIPort);
     }
 
     /**
@@ -152,10 +148,6 @@ public abstract class Appliance implements Availability<Appliance> {
 
     public WifiPort getWifiPort() {
         return wifiPort;
-    }
-
-    public WifiUIPort getWifiUIPort() {
-        return wifiUIPort;
     }
 
     public Set<DICommPort> getAllPorts() {

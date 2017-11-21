@@ -6,6 +6,7 @@
 package com.philips.cdp.dicommclient.request;
 
 /**
+ * Definition of error messages used in this library
  * @publicApi
  */
 public enum Error {
@@ -42,6 +43,10 @@ public enum Error {
         mErrorMessage = errorMessage;
     }
 
+    /**
+     * Returns the error messages associated to the Error as a String.
+     * @return String The error message
+     */
     public String getErrorMessage() {
         return mErrorMessage;
     }

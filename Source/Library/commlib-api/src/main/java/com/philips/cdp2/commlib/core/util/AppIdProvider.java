@@ -20,7 +20,14 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 public class AppIdProvider {
 
+    /**
+     * Indicates that the AppId has changed.
+     */
     public interface AppIdListener {
+        /**
+         * Called when the AppId has changed.
+         * @param appId String The appId after it was updated.
+         */
         void onAppIdChanged(final String appId);
     }
 
