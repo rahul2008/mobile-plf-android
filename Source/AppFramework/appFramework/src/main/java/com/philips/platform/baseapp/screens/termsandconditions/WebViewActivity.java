@@ -122,10 +122,10 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
                 showWebPage(url);
                 break;
             case LOW_DEEP_SLEEP_ARTICLE_CLICKED:
-                termsAndConditionsAction.loadArticle("app.articlehighsleepscore",LOW_DEEPSLEEPSCORE);
+                termsAndConditionsAction.loadArticle("app.articlesdeepsleepscore",LOW_DEEPSLEEPSCORE);
                 break;
             case HIGH_DEEP_SLEEP_ARTICLE_CLICKED:
-                termsAndConditionsAction.loadArticle("app.articlehighsleepscore",HIGH_DEEPSLEEPSCORE);
+                termsAndConditionsAction.loadArticle("app.articlesdeepsleepscore",HIGH_DEEPSLEEPSCORE);
                 break;
             default:
                 showToast("Action event not recognized");

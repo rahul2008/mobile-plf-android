@@ -124,7 +124,7 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
     public void savePowerSleepMomentsData(List<Session> sessionList) {
         List<Moment> momentList = new ArrayList<>();
         for (Session session : sessionList) {
-            momentList.add(createMoment("", "86", "" + session.getSummary().getDeepSleepTime(), "" + session.getSummary().getTotalSleepTime(), new DateTime(session.getDate().getTime()), ""));
+            momentList.add(createMoment("86", "" + session.getSummary().getDeepSleepTime(), "" + session.getSummary().getTotalSleepTime(), new DateTime(session.getDate().getTime()), ""));
         }
         dataServicesManager.saveMoments(momentList, new DBRequestListener<Moment>() {
             @Override
@@ -141,7 +141,7 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
         });
     }
 
-    protected Moment createMoment(String momemtDetail, String dstScore, String deepSleepTime, String sleepTime, DateTime dateTime, String measurementDetail) {
+    protected Moment createMoment(String dstScore, String deepSleepTime, String sleepTime, DateTime dateTime, String measurementDetail) {
         Moment moment = this.dataServicesManager.createMoment(MomentType.SLEEP_SESSION);
         moment.setDateTime(dateTime);
 
@@ -150,10 +150,10 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
         Measurement deepSleepTimeMeasurement;
         Measurement sleepTimeMeasurement;
         Measurement dstScoreMeasurement;
-        dataServicesManager.createMomentDetail(MomentDetailType.DEVICE_SERIAL, "3249879989", moment);
-        dataServicesManager.createMomentDetail(MomentDetailType.CTN, "HX506", moment);
-        dataServicesManager.createMomentDetail(MomentDetailType.FW_VERSION, "283749", moment);
-        dataServicesManager.createMomentDetail(MomentDetailType.MOMENT_VERSION, "2", moment);
+        dataServicesManager.createMomentDetail(MomentDetailType.DEVICE_SERIAL, "", moment);
+        dataServicesManager.createMomentDetail(MomentDetailType.CTN, "", moment);
+        dataServicesManager.createMomentDetail(MomentDetailType.FW_VERSION, "", moment);
+        dataServicesManager.createMomentDetail(MomentDetailType.MOMENT_VERSION, "1", moment);
         measurementGroup = dataServicesManager.createMeasurementGroup(moment);
         dataServicesManager.createMeasurementGroupDetail(MeasurementGroupDetailType.REFERENCE_GROUP_ID, measurementDetail, measurementGroup);
         measurementGroupInside = dataServicesManager.createMeasurementGroup(measurementGroup);

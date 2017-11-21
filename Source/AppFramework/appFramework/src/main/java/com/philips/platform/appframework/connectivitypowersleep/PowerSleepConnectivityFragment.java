@@ -383,6 +383,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
 
     @Override
     public void dBChangeSuccess(SyncType syncType) {
+        DataServicesManager.getInstance().synchronize();
         populateScreenWithLatestDataAvailable();
     }
 
