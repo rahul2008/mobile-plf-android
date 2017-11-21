@@ -49,9 +49,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_image_top_margin"
-                android:background="@drawable/ews_product_bg_orig"
-                android:contentDescription="@null"
-                app:setAnimationDrawable="@{viewModel.image}" />
+                android:src="@{viewModel.image}"
+                android:contentDescription="@null" />
 
             <Space
                 android:layout_width="match_parent"

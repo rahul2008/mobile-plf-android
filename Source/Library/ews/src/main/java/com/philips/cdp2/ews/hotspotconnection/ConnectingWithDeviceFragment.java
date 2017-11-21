@@ -115,7 +115,7 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
 
             }
         });
-        alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
+        alertDialogFragment.showAllowingStateLoss(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
         getChildFragmentManager().executePendingTransactions();
         ((Label) view.findViewById(R.id.connection_problem_please_step2)).setText(getString(R.string.label_ews_connection_problem_please_step2, getString(baseContentConfiguration.getDeviceName())));
         ((Label) view.findViewById(R.id.connection_problem_please_step3)).setText(getString(R.string.label_ews_connection_problem_please_step3, getString(baseContentConfiguration.getDeviceName())));

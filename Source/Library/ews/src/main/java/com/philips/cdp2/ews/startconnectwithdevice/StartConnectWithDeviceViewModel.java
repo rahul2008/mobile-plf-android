@@ -6,6 +6,7 @@
 package com.philips.cdp2.ews.startconnectwithdevice;
 
 import android.databinding.ObservableField;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
@@ -31,11 +32,13 @@ public class StartConnectWithDeviceViewModel {
     public final ObservableField<String> body;
     @NonNull
     public final ObservableField<String> description;
-
+    @NonNull
+    public final Drawable image;
     @NonNull
     private final Navigator navigator;
     @NonNull
     private final StringProvider stringProvider;
+    @VisibleForTesting
     @Inject
     EventingChannel<EventingChannel.ChannelCallback> ewsEventingChannel;
 
@@ -49,6 +52,7 @@ public class StartConnectWithDeviceViewModel {
         title = new ObservableField<>(getTitle(happyFlowConfig, baseConfig));
         body = new ObservableField<>(getBody(baseConfig));
         description = new ObservableField<>(getDescription(baseConfig));
+        image = getImage(happyFlowConfig);
     }
 
     @VisibleForTesting
@@ -71,6 +75,12 @@ public class StartConnectWithDeviceViewModel {
     public String getBody(@NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(R.string.label_ews_get_started_body,
                 baseConfig.getDeviceName());
+    }
+
+    @NonNull
+    @VisibleForTesting
+    Drawable getImage(@NonNull HappyFlowContentConfiguration happyFlowContentConfiguration) {
+        return stringProvider.getImageResource(happyFlowContentConfiguration.getGettingStartedScreenImage());
     }
 
     public void onGettingStartedButtonClicked() {

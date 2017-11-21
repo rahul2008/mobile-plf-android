@@ -41,7 +41,7 @@ public class TroubleShootContentConfigurationTest {
 
     @Test
     public void itShouldVerifyResetConnectionImage() throws Exception{
-        assertEquals(subject.getResetConnectionImage(), R.drawable.ic_ews_wrong_phone_connected);
+        assertEquals(subject.getResetConnectionImage(), R.drawable.philips_logo_default);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class TroubleShootContentConfigurationTest {
 
     @Test
     public void itShouldVerifyResetDeviceConnectionImage() throws Exception{
-        assertEquals(subject.getResetDeviceImage(), R.drawable.ic_ews_wrong_phone_connected);
+        assertEquals(subject.getResetDeviceImage(), R.drawable.philips_logo_default);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class TroubleShootContentConfigurationTest {
 
     @Test
     public void itShouldSetupAccessPointImage() throws Exception{
-        assertEquals(subject.getSetUpAccessPointImage(), R.drawable.ic_ews_wrong_phone_connected);
+        assertEquals(subject.getSetUpAccessPointImage(), R.drawable.philips_logo_default);
     }
 
     @Test
@@ -86,7 +86,7 @@ public class TroubleShootContentConfigurationTest {
 
     @Test
     public void itShouldConnectWrongPhoneImage() throws Exception{
-        assertEquals(subject.getConnectWrongPhoneImage(), R.drawable.ic_ews_wrong_phone_connected);
+        assertEquals(subject.getConnectWrongPhoneImage(), R.drawable.philips_logo_default);
     }
 
     @Test
