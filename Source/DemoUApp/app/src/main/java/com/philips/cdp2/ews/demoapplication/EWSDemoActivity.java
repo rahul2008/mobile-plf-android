@@ -43,15 +43,15 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
     private SharedPreferences defaultSharedPreferences;
     private OptionSelectionFragment optionSelectionFragment;
 
-    public ColorRange colorRange = ColorRange.GROUP_BLUE;
-    public ContentColor contentColor = ContentColor.VERY_DARK;
-    public AccentRange accentColorRange = AccentRange.ORANGE;
-    public NavigationColor navigationColor = NavigationColor.VERY_DARK;
+    private ColorRange colorRange = ColorRange.GROUP_BLUE;
+    private ContentColor contentColor = ContentColor.VERY_DARK;
+    private AccentRange accentColorRange = AccentRange.ORANGE;
+    private NavigationColor navigationColor = NavigationColor.VERY_DARK;
 
     private EWSLauncherInput ewsLauncherInput;
     private ThemeHelper themeHelper;
     private ImageView closeImageView;
-
+    private final int TOOLBAR_UPDATE_TIMER = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,10 +159,7 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
     }
 
     private void showConfigurationOptScreen() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.mainContainer, optionSelectionFragment)
-                .commit();
-        updateActionBar();
+        fragmentReplace(optionSelectionFragment);
     }
 
     public void updateContentColor(ContentColor contentColor) {
@@ -185,7 +182,7 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
     private void saveThemeValues(final String key, final String name) {
         final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
         edit.putString(key, name);
-        edit.commit();
+        edit.apply();
     }
 
     public void saveThemeSettings() {
@@ -208,7 +205,11 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
     }
 
     public void openThemeScreen() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, new ThemeSettingsFragment()).commit();
+        fragmentReplace(new ThemeSettingsFragment());
+    }
+
+    private void fragmentReplace(Fragment newFragment) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, newFragment).commit();
         updateActionBar();
     }
 
@@ -220,36 +221,36 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
                 hideShowImageView();
                 isThemeScreen();
             }
-        }, 500);
+        }, TOOLBAR_UPDATE_TIMER);
     }
 
     @Override
-    public void closeButton(boolean visibility) {
-        findViewById(R.id.ic_close).setVisibility(visibility ? View.VISIBLE : View.GONE);
+    public void closeButton(boolean isVisible) {
+        findViewById(R.id.ic_close).setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
 
-    public void setToolbarTitle(String s) {
+    public void setToolbarTitle(String title) {
         Toolbar toolbar = findViewById(R.id.ews_toolbar);
-        ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText(s);
+        ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText(title);
     }
 
     @Override
-    public void updateActionBar(int i, boolean b) {
-        setToolbarTitle(getString(i));
+    public void updateActionBar(int stringResId, boolean b) {
+        setToolbarTitle(getString(stringResId));
     }
 
     @Override
-    public void updateActionBar(String s, boolean b) {
-        setToolbarTitle(s);
+    public void updateActionBar(String title, boolean b) {
+        setToolbarTitle(title);
     }
 
-    void restartActivity() {
+    private void restartActivity() {
         injectNewTheme(colorRange, contentColor, navigationColor, accentColorRange);
         Intent intent = new Intent(this, EWSDemoActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
-    public void injectNewTheme(ColorRange colorRange, ContentColor contentColor, NavigationColor navigationColor, AccentRange accentRange) {
+    private void injectNewTheme(ColorRange colorRange, ContentColor contentColor, NavigationColor navigationColor, AccentRange accentRange) {
         if (colorRange != null) {
             this.colorRange = colorRange;
         }

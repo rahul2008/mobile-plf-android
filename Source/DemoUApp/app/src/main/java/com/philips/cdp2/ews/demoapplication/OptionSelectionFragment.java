@@ -181,9 +181,7 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
                 case 2:
                     updateCurrentContent(AIRPURIFIER);
                     break;
-                case 0:
                 default:
-                    updateCurrentContent("");
                     break;
             }
         }

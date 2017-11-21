@@ -9,7 +9,7 @@ import com.philips.platform.uid.thememanager.AccentRange;
 
 import java.util.ArrayList;
 
-public class AccentOptions {
+public final class AccentOptions {
     public static ArrayList<AccentRange> getGroupBlueAccentList() {
         ArrayList<AccentRange> list = new ArrayList<>();
         list.add(AccentRange.AQUA);
