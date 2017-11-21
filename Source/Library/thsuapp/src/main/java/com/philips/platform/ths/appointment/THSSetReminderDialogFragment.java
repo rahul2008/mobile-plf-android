@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.americanwell.sdk.entity.consumer.RemindOptions;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -28,13 +29,41 @@ public class THSSetReminderDialogFragment extends DialogFragment implements View
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_set_reminder_dialog_fragment, container, false);
-        radioGroup = (RadioGroup) view.findViewById(R.id.ths_reminder_radio_group);
-        Button set_reminder_confirmation_button = (Button) view.findViewById(R.id.set_reminder_confirmation_button);
-        Button cancel_reminder_dialog = (Button) view.findViewById(R.id.cancel_reminder_dialog);
+        radioGroup = view.findViewById(R.id.ths_reminder_radio_group);
+        Button set_reminder_confirmation_button = view.findViewById(R.id.set_reminder_confirmation_button);
+        Button cancel_reminder_dialog = view.findViewById(R.id.cancel_reminder_dialog);
         set_reminder_confirmation_button.setOnClickListener(this);
         cancel_reminder_dialog.setOnClickListener(this);
-        radioGroup.check(R.id.ths_rb_15_mins);
+        final RemindOptions reminderOptions = thsDialogFragmentCallback.getReminderOptions();
+        setReminder(reminderOptions);
         return view;
+    }
+
+    public void setReminder(RemindOptions reminderOptions){
+        switch (reminderOptions){
+            case EIGHT_HOURS:
+                radioGroup.check(R.id.ths_rb_eight_hours);
+                break;
+            case ONE_DAY:
+                radioGroup.check(R.id.ths_rb_one_day);
+                break;
+            case NO_REMINDER:
+                radioGroup.check(R.id.ths_rb_no_reminder);
+                break;
+            case FIFTEEN_MIN:
+                radioGroup.check(R.id.ths_rb_15_mins);
+                break;
+            case ONE_HOUR:
+                radioGroup.check(R.id.ths_rb_one_hour);
+                break;
+            case FOUR_HOURS:
+                radioGroup.check(R.id.ths_rb_four_hours);
+                break;
+            case ONE_WEEK:
+                radioGroup.check(R.id.ths_rb_one_week);
+                break;
+        }
+        radioGroup.setSelected(true);
     }
 
     @Override
