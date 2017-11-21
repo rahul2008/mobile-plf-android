@@ -70,9 +70,14 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     private MergeSocialToSocialAccountPresenter mergeSocialToSocialAccountPresenter;
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         URInterface.getComponent().inject(this);
-        mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         View view = inflater.inflate(R.layout.reg_fragment_social_to_social_merge_account, container, false);
         ButterKnife.bind(this, view);
         initUI(view);
