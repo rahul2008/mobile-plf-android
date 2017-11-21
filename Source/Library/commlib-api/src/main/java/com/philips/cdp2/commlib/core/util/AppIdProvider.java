@@ -39,6 +39,10 @@ public class AppIdProvider {
         this.appId = String.format("deadbeef%08x", new Random().nextInt());
     }
 
+    /**
+     * Allows to set a different AppId
+     * @param appId String
+     */
     public void setAppId(@NonNull final String appId) {
         this.appId = appId;
 
@@ -50,10 +54,18 @@ public class AppIdProvider {
         return this.appId;
     }
 
+    /**
+     * Adds a listener to be notified when AppId changes.
+     * @param listener AppIdListener
+     */
     public void addAppIdListener(final @NonNull AppIdListener listener) {
         listeners.add(listener);
     }
 
+    /**
+     * Stops listener from being notified when AppId changes.
+     * @param listener AppIdListener
+     */
     public void removeAppIdListener(final @NonNull AppIdListener listener) {
         listeners.remove(listener);
     }

@@ -42,7 +42,7 @@ public abstract class DICommPort<T extends PortProperties> {
 
     private final String LOG_TAG = getClass().getSimpleName();
 
-    public static final int SUBSCRIPTION_TTL = 300;
+    public static final int SUBSCRIPTION_TTL = 300; // Seconds
 
     @VisibleForTesting
     static final long SUBSCRIPTION_TTL_MS = TimeUnit.SECONDS.toMillis(SUBSCRIPTION_TTL);

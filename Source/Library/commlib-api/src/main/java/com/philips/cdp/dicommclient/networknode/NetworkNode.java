@@ -64,39 +64,73 @@ public class NetworkNode implements Parcelable {
     public NetworkNode() {
     }
 
+    /**
+     * Adds a listener for property changes
+     * @param listener PropertyChangeListener
+     */
     public void addPropertyChangeListener(final @NonNull PropertyChangeListener listener) {
         this.pcs.addPropertyChangeListener(listener);
     }
 
+    /**
+     * Removes a listener for property changes
+     * @param listener PropertyChangeListener
+     */
     public void removePropertyChangeListener(final @NonNull PropertyChangeListener listener) {
         this.pcs.removePropertyChangeListener(listener);
     }
 
+    /**
+     * Returns the IP Address for the NetworkNode.
+     * Is empty when the NetworkNode represents a BLE appliance.
+     * @return String The IP Address
+     */
     public synchronized String getIpAddress() {
         return ipAddress;
     }
 
+    /**
+     * Allows to set the IP Address for the NetworkNode
+     * @param ipAddress String
+     */
     public synchronized void setIpAddress(String ipAddress) {
         final String oldIpAddress = this.ipAddress;
         this.ipAddress = ipAddress;
         this.pcs.firePropertyChange(KEY_IP_ADDRESS, oldIpAddress, ipAddress);
     }
 
+    /**
+     * Returns the unique identifier for the NetworkNode.
+     * Will contain a MAC address when the NetworkNode represents a BLE Appliance
+     * @return String
+     */
     @NonNull
     public synchronized String getCppId() {
         return cppId;
     }
 
+    /**
+     * Allows to set the unique identifier for the NetworkNode
+     * @param cppId String
+     */
     public synchronized void setCppId(@NonNull String cppId) {
         final String oldCppId = this.cppId;
         this.cppId = cppId;
         this.pcs.firePropertyChange(KEY_CPP_ID, oldCppId, cppId);
     }
 
+    /**
+     * Returns the appliance's name
+     * @return String
+     */
     public synchronized String getName() {
         return name;
     }
 
+    /**
+     *  Allows to set the appliance's name
+     * @param name String
+     */
     public synchronized void setName(String name) {
         final String oldName = this.name;
         this.name = name;
@@ -149,10 +183,18 @@ public class NetworkNode implements Parcelable {
         this.pcs.firePropertyChange(KEY_MODEL_ID, oldModelId, modelId);
     }
 
+    /**
+     * Returns the SSID where the appliance is at home.
+     * @return String
+     */
     public synchronized String getHomeSsid() {
         return homeSsid;
     }
 
+    /**
+     * Allows to set the appliance's home SSID.
+     * @param homeSsid String
+     */
     public synchronized void setHomeSsid(String homeSsid) {
         if (homeSsid == null || homeSsid.isEmpty()) return;
 
@@ -161,44 +203,81 @@ public class NetworkNode implements Parcelable {
         this.pcs.firePropertyChange(KEY_HOME_SSID, oldHomeSsid, homeSsid);
     }
 
+    /**
+     * Returns the appliance's bootId.
+     * The bootId indicates the number of times the appliance had a power cycle.
+     * @return long
+     */
     public synchronized long getBootId() {
         return bootId;
     }
 
+    /**
+     * Allows to set the appliance's bootId
+     * @param bootId long
+     */
     public synchronized void setBootId(long bootId) {
         final long oldBootId = this.bootId;
         this.bootId = bootId;
         this.pcs.firePropertyChange(KEY_BOOT_ID, oldBootId, bootId);
     }
 
+    /**
+     * Returns the encryption key from the appliance.
+     * @return String
+     */
     public synchronized String getEncryptionKey() {
         return encryptionKey;
     }
 
+    /**
+     * Allows to set the encryption key for the appliance.
+     * @param encryptionKey String
+     */
     public synchronized void setEncryptionKey(String encryptionKey) {
         final String oldEncryptionKey = this.encryptionKey;
         this.encryptionKey = encryptionKey;
         this.pcs.firePropertyChange(KEY_ENCRYPTION_KEY, oldEncryptionKey, encryptionKey);
     }
 
+    /**
+     * Indicates whether the appliance uses the HTTPS protocol to communicate.
+     * @return boolean
+     */
     public synchronized boolean isHttps() {
         return isHttps;
     }
 
+    /**
+     * Returns the pin for HTTPS certificate pinning.
+     * @return String
+     */
     public String getPin() {
         return pin;
     }
 
+    /**
+     * Allows to set the pin for HTTPS certificate pinning.
+     * @param pin String
+     */
     public void setPin(@Nullable String pin) {
         final String oldPin = this.pin;
         this.pin = pin;
         this.pcs.firePropertyChange(KEY_PIN, oldPin, pin);
     }
 
+    /**
+     * Returns a pin if it was mismatched earlier in HTTPS certificate pinning.
+     * @return String
+     */
     public String getMismatchedPin() {
         return mismatchedPin;
     }
 
+    /**
+     * Allows to set a mismatched pin after failed HTTPS certificate pinning.
+     * @param mismatchedPin String
+     */
     public void setMismatchedPin(@Nullable String mismatchedPin) {
         final String oldMismatchedPin = this.mismatchedPin;
         this.mismatchedPin = mismatchedPin;
@@ -217,26 +296,46 @@ public class NetworkNode implements Parcelable {
         }
     }
 
+    /**
+     * Returns the {@link PairingState} between the phone and the appliance in DeviceCloud.
+     * @return PairingState
+     */
     public synchronized PairingState getPairedState() {
         return pairedState;
     }
 
+    /**
+     * Allows to update the paired state locally.
+     * @param pairedState PairedState
+     */
     public synchronized void setPairedState(PairingState pairedState) {
         final PairingState oldPairingState = this.pairedState;
         this.pairedState = pairedState;
         this.pcs.firePropertyChange(KEY_IS_PAIRED, oldPairingState, pairedState);
     }
 
+    /**
+     * Returns timestamp of the moment the appliance has paired in DeviceCloud the last time.
+     * @return long
+     */
     public synchronized long getLastPairedTime() {
         return lastPairedTime;
     }
 
+    /**
+     * Allows to set the timestamp of the moment the appliance has last paired in DeviceCloud.
+     * @param lastPairedTime long
+     */
     public synchronized void setLastPairedTime(long lastPairedTime) {
         final long oldPairedTime = this.lastPairedTime;
         this.lastPairedTime = lastPairedTime;
         this.pcs.firePropertyChange(KEY_LAST_PAIRED, oldPairedTime, lastPairedTime);
     }
 
+    /**
+     * Updates the current NetworkNode with values of a different NetworkNode.
+     * @param networkNode NetworkNode The updated NetworkNode to read from
+     */
     public void updateWithValuesFrom(final @NonNull NetworkNode networkNode) {
         if (!Objects.equals(networkNode.getCppId(), this.cppId)) {
             return;
@@ -272,6 +371,10 @@ public class NetworkNode implements Parcelable {
         }
     }
 
+    /**
+     * Returns the DIComm version currently used.
+     * @return int The DIComm version
+     */
     public int getDICommProtocolVersion() {
         return DICOMM_PROTOCOL_VERSION;
     }
@@ -341,8 +444,8 @@ public class NetworkNode implements Parcelable {
                 .append("   modelId: ").append(getModelId())
                 .append("   paired: ").append(getPairedState())
                 .append("   homeSsid: ").append(getHomeSsid())
-                .append("   pin: ").append(pin)
-                .append("   mismatchedPin: ").append(mismatchedPin);
+                .append("   pin: ").append(getPin())
+                .append("   mismatchedPin: ").append(getMismatchedPin());
         return builder.toString();
     }
 
