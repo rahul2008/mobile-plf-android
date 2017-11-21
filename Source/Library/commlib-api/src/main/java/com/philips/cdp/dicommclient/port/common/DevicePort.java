@@ -14,7 +14,8 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 /**
- * The DevicePort is a mandatory port that is available on all DIComm appliances. It contains basic information about the appliance.
+ * The DevicePort is a mandatory port that is available on all DIComm appliances.
+ * It contains basic information about the appliance.
  *
  * @publicApi
  * @see com.philips.cdp.dicommclient.port.DICommPort
@@ -27,6 +28,9 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
 
     private static final String KEY_DEVICENAME = "name";
 
+    /**
+     * @param communicationStrategy CommunicationStrategy The strategy to use during communication
+     */
     public DevicePort(final @NonNull CommunicationStrategy communicationStrategy) {
         super(communicationStrategy);
     }
@@ -72,6 +76,11 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
         return null;
     }
 
+    /**
+     * Convenience method to update the appliance's name.
+     * Uses #putProperties internally.
+     * @param name String The new name for the appliance.
+     */
     public void setDeviceName(String name) {
         putProperties(KEY_DEVICENAME, name);
     }
