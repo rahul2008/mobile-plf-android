@@ -4,6 +4,8 @@
  */
 package com.philips.cdp2.ews.appliance;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 
 import javax.inject.Inject;
@@ -44,7 +46,7 @@ public class ApplianceSessionDetailsInfo {
         return appliancePin;
     }
 
-    public void setAppliancePin(String appliancePin) {
+    public void setAppliancePin(@NonNull  String appliancePin) {
         this.appliancePin = appliancePin;
     }
 

@@ -87,6 +87,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
 
     @NonNull
     private String cppId;
+    
     @NonNull
     private final Runnable timeoutRunnable = new Runnable() {
         @Override

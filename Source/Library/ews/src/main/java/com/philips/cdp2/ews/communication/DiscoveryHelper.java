@@ -62,9 +62,5 @@ public class DiscoveryHelper {
         callback = null;
     }
 
-    public String findApplianceByCppId(@NonNull final String cppId){
-        Appliance appliance =  commCentral.getApplianceManager().findApplianceByCppId(cppId);
-        return appliance.getNetworkNode().getPin();
-    }
 }
 
