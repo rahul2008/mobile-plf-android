@@ -22,6 +22,7 @@ import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.imagehandler.*;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
+import com.philips.cdp.prodreg.util.*;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.ui.utils.*;
 
@@ -97,16 +98,14 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
                 }
                 ProdRegTagging.getInstance().trackAction("ProdRegSuccessEvent", "productModel", registeredProduct.getCtn());
 
-                String warntyPeriod = arguments.getString(ProdRegConstants.PROD_REG_WARRANTY);
-
+                ProdRegUtil prodRegUtil = new ProdRegUtil();
+                String warntyPeriod = prodRegUtil.getDisplayDate(arguments.getString(ProdRegConstants.PROD_REG_WARRANTY));
                 if (warntyPeriod.isEmpty()) {
                     prg_success_thanks_textView.setVisibility(View.GONE);
                 } else {
                     String defaultString = "  " + warntyPeriod;
-                    int defaultStringLength = defaultString.length();
-                    SpannableStringBuilder builder = new SpannableStringBuilder(defaultString);
-                    builder.setSpan(new TextAppearanceSpan(getActivity(), R.style.SuccessRegisterTheme), 0, defaultStringLength, 0);
-                    prg_success_thanks_textView.setText(getString(R.string.PPR_Extended_Warranty_Lbltxt) + builder);
+                    prg_success_thanks_textView.setText(prodRegUtil.generateSpannableText
+                            (getString(R.string.PPR_Extended_Warranty_Lbltxt) , defaultString));
                     prg_success_thanks_textView.setVisibility(View.VISIBLE);
                 }
             }

@@ -9,7 +9,6 @@
     <string name="diCom_integration" translatable="false">DiCom Integration</string>
     <string name="pairing_successful" translatable="false">Pairing successful</string>
     <string name="pairing_failed" translatable="false">Pairing failed</string>
-    <string name="date_formate" translatable="false">yyyy-MM-dd</string>
     <string name="zero" translatable="false">0</string>
     <string name="light_state" translatable="false">Light state</string>
     <string name="set" translatable="false">Set</string>

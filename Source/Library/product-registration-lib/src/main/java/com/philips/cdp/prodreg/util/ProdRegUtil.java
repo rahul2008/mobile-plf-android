@@ -5,7 +5,9 @@
 */
 package com.philips.cdp.prodreg.util;
 
-import android.text.TextUtils;
+import android.graphics.*;
+import android.text.*;
+import android.text.style.*;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
@@ -22,16 +24,22 @@ public class ProdRegUtil {
     private static final String TAG = ProdRegUtil.class.getSimpleName();
 
     public boolean isValidDate(final String date) {
-        if (date != null) {
-            String[] dates = date.split("-");
-            return dates.length > 1 && Integer.parseInt(dates[2]) > 1999 && !isFutureDate(date);
-        } else return false;
+        try {
+            SimpleDateFormat sd = new SimpleDateFormat(ProdRegConstants.PROD_REG_DATE_FORMAT_SERVER);
+            Date currentDate = sd.parse(date);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(currentDate);
+            return (cal.get(Calendar.YEAR) > 1999);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @SuppressWarnings("SimpleDateFormat")
     public boolean isFutureDate(String date) {
         try {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(ProdRegConstants.PROD_REG_DATE_FORMAT_SERVER);
         Calendar calendar = Calendar.getInstance();
         final String mGetDeviceDate = dateFormat.format(calendar.getTime());
             final Date mDisplayDate = dateFormat.parse(date);
@@ -96,5 +104,23 @@ public class ProdRegUtil {
             valueString = Integer.toString(value);
         }
         return valueString;
+    }
+
+    public String getDisplayDate(String regDate){
+        try {
+        SimpleDateFormat dt = new SimpleDateFormat(ProdRegConstants.PROD_REG_DATE_FORMAT_SERVER);
+        Date date = dt.parse(regDate);
+        SimpleDateFormat dt1 = new SimpleDateFormat(ProdRegConstants.PROD_REG_DATE_FORMAT_UI);
+            return dt1.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return regDate;
+        }
+    }
+    public SpannableString generateSpannableText(String normal, String bold){
+        int length= normal.length()+bold.length();
+        SpannableString str = new SpannableString(normal +bold);
+        str.setSpan(new StyleSpan(Typeface.BOLD), normal.length(),length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return str;
     }
 }

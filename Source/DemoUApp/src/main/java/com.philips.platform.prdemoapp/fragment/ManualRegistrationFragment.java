@@ -20,7 +20,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.philips.cdp.prodreg.constants.ProdRegError;
+import com.philips.cdp.prodreg.constants.*;
 import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.PRLaunchInput;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
@@ -77,18 +77,19 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
             } else {
                 mDate = Integer.toString(arg3);
             }
-            SimpleDateFormat dateFormat = new SimpleDateFormat(getResources().getString(R.string.date_format));
+            SimpleDateFormat dateFormat = new SimpleDateFormat(ProdRegConstants.PROD_REG_DATE_FORMAT_SERVER);
             mCalendar = Calendar.getInstance();
             final String mGetDeviceDate = dateFormat.format(mCalendar.getTime());
             Date mDisplayDate;
             Date mDeviceDate;
             try {
-                final String text =   mDate + "-" + mMonth + "-" +arg1;
+                final String text =   arg1 + "-" + mMonth + "-" +mDate;
                 mDisplayDate = dateFormat.parse(text);
                 mDeviceDate = dateFormat.parse(mGetDeviceDate);
                 if (mDisplayDate.after(mDeviceDate)) {
                     Log.d(TAG, " Response Data : " + "Error in Date");
                 } else {
+
                     mPurchaseDate.setText(text);
                 }
             } catch (ParseException e) {
