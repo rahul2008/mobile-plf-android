@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.permission.PermissionView;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;

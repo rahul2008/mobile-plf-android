@@ -4,7 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentStatus;
-import com.philips.platform.csw.ConsentDefinition;
+import com.philips.platform.catk.model.ConsentDefinition;
 
 /**
  * Created by Entreco on 17/11/2017.

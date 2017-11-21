@@ -1,6 +1,6 @@
 package com.philips.platform.csw;
 
-import com.philips.platform.csw.ConsentDefinition;
+import com.philips.platform.catk.model.ConsentDefinition;
 
 import org.junit.Test;
 

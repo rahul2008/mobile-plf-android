@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.RadioGroup;
 
 import com.philips.platform.csw.ConsentBundleConfig;
-import com.philips.platform.csw.ConsentDefinition;
+import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswLaunchInput;

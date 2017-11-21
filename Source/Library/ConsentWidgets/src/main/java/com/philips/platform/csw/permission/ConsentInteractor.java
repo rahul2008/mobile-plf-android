@@ -7,7 +7,7 @@ import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentError;
-import com.philips.platform.csw.ConsentDefinition;
+import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.utils.CswLogger;
 
 import java.util.ArrayList;
