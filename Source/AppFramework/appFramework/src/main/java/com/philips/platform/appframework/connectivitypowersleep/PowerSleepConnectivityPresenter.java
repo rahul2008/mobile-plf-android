@@ -5,21 +5,16 @@
 */
 package com.philips.platform.appframework.connectivitypowersleep;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
-import com.philips.cdp.dicommclient.port.DICommPortListener;
-import com.philips.cdp.dicommclient.request.Error;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Session;
-import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPort;
-import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPortProperties;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionsOldestToNewest;
+import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -49,7 +44,9 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static com.janrain.android.engage.JREngage.getApplicationContext;
 
@@ -59,10 +56,13 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
     private Context context;
     protected DataServicesManager dataServicesManager;
 
-    public PowerSleepConnectivityPresenter(Context context, final ConnectivityPowerSleepContract.View connectivityViewListener, UIView uiView) {
+    private ConnectivityHelper connectivityHelper;
+
+    public PowerSleepConnectivityPresenter(ConnectivityHelper connectivityHelper,Context context, final ConnectivityPowerSleepContract.View connectivityViewListener, UIView uiView) {
         super(uiView);
         this.context = context;
         this.connectivityViewListener = connectivityViewListener;
+        this.connectivityHelper=connectivityHelper;
         initDataServiceInterface();
     }
 
@@ -73,7 +73,7 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
     @Override
     public void synchroniseSessionData(final BleReferenceAppliance bleReferenceAppliance) {
         connectivityViewListener.showProgressDialog();
-        getLatestPowerSleepSession(new DBFetchRequestListner<Moment>() {
+        dataServicesManager.fetchLatestMomentByType(MomentType.SLEEP_SESSION,new DBFetchRequestListner<Moment>() {
             @Override
             public void onFetchSuccess(final List<? extends Moment> list) {
                 DateTime latestSessionDateTime;
@@ -116,6 +116,7 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
         });
     }
 
+
     @NonNull
     protected SynchronizeSessionsUsecase getSynchronizeSessionsUsecase() {
         return new SynchronizeSessionsUsecase(new AllSessionsProviderFactory());
@@ -124,12 +125,12 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
     public void savePowerSleepMomentsData(List<Session> sessionList) {
         List<Moment> momentList = new ArrayList<>();
         for (Session session : sessionList) {
-            momentList.add(createMoment("86", "" + session.getSummary().getDeepSleepTime(), "" + session.getSummary().getTotalSleepTime(), new DateTime(session.getDate().getTime()), ""));
+            momentList.add(connectivityHelper.createMoment(String.valueOf(connectivityHelper.calculateDeepSleepScore(session.getSummary().getDeepSleepTime())), String.valueOf(session.getSummary().getDeepSleepTime()),String.valueOf(session.getSummary().getTotalSleepTime()), new DateTime(session.getDate().getTime()), ""));
         }
         dataServicesManager.saveMoments(momentList, new DBRequestListener<Moment>() {
             @Override
             public void onSuccess(List<? extends Moment> list) {
-                connectivityViewListener.populateScreenWithLatestDataAvailable();
+                fetchLatestSessionInfo();
                 DataServicesManager.getInstance().synchronize();
                 connectivityViewListener.showToast("Power sleep data pushed to DB" + list.size());
             }
@@ -141,33 +142,6 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
         });
     }
 
-    protected Moment createMoment(String dstScore, String deepSleepTime, String sleepTime, DateTime dateTime, String measurementDetail) {
-        Moment moment = this.dataServicesManager.createMoment(MomentType.SLEEP_SESSION);
-        moment.setDateTime(dateTime);
-
-        MeasurementGroup measurementGroupInside;
-        MeasurementGroup measurementGroup;
-        Measurement deepSleepTimeMeasurement;
-        Measurement sleepTimeMeasurement;
-        Measurement dstScoreMeasurement;
-        dataServicesManager.createMomentDetail(MomentDetailType.DEVICE_SERIAL, "", moment);
-        dataServicesManager.createMomentDetail(MomentDetailType.CTN, "", moment);
-        dataServicesManager.createMomentDetail(MomentDetailType.FW_VERSION, "", moment);
-        dataServicesManager.createMomentDetail(MomentDetailType.MOMENT_VERSION, "1", moment);
-        measurementGroup = dataServicesManager.createMeasurementGroup(moment);
-        dataServicesManager.createMeasurementGroupDetail(MeasurementGroupDetailType.REFERENCE_GROUP_ID, measurementDetail, measurementGroup);
-        measurementGroupInside = dataServicesManager.createMeasurementGroup(measurementGroup);
-        deepSleepTimeMeasurement = dataServicesManager.createMeasurement(MeasurementType.DST, deepSleepTime, MeasurementType.getUnitFromDescription(MeasurementType.DST), measurementGroupInside);
-        sleepTimeMeasurement = dataServicesManager.createMeasurement(MeasurementType.TST, sleepTime, MeasurementType.getUnitFromDescription(MeasurementType.TST), measurementGroupInside);
-        dstScoreMeasurement = dataServicesManager.createMeasurement(MeasurementType.DST_SCORE, dstScore, "%", measurementGroupInside);
-        dataServicesManager.createMeasurementDetail(MeasurementDetailType.LOCATION, measurementDetail, deepSleepTimeMeasurement);
-        measurementGroupInside.addMeasurement(deepSleepTimeMeasurement);
-        measurementGroupInside.addMeasurement(sleepTimeMeasurement);
-        measurementGroupInside.addMeasurement(dstScoreMeasurement);
-        measurementGroup.addMeasurementGroup(measurementGroupInside);
-        moment.addMeasurementGroup(measurementGroup);
-        return moment;
-    }
 
     @Override
     public void onEvent(int componentID) {
@@ -185,7 +159,26 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
         }
     }
 
-    public void getLatestPowerSleepSession(DBFetchRequestListner<Moment> dbFetchRequestListener) {
-        dataServicesManager.fetchLatestMomentByType(MomentType.SLEEP_SESSION,dbFetchRequestListener);
+    public void fetchLatestSessionInfo(){
+        dataServicesManager.fetchLatestMomentByType(MomentType.SLEEP_SESSION,new DBFetchRequestListner<Moment>() {
+            @Override
+            public void onFetchSuccess(final List<? extends Moment> list) {
+                        if(list!=null && list.size()>0) {
+                            Moment moment=list.get(0);
+                            Summary summary=connectivityHelper.getSummaryInfoFromMoment(moment);
+                            connectivityViewListener.updateScreenWithLatestSessionInfo(summary);
+                        }else{
+                            connectivityViewListener.showToast("Data not available.");
+                        }
+
+            }
+
+            @Override
+            public void onFetchFailure(final Exception e) {
+                connectivityViewListener.showToast("Error while fetching data from power sleep device. Error::"+e.getMessage());
+            }
+        });
     }
+
+
 }

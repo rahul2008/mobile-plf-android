@@ -33,20 +33,14 @@ import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summa
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.UIView;
 import com.philips.platform.baseapp.screens.utility.RALog;
-import com.philips.platform.core.datatypes.Measurement;
-import com.philips.platform.core.datatypes.MeasurementGroup;
-import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
-import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFragment implements View.OnClickListener, ConnectivityPowerSleepContract.View, UIView, SynchronisationCompleteListener,DBChangeListener {
@@ -56,7 +50,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     private WeakReference<PowerSleepConnectivityFragment> connectivityFragmentWeakReference;
     private Context mContext;
     private SleepScoreProgressView sleepScoreProgressView;
-    private TextView sleepTime, deepSleepTime, sleepPercentageScore, syncUpdated;
+    private TextView sleepTimeTextView, deepSleepTimeTextView, sleepPercentageScoreTextView, syncUpdatedTextView;
 
     private Button insights;
 
@@ -72,6 +66,8 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     private final int IDEAL_DEEP_SLEEP_TIME = 120;
     private final int PROGRESS_DRAW_TIME = 1500;
     private User user;
+
+    private ConnectivityHelper connectivityHelper;
 
     @Override
     public void onAttach(Context context) {
@@ -97,6 +93,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
         connectivityFragmentWeakReference = new WeakReference<PowerSleepConnectivityFragment>(this);
+        connectivityHelper=new ConnectivityHelper();
         user=new User(getActivity());
         if(user.isUserSignIn()) {
             DataServicesManager.getInstance().registerSynchronisationCompleteListener(this);
@@ -114,75 +111,9 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        populateScreenWithLatestDataAvailable();
+        connectivityPresenter.fetchLatestSessionInfo();
     }
 
-    public void populateScreenWithLatestDataAvailable() {
-        connectivityPresenter.getLatestPowerSleepSession(new DBFetchRequestListner<Moment>() {
-            @Override
-            public void onFetchSuccess(final List<? extends Moment> list) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(list!=null && list.size()>0) {
-                            Moment moment=list.get(0);
-                            Summary summary=getSummaryInfoFromMoment(moment);
-                            updateSessionData(summary.getTotalSleepTime(),0,summary.getDeepSleepTime(),summary.getDate().getTime());
-                        }else{
-                            showToast("Data not available.");
-                        }
-                    }
-                });
-
-            }
-
-            @Override
-            public void onFetchFailure(final Exception e) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showToast("Error while fetching data from power sleep device. Error::"+e.getMessage());
-                    }
-                });
-            }
-        });
-    }
-
-    protected Summary getSummaryInfoFromMoment(Moment moment){
-        Summary summary=null;
-        try {
-            ArrayList<? extends MeasurementGroup> measurementGroupParent = new ArrayList<>(moment.getMeasurementGroups());
-            ArrayList<? extends MeasurementGroup> measurementGroupChild = new ArrayList<>(measurementGroupParent.get(0).getMeasurementGroups());
-            ArrayList<? extends Measurement> measurements = new ArrayList<>(measurementGroupChild.get(0).getMeasurements());
-            String deepSleepTime = null,totalSleepTime = null;
-
-            for(int count=0;count<measurements.size();count++){
-                switch (count){
-                    case 0:
-                       deepSleepTime=measurements.get(0).getValue();
-                        break;
-                    case 1:
-                        totalSleepTime=measurements.get(1).getValue();
-                        break;
-                }
-            }
-            Float dstFloat=Float.parseFloat(deepSleepTime);
-            long dst=dstFloat.longValue();
-
-            Float tstFloat=Float.parseFloat(totalSleepTime);
-            long tst=tstFloat.longValue();
-
-            summary=new Summary(new Date(moment.getDateTime().getMillis()),dst,tst);
-            return summary;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            RALog.e(TAG,"Error while converting moment data to summary"+e.getMessage());
-        } catch (IndexOutOfBoundsException e) {
-            RALog.e(TAG,"Error while converting moment data to summary"+e.getMessage());
-        } catch (Exception e) {
-            RALog.e(TAG,"Error while converting moment data to summary"+e.getMessage());
-        }
-        return summary;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -193,11 +124,11 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         connectivityPresenter = getConnectivityPresenter();
         view = inflater.inflate(R.layout.overview_power_sleep, container, false);
         sleepScoreProgressView = (SleepScoreProgressView) view.findViewById(R.id.arc_progress);
-        sleepTime = (TextView) view.findViewById(R.id.sleep_time_value);
-        deepSleepTime = (TextView) view.findViewById(R.id.deep_sleep_time_value);
+        sleepTimeTextView = (TextView) view.findViewById(R.id.sleep_time_value);
+        deepSleepTimeTextView = (TextView) view.findViewById(R.id.deep_sleep_time_value);
         insights = (Button) view.findViewById(R.id.insights);
-        sleepPercentageScore = (TextView) view.findViewById(R.id.sleepoverview_score);
-        syncUpdated = (TextView) view.findViewById(R.id.powersleep_updated);
+        sleepPercentageScoreTextView = (TextView) view.findViewById(R.id.sleepoverview_score);
+        syncUpdatedTextView = (TextView) view.findViewById(R.id.powersleep_updated);
         view.findViewById(R.id.powersleep_sync).setOnClickListener(this);
         insights.setOnClickListener(this);
         insights.setEnabled(true);
@@ -209,7 +140,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     }
 
     protected PowerSleepConnectivityPresenter getConnectivityPresenter() {
-        return new PowerSleepConnectivityPresenter(getActivity(), this, this);
+        return new PowerSleepConnectivityPresenter(connectivityHelper,getActivity(), this, this);
     }
 
     @Override
@@ -277,24 +208,33 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     }
 
     @Override
-    public void updateSessionData(final long sleepTime, final long numberOfInteruptions, final long deepSleepTime, final long timeStamp) {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
-        }
-        RALog.d(TAG, "Session data updated");
-        insights.setEnabled(true);
-        insights.setAlpha(1.0f);
+    public void updateScreenWithLatestSessionInfo(final Summary summary){
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                PowerSleepConnectivityFragment.this.sleepTime.setText(getString(R.string.label_sleep_time_format, TimeUnit.MILLISECONDS.toMinutes(sleepTime)));
-                PowerSleepConnectivityFragment.this.deepSleepTime.setText(getString(R.string.label_sleep_time_format, TimeUnit.MILLISECONDS.toMinutes(deepSleepTime)));
-                setLastSyncDate();
-                setSleepProgressPercentage(TimeUnit.MILLISECONDS.toMinutes(deepSleepTime));
+
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+                RALog.d(TAG, "Session data updated");
+                insights.setEnabled(true);
+                insights.setAlpha(1.0f);
+                PowerSleepConnectivityFragment.this.sleepTimeTextView.setText(getString(R.string.label_sleep_time_format, TimeUnit.MILLISECONDS.toMinutes(summary.getTotalSleepTime())));
+                PowerSleepConnectivityFragment.this.deepSleepTimeTextView.setText(getString(R.string.label_sleep_time_format, TimeUnit.MILLISECONDS.toMinutes(summary.getDeepSleepTime())));
+                SimpleDateFormat syncFormat = new SimpleDateFormat();
+                syncUpdatedTextView.setText(getString(R.string.label_last_synced, syncFormat.format(new Date(System.currentTimeMillis()))));
+                int percentage = connectivityHelper.calculateDeepSleepScore(summary.getDeepSleepTime());
+                PowerSleepConnectivityFragment.this.sleepPercentageScoreTextView.setText(String.valueOf(percentage));
+                float scoreInDegree = (PROGRESS_SCORE_MAX * percentage) / PROGRESS_PERCENTAGE_MAX;
+                final ObjectAnimator scoreAnim = ObjectAnimator.ofFloat(sleepScoreProgressView, SLEEP_PROGRESS_VIEW_PROPERTY, 0, scoreInDegree);
+                scoreAnim.setInterpolator(new AccelerateInterpolator());
+                scoreAnim.setDuration(PROGRESS_DRAW_TIME);
+                scoreAnim.start();
             }
         });
-
     }
+
+
 
     @Override
     public void showError(Error error, String s) {
@@ -320,27 +260,14 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
 
     @Override
     public void showToast(final String message) {
-        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void setLastSyncDate() {
-        SimpleDateFormat syncFormat = new SimpleDateFormat();
-        syncUpdated.setText(getString(R.string.label_last_synced, syncFormat.format(new Date(System.currentTimeMillis()))));
-    }
-
-    private void setSleepProgressPercentage(long targetScore) {
-        int percentage = calculatePercentage(targetScore);
-        this.sleepPercentageScore.setText(String.valueOf(percentage));
-        targetScore = (PROGRESS_SCORE_MAX * percentage) / PROGRESS_PERCENTAGE_MAX;
-        final ObjectAnimator scoreAnim = ObjectAnimator.ofFloat(sleepScoreProgressView, SLEEP_PROGRESS_VIEW_PROPERTY, 0, targetScore);
-        scoreAnim.setInterpolator(new AccelerateInterpolator());
-        scoreAnim.setDuration(PROGRESS_DRAW_TIME);
-        scoreAnim.start();
-    }
-
-    private int calculatePercentage(long targetScore) {
-        return (int) (targetScore * PROGRESS_PERCENTAGE_MAX) / IDEAL_DEEP_SLEEP_TIME;
-    }
 
     @Override
     public void onDestroy() {
@@ -352,7 +279,6 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
 
     @Override
     public void onDestroyView() {
-        //ConnectivityUtils.hideSoftKeyboard(getActivity());
         removeApplianceListener();
         if (handler != null) {
             handler.removeCallbacks(stopDiscoveryRunnable);
@@ -374,7 +300,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
 
     @Override
     public void onSyncComplete() {
-        populateScreenWithLatestDataAvailable();
+        connectivityPresenter.fetchLatestSessionInfo();
     }
 
     @Override
@@ -384,7 +310,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     @Override
     public void dBChangeSuccess(SyncType syncType) {
         DataServicesManager.getInstance().synchronize();
-        populateScreenWithLatestDataAvailable();
+        connectivityPresenter.fetchLatestSessionInfo();
     }
 
     @Override

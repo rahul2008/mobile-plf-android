@@ -8,14 +8,13 @@ package com.philips.platform.appframework.connectivitypowersleep;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Session;
+import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;
 
 import java.util.List;
 
 public interface ConnectivityPowerSleepContract {
 
     interface View {
-
-        void updateSessionData(long sleepTime, long numberOfInteruptions, long deepSleepTime,long time);
 
         void showError(Error error, String s);
 
@@ -25,7 +24,7 @@ public interface ConnectivityPowerSleepContract {
 
         void showToast(String message);
 
-        void populateScreenWithLatestDataAvailable();
+        void updateScreenWithLatestSessionInfo(final Summary summary);
 
     }
 

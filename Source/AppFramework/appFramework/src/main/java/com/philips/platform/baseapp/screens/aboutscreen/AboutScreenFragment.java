@@ -70,7 +70,7 @@ public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment implem
         termsLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                aboutScreenActionListener.loadTermsAndPrivacy(WebViewEnum.LOW_DEEP_SLEEP_ARTICLE_CLICKED);
+                aboutScreenActionListener.loadTermsAndPrivacy(WebViewEnum.TERMS_CLICKED);
             }
         });
         privacyLabel = (Label) view.findViewById(R.id.uid_about_screen_privacy);
@@ -78,7 +78,7 @@ public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment implem
             @Override
             public void onClick(View view) {
                 startAppTagging();
-                aboutScreenActionListener.loadTermsAndPrivacy(WebViewEnum.HIGH_DEEP_SLEEP_ARTICLE_CLICKED);
+                aboutScreenActionListener.loadTermsAndPrivacy(WebViewEnum.PRIVACY_CLICKED);
             }
         });
 

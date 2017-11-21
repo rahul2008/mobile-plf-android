@@ -71,6 +71,9 @@ public class PowerSleepConnectivityPresenterTest {
     @Mock
     BleReferenceAppliance bleReferenceAppliance;
 
+    @Mock
+    ConnectivityHelper connectivityHelper;
+
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
@@ -132,7 +135,7 @@ public class PowerSleepConnectivityPresenterTest {
     class PowerSleepConenctivityPresenterMock extends PowerSleepConnectivityPresenter{
 
         public PowerSleepConenctivityPresenterMock(final Context context, final ConnectivityPowerSleepContract.View connectivityViewListener, final UIView uiView) {
-            super(context, connectivityViewListener, uiView);
+            super(connectivityHelper,context, connectivityViewListener, uiView);
         }
 
         @Override

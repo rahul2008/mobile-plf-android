@@ -54,11 +54,6 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
         webView = (WebView) findViewById(R.id.web_view);
         UIDHelper.setupToolbar(this);
         termsAndConditionsAction = new WebViewPresenter(this, this);
-//        if(!TextUtils.isEmpty(url)){
-//            updateUiOnUrlLoaded(url);
-//        }else{
-//            termsAndConditionsAction.loadUrl(state);
-//        }
         if(state== WebViewEnum.PRIVACY_CLICKED){
             UIDHelper.setTitle(this,R.string.global_privacy_link);
             termsAndConditionsAction.loadUrl(state);
@@ -66,10 +61,8 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
             UIDHelper.setTitle(this,R.string.global_terms_link);
             termsAndConditionsAction.loadUrl(state);
         }else if(state==WebViewEnum.LOW_DEEP_SLEEP_ARTICLE_CLICKED){
-//            setTitle(R.string.article);
             updateUiOnUrlLoaded("");
         }else if(state==WebViewEnum.HIGH_DEEP_SLEEP_ARTICLE_CLICKED){
-//            setTitle(R.string.article);
             updateUiOnUrlLoaded("");
         }
 
