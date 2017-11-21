@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/uidContentPrimaryBackgroundColor"
-    android:layout_marginBottom="@dimen/ths_margin_bottom">
+    android:paddingBottom="@dimen/ths_margin_bottom">
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/wizard_button"
