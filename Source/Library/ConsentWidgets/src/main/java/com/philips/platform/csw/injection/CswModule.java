@@ -2,6 +2,8 @@ package com.philips.platform.csw.injection;
 
 import android.content.Context;
 
+import com.philips.platform.catk.ConsentAccessToolKit;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
