@@ -28,6 +28,7 @@ import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
 import com.philips.platform.appframework.connectivity.ConnectivityUtils;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
@@ -134,6 +135,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         insights.setEnabled(true);
         insights.setAlpha(0.5f);
         mCommCentral = getCommCentral(ConnectivityDeviceType.POWER_SLEEP);
+
         setHasOptionsMenu(true);
         startAppTagging(TAG);
         return view;
@@ -156,7 +158,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         }
     }
 
-    private BleReferenceAppliance bleReferenceAppliance = null;
+    private RefAppBleReferenceAppliance bleReferenceAppliance = null;
 
     /**
      * Start scanning nearby devices using given strategy
@@ -182,7 +184,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
                         bleScanDialogFragment.setCancelable(false);
                         bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
                             @Override
-                            public void onDeviceSelected(final BleReferenceAppliance bleRefAppliance) {
+                            public void onDeviceSelected(final RefAppBleReferenceAppliance bleRefAppliance) {
                                 bleReferenceAppliance = bleRefAppliance;
                                 connectivityPresenter.synchroniseSessionData(bleRefAppliance);
                             }

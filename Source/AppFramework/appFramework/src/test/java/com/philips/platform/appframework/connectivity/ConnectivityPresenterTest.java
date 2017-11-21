@@ -10,7 +10,7 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.registration.User;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.DeviceMeasurementPort;
 import com.philips.platform.appframework.connectivity.appliance.DeviceMeasurementPortProperties;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -53,7 +53,7 @@ public class ConnectivityPresenterTest {
     User user;
 
     @Mock
-    BleReferenceAppliance appliance;
+    RefAppBleReferenceAppliance appliance;
 
     @Mock
     CommunicationStrategy communicationStrategy;

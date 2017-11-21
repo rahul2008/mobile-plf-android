@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.platform.TestActivity;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPort;
 import com.philips.platform.appframework.connectivitypowersleep.insights.InsightsFragmentState;
 import com.philips.platform.appframework.flowmanager.AppStates;
@@ -70,6 +70,7 @@ public class PowerSleepConnectivityPresenterTest {
 
     @Mock
     BleReferenceAppliance bleReferenceAppliance;
+    private RefAppBleReferenceAppliance bleReferenceAppliance;
 
     @Mock
     ConnectivityHelper connectivityHelper;

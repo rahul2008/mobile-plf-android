@@ -127,6 +127,7 @@ public class COCOListPresenterTest {
         Assert.assertEquals(COCOListPresenter.TEST_DICOMM_EVENT,cocoListPresenter.getEventState(COCOListPresenter.DICOMM_APP));
         Assert.assertEquals(COCOListPresenter.TEST_UR_EVENT,cocoListPresenter.getEventState(COCOListPresenter.USER_REGISTRATION_STANDARD));
         Assert.assertEquals(COCOListPresenter.TEST_UAPP_EVENT,cocoListPresenter.getEventState(COCOListPresenter.UAPP_FRAMEWORK_DEMO));
+        Assert.assertEquals(COCOListPresenter.TEST_EWS,cocoListPresenter.getEventState(COCOListPresenter.EASY_WIFI_SETUP));
     }
 
 }

@@ -41,9 +41,8 @@ public class MyAccountState extends BaseState {
         MyaLaunchInput launchInput = new MyaLaunchInput();
         launchInput.setContext(actContext);
         launchInput.addToBackStack(true);
-        launchInput.setConsentDefinition(consentDefinitionList);
         MyaInterface myaInterface = getInterface();
-        myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
+        myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext(), consentDefinitionList));
         myaInterface.launch(fragmentLauncher, launchInput);
     }
 

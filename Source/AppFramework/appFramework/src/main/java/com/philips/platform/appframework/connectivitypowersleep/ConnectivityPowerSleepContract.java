@@ -6,6 +6,7 @@
 package com.philips.platform.appframework.connectivitypowersleep;
 
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Session;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;

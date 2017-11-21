@@ -15,6 +15,8 @@ import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppl
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Session;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionsOldestToNewest;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
+import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPort;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;

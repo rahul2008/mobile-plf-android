@@ -22,6 +22,7 @@ public class AppStates {
     public static final String SETTINGS = "settings";
     public static final String HAMBURGER_HOME = "home";
     public static final String CONNECTIVITY = "connectivity";
+    public static final String EWS = "ews";
     public static final String POWER_SLEEP_CONNECTIVITY = "power_sleep_connectivity";
     public static final String INSIGHTS = "insights";
     public static final String WEB_VIEW_STATE ="web_view";
