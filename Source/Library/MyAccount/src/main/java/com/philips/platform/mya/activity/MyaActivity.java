@@ -56,7 +56,7 @@ public class MyaActivity extends UIDActivity {
         UIDHelper.injectCalligraphyFonts();
         initDLSThemeIfExists();
         super.onCreate(savedInstanceState);
-        config = new ConsentBundleConfig(getIntent().getExtras());
+       // config = new ConsentBundleConfig(getIntent().getExtras());
         setContentView(R.layout.mya_myaccounts_activity);
         // TODO: Deepthi, remove this API
         fetchConsentData();
@@ -138,15 +138,15 @@ public class MyaActivity extends UIDActivity {
     @Override
     protected void onRestoreInstanceState(Bundle state) {
         super.onRestoreInstanceState(state);
-        if (state != null) {
+       /* if (state != null) {
             config = new ConsentBundleConfig(state);
-        }
+        }*/
     }
 
     @Override
     protected void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
-        state.putAll(config.toBundle());
+     //   state.putAll(config.toBundle());
     }
 
     @Override

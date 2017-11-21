@@ -94,7 +94,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putAll(config.toBundle());
+//        outState.putAll(config.toBundle());
     }
 
     @Override
