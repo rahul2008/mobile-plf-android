@@ -115,20 +115,24 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onCreate");
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context=context;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         URInterface.getComponent().inject(this);
-        context = getRegistrationFragment().getActivity().getApplicationContext();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onCreateView");
+
+        View view = inflater.inflate(R.layout.reg_fragment_forgot_password, container, false);
+
         forgotPasswordPresenter = new ForgotPasswordPresenter(this, context);
         forgotPasswordPresenter.registerListener();
-        RLog.i(RLog.EVENT_LISTENERS,
-                "ResetPasswordFragment register: NetworkStateListener,JANRAIN_INIT_SUCCESS");
-        View view = inflater.inflate(R.layout.reg_fragment_forgot_password, container, false);
+
         ButterKnife.bind(this, view);
         user = new User(context);
 

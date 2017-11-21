@@ -69,20 +69,24 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onCreate");
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         URInterface.getComponent().inject(this);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onCreateView");
-        RLog.d(RLog.EVENT_LISTENERS,
-                "CreateAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
-        mContext = getRegistrationFragment().getActivity().getApplicationContext();
+
+        View view = inflater.inflate(R.layout.reg_fragment_marketing_opt, container, false);
+
         marketingAccountPresenter = new MarketingAccountPresenter(this);
         marketingAccountPresenter.register();
-        View view = inflater.inflate(R.layout.reg_fragment_marketing_opt, container, false);
+
         ButterKnife.bind(this, view);
         initUI(view);
         setContentConfig(view);

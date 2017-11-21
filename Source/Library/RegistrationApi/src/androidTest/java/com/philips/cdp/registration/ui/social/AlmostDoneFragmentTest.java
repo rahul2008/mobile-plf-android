@@ -1,5 +1,7 @@
 package com.philips.cdp.registration.ui.social;
 
+import android.view.InflateException;
+
 import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 
 import org.junit.Before;

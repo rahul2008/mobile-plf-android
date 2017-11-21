@@ -81,6 +81,12 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     private String redirectUri;
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context=context;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         final String mobileNumberKey = "mobileNumber";
@@ -89,18 +95,19 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         final String verificationSmsCodeURLKey = "verificationSmsCodeURL";
 
         URInterface.getComponent().inject(this);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onCreateView");
-        trackActionStatus(REGISTRATION_ACTIVATION_SMS,"","");
-        context = getRegistrationFragment().getActivity().getApplicationContext();
+
 
         Bundle bundle = getArguments();
-        mobileNumber = bundle.getString(mobileNumberKey);
-        responseToken = bundle.getString(responseTokenKey);
-        redirectUri = bundle.getString(redirectUriKey);
-        verificationSmsCodeURL = bundle.getString(verificationSmsCodeURLKey);
+        if(bundle!=null) {
+            mobileNumber = bundle.getString(mobileNumberKey);
+            responseToken = bundle.getString(responseTokenKey);
+            redirectUri = bundle.getString(redirectUriKey);
+            verificationSmsCodeURL = bundle.getString(verificationSmsCodeURLKey);
+        }
 
         mobileVerifyCodePresenter = new MobileForgotPassVerifyCodePresenter(this);
         View view = inflater.inflate(R.layout.reg_mobile_forgotpassword_verify_fragment, container, false);
+        trackActionStatus(REGISTRATION_ACTIVATION_SMS,"","");
         ButterKnife.bind(this, view);
         handleOrientation(view);
         getRegistrationFragment().startCountDownTimer();

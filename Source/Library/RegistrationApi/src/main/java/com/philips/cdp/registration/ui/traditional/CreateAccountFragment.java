@@ -128,7 +128,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onCreate");
         super.onCreate(savedInstanceState);
     }
 
@@ -171,17 +170,20 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     });
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context=context;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         URInterface.getComponent().inject(this);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onCreateView");
-        RLog.d(RLog.EVENT_LISTENERS,
-                "CreateAccountFragment register: NetworkStateListener,JANRAIN_INIT_SUCCESS");
-        context = getRegistrationFragment().getActivity().getApplicationContext();
+
+        View view = inflater.inflate(R.layout.reg_fragment_create_account, container, false);
 
         createAccountPresenter = new CreateAccountPresenter(this);
         createAccountPresenter.registerListener();
 
-        View view = inflater.inflate(R.layout.reg_fragment_create_account, container, false);
         ButterKnife.bind(this, view);
         usr_createscreen_emailormobile_inputValidationLayout.setValidator(loginIdValidator);
         usr_createScreen_password_inputValidationField.setValidator(passwordValidator);

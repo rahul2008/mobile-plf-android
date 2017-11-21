@@ -77,11 +77,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         URInterface.getComponent().inject(this);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onCreateView");
-        mContext = getRegistrationFragment().getActivity().getApplicationContext();
-        accountActivationPresenter = new AccountActivationPresenter(this);
-        accountActivationPresenter.registerListener();
-        RLog.i(RLog.EVENT_LISTENERS, "AccountActivationFragment register: NetworStateListener");
 
         Bundle bundle = getArguments();
         if (null != bundle) {
@@ -89,6 +84,10 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         }
         mUser = new User(mContext);
         View view = inflater.inflate(R.layout.reg_fragment_account_activation, null);
+
+        accountActivationPresenter = new AccountActivationPresenter(this);
+        accountActivationPresenter.registerListener();
+
         ButterKnife.bind(this, view);
         CounterHelper.getInstance()
                 .registerCounterEventNotification(RegConstants.COUNTER_TICK, this);
@@ -98,6 +97,12 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         initUI(view);
         handleOrientation(view);
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
     }
 
     @Override

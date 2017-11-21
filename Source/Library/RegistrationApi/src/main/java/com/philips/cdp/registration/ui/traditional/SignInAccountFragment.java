@@ -125,18 +125,23 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private String mEmailOrMobile;
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.mContext=context;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         URInterface.getComponent().inject(this);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onCreateView");
-        mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
+
+        View view = inflater.inflate(R.layout.reg_fragment_sign_in_account, null);
+
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
-        View view = inflater.inflate(R.layout.reg_fragment_sign_in_account, null);
+
         ButterKnife.bind(this, view);
         mBtnSignInAccount.setEnabled(false);
-        RLog.i(RLog.EVENT_LISTENERS,
-                "SignInAccountFragment register: NetworkStateListener,JANRAIN_INIT_SUCCESS");
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
         handleOrientation(view);
@@ -146,7 +151,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onViewCreated");
         compositeDisposable.add(observeLoginButton());
     }
 
@@ -154,18 +158,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onDestroyView() {
         getActivity().getWindow().setSoftInputMode(mode);
         super.onDestroyView();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onDestroyView");
         compositeDisposable.dispose();
     }
 
     @Override
     public void onDestroy() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
         EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
                 this);
-        RLog.i(RLog.EVENT_LISTENERS,
-                "SignInAccountFragment unregister: NetworkStateListener,JANRAIN_INIT_SUCCESS");
         super.onDestroy();
     }
 
