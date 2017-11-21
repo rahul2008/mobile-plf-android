@@ -44,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_image_top_margin"
                 android:contentDescription="@null"
+                style="@style/EWS.ImageScale"
                 android:src="@{viewModel.resetDeviceImage}" />
 
             <android.support.v4.widget.Space

@@ -5,9 +5,12 @@
 package com.philips.cdp2.ews.startconnectwithdevice;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
+import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
+import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.StringProvider;
@@ -19,9 +22,12 @@ import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
@@ -44,6 +50,9 @@ public class StartConnectWithDeviceViewModelTest {
     @Mock
     private EWSCallbackNotifier ewsCallbackNotifierMock;
 
+    @Mock
+    EventingChannel<EventingChannel.ChannelCallback> mockEWSEventingChannel;
+
     private StartConnectWithDeviceViewModel subject;
 
     @Before
@@ -51,6 +60,7 @@ public class StartConnectWithDeviceViewModelTest {
         initMocks(this);
         mockStatic(EWSTagger.class);
         subject = new StartConnectWithDeviceViewModel(navigatorMock, stringProviderMock, happyFlowContentConfigurationMock, baseContentConfigurationMock);
+        subject.ewsEventingChannel = mockEWSEventingChannel;
         when(baseContentConfigurationMock.getDeviceName()).thenReturn(123435);
     }
 
@@ -98,6 +108,26 @@ public class StartConnectWithDeviceViewModelTest {
         subject.getDescription(baseContentConfigurationMock);
         verify(stringProviderMock).getString(R.string.label_ews_get_started_description,
                 baseContentConfigurationMock.getDeviceName());
+    }
+
+    @Test
+    public void itShouldVerifyOnDestroyStopEWSEventingChannel() throws Exception{
+        callOnDestroy();
+        verify(mockEWSEventingChannel).stop();
+    }
+
+    @Test
+    public void itShouldVerifyOnDestroySendTagPauseLifecycleInfo() throws Exception{
+        callOnDestroy();
+        verifyStatic();
+        EWSTagger.pauseLifecycleInfo();
+    }
+
+    public void callOnDestroy(){
+        when(navigatorMock.getFragmentNavigator()).thenReturn(mock(FragmentNavigator.class));
+        when(navigatorMock.getFragmentNavigator().shouldFinish()).thenReturn(true);
+        subject.onDestroy();
+
     }
 
 }
