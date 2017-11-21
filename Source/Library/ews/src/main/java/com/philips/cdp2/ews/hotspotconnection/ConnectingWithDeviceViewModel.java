@@ -102,13 +102,17 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
     }
 
     public void connectToHotSpot() {
-        if (fragmentCallback != null) {
-            fragmentCallback.registerReceiver(broadcastReceiver, createIntentFilter());
-        } else {
-            Log.e(TAG, "FragmentCallback not set in ConnectToHotSpot");
+        if (wiFiUtil.isHomeWiFiEnabled()) {
+            if (fragmentCallback != null) {
+                fragmentCallback.registerReceiver(broadcastReceiver, createIntentFilter());
+            } else {
+                Log.e(TAG, "FragmentCallback not set in ConnectToHotSpot");
+            }
+            handler.postDelayed(timeOutAction, DEVICE_CONNECTION_TIMEOUT);
+            wiFiConnectivityManager.connectToApplianceHotspotNetwork(WiFiUtil.DEVICE_SSID);
+        }else{
+            showUnsuccessfulDialog();
         }
-        handler.postDelayed(timeOutAction, DEVICE_CONNECTION_TIMEOUT);
-        wiFiConnectivityManager.connectToApplianceHotspotNetwork(WiFiUtil.DEVICE_SSID);
     }
 
     public void handleCancelButtonClicked() {
