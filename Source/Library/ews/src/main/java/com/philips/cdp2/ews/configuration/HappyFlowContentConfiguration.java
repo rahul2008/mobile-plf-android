@@ -15,6 +15,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
 
     // below properties align to EWS - start screen
     @StringRes private final int gettingStartedScreenTitle;
+    @DrawableRes private final int gettingStartedScreenImage;
 
     // below properties align to EWS - setup screen
     @StringRes private final int setUpScreenTitle;
@@ -28,12 +29,14 @@ public class HappyFlowContentConfiguration implements Parcelable {
     @StringRes private final int setUpVerifyScreenNoButton;
     @DrawableRes private final int setUpVerifyScreenImage;
 
-    private HappyFlowContentConfiguration(int gettingStartedScreenTitle, int setUpScreenTitle,
+    private HappyFlowContentConfiguration(int gettingStartedScreenTitle, int gettingStartedScreenImage,
+                                          int setUpScreenTitle,
                                           int setUpScreenBody, int setUpScreenImage,
                                           int setUpVerifyScreenTitle, int setUpVerifyScreenQuestion,
                                           int setUpVerifyScreenYesButton,
                                           int setUpVerifyScreenNoButton, int setUpVerifyScreenImage) {
         this.gettingStartedScreenTitle = gettingStartedScreenTitle;
+        this.gettingStartedScreenImage = gettingStartedScreenImage;
         this.setUpScreenTitle = setUpScreenTitle;
         this.setUpScreenBody = setUpScreenBody;
         this.setUpScreenImage = setUpScreenImage;
@@ -46,6 +49,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
 
     protected HappyFlowContentConfiguration(Parcel in) {
         gettingStartedScreenTitle = in.readInt();
+        gettingStartedScreenImage = in.readInt();
         setUpScreenTitle = in.readInt();
         setUpScreenBody = in.readInt();
         setUpScreenImage = in.readInt();
@@ -58,6 +62,10 @@ public class HappyFlowContentConfiguration implements Parcelable {
 
     public int getGettingStartedScreenTitle() {
         return gettingStartedScreenTitle;
+    }
+
+    public int getGettingStartedScreenImage() {
+        return gettingStartedScreenImage;
     }
 
     public int getSetUpScreenTitle() {
@@ -113,6 +121,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(gettingStartedScreenTitle);
+        dest.writeInt(gettingStartedScreenImage);
         dest.writeInt(setUpScreenTitle);
         dest.writeInt(setUpScreenBody);
         dest.writeInt(setUpScreenImage);
@@ -125,6 +134,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
 
     public static class Builder {
         @StringRes private int gettingStartedScreenTitle;
+        @DrawableRes private int gettingStartedScreenImage;
 
         @StringRes private int setUpScreenTitle;
         @StringRes private int setUpScreenBody;
@@ -138,20 +148,26 @@ public class HappyFlowContentConfiguration implements Parcelable {
 
         public Builder() {
             gettingStartedScreenTitle = R.string.label_ews_get_started_title_default;
+            gettingStartedScreenImage = R.drawable.philips_logo_default;
 
             setUpScreenTitle = R.string.label_ews_plug_in_title_default;
             setUpScreenBody = R.string.label_ews_plug_in_body_default;
-            setUpScreenImage = R.drawable.ic_ews_device_apmode_blinking;
+            setUpScreenImage = R.drawable.power_button_default;
 
             setUpVerifyScreenTitle = R.string.label_ews_verify_ready_title_default;
             setUpVerifyScreenQuestion = R.string.label_ews_verify_ready_question_default;
             setUpVerifyScreenYesButton = R.string.button_ews_verify_ready_yes_default;
             setUpVerifyScreenNoButton = R.string.button_ews_verify_ready_no_default;
-            setUpVerifyScreenImage = R.drawable.ic_ews_device_apmode_blinking;
+            setUpVerifyScreenImage = R.drawable.power_button_default;
         }
 
         public Builder setGettingStartedScreenTitle(@StringRes int gettingStartedScreenTitle) {
             this.gettingStartedScreenTitle = gettingStartedScreenTitle;
+            return this;
+        }
+
+        public Builder setGettingStartedScreenImage(@DrawableRes int gettingStartedScreenImage) {
+            this.gettingStartedScreenImage = gettingStartedScreenImage;
             return this;
         }
 
@@ -196,7 +212,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
         }
 
         public HappyFlowContentConfiguration build() {
-            return new HappyFlowContentConfiguration(gettingStartedScreenTitle, setUpScreenTitle,
+            return new HappyFlowContentConfiguration(gettingStartedScreenTitle, gettingStartedScreenImage, setUpScreenTitle,
                     setUpScreenBody, setUpScreenImage, setUpVerifyScreenTitle,
                     setUpVerifyScreenQuestion, setUpVerifyScreenYesButton, setUpVerifyScreenNoButton,
                     setUpVerifyScreenImage);

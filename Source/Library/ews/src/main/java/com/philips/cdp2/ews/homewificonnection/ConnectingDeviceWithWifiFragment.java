@@ -37,15 +37,6 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
     @Nullable
     private ConnectingDeviceWithWifiViewModel viewModel;
 
-    @Inject
-    BaseContentConfiguration baseContentConfiguration;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getEWSComponent().inject(ConnectingDeviceWithWifiFragment.this);
-    }
-
     public static Fragment newInstance(@NonNull String homeWiFiSSID,
                                        @NonNull String homeWiFiPassword,
                                        @NonNull String deviceName,

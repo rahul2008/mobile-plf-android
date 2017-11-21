@@ -44,7 +44,7 @@ public class FragmentNavigatorTest {
         when(mockFragmentTransaction.replace(anyInt(), any(Fragment.class))).thenReturn(mockFragmentTransaction);
         when(mockFragmentTransaction.addToBackStack(anyString())).thenReturn(mockFragmentTransaction);
 
-        subject.push(mockFragment, containerId);
+        subject.push(mockFragment, containerId,false);
 
         InOrder inOrder = inOrder(mockFragmentManager, mockFragmentTransaction);
 
@@ -52,6 +52,25 @@ public class FragmentNavigatorTest {
         inOrder.verify(mockFragmentTransaction).replace(containerId, mockFragment);
         inOrder.verify(mockFragmentTransaction).addToBackStack("android.support.v4.app.Fragment");
         inOrder.verify(mockFragmentTransaction).commit();
+    }
+
+    @Test
+    public void itShouldBeCommitAllowingStateLoss() throws Exception {
+        int containerId = 50;
+
+
+        when(mockFragmentManager.beginTransaction()).thenReturn(mockFragmentTransaction);
+        when(mockFragmentTransaction.replace(anyInt(), any(Fragment.class))).thenReturn(mockFragmentTransaction);
+        when(mockFragmentTransaction.addToBackStack(anyString())).thenReturn(mockFragmentTransaction);
+
+        subject.push(mockFragment, containerId,true);
+
+        InOrder inOrder = inOrder(mockFragmentManager, mockFragmentTransaction);
+
+        inOrder.verify(mockFragmentManager).beginTransaction();
+        inOrder.verify(mockFragmentTransaction).replace(containerId, mockFragment);
+        inOrder.verify(mockFragmentTransaction).addToBackStack("android.support.v4.app.Fragment");
+        inOrder.verify(mockFragmentTransaction).commitAllowingStateLoss();
     }
 
     @Test

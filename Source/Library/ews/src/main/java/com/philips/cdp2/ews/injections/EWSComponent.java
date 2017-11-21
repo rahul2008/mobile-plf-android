@@ -38,8 +38,6 @@ public interface EWSComponent {
 
     void inject(EWSActivity ewsActivity);
 
-    void inject(ConnectingDeviceWithWifiFragment connectingDeviceWithWifiFragment);
-
     void inject(FragmentNavigator fragmentNavigator);
 
     ResetConnectionTroubleshootingViewModel resetConnectionTroubleshootingViewModel();

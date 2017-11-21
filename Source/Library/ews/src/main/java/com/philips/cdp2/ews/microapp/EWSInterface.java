@@ -22,7 +22,6 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import javax.inject.Inject;
 

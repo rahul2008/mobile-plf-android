@@ -26,6 +26,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertSame;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -44,6 +46,11 @@ public class NavigatorTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+    }
+
+    @Test
+    public void itShouldGetFragmentNavigatorWhichIsGiven() throws Exception{
+        assertSame(subject.getFragmentNavigator(),mockFragmentNavigator);
     }
 
     @Test
@@ -183,7 +190,7 @@ public class NavigatorTest {
 
     private void verifyFragmentPushed(@NonNull Class clazz) {
         ArgumentCaptor<Fragment> captor = ArgumentCaptor.forClass(Fragment.class);
-        verify(mockFragmentNavigator).push(captor.capture(), anyInt());
+        verify(mockFragmentNavigator).push(captor.capture(), anyInt(),anyBoolean());
         assertEquals(clazz, captor.getValue().getClass());
     }
 }
