@@ -20,9 +20,11 @@ import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.injections.EWSConfigurationModule;
 import com.philips.cdp2.ews.injections.EWSModule;
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.Map;
@@ -38,6 +40,9 @@ public class EWSDependencyProvider {
     EWSComponent ewsComponent;
     private AppInfraInterface appInfraInterface;
     private Map<String, String> productKeyMap;
+    @Nullable
+    private ThemeConfiguration themeConfiguration;
+
     @Nullable
     private Context context;
 
@@ -140,5 +145,13 @@ public class EWSDependencyProvider {
                 new RuntimeConfiguration(context, appInfraInterface));
         BEApplianceFactory factory = new BEApplianceFactory(lanTransportContext);
         return new CommCentral(factory, lanTransportContext);
+    }
+
+    public void setThemeConfiguration(@Nullable ThemeConfiguration themeConfiguration) {
+        this.themeConfiguration = themeConfiguration;
+    }
+
+    public ThemeConfiguration getThemeConfiguration() {
+        return themeConfiguration;
     }
 }
