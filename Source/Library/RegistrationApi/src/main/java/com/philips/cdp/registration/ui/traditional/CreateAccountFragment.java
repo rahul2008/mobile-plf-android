@@ -352,13 +352,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     private ClickableSpan mTermsAndConditionClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            if(getRegistrationFragment().getUserRegistrationUIEventListener()!=null) {
-                getRegistrationFragment().getUserRegistrationUIEventListener().
+            if(RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener()!=null){
+                RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
                         onTermsAndConditionClick(getRegistrationFragment().getParentActivity());
+            }else {
+                RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
             }
-            else {
-                    RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
-            }
+
         }
     };
 

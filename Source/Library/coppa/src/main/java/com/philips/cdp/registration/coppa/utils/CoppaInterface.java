@@ -64,7 +64,7 @@ public class CoppaInterface extends URInterface {
             registrationFragment.setOnUpdateTitleListener(fragmentLauncher.getActionbarListener());
             if (null != uappLaunchInput && null != ((CoppaLaunchInput) uappLaunchInput).
                     getUserRegistrationUIEventListener()) {
-                registrationFragment.setUserRegistrationUIEventListener
+                RegistrationConfiguration.getInstance().setUserRegistrationUIEventListener
                         (((CoppaLaunchInput) uappLaunchInput).
                                 getUserRegistrationUIEventListener());
                 ((CoppaLaunchInput) uappLaunchInput).setUserRegistrationUIEventListener(null);
@@ -103,7 +103,7 @@ public class CoppaInterface extends URInterface {
             int themeResId = uiLauncher.getUiKitTheme();
             RegistrationHelper.getInstance().setTheme(themeResId);
 
-            RegistrationCoppaActivity.setUserRegistrationUIEventListener(((CoppaLaunchInput) uappLaunchInput).
+            RegistrationConfiguration.getInstance().setUserRegistrationUIEventListener(((CoppaLaunchInput) uappLaunchInput).
                     getUserRegistrationUIEventListener());
             ((CoppaLaunchInput) uappLaunchInput).setUserRegistrationUIEventListener(null);
             Intent registrationIntent = new Intent(RegistrationHelper.getInstance().

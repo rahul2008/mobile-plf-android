@@ -15,6 +15,7 @@ import android.text.style.*;
 import android.view.*;
 import android.widget.*;
 
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.*;
 import com.philips.cdp.registration.coppa.base.*;
 import com.philips.cdp.registration.coppa.ui.controllers.*;
@@ -44,8 +45,17 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     private ClickableSpan privacyLinkClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-           getRegistrationFragment().getUserRegistrationUIEventListener().
-                    onPrivacyPolicyClick(getActivity());
+
+            if(RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() !=null){
+
+                RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
+                        onPrivacyPolicyClick(getActivity());
+
+            }else {
+
+                RegUtility.showErrorMessage(getActivity());
+            }
+
         }
     };
 

@@ -63,7 +63,7 @@ public class URInterface implements UappInterface {
 
             if (null != uappLaunchInput && null != ((URLaunchInput) uappLaunchInput).
                     getUserRegistrationUIEventListener()) {
-                registrationFragment.setUserRegistrationUIEventListener
+                RegistrationConfiguration.getInstance().setUserRegistrationUIEventListener
                         (((URLaunchInput) uappLaunchInput).
                                 getUserRegistrationUIEventListener());
                 ((URLaunchInput) uappLaunchInput).setUserRegistrationUIEventListener(null);
@@ -108,7 +108,7 @@ public class URInterface implements UappInterface {
             RegUtility.setUiFlow(uiFlow);
 
 
-            RegistrationActivity.setUserRegistrationUIEventListener(((URLaunchInput) uappLaunchInput).
+            RegistrationConfiguration.getInstance().setUserRegistrationUIEventListener(((URLaunchInput) uappLaunchInput).
                     getUserRegistrationUIEventListener());
             ((URLaunchInput) uappLaunchInput).setUserRegistrationUIEventListener(null);
             Intent registrationIntent = new Intent(RegistrationHelper.getInstance().
