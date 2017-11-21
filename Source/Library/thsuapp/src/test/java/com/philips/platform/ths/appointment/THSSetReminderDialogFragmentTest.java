@@ -8,6 +8,7 @@ package com.philips.platform.ths.appointment;
 
 import android.view.View;
 
+import com.americanwell.sdk.entity.consumer.RemindOptions;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.utility.THSConstants;
@@ -21,6 +22,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunnerAmwel.class)
 public class THSSetReminderDialogFragmentTest {
@@ -33,6 +35,8 @@ public class THSSetReminderDialogFragmentTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         mthsSetReminderDialogFragment = new THSSetReminderDialogFragment();
+        mthsSetReminderDialogFragment.setDialogFragmentCallback(thsDialogFragmentCallbackMock);
+        when(thsDialogFragmentCallbackMock.getReminderOptions()).thenReturn(RemindOptions.NO_REMINDER);
         SupportFragmentTestUtil.startFragment(mthsSetReminderDialogFragment);
     }
 
