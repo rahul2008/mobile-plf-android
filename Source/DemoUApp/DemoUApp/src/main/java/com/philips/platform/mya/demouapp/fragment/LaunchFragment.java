@@ -47,7 +47,7 @@ import static com.philips.platform.mya.demouapp.MyaConstants.PROPOSITION_NAME;
 
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
+ * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
 public class LaunchFragment extends BaseFragment implements View.OnClickListener {
@@ -136,6 +136,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
             }
         });
 
+        // TODO: Deepthi, we need to remove this input which goes through via MYA interface and make internal changes as well
         MyaInterface myaInterface = new MyaInterface();
         List<ConsentDefinition> createConsentDefinitions= createConsentDefinitions(null, Locale.US);
         myaInterface.init(uappDependencies, new MyaSettings((DemoAppActivity) getActivity(), createConsentDefinitions));
@@ -154,25 +155,14 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
 
 
     private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-        /*Bundle b = new Bundle();
-        b.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, APPLICATION_NAME);
-        b.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, PROPOSITION_NAME);
-*/
+
         ConsentBundleConfig config = new ConsentBundleConfig(APPLICATION_NAME, PROPOSITION_NAME, createConsentDefinitions(getContext(), Locale.US));
 
-       // ConsentBundleConfig config = new ConsentBundleConfig(b);
+
         CswLaunchInput cswLaunchInput = new CswLaunchInput(config,context);
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
     }
-    /*public void setArguments() {
-       // config = new ConsentBundleConfig(myaDependencies.getApplicationName(), myaDependencies.getPropositionName(), ((MyaSettings)uappSettings).getConsentDefinitions());
-
-        Bundle b = new Bundle();
-        b.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, APPLICATION_NAME);
-        b.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, PROPOSITION_NAME);
-        this.setArguments(b);
-    }*/
 
     public DataInterface getDataInterface() {
         return new UserDataModelProvider(this.getActivity());
