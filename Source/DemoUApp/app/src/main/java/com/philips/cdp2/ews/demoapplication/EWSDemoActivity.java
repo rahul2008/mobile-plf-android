@@ -34,6 +34,7 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
+import com.philips.platform.uid.view.widget.ActionBarTextView;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
@@ -231,7 +232,7 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
 
     public void setToolbarTitle(String title) {
         Toolbar toolbar = findViewById(R.id.ews_toolbar);
-        ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText(title);
+        ((ActionBarTextView) toolbar.findViewById(R.id.toolbar_title)).setText(title);
     }
 
     @Override

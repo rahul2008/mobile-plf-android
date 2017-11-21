@@ -46,7 +46,7 @@
     <string name="label_ews_succesful_body">Your %1$s is now connected to your home Wi-Fi network and paired with your phone.</string>
     <string name="button_ews_succesful_start">Continue</string>
     <string name="label_ews_home_network_title">Select your home WiFi network</string>
-    <string name="label_ews_home_network_body">Please read all 4 steps before leaving the application.\n&lt;b&gt;1&lt;/b&gt;. Tap &lt;b&gt;WiFi&lt;/b&gt; in your phone Settings\n&lt;b&gt;2&lt;/b&gt;. Make sure your WiFi is &lt;b&gt;turned on&lt;/b&gt;\n&lt;b&gt;3&lt;/b&gt;. Select your &lt;b&gt;home network&lt;/b&gt;\n&lt;b&gt;4&lt;/b&gt;. Return to the &lt;b&gt; %1$s&lt;/b&gt;</string>
+    <string name="label_ews_home_network_body">Please read all 4 steps before leaving the application.\n1. Tap WiFi in your phone Settings\n2. Make sure your WiFi is turned on \n3. Select your home network\n4. Return to the %1$s</string>
     <string name="label_ews_connection_unsuccesful_body">The phone could not detect your Somneo in Home WiFi.\nThis may be because you entered the wrong password or because your Somneo is out of range.\n\nPlease verify your password, move your device and phone closer to your home router and try again.\n\nIf problems persist,please click the \"different issue\" link below.</string>
     <string name="label_ews_connection_unsuccesful_title">Connection was unsuccessful</string>
     <string name="button_ews_connection_unsuccesful_yes">Yes, please help me</string>

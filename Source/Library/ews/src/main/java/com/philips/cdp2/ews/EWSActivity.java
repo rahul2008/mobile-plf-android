@@ -26,6 +26,7 @@ import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.drawable.FontIconDrawable;
+import com.philips.platform.uid.view.widget.ActionBarTextView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -170,8 +171,8 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
     }
 
     public void setToolbarTitle(String s) {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.ews_toolbar);
-        ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText(s);
+        Toolbar toolbar = findViewById(R.id.ews_toolbar);
+        ((ActionBarTextView) toolbar.findViewById(R.id.toolbar_title)).setText(s);
     }
 
     @Override
