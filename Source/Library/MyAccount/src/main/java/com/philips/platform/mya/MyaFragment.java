@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.csw.CswConstants;
 import com.philips.platform.csw.CswFragment;
 import com.philips.platform.csw.CswInterface;
@@ -138,19 +139,20 @@ public class MyaFragment extends Fragment {
     }
 
 
+
     public void launchCswFragment() {
         FragmentLauncher fragmentLauncher = new FragmentLauncher(getActivity(), R.id.mya_frame_layout_view_container, mActionBarListener);
         new CswInterface().launch(fragmentLauncher, buildLaunchInput(true));
     }
 
     private CswLaunchInput buildLaunchInput(boolean addToBackStack) {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput();
-        cswLaunchInput.setPropositionName(propositionName);
-        cswLaunchInput.setApplicationName(applicationName);
+        ConsentBundleConfig config = new ConsentBundleConfig(getArguments());
+        CswLaunchInput cswLaunchInput = new CswLaunchInput(config,getContext());
         cswLaunchInput.addToBackStack(addToBackStack);
-        cswLaunchInput.setContext(getContext());
+
         return cswLaunchInput;
     }
+
 
     protected FragmentActivity overridableGetActivity() {
         return getActivity();

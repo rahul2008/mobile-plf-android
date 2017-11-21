@@ -15,6 +15,8 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 
+import java.util.Map;
+
 public class AppInfraInterfaceMock implements AppInfraInterface {
 
     @Override
@@ -34,7 +36,22 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
 
     @Override
     public LoggingInterface getLogging() {
-        return null;
+        return new LoggingInterface() {
+            @Override
+            public LoggingInterface createInstanceForComponent(String s, String s1) {
+                return this;
+            }
+
+            @Override
+            public void log(LogLevel logLevel, String s, String s1) {
+
+            }
+
+            @Override
+            public void log(LogLevel logLevel, String s, String s1, Map<String, ?> map) {
+
+            }
+        };
     }
 
     @Override

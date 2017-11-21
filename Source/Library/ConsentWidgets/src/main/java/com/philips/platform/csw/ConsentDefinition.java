@@ -1,8 +1,11 @@
 package com.philips.platform.csw;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Locale;
 
-public class ConsentDefinition {
+public class ConsentDefinition implements Parcelable {
     private String text;
     private String helpText;
     private String type;
@@ -56,4 +59,40 @@ public class ConsentDefinition {
     public void setLocale(String locale) {
         this.locale = locale;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(text);
+        parcel.writeString(helpText);
+        parcel.writeString(type);
+        parcel.writeInt(version);
+        parcel.writeString(locale);
+    }
+
+    protected ConsentDefinition(Parcel in) {
+        text = in.readString();
+        helpText = in.readString();
+        type = in.readString();
+        version = in.readInt();
+        locale = in.readString();
+    }
+
+    public static final Creator<ConsentDefinition> CREATOR = new Creator<ConsentDefinition>() {
+        @Override
+        public ConsentDefinition createFromParcel(Parcel in) {
+            return new ConsentDefinition(in);
+        }
+
+        @Override
+        public ConsentDefinition[] newArray(int size) {
+            return new ConsentDefinition[size];
+        }
+    };
+
+
 }

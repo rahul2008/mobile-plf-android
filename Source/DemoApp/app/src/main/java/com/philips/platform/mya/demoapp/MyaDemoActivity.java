@@ -15,7 +15,7 @@ import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.utils.UIDActivity;
-import com.philips.platform.urdemo.R;
+import com.philips.platform.mya.demoapp.R;
 import com.philips.platform.urdemo.URDemouAppDependencies;
 import com.philips.platform.urdemo.URDemouAppInterface;
 import com.philips.platform.urdemo.URDemouAppSettings;

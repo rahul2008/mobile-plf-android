@@ -14,12 +14,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.philips.platform.mya.injection.DaggerMyaUiComponent;
+
 import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.mya.R;
+import com.philips.platform.mya.injection.DaggerMyaUiComponent;
 import com.philips.platform.mya.injection.MyaUiComponent;
 import com.philips.platform.mya.injection.MyaUiModule;
+import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
+import com.philips.platform.mya.launcher.MyaLaunchInput;
+import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -30,6 +35,7 @@ import com.philips.platform.uid.utils.UIDActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static android.R.attr.src;
 import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
 
 // TODO: Deepthi check if this can be removed
@@ -37,16 +43,20 @@ import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
 public class MyaActivity extends UIDActivity {
 
     private TextView mTitle;
+
     // TODO: Deepthi, check below can be removed, catkconstants should be removed
     private String applicationName;
     private String propositionName;
+
     private ImageView leftImageView;
+    private ConsentBundleConfig config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         UIDHelper.injectCalligraphyFonts();
         initDLSThemeIfExists();
         super.onCreate(savedInstanceState);
+        config = new ConsentBundleConfig(getIntent().getExtras());
         setContentView(R.layout.mya_myaccounts_activity);
         // TODO: Deepthi, remove this API
         fetchConsentData();
@@ -65,6 +75,7 @@ public class MyaActivity extends UIDActivity {
 
         launchTabFragment();
     }
+
 
     private void fetchConsentData() {
         Bundle bundle = getIntent().getExtras();
@@ -124,19 +135,18 @@ public class MyaActivity extends UIDActivity {
         }
     }
 
-
     @Override
     protected void onRestoreInstanceState(Bundle state) {
         super.onRestoreInstanceState(state);
-        applicationName = state.getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
-        propositionName = state.getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        if (state != null) {
+            config = new ConsentBundleConfig(state);
+        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
-        state.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
-        state.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+        state.putAll(config.toBundle());
     }
 
     @Override

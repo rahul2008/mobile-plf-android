@@ -27,8 +27,6 @@ import java.util.Map;
 import javax.inject.Inject;
 
 public class NetworkController implements ConsentRequestListener, Response.ErrorListener {
-    private NetworkAbstractModel model;
-
     @Inject
     RestInterface restInterface;
 
@@ -41,13 +39,12 @@ public class NetworkController implements ConsentRequestListener, Response.Error
     }
 
     public void sendConsentRequest(final NetworkAbstractModel model) {
-        this.model = model;
         ConsentRequest request = getConsentJsonRequest(model);
         request.setShouldCache(false);
         addRequestToQueue(request);
     }
 
-    public void addRequestToQueue(ConsentRequest consentRequest) {
+    private void addRequestToQueue(ConsentRequest consentRequest) {
         if (consentRequest != null) {
             if (restInterface != null) {
                 restInterface.getRequestQueue().add(consentRequest);
@@ -59,11 +56,12 @@ public class NetworkController implements ConsentRequestListener, Response.Error
     }
 
     protected ConsentRequest getConsentJsonRequest(final NetworkAbstractModel model) {
-        return new ConsentRequest(model.getMethod(), model.getUrl(), requestHeader(), model.requestBody(), this, this);
+        return new ConsentRequest(model, model.getMethod(), model.getUrl(), requestHeader(), model.requestBody(), this, this);
     }
 
     @Override
     public void onResponse(ConsentRequest request, JsonArray response) {
+        NetworkAbstractModel model = request.getModel();
         if (model != null) {
             model.onResponseSuccess(model.parseResponse(response));
         }
@@ -74,13 +72,17 @@ public class NetworkController implements ConsentRequestListener, Response.Error
         if (error instanceof AuthFailureError) {
             performRefreshToken(request, error);
         } else {
-            model.onResponseError(new ConsentNetworkError(error));
+            NetworkAbstractModel model = request.getModel();
+            if (model != null) {
+                model.onResponseError(new ConsentNetworkError(error));
+            }
         }
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        model.onResponseError(new ConsentNetworkError(error));
+        // No need to handle, all response return via other 'onErrorResponse'
+        Log.e("Consent access toolkit", "Error from volley", error);
     }
 
     public static Map<String, String> requestHeader() {
@@ -102,19 +104,16 @@ public class NetworkController implements ConsentRequestListener, Response.Error
         refreshAccessToken(new RefreshTokenListener() {
             @Override
             public void onRefreshSuccess() {
-                try {
-                    addAuthorization(request.getHeaders());
-                } catch (AuthFailureError authFailureError) {
-                    // This should never happen since our getHeaders implementation does not throw.
-                    // However, the interface enforces this exception so catch it here.
-                    authFailureError.printStackTrace();
-                }
-                addRequestToQueue(request);
+                NetworkAbstractModel model = request.getModel();
+                sendConsentRequest(model);
             }
 
             @Override
             public void onRefreshFailed(int errCode) {
-                model.onResponseError(new ConsentNetworkError(error));
+                NetworkAbstractModel model = request.getModel();
+                if (model != null) {
+                    model.onResponseError(new ConsentNetworkError(error));
+                }
             }
         });
     }

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <FrameLayout
+        android:id="@+id/toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/layout_margin_left_right">
+
+        <com.philips.platform.uid.view.widget.Switch
+            android:id="@+id/toggleicon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:gravity="center_vertical|end" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/consentText"
+        style="@style/TestButtonTexts"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/toggle"
+        android:gravity="center_vertical|start"
+        tools:text="Hallo" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/consentHelp"
+        style="@style/TestButtonTexts"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/consentText"
+        android:autoLink="web"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical|start"
+        android:text="@string/csw_what_does_this_mean" />
+
+</RelativeLayout>

@@ -8,7 +8,11 @@
 package com.philips.platform.mya.launcher;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.csw.ConsentDefinition;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyaDependencies extends UappDependencies {
 
@@ -36,6 +40,4 @@ public class MyaDependencies extends UappDependencies {
 
     private String applicationName;
     private String propositionName;
-
-
 }

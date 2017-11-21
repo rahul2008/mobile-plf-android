@@ -2,8 +2,10 @@ package com.philips.platform.csw;
 
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.CatkInputs;
@@ -22,6 +24,10 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class CswInterface implements UappInterface {
+
+    private UiLauncher uiLauncher;
+    private CswLaunchInput cswLaunchInput;
+
     /**
      * Launches the CswInterface interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
      *
@@ -30,10 +36,16 @@ public class CswInterface implements UappInterface {
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
+        this.uiLauncher = uiLauncher;
+        this.cswLaunchInput = (CswLaunchInput)uappLaunchInput;
+        launch();
+    }
+
+    private void launch() {
         if (uiLauncher instanceof ActivityLauncher) {
-            launchAsActivity(((ActivityLauncher) uiLauncher), (CswLaunchInput) uappLaunchInput);
+            launchAsActivity(((ActivityLauncher) uiLauncher), cswLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
-            launchAsFragment((FragmentLauncher) uiLauncher, (CswLaunchInput) uappLaunchInput);
+            launchAsFragment((FragmentLauncher) uiLauncher, cswLaunchInput);
         }
     }
 
@@ -44,7 +56,16 @@ public class CswInterface implements UappInterface {
             CswFragment cswFragment = new CswFragment();
             cswFragment.setOnUpdateTitleListener(fragmentLauncher.
                     getActionbarListener());
-            cswFragment.setArguments(uappLaunchInput.getApplicationName(), uappLaunchInput.getPropositionName(), uappLaunchInput.isAddtoBackStack());
+            if (uappLaunchInput.getConfig()==null){
+                Log.i("Deepthi", "config = null ");
+            }
+            Log.i("Deepthi", "config app name = " + uappLaunchInput.getConfig().getApplicationName());
+            Log.i("Deepthi", "config pro name = " + uappLaunchInput.getConfig().getPropositionName());
+            Log.i("Deepthi", "config List name = " + uappLaunchInput.getConfig().getConsentDefinitions().toString());
+
+           Bundle fragmentConfig = uappLaunchInput.getConfig().toBundle();
+            fragmentConfig.putBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK, uappLaunchInput.isAddtoBackStack());
+            cswFragment.setArguments(fragmentConfig);
 
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
@@ -64,8 +85,15 @@ public class CswInterface implements UappInterface {
     private void launchAsActivity(ActivityLauncher uiLauncher, CswLaunchInput uappLaunchInput) {
         if (null != uiLauncher && uappLaunchInput != null) {
             Intent cswIntent = new Intent(uappLaunchInput.getContext(), CswActivity.class);
-            cswIntent.putExtra(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, uappLaunchInput.getApplicationName());
-            cswIntent.putExtra(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, uappLaunchInput.getPropositionName());
+            if (uappLaunchInput.getConfig()==null){
+                Log.i("Deepthi", "Activity config = null ");
+            }
+            Log.i("Deepthi", "Activity config app name = " + uappLaunchInput.getConfig().getApplicationName());
+            Log.i("Deepthi", "Activity config pro name = " + uappLaunchInput.getConfig().getPropositionName());
+            Log.i("Deepthi", "Activity config List name = " + uappLaunchInput.getConfig().getConsentDefinitions().toString());
+
+            cswIntent.putExtras(uappLaunchInput.getConfig().toBundle());
+
             cswIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             uappLaunchInput.getContext().startActivity(cswIntent);
         }
@@ -79,19 +107,19 @@ public class CswInterface implements UappInterface {
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        initConsentToolKit(uappDependencies, uappSettings);
+        ConsentAccessToolKit.getInstance().init(initConsentToolKit(uappDependencies, uappSettings));
         cswComponent = initDaggerComponents(uappDependencies, uappSettings);
         CswLogger.init();
         CswLogger.enableLogging();
     }
 
-    private void initConsentToolKit(UappDependencies uappDependencies, UappSettings uappSettings) {
+    public CatkInputs initConsentToolKit(UappDependencies uappDependencies, UappSettings uappSettings) {
         CatkInputs catkInputs = new CatkInputs();
         catkInputs.setContext(uappSettings.getContext());
         catkInputs.setAppInfra(uappDependencies.getAppInfra());
         catkInputs.setApplicationName(((CswDependencies) uappDependencies).getApplicationName());
         catkInputs.setPropositionName(((CswDependencies) uappDependencies).getPropositionName());
-        ConsentAccessToolKit.getInstance().init(catkInputs);
+        return catkInputs;
     }
 
     private CswComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
@@ -105,4 +133,5 @@ public class CswInterface implements UappInterface {
     }
 
     private static CswComponent cswComponent;
+
 }
