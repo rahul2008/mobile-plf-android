@@ -49,8 +49,8 @@ node('Android&&docker') {
                     sh """#!/bin/bash -l
                         chmod -R 755 . 
                         cd ./Source/DemoUApp
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} -PbuildNumber=${env.BUILD_NUMBER} clean assembleDebug lint
-                        ./gradlew -PenvCode=${JENKINS_ENV} -PbuildNumber=${env.BUILD_NUMBER} assembleRelease artifactoryPublish
+                        ./gradlew --refresh-dependencies -PbuildNumber=${env.BUILD_NUMBER} clean assembleDebug lint
+                        ./gradlew -PbuildNumber=${env.BUILD_NUMBER} assembleRelease artifactoryPublish
                     """
                 }
             } else {
