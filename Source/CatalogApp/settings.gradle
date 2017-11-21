@@ -5,8 +5,3 @@ project(':uid').projectDir = new File('../UIKit/uid')
 //Theme generator
 include ':dlsresources'
 project(':dlsresources').projectDir = new File('../UIKit/dlsresources')
-
-
-//Theme generator
-//include ':themesettings'
-//project(':themesettings').projectDir = new File('../UIKit/themesettings')

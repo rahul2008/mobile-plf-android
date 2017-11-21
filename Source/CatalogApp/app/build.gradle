@@ -222,8 +222,6 @@ dependencies {
 
 
     compile project(':uid')
-    //compile project(':themesettings')
-
 
     testCompile("junit:junit:${jUnitVer}") {
         exclude module: "com.android.support"
