@@ -178,7 +178,6 @@ android {
     buildToolsVersion "26.0.2"
 
     defaultConfig {
-        applicationId "com.philips.platform.referenceapp"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
@@ -190,173 +189,176 @@ android {
         testApplicationId "com.philips.platform.appframework.test"
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
         multiDexEnabled true
-        resConfigs "ar", "bg",  "cs", "da", "de", "el", "en", "en_GB", "es", "es_AR", "es_MX", "et", "fi", "fr", "fr_CA", "he", "hr", "hu", "it", "ja", "ko",  "lt", "lv",  "nb", "nl",  "pl",  "pt", "pt_BR", "ro", "ru", "sk", "sl", "sv", "th", "tr", "vi", "zh_CN", "zh_HK", "zh_TW"
+//        resConfigs "ar", "bg",  "cs", "da", "de", "el", "en", "en_GB", "es", "es_AR", "es_MX", "et", "fi", "fr", "fr_CA", "he", "hr", "hu", "it", "ja", "ko",  "lt", "lv",  "nb", "nl",  "pl",  "pt", "pt_BR", "ro", "ru", "sk", "sl", "sv", "th", "tr", "vi", "zh_CN", "zh_HK", "zh_TW"
         // replace the below string with your own Google client ID. Make sure this is consistent
         // with the values used in openid_appauth_idp_configs.xml
-        manifestPlaceholders = [
-                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf'
-        ]
+//        manifestPlaceholders = [
+//                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf'
+//        ]
     }
+//
+//    productFlavors {
+//        AppFrameworkHamburger {
+//            applicationId = "com.philips.platform.referenceapp"
+//            resValue "string", "af_app_name", "ReferenceApp"
+//
+//        }
+//        /*
+//        AppFrameworkTabbed {
+//            applicationId = "com.philips.platform.referenceapp"
+//            resValue "string", "af_app_name", "ReferenceApp"
+//        }
+//        */
+//        applicationVariants.all { variant ->
+//            variant.outputs.each { output ->
+//                if (variant.productFlavors[0].name.equals("AppFrameworkHamburger")) {
+//                    output.outputFile = new File(output.outputFile.parent,
+//                            output.outputFile.name.replace("-AppFrameworkHamburger", ""));
+//                }
+//            }
+//        }
+//        applicationVariants.all { variant ->
+//            def productFlavor = variant.productFlavors[0] != null ? "${variant.productFlavors[0].name.capitalize()}" : ""
+//            def buildType = "${variant.buildType.name.capitalize()}"
+//            tasks["compile${productFlavor}${buildType}UnitTestSources"].dependsOn(tasks["merge${productFlavor}${buildType}Assets"])
+//        }
+//
+//    }
 
-    productFlavors {
-        AppFrameworkHamburger {
-            applicationId = "com.philips.platform.referenceapp"
-            resValue "string", "af_app_name", "ReferenceApp"
+//    lintOptions {
+//        abortOnError false
+//    }
 
-        }
-        /*
-        AppFrameworkTabbed {
-            applicationId = "com.philips.platform.referenceapp"
-            resValue "string", "af_app_name", "ReferenceApp"
-        }
-        */
-        applicationVariants.all { variant ->
-            variant.outputs.each { output ->
-                if (variant.productFlavors[0].name.equals("AppFrameworkHamburger")) {
-                    output.outputFile = new File(output.outputFile.parent,
-                            output.outputFile.name.replace("-AppFrameworkHamburger", ""));
-                }
-            }
-        }
-        applicationVariants.all { variant ->
-            def productFlavor = variant.productFlavors[0] != null ? "${variant.productFlavors[0].name.capitalize()}" : ""
-            def buildType = "${variant.buildType.name.capitalize()}"
-            tasks["compile${productFlavor}${buildType}UnitTestSources"].dependsOn(tasks["merge${productFlavor}${buildType}Assets"])
-        }
-
-    }
-
-    lintOptions {
-        abortOnError false
-    }
-
-    signingConfigs {
-        release
-    }
-
-    dexOptions {
-        preDexLibraries = false
-        jumboMode = false
-    }
-    buildTypes {
-        def BOOLEAN = "bool"
-        def TRUE = "true"
-        def AWSDK_DEV_SSL_ALLOW_ALL = "awsdk_dev_ssl_allow_all"
-        debug {
-            minifyEnabled false
-            shrinkResources false
-            debuggable true
-            testCoverageEnabled = true
-            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
-        }
-
-
-        leakCanary {
-            minifyEnabled false
-            shrinkResources false
-            debuggable true
-            signingConfig signingConfigs.debug
-            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
-        }
-        release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFile 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
-        }
-        psraRelease {
-            minifyEnabled true
-            shrinkResources true
-            debuggable false
-            proguardFile 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
-        }
-
-    }
+//    signingConfigs {
+//        release
+//    }
+//
+//    dexOptions {
+//        preDexLibraries = false
+//        jumboMode = false
+//    }
+//    buildTypes {
+//        def BOOLEAN = "bool"
+//        def TRUE = "true"
+//        def AWSDK_DEV_SSL_ALLOW_ALL = "awsdk_dev_ssl_allow_all"
+//        debug {
+//            minifyEnabled false
+//            shrinkResources false
+//            debuggable true
+//            testCoverageEnabled = true
+//            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+//        }
+//
+//        leakCanary {
+//            minifyEnabled false
+//            shrinkResources false
+//            debuggable true
+//            signingConfig signingConfigs.debug
+//            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+//        }
+//        release {
+//            minifyEnabled true
+//            shrinkResources true
+//            proguardFile 'proguard-rules.pro'
+//            signingConfig signingConfigs.release
+//            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+//        }
+//        psraRelease {
+//            minifyEnabled true
+//            shrinkResources true
+//            debuggable false
+//            proguardFile 'proguard-rules.pro'
+//            signingConfig signingConfigs.release
+//            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+//        }
+//
+//    }
 
     
-    /*
-    This defined for signing the apk -- start
-     */
-    def Properties props = new Properties()
-    def propFile = new File("${projectDir}/../signing.properties")
-    if (propFile.canRead()) {
-        props.load(new FileInputStream(propFile))
+//    /*
+//    This defined for signing the apk -- start
+//     */
+//    def Properties props = new Properties()
+//    def propFile = new File("${projectDir}/../signing.properties")
+//    if (propFile.canRead()) {
+//        props.load(new FileInputStream(propFile))
+//
+//        if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+//            android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+//            android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+//            android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+//            android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+//        } else {
+//            println 'signing.properties found but some entries are missing'
+//            android.buildTypes.release.signingConfig = null
+//        }
+//    } else {
+//        println 'rap signing.properties not found'
+//        android.buildTypes.release.signingConfig = null
+//    }
+//    /*
+//    This defined for signing the apk -- end
+//    */
 
-        if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
-            android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
-            android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
-            android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
-            android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
-        } else {
-            println 'signing.properties found but some entries are missing'
-            android.buildTypes.release.signingConfig = null
-        }
-    } else {
-        println 'rap signing.properties not found'
-        android.buildTypes.release.signingConfig = null
-    }
-    /*
-    This defined for signing the apk -- end
-    */
+//    packagingOptions {
+//        exclude 'META-INF/DEPENDENCIES.txt'
+//        exclude 'META-INF/LICENSE.txt'
+//        exclude 'META-INF/NOTICE.txt'
+//        exclude 'META-INF/NOTICE'
+//        exclude 'META-INF/LICENSE'
+//        exclude 'META-INF/DEPENDENCIES'
+//        exclude 'META-INF/notice.txt'
+//        exclude 'META-INF/license.txt'
+//        exclude 'META-INF/dependencies.txt'
+//        exclude 'META-INF/LGPL2.1'
+//
+//        exclude 'lib/mips/librsjni.so'
+//        exclude 'lib/mips/libssdpJNI.so'
+//        exclude 'lib/mips/libblasV8.so'
+//        exclude 'lib/mips/libRSSupport.so'
+//        exclude "lib/mips/librealm-jni.so"
+//        exclude 'lib/mips/lib.so'
+//        exclude 'lib/mips/libcrashlytics-envelope.so'
+//        exclude 'lib/mips/libcrashlytics.so'
+//        exclude 'lib/mips64/libcrashlytics-envelope.so'
+//        exclude 'lib/mips64/libcrashlytics.so'
+//        exclude 'lib/mips64/libssdpJNI.so'
+//
+//        pickFirst 'lib/x86/librsjni.so'
+//        pickFirst 'lib/x86/libblasV8.so'
+//        pickFirst 'lib/x86/libRSSupport.so'
+//        pickFirst 'lib/armeabi-v7a/librsjni.so'
+//        pickFirst 'lib/armeabi-v7a/libblasV8.so'
+//        pickFirst 'lib/armeabi-v7a/libRSSupport.so'
+//        pickFirst 'lib/arm64-v8a/libRSSupport.so'
+//        pickFirst 'lib/arm64-v8a/librsjni.so'
+//        exclude 'META-INF/INDEX.LIST'
+//        exclude 'org/joda/time/format/*.properties'
+//    }
 
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/dependencies.txt'
-        exclude 'META-INF/LGPL2.1'
+//    testOptions {
+//        unitTests.returnDefaultValues = true
+//        unitTests.all {
+//            // set JVM arguments for the test JVM(s)
+//            jvmArgs '-noverify'
+//            testLogging {
+//                events "started", "passed", "skipped", "failed"
+//                outputs.upToDateWhen {false}
+//            }
+//
+//            jacoco {
+//                includeNoLocationClasses = false
+//            }
+//        }
+//    }
 
-        exclude 'lib/mips/librsjni.so'
-        exclude 'lib/mips/libssdpJNI.so'
-        exclude 'lib/mips/libblasV8.so'
-        exclude 'lib/mips/libRSSupport.so'
-        exclude "lib/mips/librealm-jni.so"
-        exclude 'lib/mips/lib.so'
-        exclude 'lib/mips/libcrashlytics-envelope.so'
-        exclude 'lib/mips/libcrashlytics.so'
-        exclude 'lib/mips64/libcrashlytics-envelope.so'
-        exclude 'lib/mips64/libcrashlytics.so'
-        exclude 'lib/mips64/libssdpJNI.so'
+//    dataBinding {
+//        enabled = true
+//    }
 
-        pickFirst 'lib/x86/librsjni.so'
-        pickFirst 'lib/x86/libblasV8.so'
-        pickFirst 'lib/x86/libRSSupport.so'
-        pickFirst 'lib/armeabi-v7a/librsjni.so'
-        pickFirst 'lib/armeabi-v7a/libblasV8.so'
-        pickFirst 'lib/armeabi-v7a/libRSSupport.so'
-        pickFirst 'lib/arm64-v8a/libRSSupport.so'
-        pickFirst 'lib/arm64-v8a/librsjni.so'
-        exclude 'META-INF/INDEX.LIST'
-        exclude 'org/joda/time/format/*.properties'
-    }
-
-    testOptions {
-        unitTests.returnDefaultValues = true
-        unitTests.all {
-            // set JVM arguments for the test JVM(s)
-            jvmArgs '-noverify'
-            testLogging {
-                events "started", "passed", "skipped", "failed"
-                outputs.upToDateWhen {false}
-            }
-
-            jacoco {
-                includeNoLocationClasses = false
-            }
-        }
-    }
-
-    dataBinding {
-        enabled = true
-    }
+    apply from: "../scripts/proposition_specific.gradle"
+    apply from: "../scripts/flavors.gradle"
+    apply from: "../scripts/exclude_files.gradle"
 }
 
 repositories {
@@ -520,108 +522,111 @@ task copyToLib(type: Copy) {
     from configurations.compile
 }
 
-task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
+//task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
+//
+//    description 'Run findbugs'
+//    group 'verification'
+//    ignoreFailures = true
+//    classes = fileTree('build/intermediates/classes/simulator/debug')
+//    source = fileTree('src/main/java')
+//    classpath = files()
+//
+//    effort = 'max'
+//
+//    excludeFilter = file("findbugs-exclude.xml")
+//
+//    reports {
+//        xml.enabled = true
+//        html.enabled = false
+//    }
+//}
+//
+//task pmd(type: Pmd, dependsOn: "assembleDebug") {
+//
+//    description 'Run pmd'
+//    group 'verification'
+//    ignoreFailures = true
+//    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
+//    source = fileTree('src/main/java')
+//
+//    reports {
+//        xml.enabled = true
+//        html.enabled = true
+//    }
+//}
 
-    description 'Run findbugs'
-    group 'verification'
-    ignoreFailures = true
-    classes = fileTree('build/intermediates/classes/simulator/debug')
-    source = fileTree('src/main/java')
-    classpath = files()
+apply from: "../scripts/task_verification.gradle"
 
-    effort = 'max'
+//
+//project.afterEvaluate {
+//    // Grab all build types and product flavors
+//    def buildTypes = android.buildTypes.collect { type ->
+//        type.name
+//    }
+//    def productFlavors = android.productFlavors.collect { flavor ->
+//        flavor.name
+//    }
+//    // When no product flavors defined, use empty
+//    if (!productFlavors) productFlavors.add('')
+//
+//    //iterate over the flavors
+//
+//    productFlavors.each {
+//
+//        productFlavorName ->
+////iterate over build types like debug,release,prod etc.
+//            buildTypes.each {
+//
+//                buildTypeName ->
+//                    //sourceName - e.g. freeDebug ,sourcePath - e.g. free/debug
+//                    def sourceName, sourcePath
+//                    if (!productFlavorName) {
+//                        sourceName = sourcePath = "${buildTypeName}"
+//                    } else {
+//                        sourceName = "${productFlavorName}${buildTypeName.capitalize()}"
+//                        sourcePath = "${productFlavorName}/${buildTypeName}"
+//                    }
+//                    // testTaskName -  e.g. testFreeDebugtest task that the coverage task depends on,
+//                    def testTaskName = "test${sourceName.capitalize()}UnitTest"
+//                    // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
+//                    task "${testTaskName}Coverage"(type: JacocoReport, dependsOn: "$testTaskName") {
+//                        group = "Reporting"
+//                        description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
+//                        classDirectories = fileTree(
+//                                dir: "${project.buildDir}/intermediates/classes/${sourcePath}",
+//                                excludes: [
+//                                        '**/R.class',
+//                                        '**/R$*.class',
+//                                        '**/*$ViewInjector*.*',
+//                                        '**/*$ViewBinder*.*',
+//                                        '**/BuildConfig.*',
+//                                        '**/Manifest*.*',
+//                                        '**/com/philips/platform/baseapp/screens/utility/Constants*.*',
+//                                        '**/com/philips/platform/appframework/flowmanager/AppState*.*',
+//                                        '**/com/philips/platform/appframework/flowmanager/AppConditions*.*',
+//                                        '**/com/philips/platform/baseapp/screens/dataservices/**'
+//                                ]
+//                        )
+//                        def coverageSourceDirs = [
+//                                "src/main/java",
+//                                "src/$productFlavorName/java",
+//                                "src/$buildTypeName/java"
+//                        ]
+//                        additionalSourceDirs = files(coverageSourceDirs)
+//                        sourceDirectories = files(coverageSourceDirs)
+//                        executionData = files("${project.buildDir}/jacoco/${testTaskName}.exec")
+//                        reports {
+//                            //enables and disable the type of file you need
+//                            xml.enabled = false
+//                            html.enabled = true
+//                        }
+//                    }
+//
+//            }
+//    }
+//}
 
-    excludeFilter = file("findbugs-exclude.xml")
-
-    reports {
-        xml.enabled = true
-        html.enabled = false
-    }
-}
-
-task pmd(type: Pmd, dependsOn: "assembleDebug") {
-
-    description 'Run pmd'
-    group 'verification'
-    ignoreFailures = true
-    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
-    source = fileTree('src/main/java')
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-}
-
-
-project.afterEvaluate {
-    // Grab all build types and product flavors
-    def buildTypes = android.buildTypes.collect { type ->
-        type.name
-    }
-    def productFlavors = android.productFlavors.collect { flavor ->
-        flavor.name
-    }
-    // When no product flavors defined, use empty
-    if (!productFlavors) productFlavors.add('')
-
-    //iterate over the flavors
-
-    productFlavors.each {
-
-        productFlavorName ->
-//iterate over build types like debug,release,prod etc.
-            buildTypes.each {
-
-                buildTypeName ->
-                    //sourceName - e.g. freeDebug ,sourcePath - e.g. free/debug
-                    def sourceName, sourcePath
-                    if (!productFlavorName) {
-                        sourceName = sourcePath = "${buildTypeName}"
-                    } else {
-                        sourceName = "${productFlavorName}${buildTypeName.capitalize()}"
-                        sourcePath = "${productFlavorName}/${buildTypeName}"
-                    }
-                    // testTaskName -  e.g. testFreeDebugtest task that the coverage task depends on,
-                    def testTaskName = "test${sourceName.capitalize()}UnitTest"
-                    // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
-                    task "${testTaskName}Coverage"(type: JacocoReport, dependsOn: "$testTaskName") {
-                        group = "Reporting"
-                        description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
-                        classDirectories = fileTree(
-                                dir: "${project.buildDir}/intermediates/classes/${sourcePath}",
-                                excludes: [
-                                        '**/R.class',
-                                        '**/R$*.class',
-                                        '**/*$ViewInjector*.*',
-                                        '**/*$ViewBinder*.*',
-                                        '**/BuildConfig.*',
-                                        '**/Manifest*.*',
-                                        '**/com/philips/platform/baseapp/screens/utility/Constants*.*',
-                                        '**/com/philips/platform/appframework/flowmanager/AppState*.*',
-                                        '**/com/philips/platform/appframework/flowmanager/AppConditions*.*',
-                                        '**/com/philips/platform/baseapp/screens/dataservices/**'
-                                ]
-                        )
-                        def coverageSourceDirs = [
-                                "src/main/java",
-                                "src/$productFlavorName/java",
-                                "src/$buildTypeName/java"
-                        ]
-                        additionalSourceDirs = files(coverageSourceDirs)
-                        sourceDirectories = files(coverageSourceDirs)
-                        executionData = files("${project.buildDir}/jacoco/${testTaskName}.exec")
-                        reports {
-                            //enables and disable the type of file you need
-                            xml.enabled = false
-                            html.enabled = true
-                        }
-                    }
-
-            }
-    }
-}
-
+apply from: "../scripts/task_reporting.gradle"
 
 tasks.withType(Test) {
     ignoreFailures = true

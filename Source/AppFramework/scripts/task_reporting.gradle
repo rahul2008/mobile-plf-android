@@ -1,0 +1,86 @@
+
+project.afterEvaluate {
+    // Grab all build types and product flavors
+    def buildTypes = android.buildTypes.collect { type ->
+        type.name
+    }
+    def productFlavors = android.productFlavors.collect { flavor ->
+        flavor.name
+    }
+    // When no product flavors defined, use empty
+    if (!productFlavors) productFlavors.add('')
+
+    //iterate over the flavors
+
+    productFlavors.each {
+
+        productFlavorName ->
+//iterate over build types like debug,release,prod etc.
+            buildTypes.each {
+
+                buildTypeName ->
+                    //sourceName - e.g. freeDebug ,sourcePath - e.g. free/debug
+                    def sourceName, sourcePath
+                    if (!productFlavorName) {
+                        sourceName = sourcePath = "${buildTypeName}"
+                    } else {
+                        sourceName = "${productFlavorName}${buildTypeName.capitalize()}"
+                        sourcePath = "${productFlavorName}/${buildTypeName}"
+                    }
+                    // testTaskName -  e.g. testFreeDebugtest task that the coverage task depends on,
+                    def testTaskName = "test${sourceName.capitalize()}UnitTest"
+                    // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
+                    task "${testTaskName}Coverage"(type: JacocoReport, dependsOn: "$testTaskName") {
+                        group = "Reporting"
+                        description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
+                        classDirectories = fileTree(
+                                dir: "${project.buildDir}/intermediates/classes/${sourcePath}",
+                                excludes: [
+                                        '**/R.class',
+                                        '**/R$*.class',
+                                        '**/*$ViewInjector*.*',
+                                        '**/*$ViewBinder*.*',
+                                        '**/BuildConfig.*',
+                                        '**/Manifest*.*',
+                                        '**/com/philips/platform/baseapp/screens/utility/Constants*.*',
+                                        '**/com/philips/platform/appframework/flowmanager/AppState*.*',
+                                        '**/com/philips/platform/appframework/flowmanager/AppConditions*.*',
+                                        '**/com/philips/platform/baseapp/screens/dataservices/**'
+                                ]
+                        )
+                        def coverageSourceDirs = [
+                                "src/main/java",
+                                "src/$productFlavorName/java",
+                                "src/$buildTypeName/java"
+                        ]
+                        additionalSourceDirs = files(coverageSourceDirs)
+                        sourceDirectories = files(coverageSourceDirs)
+                        executionData = files("${project.buildDir}/jacoco/${testTaskName}.exec")
+                        reports {
+                            //enables and disable the type of file you need
+                            xml.enabled = false
+                            html.enabled = true
+                        }
+                    }
+
+            }
+    }
+}
+
+android {
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.all {
+            // set JVM arguments for the test JVM(s)
+            jvmArgs '-noverify'
+            testLogging {
+                events "started", "passed", "skipped", "failed"
+                outputs.upToDateWhen {false}
+            }
+
+            jacoco {
+                includeNoLocationClasses = false
+            }
+        }
+    }
+}
