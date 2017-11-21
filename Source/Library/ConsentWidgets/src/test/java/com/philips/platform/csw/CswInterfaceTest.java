@@ -5,6 +5,7 @@ import android.test.mock.MockContext;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.catk.ConsentAccessToolKitEmulator;
 import com.philips.platform.catk.CswConsentAccessToolKitManipulator;
+import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.mock.ActivityLauncherMock;
 import com.philips.platform.csw.mock.AppInfraInterfaceMock;
 import com.philips.platform.csw.mock.FragmentActivityMock;

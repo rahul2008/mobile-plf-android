@@ -1,5 +1,7 @@
 package com.philips.platform.csw;
 
+import com.philips.platform.catk.model.ConsentDefinition;
+
 import org.junit.Test;
 
 import java.util.Locale;

@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.csw.ConsentBundleConfig;
-import com.philips.platform.csw.ConsentDefinition;
+import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.CswBaseFragment;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.mya.consentwidgets.R2;

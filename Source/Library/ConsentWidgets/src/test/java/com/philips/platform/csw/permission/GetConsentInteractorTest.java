@@ -6,7 +6,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentStatus;
-import com.philips.platform.csw.ConsentDefinition;
+import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.utils.CswLogger;
 
 import org.junit.Before;
@@ -27,7 +27,6 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)

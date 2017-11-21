@@ -1,4 +1,4 @@
-package com.philips.platform.csw;
+package com.philips.platform.catk.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -2,7 +2,7 @@ package com.philips.platform.csw.permission;
 
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentStatus;
-import com.philips.platform.csw.ConsentDefinition;
+import com.philips.platform.catk.model.ConsentDefinition;
 
 import org.junit.Before;
 import org.junit.Test;

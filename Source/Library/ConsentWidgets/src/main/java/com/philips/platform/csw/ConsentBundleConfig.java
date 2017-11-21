@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 
 import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.catk.model.ConsentDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
