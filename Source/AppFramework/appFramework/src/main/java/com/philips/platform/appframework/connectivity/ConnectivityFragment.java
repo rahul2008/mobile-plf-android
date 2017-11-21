@@ -210,25 +210,29 @@ public class ConnectivityFragment extends AbstractConnectivityBaseFragment imple
     @Override
     public void onDeviceMeasurementError(final Error error, String s) {
         //TODO:Handle device measurement error properly
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(mContext, "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (isFragmentLive()) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(mContext, "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     @Override
     public void updateConnectionStateText(final String text) {
-        if (getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (connectionState != null) {
-                        connectionState.setText(text);
+        if (isFragmentLive()) {
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (connectionState != null) {
+                            connectionState.setText(text);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
 
