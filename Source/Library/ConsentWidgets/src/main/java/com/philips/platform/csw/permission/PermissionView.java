@@ -1,9 +1,8 @@
 /*
- *  Copyright (c) Koninklijke Philips N.V., 2016
- *  All rights are reserved. Reproduction or dissemination
- *  * in whole or in part is prohibited without the prior written
- *  * consent of the copyright holder.
- * /
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
 
 package com.philips.platform.csw.permission;
@@ -19,8 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.csw.CswBaseFragment;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.mya.consentwidgets.R2;
@@ -32,8 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class PermissionView extends CswBaseFragment implements
-        PermissionInterface {
+public class PermissionView extends CswBaseFragment implements PermissionInterface {
 
     private ProgressDialog mProgressDialog;
 
@@ -124,7 +122,7 @@ public class PermissionView extends CswBaseFragment implements
     @NonNull
     private List<ConsentView> createConsentDefinitions() {
         final List<ConsentView> consentViewList = new ArrayList<>();
-        for(final ConsentDefinition definition : config.getConsentDefinitions()){
+        for (final ConsentDefinition definition : config.getConsentDefinitions()) {
             consentViewList.add(new ConsentView(definition));
         }
         return consentViewList;
@@ -151,7 +149,7 @@ public class PermissionView extends CswBaseFragment implements
 
     @Override
     public void onConsentRetrieved(@NonNull List<ConsentView> consents) {
-        if(permissionAdapter != null) {
+        if (permissionAdapter != null) {
             permissionAdapter.onConsentRetrieved(consents);
         }
     }

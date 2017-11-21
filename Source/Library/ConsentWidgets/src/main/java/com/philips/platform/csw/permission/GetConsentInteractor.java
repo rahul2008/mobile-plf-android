@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.csw.permission;
 
 import android.support.annotation.NonNull;
@@ -10,7 +17,6 @@ import com.philips.platform.csw.utils.CswLogger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 class GetConsentInteractor {
 
@@ -64,7 +70,7 @@ class GetConsentInteractor {
 
         private void filterConsentsByDefinitions(List<Consent> receivedConsents) {
             Map<String, Consent> consentsMap = toMap(receivedConsents);
-            for (ConsentView consentView: consentViews) {
+            for (ConsentView consentView : consentViews) {
                 Consent consent = consentsMap.get(consentView.getType());
                 if (consent != null) {
                     consentView.storeConsent(consent);
@@ -74,9 +80,9 @@ class GetConsentInteractor {
             }
         }
 
-        private Map<String,Consent> toMap(List<Consent> responseData) {
+        private Map<String, Consent> toMap(List<Consent> responseData) {
             Map<String, Consent> map = new HashMap<>();
-            for (Consent consent: responseData) {
+            for (Consent consent : responseData) {
                 map.put(consent.getType(), consent);
             }
             return map;

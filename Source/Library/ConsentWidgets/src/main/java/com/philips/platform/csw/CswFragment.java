@@ -94,7 +94,7 @@ public class CswFragment extends Fragment implements BackEventListener {
 
     private PermissionView buildPermissionView() {
         PermissionView permissionView = new PermissionView();
-       permissionView.setArguments(config.toBundle());
+        permissionView.setArguments(config.toBundle());
         return permissionView;
     }
 

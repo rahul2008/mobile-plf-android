@@ -1,20 +1,24 @@
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.csw.permission;
 
 import android.support.annotation.Nullable;
 
 import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.catk.model.ConsentDefinition;
-
-/**
- * Created by Entreco on 17/11/2017.
- */
+import com.philips.platform.catk.model.ConsentStatus;
 
 public class ConsentView {
 
     private final ConsentDefinition definition;
     private boolean isLoading = true;
-    @Nullable private Consent consent;
+    @Nullable
+    private Consent consent;
 
     ConsentView(final ConsentDefinition definition) {
         this.definition = definition;

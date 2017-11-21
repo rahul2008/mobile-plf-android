@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.csw.permission;
 
 import android.support.annotation.NonNull;
@@ -15,10 +22,6 @@ import com.philips.platform.uid.view.widget.Switch;
 
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by Entreco on 17/11/2017.
- */
 
 class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.PermissionViewHolder> {
 
@@ -54,7 +57,7 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
         notifyItemRangeChanged(0, consentViews.size());
     }
 
-    static class PermissionViewHolder extends RecyclerView.ViewHolder{
+    static class PermissionViewHolder extends RecyclerView.ViewHolder {
 
         private Switch toggle;
         private Label label;
@@ -71,7 +74,7 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
             this.progress = itemView.findViewById(R.id.progressBar);
         }
 
-        void setToggleListener(ConsentToggleListener createConsentInteractor){
+        void setToggleListener(ConsentToggleListener createConsentInteractor) {
             this.createConsentInteractor = createConsentInteractor;
         }
 

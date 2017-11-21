@@ -1,11 +1,18 @@
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.csw.permission;
 
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.mapper.LocaleMapper;
 import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.csw.utils.CswLogger;
 
 import java.util.Locale;
