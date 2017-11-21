@@ -39,7 +39,6 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     private String mResponse;
     private String mTempResponse;
     private int mMessageId;
-    private int mPublishedMessageId;
     private String mConversationId;
     private String mResponseConversationId;
     private String mPortName;
