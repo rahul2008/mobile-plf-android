@@ -1,6 +1,7 @@
-package com.philips.platform.csw;
+package com.philips.platform.catk;
 
 import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.catk.model.ConsentDefinitionException;
 
 import org.junit.Test;
 
@@ -17,15 +18,9 @@ public class ConsentDefinitionTest {
         assertEquals("en-CA", canadaConsentDefinition.getLocaleString());
     }
 
-    @Test
+    @Test(expected = ConsentDefinitionException.class)
     public void itShouldBeAbleToHandle_Locale_ENGLISH() throws Exception {
         ConsentDefinition def = new ConsentDefinition("test", "help", "type", 0, Locale.ENGLISH);
-        assertEquals("en_US", def.getLocaleString());
     }
 
-    @Test
-    public void itShouldBeAbleToHandle_Locale_getDefault() throws Exception {
-        ConsentDefinition def = new ConsentDefinition("test", "help", "type", 0, Locale.getDefault());
-        assertEquals("en_US", def.getLocaleString());
-    }
 }

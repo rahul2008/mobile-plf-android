@@ -3,6 +3,8 @@ package com.philips.platform.catk.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class ConsentDefinition implements Parcelable {
@@ -13,11 +15,22 @@ public class ConsentDefinition implements Parcelable {
     private String locale;
 
     public ConsentDefinition(String text, String helpText, String type, int version, Locale locale) {
+        validate(locale);
         this.text = text;
         this.helpText = helpText;
         this.type = type;
         this.version = version;
-        this.locale = locale.toString().replace('_','-');
+        this.locale = locale.toLanguageTag();
+    }
+
+    private void validate(Locale locale) {
+        if(locale == null){
+            throw new ConsentDefinitionException("locale not defined");
+        }
+        String country = locale.getCountry();
+        if(country == null || country.isEmpty()) {
+            throw new ConsentDefinitionException("incurrect locale");
+        }
     }
 
     public String getText() {
