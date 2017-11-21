@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/uidContentPrimaryBackgroundColor"
-    android:layout_marginBottom="@dimen/ths_margin_bottom">
+    android:paddingBottom="@dimen/ths_margin_bottom">
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/ths_intake_medication_skip_step_label"
