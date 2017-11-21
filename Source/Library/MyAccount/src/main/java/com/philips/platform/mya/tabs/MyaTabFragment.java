@@ -20,7 +20,7 @@ import com.philips.platform.mya.base.mvp.MyaBaseFragment;
 public class MyaTabFragment extends MyaBaseFragment {
 
     private View view;
-    private ConsentBundleConfig config
+    private ConsentBundleConfig config;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (view == null) {
