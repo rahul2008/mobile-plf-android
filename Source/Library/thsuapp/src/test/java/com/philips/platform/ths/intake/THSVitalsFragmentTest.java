@@ -175,7 +175,7 @@ public class THSVitalsFragmentTest {
         when(inputValidationLayoutMock.isShowingError()).thenReturn(false);
         final View viewById = thsVitalsFragment.getView().findViewById(R.id.vitals_continue_btn);
         viewById.performClick();
-        verify(presenterMock,atLeastOnce()).onEvent(R.id.vitals_continue_btn);
+        verify(presenterMock,atLeastOnce()).checkIfValueEntered(mSystolicMock);
     }
 
     @Test
@@ -225,7 +225,7 @@ public class THSVitalsFragmentTest {
     public void validateIfSystolicValueIsWrong() throws Exception {
         SupportFragmentTestUtil.startFragment(thsVitalsFragment);
         thsVitalsFragment.mThsVitalsPresenter = presenterMock;
-        thsVitalsFragment.validateBloodPressure();
+        thsVitalsFragment.validateDiastolicView();
         verify(presenterMock,atLeastOnce()).stringToInteger(any(String.class));
     }
 
@@ -234,8 +234,8 @@ public class THSVitalsFragmentTest {
         SupportFragmentTestUtil.startFragment(thsVitalsFragment);
         thsVitalsFragment.mThsVitalsPresenter = presenterMock;
         when(presenterMock.isTextValid(thsVitalsFragment.mSystolic)).thenReturn(true);
-        thsVitalsFragmentMock.validateBloodPressure();
-        verify(thsVitalsFragmentMock).validateBloodPressure();
+        thsVitalsFragmentMock.validateDiastolicView();
+        verify(thsVitalsFragmentMock).validateDiastolicView();
     }
 
 
@@ -251,8 +251,8 @@ public class THSVitalsFragmentTest {
         when(presenterMock.stringToInteger("20")).thenReturn(20);
         when(presenterMock.stringToInteger("30")).thenReturn(30);
 
-        boolean test = thsVitalsFragment.validateBloodPressure();
-        assertTrue(!test);
+        thsVitalsFragment.validateDiastolicView();
+        assertTrue(thsVitalsFragment.mDiastolicInputValidationLayout.isShowingError());
 
     }
 }
