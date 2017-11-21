@@ -28,11 +28,6 @@ public abstract class BaseDialogFragment<T extends ViewDataBinding> extends Dial
 
     protected T viewDataBinding;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @CallSuper
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
