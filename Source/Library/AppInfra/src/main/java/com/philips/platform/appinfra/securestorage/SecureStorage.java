@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.util.Base64;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
@@ -265,19 +264,13 @@ public class SecureStorage implements SecureStorageInterface {
                 editor.remove(SINGLE_AES_KEY_TAG);
                 editor.apply();
                 key = new SecretKeySpec(secretKeyBytes, "AES");
-                boolean storeKeySuccessfully = secureStorageHelper.storeKey(SS_WRAP_KEY, (SecretKey) key, KEY_FILE_NAME);
-                if(storeKeySuccessfully){
-                    Log.e(TAG, " Successfully stored RSA wrapped data with key " + SS_WRAP_KEY + " value=" + keySharedPreferences.getString(SS_WRAP_KEY, null));
-                    Log.e(TAG, " Deleted previous encoded AES key " + SINGLE_AES_KEY_TAG + " value=" + keySharedPreferences.getString(SINGLE_AES_KEY_TAG, null));
-                }
+                secureStorageHelper.storeKey(SS_WRAP_KEY, (SecretKey) key, KEY_FILE_NAME);
             } else if (keySharedPreferences.contains(SS_WRAP_KEY)) {
                 final String aesKeyForEncryptDecrypt = keySharedPreferences.getString(SS_WRAP_KEY, null);
                 key = secureStorageHelper.fetchKey(aesKeyForEncryptDecrypt, secureStorageError);
-                Log.e(TAG, " Successfully fetched RSA wrapped data with key " + SS_WRAP_KEY + " value=" + keySharedPreferences.getString(SS_WRAP_KEY, null));
             } else {
                 key = secureStorageHelper.generateAESKey(); // generate AES key
                 secureStorageHelper.storeKey(SS_WRAP_KEY, (SecretKey) key, KEY_FILE_NAME);
-                Log.e(TAG, " Successfully generated new AES Wrapped key " + SS_WRAP_KEY + " value=" + keySharedPreferences.getString(SS_WRAP_KEY, null));
             }
             final byte[] ivBlockSize = new byte[cipher.getBlockSize()];
             final IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBlockSize);
