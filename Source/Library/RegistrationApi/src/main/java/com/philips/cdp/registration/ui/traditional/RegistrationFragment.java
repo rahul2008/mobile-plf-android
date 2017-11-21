@@ -61,7 +61,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     private int titleResourceID = -99;
 
-    private NetworkStateReceiver mNetworkReceiver = new NetworkStateReceiver();
+    private NetworkStateReceiver mNetworkReceiver;
 
     private boolean isCounterRunning;
 
@@ -107,6 +107,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         if (mFragmentManager.getBackStackEntryCount() < 1) {
             loadFirstFragment();
         }
+        mNetworkReceiver = new NetworkStateReceiver();
 
         return view;
     }
