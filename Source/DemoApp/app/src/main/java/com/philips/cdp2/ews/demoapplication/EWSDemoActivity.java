@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Spinner;
 
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
@@ -25,11 +24,6 @@ import java.util.Map;
 import static com.philips.platform.uappframework.launcher.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT;
 
 public class EWSDemoActivity extends AppCompatActivity implements View.OnClickListener {
-
-    private Spinner configSpinner;
-    private static final String WAKEUP_LIGHT = "wl";
-    private static final String AIRPURIFIER = "ap";
-    private static final String DEFAULT = "Default";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -61,6 +61,7 @@ public class EWSInterface implements UappInterface {
             }
             launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
         } else if (uiLauncher instanceof ActivityLauncher) {
+            EWSDependencyProvider.getInstance().setThemeConfiguration(((ActivityLauncher)uiLauncher).getDlsThemeConfiguration());
             launchAsActivity();
         }
     }
@@ -90,4 +91,5 @@ public class EWSInterface implements UappInterface {
         context.startActivity(intent);
 
     }
+
 }

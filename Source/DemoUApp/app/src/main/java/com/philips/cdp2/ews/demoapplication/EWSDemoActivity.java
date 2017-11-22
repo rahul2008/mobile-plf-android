@@ -1,100 +1,279 @@
-/*
+/**
  * Copyright (c) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
+
 package com.philips.cdp2.ews.demoapplication;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
-import android.databinding.ObservableField;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.philips.cdp2.ews.microapp.EWSInterface;
+import com.philips.cdp2.ews.demoapplication.themesettinngs.ThemeHelper;
+import com.philips.cdp2.ews.demoapplication.themesettinngs.ThemeSettingsFragment;
+import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.cdp2.ews.microapp.EWSLauncherInput;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uappframework.uappinput.UappSettings;
+import com.philips.platform.uid.drawable.FontIconDrawable;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.UIDActivity;
+import com.philips.platform.uid.view.widget.ActionBarTextView;
 
-import static com.philips.platform.uappframework.launcher.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
-public class EWSDemoActivity extends EWSDemoBaseActivity implements View.OnClickListener {
+public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener {
 
-    private Spinner configSpinner;
-    private static final String WAKEUP_LIGHT = "wl";
-    private static final String AIRPURIFIER = "ap";
-    private ObservableField<String> selection = new ObservableField<>();
+    private SharedPreferences defaultSharedPreferences;
+    private OptionSelectionFragment optionSelectionFragment;
+
+    private ColorRange colorRange = ColorRange.GROUP_BLUE;
+    private ContentColor contentColor = ContentColor.VERY_DARK;
+    private AccentRange accentColorRange = AccentRange.ORANGE;
+    private NavigationColor navigationColor = NavigationColor.VERY_DARK;
+
+    private EWSLauncherInput ewsLauncherInput;
+    private ThemeHelper themeHelper;
+    private ImageView closeImageView;
+    private final int TOOLBAR_UPDATE_TIMER = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        themeHelper = new ThemeHelper(defaultSharedPreferences, this);
+        updateColorFromPref();
+        injectNewTheme(colorRange, contentColor, navigationColor, accentColorRange);
+        UIDHelper.injectCalligraphyFonts();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ewsdemo);
-        findViewById(R.id.btnLaunchEws).setOnClickListener(this);
-        findViewById(R.id.btnFragmentLaunch).setOnClickListener(this);
-
-        configSpinner = (Spinner) findViewById(R.id.configurationSelection);
-        configSpinner.setOnItemSelectedListener(itemSelectedListener);
-
-        selection.set(DEFAULT);
-        ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item,
-                getResources().getStringArray(R.array.configurations));
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        configSpinner.setAdapter(aa);
+        setContentView(R.layout.activity_main);
+        closeImageView = findViewById(R.id.ic_close);
+        ewsLauncherInput = new EWSLauncherInput();
+        this.optionSelectionFragment = new OptionSelectionFragment();
+        showConfigurationOptScreen();
+        setUpToolBar();
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnLaunchEws:
-                launchEwsUApp();
-                break;
-            case R.id.btnFragmentLaunch:
-                startDemoFragmentActivity();
-                break;
-            default:
-                break;
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    public EWSLauncherInput getEwsLauncherInput() {
+        return ewsLauncherInput;
+    }
+
+    private void setUpToolBar() {
+        Toolbar toolbar = findViewById(com.philips.cdp2.ews.R.id.ews_toolbar);
+        setSupportActionBar(toolbar);
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
+        }
+        toolbar.inflateMenu(R.menu.option_menu);
+        setUpCancelButton();
+    }
+
+    private void setUpCancelButton() {
+        FontIconDrawable drawable = new FontIconDrawable(this, getResources().getString(R.string.dls_cross_24), TypefaceUtils.load(getAssets(), "fonts/iconfont.ttf"))
+                .sizeRes(R.dimen.ews_gs_icon_size);
+        closeImageView.setBackground(drawable);
+        closeImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ewsLauncherInput != null) {
+                    ewsLauncherInput.handleCloseButtonClick();
+                }
+            }
+        });
+    }
+
+    private void hideShowImageView() {
+        if (getCurrentFragment() instanceof OptionSelectionFragment || getCurrentFragment() instanceof ThemeSettingsFragment) {
+            closeImageView.setVisibility(View.GONE);
+        } else {
+            closeImageView.setVisibility(View.VISIBLE);
         }
     }
 
-    private void startDemoFragmentActivity() {
-        Bundle bundle = new Bundle();
-        bundle.putString(SELECTED_CONFIG, selection.get());
-        Intent intent = new Intent(this, EWSDemoFragmentActivity.class);
-        intent.putExtras(bundle);
+    private void updateMenuOption(Menu menu) {
+        if (isThemeScreen()) {
+            menu.findItem(R.id.menu_set_theme_settings).setVisible(true);
+        } else {
+            menu.findItem(R.id.menu_set_theme_settings).setVisible(false);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        updateMenuOption(menu);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    private Fragment getCurrentFragment() {
+        return getSupportFragmentManager().findFragmentById(R.id.mainContainer);
+    }
+
+    private boolean isThemeScreen() {
+        if (getCurrentFragment() instanceof ThemeSettingsFragment) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_set_theme_settings:
+                saveThemeSettings();
+                restartActivity();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
+    private void showConfigurationOptScreen() {
+        fragmentReplace(optionSelectionFragment);
+    }
+
+    public void updateContentColor(ContentColor contentColor) {
+        this.contentColor = contentColor;
+    }
+
+    public void updateColorRange(ColorRange colorRange) {
+        this.colorRange = colorRange;
+    }
+
+    public void updateNavigationColor(NavigationColor navigationColor) {
+        this.navigationColor = navigationColor;
+    }
+
+    public void updateAccentColor(AccentRange accentColorRange) {
+        this.accentColorRange = accentColorRange;
+    }
+
+    @SuppressLint("CommitPrefEdits")
+    private void saveThemeValues(final String key, final String name) {
+        final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
+        edit.putString(key, name);
+        edit.apply();
+    }
+
+    public void saveThemeSettings() {
+        saveThemeValues(UIDHelper.COLOR_RANGE, colorRange.name());
+        saveThemeValues(UIDHelper.NAVIGATION_RANGE, navigationColor.name());
+        saveThemeValues(UIDHelper.CONTENT_TONAL_RANGE, contentColor.name());
+        saveThemeValues(UIDHelper.ACCENT_RANGE, accentColorRange.name());
+    }
+
+    private void updateColorFromPref() {
+        colorRange = themeHelper.initColorRange();
+        navigationColor = themeHelper.initNavigationRange();
+        contentColor = themeHelper.initContentTonalRange();
+        accentColorRange = themeHelper.initAccentRange();
+    }
+
+    public ThemeConfiguration getThemeConfig() {
+        updateColorFromPref();
+        return new ThemeConfiguration(this, colorRange, navigationColor, contentColor, accentColorRange);
+    }
+
+    public void openThemeScreen() {
+        fragmentReplace(new ThemeSettingsFragment());
+    }
+
+    private void fragmentReplace(Fragment newFragment) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, newFragment).commit();
+        updateActionBar();
+    }
+
+    private void updateActionBar() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                invalidateOptionsMenu();
+                hideShowImageView();
+                isThemeScreen();
+            }
+        }, TOOLBAR_UPDATE_TIMER);
+    }
+
+    @Override
+    public void closeButton(boolean isVisible) {
+        findViewById(R.id.ic_close).setVisibility(isVisible ? View.VISIBLE : View.GONE);
+    }
+
+    public void setToolbarTitle(String title) {
+        Toolbar toolbar = findViewById(R.id.ews_toolbar);
+        ((ActionBarTextView) toolbar.findViewById(R.id.toolbar_title)).setText(title);
+    }
+
+    @Override
+    public void updateActionBar(int stringResId, boolean b) {
+        setToolbarTitle(getString(stringResId));
+    }
+
+    @Override
+    public void updateActionBar(String title, boolean b) {
+        setToolbarTitle(title);
+    }
+
+    private void restartActivity() {
+        injectNewTheme(colorRange, contentColor, navigationColor, accentColorRange);
+        Intent intent = new Intent(this, EWSDemoActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
-    private void launchEwsUApp() {
-        AppInfraInterface appInfra = new AppInfra.Builder().build(getApplicationContext());
-        EWSInterface ewsInterface = new EWSInterface();
-        ewsInterface.init(createUappDependencies(appInfra, isDefaultValueSelected((String) configSpinner.getSelectedItem())), new UappSettings(getApplicationContext()));
-        ewsInterface.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, null, -1, null), new EWSLauncherInput());
+    private void injectNewTheme(ColorRange colorRange, ContentColor contentColor, NavigationColor navigationColor, AccentRange accentRange) {
+        if (colorRange != null) {
+            this.colorRange = colorRange;
+        }
+        if (contentColor != null) {
+            this.contentColor = contentColor;
+        }
+        if (navigationColor != null) {
+            this.navigationColor = navigationColor;
+        }
+        if (accentRange != null) {
+            this.accentColorRange = accentRange;
+        }
+
+        String themeName = String.format("Theme.DLS.%s.%s", this.colorRange.getThemeName(), this.contentColor.getThemeName());
+        getTheme().applyStyle(getResources().getIdentifier(themeName, "style", getPackageName()), true);
+        ThemeConfiguration themeConfiguration = new ThemeConfiguration(this, this.colorRange, this.contentColor, this.navigationColor, this.accentColorRange);
+        UIDHelper.init(themeConfiguration);
     }
 
-    private AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            switch (position) {
-                case 1:
-                    selection.set(WAKEUP_LIGHT);
-                    updateCurrentContent(WAKEUP_LIGHT);
-                    break;
-                case 2:
-                    selection.set(AIRPURIFIER);
-                    updateCurrentContent(AIRPURIFIER);
-                    break;
-                default:
-                    break;
-                    
-            }
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-            // do nothing
-        }
-    };
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        updateActionBar();
+    }
 }

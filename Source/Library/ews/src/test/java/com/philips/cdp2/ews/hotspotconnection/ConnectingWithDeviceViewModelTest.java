@@ -97,6 +97,7 @@ public class ConnectingWithDeviceViewModelTest {
         when(mockIntent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO)).thenReturn(mockNetworkInfo);
         when(mockNetworkInfo.getState()).thenReturn(NetworkInfo.State.CONNECTED);
         when(mockWiFiUtil.getCurrentWifiState()).thenReturn(WiFiUtil.DEVICE_HOTSPOT_WIFI);
+        when(mockWiFiUtil.isHomeWiFiEnabled()).thenReturn(true);
         subject.connectToHotSpot();
         verify(mockFragmentCallback, times(1)).registerReceiver(broadcastReceiverArgumentCaptor.capture(), any(IntentFilter.class));
         verify(mockHandler, times(1)).postDelayed(timeoutRunnableCaptor.capture(), anyLong());
@@ -111,6 +112,7 @@ public class ConnectingWithDeviceViewModelTest {
         when(mockIntent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO)).thenReturn(mockNetworkInfo);
         when(mockNetworkInfo.getState()).thenReturn(NetworkInfo.State.CONNECTED);
         when(mockWiFiUtil.getCurrentWifiState()).thenReturn(WiFiUtil.DEVICE_HOTSPOT_WIFI);
+        when(mockWiFiUtil.isHomeWiFiEnabled()).thenReturn(true);
         subject.connectToHotSpot();
         verify(mockFragmentCallback, times(1)).registerReceiver(broadcastReceiverArgumentCaptor.capture(), any(IntentFilter.class));
         verify(mockHandler, times(1)).postDelayed(timeoutRunnableCaptor.capture(), anyLong());
@@ -124,12 +126,19 @@ public class ConnectingWithDeviceViewModelTest {
     @Test
     public void itShouldNotRegisterReceiverWhenCallbackNullAndTryToConnectOnApplianceHotspotNetworkOnConnectToHomeSpot() {
         subject.setFragmentCallback(null);
+        when(mockWiFiUtil.isHomeWiFiEnabled()).thenReturn(true);
         subject.connectToHotSpot();
         verify(mockFragmentCallback, never()).registerReceiver(broadcastReceiverArgumentCaptor.capture(), any(IntentFilter.class));
         PowerMockito.verifyStatic();
         Log.e(anyString(), anyString());
         verify(mockHandler, times(1)).postDelayed(subject.timeOutAction, DEVICE_CONNECTION_TIMEOUT);
         verify(mockWiFiConnectivityManager, times(1)).connectToApplianceHotspotNetwork(WiFiUtil.DEVICE_SSID);
+    }
+
+    @Test
+    public void itShouldShowUnsuccessfulDialogIfWifiIsOff() throws Exception{
+        subject.connectToHotSpot();
+        verify(mockFragmentCallback, times(1)).showTroubleshootHomeWifiDialog(mockBaseContentConfiguration);
     }
 
     @Test

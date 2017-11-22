@@ -192,7 +192,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // Philips Dependencies
     compile project(':ews')
-    compile 'net.danlew:android.joda:2.9.9'
     compile "com.android.support:support-annotations:${versions.support}"
     compile "com.android.support:animated-vector-drawable:${versions.support}"
     compile "com.android.support:cardview-v7:${versions.support}"

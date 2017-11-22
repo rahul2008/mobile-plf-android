@@ -21,14 +21,14 @@
         android:orientation="vertical"
         android:padding="@dimen/d">
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ews_04_02_label_cancel_setup_title"
             style="@style/Txt.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/label_ews_enable_gps_settings_title"/>
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ews_verify_device_body"
             style="@style/Txt.Body"
             android:layout_width="match_parent"
@@ -36,7 +36,7 @@
             android:layout_marginTop="@dimen/d"
             android:text="@string/label_ews_enable_gps_settings_body"/>
 
-        <Button
+        <com.philips.platform.uid.view.widget.Button
             android:id="@+id/ews_04_02_button_cancel_setup_yes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

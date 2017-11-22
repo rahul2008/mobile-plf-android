@@ -70,10 +70,19 @@ public class ConfirmWifiNetworkViewModelTest {
     }
 
     @Test
-    public void itShouldShowDevicePowerOnScreenWhenClickedOnYesButton() throws Exception {
+    public void itShouldShowDevicePowerOnScreenWhenClickedOnYesButtonIfWifiIsOn() throws Exception {
+        when(wifiUtilMock.isHomeWiFiEnabled()).thenReturn(true);
         subject.onYesButtonClicked();
         testConfirmNetworkEWSTagger();
         verify(navigatorMock).navigateToDevicePoweredOnConfirmationScreen();
+    }
+
+    @Test
+    public void itShouldShowNetworkTroubleShootingScreenOnYesButtonIfWifiIsOff() throws Exception {
+        when(wifiUtilMock.isHomeWiFiEnabled()).thenReturn(false);
+        subject.onYesButtonClicked();
+        testChangeNetworkEWSTagger();
+        verify(mockViewCallback).showTroubleshootHomeWifiDialog(mockBaseContentConfig);
     }
 
     @Test
