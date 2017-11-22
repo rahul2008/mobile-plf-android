@@ -55,7 +55,7 @@ public class AtosResponseModelTest extends InstrumentationTestCase {
 		AtosLocationModel mCurrentLocation = atosResponseModel
 				.getCurrentLocation();
 
-		assertNotNull(mCurrentLocation);
+		assertNull(mCurrentLocation);
 	}
 
 	AtosResponseModel atosResponseModel = null;
