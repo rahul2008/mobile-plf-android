@@ -140,6 +140,9 @@ public class FirmwarePortProperties implements PortProperties {
      * @return int The progress of the upgrading action
      */
     public int getProgress() {
+        if(progress <= 0) {
+            return 0;
+        }
         return progress;
     }
 
