@@ -111,6 +111,10 @@ publishing {
 
             artifact zipDocuments
 
+            artifact("$projectDir/dependencies.lock") {
+                classifier = '1stleveldependencies'
+            }
+
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml {
