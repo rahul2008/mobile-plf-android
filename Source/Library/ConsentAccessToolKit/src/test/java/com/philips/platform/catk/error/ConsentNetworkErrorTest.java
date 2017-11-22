@@ -130,11 +130,11 @@ public class ConsentNetworkErrorTest {
     }
 
     private void givenErrorCodeIs(int errorCode) {
-        consentNetworkError.setErrorCode(errorCode);
+        consentNetworkError.setCatkErrorCode(errorCode);
     }
 
     private void thenConsentNetworkErrorCodeIs(int errorCode) {
-        assertEquals(errorCode, consentNetworkError.getErrorCode());
+        assertEquals(errorCode, consentNetworkError.getCatkErrorCode());
     }
 
     private void thenErrorMessageIs(String errorMessage) {

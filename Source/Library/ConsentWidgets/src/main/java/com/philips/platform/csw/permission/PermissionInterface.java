@@ -7,9 +7,13 @@
 
 package com.philips.platform.csw.permission;
 
+import com.philips.platform.catk.error.ConsentNetworkError;
+
 public interface PermissionInterface {
 
     void showProgressDialog();
 
     void hideProgressDialog();
+
+    void showErrorDialog(ConsentNetworkError error);
 }

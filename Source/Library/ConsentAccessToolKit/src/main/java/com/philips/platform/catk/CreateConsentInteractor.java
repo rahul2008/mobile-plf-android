@@ -7,6 +7,7 @@
 
 package com.philips.platform.catk;
 
+import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.mapper.LocaleMapper;
 import com.philips.platform.catk.model.Consent;
@@ -20,9 +21,9 @@ import java.util.Locale;
 public class CreateConsentInteractor {
 
     public interface Callback {
-        void onCreateConsentFailed(ConsentDefinition definition, int errorCode);
+        void onCreateConsentFailed(ConsentDefinition definition, ConsentNetworkError error);
 
-        void onCreateConsentSuccess(RequiredConsent consent, int code);
+        void onCreateConsentSuccess(RequiredConsent consent);
     }
 
     private final ConsentAccessToolKit consentAccessToolKit;
@@ -55,16 +56,15 @@ public class CreateConsentInteractor {
         }
 
         @Override
-        public void onSuccess(int code) {
-            CatkLogger.d(" Create Consent: ", "Success : " + code);
-            callback.onCreateConsentSuccess(new RequiredConsent(consent, definition), code);
+        public void onSuccess() {
+            CatkLogger.d(" Create Consent: ", "Success");
+            callback.onCreateConsentSuccess(new RequiredConsent(consent, definition));
         }
 
         @Override
-        public int onFailure(int errorCode) {
-            CatkLogger.d(" Create Consent: ", "Failed : " + errorCode);
-            callback.onCreateConsentFailed(definition, errorCode);
-            return errorCode;
+        public void onFailure(ConsentNetworkError error) {
+            CatkLogger.d(" Create Consent: ", "Failed : " + error.getCatkErrorCode());
+            callback.onCreateConsentFailed(definition, error);
         }
     }
 }

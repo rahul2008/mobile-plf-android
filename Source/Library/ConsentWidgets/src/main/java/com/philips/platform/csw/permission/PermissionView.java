@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.csw.CswBaseFragment;
@@ -26,6 +27,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.philips.platform.catk.CreateConsentInteractor;
 import com.philips.platform.catk.GetConsentInteractor;
@@ -144,5 +146,10 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.cancel();
         }
+    }
+
+    @Override
+    public void showErrorDialog(ConsentNetworkError error) {
+        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
     }
 }

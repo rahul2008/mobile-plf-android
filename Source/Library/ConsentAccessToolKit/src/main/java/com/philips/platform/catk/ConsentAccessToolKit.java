@@ -99,8 +99,8 @@ public class ConsentAccessToolKit {
                     }
 
                     @Override
-                    public int onModelDataError(ConsentNetworkError error) {
-                        return consentListener.onResponseFailureConsent(error.getErrorCode());
+                    public void onModelDataError(ConsentNetworkError error) {
+                        consentListener.onResponseFailureConsent(error);
                     }
                 });
                 sendRequest(model);
@@ -112,18 +112,19 @@ public class ConsentAccessToolKit {
         retrieveConsentServiceInfo(new ConfigCompletionListener() {
             @Override
             public void onConfigurationCompletion(String cssUrl) {
-                ConsentToDtoMapper mapper = new ConsentToDtoMapper(catkComponent.getUser().getHsdpUUID(), catkComponent.getUser().getCountryCode(), propositionName, applicationName);
+                ConsentToDtoMapper mapper = new ConsentToDtoMapper(catkComponent.getUser().getHsdpUUID(), catkComponent.getUser().getCountryCode(), propositionName,
+                        applicationName);
                 CreateConsentModelRequest model = new CreateConsentModelRequest(cssUrl, mapper.map(consent), new NetworkAbstractModel.DataLoadListener() {
                     @Override
                     public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
                         if (dtos == null) {
-                            consentListener.onSuccess(CatkConstants.CONSENT_SUCCESS);
+                            consentListener.onSuccess();
                         }
                     }
 
                     @Override
-                    public int onModelDataError(ConsentNetworkError error) {
-                        return consentListener.onFailure(error.getErrorCode());
+                    public void onModelDataError(ConsentNetworkError error) {
+                        consentListener.onFailure(error);
                     }
                 });
                 sendRequest(model);
@@ -131,8 +132,7 @@ public class ConsentAccessToolKit {
         });
     }
 
-    public void  getStatusForConsentType(final String consentType, int version, final ConsentResponseListener consentListener) {
-
+    public void getStatusForConsentType(final String consentType, int version, final ConsentResponseListener consentListener) {
 
         getConsentDetails(new ConsentResponseListener() {
 
@@ -148,8 +148,8 @@ public class ConsentAccessToolKit {
             }
 
             @Override
-            public int onResponseFailureConsent(int consentError) {
-                return consentListener.onResponseFailureConsent(consentError);
+            public void onResponseFailureConsent(ConsentNetworkError consentError) {
+                consentListener.onResponseFailureConsent(consentError);
             }
         });
     }

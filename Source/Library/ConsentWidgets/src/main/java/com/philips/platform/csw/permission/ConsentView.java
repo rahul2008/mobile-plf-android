@@ -17,6 +17,7 @@ public class ConsentView {
     private final ConsentDefinition definition;
     private boolean isLoading = true;
     private boolean isError = false;
+    private boolean isOnline = true;
 
     @Nullable
     private RequiredConsent consent;
@@ -45,12 +46,21 @@ public class ConsentView {
         this.consent = consent;
         this.isLoading = false;
         this.isError = false;
+        this.isOnline = true;
         return this;
     }
 
     void setError(boolean isError) {
         this.isLoading = false;
         this.isError = isError;
+    }
+
+    void setOnline(boolean isOnline) {
+        this.isOnline = isOnline;
+    }
+
+    void setIsLoading(boolean isLoading) {
+        this.isLoading = isLoading;
     }
 
     boolean isEnabled() {
@@ -75,11 +85,6 @@ public class ConsentView {
 
     void setNotFound() {
         isLoading = false;
-    }
-
-    void setIsLoading() {
-        isLoading = true;
-        isError = false;
     }
 
     @Override

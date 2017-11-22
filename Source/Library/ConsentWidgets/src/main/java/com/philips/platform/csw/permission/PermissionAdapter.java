@@ -7,15 +7,6 @@
 
 package com.philips.platform.csw.permission;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.RequiredConsent;
-import com.philips.platform.mya.consentwidgets.R;
-import com.philips.platform.uid.view.widget.Label;
-import com.philips.platform.uid.view.widget.Switch;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -25,12 +16,25 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 
+import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.catk.error.ConsentNetworkError;
+import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.catk.model.RequiredConsent;
+import com.philips.platform.mya.consentwidgets.R;
+import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.Switch;
+
+import java.util.ArrayList;
+import java.util.List;
+
 class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.PermissionViewHolder> {
 
     private static final int NOT_FOUND = -1;
-    @NonNull private final List<ConsentView> items;
+    @NonNull
+    private final List<ConsentView> items;
 
-    @Nullable private ConsentToggleListener consentToggleListener;
+    @Nullable
+    private ConsentToggleListener consentToggleListener;
 
     PermissionAdapter(@NonNull final List<ConsentView> definitions) {
         this.items = new ArrayList<>(definitions);
@@ -69,25 +73,33 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
         notifyItemRangeChanged(0, consentViews.size());
     }
 
-    void onConsentGetFailed(int error) {
+    void onConsentGetFailed(ConsentNetworkError error) {
         for (ConsentView consentView : items) {
             consentView.setError(true);
+            consentView.setIsLoading(false);
+            consentView.setOnline(error.getCatkErrorCode() != CatkConstants.CONSENT_ERROR_NO_CONNECTION);
         }
         notifyItemRangeChanged(0, items.size());
     }
 
-    void onCreateConsentFailed(ConsentDefinition definition, int errorCode) {
+    void onCreateConsentFailed(ConsentDefinition definition, ConsentNetworkError error) {
         int position = getIndexOfViewWithDefinition(definition);
         if (position != NOT_FOUND) {
-            items.get(position).setError(true);
+            ConsentView consentView = items.get(position);
+            consentView.setError(true);
+            consentView.setIsLoading(false);
+            consentView.setOnline(error.getCatkErrorCode() != CatkConstants.CONSENT_ERROR_NO_CONNECTION);
             notifyItemChanged(position);
         }
     }
 
-    void onCreateConsentSuccess(RequiredConsent consent, int code) {
+    void onCreateConsentSuccess(RequiredConsent consent) {
         int position = getIndexOfViewWithDefinition(consent.getDefinition());
         if (position != NOT_FOUND) {
-            items.get(position).storeConsent(consent);
+            ConsentView consentView = items.get(position);
+            consentView.setError(false);
+            consentView.setIsLoading(false);
+            consentView.storeConsent(consent);
             notifyItemChanged(position);
         }
     }
@@ -149,8 +161,9 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
         }
 
         private void setLoading(ConsentView consentView) {
-            consentView.setIsLoading();
-            progress.setVisibility( View.VISIBLE );
+            consentView.setIsLoading(true);
+            consentView.setError(false);
+            progress.setVisibility(View.VISIBLE);
             error.setVisibility(View.INVISIBLE);
         }
     }

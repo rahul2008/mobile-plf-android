@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.catk.CreateConsentInteractor;
 import com.philips.platform.catk.GetConsentInteractor;
+import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.RequiredConsent;
 
@@ -59,7 +60,7 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
     }
 
     @Override
-    public void onConsentFailed(int error) {
+    public void onConsentFailed(ConsentNetworkError error) {
         adapter.onConsentGetFailed(error);
         permissionInterface.hideProgressDialog();
     }
@@ -70,12 +71,13 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
     }
 
     @Override
-    public void onCreateConsentFailed(ConsentDefinition definition, int errorCode) {
-        adapter.onCreateConsentFailed(definition, errorCode);
+    public void onCreateConsentFailed(ConsentDefinition definition, ConsentNetworkError error) {
+        adapter.onCreateConsentFailed(definition, error);
+        permissionInterface.showErrorDialog(error);
     }
 
     @Override
-    public void onCreateConsentSuccess(RequiredConsent consent, int code) {
-        adapter.onCreateConsentSuccess(consent, code);
+    public void onCreateConsentSuccess(RequiredConsent consent) {
+        adapter.onCreateConsentSuccess(consent);
     }
 }

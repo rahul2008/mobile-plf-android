@@ -7,6 +7,7 @@
 
 package com.philips.platform.catk.listener;
 
+import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.model.Consent;
 
 import java.util.List;
@@ -14,5 +15,5 @@ import java.util.List;
 public interface ConsentResponseListener {
     void onResponseSuccessConsent(List<Consent> responseData);
 
-    int onResponseFailureConsent(int consentError);
+    void onResponseFailureConsent(ConsentNetworkError error);
 }

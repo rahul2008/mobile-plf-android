@@ -9,12 +9,11 @@ package com.philips.platform.catk;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.RequiredConsent;
-import com.philips.platform.catk.utils.CatkLogger;
 import com.philips.platform.catk.utils.CatkLogger;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class GetConsentInteractor {
     public interface Callback {
         void onConsentRetrieved(@NonNull final List<RequiredConsent> consents);
 
-        void onConsentFailed(int error);
+        void onConsentFailed(ConsentNetworkError error);
     }
 
     @NonNull
@@ -57,16 +56,14 @@ public class GetConsentInteractor {
             if (responseData != null && !responseData.isEmpty()) {
                 callback.onConsentRetrieved(filterConsentsByDefinitions(responseData));
             } else {
-                this.callback.onConsentFailed(-1);
                 CatkLogger.d(" Consent : ", "no consent for type found on server");
             }
         }
 
         @Override
-        public int onResponseFailureConsent(int consentError) {
-            CatkLogger.d(" Consent : ", "response failure:" + consentError);
-            this.callback.onConsentFailed(consentError);
-            return 0;
+        public void onResponseFailureConsent(ConsentNetworkError error) {
+            CatkLogger.d(" Consent : ", "response failure:" + error);
+            this.callback.onConsentFailed(error);
         }
 
         private List<RequiredConsent> filterConsentsByDefinitions(List<Consent> receivedConsents) {

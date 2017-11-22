@@ -80,7 +80,7 @@ public class ServerErrorTest {
     }
 
     private void thenConsentErrorCodeIs(int consentErrorServerError) {
-        assertEquals(consentErrorServerError, givenConsentNetworkError.getErrorCode());
+        assertEquals(consentErrorServerError, givenConsentNetworkError.getCatkErrorCode());
     }
 
     private void thenHasNoDescription() {
