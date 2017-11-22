@@ -173,7 +173,7 @@ dependencies {
     
     if(dp) {
         project(':commlib-lan')
-    else {
+    } else {
         compile(group: 'com.philips.cdp', name: 'commlib-lan', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
         {
             transitive = true
