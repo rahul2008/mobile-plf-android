@@ -34,14 +34,6 @@ public class AtosResultsModel {
 		this.mTitle = title;
 	}
 
-	public String getInfoType() {
-		return mInfoType;
-	}
-
-	public void setInfoType(String infoType) {
-		this.mInfoType = infoType;
-	}
-
 	public AtosLocationModel getLocationModel() {
 		return mLocationModel;
 	}

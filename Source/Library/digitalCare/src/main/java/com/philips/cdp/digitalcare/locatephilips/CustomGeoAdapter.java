@@ -126,8 +126,6 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
                         AtosResultsModel filteredResultModel = new AtosResultsModel();
 
                         filteredResultModel.setId(resultModel.getId());
-                        filteredResultModel.setInfoType(resultModel
-                                .getInfoType());
                         filteredResultModel.setTitle(resultModel.getTitle());
                         filteredResultModel.setLocationModel(resultModel
                                 .getLocationModel());

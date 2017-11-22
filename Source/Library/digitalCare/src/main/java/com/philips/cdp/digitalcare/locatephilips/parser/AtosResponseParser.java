@@ -47,17 +47,6 @@ public class AtosResponseParser {
 			AtosErrorModel cdlsErrorModel = null;
 
 			if (success) {
-				JSONObject centerMap = jsonObjectData
-						.optJSONObject("centerMap");
-				if (centerMap == null) {
-					return;
-				}
-				String latitude = centerMap.optString("latitude");
-				String longitude = centerMap.optString("longitude");
-				currentLocationModel = new AtosLocationModel();
-				currentLocationModel.setLatitude(latitude);
-				currentLocationModel.setLongitude(longitude);
-
 				JSONArray jsonArray = jsonObjectData.optJSONArray("results");
 				mArrayListResultsModel = new ArrayList<AtosResultsModel>();
 				for (int i = 0; i < jsonArray.length(); i++) {
@@ -132,7 +121,6 @@ public class AtosResponseParser {
 		AtosResultsModel resultModel = new AtosResultsModel();
 		resultModel.setAddressModel(addressModel);
 		resultModel.setId(id);
-		resultModel.setInfoType(infoType);
 		resultModel.setLocationModel(locationModel);
 		resultModel.setTitle(title);
 
