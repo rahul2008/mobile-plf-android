@@ -10,7 +10,6 @@ package com.philips.platform.csw.permission;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.RequiredConsent;
 import com.philips.platform.mya.consentwidgets.R;
@@ -29,12 +28,12 @@ import android.widget.ProgressBar;
 class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.PermissionViewHolder> {
 
     private static final int NOT_FOUND = -1;
-    private final List<ConsentView> items;
-    private final ConsentToggleListener createConsentInteractor;
+    @NonNull private final List<ConsentView> items;
+    @NonNull private final ConsentToggleListener consentToggleListener;
 
-    PermissionAdapter(List<ConsentView> definitions, ConsentToggleListener consentToggleListener) {
+    PermissionAdapter(@NonNull final List<ConsentView> definitions, @NonNull final ConsentToggleListener consentToggleListener) {
         this.items = new ArrayList<>(definitions);
-        this.createConsentInteractor = consentToggleListener;
+        this.consentToggleListener = consentToggleListener;
     }
 
     @Override
@@ -46,7 +45,7 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
     @Override
     public void onBindViewHolder(PermissionViewHolder holder, int position) {
         final ConsentView consentItem = items.get(position);
-        holder.setToggleListener(createConsentInteractor);
+        holder.setToggleListener(consentToggleListener);
         holder.setDefinition(consentItem);
     }
 
@@ -55,7 +54,7 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
         return items.size();
     }
 
-    void onConsentRetrieved(@NonNull List<ConsentView> consentViews) {
+    void onConsentRetrieved(@NonNull final List<ConsentView> consentViews) {
         items.clear();
         items.addAll(consentViews);
         notifyItemRangeChanged(0, consentViews.size());
@@ -69,7 +68,7 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
     }
 
     void onCreateConsentFailed(ConsentDefinition definition, int errorCode) {
-        int position = getConsentView(definition);
+        int position = getIndexOfViewWithDefinition(definition);
         if (position != NOT_FOUND) {
             items.get(position).setError(true);
             notifyItemChanged(position);
@@ -77,14 +76,14 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
     }
 
     void onCreateConsentSuccess(RequiredConsent consent, int code) {
-        int position = getConsentView(consent.getDefinition());
+        int position = getIndexOfViewWithDefinition(consent.getDefinition());
         if (position != NOT_FOUND) {
             items.get(position).storeConsent(consent);
             notifyItemChanged(position);
         }
     }
 
-    private int getConsentView(ConsentDefinition definition) {
+    private int getIndexOfViewWithDefinition(ConsentDefinition definition) {
         for (int index = 0; index < items.size(); index++) {
             final ConsentView consentView = items.get(index);
             if (consentView.getDefinition().equals(definition)) {

@@ -114,6 +114,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        // TODO: We could probably use some dagger here ;)
         List<ConsentView> consentViews = createConsentDefinitions();
 
         ConsentAccessToolKit instance = ConsentAccessToolKit.getInstance();

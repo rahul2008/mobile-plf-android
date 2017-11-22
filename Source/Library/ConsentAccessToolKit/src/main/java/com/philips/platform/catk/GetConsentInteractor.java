@@ -41,16 +41,14 @@ public class GetConsentInteractor {
     }
 
     public void getConsents(@NonNull final Callback callback) {
-        consentAccessToolKit.getConsentDetails(new ConsentViewResponseListener(definitions, callback));
+        consentAccessToolKit.getConsentDetails(new ConsentViewResponseListener(callback));
     }
 
     private class ConsentViewResponseListener implements ConsentResponseListener {
 
-        private List<ConsentDefinition> consentDefinitions;
         private Callback callback;
 
-        ConsentViewResponseListener(@NonNull final List<ConsentDefinition> consentDefinitions, @NonNull final Callback callback) {
-            this.consentDefinitions = consentDefinitions;
+        ConsentViewResponseListener(@NonNull final Callback callback) {
             this.callback = callback;
         }
 

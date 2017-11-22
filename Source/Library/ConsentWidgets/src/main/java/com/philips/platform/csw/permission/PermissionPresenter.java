@@ -64,8 +64,8 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
     }
 
     @Override
-    public void onToggledConsent(ConsentDefinition definition, boolean on) {
-        createConsentInteractor.createConsentStatus(definition, this, on);
+    public void onToggledConsent(ConsentDefinition definition, boolean consentGiven) {
+        createConsentInteractor.createConsentStatus(definition, this, consentGiven);
     }
 
     @Override
