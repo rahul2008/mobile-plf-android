@@ -54,27 +54,33 @@ dependencies {
     testCompile 'org.mockito:mockito-core:1.9.5'
     compile 'com.google.code.gson:gson:2.8.1'
 
-	def dp = project.ext.has('useprojectdependencies')
+    def dp = project.ext.has('useprojectdependencies')
 
     compile 'com.shamanland:fonticon:0.1.9'
 
-	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
-	compile(dp ? project(':ufw') : ufwModule) 
-	{
-		transitive = true
-	}
-	
-	def prxModule = module(group: 'com.philips.cdp', name: 'prx', version: versions.prx_prx + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-	compile(dp ? project(':prx') : prxModule)
-	{
-		transitive = true
-	}
+    if(dp) {
+        project(':ufw')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {
+            transitive = true
+        }
+    }
 
-	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
-	compile(dp ? project(':uid') : uidModule) 
-	{
-		transitive = true
-	}
+    if(dp) {
+        project(':prx')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'prx', version: versions.prx_prx + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':uid')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            transitive = true
+        }
+    }
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
