@@ -6,22 +6,6 @@ android {
         resConfigs "ar", "bg",  "cs", "da", "de", "el", "en", "en_GB", "es", "es_AR", "es_MX", "et", "fi", "fr", "fr_CA", "he", "hr", "hu", "it", "ja", "ko",  "lt", "lv",  "nb", "nl",  "pl",  "pt", "pt_BR", "ro", "ru", "sk", "sl", "sv", "th", "tr", "vi", "zh_CN", "zh_HK", "zh_TW"
     }
 
-//    testOptions {
-//        unitTests.returnDefaultValues = true
-//        unitTests.all {
-//            // set JVM arguments for the test JVM(s)
-//            jvmArgs '-noverify'
-//            testLogging {
-//                events "started", "passed", "skipped", "failed"
-//                outputs.upToDateWhen {false}
-//            }
-//
-//            jacoco {
-//                includeNoLocationClasses = false
-//            }
-//        }
-//    }
-
     dexOptions {
         preDexLibraries = false
         jumboMode = false

@@ -15,7 +15,7 @@ project.afterEvaluate {
     productFlavors.each {
 
         productFlavorName ->
-//iterate over build types like debug,release,prod etc.
+        //iterate over build types like debug,release,prod etc.
             buildTypes.each {
 
                 buildTypeName ->
