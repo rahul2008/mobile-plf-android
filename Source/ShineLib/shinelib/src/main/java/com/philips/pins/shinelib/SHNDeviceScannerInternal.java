@@ -26,6 +26,8 @@ import java.util.UUID;
 import static com.philips.pins.shinelib.SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed;
 
 /**
+ * Used to scan for devices.
+ *
  * @publicPluginApi
  */
 public class SHNDeviceScannerInternal {
@@ -49,10 +51,27 @@ public class SHNDeviceScannerInternal {
         this.registeredDeviceDefinitions = registeredDeviceDefinitions;
     }
 
+    /**
+     * Start scanning for devices
+     * When a device is found the {@code SHNDeviceScanner.SHNDeviceScannerListener} will be informed.
+     *
+     * @param shnDeviceScannerListener Callback listener
+     * @param scannerSettingDuplicates Scan settings
+     * @param stopScanningAfterMS Stop scanning after time in Ms
+     *
+     * @return Scan successfully stated
+     */
     public boolean startScanning(@NonNull SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener, ScannerSettingDuplicates scannerSettingDuplicates, long stopScanningAfterMS) {
         return startScanning(new SHNInternalScanRequest(registeredDeviceDefinitions, null, scannerSettingDuplicates == DuplicatesAllowed, (int) stopScanningAfterMS, shnDeviceScannerListener));
     }
 
+    /**
+     * Start scanning for devices
+     *
+     * @param SHNInternalScanRequest Contains scan settings and callback
+     *
+     * @return Scan successfully stated
+     */
     public boolean startScanning(@NonNull final SHNInternalScanRequest SHNInternalScanRequest) {
         SHNLogger.i(TAG, "Start scanning");
 
@@ -95,6 +114,9 @@ public class SHNDeviceScannerInternal {
         }
     }
 
+    /**
+     * Stop scanning for devices
+     */
     public void stopScanning() {
         if (leScanCallbackProxy != null) {
             shnCentral.getInternalHandler().removeCallbacks(restartScanningRunnable);
