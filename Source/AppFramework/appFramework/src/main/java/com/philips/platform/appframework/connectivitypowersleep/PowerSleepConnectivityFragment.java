@@ -29,7 +29,6 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
 import com.philips.platform.appframework.connectivity.ConnectivityUtils;
 import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.UIView;
@@ -54,6 +53,8 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     private TextView sleepTimeTextView, deepSleepTimeTextView, sleepPercentageScoreTextView, syncUpdatedTextView;
 
     private Button insights;
+
+    private RefAppBleReferenceAppliance bleReferenceAppliance = null;
 
     /**
      * Presenter object for Connectivity
@@ -158,7 +159,6 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         }
     }
 
-    private RefAppBleReferenceAppliance bleReferenceAppliance = null;
 
     /**
      * Start scanning nearby devices using given strategy

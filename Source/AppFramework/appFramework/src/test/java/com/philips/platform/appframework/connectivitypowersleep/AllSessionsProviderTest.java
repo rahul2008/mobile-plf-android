@@ -8,7 +8,7 @@
 package com.philips.platform.appframework.connectivitypowersleep;
 
 
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Session;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionsOldestToNewest;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;
@@ -47,7 +47,7 @@ public class AllSessionsProviderTest {
 
     @InjectMocks private AllSessionsProvider subject;
 
-    @Mock private BleReferenceAppliance mockPowerSleepAppliance;
+    @Mock private RefAppBleReferenceAppliance mockPowerSleepAppliance;
     @Mock private AllSessionsProvider.Callback mockSessionsDataCallback;
     @Mock private SessionProviderFactory mockSessionProviderFactory;
     @Mock private Throwable mockThrowable;

@@ -9,7 +9,7 @@ package com.philips.platform.appframework.connectivitypowersleep;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 
 import javax.inject.Inject;
 
@@ -20,7 +20,7 @@ class AllSessionsProviderFactory {
     }
 
     @NonNull
-    AllSessionsProvider createAllSessionProvider(BleReferenceAppliance appliance) {
+    AllSessionsProvider createAllSessionProvider(RefAppBleReferenceAppliance appliance) {
         return new AllSessionsProvider(appliance, new SessionProviderFactory()/*, new RetryHelper()*/);
     }
 }

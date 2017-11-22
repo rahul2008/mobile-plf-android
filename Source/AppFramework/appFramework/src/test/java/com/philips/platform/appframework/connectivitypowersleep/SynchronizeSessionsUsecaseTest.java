@@ -8,8 +8,8 @@
 package com.philips.platform.appframework.connectivitypowersleep;
 
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.PortDataCallback;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionInfoPortProperties;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionsOldestToNewest;
 
@@ -38,7 +38,7 @@ public class SynchronizeSessionsUsecaseTest {
     @Mock AllSessionsProviderFactory mockAllSessionsProviderFactory;
     @Mock AllSessionsProvider mockAllSessionProvider;
     @Mock
-    BleReferenceAppliance mockAppliance;
+    RefAppBleReferenceAppliance mockAppliance;
     @Mock SynchronizeSessionsUsecase.Callback mockCallback;
     @Mock
     SessionInfoPortProperties mockPortProperties;

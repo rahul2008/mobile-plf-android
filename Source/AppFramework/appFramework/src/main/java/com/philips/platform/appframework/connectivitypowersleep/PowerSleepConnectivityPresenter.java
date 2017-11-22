@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Session;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionsOldestToNewest;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;
@@ -73,7 +72,7 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
     }
 
     @Override
-    public void synchroniseSessionData(final BleReferenceAppliance bleReferenceAppliance) {
+    public void synchroniseSessionData(final RefAppBleReferenceAppliance bleReferenceAppliance) {
         connectivityViewListener.showProgressDialog();
         dataServicesManager.fetchLatestMomentByType(MomentType.SLEEP_SESSION,new DBFetchRequestListner<Moment>() {
             @Override

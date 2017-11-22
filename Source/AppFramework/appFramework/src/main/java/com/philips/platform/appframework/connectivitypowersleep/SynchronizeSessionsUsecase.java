@@ -11,8 +11,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.PortDataCallback;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionInfoPortProperties;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionsOldestToNewest;
 import com.philips.platform.appframework.connectivitypowersleep.error.FailedSyncSessionsException;
@@ -109,7 +109,8 @@ public class SynchronizeSessionsUsecase {
 
     @NonNull final AllSessionsProviderFactory allSessionsProviderFactory;
 
-    @Nullable BleReferenceAppliance appliance;
+    @Nullable
+    RefAppBleReferenceAppliance appliance;
     @Nullable Callback callback;
     @NonNull private DateTime latestMomentDateTime;
 
@@ -118,7 +119,7 @@ public class SynchronizeSessionsUsecase {
         this.allSessionsProviderFactory = allSessionsProviderFactory;
     }
 
-    void execute(@NonNull BleReferenceAppliance appliance, @NonNull Callback callback, @NonNull DateTime latestMomentDateTime) {
+    void execute(@NonNull RefAppBleReferenceAppliance appliance, @NonNull Callback callback, @NonNull DateTime latestMomentDateTime) {
         this.callback = callback;
         this.appliance = appliance;
         this.latestMomentDateTime = latestMomentDateTime;

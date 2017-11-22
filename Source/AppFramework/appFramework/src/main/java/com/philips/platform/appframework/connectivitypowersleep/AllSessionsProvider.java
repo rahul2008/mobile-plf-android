@@ -10,7 +10,7 @@ package com.philips.platform.appframework.connectivitypowersleep;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Session;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionsOldestToNewest;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;
@@ -33,7 +33,7 @@ class AllSessionsProvider implements SessionProvider.Callback {
         void onDeviceContainsNoSessions();
     }
 
-    @NonNull private final BleReferenceAppliance appliance;
+    @NonNull private final RefAppBleReferenceAppliance appliance;
     @NonNull private final SessionProviderFactory sessionProviderFactory;
 //    @NonNull private RetryHelper retryHelper;
     @NonNull private List<Session> newSessionsData;
@@ -42,7 +42,7 @@ class AllSessionsProvider implements SessionProvider.Callback {
     private long currentSessionNumber;
     private long oldestSessionNumber;
 
-    AllSessionsProvider(@NonNull BleReferenceAppliance appliance, @NonNull SessionProviderFactory sessionProviderFactory) {
+    AllSessionsProvider(@NonNull RefAppBleReferenceAppliance appliance, @NonNull SessionProviderFactory sessionProviderFactory) {
         this.appliance = appliance;
         this.sessionProviderFactory = sessionProviderFactory;
 //        this.retryHelper = retryHelper;

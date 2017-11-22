@@ -11,8 +11,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.PortDataCallback;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Session;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPortProperties;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;
@@ -32,7 +32,7 @@ class SessionProvider {
         void onError(@NonNull final Throwable error);
     }
 
-    @NonNull final BleReferenceAppliance diCommAppliance;
+    @NonNull final RefAppBleReferenceAppliance diCommAppliance;
     @NonNull final Callback sleepDataCallback;
 
     long sessionNumber;
@@ -63,7 +63,7 @@ class SessionProvider {
                 }
             };
 
-    SessionProvider(@NonNull BleReferenceAppliance appliance, long sessionNumber,
+    SessionProvider(@NonNull RefAppBleReferenceAppliance appliance, long sessionNumber,
                     @NonNull Callback sleepDataCallback) {
         this.diCommAppliance = appliance;
         this.sessionNumber = sessionNumber;

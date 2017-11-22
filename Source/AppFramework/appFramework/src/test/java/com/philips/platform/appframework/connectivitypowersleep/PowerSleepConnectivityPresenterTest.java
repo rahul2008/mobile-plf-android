@@ -69,7 +69,6 @@ public class PowerSleepConnectivityPresenterTest {
     DICommPortListener<SessionDataPort> portListener;
 
     @Mock
-    BleReferenceAppliance bleReferenceAppliance;
     private RefAppBleReferenceAppliance bleReferenceAppliance;
 
     @Mock

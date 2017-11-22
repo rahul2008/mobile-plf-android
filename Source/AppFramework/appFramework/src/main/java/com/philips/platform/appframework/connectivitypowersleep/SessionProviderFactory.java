@@ -7,11 +7,11 @@
 
 package com.philips.platform.appframework.connectivitypowersleep;
 
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 
 class SessionProviderFactory {
 
-    SessionProvider createBleSessionProvider(BleReferenceAppliance appliance,
+    SessionProvider createBleSessionProvider(RefAppBleReferenceAppliance appliance,
                                              long sessionNumber,
                                              SessionProvider.Callback callback) {
         return new SessionProvider(appliance, sessionNumber, callback);

@@ -32,8 +32,6 @@ import java.util.Set;
 
 public class RefAppApplianceFactory implements ApplianceFactory {
     public static final String TAG = RefAppApplianceFactory.class.getSimpleName();
-    public static final String PRODUCT_STUB_BOARD = "PS1234";
-    public static final String DI_COMM_BLE_REFERENCE = "DiCommBLEReference";
 
     @NonNull
     private final BleTransportContext bleTransportContext;
@@ -84,8 +82,8 @@ public class RefAppApplianceFactory implements ApplianceFactory {
                         return new JaguarAirPurifier(networkNode, communicationStrategy);
                     }
                 case BleReferenceAppliance.DEVICETYPE:
-                    if(networkNode.getName().equals(DI_COMM_BLE_REFERENCE) ||
-                            networkNode.getModelId().equals(PRODUCT_STUB_BOARD)) {
+                    if(networkNode.getModelId().equals(RefAppBleReferenceAppliance.MODEL_NAME_HH1600) || networkNode.getModelId().equals(RefAppBleReferenceAppliance.MODEL_NAME_HHS)||
+                            networkNode.getModelId().equals(RefAppBleReferenceAppliance.MODELNAME)) {
                         return new RefAppBleReferenceAppliance(networkNode, communicationStrategy, deviceType);
                     }
                     else {
