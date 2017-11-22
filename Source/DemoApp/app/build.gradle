@@ -154,8 +154,13 @@ dependencies {
     compile 'com.android.support:design:25.1.1'
     def dp = project.ext.has('useprojectdependencies')
 
-	def ufwModule = module(group: 'com.philips.cdp', name: 'ufw', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) 
-	compile(dp ? project(':ufw') : ufwModule) 
+    if(dp) {
+        project(':ufw')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            transitive = true
+        }
+    }
 
     compile 'adobeMobileLibrary:adobeMobileLibrary:4.13.7'
     compile 'com.squareup.leakcanary:leakcanary-android:1.5'

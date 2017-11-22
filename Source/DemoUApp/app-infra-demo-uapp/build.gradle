@@ -138,19 +138,24 @@ android {
     }
 
 
-    dependencies {
-        compile fileTree(dir: 'libs', include: ['*.jar'])
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 
-        compile 'com.android.support:appcompat-v7:25.1.1'
-        compile 'com.android.support:design:25.1.1'
-        
-        def useProjectDependencies = project.ext.has('useprojectdependencies')
-        def ufwModule = module(group: 'com.philips.cdp', name: 'ufw', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
-        compile(useProjectDependencies ? project(':ufw') : ufwModule)
+    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile 'com.android.support:design:25.1.1'
+
+    def dp = project.ext.has('useprojectdependencies')
+
+    if(dp) {
+        project(':ufw')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            transitive = true
+        }
+    }
 
         compile 'com.squareup.leakcanary:leakcanary-android:1.5'
         compile 'com.google.code.gson:gson:2.8.1'
-		def dp = project.ext.has('useprojectdependencies')
         compile(dp ? project(':ail') : project(':AppInfra'))
     }
 }
