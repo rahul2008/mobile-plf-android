@@ -39,13 +39,12 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
     @Override
     public PermissionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_consent, parent, false);
-        return new PermissionViewHolder(view);
+        return new PermissionViewHolder(view, consentToggleListener);
     }
 
     @Override
     public void onBindViewHolder(PermissionViewHolder holder, int position) {
         final ConsentView consentItem = items.get(position);
-        holder.setToggleListener(consentToggleListener);
         holder.setDefinition(consentItem);
     }
 
@@ -101,19 +100,16 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
         private Label error;
         private ProgressBar progress;
         @Nullable
-        private ConsentToggleListener createConsentInteractor;
+        private ConsentToggleListener consentToggleListener;
 
-        PermissionViewHolder(View itemView) {
+        PermissionViewHolder(View itemView, ConsentToggleListener consentToggleListener) {
             super(itemView);
             this.toggle = itemView.findViewById(R.id.toggleicon);
             this.label = itemView.findViewById(R.id.consentText);
             this.help = itemView.findViewById(R.id.consentHelp);
             this.error = itemView.findViewById(R.id.consentError);
             this.progress = itemView.findViewById(R.id.progressBar);
-        }
-
-        void setToggleListener(ConsentToggleListener createConsentInteractor) {
-            this.createConsentInteractor = createConsentInteractor;
+            this.consentToggleListener = consentToggleListener;
         }
 
         void setDefinition(final ConsentView consentView) {
@@ -129,9 +125,9 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
             toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if (createConsentInteractor != null) {
+                    if (consentToggleListener != null) {
                         setLoading(consentView);
-                        createConsentInteractor.onToggledConsent(consentView.getDefinition(), b);
+                        consentToggleListener.onToggledConsent(consentView.getDefinition(), b);
                     }
                 }
             });

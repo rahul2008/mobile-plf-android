@@ -44,7 +44,7 @@ public class GetConsentInteractor {
         consentAccessToolKit.getConsentDetails(new ConsentViewResponseListener(callback));
     }
 
-    private class ConsentViewResponseListener implements ConsentResponseListener {
+    class ConsentViewResponseListener implements ConsentResponseListener {
 
         private Callback callback;
 

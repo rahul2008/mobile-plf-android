@@ -118,7 +118,7 @@ public class CswLogger {
     }
 
     @VisibleForTesting
-    public static void setLoogerInterface(LoggingInterface loggingInterface) {
+    static void setLoggerInterface(LoggingInterface loggingInterface) {
         mLoggingInterface = loggingInterface;
     }
 }

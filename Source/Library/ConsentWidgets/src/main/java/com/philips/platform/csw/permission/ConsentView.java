@@ -70,7 +70,7 @@ public class ConsentView {
     }
 
     boolean isLoading() {
-        return consent == null || consent.getConsent() == null;
+        return isLoading;
     }
 
     void setNotFound() {

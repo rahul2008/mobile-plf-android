@@ -12,6 +12,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
 
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 /**
@@ -123,5 +124,10 @@ public class CatkLogger {
         }
         validateLoggerInitialization();
         mLoggingInterface.log(LoggingInterface.LogLevel.VERBOSE, tag, message);
+    }
+
+    @VisibleForTesting
+    public static void setLoggerInterface(LoggingInterface loggingInterface) {
+        mLoggingInterface = loggingInterface;
     }
 }

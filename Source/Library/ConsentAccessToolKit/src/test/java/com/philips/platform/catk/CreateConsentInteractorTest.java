@@ -1,10 +1,16 @@
-package com.philips.platform.csw.permission;
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 
-import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.CreateConsentInteractor;
-import com.philips.platform.catk.listener.CreateConsentListener;
-import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.model.ConsentDefinition;
+package com.philips.platform.catk;
+
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.verify;
+
+import java.util.Locale;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,18 +19,21 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Locale;
-
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.verify;
+import com.philips.platform.catk.listener.CreateConsentListener;
+import com.philips.platform.catk.model.Consent;
+import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.catk.model.ConsentDefinitionException;
 
 public class CreateConsentInteractorTest {
 
     private CreateConsentInteractor subject;
-    @Mock private ConsentAccessToolKit mockCatk;
+    @Mock
+    private ConsentAccessToolKit mockCatk;
     private ConsentDefinition givenConsentDefinition;
     @Captor
     private ArgumentCaptor<Consent> captorConsent;
+    @Mock
+    private CreateConsentInteractor.Callback mockCallback;
 
     @Before
     public void setUp() throws Exception {
@@ -39,16 +48,16 @@ public class CreateConsentInteractorTest {
         thenCreateConsentIsCalledOnTheCatk();
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void itShouldThrowIllegalStateWhenUsingDefinitionWithLocaleThatIsMissingCountry() throws Exception {
+    @Test(expected = ConsentDefinitionException.class)
+    public void itShouldThrowConsentDefinitionExceptionWhenUsingDefinitionWithLocaleThatIsMissingCountry() throws Exception {
         givenCreateConsentInteractor();
         givenConsentDefinition(new Locale("nl", ""));
         whenCallingCreateConsentInGivenState(true);
         thenCreateConsentIsCalledOnTheCatk();
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void itShouldThrowIllegalStateWhenUsingDefinitionWithLocaleThatIsMissingLanguage() throws Exception {
+    @Test(expected = ConsentDefinitionException.class)
+    public void itShouldThrowConsentDefinitionExceptionWhenUsingDefinitionWithLocaleThatIsMissingLanguage() throws Exception {
         givenCreateConsentInteractor();
         givenConsentDefinition(new Locale("", "NL"));
         whenCallingCreateConsentInGivenState(true);
@@ -64,7 +73,7 @@ public class CreateConsentInteractorTest {
     }
 
     private void whenCallingCreateConsentInGivenState(boolean checked) {
-        subject.createConsentStatus(givenConsentDefinition, callback, checked);
+        subject.createConsentStatus(givenConsentDefinition, mockCallback, checked);
     }
 
     private void thenCreateConsentIsCalledOnTheCatk() {
