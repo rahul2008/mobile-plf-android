@@ -67,13 +67,13 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
         return items.size();
     }
 
-    void onConsentRetrieved(@NonNull final List<ConsentView> consentViews) {
+    void onGetConsentRetrieved(@NonNull final List<ConsentView> consentViews) {
         items.clear();
         items.addAll(consentViews);
         notifyItemRangeChanged(0, consentViews.size());
     }
 
-    void onConsentGetFailed(ConsentNetworkError error) {
+    void onGetConsentFailed(ConsentNetworkError error) {
         for (ConsentView consentView : items) {
             consentView.setError(true);
             consentView.setIsLoading(false);

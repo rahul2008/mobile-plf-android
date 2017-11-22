@@ -46,13 +46,13 @@ public class PermissionPresenterTest {
 
     @Test
     public void testHideProgressDialog_onError() throws Exception {
-        mPermissionPresenter.onConsentFailed(42);
+        mPermissionPresenter.onGetConsentFailed(42);
         Mockito.verify(mockPermissionInterface).hideProgressDialog();
     }
 
     @Test
     public void testHideProgressDialog_onSuccess() throws Exception {
-        mPermissionPresenter.onConsentRetrieved(new ArrayList<RequiredConsent>());
+        mPermissionPresenter.onGetConsentRetrieved(new ArrayList<RequiredConsent>());
         Mockito.verify(mockPermissionInterface).hideProgressDialog();
     }
 }

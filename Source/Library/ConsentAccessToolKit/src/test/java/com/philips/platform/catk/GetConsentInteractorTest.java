@@ -118,11 +118,11 @@ public class GetConsentInteractorTest {
     }
 
     private void thenConsentFailedIsReported() {
-        verify(mockCallback).onConsentFailed(anyInt());
+        verify(mockCallback).onGetConsentFailed(anyInt());
     }
 
     private void thenConsentRetrievedIsReported() {
-        verify(mockCallback).onConsentRetrieved(captorRequired.capture());
+        verify(mockCallback).onGetConsentRetrieved(captorRequired.capture());
     }
 
     @NonNull

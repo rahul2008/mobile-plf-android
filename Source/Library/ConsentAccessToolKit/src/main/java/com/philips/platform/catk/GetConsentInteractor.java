@@ -24,9 +24,9 @@ import java.util.Map;
 public class GetConsentInteractor {
 
     public interface Callback {
-        void onConsentRetrieved(@NonNull final List<RequiredConsent> consents);
+        void onGetConsentRetrieved(@NonNull final List<RequiredConsent> consents);
 
-        void onConsentFailed(ConsentNetworkError error);
+        void onGetConsentFailed(ConsentNetworkError error);
     }
 
     @NonNull
@@ -54,7 +54,7 @@ public class GetConsentInteractor {
         @Override
         public void onResponseSuccessConsent(List<Consent> responseData) {
             if (responseData != null && !responseData.isEmpty()) {
-                callback.onConsentRetrieved(filterConsentsByDefinitions(responseData));
+                callback.onGetConsentRetrieved(filterConsentsByDefinitions(responseData));
             } else {
                 CatkLogger.d(" Consent : ", "no consent for type found on server");
             }
@@ -63,7 +63,7 @@ public class GetConsentInteractor {
         @Override
         public void onResponseFailureConsent(ConsentNetworkError error) {
             CatkLogger.d(" Consent : ", "response failure:" + error);
-            this.callback.onConsentFailed(error);
+            this.callback.onGetConsentFailed(error);
         }
 
         private List<RequiredConsent> filterConsentsByDefinitions(List<Consent> receivedConsents) {

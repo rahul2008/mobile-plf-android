@@ -46,7 +46,12 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
     }
 
     @Override
-    public void onConsentRetrieved(@NonNull List<RequiredConsent> consents) {
+    public void onToggledConsent(ConsentDefinition definition, boolean consentGiven) {
+        createConsentInteractor.createConsentStatus(definition, this, consentGiven);
+    }
+
+    @Override
+    public void onGetConsentRetrieved(@NonNull List<RequiredConsent> consents) {
         List<ConsentView> consentViews = adapter.getConsentViews();
         Map<String, RequiredConsent> consentMap = new HashMap<>();
         for (RequiredConsent consent : consents) {
@@ -55,19 +60,14 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
         for (ConsentView consentView : consentViews) {
             consentView.storeConsent(consentMap.get(consentView.getType()));
         }
-        adapter.onConsentRetrieved(consentViews);
+        adapter.onGetConsentRetrieved(consentViews);
         permissionInterface.hideProgressDialog();
     }
 
     @Override
-    public void onConsentFailed(ConsentNetworkError error) {
-        adapter.onConsentGetFailed(error);
+    public void onGetConsentFailed(ConsentNetworkError error) {
+        adapter.onGetConsentFailed(error);
         permissionInterface.hideProgressDialog();
-    }
-
-    @Override
-    public void onToggledConsent(ConsentDefinition definition, boolean consentGiven) {
-        createConsentInteractor.createConsentStatus(definition, this, consentGiven);
     }
 
     @Override
