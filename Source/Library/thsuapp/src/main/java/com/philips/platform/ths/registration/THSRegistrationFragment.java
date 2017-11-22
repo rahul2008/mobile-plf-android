@@ -129,9 +129,11 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         if (gender == null)
             return;
         if (gender == com.philips.cdp.registration.ui.utils.Gender.FEMALE) {
+            mCheckBoxFemale.setSelected(true);
             mCheckBoxFemale.setChecked(true);
         } else {
             mCheckBoxMale.setSelected(true);
+            mCheckBoxMale.setChecked(true);
         }
 
     }

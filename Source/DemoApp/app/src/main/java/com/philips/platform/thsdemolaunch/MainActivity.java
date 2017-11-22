@@ -201,7 +201,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         baby2.setFirstName("baby2");
         baby2.setLastName("Hallur");
         baby2.setHsdoToken("0190c6eb-b8ad-4d3c-a7b3-fee0ace65d78_12390");
-        baby2.setGender(Gender.MALE);
+        baby2.setGender(Gender.FEMALE);
         baby2.setEmail(user.getEmail());
         Calendar calendar2 = Calendar.getInstance();
         calendar.set(2015,8,24);
