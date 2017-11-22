@@ -104,9 +104,7 @@ public class MyAccountStateTest {
         ArgumentCaptor<MyaDependencies> myaDependencies = ArgumentCaptor.forClass(MyaDependencies.class);
         myAccountState.setUiStateData(uiStateData);
         myAccountState.navigate(fragmentLauncher);
-        verify(myaInterface).init(myaDependencies.capture(), any(MyaSettings.class));
-        assertEquals("OneBackend", myaDependencies.getValue().getApplicationName());
-        assertEquals("OneBackendProp", myaDependencies.getValue().getPropositionName());
+        verify(myaInterface).init(any(MyaDependencies.class), any(MyaSettings.class));
     }
 
     @Test
@@ -117,7 +115,7 @@ public class MyAccountStateTest {
     @Test
     public void shouldAddOneSampleConsentDefinition() throws Exception {
         final List<ConsentDefinition> definitions = givenListOfConsentDefinitions();
-        assertEquals(1, definitions.size());
+        assertEquals(2, definitions.size());
     }
 
     @Test
@@ -127,7 +125,7 @@ public class MyAccountStateTest {
 
         assertEquals("I allow Philips to store my data in cloud", sample.getText());
         assertEquals("The actual content of the help text here", sample.getHelpText());
-        assertEquals(LANGUAGE_TAG, sample.getLocale());
+        assertEquals(LANGUAGE_TAG, sample.getLocaleString());
         assertEquals("moment", sample.getType());
         assertEquals(1, sample.getVersion());
     }
