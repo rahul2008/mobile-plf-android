@@ -163,12 +163,12 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input", this);
         PTHMicroAppInterface = new THSMicroAppInterfaceImpl();
 
-        Drawable drawable = getResources().getDrawable(R.drawable.ths_welcome,getTheme());
+        /*Drawable drawable = getResources().getDrawable(R.drawable.ths_welcome,getTheme());
         BitmapDrawable bitmapDrawable = ((BitmapDrawable) drawable);
         Bitmap bitmap = bitmapDrawable.getBitmap();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream); //use the compression format of your need
-        ByteArrayInputStream is = new ByteArrayInputStream(stream.toByteArray());
+        ByteArrayInputStream is = new ByteArrayInputStream(stream.toByteArray());*/
 
         User user = new User(this);
         THSConsumer thsConsumer = new THSConsumer();
@@ -188,7 +188,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         baby.setBloodPressureDiastolic("80");
         baby.setTemperature(90.0);
         baby.setWeight(56);
-        baby.setProfilePic(is);
+      //  baby.setProfilePic(is);
         ArrayList dependants = new ArrayList();
         dependants.add(baby);
 
@@ -207,7 +207,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         baby2.setBloodPressureDiastolic("80");
         baby2.setTemperature(90.0);
         baby2.setWeight(56);
-        baby2.setProfilePic(is);
+       // baby2.setProfilePic(is);
         //ArrayList dependants = new ArrayList();
         dependants.add(baby2);
 
