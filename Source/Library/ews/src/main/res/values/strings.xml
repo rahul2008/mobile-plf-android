@@ -35,6 +35,12 @@
     <string name="button_ews_connection_problem_setup_mode_yes">Yes, please help me</string>
     <string name="button_ews_connection_problem_setup_mode_no">No, thanks</string>
 
+    <!--EWS Location Permission -->
+    <string name="label_ews_location_permission_title">Location permission</string>
+    <string name="label_ews_location_permission_body">To find %1$s’s PHILIPS Setup Wi-Fi network, we need permission to access your location.</string>
+    <string name="button_ews_location_permission_yes">Allow</string>
+    <string name="button_ews_location_permission_no">Cancel setup</string>
+
     <!--EWS_03_01a_connect with password-->
     <string name="label_ews_password_title">Now setting up %1$s with your %2$s</string>
     <string name="label_ews_password_body">If your Wi-Fi network is not password protected, tap connect</string>

@@ -94,26 +94,6 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
             public void onStart() {
                 EWSTagger.trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
             }
-
-            @Override
-            public void onStop() {
-
-            }
-
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-
-            }
-
-            @Override
-            public void onCancel(DialogInterface dialog) {
-
-            }
-
-            @Override
-            public void onActivityCreated(Bundle savedInstanceState) {
-
-            }
         });
         alertDialogFragment.showAllowingStateLoss(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
         getChildFragmentManager().executePendingTransactions();

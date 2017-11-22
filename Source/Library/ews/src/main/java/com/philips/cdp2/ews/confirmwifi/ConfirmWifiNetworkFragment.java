@@ -93,24 +93,6 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
                 public void onStart() {
                     EWSTagger.trackPage(Page.SELECT_HOME_WIFI);
                 }
-
-                @Override
-                public void onStop() {
-
-                }
-
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                }
-
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                }
-
-                @Override
-                public void onActivityCreated(Bundle savedInstanceState) {
-
-                }
             });
             alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
             getChildFragmentManager().executePendingTransactions();

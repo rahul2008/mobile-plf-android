@@ -23,6 +23,7 @@ import com.philips.cdp2.ews.communication.events.ShowPasswordEntryScreenEvent;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel;
+import com.philips.cdp2.ews.confirmwifi.ConfirmWifiNetworkViewModel;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
@@ -46,8 +47,9 @@ import static com.philips.cdp2.ews.EWSActivity.EWS_STEPS;
 @SuppressWarnings("WeakerAccess")
 public class SecondSetupStepsViewModel {
 
-    public interface LocationPermissionFlowInterface {
+    public interface LocationPermissionFlowCallback {
         void showGPSEnableDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
+        void showLocationPermissionDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
     }
 
     public static final String ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -91,7 +93,7 @@ public class SecondSetupStepsViewModel {
     private final StringProvider stringProvider;
 
     @Nullable
-    private LocationPermissionFlowInterface fragmentCallback;
+    private LocationPermissionFlowCallback locationPermissionFlowCallback;
 
     @Inject
     public SecondSetupStepsViewModel(@NonNull final Navigator navigator,
@@ -182,16 +184,19 @@ public class SecondSetupStepsViewModel {
         if (permissionHandler.hasPermission(fragment.getContext(), ACCESS_COARSE_LOCATION)) {
             connect();
         } else {
-            permissionHandler.requestPermission(fragment, R.string.label_location_permission_required,
+            /*permissionHandler.requestPermission(fragment, R.string.label_location_permission_required,
                     ACCESS_COARSE_LOCATION,
-                    SecondSetupStepsFragment.LOCATION_PERMISSIONS_REQUEST_CODE);
+                    SecondSetupStepsFragment.LOCATION_PERMISSIONS_REQUEST_CODE);*/
+            if(locationPermissionFlowCallback != null){
+                locationPermissionFlowCallback.showLocationPermissionDialog(baseContentConfiguration);
+            }
         }
     }
 
     private void connect() {
         EWSLogger.d(EWS_STEPS, "Step 1 : Trying to connect to appliance hot spot");
         if (GpsUtil.isGPSRequiredForWifiScan() && !GpsUtil.isGPSEnabled(fragment.getContext())) {
-            fragmentCallback.showGPSEnableDialog(baseContentConfiguration);
+            locationPermissionFlowCallback.showGPSEnableDialog(baseContentConfiguration);
             //gpsSettingsDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
         } else {
             startConnection();
@@ -231,13 +236,8 @@ public class SecondSetupStepsViewModel {
         navigator.navigateToConnectToDeviceWithPasswordScreen("");
     }
 
-    @Nullable
-    public LocationPermissionFlowInterface getFragmentCallback() {
-        return fragmentCallback;
-    }
-
-    public void setFragmentCallback(@Nullable LocationPermissionFlowInterface fragmentCallback) {
-        this.fragmentCallback = fragmentCallback;
+    public void setLocationPermissionFlowCallback(@Nullable LocationPermissionFlowCallback locationPermissionFlowCallback) {
+        this.locationPermissionFlowCallback = locationPermissionFlowCallback;
     }
 }
 

@@ -66,24 +66,6 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
             public void onStart() {
                 EWSTagger.trackPage(Page.CANCEL_WIFI_SETUP);
             }
-
-            @Override
-            public void onStop() {
-
-            }
-
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-            }
-
-            @Override
-            public void onCancel(DialogInterface dialog) {
-            }
-
-            @Override
-            public void onActivityCreated(Bundle savedInstanceState) {
-
-            }
         });
 
         alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
