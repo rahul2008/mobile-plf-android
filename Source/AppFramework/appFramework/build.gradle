@@ -142,7 +142,13 @@ publishing {
 
             artifact zipDocuments
 
-            artifact("$buildDir/outputs/mapping/AppFrameworkHamburger/release/mapping.txt")
+            artifact("$projectDir/dependencies.lock") {
+                classifier = '1stleveldependencies'
+            }
+
+            artifact("$buildDir/outputs/mapping/AppFrameworkHamburger/release/mapping.txt") {
+                classifier = 'mapping'
+            }
 
             artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 

@@ -73,7 +73,7 @@ node ('android&&docker') {
                     sh '''#!/bin/bash -l
                         chmod -R 755 .
                         cd ./Source/AppFramework
-                        ./gradlew -PenvCode=${JENKINS_ENV} zipDoc appFramework:aP :appFramework:printArtifactoryApkPath
+                        ./gradlew -PenvCode=${JENKINS_ENV} saveResDep zipDoc appFramework:aP :appFramework:printArtifactoryApkPath
                     '''
                 }
                 // HockeyApp publishing disabled on request of Raymond Kloprogge (2017-08-02)
