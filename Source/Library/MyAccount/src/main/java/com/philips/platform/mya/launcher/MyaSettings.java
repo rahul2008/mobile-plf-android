@@ -17,18 +17,9 @@ import java.util.List;
 
 public class MyaSettings extends UappSettings {
 
-    private final List<ConsentDefinition> consentDefinitions;
-
-    public MyaSettings(Context applicationContext) {
-        this(applicationContext, new ArrayList<ConsentDefinition>());
-    }
-
-    public MyaSettings(Context applicationContext, List<ConsentDefinition> definitions){
+    public MyaSettings(Context applicationContext){
         super(applicationContext);
-        consentDefinitions = definitions;
+
     }
 
-    public ArrayList<ConsentDefinition> getConsentDefinitions() {
-        return new ArrayList<>(consentDefinitions);
-    }
 }

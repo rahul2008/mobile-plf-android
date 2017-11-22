@@ -20,17 +20,17 @@ import com.philips.platform.mya.base.mvp.MyaBaseFragment;
 public class MyaTabFragment extends MyaBaseFragment {
 
     private View view;
-    private ConsentBundleConfig config;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (view == null) {
-            config = new ConsentBundleConfig(getArguments());
+
             view = inflater.inflate(R.layout.mya_tab_fragment, container, false);
             TabLayout tabLayout = view.findViewById(R.id.tab_layout);
             ViewPager viewPager = view.findViewById(R.id.pager);
             addTabs(tabLayout);
-            MyaPager adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount(),config);
-            adapter.setArguments(getArguments());
+            MyaPager adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount());
+
             viewPager.setAdapter(adapter);
             tabLayout.addOnTabSelectedListener(getTabListener(viewPager));
         }

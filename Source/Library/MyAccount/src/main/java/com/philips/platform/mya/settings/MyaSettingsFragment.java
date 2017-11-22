@@ -37,16 +37,11 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
 
     private AppInfraInterface appInfra;
-    private ConsentBundleConfig config;
+
     public static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
     private MyaSettingsContract.Presenter presenter;
     private RecyclerView recyclerView;
 
-    public static MyaSettingsFragment newInstance(ConsentBundleConfig config){
-        final MyaSettingsFragment fragment = new MyaSettingsFragment();
-        fragment.setArguments(config.toBundle());
-        return fragment;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,15 +81,11 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
-            config = new ConsentBundleConfig(savedInstanceState);
-        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-//        outState.putAll(config.toBundle());
     }
 
     @Override
@@ -130,7 +121,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
             cswInterface.launch(MyaInterface.getMyaUiComponent().getFragmentLauncher(), buildLaunchInput(true));
         } else if (viewId == R.id.philips_website) {
 >>>>>>> c83af7c2288cf2234c1f7597198f585cf0dcc6b1*/
-            String url = "http://www.Philips.com";
+            String url = "https://www.Philips.com";
             Intent i = new Intent();
             i.setAction(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
@@ -138,11 +129,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         }
     }
 
-    private CswLaunchInput buildLaunchInput(boolean addToBackStack) {
-        CswLaunchInput cswLaunchInput = new CswLaunchInput(config, getContext());
-        cswLaunchInput.addToBackStack(addToBackStack);
-        return cswLaunchInput;
-    }
 
     @Override
     public void showDialog(String title, String message) {
