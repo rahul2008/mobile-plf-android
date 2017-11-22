@@ -93,14 +93,11 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            if (new File("$buildDir/outputs/apk/${archivesBaseName}-release.apk").exists()) {
-                artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
-            } else if (new File("$buildDir/outputs/apk/${archivesBaseName}-release-unsigned.apk").exists()) {
-                artifact("$buildDir/outputs/apk/${archivesBaseName}-release-unsigned.apk")
-            } else if (new File("$buildDir/outputs/apk/${archivesBaseName}-debug.apk").exists()) {
-                artifact("$buildDir/outputs/apk/${archivesBaseName}-debug.apk")
-            } else {
+            artifact("$projectDir/dependencies.lock") {
+                classifier = '1stleveldependencies'
             }
+
+            artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
