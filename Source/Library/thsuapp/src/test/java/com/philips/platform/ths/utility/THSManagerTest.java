@@ -710,7 +710,7 @@ public class THSManagerTest {
     public void authenticateMutualAuth() throws MalformedURLException, AWSDKInstantiationException, AWSDKInitializationException, URISyntaxException {
         when(THSConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(thsConsumerMock.getHsdpUUID()).thenReturn("1234");
-        when(thsConsumerMock.getHsdoToken()).thenReturn("122");
+        when(thsConsumerMock.getHsdpToken()).thenReturn("122");
 
         thsManager.authenticateMutualAuthToken(contextMock, thsLoginCallBack);
 
@@ -724,7 +724,7 @@ public class THSManagerTest {
     public void authenticateMutualAuthFailure() throws MalformedURLException, AWSDKInstantiationException, AWSDKInitializationException, URISyntaxException {
         when(THSConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(thsConsumerMock.getHsdpUUID()).thenReturn("1234");
-        when(thsConsumerMock.getHsdoToken()).thenReturn("122");
+        when(thsConsumerMock.getHsdpToken()).thenReturn("122");
 
         thsManager.authenticateMutualAuthToken(contextMock, thsLoginCallBack);
 

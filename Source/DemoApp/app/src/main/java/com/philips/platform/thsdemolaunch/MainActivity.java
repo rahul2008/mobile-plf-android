@@ -8,9 +8,6 @@ package com.philips.platform.thsdemolaunch;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
@@ -45,8 +42,6 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -181,7 +176,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         THSConsumer baby = new THSConsumer();
         baby.setFirstName("baby1");
         baby.setLastName("Hosur");
-        baby.setHsdoToken(user.getHsdpAccessToken());
+        baby.setHsdpToken(user.getHsdpAccessToken());
         baby.setGender(Gender.MALE);
         baby.setEmail(user.getEmail());
         Calendar calendar = Calendar.getInstance();
@@ -200,7 +195,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         THSConsumer baby2 = new THSConsumer();
         baby2.setFirstName("baby2");
         baby2.setLastName("Hallur");
-        baby2.setHsdoToken("0190c6eb-b8ad-4d3c-a7b3-fee0ace65d78_12390");
+        baby2.setHsdpToken("0190c6eb-b8ad-4d3c-a7b3-fee0ace65d78_12390");
         baby2.setGender(Gender.FEMALE);
         baby2.setEmail(user.getEmail());
         Calendar calendar2 = Calendar.getInstance();
@@ -220,7 +215,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         thsConsumer.setEmail(user.getEmail());
         thsConsumer.setFirstName(user.getGivenName());
         thsConsumer.setGender(Gender.FEMALE);
-        thsConsumer.setHsdoToken(user.getHsdpAccessToken());
+        thsConsumer.setHsdpToken(user.getHsdpAccessToken());
         thsConsumer.setLastName(user.getFamilyName());
         thsConsumer.setDependents(dependants);
         thsConsumer.setHsdpUUID(user.getHsdpUUID());

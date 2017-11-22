@@ -294,7 +294,19 @@ public class THSManager {
     }
 
     public void authenticateMutualAuthToken(Context context,final THSLoginCallBack<THSAuthentication, THSSDKError> THSLoginCallBack) throws AWSDKInstantiationException {
-        String token = getThsConsumer(context).getHsdpUUID()+":" + getAppName() +":"+ getThsConsumer(context).getHsdoToken();
+
+        String hsdpUUID = getThsConsumer(context).getHsdpUUID();
+        if(hsdpUUID == null || hsdpUUID.isEmpty()){
+            hsdpUUID = getUser(context).getHsdpUUID();
+        }
+
+        String hsdpToken = getThsConsumer(context).getHsdpToken();
+        if(hsdpToken == null || hsdpToken.isEmpty()){
+            hsdpToken = getUser(context).getAccessToken();
+        }
+
+        String token = hsdpUUID +":" + getAppName() +":"+ hsdpToken;
+
         getAwsdk(context).authenticateMutual(token, new SDKCallback<Authentication, SDKError>() {
             @Override
             public void onResponse(Authentication authentication, SDKError sdkError) {
@@ -377,7 +389,7 @@ public class THSManager {
         thsConsumer.setEmail(user.getEmail());
         thsConsumer.setDob(user.getDateOfBirth());
         thsConsumer.setGender(user.getGender());
-        thsConsumer.setHsdoToken(user.getHsdpAccessToken());
+        thsConsumer.setHsdpToken(user.getHsdpAccessToken());
         thsConsumer.setHsdpUUID(user.getHsdpUUID());
         thsConsumer.setLastName(user.getFamilyName());
         setThsConsumer(thsConsumer);
@@ -1678,7 +1690,7 @@ public class THSManager {
         getThsParentConsumer(context).setEmail(user.getEmail());
         getThsParentConsumer(context).setFirstName(user.getGivenName());
         getThsParentConsumer(context).setGender(com.philips.cdp.registration.ui.utils.Gender.FEMALE);
-        getThsParentConsumer(context).setHsdoToken(user.getHsdpAccessToken());
+        getThsParentConsumer(context).setHsdpToken(user.getHsdpAccessToken());
         getThsParentConsumer(context).setLastName(user.getFamilyName());
         getThsParentConsumer(context).setHsdpUUID(user.getHsdpUUID());
     }

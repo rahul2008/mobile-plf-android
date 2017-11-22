@@ -21,7 +21,7 @@ public class THSConsumer {
     private Gender gender;
     private State state;
     private String hsdpUUID;
-    private String hsdoToken;
+    private String hsdpToken;
     private String email;
     private String bloodPressureSystolic;
     private String bloodPressureDiastolic;
@@ -82,12 +82,12 @@ public class THSConsumer {
         this.hsdpUUID = hsdpUUID;
     }
 
-    public String getHsdoToken() {
-        return hsdoToken;
+    public String getHsdpToken() {
+        return hsdpToken;
     }
 
-    public void setHsdoToken(String hsdoToken) {
-        this.hsdoToken = hsdoToken;
+    public void setHsdpToken(String hsdpToken) {
+        this.hsdpToken = hsdpToken;
     }
 
     public String getEmail() {
