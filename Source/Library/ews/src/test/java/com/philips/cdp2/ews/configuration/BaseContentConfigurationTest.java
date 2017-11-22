@@ -10,10 +10,10 @@ import com.philips.cdp2.ews.R;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -21,8 +21,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class BaseContentConfigurationTest {
 
-    @InjectMocks
-    BaseContentConfiguration subject;
+    private BaseContentConfiguration subject;
 
     @Mock
     Parcel mockParcel;
@@ -30,6 +29,7 @@ public class BaseContentConfigurationTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        subject = new BaseContentConfiguration();
     }
 
     @Test
@@ -52,4 +52,19 @@ public class BaseContentConfigurationTest {
         subject.writeToParcel(mockParcel, anyInt());
         verify(mockParcel, times(2)).writeInt(anyInt());
     }
+
+    @Test
+    public void itShouldVerifyConfigurationWhenParameterizedConstructorIsCalled() {
+        subject = new BaseContentConfiguration(R.string.ews_device_name_default, R.string.ews_app_name_default);
+        assertNotNull(subject);
+        assertEquals(subject.getAppName(), R.string.ews_app_name_default);
+    }
+
+    @Test
+    public void itShouldVerifyParcelReadForSpecifiedTimes(){
+        new BaseContentConfiguration(mockParcel);
+        verify(mockParcel, times(2)).readInt();
+    }
+
+
 }

@@ -147,4 +147,11 @@ public class HappyFlowContentConfigurationTest {
         subject.writeToParcel(mockParcel, anyInt());
         verify(mockParcel, times(10)).writeInt(anyInt());
     }
+
+    @Test
+    public void itShouldVerifyParcelReadForSpecifiedTimes(){
+        new HappyFlowContentConfiguration(mockParcel);
+        verify(mockParcel, times(10)).readInt();
+    }
+
 }

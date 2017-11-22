@@ -14,6 +14,9 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import static junit.framework.Assert.assertEquals;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class TroubleShootContentConfigurationTest {
@@ -175,5 +178,18 @@ public class TroubleShootContentConfigurationTest {
     public void itShouldVerifyConnectWrongPhoneQuestionWithBuilder() throws Exception{
         subject = new TroubleShootContentConfiguration.Builder().setConnectWrongPhoneQuestion(R.string.ews_title).build();
         assertEquals(subject.getConnectWrongPhoneQuestion(), R.string.ews_title);
+    }
+
+
+    @Test
+    public void itShouldVerifyParcelReadForSpecifiedTimes(){
+        new TroubleShootContentConfiguration(mockParcel);
+        verify(mockParcel, times(13)).readInt();
+    }
+
+    @Test
+    public void itShouldWriteOnParcelDestOnWriteToParcel() {
+        subject.writeToParcel(mockParcel, anyInt());
+        verify(mockParcel, times(13)).writeInt(anyInt());
     }
 }
