@@ -157,18 +157,22 @@ android {
 
 dependencies {
     //Coco
-	def dp = project.ext.has('useprojectdependencies')
-	
-	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-	compile(dp ? project(':usr') : usrModule) 
-	{
-		transitive true
-	}	
+    def dp = project.ext.has('useprojectdependencies')
 
-    def sdbModule = module(group: 'com.philips.cdp', name: 'securedblibrary', version: versions.sdb_securedblibrary + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
-    compile(dp ? project(':sdb') : sdbModule) 
-    {
-        transitive true
+    if(dp) {
+        project(':usr')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {		   
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':sdb')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'securedblibrary', version: versions.sdb_securedblibrary + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {		   
+            transitive = true
+        }
     }
 
     //3rd Party
