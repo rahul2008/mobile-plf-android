@@ -12,7 +12,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/e" />
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ews_03_00_label_establishing_connection_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
         style="@style/EWS.Txt.Title"
         android:text="@string/label_ews_establishing_connection_title"/>
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/connecting_dialog_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
