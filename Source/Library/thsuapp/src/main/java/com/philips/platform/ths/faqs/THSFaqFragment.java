@@ -29,6 +29,7 @@ public class THSFaqFragment extends THSBaseFragment {
         mThsFaqPresenter = new THSFaqPresenter(this);
         mThsFaqPresenter.getFaq();
         expListView = (ExpandableListView) view.findViewById(R.id.lv_expand);
+        expListView.setGroupIndicator(null);
 
         ActionBarListener actionBarListener = getActionBarListener();
         if (null != actionBarListener) {

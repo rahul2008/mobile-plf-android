@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/vitals_continue_btn"
         android:layout_below="@id/wizard_button"
-        android:layout_marginBottom="24dp">
+        android:layout_marginBottom="@dimen/ths_fab_margin">
 
         <RelativeLayout
             android:layout_width="match_parent"

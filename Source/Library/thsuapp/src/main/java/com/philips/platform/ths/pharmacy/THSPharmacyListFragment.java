@@ -367,6 +367,15 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
 
         if (null != pharmacies && pharmacies.size() > 0) {
             setMarkerOnMap(pharmacies);
+        }else {
+            clearMapMarkers();
+        }
+
+    }
+
+    private void clearMapMarkers() {
+        if(null != map){
+            map.clear();
         }
 
     }
