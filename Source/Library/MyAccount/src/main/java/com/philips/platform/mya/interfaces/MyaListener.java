@@ -6,8 +6,8 @@
 package com.philips.platform.mya.interfaces;
 
 
-import uappadaptor.DataInterface;
-import uappadaptor.DataModelType;
+import com.philips.platform.myaplugin.uappadaptor.DataInterface;
+import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 
 public interface MyaListener {
 

@@ -1,4 +1,4 @@
-include ':app', ':MyaPlugin'
+include ':app'
 include 'DemoUApp'
 project(':DemoUApp').projectDir = new File('../DemoUApp/DemoUApp')
 include 'MyAccount'
