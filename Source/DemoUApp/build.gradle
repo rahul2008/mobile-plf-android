@@ -183,18 +183,16 @@ dependencies {
 
     def useProjectDependencies = project.ext.has('useprojectdependencies')
 
-    def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
-    compile(useProjectDependencies ? project(':ufw') : ufwModule)
-
     if (useProjectDependencies) {
         compile project(':commlib')
         compile project(':cloudcontroller')
+        compile project(':ufw')
     } else {
         if (findProject(':commlib')) {
             debugCompile project(path: ':commlib', configuration: 'debug')
             releaseCompile project(path: ':commlib', configuration: 'release')
         } else {
-            compile module(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
+            compile(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
         }
 
         if (findProject(':cloudcontroller')) {
@@ -203,6 +201,8 @@ dependencies {
         } else {
             compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
         }
+
+        compile (group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
     }
 
     compile deps.joda_time
