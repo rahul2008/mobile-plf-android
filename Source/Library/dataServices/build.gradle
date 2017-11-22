@@ -230,10 +230,11 @@ dependencies {
         project(':ConsentAccessToolKit')
     } else {
         compile(group: 'com.philips.cdp', name: 'ConsentAccessToolKit', version: versions.catk_consentAccessToolKit + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                exclude group: 'com.google.code.findbugs', module: 'jsr305'
-                transitive true
-            }
+        {
+            exclude group: 'com.google.code.findbugs', module: 'jsr305'
+            transitive true
+        }
+    }
 
     if(dp) {
         project(':ail')
