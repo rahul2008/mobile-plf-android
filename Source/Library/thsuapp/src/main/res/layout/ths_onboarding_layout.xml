@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="?attr/uidNavigationSecondaryBackgroundColor"
     android:layout_height="match_parent">
 
 
@@ -18,12 +20,14 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:textSize="32sp"
+                android:textColor="?attr/uidLoginScreenDefaultTextColor"
                 android:text="@string/onboarding_tour_header"
                 />
 
             <com.philips.platform.uid.view.widget.Label
                 android:layout_marginTop="16dp"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/uidLoginScreenDefaultTextColor"
                 android:layout_width="wrap_content"
                 android:text="@string/onboarding_tour_video_consults"
                 />
@@ -32,6 +36,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:textColor="?attr/uidLoginScreenDefaultTextColor"
                 android:text="@string/onboarding_tour_service_is_provided"
                 />
 
@@ -58,6 +63,7 @@
             <com.philips.platform.uid.view.widget.Label
                 android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/uidLoginScreenDefaultTextColor"
                 android:layout_width="wrap_content"
                 android:layout_marginBottom="24dp"
                 android:text="@string/onboarding_tour_curious"
@@ -68,11 +74,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
+                app:uidComponentType="Secondary"
                 android:text="@string/take_tour"
                 />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_skip"
+                android:textColor="?attr/uidLoginScreenDefaultTextColor"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="@string/skip"
