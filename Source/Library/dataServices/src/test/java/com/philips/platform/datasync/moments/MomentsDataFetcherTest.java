@@ -150,9 +150,7 @@ public class MomentsDataFetcherTest {
     public void fetchData_WithNoClient() {
         givenNoClient();
         whenFetchDataIsInvoked();
-        thenRetrofitErrorIsNull();
-        thenVerifyZeroInteractionsWith(momentsClientMock);
-
+        thenRetrofitErrorIsReturned("Client is not initialized");
     }
 
     @Test
@@ -278,5 +276,4 @@ public class MomentsDataFetcherTest {
         assertNotNull(retrofitError);
         assertTrue(retrofitError.getCause().getMessage().contains(message));
     }
-
 }
