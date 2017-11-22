@@ -199,7 +199,7 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:${versionsExternal.dagger}"
     compile "org.greenrobot:eventbus:${versionsExternal.eventBus}"
     // todo remove later after testing of QA
-    compile "joda-time:joda-time:${versionsExternal.joda}"
+//    compile "joda-time:joda-time:${versionsExternal.joda}"
 
     // Test
     testCompile "junit:junit:${versionsExternal.junit}"

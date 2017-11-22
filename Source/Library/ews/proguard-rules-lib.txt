@@ -25,5 +25,4 @@
 -dontwarn com.google.android.gms.**
 
 -dontnote sun.misc.Unsafe
--dontnote org.joda.time.**
 -dontnote android.net.http.HttpResponseCache
