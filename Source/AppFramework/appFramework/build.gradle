@@ -187,10 +187,8 @@ android {
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 26
-        // applicationId "net.gouline.jacoco"
         renderscriptSupportModeEnabled true
-        testApplicationId "com.philips.platform.appframework.test"
-        testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
 

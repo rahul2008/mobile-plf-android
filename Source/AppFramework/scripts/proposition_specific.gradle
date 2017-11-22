@@ -3,6 +3,7 @@ android {
 
     defaultConfig {
         applicationId "com.philips.platform.referenceapp"
+        testApplicationId "com.philips.platform.appframework.test"
         resConfigs "ar", "bg",  "cs", "da", "de", "el", "en", "en_GB", "es", "es_AR", "es_MX", "et", "fi", "fr", "fr_CA", "he", "hr", "hu", "it", "ja", "ko",  "lt", "lv",  "nb", "nl",  "pl",  "pt", "pt_BR", "ro", "ru", "sk", "sl", "sv", "th", "tr", "vi", "zh_CN", "zh_HK", "zh_TW"
     }
 
@@ -47,41 +48,41 @@ android {
     This defined for signing the apk -- end
     */
 
-    buildTypes {
-        def BOOLEAN = "bool"
-        def TRUE = "true"
-        def AWSDK_DEV_SSL_ALLOW_ALL = "awsdk_dev_ssl_allow_all"
-        debug {
-            minifyEnabled false
-            shrinkResources false
-            debuggable true
-            testCoverageEnabled = true
-            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
-        }
-
-        leakCanary {
-            minifyEnabled false
-            shrinkResources false
-            debuggable true
-            signingConfig signingConfigs.debug
-            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
-        }
-        release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFile 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
-        }
-        psraRelease {
-            minifyEnabled true
-            shrinkResources true
-            debuggable false
-            proguardFile 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
-        }
-    }
+//    buildTypes {
+//        def BOOLEAN = "bool"
+//        def TRUE = "true"
+//        def AWSDK_DEV_SSL_ALLOW_ALL = "awsdk_dev_ssl_allow_all"
+//        debug {
+//            minifyEnabled false
+//            shrinkResources false
+//            debuggable true
+//            testCoverageEnabled = true
+//            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+//        }
+//
+//        leakCanary {
+//            minifyEnabled false
+//            shrinkResources false
+//            debuggable true
+//            signingConfig signingConfigs.debug
+//            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+//        }
+//        release {
+//            minifyEnabled true
+//            shrinkResources true
+//            proguardFile 'proguard-rules.pro'
+//            signingConfig signingConfigs.release
+//            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+//        }
+//        psraRelease {
+//            minifyEnabled true
+//            shrinkResources true
+//            debuggable false
+//            proguardFile 'proguard-rules.pro'
+//            signingConfig signingConfigs.release
+//            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+//        }
+//    }
 }
 
 android.defaultConfig.manifestPlaceholders = [
