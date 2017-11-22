@@ -138,9 +138,9 @@ android {
             def buildType = variant.variantData.variantConfiguration.buildType.name
             def newName
             if (buildType.equalsIgnoreCase("debug")) {
-                 newName = "${libName}_${buildType}_${assignedVersionNumber}.aar"
+                newName = "${libName}_${buildType}_${assignedVersionNumber}.aar"
             } else {
-                 newName = "${libName}_${buildType}.aar"
+                newName = "${libName}_${buildType}.aar"
             }
             output.outputFile = new File(output.outputFile.parent, newName)
         }
@@ -198,8 +198,6 @@ dependencies {
     compile "com.google.dagger:dagger:${versionsExternal.dagger}"
     annotationProcessor "com.google.dagger:dagger-compiler:${versionsExternal.dagger}"
     compile "org.greenrobot:eventbus:${versionsExternal.eventBus}"
-    // todo remove later after testing of QA
-//    compile "joda-time:joda-time:${versionsExternal.joda}"
 
     // Test
     testCompile "junit:junit:${versionsExternal.junit}"
