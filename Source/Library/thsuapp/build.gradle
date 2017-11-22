@@ -218,28 +218,34 @@ dependencies {
     compile 'com.android.support:design:26.0.2'
     testCompile 'junit:junit:4.12'
 
+    def dp = project.ext.has('useprojectdependencies')
 
-	def dp = project.ext.has('useprojectdependencies')
-	
-	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar')
-	compile(dp ? project(':ail') : ailModule) {
-        exclude group: 'com.android.support'
-        transitive = true
+    if(dp) {
+        project(':ail')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+         exclude group: 'com.android.support'
+            transitive = true
+        }
+    }
+    
+    if(dp) {
+        project(':uid')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
     }
 
-    def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    compile(dp ? project(':uid') : uidModule)
-            {
-                exclude group: 'com.android.support'
-                transitive = true
-            }
-
-    def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar')
-    compile(dp ? project(':usr') : usrModule)
-            {
-                exclude group: 'com.android.support'
-                transitive = true
-            }
+    if(dp) {
+        project(':usr')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar') {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
+    }
 
     compile(group: 'com.philips.cdp', name: 'awsdk', version: '3.1.2', ext: 'aar'){
         exclude group: 'com.android.support'
