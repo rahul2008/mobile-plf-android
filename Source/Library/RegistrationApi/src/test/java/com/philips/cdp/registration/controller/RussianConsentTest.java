@@ -1,5 +1,7 @@
 package com.philips.cdp.registration.controller;
 
+import com.philips.cdp.registration.BuildConfig;
+import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -14,8 +16,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(CustomRobolectricRunner.class)
+@Config(constants = BuildConfig.class, sdk = 21)
 public class RussianConsentTest {
 
     @Mock

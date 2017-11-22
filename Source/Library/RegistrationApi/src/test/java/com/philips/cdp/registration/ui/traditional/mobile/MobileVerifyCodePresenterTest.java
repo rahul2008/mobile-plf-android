@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.philips.cdp.registration.BuildConfig;
+import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.injection.RegistrationComponent;
@@ -27,8 +28,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@RunWith(CustomRobolectricRunner.class)
+@Config(constants = BuildConfig.class, sdk = 21)
 public class MobileVerifyCodePresenterTest {
 
     private static final int SMS_ACTIVATION_REQUEST_CODE = 100;

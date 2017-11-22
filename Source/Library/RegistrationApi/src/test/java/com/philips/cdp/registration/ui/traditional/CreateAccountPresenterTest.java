@@ -17,8 +17,8 @@ import org.robolectric.annotation.*;
 
 import static org.mockito.Mockito.*;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@RunWith(CustomRobolectricRunner.class)
+@Config(constants = BuildConfig.class, sdk = 21)
 public class CreateAccountPresenterTest {
 
     @Mock

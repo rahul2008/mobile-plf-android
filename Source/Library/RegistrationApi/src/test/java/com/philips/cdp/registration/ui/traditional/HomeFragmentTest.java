@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.ui.traditional;
 
 import com.philips.cdp.registration.BuildConfig;
+import com.philips.cdp.registration.CustomRobolectricRunner;
 
 import org.junit.After;
 import org.junit.Before;
@@ -9,8 +10,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@RunWith(CustomRobolectricRunner.class)
+@Config(constants = BuildConfig.class, sdk = 21)
 public class HomeFragmentTest {
 
     private HomeFragment homeFragment;

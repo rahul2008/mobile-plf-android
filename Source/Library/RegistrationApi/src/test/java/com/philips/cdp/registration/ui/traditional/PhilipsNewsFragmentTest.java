@@ -38,9 +38,8 @@ public class PhilipsNewsFragmentTest {
         philipsNewsFragment= new PhilipsNewsFragment();
     }
 
-    @Test(expected = InflateException.class)
-    public void should_startFragment() throws Exception {
-        SupportFragmentTestUtil.startFragment(philipsNewsFragment);
+    @Test
+    public void shouldStartFragment() throws Exception {
+        philipsNewsFragment= new PhilipsNewsFragment();
     }
-
 }

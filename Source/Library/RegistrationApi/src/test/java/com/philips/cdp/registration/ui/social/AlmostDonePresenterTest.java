@@ -3,6 +3,7 @@ package com.philips.cdp.registration.ui.social;
 import android.os.Bundle;
 
 import com.philips.cdp.registration.BuildConfig;
+import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.injection.RegistrationComponent;
@@ -29,8 +30,8 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@RunWith(CustomRobolectricRunner.class)
+@Config(constants = BuildConfig.class, sdk = 21)
 public class AlmostDonePresenterTest {
 
     @Mock
