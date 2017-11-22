@@ -15,12 +15,14 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentSecondSetupStepsBinding;
 import com.philips.cdp2.ews.dialog.EWSAlertDialogFragment;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -76,7 +78,7 @@ public class SecondSetupStepsFragment extends BaseFragment implements SecondSetu
     @Override
     public void showLocationPermissionDialog(@NonNull BaseContentConfiguration baseContentConfiguration) {
         Context context = getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.ews_location_permission,
+        View view = LayoutInflater.from(context).cloneInContext(UIDHelper.getPopupThemedContext(context)).inflate(R.layout.ews_location_permission,
                 null, false);
 
         EWSAlertDialogFragment.Builder builder = new EWSAlertDialogFragment.Builder(context)
@@ -88,7 +90,7 @@ public class SecondSetupStepsFragment extends BaseFragment implements SecondSetu
         alertDialogFragment.setFragmentLifeCycleListener(new EWSAlertDialogFragment.FragmentLifeCycleListener() {
             @Override
             public void onStart() {
-                //todo add analytics tag
+                //todo: add analytics tag : EWSTagger.trackPage("");
             }
         });
         alertDialogFragment.showAllowingStateLoss(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
@@ -120,7 +122,7 @@ public class SecondSetupStepsFragment extends BaseFragment implements SecondSetu
     @Override
     public void showGPSEnableDialog(@NonNull BaseContentConfiguration baseContentConfiguration) {
         Context context = getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.enable_gps_settings,
+        View view = LayoutInflater.from(context).cloneInContext(UIDHelper.getPopupThemedContext(context)).inflate(R.layout.enable_gps_settings,
                 null, false);
 
         AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context)
@@ -132,7 +134,7 @@ public class SecondSetupStepsFragment extends BaseFragment implements SecondSetu
         alertDialogFragment.setFragmentLifeCycleListener(new EWSAlertDialogFragment.FragmentLifeCycleListener() {
             @Override
             public void onStart() {
-
+                //todo: add analytics tag : EWSTagger.trackPage("");
             }
         });
         alertDialogFragment.showAllowingStateLoss(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());

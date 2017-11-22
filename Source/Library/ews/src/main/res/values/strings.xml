@@ -65,9 +65,9 @@
     <string name="label_ews_cancel_setup_body">If you cancel your setup now, you will not be able to control your %1$s using your app.</string>
     <string name="button_ews_cancel_setup_yes">Yes, cancel setup</string>
     <string name="button_ews_cancel_setup_no">No, continue setup</string>
-    <string name="label_ews_enable_gps_settings_title">Enable GPS Settings</string>
-    <string name="label_ews_enable_gps_settings_body">GPS is disabled.You need to enable location services to complete the pairing. Then press back to return to the app.</string>
-    <string name="button_ews_enable_gps_settings">go to location settings</string>
+    <string name="label_ews_enable_gps_settings_title">Enable in system Location Settings</string>
+    <string name="label_ews_enable_gps_settings_body">To find %1$s’s PHILIPS Setup Wi-Fi network, we need Location Services enabled.  Please enable Location Services in Location Settings and return to the app.</string>
+    <string name="button_ews_enable_gps_settings">Go to Location Settings</string>
     <string name="button_cancel">Cancel</string>
     <string name="label_ews_phone_not_found_on_network_title">Connection error</string>
     <string name="label_ews_phone_not_found_on_network_body">The phone could not detect %1$s in home Wi-Fi\n\nThis may be because:\n1) You entered the wrong password\n2) Your %1$s is out of range\n\n</string>

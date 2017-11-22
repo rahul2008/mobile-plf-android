@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_between_button_margin"
-            android:text="@string/button_ews_location_permission_yes"
+            android:text="@string/button_ews_location_permission_no"
             app:uidComponentType="Secondary" />
 
     </LinearLayout>

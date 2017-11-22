@@ -4,15 +4,18 @@
  */
 package com.philips.cdp2.ews.setupsteps;
 
+import android.app.Dialog;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.communication.events.DeviceConnectionErrorEvent;
+import com.philips.cdp2.ews.communication.events.ShowPasswordEntryScreenEvent;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.connectionestabilish.ConnectionEstablishDialogFragment;
-import com.philips.cdp2.ews.dialog.GPSEnableDialogFragment;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
@@ -31,11 +34,11 @@ import org.mockito.stubbing.Answer;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static com.philips.cdp2.ews.setupsteps.ConnectPhoneToDeviceAPModeViewModel.ACCESS_COARSE_LOCATION;
-import static com.philips.cdp2.ews.setupsteps.SecondSetupStepsFragment.LOCATION_PERMISSIONS_REQUEST_CODE;
+import static com.philips.cdp2.ews.setupsteps.SecondSetupStepsViewModel.ACCESS_COARSE_LOCATION;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -64,9 +67,6 @@ public class SecondSetupStepsViewModelTest {
     @Mock
     private Handler handlerMock;
 
-    @Mock
-    private GPSEnableDialogFragment gpsEnableDialogFragmentMock;
-
     private SecondSetupStepsViewModel subject;
 
     @Mock
@@ -76,6 +76,13 @@ public class SecondSetupStepsViewModelTest {
 
     @Mock private HappyFlowContentConfiguration mockHappyFlowConfiguration;
 
+    @Mock private BaseContentConfiguration baseContentConfiguration;
+
+    @Mock
+    private Dialog dialogMock;
+
+    @Mock
+    private SecondSetupStepsViewModel.LocationPermissionFlowCallback mockLocationPermissionFlowCallback;
 
     @Before
     public void setUp() throws Exception {
@@ -84,8 +91,8 @@ public class SecondSetupStepsViewModelTest {
         mockStatic(EWSTagger.class);
         setupImmediateHandler();
         subject = new SecondSetupStepsViewModel(navigatorMock, eventBusMock, permissionHandlerMock,
-                connectingDialogMock, unsuccessfulDialogMock, gpsEnableDialogFragmentMock, handlerMock,
-                mockStringProvider, mockHappyFlowConfiguration);
+                connectingDialogMock, unsuccessfulDialogMock, handlerMock,
+                mockStringProvider, mockHappyFlowConfiguration,baseContentConfiguration);
 
         subject.setFragment(fragmentMock);
     }
@@ -93,9 +100,9 @@ public class SecondSetupStepsViewModelTest {
     @Test
     public void itShouldRequestForLocationPermissionIfItsNotGrantedAlreadyWhenONextButtonClicked() throws Exception {
         setPermissionGranted(false);
+        subject.setLocationPermissionFlowCallback(mockLocationPermissionFlowCallback);
         subject.onNextButtonClicked();
-        verify(permissionHandlerMock).requestPermission(fragmentMock, R.string.label_location_permission_required,
-                ACCESS_COARSE_LOCATION, LOCATION_PERMISSIONS_REQUEST_CODE);
+        verify(mockLocationPermissionFlowCallback).showLocationPermissionDialog(baseContentConfiguration);
     }
 
     @Test
@@ -103,7 +110,6 @@ public class SecondSetupStepsViewModelTest {
         setPermissionGranted(true);
         stubGPSSettings(false, true);
         subject.onNextButtonClicked();
-        verify(gpsEnableDialogFragmentMock).show(fragmentMock.getFragmentManager(), fragmentMock.getClass().getName());
     }
 
     @Test
@@ -200,6 +206,78 @@ public class SecondSetupStepsViewModelTest {
         subject.getNoButton(mockHappyFlowConfiguration);
         verify(mockStringProvider).getString(mockHappyFlowConfiguration.getSetUpVerifyScreenNoButton());
     }
+
+    @Test
+    public void itShouldRequestForLocationPermissionIfItsNotGrantedAlreadyWhenAsked() throws Exception {
+        setPermissionGranted(false);
+        subject.setLocationPermissionFlowCallback(mockLocationPermissionFlowCallback);
+        subject.connectPhoneToDeviceHotspotWifi();
+
+        verify(mockLocationPermissionFlowCallback).showLocationPermissionDialog(baseContentConfiguration);
+    }
+
+    @Test
+    public void itShouldShowGPSEnableDialogIfGPSIsOffWhenAsked() throws Exception {
+        setPermissionGranted(true);
+        stubGPSSettings(false, true);
+        subject.setLocationPermissionFlowCallback(mockLocationPermissionFlowCallback);
+        subject.connectPhoneToDeviceHotspotWifi();
+
+        verify(mockLocationPermissionFlowCallback).showGPSEnableDialog(baseContentConfiguration);
+    }
+
+
+    @Test
+    public void itShouldShowNextPasswordEntryScreenWhenPhoneIsConnectedToApplianceHotspot() throws Exception {
+        sendEventToShowPasswordEntryScreen();
+
+        verify(navigatorMock).navigateToConnectToDeviceWithPasswordScreen(anyString());
+    }
+
+    @Test
+    public void itShouldUnregisterFromEventBusWhenPhoneIsConnectedToApplianceHotspot() throws Exception {
+        sendEventToShowPasswordEntryScreen();
+
+        verify(eventBusMock).unregister(subject);
+    }
+
+    private void sendEventToShowPasswordEntryScreen() {
+        subject.showPasswordEntryScreenEvent(new ShowPasswordEntryScreenEvent());
+    }
+
+
+    @Test
+    public void itShouldShowUnsuccessfulDialogOnDeviceConnectionError() throws Exception {
+        subject.showUnsuccessfulDialog();
+        when(unsuccessfulDialogMock.getDialog()).thenReturn(dialogMock);
+        verify(unsuccessfulDialogMock).show(any(FragmentManager.class), any(String.class));
+    }
+
+    @Test
+    public void itShouldCallPostDelayedOnHandlerWhenConnectedToApplianceHotspot() throws Exception {
+        stubGPSSettings(true, true);
+        setPermissionGranted(true);
+
+        subject.connectPhoneToDeviceHotspotWifi();
+
+        verify(navigatorMock).navigateToConnectingPhoneToHotspotWifiScreen();
+    }
+
+    @Test
+    public void itShouldConnectToApplianceHotspotWhenLocationPermissionIsAlreadyGrantedWhenAsked() throws Exception {
+        setPermissionGranted(true);
+        stubGPSSettings(true, true);
+
+        subject.connectPhoneToDeviceHotspotWifi();
+
+        verifyConnectRequest();
+    }
+
+    private void verifyConnectRequest() {
+       verify(eventBusMock).unregister(Matchers.anyObject());
+        verify(navigatorMock).navigateToConnectingPhoneToHotspotWifiScreen();
+    }
+
 
     private void setupImmediateHandler() {
         // Run any post delayed task immediately.

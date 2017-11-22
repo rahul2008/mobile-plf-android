@@ -30,7 +30,6 @@ import com.philips.cdp2.ews.communication.WiFiEventMonitor;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.connectionestabilish.ConnectionEstablishDialogFragment;
-import com.philips.cdp2.ews.dialog.GPSEnableDialogFragment;
 import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
@@ -173,7 +172,7 @@ public class EWSModule {
 
         return new SecondSetupStepsViewModel(navigator, eventBus, permissionHandler,
                 dialogFragment, null,
-                new GPSEnableDialogFragment(), new Handler(context.getMainLooper())
+                 new Handler(context.getMainLooper())
                 , stringProvider, happyFlowContentConfiguration,baseContentConfiguration);
     }
 

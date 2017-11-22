@@ -9,40 +9,39 @@
 
         <variable
             name="listener"
-            type="android.view.View.OnClickListener"/>
+            type="android.view.View.OnClickListener" />
 
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/e"
-        android:layout_marginStart="@dimen/e"
         android:orientation="vertical"
-        android:padding="@dimen/d">
+        android:paddingEnd="@dimen/default_screen_side_margin"
+        android:paddingStart="@dimen/default_screen_side_margin">
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ews_04_02_label_cancel_setup_title"
             style="@style/Txt.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_ews_enable_gps_settings_title"/>
+            android:text="@string/label_ews_enable_gps_settings_title" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ews_verify_device_body"
             style="@style/Txt.Body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/d"
-            android:text="@string/label_ews_enable_gps_settings_body"/>
+            android:layout_marginTop="@dimen/default_body_labels_margin"
+            android:text="@string/label_ews_enable_gps_settings_body" />
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/ews_04_02_button_cancel_setup_yes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/d"
+            android:layout_marginTop="@dimen/default_main_button_top_margin"
             android:onClick="@{(v) -> listener.onClick(v)}"
-            android:text="@string/button_ews_enable_gps_settings"/>
+            android:text="@string/button_ews_enable_gps_settings" />
     </LinearLayout>
 
 </layout>

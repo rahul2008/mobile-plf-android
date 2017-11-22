@@ -15,15 +15,10 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 
-import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.annotations.NetworkType;
 import com.philips.cdp2.ews.communication.events.DeviceConnectionErrorEvent;
-import com.philips.cdp2.ews.communication.events.NetworkConnectEvent;
 import com.philips.cdp2.ews.communication.events.ShowPasswordEntryScreenEvent;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
-import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel;
-import com.philips.cdp2.ews.confirmwifi.ConfirmWifiNetworkViewModel;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
@@ -32,7 +27,6 @@ import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.GpsUtil;
 import com.philips.cdp2.ews.util.StringProvider;
-import com.philips.cdp2.ews.wifi.WiFiUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -41,7 +35,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import static com.philips.cdp2.ews.EWSActivity.DEVICE_CONNECTION_TIMEOUT;
 import static com.philips.cdp2.ews.EWSActivity.EWS_STEPS;
 
 @SuppressWarnings("WeakerAccess")
@@ -49,6 +42,7 @@ public class SecondSetupStepsViewModel {
 
     public interface LocationPermissionFlowCallback {
         void showGPSEnableDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
+
         void showLocationPermissionDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
     }
 
@@ -75,8 +69,6 @@ public class SecondSetupStepsViewModel {
         }
     };
     @NonNull
-    private DialogFragment gpsSettingsDialog;
-    @NonNull
     private Handler handler;
 
     @NonNull
@@ -101,7 +93,6 @@ public class SecondSetupStepsViewModel {
                                      @NonNull final PermissionHandler permissionHandler,
                                      @NonNull final DialogFragment connectingDialog,
                                      @NonNull final DialogFragment unsuccessfulDialog,
-                                     @NonNull final DialogFragment gpsSettingsDialog,
                                      @NonNull final Handler handler,
                                      @NonNull final StringProvider stringProvider,
                                      @NonNull final HappyFlowContentConfiguration happyFlowContentConfiguration,
@@ -117,7 +108,6 @@ public class SecondSetupStepsViewModel {
         this.eventBus = eventBus;
         this.connectingDialog = connectingDialog;
         this.unsuccessfulDialog = unsuccessfulDialog;
-        this.gpsSettingsDialog = gpsSettingsDialog;
         this.handler = handler;
         this.baseContentConfiguration = baseContentConfiguration;
         eventBus.register(this);
@@ -184,10 +174,7 @@ public class SecondSetupStepsViewModel {
         if (permissionHandler.hasPermission(fragment.getContext(), ACCESS_COARSE_LOCATION)) {
             connect();
         } else {
-            /*permissionHandler.requestPermission(fragment, R.string.label_location_permission_required,
-                    ACCESS_COARSE_LOCATION,
-                    SecondSetupStepsFragment.LOCATION_PERMISSIONS_REQUEST_CODE);*/
-            if(locationPermissionFlowCallback != null){
+            if (locationPermissionFlowCallback != null) {
                 locationPermissionFlowCallback.showLocationPermissionDialog(baseContentConfiguration);
             }
         }
@@ -196,8 +183,9 @@ public class SecondSetupStepsViewModel {
     private void connect() {
         EWSLogger.d(EWS_STEPS, "Step 1 : Trying to connect to appliance hot spot");
         if (GpsUtil.isGPSRequiredForWifiScan() && !GpsUtil.isGPSEnabled(fragment.getContext())) {
-            locationPermissionFlowCallback.showGPSEnableDialog(baseContentConfiguration);
-            //gpsSettingsDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
+            if (locationPermissionFlowCallback != null) {
+                locationPermissionFlowCallback.showGPSEnableDialog(baseContentConfiguration);
+            }
         } else {
             startConnection();
         }
