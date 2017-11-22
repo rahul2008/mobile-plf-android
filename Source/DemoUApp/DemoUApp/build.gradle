@@ -216,18 +216,24 @@ dependencies {
 
     compile(dp ? project(':mya') : project(':MyAccount'))
     
-    def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    compile(dp ? project(':uid') : uidModule)
-            {
-                transitive = true
-            }
+    if(dp) {
+        project(':uid')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        {
+            transitive = true
+        }
+    }
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
-   /* def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    compile(dp ? project(':usr') : usrModule)
-            {
-                exclude group: 'com.android.support', module: 'customtabs'
-                transitive = true
-            }*/
+   /*     if(dp) {
+        project(':registrationApi')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        {
+            transitive = true
+            exclude group: 'com.android.support', module: 'customtabs'
+         }
+    }*/
 }

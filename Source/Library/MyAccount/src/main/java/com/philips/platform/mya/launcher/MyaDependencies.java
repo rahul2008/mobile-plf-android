@@ -16,24 +16,4 @@ public class MyaDependencies extends UappDependencies {
         super(appInfra);
     }
 
-    // TODO: Deepthi, why do we need app and proposition name to launch MYA
-
-    public void setApplicationName(String applicationName) {
-        this.applicationName = applicationName;
-    }
-
-    public String getPropositionName() {
-        return propositionName;
-    }
-
-    public void setPropositionName(String propositionName) {
-        this.propositionName = propositionName;
-    }
-
-    public String getApplicationName() {
-        return applicationName;
-    }
-
-    private String applicationName;
-    private String propositionName;
 }

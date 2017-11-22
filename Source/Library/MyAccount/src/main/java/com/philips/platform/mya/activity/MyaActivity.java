@@ -16,15 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.injection.DaggerMyaUiComponent;
 import com.philips.platform.mya.injection.MyaUiComponent;
 import com.philips.platform.mya.injection.MyaUiModule;
-import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
-import com.philips.platform.mya.launcher.MyaLaunchInput;
-import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -35,31 +31,24 @@ import com.philips.platform.uid.utils.UIDActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-import static android.R.attr.src;
 import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
 
-// TODO: Deepthi check if this can be removed
+
 
 public class MyaActivity extends UIDActivity {
 
     private TextView mTitle;
-
-    // TODO: Deepthi, check below can be removed, catkconstants should be removed
-    private String applicationName;
-    private String propositionName;
-
     private ImageView leftImageView;
-    private ConsentBundleConfig config;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         UIDHelper.injectCalligraphyFonts();
         initDLSThemeIfExists();
         super.onCreate(savedInstanceState);
-       // config = new ConsentBundleConfig(getIntent().getExtras());
+
         setContentView(R.layout.mya_myaccounts_activity);
-        // TODO: Deepthi, remove this API
-        fetchConsentData();
+
         Toolbar toolbar = findViewById(R.id.mya_toolbar);
         mTitle = toolbar.findViewById(R.id.mya_toolbar_title);
         leftImageView = toolbar.findViewById(R.id.mya_toolbar_left_image);
@@ -76,15 +65,6 @@ public class MyaActivity extends UIDActivity {
         launchTabFragment();
     }
 
-
-    private void fetchConsentData() {
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            // TODO: Deepthi, discuss with OBE to remove dependency on CSW directly
-            applicationName = bundle.getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
-            propositionName = bundle.getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
-        }
-    }
 
     private void handleLeftImage(boolean shouldBackEnable) {
         if (!shouldBackEnable) {
@@ -138,15 +118,11 @@ public class MyaActivity extends UIDActivity {
     @Override
     protected void onRestoreInstanceState(Bundle state) {
         super.onRestoreInstanceState(state);
-       /* if (state != null) {
-            config = new ConsentBundleConfig(state);
-        }*/
     }
 
     @Override
     protected void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
-     //   state.putAll(config.toBundle());
     }
 
     @Override
@@ -159,12 +135,7 @@ public class MyaActivity extends UIDActivity {
     }
 
     private void launchTabFragment() {
-        Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            extras = new Bundle();
-        }
-        extras.putString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME, applicationName);
-        extras.putString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME, propositionName);
+
         FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.mainContainer, new ActionBarListener() {
             @Override
             public void updateActionBar(int i, boolean shouldBackEnable) {
@@ -185,7 +156,7 @@ public class MyaActivity extends UIDActivity {
         MyaInterface.setMyaUiComponent(myaUiComponent);
 
         MyaTabFragment myaTabFragment = new MyaTabFragment();
-        myaTabFragment.setArguments(extras);
+
         myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
     }
 

@@ -100,8 +100,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra());
-        uappDependencies.setApplicationName(MyaConstants.APPLICATION_NAME);
-        uappDependencies.setPropositionName(MyaConstants.PROPOSITION_NAME);
+
         MyaLaunchInput launchInput = new MyaLaunchInput(((DemoAppActivity) getActivity()), new MyaListener() {
             @Override
             public boolean onClickMyaItem(String itemName) {
@@ -136,10 +135,9 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
             }
         });
 
-        // TODO: Deepthi, we need to remove this input which goes through via MYA interface and make internal changes as well
         MyaInterface myaInterface = new MyaInterface();
-        List<ConsentDefinition> createConsentDefinitions= createConsentDefinitions(null, Locale.US);
-        myaInterface.init(uappDependencies, new MyaSettings((DemoAppActivity) getActivity(), createConsentDefinitions));
+
+        myaInterface.init(uappDependencies, new MyaSettings((DemoAppActivity) getActivity()));
 
         if (checkedId == R.id.radioButton) {
 
