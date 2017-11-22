@@ -32,6 +32,7 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -75,14 +76,15 @@ public class MyAccountStateTest {
 
     @Mock
     private Context mockContext;
-    private static final String LANGUAGE_TAG = "en-NL";
+    private static final String LANGUAGE_TAG = "en-US";
 
     @Before
     public void setUp() {
         myAccountState = new MyAccountStateMock(myaInterface);
         myAccountState.updateDataModel();
+        MyAccountState.setConsentDefinitionList(givenListOfConsentDefinitions());
         when(fragmentLauncher.getFragmentActivity()).thenReturn(hamburgerActivity);
-        myAccountState.init(application);
+
         when(fragmentLauncher.getFragmentActivity()).thenReturn(hamburgerActivity);
         when(hamburgerActivity.getApplicationContext()).thenReturn(application);
         when(hamburgerActivity.getSupportFragmentManager()).thenReturn(fragmentManager);

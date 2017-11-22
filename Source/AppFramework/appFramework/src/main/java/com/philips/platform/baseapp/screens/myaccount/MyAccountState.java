@@ -125,4 +125,8 @@ public class MyAccountState extends BaseState {
         MyaDependencies myaDependencies = new MyaDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra());
         return myaDependencies;
     }
+
+    static void setConsentDefinitionList(List<ConsentDefinition> consentDefinitionList) {
+        MyAccountState.consentDefinitionList = consentDefinitionList;
+    }
 }
