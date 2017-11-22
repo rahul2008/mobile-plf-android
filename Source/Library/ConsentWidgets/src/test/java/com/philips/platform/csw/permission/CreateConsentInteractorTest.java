@@ -63,7 +63,7 @@ public class CreateConsentInteractorTest {
     }
 
     private void whenCallingCreateConsentInGivenState(boolean checked) {
-        subject.createConsentStatus(givenConsentDefinition, checked);
+        subject.createConsentStatus(givenConsentDefinition, callback, checked);
     }
 
     private void thenCreateConsentIsCalledOnTheCatk() {

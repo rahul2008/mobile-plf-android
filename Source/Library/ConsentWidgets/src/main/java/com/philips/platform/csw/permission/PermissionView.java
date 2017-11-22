@@ -7,6 +7,17 @@
 
 package com.philips.platform.csw.permission;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.model.Consent;
+import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.csw.ConsentBundleConfig;
+import com.philips.platform.csw.CswBaseFragment;
+import com.philips.platform.mya.consentwidgets.R;
+import com.philips.platform.mya.consentwidgets.R2;
+
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -16,16 +27,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.csw.ConsentBundleConfig;
-import com.philips.platform.csw.CswBaseFragment;
-import com.philips.platform.mya.consentwidgets.R;
-import com.philips.platform.mya.consentwidgets.R2;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,10 +69,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         }
 
         handleOrientation(view);
-//        consumeTouch(view);
         return view;
     }
-
 
     @Override
     public void onDestroyView() {
@@ -148,9 +147,30 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     @Override
+    public void onConsentGetFailed(int error) {
+        if (permissionAdapter != null) {
+            permissionAdapter.onConsentGetFailed(error);
+        }
+    }
+
+    @Override
     public void onConsentRetrieved(@NonNull List<ConsentView> consents) {
         if (permissionAdapter != null) {
             permissionAdapter.onConsentRetrieved(consents);
+        }
+    }
+
+    @Override
+    public void onCreateConsentFailed(ConsentDefinition definition, int errorCode) {
+        if (permissionAdapter != null) {
+            permissionAdapter.onCreateConsentFailed(definition, errorCode);
+        }
+    }
+
+    @Override
+    public void onCreateConsentSuccess(ConsentDefinition definition, Consent consent, int code) {
+        if (permissionAdapter != null) {
+            permissionAdapter.onCreateConsentSuccess(definition, consent, code);
         }
     }
 

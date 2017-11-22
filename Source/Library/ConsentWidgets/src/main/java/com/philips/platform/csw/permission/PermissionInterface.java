@@ -7,9 +7,12 @@
 
 package com.philips.platform.csw.permission;
 
-import android.support.annotation.NonNull;
-
 import java.util.List;
+
+import com.philips.platform.catk.model.Consent;
+import com.philips.platform.catk.model.ConsentDefinition;
+
+import android.support.annotation.NonNull;
 
 public interface PermissionInterface {
 
@@ -17,5 +20,11 @@ public interface PermissionInterface {
 
     void hideProgressDialog();
 
+    void onConsentGetFailed(int error);
+
     void onConsentRetrieved(@NonNull final List<ConsentView> consent);
+
+    void onCreateConsentFailed(ConsentDefinition definition, int errorCode);
+
+    void onCreateConsentSuccess(ConsentDefinition definition, Consent consent, int code);
 }

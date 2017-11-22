@@ -7,16 +7,18 @@
 
 package com.philips.platform.csw.permission;
 
-import android.support.annotation.Nullable;
-
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.ConsentStatus;
+
+import android.support.annotation.Nullable;
 
 public class ConsentView {
 
     private final ConsentDefinition definition;
     private boolean isLoading = true;
+    private boolean isError = false;
+
     @Nullable
     private Consent consent;
 
@@ -43,15 +45,25 @@ public class ConsentView {
     ConsentView storeConsent(Consent consent) {
         this.consent = consent;
         this.isLoading = false;
+        this.isError = false;
         return this;
     }
 
+    void setError(boolean isError) {
+        this.isLoading = false;
+        this.isError = isError;
+    }
+
     boolean isEnabled() {
-        return consent == null || definition.getVersion() >= consent.getVersion();
+        return (consent == null || definition.getVersion() >= consent.getVersion()) && !isError;
     }
 
     boolean isChecked() {
         return consent != null && consent.getStatus().equals(ConsentStatus.active) && consent.getVersion() == definition.getVersion();
+    }
+
+    boolean isError() {
+        return isError;
     }
 
     ConsentDefinition getDefinition() {
@@ -64,6 +76,11 @@ public class ConsentView {
 
     void setNotFound() {
         isLoading = false;
+    }
+
+    void setIsLoading() {
+        isLoading = true;
+        isError = false;
     }
 
     @Override

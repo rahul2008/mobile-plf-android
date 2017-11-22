@@ -7,13 +7,14 @@
 
 package com.philips.platform.csw.permission;
 
-import android.support.annotation.NonNull;
-
-import com.philips.platform.catk.model.ConsentDefinition;
-
 import java.util.List;
 
-public class PermissionPresenter implements GetConsentInteractor.Callback, ConsentToggleListener {
+import com.philips.platform.catk.model.Consent;
+import com.philips.platform.catk.model.ConsentDefinition;
+
+import android.support.annotation.NonNull;
+
+public class PermissionPresenter implements GetConsentInteractor.Callback, ConsentToggleListener, CreateConsentInteractor.Callback {
 
     private PermissionInterface permissionInterface;
     private GetConsentInteractor getConsentInteractor;
@@ -34,6 +35,7 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
 
     @Override
     public void onConsentFailed(int error) {
+        permissionInterface.onConsentGetFailed(error);
         permissionInterface.hideProgressDialog();
     }
 
@@ -45,6 +47,16 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
 
     @Override
     public void onToggledConsent(ConsentDefinition definition, boolean on) {
-        createConsentInteractor.createConsentStatus(definition, on);
+        createConsentInteractor.createConsentStatus(definition, this, on);
+    }
+
+    @Override
+    public void onCreateConsentFailed(ConsentDefinition definition, int errorCode) {
+        permissionInterface.onCreateConsentFailed(definition, errorCode);
+    }
+
+    @Override
+    public void onCreateConsentSuccess(ConsentDefinition definition, Consent consent, int code) {
+        permissionInterface.onCreateConsentSuccess(definition, consent, code);
     }
 }
