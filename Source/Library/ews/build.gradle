@@ -5,7 +5,7 @@ apply plugin: 'maven-publish'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
-
+    apply from: projectDir.absolutePath + '/../scripts/versions.gradle'
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
@@ -64,7 +64,7 @@ allprojects {
     }
 
     apply plugin: 'com.jfrog.artifactory'
-    group = 'com.philips.platform.ews-android'
+    group = 'com.philips.platform'
 }
 
 group = 'com.philips.cdp'
