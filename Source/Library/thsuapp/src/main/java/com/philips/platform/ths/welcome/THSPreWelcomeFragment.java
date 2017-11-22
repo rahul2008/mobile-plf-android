@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -32,6 +33,7 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
     private Label mLabelSeeHowItWorks;
     private Label mLabelTermsAndConditions;
     private RelativeLayout mRelativeLayoutContainer;
+    private Label ths_terms_and_conditions_cross;
 
     @Nullable
     @Override
@@ -42,6 +44,8 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
         mLabelSeeHowItWorks = (Label) view.findViewById(R.id.ths_video_consults);
         mLabelTermsAndConditions = (Label) view.findViewById(R.id.ths_licence);
         mRelativeLayoutContainer = (RelativeLayout) view.findViewById(R.id.ths_pre_welcome_screen);
+        ths_terms_and_conditions_cross = view.findViewById(R.id.ths_terms_and_conditions_cross);
+        ths_terms_and_conditions_cross.setOnClickListener(this);
         mLabelTermsAndConditions.setOnClickListener(this);
         mLabelSeeHowItWorks.setOnClickListener(this);
         mBtnGoSeeProvider.setOnClickListener(this);
@@ -58,6 +62,8 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
         }else if(viewId == R.id.ths_licence){
             createCustomProgressBar(mRelativeLayoutContainer,BIG);
             mThsPreWelcomeScreenPresenter.onEvent(R.id.ths_licence);
+        }else if(viewId == R.id.ths_terms_and_conditions_cross){
+            exitFromAmWell(THSCompletionProtocol.THSExitType.Other);
         }
     }
 
