@@ -9,6 +9,8 @@ import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.catk.CatkInputs;
+import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.csw.ConsentDefinition;
 import com.philips.platform.csw.CswDependencies;
@@ -36,7 +38,7 @@ public class MyAccountState extends BaseState {
     public static final String APPLICATION_NAME = "OneBackend";
     public static final String PROPOSITION_NAME = "OneBackendProp";
     private final String SETTINGS_MYA_PRIVACY_SETTINGS = "Mya_Privacy_Settings";
-    private List<ConsentDefinition> consentDefinitionList;
+    private static List<ConsentDefinition> consentDefinitionList;
 
     public MyAccountState() {
         super(AppStates.MY_ACCOUNT);
@@ -100,6 +102,12 @@ public class MyAccountState extends BaseState {
     @Override
     public void init(Context context) {
         consentDefinitionList = createConsentDefinitions(context, Locale.getDefault());
+        CatkInputs catkInputs = new CatkInputs();
+        catkInputs.setContext(context);
+        catkInputs.setAppInfra(((AppFrameworkApplication)context.getApplicationContext()).appInfra);
+        catkInputs.setApplicationName(APPLICATION_NAME);
+        catkInputs.setApplicationName(PROPOSITION_NAME);
+        ConsentAccessToolKit.getInstance().init(catkInputs);
     }
 
 
