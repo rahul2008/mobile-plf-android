@@ -45,7 +45,7 @@ import java.util.List;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class MomentFragment extends DSBaseFragment
-        implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener {
+        implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener {
 
     private Context mContext;
 
@@ -150,7 +150,6 @@ public class MomentFragment extends DSBaseFragment
     public void onStart() {
         super.onStart();
         mDataServicesManager.registerDBChangeListener(this);
-        mDataServicesManager.registerSynchronisationCompleteListener(this);
 
         if (mUser != null && !mUser.isUserSignIn()) {
             Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
@@ -197,7 +196,6 @@ public class MomentFragment extends DSBaseFragment
     public void onStop() {
         super.onStop();
         DataServicesManager.getInstance().unRegisterDBChangeListener();
-        mDataServicesManager.unRegisterSynchronisationCosmpleteListener();
         dismissProgressDialog();
     }
 
@@ -253,22 +251,6 @@ public class MomentFragment extends DSBaseFragment
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
         ssInterface.storeValueForKey("hsdp_id", mUser.getHsdpUUID(), ssError);
-    }
-
-    @Override
-    public void onSyncComplete() {
-        dismissProgressDialog();
-    }
-
-    @Override
-    public void onSyncFailed(final Exception exception) {
-        if (getActivity() == null) return;
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                dismissProgressDialog();
-            }
-        });
     }
 
     @Override
