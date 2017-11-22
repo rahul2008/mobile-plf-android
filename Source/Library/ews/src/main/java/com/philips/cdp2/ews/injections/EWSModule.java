@@ -165,7 +165,7 @@ public class EWSModule {
             @NonNull final @Named("ews.event.bus") EventBus eventBus,
             @NonNull final PermissionHandler permissionHandler,
             @NonNull HappyFlowContentConfiguration happyFlowContentConfiguration,
-            @NonNull StringProvider stringProvider) {
+            @NonNull StringProvider stringProvider,@NonNull BaseContentConfiguration baseContentConfiguration) {
 
         final ConnectionEstablishDialogFragment dialogFragment =
                 ConnectionEstablishDialogFragment
@@ -174,7 +174,7 @@ public class EWSModule {
         return new SecondSetupStepsViewModel(navigator, eventBus, permissionHandler,
                 dialogFragment, null,
                 new GPSEnableDialogFragment(), new Handler(context.getMainLooper())
-                , stringProvider, happyFlowContentConfiguration);
+                , stringProvider, happyFlowContentConfiguration,baseContentConfiguration);
     }
 
 

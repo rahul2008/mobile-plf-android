@@ -10,6 +10,7 @@ import android.databinding.ObservableField;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -19,7 +20,9 @@ import com.philips.cdp2.ews.annotations.NetworkType;
 import com.philips.cdp2.ews.communication.events.DeviceConnectionErrorEvent;
 import com.philips.cdp2.ews.communication.events.NetworkConnectEvent;
 import com.philips.cdp2.ews.communication.events.ShowPasswordEntryScreenEvent;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
+import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
@@ -43,6 +46,10 @@ import static com.philips.cdp2.ews.EWSActivity.EWS_STEPS;
 @SuppressWarnings("WeakerAccess")
 public class SecondSetupStepsViewModel {
 
+    public interface LocationPermissionFlowInterface {
+        void showGPSEnableDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
+    }
+
     public static final String ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     @NonNull
     protected final Navigator navigator;
@@ -54,6 +61,8 @@ public class SecondSetupStepsViewModel {
     private final DialogFragment connectingDialog;
     @NonNull
     private final DialogFragment unsuccessfulDialog;
+    @NonNull
+    private final BaseContentConfiguration baseContentConfiguration;
 
     private Fragment fragment;
 
@@ -81,6 +90,9 @@ public class SecondSetupStepsViewModel {
     @NonNull
     private final StringProvider stringProvider;
 
+    @Nullable
+    private LocationPermissionFlowInterface fragmentCallback;
+
     @Inject
     public SecondSetupStepsViewModel(@NonNull final Navigator navigator,
                                      @NonNull @Named("ews.event.bus") final EventBus eventBus,
@@ -90,7 +102,8 @@ public class SecondSetupStepsViewModel {
                                      @NonNull final DialogFragment gpsSettingsDialog,
                                      @NonNull final Handler handler,
                                      @NonNull final StringProvider stringProvider,
-                                     @NonNull final HappyFlowContentConfiguration happyFlowContentConfiguration) {
+                                     @NonNull final HappyFlowContentConfiguration happyFlowContentConfiguration,
+                                     @NonNull final BaseContentConfiguration baseContentConfiguration) {
         this.stringProvider = stringProvider;
         this.question = new ObservableField<>(getQuestion(happyFlowContentConfiguration));
         this.title = new ObservableField<>(getTitle(happyFlowContentConfiguration));
@@ -104,6 +117,7 @@ public class SecondSetupStepsViewModel {
         this.unsuccessfulDialog = unsuccessfulDialog;
         this.gpsSettingsDialog = gpsSettingsDialog;
         this.handler = handler;
+        this.baseContentConfiguration = baseContentConfiguration;
         eventBus.register(this);
     }
 
@@ -177,7 +191,8 @@ public class SecondSetupStepsViewModel {
     private void connect() {
         EWSLogger.d(EWS_STEPS, "Step 1 : Trying to connect to appliance hot spot");
         if (GpsUtil.isGPSRequiredForWifiScan() && !GpsUtil.isGPSEnabled(fragment.getContext())) {
-            gpsSettingsDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
+            fragmentCallback.showGPSEnableDialog(baseContentConfiguration);
+            //gpsSettingsDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
         } else {
             startConnection();
         }
@@ -216,5 +231,13 @@ public class SecondSetupStepsViewModel {
         navigator.navigateToConnectToDeviceWithPasswordScreen("");
     }
 
+    @Nullable
+    public LocationPermissionFlowInterface getFragmentCallback() {
+        return fragmentCallback;
+    }
+
+    public void setFragmentCallback(@Nullable LocationPermissionFlowInterface fragmentCallback) {
+        this.fragmentCallback = fragmentCallback;
+    }
 }
 
