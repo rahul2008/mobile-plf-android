@@ -154,7 +154,7 @@ public class HamburgerActivityTest {
 
         String tag = hamburgerActivity.getActionbarTag();
 
-        assertEquals(String.valueOf(R.drawable.left_arrow), tag);
+        assertEquals("back", tag);
     }
 
     @Test
@@ -164,7 +164,7 @@ public class HamburgerActivityTest {
 
         String tag = hamburgerActivity.getActionbarTag();
 
-        assertEquals(String.valueOf(R.drawable.ic_hamburger_icon), tag);
+        assertEquals("hamburger", tag);
     }
 
     @Test
@@ -173,7 +173,7 @@ public class HamburgerActivityTest {
 
         String tag = hamburgerActivity.getActionbarTag();
 
-        assertEquals(String.valueOf(R.drawable.left_arrow), tag);
+        assertEquals("back", tag);
     }
 
     @Test
@@ -182,7 +182,7 @@ public class HamburgerActivityTest {
 
         String tag = hamburgerActivity.getActionbarTag();
 
-        assertEquals(String.valueOf(R.drawable.ic_hamburger_icon), tag);
+        assertEquals("hamburger", tag);
     }
 
     @Test
