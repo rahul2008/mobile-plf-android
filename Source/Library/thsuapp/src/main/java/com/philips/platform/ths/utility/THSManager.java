@@ -562,7 +562,7 @@ public class THSManager {
 
                 for (OnDemandSpecialty onDemandSpeciality:onDemandSpecialties
                      ) {
-                    setMatchMakingVisit(true);
+                    //setMatchMakingVisit(true);
                     THSOnDemandSpeciality thsOnDemandSpeciality = new THSOnDemandSpeciality();
                     thsOnDemandSpeciality.setOnDemandSpecialty(onDemandSpeciality);
                     listOfThsSpecialities.add(thsOnDemandSpeciality);

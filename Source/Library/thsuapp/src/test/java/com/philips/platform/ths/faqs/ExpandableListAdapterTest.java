@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.platform.ths.R;
+import com.philips.platform.uid.view.widget.Label;
 
 import org.junit.Before;
 import org.junit.Test;
