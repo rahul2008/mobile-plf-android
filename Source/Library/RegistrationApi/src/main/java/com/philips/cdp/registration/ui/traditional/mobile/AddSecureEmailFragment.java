@@ -44,11 +44,12 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onCreateView");
-        trackActionStatus(REGISTRATION_ACTIVATION_SMS, "", "");
+
         addSecureEmailPresenter = new AddSecureEmailPresenter(this);
         View view = inflater.inflate(R.layout.reg_fragment_secure_email, container, false);
         ButterKnife.bind(this, view);
+
+        trackActionStatus(REGISTRATION_ACTIVATION_SMS, "", "");
         setUpRecoveryEmail();
         return view;
     }

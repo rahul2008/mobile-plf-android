@@ -19,13 +19,11 @@ public class PhilipsNewsFragment extends RegistrationBaseFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "PhilipsNewsFragment : onCreate");
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "PhilipsNewsFragment : onCreateView");
         View view = inflater.inflate(R.layout.reg_fragment_philips_news, null);
         handleOrientation(view);
         return view;

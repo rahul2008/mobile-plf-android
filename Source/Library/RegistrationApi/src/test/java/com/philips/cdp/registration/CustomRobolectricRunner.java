@@ -1,4 +1,4 @@
-package com.philips.cdp.di.iap;
+package com.philips.cdp.registration;
 
 import org.junit.runners.model.InitializationError;
 import org.robolectric.RobolectricTestRunner;
@@ -16,6 +16,7 @@ import org.robolectric.res.FsFile;
 public class CustomRobolectricRunner extends RobolectricTestRunner {
 
     public CustomRobolectricRunner(Class<?> klass) throws InitializationError {
+
         super(klass);
     }
 
@@ -35,7 +36,11 @@ public class CustomRobolectricRunner extends RobolectricTestRunner {
     }
 
     private String getModuleRootPath(Config config) {
+
+        // /Users/philips/usr-android-user-registration/Source/Library/RegistrationApi/build/intermediates/bundles/debug/
         String moduleRoot = config.constants().getResource("").toString().replace("file:", "").replace("jar:", "");
+        // /Users/philips/usr-android-user-registration/Source/Library/RegistrationApi/build/intermediates/classes/test/debug/com/philips/cdp/registration/
         return moduleRoot.substring(0, moduleRoot.indexOf("/build"));
+        ///Users/philips/usr-android-user-registration/Source/Library/RegistrationApi
     }
 }

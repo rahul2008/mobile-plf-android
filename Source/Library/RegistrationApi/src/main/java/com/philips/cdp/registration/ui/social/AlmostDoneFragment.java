@@ -114,20 +114,22 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onCreate");
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         URInterface.getComponent().inject(this);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onCreateView");
         mBundle = getArguments();
         if (null != mBundle) {
             trackAbtesting();
         }
-        mContext = getRegistrationFragment().getActivity().getApplicationContext();
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
+        initializeUI(view);
+        return view;
+    }
+
+    private void initializeUI(View view) {
         ButterKnife.bind(this, view);
         loginIdEditText.setValidator(loginIdValidator);
         almostDoneDescriptionLabel.setText("");
@@ -138,7 +140,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         almostDonePresenter.parseRegistrationInfo(mBundle);
         almostDonePresenter.updateUIControls();
         handleOrientation(view);
-        return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        mContext=context;
+        super.onAttach(context);
     }
 
     @Override

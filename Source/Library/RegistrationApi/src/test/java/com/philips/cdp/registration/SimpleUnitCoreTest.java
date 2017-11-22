@@ -1,4 +1,4 @@
-package com.philips.cdp.di.iap;
+package com.philips.cdp.registration;
 
 import org.junit.Test;
 

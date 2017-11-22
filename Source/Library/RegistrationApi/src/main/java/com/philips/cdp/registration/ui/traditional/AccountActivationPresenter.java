@@ -32,7 +32,6 @@ public class AccountActivationPresenter implements NetworkStateListener, Traditi
     }
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.i(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
         accountActivationContract.handleUiState(isOnline);
     }
 

@@ -75,14 +75,20 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     boolean isVerified;
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context=context;
+        user = new User(context);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         URInterface.getComponent().inject(this);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onCreateView");
-        trackActionStatus(REGISTRATION_ACTIVATION_SMS,"","");
-        context = getRegistrationFragment().getActivity().getApplicationContext();
+
         mobileVerifyCodePresenter = new MobileVerifyCodePresenter(this);
-        user = new User(context);
+
         View view = inflater.inflate(R.layout.reg_mobile_activatiom_fragment, container, false);
+        trackActionStatus(REGISTRATION_ACTIVATION_SMS,"","");
         ButterKnife.bind(this, view);
         handleOrientation(view);
         getRegistrationFragment().startCountDownTimer();

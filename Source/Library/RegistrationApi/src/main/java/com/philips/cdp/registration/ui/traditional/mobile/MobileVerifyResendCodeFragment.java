@@ -72,19 +72,24 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     private PopupWindow popupWindow;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context=context;
+        user = new User(context);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         URInterface.getComponent().inject(this);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onCreateView");
-        trackActionStatus(REGISTRATION_ACTIVATION_SMS, "", "");
-        context = getRegistrationFragment().getActivity().getApplicationContext();
+
         mobileVerifyResendCodePresenter = new MobileVerifyResendCodePresenter(this);
-        user = new User(context);
         View view = inflater.inflate(R.layout.reg_mobile_activation_resend_fragment, container,
                 false);
         ButterKnife.bind(this, view);
+
+        trackActionStatus(REGISTRATION_ACTIVATION_SMS, "", "");
         handleOrientation(view);
         handler = new Handler();
         phoneNumberEditText.setText(user.getMobile());

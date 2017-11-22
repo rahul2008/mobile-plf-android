@@ -56,22 +56,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        //  mPrevTitleResourceId = getRegistrationFragment().getResourceID();
         super.onCreate(savedInstanceState);
-        setCustomLocale();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onCreate");
-        mLeftRightMarginPort = (int) getResources().getDimension(R.dimen.reg_layout_margin_port);
-        mLeftRightMarginLand = (int) getResources().getDimension(R.dimen.reg_layout_margin_land);
-    }
-
-    protected void setCustomLocale() {
-      /* Locale.setDefault(RegistrationHelper.getInstance().getLocale(getContext()));
-        android.content.res.Configuration config = new android.content.res.Configuration();
-        config.locale = RegistrationHelper.getInstance().getLocale(getContext());
-        if(isAdded()) {
-            getContext().getResources().updateConfiguration(config,
-                    getActivity().getResources().getDisplayMetrics());
-        }*/
     }
 
     @Override
@@ -339,7 +324,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        setCustomLocale();
     }
 
     @Override
