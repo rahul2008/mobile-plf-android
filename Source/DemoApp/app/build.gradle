@@ -106,6 +106,10 @@ publishing {
             version = version
             artifactId archivesBaseName
 
+            artifact("$projectDir/dependencies.lock") {
+                classifier = '1stleveldependencies'
+            }
+
             artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
             pom.withXml{

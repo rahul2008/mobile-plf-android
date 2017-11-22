@@ -48,7 +48,7 @@ node ('android&&docker') {
                     sh '''#!/bin/bash -l
                         chmod -R 775 .
                         cd ./Source/DemoApp
-                        ./gradlew -PenvCode=${JENKINS_ENV} zipDocuments artifactoryPublish
+                        ./gradlew -PenvCode=${JENKINS_ENV} saveResDep zipDocuments artifactoryPublish
                     '''
                 }
             }
