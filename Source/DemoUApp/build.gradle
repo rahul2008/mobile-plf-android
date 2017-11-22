@@ -162,17 +162,18 @@ dependencies {
     compile "com.android.support:appcompat-v7:${support_version}"
     compile "com.android.support:design:${support_version}"
 
-	def dp = project.ext.has('useprojectdependencies')
-	
-	def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar') 
-	compile(dp ? project(':uit') : uitModule) {
-        exclude group: 'com.android.support'
-        transitive = true
-    }
-	
-	compile(dp ? project(':ufw') : project(':uAppFwLib'))
+    def dp = project.ext.has('useprojectdependencies')
 
-  
+    if(dp) {
+        project(':uit')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            exclude group: 'com.android.support'	
+            transitive = true
+        }
+    }
+
+    compile(dp ? project(':ufw') : project(':uAppFwLib'))
 }
 
 tasks.withType(Test) {
