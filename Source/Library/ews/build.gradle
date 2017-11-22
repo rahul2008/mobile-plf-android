@@ -162,37 +162,49 @@ dependencies {
     // Philips Dependencies
     def dp = project.ext.has('useprojectdependencies')
 
-    def uikitLibModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar')
-    compile(dp ? project(':uikitLib') : uikitLibModule)
-            {
-
-                transitive = true
-
-            }
-    def commliblan = module(group: 'com.philips.cdp', name: 'commlib-lan', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
-    compile(dp ? project(':commlib-lan') : commliblan)
-            {
-
-                transitive = true
-
-            }
-
-    def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    compile(dp ? project(':uid') : uidModule)
-            {
-
-                transitive = true
-
-            }
-
-    def IconFontModule = module(group: 'com.philips.cdp', name: 'IconFont', version: versions.icf_iconFont + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    compile(dp ? project(':IconFont') : IconFontModule)
+    if(dp) {
+        project(':uikitLib')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar')
             {
                 transitive = true
             }
+    }
+    
+    if(dp) {
+        project(':commlib-lan')
+    }    else {
+        compile(group: 'com.philips.cdp', name: 'commlib-lan', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
+        {
+            transitive = true
+        }
+    }
 
-    def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
-    compile(dp ? project(':uAppFwLib') : ufwModule)
+    if(dp) {
+        project(':uid')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':IconFont')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'IconFont', version: versions.icf_iconFont + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+            {
+                transitive = true
+            }
+    }
+    
+
+    if(dp) {
+        project(':uAppFwLib')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {
+            transitive = true
+        }
+    }
 
     // External
     compile "com.google.dagger:dagger:${versionsExternal.dagger}"
