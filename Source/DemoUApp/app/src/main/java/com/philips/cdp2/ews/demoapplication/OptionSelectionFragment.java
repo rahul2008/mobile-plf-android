@@ -142,7 +142,6 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
             return new HappyFlowContentConfiguration.Builder()
                     .setGettingStartedScreenTitle(R.string.label_ews_get_started_title)
                     .setSetUpScreenTitle(R.string.label_ews_plug_in_title)
-                    .setGettingStartedScreenImage(R.drawable.ews_start)
                     .setSetUpScreenBody(R.string.label_ews_plug_in_body)
                     .setSetUpVerifyScreenTitle(R.string.label_ews_verify_ready_title)
                     .setSetUpVerifyScreenQuestion(R.string.label_ews_verify_ready_question)

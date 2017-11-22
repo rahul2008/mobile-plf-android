@@ -8,14 +8,11 @@ package com.philips.cdp2.ews.setupsteps;
 import android.Manifest;
 import android.databinding.ObservableField;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 
-import com.philips.cdp2.ews.communication.events.DeviceConnectionErrorEvent;
 import com.philips.cdp2.ews.communication.events.ShowPasswordEntryScreenEvent;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
@@ -54,22 +51,9 @@ public class SecondSetupStepsViewModel {
     @NonNull
     private final PermissionHandler permissionHandler;
     @NonNull
-    private final DialogFragment connectingDialog;
-    @NonNull
-    private final DialogFragment unsuccessfulDialog;
-    @NonNull
     private final BaseContentConfiguration baseContentConfiguration;
 
     private Fragment fragment;
-
-    Runnable timeoutRunnable = new Runnable() {
-        @Override
-        public void run() {
-            showUnsuccessfulDialog();
-        }
-    };
-    @NonNull
-    private Handler handler;
 
     @NonNull
     public final ObservableField<String> title;
@@ -91,9 +75,6 @@ public class SecondSetupStepsViewModel {
     public SecondSetupStepsViewModel(@NonNull final Navigator navigator,
                                      @NonNull @Named("ews.event.bus") final EventBus eventBus,
                                      @NonNull final PermissionHandler permissionHandler,
-                                     @NonNull final DialogFragment connectingDialog,
-                                     @NonNull final DialogFragment unsuccessfulDialog,
-                                     @NonNull final Handler handler,
                                      @NonNull final StringProvider stringProvider,
                                      @NonNull final HappyFlowContentConfiguration happyFlowContentConfiguration,
                                      @NonNull final BaseContentConfiguration baseContentConfiguration) {
@@ -106,9 +87,6 @@ public class SecondSetupStepsViewModel {
         this.navigator = navigator;
         this.permissionHandler = permissionHandler;
         this.eventBus = eventBus;
-        this.connectingDialog = connectingDialog;
-        this.unsuccessfulDialog = unsuccessfulDialog;
-        this.handler = handler;
         this.baseContentConfiguration = baseContentConfiguration;
         eventBus.register(this);
     }
@@ -199,27 +177,8 @@ public class SecondSetupStepsViewModel {
         return permissionHandler.areAllPermissionsGranted(grantResults);
     }
 
-    void showUnsuccessfulDialog() {
-        connectingDialog.dismissAllowingStateLoss();
-        if (unsuccessfulDialog.getDialog() != null && unsuccessfulDialog.getDialog().isShowing()) {
-            return;
-        }
-        unsuccessfulDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
-    }
-
-    @SuppressWarnings("UnusedParameters")
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void deviceConnectionError(DeviceConnectionErrorEvent deviceConnectionErrorEvent) {
-        handler.removeCallbacks(timeoutRunnable);
-        showUnsuccessfulDialog();
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void showPasswordEntryScreenEvent(@SuppressWarnings("UnusedParameters") ShowPasswordEntryScreenEvent entryScreenEvent) {
-        handler.removeCallbacks(timeoutRunnable);
-        if (connectingDialog.isVisible()) {
-            connectingDialog.dismissAllowingStateLoss();
-        }
         eventBus.unregister(this);
         navigator.navigateToConnectToDeviceWithPasswordScreen("");
     }

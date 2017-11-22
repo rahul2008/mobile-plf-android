@@ -5,17 +5,12 @@
 package com.philips.cdp2.ews.setupsteps;
 
 import android.app.Dialog;
-import android.os.Handler;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.communication.events.DeviceConnectionErrorEvent;
 import com.philips.cdp2.ews.communication.events.ShowPasswordEntryScreenEvent;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
-import com.philips.cdp2.ews.connectionestabilish.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
@@ -29,15 +24,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static com.philips.cdp2.ews.setupsteps.SecondSetupStepsViewModel.ACCESS_COARSE_LOCATION;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -61,16 +52,7 @@ public class SecondSetupStepsViewModelTest {
     @Mock
     private Fragment fragmentMock;
 
-    @Mock
-    private ConnectionEstablishDialogFragment connectingDialogMock;
-
-    @Mock
-    private Handler handlerMock;
-
     private SecondSetupStepsViewModel subject;
-
-    @Mock
-    private DialogFragment unsuccessfulDialogMock;
 
     @Mock private StringProvider mockStringProvider;
 
@@ -89,9 +71,7 @@ public class SecondSetupStepsViewModelTest {
         initMocks(this);
         mockStatic(EWSLogger.class);
         mockStatic(EWSTagger.class);
-        setupImmediateHandler();
         subject = new SecondSetupStepsViewModel(navigatorMock, eventBusMock, permissionHandlerMock,
-                connectingDialogMock, unsuccessfulDialogMock, handlerMock,
                 mockStringProvider, mockHappyFlowConfiguration,baseContentConfiguration);
 
         subject.setFragment(fragmentMock);
@@ -116,22 +96,7 @@ public class SecondSetupStepsViewModelTest {
     public void itShouldSendRequestToConnectToApplianceHotspotWhenPermissionIsExplicitlyGrantedByUser() throws Exception {
         final int[] grantedPermission = new int[1];
         when(permissionHandlerMock.areAllPermissionsGranted(grantedPermission)).thenReturn(true);
-
         assertTrue(subject.areAllPermissionsGranted(grantedPermission));
-    }
-
-    @Test
-    public void itShouldCancelConnectingDialogOnDeviceConnectionError() throws Exception {
-        subject.deviceConnectionError(new DeviceConnectionErrorEvent());
-
-        verify(connectingDialogMock).dismissAllowingStateLoss();
-    }
-
-    @Test
-    public void itShouldRemoveHandlerCallbackOnDeviceConnectionError() throws Exception {
-        subject.deviceConnectionError(new DeviceConnectionErrorEvent());
-
-        verify(handlerMock).removeCallbacks(any(Runnable.class));
     }
 
     @Test
@@ -245,14 +210,6 @@ public class SecondSetupStepsViewModelTest {
         subject.showPasswordEntryScreenEvent(new ShowPasswordEntryScreenEvent());
     }
 
-
-    @Test
-    public void itShouldShowUnsuccessfulDialogOnDeviceConnectionError() throws Exception {
-        subject.showUnsuccessfulDialog();
-        when(unsuccessfulDialogMock.getDialog()).thenReturn(dialogMock);
-        verify(unsuccessfulDialogMock).show(any(FragmentManager.class), any(String.class));
-    }
-
     @Test
     public void itShouldCallPostDelayedOnHandlerWhenConnectedToApplianceHotspot() throws Exception {
         stubGPSSettings(true, true);
@@ -276,20 +233,5 @@ public class SecondSetupStepsViewModelTest {
     private void verifyConnectRequest() {
        verify(eventBusMock).unregister(Matchers.anyObject());
         verify(navigatorMock).navigateToConnectingPhoneToHotspotWifiScreen();
-    }
-
-
-    private void setupImmediateHandler() {
-        // Run any post delayed task immediately.
-        when(handlerMock.postDelayed(any(Runnable.class), anyLong())).thenAnswer(
-                new Answer() {
-                    @Override
-                    public Object answer(InvocationOnMock invocation) throws Throwable {
-                        Runnable runnable = invocation.getArgumentAt(0, Runnable.class);
-                        runnable.run();
-                        return null;
-                    }
-                }
-        );
     }
 }

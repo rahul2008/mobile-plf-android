@@ -11,7 +11,6 @@ import android.view.inputmethod.InputMethodManager;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
-import com.philips.cdp2.ews.connectionestabilish.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.StringProvider;
@@ -47,8 +46,6 @@ public class ConnectWithPasswordViewModelTest {
     @Mock
     private Navigator navigatorMock;
     @Mock
-    private ConnectionEstablishDialogFragment dialogFragmentMock;
-    @Mock
     private BaseContentConfiguration mockBaseContentConfig;
     @Mock
     private StringProvider mockStringProvider;
@@ -64,7 +61,7 @@ public class ConnectWithPasswordViewModelTest {
         initMocks(this);
         mockStatic(EWSTagger.class);
         subject = new ConnectWithPasswordViewModel(wifiUtilMock, sessionInfoMock, navigatorMock,
-                dialogFragmentMock, mockBaseContentConfig, mockStringProvider);
+                 mockBaseContentConfig, mockStringProvider);
         when(mockBaseContentConfig.getDeviceName()).thenReturn(123435);
     }
 
