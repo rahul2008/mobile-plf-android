@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.csw.CswBaseFragment;
@@ -28,17 +27,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.CreateConsentInteractor;
 import com.philips.platform.catk.GetConsentInteractor;
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.csw.ConsentBundleConfig;
-import com.philips.platform.csw.CswBaseFragment;
-import com.philips.platform.mya.consentwidgets.R;
-import com.philips.platform.mya.consentwidgets.R2;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -121,7 +111,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         CreateConsentInteractor createConsentInteractor = new CreateConsentInteractor(instance);
         GetConsentInteractor getConsentInteractor = new GetConsentInteractor(instance, config.getConsentDefinitions());
 
-        PermissionPresenter permissionPresenter = new PermissionPresenter(this, getConsentInteractor, createConsentInteractor, consentViews);
+        PermissionPresenter permissionPresenter = new PermissionPresenter(this, getConsentInteractor, createConsentInteractor, consentViews, new PermissionAdapter(consentViews));
         permissionPresenter.getConsentStatus();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

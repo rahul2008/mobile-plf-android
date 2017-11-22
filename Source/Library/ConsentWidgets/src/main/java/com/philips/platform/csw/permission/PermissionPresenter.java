@@ -11,14 +11,10 @@ import java.util.List;
 
 import com.philips.platform.catk.CreateConsentInteractor;
 import com.philips.platform.catk.GetConsentInteractor;
-import com.philips.platform.catk.listener.CreateConsentListener;
-import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.RequiredConsent;
-import com.philips.platform.csw.utils.CswLogger;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import android.support.annotation.NonNull;
 
@@ -32,12 +28,13 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
     public static final int version = 0;
 
     PermissionPresenter(
-            PermissionInterface permissionInterface, GetConsentInteractor getConsentInteractor, CreateConsentInteractor createConsentInteractor, List<ConsentView> consentViews) {
+            PermissionInterface permissionInterface, GetConsentInteractor getConsentInteractor, CreateConsentInteractor createConsentInteractor, List<ConsentView> consentViews, PermissionAdapter adapter) {
         this.permissionInterface = permissionInterface;
         this.getConsentInteractor = getConsentInteractor;
         this.createConsentInteractor = createConsentInteractor;
         this.consentViews = consentViews;
-        this.adapter = new PermissionAdapter(consentViews, this);
+        this.adapter = adapter;
+        this.adapter.setConsentToggleListener(this);
     }
 
     PermissionAdapter getAdapter() {

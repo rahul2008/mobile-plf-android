@@ -29,10 +29,14 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
 
     private static final int NOT_FOUND = -1;
     @NonNull private final List<ConsentView> items;
-    @NonNull private final ConsentToggleListener consentToggleListener;
 
-    PermissionAdapter(@NonNull final List<ConsentView> definitions, @NonNull final ConsentToggleListener consentToggleListener) {
+    @Nullable private ConsentToggleListener consentToggleListener;
+
+    PermissionAdapter(@NonNull final List<ConsentView> definitions) {
         this.items = new ArrayList<>(definitions);
+    }
+
+    public void setConsentToggleListener(@Nullable ConsentToggleListener consentToggleListener) {
         this.consentToggleListener = consentToggleListener;
     }
 
@@ -108,7 +112,7 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
         @Nullable
         private ConsentToggleListener consentToggleListener;
 
-        PermissionViewHolder(View itemView, ConsentToggleListener consentToggleListener) {
+        PermissionViewHolder(View itemView, @Nullable ConsentToggleListener consentToggleListener) {
             super(itemView);
             this.toggle = itemView.findViewById(R.id.toggleicon);
             this.label = itemView.findViewById(R.id.consentText);

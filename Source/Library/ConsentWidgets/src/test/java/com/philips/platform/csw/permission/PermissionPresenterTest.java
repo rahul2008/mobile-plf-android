@@ -2,6 +2,7 @@ package com.philips.platform.csw.permission;
 
 import com.philips.platform.catk.CreateConsentInteractor;
 import com.philips.platform.catk.GetConsentInteractor;
+import com.philips.platform.catk.model.RequiredConsent;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PermissionPresenterTest {
@@ -20,11 +24,14 @@ public class PermissionPresenterTest {
     GetConsentInteractor mockGetInteractor;
     @Mock
     CreateConsentInteractor mockCreateInteractor;
+    @Mock private PermissionAdapter mockAdapter;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, mockGetInteractor, mockCreateInteractor);
+        List<ConsentView> consentViews = new ArrayList<>();
+        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, mockGetInteractor, mockCreateInteractor, consentViews,
+                mockAdapter);
     }
 
     @Test
@@ -47,8 +54,7 @@ public class PermissionPresenterTest {
 
     @Test
     public void testHideProgressDialog_onSuccess() throws Exception {
-        mPermissionPresenter.onConsentRetrieved(null);
+        mPermissionPresenter.onConsentRetrieved(new ArrayList<RequiredConsent>());
         Mockito.verify(mockPermissionInterface).hideProgressDialog();
     }
 }
-

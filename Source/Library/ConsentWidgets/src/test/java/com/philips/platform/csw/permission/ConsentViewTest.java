@@ -3,6 +3,7 @@ package com.philips.platform.csw.permission;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.catk.model.RequiredConsent;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +19,9 @@ public class ConsentViewTest {
     @Before
     public void setUp() throws Exception {
         consentDefinition = new ConsentDefinition("SomeText", "SomeHelp", TYPE_MOMENT, 1, Locale.CANADA);
+        currentConsentRejected = new RequiredConsent(new Consent(Locale.ENGLISH, ConsentStatus.rejected, TYPE_MOMENT, 1), consentDefinition);
+        currentConsentAccepted = new RequiredConsent(new Consent(Locale.ENGLISH, ConsentStatus.active, TYPE_MOMENT, 1), consentDefinition);
+        oldConsentAccepted = new RequiredConsent(new Consent(Locale.ENGLISH, ConsentStatus.active, TYPE_MOMENT, 0), consentDefinition);
         consentView = new ConsentView(consentDefinition);
     }
 
@@ -58,7 +62,7 @@ public class ConsentViewTest {
     }
 
     private void whenConsentIsVersion(int version) {
-        consentView.storeConsent(new Consent(Locale.ENGLISH, ConsentStatus.active, TYPE_MOMENT, version));
+        consentView.storeConsent(new RequiredConsent(new Consent(Locale.ENGLISH, ConsentStatus.active, TYPE_MOMENT, version), consentDefinition));
     }
 
     @Test
@@ -99,10 +103,10 @@ public class ConsentViewTest {
         assertTrue(consentView.isEnabled());
     }
 
-    private Consent currentConsentRejected = new Consent(Locale.ENGLISH, ConsentStatus.rejected, TYPE_MOMENT, 1);
-    private Consent currentConsentAccepted = new Consent(Locale.ENGLISH, ConsentStatus.active, TYPE_MOMENT, 1);
-    private Consent oldConsentAccepted = new Consent(Locale.ENGLISH, ConsentStatus.active, TYPE_MOMENT, 0);
     private ConsentDefinition consentDefinition;
+    private RequiredConsent currentConsentRejected;
+    private RequiredConsent currentConsentAccepted;
+    private RequiredConsent oldConsentAccepted;
     private ConsentView consentView;
 
 }

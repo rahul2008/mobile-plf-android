@@ -54,7 +54,7 @@ public class ConsentView {
     }
 
     boolean isEnabled() {
-        return consent != null && consent.isChangeable() && !isError;
+        return (consent == null || consent.isChangeable()) && !isError;
     }
 
     boolean isChecked() {
