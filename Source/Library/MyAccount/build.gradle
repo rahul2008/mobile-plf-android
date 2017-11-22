@@ -247,12 +247,12 @@ dependencies {
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
-/*    def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+   def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     compile(dp ? project(':usr') : usrModule)
             {
                 transitive = true
                 exclude group: 'com.android.support', module: 'customtabs'
-            }*/
+            }
 
 
     // Tests
@@ -297,7 +297,7 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVer"
 
 
-    compile project(path: ':MyaPlugin')
+    //compile project(path: ':MyaPlugin')
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

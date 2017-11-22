@@ -1,4 +1,4 @@
-package uappadaptor;
+package com.philips.platform.myaplugin.uappadaptor;
 
 import java.io.Serializable;
 

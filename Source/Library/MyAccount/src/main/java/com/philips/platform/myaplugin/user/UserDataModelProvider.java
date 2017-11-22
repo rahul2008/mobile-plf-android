@@ -1,4 +1,4 @@
-package user;
+package com.philips.platform.myaplugin.user;
 
 import android.content.Context;
 
@@ -6,10 +6,10 @@ import com.philips.cdp.registration.User;
 
 import java.io.Serializable;
 
-import uappadaptor.DataModel;
-import uappadaptor.DataModelType;
-import uappadaptor.UserDataModel;
-import uappadaptor.UserInterface;
+import com.philips.platform.myaplugin.uappadaptor.DataModel;
+import com.philips.platform.myaplugin.uappadaptor.DataModelType;
+import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
+import com.philips.platform.myaplugin.uappadaptor.UserInterface;
 
 
 public class UserDataModelProvider extends UserInterface implements Serializable {

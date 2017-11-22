@@ -38,9 +38,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import uappadaptor.DataInterface;
-import uappadaptor.DataModelType;
-import user.UserDataModelProvider;
+import com.philips.platform.myaplugin.uappadaptor.DataInterface;
+import com.philips.platform.myaplugin.uappadaptor.DataModelType;
+import com.philips.platform.myaplugin.user.UserDataModelProvider;
 
 import static com.philips.platform.mya.demouapp.MyaConstants.APPLICATION_NAME;
 import static com.philips.platform.mya.demouapp.MyaConstants.PROPOSITION_NAME;

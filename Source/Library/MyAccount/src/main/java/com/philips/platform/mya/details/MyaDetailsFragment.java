@@ -23,9 +23,9 @@ import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import uappadaptor.DataModelType;
-import uappadaptor.UserDataModel;
-import user.UserDataModelProvider;
+import com.philips.platform.myaplugin.uappadaptor.DataModelType;
+import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
+import com.philips.platform.myaplugin.user.UserDataModelProvider;
 
 
 public class MyaDetailsFragment extends MyaBaseFragment {

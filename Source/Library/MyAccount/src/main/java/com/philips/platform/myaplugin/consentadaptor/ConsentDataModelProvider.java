@@ -1,9 +1,9 @@
-package consentadaptor;
+package com.philips.platform.myaplugin.consentadaptor;
 
-import uappadaptor.ConsentDataInterface;
-import uappadaptor.ConsentDataModel;
-import uappadaptor.DataModel;
-import uappadaptor.DataModelType;
+import com.philips.platform.myaplugin.uappadaptor.ConsentDataInterface;
+import com.philips.platform.myaplugin.uappadaptor.ConsentDataModel;
+import com.philips.platform.myaplugin.uappadaptor.DataModel;
+import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 
 /**
  * Created by philips on 11/17/17.
