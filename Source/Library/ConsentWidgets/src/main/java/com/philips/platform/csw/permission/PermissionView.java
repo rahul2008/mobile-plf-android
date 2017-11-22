@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.CreateConsentInteractor;
+import com.philips.platform.catk.GetConsentInteractor;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.csw.CswBaseFragment;

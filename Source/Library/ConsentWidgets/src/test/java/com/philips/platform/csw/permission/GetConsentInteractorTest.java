@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.GetConsentInteractor;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.catk.model.ConsentDefinition;

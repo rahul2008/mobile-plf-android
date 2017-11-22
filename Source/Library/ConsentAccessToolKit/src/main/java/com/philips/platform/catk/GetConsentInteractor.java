@@ -5,7 +5,7 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.csw.permission;
+package com.philips.platform.catk;
 
 import android.support.annotation.NonNull;
 
@@ -14,7 +14,8 @@ import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.RequiredConsent;
-import com.philips.platform.csw.utils.CswLogger;
+import com.philips.platform.catk.utils.CatkLogger;
+import com.philips.platform.catk.utils.CatkLogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ import java.util.Map;
 
 public class GetConsentInteractor {
 
-    interface Callback {
+    public interface Callback {
         void onConsentRetrieved(@NonNull final Map<String, RequiredConsent> consent);
 
         void onConsentFailed(int error);
@@ -39,7 +40,7 @@ public class GetConsentInteractor {
         this.definitions = definitions;
     }
 
-    void getConsents(@NonNull final Callback callback) {
+    public void getConsents(@NonNull final Callback callback) {
         consentAccessToolKit.getConsentDetails(new ConsentViewResponseListener(definitions, callback));
     }
 
@@ -59,13 +60,13 @@ public class GetConsentInteractor {
                 callback.onConsentRetrieved(filterConsentsByDefinitions(responseData));
             } else {
                 this.callback.onConsentFailed(-1);
-                CswLogger.d(" Consent : ", "no consent for type found on server");
+                CatkLogger.d(" Consent : ", "no consent for type found on server");
             }
         }
 
         @Override
         public int onResponseFailureConsent(int consentError) {
-            CswLogger.d(" Consent : ", "response failure:" + consentError);
+            CatkLogger.d(" Consent : ", "response failure:" + consentError);
             this.callback.onConsentFailed(consentError);
             return 0;
         }

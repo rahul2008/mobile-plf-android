@@ -10,6 +10,7 @@ package com.philips.platform.csw.permission;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.catk.CreateConsentInteractor;
+import com.philips.platform.catk.GetConsentInteractor;
 import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.RequiredConsent;
