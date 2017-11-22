@@ -104,7 +104,7 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
 
     @NonNull
     List<ConsentView> getConsentViews() {
-        return items;
+        return new ArrayList<>(items);
     }
 
     static class PermissionViewHolder extends RecyclerView.ViewHolder {

@@ -24,7 +24,6 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
     private GetConsentInteractor getConsentInteractor;
     private CreateConsentInteractor createConsentInteractor;
     private PermissionAdapter adapter;
-    private List<ConsentView> consentViews;
     public static final int version = 0;
 
     PermissionPresenter(
@@ -32,7 +31,6 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
         this.permissionInterface = permissionInterface;
         this.getConsentInteractor = getConsentInteractor;
         this.createConsentInteractor = createConsentInteractor;
-        this.consentViews = adapter.getConsentViews();
         this.adapter = adapter;
         this.adapter.setConsentToggleListener(this);
     }
@@ -48,6 +46,7 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
 
     @Override
     public void onConsentRetrieved(@NonNull List<RequiredConsent> consents) {
+        List<ConsentView> consentViews = adapter.getConsentViews();
         Map<String, RequiredConsent> consentMap = new HashMap<>();
         for (RequiredConsent consent : consents) {
             consentMap.put(consent.getType(), consent);
