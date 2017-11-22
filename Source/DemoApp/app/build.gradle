@@ -233,23 +233,32 @@ dependencies {
     compile "com.android.support:customtabs:${versions.support}"
     def dp = project.ext.has('useprojectdependencies')
 
-    def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    compile(dp ? project(':uid') : uidModule)
-            {
-                transitive = true
-            }
+    if(dp) {
+        project(':uid')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        {
+            transitive = true
+        }
+    }
 
-    def usrUAppModule = module(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    compile(dp ? project(':usrUApp') : usrUAppModule)
-
+    if(dp) {
+        project(':usrUApp')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    }
+    
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-   /* def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    compile(dp ? project(':usr') : usrModule)
-            {
-                transitive = true
-                exclude group: 'com.android.support', module: 'customtabs'
-                exclude group:  'com.google.dagger'
-            }
+   /*     if(dp) {
+        project(':registrationApi')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        {
+            transitive = true
+            exclude group: 'com.android.support', module: 'customtabs'
+            exclude group:  'com.google.dagger'
+         }
+    }
 */
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'

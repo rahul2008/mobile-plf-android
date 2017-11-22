@@ -244,16 +244,16 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVer"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVer"
 
-
-
-    def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-        exclude group: 'com.android.support', module: 'customtabs'
-        exclude group:  'com.google.dagger'
+    if(dp) {
+        project(':registrationApi')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        {
+            transitive = true
+            exclude group: 'com.android.support', module: 'customtabs'
+            exclude group:  'com.google.dagger'
+         }
     }
-    compile(dp ? project(':usr') : usrModule)
-            {
-                transitive = true
-            }
 
     // Tests
     testCompile 'junit:junit:4.12'
