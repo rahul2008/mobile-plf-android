@@ -179,10 +179,13 @@ dependencies {
     debugCompile project(path: ':pluginreferenceboard', configuration: 'debug')
     releaseCompile project(path: ':pluginreferenceboard', configuration: 'release')
 
-    def useProjectDependencies = project.ext.has('useprojectdependencies')
-    def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
-    compile(useProjectDependencies ? project(':ufw') : ufwModule) {
+    def dp = project.ext.has('useprojectdependencies')
+    if(dp) {
+        project(':ufw')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {		
         transitive = true
+        }
     }
 
     compile deps.support.design
