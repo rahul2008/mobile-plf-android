@@ -97,7 +97,7 @@ public class GetConsentInteractorTest {
     }
 
     private void whenGetConsentCalled() {
-        subject.getConsents(mockCallback);
+        subject.fetchLatestConsents(mockCallback);
     }
 
     private void andResponseFailsWithError(int error) {

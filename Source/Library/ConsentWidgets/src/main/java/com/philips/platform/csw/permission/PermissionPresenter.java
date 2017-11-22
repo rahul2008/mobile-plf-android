@@ -17,6 +17,7 @@ import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.RequiredConsent;
 import com.philips.platform.csw.utils.CswLogger;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import android.support.annotation.NonNull;
@@ -45,13 +46,17 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
 
     void getConsentStatus() {
         permissionInterface.showProgressDialog();
-        getConsentInteractor.getConsents(this);
+        getConsentInteractor.fetchLatestConsents(this);
     }
 
     @Override
-    public void onConsentRetrieved(@NonNull Map<String, RequiredConsent> consents) {
+    public void onConsentRetrieved(@NonNull List<RequiredConsent> consents) {
+        Map<String, RequiredConsent> consentMap = new HashMap<>();
+        for (RequiredConsent consent: consents) {
+            consentMap.put(consent.getType(), consent);
+        }
         for(ConsentView consentView: consentViews) {
-            consentView.storeConsent(consents.get(consentView.getType()));
+            consentView.storeConsent(consentMap.get(consentView.getType()));
         }
         adapter.onConsentRetrieved(consentViews);
         permissionInterface.hideProgressDialog();

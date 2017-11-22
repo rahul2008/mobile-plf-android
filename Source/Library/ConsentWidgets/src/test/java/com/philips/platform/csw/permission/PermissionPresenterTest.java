@@ -36,7 +36,7 @@ public class PermissionPresenterTest {
     @Test
     public void testGetConsentsIsCalledOnInteractor() throws Exception {
         mPermissionPresenter.getConsentStatus();
-        Mockito.verify(mockGetInteractor).getConsents(mPermissionPresenter);
+        Mockito.verify(mockGetInteractor).fetchLatestConsents(mPermissionPresenter);
     }
 
     @Test
