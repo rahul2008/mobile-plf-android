@@ -25,7 +25,7 @@ import java.util.Map;
 public class GetConsentInteractor {
 
     public interface Callback {
-        void onConsentRetrieved(@NonNull final Map<String, RequiredConsent> consent);
+        void onConsentRetrieved(@NonNull final List<RequiredConsent> consents);
 
         void onConsentFailed(int error);
     }
@@ -40,7 +40,7 @@ public class GetConsentInteractor {
         this.definitions = definitions;
     }
 
-    public void getConsents(@NonNull final Callback callback) {
+    public void fetchLatestConsents(@NonNull final Callback callback) {
         consentAccessToolKit.getConsentDetails(new ConsentViewResponseListener(callback));
     }
 
@@ -69,11 +69,11 @@ public class GetConsentInteractor {
             return 0;
         }
 
-        private Map<String, RequiredConsent> filterConsentsByDefinitions(List<Consent> receivedConsents) {
+        private List<RequiredConsent> filterConsentsByDefinitions(List<Consent> receivedConsents) {
             Map<String, Consent> consentsMap = toMap(receivedConsents);
-            Map<String, RequiredConsent> requiredConsents = new HashMap<>();
+            List<RequiredConsent> requiredConsents = new ArrayList<>();
             for (ConsentDefinition definition : definitions) {
-                requiredConsents.put(definition.getType(), new RequiredConsent(consentsMap.get(definition.getType()), definition));
+                requiredConsents.add(new RequiredConsent(consentsMap.get(definition.getType()), definition));
             }
             return requiredConsents;
         }
