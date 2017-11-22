@@ -147,13 +147,15 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.0.2'
     compile 'com.google.android.gms:play-services-gcm:11.0.4'
 
-	def dp = project.ext.has('useprojectdependencies')
-	
-	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
-	compile(dp ? project(':ail') : ailModule) 
-	{
-        exclude group: 'com.android.support'
-        transitive = true
+    def dp = project.ext.has('useprojectdependencies')
+
+   if(dp) {
+        project(':ail')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {		
+            exclude group: 'com.android.support'
+            transitive = true
+        }
     }
 
     testCompile 'junit:junit:4.12'
