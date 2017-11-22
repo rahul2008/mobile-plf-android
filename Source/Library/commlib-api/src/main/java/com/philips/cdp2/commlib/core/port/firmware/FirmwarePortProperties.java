@@ -12,7 +12,6 @@ import com.philips.cdp2.commlib.core.port.PortProperties;
 import static android.text.TextUtils.isEmpty;
 import static java.lang.Math.floor;
 import static java.lang.Math.max;
-import static java.lang.Math.min;
 
 /**
  * @publicApi
@@ -110,7 +109,7 @@ public class FirmwarePortProperties implements PortProperties {
     }
 
     public int getProgress() {
-        return max(0, min(progress, 100));
+        return max(0, progress);
     }
 
     public String getStatusMessage() {

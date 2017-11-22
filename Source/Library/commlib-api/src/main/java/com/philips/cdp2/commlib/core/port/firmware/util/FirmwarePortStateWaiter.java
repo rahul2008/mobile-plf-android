@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2017.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp2.commlib.core.port.firmware.util;
@@ -8,9 +8,9 @@ package com.philips.cdp2.commlib.core.port.firmware.util;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
@@ -58,10 +58,12 @@ public class FirmwarePortStateWaiter {
         void onError(String message);
     }
 
-    private final DICommPortListener<FirmwarePort> firmwarePortListener = new DICommPortListener<FirmwarePort>() {
+    private final SubscriptionEventListener firmwareSubscriptionEventListener = new SubscriptionEventListener() {
         @Override
-        public void onPortUpdate(FirmwarePort port) {
-            final FirmwarePortProperties firmwarePortProperties = port.getPortProperties();
+        public void onSubscriptionEventReceived(String portName, String data) {
+            firmwarePort.processResponse(data);
+
+            final FirmwarePortProperties firmwarePortProperties = firmwarePort.getPortProperties();
             if (firmwarePortProperties == null) {
                 return;
             }
@@ -72,22 +74,24 @@ public class FirmwarePortStateWaiter {
             }
 
             DICommLog.d(DICommLog.FIRMWAREPORT, String.format(Locale.US, "onPortUpdate - initialState [%s], newState [%s]", initialState.toString(), newState.toString()));
-            firmwarePort.removePortListener(this);
+            communicationStrategy.removeSubscriptionEventListener(this);
             communicationStrategy.unsubscribe(firmwarePort.getDICommPortName(), firmwarePort.getDICommProductId(), emptyResponseHandler);
 
-            listener.onNewState(newState);
             if (timeoutTask != null) {
                 timeoutTask.cancel();
             }
+            listener.onNewState(newState);
         }
 
         @Override
-        public void onPortError(FirmwarePort port, Error error, String errorData) {
-            DICommLog.e(DICommLog.FIRMWAREPORT, String.format(Locale.US, "onPortError - error [%s], message [%s], state [%s]", error.toString(), errorData, initialState.toString()));
-            firmwarePort.removePortListener(this);
+        public void onSubscriptionEventDecryptionFailed(String portName) {
+            communicationStrategy.removeSubscriptionEventListener(this);
             communicationStrategy.unsubscribe(firmwarePort.getDICommPortName(), firmwarePort.getDICommProductId(), emptyResponseHandler);
 
-            listener.onError(error.toString());
+            final String message = String.format(Locale.US, "Subscription event decryption failed on port [%s]", portName);
+
+            DICommLog.e(DICommLog.FIRMWAREPORT, message);
+            listener.onError(message);
         }
     };
 
@@ -115,13 +119,14 @@ public class FirmwarePortStateWaiter {
             }
         }
 
-        firmwarePort.addPortListener(firmwarePortListener);
+        communicationStrategy.addSubscriptionEventListener(firmwareSubscriptionEventListener);
         communicationStrategy.subscribe(firmwarePort.getDICommPortName(), firmwarePort.getDICommProductId(), SUBSCRIPTION_TTL, emptyResponseHandler);
 
         timeoutTask = new TimerTask() {
             @Override
             public void run() {
-                firmwarePort.removePortListener(firmwarePortListener);
+                communicationStrategy.removeSubscriptionEventListener(firmwareSubscriptionEventListener);
+                communicationStrategy.unsubscribe(firmwarePort.getDICommPortName(), firmwarePort.getDICommProductId(), emptyResponseHandler);
                 listener.onError("Timeout while waiting for next state.");
             }
         };
