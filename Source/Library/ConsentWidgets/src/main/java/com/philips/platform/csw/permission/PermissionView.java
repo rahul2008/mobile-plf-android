@@ -28,6 +28,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.CreateConsentInteractor;
+import com.philips.platform.catk.GetConsentInteractor;
+import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.csw.ConsentBundleConfig;
+import com.philips.platform.csw.CswBaseFragment;
+import com.philips.platform.mya.consentwidgets.R;
+import com.philips.platform.mya.consentwidgets.R2;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -37,8 +49,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     private ProgressDialog mProgressDialog;
 
     private Unbinder unbinder;
-
-    private PermissionAdapter permissionAdapter;
 
     private ConsentBundleConfig config;
 
@@ -104,18 +114,17 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        List<ConsentView> consentDefinitions = createConsentDefinitions();
+        List<ConsentView> consentViews = createConsentDefinitions();
 
         ConsentAccessToolKit instance = ConsentAccessToolKit.getInstance();
         CreateConsentInteractor createConsentInteractor = new CreateConsentInteractor(instance);
-        GetConsentInteractor getConsentInteractor = new GetConsentInteractor(instance, consentDefinitions);
+        GetConsentInteractor getConsentInteractor = new GetConsentInteractor(instance, config.getConsentDefinitions());
 
-        PermissionPresenter permissionPresenter = new PermissionPresenter(this, getConsentInteractor, createConsentInteractor);
+        PermissionPresenter permissionPresenter = new PermissionPresenter(this, getConsentInteractor, createConsentInteractor, consentViews);
         permissionPresenter.getConsentStatus();
 
-        permissionAdapter = new PermissionAdapter(consentDefinitions, permissionPresenter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(permissionAdapter);
+        recyclerView.setAdapter(permissionPresenter.getAdapter());
     }
 
     @NonNull
@@ -145,33 +154,4 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
             mProgressDialog.cancel();
         }
     }
-
-    @Override
-    public void onConsentGetFailed(int error) {
-        if (permissionAdapter != null) {
-            permissionAdapter.onConsentGetFailed(error);
-        }
-    }
-
-    @Override
-    public void onConsentRetrieved(@NonNull List<ConsentView> consents) {
-        if (permissionAdapter != null) {
-            permissionAdapter.onConsentRetrieved(consents);
-        }
-    }
-
-    @Override
-    public void onCreateConsentFailed(ConsentDefinition definition, int errorCode) {
-        if (permissionAdapter != null) {
-            permissionAdapter.onCreateConsentFailed(definition, errorCode);
-        }
-    }
-
-    @Override
-    public void onCreateConsentSuccess(ConsentDefinition definition, Consent consent, int code) {
-        if (permissionAdapter != null) {
-            permissionAdapter.onCreateConsentSuccess(definition, consent, code);
-        }
-    }
-
 }

@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.catk.model.RequiredConsent;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.Switch;
@@ -75,8 +76,8 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
         }
     }
 
-    void onCreateConsentSuccess(ConsentDefinition definition, Consent consent, int code) {
-        int position = getConsentView(definition);
+    void onCreateConsentSuccess(RequiredConsent consent, int code) {
+        int position = getConsentView(consent.getDefinition());
         if (position != NOT_FOUND) {
             items.get(position).storeConsent(consent);
             notifyItemChanged(position);

@@ -7,11 +7,10 @@
 
 package com.philips.platform.csw.permission;
 
-import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.ConsentStatus;
-
 import android.support.annotation.Nullable;
+
+import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.catk.model.RequiredConsent;
 
 public class ConsentView {
 
@@ -20,7 +19,7 @@ public class ConsentView {
     private boolean isError = false;
 
     @Nullable
-    private Consent consent;
+    private RequiredConsent consent;
 
     ConsentView(final ConsentDefinition definition) {
         this.definition = definition;
@@ -42,7 +41,7 @@ public class ConsentView {
         return definition.getVersion();
     }
 
-    ConsentView storeConsent(Consent consent) {
+    ConsentView storeConsent(RequiredConsent consent) {
         this.consent = consent;
         this.isLoading = false;
         this.isError = false;
@@ -55,11 +54,11 @@ public class ConsentView {
     }
 
     boolean isEnabled() {
-        return (consent == null || definition.getVersion() >= consent.getVersion()) && !isError;
+        return consent != null && consent.isChangeable() && !isError;
     }
 
     boolean isChecked() {
-        return consent != null && consent.getStatus().equals(ConsentStatus.active) && consent.getVersion() == definition.getVersion();
+        return consent != null && consent.isAccepted();
     }
 
     boolean isError() {
@@ -71,7 +70,7 @@ public class ConsentView {
     }
 
     boolean isLoading() {
-        return isLoading;
+        return consent == null || consent.getConsent() == null;
     }
 
     void setNotFound() {
@@ -85,12 +84,15 @@ public class ConsentView {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         ConsentView that = (ConsentView) o;
 
-        if (!definition.equals(that.definition)) return false;
+        if (!definition.equals(that.definition))
+            return false;
         return consent != null ? consent.equals(that.consent) : that.consent == null;
     }
 
