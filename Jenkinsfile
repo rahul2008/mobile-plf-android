@@ -35,7 +35,7 @@ node ('android&&device') {
                         chmod -R 775 . 
                         cd ./Source/DemoApp 
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
-                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test jacocoTestReport  zipDocuments artifactoryPublish
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test jacocoTestReport  saveResDep zipDocuments artifactoryPublish
                     ''' 
                 }
             } 
