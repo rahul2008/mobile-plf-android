@@ -72,7 +72,7 @@ public class MomentsDataFetcher extends DataFetcher {
                     accessProvider.getAccessToken(), gsonConverter);
 
             if (client == null) {
-                return null;
+                return RetrofitError.unexpectedError("", new IllegalStateException("Client is not initialized"));
             }
 
             UCoreMomentsHistory momentsHistory = client.getMomentsHistory(accessProvider.getUserId(),
