@@ -68,7 +68,10 @@ public class THSSDKSpecificError implements THSErrorHandlerInterface {
         }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.CREDIT_CARD_RESIDENCY_CHECK_FAILED.name())){
             errorMessage = "Credit card residency check failed";
             return true;
-        }else {
+        }else if(sdkErrorReason.name().equalsIgnoreCase(SDKErrorReason.ENG_SCHEDULING_FAILURE.name())){
+            errorMessage = "This appointment slot is no longer available.  Please select a new time";
+            return true;
+        } else {
             return false;
         }
 
