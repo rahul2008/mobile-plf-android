@@ -49,6 +49,12 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
     }
 
     @Override
+    public void onViewRecycled(PermissionViewHolder holder) {
+        super.onViewRecycled(holder);
+        holder.toggle.setOnCheckedChangeListener(null);
+    }
+
+    @Override
     public int getItemCount() {
         return items.size();
     }
