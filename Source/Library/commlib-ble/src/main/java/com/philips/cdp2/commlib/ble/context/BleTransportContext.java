@@ -31,6 +31,7 @@ import java.util.concurrent.Executors;
 /**
  * Implementation of a TransportContext for BLE traffic.
  * Handles all communication to an appliance in case it is a BLE appliance.
+ *
  * @publicApi
  */
 public class BleTransportContext implements TransportContext<BleTransportContext> {
@@ -66,8 +67,8 @@ public class BleTransportContext implements TransportContext<BleTransportContext
      * Instantiates a new BleTransportContext.
      *
      * @param runtimeConfiguration      the runtime configuration object
-     * @param showPopupIfBLEIsTurnedOff the show popup if BLE is turned off
-     * @throws TransportUnavailableException the transport unavailable exception
+     * @param showPopupIfBLEIsTurnedOff show popup if BLE is turned off
+     * @throws TransportUnavailableException thrown when the underlying transport is not available
      */
     public BleTransportContext(@NonNull final RuntimeConfiguration runtimeConfiguration, boolean showPopupIfBLEIsTurnedOff) {
         if (runtimeConfiguration.isLogEnabled()) {
@@ -90,7 +91,9 @@ public class BleTransportContext implements TransportContext<BleTransportContext
 
     /**
      * Returns a DiscoveryStrategy for discovering BLE appliances.
+     *
      * @return DiscoveryStrategy A discovery strategy to discover BLE appliances.
+     * @see TransportContext#getDiscoveryStrategy()
      */
     @Override
     public DiscoveryStrategy getDiscoveryStrategy() {
@@ -99,8 +102,10 @@ public class BleTransportContext implements TransportContext<BleTransportContext
 
     /**
      * Creates a CommunicationStrategy for communicating with BLE appliances.
+     *
      * @param networkNode NetworkNode The network node
      * @return CommunicationStrategy A communication strategy for communicating with BLE appliances.
+     * @see TransportContext#createCommunicationStrategyFor(NetworkNode)
      */
     @NonNull
     @Override

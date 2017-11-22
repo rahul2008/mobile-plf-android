@@ -9,12 +9,15 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Port for getting/setting wifi and networking configuration on a WiFi connected {@link Appliance}.
+ *
  * @publicApi
  */
 public class WifiPort extends DICommPort<WifiPortProperties> {
@@ -26,6 +29,12 @@ public class WifiPort extends DICommPort<WifiPortProperties> {
     private static final String KEY_WIFIPASSWORD = "password";
     private static final String KEY_WIFISSID = "ssid";
 
+    /**
+     * Create a {@link WifiPort}.
+     *
+     * @param communicationStrategy The communication strategy for the port to use.
+     * @see DICommPort#DICommPort(CommunicationStrategy)
+     */
     public WifiPort(final @NonNull CommunicationStrategy communicationStrategy) {
         super(communicationStrategy);
     }
@@ -73,6 +82,12 @@ public class WifiPort extends DICommPort<WifiPortProperties> {
         return wifiPortProperties;
     }
 
+    /**
+     * Convenience method to easily set WiFi related configuration.
+     *
+     * @param ssid     WiFi network SSID.
+     * @param password WiFi network password.
+     */
     public void setWifiNetworkDetails(String ssid, String password) {
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put(KEY_WIFISSID, ssid);
@@ -80,6 +95,16 @@ public class WifiPort extends DICommPort<WifiPortProperties> {
         putProperties(dataMap);
     }
 
+    /**
+     * Convenience method to easily set WiFi and networking related configuration.
+     *
+     * @param ssid       WiFi network SSID.
+     * @param password   WiFi network password.
+     * @param ipAddress  Fixed IP address to use if dhcp is <code>false</code>.
+     * @param dhcp       <code>true</code> if the {@link Appliance} should use DHCP.
+     * @param subnetMask Subnet mask for the {@link Appliance}.
+     * @param gateWay    IP address of the network gateway.
+     */
     public void setWifiNetworkDetails(String ssid, String password, String ipAddress, boolean dhcp, String subnetMask, String gateWay) {
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put(KEY_WIFISSID, ssid);
