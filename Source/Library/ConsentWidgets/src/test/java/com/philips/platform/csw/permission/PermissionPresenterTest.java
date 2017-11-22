@@ -1,5 +1,7 @@
 package com.philips.platform.csw.permission;
 
+import com.philips.platform.catk.CreateConsentInteractor;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

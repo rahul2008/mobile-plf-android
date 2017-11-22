@@ -9,22 +9,35 @@ package com.philips.platform.csw.permission;
 
 import android.support.annotation.NonNull;
 
+import com.philips.platform.catk.CreateConsentInteractor;
+import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.catk.model.RequiredConsent;
+import com.philips.platform.csw.utils.CswLogger;
 
 import java.util.List;
+import java.util.Map;
 
 public class PermissionPresenter implements GetConsentInteractor.Callback, ConsentToggleListener {
 
     private PermissionInterface permissionInterface;
     private GetConsentInteractor getConsentInteractor;
     private CreateConsentInteractor createConsentInteractor;
+    private PermissionAdapter adapter;
+    private List<ConsentView> consentViews;
     public static final int version = 0;
 
     PermissionPresenter(
-            PermissionInterface permissionInterface, GetConsentInteractor getConsentInteractor, CreateConsentInteractor createConsentInteractor) {
+            PermissionInterface permissionInterface, GetConsentInteractor getConsentInteractor, CreateConsentInteractor createConsentInteractor, List<ConsentView> consentViews) {
         this.permissionInterface = permissionInterface;
         this.getConsentInteractor = getConsentInteractor;
         this.createConsentInteractor = createConsentInteractor;
+        this.consentViews = consentViews;
+        adapter = new PermissionAdapter(consentViews, this);
+    }
+
+    public PermissionAdapter getAdapter() {
+        return adapter;
     }
 
     void getConsentStatus() {
@@ -38,13 +51,30 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
     }
 
     @Override
-    public void onConsentRetrieved(@NonNull List<ConsentView> consent) {
-        permissionInterface.onConsentRetrieved(consent);
+    public void onConsentRetrieved(@NonNull Map<String, RequiredConsent> consents) {
+        for(ConsentView consentView: consentViews) {
+            consentView.storeConsent(consents.get(consentView.getType()));
+        }
+        adapter.onConsentRetrieved(consentViews);
         permissionInterface.hideProgressDialog();
     }
 
     @Override
     public void onToggledConsent(ConsentDefinition definition, boolean on) {
-        createConsentInteractor.createConsentStatus(definition, on);
+        createConsentInteractor.createConsentStatus(definition, on, new CreateConsentResponseHandler());
+    }
+
+    private class CreateConsentResponseHandler implements CreateConsentListener {
+
+        @Override
+        public void onSuccess(int code) {
+            CswLogger.d(" Create Consent: ", "Success : " + code);
+        }
+
+        @Override
+        public int onFailure(int errCode) {
+            CswLogger.d(" Create Consent: ", "Failed : " + errCode);
+            return errCode;
+        }
     }
 }

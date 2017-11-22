@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.CreateConsentInteractor;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.csw.CswBaseFragment;
@@ -36,8 +37,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     private ProgressDialog mProgressDialog;
 
     private Unbinder unbinder;
-
-    private PermissionAdapter permissionAdapter;
 
     private ConsentBundleConfig config;
 
@@ -105,18 +104,17 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        List<ConsentView> consentDefinitions = createConsentDefinitions();
+        List<ConsentView> consentViews = createConsentDefinitions();
 
         ConsentAccessToolKit instance = ConsentAccessToolKit.getInstance();
         CreateConsentInteractor createConsentInteractor = new CreateConsentInteractor(instance);
-        GetConsentInteractor getConsentInteractor = new GetConsentInteractor(instance, consentDefinitions);
+        GetConsentInteractor getConsentInteractor = new GetConsentInteractor(instance, config.getConsentDefinitions());
 
-        PermissionPresenter permissionPresenter = new PermissionPresenter(this, getConsentInteractor, createConsentInteractor);
+        PermissionPresenter permissionPresenter = new PermissionPresenter(this, getConsentInteractor, createConsentInteractor, consentViews);
         permissionPresenter.getConsentStatus();
 
-        permissionAdapter = new PermissionAdapter(consentDefinitions, permissionPresenter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(permissionAdapter);
+        recyclerView.setAdapter(permissionPresenter.getAdapter());
     }
 
     @NonNull
@@ -144,13 +142,6 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void hideProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.cancel();
-        }
-    }
-
-    @Override
-    public void onConsentRetrieved(@NonNull List<ConsentView> consents) {
-        if (permissionAdapter != null) {
-            permissionAdapter.onConsentRetrieved(consents);
         }
     }
 

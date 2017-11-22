@@ -1,6 +1,7 @@
 package com.philips.platform.csw.permission;
 
 import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.CreateConsentInteractor;
 import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentDefinition;

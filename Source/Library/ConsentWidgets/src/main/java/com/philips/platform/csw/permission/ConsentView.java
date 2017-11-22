@@ -12,13 +12,14 @@ import android.support.annotation.Nullable;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.ConsentStatus;
+import com.philips.platform.catk.model.RequiredConsent;
 
 public class ConsentView {
 
     private final ConsentDefinition definition;
     private boolean isLoading = true;
     @Nullable
-    private Consent consent;
+    private RequiredConsent consent;
 
     ConsentView(final ConsentDefinition definition) {
         this.definition = definition;
@@ -40,18 +41,18 @@ public class ConsentView {
         return definition.getVersion();
     }
 
-    ConsentView storeConsent(Consent consent) {
+    ConsentView storeConsent(RequiredConsent consent) {
         this.consent = consent;
         this.isLoading = false;
         return this;
     }
 
     boolean isEnabled() {
-        return consent == null || definition.getVersion() >= consent.getVersion();
+        return consent != null && consent.isChangeable();
     }
 
     boolean isChecked() {
-        return consent != null && consent.getStatus().equals(ConsentStatus.active) && consent.getVersion() == definition.getVersion();
+        return consent !=null && consent.isAccepted();
     }
 
     ConsentDefinition getDefinition() {
@@ -59,11 +60,7 @@ public class ConsentView {
     }
 
     boolean isLoading() {
-        return isLoading;
-    }
-
-    void setNotFound() {
-        isLoading = false;
+        return consent == null || consent.getConsent() == null;
     }
 
     @Override

@@ -7,6 +7,8 @@
 
 package com.philips.platform.catk.model;
 
+import com.philips.platform.catk.mapper.LocaleMapper;
+
 import org.joda.time.DateTime;
 
 import java.util.Locale;
@@ -23,6 +25,13 @@ public class Consent {
         this.status = status;
         this.type = type;
         this.version = version;
+    }
+
+    public Consent(ConsentDefinition definition, ConsentStatus status) {
+        this.status = status;
+        this.locale = LocaleMapper.toLocale(definition.getLocaleString());
+        this.type = definition.getType();
+        this.version = definition.getVersion();
     }
 
     public Locale getLocale() {

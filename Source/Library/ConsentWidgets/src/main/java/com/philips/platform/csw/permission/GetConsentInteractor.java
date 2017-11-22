@@ -12,16 +12,19 @@ import android.support.annotation.NonNull;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.model.Consent;
+import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.catk.model.RequiredConsent;
 import com.philips.platform.csw.utils.CswLogger;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class GetConsentInteractor {
+public class GetConsentInteractor {
 
     interface Callback {
-        void onConsentRetrieved(@NonNull final List<ConsentView> consent);
+        void onConsentRetrieved(@NonNull final Map<String, RequiredConsent> consent);
 
         void onConsentFailed(int error);
     }
@@ -29,32 +32,31 @@ class GetConsentInteractor {
     @NonNull
     private final ConsentAccessToolKit consentAccessToolKit;
     @NonNull
-    private final List<ConsentView> consentDefinitionList;
+    private final List<ConsentDefinition> definitions;
 
-    GetConsentInteractor(@NonNull final ConsentAccessToolKit consentAccessToolKit, @NonNull final List<ConsentView> consentDefinitionList) {
+    public GetConsentInteractor(@NonNull final ConsentAccessToolKit consentAccessToolKit, @NonNull final List<ConsentDefinition> definitions) {
         this.consentAccessToolKit = consentAccessToolKit;
-        this.consentDefinitionList = consentDefinitionList;
+        this.definitions = definitions;
     }
 
     void getConsents(@NonNull final Callback callback) {
-        consentAccessToolKit.getConsentDetails(new ConsentViewResponseListener(consentDefinitionList, callback));
+        consentAccessToolKit.getConsentDetails(new ConsentViewResponseListener(definitions, callback));
     }
 
-    class ConsentViewResponseListener implements ConsentResponseListener {
+    private class ConsentViewResponseListener implements ConsentResponseListener {
 
-        private List<ConsentView> consentViews;
+        private List<ConsentDefinition> consentDefinitions;
         private Callback callback;
 
-        ConsentViewResponseListener(@NonNull final List<ConsentView> consentViews, @NonNull final Callback callback) {
-            this.consentViews = consentViews;
+        ConsentViewResponseListener(@NonNull final List<ConsentDefinition> consentDefinitions, @NonNull final Callback callback) {
+            this.consentDefinitions = consentDefinitions;
             this.callback = callback;
         }
 
         @Override
         public void onResponseSuccessConsent(List<Consent> responseData) {
             if (responseData != null && !responseData.isEmpty()) {
-                filterConsentsByDefinitions(responseData);
-                callback.onConsentRetrieved(consentViews);
+                callback.onConsentRetrieved(filterConsentsByDefinitions(responseData));
             } else {
                 this.callback.onConsentFailed(-1);
                 CswLogger.d(" Consent : ", "no consent for type found on server");
@@ -68,16 +70,13 @@ class GetConsentInteractor {
             return 0;
         }
 
-        private void filterConsentsByDefinitions(List<Consent> receivedConsents) {
+        private Map<String, RequiredConsent> filterConsentsByDefinitions(List<Consent> receivedConsents) {
             Map<String, Consent> consentsMap = toMap(receivedConsents);
-            for (ConsentView consentView : consentViews) {
-                Consent consent = consentsMap.get(consentView.getType());
-                if (consent != null) {
-                    consentView.storeConsent(consent);
-                } else {
-                    consentView.setNotFound();
-                }
+            Map<String, RequiredConsent> requiredConsents = new HashMap<>();
+            for (ConsentDefinition definition : definitions) {
+                requiredConsents.put(definition.getType(), new RequiredConsent(consentsMap.get(definition.getType()), definition));
             }
+            return requiredConsents;
         }
 
         private Map<String, Consent> toMap(List<Consent> responseData) {

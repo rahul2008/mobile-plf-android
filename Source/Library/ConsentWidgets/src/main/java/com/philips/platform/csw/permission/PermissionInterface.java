@@ -17,5 +17,4 @@ public interface PermissionInterface {
 
     void hideProgressDialog();
 
-    void onConsentRetrieved(@NonNull final List<ConsentView> consent);
 }
