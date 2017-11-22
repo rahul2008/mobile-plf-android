@@ -19,6 +19,9 @@ import com.philips.platform.catk.listener.NetworkErrorListener;
 
 public class ConsentNetworkError implements NetworkErrorListener {
 
+    private static final String UNKNOWN_SERVER_ERROR = "Unknown server error";
+    private static final String UNKNOWN_VOLLEY_ERROR = "Unknown volley error";
+    private static final String UKNOWN_NETWORK_ERROR = "Unknown network error";
     private ServerError mServerError;
     private VolleyError mVolleyError;
     private int mErrorCode = CatkConstants.CONSENT_SUCCESS;
@@ -52,16 +55,17 @@ public class ConsentNetworkError implements NetworkErrorListener {
         if (mCustomErrorMessage != null) {
             return mCustomErrorMessage;
         } else if (mServerError != null) {
-            if (mServerError.getErrors() == null || mServerError.getErrors().get(0) == null) {
-                return null;
+            if (mServerError.getDescription() != null) {
+                return mServerError.getDescription();
             }
-            return mServerError.getErrors().get(0).getMessage();
+            return UNKNOWN_SERVER_ERROR;
         } else if (mVolleyError != null) {
             if (mVolleyError.getMessage() != null) {
+                return mVolleyError.getMessage();
             }
-            return mVolleyError.getMessage();
+            return UNKNOWN_VOLLEY_ERROR;
         }
-        return null;
+        return UKNOWN_NETWORK_ERROR;
     }
 
     public void setCustomErrorMessage(String errorMessage) {
@@ -84,25 +88,19 @@ public class ConsentNetworkError implements NetworkErrorListener {
         return mErrorCode;
     }
 
+    public ServerError getServerError() {
+        return mServerError;
+    }
+
     private void setServerError(VolleyError error) {
         try {
             if (error.networkResponse != null) {
                 String errorString = new String(error.networkResponse.data);
                 mServerError = new Gson().fromJson(errorString, ServerError.class);
-                checkInsufficientStockError(mServerError);
             }
         } catch (Exception e) {
             Log.e("Network error", e.getMessage());
-        }
-    }
-
-    private void checkInsufficientStockError(ServerError serverError) {
-        if (serverError == null || serverError.getErrors() == null
-                || serverError.getErrors().get(0) == null) {
-            return;
-        }
-        if ("InsufficientStockError".equals(serverError.getErrors().get(0).getType())) {
-            mErrorCode = CatkConstants.CONSENT_ERROR_INSUFFICIENT_STOCK_ERROR;
+            mServerError = null;
         }
     }
 }

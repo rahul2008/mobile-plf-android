@@ -7,17 +7,32 @@
 
 package com.philips.platform.catk.error;
 
-import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class ServerError {
 
-    private List<Error> errors;
+    @SerializedName("incidentID")
+    @Expose
+    private String incidentID;
 
-    public List<Error> getErrors() {
-        return errors;
+    @SerializedName("errorCode")
+    @Expose
+    private int errorCode;
+
+    @SerializedName("description")
+    @Expose
+    private String description;
+
+    public String getIncidentID() {
+        return incidentID;
     }
 
-    public void setErrors(List<Error> errors) {
-        this.errors = errors;
+    public int getErrorCode() {
+        return errorCode;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
