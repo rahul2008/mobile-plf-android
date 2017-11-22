@@ -7,7 +7,6 @@ package com.philips.platform.ths.onboardingtour;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.welcome.THSPreWelcomeFragment;
 
 import java.util.ArrayList;
@@ -100,6 +99,6 @@ class OnBoardingTourPresenter implements THSBasePresenter {
     private void launchPreWelcomeScreen() {
         onBoardingTourFragment.popSelfBeforeTransition();
         THSPreWelcomeFragment thsPreWelcomeFragment = new THSPreWelcomeFragment();
-        onBoardingTourFragment.addFragment(thsPreWelcomeFragment, THSRegistrationFragment.TAG, null, false);
+        onBoardingTourFragment.addFragment(thsPreWelcomeFragment, THSPreWelcomeFragment.TAG, null, false);
     }
 }

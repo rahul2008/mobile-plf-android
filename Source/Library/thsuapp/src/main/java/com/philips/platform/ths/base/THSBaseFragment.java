@@ -27,6 +27,7 @@ import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSNetworkStateListener;
 import com.philips.platform.ths.utility.THSTagUtils;
+import com.philips.platform.ths.welcome.THSPreWelcomeFragment;
 import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -294,6 +295,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
             Fragment welComeFragment = fragmentManager.findFragmentByTag(THSWelcomeFragment.TAG);
             Fragment welComeBackFragment = fragmentManager.findFragmentByTag(THSWelcomeBackFragment.TAG);
             Fragment tHSInitFragment = fragmentManager.findFragmentByTag(THSInitFragment.TAG);
+            Fragment thsPreWelcomeFragment = fragmentManager.findFragmentByTag(THSPreWelcomeFragment.TAG);
 
             if (welComeFragment != null) {
                 fragmentManager.popBackStack(THSWelcomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -301,6 +303,8 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 fragmentManager.popBackStack(THSWelcomeBackFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             } else if (tHSInitFragment != null) {
                 fragmentManager.popBackStack(THSInitFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            } else if(thsPreWelcomeFragment != null){
+                fragmentManager.popBackStack(THSPreWelcomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
         THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,"exitToPropositon","toUgrowPage");

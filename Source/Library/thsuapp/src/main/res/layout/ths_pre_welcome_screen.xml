@@ -13,10 +13,23 @@
         />
 
     <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_terms_and_conditions_cross"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="24dp"
+        android:textSize="32dp"
+        android:paddingStart="@dimen/ths_fab_margin"
+        fontPath="fonts/iconfont.ttf"
+        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+        android:text="@string/dls_cross_bold" />
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_see_a_provider"
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
         android:layout_width="wrap_content"
+        android:layout_below="@+id/ths_terms_and_conditions_cross"
         android:layout_height="wrap_content"
         style="@style/ths_body_text_pre_welcome_bold"
         android:layout_marginBottom="@dimen/ths_fab_margin"
