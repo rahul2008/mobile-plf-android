@@ -45,7 +45,7 @@ public class GetConsentInteractorTest {
     @Mock private ConsentAccessToolKit mockContentAccessToolkit;
     @Mock private GetConsentInteractor.Callback mockCallback;
     @Captor private ArgumentCaptor<GetConsentInteractor.ConsentViewResponseListener> captorConsentDetails;
-    @Captor private ArgumentCaptor<Map<String, RequiredConsent>> captorRequiredMap;
+    @Captor private ArgumentCaptor<List<RequiredConsent>> captorRequired;
 
     private List<ConsentDefinition> givenConsentDefinitions;
 
@@ -87,7 +87,7 @@ public class GetConsentInteractorTest {
         andResponseIs(new Consent(Locale.CANADA, ConsentStatus.active, "type", 0));
 
         thenConsentRetrievedIsReported();
-        assertEquals(1, captorRequiredMap.getValue().size());
+        assertEquals(1, captorRequired.getValue().size());
     }
 
     private void givenAccessToolkitWithConsentDefinitions(ConsentDefinition... consentDefinitions) {
@@ -122,7 +122,7 @@ public class GetConsentInteractorTest {
     }
 
     private void thenConsentRetrievedIsReported() {
-        verify(mockCallback).onConsentRetrieved(captorRequiredMap.capture());
+        verify(mockCallback).onConsentRetrieved(captorRequired.capture());
     }
 
     @NonNull

@@ -21,6 +21,7 @@ import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkController;
 import com.philips.platform.catk.provider.AppInfraInfo;
+import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
 
 import org.junit.After;
 import org.junit.Before;
@@ -31,6 +32,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.Locale;
 
@@ -40,6 +42,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class ConsentAccessToolKitTest {
 
     private static final String COUNTRY_CODE = "IN";
