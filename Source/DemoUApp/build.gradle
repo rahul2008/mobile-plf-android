@@ -157,35 +157,45 @@ dependencies {
 
     def dp = project.ext.has('useprojectdependencies')
 
-    def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    compile(dp ? project(':usr') : usrModule)
-            {
-                transitive true
-            }
+    if(dp) {
+        project(':usr')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
+            transitive = true
+        }
+    }
 
-    def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
-    compile(dp ? project(':ufw') : ufwModule)
-            {
-                transitive true
-            }
+    if(dp) {
+        project(':ufw')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {            
+            transitive = true
+        }
+    }
 
-    def dscModule = module(group: 'com.philips.cdp', name: 'dataServicesUApp', version: versions.dsc_dataServices + objcdp.getVersionSuffix(), ext: 'aar')
-    compile(dp ? project(':dscUApp') : dscModule)
-            {
-                exclude group: 'com.android.support'
-                exclude group: 'joda-time', module: 'joda-time'
-                exclude group: 'com.google.code.findbugs', module: 'jsr305'
-                transitive true
-            }
+    if(dp) {
+        project(':dscUApp')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'dataServicesUApp', version: versions.dsc_dataServices + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
+            exclude group: 'com.android.support'
+            exclude group: 'joda-time', module: 'joda-time'
+            transitive = true
+        }
+    }
 
-    def commlibModule = module(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
-    compile(dp ? project(':commlib') : commlibModule)
-            {
-                exclude group: 'com.android.support'
-            }
+    if(dp) {
+        project(':commlib')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true) {            
+            exclude group: 'com.android.support'
+        }
+    }
 
-    def cloudcontrollerModule = module(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
-    compile(dp ? project(':cloudcontroller') : cloudcontrollerModule)
+    if(dp) {
+        project(':cloudcontroller')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
+    }
 
     //Android Support libraries
     compile 'com.android.support:support-fragment:26.0.2'
