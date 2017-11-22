@@ -227,17 +227,24 @@ dependencies {
     testCompile 'junit:junit:4.12'
     def dp = project.ext.has('useprojectdependencies')
 
-    def pseModule = module(group: 'com.philips.cdp', name: 'productselection', version: versions.pse_productselection + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-        compile(dp ? project(':pse') : pseModule)
+    if(dp) {
+        project(':pse')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'productselection', version: versions.pse_productselection + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
         {
             transitive = true
         }
+    }
 
-    def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    compile(dp ? project(':uid') : uidModule)
-            {
-                transitive = true
-            }
+    if(dp) {
+        project(':uid')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+        {
+            transitive = true
+        }
+    }
+    
     compile 'com.google.android.gms:play-services-maps:11.0.4'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
