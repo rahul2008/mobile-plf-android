@@ -13,7 +13,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PermissionPresenterTest {
@@ -24,14 +23,13 @@ public class PermissionPresenterTest {
     GetConsentInteractor mockGetInteractor;
     @Mock
     CreateConsentInteractor mockCreateInteractor;
-    @Mock private PermissionAdapter mockAdapter;
+    @Mock
+    private PermissionAdapter mockAdapter;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        List<ConsentView> consentViews = new ArrayList<>();
-        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, mockGetInteractor, mockCreateInteractor, consentViews,
-                mockAdapter);
+        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, mockGetInteractor, mockCreateInteractor, mockAdapter);
     }
 
     @Test

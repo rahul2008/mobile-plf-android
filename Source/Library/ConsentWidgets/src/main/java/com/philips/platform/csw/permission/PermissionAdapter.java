@@ -102,6 +102,11 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
         return NOT_FOUND;
     }
 
+    @NonNull
+    List<ConsentView> getConsentViews() {
+        return items;
+    }
+
     static class PermissionViewHolder extends RecyclerView.ViewHolder {
 
         private Switch toggle;
