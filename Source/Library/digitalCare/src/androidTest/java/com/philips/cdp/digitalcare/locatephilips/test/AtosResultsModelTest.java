@@ -60,23 +60,6 @@ public class AtosResultsModelTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testInfoType() {
-		ArrayList<AtosResultsModel> resultList = getResultModelList("atos.json");
-		for (int i = 0; i < resultList.size(); i++) {
-			String received = resultList.get(i).getInfoType();
-			assertNotNull(received);
-		}
-	}
-
-	public void testwithoutInfoType() {
-
-		ArrayList<AtosResultsModel> resultList = getResultModelList("atos_no_infotype.json");
-		for (int i = 0; i < resultList.size(); i++) {
-			String received = resultList.get(i).getInfoType();
-			assertTrue(received.isEmpty());
-		}
-	}
-
 	public void testAddressModel() {
 
 		ArrayList<AtosResultsModel> resultList = getResultModelList("atos.json");
