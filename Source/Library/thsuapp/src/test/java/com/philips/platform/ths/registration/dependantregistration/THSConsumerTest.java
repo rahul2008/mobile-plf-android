@@ -135,8 +135,8 @@ public class THSConsumerTest {
 
     @Test
     public void getHsdoToken() throws Exception {
-        thsConsumer.setHsdoToken("1234");
-        final String hsdoToken = thsConsumer.getHsdoToken();
+        thsConsumer.setHsdpToken("1234");
+        final String hsdoToken = thsConsumer.getHsdpToken();
         assertNotNull(hsdoToken);
         assertThat(hsdoToken).isInstanceOf(String.class);
     }

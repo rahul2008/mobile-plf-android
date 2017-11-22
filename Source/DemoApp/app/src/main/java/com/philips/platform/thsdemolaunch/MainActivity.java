@@ -8,9 +8,6 @@ package com.philips.platform.thsdemolaunch;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
@@ -45,8 +42,6 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -168,12 +163,12 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input", this);
         PTHMicroAppInterface = new THSMicroAppInterfaceImpl();
 
-        Drawable drawable = getResources().getDrawable(R.drawable.ths_welcome,getTheme());
+        /*Drawable drawable = getResources().getDrawable(R.drawable.ths_welcome,getTheme());
         BitmapDrawable bitmapDrawable = ((BitmapDrawable) drawable);
         Bitmap bitmap = bitmapDrawable.getBitmap();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream); //use the compression format of your need
-        ByteArrayInputStream is = new ByteArrayInputStream(stream.toByteArray());
+        ByteArrayInputStream is = new ByteArrayInputStream(stream.toByteArray());*/
 
         User user = new User(this);
         THSConsumer thsConsumer = new THSConsumer();
@@ -181,7 +176,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         THSConsumer baby = new THSConsumer();
         baby.setFirstName("baby1");
         baby.setLastName("Hosur");
-        baby.setHsdoToken(user.getHsdpAccessToken());
+        baby.setHsdpToken(user.getHsdpAccessToken());
         baby.setGender(Gender.MALE);
         baby.setEmail(user.getEmail());
         Calendar calendar = Calendar.getInstance();
@@ -193,14 +188,14 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         baby.setBloodPressureDiastolic("80");
         baby.setTemperature(90.0);
         baby.setWeight(56);
-        baby.setProfilePic(is);
+      //  baby.setProfilePic(is);
         ArrayList dependants = new ArrayList();
         dependants.add(baby);
 
         THSConsumer baby2 = new THSConsumer();
         baby2.setFirstName("baby2");
         baby2.setLastName("Hallur");
-        baby2.setHsdoToken("0190c6eb-b8ad-4d3c-a7b3-fee0ace65d78_12390");
+        baby2.setHsdpToken("0190c6eb-b8ad-4d3c-a7b3-fee0ace65d78_12390");
         baby2.setGender(Gender.FEMALE);
         baby2.setEmail(user.getEmail());
         Calendar calendar2 = Calendar.getInstance();
@@ -212,7 +207,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         baby2.setBloodPressureDiastolic("80");
         baby2.setTemperature(90.0);
         baby2.setWeight(56);
-        baby2.setProfilePic(is);
+       // baby2.setProfilePic(is);
         //ArrayList dependants = new ArrayList();
         dependants.add(baby2);
 
@@ -220,7 +215,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         thsConsumer.setEmail(user.getEmail());
         thsConsumer.setFirstName(user.getGivenName());
         thsConsumer.setGender(Gender.FEMALE);
-        thsConsumer.setHsdoToken(user.getHsdpAccessToken());
+        thsConsumer.setHsdpToken(user.getHsdpAccessToken());
         thsConsumer.setLastName(user.getFamilyName());
         thsConsumer.setDependents(dependants);
         thsConsumer.setHsdpUUID(user.getHsdpUUID());
