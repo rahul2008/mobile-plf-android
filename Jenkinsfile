@@ -35,7 +35,7 @@ node ('android&&docker') {
                         chmod -R 775 . 
                         cd ./Source/Library/PrxSample
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
-                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease saveResDep zipDocuments artifactoryPublish
                     '''
     			}
 			}
