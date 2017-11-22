@@ -27,6 +27,7 @@ import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.ColorsUtil;
 import com.philips.cdp2.ews.util.TextUtil;
 import com.philips.platform.uid.drawable.FontIconDrawable;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
@@ -79,7 +80,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
     public void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration) {
         if (getChildFragmentManager().findFragmentByTag(AlertDialogFragment.class.getCanonicalName()) == null) {
             Context context = getContext();
-            final View view = LayoutInflater.from(context).inflate(R.layout.troubleshoot_home_wifi_fragment,
+            final View view = LayoutInflater.from(context).cloneInContext(UIDHelper.getPopupThemedContext(context)).inflate(R.layout.troubleshoot_home_wifi_fragment,
                     null, false);
 
             AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context)

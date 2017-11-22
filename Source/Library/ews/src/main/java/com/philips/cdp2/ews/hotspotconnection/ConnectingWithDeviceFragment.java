@@ -23,6 +23,7 @@ import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -80,7 +81,7 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
     @Override
     public void showTroubleshootHomeWifiDialog(@NonNull  BaseContentConfiguration baseContentConfiguration) {
         Context context = getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.ews_device_conn_unsuccessful_dialog,
+        View view = LayoutInflater.from(context).cloneInContext(UIDHelper.getPopupThemedContext(context)).inflate(R.layout.ews_device_conn_unsuccessful_dialog,
                 null, false);
 
         EWSAlertDialogFragment.Builder builder = new EWSAlertDialogFragment.Builder(context)

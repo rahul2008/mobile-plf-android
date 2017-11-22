@@ -23,6 +23,7 @@ import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -51,7 +52,7 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     @VisibleForTesting
     public void showCancelDialog(@StringRes int deviceName) {
         Context context = getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.cancel_setup_dialog,
+        View view = LayoutInflater.from(context).cloneInContext(UIDHelper.getPopupThemedContext(context)).inflate(R.layout.cancel_setup_dialog,
                 null, false);
 
         AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context)
