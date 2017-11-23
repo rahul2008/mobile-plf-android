@@ -7,12 +7,15 @@
 
 package com.philips.platform.catk.dto;
 
+
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,8 +56,12 @@ public class GetConsentsModelRequest extends NetworkAbstractModel {
 
     @Override
     public String getUrl() {
-        return new StringBuilder(url).append(url.endsWith("/") ? "" : "/").append(ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID())
-                .append("?applicationName=")
-                .append(mApplicationName).append("&propositionName=").append(mPropositionName).toString();
+        try {
+            return new StringBuilder(url).append(url.endsWith("/") ? "" : "/").append(ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpUUID())
+                    .append("?applicationName=")
+                    .append(URLEncoder.encode(mApplicationName, "UTF-8")).append("&propositionName=").append(URLEncoder.encode(mPropositionName, "UTF-8")).toString();
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("incorrect enconding definition");
+        }
     }
 }
