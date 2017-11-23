@@ -86,7 +86,7 @@ public class PowerSleepConnectivityFragmentTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         activityController = Robolectric.buildActivity(TestActivity.class);
-        testActivity = activityController.create().start().get();
+        testActivity = activityController.create().start().resume().get();
         connectivityFragment = new ConnectivityFragmentMock();
         testActivity.getSupportFragmentManager().beginTransaction().add(connectivityFragment, null).commit();
         sleepScoretextView=connectivityFragment.getView().findViewById(R.id.sleepoverview_score);
