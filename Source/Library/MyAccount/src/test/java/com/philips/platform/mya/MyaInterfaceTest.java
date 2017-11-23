@@ -11,6 +11,7 @@ import android.content.Context;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.catk.injection.CatkComponent;
+import com.philips.platform.mya.injection.MyaDependencyComponent;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
@@ -40,6 +41,23 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class MyaInterfaceTest {
+    private MyaInterface myaInterface;
+
+    private UiLauncher givenUiLauncher;
+    private ActivityLauncherMock givenActivityLauncher;
+    private FragmentLauncherMock givenFragmentLauncher;
+    private MyaLaunchInput givenLaunchInput;
+
+    private ActionBarListener actionBarListener;
+    private FragmentActivityMock fragmentActivity;
+    private FragmentTransactionMock fragmentTransaction;
+    private FragmentManagerMock fragmentManager;
+    private LaunchInputMock launchInput;
+    private AppInfraInterfaceMock appInfra;
+    private Context context;
+
+    private final int A_SPECIFIC_CONTAINER_ID = 12345678;
+    public static final String MYAFRAGMENT = MY_ACCOUNTS_CALLEE_TAG;
 
     @Mock
     User mockUser;
@@ -146,22 +164,5 @@ public class MyaInterfaceTest {
         assertNotNull(launchInput.context.startActivity_intent);
     }
 
-    private MyaInterface myaInterface;
-
-    private UiLauncher givenUiLauncher;
-    private ActivityLauncherMock givenActivityLauncher;
-    private FragmentLauncherMock givenFragmentLauncher;
-    private MyaLaunchInput givenLaunchInput;
-
-    private ActionBarListener actionBarListener;
-    private FragmentActivityMock fragmentActivity;
-    private FragmentTransactionMock fragmentTransaction;
-    private FragmentManagerMock fragmentManager;
-    private LaunchInputMock launchInput;
-    private AppInfraInterfaceMock appInfra;
-    private Context context;
-
-    private final int A_SPECIFIC_CONTAINER_ID = 12345678;
-    public static final String MYAFRAGMENT = MY_ACCOUNTS_CALLEE_TAG;
 
 }
