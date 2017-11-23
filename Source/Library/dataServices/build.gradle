@@ -155,6 +155,7 @@ android {
         versionName version + "(" + objcdp.getCommitHash() + ")"
         testApplicationId "com.philips.platform.dataservices.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        consumerProguardFiles 'proguard-rules.pro'
         generatedDensities = []
         manifestPlaceholders = ['appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp']
     }
