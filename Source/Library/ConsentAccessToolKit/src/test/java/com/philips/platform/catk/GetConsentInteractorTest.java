@@ -7,13 +7,12 @@
 
 package com.philips.platform.catk;
 
-import android.support.annotation.NonNull;
-
-import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.android.volley.VolleyError;
+import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.mock.LoggingInterfaceMock;
 import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.catk.model.RequiredConsent;
 import com.philips.platform.catk.utils.CatkLogger;
 
@@ -30,10 +29,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
 
@@ -42,17 +40,19 @@ public class GetConsentInteractorTest {
 
     GetConsentInteractor subject;
 
-    @Mock private ConsentAccessToolKit mockContentAccessToolkit;
-    @Mock private GetConsentInteractor.Callback mockCallback;
-    @Captor private ArgumentCaptor<GetConsentInteractor.ConsentViewResponseListener> captorConsentDetails;
-    @Captor private ArgumentCaptor<List<RequiredConsent>> captorRequired;
-
-    private List<ConsentDefinition> givenConsentDefinitions;
+    @Mock
+    private ConsentAccessToolKit mockContentAccessToolkit;
+    @Mock
+    private GetConsentInteractor.Callback mockCallback;
+    @Captor
+    private ArgumentCaptor<GetConsentInteractor.ConsentViewResponseListener> captorConsentDetails;
+    @Captor
+    private ArgumentCaptor<List<RequiredConsent>> captorRequired;
 
     @Before
     public void setUp() throws Exception {
-       CatkLogger.disableLogging();
-       CatkLogger.setLoggerInterface(new LoggingInterfaceMock());
+        CatkLogger.disableLogging();
+        CatkLogger.setLoggerInterface(new LoggingInterfaceMock());
     }
 
     @Test
@@ -63,19 +63,20 @@ public class GetConsentInteractorTest {
     }
 
     @Test
-    public void itShouldReportConsentFailedWhenEmptyResponse() throws Exception {
+    public void itShouldReportConsentRetrievedWhenEmptyResponse() throws Exception {
         givenAccessToolkitWithConsentDefinitions();
         whenGetConsentCalled();
         andResponseIsEmpty();
 
-        thenConsentFailedIsReported();
+        thenConsentRetrievedIsReported();
+        andConsentListContainsNumberOfItems(0);
     }
 
     @Test
     public void itShouldReportConsentFailedWhenResponseFails() throws Exception {
         givenAccessToolkitWithConsentDefinitions();
         whenGetConsentCalled();
-        andResponseFailsWithError(400);
+        andResponseFailsWithError(new ConsentNetworkError(new VolleyError()));
 
         thenConsentFailedIsReported();
     }
@@ -87,11 +88,11 @@ public class GetConsentInteractorTest {
         andResponseIs(new Consent(Locale.CANADA, ConsentStatus.active, "type", 0));
 
         thenConsentRetrievedIsReported();
-        assertEquals(1, captorRequired.getValue().size());
+        andConsentListContainsNumberOfItems(1);
     }
 
     private void givenAccessToolkitWithConsentDefinitions(ConsentDefinition... consentDefinitions) {
-        givenConsentDefinitions = new ArrayList<>(consentDefinitions.length);
+        List<ConsentDefinition> givenConsentDefinitions = new ArrayList<>(consentDefinitions.length);
         Collections.addAll(givenConsentDefinitions, consentDefinitions);
         subject = new GetConsentInteractor(mockContentAccessToolkit, givenConsentDefinitions);
     }
@@ -100,7 +101,7 @@ public class GetConsentInteractorTest {
         subject.fetchLatestConsents(mockCallback);
     }
 
-    private void andResponseFailsWithError(int error) {
+    private void andResponseFailsWithError(ConsentNetworkError error) {
         verify(mockContentAccessToolkit).getConsentDetails(captorConsentDetails.capture());
         captorConsentDetails.getValue().onResponseFailureConsent(error);
     }
@@ -108,6 +109,7 @@ public class GetConsentInteractorTest {
     private void andResponseIsEmpty() {
         andResponseIs();
     }
+
     private void andResponseIs(Consent... response) {
         verify(mockContentAccessToolkit).getConsentDetails(captorConsentDetails.capture());
         captorConsentDetails.getValue().onResponseSuccessConsent(Arrays.asList(response));
@@ -118,31 +120,15 @@ public class GetConsentInteractorTest {
     }
 
     private void thenConsentFailedIsReported() {
-        verify(mockCallback).onGetConsentFailed(anyInt());
+        verify(mockCallback).onGetConsentFailed(any(ConsentNetworkError.class));
     }
 
     private void thenConsentRetrievedIsReported() {
         verify(mockCallback).onGetConsentRetrieved(captorRequired.capture());
     }
 
-    @NonNull
-    private LoggingInterface emptyLogger() {
-        return new LoggingInterface() {
-            @Override
-            public LoggingInterface createInstanceForComponent(String s, String s1) {
-                return this;
-            }
-
-            @Override
-            public void log(LogLevel logLevel, String s, String s1) {
-
-            }
-
-            @Override
-            public void log(LogLevel logLevel, String s, String s1, Map<String, ?> map) {
-
-            }
-        };
+    private void andConsentListContainsNumberOfItems(int expectedNumberOfItems) {
+        assertEquals(expectedNumberOfItems, captorRequired.getValue().size());
     }
 
 }

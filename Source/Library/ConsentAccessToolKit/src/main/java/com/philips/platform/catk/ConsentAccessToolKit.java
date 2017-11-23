@@ -91,9 +91,8 @@ public class ConsentAccessToolKit {
                     @Override
                     public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
                         List<Consent> consents = new ArrayList<>();
-                        DtoToConsentMapper mapper = new DtoToConsentMapper();
                         for (GetConsentDto dto : dtos) {
-                            consents.add(mapper.map(dto));
+                            consents.add(DtoToConsentMapper.map(dto));
                         }
                         consentListener.onResponseSuccessConsent(consents);
                     }

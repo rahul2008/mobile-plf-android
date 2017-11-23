@@ -21,7 +21,7 @@ public class ModelDataLoadListenerMock implements NetworkAbstractModel.DataLoadL
     }
 
     @Override
-    public int onModelDataError(ConsentNetworkError error) {
-        return 0;
+    public void onModelDataError(ConsentNetworkError error) {
+
     }
 }

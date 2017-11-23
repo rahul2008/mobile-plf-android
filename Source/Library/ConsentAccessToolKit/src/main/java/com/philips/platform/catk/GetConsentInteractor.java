@@ -57,6 +57,7 @@ public class GetConsentInteractor {
                 callback.onGetConsentRetrieved(filterConsentsByDefinitions(responseData));
             } else {
                 CatkLogger.d(" Consent : ", "no consent for type found on server");
+                callback.onGetConsentRetrieved(new ArrayList<RequiredConsent>());
             }
         }
 
