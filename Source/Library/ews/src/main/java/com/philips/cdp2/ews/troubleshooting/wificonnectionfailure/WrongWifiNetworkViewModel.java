@@ -20,7 +20,7 @@ import javax.inject.Inject;
 public class WrongWifiNetworkViewModel {
 
     @NonNull
-    public final ObservableField<String> upperDescription, lowerDescription;
+    public final ObservableField<String> upperDescription, lowerDescription, stepFourText;
 
     @NonNull
     private final Navigator navigator;
@@ -35,7 +35,8 @@ public class WrongWifiNetworkViewModel {
     public WrongWifiNetworkViewModel(@NonNull Navigator navigator, @NonNull BaseContentConfiguration baseContentConfiguration) {
         this.navigator = navigator;
         upperDescription = new ObservableField<>();
-        lowerDescription= new ObservableField<>();
+        lowerDescription = new ObservableField<>();
+        stepFourText = new ObservableField<>();
         this.baseContentConfiguration = baseContentConfiguration;
     }
 
@@ -45,6 +46,9 @@ public class WrongWifiNetworkViewModel {
 
     void setLowerDescription(@NonNull String name) {
         lowerDescription.set(name);
+    }
+    void setStepFourText(@NonNull String name) {
+        stepFourText.set(name);
     }
 
     public void onButtonClick() {

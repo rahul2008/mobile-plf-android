@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_body_labels_margin"
-                android:text="@{viewModel.appName}"
+                android:text="@{viewModel.stepFourText}"
                 tools:text="@string/label_ews_phone_reconnected_different_network_step_4"/>
 
             <ImageView
