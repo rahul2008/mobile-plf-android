@@ -71,7 +71,7 @@ public class DataPullSynchronise {
     @Inject
     public DataPullSynchronise(@NonNull final List<? extends DataFetcher> fetchers) {
         dataServicesManager = DataServicesManager.getInstance();
-        dataServicesManager.getAppComponant().injectDataPullSynchronize(this);
+        dataServicesManager.getAppComponent().injectDataPullSynchronize(this);
         this.fetchers = fetchers;
     }
 

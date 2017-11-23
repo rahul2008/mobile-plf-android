@@ -19,7 +19,6 @@ import java.util.List;
 
 import retrofit.converter.GsonConverter;
 
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -69,7 +68,7 @@ public class UserCharacteristicsMonitorTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        DataServicesManager.getInstance().setAppComponant(mAppComponentMock);
+        DataServicesManager.getInstance().setAppComponent(mAppComponentMock);
 
         userCharacteristicsMonitor = new UserCharacteristicsMonitor(
                 userCharacteristicsSenderMock,

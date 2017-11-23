@@ -34,7 +34,7 @@ public class MomentsConverter {
 
     @Inject
     public MomentsConverter() {
-        DataServicesManager.getInstance().getAppComponant().injectMomentsConverter(this);
+        DataServicesManager.getInstance().getAppComponent().injectMomentsConverter(this);
     }
 
     @NonNull

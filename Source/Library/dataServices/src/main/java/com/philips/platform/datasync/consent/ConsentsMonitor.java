@@ -32,7 +32,7 @@ public class ConsentsMonitor extends EventMonitor {
     public ConsentsMonitor(@NonNull ConsentDataSender consentDataSender, @NonNull ConsentsDataFetcher consentsDataFetcher) {
         this.consentDataSender = consentDataSender;
         this.consentsDataFetcher = consentsDataFetcher;
-        DataServicesManager.getInstance().getAppComponant().injectConsentsMonitor(this);
+        DataServicesManager.getInstance().getAppComponent().injectConsentsMonitor(this);
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)

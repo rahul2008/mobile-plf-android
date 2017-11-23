@@ -8,7 +8,6 @@ package com.philips.platform.dscdemo.moments;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,7 +45,7 @@ import java.util.List;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class MomentFragment extends DSBaseFragment
-        implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener {
+        implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener {
 
     private Context mContext;
 
@@ -62,6 +61,7 @@ public class MomentFragment extends DSBaseFragment
     private TextView mTvInsights;
     private TextView mTvMomentByDateRange;
     private TextView mTvSyncByDateRange;
+    private TextView mTvMomentsCount;
     private ImageButton mAddButton;
 
     private MomentAdapter mMomentAdapter;
@@ -69,7 +69,6 @@ public class MomentFragment extends DSBaseFragment
     private ProgressDialog mProgressDialog;
 
     private ArrayList<? extends Moment> mMomentList = new ArrayList();
-    private SharedPreferences mSharedPreferences;
     private Utility mUtility;
 
     @Override
@@ -97,7 +96,6 @@ public class MomentFragment extends DSBaseFragment
         userRegistrationInterface = new UserRegistrationHandler(mContext, mUser);
         mMomentPresenter = new MomentPresenter(mContext, this);
         mUtility = new Utility();
-        mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
     }
 
     @Override
@@ -118,6 +116,7 @@ public class MomentFragment extends DSBaseFragment
         mAddButton.setOnClickListener(this);
         mDeleteExpiredMomentsButton.setOnClickListener(this);
 
+        mTvMomentsCount = (TextView) view.findViewById(R.id.tv_moments_count);
         mTvAddMomentType = (TextView) view.findViewById(R.id.tv_add_moment_with_type);
         mTvLatestMoment = (TextView) view.findViewById(R.id.tv_last_moment);
         mTvMomentByDateRange = (TextView) view.findViewById(R.id.tv_moment_by_date_range);
@@ -151,7 +150,6 @@ public class MomentFragment extends DSBaseFragment
     public void onStart() {
         super.onStart();
         mDataServicesManager.registerDBChangeListener(this);
-        mDataServicesManager.registerSynchronisationCompleteListener(this);
 
         if (mUser != null && !mUser.isUserSignIn()) {
             Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
@@ -169,16 +167,13 @@ public class MomentFragment extends DSBaseFragment
 
         deleteUserDataIfNewUserLoggedIn();
 
-        mMomentPresenter.fetchData(this);
-
         if (!mUtility.isOnline(getContext())) {
             showToastOnUiThread("Please check your connection");
             return;
         }
 
-        if (!mSharedPreferences.getBoolean("isSynced", false)) {
-            showProgressDialog();
-        }
+        showProgressDialog();
+        mMomentPresenter.fetchData(this);
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
@@ -201,7 +196,6 @@ public class MomentFragment extends DSBaseFragment
     public void onStop() {
         super.onStop();
         DataServicesManager.getInstance().unRegisterDBChangeListener();
-        mDataServicesManager.unRegisterSynchronisationCosmpleteListener();
         dismissProgressDialog();
     }
 
@@ -260,24 +254,6 @@ public class MomentFragment extends DSBaseFragment
     }
 
     @Override
-    public void onSyncComplete() {
-        dismissProgressDialog();
-    }
-
-    @Override
-    public void onSyncFailed(final Exception exception) {
-        if (getActivity() == null) return;
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-              //  if (mSharedPreferences.getBoolean("isSynced", false)) {
-                    dismissProgressDialog();
-               // }
-            }
-        });
-    }
-
-    @Override
     public void dBChangeSuccess(SyncType type) {
         if (type != SyncType.MOMENT) return;
         mMomentPresenter.fetchData(MomentFragment.this);
@@ -291,10 +267,7 @@ public class MomentFragment extends DSBaseFragment
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mSharedPreferences.getBoolean("isSynced", false)) {
-                    dismissProgressDialog();
-                }
-
+                dismissProgressDialog();
             }
         });
     }
@@ -307,18 +280,12 @@ public class MomentFragment extends DSBaseFragment
             @Override
             public void run() {
                 mMomentList = (ArrayList<? extends Moment>) data;
+                mTvMomentsCount.setText("Moments Count : " + String.valueOf(mMomentList.size()));
+
                 mMomentAdapter.setData(mMomentList);
                 mMomentAdapter.notifyDataSetChanged();
 
-                if (mDataServicesManager.getSyncTypes() != null && mDataServicesManager.getSyncTypes().size() <= 0) {
-                    dismissProgressDialog();
-                    Toast.makeText(getContext(), "No Sync Types Configured", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                if (mSharedPreferences.getBoolean("isSynced", false)) {
-                    dismissProgressDialog();
-                }
+                dismissProgressDialog();
             }
         });
     }
@@ -350,9 +317,7 @@ public class MomentFragment extends DSBaseFragment
                     if (mContext != null)
                         Toast.makeText(mContext, "UI update Failed", Toast.LENGTH_SHORT).show();
                 }
-                if (mSharedPreferences.getBoolean("isSynced", false)) {
-                    dismissProgressDialog();
-                }
+                dismissProgressDialog();
             }
         });
     }
@@ -393,7 +358,6 @@ public class MomentFragment extends DSBaseFragment
     }
 
     private class DeleteExpiredMomentsListener implements DBRequestListener<Integer> {
-
         @Override
         public void onSuccess(List<? extends Integer> data) {
             MomentFragment.this.showToastOnUiThread(MomentFragment.this.getActivity().getString(R.string.deleted_expired_moments_count) + data.get(0));

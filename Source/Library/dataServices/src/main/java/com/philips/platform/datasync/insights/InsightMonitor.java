@@ -16,7 +16,6 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.joda.time.DateTime;
 
 import javax.inject.Inject;
 
@@ -36,7 +35,7 @@ public class InsightMonitor extends EventMonitor {
     public InsightMonitor(@NonNull InsightDataSender insightDataSender, @NonNull InsightDataFetcher insightDataFetcher) {
         this.insightDataSender  =  insightDataSender;
         this.insightDataFetcher = insightDataFetcher;
-        DataServicesManager.getInstance().getAppComponant().injectInsightMonitor(this);
+        DataServicesManager.getInstance().getAppComponent().injectInsightMonitor(this);
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)

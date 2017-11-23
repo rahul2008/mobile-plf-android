@@ -17,7 +17,7 @@ public class SettingsConverter {
 
     @Inject
     public SettingsConverter() {
-        DataServicesManager.getInstance().getAppComponant().injectSettingsConverter(this);
+        DataServicesManager.getInstance().getAppComponent().injectSettingsConverter(this);
     }
 
     public Settings convertUcoreToAppSettings(UCoreSettings uCoreSettings) {

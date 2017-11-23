@@ -36,7 +36,7 @@ public class SynchronisationManagerTest {
     @Before
     public void setUp() {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(appComponentMock);
+        DataServicesManager.getInstance().setAppComponent(appComponentMock);
         synchronisationManager = new SynchronisationManager();
         eventingSpy = new EventingSpy();
         eventingSpy.postedEvent = null;

@@ -35,11 +35,15 @@ public class DemoApplication extends MultiDexApplication {
     private static final String CHINA_CODE = "CN";
     private static final String DEFAULT = "default";
     private static final String URL_ENCODING = "UTF-8";
+    private static DemoApplication sDemoApplicationInstance = null;
     public AppInfraInterface mAppInfraInterface;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        sDemoApplicationInstance = this;
+
         initAppInfra();
 
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
@@ -310,6 +314,10 @@ public class DemoApplication extends MultiDexApplication {
                         configError);
                 break;
         }
+    }
+
+    public static DemoApplication getInstance() {
+        return sDemoApplicationInstance ;
     }
 
     public AppInfraInterface getAppInfra() {

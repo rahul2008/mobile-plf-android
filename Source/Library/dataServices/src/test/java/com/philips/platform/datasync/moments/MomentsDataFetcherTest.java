@@ -90,7 +90,7 @@ public class MomentsDataFetcherTest {
         setTowUserMoments();
         setOneMoment();
 
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         fetcher = new MomentsDataFetcher(coreAdapterMock, converterMock, gsonConverterMock);
         fetcher.eventing = eventingSpy;
         fetcher.accessProvider = accessProviderMock;
@@ -150,9 +150,7 @@ public class MomentsDataFetcherTest {
     public void fetchData_WithNoClient() {
         givenNoClient();
         whenFetchDataIsInvoked();
-        thenRetrofitErrorIsNull();
-        thenVerifyZeroInteractionsWith(momentsClientMock);
-
+        thenRetrofitErrorIsReturned("Client is not initialized");
     }
 
     @Test
@@ -278,5 +276,4 @@ public class MomentsDataFetcherTest {
         assertNotNull(retrofitError);
         assertTrue(retrofitError.getCause().getMessage().contains(message));
     }
-
 }

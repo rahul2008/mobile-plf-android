@@ -54,7 +54,7 @@ public class MomentsDataFetcher extends DataFetcher {
         super(uCoreAdapter);
         this.converter = converter;
         this.gsonConverter = gsonConverter;
-        DataServicesManager.getInstance().getAppComponant().injectMomentsDataFetcher(this);
+        DataServicesManager.getInstance().getAppComponent().injectMomentsDataFetcher(this);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class MomentsDataFetcher extends DataFetcher {
                     accessProvider.getAccessToken(), gsonConverter);
 
             if (client == null) {
-                return null;
+                return RetrofitError.unexpectedError("", new IllegalStateException("Client is not initialized"));
             }
 
             UCoreMomentsHistory momentsHistory = client.getMomentsHistory(accessProvider.getUserId(),

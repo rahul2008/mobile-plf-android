@@ -23,7 +23,7 @@ public class ConsentsConverter {
 
     @Inject
     public ConsentsConverter() {
-        DataServicesManager.getInstance().getAppComponant().injectConsentsConverter(this);
+        DataServicesManager.getInstance().getAppComponent().injectConsentsConverter(this);
     }
 
     @NonNull

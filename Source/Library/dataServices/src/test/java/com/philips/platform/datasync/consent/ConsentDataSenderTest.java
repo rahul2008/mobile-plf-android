@@ -2,23 +2,16 @@ package com.philips.platform.datasync.consent;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
-import com.philips.platform.core.events.SettingsBackendSaveRequest;
-import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.platform.datasync.settings.SettingsConverter;
-import com.philips.platform.datasync.settings.SettingsDataSender;
 import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
@@ -28,13 +21,9 @@ import java.util.List;
 import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -90,7 +79,7 @@ public class ConsentDataSenderTest {
     @Before
     public void setUp() {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         consentDataSender = new ConsentDataSender(uCoreAdapterMock, gsonConverterMock, consentsConverterMock);
         consentDataSender.eventing = eventingMock;
         consentDataSender.uCoreAccessProvider = uCoreAccessProviderMock;

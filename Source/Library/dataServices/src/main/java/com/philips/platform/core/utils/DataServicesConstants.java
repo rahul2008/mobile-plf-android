@@ -7,6 +7,8 @@ package com.philips.platform.core.utils;
 
 public class DataServicesConstants {
     public static final String DATA_SERVICES = "dataservices";
+
+    public static final String COMPONENT_NAME = "dsc";
     public static final String APPLICATION_NAME = "OneBackend";
     public static final String PROPOSITION_NAME = "OneBackendProp";
 

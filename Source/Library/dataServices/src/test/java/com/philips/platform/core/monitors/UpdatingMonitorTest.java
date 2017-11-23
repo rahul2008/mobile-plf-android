@@ -129,7 +129,7 @@ public class UpdatingMonitorTest {
     public void setUp() {
         initMocks(this);
         mDataServices = DataServicesManager.getInstance();
-        mDataServices.setAppComponant(appComponantMock);
+        mDataServices.setAppComponent(appComponantMock);
         mDataServices.registerDBChangeListener(dbChangeListener);
         updatingMonitor = new UpdatingMonitor(dbUpdatingInterface, dbDeletingInterface, dbFetchingInterface, dbSavingInterface);
         updatingMonitor.momentsSegregator = momentsSegregatorMock;

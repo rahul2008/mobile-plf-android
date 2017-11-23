@@ -64,7 +64,7 @@ public class MomentsDataSender extends DataSender {
             @NonNull final MomentsConverter momentsConverter,
             @NonNull final MomentGsonConverter momentGsonConverter) {
 
-        DataServicesManager.getInstance().getAppComponant().injectMomentsDataSender(this);
+        DataServicesManager.getInstance().getAppComponent().injectMomentsDataSender(this);
         this.momentsConverter = momentsConverter;
         this.momentGsonConverter = momentGsonConverter;
     }

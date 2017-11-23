@@ -36,7 +36,7 @@ public class SynchronisationMonitorTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(appComponent);
+        DataServicesManager.getInstance().setAppComponent(appComponent);
 
         monitor = new SynchronisationMonitor();
         monitor.pullSynchronise = dataPullSynchroniseMock;

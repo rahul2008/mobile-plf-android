@@ -58,7 +58,7 @@ public class ConsentDataSender extends DataSender {
         this.uCoreAdapter = uCoreAdapter;
         this.gsonConverter = gsonConverter;
         this.consentsConverter = consentsConverter;
-        DataServicesManager.getInstance().getAppComponant().injectConsentsSender(this);
+        DataServicesManager.getInstance().getAppComponent().injectConsentsSender(this);
     }
 
     @Override

@@ -54,7 +54,7 @@ public class InsightDataSender extends DataSender {
         this.uCoreAdapter = uCoreAdapter;
         this.gsonConverter = gsonConverter;
         this.insightConverter = insightConverter;
-        DataServicesManager.getInstance().getAppComponant().injectInsightDataSender(this);
+        DataServicesManager.getInstance().getAppComponent().injectInsightDataSender(this);
     }
 
     @Override

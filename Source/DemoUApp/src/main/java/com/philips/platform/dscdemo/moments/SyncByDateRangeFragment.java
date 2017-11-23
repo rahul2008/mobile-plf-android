@@ -6,6 +6,7 @@
 package com.philips.platform.dscdemo.moments;
 
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -268,10 +269,12 @@ public class SyncByDateRangeFragment extends DSBaseFragment
 
     @Override
     public void onSyncStatusChanged(boolean isRunning) {
-        if (isRunning) {
-            updateTextView(getString(R.string.sync_inProgress));
-        } else {
-            updateTextView(getString(R.string.sync_stopped));
+        if (!(((Activity) mContext).isFinishing())) {
+            if (isRunning) {
+                updateTextView(getString(R.string.sync_inProgress));
+            } else {
+                updateTextView(getString(R.string.sync_stopped));
+            }
         }
     }
 }

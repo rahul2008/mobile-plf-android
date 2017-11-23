@@ -53,7 +53,7 @@ public class InsightSegregatorTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(mAppComponent);
+        DataServicesManager.getInstance().setAppComponent(mAppComponent);
         mInsightSegregator = new InsightSegregator();
         mInsightSegregator.mDBUpdatingInterface = mDBUpdatingInterface;
         mInsightSegregator.mDBFetchingInterface = mDBFetchingInterface;

@@ -34,7 +34,7 @@ public class SettingsSegregatorTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         settingsSegregator = new SettingsSegregator();
         settingsSegregator.dbFetchingInterface=mockDBDbFetchingInterface;
     }

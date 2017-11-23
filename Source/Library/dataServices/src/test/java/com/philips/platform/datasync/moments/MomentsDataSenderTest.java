@@ -127,7 +127,7 @@ public class MomentsDataSenderTest {
         dataServicesManager = DataServicesManager.getInstance();
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         errorHandler = new ErrorHandlerImplTest();
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         DataServicesManager.getInstance().setServiceDiscoveryInterface(serviceDiscoveryInterface);
         DataServicesManager.getInstance().mDataServicesBaseUrl = TEST_MOMENT_URL;
         when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);

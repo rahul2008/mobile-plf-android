@@ -67,7 +67,7 @@ public class SubjectProfileControllerTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(mAppComponent);
+        DataServicesManager.getInstance().setAppComponent(mAppComponent);
         mSubjectProfileController = new SubjectProfileController(mUCoreAdapter, mGsonConverter);
         mSubjectProfileController.mUCoreAccessProvider = mUCoreAccessProvider;
         mSubjectProfileController.mEventing = mEventing;

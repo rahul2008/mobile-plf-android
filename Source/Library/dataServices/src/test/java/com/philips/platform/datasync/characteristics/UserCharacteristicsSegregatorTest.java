@@ -35,7 +35,7 @@ public class UserCharacteristicsSegregatorTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         userCharacteristicsSegregator = new UserCharacteristicsSegregator();
         userCharacteristicsSegregator.dbFetchingInterface = mockDBDbFetchingInterface;
         userCharacteristicsSegregator.dbUpdatingInterface = mockDbUpdatingInterface;

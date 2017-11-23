@@ -34,7 +34,7 @@ public class SettingsMonitor extends EventMonitor {
     public SettingsMonitor(@NonNull SettingsDataSender settingsDataSender, @NonNull SettingsDataFetcher settingsDataFetcher) {
         this.settingsDataSender = settingsDataSender;
         this.settingsDataFetcher = settingsDataFetcher;
-        DataServicesManager.getInstance().getAppComponant().injectUserSettingsMonitor(this);
+        DataServicesManager.getInstance().getAppComponent().injectUserSettingsMonitor(this);
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)

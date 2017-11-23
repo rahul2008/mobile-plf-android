@@ -30,7 +30,7 @@ public class SubjectProfileMonitor extends EventMonitor {
     @Inject
     public SubjectProfileMonitor(@NonNull SubjectProfileController subjectProfileController) {
         mSubjectProfileController = subjectProfileController;
-        DataServicesManager.getInstance().getAppComponant().injectSubjectProfileMonitor(this);
+        DataServicesManager.getInstance().getAppComponent().injectSubjectProfileMonitor(this);
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)

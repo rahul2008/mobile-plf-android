@@ -34,7 +34,7 @@ public class UserCharacteristicsMonitor extends EventMonitor {
             UserCharacteristicsSender sender,
             UserCharacteristicsFetcher fetcher) {
 
-        DataServicesManager.getInstance().getAppComponant().injectUserCharacteristicsMonitor(this);
+        DataServicesManager.getInstance().getAppComponent().injectUserCharacteristicsMonitor(this);
         mUserCharacteristicsSender = sender;
         mUserCharacteristicsFetcher = fetcher;
     }

@@ -60,7 +60,7 @@ public class ConsentDetailDataSenderTest {
     @Before
     public void setUp() {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         consentDataSender = new ConsentDataSender(uCoreAdapterMock, gsonConverterMock, consentsConverterMock);
         consentDataSender.eventing = eventingMock;
     }

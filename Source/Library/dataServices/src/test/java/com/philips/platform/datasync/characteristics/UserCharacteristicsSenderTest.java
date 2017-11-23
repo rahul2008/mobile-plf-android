@@ -67,7 +67,7 @@ public class UserCharacteristicsSenderTest {
     @Before
     public void setUp() {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
 
         userCharacteristicsSender = new UserCharacteristicsSender(userCharacteristicsConverterMock, gsonConverterMock);
         userCharacteristicsSender.mUCoreAdapter = uCoreAdapterMock;

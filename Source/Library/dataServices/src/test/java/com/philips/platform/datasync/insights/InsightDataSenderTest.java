@@ -1,11 +1,7 @@
 package com.philips.platform.datasync.insights;
 
-import android.support.annotation.NonNull;
-
-import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.BaseAppData;
-import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.events.BackendResponse;
@@ -28,8 +24,6 @@ import org.mockito.Mock;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import retrofit.RetrofitError;
 import retrofit.client.Header;
 import retrofit.client.Response;
@@ -37,8 +31,6 @@ import retrofit.converter.GsonConverter;
 import retrofit.mime.TypedString;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyList;
-import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -107,7 +99,7 @@ public class InsightDataSenderTest {
     @Before
     public void setUp() {
         initMocks(this);
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         insightDataSender=new InsightDataSender(uCoreAdapterMock,gsonConverterMock,insightConverterMock);
         insightDataSender.eventing = eventingMock;
         insightDataSender.uCoreAccessProvider = accessProviderMock;

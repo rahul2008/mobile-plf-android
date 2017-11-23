@@ -58,7 +58,7 @@ public class FetchingMonitor extends EventMonitor {
 
     public FetchingMonitor(DBFetchingInterface dbInterface) {
         this.dbInterface = dbInterface;
-        DataServicesManager.getInstance().getAppComponant().injectFetchingMonitor(this);
+        DataServicesManager.getInstance().getAppComponent().injectFetchingMonitor(this);
     }
 
     //Non-Sync data

@@ -39,7 +39,7 @@ public class InsightSegregator {
     BaseAppDataCreator mBaseAppDataCreator;
 
     public InsightSegregator() {
-        DataServicesManager.getInstance().getAppComponant().injectInsightSegregator(this);
+        DataServicesManager.getInstance().getAppComponent().injectInsightSegregator(this);
     }
 
     private Insight getOrmInsightFromDatabase(Insight insight) throws SQLException {

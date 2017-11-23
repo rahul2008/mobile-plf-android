@@ -153,7 +153,7 @@ public class BackendModuleTest {
         VerticalDBFetchingInterfaceImpl dbFetchingInterface = new VerticalDBFetchingInterfaceImpl();
         VerticalDBSavingInterface dbSavingInterface = new VerticalDBSavingInterface();
         VerticalDBUpdatingInterfaceImpl dbUpdatingInterface = new VerticalDBUpdatingInterfaceImpl();
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
 
         backendModule = new BackendModule(eventingMock, baseAppDataCreator, userRegistrationInterface,
                 dbDeletingInterface, dbFetchingInterface, dbSavingInterface, dbUpdatingInterface,
@@ -282,7 +282,7 @@ public class BackendModuleTest {
 
     @Test
     public void ShouldReturnUCoreAdapter_WhenProvidesUCoreAdapterIsCalled() throws Exception {
-        DataServicesManager.getInstance().setAppComponant(appComponantMock);
+        DataServicesManager.getInstance().setAppComponent(appComponantMock);
         final UCoreAdapter uCoreAdapter = backendModule.providesUCoreAdapter(okClientFactory, builder, context);
         assertThat(uCoreAdapter).isNotNull();
         assertThat(uCoreAdapter).isInstanceOf(UCoreAdapter.class);

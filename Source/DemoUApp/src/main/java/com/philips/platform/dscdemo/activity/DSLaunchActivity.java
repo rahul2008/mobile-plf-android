@@ -20,6 +20,7 @@ import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.database.DatabaseHelper;
 import com.philips.platform.dscdemo.moments.MomentFragment;
 import com.philips.platform.dscdemo.DemoAppManager;
+import com.philips.platform.dscdemo.utility.DemoUAppLog;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -47,12 +48,12 @@ public class DSLaunchActivity extends AppCompatActivity
         User user = new User(this);
         if (savedInstanceState == null)
             if (user.isUserSignIn()) {
-                SyncScheduler.getInstance().scheduleSync();
                 showFragment();
                 DatabaseHelper databaseHelper = DemoAppManager.getInstance().getDatabaseHelper();
                 try {
                     databaseHelper.getWriteDbPermission();
                 } catch (SQLException e) {
+                    DemoUAppLog.e(this.getClass().getSimpleName(), e.getMessage());
                 }
             } else {
                 startRegistrationFragment();
@@ -133,12 +134,6 @@ public class DSLaunchActivity extends AppCompatActivity
 
     @Override
     public void onUserRegistrationComplete(final Activity activity) {
-        runOnUiThread(new Runnable() {
-            public void run() {
-                SyncScheduler.getInstance().scheduleSync();
-            }
-        });
-
         showFragment();
     }
 
