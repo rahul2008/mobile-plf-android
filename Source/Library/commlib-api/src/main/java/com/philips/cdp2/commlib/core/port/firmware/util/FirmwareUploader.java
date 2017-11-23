@@ -15,6 +15,7 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties;
+import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState;
 import com.philips.cdp2.commlib.core.util.GsonProvider;
 
 import java.io.IOException;
@@ -107,7 +108,7 @@ public class FirmwareUploader {
 
             @Override
             public void onSuccess(final String data) {
-                HashMap<String, Object> dataMap = new HashMap<>();
+                Map dataMap = new HashMap<>();
 
                 try {
                     dataMap = GsonProvider.get().fromJson(data, dataMap.getClass());
@@ -116,7 +117,7 @@ public class FirmwareUploader {
                     return;
                 }
 
-                FirmwarePortProperties.FirmwarePortState firmwarePortState = fromString((String) dataMap.get(STATE.toString()));
+                FirmwarePortState firmwarePortState = fromString((String) dataMap.get(STATE.toString()));
                 Double progress = (Double) dataMap.get(PROGRESS.toString());
 
                 if (firmwarePortState == null || progress == null) {

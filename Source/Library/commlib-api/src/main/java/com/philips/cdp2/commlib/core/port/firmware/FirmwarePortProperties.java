@@ -12,7 +12,6 @@ import com.philips.cdp2.commlib.core.port.PortProperties;
 import static android.text.TextUtils.isEmpty;
 import static java.lang.Math.floor;
 import static java.lang.Math.max;
-import static java.lang.Math.min;
 
 /**
  * The FirmwarePortProperties class holds information about the state of the {@link FirmwarePort}.
@@ -140,10 +139,7 @@ public class FirmwarePortProperties implements PortProperties {
      * @return int The progress of the upgrading action
      */
     public int getProgress() {
-        if(progress <= 0) {
-            return 0;
-        }
-        return progress;
+        return max(0, progress);
     }
 
     /**

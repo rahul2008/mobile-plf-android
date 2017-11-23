@@ -58,7 +58,7 @@ Version {next}
 * CommLib - \#81027 Subscriptions continue to work when security key changes.
 * CommLib - \#18943 On wifi switch, change from local request to remote request
 * CommLib - \#18964 On wifi switch, clear the devices found on the local network
-
+* CommLib - \#75885 Firmware update no longer stuck after uploading.
 
 ### Residual anomalies
 * To be filled in at release

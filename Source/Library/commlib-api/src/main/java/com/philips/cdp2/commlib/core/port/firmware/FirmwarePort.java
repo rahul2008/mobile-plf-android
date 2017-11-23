@@ -286,10 +286,10 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 
     private void notifyListenersWithPortProperties(@NonNull FirmwarePortProperties firmwarePortProperties) {
         if (firmwarePortProperties.getProgress() != previousFirmwarePortProperties.getProgress() || firmwarePortProperties.getState() != previousFirmwarePortProperties.getState()) {
-            int progress = getProgressPercentage(firmwarePortProperties);
 
             switch (firmwarePortProperties.getState()) {
                 case CHECKING:
+                    final int progress = getProgressPercentage(firmwarePortProperties);
                     listener.onCheckingProgress(progress);
                     break;
                 default:
