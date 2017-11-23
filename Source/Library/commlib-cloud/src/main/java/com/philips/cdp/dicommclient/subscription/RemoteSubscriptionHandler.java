@@ -70,6 +70,7 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
         DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, data);
 
         try {
+            // TODO: Convert from org.json to Gson
             final String portName = extractPortName(data);
             final String payload = extractData(data);
 

@@ -8,6 +8,7 @@ package com.philips.cdp.dicommclient.request;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.api.listener.DcsResponseListener;
 import com.philips.cdp.cloudcontroller.api.listener.PublishEventListener;
@@ -19,13 +20,16 @@ import org.json.JSONObject;
 
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 public class RemoteRequest extends Request implements DcsResponseListener, PublishEventListener {
 
     private static final String TAG = "RemoteRequest";
 
     private static final int CPP_DEVICE_CONTROL_TIMEOUT = 30000;
-    private static final int SUCCESS = 0;
+    static final int SUCCESS = 0;
     private static String BASEDATA_PORTS = "{ \"product\":\"%d\",\"port\":\"%s\",\"data\":%s}";
     private static final String DICOMM_REQUEST = "DICOMM-REQUEST";
     private static int REQUEST_PRIORITY = 20;
@@ -33,13 +37,16 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     private final String cppId;
 
     private String mResponse;
+    private String mTempResponse;
     private int mMessageId;
     private String mConversationId;
+    private String mResponseConversationId;
     private String mPortName;
     private int mProductId;
 
     private CloudController cloudController;
     private final RemoteRequestType mRequestType;
+    private CountDownLatch responseLatch;
 
     public RemoteRequest(String cppId, String portName, int productId, RemoteRequestType requestType, Map<String, Object> dataMap, ResponseHandler responseHandler, final CloudController cloudController) {
         super(dataMap, responseHandler);
@@ -67,11 +74,13 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
         String eventData = createDataToSend(mPortName, mProductId, mDataMap);
         mMessageId = cloudController.publishEvent(eventData, DICOMM_REQUEST, mRequestType.getMethod(),
                 "", REQUEST_PRIORITY, REQUEST_TTL, cppId);
+
+        responseLatch = createCountDownLatch();
+
         try {
             long startTime = System.currentTimeMillis();
-            synchronized (this) {
-                wait(CPP_DEVICE_CONTROL_TIMEOUT);
-            }
+            responseLatch.await(CPP_DEVICE_CONTROL_TIMEOUT, TimeUnit.MILLISECONDS);
+
             if ((System.currentTimeMillis() - startTime) > CPP_DEVICE_CONTROL_TIMEOUT) {
                 DICommLog.e(DICommLog.REMOTEREQUEST, "Timeout occurred");
             }
@@ -96,18 +105,21 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
         return new Response(mResponse, null, mResponseHandler);
     }
 
+    protected CountDownLatch createCountDownLatch() {
+        return new CountDownLatch(1);
+    }
+
     @Override
     public void onDCSResponseReceived(final @NonNull String dcsResponse, final @NonNull String conversationId) {
-        if (mConversationId != null && mConversationId.equals(conversationId)) {
-            DICommLog.i(DICommLog.REMOTEREQUEST, "DCSEvent received from the right request");
-            mResponse = dcsResponse;
-            synchronized (this) {
-                DICommLog.i(DICommLog.REMOTEREQUEST, "Notified on DCS Response");
-                notify();
-            }
-        } else {
-            DICommLog.i(DICommLog.REMOTEREQUEST, "DCSEvent received from different request - ignoring");
+        mResponseConversationId = conversationId;
+        if(mConversationId == null) {
+            DICommLog.i(DICommLog.REMOTEREQUEST, "onDCSResponseReceived before setting conv. ID");
         }
+        DICommLog.i(DICommLog.REMOTEREQUEST, "DCSEvent received from the right request");
+        mTempResponse = dcsResponse;
+        DICommLog.i(DICommLog.REMOTEREQUEST, "Notified on DCS Response");
+
+        finishRequestIfPossible();
     }
 
     @Override
@@ -116,36 +128,42 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
             DICommLog.i(DICommLog.REMOTEREQUEST, "Publish event received from the right request - status: " + status);
             if (status == SUCCESS) {
                 mConversationId = conversationId;
+                finishRequestIfPossible();
             } else {
-                synchronized (this) {
-                    DICommLog.e(DICommLog.REMOTEREQUEST, "Publish Event Failed");
-                    notify();
-                }
+                responseLatch.countDown();
             }
         } else {
             DICommLog.i(DICommLog.REMOTEREQUEST, "Publish event received from different request - ignoring");
         }
     }
 
+    private void finishRequestIfPossible() {
+        if (mConversationId != null && mTempResponse != null && mResponseConversationId.equals(mConversationId)) {
+            mResponse = mTempResponse;
+            responseLatch.countDown();
+        }
+    }
+
     private String extractData(final String data) {
         String res = data;
 
-        try {
-            JSONObject jsonObject = new JSONObject(data);
-            int status = jsonObject.getInt("status");
-            JSONObject dataObject = jsonObject.optJSONObject("data");
+        Gson gson = GsonProvider.get();
+        JsonData jsonObject = gson.fromJson(data, JsonData.class);
+        int status = jsonObject.status;
+        Object dataObject = jsonObject.data;
 
-            if (status > 0) {
-                Log.e(TAG, "extractData: code received: " + status + "");
-            } else if (dataObject == null) {
-                Log.e(TAG, "extractData: no data received: " + data + "");
-            } else {
-                res = dataObject.toString();
-            }
-        } catch (JSONException e) {
-            DICommLog.i(DICommLog.REMOTEREQUEST, "JSONException: " + e.getMessage());
+        if (status > 0) {
+            Log.e(TAG, "extractData: code received: " + status + "");
+        } else if (dataObject == null) {
+            Log.e(TAG, "extractData: no data received: " + data + "");
+        } else {
+            res = dataObject.toString();
         }
-
         return res;
+    }
+
+    private class JsonData {
+        int status;
+        public Object data;
     }
 }

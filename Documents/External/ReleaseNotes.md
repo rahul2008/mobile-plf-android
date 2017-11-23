@@ -14,6 +14,7 @@ Version {next}
 * CommLib - \#85443 SSDP is rewritten from C and JNI in pure Java.
 * CommLib - CommCentral now throws a `UnsupportedOperationException` whenever a second instance is created.
 * CommLib - \#95503 Utility methods `LanTransportContext#acceptPinFor(Appliance, String)` and `LanTransportContext#readPin(Appliance)` were added.
+* CommLib - \#94659 In DeviceCloud communication (DCS), CommLib is no longer dependent on the order in which callbacks are called, which improves the communication's stability.
 
 ### Backwards Compatibility
 * CommLib - `Appliance.enableCommunication` is no longer needed before a subscription.

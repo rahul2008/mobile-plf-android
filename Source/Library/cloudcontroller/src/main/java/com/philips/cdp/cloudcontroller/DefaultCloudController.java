@@ -632,12 +632,13 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
             String dcsEvents = mEventSubscription.getData(i);
             String fromEui64 = mEventSubscription.getReplyTo(i);
             String action = mEventSubscription.getAction(i);
+            String conversationId = mEventSubscription.getConversationId(i);
 
             Log.d(LogConstants.ICPCLIENT, "DCS event received from: " + fromEui64 + "    action: " + action);
             Log.d(LogConstants.ICPCLIENT, "DCS event received: " + dcsEvents);
 
             if (notifyListeners) {
-                notifyDCSListener(dcsEvents, fromEui64, action, mEventSubscription.getConversationId(i));
+                notifyDCSListener(dcsEvents, fromEui64, action, conversationId);
             }
         }
     }
