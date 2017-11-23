@@ -208,30 +208,14 @@ configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
     resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
 
-    resolutionStrategy.force 'com.android.support:support-annotations:26.0.2'
+    resolutionStrategy.force 'com.android.support:support-annotations:${versionsAndroid.support}'
     exclude group: 'commons-codec', module: 'commons-codec'
     exclude module: 'httpcore'
 
 }
 
 dependencies {
-    compile('com.android.support:support-annotations:26.0.2') {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
-    compile 'com.android.support:design:26.0.2'
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    leakCanaryCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    psraReleaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-
-    debugCompile 'com.facebook.stetho:stetho:1.2.0'
-    compile 'com.j256.ormlite:ormlite-core:5.0'
-    compile 'com.j256.ormlite:ormlite-android:5.0'
-    compile 'com.android.support:multidex:1.0.2'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
-	def dp = project.ext.has('useprojectdependencies')
+    def dp = project.ext.has('useprojectdependencies')
 
 	def prgModule = module(group: 'com.philips.cdp', name: 'product-registration-lib', version: versions.prg_productRegistrationLib + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
 	compile(dp ? project(':prg') : prgModule) {
@@ -335,25 +319,40 @@ dependencies {
         compile(dp ? project(':themesettings') : themesettingsModule) {
             transitive = true
     }
-  
-    compile ("com.crittercism:crittercism-android-agent:5.8.7")
 
-    testCompile 'junit:junit:4.12'
+    compile("com.android.support:support-annotations:${versionsAndroid.support}") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    compile "com.android.support:design:${versionsAndroid.support}"
+    compile "com.android.support:appcompat-v7:${versionsAndroid.support}"
+    debugCompile "com.squareup.leakcanary:leakcanary-android-no-op:${versionsExternal.leakCanary}"
+    leakCanaryCompile "com.squareup.leakcanary:leakcanary-android:${versionsExternal.leakCanary}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${versionsExternal.leakCanary}"
+    psraReleaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${versionsExternal.leakCanary}"
+
+    debugCompile "com.facebook.stetho:stetho:${versionsExternal.stetho}"
+    compile "com.j256.ormlite:ormlite-core:${versionsExternal.ormLite}"
+    compile "com.j256.ormlite:ormlite-android:${versionsExternal.ormLite}"
+    compile "com.android.support:multidex:${versionsAndroid.multidex}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${versionsExternal.leakCanary}"
+
+    compile ("com.crittercism:crittercism-android-agent:${versionsExternal.crittercism}")
+
+    testCompile "junit:junit:${versionsExternal.junit}"
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
-    testCompile 'org.robolectric:robolectric:3.4.2'
-    testCompile 'org.robolectric:shadows-multidex:3.3.2'
-    testCompile 'org.robolectric:shadows-support-v4:3.3.2'
+    testCompile "org.robolectric:robolectric:${versionsExternal.junit}"
+    testCompile "org.robolectric:shadows-multidex:${versionsExternal.junit}"
+    testCompile "org.robolectric:shadows-support-v4:${versionsExternal.junit}"
     testCompile 'org.mockito:mockito-all:2.0.2-beta'
     testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
 
-    testCompile 'org.powermock:powermock-core:1.6.6'
-    testCompile "org.powermock:powermock-module-junit4:1.6.6"
-    testCompile "org.powermock:powermock-module-junit4-rule:1.6.6"
-    testCompile "org.powermock:powermock-module-junit4-rule-agent:1.6.6"
-    testCompile "org.powermock:powermock-api-mockito:1.6.6"
-    testCompile "org.powermock:powermock-classloading-xstream:1.6.6"
-
-    testCompile 'org.json:json:20170516'
+    testCompile "org.powermock:powermock-core:${versionsExternal.powerMock}"
+    testCompile "org.powermock:powermock-module-junit4:${versionsExternal.powerMock}"
+    testCompile "org.powermock:powermock-module-junit4-rule:${versionsExternal.powerMock}"
+    testCompile "org.powermock:powermock-module-junit4-rule-agent:${versionsExternal.powerMock}"
+    testCompile "org.powermock:powermock-api-mockito:${versionsExternal.powerMock}"
+    testCompile "org.powermock:powermock-classloading-xstream:${versionsExternal.powerMock}"
+    testCompile "org.json:json:${versionsExternal.json}"
 
     compile project(':pushnotification')
 
