@@ -26,9 +26,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import static com.facebook.stetho.inspector.network.ResponseHandlingInputStream.TAG;
 
 public class ConnectivityHelper {
+    private static final String TAG = ConnectivityHelper.class.getSimpleName();
     private final int PROGRESS_SCORE_MAX = 360;
     private final int PROGRESS_PERCENTAGE_MAX = 100;
     private final int IDEAL_DEEP_SLEEP_TIME = 120;

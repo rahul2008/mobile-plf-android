@@ -12,11 +12,12 @@ import android.support.annotation.Nullable;
 
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.PortDataCallback;
+import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Session;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPortProperties;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;
+import com.philips.platform.appframework.connectivitypowersleep.error.InvalidPortPropertiesException;
 import com.philips.platform.appframework.connectivitypowersleep.error.PortErrorException;
 
 import org.junit.Before;
@@ -27,7 +28,6 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -39,7 +39,7 @@ public class SessionProviderTest {
     private static final int SESSION_NUMBER = 1;
 
     @Mock
-    private BleReferenceAppliance bleReferenceAppliance;
+    private RefAppBleReferenceAppliance bleReferenceAppliance;
     @Mock
     private SessionProvider.Callback mockSessionProviderCallback;
     @Mock
@@ -86,49 +86,11 @@ public class SessionProviderTest {
     }
 
     @Test
-    public void itShouldStoreSleepSessionWhenSessionDataIsReceived() throws Exception {
-        simulateSessionDataReceived(summary);
-        assertNotNull(subject.summary);
+    public void processSessionProviderTest() throws InvalidPortPropertiesException {
+        subject.processSessionData(mockSessionDataPortProperties);
+        verify(mockSessionProviderCallback).onSuccess(any(Session.class));
     }
-//
-//    @Test
-//    public void itShouldNotReportToListenerWhenSessionDataIsReceived() throws Exception {
-//        simulateSessionDataReceived(mockSummary);
-//
-//        verifyZeroInteractions(mockSessionProviderCallback);
-//    }
-//
-//    @Test
-//    public void itShouldCallOnErrorWhenExceptionIsThrownDuringOverviewDataConstruction() throws Exception {
-//        simulateSessionDataInvalid(new InvalidPortPropertiesException());
-//
-//        verify(mockSessionProviderCallback).onError(any(IllegalStateException.class));
-//    }
 
-
-//    @Test
-//    public void itShouldReportSuccessWhenTherapyPortReportData() throws Exception {
-//        simulateSuccess(mockSummary, START_TIME, timeOffsets, pre, post);
-//
-//        verify(mockSessionProviderCallback).onSuccess(any(Session.class));
-//    }
-//
-//    @Test
-//    public void itShouldContainSessionDataWhenSuccessIsReported() throws Exception {
-//        simulateSuccess(mockSummary, START_TIME, timeOffsets, pre, post);
-//
-//        verify(mockSessionProviderCallback).onSuccess(sessionArgumentCaptor.capture());
-//        assertNotNull(sessionArgumentCaptor.getValue().getSummary());
-//        assertEquals(mockSummary, sessionArgumentCaptor.getValue().getSummary());
-//    }
-//
-//
-//    @Test
-//    public void itShouldCleanUpWhenSuccessIsReported() throws Exception {
-//        simulateSuccess(mockSummary, START_TIME, timeOffsets, pre, post);
-//
-//        verify(bleReferenceAppliance).unregisterSessionDataCallback();
-//    }
 
     private void verifySessionDataFailure() {
         verify(bleReferenceAppliance).unregisterSessionDataCallback();
@@ -160,35 +122,10 @@ public class SessionProviderTest {
 
     }
 
-    private void simulateSessionDataReceived(Summary summary) throws Exception {
-        when(mockSessionDataPortProperties.isSessionTimeValid()).thenReturn(true);
-        subject.fetchSession();
-        verify(bleReferenceAppliance).registerSessionDataCallback(dataCallbackArgumentCaptor.capture());
-        dataCallbackArgumentCaptor.getValue().onDataReceived(mockSessionDataPortProperties);
-    }
-
-//    private void simulateSessionDataInvalid(Exception exception) throws Exception {
-//        doThrow(exception).when(mockSummaryBuilder).build(mockSessionDataPortProperties);
-//        when(mockSessionDataPortProperties.isSessionTimeValid()).thenReturn(true);
-//        subject.fetchSession();
-//
-//        verify(bleReferenceAppliance).registerSessionDataCallback(dataCallbackArgumentCaptor.capture());
-//
-//        dataCallbackArgumentCaptor.getValue().onDataReceived(mockSessionDataPortProperties);
-//    }
-//
-//
-//
-//    private void simulateSuccess(Summary summary, long time, int[] timeOffsets, int[] pre, int[] post) throws Exception {
-//        when(mockSummary.getDate()).thenReturn(new Date(time));
-//
-//        verify(bleReferenceAppliance).registerTherapyDataCallback(therapyPortDataCallbackArgumentCaptor.capture());
-//        therapyPortDataCallbackArgumentCaptor.getValue().onDataReceived(mockTherapyDataPortProperties);
-//    }
 
     private class SessionProviderForTest extends SessionProvider {
 
-        SessionProviderForTest(@NonNull BleReferenceAppliance appliance, long sessionNumber, @NonNull Callback SessionGroupCallback) {
+        SessionProviderForTest(@NonNull RefAppBleReferenceAppliance appliance, long sessionNumber, @NonNull Callback SessionGroupCallback) {
             super(appliance, sessionNumber, SessionGroupCallback);
         }
 

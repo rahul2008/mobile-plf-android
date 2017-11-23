@@ -37,6 +37,8 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
     public static final String LOW_DEEPSLEEPSCORE="low_deepsleepscore";
     public static final String HIGH_DEEPSLEEPSCORE="high_deepsleepscore";
 
+    public static final String ARTICLE_SERVICE_ID="app.articlesdeepsleepscore";
+
     private WebView webView;
 
     private WebViewContract.Action termsAndConditionsAction;
@@ -115,10 +117,10 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
                 showWebPage(url);
                 break;
             case LOW_DEEP_SLEEP_ARTICLE_CLICKED:
-                termsAndConditionsAction.loadArticle("app.articlesdeepsleepscore",LOW_DEEPSLEEPSCORE);
+                termsAndConditionsAction.loadArticle(ARTICLE_SERVICE_ID,LOW_DEEPSLEEPSCORE);
                 break;
             case HIGH_DEEP_SLEEP_ARTICLE_CLICKED:
-                termsAndConditionsAction.loadArticle("app.articlesdeepsleepscore",HIGH_DEEPSLEEPSCORE);
+                termsAndConditionsAction.loadArticle(ARTICLE_SERVICE_ID,HIGH_DEEPSLEEPSCORE);
                 break;
             default:
                 showToast("Action event not recognized");

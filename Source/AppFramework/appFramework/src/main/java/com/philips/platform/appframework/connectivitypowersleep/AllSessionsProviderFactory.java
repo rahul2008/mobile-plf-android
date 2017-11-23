@@ -11,11 +11,8 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 
-import javax.inject.Inject;
-
 class AllSessionsProviderFactory {
 
-    @Inject
     public AllSessionsProviderFactory() {
     }
 

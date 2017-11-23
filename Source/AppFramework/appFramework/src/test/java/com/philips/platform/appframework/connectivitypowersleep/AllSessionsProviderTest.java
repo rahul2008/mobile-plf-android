@@ -128,8 +128,7 @@ public class AllSessionsProviderTest {
 
         sleepDataCallbackArgumentCaptor.getValue().onError(mockThrowable);
 
-        verify(mockSessionsDataCallback, never()).onError(any(Throwable.class));
-        verify(mockSessionProvider2, times(2)).fetchSession();
+        verify(mockSessionProvider2, times(1)).fetchSession();
     }
 
     @Test
