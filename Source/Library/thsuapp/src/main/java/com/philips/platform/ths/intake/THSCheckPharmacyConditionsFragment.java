@@ -190,12 +190,28 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         }
     }
 
+    /**
+     *  new thread added here to handle the crash "java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState"
+     *  The crash was only in android 6 (Marshmallow) devices. Only way to handle the crash was to spawn a new thread and then post the runnable
+     *  on UI thread.
+     */
     private void showPharmacySearch() {
         hideProgressBar();
         if (isFragmentAttached()) {
-            getActivity().getSupportFragmentManager().popBackStack();
-            THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
-            addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null, true);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getActivity().getSupportFragmentManager().popBackStack();
+                            THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
+                            addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null, true);
+                        }
+                    });
+                }
+            }).start();
+
         }
     }
 
