@@ -132,8 +132,6 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
             case HIGH_DEEP_SLEEP_ARTICLE_CLICKED:
                 termsAndConditionsAction.loadArticle(ARTICLE_SERVICE_ID,HIGH_DEEPSLEEPSCORE);
                 break;
-            default:
-                showToast("Action event not recognized");
         }
     }
 

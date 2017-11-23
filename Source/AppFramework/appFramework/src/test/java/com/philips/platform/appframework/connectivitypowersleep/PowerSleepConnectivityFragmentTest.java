@@ -60,7 +60,7 @@ import static org.robolectric.shadows.ShadowToast.getTextOfLatestToast;
 public class PowerSleepConnectivityFragmentTest {
 
 
-    private PowerSleepConnectivityFragment connectivityFragment;
+    private ConnectivityFragmentMock connectivityFragment;
 
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
@@ -180,6 +180,7 @@ public class PowerSleepConnectivityFragmentTest {
 //    }
     @Test
     public void onSyncFailedTest() throws Exception {
+        connectivityFragment.selectSuperPresenter(false);
         connectivityFragment.onSyncFailed(new Exception());
         String message=ShadowToast.getTextOfLatestToast();
         assertEquals(message,"Sync failed");
@@ -187,12 +188,14 @@ public class PowerSleepConnectivityFragmentTest {
 
     @Test
     public void onDBChangeSuccessTest() throws Exception {
+        connectivityFragment.selectSuperPresenter(false);
         connectivityFragment.dBChangeSuccess(SyncType.MOMENT);
         verify(dataServicesManager).synchronize();
     }
 
     @Test
     public void onDBChangeFailedTest() throws Exception {
+        connectivityFragment.selectSuperPresenter(false);
         connectivityFragment.dBChangeFailed(new Exception());
         String message=ShadowToast.getTextOfLatestToast();
         assertEquals(message,"DB Change failed");
