@@ -78,8 +78,13 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
     }
 
     public void onYesButtonClicked() {
-        tapToConnect();
-        navigator.navigateToDevicePoweredOnConfirmationScreen();
+        if(wiFiUtil.isHomeWiFiEnabled()) {
+            tapToConnect();
+            navigator.navigateToDevicePoweredOnConfirmationScreen();
+        }else{
+            tapToChangeWifi();
+            viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration);
+        }
     }
 
     private void tapToConnect() {
