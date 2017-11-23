@@ -16,6 +16,7 @@ import com.philips.cdp.dicommclient.request.RequestQueue;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.security.DISecurity.EncryptionDecryptionFailedListener;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.ObservableCommunicationStrategy;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.core.util.ObservableCollection.ModificationListener;
@@ -245,6 +246,8 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
         if (isAvailable != currentAvailability) {
             notifyAvailabilityChanged();
         }
+
+        DICommLog.i("LanCommunicationStrategy", "isAvailable " + isAvailable + " for " + networkNode.getName());
 
         if (isAvailable) {
             localSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListeners);

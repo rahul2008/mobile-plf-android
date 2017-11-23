@@ -5,16 +5,27 @@
 
 package com.philips.cdp2.commlib.devicetest.test;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
+import android.net.wifi.SupplicantState;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.util.Log;
 
+import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.dicommclient.port.DICommPort;
+import com.philips.cdp.dicommclient.port.common.PairingHandler;
+import com.philips.cdp2.commlib.BuildConfig;
+import com.philips.cdp2.commlib.cloud.communication.CloudCommunicationStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.devicetest.TestApplication;
 import com.philips.cdp2.commlib.devicetest.appliance.ReferenceAppliance;
-import com.philips.cdp2.commlib.devicetest.time.TimePort;
-import com.philips.cdp2.commlib.devicetest.util.Android;
+import com.philips.cdp2.commlib.devicetest.port.time.TimePort;
 import com.philips.cdp2.commlib.devicetest.util.ApplianceWaiter;
+import com.philips.cdp2.commlib.devicetest.util.CloudSignOnWaiter;
+import com.philips.cdp2.commlib.devicetest.util.PairingWaiter;
 import com.philips.cdp2.commlib.devicetest.util.PortListener;
 
 import java.util.Map;
@@ -23,16 +34,16 @@ import java.util.concurrent.ConcurrentHashMap;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.app.Instrumentation.newApplication;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static java.util.Collections.emptyList;
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static junit.framework.Assert.assertNotNull;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -45,71 +56,204 @@ public class Steps {
     private ReferenceAppliance current;
     private final Map<Class<? extends DICommPort<?>>, PortListener> portListeners = new ConcurrentHashMap<>();
     private Scenario scenario;
+    private boolean subscribed;
+    private boolean stored;
 
     @Before
-    public void before(Scenario scenario) {
+    public void before(Scenario scenario) throws Throwable {
         this.scenario = scenario;
+        this.app = (TestApplication) newApplication(TestApplication.class, getTargetContext());
+        this.commCentral = app.getCommCentral();
+        this.subscribed = false;
+        this.stored = false;
 
-        // In M+, trying to access bluetooth will trigger a runtime dialog. Make sure
-        // the permission is granted before running tests.
-        Log.d(LOGTAG, "Grant permissions");
-        Android.grantPermission(ACCESS_COARSE_LOCATION);
+        Log.i(LOGTAG, app.toString());
     }
 
     @After
-    public void cleanup() {
-        if (commCentral != null) {
-            commCentral.stopDiscovery();
+    public void cleanup() throws InterruptedException {
+        Log.i(LOGTAG, "Start cleanup");
+
+        if (current != null) {
+            PortListener listener = portListeners.get(TimePort.class);
+
+            if(subscribed) {
+                Log.i(LOGTAG, "Unsubscribe from timeport");
+                listener.reset();
+                current.getTimePort().unsubscribe();
+                listener.waitForPortUpdates(1, MINUTES);
+            }
+
+            if(stored) {
+                Log.i(LOGTAG, "Forget stored appliance");
+                commCentral.getApplianceManager().forgetStoredAppliance(current);
+            }
+
+            Log.i(LOGTAG, "Remove listeners and set default strategy");
+            current.getTimePort().removePortListener(listener);
+            current.getCommunicationStrategy().forceStrategyType(null);
+            current = null;
         }
+
+        Log.i(LOGTAG, "Stop discovery and finalize objects");
+        commCentral.stopDiscovery();
+        commCentral = null;
+        portListeners.clear();
+        app = null;
+
+        Log.i(LOGTAG, "Finished cleanup");
     }
 
-    @And("^\"([^\"]*)\" is disabled$")
-    public void isDisabled(String arg0) throws Throwable {
-        // Not needed yet, the default situation matches these steps.
+    @Given("^The environment is logged$")
+    public void environmentIsLogged() {
+        scenario.write("---- Logging environment ----");
+        scenario.write("CommLib version: " + BuildConfig.LIBRARY_VERSION);
+        scenario.write("BlueLib version: " + com.philips.pins.shinelib.BuildConfig.LIBRARY_VERSION);
+        scenario.write("Phone mfg: " + Build.MANUFACTURER);
+        scenario.write("Phone brand: " + Build.BRAND);
+        scenario.write("Phone model: " + Build.MODEL);
+        scenario.write("Phone codename: " + Build.DEVICE);
+        scenario.write("Android version: " + Build.VERSION.RELEASE + " " + Build.VERSION.SECURITY_PATCH);
+        scenario.write("---- Logging environment ----");
     }
 
-    @Given("^distance between phone and BLE Reference Node is (\\d+) cm$")
-    public void distanceBetweenPhoneAndBLEReferenceNodeIsCm(int arg0) throws Throwable {
+    @Given("^stay connected is disabled$")
+    public void stayConnectedIsDisabled() throws Throwable {
+        current.disableCommunication();
+        Thread.sleep(1000); //Let the device disconnect properly
+    }
+
+    @Given("^distance between device and appliance is (\\d+) cm$")
+    public void distanceBetweenDeviceAndApplianceIsCm(int arg0) throws Throwable {
         // Cannot guarantee this in code in any useful way.
     }
 
-    @Given("^a BLE Reference Node is discovered and selected$")
-    public void aBLEReferenceNodeIsDiscoveredAndSelected() throws Throwable {
-        app = (TestApplication) newApplication(TestApplication.class, getTargetContext());
-        Log.i(LOGTAG, app.toString());
-        app.onCreate();
-        commCentral = app.getCommCentral();
+    @Given("^an appliance with cppId \"([^\"]*)\" is discovered and selected$")
+    public void anApplianceWithCppIdIsDiscoveredAndSelected(final String cppId) throws Throwable {
+        current = (ReferenceAppliance) commCentral.getApplianceManager().findApplianceByCppId(cppId);
+        if (current == null) {
+            ApplianceWaiter.Waiter<Appliance> waiter = ApplianceWaiter.forCppId(cppId);
 
-        ApplianceWaiter.Waiter<Appliance> waiter = ApplianceWaiter.forCppId("AA:AA:AA:AA:AA:AA");
+            commCentral.getApplianceManager().addApplianceListener(waiter);
+            commCentral.startDiscovery();
 
-        commCentral.getApplianceManager().addApplianceListener(waiter);
-        commCentral.startDiscovery();
+            current = (ReferenceAppliance) waiter.waitForAppliance(1, MINUTES).getAppliance();
+            commCentral.stopDiscovery();
+        }
 
-        current = (ReferenceAppliance) waiter.waitForAppliance(2, MINUTES).getAppliance();
+        assertNotNull("Appliance not found!", current);
+
         Log.i(LOGTAG, "Found our referenceAppliance!");
-    }
 
-    @When("^application requests time value from time port$")
-    public void applicationRequestsTimeValueFromTimePort() throws Throwable {
         PortListener listener = new PortListener();
-
         portListeners.put(TimePort.class, listener);
         current.getTimePort().addPortListener(listener);
+    }
+
+    @Given("^device is connected to SSID \"(.*?)\"$")
+    public void deviceIsConnectedToSSID(String ssid) throws Throwable {
+        WifiManager wifiManager = (WifiManager) app.getSystemService(Context.WIFI_SERVICE);
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+
+        assertEquals("Wifi turned off", SupplicantState.COMPLETED, wifiInfo.getSupplicantState());
+
+        ssid = String.format("\"%s\"", ssid); // According to spec the getSSID is returned with double quotes
+        assertEquals("Connected to wrong network", ssid, wifiInfo.getSSID());
+    }
+
+    @Given("^bluetooth is turned on$")
+    public void bluetoothIsTurnedOn() {
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (!bluetoothAdapter.isEnabled()) {
+            bluetoothAdapter.enable();
+        }
+    }
+
+    @Given("^appliance is paired to cloud$")
+    public void applianceIsPairedToCloud() throws Throwable {
+        app.getCommCentral().getApplianceManager().storeAppliance(current);
+
+        PairingWaiter pairingWaiter = new PairingWaiter();
+        PairingHandler pairingHandler = new PairingHandler<>(pairingWaiter, current, app.getCloudController());
+        pairingHandler.startPairing();
+
+        pairingWaiter.waitForPairingCompleted(1, MINUTES);
+
+        assertTrue("Pairing failed", pairingWaiter.pairingSucceeded);
+    }
+
+    @Given("^appliance is stored on device$")
+    public void applianceIsStoredOnDevice() throws Throwable {
+        app.getCommCentral().getApplianceManager().storeAppliance(current);
+        stored = true;
+    }
+
+    @Given("^cloudCommunication is used$")
+    public void cloudCommunicationIsUsed() throws Throwable {
+        current.getCommunicationStrategy().forceStrategyType(CloudCommunicationStrategy.class);
+    }
+
+    @Given("^wifi is turned off$")
+    public void wifiIsTurnedOff() throws Throwable {
+        WifiManager wifiManager = (WifiManager) app.getSystemService(Context.WIFI_SERVICE);
+        wifiManager.setWifiEnabled(false);
+    }
+
+    @Given("^is signed on to cloud$")
+    public void isSignedOnToCloud() throws Throwable {
+        CloudController cloudController = app.getCloudController();
+
+        CloudSignOnWaiter cloudSignOnWaiter = new CloudSignOnWaiter();
+        cloudController.addSignOnListener(cloudSignOnWaiter);
+
+        if (!cloudController.isSignOn()) {
+            cloudSignOnWaiter.waitForSignOn(1, MINUTES);
+        }
+
+        cloudController.removeSignOnListener(cloudSignOnWaiter);
+
+        assertTrue("Sign on failed", cloudController.isSignOn());
+    }
+
+    @When("^device requests time value from time port$")
+    public void deviceRequestsTimeValueFromTimePort() throws Throwable {
         Log.d(LOGTAG, "Reloading timeport");
         current.getTimePort().reloadProperties();
     }
 
-    @Then("^time value is received without errors$")
-    public void timeValueIsReceivedWithoutErrors() throws Throwable {
-        Log.d(LOGTAG, "Waiting for timeport refresh");
+    @When("^device subscribes on time port$")
+    public void deviceSubscribesOnTimePort() throws Throwable {
+        Log.d(LOGTAG, String.format("Subscribing to timeport"));
 
         PortListener listener = portListeners.get(TimePort.class);
-        listener.waitForPortUpdate(3, MINUTES);
+        listener.reset();
+
+        current.getTimePort().subscribe();
+        listener.waitForPortUpdates(1, MINUTES);
+
+        assertThat(listener.receivedCount).as("Time values received from timeport").isGreaterThanOrEqualTo(1);
+
+        subscribed = true;
+    }
+
+    @Then("^time value is received without errors$")
+    public void timeValueIsReceivedWithoutErrors() throws Throwable {
+        timeValueIsReceivedTimesWithoutErrors(1);
+    }
+
+    @Then("^time value is received (\\d+) times without errors$")
+    public void timeValueIsReceivedTimesWithoutErrors(int count) throws Throwable {
+        Log.d(LOGTAG, String.format("Waiting for %d timeport updates", count));
+
+        PortListener listener = portListeners.get(TimePort.class);
+        listener.reset(count);
+
+        listener.waitForPortUpdates(1, MINUTES);
 
         scenario.write("Errors:" + listener.errors.toString());
 
-        assertEquals(emptyList(), listener.errors);
-        assertTrue(listener.valueWasReceived);
+        assertEquals("Errors received from time port", emptyList(), listener.errors);
+        assertThat(listener.receivedCount).as("Time values received from timeport").isGreaterThanOrEqualTo(count);
 
         final String datetime = current.getTimePort().getPortProperties().datetime;
         scenario.write("Got time: " + datetime);

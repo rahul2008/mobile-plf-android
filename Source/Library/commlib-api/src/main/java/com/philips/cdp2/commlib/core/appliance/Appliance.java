@@ -13,7 +13,6 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.port.common.PairingPort;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
-import com.philips.cdp.dicommclient.port.common.WifiUIPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CombinedCommunicationStrategy;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
@@ -38,7 +37,6 @@ public abstract class Appliance implements Availability<Appliance> {
     private final FirmwarePort firmwarePort;
     private final PairingPort pairingPort;
     private final WifiPort wifiPort;
-    private final WifiUIPort wifiUIPort;
 
     protected final CommunicationStrategy communicationStrategy;
 
@@ -70,13 +68,11 @@ public abstract class Appliance implements Availability<Appliance> {
         firmwarePort = new FirmwarePort(this.communicationStrategy);
         pairingPort = new PairingPort(this.communicationStrategy);
         wifiPort = new WifiPort(this.communicationStrategy);
-        wifiUIPort = new WifiUIPort(this.communicationStrategy);
 
         addPort(devicePort);
         addPort(firmwarePort);
         addPort(pairingPort);
         addPort(wifiPort);
-        addPort(wifiUIPort);
     }
 
     /**
@@ -138,40 +134,68 @@ public abstract class Appliance implements Availability<Appliance> {
         }
     }
 
+    /**
+     * Returns the DevicePort of the appliance
+     * @return DevicePort
+     */
     public DevicePort getDevicePort() {
         return devicePort;
     }
 
+    /**
+     * Returns the FirmwarePort of the appliance
+     * @return FirmwarePort
+     */
     public FirmwarePort getFirmwarePort() {
         return firmwarePort;
     }
 
+    /**
+     * Returns the PairingPort of the appliance
+     * @return PairingPort
+     */
     public PairingPort getPairingPort() {
         return pairingPort;
     }
 
+    /**
+     * Returns the WifiPort of the appliance
+     * @return WifiPort
+     */
     public WifiPort getWifiPort() {
         return wifiPort;
     }
 
-    public WifiUIPort getWifiUIPort() {
-        return wifiUIPort;
-    }
-
+    /**
+     * Returns the set of all ports in the appliance
+     * @return Set<DICommPort>
+     */
     public Set<DICommPort> getAllPorts() {
         return ports;
     }
 
+    /**
+     * Returns the appliance's name
+     * @return String The name of the appliance
+     */
     public String getName() {
         return getNetworkNode().getName();
     }
 
+    /**
+     * Adds a listener for every {@link DICommPort} in the appliance
+     * @param portListener DICommPortListener
+     */
     public void addListenerForAllPorts(final @NonNull DICommPortListener portListener) {
         for (DICommPort port : getAllPorts()) {
             port.addPortListener(portListener);
         }
     }
 
+    /**
+     * Removes the listener from every {@link DICommPort} in the appliance
+     * @param portListener DICommPortListener
+     */
     public void removeListenerForAllPorts(final @NonNull DICommPortListener portListener) {
         for (DICommPort port : getAllPorts()) {
             port.removePortListener(portListener);
@@ -199,6 +223,7 @@ public abstract class Appliance implements Availability<Appliance> {
      *
      * @return true, if communication to this Appliance is possible
      */
+    @Override
     public boolean isAvailable() {
         return communicationStrategy.isAvailable();
     }

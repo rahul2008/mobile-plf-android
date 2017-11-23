@@ -48,6 +48,11 @@ public interface Availability<T extends Availability> {
      * @param <T> The type of Availability object returned when changes to availability happen.
      */
     interface AvailabilityListener<T extends Availability> {
+
+        /**
+         * Called when the availability of an object changes.
+         * @param object T The object that has a changed availability.
+         */
         void onAvailabilityChanged(@NonNull T object);
     }
 }

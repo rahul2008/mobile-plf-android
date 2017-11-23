@@ -686,9 +686,9 @@ public class DICommPortTest {
 
     private void verifySubscribeCalled(boolean invoked) {
         if (invoked) {
-            verify(communicationStrategyMock, times(1)).subscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(DICommPort.SUBSCRIPTION_TTL), responseHandlerCaptor.capture());
+            verify(communicationStrategyMock, times(1)).subscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(DICommPort.SUBSCRIPTION_TTL_S), responseHandlerCaptor.capture());
         } else {
-            verify(communicationStrategyMock, never()).subscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(DICommPort.SUBSCRIPTION_TTL), responseHandlerCaptor.capture());
+            verify(communicationStrategyMock, never()).subscribe(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(DICommPort.SUBSCRIPTION_TTL_S), responseHandlerCaptor.capture());
         }
     }
 

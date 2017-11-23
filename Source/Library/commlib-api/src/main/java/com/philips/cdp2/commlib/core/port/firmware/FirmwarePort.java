@@ -21,6 +21,8 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
+ * The FirmwarePort is a {@link DICommPort} holding information about the firmware in the appliance.
+ * It is also used to initiate firmware upgrades.
  * @publicApi
  */
 public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
@@ -122,6 +124,10 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         }
     };
 
+    /**
+     * Instantiates a FirmwarePort object.
+     * @param communicationStrategy CommunicationStrategy
+     */
     public FirmwarePort(final @NonNull CommunicationStrategy communicationStrategy) {
         super(communicationStrategy);
         callbackHandler = HandlerProvider.createHandler();
@@ -204,14 +210,26 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         }
     }
 
+    /**
+     * Adds a listener to be notified when FirmwarePort properties are updated
+     * @param listener FirmwarePortListener
+     */
     public void addFirmwarePortListener(FirmwarePortListener listener) {
         firmwarePortListeners.add(listener);
     }
 
+    /**
+     * Removes a listener from being notified when FirmwarePort properties are updated
+     * @param listener FirmwarePortListener
+     */
     public void removeFirmwarePortListener(FirmwarePortListener listener) {
         firmwarePortListeners.remove(listener);
     }
 
+    /**
+     * Indicates the appliance's capability to perform firmware upgrade
+     * @return boolean True if the appliance is capable of performing firmware upgrade, false otherwise.
+     */
     public boolean canUpgrade() {
         FirmwarePortProperties properties = getPortProperties();
         if (properties == null) {
@@ -259,6 +277,9 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         return true;
     }
 
+    /**
+     * Finished the firmware update operation.
+     */
     public void finishFirmwareUpdate() {
         this.firmwareUpdateOperation = null;
     }

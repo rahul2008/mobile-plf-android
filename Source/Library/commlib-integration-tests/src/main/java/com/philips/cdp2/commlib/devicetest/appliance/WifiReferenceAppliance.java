@@ -10,11 +10,11 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.devicetest.CombinedCommunicationTestingStrategy;
 
-public class BleReferenceAppliance extends ReferenceAppliance {
+public class WifiReferenceAppliance extends ReferenceAppliance {
 
-    public static final String DEVICETYPE = "ReferenceNode";
+    public static final String DEVICETYPE = "BCM943903";
 
-    public BleReferenceAppliance(final @NonNull NetworkNode networkNode, final @NonNull CombinedCommunicationTestingStrategy communicationStrategy) {
+    public WifiReferenceAppliance(final @NonNull NetworkNode networkNode, final @NonNull CombinedCommunicationTestingStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
     }
 

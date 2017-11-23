@@ -16,7 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @param <P>
+ * The PairingPort is an extension to {@link DICommPort} with the added functionality of pairing.
+ * @param <P> Type of PortProperties
  * @publicApi
  */
 public class PairingPort<P extends PortProperties> extends DICommPort<P> {
@@ -27,6 +28,10 @@ public class PairingPort<P extends PortProperties> extends DICommPort<P> {
     private static final String KEY_SETUP = "setup";
     private static final String KEY_CONNECTION = "connection";
 
+    /**
+     * Instantiates a PairingPort object
+     * @param communicationStrategy CommunicationStrategy The strategy to use for communication during pairing.
+     */
     public PairingPort(final @NonNull CommunicationStrategy communicationStrategy) {
         super(communicationStrategy);
     }
@@ -51,6 +56,10 @@ public class PairingPort<P extends PortProperties> extends DICommPort<P> {
         return false;
     }
 
+    /**
+     * Disables demo mode.
+     * Calls #putProperties internally.
+     */
     public void disableDemoMode() {
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put(KEY_SETUP, "inactive");
@@ -58,6 +67,12 @@ public class PairingPort<P extends PortProperties> extends DICommPort<P> {
         putProperties(dataMap);
     }
 
+    /**
+     *
+     * @param clientType String The type of client to trigger pairing for
+     * @param clientId String The ID of the client triggering pairing
+     * @param secretKey String A secret key
+     */
     public void triggerPairing(String clientType, String clientId, String secretKey) {
         String[] dataArray = {clientType, clientId, secretKey};
         HashMap<String, Object> dataMap = new HashMap<String, Object>();
@@ -65,6 +80,15 @@ public class PairingPort<P extends PortProperties> extends DICommPort<P> {
         putProperties(dataMap);
     }
 
+    /**
+     *
+     * @param clientProvider String The entity to provide the client to pair with
+     * @param clientType String The type of client who wants to start pairing
+     * @param clientId String An ID to indicate who the client is
+     * @param secretKey String A secret key
+     * @param type String The type of pairing the client wants to perform
+     * @param permissions String[] The kind of permissions to set up a pairing relation for
+     */
     public void triggerPairing(String clientProvider, String clientType, String clientId, String secretKey, String type, String[] permissions) {
         Object[] dataArray = {clientProvider, clientType, clientId, secretKey, type, permissions};
         HashMap<String, Object> dataMap = new HashMap<String, Object>();

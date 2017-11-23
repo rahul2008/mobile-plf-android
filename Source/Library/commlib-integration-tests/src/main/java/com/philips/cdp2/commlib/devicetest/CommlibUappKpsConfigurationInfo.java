@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp2.demouapp;
+package com.philips.cdp2.commlib.devicetest;
 
 import com.philips.cdp.cloudcontroller.KpsConfigurationInfo;
 

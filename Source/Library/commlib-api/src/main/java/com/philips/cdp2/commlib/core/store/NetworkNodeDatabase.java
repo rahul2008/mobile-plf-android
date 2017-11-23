@@ -30,6 +30,11 @@ import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_
 import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_PIN;
 import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
 
+/**
+ * This database stores {@link NetworkNode}s in shared preferences.
+ *
+ * @publicApi
+ */
 public class NetworkNodeDatabase {
 
     private NetworkNodeDatabaseHelper dbHelper;
@@ -38,6 +43,11 @@ public class NetworkNodeDatabase {
         dbHelper = new NetworkNodeDatabaseHelper();
     }
 
+    /**
+     * List all {@link NetworkNode}s currently stored.
+     *
+     * @return List of networkNodes.
+     */
     public List<NetworkNode> getAll() {
         List<NetworkNode> result = new ArrayList<>();
 
@@ -94,6 +104,14 @@ public class NetworkNodeDatabase {
         return result;
     }
 
+    /**
+     * Save a {@link NetworkNode}.
+     * <p>
+     * If the node was already in the database it will be overwritten.
+     *
+     * @param networkNode {@link NetworkNode} to save.
+     * @return rowId of the saved node, -1L if not successful.
+     */
     public long save(NetworkNode networkNode) {
         long rowId = -1L;
 
@@ -141,6 +159,12 @@ public class NetworkNodeDatabase {
         return rowId;
     }
 
+    /**
+     * Check to see if this database contains a specific {@link NetworkNode}.
+     *
+     * @param networkNode {@link NetworkNode} to find.
+     * @return <code>true</code> if the {@link NetworkNode} is contained in this database.
+     */
     public boolean contains(NetworkNode networkNode) {
         if (networkNode == null) return false;
 
@@ -165,6 +189,12 @@ public class NetworkNodeDatabase {
         return false;
     }
 
+    /**
+     * Delete a {@link NetworkNode} from this database.
+     *
+     * @param networkNode {@link NetworkNode} to delete.
+     * @return the number of rows deleted.
+     */
     public int delete(NetworkNode networkNode) {
         SQLiteDatabase db = null;
         int rowsDeleted = 0;

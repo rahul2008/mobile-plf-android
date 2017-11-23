@@ -14,6 +14,7 @@ Version {next}
 * CommLib - \#85443 SSDP is rewritten from C and JNI in pure Java.
 * CommLib - CommCentral now throws a `UnsupportedOperationException` whenever a second instance is created.
 * CommLib - \#95503 Utility methods `LanTransportContext#acceptPinFor(Appliance, String)` and `LanTransportContext#readPin(Appliance)` were added.
+* CommLib - \#94659 In DeviceCloud communication (DCS), CommLib is no longer dependent on the order in which callbacks are called, which improves the communication's stability.
 
 ### Backwards Compatibility
 * CommLib - `Appliance.enableCommunication` is no longer needed before a subscription.
@@ -36,6 +37,7 @@ Version {next}
 * CommLib - `TransportContext` instances are now contructed with a `RuntimeConfiguration` object to allow for app-specific configuration options
 * CommLib - `DiCommPort` no longer has the `isResponseForThisPort` method. This is handled internally by CommLib.
 * CommLib - the method `getDICommPortName` has been made public in order to determine the correct destination for incoming port data.
+* CommLib - `ApplianceManager.ApplianceListener` is not generic typed anymore.
 
 ### Defects solved
 * CommLib - \#72227 Timeout callback not called

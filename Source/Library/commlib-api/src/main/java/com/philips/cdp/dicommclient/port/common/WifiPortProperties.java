@@ -5,93 +5,185 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.port.PortProperties;
 
 /**
+ * Properties of the {@link WifiPort}.
+ *
  * @publicApi
  */
 public class WifiPortProperties implements PortProperties {
 
-	private String ssid;
-	private String password;
-	private String protection;
-	private String ipaddress;
-	private String netmask;
-	private String gateway;
-	private boolean dhcp;
-	private String macaddress;
-	private String cppid;
+    private String ssid;
+    private String password;
+    private String protection;
+    private String ipaddress;
+    private String netmask;
+    private String gateway;
+    private boolean dhcp;
+    private String macaddress;
+    private String cppid;
 
-	public String getSsid() {
-		return ssid;
-	}
+    /**
+     * Gets WiFi AP ssid.
+     *
+     * @return the ssid
+     */
+    public String getSsid() {
+        return ssid;
+    }
 
-	public void setSsid(String ssid) {
-		this.ssid = ssid;
-	}
+    /**
+     * Sets WiFi AP ssid.
+     *
+     * @param ssid the ssid
+     */
+    public void setSsid(String ssid) {
+        this.ssid = ssid;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    /**
+     * Gets WiFi password.
+     *
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    /**
+     * Sets WiFi password.
+     *
+     * @param password the password
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getProtection() {
-		return protection;
-	}
+    /**
+     * Gets protection.
+     *
+     * @return the protection
+     */
+    public String getProtection() {
+        return protection;
+    }
 
-	public void setProtection(String protection) {
-		this.protection = protection;
-	}
+    /**
+     * Sets protection.
+     *
+     * @param protection the protection
+     */
+    public void setProtection(String protection) {
+        this.protection = protection;
+    }
 
-	public String getIpaddress() {
-		return ipaddress;
-	}
+    /**
+     * Gets {@link Appliance} ipaddress.
+     *
+     * @return the ipaddress
+     */
+    public String getIpaddress() {
+        return ipaddress;
+    }
 
-	public void setIpaddress(String ipddress) {
-		this.ipaddress = ipddress;
-	}
+    /**
+     * Sets {@link Appliance} ipaddress.
+     *
+     * @param ipddress the ipddress
+     */
+    public void setIpaddress(String ipddress) {
+        this.ipaddress = ipddress;
+    }
 
-	public String getNetmask() {
-		return netmask;
-	}
+    /**
+     * Gets netmask.
+     *
+     * @return the netmask
+     */
+    public String getNetmask() {
+        return netmask;
+    }
 
-	public void setNetmask(String netmask) {
-		this.netmask = netmask;
-	}
+    /**
+     * Sets netmask.
+     *
+     * @param netmask the netmask
+     */
+    public void setNetmask(String netmask) {
+        this.netmask = netmask;
+    }
 
-	public String getGateway() {
-		return gateway;
-	}
+    /**
+     * Gets gateway.
+     *
+     * @return the gateway
+     */
+    public String getGateway() {
+        return gateway;
+    }
 
-	public void setGateway(String gateway) {
-		this.gateway = gateway;
-	}
+    /**
+     * Sets gateway.
+     *
+     * @param gateway the gateway
+     */
+    public void setGateway(String gateway) {
+        this.gateway = gateway;
+    }
 
-	public boolean isDhcp() {
-		return dhcp;
-	}
+    /**
+     * Is DHCP used by the {@link Appliance}
+     *
+     * @return <code>true</code> if DHCP is used.
+     */
+    public boolean isDhcp() {
+        return dhcp;
+    }
 
-	public void setDhcp(boolean dhcp) {
-		this.dhcp = dhcp;
-	}
+    /**
+     * Sets whether to use DHCP for automatic IP address configuration.
+     *
+     * @param dhcp <code>true</code> if DHCP should be used.
+     */
+    public void setDhcp(boolean dhcp) {
+        this.dhcp = dhcp;
+    }
 
-	public String getMacaddress() {
-		return macaddress;
-	}
+    /**
+     * Gets macaddress.
+     *
+     * @return the macaddress
+     */
+    public String getMacaddress() {
+        return macaddress;
+    }
 
-	public void setMacaddress(String macaddress) {
-		this.macaddress = macaddress;
-	}
+    /**
+     * Sets macaddress.
+     *
+     * @param macaddress the macaddress
+     */
+    public void setMacaddress(String macaddress) {
+        this.macaddress = macaddress;
+    }
 
-	public String getCppid() {
-		return cppid;
-	}
+    /**
+     * Gets the {@link Appliance} cppid.
+     *
+     * @return the cppid
+     */
+    public String getCppid() {
+        return cppid;
+    }
 
-	public void setCppid(String cppid) {
-		this.cppid = cppid;
-	}
-
+    /**
+     * Sets the {@link Appliance} cppid.
+     *
+     * @param cppid the cppid
+     */
+    public void setCppid(String cppid) {
+        this.cppid = cppid;
+    }
 }

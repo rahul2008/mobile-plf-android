@@ -21,7 +21,7 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.philips.cdp.dicommclient.port.DICommPort.SUBSCRIPTION_TTL;
+import static com.philips.cdp.dicommclient.port.DICommPort.SUBSCRIPTION_TTL_S;
 
 public class FirmwarePortStateWaiter {
 
@@ -120,7 +120,7 @@ public class FirmwarePortStateWaiter {
         }
 
         communicationStrategy.addSubscriptionEventListener(firmwareSubscriptionEventListener);
-        communicationStrategy.subscribe(firmwarePort.getDICommPortName(), firmwarePort.getDICommProductId(), SUBSCRIPTION_TTL, emptyResponseHandler);
+        communicationStrategy.subscribe(firmwarePort.getDICommPortName(), firmwarePort.getDICommProductId(), SUBSCRIPTION_TTL_S, emptyResponseHandler);
 
         timeoutTask = new TimerTask() {
             @Override
