@@ -30,6 +30,8 @@ import static junit.framework.Assert.assertSame;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -145,7 +147,7 @@ public class NavigatorTest {
     public void itShouldNavigateToConnectingPhoneToHotspotWifiFragment() throws Exception {
         subject.navigateToConnectingPhoneToHotspotWifiScreen();
 
-        verifyFragmentPushed(ConnectingWithDeviceFragment.class);
+        verifyNewFragmentPushed(ConnectingWithDeviceFragment.class);
     }
 
     @Test
@@ -190,7 +192,13 @@ public class NavigatorTest {
 
     private void verifyFragmentPushed(@NonNull Class clazz) {
         ArgumentCaptor<Fragment> captor = ArgumentCaptor.forClass(Fragment.class);
-        verify(mockFragmentNavigator).push(captor.capture(), anyInt(),anyBoolean());
+        verify(mockFragmentNavigator).push(captor.capture(), anyInt(),anyBoolean(),eq(true));
+        assertEquals(clazz, captor.getValue().getClass());
+    }
+
+    private void verifyNewFragmentPushed(@NonNull Class clazz) {
+        ArgumentCaptor<Fragment> captor = ArgumentCaptor.forClass(Fragment.class);
+        verify(mockFragmentNavigator).push(captor.capture(), anyInt(),anyBoolean(),eq(false));
         assertEquals(clazz, captor.getValue().getClass());
     }
 }
