@@ -4,15 +4,6 @@
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <data>
-
-        <variable
-            name="listener"
-            type="android.view.View.OnClickListener" />
-
-    </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,7 +31,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_main_button_top_margin"
-            android:onClick="@{(v) -> listener.onClick(v)}"
             android:text="@string/button_ews_enable_gps_settings" />
     </LinearLayout>
 

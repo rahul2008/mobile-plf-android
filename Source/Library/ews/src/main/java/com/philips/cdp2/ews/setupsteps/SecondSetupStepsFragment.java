@@ -19,6 +19,7 @@ import android.view.Window;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
+import com.philips.cdp2.ews.setupsteps.SecondSetupStepsViewModel.LocationPermissionFlowCallback;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentSecondSetupStepsBinding;
 import com.philips.cdp2.ews.dialog.EWSAlertDialogFragment;
@@ -28,9 +29,7 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
-import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
-
-public class SecondSetupStepsFragment extends BaseFragment implements SecondSetupStepsViewModel.LocationPermissionFlowCallback {
+public class SecondSetupStepsFragment extends BaseFragment implements LocationPermissionFlowCallback {
 
     public static final int LOCATION_PERMISSIONS_REQUEST_CODE = 10;
 
@@ -105,7 +104,7 @@ public class SecondSetupStepsFragment extends BaseFragment implements SecondSetu
                 if (viewModel != null) {
                     alertDialogFragment.dismiss();
                     if (isAdded()) {
-                        requestPermissions(new String[]{ACCESS_COARSE_LOCATION}, LOCATION_PERMISSIONS_REQUEST_CODE);
+                        requestPermissions(new String[]{SecondSetupStepsViewModel.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSIONS_REQUEST_CODE);
                     }
                 }
             }
