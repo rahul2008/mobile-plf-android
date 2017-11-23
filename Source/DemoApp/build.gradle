@@ -26,3 +26,14 @@ allprojects {
     }
 }
 
+task testAllDebug(type: GradleBuild) {
+    tasks = ['clean', 'assembleDebug', 'MyAccount:testDebugUnitTest', 'DemoUApp:testDebugUnitTest', 'ConsentWidgets:testDebugUnitTest', 'ConsentAccessToolkit:testDebugUnitTest', 'app:testDeviceDebugUnitTest']
+}
+
+task testAllRelease(type: GradleBuild) {
+    tasks = ['clean', 'assembleRelease', 'MyAccount:testReleaseUnitTest', 'DemoUApp:testReleaseUnitTest', 'ConsentWidgets:testReleaseUnitTest', 'ConsentAccessToolkit:testReleaseUnitTest', 'app:testDeviceReleaseUnitTest']
+}
+
+task testAll(type: GradleBuild) {
+    tasks = ['clean', 'build', 'MyAccount:test', 'DemoUApp:test', 'ConsentWidgets:test', 'ConsentAccessToolkit:test', 'app:test']
+}
