@@ -77,7 +77,17 @@ node ('android&&docker') {
                 junit allowEmptyResults: true, testResults: 'Source/Library/ConsentAccessToolkit/build/test-results/**/*.xml'
                 junit allowEmptyResults: true, testResults: 'Source/Library/ConsentWidgets/build/test-results/**/*.xml'
                 junit allowEmptyResults: true, testResults: 'Source/Library/MyAccount/build/test-results/**/*.xml'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/MyAccount/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release'])
+                
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/DemoApp/app/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'DemoApp - release test'])
+                
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/DemoUApp/DemoUApp/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'DemoUApp - release test'])
+                
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/ConsentAccessToolkit/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'ConsentAccessToolkit - release test'])
+                
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/ConsentWidgets/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'ConsentWidgets - release test'])
+                
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/MyAccount/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'MyAccount - release test'])
+                
                 archiveArtifacts '**/*dependencies*.lock'
             }
             stage('informing') {
