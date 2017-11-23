@@ -9,7 +9,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
 }
@@ -25,52 +25,5 @@ allprojects {
     }
 }
 
-
-allprojects {
-    ext.compileSdkVer = 23
-    ext.buildToolsVer = '23.0.3'
-    ext.minSdkVer = 19
-    ext.targetSdkVer = 22
-    ext.appVersion = '0.0.1'
-    ext.appVersionCode = 2
-   
-    //Support library
-    ext.supportLibraryVer = '24.1.1'
-    ext.multiDexVersion = '1.0.1'
-    ext.gsonVersion = '2.4'
-
-    //External lib
-    ext.butterKnifeVer = '7.0.1'
-    ext.gifDrawableVersion = '1.1.17'
-
-    //Common component
-    ext.digitalCareVersion = '5.2.0-rc.1'
-    ext.registrationVer = '7.1.0-SNAPSHOT'
-    ext.uikitVersion = '3.2.3'
-
-    ext.junitVer = '4.12'
-    ext.mockitoVer = '1.10.17'
-    ext.mockitoCoreVer = '1.10.19'
-    ext.robolectricVer = '3.0'
-    ext.shadowsSupportVer = '3.0'
-
-    ext.ormliteVer = '4.48'
-
-    ext.eventBusVer = '2.4.0'
-    ext.jodaTimeVer = '2.9.2'
-    ext.androidAssertJVer = '1.1.1'
-    ext.mavenAntTaskVer = '2.1.3'
-
-    ext.daggerVer = '2.0.2'
-    ext.stethoVer = '1.3.1'
-
-    ext.okhttpVer = '2.7.5'
-    ext.glideVer = '3.6.1'
-    ext.glideOkHttpIntegrationVer = '1.3.1'
-
-    ext.retrofitVer = '1.9.0'
-
-    ext.volleyVer = '1.0.0'
-}
 
 
