@@ -69,15 +69,15 @@ public class ContentConfigurationBindingsTest {
 
     @Test
     public void itShouldCheckWhenSetTextFormatterCallWithOneArg() throws Exception {
-        String formatedString = String.format(mMockContext.getString(R.string.label_ews_get_started_title_default), APPNAME);
-        subject.setFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_get_started_title_default), mockBaseContentConfiguration.getAppName());
+        String formatedString = String.format(mMockContext.getString(R.string.label_ews_get_started_title), APPNAME);
+        subject.setFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_get_started_title), mockBaseContentConfiguration.getAppName());
         verify(mockTextView).setText(formatedString);
     }
 
     @Test
     public void itShouldFailWhenAppNameResourceNotSetTextFormatterCallWithOneArg() throws Exception {
         when(mockBaseContentConfiguration.getAppName()).thenReturn(0);
-        subject.setFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_get_started_title_default), mockBaseContentConfiguration.getAppName());
+        subject.setFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_get_started_title), mockBaseContentConfiguration.getAppName());
         verify(mockTextView, times(0)).setText(anyString());
     }
 
@@ -125,14 +125,14 @@ public class ContentConfigurationBindingsTest {
 
     @Test
     public void itShouldCheckWhenSetStringUsingStringFormatter() throws Exception {
-        String formatedString = String.format(mMockContext.getString(R.string.label_ews_get_started_title_default), APPNAME);
-        subject.setStringFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_get_started_title_default), APPNAME);
+        String formatedString = String.format(mMockContext.getString(R.string.label_ews_get_started_title), APPNAME);
+        subject.setStringFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_get_started_title), APPNAME);
         verify(mockTextView).setText(formatedString);
     }
 
     @Test
     public void itShouldFailWhenEmptyStringPassedINSetStringUsingStringFormatter() throws Exception {
-        subject.setStringFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_get_started_title_default), "");
+        subject.setStringFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_get_started_title), "");
         verify(mockTextView, times(0)).setText(anyString());
     }
 
