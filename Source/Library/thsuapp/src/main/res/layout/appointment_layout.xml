@@ -8,7 +8,6 @@
 
 
     <com.philips.platform.uid.view.widget.Label
-        android:layout_width="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/ths_fab_margin"
         android:id="@+id/pth_practice_logo"
@@ -17,7 +16,8 @@
         android:textAlignment="center"
         android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
         android:text="@string/dls_calendar"
-        android:layout_height="wrap_content" />
+        android:layout_width="@dimen/ths_image_size"
+        android:layout_height="@dimen/ths_image_size" />
 
 
 

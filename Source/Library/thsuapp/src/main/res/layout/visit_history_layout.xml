@@ -2,22 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ths_visit_history_layout"
     android:layout_width="match_parent"
-    android:background="?attr/uidContentPrimaryBackgroundColor"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
 
 
-    <com.philips.platform.uid.view.widget.Label
-        android:layout_width="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/ths_fab_margin"
+    <ImageView
         android:id="@+id/pth_practice_logo"
+        android:layout_width="@dimen/ths_image_size"
+        android:layout_height="@dimen/ths_image_size"
+        android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/ths_fab_margin"
-        fontPath="fonts/iconfont.ttf"
-        android:textAlignment="center"
-        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
-        android:text="@string/dls_star"
-        android:layout_height="wrap_content" />
-
+        android:layout_marginStart="@dimen/ths_fab_margin"
+        android:src="@mipmap/dls_star" />
 
 
     <com.philips.platform.uid.view.widget.Label
@@ -29,24 +25,24 @@
         android:layout_toStartOf="@+id/ths_practice_arrow_image"
         android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
         android:maxLines="3"
+        android:text="@string/ths_visit_history"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         android:textSize="@dimen/ths_body_text"
-        android:text="@string/ths_visit_history"
         android:textStyle="bold" />
 
     <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_practice_arrow_image"
+        fontPath="fonts/iconfont.ttf"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/ths_fab_margin"
         android:layout_marginEnd="@dimen/ths_fab_margin"
-        android:id="@+id/ths_practice_arrow_image"
-        android:text="@string/dls_navigationright"
-        fontPath="fonts/iconfont.ttf"
-        android:textAlignment="center"
+        android:layout_marginStart="@dimen/ths_fab_margin"
         android:gravity="center_vertical"
-        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
-        android:layout_height="wrap_content"/>
+        android:text="@string/dls_navigationright"
+        android:textAlignment="center"
+        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor" />
 
 
     <View
