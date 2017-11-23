@@ -70,6 +70,10 @@ public class URLogout implements URLogoutInterface{
         return PushNotificationManager.getInstance();
     }
 
+    protected DataServicesManager getDataServicesManager() {
+        return DataServicesManager.getInstance();
+    }
+
     private void doLogout(final Context activityContext, User user) {
         user.logout(new LogoutHandler() {
             @Override
@@ -77,7 +81,7 @@ public class URLogout implements URLogoutInterface{
                 if (urLogoutListener != null) {
                     urLogoutListener.onLogoutResultSuccess();
                 }
-                DataServicesManager.getInstance().deleteAll(new DBRequestListener() {
+                getDataServicesManager().deleteAll(new DBRequestListener() {
                     @Override
                     public void onSuccess(List list) {
                         RALog.d(TAG,"Deleted saved data from database");

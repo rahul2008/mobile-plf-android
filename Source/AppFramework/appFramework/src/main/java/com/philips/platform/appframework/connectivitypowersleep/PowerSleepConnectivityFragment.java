@@ -143,7 +143,13 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     }
 
     protected PowerSleepConnectivityPresenter getConnectivityPresenter() {
-        return new PowerSleepConnectivityPresenter(connectivityHelper,getActivity(), this, this);
+        PowerSleepConnectivityPresenter presenter = new PowerSleepConnectivityPresenter(connectivityHelper,getActivity(), this, this);
+        presenter.initDataServiceInterface(getDataServicesManager());
+        return presenter;
+    }
+
+    protected DataServicesManager getDataServicesManager() {
+        return DataServicesManager.getInstance();
     }
 
     @Override

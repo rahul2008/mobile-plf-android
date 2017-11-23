@@ -64,11 +64,11 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
         this.context = context;
         this.connectivityViewListener = connectivityViewListener;
         this.connectivityHelper=connectivityHelper;
-        initDataServiceInterface();
+
     }
 
-    public void initDataServiceInterface() {
-        dataServicesManager = DataServicesManager.getInstance();
+    public void initDataServiceInterface(DataServicesManager dataServicesManager) {
+        this.dataServicesManager = dataServicesManager;
     }
 
     @Override
@@ -90,7 +90,7 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
                             connectivityViewListener.hideProgressDialog();
                             connectivityViewListener.showToast("Moment list size::" + sleepDataList.getSortedList().size());
                         }
-                        if(sleepDataList!=null && sleepDataList.size()>0) {
+                        if(sleepDataList.size()>0) {
                             savePowerSleepMomentsData(sleepDataList.getSortedList());
                         }else{
                             onNoNewSessionsAvailable();
@@ -132,13 +132,14 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
             @Override
             public void onSuccess(List<? extends Moment> list) {
                 fetchLatestSessionInfo();
-                DataServicesManager.getInstance().synchronize();
+                dataServicesManager.synchronize();
                 connectivityViewListener.showToast("Power sleep data pushed to DB" + list.size());
             }
 
             @Override
             public void onFailure(Exception e) {
                 RALog.e(TAG, "Exception while saving moment in DB" + e.getMessage());
+                connectivityViewListener.showToast("Exception while saving moment in DB" + e.getMessage());
             }
         });
     }

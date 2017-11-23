@@ -6,6 +6,7 @@
 
 package com.philips.platform.appframework.connectivitypowersleep;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
@@ -18,6 +19,8 @@ import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.connectivity.ConnectivityFragment;
+import com.philips.platform.core.trackers.DataServicesManager;
 
 import junit.framework.Assert;
 
@@ -60,6 +63,9 @@ public class PowerSleepConnectivityFragmentTest {
 
     @Mock
     private static PowerSleepConnectivityPresenter connectivityPresenter;
+
+    @Mock
+    private static DataServicesManager dataServicesManager;
 
     @Mock
     private static BluetoothAdapter bluetoothAdapter;
@@ -124,9 +130,11 @@ public class PowerSleepConnectivityFragmentTest {
         verify(connectivityPresenter).onEvent(R.id.insights);
     }
 
+
     @Test
     public void getConnectivityPresenterTest() {
-        connectivityFragment = new PowerSleepConnectivityFragment();
+        ConnectivityFragmentMock connectivityFragment = new ConnectivityFragmentMock();
+        connectivityFragment.setInPresenter(true);
         testActivity.getSupportFragmentManager().beginTransaction().add(connectivityFragment, null).commit();
         assertNotNull(connectivityFragment.getConnectivityPresenter());
     }
@@ -138,9 +146,19 @@ public class PowerSleepConnectivityFragmentTest {
 
     public static class ConnectivityFragmentMock extends PowerSleepConnectivityFragment {
 
+        private boolean isPresenter;
+
+        public void setInPresenter(boolean isPresenter) {
+            this.isPresenter = isPresenter;
+        }
         @Override
         protected PowerSleepConnectivityPresenter getConnectivityPresenter() {
-            return connectivityPresenter;
+            return isPresenter ? super.getConnectivityPresenter() : connectivityPresenter;
+        }
+
+        @Override
+        protected DataServicesManager getDataServicesManager() {
+            return dataServicesManager;
         }
 
         @Override
@@ -157,6 +175,7 @@ public class PowerSleepConnectivityFragmentTest {
         connectivityFragment = null;
         testActivity = null;
         activityController = null;
+        dataServicesManager = null;
     }
 
 }
