@@ -183,12 +183,6 @@ public class WebViewPresenterTest {
         verify(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(eq(HIGH_DEEP_SLEEP_KEY), any(ServiceDiscoveryInterface.OnGetServiceUrlListener.class));
     }
 
-    /*@Test
-    public void loadUrlWithDefaultOptionTest() {
-        webViewPresenter.loadUrl(WebViewEnum.);
-        verify(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(eq(TERMS_AND_CONDITIONS), any(ServiceDiscoveryInterface.OnGetServiceUrlListener.class));
-    }*/
-
     static class WebViewPresenterMock extends WebViewPresenter {
 
         public WebViewPresenterMock(WebViewContract.View viewListener, Context context) {
