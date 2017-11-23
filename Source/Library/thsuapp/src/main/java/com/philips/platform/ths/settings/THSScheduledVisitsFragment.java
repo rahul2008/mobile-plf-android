@@ -91,6 +91,12 @@ public class THSScheduledVisitsFragment extends THSBaseFragment implements Swipe
         swipeRefreshLayout.setRefreshing(false);
     }
 
+    public void startRefreshing() {
+        if (!swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(true);
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -99,9 +105,9 @@ public class THSScheduledVisitsFragment extends THSBaseFragment implements Swipe
 
     @Override
     public void onRefresh() {
-        if (!swipeRefreshLayout.isRefreshing()) {
-            swipeRefreshLayout.setRefreshing(true);
-        }
+        startRefreshing();
         getAppointments();
     }
+
+
 }

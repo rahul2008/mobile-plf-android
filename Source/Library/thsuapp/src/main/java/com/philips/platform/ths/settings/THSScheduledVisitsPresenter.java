@@ -40,6 +40,7 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
 
     void cancelAppointment(Appointment appointment) {
         try {
+            mThsScheduledVisitsFragment.startRefreshing();
             THSManager.getInstance().cancelAppointment(mThsScheduledVisitsFragment.getContext(), appointment, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
@@ -53,6 +54,7 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
     @Override
     public void onResponse(List<Appointment> appointments, SDKError sdkError) {
         if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
+            mThsScheduledVisitsFragment.stopRefreshing();
             AmwellLog.i(AmwellLog.LOG, "appoint response");
             mThsScheduledVisitsFragment.updateList(appointments);
             stopRefreshing();
