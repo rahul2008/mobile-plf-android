@@ -35,7 +35,7 @@ public class ConsentView {
     }
 
     public String getType() {
-        return definition.getType();
+        return definition.getTypes().get(0);
     }
 
     public int getVersion() {

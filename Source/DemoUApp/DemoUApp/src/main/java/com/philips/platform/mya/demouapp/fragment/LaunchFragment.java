@@ -35,6 +35,7 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -151,12 +152,8 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         }
     }
 
-
     private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-
         ConsentBundleConfig config = new ConsentBundleConfig(APPLICATION_NAME, PROPOSITION_NAME, createConsentDefinitions(getContext(), Locale.US));
-
-
         CswLaunchInput cswLaunchInput = new CswLaunchInput(config,context);
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
@@ -167,8 +164,8 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
     }
     private List<ConsentDefinition> createConsentDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", "moment", 1, currentLocale));
-        definitions.add(new ConsentDefinition("I allow don't Philips to store my data in cloud", "No one is able to see this text in the app", "tnemom", 1, currentLocale));
+        definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", Collections.singletonList("moment"), 1, currentLocale));
+        definitions.add(new ConsentDefinition("I allow don't Philips to store my data in cloud", "No one is able to see this text in the app", Collections.singletonList("tnemom"), 1, currentLocale));
         return definitions;
 
     }

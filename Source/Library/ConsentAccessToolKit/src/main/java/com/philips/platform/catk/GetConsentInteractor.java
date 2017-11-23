@@ -71,7 +71,7 @@ public class GetConsentInteractor {
             Map<String, Consent> consentsMap = toMap(receivedConsents);
             List<RequiredConsent> requiredConsents = new ArrayList<>();
             for (ConsentDefinition definition : definitions) {
-                requiredConsents.add(new RequiredConsent(consentsMap.get(definition.getType()), definition));
+                requiredConsents.add(new RequiredConsent(consentsMap.get(definition.getTypes()), definition));
             }
             return requiredConsents;
         }

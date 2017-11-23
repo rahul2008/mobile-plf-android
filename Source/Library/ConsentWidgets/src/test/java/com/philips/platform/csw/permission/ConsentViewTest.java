@@ -8,6 +8,7 @@ import com.philips.platform.catk.model.RequiredConsent;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.Locale;
 
 import static org.junit.Assert.*;
@@ -18,7 +19,7 @@ public class ConsentViewTest {
 
     @Before
     public void setUp() throws Exception {
-        consentDefinition = new ConsentDefinition("SomeText", "SomeHelp", TYPE_MOMENT, 1, Locale.CANADA);
+        consentDefinition = new ConsentDefinition("SomeText", "SomeHelp", Collections.singletonList(TYPE_MOMENT), 1, Locale.CANADA);
         currentConsentRejected = new RequiredConsent(new Consent(Locale.ENGLISH, ConsentStatus.rejected, TYPE_MOMENT, 1), consentDefinition);
         currentConsentAccepted = new RequiredConsent(new Consent(Locale.ENGLISH, ConsentStatus.active, TYPE_MOMENT, 1), consentDefinition);
         oldConsentAccepted = new RequiredConsent(new Consent(Locale.ENGLISH, ConsentStatus.active, TYPE_MOMENT, 0), consentDefinition);
