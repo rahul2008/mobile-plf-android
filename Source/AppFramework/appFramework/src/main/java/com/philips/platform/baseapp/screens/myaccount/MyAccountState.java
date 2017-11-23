@@ -9,6 +9,8 @@ import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.catk.CatkInputs;
+import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.csw.ConsentDefinition;
 import com.philips.platform.csw.CswDependencies;
@@ -35,7 +37,8 @@ import java.util.Locale;
 public class MyAccountState extends BaseState implements MyaListener{
     public static final String APPLICATION_NAME = "OneBackend";
     public static final String PROPOSITION_NAME = "OneBackendProp";
-    private List<ConsentDefinition> consentDefinitionList;
+    private final String SETTINGS_MYA_PRIVACY_SETTINGS = "Mya_Privacy_Settings";
+    private static List<ConsentDefinition> consentDefinitionList;
 
     public MyAccountState() {
         super(AppStates.MY_ACCOUNT);
@@ -67,11 +70,19 @@ public class MyAccountState extends BaseState implements MyaListener{
     List<ConsentDefinition> createConsentDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
         definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", "moment", 1, currentLocale));
+        definitions.add(new ConsentDefinition("I allow Philips to generate insights base on my data", "The actual content of the help text here", "coaching", 1, currentLocale));
         return definitions;
     }
 
     @Override
     public void init(Context context) {
+        CatkInputs catkInputs = new CatkInputs();
+        catkInputs.setContext(context);
+        catkInputs.setAppInfra(((AppFrameworkApplication)context.getApplicationContext()).appInfra);
+        catkInputs.setApplicationName(APPLICATION_NAME);
+        catkInputs.setApplicationName(PROPOSITION_NAME);
+        ConsentAccessToolKit.getInstance().init(catkInputs);
+
         consentDefinitionList = createConsentDefinitions(context, Locale.getDefault());
     }
 
@@ -94,7 +105,7 @@ public class MyAccountState extends BaseState implements MyaListener{
 
     @Override
     public boolean onClickMyaItem(String s) {
-        if (s.equals("Mya_Privacy_Settings")) {
+        if (s.equals(SETTINGS_MYA_PRIVACY_SETTINGS)) {
             CswInterface cswInterface = new CswInterface();
             CswDependencies cswDependencies = new CswDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra());
             cswDependencies.setApplicationName(APPLICATION_NAME);
@@ -105,8 +116,6 @@ public class MyAccountState extends BaseState implements MyaListener{
             cswInterface.launch(fragmentLauncher, buildLaunchInput(true, actContext));
             return true;
         }
-
-
 
         return false;
 
@@ -131,5 +140,4 @@ public class MyAccountState extends BaseState implements MyaListener{
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
     }
-
 }
