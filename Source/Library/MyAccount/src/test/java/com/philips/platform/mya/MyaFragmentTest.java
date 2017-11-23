@@ -17,7 +17,6 @@ import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.mya.wrapper.MyaFragmentWrapper;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
@@ -40,43 +39,20 @@ public class MyaFragmentTest {
         myaFragment.fragmentActivity = mockFragmentActivity;
     }
 
-    @Ignore
     @Test
     public void onCreate_InvokesInflatorWithRightParameters() throws Exception {
         whenCallingOnCreateView();
         thenInflatorIsCalledWith(R.layout.mya_fragment_my_account_root, null, false);
     }
 
-    @Ignore
     @Test
     public void onCreate_inflatesCorrectLayout() throws Exception {
         whenCallingOnCreateView();
         thenAccountViewIsInflatedWith(R.id.mya_frame_layout_view_container);
     }
 
-    @Test
-    public void onCreate_AttributesAre() throws Exception {
-        givenArguments("appName1", "propName1");
-        whenCallingOnCreateView();
-        thenApplicationNameIs("appName1");
-        thenPropositionNameIs("propName1");
-    }
-
-    private void givenArguments(String applicationName, String propositionName) {
-        //myaFragment.setArguments(applicationName, propositionName);
-    }
-
     private void whenCallingOnCreateView() {
-        //myaFragment.onCreateView(mockLayoutInflater, null, null);
-    }
-
-
-    private void thenApplicationNameIs(String expectedApplicationName) {
-       // assertEquals(expectedApplicationName, myaFragment.applicationName);
-    }
-
-    private void thenPropositionNameIs(String expectedPropositionName) {
-       // assertEquals(expectedPropositionName, myaFragment.propositionName);
+        myaFragment.onCreateView(mockLayoutInflater, null, null);
     }
 
     private void thenInflatorIsCalledWith(int layout, ViewGroup group, boolean attachToRoot) {
