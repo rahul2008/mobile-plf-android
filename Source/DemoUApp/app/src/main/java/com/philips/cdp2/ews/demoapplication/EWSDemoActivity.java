@@ -20,13 +20,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.philips.cdp2.ews.demoapplication.themesettinngs.ThemeHelper;
 import com.philips.cdp2.ews.demoapplication.themesettinngs.ThemeSettingsFragment;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.cdp2.ews.microapp.EWSLauncherInput;
-import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -37,7 +35,6 @@ import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.view.widget.ActionBarTextView;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener {
 
@@ -89,13 +86,6 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
             actionBar.setDisplayShowCustomEnabled(true);
         }
         toolbar.inflateMenu(R.menu.option_menu);
-        setUpCancelButton();
-    }
-
-    private void setUpCancelButton() {
-        FontIconDrawable drawable = new FontIconDrawable(this, getResources().getString(R.string.dls_cross_24), TypefaceUtils.load(getAssets(), "fonts/iconfont.ttf"))
-                .sizeRes(R.dimen.ews_gs_icon_size);
-        closeImageView.setBackground(drawable);
         closeImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
