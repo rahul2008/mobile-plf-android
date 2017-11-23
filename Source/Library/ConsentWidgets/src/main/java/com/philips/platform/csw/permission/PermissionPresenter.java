@@ -71,6 +71,7 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
     public void onGetConsentFailed(ConsentNetworkError error) {
         adapter.onGetConsentFailed(error);
         permissionInterface.hideProgressDialog();
+        permissionInterface.showErrorDialog(error);
     }
 
     @Override

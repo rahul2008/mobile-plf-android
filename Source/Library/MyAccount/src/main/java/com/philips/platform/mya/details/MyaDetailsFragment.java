@@ -51,7 +51,7 @@ public class MyaDetailsFragment extends MyaBaseFragment {
         mobile_number_heading= (Label) view.findViewById(R.id.mobile_number_heading);
         email_address_heading= (Label) view.findViewById(R.id.email_address_heading);
         name_value= (Label) view.findViewById(R.id.name_value);
-        dob_value=(Label) view.findViewById(R.id.dob_value);;
+        dob_value=(Label) view.findViewById(R.id.dob_value);
 
         Bundle bundle = getArguments();
         if (bundle != null) {

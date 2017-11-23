@@ -10,21 +10,24 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 
+import static org.mockito.Mockito.verify;
+
 @RunWith(MockitoJUnitRunner.class)
 public class PermissionPresenterTest {
-    PermissionPresenter mPermissionPresenter;
+    private PermissionPresenter mPermissionPresenter;
+    private ConsentNetworkError givenError;
+
     @Mock
-    PermissionInterface mockPermissionInterface;
+    private PermissionInterface mockPermissionInterface;
     @Mock
-    GetConsentInteractor mockGetInteractor;
+    private GetConsentInteractor mockGetInteractor;
     @Mock
-    CreateConsentInteractor mockCreateInteractor;
+    private CreateConsentInteractor mockCreateInteractor;
     @Mock
     private PermissionAdapter mockAdapter;
 
@@ -37,24 +40,55 @@ public class PermissionPresenterTest {
     @Test
     public void testShowProgressDialog() throws Exception {
         mPermissionPresenter.getConsentStatus();
-        Mockito.verify(mockPermissionInterface).showProgressDialog();
+        verify(mockPermissionInterface).showProgressDialog();
     }
 
     @Test
     public void testGetConsentsIsCalledOnInteractor() throws Exception {
         mPermissionPresenter.getConsentStatus();
-        Mockito.verify(mockGetInteractor).fetchLatestConsents(mPermissionPresenter);
+        verify(mockGetInteractor).fetchLatestConsents(mPermissionPresenter);
     }
 
     @Test
     public void testHideProgressDialog_onError() throws Exception {
-        mPermissionPresenter.onGetConsentFailed(new ConsentNetworkError(new VolleyError()));
-        Mockito.verify(mockPermissionInterface).hideProgressDialog();
+        givenConsentError();
+        mPermissionPresenter.onGetConsentFailed(givenError);
+        verify(mockPermissionInterface).hideProgressDialog();
     }
 
     @Test
     public void testHideProgressDialog_onSuccess() throws Exception {
         mPermissionPresenter.onGetConsentRetrieved(new ArrayList<RequiredConsent>());
-        Mockito.verify(mockPermissionInterface).hideProgressDialog();
+        verify(mockPermissionInterface).hideProgressDialog();
+    }
+
+    @Test
+    public void testShouldShowToastWhenGetConsentFails() throws Exception {
+        givenConsentError();
+        whenGetConsentFailed();
+        thenToastIsShown();
+    }
+
+    @Test
+    public void testShouldShowToastWhenCreateConsentFails() throws Exception {
+        givenConsentError();
+        whenCreateConsentFailed();
+        thenToastIsShown();
+    }
+
+    private void givenConsentError() {
+        givenError = new ConsentNetworkError(new VolleyError());
+    }
+
+    private void whenGetConsentFailed() {
+        mPermissionPresenter.onGetConsentFailed(givenError);
+    }
+
+    private void whenCreateConsentFailed() {
+        mPermissionPresenter.onCreateConsentFailed(null, givenError);
+    }
+
+    private void thenToastIsShown() {
+        verify(mockPermissionInterface).showErrorDialog(givenError);
     }
 }
