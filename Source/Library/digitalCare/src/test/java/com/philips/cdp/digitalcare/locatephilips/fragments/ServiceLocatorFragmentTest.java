@@ -8,6 +8,8 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerCC;
 import com.philips.cdp.digitalcare.util.DigitalCareTestMock;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import org.junit.After;
@@ -47,6 +49,15 @@ public class ServiceLocatorFragmentTest {
     private AppTaggingInterface mockAppTaggingInterface;
 
     private DigitalCareBaseFragment digitalCareBaseFragmentspy;
+    @Mock
+    AppInfraInterface appInfraInterfaceMock;
+
+    @Mock
+    ServiceDiscoveryInterface serviceDiscoveryInterfaceMock;
+
+    @Mock
+    ServiceDiscoveryInterface.OnGetServiceUrlListener listener;
+
 
     @Before
     public void setUp(){
@@ -56,6 +67,9 @@ public class ServiceLocatorFragmentTest {
         PowerMockito.mockStatic(DigitalCareConfigManager.class);
         when(DigitalCareConfigManager.getInstance()).thenReturn(mockDigitalCareConfigManager);
         when(DigitalCareConfigManager.getInstance().getTaggingInterface()).thenReturn(mockAppTaggingInterface);
+        when(DigitalCareConfigManager.getInstance().getAPPInfraInstance()).thenReturn(appInfraInterfaceMock);
+        when(appInfraInterfaceMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);
+
         digitalCareBaseFragmentspy=spy(fragment);
         SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
         rootView=fragment.getView();
