@@ -90,6 +90,7 @@
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.** {*;}
 -keep class com.google.gson.examples.android.model.** { *; }
+-keepclassmembers enum * { *; }
 
 #Green Robot Eventbus
 -keep enum org.greenrobot.eventbus.ThreadMode { *; }
