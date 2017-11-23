@@ -29,6 +29,7 @@ import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+import com.philips.platform.appframework.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,8 @@ public class MyAccountState extends BaseState implements MyaListener{
     public MyAccountState() {
         super(AppStates.MY_ACCOUNT);
     }
-    Context actContext;
+
+    private Context actContext;
     FragmentLauncher fragmentLauncher;
     @Override
     public void navigate(UiLauncher uiLauncher) {
@@ -69,8 +71,8 @@ public class MyAccountState extends BaseState implements MyaListener{
     @VisibleForTesting
     List<ConsentDefinition> createConsentDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", "moment", 1, currentLocale));
-        definitions.add(new ConsentDefinition("I allow Philips to generate insights base on my data", "The actual content of the help text here", "coaching", 1, currentLocale));
+        definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Moment_Text), context.getString(R.string.RA_MYA_Consent_Moment_Help), "moment", 1, currentLocale));
+        definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Coaching_Text), context.getString(R.string.RA_MYA_Consent_Coaching_Help), "coaching", 1, currentLocale));
         return definitions;
     }
 

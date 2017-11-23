@@ -131,7 +131,7 @@ public class MyAccountStateTest {
         final ConsentDefinition sample = definitions.get(0);
 
         assertEquals("I allow Philips to store my data in cloud", sample.getText());
-        assertEquals("The actual content of the help text here", sample.getHelpText());
+        assertEquals("Giving this consent you are allowing Philips to store information related to you", sample.getHelpText());
         assertEquals(LANGUAGE_TAG, sample.getLocaleString());
         assertEquals("moment", sample.getType());
         assertEquals(1, sample.getVersion());
