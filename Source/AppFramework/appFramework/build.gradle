@@ -142,7 +142,13 @@ publishing {
 
             artifact zipDocuments
 
-            artifact("$buildDir/outputs/mapping/AppFrameworkHamburger/release/mapping.txt")
+            artifact("$projectDir/dependencies.lock") {
+                classifier = '1stleveldependencies'
+            }
+
+            artifact("$buildDir/outputs/mapping/AppFrameworkHamburger/release/mapping.txt") {
+                classifier = 'mapping'
+            }
 
             artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
@@ -393,109 +399,166 @@ dependencies {
     compile 'com.android.support:multidex:1.0.2'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
-	def dp = project.ext.has('useprojectdependencies')
+    def dp = project.ext.has('useprojectdependencies')
 
-	def prgModule = module(group: 'com.philips.cdp', name: 'product-registration-lib', version: versions.prg_productRegistrationLib + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-	compile(dp ? project(':prg') : prgModule) {
-		transitive = true
-	}
-	def dccModule = module(group: 'com.philips.cdp', name: 'digitalCare', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-	compile(dp ? project(':dcc') : dccModule) {
-		transitive = true
-	}
-	
-	def iapModule = module(group: 'com.philips.cdp', name: 'iap', version: versions.iap_iap + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
-	compile(dp ? project(':iap') : iapModule) {
-		transitive = true
-	}
-	
-	def dscModule = module(group: 'com.philips.cdp', name: 'dataServices', version: versions.dsc_dataServices + objcdp.getVersionSuffix(), ext: 'aar') 
-	compile(dp ? project(':dsc') : dscModule) {
-		exclude group: 'com.android.support'
-		transitive = true
-	}
-
-    def myaModule = module(group: 'com.philips.cdp', name: 'MyAccount', version: versions.mya_myAccount + objcdp.getVersionSuffix(), ext: 'aar')
-    compile(dp ? project(':mya') : myaModule) {
-        exclude group: 'com.android.support'
-        transitive = true
-    }
-
-	def commlibModule = module(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-
-	compile(dp ? project(':commlib') : commlibModule) {
-		exclude group: 'com.android.support'
-		transitive = true
-	}
-
-    def commlibUAppModule = module(group: 'com.philips.cdp', name: 'commlib-demouapp', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    compile(dp ? project(':commlibUApp') : commlibUAppModule) {
-        exclude group: 'com.android.support'
-        transitive = true
-    }
-
-	def dccUAppModule = module(group: 'com.philips.cdp', name: 'digitalCareUApp', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar') 
-	compile(dp ? project(':dccUApp') : dccUAppModule) {	
-		exclude group: 'com.android.support'
-		transitive = true
-	}
-	
-	def ufwUAppModule = module(group: 'com.philips.cdp', name: 'uAppFwLibUApp', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar') 
-	compile(dp ? project(':ufwUApp') : ufwUAppModule) {	
-		exclude group: 'com.android.support'
-		transitive = true
-	}
-	
-	def iapUAppModule = module(group: 'com.philips.cdp', name: 'iapUApp', version: versions.iap_iap + objcdp.getVersionSuffix(), ext: 'aar') 
-	compile(dp ? project(':iapUApp') : iapUAppModule) {	
-		exclude group: 'com.android.support'
-		transitive = true
-	}
-
-	def dscUAppModule = module(group: 'com.philips.cdp', name: 'dataServicesUApp', version: versions.dsc_dataServices + objcdp.getVersionSuffix(), ext: 'aar')
-	compile(dp ? project(':dscUApp') : dscUAppModule) {
-		exclude group: 'com.android.support'
-		transitive = true
-	}
-	
-	def prgUAppModule = module(group: 'com.philips.cdp', name: 'product-registration-libUApp', version: versions.prg_productRegistrationLib + objcdp.getVersionSuffix(), ext: 'aar')
-	compile(dp ? project(':prgUApp') : prgUAppModule) {		
-		exclude group: 'com.android.support'
-		transitive = true
-	}
-	
-	def usrUAppModule = module(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar')
-	compile(dp ? project(':usrUApp') : usrUAppModule) {	
-		exclude group: 'com.android.support'
-		exclude group: 'com.philips.cdp', module: 'RegistrationApi'
-		transitive = true
-	}
-	
-	def dprUAppModule = module(group: 'com.philips.cdp', name: 'devicepairingUApp', version: versions.dpr_devicePairing + objcdp.getVersionSuffix(), ext: 'aar') 
-	compile(dp ? project(':dprUApp') : dprUAppModule) {	
-		exclude group: 'com.android.support'
-		transitive = true
-	}
-
-    def thsModule = module(group: 'com.philips.cdp', name: 'telehealth', version: versions.ths_telehealth+ objcdp.getVersionSuffix(), ext: 'aar')
-	compile(dp ? project(':ths') : thsModule) {	
-		transitive = true
-	}
-
-
-    def ewsModule = module(group: 'com.philips.cdp', name: 'ews-android', version: versions.ews_ews+ objcdp.getVersionSuffix(), ext: 'aar')
-    compile(dp ? project(':ews') : ewsModule) {
-        transitive = true
-    }
-
-    def shinelibUAppModule = module(group: 'com.philips.cdp', name: 'shinelibDemoUApp', version: versions.bll_shinelib+ objcdp.getVersionSuffix(), ext: 'aar')
-        compile(dp ? project(':shinelibUApp') : shinelibUAppModule) {
+    if(dp) {
+        project(':prg')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: versions.prg_productRegistrationLib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
             transitive = true
+        }
     }
     
-    def themesettingsModule = module(group: 'com.philips.cdp', name: 'themesettings', version: '1.0.0', ext: 'aar')
-        compile(dp ? project(':themesettings') : themesettingsModule) {
+    if(dp) {
+        project(':dcc')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'digitalCare', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
             transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':iap')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'iap', version: versions.iap_iap + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':dsc')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'dataServices', version: versions.dsc_dataServices + objcdp.getVersionSuffix(), ext: 'aar') {            
+            exclude group: 'com.android.support'
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':mya')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'MyAccount', version: versions.mya_myAccount + objcdp.getVersionSuffix(), ext: 'aar')
+        {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':commlib')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
+            exclude group: 'com.android.support'
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':commlibUApp')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'commlib-demouapp', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':dccUApp')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'digitalCareUApp', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar') {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':ufwUApp')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uAppFwLibUApp', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar') {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':iapUApp')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'iapUApp', version: versions.iap_iap + objcdp.getVersionSuffix(), ext: 'aar') {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':dscUApp')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'dataServicesUApp', version: versions.dsc_dataServices + objcdp.getVersionSuffix(), ext: 'aar') {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':prgUApp')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'product-registration-libUApp', version: versions.prg_productRegistrationLib + objcdp.getVersionSuffix(), ext: 'aar') {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':usrUApp')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar') {
+            exclude group: 'com.android.support'
+            exclude group: 'com.philips.cdp', module: 'RegistrationApi'
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':dprUApp')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'devicepairingUApp', version: versions.dpr_devicePairing + objcdp.getVersionSuffix(), ext: 'aar') {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':ths')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'telehealth', version: versions.ths_telehealth+ objcdp.getVersionSuffix(), ext: 'aar') {		
+           transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':ews')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'ews-android', version: versions.ews_ews+ objcdp.getVersionSuffix(), ext: 'aar')
+        {
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':shinelibUApp')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'shinelibDemoUApp', version: versions.bll_shinelib+ objcdp.getVersionSuffix(), ext: 'aar')
+        {
+            transitive = true
+        }
+    }
+
+    if(dp) {
+        project(':themesettings')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'themesettings', version: '1.0.0', ext: 'aar')
+        {
+            transitive = true
+        }
     }
   
     compile ("com.crittercism:crittercism-android-agent:5.8.7")

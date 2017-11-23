@@ -39,6 +39,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
+import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
@@ -68,6 +69,7 @@ public class AppFrameworkApplication extends Application {
     private ConnectivityChangeReceiver connectivityChangeReceiver;
     private CommCentral commCentral = null;
     private RefAppApplianceFactory applianceFactory;
+    private MyAccountState myAccountState;
 
     public static final String TAG = AppFrameworkApplication.class.getSimpleName();
 
@@ -124,6 +126,9 @@ public class AppFrameworkApplication extends Application {
         initDataServiceState();
         RALog.d(LOG, "DS state end::");
         initializeIAP();
+        RALog.d(LOG, "Mya state begin::");
+        initializeMya();
+        RALog.d(LOG, "Mya state end::");
         /*
          * Initializing tagging class and its interface. Interface initialization needs
          * context to gets started.
@@ -145,12 +150,11 @@ public class AppFrameworkApplication extends Application {
         callback.onAppStatesInitialization();
     }
 
-
-
     public void initUserRegistrationState() {
         userRegistrationState = new UserRegistrationOnBoardingState();
         userRegistrationState.init(this);
     }
+
 
     public UserRegistrationState getUserRegistrationState() {
         return userRegistrationState;
@@ -211,12 +215,17 @@ public class AppFrameworkApplication extends Application {
         });
     }
 
-    
     public DemoDataServicesState getDataServiceState() {
         if (dataSyncScreenState == null) {
             initDataServiceState();
         }
         return dataSyncScreenState;
+    }
+
+
+    private void initializeMya() {
+        myAccountState = new MyAccountState();
+        myAccountState.init(this);
     }
 
     public void initializeIAP() {
