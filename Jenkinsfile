@@ -72,8 +72,10 @@ node ('android&&docker') {
             } 
             stage ('reporting') {
                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
-                junit allowEmptyResults: true, testResults: 'Source/DemoApp/app/build/reports/lint-results.xml'
-                junit allowEmptyResults: true, testResults: 'Source/DemoUApp/DemoUApp/build/reports/lint-results.xml'
+                junit allowEmptyResults: true, testResults: 'Source/DemoApp/app/build/test-results/**/*.xml'
+                junit allowEmptyResults: true, testResults: 'Source/DemoUApp/DemoUApp/build/test-results/**/*.xml'
+                junit allowEmptyResults: true, testResults: 'Source/Library/ConsentAccessToolkit/build/test-results/**/*.xml'
+                junit allowEmptyResults: true, testResults: 'Source/Library/ConsentWidgets/build/test-results/**/*.xml'
                 junit allowEmptyResults: true, testResults: 'Source/Library/MyAccount/build/test-results/**/*.xml'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/MyAccount/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release'])
                 archiveArtifacts '**/*dependencies*.lock'
