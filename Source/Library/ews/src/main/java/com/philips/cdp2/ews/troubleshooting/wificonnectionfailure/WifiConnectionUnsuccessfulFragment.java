@@ -44,8 +44,10 @@ public class WifiConnectionUnsuccessfulFragment extends BaseFragment {
         viewModel = createViewModel();
         String deviceName = BundleUtils.extractStringFromBundleOrThrow(getArguments(), DEVICE_NAME);
         String wifiSSID = BundleUtils.extractStringFromBundleOrThrow(getArguments(), WIFI_SSID);
-        viewModel.setDescription(getString(R.string.label_ews_phone_not_found_on_network_body, deviceName));
-        viewModel.setNotes(getString(R.string.label_ews_phone_not_found_on_network_note, deviceName, wifiSSID));
+        viewModel.setUpperBodyText(getString(R.string.label_ews_phone_not_found_on_network_upper_body, deviceName));
+        viewModel.setStepTwoText(getString(R.string.label_ews_phone_not_found_on_network_step_2,deviceName));
+        viewModel.setUpperHelperText(getString(R.string.label_ews_phone_not_found_on_network_upper_helper, deviceName,wifiSSID));
+        viewModel.setLowerHelperText(getString(R.string.label_ews_phone_not_found_on_network_lower_helper, deviceName));
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }

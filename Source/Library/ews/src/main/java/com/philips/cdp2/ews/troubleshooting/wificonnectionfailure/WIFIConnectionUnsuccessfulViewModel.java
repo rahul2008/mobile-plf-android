@@ -16,10 +16,16 @@ import javax.inject.Inject;
 public class WIFIConnectionUnsuccessfulViewModel {
 
     @NonNull
-    public final ObservableField<String> description;
+    public final ObservableField<String> upperBodyText;
 
     @NonNull
-    public final ObservableField<String> notes;
+    public final ObservableField<String> stepTwoText;
+
+    @NonNull
+    public final ObservableField<String> upperHelperText;
+
+    @NonNull
+    public final ObservableField<String> lowerHelperText;
 
     @NonNull
     private final Navigator navigator;
@@ -27,16 +33,26 @@ public class WIFIConnectionUnsuccessfulViewModel {
     @Inject
     public WIFIConnectionUnsuccessfulViewModel(@NonNull Navigator navigator) {
         this.navigator = navigator;
-        description = new ObservableField<>();
-        notes = new ObservableField<>();
+        upperBodyText = new ObservableField<>();
+        stepTwoText = new ObservableField<>();
+        upperHelperText = new ObservableField<>();
+        lowerHelperText = new ObservableField<>();
     }
 
-    public void setDescription(@NonNull String description) {
-        this.description.set(description);
+    public void setUpperBodyText(@NonNull String upperBodyText) {
+        this.upperBodyText.set(upperBodyText);
     }
 
-    public void setNotes(@NonNull String notes) {
-        this.notes.set(notes);
+    public void setStepTwoText(@NonNull String stepTwoText) {
+        this.stepTwoText.set(stepTwoText);
+    }
+
+    public void setUpperHelperText(@NonNull String upperHelperText) {
+        this.upperHelperText.set(upperHelperText);
+    }
+
+    public void setLowerHelperText(@NonNull String lowerHelperText) {
+        this.lowerHelperText.set(lowerHelperText);
     }
 
     public void onTryAgainClicked() {

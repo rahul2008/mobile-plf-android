@@ -116,14 +116,14 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
 
     @NonNull
     private DiscoveryHelper.DiscoveryCallback discoveryCallback = new DiscoveryHelper.DiscoveryCallback() {
-                @Override
-                public void onApplianceFound(Appliance appliance) {
-                    if (appliance.getNetworkNode().getCppId().equalsIgnoreCase(cppId)) {
-                        removeTimeoutRunnable();
-                        discoveryHelper.stopDiscovery();
-                        onDeviceConnectedToWifi();
-                    }
-                }
+        @Override
+        public void onApplianceFound(Appliance appliance) {
+            if (appliance.getNetworkNode().getCppId().equalsIgnoreCase(cppId)) {
+                removeTimeoutRunnable();
+                discoveryHelper.stopDiscovery();
+                onDeviceConnectedToWifi();
+            }
+        }
     };
 
     @NonNull
@@ -267,11 +267,16 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     @NonNull
     String getTitle(@NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(R.string.label_ews_connecting_device_title,
-                baseConfig.getDeviceName());
+                baseConfig.getDeviceName(), getHomeWiFiSSID());
     }
 
     public void trackPageName() {
         EWSTagger.trackPage(Page.CONNECTING_DEVICE_WITH_WIFI);
+    }
+
+    @Nullable
+    public String getHomeWiFiSSID() {
+        return wiFiUtil.getHomeWiFiSSD();
     }
 
 }

@@ -29,6 +29,7 @@ import com.philips.cdp2.ews.util.TextUtil;
 import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.util.Locale;
 
@@ -114,11 +115,9 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
             });
             alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
             getChildFragmentManager().executePendingTransactions();
-            TextView textView = view.findViewById(R.id.label_ews_home_network_body);
             ImageView imageView = view.findViewById(R.id.ic_close);
-            String explanation = String.format(Locale.getDefault(), context.getString(R.string.label_ews_home_network_body),
-                    context.getString(baseContentConfiguration.getAppName()));
-            textView.setText(TextUtil.getHTMLText(explanation));
+            ((Label) view.findViewById(R.id.label_ews_select_wakeup_wifi_steps_4)).setText(TextUtil.getHTMLText(String.format(Locale.getDefault(), context.getString(R.string.label_ews_select_wakeup_wifi_steps_4),
+                    context.getString(baseContentConfiguration.getAppName()))));
             FontIconDrawable drawable = new FontIconDrawable(context, context.getResources().getString(R.string.dls_cross_24), TypefaceUtils
                     .load(context.getAssets(), "fonts/iconfont.ttf"))
                     .sizeRes(R.dimen.ews_gs_icon_size).color(ColorsUtil.getAttributeColor(context, R.attr.uidContentItemPrimaryNormalIconColor));

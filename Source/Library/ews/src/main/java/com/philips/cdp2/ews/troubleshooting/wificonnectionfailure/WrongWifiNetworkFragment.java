@@ -39,7 +39,9 @@ public class WrongWifiNetworkFragment extends BaseFragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_wrong_wifi_network, container, false);
         viewModel = createViewModel();
         String wifiSSID = BundleUtils.extractStringFromBundleOrThrow(getArguments(), ConnectingDeviceWithWifiFragment.HOME_WIFI_SSID);
-        viewModel.setDescription(getString(R.string.label_ews_phone_reconnected_different_network_body, wifiSSID, wifiSSID, getString(viewModel.getAppName())));
+        viewModel.setUpperDescription(getString(R.string.label_ews_phone_reconnected_different_network_upper_body, wifiSSID));
+        viewModel.setLowerDescription(getString(R.string.label_ews_phone_reconnected_different_network_step_3, wifiSSID));
+        viewModel.setStepFourText(getString(R.string.label_ews_phone_reconnected_different_network_step_4,getString(viewModel.getAppName())));
         viewModel.setBundle(getArguments());
         binding.setViewModel(viewModel);
         return binding.getRoot();
