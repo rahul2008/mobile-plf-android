@@ -1,7 +1,9 @@
 package com.philips.platform.csw.permission;
 
+import com.android.volley.VolleyError;
 import com.philips.platform.catk.CreateConsentInteractor;
 import com.philips.platform.catk.GetConsentInteractor;
+import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.model.RequiredConsent;
 
 import org.junit.Before;
@@ -46,7 +48,7 @@ public class PermissionPresenterTest {
 
     @Test
     public void testHideProgressDialog_onError() throws Exception {
-        mPermissionPresenter.onGetConsentFailed(42);
+        mPermissionPresenter.onGetConsentFailed(new ConsentNetworkError(new VolleyError()));
         Mockito.verify(mockPermissionInterface).hideProgressDialog();
     }
 
