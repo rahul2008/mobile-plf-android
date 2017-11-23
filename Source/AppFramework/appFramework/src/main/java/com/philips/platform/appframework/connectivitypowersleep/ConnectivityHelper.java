@@ -75,7 +75,7 @@ public class ConnectivityHelper {
 
 
     protected Moment createMoment(String dstScore, String deepSleepTime, String sleepTime, DateTime dateTime, String measurementDetail) {
-        DataServicesManager dataServicesManager=DataServicesManager.getInstance();
+        DataServicesManager dataServicesManager=getDataServicesManagerInstance();
         Moment moment = dataServicesManager.createMoment(MomentType.SLEEP_SESSION);
         moment.setDateTime(dateTime);
 
@@ -101,5 +101,9 @@ public class ConnectivityHelper {
         measurementGroup.addMeasurementGroup(measurementGroupInside);
         moment.addMeasurementGroup(measurementGroup);
         return moment;
+    }
+
+    protected DataServicesManager getDataServicesManagerInstance() {
+        return DataServicesManager.getInstance();
     }
 }
