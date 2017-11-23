@@ -184,7 +184,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
             public void onClick(View view) {
                 THSScheduledVisitsPresenter presenter = new THSScheduledVisitsPresenter(mThsScheduledVisitsFragment);
                 presenter.cancelAppointment(appointment);
-                presenter.setProgressBarVisibility(false);
+                presenter.stopRefreshing();
                 THSTagUtils.tagInAppNotification(THS_ANALYTICS_CANCEL_APPOINTMENT,THS_ANALYTICS_RESPONSE_CANCEL_APPOINTMENT);
                 alertDialogFragment.dismiss();
             }

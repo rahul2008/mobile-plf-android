@@ -159,7 +159,7 @@ public class THSScheduledVisitsPresenterTest {
     @Test
     public void onInitializationFailure() throws Exception {
         mTHSScheduledVisitsPresenter.onInitializationFailure(throwableMock);
-        verify(thsScheduledVisitsFragmentMock).hideProgressBar();
+        verify(thsScheduledVisitsFragmentMock).stopRefreshing();
     }
 
 }

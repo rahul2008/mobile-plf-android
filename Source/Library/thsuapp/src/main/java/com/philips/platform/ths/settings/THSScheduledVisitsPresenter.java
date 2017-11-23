@@ -15,7 +15,6 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
@@ -56,7 +55,7 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
         if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
             AmwellLog.i(AmwellLog.LOG, "appoint response");
             mThsScheduledVisitsFragment.updateList(appointments);
-            setProgressBarVisibility(false);
+            stopRefreshing();
         }
     }
 
@@ -65,7 +64,7 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
         if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
             mThsScheduledVisitsFragment.doTagging( ANALYTICS_FETCH_APPOINTMENTS,mThsScheduledVisitsFragment.getString(R.string.ths_se_server_error_toast_message),false);
             mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.ths_se_server_error_toast_message),true);
-            setProgressBarVisibility(false);
+            stopRefreshing();
         }
     }
 
@@ -81,21 +80,17 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
                 }
             }else {
                 THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "specialEvents", "appointmentsCancelled");
-                mThsScheduledVisitsFragment.refreshList();
+                mThsScheduledVisitsFragment.onRefresh();
             }
         }
     }
 
     @Override
     public void onInitializationFailure(Throwable var1) {
-        setProgressBarVisibility(false);
+        mThsScheduledVisitsFragment.stopRefreshing();
     }
 
-    public void setProgressBarVisibility(boolean isVisible) {
-        if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
-            if (!isVisible) {
-                mThsScheduledVisitsFragment.hideProgressBar();
-            }
-        }
+    public void stopRefreshing(){
+        mThsScheduledVisitsFragment.stopRefreshing();
     }
 }
