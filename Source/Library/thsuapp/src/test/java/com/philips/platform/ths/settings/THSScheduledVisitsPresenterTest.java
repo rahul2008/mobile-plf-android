@@ -152,8 +152,10 @@ public class THSScheduledVisitsPresenterTest {
 
     @Test
     public void onInitializationResponse() throws Exception {
+        when(thssdkErrorMock.getSdkError()).thenReturn(null);
+        when(thsScheduledVisitsFragmentMock.isFragmentAttached()).thenReturn(true);
         mTHSScheduledVisitsPresenter.onInitializationResponse(null,thssdkErrorMock);
-      //  verify(appInfraInterface).getTagging().trackActionWithInfo(anyString(),anyMap());
+        verify(thsScheduledVisitsFragmentMock).onRefresh();
     }
 
     @Test
