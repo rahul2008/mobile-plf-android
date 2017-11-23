@@ -32,9 +32,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class MyAccountState extends BaseState implements MyaListener{
-    public static final String APPLICATION_NAME = "OneBackend";
-    public static final String PROPOSITION_NAME = "OneBackendProp";
-    private List<ConsentDefinition> consentDefinitionList;
+    //public static final String APPLICATION_NAME = "OneBackend";
+    //public static final String PROPOSITION_NAME = "OneBackendProp";
+    //private List<ConsentDefinition> consentDefinitionList;
 
     public MyAccountState() {
         super(AppStates.MY_ACCOUNT);
@@ -62,16 +62,16 @@ public class MyAccountState extends BaseState implements MyaListener{
      * @param currentLocale : locale of the strings
      * @return non-null list (may be empty though)
      */
-    @VisibleForTesting
+   /* @VisibleForTesting
     List<ConsentDefinition> createConsentDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
         definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", "moment", 1, currentLocale));
         return definitions;
-    }
+    }*/
 
     @Override
     public void init(Context context) {
-        consentDefinitionList = createConsentDefinitions(context, Locale.getDefault());
+        //consentDefinitionList = createConsentDefinitions(context, Locale.getDefault());
     }
 
 
@@ -93,7 +93,7 @@ public class MyAccountState extends BaseState implements MyaListener{
 
     @Override
     public boolean onClickMyaItem(String s) {
-        if (s.equals("Mya_Privacy_Settings")) {
+        /*if (s.equals("Mya_Privacy_Settings")) {
             CswInterface cswInterface = new CswInterface();
             CswDependencies cswDependencies = new CswDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra());
             cswDependencies.setApplicationName(APPLICATION_NAME);
@@ -103,7 +103,7 @@ public class MyAccountState extends BaseState implements MyaListener{
 
             cswInterface.launch(fragmentLauncher, buildLaunchInput(true, actContext));
             return true;
-        }
+        }*/
 
 
 
@@ -121,7 +121,7 @@ public class MyAccountState extends BaseState implements MyaListener{
         return new UserDataModelProvider(actContext);
 
     }
-    private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
+  /*  private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
 
         ConsentBundleConfig config = new ConsentBundleConfig(APPLICATION_NAME, PROPOSITION_NAME, createConsentDefinitions(actContext, Locale.US));
 
@@ -129,6 +129,6 @@ public class MyAccountState extends BaseState implements MyaListener{
         CswLaunchInput cswLaunchInput = new CswLaunchInput(config,context);
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
-    }
+    }*/
 
 }
