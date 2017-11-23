@@ -40,7 +40,6 @@ public class SynchronizeSessionsUsecase {
             RALog.i(TAG, "onResult:"+result.size());
 
             if (callback != null) {
-//                secureStorage.storeLong(SecureStorageUtility.LAST_SYNC_DATE, new Date().getTime());
                 callback.onSynchronizeSucceed(result);
             }
         }
