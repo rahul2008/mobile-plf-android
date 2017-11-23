@@ -2,7 +2,6 @@ package com.philips.cdp2.ews.hotspotconnection;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -90,7 +89,7 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
                 .setDimLayer(DialogConstants.DIM_STRONG)
                 .setCancelable(false);
         final EWSAlertDialogFragment alertDialogFragment = (EWSAlertDialogFragment) builder.create(new EWSAlertDialogFragment());
-        alertDialogFragment.setFragmentLifeCycleListener(new EWSAlertDialogFragment.FragmentLifeCycleListener() {
+        alertDialogFragment.setDialogLifeCycleListener(new EWSAlertDialogFragment.DialogLifeCycleListener() {
             @Override
             public void onStart() {
                 EWSTagger.trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);

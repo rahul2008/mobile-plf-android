@@ -4,15 +4,13 @@
  */
 package com.philips.cdp2.ews.dialog;
 
-import android.content.DialogInterface;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 public class EWSAlertDialogFragment extends AlertDialogFragment {
 
-    public interface FragmentLifeCycleListener{
+    public interface DialogLifeCycleListener {
         void onStart();
     }
 
@@ -20,16 +18,16 @@ public class EWSAlertDialogFragment extends AlertDialogFragment {
     }
 
     @Nullable
-    private FragmentLifeCycleListener fragmentLifeCycleListener;
+    private DialogLifeCycleListener dialogLifeCycleListener;
 
     @Override
     public void onStart() {
         super.onStart();
-        if (fragmentLifeCycleListener != null) {
-            fragmentLifeCycleListener.onStart();
+        if (dialogLifeCycleListener != null) {
+            dialogLifeCycleListener.onStart();
         }
     }
-    public void setFragmentLifeCycleListener(@Nullable FragmentLifeCycleListener fragmentLifeCycleListener) {
-        this.fragmentLifeCycleListener = fragmentLifeCycleListener;
+    public void setDialogLifeCycleListener(@Nullable DialogLifeCycleListener dialogLifeCycleListener) {
+        this.dialogLifeCycleListener = dialogLifeCycleListener;
     }
 }

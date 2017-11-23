@@ -5,7 +5,6 @@
 package com.philips.cdp2.ews.confirmwifi;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -89,7 +88,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
                     .setDimLayer(DialogConstants.DIM_STRONG)
                     .setCancelable(false);
             final EWSAlertDialogFragment alertDialogFragment = (EWSAlertDialogFragment) builder.create(new EWSAlertDialogFragment());
-            alertDialogFragment.setFragmentLifeCycleListener(new EWSAlertDialogFragment.FragmentLifeCycleListener() {
+            alertDialogFragment.setDialogLifeCycleListener(new EWSAlertDialogFragment.DialogLifeCycleListener() {
                 @Override
                 public void onStart() {
                     EWSTagger.trackPage(Page.SELECT_HOME_WIFI);

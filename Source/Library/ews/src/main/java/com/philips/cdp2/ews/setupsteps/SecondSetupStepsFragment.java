@@ -15,7 +15,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
@@ -86,7 +85,7 @@ public class SecondSetupStepsFragment extends BaseFragment implements LocationPe
                 .setDimLayer(DialogConstants.DIM_STRONG)
                 .setCancelable(false);
         final EWSAlertDialogFragment alertDialogFragment = (EWSAlertDialogFragment) builder.create(new EWSAlertDialogFragment());
-        alertDialogFragment.setFragmentLifeCycleListener(new EWSAlertDialogFragment.FragmentLifeCycleListener() {
+        alertDialogFragment.setDialogLifeCycleListener(new EWSAlertDialogFragment.DialogLifeCycleListener() {
             @Override
             public void onStart() {
                 //todo: add analytics tag : EWSTagger.trackPage("");
@@ -130,7 +129,7 @@ public class SecondSetupStepsFragment extends BaseFragment implements LocationPe
                 .setDimLayer(DialogConstants.DIM_STRONG)
                 .setCancelable(true);
         final EWSAlertDialogFragment alertDialogFragment = (EWSAlertDialogFragment) builder.create(new EWSAlertDialogFragment());
-        alertDialogFragment.setFragmentLifeCycleListener(new EWSAlertDialogFragment.FragmentLifeCycleListener() {
+        alertDialogFragment.setDialogLifeCycleListener(new EWSAlertDialogFragment.DialogLifeCycleListener() {
             @Override
             public void onStart() {
                 //todo: add analytics tag : EWSTagger.trackPage("");

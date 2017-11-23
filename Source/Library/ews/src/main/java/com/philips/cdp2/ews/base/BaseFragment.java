@@ -5,7 +5,6 @@
 package com.philips.cdp2.ews.base;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -62,7 +61,7 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
                 .setCancelable(false);
 
         final EWSAlertDialogFragment alertDialogFragment = (EWSAlertDialogFragment) builder.create(new EWSAlertDialogFragment());
-        alertDialogFragment.setFragmentLifeCycleListener(new EWSAlertDialogFragment.FragmentLifeCycleListener() {
+        alertDialogFragment.setDialogLifeCycleListener(new EWSAlertDialogFragment.DialogLifeCycleListener() {
             @Override
             public void onStart() {
                 EWSTagger.trackPage(Page.CANCEL_WIFI_SETUP);
