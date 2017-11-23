@@ -252,6 +252,7 @@ android {
             minifyEnabled false
             shrinkResources false
             debuggable true
+            testCoverageEnabled = true
             resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
         }
 
