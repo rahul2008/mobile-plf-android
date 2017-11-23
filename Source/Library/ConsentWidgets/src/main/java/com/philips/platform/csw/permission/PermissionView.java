@@ -27,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class PermissionView extends CswBaseFragment implements PermissionInterface {
+public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener {
 
     private ProgressDialog mProgressDialog;
 
@@ -105,7 +105,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     }
 
     private PermissionPresenter injectPresenter() {
-        return DaggerPermissionComponent.builder().permissionModule(new PermissionModule(this, config)).build().presenter();
+        return DaggerPermissionComponent.builder().permissionModule(new PermissionModule(this, this, config)).build().presenter();
     }
 
     @Override
@@ -130,5 +130,10 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @Override
     public void showErrorDialog(ConsentNetworkError error) {
         Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onHelpClicked(String helpText) {
+        Toast.makeText(getContext(), helpText, Toast.LENGTH_LONG).show();
     }
 }

@@ -16,16 +16,23 @@ import dagger.Provides;
 public class PermissionModule {
 
     private PermissionInterface permissionInterface;
+    private HelpClickListener helpClickListener;
     private ConsentBundleConfig config;
 
-    public PermissionModule(PermissionInterface permissionInterface, ConsentBundleConfig config) {
+    public PermissionModule(PermissionInterface permissionInterface, HelpClickListener helpClickListener, ConsentBundleConfig config) {
         this.permissionInterface = permissionInterface;
+        this.helpClickListener = helpClickListener;
         this.config = config;
     }
 
     @Provides
     PermissionInterface providePermissionInterface() {
         return permissionInterface;
+    }
+
+    @Provides
+    HelpClickListener provideHelpClickListener(){
+        return helpClickListener;
     }
 
     @Provides
@@ -58,7 +65,7 @@ public class PermissionModule {
     }
 
     @Provides
-    static PermissionAdapter providePermissionAdapter(List<ConsentView> consentViews) {
-        return new PermissionAdapter(consentViews);
+    static PermissionAdapter providePermissionAdapter(List<ConsentView> consentViews, HelpClickListener helpClickListener) {
+        return new PermissionAdapter(consentViews, helpClickListener);
     }
 }

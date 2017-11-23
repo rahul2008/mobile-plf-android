@@ -7,14 +7,10 @@
 
 package com.philips.platform.csw.permission;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.ProgressBar;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.error.ConsentNetworkError;
@@ -24,23 +20,30 @@ import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.Switch;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 
 public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.PermissionViewHolder> {
 
     private static final int NOT_FOUND = -1;
     @NonNull
     private final List<ConsentView> items;
+    @NonNull
+    private final HelpClickListener helpClickListener;
 
     @Nullable
     private ConsentToggleListener consentToggleListener;
 
     @Inject
-    PermissionAdapter(@NonNull final List<ConsentView> definitions) {
+    PermissionAdapter(@NonNull final List<ConsentView> definitions, @NonNull HelpClickListener helpClickListener) {
         this.items = new ArrayList<>(definitions);
+        this.helpClickListener = helpClickListener;
     }
 
     void setConsentToggleListener(@Nullable ConsentToggleListener consentToggleListener) {
@@ -50,7 +53,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Pe
     @Override
     public PermissionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_consent, parent, false);
-        return new PermissionViewHolder(view, consentToggleListener);
+        return new PermissionViewHolder(view, helpClickListener, consentToggleListener);
     }
 
     @Override
@@ -131,8 +134,10 @@ public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Pe
         private ProgressBar progress;
         @Nullable
         private ConsentToggleListener consentToggleListener;
+        @NonNull
+        private HelpClickListener helpClickListener;
 
-        PermissionViewHolder(View itemView, @Nullable ConsentToggleListener consentToggleListener) {
+        PermissionViewHolder(@NonNull View itemView, @NonNull HelpClickListener helpClickListener, @Nullable ConsentToggleListener consentToggleListener) {
             super(itemView);
             this.toggle = itemView.findViewById(R.id.toggleicon);
             this.label = itemView.findViewById(R.id.consentText);
@@ -140,6 +145,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Pe
             this.error = itemView.findViewById(R.id.consentError);
             this.progress = itemView.findViewById(R.id.progressBar);
             this.consentToggleListener = consentToggleListener;
+            this.helpClickListener = helpClickListener;
         }
 
         void setDefinition(final ConsentView consentView) {
@@ -159,6 +165,12 @@ public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Pe
                         setLoading(consentView);
                         consentToggleListener.onToggledConsent(consentView.getDefinition(), b);
                     }
+                }
+            });
+            help.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    helpClickListener.onHelpClicked(consentView.getHelpText());
                 }
             });
         }
