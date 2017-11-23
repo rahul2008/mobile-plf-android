@@ -71,6 +71,8 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
 
     private ConnectivityHelper connectivityHelper;
 
+    private DataServicesManager dataServicesManager;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -95,11 +97,12 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
         connectivityFragmentWeakReference = new WeakReference<PowerSleepConnectivityFragment>(this);
+        dataServicesManager=getDataServicesManager();
         connectivityHelper=new ConnectivityHelper();
         user=new User(getActivity());
         if(user.isUserSignIn()) {
-            DataServicesManager.getInstance().registerSynchronisationCompleteListener(this);
-            DataServicesManager.getInstance().synchronize();
+            dataServicesManager.registerSynchronisationCompleteListener(this);
+            dataServicesManager.synchronize();
         }else{
             showToast("Please sign in!");
         }
@@ -313,16 +316,18 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
 
     @Override
     public void onSyncFailed(Exception e) {
+        showToast("Sync failed");
     }
 
     @Override
     public void dBChangeSuccess(SyncType syncType) {
-        DataServicesManager.getInstance().synchronize();
+        dataServicesManager.synchronize();
         connectivityPresenter.fetchLatestSessionInfo();
     }
 
     @Override
     public void dBChangeFailed(Exception e) {
-
+        showToast("DB Change failed");
     }
+
 }

@@ -6,6 +6,7 @@
 package com.philips.platform.baseapp.screens.termsandconditions;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -43,7 +44,7 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
 
     private WebViewContract.Action termsAndConditionsAction;
 
-    private WebViewEnum state;
+    protected WebViewEnum state;
 
     private String url;
 
@@ -51,11 +52,11 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
-        state=(WebViewEnum) getIntent().getSerializableExtra(STATE);
+        state= getWebViewEnum();
         url=(String)getIntent().getSerializableExtra(URL_TO_LOAD);
         webView = (WebView) findViewById(R.id.web_view);
         UIDHelper.setupToolbar(this);
-        termsAndConditionsAction = new WebViewPresenter(this, this);
+        termsAndConditionsAction = getWebViewPresenter();
         if(state== WebViewEnum.PRIVACY_CLICKED){
             UIDHelper.setTitle(this,R.string.global_privacy_link);
             termsAndConditionsAction.loadUrl(state);
@@ -68,6 +69,15 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
             updateUiOnUrlLoaded("");
         }
 
+    }
+
+    protected WebViewEnum getWebViewEnum() {
+        return (WebViewEnum) getIntent().getSerializableExtra(STATE);
+    }
+
+    @NonNull
+    protected WebViewPresenter getWebViewPresenter() {
+        return new WebViewPresenter(this, this);
     }
 
 
@@ -134,7 +144,7 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
 
     @Override
     public void onUrlLoadError(String errorMessage) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+        showToast(errorMessage);
     }
 
     @Override

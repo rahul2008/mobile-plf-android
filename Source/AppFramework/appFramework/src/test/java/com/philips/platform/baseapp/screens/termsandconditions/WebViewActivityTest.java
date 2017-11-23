@@ -7,8 +7,10 @@ package com.philips.platform.baseapp.screens.termsandconditions;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebView;
 
 import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
@@ -16,17 +18,27 @@ import com.philips.platform.appframework.R;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.robolectric.Robolectric;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 import org.robolectric.fakes.RoboMenu;
 import org.robolectric.fakes.RoboMenuItem;
+import org.robolectric.shadows.ShadowToast;
+import org.robolectric.shadows.ShadowWebView;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.robolectric.Shadows.shadowOf;
 
 /**
  * Created by philips on 28/07/17.
@@ -34,10 +46,19 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class WebViewActivityTest {
-    WebViewActivity webViewActivity;
+
+    WebViewActivityMock webViewActivity;
 
     private Resources resource = null;
     private ActivityController<WebViewActivityMock> activityController;
+
+    @Mock
+    private static WebViewPresenter webViewPresenter;
+
+    @Rule
+    public MockitoRule rule = MockitoJUnit.rule();
+
+    private WebView webView;
 
     @After
     public void tearDown(){
@@ -47,10 +68,10 @@ public class WebViewActivityTest {
     public void setup() {
         activityController=Robolectric.buildActivity(WebViewActivityMock.class);
         webViewActivity=activityController.create().start().get();
+        webView=webViewActivity.findViewById(R.id.web_view);
         webViewActivity.updateActionBar(0,false);
         webViewActivity.updateActionBarIcon(false);
         webViewActivity.updateActionBar("",false);
-        //webViewActivity.initDLS();
         resource=webViewActivity.getResources();
     }
 
@@ -73,9 +94,34 @@ public class WebViewActivityTest {
     }
 
     @Test
+    public void updatUiOnUrlLoadedTest_showPage(){
+        webViewActivity.setWebViewEnum(WebViewEnum.PRIVACY_CLICKED);
+        webViewActivity.updateUiOnUrlLoaded("https://www.usa.philips.com/content/B2C/en_US/apps/77000/deep-sleep/sleep-score/articles/sleep-score/high-sleepscore.html");
+        ShadowWebView shadowWebView=shadowOf(webView);
+        assertEquals(shadowWebView.getLastLoadedUrl(),"https://www.usa.philips.com/content/B2C/en_US/apps/77000/deep-sleep/sleep-score/articles/sleep-score/high-sleepscore.html");
+    }
+
+    @Test
+    public void onArticleLoadedTest(){
+        webViewActivity.onArticleLoaded("https://www.usa.philips.com/content/B2C/en_US/apps/77000/deep-sleep/sleep-score/articles/sleep-score/high-sleepscore.html");
+        ShadowWebView shadowWebView=shadowOf(webView);
+        assertEquals(shadowWebView.getLastLoadedUrl(),"https://www.usa.philips.com/content/B2C/en_US/apps/77000/deep-sleep/sleep-score/articles/sleep-score/high-sleepscore.html");
+
+    }
+
+    @Test
     public void onCreateOptionsMenuTest(){
         Menu menu= new RoboMenu();
         assertTrue(webViewActivity.onCreateOptionsMenu(menu));
+    }
+
+    @Test
+    public void updateUiOnUrlLoadedTest() throws Exception {
+        webViewActivity.setWebViewEnum(WebViewEnum.HIGH_DEEP_SLEEP_ARTICLE_CLICKED);
+        webViewActivity.updateUiOnUrlLoaded("");
+        webViewActivity.setWebViewEnum(WebViewEnum.LOW_DEEP_SLEEP_ARTICLE_CLICKED);
+        webViewActivity.updateUiOnUrlLoaded("");
+        verify(webViewPresenter,times(2)).loadArticle(any(String.class),any(String.class));
     }
 
     @Test
@@ -85,7 +131,15 @@ public class WebViewActivityTest {
         assertTrue(webViewActivity.isFinishing());
     }
 
+    @Test
+    public void showToastTest(){
+        webViewActivity.onUrlLoadError("Failed to load url");
+        String toastMessage=ShadowToast.getTextOfLatestToast();
+        assertEquals(toastMessage,"Failed to load url");
+    }
+
     public static class WebViewActivityMock extends WebViewActivity{
+
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -93,5 +147,20 @@ public class WebViewActivityTest {
             super.onCreate(savedInstanceState);
         }
 
+        @NonNull
+        @Override
+        protected WebViewPresenter getWebViewPresenter() {
+            return webViewPresenter;
+        }
+
+
+        @Override
+        protected WebViewEnum getWebViewEnum() {
+            return state;
+        }
+
+        public void setWebViewEnum(WebViewEnum webViewEnum) {
+            state = webViewEnum;
+        }
     }
 }
