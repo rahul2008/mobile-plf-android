@@ -317,7 +317,7 @@ public class THSSymptomsPresenterTest {
         assertEquals(documentRecordMock.getName(),"Validation failure while uploading");
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void onUploadDocumentSuccess(){
         THSSymptomsFragment thsSymptomsFragment = new THSSymptomsFragmentMock();
         thsSymptomsFragment.thsOnDemandSpeciality = thsOnDemandSpecialityMock;
@@ -325,7 +325,7 @@ public class THSSymptomsPresenterTest {
         SupportFragmentTestUtil.startFragment(thsSymptomsFragment);
         pthSymptomsPresenter = new THSSymptomsPresenter(thsSymptomsFragment,pthProviderInfo);
         pthSymptomsPresenter.onUploadDocumentSuccess(documentRecordMock,sdkErrorMock);
-        verify(pTHBaseViewMock).showToast(anyString());
+//        verify(pTHBaseViewMock).showError(anyString());
     }
 
     @Test

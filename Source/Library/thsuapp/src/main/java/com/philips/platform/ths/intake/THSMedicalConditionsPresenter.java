@@ -74,7 +74,7 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
     @Override
     public void onFailure(Throwable throwable) {
         if (null != thsBaseFragment && thsBaseFragment.isFragmentAttached()) {
-            thsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+            thsBaseFragment.showError(thsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
         }
     }
 
@@ -101,7 +101,7 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
     @Override
     public void onUpdateConditionFailure(Throwable throwable) {
         if (null != thsBaseFragment && thsBaseFragment.isFragmentAttached()) {
-            thsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+            thsBaseFragment.showError(thsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
         }
     }
 }

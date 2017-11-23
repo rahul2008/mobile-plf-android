@@ -94,7 +94,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
     @Override
     public void onProvidersListFetchError(Throwable throwable) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
         }
     }
 
@@ -147,8 +147,8 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                 mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_ON_DEMAND_SPECIALITIES, sdkError.getSdkError()));
             } else {
                 if (onDemandSpecialties == null || onDemandSpecialties.size() == 0) {
-                    mThsBaseFragment.showToast("No OnDemandSpecialities available at present, please try after addPageChangeListener time");
-                    mThsBaseFragment.hideProgressBar();
+                    mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_matchmaking_no_provider_available_text));
+                    THSManager.getInstance().setMatchMakingVisit(false);
                     return;
                 }
                 mThsOnDemandSpeciality = onDemandSpecialties;
@@ -165,7 +165,8 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
     @Override
     public void onFailure(Throwable throwable) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mThsBaseFragment.hideProgressBar();
+            mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
         }
 
     }

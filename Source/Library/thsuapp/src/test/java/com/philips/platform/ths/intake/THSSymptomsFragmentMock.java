@@ -13,4 +13,10 @@ public class THSSymptomsFragmentMock extends THSSymptomsFragment{
     public Typeface getTypeface() {
         return null;
     }
+
+    @Override
+    public void showError(String message) {
+
+    }
+
 }

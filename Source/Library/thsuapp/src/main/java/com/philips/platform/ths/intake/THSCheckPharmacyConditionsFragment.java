@@ -300,7 +300,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
                 getLocationUpdate();
             } else {
                 showPharmacySearch();
-                showToast(getString(R.string.ths_permission_denied_message));
+                showError(getString(R.string.ths_permission_denied_message));
             }
         }
     }

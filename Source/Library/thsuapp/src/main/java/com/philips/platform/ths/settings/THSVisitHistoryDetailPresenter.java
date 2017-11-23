@@ -69,7 +69,7 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
     public void onResponse(FileAttachment fileAttachment, SDKError sdkError) {
         if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
             if (sdkError != null) {
-                mThsVisitHistoryDetailFragment.showToast(sdkError.getSDKErrorReason().name());
+                mThsVisitHistoryDetailFragment.showError(sdkError.getSDKErrorReason().name());
                 return;
             }
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "reportDownloaded");
@@ -82,7 +82,7 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
     @Override
     public void onFailure(Throwable throwable) {
         if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
-            mThsVisitHistoryDetailFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mThsVisitHistoryDetailFragment.showError(mThsVisitHistoryDetailFragment.getString(R.string.ths_se_server_error_toast_message));
         }
     }
 
@@ -102,7 +102,7 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
                 public void onFailure(Throwable throwable) {
                     if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
                         mThsVisitHistoryDetailFragment.hideProgressBar();
-                        mThsVisitHistoryDetailFragment.showToast(R.string.ths_se_server_error_toast_message);
+                        mThsVisitHistoryDetailFragment.showError(mThsVisitHistoryDetailFragment.getString(R.string.ths_se_server_error_toast_message));
                     }
                 }
             });

@@ -121,7 +121,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
                                             @Override
                                             public void onFailure(Throwable throwable) {
                                                 if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-                                                    mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+                                                    mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
                                                     mThsBaseFragment.hideProgressBar();
                                                 }
                                             }
@@ -135,7 +135,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
                         @Override
                         public void onProviderDetailsFetchError(Throwable throwable) {
                             if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-                                mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+                                mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
                             }
                             mThsBaseFragment.hideProgressBar();
                         }
@@ -187,7 +187,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
     @Override
     public void onProviderDetailsFetchError(Throwable throwable) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
             mThsBaseFragment.hideProgressBar();
         }
     }
@@ -215,7 +215,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
                 if (sdkError.getSDKErrorReason() != null && sdkError.getSDKErrorReason().name() != null) {
                     mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_SCHEDULE_APPOINTMENT,sdkError));
                 } else {
-                    mThsBaseFragment.showToast(mThsBaseFragment.getString(R.string.something_went_wrong));
+                    mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
                 }
             }
         }
@@ -224,7 +224,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
     @Override
     public void onFailure(Throwable throwable) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
             mThsBaseFragment.hideProgressBar();
         }
     }
@@ -237,7 +237,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
     @Override
     public void onError(Throwable throwable) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
         }
     }
 
@@ -254,6 +254,6 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
 
     @Override
     public void onValidationFailure(Map var1) {
-        mThsBaseFragment.showToast(var1.toString());
+        mThsBaseFragment.showError(var1.toString());
     }
 }

@@ -18,7 +18,7 @@ public class THSInsuranceDetailFragmentMock extends THSInsuranceDetailFragment {
     }
 
     @Override
-    public void showToast(String message) {
+    public void showError(String message) {
 
     }
 }

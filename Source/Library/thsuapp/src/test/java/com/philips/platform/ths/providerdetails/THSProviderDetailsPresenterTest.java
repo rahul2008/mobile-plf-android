@@ -165,6 +165,7 @@ public class THSProviderDetailsPresenterTest {
 
     @Test
     public void onProviderDetailsFetchError(){
+        when(thsBaseFragmentMock.isFragmentAttached()).thenReturn(false);
         providerDetailsPresenter.onProviderDetailsFetchError(throwableMock);
     }
 

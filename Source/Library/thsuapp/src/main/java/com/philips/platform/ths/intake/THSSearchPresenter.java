@@ -70,7 +70,7 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
 
         if (null != uiBaseView && uiBaseView.isFragmentAttached()) {
             AmwellLog.i("onFetchMedication", "server failed to fetch");
-            uiBaseView.showToast(R.string.ths_se_server_error_toast_message);
+            uiBaseView.showError(uiBaseView.getString(R.string.ths_se_server_error_toast_message));
         }
     }
 
@@ -133,7 +133,7 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
     public void onProvidersListFetchError(Throwable throwable) {
         if (null != uiBaseView && uiBaseView.isFragmentAttached()) {
             AmwellLog.i("onFetchProvider", "failure");
-            ((THSBaseFragment) uiBaseView).showToast(R.string.ths_se_server_error_toast_message);
+            uiBaseView.showError(uiBaseView.getString(R.string.ths_se_server_error_toast_message));
         }
     }
 

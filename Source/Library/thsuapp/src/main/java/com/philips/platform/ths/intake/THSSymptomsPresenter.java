@@ -111,7 +111,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     @Override
     public void onFailure(Throwable throwable) {
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
-            thsBaseView.showToast(R.string.ths_se_server_error_toast_message);
+            thsBaseView.showError(thsBaseView.getString(R.string.ths_se_server_error_toast_message));
             thsBaseView.hideProgressBar();
         }
     }
@@ -153,7 +153,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
             public void onFailure(Throwable throwable) {
                 if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
                     thsBaseView.hideProgressBar();
-                    thsBaseView.showToast(R.string.ths_se_server_error_toast_message);
+                    thsBaseView.showError(thsBaseView.getString(R.string.ths_se_server_error_toast_message));
                 }
 
             }
@@ -165,7 +165,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     public void onUploadValidationFailure(Map<String, ValidationReason> map) {
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
             thsSymptomsFragmentViewInterface.setContinueButtonState(true);
-            thsBaseView.showToast(thsBaseView.getString(R.string.ths_add_photo_validation_error_string));
+            thsBaseView.showError(thsBaseView.getString(R.string.ths_add_photo_validation_error_string));
         }
     }
 
@@ -174,11 +174,10 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
             thsSymptomsFragmentViewInterface.setContinueButtonState(true);
             if (null != documentRecord && null == sdkError) {
-                thsBaseView.showToast(thsBaseView.getString(R.string.ths_add_photo_success_string) + documentRecord.getName());
                 ((THSSymptomsFragment) thsBaseView).updateDocumentRecordList(documentRecord);
             } else if (null != sdkError) {
                 thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT,sdkError));
-                thsBaseView.showToast(thsBaseView.getString(R.string.ths_add_photo_error_string) + sdkError.getMessage());
+                thsBaseView.showError(thsBaseView.getString(R.string.ths_add_photo_error_string) + sdkError.getMessage());
             }
         }
     }
@@ -187,7 +186,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     public void onError(Throwable throwable) {
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
             thsSymptomsFragmentViewInterface.setContinueButtonState(true);
-            thsBaseView.showToast(R.string.ths_se_server_error_toast_message);
+            thsBaseView.showError(thsBaseView.getString(R.string.ths_se_server_error_toast_message));
             thsBaseView.hideProgressBar();
         }
     }

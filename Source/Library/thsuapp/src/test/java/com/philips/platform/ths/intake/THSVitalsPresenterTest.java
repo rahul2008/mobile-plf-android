@@ -43,6 +43,7 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 public class THSVitalsPresenterTest {
@@ -174,13 +175,14 @@ public class THSVitalsPresenterTest {
 
     @Test
     public void onFailure() throws Exception {
+        when(pTHBaseViewMock.isFragmentAttached()).thenReturn(false);
         thsVitalsPresenter.onFailure(throwableMock);
     }
 
     @Test
     public void onUpdateVitalsValidationFailure() throws Exception {
         thsVitalsPresenter.onUpdateVitalsValidationFailure(mapMock);
-        verify(pTHBaseViewMock).showToast(anyString());
+        verify(pTHBaseViewMock).showError(anyString());
     }
 
     @Test
@@ -194,14 +196,14 @@ public class THSVitalsPresenterTest {
     @Test
     public void onUpdateVitalsResponseSDKErrorNull() throws Exception {
         thsVitalsPresenter.onUpdateVitalsResponse(null);
-        verify(pTHBaseViewMock).showToast(anyString());
+        verify(pTHBaseViewMock).showError(anyString());
     }
 
     @Test
     public void onUpdateVitalsFailure() throws Exception {
+        when(pTHBaseViewMock.isFragmentAttached()).thenReturn(false);
         thsVitalsPresenter.onUpdateVitalsFailure(throwableMock);
-        when(pTHBaseViewMock.isFragmentAttached()).thenReturn(true);
-        verify(pTHBaseViewMock).showToast(anyInt());
+//        verifyNoMoreInteractions(pTHBaseViewMock);
     }
 
     @Test

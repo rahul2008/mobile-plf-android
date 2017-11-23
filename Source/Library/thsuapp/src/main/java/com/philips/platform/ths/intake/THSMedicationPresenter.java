@@ -103,7 +103,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
     @Override
     public void onFailure(Throwable throwable) {
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
-            mTHSBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mTHSBaseFragment.showError(mTHSBaseFragment.getString(R.string.ths_se_server_error_toast_message));
         }
     }
     //////////////// end of call backs for get existing medicines//////////////

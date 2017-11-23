@@ -266,7 +266,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
 
     @Override
     public void showErrorToast(String errorMessage) {
-        showToast(errorMessage);
+        showError(errorMessage);
     }
 
     /**
@@ -597,7 +597,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
                 isSearched = true;
                 pharmaciesList = data.getParcelableArrayListExtra(THSConstants.THS_SEARCH_PHARMACY_SELECTED);
                 if (null == pharmaciesList || pharmaciesList.size() == 0) {
-                    showToast(getString(R.string.ths_pharmacy_fetch_error));
+                    showError(getString(R.string.ths_pharmacy_fetch_error));
                 } else {
                     setPharmaciesList(pharmaciesList);
                 }

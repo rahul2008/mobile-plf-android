@@ -103,7 +103,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
     @Override
     public void onProviderDetailsFetchError(Throwable throwable) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
             mThsBaseFragment.hideProgressBar();
         }
     }
@@ -224,7 +224,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                                                                     @Override
                                                                     public void onFailure(Throwable throwable) {
                                                                         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-                                                                            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+                                                                            mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
                                                                             mThsBaseFragment.hideProgressBar();
                                                                         }
                                                                     }
@@ -241,7 +241,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                                                 @Override
                                                 public void onFailure(Throwable throwable) {
                                                     if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-                                                        mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+                                                        mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
                                                         mThsBaseFragment.hideProgressBar();
                                                     }
                                                 }
@@ -256,7 +256,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                         @Override
                         public void onProviderDetailsFetchError(Throwable throwable) {
                             if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-                                mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+                                mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
                             }
                             mThsBaseFragment.hideProgressBar();
                         }
@@ -294,7 +294,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
     @Override
     public void onError(Throwable throwable) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
         }
     }
 
@@ -375,7 +375,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
     public void onMatchMakingFailure(Throwable throwable) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             showMatchmakingError(true, true);
-            mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
         }
 
     }
