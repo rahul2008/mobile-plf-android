@@ -20,7 +20,8 @@ public class MergeAccountPresenter implements TraditionalLoginHandler, NetworkSt
 
     private MergeAccountContract mergeAccountContract;
 
-    public MergeAccountPresenter(MergeAccountContract mergeAccountContract) {
+    public MergeAccountPresenter(MergeAccountContract mergeAccountContract,User mUser) {
+        this.mUser=mUser;
         URInterface.getComponent().inject(this);
         this.mergeAccountContract = mergeAccountContract;
         RegistrationHelper.getInstance().registerNetworkStateListener(this);

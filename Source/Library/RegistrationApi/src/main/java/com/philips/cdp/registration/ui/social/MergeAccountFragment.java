@@ -34,6 +34,9 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
     @Inject
     NetworkUtility networkUtility;
 
+    @Inject
+    User user;
+
     @BindView(R2.id.reg_error_msg)
     XRegError mRegError;
 
@@ -71,7 +74,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
         initUI(view);
         connectionStatus(networkUtility.isNetworkAvailable());
         handleOrientation(view);
-        mergeAccountPresenter = new MergeAccountPresenter(this);
+        mergeAccountPresenter = new MergeAccountPresenter(this,user);
         return view;
     }
 

@@ -74,6 +74,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     private boolean proceedResend;
 
+    @Inject
+    RegistrationHelper registrationHelper;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         URInterface.getComponent().inject(this);
@@ -85,7 +88,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         mUser = new User(mContext);
         View view = inflater.inflate(R.layout.reg_fragment_account_activation, null);
 
-        accountActivationPresenter = new AccountActivationPresenter(this);
+        accountActivationPresenter = new AccountActivationPresenter(this, registrationHelper);
         accountActivationPresenter.registerListener();
 
         ButterKnife.bind(this, view);

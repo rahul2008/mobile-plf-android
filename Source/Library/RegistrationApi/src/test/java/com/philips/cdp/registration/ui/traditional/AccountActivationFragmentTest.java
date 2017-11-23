@@ -6,7 +6,6 @@ import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
 import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.junit.Before;
@@ -16,7 +15,6 @@ import org.mockito.Mock;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
-import static org.junit.Assert.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -37,38 +35,15 @@ public class AccountActivationFragmentTest {
 
     AccountActivationPresenter accountActivationPresenter;
 
+    @Mock
+    AccountActivationContract accountActivationContractMock;
     @Before
     public void setUp() throws Exception {
 
         initMocks(this);
         URInterface.setComponent(mockRegistrationComponent);
         accountActivationFragment= new AccountActivationFragment();
-        accountActivationPresenter=new AccountActivationPresenter(new AccountActivationContract() {
-            @Override
-            public void handleUiState(boolean isNetworkAvailble) {
-
-            }
-
-            @Override
-            public void updateActivationUIState() {
-
-            }
-
-            @Override
-            public void hideActivateSpinner() {
-
-            }
-
-            @Override
-            public void activateButtonEnable(boolean enable) {
-
-            }
-
-            @Override
-            public void verificationError(String errorMsg) {
-
-            }
-        });
+        accountActivationPresenter=new AccountActivationPresenter(accountActivationContractMock, registrationHelperMock);
     }
 
     @Test(expected = InflateException.class)

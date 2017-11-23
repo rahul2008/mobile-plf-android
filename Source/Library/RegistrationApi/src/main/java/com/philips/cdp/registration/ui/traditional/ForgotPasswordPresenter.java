@@ -35,14 +35,14 @@ import io.reactivex.schedulers.*;
 public class ForgotPasswordPresenter implements NetworkStateListener, EventListener,
         ForgotPasswordHandler, HttpClientServiceReceiver.Listener {
 
-    @Inject
-    User user;
 
-    @Inject
-    RegistrationHelper registrationHelper;
+    private final User user;
 
-    @Inject
-    EventHelper eventHelper;
+
+    private final RegistrationHelper registrationHelper;
+
+
+    private final EventHelper eventHelper;
 
     @Inject
     ServiceDiscoveryWrapper serviceDiscoveryWrapper;
@@ -66,7 +66,10 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
     Context context;
 
     public ForgotPasswordPresenter(
-            ForgotPasswordContract forgotPasswordContract, Context context) {
+            User user, RegistrationHelper registrationHelper, EventHelper eventHelper, ForgotPasswordContract forgotPasswordContract, Context context) {
+        this.user = user;
+        this.registrationHelper = registrationHelper;
+        this.eventHelper = eventHelper;
         URInterface.getComponent().inject(this);
         this.forgotPasswordContract = forgotPasswordContract;
         this.context = context;
