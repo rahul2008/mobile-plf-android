@@ -134,36 +134,68 @@ public abstract class Appliance implements Availability<Appliance> {
         }
     }
 
+    /**
+     * Returns the DevicePort of the appliance
+     * @return DevicePort
+     */
     public DevicePort getDevicePort() {
         return devicePort;
     }
 
+    /**
+     * Returns the FirmwarePort of the appliance
+     * @return FirmwarePort
+     */
     public FirmwarePort getFirmwarePort() {
         return firmwarePort;
     }
 
+    /**
+     * Returns the PairingPort of the appliance
+     * @return PairingPort
+     */
     public PairingPort getPairingPort() {
         return pairingPort;
     }
 
+    /**
+     * Returns the WifiPort of the appliance
+     * @return WifiPort
+     */
     public WifiPort getWifiPort() {
         return wifiPort;
     }
 
+    /**
+     * Returns the set of all ports in the appliance
+     * @return Set<DICommPort>
+     */
     public Set<DICommPort> getAllPorts() {
         return ports;
     }
 
+    /**
+     * Returns the appliance's name
+     * @return String The name of the appliance
+     */
     public String getName() {
         return getNetworkNode().getName();
     }
 
+    /**
+     * Adds a listener for every {@link DICommPort} in the appliance
+     * @param portListener DICommPortListener
+     */
     public void addListenerForAllPorts(final @NonNull DICommPortListener portListener) {
         for (DICommPort port : getAllPorts()) {
             port.addPortListener(portListener);
         }
     }
 
+    /**
+     * Removes the listener from every {@link DICommPort} in the appliance
+     * @param portListener DICommPortListener
+     */
     public void removeListenerForAllPorts(final @NonNull DICommPortListener portListener) {
         for (DICommPort port : getAllPorts()) {
             port.removePortListener(portListener);
@@ -191,6 +223,7 @@ public abstract class Appliance implements Availability<Appliance> {
      *
      * @return true, if communication to this Appliance is possible
      */
+    @Override
     public boolean isAvailable() {
         return communicationStrategy.isAvailable();
     }

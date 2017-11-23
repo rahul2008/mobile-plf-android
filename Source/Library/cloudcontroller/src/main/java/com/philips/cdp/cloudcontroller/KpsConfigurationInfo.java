@@ -20,22 +20,42 @@ public abstract class KpsConfigurationInfo {
     private static final String FILTERSTRING_NOFILTER = "";
     private static final int MAX_NUMBER_RETRIES = 2;
 
+    /**
+     * Returns the priority for ICPClient
+     * @return int The priority.
+     */
     public int getICPClientPriority() {
         return ICPCLIENT_PRIORITY;
     }
 
+    /**
+     * Returns the stack size of ICPClient
+     * @return int The size of the stack
+     */
     public int getICPClientStackSize() {
         return ICPCLIENT_STACKSIZE;
     }
 
+    /**
+     * Returns a timeout
+     * @return int The timeout
+     */
     public int getHttpTimeout() {
         return HTTP_TIMEOUT;
     }
 
+    /**
+     * Returns a String to be used in filtering
+     * @return String The filter String
+     */
     public String getFilterString() {
         return FILTERSTRING_NOFILTER;
     }
 
+    /**
+     * Returns the maximum number of retries
+     * @return int The maximum number of retries
+     */
     public int getMaxNumberOfRetries() {
         return MAX_NUMBER_RETRIES;
     }

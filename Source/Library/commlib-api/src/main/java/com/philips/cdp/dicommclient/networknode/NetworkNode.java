@@ -427,6 +427,12 @@ public class NetworkNode implements Parcelable {
         }
     };
 
+    /**
+     * Returns a pairing status based on a given status.
+     * Will return NOT_PAIRED when no known state for given status.
+     * @param status int The status to find the PairingState for
+     * @return PairingState The state corresponding to the given status
+     */
     public static PairingState getPairedStatusKey(int status) {
         if (status >= 0 && status < PairingState.values().length) {
             return PairingState.values()[status];

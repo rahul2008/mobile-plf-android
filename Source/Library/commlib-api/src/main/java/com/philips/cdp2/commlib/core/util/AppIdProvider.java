@@ -35,6 +35,9 @@ public class AppIdProvider {
 
     private Set<AppIdListener> listeners = new CopyOnWriteArraySet<>();
 
+    /**
+     * Instantiates an AppIdProvider
+     */
     public AppIdProvider() {
         this.appId = String.format("deadbeef%08x", new Random().nextInt());
     }
@@ -49,6 +52,10 @@ public class AppIdProvider {
         notifyAppIdChanged(appId);
     }
 
+    /**
+     * Returns the AppId.
+     * @return String The app Id
+     */
     @NonNull
     public String getAppId() {
         return this.appId;

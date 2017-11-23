@@ -56,6 +56,10 @@ public class PairingPort<P extends PortProperties> extends DICommPort<P> {
         return false;
     }
 
+    /**
+     * Disables demo mode.
+     * Calls #putProperties internally.
+     */
     public void disableDemoMode() {
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put(KEY_SETUP, "inactive");

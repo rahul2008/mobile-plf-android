@@ -25,7 +25,7 @@ import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import static com.philips.cdp.dicommclient.port.DICommPort.SUBSCRIPTION_TTL;
+import static com.philips.cdp.dicommclient.port.DICommPort.SUBSCRIPTION_TTL_S;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.DOWNLOADING;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.IDLE;
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.PROGRAMMING;
@@ -97,7 +97,7 @@ public class FirmwarePortStateWaiterTest {
         FirmwarePortStateWaiter firmwarePortStateWaiter = new FirmwarePortStateWaiter(portMock, communicationStrategyMock, IDLE, mockWaiterListener);
         firmwarePortStateWaiter.waitForNextState(TIMEOUT_MILLIS);
 
-        verify(communicationStrategyMock, times(0)).subscribe(eq(PORT_NAME), eq(PORT_PRODUCT_ID), eq(SUBSCRIPTION_TTL), isA(ResponseHandler.class));
+        verify(communicationStrategyMock, times(0)).subscribe(eq(PORT_NAME), eq(PORT_PRODUCT_ID), eq(SUBSCRIPTION_TTL_S), isA(ResponseHandler.class));
     }
 
     @Test
@@ -122,7 +122,7 @@ public class FirmwarePortStateWaiterTest {
         FirmwarePortStateWaiter firmwarePortStateWaiter = new FirmwarePortStateWaiter(portMock, communicationStrategyMock, IDLE, mockWaiterListener);
         firmwarePortStateWaiter.waitForNextState(TIMEOUT_MILLIS);
 
-        verify(communicationStrategyMock).subscribe(eq(PORT_NAME), eq(PORT_PRODUCT_ID), eq(SUBSCRIPTION_TTL), isA(ResponseHandler.class));
+        verify(communicationStrategyMock).subscribe(eq(PORT_NAME), eq(PORT_PRODUCT_ID), eq(SUBSCRIPTION_TTL_S), isA(ResponseHandler.class));
     }
 
     @Test

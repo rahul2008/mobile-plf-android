@@ -42,10 +42,10 @@ public abstract class DICommPort<T extends PortProperties> {
 
     private final String LOG_TAG = getClass().getSimpleName();
 
-    public static final int SUBSCRIPTION_TTL = 300; // Seconds
+    public static final int SUBSCRIPTION_TTL_S = 300;
 
     @VisibleForTesting
-    static final long SUBSCRIPTION_TTL_MS = TimeUnit.SECONDS.toMillis(SUBSCRIPTION_TTL);
+    static final long SUBSCRIPTION_TTL_MS = TimeUnit.SECONDS.toMillis(SUBSCRIPTION_TTL_S);
 
     protected final Gson gson = GsonProvider.get();
 
@@ -380,7 +380,7 @@ public abstract class DICommPort<T extends PortProperties> {
 
     private void performSubscribe() {
         DICommLog.i(LOG_TAG, "perform subscribe");
-        this.communicationStrategy.subscribe(getDICommPortName(), getDICommProductId(), SUBSCRIPTION_TTL, new ResponseHandler() {
+        this.communicationStrategy.subscribe(getDICommPortName(), getDICommProductId(), SUBSCRIPTION_TTL_S, new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {
