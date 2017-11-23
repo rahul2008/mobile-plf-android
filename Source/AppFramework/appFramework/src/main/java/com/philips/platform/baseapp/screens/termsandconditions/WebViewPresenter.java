@@ -50,7 +50,7 @@ public class WebViewPresenter implements WebViewContract.Action {
     public void loadUrl(WebViewEnum state) {
         AppInfraInterface appInfra = getAppInfra();
         ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-        final String value;
+        String value = "";
 
         switch (state) {
             case PRIVACY_CLICKED:
@@ -65,33 +65,25 @@ public class WebViewPresenter implements WebViewContract.Action {
             case HIGH_DEEP_SLEEP_ARTICLE_CLICKED:
                 value = HIGH_DEEP_SLEEP_KEY;
                 break;
-            default:
-                viewListener.showToast("Action not recognized");
-                return;
-
         }
 
-        if (!TextUtils.isEmpty(value)) {
-            serviceDiscoveryInterface.getServiceUrlWithCountryPreference(value, new
-                    ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                        @Override
-                        public void onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String errorText) {
-                            viewListener.onUrlLoadError(errorText);
-                        }
+        serviceDiscoveryInterface.getServiceUrlWithCountryPreference(value, new
+                ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+                    @Override
+                    public void onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String errorText) {
+                        viewListener.onUrlLoadError(errorText);
+                    }
 
-                        @Override
-                        public void onSuccess(URL url) {
-                            if (url == null) {
-                                viewListener.onUrlLoadError("Empty Url from Service discovery");
-                            } else {
-                                viewListener.updateUiOnUrlLoaded(url.toString());
+                    @Override
+                    public void onSuccess(URL url) {
+                        if (url == null) {
+                            viewListener.onUrlLoadError("Empty Url from Service discovery");
+                        } else {
+                            viewListener.updateUiOnUrlLoaded(url.toString());
 
-                            }
                         }
-                    });
-        } else {
-            viewListener.showToast("Action not recognized");
-        }
+                    }
+                });
     }
 
     protected AppInfraInterface getAppInfra() {
@@ -101,7 +93,7 @@ public class WebViewPresenter implements WebViewContract.Action {
     @Override
     public void loadArticle(final String articleServiceId,final String articleTitle) {
         if (contentLoader == null) {
-            contentLoader = new ContentLoader(getApplicationContext(), articleServiceId, 1, ContentArticle.class, "articles", getAppInfra(), 0);
+            contentLoader = getContentLoaderInstance(articleServiceId);
         }
         contentLoader.refresh(new ContentLoaderInterface.OnRefreshListener() {
             @Override
@@ -111,10 +103,15 @@ public class WebViewPresenter implements WebViewContract.Action {
 
             @Override
             public void onSuccess(REFRESH_RESULT refresh_result) {
+                viewListener.showToast(refresh_result.name());
                 getArticleUrl(articleTitle);
             }
         });
 
+    }
+
+    protected ContentLoader getContentLoaderInstance(String articleServiceId) {
+        return new ContentLoader(getApplicationContext(), articleServiceId, 1, ContentArticle.class, "articles", getAppInfra(), 0);
     }
 
     protected void getArticleUrl(String articleTitle) {
@@ -131,7 +128,7 @@ public class WebViewPresenter implements WebViewContract.Action {
                     ContentArticle article= (ContentArticle) list.get(0);
                     viewListener.onArticleLoaded(article.getLink());
                 }else{
-                    viewListener.showToast("Erroe while getting article url");
+                    viewListener.showToast("Error while getting article url");
                 }
             }
         });
