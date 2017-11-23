@@ -1,4 +1,3 @@
-apply plugin: 'com.android.library'
 apply plugin: 'com.android.application'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
@@ -26,7 +25,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath(builddeps.cdpSCM)
     }
@@ -42,7 +41,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "MyAccountUApp"
+archivesBaseName = "ewsUApp"
 
 allprojects {
     repositories {
@@ -70,7 +69,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.mya_myAccount)
+version = objcdp.getVersion(versions.ews_ews)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -105,11 +104,13 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact zipDocuments
+            /*
+            release in the path done here to prevent local publishing, possibility to publish only release
+             which comes from jenkins
+             */
+            artifact("$buildDir/outputs/aar/${archivesBaseName}_release.aar")
 
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
@@ -188,7 +189,6 @@ def getMyVersionCode() {
 }
 
 dependencies {
-    apply from: "../../../ci-build-support/gradle/versions.gradle"
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // Philips Dependencies
     compile project(':ews')

@@ -4,27 +4,31 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
     apply from: projectDir.absolutePath + '/../scripts/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
+                username "readonly"
+                password "123qweasdzxc"
             }
         }
         maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local'
             credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
+                username "readonly"
+                password "123qweasdzxc"
             }
         }
-    }
 
+        mavenCentral()
+    }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:${versionsExternal.dexCount}"
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
         classpath(builddeps.cdpSCM)
     }
@@ -37,6 +41,7 @@ if (project.hasProperty('envCode')) {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
@@ -52,19 +57,19 @@ allprojects {
             }
         }
         maven {
-            url 'https://maven.google.com'
-        }
-        maven {
             url objcdp.getArtifactoryUrl()
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
-    }
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.cdp'
 
-    apply plugin: 'com.jfrog.artifactory'
-    group = 'com.philips.platform'
+        flatDir {
+            dirs 'libs'
+        }
+    }
 }
 
 group = 'com.philips.cdp'
@@ -75,7 +80,7 @@ artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
         repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
             username = objcdp.getArtifactoryUploadUser()
             password = objcdp.getArtifactoryUploadPwd()
             defaults {
@@ -194,7 +199,8 @@ android {
 
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    apply from: "../../../ci-build-support/gradle/versions.gradle"
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // Android/Google
     compile "com.android.support:support-annotations:${versions.support}"
