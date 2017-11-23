@@ -15,6 +15,7 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 /**
+ * The FirmwarePortProperties class holds information about the state of the {@link FirmwarePort}.
  * @publicApi
  */
 public class FirmwarePortProperties implements PortProperties {
@@ -22,6 +23,9 @@ public class FirmwarePortProperties implements PortProperties {
     public static final int INVALID_INT_VALUE = Integer.MIN_VALUE;
     public static final double BASE64_FACTOR = .75;
 
+    /**
+     * Property names from the FirmwarePort
+     */
     public enum FirmwarePortKey {
         NAME("name"),
         VERSION("version"),
@@ -47,6 +51,9 @@ public class FirmwarePortProperties implements PortProperties {
         }
     }
 
+    /**
+     * States that the {@link FirmwarePort} can be in
+     */
     public enum FirmwarePortState {
         IDLE("idle"),
         PREPARING("preparing"),
@@ -93,50 +100,104 @@ public class FirmwarePortProperties implements PortProperties {
     private String upgrade = "";
     private String version = "";
 
+    /**
+     * Return the name of the firmware
+     * @return String The name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Returns the version code of the firmware
+     * @return String The version
+     */
     public String getVersion() {
         return version;
     }
 
+    /**
+     * Returns a String when the appliance is capable of downloading a different firmware version.
+     * When empty, there is no version available to use.
+     * See #isUpdateAvailable
+     * @return String
+     */
     public String getUpgrade() {
         return upgrade;
     }
 
+    /**
+     * Returns the current state of the {@link FirmwarePort}
+     * @return FirmwarePortState The current state
+     */
     public FirmwarePortState getState() {
         return FirmwarePortState.fromString(state);
     }
 
+    /**
+     * Returns an indication of the progress when upgrading firmware.
+     * The progress is the number of bytes that have been processed.
+     * @return int The progress of the upgrading action
+     */
     public int getProgress() {
-        return max(0, min(progress, 100));
+        if(progress <= 0) {
+            return 0;
+        }
+        return progress;
     }
 
+    /**
+     * Returns a status message
+     * @return String The status message
+     */
     public String getStatusMessage() {
         return statusmsg;
     }
 
+    /**
+     * Returns a boolean to indicate if the appliance supports firmware upgrade.
+     * @return boolean True if appliance supports firmware upgrade, false otherwise
+     */
     public boolean canUpgrade() {
         return canupgrade;
     }
 
+    /**
+     * Returns a boolean to indicate whether the firmware version was mandatory to install.
+     * @return boolean True if it was a mandatory version, false otherwise.
+     */
     public boolean isMandatory() {
         return mandatory;
     }
 
+    /**
+     * Returns the maximum chunk size that the appliance can accept when uploading new firmware.
+     * @return int The maximum chunk size
+     */
     public int getMaxChunkSize() {
         return (int) floor(maxchunksize * BASE64_FACTOR);
     }
 
+    /**
+     * Returns the size of the firmware
+     * @return int The size of the upgrade that is being executed.
+     */
     public int getSize() {
         return size;
     }
 
+    /**
+     * Returns a boolean to indicate if there is a firmware update available.
+     * @return boolean True if the appliance has an update available to install, false otherwise.
+     */
     public boolean isUpdateAvailable() {
         return !isEmpty(upgrade);
     }
 
+    /**
+     * Returns a boolean to indicate if the firmware version is valid.
+     * @return boolean True if the firmware is valid, false otherwise.
+     */
     public boolean isValid() {
         return !isEmpty(name) && !isEmpty(version) && progress != INVALID_INT_VALUE;
     }

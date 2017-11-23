@@ -88,10 +88,23 @@ public final class CommCentral {
         this.applianceManager = new ApplianceManager(discoveryStrategies, applianceFactory, new NetworkNodeDatabase(), applianceDatabase);
     }
 
+    /**
+     * Start discovery for all transports.
+     *
+     * @throws MissingPermissionException    thrown if additional permissions are required.
+     * @throws TransportUnavailableException thrown if underlying transports are not available.
+     */
     public void startDiscovery() throws MissingPermissionException, TransportUnavailableException {
         startDiscovery(Collections.<String>emptySet());
     }
 
+    /**
+     * Start discovery for all transports and filter for specific model ids.
+     *
+     * @param modelIds set of model ids which should be filtered for.
+     * @throws MissingPermissionException    thrown if additional permissions are required.
+     * @throws TransportUnavailableException thrown if underlying transports are not available.
+     */
     public void startDiscovery(@NonNull Set<String> modelIds) throws MissingPermissionException, TransportUnavailableException {
         DICommLog.d(TAG, "Starting discovery for model ids: " + modelIds.toString());
 
@@ -100,17 +113,34 @@ public final class CommCentral {
         }
     }
 
+    /**
+     * Stop discovery for all transports.
+     */
     public void stopDiscovery() {
         for (DiscoveryStrategy strategy : this.discoveryStrategies) {
             strategy.stop();
         }
     }
 
+    /**
+     * Get the {@link ApplianceManager} for this {@link CommCentral}.
+     * <p>
+     * This will always return the same {@link ApplianceManager}.
+     *
+     * @return the {@link ApplianceManager} belonging to this {@link CommCentral}.
+     */
     @NonNull
     public ApplianceManager getApplianceManager() {
         return applianceManager;
     }
 
+    /**
+     * Get the {@link AppIdProvider} for this app.
+     * <p>
+     * The {@link AppIdProvider} stores the unique identifier for this app.
+     *
+     * @return AppIdProvider for this app.
+     */
     public static AppIdProvider getAppIdProvider() {
         return APP_ID_PROVIDER;
     }

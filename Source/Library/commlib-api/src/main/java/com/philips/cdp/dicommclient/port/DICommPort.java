@@ -42,10 +42,10 @@ public abstract class DICommPort<T extends PortProperties> {
 
     private final String LOG_TAG = getClass().getSimpleName();
 
-    public static final int SUBSCRIPTION_TTL = 300;
+    public static final int SUBSCRIPTION_TTL_S = 300;
 
     @VisibleForTesting
-    static final long SUBSCRIPTION_TTL_MS = TimeUnit.SECONDS.toMillis(SUBSCRIPTION_TTL);
+    static final long SUBSCRIPTION_TTL_MS = TimeUnit.SECONDS.toMillis(SUBSCRIPTION_TTL_S);
 
     protected final Gson gson = GsonProvider.get();
 
@@ -96,16 +96,37 @@ public abstract class DICommPort<T extends PortProperties> {
         }
     };
 
+    /**
+     * Constructs a DICommPort instance
+     * @param communicationStrategy CommunicationStrategy The communication strategy for the port to use.
+     */
     public DICommPort(@NonNull final CommunicationStrategy communicationStrategy) {
         this.communicationStrategy = communicationStrategy;
     }
 
+    /**
+     * Reads a JSON String and updates its internal values
+     * @param jsonResponse String The raw JSON String
+     */
     protected abstract void processResponse(String jsonResponse);
 
+    /**
+     * Returns the name of the DICommPort.
+     * This should be equal to the name of the port defined in the appliance.
+     * @return String The DICommPort's name
+     */
     public abstract String getDICommPortName();
 
+    /**
+     * Returns the ID of the product the DICommPort lives in.
+     * @return integer
+     */
     protected abstract int getDICommProductId();
 
+    /**
+     * Returns true if the DICommPort allows incoming subscriptions, false otherwise.
+     * @return boolean
+     */
     public abstract boolean supportsSubscription();
 
     /**
@@ -125,12 +146,43 @@ public abstract class DICommPort<T extends PortProperties> {
         mPortProperties = portProperties;
     }
 
+    /**
+     * Updates a property within the DICommPort on the appliance.
+     * @param key String The name of the property to update
+     * @param value String The value to update the property with
+     */
     public void putProperties(String key, String value) {
         DICommLog.d(LOG_TAG, "request putProperties - " + key + " : " + value);
         mPutPropertiesMap.put(key, value);
         tryToPerformNextRequest();
     }
 
+    /**
+     * Updates a property within the DICommPort on the appliance.
+     * @param key String The name of the property to update
+     * @param value int The value to update the property with
+     */
+    public void putProperties(String key, int value) {
+        DICommLog.d(LOG_TAG, "request putProperties - " + key + " : " + value);
+        mPutPropertiesMap.put(key, value);
+        tryToPerformNextRequest();
+    }
+
+    /**
+     * Updates a property within the DICommPort on the appliance.
+     * @param key String The name of the property to update
+     * @param value boolean The value to update the property with
+     */
+    public void putProperties(String key, boolean value) {
+        DICommLog.d(LOG_TAG, "request putProperties - " + key + " : " + value);
+        mPutPropertiesMap.put(key, value);
+        tryToPerformNextRequest();
+    }
+
+    /**
+     * Updates all properties in the given <code>dataMap</code> with the associated values.
+     * @param dataMap Map<String, Object> The map of updated property values
+     */
     public void putProperties(Map<String, Object> dataMap) {
         DICommLog.d(LOG_TAG, "request putProperties - multiple key values");
         mPutPropertiesMap.putAll(dataMap);
@@ -146,6 +198,9 @@ public abstract class DICommPort<T extends PortProperties> {
         tryToPerformNextRequest();
     }
 
+    /**
+     * Subscribes to all changes of the DICommPort on the appliance.
+     */
     public void subscribe() {
         if (mSubscribeRequested) return;
         DICommLog.d(LOG_TAG, "request subscribe");
@@ -161,6 +216,9 @@ public abstract class DICommPort<T extends PortProperties> {
         tryToPerformNextRequest();
     }
 
+    /**
+     * Cancels subscription to changes of the DICommPort on the appliance.
+     */
     public void unsubscribe() {
         DICommLog.d(LOG_TAG, "request unsubscribe");
 
@@ -171,6 +229,9 @@ public abstract class DICommPort<T extends PortProperties> {
         tryToPerformNextRequest();
     }
 
+    /**
+     * Prevents subscription to changes of DICommPort to be renewed.
+     */
     public void stopResubscribe() {
         DICommLog.d(LOG_TAG, "stop resubscribing");
 
@@ -180,10 +241,18 @@ public abstract class DICommPort<T extends PortProperties> {
         resubscriptionHandler.removeCallbacks(resubscriptionRunnable);
     }
 
+    /**
+     * Adds a listener to all the port's changes
+     * @param listener DICommPortListener The listener
+     */
     public void addPortListener(DICommPortListener listener) {
         mPortListeners.add(listener);
     }
 
+    /**
+     * Removes a listener to all the port's changes
+     * @param listener DICommPortListener The listener
+     */
     public void removePortListener(DICommPortListener listener) {
         mPortListeners.remove(listener);
     }
@@ -311,7 +380,7 @@ public abstract class DICommPort<T extends PortProperties> {
 
     private void performSubscribe() {
         DICommLog.i(LOG_TAG, "perform subscribe");
-        this.communicationStrategy.subscribe(getDICommPortName(), getDICommProductId(), SUBSCRIPTION_TTL, new ResponseHandler() {
+        this.communicationStrategy.subscribe(getDICommPortName(), getDICommProductId(), SUBSCRIPTION_TTL_S, new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {
