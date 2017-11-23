@@ -1,8 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:background="?attr/uidContentPrimaryBackgroundColor">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/usr_match_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginLeft="@integer/reg_layout_margin_16"
+    android:layout_marginRight="@integer/reg_layout_margin_16"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
 
     <ScrollView
         android:id="@+id/sv_root_layout"
@@ -22,12 +24,12 @@
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/usr_startScreen_title_label"
                 style="@style/UIDLabel"
+                fontPath="fonts/centralesansbold.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
                 android:text="@string/reg_DLS_StratView_Title_Txt"
-                android:textSize="@dimen/reg_text_size_20"
-                fontPath="fonts/centralesansbold.ttf"/>
+                android:textSize="@dimen/reg_text_size_20" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/usr_startScreen_valueAdd_label"
@@ -36,15 +38,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_dimen_16dp"
                 android:text="@string/reg_DLS_StratView_Detail_Txt"
-                android:textSize="@dimen/reg_text_size_16"/>
+                android:textSize="@dimen/reg_text_size_16" />
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/usr_startScreen_createAccount_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_dimen_24dp"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
-                android:text="@string/reg_DLS_Create_Account_CreateMyPhilips_btntxt"/>
+                android:layout_marginTop="@dimen/reg_dimen_24dp"
+                android:text="@string/reg_DLS_Create_Account_CreateMyPhilips_btntxt" />
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/usr_startScreen_Login_Button"
@@ -52,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/reg_DLS_SigIn_TitleTxt"
-                app:uidComponentType="Secondary"/>
+                app:uidComponentType="Secondary" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/usr_startScreen_orLoginWith_Label"
@@ -60,10 +62,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
                 android:text="@string/reg_DLS_Welcome_Alternate_SignInAccount_lbltxt"
-                android:layout_marginBottom="@dimen/reg_dimen_8dp"
-                android:textSize="@dimen/reg_text_size_12"/>
+                android:textSize="@dimen/reg_text_size_12" />
 
             <LinearLayout
                 android:id="@+id/usr_startScreen_Social_Container"
@@ -71,23 +73,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:gravity="center"
-                android:orientation="horizontal">
-            </LinearLayout>
+                android:orientation="horizontal"></LinearLayout>
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/usr_StartScreen_Skip_Button"
                 style="@style/UIDExtraWideIconQuietButton.Center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_dimen_24dp"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/reg_DLS_Continue_Without_Account"/>
+                android:layout_marginTop="@dimen/reg_dimen_24dp"
+                android:text="@string/reg_DLS_Continue_Without_Account" />
 
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/reg_error_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_dimen_16dp"/>
+                android:layout_marginTop="@dimen/reg_dimen_16dp" />
 
         </LinearLayout>
     </ScrollView>
@@ -96,37 +97,35 @@
         android:id="@+id/usr_StartScreen_privacyNotice_country_LinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/usr_StartScreen_privacyNotice_country2_LinearLayout"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/usr_StartScreen_privacyNotice_country2_LinearLayout"
         android:layout_marginBottom="@dimen/reg_dimen_16dp"
-        android:visibility="invisible"
         android:orientation="horizontal">
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/usr_StartScreen_privacyNotice_label"
             style="@style/UIDLabel"
-            android:layout_alignParentStart="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/reg_text_size_12"
+            android:layout_alignParentStart="true"
             android:lines="1"
             android:padding="@dimen/reg_dimen_4dp"
-            android:text="@string/reg_PrivacyNoticeText"/>
+            android:text="@string/reg_PrivacyNoticeText"
+            android:textSize="@dimen/reg_text_size_12" />
 
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/usr_StartScreen_country_label"
             style="@style/UIDLabel"
-            android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/reg_text_size_12"
+            android:layout_alignParentEnd="true"
             android:lines="1"
             android:padding="@dimen/reg_dimen_4dp"
-            android:text="@string/reg_Country"/>
+            android:text="@string/reg_Country"
+            android:textSize="@dimen/reg_text_size_12" />
     </RelativeLayout>
-
 
 
     <LinearLayout
@@ -135,34 +134,35 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:visibility="invisible"
         android:layout_marginBottom="@dimen/reg_dimen_16dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="invisible">
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/usr_StartScreen_privacyNotice2_label"
             style="@style/UIDLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/reg_text_size_12"
-            android:lines="1"
-            android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
-            android:padding="@dimen/reg_dimen_4dp"
             android:layout_marginBottom="@dimen/reg_dimen_8dp"
-            android:text="@string/reg_PrivacyNoticeText"/>
+            android:gravity="center_horizontal"
+            android:lines="1"
+            android:padding="@dimen/reg_dimen_4dp"
+            android:text="@string/reg_PrivacyNoticeText"
+            android:textSize="@dimen/reg_text_size_12" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/usr_StartScreen_country2_label"
             style="@style/UIDLabel"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
             android:padding="@dimen/reg_dimen_4dp"
-            android:textSize="@dimen/reg_text_size_12"
-            android:text="@string/reg_Country"/>
+            android:text="@string/reg_Country"
+            android:textSize="@dimen/reg_text_size_12" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/ll_root_layout"
         android:layout_width="match_parent"
@@ -171,9 +171,7 @@
         android:gravity="center"
         android:visibility="invisible">
 
-        <com.philips.platform.uid.view.widget.ProgressBar
-            style="@style/UIDProgressBarCircularIndeterminateMiddle"
-            />
+        <com.philips.platform.uid.view.widget.ProgressBar style="@style/UIDProgressBarCircularIndeterminateMiddle" />
     </LinearLayout>
 
 </RelativeLayout>
