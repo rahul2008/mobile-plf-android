@@ -124,19 +124,7 @@ public class MyAccountStateTest {
         final List<ConsentDefinition> definitions = givenListOfConsentDefinitions();
         assertEquals(2, definitions.size());
     }
-
-    @Test
-    public void shouldHaveDummyContent() throws Exception {
-        final List<ConsentDefinition> definitions = givenListOfConsentDefinitions();
-        final ConsentDefinition sample = definitions.get(0);
-
-        assertEquals("I allow Philips to store my data in cloud", sample.getText());
-        assertEquals("Giving this consent you are allowing Philips to store information related to you", sample.getHelpText());
-        assertEquals(LANGUAGE_TAG, sample.getLocaleString());
-        assertEquals("moment", sample.getType());
-        assertEquals(1, sample.getVersion());
-    }
-
+    
     @After
     public void tearDown() {
         myaInterface = null;
