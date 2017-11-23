@@ -152,6 +152,9 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
                         .setSetUpVerifyScreenQuestion(R.string.label_ews_verify_ready_question_wl)
                         .setSetUpVerifyScreenYesButton(R.string.button_ews_verify_ready_yes_wl)
                         .setSetUpVerifyScreenNoButton(R.string.button_ews_verify_ready_no_wl)
+                        .setGettingStartedScreenImage(R.drawable.ews_start_wl)
+                        .setSetUpScreenImage(R.drawable.ews_setup_wl)
+                        .setSetUpVerifyScreenImage(R.drawable.ews_setup_wl)
                         .build();
             case AIRPURIFIER:
                 return new HappyFlowContentConfiguration.Builder()
@@ -162,6 +165,9 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
                         .setSetUpVerifyScreenQuestion(R.string.label_ews_verify_ready_question_ap)
                         .setSetUpVerifyScreenYesButton(R.string.button_ews_verify_ready_yes_ap)
                         .setSetUpVerifyScreenNoButton(R.string.button_ews_verify_ready_no_ap)
+                        .setGettingStartedScreenImage(R.drawable.ews_start_ap)
+                        .setSetUpScreenImage(R.drawable.ews_setup_ap)
+                        .setSetUpVerifyScreenImage(R.drawable.ews_setup_ap)
                         .build();
             case DEFAULT:
             default:
@@ -176,38 +182,38 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
                 return new TroubleShootContentConfiguration.Builder()
                         .setResetConnectionTitle(R.string.label_ews_support_reset_connection_title_wl)
                         .setResetConnectionBody(R.string.label_ews_support_reset_connection_body_wl)
-                        .setResetConnectionImage(R.drawable.ic_ews_enable_ap_mode)
+                        .setResetConnectionImage(R.drawable.ews_support_wl)
 
                         .setResetDeviceTitle(R.string.label_ews_support_reset_device_title_wl)
                         .setResetDeviceBody(R.string.label_ews_support_reset_device_body_wl)
-                        .setResetDeviceImage(R.drawable.ic_ews_enable_ap_mode)
+                        .setResetDeviceImage(R.drawable.ews_support_wl)
 
                         .setSetUpAccessPointTitle(R.string.label_ews_support_setup_access_point_title_wl)
                         .setSetUpAccessPointBody(R.string.label_ews_support_setup_access_point_body_wl)
-                        .setSetUpAccessPointImage(R.drawable.ic_ews_enable_ap_mode)
+                        .setSetUpAccessPointImage(R.drawable.ews_support_wl)
 
                         .setConnectWrongPhoneTitle(R.string.label_ews_connect_to_wrongphone_title_wl)
                         .setConnectWrongPhoneBody(R.string.label_ews_connect_to_wrongphone_body_wl)
-                        .setConnectWrongPhoneImage(R.drawable.ic_ews_enable_ap_mode)
+                        .setConnectWrongPhoneImage(R.drawable.ews_support_wl)
                         .setConnectWrongPhoneQuestion(R.string.label_ews_connect_to_wrongphone_question_wl)
                         .build();
             case AIRPURIFIER:
                 return new TroubleShootContentConfiguration.Builder()
                         .setResetConnectionTitle(R.string.label_ews_support_reset_connection_title_ap)
                         .setResetConnectionBody(R.string.label_ews_support_reset_connection_body_ap)
-                        .setResetConnectionImage(R.drawable.ic_ews_enable_ap_mode)
+                        .setResetConnectionImage(R.drawable.ews_support_ap)
 
                         .setResetDeviceTitle(R.string.label_ews_support_reset_device_title_ap)
                         .setResetDeviceBody(R.string.label_ews_support_reset_device_body_ap)
-                        .setResetDeviceImage(R.drawable.ic_ews_enable_ap_mode)
+                        .setResetDeviceImage(R.drawable.ews_support_ap)
 
                         .setSetUpAccessPointTitle(R.string.label_ews_support_setup_access_point_title_ap)
                         .setSetUpAccessPointBody(R.string.label_ews_support_setup_access_point_body_ap)
-                        .setSetUpAccessPointImage(R.drawable.ic_ews_enable_ap_mode)
+                        .setSetUpAccessPointImage(R.drawable.ews_support_ap)
 
                         .setConnectWrongPhoneTitle(R.string.label_ews_connect_to_wrongphone_title_ap)
                         .setConnectWrongPhoneBody(R.string.label_ews_connect_to_wrongphone_body_ap)
-                        .setConnectWrongPhoneImage(R.drawable.ic_ews_enable_ap_mode)
+                        .setConnectWrongPhoneImage(R.drawable.ews_support_ap)
                         .setConnectWrongPhoneQuestion(R.string.label_ews_connect_to_wrongphone_question_ap)
                         .build();
             case DEFAULT:
