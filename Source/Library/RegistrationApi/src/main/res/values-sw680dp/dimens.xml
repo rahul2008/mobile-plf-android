@@ -1,3 +1,4 @@
 <resources>
     <dimen name="usr_match_parent">648dp</dimen>
+    <dimen name="reg_layout_margin_16">0dp</dimen>
 </resources>
