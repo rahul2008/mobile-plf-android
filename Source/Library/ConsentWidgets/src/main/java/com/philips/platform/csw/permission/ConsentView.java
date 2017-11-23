@@ -26,7 +26,7 @@ public class ConsentView {
         this.definition = definition;
     }
 
-    public String getConsentText() {
+    String getConsentText() {
         return definition.getText();
     }
 

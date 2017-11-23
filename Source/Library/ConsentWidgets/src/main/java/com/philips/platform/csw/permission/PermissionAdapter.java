@@ -27,7 +27,9 @@ import com.philips.platform.uid.view.widget.Switch;
 import java.util.ArrayList;
 import java.util.List;
 
-class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.PermissionViewHolder> {
+import javax.inject.Inject;
+
+public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.PermissionViewHolder> {
 
     private static final int NOT_FOUND = -1;
     @NonNull
@@ -36,11 +38,12 @@ class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Permissio
     @Nullable
     private ConsentToggleListener consentToggleListener;
 
+    @Inject
     PermissionAdapter(@NonNull final List<ConsentView> definitions) {
         this.items = new ArrayList<>(definitions);
     }
 
-    public void setConsentToggleListener(@Nullable ConsentToggleListener consentToggleListener) {
+    void setConsentToggleListener(@Nullable ConsentToggleListener consentToggleListener) {
         this.consentToggleListener = consentToggleListener;
     }
 

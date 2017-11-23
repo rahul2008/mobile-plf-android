@@ -19,16 +19,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 public class PermissionPresenter implements GetConsentInteractor.Callback, ConsentToggleListener, CreateConsentInteractor.Callback {
 
-    private PermissionInterface permissionInterface;
-    private GetConsentInteractor getConsentInteractor;
-    private CreateConsentInteractor createConsentInteractor;
-    private PermissionAdapter adapter;
-    public static final int version = 0;
+    @NonNull private final PermissionInterface permissionInterface;
+    @NonNull private final GetConsentInteractor getConsentInteractor;
+    @NonNull private final CreateConsentInteractor createConsentInteractor;
+    @NonNull private final PermissionAdapter adapter;
 
+    @Inject
     PermissionPresenter(
-            PermissionInterface permissionInterface, GetConsentInteractor getConsentInteractor, CreateConsentInteractor createConsentInteractor, PermissionAdapter adapter) {
+            @NonNull final PermissionInterface permissionInterface, @NonNull final GetConsentInteractor getConsentInteractor, @NonNull final CreateConsentInteractor createConsentInteractor, @NonNull final PermissionAdapter adapter) {
         this.permissionInterface = permissionInterface;
         this.getConsentInteractor = getConsentInteractor;
         this.createConsentInteractor = createConsentInteractor;
@@ -36,6 +38,7 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
         this.adapter.setConsentToggleListener(this);
     }
 
+    @NonNull
     PermissionAdapter getAdapter() {
         return adapter;
     }

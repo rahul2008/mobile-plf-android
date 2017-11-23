@@ -7,21 +7,9 @@
 
 package com.philips.platform.csw.permission;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.csw.ConsentBundleConfig;
-import com.philips.platform.csw.CswBaseFragment;
-import com.philips.platform.mya.consentwidgets.R;
-import com.philips.platform.mya.consentwidgets.R2;
-
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,8 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.philips.platform.catk.CreateConsentInteractor;
-import com.philips.platform.catk.GetConsentInteractor;
+import com.philips.platform.catk.error.ConsentNetworkError;
+import com.philips.platform.csw.ConsentBundleConfig;
+import com.philips.platform.csw.CswBaseFragment;
+import com.philips.platform.mya.consentwidgets.R;
+import com.philips.platform.mya.consentwidgets.R2;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -106,27 +97,15 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // TODO: We could probably use some dagger here ;)
-        List<ConsentView> consentViews = createConsentDefinitions();
-
-        ConsentAccessToolKit instance = ConsentAccessToolKit.getInstance();
-        CreateConsentInteractor createConsentInteractor = new CreateConsentInteractor(instance);
-        GetConsentInteractor getConsentInteractor = new GetConsentInteractor(instance, config.getConsentDefinitions());
-
-        PermissionPresenter permissionPresenter = new PermissionPresenter(this, getConsentInteractor, createConsentInteractor, new PermissionAdapter(consentViews));
+        PermissionPresenter permissionPresenter = injectPresenter();
         permissionPresenter.getConsentStatus();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(permissionPresenter.getAdapter());
     }
 
-    @NonNull
-    private List<ConsentView> createConsentDefinitions() {
-        final List<ConsentView> consentViewList = new ArrayList<>();
-        for (final ConsentDefinition definition : config.getConsentDefinitions()) {
-            consentViewList.add(new ConsentView(definition));
-        }
-        return consentViewList;
+    private PermissionPresenter injectPresenter() {
+        return DaggerPermissionComponent.builder().permissionModule(new PermissionModule(this, config)).build().presenter();
     }
 
     @Override
