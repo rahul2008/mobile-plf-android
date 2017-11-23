@@ -177,16 +177,16 @@ hockeyapp {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion ${versionsAndroid.targetSdk}
+    buildToolsVersion ${versionsAndroid.support}
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion ${versionsAndroid.minSdk}
+        targetSdkVersion ${versionsAndroid.targetSdk}
         versionCode 1
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi 26
+        renderscriptTargetApi ${versionsAndroid.renderScriptApi}
         renderscriptSupportModeEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
@@ -339,11 +339,11 @@ dependencies {
     compile ("com.crittercism:crittercism-android-agent:${versionsExternal.crittercism}")
 
     testCompile "junit:junit:${versionsExternal.junit}"
-    testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
+    testCompile "org.khronos:opengl-api:${versionsExternal.junit}"
     testCompile "org.robolectric:robolectric:${versionsExternal.junit}"
     testCompile "org.robolectric:shadows-multidex:${versionsExternal.junit}"
     testCompile "org.robolectric:shadows-support-v4:${versionsExternal.junit}"
-    testCompile 'org.mockito:mockito-all:2.0.2-beta'
+    testCompile "org.mockito:mockito-all:${versionsExternal.junit}"
     testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
 
     testCompile "org.powermock:powermock-core:${versionsExternal.powerMock}"
