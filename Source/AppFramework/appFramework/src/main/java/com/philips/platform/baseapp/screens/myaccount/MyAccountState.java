@@ -13,6 +13,7 @@ import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.csw.ConsentDefinition;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
+import com.philips.platform.csw.CswSettings;
 import com.philips.platform.csw.CswLaunchInput;
 import com.philips.platform.mya.MyaFragment;
 import com.philips.platform.mya.interfaces.MyaListener;
@@ -98,8 +99,8 @@ public class MyAccountState extends BaseState implements MyaListener{
             CswDependencies cswDependencies = new CswDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra());
             cswDependencies.setApplicationName(APPLICATION_NAME);
             cswDependencies.setPropositionName(PROPOSITION_NAME);
-            UappSettings uappSettings = new UappSettings(actContext);
-            cswInterface.init(cswDependencies, uappSettings);
+            CswSettings cswSettings = new CswSettings(actContext);
+            cswInterface.init(cswDependencies, cswSettings);
 
             cswInterface.launch(fragmentLauncher, buildLaunchInput(true, actContext));
             return true;
