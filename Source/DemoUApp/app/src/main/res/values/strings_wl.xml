@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  -->
+
+<resources>
+    <!-- happy flow configuration WL -->
+    <string name="ews_app_name_wl">Healthy sleep solution</string>
+    <string name="ews_device_name_wl">BrightEyes</string>
+
+    <string name="label_ews_get_started_title_wl">Connect with your BrightEyes</string>
+
+    <string name="label_ews_plug_in_title_wl">2. Make sure your device is powered on </string>
+    <string name="label_ews_plug_in_body_wl">Put the power wire in the power socket. You will see the time on your screen.</string>
+
+    <string name="label_ews_verify_ready_title_wl">3. Is the device in setup-mode?</string>
+    <string name="label_ews_verify_ready_question_wl">1) Press the Home button\n2) Press the Gear button\n3) Long press the Wi-Fi button\n\nIs the Wi-Fi light blinking?</string>
+    <string name="button_ews_verify_ready_yes_wl">Yes, Wi-Fi is blinking</string>
+    <string name="button_ews_verify_ready_no_wl">No, Wi-Fi is not blinking</string>
+
+    <!-- Trouble shoot flow configuration WL -->
+    <string name="label_ews_support_reset_connection_title_wl">Has your %1$s left setup?</string>
+    <string name="label_ews_support_reset_connection_body_wl">Is the Wi-Fi light on your %1$s still blinking?</string>
+
+    <string name="label_ews_support_reset_device_title_wl">Enable the setup mode on the %1$s</string>
+    <string name="label_ews_support_reset_device_body_wl">Follow the steps to enable the setup mode on the %1$s</string>
+
+    <string name="label_ews_support_setup_access_point_title_wl">Try setting up regardless</string>
+    <string name="label_ews_support_setup_access_point_body_wl">Usually you can setup device in this state, Please try setting it up. Otherwise, try to enable setup mode again.</string>
+
+    <string name="label_ews_connect_to_wrongphone_title_wl">Accidently connected with wrong phone?</string>
+    <string name="label_ews_connect_to_wrongphone_body_wl">If your device has been connected to another phone by accident, then you can try to set it up again with the correct phone.</string>
+    <string name="label_ews_connect_to_wrongphone_question_wl">Do you see this screen?</string>
+</resources>

@@ -20,7 +20,6 @@ import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
-import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.appliance.EWSGenericAppliance;
 import com.philips.cdp2.ews.communication.ApplianceAccessEventMonitor;
@@ -176,5 +175,6 @@ public class EWSModule {
     Handler provideHandlerWithMainLooper() {
         return new Handler(Looper.getMainLooper());
     }
-
 }
+
+

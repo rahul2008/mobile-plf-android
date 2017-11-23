@@ -4,36 +4,115 @@
     <string name="ews_app_name_default">name</string>
     <string name="ews_device_name_default">device name</string>
     <!--EWS_01_00 start -->
-    <string name="label_ews_get_started_title_default">Connect with your</string>
-    <string name="label_ews_get_started_note">Let’s connect your %1$s to your Wi-Fi so you can enjoy all features enabled by the app.</string>
-    <string name="label_ews_get_started_description">Tip: For successful Wi-Fi connection, position your %1$s within reach of your router.\nObstacles such walls may affect the Wi-Fi performance.</string>
+    <string name="label_ews_get_started_title">Connect with your</string>
+    <string name="label_ews_get_started_body">Connect your %1$s to the Wi-Fi to enjoy this app and all its features.</string>
+    <string name="label_ews_get_started_description">To successfully connect, position your %1$s close to your router. Obstacles such as walls may affect signal strength.</string>
     <string name="ews_support_title">Philips support</string>
     <string name="button_ews_get_started_get_started">Get started</string>
     <!--EWS_01_01 confirm wi network -->
-    <string name="label_ews_confirm_connection_title">1. Confirm your Wi-Fi</string>
-    <string name="label_ews_confirm_connection_currently_connected">You are currently connected to:\n\n%1$s</string>
-    <string name="label_ews_confirm_connection_tip">We recommend that you use your home Wi-Fi network nearest to the %1$s.\n\nYour %2$s does not support 5Ghz Wi-Fi networks.</string>
+    <string name="label_ews_confirm_connection_title">Confirm your Wi-Fi</string>
+    <string name="label_ews_confirm_connection_currently_connected">You are currently connected to:</string>
+    <string name="label_ews_confirm_connection_tip_upper">We recommend that you use your home Wi-Fi network nearest to the %1$s.</string>
+    <string name="label_ews_confirm_connection_tip_lower">Your %1$s does not support 5Ghz Wi-Fi networks.</string>
     <string name="label_ews_confirm_connection_want_to_connect">Do you want to connect your %1$s to this %2$s?</string>
     <string name="button_ews_confirm_connection_yes">Yes, connect</string>
     <string name="button_ews_confirm_connection_no">No</string>
+    <!--EWS_01_01b select home wifi -->
+    <string name="label_ews_select_wakeup_wifi_title">Select Wi-Fi network</string>
+    <string name="label_ews_select_wakeup_wifi_body">Read all steps before leaving the app.</string>
+    <string name="label_ews_select_wakeup_wifi_steps_1">1. Go to Settings in your phone or tablet and tap Wi-Fi</string>
+    <string name="label_ews_select_wakeup_wifi_steps_2">2. Turn on Wi-Fi</string>
+    <string name="label_ews_select_wakeup_wifi_steps_3">3. Select your home network</string>
+    <string name="label_ews_select_wakeup_wifi_steps_4">4. Return to %1$s</string>
     <!--EWS_02_01_setup-steps01 -->
-    <string name="label_ews_plug_in_title_default">2. Make sure your device is powered on.</string>
-    <string name="label_ews_plug_in_body_default">Press the power button on your %1$s to start it.</string>
+    <string name="label_ews_plug_in_title_default">Is your device powered on?</string>
+    <string name="label_ews_plug_in_body_default">Proposition-specific instructions to power the device.</string>
     <string name="button_ews_plug_in_next">Ok, I did it</string>
     <!--EWS_02_02_setup-steps02 -->
-    <string name="label_ews_verify_ready_title_default">3. Is device in setup-mode?</string>
-    <string name="label_ews_verify_ready_question_default">Is the Wi-Fi light blinking?</string>
-    <string name="button_ews_verify_ready_yes_default">Wi-Fi blinking</string>
-    <string name="button_ews_verify_ready_no_default">Wi-Fi not blinking</string>
+    <string name="label_ews_verify_ready_title_default">Is your device in setup mode?</string>
+    <string name="label_ews_verify_ready_question_default">Is the Wi-Fi light flashing?</string>
+    <string name="button_ews_verify_ready_yes_default">Yes, the Wi-Fi light is flashing</string>
+    <string name="button_ews_verify_ready_no_default">No, the Wi-Fi light is not flashing</string>
     <!--EWS_03_00_Connecting with device-->
     <string name="label_ews_establishing_connection_title">Connecting to PHILIPS Setup</string>
     <string name="label_ews_establishing_connection_body">This might take a few seconds. You will be automatically redirected when finished.</string>
     <!--EWS_03_00a_Phone to device connectoion failed error -->
-    <string name="label_ews_connection_problem_title">Connection unsuccessful</string>
-    <string name="label_ews_connection_problem_body">Please try the following:\n\n1. Enable Wi-Fi on your phone.\n\n2. Make sure your phone and your %1$s are in the same room during setup.\n\n3. Enable setup mode on the device.</string>
-    <string name="label_ews_connection_problem_question">Do you need help enabling setup mode?</string>
-    <string name="button_ews_connection_problem_setup_mode_yes">Yes, please help me</string>
+    <string name="label_ews_connection_problem_title">Unable to connect</string>
+    <string name="label_ews_connection_problem_please_try_again">Please try the following:</string>
+    <string name="label_ews_connection_problem_please_step1">1. Check that Wi-Fi is turned on</string>
+    <string name="label_ews_connection_problem_please_step2">2. Make sure your phone and %1$s are in the same room during setup</string>
+    <string name="label_ews_connection_problem_please_step3">3. Enable setup mode on %1$s</string>
+    <string name="label_ews_connection_problem_question">Need help enabling setup mode?</string>
+    <string name="button_ews_connection_problem_setup_mode_yes">Yes, I need help</string>
     <string name="button_ews_connection_problem_setup_mode_no">No, thanks</string>
+    <!--EWS_03_01a_connect with password-->
+    <string name="label_ews_password_title">Now setting up the %1$s with %2$s</string>
+    <string name="label_ews_password_body">If your Wi-Fi network is not password protected, tap connect</string>
+    <string name="label_ews_password_form_password_title">Wi-FI Password</string>
+    <string name="label_ews_password_from_name_title">You can give your %1$s any name or keep the default name.</string>
+    <string name="button_ews_password_connect">Connect</string>
+    <!--EWS_04_00 connecting device with Wi -->
+    <string name="label_ews_connecting_device_title">Establishing connection between %1$s and %2$s</string>
+    <string name="label_ews_connecting_device_body">This might take a few seconds.</string>
+    <string name="button_ews_connecting_device_cancel">Cancel</string>
+    <!--EWS_04_01 Connection successful-->
+    <string name="label_ews_succesful_title">Connection successful</string>
+    <string name="label_ews_succesful_body">Your %1$s is now successfully connected to %2$s and paired with your phone.</string>
+    <string name="button_ews_succesful_start">Continue</string>
+    <!--EWS_04_02 cancel wifi setup-->
+    <string name="label_ews_cancel_setup_title">Are you sure you want to cancel the Wi-Fi setup?</string>
+    <string name="label_ews_cancel_setup_body">If you cancel now, you won\'t be able to access your %1$s using Wi-Fi.</string>
+    <string name="button_ews_cancel_setup_yes">Yes, cancel setup</string>
+    <string name="button_ews_cancel_setup_no">No, continue setup</string>
+    <!--EWS_04_00.a wrong wi  network-->
+    <string name="label_ews_phone_reconnected_different_network_title">Connection error</string>
+    <string name="label_ews_phone_reconnected_different_network_upper_body">Your phone has connected to a different network. Please reconnect to %1$s.</string>
+    <string name="label_ews_phone_reconnected_different_network_bottom_body">Read all steps before leaving the app.</string>
+    <string name="label_ews_phone_reconnected_different_network_step_1">1. Go to Settings on your phone and tap Wi-Fi</string>
+    <string name="label_ews_phone_reconnected_different_network_step_2">2. Turn on Wi-Fi</string>
+    <string name="label_ews_phone_reconnected_different_network_step_3">3. Select %1$s</string>
+    <string name="label_ews_phone_reconnected_different_network_step_4">4. Return to %1$s</string>
+    <string name="button_ews_phone_reconnected_different_network_confirm">Ok, I did it</string>
+    <!--EWS_04_00.b connection unsuccessful-->
+    <string name="label_ews_phone_not_found_on_network_title">Connection error</string>
+    <string name="label_ews_phone_not_found_on_network_upper_body">The phone could not detect your %1$s in home Wi-Fi.</string>
+    <string name="label_ews_phone_not_found_on_network_lower_body">This may be because:</string>
+    <string name="label_ews_phone_not_found_on_network_step_1">1) You entered the wrong network password</string>
+    <string name="label_ews_phone_not_found_on_network_step_2">2) Your %1$s is out of range</string>
+    <string name="label_ews_phone_not_found_on_network_upper_helper">Please verify your password, move your %1$s and phone closer to %2$s router and try again. If you have another router or network, you can try using those.</string>
+    <string name="label_ews_phone_not_found_on_network_lower_helper">Your %1$s does not support 5Ghz networks.</string>
+    <string name="button_ews_phone_not_found_on_network_try_again">Try again</string>
+    <!--EWS_H_03.02_reset connection-->
+    <string name="label_ews_support_reset_connection_title_default">Has %1$s left setup mode?</string>
+    <string name="label_ews_support_reset_connection_body_default">If the device has been setup in the past, it may not be in setup mode. This text needs to be configured by the proposition.</string>
+    <string name="label_ews_support_reset_connection_question_default">Has the device left setup mode?</string>
+    <string name="button_ews_support_reset_connection_yes">Yes</string>
+    <string name="button_ews_support_reset_connection_no">No</string>
+    <!--EWS_H_03.03_reset device-->
+    <string name="label_ews_support_reset_device_title_default">Enable the setup mode on the device</string>
+    <string name="label_ews_support_reset_device_body_default">Enable the setup mode on the device. This text needs to be configured by the proposition.</string>
+    <string name="button_ews_support_reset_device_done">Done</string>
+    <!--EWS_H_03.04_setup access point mode-->
+    <string name="label_ews_support_setup_access_point_title_default">Try setting up regardless</string>
+    <string name="label_ews_support_setup_access_point_body_default">Usually you can setup the device in this state.</string>
+    <string name="label_ews_support_setup_access_point_end_sentence_default">Please try setting it up. Otherwise, try to enable setup mode again.</string>
+    <string name="button_ews_support_setup_access_point_done">Done</string>
+    <!-- EWS_H_03.01_connect to wrong phone-->
+    <string name="label_ews_support_wrong_phone_title_default">Connected to the wrong phone?</string>
+    <string name="label_ews_support_wrong_phone_body_default">You might see this screen prematurely if your device has connected to the wrong phone by accident.</string>
+    <string name="label_ews_support_wrong_phone_question_default">Do you see this?</string>
+    <string name="button_ews_support_wrong_phone_yes">Yes</string>
+    <string name="button_ews_support_wrong_phone_no">No</string>
+
+
+    <!-- ToDo: need to update permission text after consulting design team -->
+    <string name="label_location_permission_required">%1$s requires location permission</string>
+
+
+    <!--GPS Strings Missing in localisation-->
+    <string name="label_ews_enable_gps_settings_title">Enable in system Location Settings</string>
+    <string name="label_ews_enable_gps_settings_body">To find %1$s’s PHILIPS Setup Wi-Fi network, we need Location Services enabled.  Please enable Location Services in Location Settings and return to the app.</string>
+    <string name="button_ews_enable_gps_settings">Go to Location Settings</string>
 
     <!--EWS Location Permission -->
     <string name="label_ews_location_permission_title">Location permission</string>
@@ -41,58 +120,19 @@
     <string name="button_ews_location_permission_yes">Allow</string>
     <string name="button_ews_location_permission_no">Cancel setup</string>
 
-    <!--EWS_03_01a_connect with password-->
-    <string name="label_ews_password_title">Now setting up %1$s with your %2$s</string>
-    <string name="label_ews_password_body">If your Wi-Fi network is not password protected, tap connect</string>
-    <string name="label_ews_password_form_password_title">Wi-FI Password</string>
-    <string name="label_ews_password_from_name_title">You can give your %1$s any name or keep the default name.</string>
-    <string name="button_ews_password_connect">Connect</string>
-    <string name="label_ews_password_password_placeholder">Show password</string>
-    <string name="label_ews_succesful_title">Connection successful!</string>
-    <string name="label_ews_succesful_body">Your %1$s is now connected to your home Wi-Fi network and paired with your phone.</string>
-    <string name="button_ews_succesful_start">Continue</string>
-    <string name="label_ews_home_network_title">Select your home WiFi network</string>
-    <string name="label_ews_home_network_body">Please read all 4 steps before leaving the application.\n1. Tap WiFi in your phone Settings\n2. Make sure your WiFi is turned on \n3. Select your home network\n4. Return to the %1$s</string>
-    <string name="label_ews_connection_unsuccesful_body">The phone could not detect your Somneo in Home WiFi.\nThis may be because you entered the wrong password or because your Somneo is out of range.\n\nPlease verify your password, move your device and phone closer to your home router and try again.\n\nIf problems persist,please click the \"different issue\" link below.</string>
-    <string name="label_ews_connection_unsuccesful_title">Connection was unsuccessful</string>
-    <string name="button_ews_connection_unsuccesful_yes">Yes, please help me</string>
-    <string name="button_ews_connection_unsuccesful_no">No, thanks</string>
 
-    <!-- ToDo: need to update permission text after consulting design team -->
-    <string name="label_location_permission_required">%1$s requires location permission</string>
-
-    <string name="label_ews_cancel_setup_title">Are you sure you want to cancel setup?</string>
-    <string name="label_ews_cancel_setup_body">If you cancel your setup now, you will not be able to control your %1$s using your app.</string>
-    <string name="button_ews_cancel_setup_yes">Yes, cancel setup</string>
-    <string name="button_ews_cancel_setup_no">No, continue setup</string>
-    <string name="label_ews_enable_gps_settings_title">Enable in system Location Settings</string>
-    <string name="label_ews_enable_gps_settings_body">To find %1$s’s PHILIPS Setup Wi-Fi network, we need Location Services enabled.  Please enable Location Services in Location Settings and return to the app.</string>
-    <string name="button_ews_enable_gps_settings">Go to Location Settings</string>
-    <string name="button_cancel">Cancel</string>
-    <string name="label_ews_phone_not_found_on_network_title">Connection error</string>
-    <string name="label_ews_phone_not_found_on_network_body">The phone could not detect %1$s in home Wi-Fi\n\nThis may be because:\n1) You entered the wrong password\n2) Your %1$s is out of range\n\n</string>
-    <string name="label_ews_phone_not_found_on_network_note">Please verify your password, move your %1$s and phone close to %2$s router and try again. If you have another router or network, you can try use those.\n\nNote: Your %1$s does not support 5Ghz networks.</string>
-    <string name="button_ews_phone_not_found_on_network_try_again">Try again</string>
-
-    <string name="label_ews_phone_reconnected_different_network_title">Connection error</string>
-    <string name="label_ews_phone_reconnected_different_network_body">Your phone has connected to a different network. \n\nPlease reconnect your phone to %1$s.\nPlease read all the 4 steps before leaving the application.\n1. Tap Wi-Fi in your phone settings \n2. Make sure your Wi-Fi is turned on \n3. Select the %2$s network\n4. Return to the %3$s app</string>
-    <string name="button_ews_phone_reconnected_different_network_confirm">Ok, I did it</string>
-    <string name="label_ews_support_reset_connection_title_default">Has %1$s left the room</string>
-    <string name="label_ews_support_reset_connection_body_default">Has the %1$S left setup mode?</string>
-    <string name="button_ews_support_reset_connection_yes">Yes</string>
-    <string name="button_ews_support_reset_connection_no">No</string>
-    <string name="label_ews_support_reset_device_title_default">Enable the setup mode on the device.</string>
-    <string name="label_ews_support_reset_device_body_default">Enable the setup mode on the device. This text needs to be configured by the proposition.</string>
-    <string name="button_ews_support_reset_device_done">Done</string>
-    <string name="label_ews_support_setup_access_point_title_default">Try setting up regardless.</string>
-    <string name="label_ews_support_setup_access_point_body_default">Usually you can setup the device in this state. This text needs to be configured by the proposition.</string>
-    <string name="button_ews_support_setup_access_point_done">Done</string>
-    <string name="label_ews_support_wrong_phone_title_default">Accidentally connect with the wrong phone?</string>
-    <string name="label_ews_support_wrong_phone_body_default">If your device has been connected to another phone by accident, you may see this screen prematurely.</string>
-    <string name="label_ews_support_wrong_phone_question_default">Do you see this screen?</string>
-    <string name="button_ews_support_wrong_phone_yes">Yes</string>
-    <string name="button_ews_support_wrong_phone_no">No</string>
-    <string name="label_ews_connecting_device_title">Establishing connection between %1$s and home network</string>
-    <string name="label_ews_connecting_device_body">This might take up to 60 seconds. You will be automatically redirected when finished.</string>
-    <string name="button_ews_connecting_device_cancel">Cancel</string>
+    <!--Not Used(Added for Default Missing Warning) -->
+    <string name="button_ews_contact_us">Contact Us</string>
+    <string name="button_ews_phone_not_found_on_network_still_having_issues">Having issues?</string>
+    <string name="label_ews_select_wifi_title">Connect to %1$s</string>
+    <string name="label_ews_select_wifi_body">Follow these steps to connect your phone to PHILIPS Setup.</string>
+    <string name="label_ews_select_wifi_step1">1. Go to Settings on your phone and tap Wi-Fi</string>
+    <string name="label_ews_select_wifi_step2">2. Under network, select PHILIPS Setup</string>
+    <string name="label_ews_select_wifi_step3">3. Return to %1$s</string>
+    <string name="button_ews_select_wifi_next">Ok, I did it</string>
+    <string name="button_ews_select_wifi_having_issues">Having trouble?</string>
+    <string name="ews_placeholder_home_network">HOME WIFI</string>
+    <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_connection_unsuccesful_title">Problem connecting to PHILIPS Setup Wi-Fi</string>
+    <string name="label_ews_connection_unsuccesful_body">Please try:\n1) Enable Wi-Fi on your phone.\n2) Make sure your phone and your %1$s are in the same room during setup.</string>
 </resources>
