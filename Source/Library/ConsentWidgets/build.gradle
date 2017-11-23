@@ -164,7 +164,7 @@ android {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         versionCode 1
-        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
         testApplicationId "com.philips.platform.mya.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -231,42 +231,22 @@ configurations.all {
 
 dependencies {
     //3rd party
-    compile 'com.google.code.gson:gson:2.2.4'
-
+    compile 'com.google.code.gson:gson:2.7'
 
     def daggerVer = 2.11
-
     compile "com.google.dagger:dagger:$daggerVer"
     compile "com.google.dagger:dagger-android-support:$daggerVer"
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVer"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVer"
-
-
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    //Coco
-    def dp = project.ext.has('useprojectdependencies')
 
-    if(dp) {
-        project(':uid')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-        {
-            transitive = true
-        }
-    }
-
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-
-  /*  if(dp) {
-        project(':usr')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-        {
-            exclude group: 'com.android.support', module: 'customtabs'
-            transitive = true
-        }
-    }*/
+    // Philips Components
+    compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+            {
+                transitive = true
+            }
+    compile project(':ConsentAccessToolKit')
 
     // Tests
     testCompile 'junit:junit:4.12'
@@ -280,29 +260,6 @@ dependencies {
     }
     testCompile 'org.robolectric:robolectric-utils:3.4-rc2'
     testCompile 'org.robolectric:robolectric-junit:3.4-rc2'
-    // Android runner and rules support
-    androidTestCompile("com.android.support.test:runner:0.5") {
-        exclude module: "com.android.support"
-        exclude module: "support-annotations"
-    }
-    androidTestCompile("com.android.support.test:rules:0.5") {
-        exclude module: "com.android.support"
-        exclude module: "support-annotations"
-    }
-    // Espressosupport
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.0') {
-        exclude group: 'com.android.support', module: 'appcompat'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude module: 'recyclerview-v7'
-    }
-    // add this for webview testing support
-    androidTestCompile 'com.android.support.test.espresso:espresso-web:2.2.2'
-    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
-    compile project(':ConsentAccessToolKit')
-
     testCompile 'junit:junit:4.12'
     testCompile 'org.powermock:powermock-core:1.6.6'
     testCompile 'org.powermock:powermock-module-junit4:1.6.6'
