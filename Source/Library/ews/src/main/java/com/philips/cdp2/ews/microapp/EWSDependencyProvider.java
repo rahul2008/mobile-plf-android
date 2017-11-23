@@ -35,7 +35,8 @@ public class EWSDependencyProvider {
     static EWSDependencyProvider instance;
     private static LoggingInterface loggingInterface;
     private static AppTaggingInterface appTaggingInterface;
-    private static CommCentral commCentral;
+    @VisibleForTesting
+    static CommCentral commCentral;
     @VisibleForTesting
     EWSComponent ewsComponent;
     private AppInfraInterface appInfraInterface;
@@ -43,8 +44,9 @@ public class EWSDependencyProvider {
     @Nullable
     private ThemeConfiguration themeConfiguration;
 
+    @VisibleForTesting
     @Nullable
-    private Context context;
+    Context context;
 
 
     @VisibleForTesting
@@ -139,8 +141,9 @@ public class EWSDependencyProvider {
         return commCentral;
     }
 
+    @VisibleForTesting
     @NonNull
-    private CommCentral createCommCentral() {
+    CommCentral createCommCentral() {
         LanTransportContext lanTransportContext = new LanTransportContext(
                 new RuntimeConfiguration(context, appInfraInterface));
         BEApplianceFactory factory = new BEApplianceFactory(lanTransportContext);
