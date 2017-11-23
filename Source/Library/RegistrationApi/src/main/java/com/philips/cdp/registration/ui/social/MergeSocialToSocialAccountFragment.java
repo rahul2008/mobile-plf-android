@@ -37,6 +37,9 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     @Inject
     NetworkUtility networkUtility;
 
+    @Inject
+    User user;
+
     @BindView(R2.id.reg_error_msg)
     XRegError mRegError;
 
@@ -83,7 +86,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         initUI(view);
         networkChangeStatus(networkUtility.isNetworkAvailable());
         handleOrientation(view);
-        mergeSocialToSocialAccountPresenter = new MergeSocialToSocialAccountPresenter(this);
+        mergeSocialToSocialAccountPresenter = new MergeSocialToSocialAccountPresenter(this,user);
         return view;
     }
 

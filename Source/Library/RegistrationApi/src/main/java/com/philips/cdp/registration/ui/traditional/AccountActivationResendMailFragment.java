@@ -96,6 +96,12 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     private PopupWindow popupWindow;
 
+    @Inject
+    User user;
+
+    @Inject
+    RegistrationHelper registrationHelper;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -108,7 +114,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onCreateView");
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
-        accountActivationResendMailPresenter = new AccountActivationResendMailPresenter(this);
+        accountActivationResendMailPresenter = new AccountActivationResendMailPresenter(this, user, registrationHelper);
         RLog.i(RLog.EVENT_LISTENERS, "AccountActivationFragment register: NetworkStateListener");
         accountActivationResendMailPresenter.registerListener();
         Bundle bundle = getArguments();

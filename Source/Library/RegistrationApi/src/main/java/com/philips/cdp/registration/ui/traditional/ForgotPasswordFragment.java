@@ -9,7 +9,6 @@
 package com.philips.cdp.registration.ui.traditional;
 
 import android.content.*;
-import android.content.res.*;
 import android.content.res.Configuration;
 import android.os.*;
 import android.support.v4.app.*;
@@ -20,8 +19,8 @@ import android.widget.*;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.dao.*;
+import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.utils.*;
@@ -31,8 +30,6 @@ import com.philips.platform.uid.view.widget.*;
 import javax.inject.*;
 
 import butterknife.*;
-
-import static com.philips.cdp.registration.ui.utils.RegAlertDialog.*;
 
 public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         ForgotPasswordContract {
@@ -75,7 +72,17 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     private Context context;
 
-    private User user;
+    @Inject
+    User user;
+
+
+
+    @Inject
+    RegistrationHelper registrationHelper;
+
+
+    @Inject
+    EventHelper eventHelper;
 
     ForgotPasswordPresenter forgotPasswordPresenter;
 
@@ -130,7 +137,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
         View view = inflater.inflate(R.layout.reg_fragment_forgot_password, container, false);
 
-        forgotPasswordPresenter = new ForgotPasswordPresenter(this, context);
+        forgotPasswordPresenter = new ForgotPasswordPresenter(user, registrationHelper, eventHelper, this, context);
         forgotPasswordPresenter.registerListener();
 
         ButterKnife.bind(this, view);

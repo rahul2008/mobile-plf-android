@@ -1,6 +1,5 @@
 package com.philips.cdp.registration.ui.traditional;
 
-import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.dao.*;
 import com.philips.cdp.registration.events.*;
 import com.philips.cdp.registration.handlers.*;
@@ -19,14 +18,11 @@ public class AccountActivationPresenter implements NetworkStateListener, Traditi
 
     private final AccountActivationContract accountActivationContract;
 
-    @Inject
-    User user;
-
-    @Inject
-    RegistrationHelper registrationHelper;
+    private final RegistrationHelper registrationHelper;
 
 
-    public AccountActivationPresenter(AccountActivationContract accountActivationContract) {
+    public AccountActivationPresenter(AccountActivationContract accountActivationContract, RegistrationHelper registrationHelper) {
+        this.registrationHelper = registrationHelper;
         URInterface.getComponent().inject(this);
         this.accountActivationContract = accountActivationContract;
     }

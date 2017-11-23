@@ -20,8 +20,9 @@ public class MergeSocialToSocialAccountPresenter implements NetworkStateListener
     @Inject
     User mUser;
 
-    public MergeSocialToSocialAccountPresenter(MergeSocialToSocialAccountContract mergeSocialToSocialAccountContract) {
+    public MergeSocialToSocialAccountPresenter(MergeSocialToSocialAccountContract mergeSocialToSocialAccountContract,User mUser) {
         URInterface.getComponent().inject(this);
+        this.mUser=mUser;
         this.mergeSocialToSocialAccountContract = mergeSocialToSocialAccountContract;
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
     }

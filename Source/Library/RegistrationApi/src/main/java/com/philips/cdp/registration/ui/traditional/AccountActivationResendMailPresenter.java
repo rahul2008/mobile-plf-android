@@ -7,29 +7,27 @@ import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.utils.*;
 
-import javax.inject.*;
-
 public class AccountActivationResendMailPresenter implements NetworkStateListener,
         ResendVerificationEmailHandler {
 
     private final AccountActivationResendMailContract accountActivationContract;
 
-    @Inject
-    User user;
 
-    @Inject
-    RegistrationHelper registrationHelper;
+    private final User user;
+
+    private final RegistrationHelper registrationHelper;
 
 
     public AccountActivationResendMailPresenter(
-            AccountActivationResendMailContract accountActivationContract) {
+            AccountActivationResendMailContract accountActivationContract, User user, RegistrationHelper registrationHelper) {
+        this.user = user;
+        this.registrationHelper = registrationHelper;
         URInterface.getComponent().inject(this);
         this.accountActivationContract = accountActivationContract;
     }
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.i(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
         accountActivationContract.handleUiState(isOnline);
     }
 
