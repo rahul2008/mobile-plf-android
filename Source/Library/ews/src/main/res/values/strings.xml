@@ -114,6 +114,13 @@
     <string name="label_ews_enable_gps_settings_body">To find %1$s’s PHILIPS Setup Wi-Fi network, we need Location Services enabled.  Please enable Location Services in Location Settings and return to the app.</string>
     <string name="button_ews_enable_gps_settings">Go to Location Settings</string>
 
+    <!--EWS Location Permission -->
+    <string name="label_ews_location_permission_title">Location permission</string>
+    <string name="label_ews_location_permission_body">To find %1$s’s PHILIPS Setup Wi-Fi network, we need permission to access your location.</string>
+    <string name="button_ews_location_permission_yes">Allow</string>
+    <string name="button_ews_location_permission_no">Cancel setup</string>
+
+
     <!--Not Used(Added for Default Missing Warning) -->
     <string name="button_ews_contact_us">Contact Us</string>
     <string name="button_ews_phone_not_found_on_network_still_having_issues">Having issues?</string>

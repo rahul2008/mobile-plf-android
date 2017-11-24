@@ -5,7 +5,6 @@
 package com.philips.cdp2.ews.confirmwifi;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,6 +24,7 @@ import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.ColorsUtil;
 import com.philips.platform.uid.drawable.FontIconDrawable;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Label;
@@ -78,7 +78,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
     public void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration) {
         if (getChildFragmentManager().findFragmentByTag(AlertDialogFragment.class.getCanonicalName()) == null) {
             Context context = getContext();
-            final View view = LayoutInflater.from(context).inflate(R.layout.troubleshoot_home_wifi_fragment,
+            final View view = LayoutInflater.from(context).cloneInContext(UIDHelper.getPopupThemedContext(context)).inflate(R.layout.troubleshoot_home_wifi_fragment,
                     null, false);
 
             AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context)
@@ -87,28 +87,10 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
                     .setDimLayer(DialogConstants.DIM_STRONG)
                     .setCancelable(false);
             final EWSAlertDialogFragment alertDialogFragment = (EWSAlertDialogFragment) builder.create(new EWSAlertDialogFragment());
-            alertDialogFragment.setFragmentLifeCycleListener(new EWSAlertDialogFragment.FragmentLifeCycleListener() {
+            alertDialogFragment.setDialogLifeCycleListener(new EWSAlertDialogFragment.DialogLifeCycleListener() {
                 @Override
                 public void onStart() {
                     EWSTagger.trackPage(Page.SELECT_HOME_WIFI);
-                }
-
-                @Override
-                public void onStop() {
-
-                }
-
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                }
-
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                }
-
-                @Override
-                public void onActivityCreated(Bundle savedInstanceState) {
-
                 }
             });
             alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
@@ -117,10 +99,6 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
             ((Label) view.findViewById(R.id.label_ews_select_wakeup_wifi_steps_4)).setText(String.format(Locale.getDefault(),
                     context.getString(R.string.label_ews_select_wakeup_wifi_steps_4),
                     context.getString(baseContentConfiguration.getAppName())));
-            FontIconDrawable drawable = new FontIconDrawable(context, context.getResources().getString(R.string.dls_cross_24), TypefaceUtils
-                    .load(context.getAssets(), "fonts/iconfont.ttf"))
-                    .sizeRes(R.dimen.ews_gs_icon_size).color(ColorsUtil.getAttributeColor(context, R.attr.uidContentItemPrimaryNormalIconColor));
-            imageView.setBackground(drawable);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
