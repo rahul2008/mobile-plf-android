@@ -17,19 +17,28 @@ import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.StringProvider;
+import com.philips.cdp2.ews.wifi.WiFiUtil;
 
 import javax.inject.Inject;
 
 public class ConnectionSuccessfulViewModel {
 
-    @Nullable private FragmentCallback fragmentCallback;
+    @Nullable
+    private FragmentCallback fragmentCallback;
 
-    @NonNull StringProvider stringProvider;
-    @NonNull public final ObservableField<String> title;
+    @NonNull
+    StringProvider stringProvider;
+    @NonNull
+    public final ObservableField<String> title;
+    @NonNull
+    private WiFiUtil wiFiUtil;
+
     @Inject
     public ConnectionSuccessfulViewModel(@NonNull BaseContentConfiguration baseConfig,
-                                         @NonNull StringProvider stringProvider) {
+                                         @NonNull StringProvider stringProvider,
+                                         @NonNull WiFiUtil wiFiUtil) {
         this.stringProvider = stringProvider;
+        this.wiFiUtil = wiFiUtil;
         title = new ObservableField<>(getTitle(baseConfig));
     }
 
@@ -44,11 +53,15 @@ public class ConnectionSuccessfulViewModel {
         }
     }
 
-    @VisibleForTesting
     @NonNull
     public String getTitle(@NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(R.string.label_ews_succesful_body,
-                baseConfig.getDeviceName());
+                baseConfig.getDeviceName(), getHomeWiFiSSID());
+    }
+
+    @Nullable
+    public String getHomeWiFiSSID() {
+        return wiFiUtil.getHomeWiFiSSD();
     }
 
     public void trackPageName() {

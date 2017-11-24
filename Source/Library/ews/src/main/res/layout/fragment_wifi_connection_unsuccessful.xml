@@ -31,26 +31,69 @@
                 android:text="@string/label_ews_phone_not_found_on_network_title" />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/wrong_wifi_body"
+                android:id="@+id/wrong_wifi_upper_body"
                 style="@style/Txt.Body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_body_labels_margin"
-                android:text="@{viewModel.description}" />
+                android:text="@{viewModel.upperBodyText}" />
+
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/wrong_wifi_note"
-                style="@style/Txt.Helper"
+                android:id="@+id/wrong_wifi_lower_body"
+                style="@style/Txt.Body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_body_labels_margin"
+                android:text="@string/label_ews_phone_not_found_on_network_lower_body" />
+
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/wrong_wifi_step_1"
+                style="@style/Txt.Body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_body_labels_margin"
+                android:text="@string/label_ews_phone_not_found_on_network_step_1" />
+
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/wrong_wifi_step_2"
+                style="@style/Txt.Body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_body_labels_margin"
+                android:text="@{viewModel.stepTwoText}" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_main_helper_top_margin"
                 android:background="?attr/uidContentTertiaryBackgroundColor"
+                android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/wrong_wifi_upper_helper"
+                style="@style/Txt.Helper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/default_main_helper_bottom_padding"
                 android:paddingEnd="@dimen/default_main_helper_padding"
                 android:paddingStart="@dimen/default_main_helper_padding"
                 android:paddingTop="@dimen/default_main_helper_padding"
-                android:text="@{viewModel.notes}" />
+                android:text="@{viewModel.upperHelperText}"/>
 
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/wrong_wifi_lower_helper"
+                style="@style/Txt.Helper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/default_main_helper_bottom_padding"
+                android:paddingEnd="@dimen/default_main_helper_padding"
+                android:paddingStart="@dimen/default_main_helper_padding"
+                android:paddingTop="@dimen/default_main_helper_padding"
+                android:text="@{viewModel.lowerHelperText}"/>
+            </LinearLayout>
             <android.support.v4.widget.Space
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

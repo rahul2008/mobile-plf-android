@@ -29,7 +29,7 @@ public class StartConnectWithDeviceViewModel {
     @NonNull
     public final ObservableField<String> title;
     @NonNull
-    public final ObservableField<String> note;
+    public final ObservableField<String> body;
     @NonNull
     public final ObservableField<String> description;
     @NonNull
@@ -50,7 +50,7 @@ public class StartConnectWithDeviceViewModel {
         this.navigator = navigator;
         this.stringProvider = stringProvider;
         title = new ObservableField<>(getTitle(happyFlowConfig, baseConfig));
-        note = new ObservableField<>(getNote(baseConfig));
+        body = new ObservableField<>(getBody(baseConfig));
         description = new ObservableField<>(getDescription(baseConfig));
         image = getImage(happyFlowConfig);
     }
@@ -72,8 +72,8 @@ public class StartConnectWithDeviceViewModel {
 
     @VisibleForTesting
     @NonNull
-    public String getNote(@NonNull BaseContentConfiguration baseConfig) {
-        return stringProvider.getString(R.string.label_ews_get_started_note,
+    public String getBody(@NonNull BaseContentConfiguration baseConfig) {
+        return stringProvider.getString(R.string.label_ews_get_started_body,
                 baseConfig.getDeviceName());
     }
 
