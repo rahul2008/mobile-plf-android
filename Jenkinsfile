@@ -44,6 +44,8 @@ node('android && device') {
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean createDebugCoverageReport
                     '''
                 }
+                // 98544 - UID upload to hockey is commented out
+                /*
                 stage('HockeyApp upload') {
                     echo "Uploading to HockeyApp"
                     sh '''#!/bin/bash -l
@@ -52,6 +54,7 @@ node('android && device') {
                         ./gradlew -PenvCode=${JENKINS_ENV} uploadReleaseToHockeyApp
                     '''
                 }
+                */
             } else {
                 stage ('build') {
                     sh '''#!/bin/bash -l
