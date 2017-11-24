@@ -45,9 +45,12 @@ public class NavigatorTest {
     @Mock
     private FragmentNavigator mockFragmentNavigator;
 
+    private ArgumentCaptor<Fragment> captor;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        captor = ArgumentCaptor.forClass(Fragment.class);
     }
 
     @Test
@@ -147,7 +150,7 @@ public class NavigatorTest {
     public void itShouldNavigateToConnectingPhoneToHotspotWifiFragment() throws Exception {
         subject.navigateToConnectingPhoneToHotspotWifiScreen();
 
-        verifyNewFragmentPushed(ConnectingWithDeviceFragment.class);
+        verifyFragmentPushedForNoPopBackStack(ConnectingWithDeviceFragment.class);
     }
 
     @Test
@@ -190,15 +193,13 @@ public class NavigatorTest {
         verify(mockFragmentNavigator).pop();
     }
 
-    private void verifyFragmentPushed(@NonNull Class clazz) {
-        ArgumentCaptor<Fragment> captor = ArgumentCaptor.forClass(Fragment.class);
+    private void verifyFragmentPushed(@NonNull Class fragmentClass) {
         verify(mockFragmentNavigator).push(captor.capture(), anyInt(),anyBoolean(),eq(true));
-        assertEquals(clazz, captor.getValue().getClass());
+        assertEquals(fragmentClass, captor.getValue().getClass());
     }
 
-    private void verifyNewFragmentPushed(@NonNull Class clazz) {
-        ArgumentCaptor<Fragment> captor = ArgumentCaptor.forClass(Fragment.class);
+    private void verifyFragmentPushedForNoPopBackStack(@NonNull Class fragmentClass) {
         verify(mockFragmentNavigator).push(captor.capture(), anyInt(),anyBoolean(),eq(false));
-        assertEquals(clazz, captor.getValue().getClass());
+        assertEquals(fragmentClass, captor.getValue().getClass());
     }
 }
