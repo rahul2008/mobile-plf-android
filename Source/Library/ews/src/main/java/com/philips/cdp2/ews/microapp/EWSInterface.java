@@ -40,6 +40,11 @@ public class EWSInterface implements UappInterface {
     private Context context;
     private ContentConfiguration contentConfiguration;
 
+    /**
+     * Entry point for EWS. Please make sure no EWS components are being used before EWSInterface$init.
+     * @param uappDependencies - With an AppInfraInterface instance.
+     * @param uappSettings - With an application context.
+     */
     @Override
     public void init(@NonNull final UappDependencies uappDependencies, @NonNull final UappSettings uappSettings) {
         EWSDependencies ewsDependencies = (EWSDependencies) uappDependencies;
@@ -49,6 +54,11 @@ public class EWSInterface implements UappInterface {
         contentConfiguration = ewsDependencies.getContentConfiguration();
     }
 
+    /**
+     * Launches the EWS user interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
+     * @param uiLauncher - ActivityLauncher or FragmentLauncher
+     * @param uappLaunchInput - URLaunchInput
+     */
     @Override
     public void launch(@NonNull final UiLauncher uiLauncher, @NonNull final UappLaunchInput uappLaunchInput) {
         if (!EWSDependencyProvider.getInstance().areDependenciesInitialized()) {
