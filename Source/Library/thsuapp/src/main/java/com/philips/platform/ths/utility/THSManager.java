@@ -302,7 +302,7 @@ public class THSManager {
 
         String hsdpToken = getThsConsumer(context).getHsdpToken();
         if(hsdpToken == null || hsdpToken.isEmpty()){
-            hsdpToken = getUser(context).getAccessToken();
+            hsdpToken = getUser(context).getHsdpAccessToken();
         }
 
         String token = hsdpUUID +":" + getAppName() +":"+ hsdpToken;
@@ -1681,12 +1681,12 @@ public class THSManager {
 
     public void updateParentConsumer(Context context){
         final User user = getUser(context);
-        getThsParentConsumer(context).setDob(user.getDateOfBirth());
+        //getThsParentConsumer(context).setDob(user.getDateOfBirth());
         getThsParentConsumer(context).setEmail(user.getEmail());
-        getThsParentConsumer(context).setFirstName(user.getGivenName());
-        getThsParentConsumer(context).setGender(com.philips.cdp.registration.ui.utils.Gender.FEMALE);
+        //getThsParentConsumer(context).setFirstName(user.getGivenName());
+        //getThsParentConsumer(context).setGender(user.getGender());
         getThsParentConsumer(context).setHsdpToken(user.getHsdpAccessToken());
-        getThsParentConsumer(context).setLastName(user.getFamilyName());
+        //getThsParentConsumer(context).setLastName(user.getFamilyName());
         getThsParentConsumer(context).setHsdpUUID(user.getHsdpUUID());
     }
 }

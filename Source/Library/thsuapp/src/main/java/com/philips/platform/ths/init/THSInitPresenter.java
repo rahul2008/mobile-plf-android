@@ -6,6 +6,8 @@
 
 package com.philips.platform.ths.init;
 
+import android.content.Context;
+
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
@@ -43,6 +45,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     boolean isRefreshTokenRequestedBefore;
 
     THSInitPresenter(THSInitFragment thsInitFragment) {
+        AmwellLog.d(AmwellLog.LOG,"Init Presenter created and isRefreshToken is set to false");
         isRefreshTokenRequestedBefore = false;
         mThsInitFragment = thsInitFragment;
     }
@@ -166,11 +169,16 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     @Override
     public void onLoginResponse(THSAuthentication thsAuthentication, THSSDKError sdkError) {
 
+        AmwellLog.d(AmwellLog.LOG,"OnLogin Response of Authenticate call");
+
         if (sdkError.getSdkError() != null && sdkError.getHttpResponseCode() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
+            AmwellLog.d(AmwellLog.LOG,"OnLogin Response of Authenticate call - " + "UNAUTHORIZED");
             if (checkIfRefreshTokenWasTriedBefore()) {
+                AmwellLog.e("onLoginResponse ", sdkError.getSdkError().getMessage());
                 mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_user_not_authenticated));
                 return;
             }
+            AmwellLog.d(AmwellLog.LOG,"Before calling refresh signon, isRefreshToken made true");
             isRefreshTokenRequestedBefore = true;
             refreshToken();
             return;
@@ -191,11 +199,19 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         THSManager.getInstance().getUser(mThsInitFragment.getContext()).refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
-                authenticateUser();
+                final Context context = mThsInitFragment.getContext();
+                if(context!= null) {
+                    AmwellLog.d(AmwellLog.LOG,"In refreshSignon success");
+                    THSManager.getInstance().getThsConsumer(context).setHsdpToken(THSManager.getInstance().getUser(context).getHsdpAccessToken());
+                    authenticateUser();
+                }else {
+                    mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_se_server_error_toast_message));
+                }
             }
 
             @Override
             public void onRefreshLoginSessionFailedWithError(int i) {
+                AmwellLog.d(AmwellLog.LOG,"In onRefreshLoginSessionFailedWithError" + i);
                 mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_refresh_signon_failed));
                 mThsInitFragment.hideProgressBar();
             }
