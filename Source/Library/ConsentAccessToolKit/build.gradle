@@ -229,9 +229,7 @@ configurations.all {
 
 dependencies {
     //3rd party
-    compile('com.android.support:support-annotations:26.0.2') {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
+    compile 'com.android.support:support-annotations:26.0.2'
     compile 'joda-time:joda-time:2.9.7'
     compile 'com.google.code.gson:gson:2.7'
 
