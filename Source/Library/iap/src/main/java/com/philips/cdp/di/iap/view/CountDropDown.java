@@ -6,17 +6,13 @@
 package com.philips.cdp.di.iap.view;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.UIPickerAdapter;
 import com.philips.platform.uid.thememanager.UIDHelper;
-import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.UIPicker;
 
 public class CountDropDown implements AdapterView.OnItemClickListener {
@@ -121,33 +117,33 @@ public class CountDropDown implements AdapterView.OnItemClickListener {
 
     //To highlight the selected index, we need custom adapter.
     //Must be removed if we don't support this feature
-    class CountAdapter extends ArrayAdapter<String> {
-        private LayoutInflater inflater;
-        private int resID;
-
-        public CountAdapter(final Context context, final int resource, final String[] objects) {
-            super(context, resource, objects);
-            resID = resource;
-            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            inflater = inflater.cloneInContext(UIDHelper.getPopupThemedContext(context));
-        }
-
-        @Override
-        public View getView(final int position, final View convertView, final ViewGroup parent) {
-            Label view;
-            if (convertView == null) {
-                view = (Label) inflater.inflate(resID, parent, false);
-            } else {
-                view = (Label) convertView;
-            }
-            view.setText(getItem(position));
-//            if (position == mCurrentViewIndex) {
-//                TextView countView = view.findViewById(R.id.item_text);
-//                String count = getItem(position);
-//                Spanned boldCount = Html.fromHtml("<b>" + count + "</b>");
-//                countView.setText(boldCount);
+//    class CountAdapter extends ArrayAdapter<String> {
+//        private LayoutInflater inflater;
+//        private int resID;
+//
+//        public CountAdapter(final Context context, final int resource, final String[] objects) {
+//            super(context, resource, objects);
+//            resID = resource;
+//            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            inflater = inflater.cloneInContext(UIDHelper.getPopupThemedContext(context));
+//        }
+//
+//        @Override
+//        public View getView(final int position, final View convertView, final ViewGroup parent) {
+//            Label view;
+//            if (convertView == null) {
+//                view = (Label) inflater.inflate(resID, parent, false);
+//            } else {
+//                view = (Label) convertView;
 //            }
-            return view;
-        }
-    }
+//            view.setText(getItem(position));
+////            if (position == mCurrentViewIndex) {
+////                TextView countView = view.findViewById(R.id.item_text);
+////                String count = getItem(position);
+////                Spanned boldCount = Html.fromHtml("<b>" + count + "</b>");
+////                countView.setText(boldCount);
+////            }
+//            return view;
+//        }
+//    }
 }
