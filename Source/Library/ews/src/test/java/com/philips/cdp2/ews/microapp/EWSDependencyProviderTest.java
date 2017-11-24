@@ -6,7 +6,6 @@ package com.philips.cdp2.ews.microapp;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
-import android.view.WindowManager;
 
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
@@ -26,11 +25,9 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import org.apache.tools.ant.types.resources.comparators.Content;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -40,7 +37,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -88,6 +84,9 @@ public class EWSDependencyProviderTest {
     private Map<String, String> productKeyMap;
     @Mock
     DaggerEWSComponent.Builder mockDaggerEWSComponentBuilder;
+
+    @Mock
+    private CommCentral mockCommCentral;
 
     @Before
     public void setUp() throws Exception {
@@ -169,7 +168,7 @@ public class EWSDependencyProviderTest {
     @Test
     public void itShouldVerifyCreateEwsComponent() throws Exception{
 
-        doReturn(mock(CommCentral.class)).when(subject).getCommCentral();
+        doReturn(mockCommCentral).when(subject).getCommCentral();
         when(mockDaggerEWSComponentBuilder.eWSConfigurationModule(any(EWSConfigurationModule.class))).thenReturn(mockDaggerEWSComponentBuilder);
         when(mockDaggerEWSComponentBuilder.eWSModule(any(EWSModule.class))).thenReturn(mockDaggerEWSComponentBuilder);
 
@@ -187,14 +186,13 @@ public class EWSDependencyProviderTest {
 
     @Test
     public void itShouldVerifyGetCommCentralIfCommCentralIsNull() throws Exception{
-        doReturn(mock(CommCentral.class)).when(subject).createCommCentral();
+        doReturn(mockCommCentral).when(subject).createCommCentral();
         subject.getCommCentral();
         verify(subject).createCommCentral();
     }
 
     @Test
     public void itShouldVerifyGetCommCentralIfCommCentralIsNotNull() throws Exception{
-        CommCentral mockCommCentral = mock(CommCentral.class);
         subject.commCentral = mockCommCentral;
         assertSame(subject.getCommCentral(),mockCommCentral);
 
