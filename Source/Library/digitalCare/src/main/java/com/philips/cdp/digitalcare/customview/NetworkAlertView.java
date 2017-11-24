@@ -29,9 +29,6 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 public class NetworkAlertView {
 
     AlertDialogFragment mAlertDialog = null;
-    private ProgressDialog mProgressDialog = null;
-    private Dialog mDialog = null;
-    private Activity mActivity = null;
 
     /**
      * @param title      : String
