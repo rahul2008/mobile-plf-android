@@ -30,6 +30,8 @@ import static junit.framework.Assert.assertSame;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -43,9 +45,12 @@ public class NavigatorTest {
     @Mock
     private FragmentNavigator mockFragmentNavigator;
 
+    private ArgumentCaptor<Fragment> captor;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        captor = ArgumentCaptor.forClass(Fragment.class);
     }
 
     @Test
@@ -145,7 +150,7 @@ public class NavigatorTest {
     public void itShouldNavigateToConnectingPhoneToHotspotWifiFragment() throws Exception {
         subject.navigateToConnectingPhoneToHotspotWifiScreen();
 
-        verifyFragmentPushed(ConnectingWithDeviceFragment.class);
+        verifyFragmentPushedForNoPopBackStack(ConnectingWithDeviceFragment.class);
     }
 
     @Test
@@ -188,9 +193,13 @@ public class NavigatorTest {
         verify(mockFragmentNavigator).pop();
     }
 
-    private void verifyFragmentPushed(@NonNull Class clazz) {
-        ArgumentCaptor<Fragment> captor = ArgumentCaptor.forClass(Fragment.class);
-        verify(mockFragmentNavigator).push(captor.capture(), anyInt(),anyBoolean());
-        assertEquals(clazz, captor.getValue().getClass());
+    private void verifyFragmentPushed(@NonNull Class fragmentClass) {
+        verify(mockFragmentNavigator).push(captor.capture(), anyInt(),anyBoolean(),eq(true));
+        assertEquals(fragmentClass, captor.getValue().getClass());
+    }
+
+    private void verifyFragmentPushedForNoPopBackStack(@NonNull Class fragmentClass) {
+        verify(mockFragmentNavigator).push(captor.capture(), anyInt(),anyBoolean(),eq(false));
+        assertEquals(fragmentClass, captor.getValue().getClass());
     }
 }
