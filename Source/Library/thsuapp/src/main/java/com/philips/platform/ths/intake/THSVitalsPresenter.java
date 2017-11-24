@@ -63,14 +63,14 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
     @Override
     public void onFailure(Throwable var1) {
         if (null != mPthBaseFragment && mPthBaseFragment.isFragmentAttached()) {
-            mPthBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mPthBaseFragment.showError(mPthBaseFragment.getString(R.string.ths_se_server_error_toast_message));
         }
     }
 
     @Override
     public void onUpdateVitalsValidationFailure(Map<String, ValidationReason> map) {
         if (null != mPthBaseFragment && mPthBaseFragment.isFragmentAttached()) {
-            mPthBaseFragment.showToast("Vitals Validation Failure");
+            mPthBaseFragment.showError(map.toString());
         }
     }
 
@@ -80,7 +80,6 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
             if (sdkError == null) {
                 tagSuccess();
                 thsvItalsUIInterface.launchMedicationFragment();
-                mPthBaseFragment.showToast("UPDATE SUCCESS");
             } else if (null != sdkError) {
                 mPthBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_UPDATE_VITALS, sdkError));
             }
@@ -90,7 +89,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
     @Override
     public void onUpdateVitalsFailure(Throwable throwable) {
         if (null != mPthBaseFragment && mPthBaseFragment.isFragmentAttached()) {
-            mPthBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mPthBaseFragment.showError(mPthBaseFragment.getString(R.string.ths_se_server_error_toast_message));
         }
     }
 

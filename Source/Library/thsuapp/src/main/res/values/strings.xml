@@ -417,4 +417,5 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <!-- Credit card details strings -->
     <string name="ths_credit_card_details_whats_this_text">What\'s this?</string>
+    <string name="ths_matchmaking_no_provider_available_text">No OnDemandSpecialities available at present, please try after some time</string>
 </resources>

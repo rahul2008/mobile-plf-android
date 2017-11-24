@@ -163,6 +163,7 @@ public class THSCreditCardBillingAddressPresenterTest {
 
     @Test
     public void onGetPaymentFailure() throws Exception {
+        when(thsCreditCardBillingAddressFragment.isFragmentAttached()).thenReturn(false);
         mTHSCreditCardBillingAddressPresenter.onGetPaymentFailure(throwableMock);
     }
 

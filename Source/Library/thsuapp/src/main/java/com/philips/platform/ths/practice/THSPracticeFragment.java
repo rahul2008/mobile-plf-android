@@ -83,6 +83,6 @@ public class THSPracticeFragment extends THSBaseFragment implements THSPracticeL
     }
 
     public void showErrorToast(){
-     showToast(R.string.ths_se_server_error_toast_message);
+     showError(getString(R.string.ths_se_server_error_toast_message));
     }
 }

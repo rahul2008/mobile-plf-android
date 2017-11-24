@@ -240,7 +240,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     @Override
     public void onGetInsuranceFailure(Throwable throwable) {
         if (null != mTHSCostSummaryFragment && mTHSCostSummaryFragment.isFragmentAttached()) {
-            mTHSCostSummaryFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mTHSCostSummaryFragment.showError(mTHSCostSummaryFragment.getString(R.string.ths_se_server_error_toast_message));
         }
 
     }
@@ -298,7 +298,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     @Override
     public void onGetPaymentFailure(Throwable throwable) {
         if (null != mTHSCostSummaryFragment && mTHSCostSummaryFragment.isFragmentAttached()) {
-            mTHSCostSummaryFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mTHSCostSummaryFragment.showError(mTHSCostSummaryFragment.getString(R.string.ths_se_server_error_toast_message));
         }
     }
     // end of getPayment callbacks

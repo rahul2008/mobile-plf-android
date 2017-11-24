@@ -438,14 +438,14 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                         && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
                     chooseUserTask();
                 } else {
-                    showToast(getString(R.string.ths_intake_symptoms_image_selection_permission_denied));
+                    showError(getString(R.string.ths_intake_symptoms_image_selection_permission_denied));
                 }
                 break;
             case REQUEST_WRITE_EXTERNAL_STORAGE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     chooseUserTask();
                 } else {
-                    showToast(getString(R.string.ths_intake_symptoms_image_selection_permission_denied));
+                    showError(getString(R.string.ths_intake_symptoms_image_selection_permission_denied));
                 }
         }
 

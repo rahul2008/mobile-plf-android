@@ -16,6 +16,5 @@ public interface THSSearchFragmentViewInterface extends THSBaseView{
     String getZipCode();
     void setPharmacyList(List<Pharmacy> pharmacies);
     void hideProgressBar();
-    void showToast(String toastMessgae);
     void showError(String errorMessage);
 }

@@ -231,7 +231,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
     public void onGetInsuranceFailure(Throwable throwable) {
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             mTHSBaseFragment.hideProgressBar();
-            mTHSBaseFragment.showToast(throwable.getMessage());
+            mTHSBaseFragment.showError(throwable.getMessage());
         }
     }
     ////////// end of getExistingSubscription call back

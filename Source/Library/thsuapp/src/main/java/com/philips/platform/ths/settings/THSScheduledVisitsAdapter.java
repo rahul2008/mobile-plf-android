@@ -96,7 +96,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
         holder.mCancelVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showCancelDialog(appointment,true, true, true);
+                showCancelDialog(appointment,true, true, false);
             }
         });
 

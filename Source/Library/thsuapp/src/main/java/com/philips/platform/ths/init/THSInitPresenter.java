@@ -116,19 +116,21 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
 
     @Override
     public void onResponse(Boolean aBoolean, THSSDKError thssdkError) {
-        SDKError sdkError=null;
-        if(thssdkError!=null) {
-            sdkError = thssdkError.getSdkError();
-        }
-        if (null != sdkError) {
-            mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_CONSUMER_EXIST_CHECK, sdkError));
-            return;
-        }
-        if (aBoolean) {
-            authenticateUser();
-        } else {
-            mThsInitFragment.hideProgressBar();
-            launchOnBoardingScreen();
+        if(mThsInitFragment!= null && mThsInitFragment.isFragmentAttached()) {
+            SDKError sdkError = null;
+            if (thssdkError != null) {
+                sdkError = thssdkError.getSdkError();
+            }
+            if (null != sdkError) {
+                mThsInitFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_CONSUMER_EXIST_CHECK, sdkError));
+                return;
+            }
+            if (aBoolean) {
+                authenticateUser();
+            } else {
+                mThsInitFragment.hideProgressBar();
+                launchOnBoardingScreen();
+            }
         }
     }
 
@@ -144,7 +146,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     @Override
     public void onFailure(Throwable throwable) {
         mThsInitFragment.hideProgressBar();
-        mThsInitFragment.showToast(R.string.ths_se_server_error_toast_message);
+        mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_se_server_error_toast_message));
     }
 
 
@@ -208,7 +210,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     @Override
     public void onLoginFailure(Throwable var1) {
         mThsInitFragment.hideProgressBar();
-        mThsInitFragment.showToast(R.string.ths_se_server_error_toast_message);
+        mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_se_server_error_toast_message));
     }
 
     @Override
@@ -226,7 +228,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     @Override
     public void onError(Throwable throwable) {
         mThsInitFragment.hideProgressBar();
-        mThsInitFragment.showToast(R.string.ths_se_server_error_toast_message);
+        mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_se_server_error_toast_message));
     }
 
 

@@ -176,7 +176,7 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment {
             @Override
             public void onClick(View view) {
                 if (visitReportDetail == null || visitReportDetail.getAssignedProviderInfo() == null) {
-                    showToast("No Assigned Provider");
+                    showError("No Assigned Provider");
                     return;
                 }
                 Bundle bundle = new Bundle();

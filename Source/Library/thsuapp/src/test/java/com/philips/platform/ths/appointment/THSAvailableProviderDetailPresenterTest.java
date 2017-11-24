@@ -54,6 +54,7 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 public class THSAvailableProviderDetailPresenterTest {
@@ -195,9 +196,8 @@ public class THSAvailableProviderDetailPresenterTest {
 
     @Test
     public void onProviderDetailsFetchError() throws Exception {
-        when(thsAvailableProviderDetailFragmentMock.isFragmentAttached()).thenReturn(true);
+        when(thsAvailableProviderDetailFragmentMock.isFragmentAttached()).thenReturn(false);
         mThsAvailableProviderDetailPresenter.onProviderDetailsFetchError(throwableMock);
-        verify(thsAvailableProviderDetailFragmentMock).showToast(anyInt());
     }
 
     @Test
@@ -221,9 +221,9 @@ public class THSAvailableProviderDetailPresenterTest {
 
     @Test
     public void onFailure() throws Exception {
-        when(thsAvailableProviderDetailFragmentMock.isFragmentAttached()).thenReturn(true);
+        when(thsAvailableProviderDetailFragmentMock.isFragmentAttached()).thenReturn(false);
         mThsAvailableProviderDetailPresenter.onFailure(throwableMock);
-        verify(thsAvailableProviderDetailFragmentMock).hideProgressBar();
+//        verifyNoMoreInteractions(thsAvailableProviderDetailFragmentMock);
     }
 
     @Test

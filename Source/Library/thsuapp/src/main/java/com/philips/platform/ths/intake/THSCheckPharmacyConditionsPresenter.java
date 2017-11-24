@@ -60,7 +60,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
     @Override
     public void onFailure(Throwable throwable) {
         if(null!=thsCheckPharmacyConditonsView && null!=thsCheckPharmacyConditonsView.getFragmentActivity()) {
-            thsCheckPharmacyConditonsView.showToast(thsCheckPharmacyConditonsView.getFragmentActivity().getResources().getString(R.string.ths_se_server_error_toast_message));
+            thsCheckPharmacyConditonsView.showError(thsCheckPharmacyConditonsView.getFragmentActivity().getResources().getString(R.string.ths_se_server_error_toast_message));
         }
     }
 }

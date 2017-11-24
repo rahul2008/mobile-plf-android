@@ -71,7 +71,7 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
     @Override
     public void onUpdateFailure(Throwable throwable) {
         if(null!=thsBaseView && null!=thsBaseView.getFragmentActivity()) {
-            ((THSShippingAddressFragment) thsBaseView).showToast(R.string.ths_se_server_error_toast_message);
+            ((THSShippingAddressFragment) thsBaseView).showError(((THSShippingAddressFragment) thsBaseView).getString(R.string.ths_se_server_error_toast_message));
         }
     }
 }

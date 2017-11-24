@@ -72,7 +72,7 @@ public class THSSearchPharmacyPresenter implements THSBasePresenter, THSGetPharm
     @Override
     public void onFailure(Throwable throwable) {
         uiView.hideProgressBar();
-        uiView.showToast(context.getResources().getString(R.string.ths_se_server_error_toast_message));
+        uiView.showError(context.getResources().getString(R.string.ths_se_server_error_toast_message));
 
     }
 }

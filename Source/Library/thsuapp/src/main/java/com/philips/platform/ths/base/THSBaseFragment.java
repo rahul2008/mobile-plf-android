@@ -202,21 +202,6 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
         THSNetworkStateListener.connectionReceiverListener = listener;
     }
 
-    //TODO: Toast to be removed
-    public void showToast(String message) {
-        if (null!=getActivity() && getContext() != null) {
-            //TODO: TO be removed
-            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void showToast(int stringResource) {
-        if (null!=getActivity() && getContext() != null) {
-            //TODO: TO be removed
-            Toast.makeText(getContext(), stringResource, Toast.LENGTH_SHORT).show();
-        }
-    }
-
     @Override
     public boolean handleBackEvent() {
         return false;
@@ -227,8 +212,8 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
     }
 
     public void showError( String message, final boolean shouldGoBack) {
-        hideProgressBar();
         if (isFragmentAttached()) {
+            hideProgressBar();
             if(null==message){  // if message is not identified make it THS_GENERIC_SERVER_ERROR
                 message = getString(R.string.ths_se_server_error_toast_message);
                 //doTagging(module,message,true);
@@ -317,7 +302,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
         if (!isConnected) {
-            showToast(getString(R.string.ths_internet_disconnected_message));
+            showError(getString(R.string.ths_internet_disconnected_message));
         }
     }
 

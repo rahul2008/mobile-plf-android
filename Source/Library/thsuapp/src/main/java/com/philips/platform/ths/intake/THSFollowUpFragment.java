@@ -121,7 +121,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
 
     @Override
     public void showInvalidPhoneNumberToast(String message) {
-        showToast(message);
+        showError(message);
     }
 
     /**

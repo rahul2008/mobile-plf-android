@@ -74,7 +74,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
             if (null!=sdkPasswordError && sdkPasswordError.getSDKErrorReason() != null) {
-                mTHSBaseFragment.showToast(THSSDKErrorFactory.getErrorType(ANALYTICS_ENROLLMENT_MANGER,sdkPasswordError));
+                mTHSBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_ENROLLMENT_MANGER,sdkPasswordError));
                 return;
             }
 
@@ -104,7 +104,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
         if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
 
-                mTHSBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+                mTHSBaseFragment.showError(mTHSBaseFragment.getString(R.string.ths_se_server_error_toast_message));
 
         }
     }
@@ -113,7 +113,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
     public void onValidationFailure(Map<String, ValidationReason> var1) {
         if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
-            mTHSBaseFragment.showToast(mTHSBaseFragment.getString(R.string.validation_failed) + var1.toString());
+            mTHSBaseFragment.showError(mTHSBaseFragment.getString(R.string.validation_failed) + var1.toString());
         }
     }
 

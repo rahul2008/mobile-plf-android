@@ -111,7 +111,7 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSS
     @Override
     public void onFailure(Throwable throwable) {
         if (null != mTHSInsuranceConfirmationFragment && mTHSInsuranceConfirmationFragment.isFragmentAttached()) {
-            mTHSInsuranceConfirmationFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mTHSInsuranceConfirmationFragment.showError(mTHSInsuranceConfirmationFragment.getString(R.string.ths_se_server_error_toast_message));
             mTHSInsuranceConfirmationFragment.hideProgressBar();
         }
 

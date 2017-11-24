@@ -105,39 +105,39 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
 
         String cardHolderName = mTHSCreditCardDetailFragment.mCardHolderNameEditText.getText().toString().trim();
         if (null == cardHolderName || cardHolderName.isEmpty()) {
-            mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
+            mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
             return;
         }
 
         String cardNumber = mTHSCreditCardDetailFragment.mCardNumberEditText.getText().toString().trim();
         if (null == cardNumber || cardNumber.isEmpty()) {
-            mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
+            mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
             return;
         }
         boolean isCreditcardValid = validateCreditCardDetails(cardNumber);
         if (!isCreditcardValid) {
-            mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_not_valid_credit_card));
+            mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_not_valid_credit_card));
             return;
         }
         String expirationMonth = mTHSCreditCardDetailFragment.mCardExpiryMonthEditText.getText().toString().trim();
         if (null == expirationMonth || expirationMonth.isEmpty()) {
-            mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
+            mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
             return;
         }
         String expirationYear = mTHSCreditCardDetailFragment.mCardExpiryYearEditText.getText().toString().trim();
         if (null == expirationYear || expirationYear.isEmpty()) {
-            mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
+            mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
             return;
         }
 
         String CVVcode = mTHSCreditCardDetailFragment.mCVCcodeEditText.getText().toString().trim();
         if (null == CVVcode || CVVcode.isEmpty()) {
-            mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
+            mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
             return;
         }
         boolean isCVVvalid = true;// validateCVVnumber(cardNumber, CVVcode); //todo validateCVVnumber always returns false
         if (!isCVVvalid) {
-            mTHSCreditCardDetailFragment.showToast("Invalid CVV number");
+            mTHSCreditCardDetailFragment.showError("Invalid CVV number");
             return;
         } else {
 
@@ -155,11 +155,11 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
                 bundle.putInt("expirationMonth", month);
                 bundle.putInt("expirationYear", year);
             } catch (Exception e) {
-                mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
+                mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
                 return;
             }
             if (month > 12) {
-                mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
+                mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
                 return;
             }
             Map<String, ValidationReason> errors = new HashMap<>();
@@ -174,7 +174,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
             }
             if (errors.containsKey(THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE)) {
                 // if expiration date is invalid
-                mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
+                mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
             } else {
 
                 bundle.putString("CVVcode", CVVcode);
@@ -208,7 +208,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
     @Override
     public void onGetPaymentFailure(Throwable throwable) {
         if (null != mTHSCreditCardDetailFragment && mTHSCreditCardDetailFragment.isFragmentAttached()) {
-            mTHSCreditCardDetailFragment.showToast(R.string.ths_se_server_error_toast_message);
+            mTHSCreditCardDetailFragment.showError(mTHSCreditCardDetailFragment.getString(R.string.ths_se_server_error_toast_message));
             mTHSCreditCardDetailFragment.hideProgressBar();
         }
     }

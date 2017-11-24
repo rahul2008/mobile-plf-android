@@ -352,11 +352,6 @@ public class THSManager {
 
     public void checkConsumerExists(final Context context, final THSCheckConsumerExistsCallback<Boolean, THSSDKError> thsCheckConsumerExistsCallback) throws AWSDKInstantiationException {
 
-        if (getThsConsumer(context).getConsumer() != null) {
-            thsCheckConsumerExistsCallback.onResponse(getThsConsumer(context).getConsumer().isEnrolled(),null);
-            return;
-        }
-
         getAwsdk(context).getConsumerManager().checkConsumerExists(getThsConsumer(context).getHsdpUUID(), new SDKCallback<Boolean, SDKError>() {
 
             @Override

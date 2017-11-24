@@ -66,7 +66,6 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
             if (sdkError.getSdkError() != null) {
                 mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTIC_FETCH_PROVIDER_LIST,sdkError.getSdkError()));
             }else {
-                mThsBaseFragment.showToast("Available Providers list Success");
                 if(mThsBaseFragment instanceof THSProviderNotAvailableFragment){
                     ((THSProviderNotAvailableFragment)mThsBaseFragment).updateProviderDetails(availableProviders);
                 }
@@ -78,7 +77,9 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
 
     @Override
     public void onFailure(Throwable throwable) {
-        mThsBaseFragment.showToast(R.string.ths_se_server_error_toast_message);
+        if(mThsBaseFragment!=null && mThsBaseFragment.isFragmentAttached()) {
+            mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
+        }
     }
 
     public void getAvailableProvidersBasedOnDate() throws AWSDKInstantiationException {
