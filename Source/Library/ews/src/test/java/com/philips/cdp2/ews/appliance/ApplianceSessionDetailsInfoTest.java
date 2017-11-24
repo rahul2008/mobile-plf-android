@@ -13,6 +13,7 @@ import org.mockito.Mock;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -55,6 +56,12 @@ public class ApplianceSessionDetailsInfoTest {
         applianceSessionDetailsInfo.setWifiPortProperties(wifiPortPropertiesMock);
         when(wifiPortPropertiesMock.getCppid()).thenReturn("C++11");
         assertEquals(applianceSessionDetailsInfo.getCppId(), "C++11");
+    }
+
+    @Test
+    public void itShouldClearAppliancePinWhenClearIsCalled() {
+        applianceSessionDetailsInfo.clear();
+        assertNull(applianceSessionDetailsInfo.getAppliancePin());
     }
 
 }

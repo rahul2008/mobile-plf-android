@@ -21,9 +21,8 @@ public class FragmentNavigator {
         this.containerId = containerId;
     }
 
-    void push(@NonNull Fragment fragment, int containerId,boolean allowingStateLoss) {
-        boolean isPresentInStack = popToFragment(fragment.getClass().getCanonicalName());
-        if (!isPresentInStack) {
+    void push(@NonNull Fragment fragment, int containerId,boolean allowingStateLoss, boolean popBackStack) {
+        if (!popBackStack || !popToFragment(fragment.getClass().getCanonicalName())) {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
                     .replace(containerId, fragment)
                     .addToBackStack(fragment.getClass().getCanonicalName());
@@ -41,7 +40,7 @@ public class FragmentNavigator {
     }
 
     boolean popToFragment(@NonNull String tag) {
-        return fragmentManager.findFragmentByTag(tag) != null && fragmentManager.popBackStackImmediate(tag, POP_BACK_STACK_EXCLUSIVE);
+        return fragmentManager.popBackStackImmediate(tag, POP_BACK_STACK_EXCLUSIVE);
     }
 
     public int getContainerId() {
