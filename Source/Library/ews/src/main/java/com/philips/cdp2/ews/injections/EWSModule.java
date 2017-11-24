@@ -147,7 +147,6 @@ public class EWSModule {
         return new DiscoveryHelper(commCentral);
     }
 
-
     @Provides
     ConnectWithPasswordViewModel providesSetDeviceConnectViewModel(@NonNull final WiFiUtil wifiUtil,
                                                                    @NonNull final ApplianceSessionDetailsInfo sessionInfo,

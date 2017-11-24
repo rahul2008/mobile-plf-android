@@ -48,6 +48,7 @@ public class DiscoveryHelper {
     public void startDiscovery(@NonNull DiscoveryCallback callback) {
         this.callback = callback;
         try {
+
             commCentral.getApplianceManager().addApplianceListener(applianceListener);
             commCentral.startDiscovery();
         } catch (MissingPermissionException e) {
@@ -60,4 +61,6 @@ public class DiscoveryHelper {
         commCentral.stopDiscovery();
         callback = null;
     }
+
 }
+
