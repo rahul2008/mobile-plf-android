@@ -79,7 +79,7 @@ public class Navigator {
     }
 
     public void navigateToConnectingPhoneToHotspotWifiScreen() {
-        pushFragment(new ConnectingWithDeviceFragment(), false);
+        pushFragmentForNoPopBackStack(new ConnectingWithDeviceFragment(), false);
     }
 
     public void navigateToConnectingDeviceWithWifiScreen(@NonNull final String homeWiFiSSID, @NonNull final String homeWiFiPassword, @NonNull final String deviceName, @NonNull final String deviceFriendlyName) {
@@ -102,7 +102,11 @@ public class Navigator {
         fragmentNavigator.pop();
     }
 
+    private void pushFragmentForNoPopBackStack(@NonNull Fragment fragment, boolean allowingStateLoss) {
+        fragmentNavigator.push(fragment,fragmentNavigator.getContainerId(),allowingStateLoss,false);
+    }
+
     private void pushFragment(@NonNull Fragment fragment,boolean allowingStateLoss) {
-        fragmentNavigator.push(fragment,fragmentNavigator.getContainerId(),allowingStateLoss);
+        fragmentNavigator.push(fragment,fragmentNavigator.getContainerId(),allowingStateLoss,true);
     }
 }
