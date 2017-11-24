@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.americanwell.sdk.entity.SDKErrorReason.GENERIC_EXCEPTION;
+import static com.americanwell.sdk.entity.SDKErrorReason.VALIDATION_BAD_ENUM;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_PROVIDER;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_APPOINTMENTS;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_SCHEDULE_APPOINTMENT;
@@ -213,7 +214,11 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
         } else {
             if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
                 if (sdkError.getSDKErrorReason() != null && sdkError.getSDKErrorReason().name() != null) {
-                    mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_SCHEDULE_APPOINTMENT,sdkError));
+                    if(sdkError.getSDKErrorReason()==VALIDATION_BAD_ENUM) {
+                        mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_appointment_invalid_reminder));
+                    }else{
+                        mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_SCHEDULE_APPOINTMENT, sdkError));
+                    }
                 } else {
                     mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
                 }

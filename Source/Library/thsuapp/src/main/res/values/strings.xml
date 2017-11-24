@@ -328,6 +328,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_user_not_logged_in">Please login into the Philips app</string>
     <string name="early_for_appointment">You have more than 15 minutes still remaining for the visit</string>
     <string name="late_for_appointment">late for the appointment. Please schedule the appointment again for consultation</string>
+    <string name="ths_appointment_invalid_reminder">Invalid reminder option selected</string>
     <string name="ths_user_not_authenticated">Authentication Failed!! Try again later.</string>
 
 

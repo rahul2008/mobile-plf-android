@@ -121,6 +121,11 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     }
 
     @Override
+    public boolean handleBackEvent() {
+        return true;
+    }
+
+    @Override
     public void onClick(View v) {
         if (v.getId() == R.id.ok_got_it) {
             popFragmentByTag(THSWelcomeFragment.TAG, 0);
