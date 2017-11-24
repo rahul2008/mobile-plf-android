@@ -70,10 +70,19 @@ public class ConfirmWifiNetworkViewModelTest {
     }
 
     @Test
-    public void itShouldShowDevicePowerOnScreenWhenClickedOnYesButton() throws Exception {
+    public void itShouldShowDevicePowerOnScreenWhenClickedOnYesButtonIfWifiIsOn() throws Exception {
+        when(wifiUtilMock.isHomeWiFiEnabled()).thenReturn(true);
         subject.onYesButtonClicked();
         testConfirmNetworkEWSTagger();
         verify(navigatorMock).navigateToDevicePoweredOnConfirmationScreen();
+    }
+
+    @Test
+    public void itShouldShowNetworkTroubleShootingScreenOnYesButtonIfWifiIsOff() throws Exception {
+        when(wifiUtilMock.isHomeWiFiEnabled()).thenReturn(false);
+        subject.onYesButtonClicked();
+        testChangeNetworkEWSTagger();
+        verify(mockViewCallback).showTroubleshootHomeWifiDialog(mockBaseContentConfig);
     }
 
     @Test
@@ -118,9 +127,8 @@ public class ConfirmWifiNetworkViewModelTest {
 
     @Test
     public void itShouldVerifyTitleForViewMatches() throws Exception {
-        when(mockStringProvider.getString(R.string.label_ews_confirm_connection_currently_connected,
-                subject.getHomeWiFiSSID())).thenReturn("device name");
-        Assert.assertEquals("device name", subject.getTitle());
+        subject.getTitle();
+        verify(wifiUtilMock).getConnectedWiFiSSID();
     }
 
     @Test
@@ -141,8 +149,8 @@ public class ConfirmWifiNetworkViewModelTest {
 
     @Test
     public void itShouldGiveHelperText() throws Exception {
-        subject.getHelper();
-        verify(mockStringProvider).getString(R.string.label_ews_confirm_connection_tip, mockBaseContentConfig.getDeviceName(), mockBaseContentConfig.getDeviceName());
+        subject.getHelperTitle();
+        verify(mockStringProvider).getString(R.string.label_ews_confirm_connection_tip_upper, mockBaseContentConfig.getDeviceName());
     }
 
     @Test

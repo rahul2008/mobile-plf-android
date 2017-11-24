@@ -81,7 +81,7 @@
   <style name="Txt.Title">
     <item name="fontPath">@string/ews_sans_bold</item>
     <item name="android:textSize">@dimen/ews_title_text_size</item>
-    <item name="android:textColor">@color/uid_gray_level_75</item>
+    <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
   </style>
 
   <style name="Txt.Body">

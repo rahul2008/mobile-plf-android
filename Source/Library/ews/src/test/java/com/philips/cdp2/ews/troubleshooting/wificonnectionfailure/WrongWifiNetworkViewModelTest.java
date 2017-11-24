@@ -46,11 +46,19 @@ public class WrongWifiNetworkViewModelTest {
     }
 
     @Test
-    public void itShouldUpdateDescription() throws Exception {
+    public void itShouldUpdateUpperDescription() throws Exception {
         String description = "Awesome desc";
-        subject.setDescription(description);
+        subject.setUpperDescription(description);
 
-        assertEquals(description, subject.description.get());
+        assertEquals(description, subject.upperDescription.get());
+    }
+
+    @Test
+    public void itShouldUpdateLowerDescription() throws Exception {
+        String description = "Awesome desc";
+        subject.setLowerDescription(description);
+
+        assertEquals(description, subject.lowerDescription.get());
     }
 
     @Test

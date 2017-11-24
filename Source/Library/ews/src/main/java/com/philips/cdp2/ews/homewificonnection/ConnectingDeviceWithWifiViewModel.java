@@ -133,6 +133,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
                         onDeviceConnectedToWifi();
                     }
                 }
+
     };
 
     @NonNull
@@ -278,11 +279,16 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     @NonNull
     String getTitle(@NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(R.string.label_ews_connecting_device_title,
-                baseConfig.getDeviceName());
+                baseConfig.getDeviceName(), getHomeWiFiSSID());
     }
 
     public void trackPageName() {
         EWSTagger.trackPage(Page.CONNECTING_DEVICE_WITH_WIFI);
+    }
+
+    @Nullable
+    public String getHomeWiFiSSID() {
+        return wiFiUtil.getHomeWiFiSSD();
     }
 
 }

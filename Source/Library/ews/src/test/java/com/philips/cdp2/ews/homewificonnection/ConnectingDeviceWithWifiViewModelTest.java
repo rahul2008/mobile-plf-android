@@ -447,8 +447,9 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Test
     public void itShouldVerifyTitle() throws Exception{
         when(mockBaseContentConfiguration.getDeviceName()).thenReturn(2131362066);
+        when(mockWiFiUtil.getHomeWiFiSSD()).thenReturn("wifi");
         subject.getTitle(mockBaseContentConfiguration);
-        verify(mockStringProvider).getString(R.string.label_ews_connecting_device_title, mockBaseContentConfiguration.getDeviceName());
+        verify(mockStringProvider).getString(R.string.label_ews_connecting_device_title, mockBaseContentConfiguration.getDeviceName(),mockWiFiUtil.getHomeWiFiSSD());
     }
 
     @Test
