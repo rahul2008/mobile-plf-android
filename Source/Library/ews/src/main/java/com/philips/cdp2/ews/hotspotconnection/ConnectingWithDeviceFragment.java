@@ -2,7 +2,6 @@ package com.philips.cdp2.ews.hotspotconnection;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -23,6 +22,7 @@ import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -80,7 +80,7 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
     @Override
     public void showTroubleshootHomeWifiDialog(@NonNull  BaseContentConfiguration baseContentConfiguration) {
         Context context = getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.ews_device_conn_unsuccessful_dialog,
+        View view = LayoutInflater.from(context).cloneInContext(UIDHelper.getPopupThemedContext(context)).inflate(R.layout.ews_device_conn_unsuccessful_dialog,
                 null, false);
 
         EWSAlertDialogFragment.Builder builder = new EWSAlertDialogFragment.Builder(context)
@@ -89,30 +89,10 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
                 .setDimLayer(DialogConstants.DIM_STRONG)
                 .setCancelable(false);
         final EWSAlertDialogFragment alertDialogFragment = (EWSAlertDialogFragment) builder.create(new EWSAlertDialogFragment());
-        alertDialogFragment.setFragmentLifeCycleListener(new EWSAlertDialogFragment.FragmentLifeCycleListener() {
+        alertDialogFragment.setDialogLifeCycleListener(new EWSAlertDialogFragment.DialogLifeCycleListener() {
             @Override
             public void onStart() {
                 EWSTagger.trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
-            }
-
-            @Override
-            public void onStop() {
-
-            }
-
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-
-            }
-
-            @Override
-            public void onCancel(DialogInterface dialog) {
-
-            }
-
-            @Override
-            public void onActivityCreated(Bundle savedInstanceState) {
-
             }
         });
         alertDialogFragment.showAllowingStateLoss(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());

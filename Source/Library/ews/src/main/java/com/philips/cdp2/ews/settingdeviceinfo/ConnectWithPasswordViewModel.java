@@ -16,7 +16,6 @@ import android.view.inputmethod.InputMethodManager;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
-import com.philips.cdp2.ews.connectionestabilish.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
@@ -36,7 +35,6 @@ public class ConnectWithPasswordViewModel extends BaseObservable {
     @NonNull private final ApplianceSessionDetailsInfo sessionDetailsInfo;
     @NonNull private final WiFiUtil wiFiUtil;
     @NonNull private final Navigator navigator;
-    @NonNull private final ConnectionEstablishDialogFragment connectingDialog;
     @NonNull private final StringProvider stringProvider;
     @NonNull private final BaseContentConfiguration baseContentConfiguration;
 
@@ -44,13 +42,11 @@ public class ConnectWithPasswordViewModel extends BaseObservable {
     public ConnectWithPasswordViewModel(@NonNull final WiFiUtil wiFiUtil,
                                         @NonNull final ApplianceSessionDetailsInfo sessionDetailsInfo,
                                         @NonNull final Navigator navigator,
-                                        @NonNull final ConnectionEstablishDialogFragment connectingDialog,
                                         @NonNull BaseContentConfiguration baseConfig,
                                         @NonNull StringProvider stringProvider) {
         this.wiFiUtil = wiFiUtil;
         this.sessionDetailsInfo = sessionDetailsInfo;
         this.navigator = navigator;
-        this.connectingDialog = connectingDialog;
         this.stringProvider = stringProvider;
 
         this.password = new ObservableField<>("");

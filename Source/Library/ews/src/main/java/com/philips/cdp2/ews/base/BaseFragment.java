@@ -5,7 +5,6 @@
 package com.philips.cdp2.ews.base;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -23,6 +22,7 @@ import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -51,7 +51,7 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     @VisibleForTesting
     public void showCancelDialog(@StringRes int deviceName) {
         Context context = getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.cancel_setup_dialog,
+        View view = LayoutInflater.from(context).cloneInContext(UIDHelper.getPopupThemedContext(context)).inflate(R.layout.cancel_setup_dialog,
                 null, false);
 
         AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context)
@@ -61,28 +61,10 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
                 .setCancelable(false);
 
         final EWSAlertDialogFragment alertDialogFragment = (EWSAlertDialogFragment) builder.create(new EWSAlertDialogFragment());
-        alertDialogFragment.setFragmentLifeCycleListener(new EWSAlertDialogFragment.FragmentLifeCycleListener() {
+        alertDialogFragment.setDialogLifeCycleListener(new EWSAlertDialogFragment.DialogLifeCycleListener() {
             @Override
             public void onStart() {
                 EWSTagger.trackPage(Page.CANCEL_WIFI_SETUP);
-            }
-
-            @Override
-            public void onStop() {
-
-            }
-
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-            }
-
-            @Override
-            public void onCancel(DialogInterface dialog) {
-            }
-
-            @Override
-            public void onActivityCreated(Bundle savedInstanceState) {
-
             }
         });
 
