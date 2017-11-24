@@ -4,6 +4,8 @@
  */
 package com.philips.cdp2.ews.appliance;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 
 import javax.inject.Inject;
@@ -14,6 +16,8 @@ import javax.inject.Singleton;
 public class ApplianceSessionDetailsInfo {
 
     private WifiPortProperties wifiPortProperties;
+
+    private String appliancePin;
 
     @Inject
     public ApplianceSessionDetailsInfo() {
@@ -36,5 +40,17 @@ public class ApplianceSessionDetailsInfo {
             throw new IllegalStateException("Trying to get cpp id, without wifi properties being set");
         }
         return this.wifiPortProperties.getCppid();
+    }
+
+    public String getAppliancePin() {
+        return appliancePin;
+    }
+
+    public void setAppliancePin(@NonNull  String appliancePin) {
+        this.appliancePin = appliancePin;
+    }
+
+    public void clear() {
+        this.appliancePin = null;
     }
 }
