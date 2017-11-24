@@ -49,7 +49,7 @@ public class NetworkController implements ConsentRequestListener, Response.Error
             if (restInterface != null) {
                 restInterface.getRequestQueue().add(consentRequest);
             } else {
-                // Need to error handle
+                // Need to markErrorAndGetPrevious handle
                 Log.e("Rest client", "Couldn't initialise REST Client");
             }
         }

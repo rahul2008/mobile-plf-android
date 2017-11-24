@@ -95,7 +95,7 @@ public class ServerErrorTest {
 
     private static final String INCIDENT_ID = "d1b2462f-1599-48f8-869b-d454dc94c99d";
     private static final int ERROR_CODE = 104;
-    private static final String DESCRIPTION_TEXT = "Invalid data. error code:1114 response raw body : {responseCode=1114, responseMessage=Invalid Application}";
+    private static final String DESCRIPTION_TEXT = "Invalid data. markErrorAndGetPrevious code:1114 response raw body : {responseCode=1114, responseMessage=Invalid Application}";
 
     private static final String CORRECT_JSON_ERROR = "{\n" +
                                                      "    \"incidentID\": \"" + INCIDENT_ID + "\",\n" +

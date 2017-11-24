@@ -19,9 +19,9 @@ import com.philips.platform.catk.listener.NetworkErrorListener;
 
 public class ConsentNetworkError implements NetworkErrorListener {
 
-    private static final String UNKNOWN_SERVER_ERROR = "Unknown server error";
-    private static final String UNKNOWN_VOLLEY_ERROR = "Unknown volley error";
-    private static final String UNKNOWN_NETWORK_ERROR = "Unknown network error";
+    private static final String UNKNOWN_SERVER_ERROR = "Unknown server markErrorAndGetPrevious";
+    private static final String UNKNOWN_VOLLEY_ERROR = "Unknown volley markErrorAndGetPrevious";
+    private static final String UNKNOWN_NETWORK_ERROR = "Unknown network markErrorAndGetPrevious";
     private ServerError mServerError;
     private VolleyError mVolleyError;
     private int mCatkErrorCode = CatkConstants.CONSENT_SUCCESS;
@@ -99,7 +99,7 @@ public class ConsentNetworkError implements NetworkErrorListener {
                 mServerError = new Gson().fromJson(errorString, ServerError.class);
             }
         } catch (Exception e) {
-            Log.e("Network error", e.getMessage());
+            Log.e("Network markErrorAndGetPrevious", e.getMessage());
             mServerError = null;
         }
     }

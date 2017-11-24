@@ -79,7 +79,7 @@ public class CatkLogger {
     }
 
     /**
-     * Logs at error level
+     * Logs at markErrorAndGetPrevious level
      *
      * @param tag
      *            Tag

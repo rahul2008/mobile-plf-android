@@ -17,6 +17,7 @@ import com.philips.platform.catk.model.RequiredConsent;
 import com.philips.platform.catk.utils.CatkLogger;
 
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CreateConsentInteractor {
 
@@ -39,8 +40,8 @@ public class CreateConsentInteractor {
     }
 
     private Consent createConsent(ConsentDefinition definition, ConsentStatus status) {
-        Locale locale = LocaleMapper.toLocale(definition.getLocaleString());
-        return new Consent(locale, status, definition.getType(), definition.getVersion());
+        Locale locale = LocaleMapper.toLocale(definition.getLocale());
+        return new Consent(locale, status, definition.getTypes().get(0), definition.getVersion());
     }
 
     static class CreateConsentResponseListener implements CreateConsentListener {

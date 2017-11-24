@@ -27,13 +27,6 @@ public class Consent {
         this.version = version;
     }
 
-    public Consent(ConsentDefinition definition, ConsentStatus status) {
-        this.status = status;
-        this.locale = LocaleMapper.toLocale(definition.getLocaleString());
-        this.type = definition.getType();
-        this.version = definition.getVersion();
-    }
-
     public Locale getLocale() {
         return locale;
     }

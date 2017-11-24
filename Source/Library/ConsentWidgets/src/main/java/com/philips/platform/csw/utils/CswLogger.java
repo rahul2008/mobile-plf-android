@@ -76,7 +76,7 @@ public class CswLogger {
     }
 
     /**
-     * Logs at error level
+     * Logs at markErrorAndGetPrevious level
      *
      * @param tag     Tag
      * @param message Logging message

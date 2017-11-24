@@ -145,5 +145,5 @@ public class ConsentNetworkErrorTest {
         assertEquals(statusCode, consentNetworkError.getStatusCode());
     }
 
-    private static final String CUSTOM_ERROR_MESSAGE = "error";
+    private static final String CUSTOM_ERROR_MESSAGE = "markErrorAndGetPrevious";
 }
