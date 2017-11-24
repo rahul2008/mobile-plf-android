@@ -8,6 +8,7 @@ package com.philips.platform.ths.settings;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,22 +26,18 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
-import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER;
 import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_VISITS;
-import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
-import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
-public class THSScheduledVisitsFragment extends THSBaseFragment {
+public class THSScheduledVisitsFragment extends THSBaseFragment implements SwipeRefreshLayout.OnRefreshListener{
     public static final String TAG = THSScheduledVisitsFragment.class.getSimpleName();
     private RecyclerView mRecyclerView;
     private THSScheduledVisitsPresenter mThsSchedulesVisitsPresenter;
     private THSScheduledVisitsAdapter mThsScheduledVisitsAdapter;
     private Label mNumberOfAppointmentsLabel;
     RelativeLayout mRelativeLayout;
+    protected SwipeRefreshLayout swipeRefreshLayout;
 
     @Nullable
     @Override
@@ -51,6 +48,8 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.ths_visit_dates_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRelativeLayout = (RelativeLayout) view.findViewById(R.id.providerListItemLayout);
+        swipeRefreshLayout = view.findViewById(R.id.ths_visit_dates_list_swipe_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
         mNumberOfAppointmentsLabel.setVisibility(View.GONE);
         return view;
     }
@@ -62,7 +61,7 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_appointments),true);
         }
-        refreshList();
+        onRefresh();
     }
 
     private void getAppointments() {
@@ -78,6 +77,7 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
     }
 
     public void updateList(List<Appointment> appointments) {
+        stopRefreshing();
         if(null != getContext()) {
             mNumberOfAppointmentsLabel.setVisibility(View.VISIBLE);
             String text = getString(R.string.ths_number_of_visits_scheduled, appointments.size());
@@ -87,9 +87,14 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
         }
     }
 
-    public void refreshList() {
-        createCustomProgressBar(mRelativeLayout,BIG);
-        getAppointments();
+    public void stopRefreshing() {
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    public void startRefreshing() {
+        if (!swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(true);
+        }
     }
 
     @Override
@@ -97,4 +102,12 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
         super.onResume();
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SCHEDULE_VISITS,null,null);
     }
+
+    @Override
+    public void onRefresh() {
+        startRefreshing();
+        getAppointments();
+    }
+
+
 }

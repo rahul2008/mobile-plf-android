@@ -8,23 +8,26 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_number_of_visits"
-        android:layout_width="match_parent"
-        android:text="@string/ths_number_of_visits_scheduled"
         style="@style/ths_list_header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="left|center_vertical"
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
-        android:gravity="left|center_vertical"
-        />
+        android:text="@string/ths_number_of_visits_scheduled" />
 
 
-   <android.support.v7.widget.RecyclerView
-       android:id="@+id/ths_visit_dates_list"
-       android:layout_width="match_parent"
-       android:layout_below="@id/ths_number_of_visits"
-       android:layout_height="wrap_content">
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/ths_visit_dates_list_swipe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ths_number_of_visits">
 
-   </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ths_visit_dates_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <View
         android:id="@+id/ths_scheduled_appintment_separator_below"
