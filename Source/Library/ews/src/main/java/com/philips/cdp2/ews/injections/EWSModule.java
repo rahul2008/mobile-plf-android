@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.injections;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.IdRes;
@@ -31,6 +32,7 @@ import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.connectionestabilish.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.dialog.GPSEnableDialogFragment;
+import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
@@ -165,15 +167,13 @@ public class EWSModule {
             @NonNull final @Named("ews.event.bus") EventBus eventBus,
             @NonNull final PermissionHandler permissionHandler,
             @NonNull HappyFlowContentConfiguration happyFlowContentConfiguration,
-            @NonNull StringProvider stringProvider) {
-
-        final ConnectionEstablishDialogFragment dialogFragment =
-                ConnectionEstablishDialogFragment
-                        .getInstance(R.string.label_ews_establishing_connection_body);
+            @NonNull StringProvider stringProvider,
+            @NonNull BaseContentConfiguration baseContentConfiguration) {
 
         return new SecondSetupStepsViewModel(navigator, eventBus, permissionHandler,
-                dialogFragment, null,
-                new GPSEnableDialogFragment(), new Handler(context.getMainLooper())
+                ConnectionEstablishDialogFragment
+                        .getInstance(R.string.label_ews_establishing_connection_body), null,
+                createGPSDialogFragment(stringProvider, baseContentConfiguration), new Handler(context.getMainLooper())
                 , stringProvider, happyFlowContentConfiguration);
     }
 
@@ -189,4 +189,14 @@ public class EWSModule {
         return new Handler(Looper.getMainLooper());
     }
 
+    private GPSEnableDialogFragment createGPSDialogFragment(StringProvider stringProvider, BaseContentConfiguration baseContentConfiguration) {
+        GPSEnableDialogFragment gpsEnableDialogFragment = new GPSEnableDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(ConnectingDeviceWithWifiFragment.DEVICE_NAME, stringProvider.getString(baseContentConfiguration.getDeviceName()));
+        gpsEnableDialogFragment.setArguments(bundle);
+        return gpsEnableDialogFragment;
+    }
+
 }
+
+

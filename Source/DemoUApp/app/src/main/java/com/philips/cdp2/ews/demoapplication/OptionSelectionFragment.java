@@ -5,17 +5,13 @@
 
 package com.philips.cdp2.ews.demoapplication;
 
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -35,17 +31,17 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import static com.philips.platform.uappframework.launcher.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT;
 
 public class OptionSelectionFragment extends Fragment implements View.OnClickListener {
 
-
     private Spinner configSpinner;
-    private static final String WAKEUP_LIGHT = "wl";
-    private static final String AIRPURIFIER = "ap";
+
+    // Constants for configuration value
+    private static final String WAKEUP_LIGHT = "Wakeup Light";
+    private static final String AIRPURIFIER = "Air Purifier";
     private static final String DEFAULT = "Default";
     private AppInfraInterface appInfra;
 
@@ -58,7 +54,6 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
         view.findViewById(R.id.btnLaunchFragmentEws).setOnClickListener(this);
         appInfra = new AppInfra.Builder().build(getActivity());
         configSpinner = view.findViewById(R.id.configurationSelection);
-        configSpinner.setOnItemSelectedListener(itemSelectedListener);
         ArrayAdapter aa = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item,
                 getResources().getStringArray(R.array.configurations));
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -117,104 +112,113 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
     @NonNull
     private Map<String, String> createProductMap() {
         Map<String, String> productKeyMap = new HashMap<>();
-        if (isDefaultValueSelected()) {
-            productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.ews_device_name_default));
-        } else {
-            productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.ews_device_name));
+        switch ((String)configSpinner.getSelectedItem()){
+            case DEFAULT:
+                productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.ews_device_name_default));
+                break;
+            case WAKEUP_LIGHT:
+                productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.ews_device_name_wl));
+                break;
+            case AIRPURIFIER:
+                productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.ews_device_name_ap));
+                break;
+
         }
         return productKeyMap;
     }
 
     @NonNull
     private BaseContentConfiguration createBaseContentConfiguration() {
-        if (isDefaultValueSelected()) {
-            return new BaseContentConfiguration();
-        } else {
-            return new BaseContentConfiguration(R.string.ews_device_name, R.string.ews_app_name);
+        switch ((String)configSpinner.getSelectedItem()){
+            case WAKEUP_LIGHT:
+                return new BaseContentConfiguration(R.string.ews_device_name_wl, R.string.ews_app_name_wl);
+            case AIRPURIFIER:
+                return new BaseContentConfiguration(R.string.ews_device_name_ap, R.string.ews_app_name_ap);
+            case DEFAULT:
+            default:
+                return new BaseContentConfiguration();
         }
     }
 
     @NonNull
     private HappyFlowContentConfiguration createHappyFlowConfiguration() {
-        if (isDefaultValueSelected()) {
-            return new HappyFlowContentConfiguration.Builder().build();
-        } else {
-            return new HappyFlowContentConfiguration.Builder()
-                    .setGettingStartedScreenTitle(R.string.label_ews_get_started_title)
-                    .setSetUpScreenTitle(R.string.label_ews_plug_in_title)
-                    .setSetUpScreenBody(R.string.label_ews_plug_in_body)
-                    .setSetUpVerifyScreenTitle(R.string.label_ews_verify_ready_title)
-                    .setSetUpVerifyScreenQuestion(R.string.label_ews_verify_ready_question)
-                    .setSetUpVerifyScreenYesButton(R.string.button_ews_verify_ready_yes)
-                    .setSetUpVerifyScreenNoButton(R.string.button_ews_verify_ready_no)
-                    .build();
+        switch ((String)configSpinner.getSelectedItem()){
+            case WAKEUP_LIGHT:
+                return new HappyFlowContentConfiguration.Builder()
+                        .setGettingStartedScreenTitle(R.string.label_ews_get_started_title_wl)
+                        .setSetUpScreenTitle(R.string.label_ews_plug_in_title_wl)
+                        .setSetUpScreenBody(R.string.label_ews_plug_in_body_wl)
+                        .setSetUpVerifyScreenTitle(R.string.label_ews_verify_ready_title_wl)
+                        .setSetUpVerifyScreenQuestion(R.string.label_ews_verify_ready_question_wl)
+                        .setSetUpVerifyScreenYesButton(R.string.button_ews_verify_ready_yes_wl)
+                        .setSetUpVerifyScreenNoButton(R.string.button_ews_verify_ready_no_wl)
+                        .setGettingStartedScreenImage(R.drawable.ews_start_wl)
+                        .setSetUpScreenImage(R.drawable.ews_setup_wl)
+                        .setSetUpVerifyScreenImage(R.drawable.ews_setup_wl)
+                        .build();
+            case AIRPURIFIER:
+                return new HappyFlowContentConfiguration.Builder()
+                        .setGettingStartedScreenTitle(R.string.label_ews_get_started_title_ap)
+                        .setSetUpScreenTitle(R.string.label_ews_plug_in_title_ap)
+                        .setSetUpScreenBody(R.string.label_ews_plug_in_body_ap)
+                        .setSetUpVerifyScreenTitle(R.string.label_ews_verify_ready_title_ap)
+                        .setSetUpVerifyScreenQuestion(R.string.label_ews_verify_ready_question_ap)
+                        .setSetUpVerifyScreenYesButton(R.string.button_ews_verify_ready_yes_ap)
+                        .setSetUpVerifyScreenNoButton(R.string.button_ews_verify_ready_no_ap)
+                        .setGettingStartedScreenImage(R.drawable.ews_start_ap)
+                        .setSetUpScreenImage(R.drawable.ews_setup_ap)
+                        .setSetUpVerifyScreenImage(R.drawable.ews_setup_ap)
+                        .build();
+            case DEFAULT:
+            default:
+                return new HappyFlowContentConfiguration.Builder().build();
         }
     }
-
-    private void updateCurrentContent(String currentContent) {
-        try {
-            Locale locale = new Locale(currentContent);
-            Locale.setDefault(locale);
-            Resources res = getActivity().getApplication().getResources();
-            Configuration config = new Configuration(res.getConfiguration());
-            config.locale = locale;
-            res.updateConfiguration(config, res.getDisplayMetrics());
-        } catch (Exception e) {
-            Log.e(OptionSelectionFragment.class.getName(), e.toString());
-        }
-    }
-
-    private boolean isDefaultValueSelected() {
-        if (configSpinner.getSelectedItem().equals(DEFAULT)) {
-            return true;
-        }
-        return false;
-    }
-
-    private AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            switch (position) {
-                case 1:
-                    updateCurrentContent(WAKEUP_LIGHT);
-                    break;
-                case 2:
-                    updateCurrentContent(AIRPURIFIER);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-            // do nothing
-        }
-    };
 
     @NonNull
     private TroubleShootContentConfiguration createTroubleShootingConfiguration() {
-        if (isDefaultValueSelected()) {
-            return new TroubleShootContentConfiguration.Builder().build();
-        } else {
-            return new TroubleShootContentConfiguration.Builder()
-                    .setResetConnectionTitle(R.string.label_ews_support_reset_connection_title)
-                    .setResetConnectionBody(R.string.label_ews_support_reset_connection_body)
-                    .setResetConnectionImage(R.drawable.ic_ews_enable_ap_mode)
+        switch ((String)configSpinner.getSelectedItem()){
+            case WAKEUP_LIGHT:
+                return new TroubleShootContentConfiguration.Builder()
+                        .setResetConnectionTitle(R.string.label_ews_support_reset_connection_title_wl)
+                        .setResetConnectionBody(R.string.label_ews_support_reset_connection_body_wl)
+                        .setResetConnectionImage(R.drawable.ews_support_wl)
 
-                    .setResetDeviceTitle(R.string.label_ews_support_reset_device_title)
-                    .setResetDeviceBody(R.string.label_ews_support_reset_device_body)
-                    .setResetDeviceImage(R.drawable.ic_ews_enable_ap_mode)
+                        .setResetDeviceTitle(R.string.label_ews_support_reset_device_title_wl)
+                        .setResetDeviceBody(R.string.label_ews_support_reset_device_body_wl)
+                        .setResetDeviceImage(R.drawable.ews_support_wl)
 
-                    .setSetUpAccessPointTitle(R.string.label_ews_support_setup_access_point_title)
-                    .setSetUpAccessPointBody(R.string.label_ews_support_setup_access_point_body)
-                    .setSetUpAccessPointImage(R.drawable.ic_ews_enable_ap_mode)
+                        .setSetUpAccessPointTitle(R.string.label_ews_support_setup_access_point_title_wl)
+                        .setSetUpAccessPointBody(R.string.label_ews_support_setup_access_point_body_wl)
+                        .setSetUpAccessPointImage(R.drawable.ews_support_wl)
 
-                    .setConnectWrongPhoneTitle(R.string.label_ews_connect_to_wrongphone_title)
-                    .setConnectWrongPhoneBody(R.string.label_ews_connect_to_wrongphone_body)
-                    .setConnectWrongPhoneImage(R.drawable.ic_ews_enable_ap_mode)
-                    .setConnectWrongPhoneQuestion(R.string.label_ews_connect_to_wrongphone_question)
-                    .build();
+                        .setConnectWrongPhoneTitle(R.string.label_ews_connect_to_wrongphone_title_wl)
+                        .setConnectWrongPhoneBody(R.string.label_ews_connect_to_wrongphone_body_wl)
+                        .setConnectWrongPhoneImage(R.drawable.ews_support_wl)
+                        .setConnectWrongPhoneQuestion(R.string.label_ews_connect_to_wrongphone_question_wl)
+                        .build();
+            case AIRPURIFIER:
+                return new TroubleShootContentConfiguration.Builder()
+                        .setResetConnectionTitle(R.string.label_ews_support_reset_connection_title_ap)
+                        .setResetConnectionBody(R.string.label_ews_support_reset_connection_body_ap)
+                        .setResetConnectionImage(R.drawable.ews_support_ap)
+
+                        .setResetDeviceTitle(R.string.label_ews_support_reset_device_title_ap)
+                        .setResetDeviceBody(R.string.label_ews_support_reset_device_body_ap)
+                        .setResetDeviceImage(R.drawable.ews_support_ap)
+
+                        .setSetUpAccessPointTitle(R.string.label_ews_support_setup_access_point_title_ap)
+                        .setSetUpAccessPointBody(R.string.label_ews_support_setup_access_point_body_ap)
+                        .setSetUpAccessPointImage(R.drawable.ews_support_ap)
+
+                        .setConnectWrongPhoneTitle(R.string.label_ews_connect_to_wrongphone_title_ap)
+                        .setConnectWrongPhoneBody(R.string.label_ews_connect_to_wrongphone_body_ap)
+                        .setConnectWrongPhoneImage(R.drawable.ews_support_ap)
+                        .setConnectWrongPhoneQuestion(R.string.label_ews_connect_to_wrongphone_question_ap)
+                        .build();
+            case DEFAULT:
+            default:
+                return new TroubleShootContentConfiguration.Builder().build();
         }
     }
 }
