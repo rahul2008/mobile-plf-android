@@ -6,14 +6,17 @@
     android:background="?attr/uidContentPrimaryBackgroundColor">
 
 
-    <ImageView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_practice_logo"
+        fontPath="fonts/iconfont.ttf"
         android:layout_width="@dimen/ths_image_size"
         android:layout_height="@dimen/ths_image_size"
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/ths_fab_margin"
         android:layout_marginStart="@dimen/ths_fab_margin"
-        android:src="@mipmap/dls_information" />
+        android:text="@string/dls_information"
+        android:textAlignment="center"
+        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor" />
 
 
     <com.philips.platform.uid.view.widget.Label
