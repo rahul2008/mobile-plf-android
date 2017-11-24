@@ -10,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.catk.CatkInputs;
+import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.CswDependencies;
@@ -27,6 +31,7 @@ import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
@@ -106,10 +111,10 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
             @Override
             public boolean onClickMyaItem(String itemName) {
                 if (itemName.equals("Mya_Privacy_Settings")) {
+
+                    ConsentAccessToolKit.getInstance().init(initConsentToolKit("OneBackend", "OneBackendProp", getContext(), MyAccountDemoUAppInterface.getAppInfra()));
                     CswInterface cswInterface = new CswInterface();
                     CswDependencies cswDependencies = new CswDependencies(MyAccountDemoUAppInterface.getAppInfra());
-                    cswDependencies.setApplicationName(APPLICATION_NAME);
-                    cswDependencies.setPropositionName(PROPOSITION_NAME);
                     UappSettings uappSettings = new UappSettings(getContext());
                     cswInterface.init(cswDependencies, uappSettings);
                     ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
@@ -150,6 +155,15 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         } else {
             myaInterface.launch(new FragmentLauncher((DemoAppActivity) getActivity(), R.id.mainContainer, null), launchInput);
         }
+    }
+
+    public CatkInputs initConsentToolKit(String applicationName, String propostionName, Context context, AppInfraInterface appInfra) {
+        CatkInputs catkInputs = new CatkInputs();
+        catkInputs.setContext(context);
+        catkInputs.setAppInfra(appInfra);
+        catkInputs.setApplicationName(applicationName);
+        catkInputs.setPropositionName(propostionName);
+        return catkInputs;
     }
 
     private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {

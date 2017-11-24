@@ -14,8 +14,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.catk.CatkInputs;
-import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.csw.injection.AppInfraModule;
 import com.philips.platform.csw.injection.CswComponent;
 import com.philips.platform.csw.injection.CswModule;
@@ -113,19 +111,9 @@ public class CswInterface implements UappInterface {
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        ConsentAccessToolKit.getInstance().init(initConsentToolKit(uappDependencies, uappSettings));
         cswComponent = initDaggerComponents(uappDependencies, uappSettings);
         CswLogger.init();
         CswLogger.enableLogging();
-    }
-
-    public CatkInputs initConsentToolKit(UappDependencies uappDependencies, UappSettings uappSettings) {
-        CatkInputs catkInputs = new CatkInputs();
-        catkInputs.setContext(uappSettings.getContext());
-        catkInputs.setAppInfra(uappDependencies.getAppInfra());
-        catkInputs.setApplicationName(((CswDependencies) uappDependencies).getApplicationName());
-        catkInputs.setPropositionName(((CswDependencies) uappDependencies).getPropositionName());
-        return catkInputs;
     }
 
     private CswComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
