@@ -245,33 +245,39 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
     }
 
 
-    public static String loadWebPageContent(final String webpageUrl, final WebView webView, final ProgressBar progressBar) {
-        webView.loadUrl(webpageUrl);
+    public static String loadWebPageContent(final String webUrl, final WebView webView, final ProgressBar viewProgressBar) {
+
+        webView.loadUrl(webUrl);
         webView.getSettings().setJavaScriptEnabled(true);
+
         webView.setWebViewClient(new WebViewClient() {
 
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
+            public boolean shouldOverrideUrlLoading(WebView v, String pageUrl) {
+
+                v.loadUrl(pageUrl);
                 return true;
             }
 
             @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-                progressBar.setVisibility(View.VISIBLE);
+            public void onPageStarted(WebView v, String pageUrl, Bitmap icon) {
+                super.onPageStarted(v, pageUrl, icon);
+
+                viewProgressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
-            public void onPageCommitVisible(WebView view, String url) {
-                super.onPageCommitVisible(view, url);
-                progressBar.setVisibility(View.GONE);
+            public void onPageCommitVisible(WebView v, String pageUrl) {
+                super.onPageCommitVisible(v, pageUrl);
+
+                viewProgressBar.setVisibility(View.GONE);
             }
 
             @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                progressBar.setVisibility(View.GONE);
+            public void onPageFinished(WebView v, String pageUrl) {
+                super.onPageFinished(v, pageUrl);
+
+                viewProgressBar.setVisibility(View.GONE);
             }
 
         });
