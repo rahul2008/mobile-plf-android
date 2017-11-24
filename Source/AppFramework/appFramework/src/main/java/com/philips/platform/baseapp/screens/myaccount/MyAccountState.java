@@ -83,7 +83,7 @@ public class MyAccountState extends BaseState implements MyaListener{
         catkInputs.setContext(context);
         catkInputs.setAppInfra(((AppFrameworkApplication)context.getApplicationContext()).appInfra);
         catkInputs.setApplicationName(APPLICATION_NAME);
-        catkInputs.setApplicationName(PROPOSITION_NAME);
+        catkInputs.setPropositionName(PROPOSITION_NAME);
         ConsentAccessToolKit.getInstance().init(catkInputs);
 
         consentDefinitionList = createConsentDefinitions(context, Locale.getDefault());
