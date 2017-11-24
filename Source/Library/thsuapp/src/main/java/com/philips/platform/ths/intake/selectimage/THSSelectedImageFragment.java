@@ -82,7 +82,7 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.ths_delete_selected_image_button) {
-            deletePhoto();
+            updateViewAndDeleteList();
         }
         if(v.getId() == R.id.ths_selected_image_close_icon){
             dismiss();
@@ -109,23 +109,11 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
         onDismissSelectedImageFragmentCallback.dismissSelectedImageFragment(selectedImagePojoList);
     }
 
-    private void deletePhoto() {
-        int deletedItemPosition = updateViewAndDeleteList();
-
-        if(deletedItemPosition >= 0) {
-            if (deletedItemPosition == selectedImagePojoList.size() - 1) {
-                imageViewPager.setCurrentItem(deletedItemPosition - 1);
-            } else {
-                imageViewPager.setCurrentItem(deletedItemPosition + 1);
-            }
-        }
-
-    }
-
     private int updateViewAndDeleteList() {
         int deletedItemPosition = imageViewPager.getCurrentItem();
         if(null != documentRecordList && documentRecordList.size() > 0) {
             thsSelectedImageFragmentPresenter.deleteDocument(documentRecordList.get(deletedItemPosition));
+            documentRecordList.remove(documentRecordList.get(deletedItemPosition));
             selectedImagePojoList.remove(deletedItemPosition);
             pagerAdapter.notifyDataSetChanged();
             return deletedItemPosition;
@@ -225,6 +213,11 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((LinearLayout) object);
+        }
+
+        @Override
+        public int getItemPosition(Object object){
+            return PagerAdapter.POSITION_NONE;
         }
     }
 

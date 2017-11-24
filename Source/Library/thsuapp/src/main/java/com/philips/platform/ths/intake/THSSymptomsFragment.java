@@ -476,9 +476,13 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             String json = gson.toJson(selectedImagePojoList);
 
             THSSharedPreferenceUtility.setString(getContext(), THSConstants.THS_SAVE_UPLOAD_IMAGE_KEY, json);
+        }else {
+            THSSharedPreferenceUtility.setString(getContext(), THSConstants.THS_SAVE_UPLOAD_IMAGE_KEY, null);
         }
         if (null != documentRecordList) {
             THSManager.getInstance().setTHSDocumentList(documentRecordList);
+        }else {
+            THSManager.getInstance().setTHSDocumentList(null);
         }
     }
 
