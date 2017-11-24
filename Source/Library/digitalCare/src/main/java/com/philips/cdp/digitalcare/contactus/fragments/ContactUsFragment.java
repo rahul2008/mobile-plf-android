@@ -532,13 +532,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         recyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
         recyclerView.setAdapter(new CommonRecyclerViewAdapter<MenuItem>(menus, R.layout.consumercare_icon_button) {
             @Override
-            public void bindData(RecyclerView.ViewHolder holder, MenuItem item) {
-                View container = holder.itemView.findViewById(R.id.icon_button);
-                Label label = (Label) container.findViewById(R.id.icon_button_text);
-                label.setText(item.mText);
-                TextView icon = (TextView) container.findViewById(R.id.icon_button_icon);
-                icon.setText(item.mIcon);
-                container.setTag(getResources().getResourceEntryName(item.mText));
+            public void bindData(RecyclerView.ViewHolder viewHolder, MenuItem menuItem) {
+                View container = viewHolder.itemView.findViewById(R.id.icon_button);
+                Label contactUsListLabel = (Label) container.findViewById(R.id.icon_button_text);
+                contactUsListLabel.setText(menuItem.mText);
+                TextView contactUsListIcon = (TextView) container.findViewById(R.id.icon_button_icon);
+                contactUsListIcon.setText(menuItem.mIcon);
+                container.setTag(getResources().getResourceEntryName(menuItem.mText));
                 container.setOnClickListener(context);
             }
         });
