@@ -140,13 +140,6 @@ public class EWSDependencyProviderTest {
         assertNull(subject.getAppInfra());
     }
 
-    @Ignore
-    @Test
-    public void itShouldVerifyEWSComponentCreate() throws Exception {
-        subject.createEWSComponent(new FragmentLauncher(mockFragmentActivity, 123, mockActionBarListener), new ContentConfiguration());
-        verify(subject).createEWSComponent(any(FragmentActivity.class), anyInt(), any(ContentConfiguration.class));
-    }
-
     @Test
     public void itShouldVerifyCreatedEWSComponentIsGettingOrNot() throws Exception {
         doAnswer(new Answer() {

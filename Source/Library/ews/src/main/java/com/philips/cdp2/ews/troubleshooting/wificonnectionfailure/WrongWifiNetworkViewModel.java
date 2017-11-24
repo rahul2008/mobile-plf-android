@@ -47,6 +47,7 @@ public class WrongWifiNetworkViewModel {
     void setLowerDescription(@NonNull String name) {
         lowerDescription.set(name);
     }
+
     void setStepFourText(@NonNull String name) {
         stepFourText.set(name);
     }

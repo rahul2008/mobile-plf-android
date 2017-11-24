@@ -141,6 +141,11 @@ public class HappyFlowContentConfigurationTest {
         subject = new HappyFlowContentConfiguration.Builder().setSetUpVerifyScreenImage(R.drawable.ews_onboarding_image).build();
         assertEquals(subject.getSetUpVerifyScreenImage(), R.drawable.ews_onboarding_image);
     }
+    @Test
+    public void itShouldVerifyGettingStartedScreenImage() throws Exception{
+        subject = new HappyFlowContentConfiguration.Builder().setGettingStartedScreenImage(R.drawable.ews_onboarding_image).build();
+        assertEquals(subject.getGettingStartedScreenImage(), R.drawable.ews_onboarding_image);
+    }
 
     @Test
     public void itShouldWriteOnParcelDestOnWriteToParcel() {
