@@ -10,7 +10,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 
-public class GpsUtil {
+public final class GpsUtil {
 
     private GpsUtil() {}
 
