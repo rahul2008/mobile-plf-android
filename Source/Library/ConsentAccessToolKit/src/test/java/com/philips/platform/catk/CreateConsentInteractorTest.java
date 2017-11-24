@@ -10,6 +10,8 @@ package com.philips.platform.catk;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Locale;
 
 import org.junit.Before;
@@ -69,7 +71,7 @@ public class CreateConsentInteractorTest {
     }
 
     private void givenConsentDefinition(Locale locale) {
-        givenConsentDefinition = new ConsentDefinition("text", "help", "moment", 0, locale);
+        givenConsentDefinition = new ConsentDefinition("text", "help", Collections.singletonList("moment"), 0, locale);
     }
 
     private void whenCallingCreateConsentInGivenState(boolean checked) {

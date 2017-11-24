@@ -83,7 +83,7 @@ public class GetConsentInteractorTest {
 
     @Test
     public void itShouldReportConsentSuccessWhenNonEmptyResponse() throws Exception {
-        givenAccessToolkitWithConsentDefinitions(new ConsentDefinition("text", "help", "type", 0, Locale.getDefault()));
+        givenAccessToolkitWithConsentDefinitions(new ConsentDefinition("text", "help", Collections.singletonList("moment"), 0, Locale.getDefault()));
         whenGetConsentCalled();
         andResponseIs(new Consent(Locale.CANADA, ConsentStatus.active, "type", 0));
 
