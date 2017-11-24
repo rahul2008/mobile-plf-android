@@ -12,7 +12,7 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.csw.ConsentBundleConfig;
-import com.philips.platform.csw.ConsentDefinition;
+import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswSettings;
@@ -32,6 +32,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.appframework.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -71,8 +72,8 @@ public class MyAccountState extends BaseState implements MyaListener{
     @VisibleForTesting
     List<ConsentDefinition> createConsentDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Moment_Text), context.getString(R.string.RA_MYA_Consent_Moment_Help), "moment", 1, currentLocale));
-        definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Coaching_Text), context.getString(R.string.RA_MYA_Consent_Coaching_Help), "coaching", 1, currentLocale));
+        definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Moment_Text), context.getString(R.string.RA_MYA_Consent_Moment_Help), Collections.singletonList("moment"), 1, currentLocale));
+        definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Coaching_Text), context.getString(R.string.RA_MYA_Consent_Coaching_Help), Collections.singletonList("coaching"), 1, currentLocale));
         return definitions;
     }
 
@@ -110,8 +111,6 @@ public class MyAccountState extends BaseState implements MyaListener{
         if (s.equals(SETTINGS_MYA_PRIVACY_SETTINGS)) {
             CswInterface cswInterface = new CswInterface();
             CswDependencies cswDependencies = new CswDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra());
-            cswDependencies.setApplicationName(APPLICATION_NAME);
-            cswDependencies.setPropositionName(PROPOSITION_NAME);
             CswSettings cswSettings = new CswSettings(actContext);
             cswInterface.init(cswDependencies, cswSettings);
 
@@ -136,8 +135,6 @@ public class MyAccountState extends BaseState implements MyaListener{
     private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
 
         ConsentBundleConfig config = new ConsentBundleConfig(APPLICATION_NAME, PROPOSITION_NAME, createConsentDefinitions(actContext, Locale.US));
-
-
         CswLaunchInput cswLaunchInput = new CswLaunchInput(config,context);
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
