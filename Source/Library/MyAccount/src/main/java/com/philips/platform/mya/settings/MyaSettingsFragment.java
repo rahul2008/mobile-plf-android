@@ -19,8 +19,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.csw.ConsentBundleConfig;
-import com.philips.platform.csw.CswLaunchInput;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
 import com.philips.platform.mya.launcher.MyaInterface;

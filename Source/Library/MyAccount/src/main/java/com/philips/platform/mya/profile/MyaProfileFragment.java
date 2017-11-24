@@ -19,15 +19,14 @@ import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
 import com.philips.platform.mya.details.MyaDetailsFragment;
 import com.philips.platform.mya.launcher.MyaInterface;
-import com.philips.platform.uid.thememanager.UIDHelper;
-import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
-
-import java.util.TreeMap;
-
 import com.philips.platform.myaplugin.uappadaptor.DataInterface;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
+
+import java.util.TreeMap;
 
 
 public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileContract.View {
