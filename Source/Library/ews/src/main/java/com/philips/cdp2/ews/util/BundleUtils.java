@@ -5,7 +5,9 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-public abstract class BundleUtils {
+public final class BundleUtils {
+
+    private BundleUtils(){}
 
     public static String extractStringFromBundleOrThrow(@Nullable Bundle bundle, @NonNull String key) {
         if (bundle == null || !bundle.containsKey(key)) {

@@ -8,6 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.lang.reflect.Modifier;
+
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyObject;
@@ -27,6 +30,13 @@ public class ColorsUtilTest {
     public void setUp() throws Exception {
         initMocks(this);
         when(mockContext.getTheme()).thenReturn(mockTheme);
+
+    }
+
+    @Test
+    public void itShouldVerifyItIsFinalClass() throws Exception{
+        assertTrue(Modifier.isFinal(ColorsUtil.class.getModifiers()));
+        ColorsUtil.class.newInstance();
     }
 
     @Test
