@@ -218,7 +218,9 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 message = getString(R.string.ths_se_server_error_toast_message);
                 //doTagging(module,message,true);
             }
-
+            if(alertDialogFragment!=null){
+                alertDialogFragment.dismiss();
+            }
             alertDialogFragment = new AlertDialogFragment.Builder(UIDHelper.getPopupThemedContext(getContext())).setDialogType(DialogConstants.TYPE_ALERT).setTitle(R.string.ths_matchmaking_error)
                     .setMessage(message).
                             setPositiveButton(R.string.ths_matchmaking_ok_button, new View.OnClickListener() {
@@ -242,7 +244,9 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                                     }
                                 }
                             }).setCancelable(false).create();
-            alertDialogFragment.show(getActivity().getSupportFragmentManager(), ALERT_DIALOG_TAG);
+            if(null!=alertDialogFragment && null!=getActivity()) {
+                alertDialogFragment.show(getActivity().getSupportFragmentManager(), ALERT_DIALOG_TAG);
+            }
         }
 
     }

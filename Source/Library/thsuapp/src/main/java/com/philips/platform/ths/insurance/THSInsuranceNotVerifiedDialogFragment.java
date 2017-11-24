@@ -11,11 +11,9 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.visit.THSConfirmationDialogFragment;
 import com.philips.platform.uid.thememanager.UIDHelper;
@@ -34,9 +32,8 @@ public class THSInsuranceNotVerifiedDialogFragment extends DialogFragment implem
     THSBasePresenter mPresenter;
     Label mTitleLabel;
     Label mMessageLabel;
-    Label mTitleImage;
     Button mPrimaryButton;
-    Label mSecondaryButtonLabel;
+    Button mSecondaryButtonLabel;
 
 
     @Nullable
@@ -46,14 +43,12 @@ public class THSInsuranceNotVerifiedDialogFragment extends DialogFragment implem
         View view = layoutInflater.inflate(R.layout.ths_confirmation_dialog_fragment, container, false);
         mTitleLabel = (Label) view.findViewById(R.id.ths_confirmation_dialog_title_label);
         mTitleLabel.setText(getResources().getString(R.string.ths_insurance_not_verified_confirm_title));
-        mTitleImage = (Label) view.findViewById(R.id.ths_confirmation_dialog_title_image);
-        mTitleImage.setVisibility(View.GONE);
         mMessageLabel = (Label) view.findViewById(R.id.ths_confirmation_dialog_message_label);
         mMessageLabel.setText(getResources().getString(R.string.ths_insurance_not_verified_confirm_message));
         mPrimaryButton = (Button) view.findViewById(R.id.ths_confirmation_dialog_primary_button);
         mPrimaryButton.setText(getResources().getString(R.string.ths_ok));
         mPrimaryButton.setOnClickListener(this);
-        mSecondaryButtonLabel = (Label) view.findViewById(R.id.ths_confirmation_dialog_secondary_button_label);
+        mSecondaryButtonLabel = (Button) view.findViewById(R.id.ths_confirmation_dialog_secondary_button);
         mSecondaryButtonLabel.setText(getResources().getString(R.string.ths_insurance_not_verified_confirm_secondary_button_label_text));
         mSecondaryButtonLabel.setOnClickListener(this);
         return view;
@@ -73,10 +68,10 @@ public class THSInsuranceNotVerifiedDialogFragment extends DialogFragment implem
             dismiss();
             THSTagUtils.tagInAppNotification(THS_ANALYTICS_INSURANCE_VALIDATION,"Ok");
             mPresenter.onEvent(R.id.ths_confirmation_dialog_primary_button);
-        }else if (v.getId()==R.id.ths_confirmation_dialog_secondary_button_label){
+        }else if (v.getId()==R.id.ths_confirmation_dialog_secondary_button){
             dismiss();
             THSTagUtils.tagInAppNotification(THS_ANALYTICS_INSURANCE_VALIDATION,"Try again");
-            mPresenter.onEvent(R.id.ths_confirmation_dialog_secondary_button_label);
+            mPresenter.onEvent(R.id.ths_confirmation_dialog_secondary_button);
 
         }
     }
