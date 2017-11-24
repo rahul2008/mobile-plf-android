@@ -18,16 +18,12 @@ import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
-import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.BundleUtils;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.ActionBarTextView;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -75,8 +71,6 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
             contentConfiguration = new ContentConfiguration();
         }
 
-        initMicroAppDependencies(contentConfiguration);
-
         EWSDependencyProvider.getInstance().createEWSComponent(this, R.id.contentFrame,
                 contentConfiguration);
 
@@ -100,13 +94,6 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
             bundle = savedInstanceState;
         }
         return bundle;
-    }
-
-    private void initMicroAppDependencies(ContentConfiguration contentConfiguration) {
-        Map<String, String> map = new HashMap<>();
-        map.put(EWSInterface.PRODUCT_NAME, getString(contentConfiguration.getBaseContentConfiguration().getDeviceName()));
-        EWSDependencyProvider
-                .getInstance().initDependencies(new AppInfra.Builder().build(getBaseContext()), map);
     }
 
     private void setUpToolBar() {

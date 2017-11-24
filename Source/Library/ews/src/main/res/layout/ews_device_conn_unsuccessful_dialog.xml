@@ -22,13 +22,44 @@
             android:text="@string/label_ews_connection_problem_title" />
 
         <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/connection_unsuccessful_body"
+            android:id="@+id/connection_problem_please_try_again"
             style="@style/Txt.Body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_body_labels_margin"
             android:gravity="left|top"
-            android:text="@string/label_ews_connection_problem_body" />
+            android:text="@string/label_ews_connection_problem_please_try_again" />
+
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/connection_problem_please_step1"
+            style="@style/Txt.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_body_labels_margin"
+            android:gravity="left|top"
+            android:text="@string/label_ews_connection_problem_please_step1" />
+
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/connection_problem_please_step2"
+            style="@style/Txt.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_body_labels_margin"
+            android:gravity="left|top"
+            android:text="@string/label_ews_connection_problem_please_step2" />
+
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/connection_problem_please_step3"
+            style="@style/Txt.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_body_labels_margin"
+            android:gravity="left|top"
+            android:text="@string/label_ews_connection_problem_please_step3" />
+
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/connection_unsuccessful_question"

@@ -14,8 +14,10 @@ import android.os.Handler;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
+import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.logger.EWSLogger;
@@ -42,6 +44,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
@@ -58,7 +61,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({EWSTagger.class,EWSLogger.class})
+@PrepareForTest({EWSTagger.class,EWSLogger.class, LanTransportContext.class})
 public class ConnectingDeviceWithWifiViewModelTest {
 
     private static final String HOME_SSID = "homeSsid";
@@ -119,11 +122,15 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Mock
     private StringProvider mockStringProvider;
 
+    @Mock
+    private ApplianceSessionDetailsInfo mockApplianceSessionDetailInfo;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(EWSTagger.class);
         mockStatic(EWSLogger.class);
+        mockStatic(LanTransportContext.class);
 
         AppInfraInterface mockAppInfraInterface = mock(AppInfraInterface.class);
         AppTaggingInterface mockTaggingInterface = mock(AppTaggingInterface.class);
@@ -133,7 +140,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
         EWSDependencyProvider.getInstance().initDependencies(mockAppInfraInterface, mockMap);
         subject = new ConnectingDeviceWithWifiViewModel(mockApplianceAccessManager, mockNavigator,
                 mockWiFiConnectivityManager, mockWiFiUtil, mockDeviceFriendlyNameChanger,
-                mockHandler, mockDiscoveryHelper, mockBaseContentConfiguration, mockStringProvider);
+                mockHandler, mockDiscoveryHelper, mockBaseContentConfiguration, mockStringProvider, mockApplianceSessionDetailInfo);
         subject.setFragmentCallback(mockFragmentCallback);
     }
 
@@ -192,6 +199,12 @@ public class ConnectingDeviceWithWifiViewModelTest {
         simulatePutPropsSucceeded();
 
         verify(mockWiFiConnectivityManager).connectToHomeWiFiNetwork(HOME_SSID);
+    }
+
+    @Test
+    public void itShouldVerifyCppIdIsEqualWhenPutPropsSucceed() throws Exception {
+        simulatePutPropsSucceeded();
+        assertEquals("MOCKEDCPPID12345678", mockWifiPortProperties.getCppid());
     }
 
     @Test
@@ -325,20 +338,35 @@ public class ConnectingDeviceWithWifiViewModelTest {
     }
 
     @Test
+    public void itShouldVerifyNewPinIsSetWhenApplianceFoundInHomeNetwork() throws Exception {
+        simulateApplianceFound();
+
+        verifyStatic();
+        LanTransportContext.acceptPinFor(mockAppliance, mockApplianceSessionDetailInfo.getAppliancePin());
+    }
+
+    @Test
+    public void itShouldVerifyApplianceSessionDetailPinIsSetNullAfterApplianceFound() throws Exception {
+        simulateApplianceFound();
+        verify(mockApplianceSessionDetailInfo).clear();
+    }
+
+
+    @Test
     public void itShouldNotRemoveTimeoutRunnableWhenWrongApplianceFoundInHomeNetwork() throws Exception {
-        simulateWorngApplianceFound();
+        simulateWrongApplianceFound();
         verify(mockHandler, times(0)).removeCallbacks(any(Runnable.class));
     }
 
     @Test
     public void itShouldNotStopDiscoveryWhenWrongApplianceFoundInHomeNetwork() throws Exception {
-        simulateWorngApplianceFound();
+        simulateWrongApplianceFound();
         verify(mockDiscoveryHelper, times(0)).stopDiscovery();
     }
 
     @Test
     public void itShouldNotNavigateToSuccessScreenWhenWrongApplianceFoundInHomeNetwork() throws Exception {
-        simulateWorngApplianceFound();
+        simulateWrongApplianceFound();
         verify(mockNavigator, times(0)).navigateToEWSWiFiPairedScreen();
     }
 
@@ -365,7 +393,6 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
     @Test
     public void itShouldNavigateToErrorScreenWhenTimeoutAndHomeWifiConnected() throws Exception {
-        //subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME));
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
         verify(mockHandler).postDelayed(timeoutRunnableCaptor.capture(), anyLong());
         timeoutRunnableCaptor.getValue().run();
@@ -375,7 +402,6 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
     @Test
     public void itShouldNavigateToWrongWifiErrorScreenWhenTimeoutAndHomeWifiNotConnected() throws Exception {
-        //subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME));
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.UNKNOWN_WIFI);
         verify(mockHandler).postDelayed(timeoutRunnableCaptor.capture(), anyLong());
         timeoutRunnableCaptor.getValue().run();
@@ -421,8 +447,9 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Test
     public void itShouldVerifyTitle() throws Exception{
         when(mockBaseContentConfiguration.getDeviceName()).thenReturn(2131362066);
+        when(mockWiFiUtil.getHomeWiFiSSD()).thenReturn("wifi");
         subject.getTitle(mockBaseContentConfiguration);
-        verify(mockStringProvider).getString(R.string.label_ews_connecting_device_title, mockBaseContentConfiguration.getDeviceName());
+        verify(mockStringProvider).getString(R.string.label_ews_connecting_device_title, mockBaseContentConfiguration.getDeviceName(),mockWiFiUtil.getHomeWiFiSSD());
     }
 
     @Test
@@ -444,10 +471,11 @@ public class ConnectingDeviceWithWifiViewModelTest {
         verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture());
         when(mockAppliance.getNetworkNode()).thenReturn(mockNetworkNode);
         when(mockAppliance.getNetworkNode().getCppId()).thenReturn("MOCKEDCPPID12345678");
+        when(mockApplianceSessionDetailInfo.getAppliancePin()).thenReturn("MOCKEDPIN12345678");
         discoveryCallbackArgumentCaptor.getValue().onApplianceFound(mockAppliance);
     }
 
-    private void simulateWorngApplianceFound() {
+    private void simulateWrongApplianceFound() {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
         verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture());
         when(mockAppliance.getNetworkNode()).thenReturn(mockNetworkNode);

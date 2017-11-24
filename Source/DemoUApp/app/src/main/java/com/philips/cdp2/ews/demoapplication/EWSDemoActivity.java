@@ -150,7 +150,8 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
     }
 
     private void showConfigurationOptScreen() {
-        fragmentReplace(optionSelectionFragment);
+        getSupportFragmentManager().beginTransaction().add(R.id.mainContainer, optionSelectionFragment).commit();
+        updateActionBar();
     }
 
     public void updateContentColor(ContentColor contentColor) {
@@ -183,6 +184,7 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
         saveThemeValues(UIDHelper.ACCENT_RANGE, accentColorRange.name());
     }
 
+
     private void updateColorFromPref() {
         colorRange = themeHelper.initColorRange();
         navigationColor = themeHelper.initNavigationRange();
@@ -200,7 +202,7 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
     }
 
     private void fragmentReplace(Fragment newFragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, newFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, newFragment).addToBackStack(newFragment.getClass().getName()).commit();
         updateActionBar();
     }
 
