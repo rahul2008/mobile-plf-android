@@ -27,7 +27,7 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
 
     public abstract int getActionbarTitleResId();
 
-    public abstract String getActionbarTitle();
+    public abstract String getActionbarTitle(Context activityContext);
 
     public abstract boolean getBackButtonState();
 
@@ -108,7 +108,7 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
     private void setActionbarTitle() {
         if (mActionbarUpdateListener != null) {
             mActionbarUpdateListener.updateActionBar(getActionbarTitleResId(), getBackButtonState());
-            mActionbarUpdateListener.updateActionBar(getActionbarTitle(), getBackButtonState());
+            mActionbarUpdateListener.updateActionBar(getActionbarTitle(context), getBackButtonState());
         }
     }
 

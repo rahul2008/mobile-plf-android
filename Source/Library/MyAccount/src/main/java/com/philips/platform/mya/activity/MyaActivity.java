@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.injection.DaggerMyaUiComponent;
 import com.philips.platform.mya.injection.MyaUiComponent;
