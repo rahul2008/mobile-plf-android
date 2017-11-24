@@ -14,6 +14,8 @@ import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.catk.CatkInputs;
+import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.urdemo.URDemouAppDependencies;
@@ -35,6 +37,8 @@ public class DemoApplication extends MultiDexApplication {
     private static final String CHINA_CODE = "CN";
     private static final String DEFAULT = "default";
     private static final String URL_ENCODING = "UTF-8";
+    private static final String APPLICATION_NAME = "OneBackend";
+    private static final String PROPOSITION_NAME = "OneBackendProp";
     private static DemoApplication sDemoApplicationInstance = null;
     public AppInfraInterface mAppInfraInterface;
 
@@ -64,6 +68,17 @@ public class DemoApplication extends MultiDexApplication {
         if (new User(this).isUserSignIn()) {
             SyncScheduler.getInstance().scheduleSync();
         }
+
+        initCatk();
+    }
+
+    private void initCatk() {
+        CatkInputs catkInputs = new CatkInputs();
+        catkInputs.setContext(this);
+        catkInputs.setAppInfra(mAppInfraInterface);
+        catkInputs.setApplicationName(APPLICATION_NAME);
+        catkInputs.setApplicationName(PROPOSITION_NAME);
+        ConsentAccessToolKit.getInstance().init(catkInputs);
     }
 
     private void initAppInfra() {

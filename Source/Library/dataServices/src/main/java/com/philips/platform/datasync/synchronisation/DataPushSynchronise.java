@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentStatus;
@@ -120,7 +121,7 @@ public class DataPushSynchronise extends EventMonitor {
                 public void run() {
                     if (sender instanceof MomentsDataSender) {
                         try {
-                            final ConsentAccessToolKit toolkit = getContentAccessToolkit();
+                            final ConsentAccessToolKit toolkit = ConsentAccessToolKit.getInstance();
                             syncMoments(sender, nonSynchronizedData, toolkit, countDownLatch);
                         } catch (Exception ex) {
                             countDownLatch.countDown();
@@ -142,14 +143,6 @@ public class DataPushSynchronise extends EventMonitor {
         }
 
         postPushComplete();
-    }
-
-    @NonNull
-    private ConsentAccessToolKit getContentAccessToolkit() {
-        final CatkInputs catkInputs = getCatkInputs();
-        final ConsentAccessToolKit toolkit = ConsentAccessToolKit.getInstance();
-        toolkit.init(catkInputs);
-        return toolkit;
     }
 
     @VisibleForTesting
@@ -182,10 +175,9 @@ public class DataPushSynchronise extends EventMonitor {
             }
 
             @Override
-            public int onResponseFailureConsent(int consentError) {
-                Log.d(" Consent : ", "onResponseFailureConsent  :" + consentError);
+            public void onResponseFailureConsent(ConsentNetworkError consentNetworkError) {
+                Log.d(" Consent : ", "onResponseFailureConsent  :" + consentNetworkError.getMessage());
                 countDownLatch.countDown();
-                return consentError;
             }
         });
     }
