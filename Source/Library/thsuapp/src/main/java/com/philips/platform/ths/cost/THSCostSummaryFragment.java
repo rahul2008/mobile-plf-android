@@ -38,7 +38,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_CRE
 public class THSCostSummaryFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSCostSummaryFragment.class.getSimpleName();
     private ActionBarListener actionBarListener;
-    private THSCostSummaryPresenter mPresenter;
+    protected THSCostSummaryPresenter mPresenter;
     private RelativeLayout mProgressbarContainer;
     Button mCostSummaryContinueButton;
     Button mAddPaymentMethodButton;
@@ -63,6 +63,10 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     Label mActualCostHeader;
 
     Label mPaymentNotRequired;
+
+    public THSVisit getThsVisit() {
+        return thsVisit;
+    }
 
     THSVisit thsVisit;
     protected THSPaymentMethod mTHSPaymentMethod;
