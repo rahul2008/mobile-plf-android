@@ -16,8 +16,6 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -29,7 +27,6 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -73,7 +70,7 @@ public class THSCostSummaryFragmentTest {
         THSManager.getInstance().setAppInfra(appInfraInterfaceMock);
 
 
-        mThsBaseFragment = new THSCostSummaryFragmentMockTest();
+        mThsBaseFragment = new THSCostSummaryFragmentTestMock();
         mThsBaseFragment.setActionBarListener(actionBarListenerMock);
         SupportFragmentTestUtil.startFragment(mThsBaseFragment);
     }

@@ -38,7 +38,6 @@ import com.philips.platform.ths.insurance.THSSubscription;
 import com.philips.platform.ths.payment.THSPaymentMethod;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
-import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
@@ -49,14 +48,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.matchers.Null;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_CREATE_VISIT;
-import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_HEALTH_SUBSCRIPTION;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
@@ -261,7 +257,7 @@ public class THSCostSummaryPresenterTest {
     @Test(expected = NullPointerException.class)
     public void onCreateVisitResponse_when_sdk_error_reason_Not_null() throws Exception {
 
-        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentMockTest();
+        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentTestMock();
         SupportFragmentTestUtil.startFragment(thsCostSummaryFragment);
         mTHSCostSummaryPresenter.mTHSCostSummaryFragment = thsCostSummaryFragment;
 
@@ -284,7 +280,7 @@ public class THSCostSummaryPresenterTest {
 
     @Test
     public void onCreateVisitResponse_when_subscription_not_null() throws Exception {
-        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentMockTest();
+        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentTestMock();
         SupportFragmentTestUtil.startFragment(thsCostSummaryFragment);
         mTHSCostSummaryPresenter.mTHSCostSummaryFragment = thsCostSummaryFragment;
         when(consumerMock.getSubscription()).thenReturn(subscriptionMock);
@@ -300,7 +296,7 @@ public class THSCostSummaryPresenterTest {
 
     @Test
     public void onCreateVisitResponse_when_visit_cost_free() throws Exception {
-        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentMockTest();
+        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentTestMock();
         SupportFragmentTestUtil.startFragment(thsCostSummaryFragment);
         mTHSCostSummaryPresenter.mTHSCostSummaryFragment = thsCostSummaryFragment;
         when(visitCostMock.isFree()).thenReturn(true);
@@ -311,7 +307,7 @@ public class THSCostSummaryPresenterTest {
 
     @Test(expected = NullPointerException.class)
     public void applyCouponCode(){
-        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentMockTest();
+        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentTestMock();
         SupportFragmentTestUtil.startFragment(thsCostSummaryFragment);
         mTHSCostSummaryPresenter.mTHSCostSummaryFragment = thsCostSummaryFragment;
         mTHSCostSummaryPresenter.applyCouponCode("123");
@@ -319,7 +315,7 @@ public class THSCostSummaryPresenterTest {
 
     @Test(expected = NullPointerException.class)
     public void onCreateVisitFailure() throws Exception {
-        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentMockTest();
+        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentTestMock();
         SupportFragmentTestUtil.startFragment(thsCostSummaryFragment);
         mTHSCostSummaryPresenter.mTHSCostSummaryFragment = thsCostSummaryFragment;
         mTHSCostSummaryPresenter.onCreateVisitFailure(throwableMock);
@@ -347,7 +343,7 @@ public class THSCostSummaryPresenterTest {
 
     @Test
     public void onGetInsuranceResponse_sdkerror_null() throws Exception {
-        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentMockTest();
+        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentTestMock();
         SupportFragmentTestUtil.startFragment(thsCostSummaryFragment);
         mTHSCostSummaryPresenter.mTHSCostSummaryFragment = thsCostSummaryFragment;
         when(thsCostSummaryFragmentMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
@@ -363,7 +359,7 @@ public class THSCostSummaryPresenterTest {
 
     @Test
     public void onGetInsuranceResponse_tHSSubscription_null() throws Exception {
-        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentMockTest();
+        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentTestMock();
         SupportFragmentTestUtil.startFragment(thsCostSummaryFragment);
         mTHSCostSummaryPresenter.mTHSCostSummaryFragment = thsCostSummaryFragment;
         when(thsCostSummaryFragmentMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
@@ -379,7 +375,7 @@ public class THSCostSummaryPresenterTest {
 
     @Test(expected = NullPointerException.class)
     public void onGetInsuranceFailure() throws Exception {
-        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentMockTest();
+        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentTestMock();
         SupportFragmentTestUtil.startFragment(thsCostSummaryFragment);
         mTHSCostSummaryPresenter.mTHSCostSummaryFragment = thsCostSummaryFragment;
 
@@ -397,7 +393,7 @@ public class THSCostSummaryPresenterTest {
 
     @Test
     public void onGetPaymentMethodResponse_payment_method_not_null() throws Exception {
-        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentMockTest();
+        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentTestMock();
         SupportFragmentTestUtil.startFragment(thsCostSummaryFragment);
         mTHSCostSummaryPresenter.mTHSCostSummaryFragment = thsCostSummaryFragment;
 
@@ -408,7 +404,7 @@ public class THSCostSummaryPresenterTest {
 
     @Test
     public void onGetPaymentMethodResponse_payment_method_not_not_expired() throws Exception {
-        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentMockTest();
+        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentTestMock();
         SupportFragmentTestUtil.startFragment(thsCostSummaryFragment);
         mTHSCostSummaryPresenter.mTHSCostSummaryFragment = thsCostSummaryFragment;
 
@@ -421,7 +417,7 @@ public class THSCostSummaryPresenterTest {
 
     @Test(expected = NullPointerException.class)
     public void onGetPaymentFailure() throws Exception {
-        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentMockTest();
+        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentTestMock();
         SupportFragmentTestUtil.startFragment(thsCostSummaryFragment);
         mTHSCostSummaryPresenter.mTHSCostSummaryFragment = thsCostSummaryFragment;
 
@@ -430,7 +426,7 @@ public class THSCostSummaryPresenterTest {
 
     @Test(expected = NullPointerException.class)
     public void onApplyCouponResponse() throws Exception {
-        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentMockTest();
+        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentTestMock();
         SupportFragmentTestUtil.startFragment(thsCostSummaryFragment);
         mTHSCostSummaryPresenter.mTHSCostSummaryFragment = thsCostSummaryFragment;
 
@@ -439,7 +435,7 @@ public class THSCostSummaryPresenterTest {
 
     @Test
     public void onApplyCouponResponse_thsError_isNull() throws Exception {
-        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentMockTest();
+        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentTestMock();
         SupportFragmentTestUtil.startFragment(thsCostSummaryFragment);
         thsCostSummaryFragment.mCouponCodeEdittext.setText("222");
         thsCostSummaryFragment.thsVisit = thsVisitMock;
@@ -451,7 +447,7 @@ public class THSCostSummaryPresenterTest {
 
     @Test
     public void onApplyCouponFailure() throws Exception {
-        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentMockTest();
+        THSCostSummaryFragment thsCostSummaryFragment = new THSCostSummaryFragmentTestMock();
         SupportFragmentTestUtil.startFragment(thsCostSummaryFragment);
 
         mTHSCostSummaryPresenter.onApplyCouponResponse(null,thssdkErrorMock);
