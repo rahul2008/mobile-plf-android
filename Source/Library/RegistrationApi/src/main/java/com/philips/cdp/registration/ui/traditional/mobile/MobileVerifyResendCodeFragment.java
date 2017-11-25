@@ -116,20 +116,13 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!user.getMobile().equals(s.toString())) {
-                    resendSMSButton.setText(getActivity().getResources().getString(
-                            R.string.reg_Update_MobileNumber_Button_Text));
-                    resendSMSButton.setProgressText(getActivity().getResources().getString(
-                            R.string.reg_Update_MobileNumber_Button_Text));
+
                     if (FieldsValidator.isValidMobileNumber(s.toString())) {
                         enableUpdateButton();
                     } else {
                         disableResendButton();
                     }
                 } else {
-                    resendSMSButton.setText(getActivity().getResources().getString(
-                            R.string.reg_Resend_SMS_title));
-                    resendSMSButton.setProgressText(getActivity().getResources().getString(
-                            R.string.reg_Resend_SMS_title));
                     enableResendButton();
                 }
                 errorMessage.hideError();
@@ -294,7 +287,6 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Override
     public void enableResendButton() {
-
         resendSMSButton.setText(getActivity().getResources().getString(
                 R.string.reg_Resend_SMS_title));
         resendSMSButton.setProgressText(getActivity().getResources().getString(
@@ -306,6 +298,8 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public void enableUpdateButton() {
         resendSMSButton.setText(getActivity().getResources().getString(
+                R.string.reg_Update_MobileNumber_Button_Text));
+        resendSMSButton.setProgressText(getActivity().getResources().getString(
                 R.string.reg_Update_MobileNumber_Button_Text));
         resendSMSButton.setEnabled(true);
 
