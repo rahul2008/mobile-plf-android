@@ -415,7 +415,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public void storeEMail() {
-        RegPreferenceUtility.storePreference(context, emailString, true);
+        RegPreferenceUtility.storePreference(context, RegConstants.TERMS_N_CONDITIONS_ACCEPTED,emailString);
     }
 
     @Override
