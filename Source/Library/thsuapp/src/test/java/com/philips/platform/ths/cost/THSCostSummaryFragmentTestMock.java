@@ -8,7 +8,7 @@ package com.philips.platform.ths.cost;
 
 import android.view.ViewGroup;
 
-public class THSCostSummaryFragmentMockTest extends THSCostSummaryFragment {
+public class THSCostSummaryFragmentTestMock extends THSCostSummaryFragment {
 
     @Override
     public void createCustomProgressBar(ViewGroup group, int size) {
