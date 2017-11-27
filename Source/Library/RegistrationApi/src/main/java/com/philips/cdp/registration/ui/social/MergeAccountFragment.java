@@ -214,7 +214,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
     private void completeRegistration() {
         String emailorMobile = mergeAccountPresenter.getLoginWithDetails();
         if (emailorMobile != null && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
-                (!RegPreferenceUtility.getStoredState(getContext(), emailorMobile) || !mergeAccountPresenter.getReceiveMarketingEmail())) {
+                (!RegPreferenceUtility.getPreferenceValue(getContext(),RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailorMobile) || !mergeAccountPresenter.getReceiveMarketingEmail())) {
             launchAlmostDoneForTermsAcceptanceFragment();
             return;
         }

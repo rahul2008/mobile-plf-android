@@ -497,6 +497,7 @@ public class User {
                 signedIn = false;
                 RLog.d("isUserSign", "isTermsAndConditionAccepted cleardata"+signedIn);
 
+      //          clearData();
             }
         }
         return signedIn;
@@ -511,13 +512,13 @@ public class User {
         boolean isValidMobileNo = FieldsValidator.isValidMobileNumber(mobileNo);
         boolean isValidEmail = FieldsValidator.isValidEmail(email);
         if (isValidMobileNo && isValidEmail) {
-            return getStoredState(mContext, mobileNo) &&
-                    getStoredState(mContext, email);
+            return getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, mobileNo) &&
+                    getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, email);
         }
         if (isValidMobileNo) {
-            return getStoredState(mContext, mobileNo);
+            return getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, mobileNo);
         }
-        return isValidEmail && getStoredState(mContext, email);
+        return isValidEmail && getPreferenceValue(mContext,RegConstants.TERMS_N_CONDITIONS_ACCEPTED, email);
     }
 
     /**

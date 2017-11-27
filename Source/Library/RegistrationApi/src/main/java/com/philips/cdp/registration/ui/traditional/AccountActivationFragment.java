@@ -30,6 +30,9 @@ import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.*;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import javax.inject.*;
 
 import butterknife.*;
@@ -175,12 +178,17 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     private void initUI(View view) {
         consumeTouch(view);
-        mEmailId = mUser.getEmail();
-        String email = getString(R.string.reg_DLS_Verify_Email_Sent_Txt);
-        email = String.format(email, mEmailId);
-        setupSpannableText(mTvVerifyEmail, email, mEmailId);
+        setDiscription();
         handleUiState(networkUtility.isNetworkAvailable());
     }
+
+   void setDiscription(){
+       mEmailId = mUser.getEmail();
+       String email = getString(R.string.reg_DLS_Verify_Email_Sent_Txt);
+       email = String.format(email, mEmailId);
+       setupSpannableText(mTvVerifyEmail, email, mEmailId);
+
+   }
 
     private static void setupSpannableText(TextView mTvVerifyEmailText,
                                            String moreAccountSettings, String link) {
@@ -300,7 +308,12 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onRefreshUserSuccess() {
         RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserSuccess");
-        updateActivationUIState();
+        if(mEmailId.equals(mUser.getEmail())){
+            updateActivationUIState();
+        } else{
+            mEmailId = mUser.getEmail();
+        }
+        setDiscription();
     }
 
     @Override
@@ -325,7 +338,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void onCounterEventReceived(String event, long timeLeft) {
-        RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed" + timeLeft);
+       // RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed" + timeLeft);
 
         if (event.equals(RegConstants.COUNTER_FINISH)) {
             proceedResend = true;
@@ -333,4 +346,21 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             proceedResend = false;
         }
     }
+
+    @Subscribe
+    public void onEvent(UpdateEmail event){
+        mUser.refreshUser(this);
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
 }

@@ -169,12 +169,14 @@
     <dimen name="reg_dimen_20dp">20dp</dimen>
     <dimen name="reg_dimen_24dp">24dp</dimen>
     <dimen name="reg_dimen_4dp">4dp</dimen>
+    <dimen name="reg_layout_margin_16">16dp</dimen>
 
 
     <integer name="reg_et_verifycode_max_length">1</integer>
 
 
-
+    <item name="usr_match_parent" type="dimen" format="integer">-1</item>
+    <item name="usr_wrap_content" type="dimen" format="integer">-2</item>
 
 
 

@@ -400,7 +400,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void storePreference(String emailOrMobileNumber) {
-        RegPreferenceUtility.storePreference(mContext, emailOrMobileNumber, true);
+        RegPreferenceUtility.storePreference(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailOrMobileNumber);
     }
 
     private void trackMultipleActions() {
@@ -572,7 +572,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     public boolean getPreferenceStoredState(String emailOrMobileNumber) {
-        return RegPreferenceUtility.getStoredState(mContext, emailOrMobileNumber);
+        return RegPreferenceUtility.getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailOrMobileNumber);
     }
 
     @Override

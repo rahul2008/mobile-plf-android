@@ -317,11 +317,11 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         enableVerifyButton();
     }
 
-
-    public void storePreference(String emailOrMobileNumber) {
-        RegPreferenceUtility.storePreference(
-                getRegistrationFragment().getContext(), emailOrMobileNumber, true);
-    }
+//
+//    public void storePreference(String emailOrMobileNumber) {
+//        RegPreferenceUtility.storePreference(
+//                getRegistrationFragment().getContext(), emailOrMobileNumber, true);
+//    }
 
 
 }
