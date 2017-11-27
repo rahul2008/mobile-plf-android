@@ -12,10 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.mya.MyaPager;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 public class MyaTabFragment extends MyaBaseFragment {
 
@@ -23,6 +23,7 @@ public class MyaTabFragment extends MyaBaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        UIDHelper.injectCalligraphyFonts();
         if (view == null) {
 
             view = inflater.inflate(R.layout.mya_tab_fragment, container, false);
