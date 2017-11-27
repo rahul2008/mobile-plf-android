@@ -193,7 +193,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             } else {
                 createNewAddressOrUpdateIfAddressIDPresent();
             }
-            removeStaticFragments();
+           // removeStaticFragments();
         } else if (v == mBtnCancel) {
             Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
             if (fragment != null) {
