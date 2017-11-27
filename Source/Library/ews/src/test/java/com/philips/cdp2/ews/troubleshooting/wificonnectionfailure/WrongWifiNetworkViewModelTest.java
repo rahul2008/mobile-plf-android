@@ -62,6 +62,14 @@ public class WrongWifiNetworkViewModelTest {
     }
 
     @Test
+    public void itShouldUpdateStepFourText() throws Exception {
+        String stepFour = "Awesome step four";
+        subject.setStepFourText(stepFour);
+
+        assertEquals(stepFour, subject.stepFourText.get());
+    }
+
+    @Test
     public void itShouldNavigateToConnectingDeviceWithWifiScreenWhenButtonClicked() throws
             Exception {
         subject.onButtonClick();

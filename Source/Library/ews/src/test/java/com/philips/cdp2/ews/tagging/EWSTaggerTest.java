@@ -6,6 +6,7 @@ package com.philips.cdp2.ews.tagging;
 
 import android.app.Activity;
 
+import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.tagging.Tag.ACTION;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -19,9 +20,13 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.eq;
@@ -46,6 +51,14 @@ public class EWSTaggerTest {
 
         when(EWSDependencyProvider.getInstance()).thenReturn(ewsDependencyProviderMock);
         when(EWSDependencyProvider.getInstance().getTaggingInterface()).thenReturn(appTaggingInterfaceMock);
+    }
+
+    @Test
+    public void itShouldVerifyConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        Constructor<EWSTagger> constructor = EWSTagger.class.getDeclaredConstructor();
+        assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+        constructor.setAccessible(true);
+        constructor.newInstance();
     }
 
     @Test
