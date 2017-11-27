@@ -381,10 +381,10 @@ public class MomentFragment extends DSBaseFragment
                 ((Activity) mContext).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        DemoAppManager.getInstance().getUserRegistrationHandler().clearUserData(MomentFragment.this);
                         Toast.makeText(mContext, "Logout Success", Toast.LENGTH_SHORT).show();
-
-                        startActivity(new Intent(mContext, DSLaunchActivity.class));
+                        clearUserData();
+                        if (getActivity() != null)
+                            getActivity().finish();
                     }
                 });
             }
@@ -399,5 +399,9 @@ public class MomentFragment extends DSBaseFragment
                 });
             }
         });
+    }
+
+    private void clearUserData() {
+        DemoAppManager.getInstance().getUserRegistrationHandler().clearUserData(MomentFragment.this);
     }
 }
