@@ -6,9 +6,13 @@
 
 package com.philips.platform.ths.registration;
 
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.widget.DatePicker;
 
 import com.americanwell.sdk.AWSDK;
+import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -16,11 +20,14 @@ import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.entity.enrollment.ConsumerEnrollment;
 import com.americanwell.sdk.entity.enrollment.DependentEnrollment;
 import com.americanwell.sdk.manager.ConsumerManager;
+import com.americanwell.sdk.manager.SDKCallback;
+import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
@@ -31,6 +38,8 @@ import com.philips.platform.uid.view.widget.ProgressBarButton;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -41,7 +50,9 @@ import static com.americanwell.sdk.entity.SDKErrorReason.AUTH_SCHEDULED_DOWNTIME
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -86,6 +97,9 @@ public class THSRegistrationPresenterTest {
     ConsumerManager consumerManagerMock;
 
     @Mock
+    DatePickerDialog.OnDateSetListener onDateSetListenerMock;
+
+    @Mock
     ConsumerEnrollment consumerEnrollmentMock;
 
     @Mock
@@ -96,6 +110,9 @@ public class THSRegistrationPresenterTest {
 
     @Mock
     THSSDKErrorFactory thssdkErrorFactory;
+
+    @Captor
+    private ArgumentCaptor<DatePickerDialog.OnDateSetListener> requestCaptor;
 
     @Mock
     AppInfraInterface appInfraInterface;
@@ -108,6 +125,9 @@ public class THSRegistrationPresenterTest {
 
     @Mock
     ServiceDiscoveryInterface serviceDiscoveryMock;
+
+    @Mock
+    Context contextMock;
 
     @Before
     public void setUp() throws Exception {
@@ -127,6 +147,8 @@ public class THSRegistrationPresenterTest {
         when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
         THSManager.getInstance().setAppInfra(appInfraInterface);
+
+        when(thsRegistrationFragmentMock.isFragmentAttached()).thenReturn(true);
 
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         mTHSRegistrationPresenter = new THSRegistrationPresenter(thsRegistrationFragmentMock);
@@ -165,6 +187,15 @@ public class THSRegistrationPresenterTest {
     }
 
     @Test
+    public void onResponseSuccessNo_input() throws Exception {
+        when(thsRegistrationFragmentMock.isFragmentAttached()).thenReturn(true);
+        thsRegistrationFragmentMock.mLaunchInput = -1;
+        sdkErrorMock = null;
+        mTHSRegistrationPresenter.onResponse(thsConsumerWrapperMock,sdkErrorMock);
+        verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
+    }
+
+    @Test
     public void onResponseSuccessTHS_SCHEDULED_VISITS() throws Exception {
         when(thsRegistrationFragmentMock.isFragmentAttached()).thenReturn(true);
         thsRegistrationFragmentMock.mLaunchInput = THSConstants.THS_SCHEDULED_VISITS;
@@ -182,25 +213,82 @@ public class THSRegistrationPresenterTest {
         verify(thsRegistrationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void onFailure() throws Exception {
         mTHSRegistrationPresenter.onFailure(throwableMock);
+        verify(thsRegistrationFragmentMock).showError(anyString());
     }
 
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void onValidationFailure() throws Exception {
         mTHSRegistrationPresenter.onValidationFailure(mapMock);
+        verify(thsRegistrationFragmentMock).showError(anyString());
+        verify(thsRegistrationFragmentMock).hideProgressBar();
     }
 
     @Test
     public void enrollUser() throws Exception {
         mTHSRegistrationPresenter.enrollUser(dateMock,"spoo","hallur",Gender.MALE,stateMock);
+        verify(consumerManagerMock).enrollConsumer(any(ConsumerEnrollment.class),any(SDKValidatedCallback.class));
     }
 
     @Test
     public void enrollDependent() throws Exception {
         mTHSRegistrationPresenter.enrollDependent(dateMock,"spoo","hall",Gender.FEMALE,stateMock);
+        verify(consumerManagerMock).enrollDependent(any(DependentEnrollment.class),any(SDKValidatedCallback.class));
     }
 
+    @Test
+    public void onEvent_ths_edit_dob(){
+        mTHSRegistrationPresenter.onEvent(R.id.ths_edit_dob);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void validateNameValid(){
+        mTHSRegistrationPresenter.validateName("Spoorti");
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void validateNameAlphanumericName(){
+        mTHSRegistrationPresenter.validateName("Spoorti12223785*&%$");
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void validateNameTwoChars(){
+        mTHSRegistrationPresenter.validateName("S");
+    }
+
+    @Test
+    public void validateDOB(){
+        THSManager.getInstance().getThsConsumer(contextMock).setDependent(true);
+        final boolean isDateValid = mTHSRegistrationPresenter.validateDOB(dateMock);
+        assert isDateValid == true;
+    }
+
+    @Test
+    public void validateDOBNotDependent(){
+        THSManager.getInstance().getThsConsumer(contextMock).setDependent(true);
+        final boolean isDateValid = mTHSRegistrationPresenter.validateDOB(dateMock);
+        assert isDateValid == true;
+    }
+
+    @Test
+    public void validateDOBNull(){
+        THSManager.getInstance().getThsConsumer(contextMock).setDependent(true);
+        final boolean isDateValid = mTHSRegistrationPresenter.validateDOB(null);
+        assert isDateValid == false;
+    }
+
+    @Test
+    public void validateLocationNull(){
+        final boolean isLocationNull = mTHSRegistrationPresenter.validateLocation(null);
+        assert isLocationNull == false;
+    }
+
+    @Test
+    public void validateLocationNotNull(){
+        final boolean isLocationNull = mTHSRegistrationPresenter.validateLocation("MA");
+        assert isLocationNull == false;
+    }
 }

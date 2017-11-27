@@ -40,7 +40,7 @@ public class THSCreditCardBillingAddressFragment extends THSBaseFragment impleme
 
     public static final String TAG = THSCreditCardBillingAddressFragment.class.getSimpleName();
     private ActionBarListener actionBarListener;
-    private THSCreditCardBillingAddressPresenter mTHSCreditCardBillingAddressPresenter;
+    protected THSCreditCardBillingAddressPresenter mTHSCreditCardBillingAddressPresenter;
     Bundle mBundle;
 
     Label mBillingAddresslabel;

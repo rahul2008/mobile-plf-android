@@ -16,6 +16,7 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.SDKCallback;
+import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -90,11 +91,20 @@ public class THSScheduledVisitsPresenterTest {
     @Mock
     ServiceDiscoveryInterface serviceDiscoveryMock;
 
+    @Mock
+    User userMock;
+
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         THSManager.getInstance().setAwsdk(awsdkMock);
+
+        THSManager.getInstance().TEST_FLAG = true;
+        THSManager.getInstance().setUser(userMock);
+
+        when(userMock.getHsdpUUID()).thenReturn("123");
+        when(userMock.getHsdpAccessToken()).thenReturn("123");
 
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
@@ -108,6 +118,7 @@ public class THSScheduledVisitsPresenterTest {
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(thsScheduledVisitsFragmentMock.getContext()).thenReturn(contextMock);
         when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);
+        when(thsScheduledVisitsFragmentMock.isFragmentAttached()).thenReturn(true);
 
         mTHSScheduledVisitsPresenter = new THSScheduledVisitsPresenter(thsScheduledVisitsFragmentMock);
         when(thsScheduledVisitsFragmentMock.isFragmentAttached()).thenReturn(true);
@@ -138,16 +149,10 @@ public class THSScheduledVisitsPresenterTest {
         verify(thsScheduledVisitsFragmentMock).updateList(anyList());
     }
 
-    @Mock
-    Resources resourcesMock;
-    @Test(expected = NullPointerException.class)
+    @Test
     public void onFailure() throws Exception {
-        SupportFragmentTestUtil.startFragment(thsScheduledVisitsFragmentMock);
         when(thsScheduledVisitsFragmentMock.isFragmentAttached()).thenReturn(false);
-        when(thsScheduledVisitsFragmentMock.getResources()).thenReturn(resourcesMock);
-        when(thsScheduledVisitsFragmentMock.getString(R.string.ths_se_server_error_toast_message)).thenReturn("Something");
         mTHSScheduledVisitsPresenter.onFailure(throwableMock);
-        verify(thsScheduledVisitsFragmentMock).hideProgressBar();
     }
 
     @Test

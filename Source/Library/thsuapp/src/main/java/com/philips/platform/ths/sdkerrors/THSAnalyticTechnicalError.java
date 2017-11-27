@@ -7,6 +7,10 @@ package com.philips.platform.ths.sdkerrors;
 
 public class THSAnalyticTechnicalError {
 
+    THSAnalyticTechnicalError(){
+
+    }
+
     public static final String ANALYTICS_INITIALIZATION = "Initialization";
 
     public static final String ANALYTICS_SET_PREFERRED_LOCALE = "Setting the Preferred Locale";
