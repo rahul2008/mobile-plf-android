@@ -10,7 +10,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
+
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -53,6 +57,15 @@ public class BundleUtilsTest {
         when(mockBundle.containsKey("key")).thenReturn(true);
         when(mockBundle.getParcelable("key")).thenReturn(mockBaseContentConfiguration);
         BundleUtils.extractParcelableFromIntentOrNull(mockBundle, "key");
+    }
+
+    @Test
+    public void itShouldVerifyItIsAbstractClass() throws Exception{
+        assertTrue(Modifier.isFinal(BundleUtils.class.getModifiers()));
+        Constructor<BundleUtils> constructor = BundleUtils.class.getDeclaredConstructor();
+        assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+        constructor.setAccessible(true);
+        constructor.newInstance();
     }
 
     @NonNull

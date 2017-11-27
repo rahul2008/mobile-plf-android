@@ -10,11 +10,9 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 
-public class GpsUtil {
+public final class GpsUtil {
 
-    private GpsUtil() {
-
-    }
+    private GpsUtil() {}
 
     public static boolean isGPSRequiredForWifiScan() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
