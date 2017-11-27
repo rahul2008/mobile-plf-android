@@ -57,8 +57,16 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment {
     RelativeLayout mRelativeLayoutSummaryReport;
     THSVisitHistoryDetailPresenter mThsVisitHistoryPresenter;
     private VisitReport mVisitReport;
-    private Label pharmacyName, pharmacyZip, pharmacyState, pharmacyAddressLineOne, pharmacyAddressLIneTwo,
-            consumerName, consumerCity, consumerShippingAddress, consumerState, consumerShippingZip;
+    private Label pharmacyName;
+    protected Label pharmacyZip;
+    private Label pharmacyState;
+    private Label pharmacyAddressLineOne;
+    private Label pharmacyAddressLIneTwo;
+    private Label consumerName;
+    private Label consumerCity;
+    private Label consumerShippingAddress;
+    private Label consumerState;
+    protected Label consumerShippingZip;
     Label mImageButtonPharmacyEdit;
     Label mImageButtonShippingAddressEdit;
 
