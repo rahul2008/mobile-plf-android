@@ -295,7 +295,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         if(mThsVitalsPresenter.stringToInteger(systolic) > 250 || mThsVitalsPresenter.stringToInteger(diastolic) > 250){
             mDiastolicInputValidationLayout.setErrorMessage(R.string.ths_vitals_diastolic_error_range);
             mDiastolicInputValidationLayout.showError();
-        }else if(mThsVitalsPresenter.stringToInteger(systolic) < mThsVitalsPresenter.stringToInteger(diastolic)){
+        }else if(mThsVitalsPresenter.stringToInteger(systolic) <= mThsVitalsPresenter.stringToInteger(diastolic)){
             mDiastolicInputValidationLayout.setErrorMessage(R.string.ths_vitals_diastolic_error);
             mDiastolicInputValidationLayout.showError();
             doTagging(ANALYTICS_UPDATE_VITALS, getString(R.string.ths_vitals_diastolic_error), false);
