@@ -43,6 +43,18 @@ public class EWSTagger {
         trackAction(Tag.KEY.SEND_DATA, map);
     }
 
+    public static void trackInAppNotificationResponse(@NonNull final String value){
+        Map<String, String> map = new HashMap<>();
+        map.put("inAppNotificationResponse", value);
+        trackAction(Tag.KEY.SEND_DATA, map);
+    }
+
+    public static void trackInAppNotification(@NonNull String pageName, @NonNull final String value){
+        Map<String, String> map = new HashMap<>();
+        map.put("inAppNotification", value);
+        getAppTaggingInterface().trackPageWithInfo(pageName, map);
+    }
+
     @SuppressWarnings("unchecked")
     public static void trackAction(String action, String key, String value) {
         Map<String, String> commonGoalsMap = new HashMap<>();

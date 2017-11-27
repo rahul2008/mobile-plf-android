@@ -139,6 +139,16 @@ public class SecondSetupStepsViewModel {
         EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.WIFI_BLINKING);
     }
 
+    void tagLocationPermission() {
+        EWSTagger.trackInAppNotification(Page.SETUP_STEP2,Tag.VALUE.LOCATION_PERMISSION_NOTIFICATION);
+    }
+    void tagLocationPermissionAllow() {
+        EWSTagger.trackInAppNotificationResponse(Tag.ACTION.ALLOW);
+    }
+    void tagLocationPermissionCancel() {
+        EWSTagger.trackInAppNotificationResponse(Tag.ACTION.CANCEL_SETUP);
+    }
+
     protected void startConnection() {
         eventBus.unregister(this);
         navigator.navigateToConnectingPhoneToHotspotWifiScreen();
