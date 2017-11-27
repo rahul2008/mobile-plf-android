@@ -96,6 +96,7 @@ public class CswInterface implements UappInterface {
             Log.i("Deepthi", "Activity config pro name = " + uappLaunchInput.getConfig().getPropositionName());
             Log.i("Deepthi", "Activity config List name = " + uappLaunchInput.getConfig().getConsentDefinitions().toString());
 
+            cswIntent.putExtra(CswConstants.DLS_THEME, uiLauncher.getUiKitTheme());
             cswIntent.putExtras(uappLaunchInput.getConfig().toBundle());
 
             cswIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);

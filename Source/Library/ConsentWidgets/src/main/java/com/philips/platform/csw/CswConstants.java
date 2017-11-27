@@ -9,4 +9,5 @@ package com.philips.platform.csw;
 
 public class CswConstants {
     public static final String CSWFRAGMENT = "CSWFRAGMENT";
+    public static final String DLS_THEME = "dlsTheme";
 }

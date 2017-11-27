@@ -18,6 +18,8 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +33,8 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener {
+
+    private static final String TAG = "PermissionView";
 
     private ProgressDialog mProgressDialog;
 
@@ -132,7 +136,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     public void showErrorDialog(ConsentNetworkError error) {
-        CswLogger.e("PermissionView", error.getMessage());
+        CswLogger.e(TAG, error.getMessage());
         OkOnErrorListener okListener = new OkOnErrorListener();
         final AlertDialogFragment alertDialogFragment = new AlertDialogFragment.Builder(getContext())
                 .setTitle(R.string.reg_mya_problem_occurred_error_title)
@@ -140,7 +144,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
                 .setPositiveButton(R.string.reg_mya_ok, okListener)
                 .create();
         okListener.setDialog(alertDialogFragment);
-        alertDialogFragment.show(getFragmentManager(), "tag");
+        alertDialogFragment.show(getFragmentManager(), TAG);
     }
 
     @Override
@@ -150,14 +154,16 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     private static class OkOnErrorListener implements View.OnClickListener {
 
-        DialogFragment dialog;
+        @Nullable DialogFragment dialog;
 
         @Override
         public void onClick(View view) {
-            dialog.dismiss();;
+            if (dialog != null) {
+                dialog.dismiss();
+            }
         }
 
-        void setDialog(DialogFragment dialog) {
+        void setDialog(@NonNull DialogFragment dialog) {
             this.dialog = dialog;
         }
     }
