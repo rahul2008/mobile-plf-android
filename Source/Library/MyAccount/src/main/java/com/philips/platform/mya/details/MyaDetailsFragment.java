@@ -16,16 +16,15 @@ import android.widget.ImageButton;
 
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
+import com.philips.platform.myaplugin.uappadaptor.DataModelType;
+import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
+import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.philips.platform.myaplugin.uappadaptor.DataModelType;
-import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
-import com.philips.platform.myaplugin.user.UserDataModelProvider;
 
 
 public class MyaDetailsFragment extends MyaBaseFragment {
@@ -94,15 +93,18 @@ public class MyaDetailsFragment extends MyaBaseFragment {
         Matcher matcher=pattern.matcher(nameString);
         while (matcher.find())
         {
-            String temp=matcher.group();
-            finalName.append(temp.toString());
+            String matchString=matcher.group();
+            finalName.append(matchString.toString());
 
         }
         if(finalName.toString().length()==1)
         {
-            return nameString.toString().length()==1?nameString:nameString.substring(0,2);
+            return nameString.toString().length()==1?nameString:nameString.substring(0,2).toUpperCase();
         }
-        return finalName.toString();
+        else if(finalName.toString().length()>2){
+            return finalName.substring(0,2).toUpperCase();
+        }
+        return finalName.toString().toUpperCase();
     }
 
     private void setUserDetails(){

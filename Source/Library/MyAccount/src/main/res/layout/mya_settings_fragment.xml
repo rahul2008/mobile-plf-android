@@ -37,6 +37,7 @@
             android:layout_marginStart="@dimen/MYA_start_margin"
             android:layout_marginEnd="@dimen/MYA_end_margin"
             android:layout_marginTop="@dimen/MYA_top_margin"
+            android:paddingTop="@dimen/MYA_top_margin"
             android:text="@string/MYA_visit_website" />
 
         <com.philips.platform.uid.view.widget.Label
