@@ -9,8 +9,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/uid_adaptive_layout_width"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_gravity="center">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -80,7 +79,7 @@
                 android:contentDescription="@string/action_settings"
                 android:layout_centerInParent="true"
                 android:layout_alignParentEnd="true"
-                app:srcCompat="@drawable/ic_right_arrow_show_more" />
+                />
 
             <ImageButton
                 android:id="@+id/email_mobile_right_arrow"
@@ -92,7 +91,7 @@
                 android:contentDescription="@string/action_settings"
                 android:layout_centerInParent="true"
                 android:layout_alignParentEnd="true"
-                app:srcCompat="@drawable/ic_right_arrow_show_more" />
+                />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/mobile_number_heading"
@@ -115,7 +114,7 @@
                 android:contentDescription="@string/action_settings"
                 android:layout_centerInParent="true"
                 android:layout_alignParentEnd="true"
-                app:srcCompat="@drawable/ic_right_arrow_show_more" />
+               />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/mobile_number_value"
@@ -188,7 +187,7 @@
                 android:clickable="false"
                 android:contentDescription="@string/action_settings"
                 android:layout_gravity="center|end"
-                app:srcCompat="@drawable/ic_right_arrow_show_more" />
+             />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/DOB_heading"
