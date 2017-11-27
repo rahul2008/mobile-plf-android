@@ -138,7 +138,9 @@ public class SecondSetupStepsFragment extends BaseFragment implements LocationPe
         alertDialogFragment.setDialogLifeCycleListener(new EWSAlertDialogFragment.DialogLifeCycleListener() {
             @Override
             public void onStart() {
-                //todo: add analytics tag : EWSTagger.trackPage("");
+                if (viewModel != null) {
+                    viewModel.tagLocationDisabled();
+                }
             }
         });
         alertDialogFragment.showAllowingStateLoss(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
@@ -148,6 +150,7 @@ public class SecondSetupStepsFragment extends BaseFragment implements LocationPe
             @Override
             public void onClick(View v) {
                 if (viewModel != null) {
+                    viewModel.tagLocationOpenSettings();
                     getActivity().startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     alertDialogFragment.dismiss();
                 }

@@ -24,6 +24,7 @@ public class Tag {
     public static class VALUE {
         public static final String CONN_ERROR_NOTIFICATION = "Connection unsuccessful:Cannot connect to device's WiFi signal";
         public static final String LOCATION_PERMISSION_NOTIFICATION = "Location Permission";
+        public static final String LOCATION_DISABLED_NOTIFICATION = "Location Disabled";
 
     }
 
@@ -43,6 +44,7 @@ public class Tag {
 
         public static final String ALLOW = "Allow";
         public static final String CANCEL_SETUP = "Cancel setup";
+        public static final String OPEN_LOCATION_SETTINGS = "openLocationSettings";
     }
 
     public static class ERROR {

@@ -149,6 +149,13 @@ public class SecondSetupStepsViewModel {
         EWSTagger.trackInAppNotificationResponse(Tag.ACTION.CANCEL_SETUP);
     }
 
+    void tagLocationDisabled() {
+        EWSTagger.trackInAppNotification(Page.SETUP_STEP2,Tag.VALUE.LOCATION_DISABLED_NOTIFICATION);
+    }
+    void tagLocationOpenSettings() {
+        EWSTagger.trackInAppNotificationResponse(Tag.ACTION.OPEN_LOCATION_SETTINGS);
+    }
+
     protected void startConnection() {
         eventBus.unregister(this);
         navigator.navigateToConnectingPhoneToHotspotWifiScreen();

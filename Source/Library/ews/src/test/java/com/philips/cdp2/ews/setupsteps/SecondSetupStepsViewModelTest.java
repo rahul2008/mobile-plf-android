@@ -121,27 +121,39 @@ public class SecondSetupStepsViewModelTest {
     }
 
     @Test
-    public void itShouldVerifyLocationPermissionPageTag() throws Exception {
+    public void itShouldVerifyLocationPermissionInAppNotificationTag() throws Exception {
         subject.tagLocationPermission();
         verifyStatic();
         EWSTagger.trackInAppNotification("setupStep2","Location Permission");
     }
 
     @Test
-    public void itShouldVerifyAllowInAppNotificationTag() throws Exception {
+    public void itShouldVerifyAllowInAppNotificationResponseTag() throws Exception {
         subject.tagLocationPermissionAllow();
         verifyStatic();
         EWSTagger.trackInAppNotificationResponse("Allow");
     }
 
     @Test
-    public void itShouldVerifyCancelInAppNotificationTag() throws Exception {
+    public void itShouldVerifyCancelInAppNotificationResponseTag() throws Exception {
         subject.tagLocationPermissionCancel();
         verifyStatic();
         EWSTagger.trackInAppNotificationResponse("Cancel setup");
     }
 
+    @Test
+    public void itShouldVerifyLocationDisabledInAppNotificationTag() throws Exception {
+        subject.tagLocationDisabled();
+        verifyStatic();
+        EWSTagger.trackInAppNotification("setupStep2","Location Disabled");
+    }
 
+    @Test
+    public void itShouldVerifyLocationOpenSettingsInAppNotificationResponseTag() throws Exception {
+        subject.tagLocationOpenSettings();
+        verifyStatic();
+        EWSTagger.trackInAppNotificationResponse("openLocationSettings");
+    }
 
     private void setPermissionGranted(final boolean permissionGranted) {
         when(permissionHandlerMock.hasPermission(fragmentMock.getContext(), ACCESS_COARSE_LOCATION)).
