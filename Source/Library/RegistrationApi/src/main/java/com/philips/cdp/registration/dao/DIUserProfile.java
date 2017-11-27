@@ -234,10 +234,10 @@ public class DIUserProfile implements Serializable {
     /**
      * set family name
      *
-     * @param mFamilyName family name
+     * @param familyName family name
      */
-    public void setFamilyName(String mFamilyName) {
-        this.familyName = mFamilyName;
+    public void setFamilyName(String familyName) {
+        this.familyName = familyName;
     }
 
     /**
