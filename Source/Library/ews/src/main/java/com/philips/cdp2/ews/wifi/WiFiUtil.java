@@ -26,7 +26,7 @@ public class WiFiUtil {
 
     public static final String TAG = "WiFiUtil";
     public static final String DEVICE_SSID = "PHILIPS Setup";
-    public static final String UNKNOWN_SSID = "<unknown ssid>";
+    private static final String UNKNOWN_SSID = "<unknown ssid>";
     private WifiManager wifiManager;
 
     private String lastWifiSSid;
@@ -55,11 +55,14 @@ public class WiFiUtil {
         if (wifiInfo.getSupplicantState() == SupplicantState.COMPLETED) {
             return getFormattedSSID(wifiInfo.getSSID());
         }
-        return null;
+        return "";
     }
 
     public String getFormattedSSID(@NonNull final String SSID) {
-        return SSID.replace("\"", "");
+        if (SSID.equalsIgnoreCase(UNKNOWN_SSID)){
+            return SSID.replace(UNKNOWN_SSID, "");
+        }
+        return (SSID.replace("\"", ""));
     }
 
     @Nullable
