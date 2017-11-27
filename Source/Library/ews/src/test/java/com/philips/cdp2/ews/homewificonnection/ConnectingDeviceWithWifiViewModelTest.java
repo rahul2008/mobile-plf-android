@@ -65,7 +65,7 @@ import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 public class ConnectingDeviceWithWifiViewModelTest {
 
     private static final String HOME_SSID = "homeSsid";
-    private static final String HOME_SSID_PASSWORD = "homeSsidPw";
+    private static final String HOME_SSID_PASSWORD = "homeSsidPwd";
     private static final String DEVICE_NAME = "deviceName";
     private static final String DEVICE_FRIENDLY_NAME = "deviceFriendlyName";
 

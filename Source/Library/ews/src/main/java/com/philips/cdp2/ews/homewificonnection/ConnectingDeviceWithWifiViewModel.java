@@ -85,7 +85,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     @NonNull
     private final ApplianceSessionDetailsInfo applianceSessionDetailsInfo;
 
-    @NonNull
+    @Nullable
     private String cppId;
     
     @NonNull
@@ -105,7 +105,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private final ApplianceAccessManager.SetPropertiesCallback sendingNetworkInfoCallback = new ApplianceAccessManager.SetPropertiesCallback() {
 
         @Override
-        public void onPropertiesSet(WifiPortProperties wifiPortProperties) {
+        public void onPropertiesSet(@NonNull WifiPortProperties wifiPortProperties) {
             if (startConnectionModel != null) {
                 cppId = wifiPortProperties.getCppid();
                 connectToHomeWifiInternal(startConnectionModel.getHomeWiFiSSID());
@@ -124,8 +124,9 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private DiscoveryHelper.DiscoveryCallback discoveryCallback = new DiscoveryHelper.DiscoveryCallback() {
                 @Override
                 public void onApplianceFound(Appliance appliance) {
-                    String appliancePin = applianceSessionDetailsInfo.getAppliancePin();
+                    //TODO remove cppID from networkNode and replace it with wifiPortProperties.cppID once the api will be finalized within commlib
                     if (appliance.getNetworkNode().getCppId().equalsIgnoreCase(cppId)) {
+                        String appliancePin = applianceSessionDetailsInfo.getAppliancePin();
                         removeTimeoutRunnable();
                         discoveryHelper.stopDiscovery();
                         LanTransportContext.acceptPinFor(appliance, appliancePin);
@@ -133,7 +134,6 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
                         onDeviceConnectedToWifi();
                     }
                 }
-
     };
 
     @NonNull
@@ -179,11 +179,11 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         this.applianceSessionDetailsInfo = applianceSessionDetailsInfo;
     }
 
-    public void setFragmentCallback(@Nullable ConnectingDeviceToWifiCallback fragmentCallback) {
+    void setFragmentCallback(@Nullable ConnectingDeviceToWifiCallback fragmentCallback) {
         this.fragmentCallback = fragmentCallback;
     }
 
-    public void startConnecting(@NonNull final StartConnectionModel startConnectionModel) {
+    void startConnecting(@NonNull final StartConnectionModel startConnectionModel) {
         this.startConnectionModel = startConnectionModel;
         tagConnectionStart();
         deviceFriendlyNameChanger.setNameChangerCallback(this);
@@ -191,7 +191,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
     }
 
-    public void connectToHomeWifi(@NonNull String homeWiFiSSID) {
+    void connectToHomeWifi(@NonNull String homeWiFiSSID) {
         connectToHomeWifiInternal(homeWiFiSSID);
         handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
     }
