@@ -15,6 +15,7 @@ import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
 import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.GpsUtil;
 import com.philips.cdp2.ews.util.StringProvider;
 
@@ -118,6 +119,29 @@ public class SecondSetupStepsViewModelTest {
         verifyStatic();
         EWSTagger.trackActionSendData("specialEvents", "wifiNotBlinking");
     }
+
+    @Test
+    public void itShouldVerifyLocationPermissionPageTag() throws Exception {
+        subject.tagLocationPermission();
+        verifyStatic();
+        EWSTagger.trackInAppNotification("setupStep2","Location Permission");
+    }
+
+    @Test
+    public void itShouldVerifyAllowInAppNotificationTag() throws Exception {
+        subject.tagLocationPermissionAllow();
+        verifyStatic();
+        EWSTagger.trackInAppNotificationResponse("Allow");
+    }
+
+    @Test
+    public void itShouldVerifyCancelInAppNotificationTag() throws Exception {
+        subject.tagLocationPermissionCancel();
+        verifyStatic();
+        EWSTagger.trackInAppNotificationResponse("Cancel setup");
+    }
+
+
 
     private void setPermissionGranted(final boolean permissionGranted) {
         when(permissionHandlerMock.hasPermission(fragmentMock.getContext(), ACCESS_COARSE_LOCATION)).

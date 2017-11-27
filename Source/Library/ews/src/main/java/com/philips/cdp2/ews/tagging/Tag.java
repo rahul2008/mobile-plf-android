@@ -9,6 +9,7 @@ public class Tag {
 
     public static class KEY {
         public static final String IN_APP_NOTIFICATION = "inAppNotification";
+        public static final String IN_APP_NOTIFICATION_RESPONSE = "inAppNotificationResponse";
         public static final String CONNECTED_PRODUCT_NAME = "connectedProductName";
         public static final String TECHNICAL_ERROR = "technicalError";
         public static final String MACHINE_ID = "machineId";

@@ -45,13 +45,13 @@ public class EWSTagger {
 
     public static void trackInAppNotificationResponse(@NonNull final String value){
         Map<String, String> map = new HashMap<>();
-        map.put("inAppNotificationResponse", value);
+        map.put(Tag.KEY.IN_APP_NOTIFICATION_RESPONSE, value);
         trackAction(Tag.KEY.SEND_DATA, map);
     }
 
     public static void trackInAppNotification(@NonNull String pageName, @NonNull final String value){
         Map<String, String> map = new HashMap<>();
-        map.put("inAppNotification", value);
+        map.put(Tag.KEY.IN_APP_NOTIFICATION, value);
         getAppTaggingInterface().trackPageWithInfo(pageName, map);
     }
 

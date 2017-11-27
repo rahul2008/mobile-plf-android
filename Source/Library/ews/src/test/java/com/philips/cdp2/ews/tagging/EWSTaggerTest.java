@@ -86,6 +86,33 @@ public class EWSTaggerTest {
     }
 
     @Test
+    public void itShouldTrackInAppNotificationResponseWhenAsked() throws Exception {
+        final ArgumentCaptor<HashMap> mapArgumentCaptor = ArgumentCaptor.forClass(HashMap.class);
+        final String key = Tag.KEY.SEND_DATA;
+        final String notificationResopnseKey = "inAppNotificationResponse";
+        final String successTagValue = "successValueTag";
+        EWSTagger.trackInAppNotificationResponse(successTagValue);
+        verify(appTaggingInterfaceMock).trackActionWithInfo(eq(key), mapArgumentCaptor.capture());
+        HashMap map = mapArgumentCaptor.getValue();
+        assertEquals(1, map.size());
+        assertEquals(successTagValue, map.get(notificationResopnseKey));
+    }
+    @Test
+    public void itShouldTrackInAppNotificationWhenAsked() throws Exception {
+        final String pageName = "SomePageName";
+        final ArgumentCaptor<HashMap> mapArgumentCaptor = ArgumentCaptor.forClass(HashMap.class);
+        final String key = Tag.KEY.SEND_DATA;
+        final String notificationResponse = "inAppNotification";
+        final String dialogTagValue = "dialogTagValue";
+        EWSTagger.trackInAppNotification(pageName,dialogTagValue);
+        verify(appTaggingInterfaceMock).trackPageWithInfo(eq(pageName), mapArgumentCaptor.capture());
+        HashMap map = mapArgumentCaptor.getValue();
+        assertEquals(1, map.size());
+        assertEquals(dialogTagValue, map.get(notificationResponse));
+
+    }
+
+    @Test
     public void itShouldTrackActionWhenAsked() throws Exception {
         final Map<String, String> map = new HashMap<>();
         map.put(Tag.KEY.IN_APP_NOTIFICATION, Tag.VALUE.CONN_ERROR_NOTIFICATION);
