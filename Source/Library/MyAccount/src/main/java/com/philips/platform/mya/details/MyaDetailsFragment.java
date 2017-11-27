@@ -31,7 +31,7 @@ public class MyaDetailsFragment extends MyaBaseFragment {
 
     ImageButton email_mobile_arrow,email_arrow,mobile_arrow;
     Label email_address,mobile_number;
-    Label name,gender,mobile_number_heading,name_value,dob_value,email_address_heading;
+    Label name,gender,mobile_number_heading,name_value,dob_value,DOB_heading,email_address_heading;
     UserDataModel userDataModel;
 
     @Override
@@ -51,6 +51,8 @@ public class MyaDetailsFragment extends MyaBaseFragment {
         email_address_heading= (Label) view.findViewById(R.id.email_address_heading);
         name_value= (Label) view.findViewById(R.id.name_value);
         dob_value=(Label) view.findViewById(R.id.dob_value);
+        DOB_heading=(Label) view.findViewById(R.id.DOB_heading);
+
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -89,7 +91,7 @@ public class MyaDetailsFragment extends MyaBaseFragment {
     String printFirstCharacter(String nameString)
     {
         StringBuilder finalName=new StringBuilder();
-        Pattern pattern=Pattern.compile("\\b[a-zA-z]");
+        Pattern pattern=Pattern.compile("\\b[a-zA-z[$&+,:;=?@#|'<>.-^*()%!]0-9]");
         Matcher matcher=pattern.matcher(nameString);
         while (matcher.find())
         {
@@ -124,9 +126,10 @@ public class MyaDetailsFragment extends MyaBaseFragment {
 
         if(userDataModel.getMobileNumber()==null)
         {
-            mobile_number_heading.setVisibility(View.INVISIBLE);
-            mobile_arrow.setVisibility(View.VISIBLE);
+            mobile_number_heading.setVisibility(View.GONE);
+            mobile_arrow.setVisibility(View.GONE);
             mobile_number.setText(getString(R.string.MYA_Add_mobile_number));
+            mobile_number.setVisibility(View.GONE);
 
         }else {
             mobile_number.setText(userDataModel.getMobileNumber());
@@ -142,7 +145,7 @@ public class MyaDetailsFragment extends MyaBaseFragment {
         {
             gender.setText(userDataModel.getGender());
         }
-        if (userDataModel.getName()!=null)
+        if (userDataModel.getGivenName()!=null)
         {
             name_value.setText(userDataModel.getGivenName());
         }
@@ -153,6 +156,10 @@ public class MyaDetailsFragment extends MyaBaseFragment {
             SimpleDateFormat formatter=new SimpleDateFormat("dd MMMM yyyy");
             String tempDate=formatter.format(userDataModel.getBirthday());
             dob_value.setText(tempDate);
+        }else {
+            dob_value.setVisibility(View.GONE);
+            DOB_heading.setVisibility(View.GONE);
+
         }
     }
 }

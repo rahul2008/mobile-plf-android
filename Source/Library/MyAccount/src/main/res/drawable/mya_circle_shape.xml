@@ -13,10 +13,10 @@
     >
 
     <solid
-        android:color="?attr/uidNavigationPrimaryBackgroundColor"/>
+        android:color="#DAA7E4"/>
 
 
     <size
-        android:width="150dp"
-        android:height="150dp"/>
+        android:width="42dp"
+        android:height="42dp"/>
 </shape>

@@ -18,6 +18,7 @@ public class UserDataModel implements DataModel, Serializable {
     private boolean isMobileVerified;
     private boolean isEmailVerified;
     private boolean isVerified;
+    private String familyName;
 
 
     public String getGivenName() {
@@ -100,6 +101,13 @@ public class UserDataModel implements DataModel, Serializable {
         isMobileVerified = mobileVerified;
     }
 
+    public String getFamilyName() {
+        return familyName;
+    }
+
+    public void setFamilyName(String familyName) {
+        this.familyName = familyName;
+    }
 
     @Override
     public DataModelType getDataModelType() {
