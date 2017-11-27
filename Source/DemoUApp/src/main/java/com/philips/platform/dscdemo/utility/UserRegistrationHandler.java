@@ -17,35 +17,19 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.dscdemo.DemoAppManager;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
 public class UserRegistrationHandler implements UserRegistrationInterface {
-    @NonNull
+
     private final Context context;
-
-    @NonNull
     private final User user;
-
     private boolean accessTokenRefreshInProgress;
-
-    @NonNull
     private String accessToken = "";
 
-    @Inject
-    public UserRegistrationHandler(@NonNull final Context context, @NonNull final User user) {
+    public UserRegistrationHandler(final Context context, final User user) {
         this.context = context;
         this.user = user;
-    }
-
-    public UserRegistrationHandler getInstance() {
-        return this;
-    }
-
-    @NonNull
-    private User getUser(final Context context) {
-        return new User(context);
     }
 
     @Override
@@ -57,7 +41,7 @@ public class UserRegistrationHandler implements UserRegistrationInterface {
     @Override
     public String getHSDPAccessToken() {
         if (accessToken.isEmpty() && !accessTokenRefreshInProgress) {
-            accessToken = getUser(context).getHsdpAccessToken();
+            accessToken = new User(context).getHsdpAccessToken();
         }
         return accessToken;
     }
@@ -69,6 +53,13 @@ public class UserRegistrationHandler implements UserRegistrationInterface {
         User user = new User(context);
         userProfile = new UserProfile(user.getGivenName(), user.getFamilyName(), user.getEmail(), user.getHsdpUUID());
         return userProfile;
+    }
+
+    @Override
+    public String getHSDPUrl() {
+        Object propertyForKey = DemoAppManager.getInstance().getAppInfra().getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL,
+                URConfigurationConstants.UR, new AppConfigurationInterface.AppConfigurationError());
+        return propertyForKey.toString();
     }
 
     @Override
@@ -95,7 +86,7 @@ public class UserRegistrationHandler implements UserRegistrationInterface {
             user.refreshLoginSession(new RefreshLoginSessionHandler() {
                 @Override
                 public void onRefreshLoginSessionSuccess() {
-                    accessToken = getUser(context).getHsdpAccessToken();
+                    accessToken = new User(context).getHsdpAccessToken();
                     notifyLoginSessionResponse();
                 }
 
@@ -119,24 +110,17 @@ public class UserRegistrationHandler implements UserRegistrationInterface {
         }
     }
 
-    private void clearPreferences() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear().apply();
-    }
-
-    @Override
-    public String getHSDPUrl() {
-        Object propertyForKey = DemoAppManager.getInstance().getAppInfra().getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL,
-                URConfigurationConstants.UR, new AppConfigurationInterface.AppConfigurationError());
-        return propertyForKey.toString();
-    }
-
     public void clearUserData(DBRequestListener dbRequestListener) {
         DataServicesManager manager = DataServicesManager.getInstance();
         manager.deleteAll(dbRequestListener);
         clearPreferences();
         accessToken = "";
+    }
+
+    private void clearPreferences() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear().apply();
     }
 
 }

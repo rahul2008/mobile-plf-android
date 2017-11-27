@@ -41,6 +41,7 @@ public class DemoAppManager {
     private DatabaseHelper mDatabaseHelper;
     private AppInfraInterface mAppInfra;
     private DataServicesManager mDataServicesManager;
+    private UserRegistrationHandler userRegistrationHandler;
     private static DemoAppManager sDemoAppManager;
 
     private DemoAppManager() {
@@ -69,10 +70,10 @@ public class DemoAppManager {
         mDataServicesManager = DataServicesManager.getInstance();
 
         OrmCreator creator = new OrmCreator(new UuidGenerator());
-        UserRegistrationInterface userRegistrationInterface = new UserRegistrationHandler(context, new User(context));
         DSErrorHandler dsErrorHandler = new DSErrorHandler();
+        userRegistrationHandler = new UserRegistrationHandler(context, new User(context));
 
-        mDataServicesManager.initializeDataServices(context, creator, userRegistrationInterface, dsErrorHandler, mAppInfra);
+        mDataServicesManager.initializeDataServices(context, creator, userRegistrationHandler, dsErrorHandler, mAppInfra);
         injectDBInterfacesToCore(context);
         mDataServicesManager.initializeSyncMonitors(context, null, null);
     }
@@ -118,6 +119,9 @@ public class DemoAppManager {
         }
     }
 
+    public UserRegistrationHandler getUserRegistrationHandler() {
+        return userRegistrationHandler;
+    }
 
     public AppInfraInterface getAppInfra() {
         return mAppInfra;

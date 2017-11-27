@@ -8,6 +8,7 @@ package com.philips.platform.dscdemo.moments;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,6 +34,7 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.DemoAppManager;
 import com.philips.platform.dscdemo.R;
+import com.philips.platform.dscdemo.activity.DSLaunchActivity;
 import com.philips.platform.dscdemo.characteristics.CharacteristicsFragment;
 import com.philips.platform.dscdemo.consents.ConsentFragment;
 import com.philips.platform.dscdemo.insights.InsightFragment;
@@ -45,12 +47,11 @@ import java.util.List;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class MomentFragment extends DSBaseFragment
-        implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener, UserRegistrationListener {
+        implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener {
 
     private Context mContext;
 
     private DataServicesManager mDataServicesManager;
-    private UserRegistrationHandler userRegistrationInterface;
     private User mUser;
 
     private TextView mTvAddMomentType;
@@ -93,7 +94,6 @@ public class MomentFragment extends DSBaseFragment
         mDataServicesManager = DataServicesManager.getInstance();
 
         mUser = new User(mContext);
-        userRegistrationInterface = new UserRegistrationHandler(mContext, mUser);
         mMomentPresenter = new MomentPresenter(mContext, this);
         mUtility = new Utility();
     }
@@ -183,7 +183,7 @@ public class MomentFragment extends DSBaseFragment
         }
 
         if (!isSameHsdpId()) {
-            userRegistrationInterface.clearUserData(this);
+            DemoAppManager.getInstance().getUserRegistrationHandler().clearUserData(this);
         }
         storeLastHsdpId();
     }
@@ -357,21 +357,6 @@ public class MomentFragment extends DSBaseFragment
         });
     }
 
-    @Override
-    public void onUserLogoutSuccess() {
-        userRegistrationInterface.clearUserData(this);
-    }
-
-    @Override
-    public void onUserLogoutFailure() {
-
-    }
-
-    @Override
-    public void onUserLogoutSuccessWithInvalidAccessToken() {
-
-    }
-
     private class DeleteExpiredMomentsListener implements DBRequestListener<Integer> {
         @Override
         public void onSuccess(List<? extends Integer> data) {
@@ -396,11 +381,10 @@ public class MomentFragment extends DSBaseFragment
                 ((Activity) mContext).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        userRegistrationInterface.clearUserData(MomentFragment.this);
-
+                        DemoAppManager.getInstance().getUserRegistrationHandler().clearUserData(MomentFragment.this);
                         Toast.makeText(mContext, "Logout Success", Toast.LENGTH_SHORT).show();
-                        if (getActivity() != null)
-                            getActivity().finish();
+
+                        startActivity(new Intent(mContext, DSLaunchActivity.class));
                     }
                 });
             }
