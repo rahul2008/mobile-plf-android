@@ -4,39 +4,53 @@
   ~
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginEnd="@dimen/MYA_end_margin"
     android:layout_marginStart="@dimen/MYA_start_margin"
     android:orientation="vertical">
 
-    <com.philips.platform.uid.view.widget.Label xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/title_label"
+        style="@style/UIDAlertDialogTitleTextStyle"
+        android:layout_width="match_parent"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="@dimen/reg_dimen_20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/MYA_end_margin"
+        android:layout_marginStart="@dimen/MYA_start_margin"
+        />
+
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/message_label"
         style="@style/UIDAlertDialogMessageTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/message_label"
+        android:layout_marginEnd="@dimen/MYA_end_margin"
+        android:layout_marginStart="@dimen/MYA_start_margin"
         android:paddingBottom="@dimen/uid_page_margin_left_right" />
 
     <com.philips.platform.uid.view.widget.Button
-        style="@style/UIDDefaultButton"
         android:id="@+id/mya_dialog_logout_btn"
+        style="@style/UIDDefaultButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/MYA_start_margin"
         android:layout_marginEnd="@dimen/MYA_end_margin"
+        android:layout_marginStart="@dimen/MYA_start_margin"
         android:layout_marginTop="@dimen/MYA_top_margin"
-        android:text="@string/MYA_Log_Out"/>
+        android:text="@string/MYA_Log_Out" />
 
     <com.philips.platform.uid.view.widget.Button
-        style="@style/UIDDefaultButton"
         android:id="@+id/mya_dialog_cancel_btn"
+        style="@style/UIDDefaultButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/MYA_start_margin"
         android:layout_marginEnd="@dimen/MYA_end_margin"
+        android:layout_marginStart="@dimen/MYA_start_margin"
         android:layout_marginTop="@dimen/MYA_dialog_button_margin"
-        app:uidComponentType="Secondary"
-        android:text="@string/MYA_Cancel"/>
+        android:text="@string/MYA_Cancel"
+        app:uidComponentType="Secondary" />
 
 </LinearLayout>

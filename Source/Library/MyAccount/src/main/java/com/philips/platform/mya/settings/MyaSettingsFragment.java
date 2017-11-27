@@ -15,11 +15,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.csw.ConsentBundleConfig;
-import com.philips.platform.csw.CswLaunchInput;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
 import com.philips.platform.mya.launcher.MyaInterface;
@@ -132,18 +129,22 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
     @Override
     public void showDialog(String title, String message) {
-        View view = View.inflate(getContext(), R.layout.mya_dialog_layout, null);
+
+        LayoutInflater inflater = LayoutInflater.from(getContext()).cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
+        View view = inflater.inflate(R.layout.mya_dialog_layout, null);
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDialogView(view)
-                .setMessage(message)
                 .setDimLayer(DialogConstants.DIM_SUBTLE)
                 .setCancelable(false)
-                .setTitle(title);
-        TextView textView = view.findViewById(R.id.message_label);
+                .setDividers(false);
+
+        Label textView = view.findViewById(R.id.message_label);
+        Label title_label = view.findViewById(R.id.title_label);
         Button logout = view.findViewById(R.id.mya_dialog_logout_btn);
         Button cancel = view.findViewById(R.id.mya_dialog_cancel_btn);
         textView.setText(message);
+        title_label.setText(title);
         final AlertDialogFragment alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
 
