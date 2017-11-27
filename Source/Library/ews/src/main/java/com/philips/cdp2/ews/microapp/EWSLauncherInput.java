@@ -18,11 +18,6 @@ public class EWSLauncherInput extends UappLaunchInput {
     public EWSLauncherInput() {
     }
 
-    public EWSLauncherInput(FragmentManager fragmentManager, int containerFrameId) {
-        this.fragmentManager = fragmentManager;
-        this.containerFrameId = containerFrameId;
-    }
-
     public void handleCloseButtonClick(){
         BaseFragment baseFragment = (BaseFragment) fragmentManager.findFragmentById(containerFrameId);
         baseFragment.handleCancelButtonClicked();
