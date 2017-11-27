@@ -238,19 +238,30 @@ dependencies {
 
     //Coco
     def dp = project.ext.has('useprojectdependencies')
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar')
-            {
-                transitive = true
-            }
-    compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive = true
-            }
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive = true
-                exclude group: 'com.android.support', module: 'customtabs'
-            }
+    if (dp) {
+        project(':uit')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar') {
+            transitive = true
+        }
+    }
+
+    if (dp) {
+        project(':uid')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            transitive = true
+        }
+    }
+
+    if (dp) {
+        project(':registrationApi')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            transitive = true
+            exclude group: 'com.android.support', module: 'customtabs'
+        }
+    }
 
     // Tests
     testCompile 'junit:junit:4.12'
