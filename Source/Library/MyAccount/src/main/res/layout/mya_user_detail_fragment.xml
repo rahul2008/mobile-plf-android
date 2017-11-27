@@ -185,6 +185,7 @@
                 android:layout_centerInParent="true"
                 android:layout_alignParentEnd="true"
                 android:background="@null"
+                android:visibility="gone"
                 android:clickable="false"
                 android:contentDescription="@string/action_settings"
                 android:layout_gravity="center|end"
