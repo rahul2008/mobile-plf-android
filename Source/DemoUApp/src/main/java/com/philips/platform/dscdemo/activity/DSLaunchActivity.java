@@ -2,6 +2,7 @@ package com.philips.platform.dscdemo.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -30,6 +31,8 @@ import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
+
+import org.joda.time.DateTimeConstants;
 
 import java.sql.SQLException;
 
@@ -134,13 +137,22 @@ public class DSLaunchActivity extends AppCompatActivity
 
     @Override
     public void onUserRegistrationComplete(final Activity activity) {
+        startSynchronizeAfterDelay();
+        showFragment();
+    }
+
+    private void startSynchronizeAfterDelay() {
         runOnUiThread(new Runnable() {
+            @Override
             public void run() {
-                SyncScheduler.getInstance().scheduleSync();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        SyncScheduler.getInstance().scheduleSync();
+                    }
+                }, 30 * DateTimeConstants.MILLIS_PER_SECOND);
             }
         });
-
-        showFragment();
     }
 
     public void showFragment() {
