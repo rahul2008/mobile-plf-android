@@ -612,8 +612,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mRegError.hideError();
         mBtnSignInAccount.hideProgressIndicator();
         enableAll();
+
         boolean isEmailAvailable = mUser.getEmail() != null && FieldsValidator.isValidEmail(mUser.getEmail());
         boolean isMobileNoAvailable = mUser.getMobile() != null && FieldsValidator.isValidMobileNumber(mUser.getMobile());
+        RLog.i(RLog.CALLBACK, "SignInAccountFragment : family name"+mUser.getFamilyName());
+
         if (isEmailAvailable && isMobileNoAvailable && !mUser.isEmailVerified()) {
             lauchAccountActivationFragment();
             return;

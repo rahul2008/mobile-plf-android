@@ -60,6 +60,8 @@ public class User {
 
     private String USER_GIVEN_NAME = "givenName";
 
+    private String USER_FAMILY_NAME = "familyName";
+
     private String USER_DISPLAY_NAME = "displayName";
 
     private String USER_RECEIVE_MARKETING_EMAIL = "receiveMarketingEmail";
@@ -366,6 +368,7 @@ public class User {
         try {
             diUserProfile.setEmail(captureRecord.getString(USER_EMAIL));
             diUserProfile.setGivenName(captureRecord.getString(USER_GIVEN_NAME));
+            diUserProfile.setFamilyName(captureRecord.getString(USER_FAMILY_NAME));
             diUserProfile.setDisplayName(captureRecord.getString(USER_DISPLAY_NAME));
             diUserProfile
                     .setReceiveMarketingEmail(captureRecord.getBoolean(USER_RECEIVE_MARKETING_EMAIL));
