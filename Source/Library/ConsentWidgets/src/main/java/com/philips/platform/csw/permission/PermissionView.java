@@ -7,21 +7,24 @@
 
 package com.philips.platform.csw.permission;
 
+import com.philips.platform.catk.error.ConsentNetworkError;
+import com.philips.platform.csw.ConsentBundleConfig;
+import com.philips.platform.csw.CswBaseFragment;
+import com.philips.platform.csw.utils.CswLogger;
+import com.philips.platform.mya.consentwidgets.R;
+import com.philips.platform.mya.consentwidgets.R2;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
+
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
-import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.csw.ConsentBundleConfig;
-import com.philips.platform.csw.CswBaseFragment;
-import com.philips.platform.mya.consentwidgets.R;
-import com.philips.platform.mya.consentwidgets.R2;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +53,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     public int getTitleResourceId() {
-        return R.string.csw_permissions;
+        return R.string.reg_mya_privacy_settings;
     }
 
     @Override
@@ -129,11 +132,33 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     public void showErrorDialog(ConsentNetworkError error) {
-        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+        CswLogger.e("PermissionView", error.getMessage());
+        OkOnErrorListener okListener = new OkOnErrorListener();
+        final AlertDialogFragment alertDialogFragment = new AlertDialogFragment.Builder(getContext())
+                .setTitle(R.string.reg_mya_problem_occurred_error_title)
+                .setMessage(getString(R.string.reg_mya_problem_occurred_error_message, error.getCatkErrorCode()))
+                .setPositiveButton(R.string.reg_mya_ok, okListener)
+                .create();
+        okListener.setDialog(alertDialogFragment);
+        alertDialogFragment.show(getFragmentManager(), "tag");
     }
 
     @Override
     public void onHelpClicked(String helpText) {
         Toast.makeText(getContext(), helpText, Toast.LENGTH_LONG).show();
+    }
+
+    private static class OkOnErrorListener implements View.OnClickListener {
+
+        DialogFragment dialog;
+
+        @Override
+        public void onClick(View view) {
+            dialog.dismiss();;
+        }
+
+        void setDialog(DialogFragment dialog) {
+            this.dialog = dialog;
+        }
     }
 }

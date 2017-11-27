@@ -20,6 +20,7 @@ import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.Switch;
 
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -52,7 +53,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Pe
 
     @Override
     public PermissionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_consent, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_consent, parent, false);
         return new PermissionViewHolder(view, helpClickListener, consentToggleListener);
     }
 
@@ -146,6 +147,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Pe
             this.progress = itemView.findViewById(R.id.progressBar);
             this.consentToggleListener = consentToggleListener;
             this.helpClickListener = helpClickListener;
+            this.help.setPaintFlags(this.help.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         }
 
         void setDefinition(final ConsentView consentView) {
