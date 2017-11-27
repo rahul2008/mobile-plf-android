@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.core.datatypes.Moment;
@@ -28,7 +29,6 @@ import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.DemoAppManager;
@@ -45,7 +45,7 @@ import java.util.List;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class MomentFragment extends DSBaseFragment
-        implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener {
+        implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener, UserRegistrationListener {
 
     private Context mContext;
 
@@ -357,6 +357,21 @@ public class MomentFragment extends DSBaseFragment
         });
     }
 
+    @Override
+    public void onUserLogoutSuccess() {
+        userRegistrationInterface.clearUserData(this);
+    }
+
+    @Override
+    public void onUserLogoutFailure() {
+
+    }
+
+    @Override
+    public void onUserLogoutSuccessWithInvalidAccessToken() {
+
+    }
+
     private class DeleteExpiredMomentsListener implements DBRequestListener<Integer> {
         @Override
         public void onSuccess(List<? extends Integer> data) {
@@ -381,6 +396,8 @@ public class MomentFragment extends DSBaseFragment
                 ((Activity) mContext).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        userRegistrationInterface.clearUserData(MomentFragment.this);
+
                         Toast.makeText(mContext, "Logout Success", Toast.LENGTH_SHORT).show();
                         if (getActivity() != null)
                             getActivity().finish();
