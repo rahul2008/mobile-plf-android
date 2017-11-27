@@ -7,43 +7,101 @@
 
 package com.philips.platform.catk.error;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.android.volley.NetworkResponse;
+import com.philips.platform.catk.CatkConstants;
 
-import org.junit.*;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class ServerErrorTest {
-
-    private List<Error> serverErrorList;
-    private Error error;
-    private ServerError serverError;
-
-    @Before
-    public void setUp() throws Exception {
-        serverError = new ServerError();
-        serverErrorList = new ArrayList<>();
-        error = new Error();
-        error.setSubject("sfsfas");
-        error.setSubject("Sfs");
-        error.setReason("sgs");
-        error.getSubjectType("gsgf");
-        serverError.setErrors(serverErrorList);
-        serverErrorList.add(error);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        serverErrorList = null;
-        error = null;
+    @Test
+    public void itShouldParseServerCorrectly() throws Exception {
+        givenJsonError(CORRECT_JSON_ERROR);
+        thenConsentErrorCodeIs(CatkConstants.CONSENT_ERROR_SERVER_ERROR);
+        thenHasServerError();
+        thenIncidentIdIs(INCIDENT_ID);
+        thenServerErrorCodeIs(ERROR_CODE);
+        thenDescriptionIs(DESCRIPTION_TEXT);
     }
 
     @Test
-    public void testserverErrorListNotNull() throws Exception {
-        Assert.assertNotNull(serverErrorList);
+    public void itShouldCreateEmptyErrorWhenJsonIsEmpty() {
+        givenJsonError(EMPTY_JSON_ERROR);
+        thenConsentErrorCodeIs(CatkConstants.CONSENT_ERROR_SERVER_ERROR);
+        thenHasServerError();
+        thenHasNoIncidentId();
+        thenServerErrorCodeIs(0);
+        thenHasNoDescription();
     }
 
     @Test
-    public void testserverErrorListNotEmty() throws Exception {
-        Assert.assertEquals(1, serverErrorList.size());
+    public void itShouldCreateEmptyErrorWhenJsonIsNull() throws Exception {
+        givenNullJsonError();
+        thenConsentErrorCodeIs(CatkConstants.CONSENT_ERROR_SERVER_ERROR);
+        thenHasNoServerError();
     }
+
+    @Test
+    public void itShouldCreateEmptyErrorWhenInvalidJson() throws Exception {
+        givenJsonError(INVALID_JSON_ERROR);
+        thenConsentErrorCodeIs(CatkConstants.CONSENT_ERROR_SERVER_ERROR);
+        thenHasNoServerError();
+    }
+
+    private void givenJsonError(String jsonError) {
+        NetworkResponse networkResponse = new NetworkResponse(jsonError.getBytes());
+        givenConsentNetworkError = new ConsentNetworkError(new com.android.volley.ServerError(networkResponse));
+    }
+
+    private void givenNullJsonError() {
+        NetworkResponse networkResponse = new NetworkResponse(null);
+        givenConsentNetworkError = new ConsentNetworkError(new com.android.volley.ServerError(networkResponse));
+    }
+
+    private void thenHasServerError() {
+        assertNotNull(givenConsentNetworkError.getServerError());
+    }
+
+    private void thenHasNoServerError() {
+        assertNull(givenConsentNetworkError.getServerError());
+    }
+
+    private void thenIncidentIdIs(String incidentId) {
+        assertEquals(incidentId, givenConsentNetworkError.getServerError().getIncidentID());
+    }
+
+    private void thenServerErrorCodeIs(int errorCode) {
+        assertEquals(errorCode, givenConsentNetworkError.getServerError().getErrorCode());
+    }
+
+    private void thenDescriptionIs(String description) {
+        assertEquals(description, givenConsentNetworkError.getServerError().getDescription());
+    }
+
+    private void thenConsentErrorCodeIs(int consentErrorServerError) {
+        assertEquals(consentErrorServerError, givenConsentNetworkError.getCatkErrorCode());
+    }
+
+    private void thenHasNoDescription() {
+        assertNull(givenConsentNetworkError.getServerError().getDescription());
+    }
+
+    private void thenHasNoIncidentId() {
+        assertNull(givenConsentNetworkError.getServerError().getIncidentID());
+    }
+
+    private ConsentNetworkError givenConsentNetworkError;
+
+    private static final String INCIDENT_ID = "d1b2462f-1599-48f8-869b-d454dc94c99d";
+    private static final int ERROR_CODE = 104;
+    private static final String DESCRIPTION_TEXT = "Invalid data. markErrorAndGetPrevious code:1114 response raw body : {responseCode=1114, responseMessage=Invalid Application}";
+
+    private static final String CORRECT_JSON_ERROR = "{\n" +
+                                                     "    \"incidentID\": \"" + INCIDENT_ID + "\",\n" +
+                                                     "    \"errorCode\": " + ERROR_CODE + ",\n" +
+                                                     "    \"description\": \"" + DESCRIPTION_TEXT + "\"\n" +
+                                                     "}";
+    private static final String EMPTY_JSON_ERROR = "{}";
+    private static final String INVALID_JSON_ERROR = "this is invalid json";
 }

@@ -3,4 +3,5 @@
     <string name="allow_send_promotional_on_behavior">I allow Philips to send promotional communications of Philips, based on my preferences and online behavior</string>
     <string name="csw_permissions">Privacy Settings</string>
     <string name="csw_what_does_this_mean"><a href="#">What does this mean?</a></string>
+    <string name="consent_error">!</string>
 </resources>

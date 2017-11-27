@@ -10,8 +10,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.catk.CatkInputs;
+import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.csw.ConsentBundleConfig;
-import com.philips.platform.csw.ConsentDefinition;
+import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswLaunchInput;
@@ -27,6 +31,7 @@ import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.mya.launcher.MyaSettings;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
@@ -35,6 +40,7 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -105,10 +111,10 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
             @Override
             public boolean onClickMyaItem(String itemName) {
                 if (itemName.equals("Mya_Privacy_Settings")) {
+
+                    ConsentAccessToolKit.getInstance().init(initConsentToolKit("OneBackend", "OneBackendProp", getContext(), MyAccountDemoUAppInterface.getAppInfra()));
                     CswInterface cswInterface = new CswInterface();
                     CswDependencies cswDependencies = new CswDependencies(MyAccountDemoUAppInterface.getAppInfra());
-                    cswDependencies.setApplicationName(APPLICATION_NAME);
-                    cswDependencies.setPropositionName(PROPOSITION_NAME);
                     UappSettings uappSettings = new UappSettings(getContext());
                     cswInterface.init(cswDependencies, uappSettings);
                     ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
@@ -151,12 +157,17 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         }
     }
 
+    public CatkInputs initConsentToolKit(String applicationName, String propostionName, Context context, AppInfraInterface appInfra) {
+        CatkInputs catkInputs = new CatkInputs();
+        catkInputs.setContext(context);
+        catkInputs.setAppInfra(appInfra);
+        catkInputs.setApplicationName(applicationName);
+        catkInputs.setPropositionName(propostionName);
+        return catkInputs;
+    }
 
     private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-
         ConsentBundleConfig config = new ConsentBundleConfig(APPLICATION_NAME, PROPOSITION_NAME, createConsentDefinitions(getContext(), Locale.US));
-
-
         CswLaunchInput cswLaunchInput = new CswLaunchInput(config,context);
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
@@ -167,8 +178,8 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
     }
     private List<ConsentDefinition> createConsentDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", "moment", 1, currentLocale));
-        definitions.add(new ConsentDefinition("I allow don't Philips to store my data in cloud", "No one is able to see this text in the app", "tnemom", 1, currentLocale));
+        definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", Collections.singletonList("moment"), 1, currentLocale));
+        definitions.add(new ConsentDefinition("I allow don't Philips to store my data in cloud", "No one is able to see this text in the app", Collections.singletonList("tnemom"), 1, currentLocale));
         return definitions;
 
     }

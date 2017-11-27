@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 
 package com.philips.platform.csw.utils;
 
@@ -70,7 +76,7 @@ public class CswLogger {
     }
 
     /**
-     * Logs at error level
+     * Logs at markErrorAndGetPrevious level
      *
      * @param tag     Tag
      * @param message Logging message
@@ -110,8 +116,9 @@ public class CswLogger {
         validateLoggerInitialization();
         mLoggingInterface.log(LoggingInterface.LogLevel.VERBOSE, tag, message);
     }
+
     @VisibleForTesting
-    public static void setLoogerInterface(LoggingInterface loggingInterface){
+    static void setLoggerInterface(LoggingInterface loggingInterface) {
         mLoggingInterface = loggingInterface;
     }
 }

@@ -20,7 +20,7 @@ public abstract class NetworkAbstractModel {
     public interface DataLoadListener {
         void onModelDataLoadFinished(List<GetConsentDto> consents);
 
-        int onModelDataError(ConsentNetworkError error);
+        void onModelDataError(ConsentNetworkError error);
     }
 
     public NetworkAbstractModel(DataLoadListener listener) {

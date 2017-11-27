@@ -1,19 +1,20 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016
+ * Copyright (c) 2017 Koninklijke Philips N.V.
  * All rights are reserved. Reproduction or dissemination
- * * in whole or in part is prohibited without the prior written
- * * consent of the copyright holder.
- * /
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
 
 package com.philips.platform.csw.description;
 
-import com.philips.platform.csw.CswBaseFragment;
-import com.philips.platform.mya.consentwidgets.R;
-
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.philips.platform.csw.CswBaseFragment;
+import com.philips.platform.mya.consentwidgets.R;
 
 public class DescriptionView extends CswBaseFragment implements
         DescriptionInterface {

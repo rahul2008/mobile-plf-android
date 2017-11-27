@@ -1,23 +1,42 @@
-package com.philips.platform.csw;
+package com.philips.platform.catk.model;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Locale;
-
 public class ConsentDefinition implements Parcelable {
     private String text;
     private String helpText;
-    private String type;
+    private List<String> types;
     private int version;
     private String locale;
+    private List<String> implicitConsents;
 
-    public ConsentDefinition(String text, String helpText, String type, int version, Locale locale) {
+    public ConsentDefinition(String text, String helpText, List<String> types, int version, Locale locale) {
+        validate(locale);
         this.text = text;
         this.helpText = helpText;
-        this.type = type;
+        this.types = types;
         this.version = version;
-        this.locale = locale.toString().replace('_','-');
+        this.locale = locale.toLanguageTag();
+        implicitConsents = new ArrayList<>();
+    }
+
+    private void validate(Locale locale) {
+        if (locale == null) {
+            throw new ConsentDefinitionException("locale not defined");
+        }
+        String country = locale.getCountry();
+        if (country == null || country.isEmpty()) {
+            throw new ConsentDefinitionException("incorrect locale");
+        }
+        String language = locale.getLanguage();
+        if (language == null || language.isEmpty()) {
+            throw new ConsentDefinitionException("incorrect locale");
+        }
     }
 
     public String getText() {
@@ -36,12 +55,12 @@ public class ConsentDefinition implements Parcelable {
         this.helpText = helpText;
     }
 
-    public String getType() {
-        return type;
+    public List<String> getTypes() {
+        return types;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTypes(String type) {
+        this.types = types;
     }
 
     public int getVersion() {
@@ -52,12 +71,20 @@ public class ConsentDefinition implements Parcelable {
         this.version = version;
     }
 
-    public String getLocaleString() {
+    public String getLocale() {
         return locale;
     }
 
     public void setLocale(String locale) {
         this.locale = locale;
+    }
+
+    public List<String> getImplicitConsents() {
+        return implicitConsents;
+    }
+
+    public void setImplicitConsents(List<String> implicitConsents) {
+        this.implicitConsents = implicitConsents;
     }
 
     @Override
@@ -69,17 +96,21 @@ public class ConsentDefinition implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(text);
         parcel.writeString(helpText);
-        parcel.writeString(type);
+        parcel.writeStringList(types);
         parcel.writeInt(version);
         parcel.writeString(locale);
+        parcel.writeStringList(implicitConsents);
     }
 
     protected ConsentDefinition(Parcel in) {
         text = in.readString();
         helpText = in.readString();
-        type = in.readString();
+        types = new ArrayList<>();
+        in.readStringList(types);
         version = in.readInt();
         locale = in.readString();
+        implicitConsents = new ArrayList<>();
+        in.readStringList(implicitConsents);
     }
 
     public static final Creator<ConsentDefinition> CREATOR = new Creator<ConsentDefinition>() {
@@ -93,6 +124,5 @@ public class ConsentDefinition implements Parcelable {
             return new ConsentDefinition[size];
         }
     };
-
 
 }

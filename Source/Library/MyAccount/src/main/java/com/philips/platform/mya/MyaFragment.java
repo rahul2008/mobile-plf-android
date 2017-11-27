@@ -29,7 +29,6 @@ public class MyaFragment extends Fragment {
     private ActionBarListener mActionBarListener;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,7 +68,6 @@ public class MyaFragment extends Fragment {
     private Fragment buildAccountView() {
         return new MyaProfileFragment();
     }
-
 
 
     public ActionBarListener getUpdateTitleListener() {

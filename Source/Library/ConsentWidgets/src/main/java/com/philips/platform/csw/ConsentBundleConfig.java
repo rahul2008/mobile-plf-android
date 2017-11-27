@@ -1,9 +1,17 @@
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.csw;
 
 import android.os.Bundle;
 import android.os.Parcelable;
 
 import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.catk.model.ConsentDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +29,7 @@ public class ConsentBundleConfig {
     }
 
     public ConsentBundleConfig(Bundle bundle) {
-        if(bundle!=null) {
+        if (bundle != null) {
             this.applicationName = bundle.getString(CatkConstants.BUNDLE_KEY_APPLICATION_NAME);
             this.propositionName = bundle.getString(CatkConstants.BUNDLE_KEY_PROPOSITION_NAME);
             this.consentDefinitions = bundle.getParcelableArrayList(CatkConstants.BUNDLE_KEY_CONSENT_DEFINITIONS);

@@ -6,35 +6,44 @@
     android:padding="16dp">
 
     <FrameLayout
-        android:id="@+id/toggle"
+        android:id="@+id/status"
+        android:padding="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/layout_margin_left_right">
+        android:layout_alignParentEnd="true">
 
-        <com.philips.platform.uid.view.widget.Switch
-            android:id="@+id/toggleicon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:gravity="center_vertical|end" />
-
-        <ProgressBar
+        <com.philips.platform.uid.view.widget.ProgressBar
             android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleSmall"
+            style="@style/UIDProgressBarCircularIndeterminateSmall"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/consentError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/consent_error" />
+
     </FrameLayout>
+
+    <com.philips.platform.uid.view.widget.Switch
+        android:id="@+id/toggleicon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/status"
+        android:checked="false"
+        android:gravity="center_vertical|end" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/consentText"
         style="@style/TestButtonTexts"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@id/toggle"
+        android:layout_toStartOf="@id/toggleicon"
         android:gravity="center_vertical|start"
-        tools:text="Hallo" />
+        tools:text="ConsentText" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/consentHelp"

@@ -60,29 +60,8 @@ public class MyaFragmentTest {
         //thenAccountViewIsInflatedWith(R.id.mya_frame_layout_view_container);
     }
 
-    @Test
-    public void onCreate_AttributesAre() throws Exception {
-        givenArguments("appName1", "propName1");
-        whenCallingOnCreateView();
-        thenApplicationNameIs("appName1");
-        thenPropositionNameIs("propName1");
-    }
-
-    private void givenArguments(String applicationName, String propositionName) {
-        //myaFragment.setArguments(applicationName, propositionName);
-    }
-
     private void whenCallingOnCreateView() {
-        //myaFragment.onCreateView(mockLayoutInflater, null, null);
-    }
-
-
-    private void thenApplicationNameIs(String expectedApplicationName) {
-       // assertEquals(expectedApplicationName, myaFragment.applicationName);
-    }
-
-    private void thenPropositionNameIs(String expectedPropositionName) {
-       // assertEquals(expectedPropositionName, myaFragment.propositionName);
+        myaFragment.onCreateView(mockLayoutInflater, null, null);
     }
 
     private void thenInflatorIsCalledWith(int layout, ViewGroup group, boolean attachToRoot) {

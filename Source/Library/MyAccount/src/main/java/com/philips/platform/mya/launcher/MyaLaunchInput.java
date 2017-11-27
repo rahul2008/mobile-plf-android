@@ -9,7 +9,7 @@ package com.philips.platform.mya.launcher;
 
 import android.content.Context;
 
-import com.philips.platform.csw.ConsentDefinition;
+import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 

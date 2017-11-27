@@ -130,11 +130,11 @@ public class ConsentNetworkErrorTest {
     }
 
     private void givenErrorCodeIs(int errorCode) {
-        consentNetworkError.setErrorCode(errorCode);
+        consentNetworkError.setCatkErrorCode(errorCode);
     }
 
     private void thenConsentNetworkErrorCodeIs(int errorCode) {
-        assertEquals(errorCode, consentNetworkError.getErrorCode());
+        assertEquals(errorCode, consentNetworkError.getCatkErrorCode());
     }
 
     private void thenErrorMessageIs(String errorMessage) {
@@ -145,5 +145,5 @@ public class ConsentNetworkErrorTest {
         assertEquals(statusCode, consentNetworkError.getStatusCode());
     }
 
-    private static final String CUSTOM_ERROR_MESSAGE = "error";
+    private static final String CUSTOM_ERROR_MESSAGE = "markErrorAndGetPrevious";
 }

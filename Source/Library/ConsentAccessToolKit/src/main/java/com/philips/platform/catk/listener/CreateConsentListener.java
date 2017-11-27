@@ -7,9 +7,11 @@
 
 package com.philips.platform.catk.listener;
 
+import com.philips.platform.catk.error.ConsentNetworkError;
+
 public interface CreateConsentListener {
 
-    void onSuccess(int code);
+    void onSuccess();
 
-    int onFailure(int code);
+    void onFailure(ConsentNetworkError error);
 }

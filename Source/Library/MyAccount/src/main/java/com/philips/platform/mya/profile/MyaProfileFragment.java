@@ -69,7 +69,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
             userDataModel = (UserDataModel) userDataModelProvider.getData(DataModelType.USER);
 
         }
-        if(userDataModel.getGivenName()!=null) {
+        if(userDataModel != null && userDataModel.getGivenName()!=null) {
             userNameTextView.setText(userDataModel.getGivenName());
         }
         presenter.getProfileItems(getContext(), MyaInterface.getMyaDependencyComponent().getAppInfra());

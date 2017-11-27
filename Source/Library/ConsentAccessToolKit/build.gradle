@@ -162,7 +162,7 @@ android {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         versionCode 1
-        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
         testApplicationId "com.philips.platform.mya.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -219,7 +219,7 @@ android {
 }
 
 configurations {
-    compile.exclude module: 'support-annotations'
+    //compile.exclude module: 'support-annotations'
 }
 
 configurations.all {
@@ -229,30 +229,22 @@ configurations.all {
 
 dependencies {
     //3rd party
-    compile 'com.google.code.gson:gson:2.2.4'
-
-    //Coco
-    def dp = project.ext.has('useprojectdependencies')
-
-
+    compile 'com.android.support:support-annotations:26.0.2'
+    compile 'joda-time:joda-time:2.9.7'
+    compile 'com.google.code.gson:gson:2.7'
 
     def daggerVer = 2.11
-
     compile "com.google.dagger:dagger:$daggerVer"
     compile "com.google.dagger:dagger-android-support:$daggerVer"
-    compile 'joda-time:joda-time:2.9.7'
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVer"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVer"
 
-
-
-    def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-        exclude group: 'com.android.support', module: 'customtabs'
-        exclude group:  'com.google.dagger'
-    }
-    compile(dp ? project(':usr') : usrModule)
+    // Philips Components
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
             {
                 transitive = true
+                exclude group: 'com.android.support', module: 'customtabs'
+                exclude group: 'com.google.dagger'
             }
 
     // Tests
@@ -267,31 +259,6 @@ dependencies {
     }
     testCompile 'org.robolectric:robolectric-utils:3.4-rc2'
     testCompile 'org.robolectric:robolectric-junit:3.4-rc2'
-    // Android runner and rules support
-    androidTestCompile("com.android.support.test:runner:0.5") {
-        exclude module: "com.android.support"
-        exclude module: "support-annotations"
-    }
-    androidTestCompile("com.android.support.test:rules:0.5") {
-        exclude module: "com.android.support"
-        exclude module: "support-annotations"
-    }
-    // Espressosupport
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.0') {
-        exclude group: 'com.android.support', module: 'appcompat'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude module: 'recyclerview-v7'
-    }
-    // add this for intent mocking support
-    // androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
-
-    // add this for webview testing support
-    androidTestCompile 'com.android.support.test.espresso:espresso-web:2.2.2'
-    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
-    compile 'com.google.code.gson:gson:2.7'
     testCompile 'org.powermock:powermock-core:1.6.6'
     testCompile 'org.powermock:powermock-module-junit4:1.6.6'
     testCompile 'org.powermock:powermock-module-junit4-rule:1.6.6'

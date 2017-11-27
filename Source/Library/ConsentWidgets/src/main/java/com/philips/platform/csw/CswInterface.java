@@ -1,5 +1,11 @@
-package com.philips.platform.csw;
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 
+package com.philips.platform.csw;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +14,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.catk.CatkInputs;
-import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.csw.injection.AppInfraModule;
 import com.philips.platform.csw.injection.CswComponent;
 import com.philips.platform.csw.injection.CswModule;
@@ -37,7 +41,7 @@ public class CswInterface implements UappInterface {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         this.uiLauncher = uiLauncher;
-        this.cswLaunchInput = (CswLaunchInput)uappLaunchInput;
+        this.cswLaunchInput = (CswLaunchInput) uappLaunchInput;
         launch();
     }
 
@@ -56,14 +60,14 @@ public class CswInterface implements UappInterface {
             CswFragment cswFragment = new CswFragment();
             cswFragment.setOnUpdateTitleListener(fragmentLauncher.
                     getActionbarListener());
-            if (uappLaunchInput.getConfig()==null){
+            if (uappLaunchInput.getConfig() == null) {
                 Log.i("Deepthi", "config = null ");
             }
             Log.i("Deepthi", "config app name = " + uappLaunchInput.getConfig().getApplicationName());
             Log.i("Deepthi", "config pro name = " + uappLaunchInput.getConfig().getPropositionName());
             Log.i("Deepthi", "config List name = " + uappLaunchInput.getConfig().getConsentDefinitions().toString());
 
-           Bundle fragmentConfig = uappLaunchInput.getConfig().toBundle();
+            Bundle fragmentConfig = uappLaunchInput.getConfig().toBundle();
             fragmentConfig.putBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK, uappLaunchInput.isAddtoBackStack());
             cswFragment.setArguments(fragmentConfig);
 
@@ -85,7 +89,7 @@ public class CswInterface implements UappInterface {
     private void launchAsActivity(ActivityLauncher uiLauncher, CswLaunchInput uappLaunchInput) {
         if (null != uiLauncher && uappLaunchInput != null) {
             Intent cswIntent = new Intent(uappLaunchInput.getContext(), CswActivity.class);
-            if (uappLaunchInput.getConfig()==null){
+            if (uappLaunchInput.getConfig() == null) {
                 Log.i("Deepthi", "Activity config = null ");
             }
             Log.i("Deepthi", "Activity config app name = " + uappLaunchInput.getConfig().getApplicationName());
@@ -107,19 +111,9 @@ public class CswInterface implements UappInterface {
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        ConsentAccessToolKit.getInstance().init(initConsentToolKit(uappDependencies, uappSettings));
         cswComponent = initDaggerComponents(uappDependencies, uappSettings);
         CswLogger.init();
         CswLogger.enableLogging();
-    }
-
-    public CatkInputs initConsentToolKit(UappDependencies uappDependencies, UappSettings uappSettings) {
-        CatkInputs catkInputs = new CatkInputs();
-        catkInputs.setContext(uappSettings.getContext());
-        catkInputs.setAppInfra(uappDependencies.getAppInfra());
-        catkInputs.setApplicationName(((CswDependencies) uappDependencies).getApplicationName());
-        catkInputs.setPropositionName(((CswDependencies) uappDependencies).getPropositionName());
-        return catkInputs;
     }
 
     private CswComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {

@@ -3,6 +3,7 @@ package com.philips.platform.csw;
 import android.os.Bundle;
 
 import com.philips.platform.catk.CatkConstants;
+import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.mock.ActionBarListenerMock;
 import com.philips.platform.csw.mock.FragmentManagerMock;
 import com.philips.platform.csw.mock.FragmentTransactionMock;

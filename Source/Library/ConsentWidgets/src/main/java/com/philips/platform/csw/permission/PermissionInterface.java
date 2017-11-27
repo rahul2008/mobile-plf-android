@@ -1,8 +1,13 @@
+/*
+ * Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.csw.permission;
 
-import android.support.annotation.NonNull;
-
-import java.util.List;
+import com.philips.platform.catk.error.ConsentNetworkError;
 
 public interface PermissionInterface {
 
@@ -10,5 +15,5 @@ public interface PermissionInterface {
 
     void hideProgressDialog();
 
-    void onConsentRetrieved(@NonNull final List<ConsentView> consent);
+    void showErrorDialog(ConsentNetworkError error);
 }
