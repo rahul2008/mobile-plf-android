@@ -6,6 +6,7 @@
 
 package com.philips.platform.baseapp.screens.introscreen.welcomefragment;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -55,7 +56,7 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
     private AbstractUIBasePresenter presenter;
     private ViewPager pager;
     private Button environmentSelection;
-
+    private WelcomePagerAdapter welcomePagerAdapter ;
     public void onBackPressed() {
         RALog.d(TAG, " On Back Pressed");
         if (pager.getCurrentItem() == 0) {
@@ -90,9 +91,9 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
 
         startLogging();
         View view = inflater.inflate(R.layout.af_welcome_fragment, container, false);
-
+        welcomePagerAdapter = new WelcomePagerAdapter(getActivity().getSupportFragmentManager());
         pager = (ViewPager) view.findViewById(R.id.welcome_pager);
-        pager.setAdapter(new WelcomePagerAdapter(getActivity().getSupportFragmentManager()));
+        pager.setAdapter(welcomePagerAdapter);
         rightArrow = (ImageView) view.findViewById(R.id.welcome_rightarrow);
         doneButton = (Label) view.findViewById(R.id.welcome_start_registration_button);
         skipButton = (Label) view.findViewById(R.id.welcome_skip_button);
@@ -182,5 +183,14 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        int currentItem=pager.getCurrentItem();
+        welcomePagerAdapter=new WelcomePagerAdapter(getActivity().getSupportFragmentManager());
+        pager.setAdapter(welcomePagerAdapter);
+        pager.setCurrentItem(currentItem);
     }
 }
