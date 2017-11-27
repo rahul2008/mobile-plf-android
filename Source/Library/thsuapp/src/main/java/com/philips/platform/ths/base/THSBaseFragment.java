@@ -17,7 +17,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.activity.THSLaunchActivity;
@@ -218,7 +217,9 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 message = getString(R.string.ths_se_server_error_toast_message);
                 //doTagging(module,message,true);
             }
-
+            if(alertDialogFragment!=null){
+                alertDialogFragment.dismiss();
+            }
             alertDialogFragment = new AlertDialogFragment.Builder(UIDHelper.getPopupThemedContext(getContext())).setDialogType(DialogConstants.TYPE_ALERT).setTitle(R.string.ths_matchmaking_error)
                     .setMessage(message).
                             setPositiveButton(R.string.ths_matchmaking_ok_button, new View.OnClickListener() {
@@ -227,22 +228,25 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                                     alertDialogFragment.dismiss();
                                     if (shouldGoBack) {
                                         if(null!=getActivity()) {
-                                            if (getFragmentManager().getBackStackEntryCount() > 1) {
+                                            if (getFragmentManager().getBackStackEntryCount() > 0) {
                                                 Fragment fragment = getFragmentManager().findFragmentByTag(THSInitFragment.TAG);
-                                                getActivity().getSupportFragmentManager().popBackStack();
-                                                if (fragment instanceof THSInitFragment) {
-                                                    if (THSManager.getInstance().getThsCompletionProtocol() != null) {
-                                                        THSManager.getInstance().getThsCompletionProtocol().didExitTHS(THSCompletionProtocol.THSExitType.Other);
-                                                        THSManager.getInstance().resetTHSManagerData();
-                                                    }
-
+                                                if (fragment instanceof THSInitFragment || fragment instanceof THSWelcomeFragment) {
+                                                    // if any error comes in init fragment then exit to uGrow
+                                                    exitFromAmWell(THSCompletionProtocol.THSExitType.Other);
+                                                }else {
+                                                    getActivity().getSupportFragmentManager().popBackStack();
                                                 }
+
                                             }
                                         }
                                     }
                                 }
                             }).setCancelable(false).create();
-            alertDialogFragment.show(getActivity().getSupportFragmentManager(), ALERT_DIALOG_TAG);
+            if(null!=alertDialogFragment && null!=getActivity()) {
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.add(alertDialogFragment, ALERT_DIALOG_TAG);
+                ft.commitAllowingStateLoss();
+            }
         }
 
     }
