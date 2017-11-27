@@ -17,6 +17,8 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotSame;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -90,5 +92,12 @@ public class ContentConfigurationTest {
         verify(mockParcel).writeParcelable(mockHappyFlowContentConfiguration,flag);
         verify(mockParcel).writeParcelable(mockTroubleShootContentConfiguration,flag);
     }
+
+    @Test
+    public void itShouldVerifyParcelReadForSpecifiedTimes(){
+        new ContentConfiguration(mockParcel);
+        verify(mockParcel,times(3)).readParcelable(any(ClassLoader.class));
+    }
+
 
 }
