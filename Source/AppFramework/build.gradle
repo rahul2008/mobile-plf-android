@@ -30,7 +30,6 @@ allprojects {
         }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
         maven { url "https://mvnrepository.com/artifact/org.robolectric/shadows-core" }
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-snapshot'}
         maven {
             url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
