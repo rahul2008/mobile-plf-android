@@ -181,7 +181,6 @@ public class THSVisitHistoryDetailFragmentTest {
         mThsVisitHistoryDetailFragment.updateView(visitReportDetailMock);
         final CharSequence text = mThsVisitHistoryDetailFragment.mLabelPracticeName.getText();
         assert text!=null;
-        assert text!="";
     }
 
     @Test
