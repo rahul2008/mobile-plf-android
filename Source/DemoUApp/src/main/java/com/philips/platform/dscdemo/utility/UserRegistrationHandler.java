@@ -24,53 +24,23 @@ import javax.inject.Singleton;
 public class UserRegistrationHandler implements UserRegistrationInterface {
     @NonNull
     private final Context context;
+
     @NonNull
     private final User user;
+
     private boolean accessTokenRefreshInProgress;
+
     @NonNull
     private String accessToken = "";
 
-    private Runnable refreshLoginSessionRunnable = new Runnable() {
-        @Override
-        public void run() {
-            user.refreshLoginSession(new RefreshLoginSessionHandler() {
-                @Override
-                public void onRefreshLoginSessionSuccess() {
-                    accessToken = gethsdpaccesstoken();
-                    notifyLoginSessionResponse();
-                }
-
-                @Override
-                public void onRefreshLoginSessionFailedWithError(int statusCode) {
-                    Toast.makeText(context, "refresh token failed and status code is = " + statusCode, Toast.LENGTH_LONG).show();
-                    notifyLoginSessionResponse();
-                }
-
-                @Override
-                public void onRefreshLoginSessionInProgress(String s) {
-                    accessTokenRefreshInProgress = true;
-                }
-            });
-        }
-    };
-
-    public void clearUserData(DBRequestListener dbRequestListener) {
-        DataServicesManager manager = DataServicesManager.getInstance();
-        manager.deleteAll(dbRequestListener);
-        clearPreferences();
-        accessToken = "";
-    }
-
     @Inject
-    public UserRegistrationHandler(
-            @NonNull final Context context,
-            @NonNull final User user) {
+    public UserRegistrationHandler(@NonNull final Context context, @NonNull final User user) {
         this.context = context;
         this.user = user;
     }
 
-    private String gethsdpaccesstoken() {
-        return getUser(context).getHsdpAccessToken();
+    public UserRegistrationHandler getInstance() {
+        return this;
     }
 
     @NonNull
@@ -87,7 +57,7 @@ public class UserRegistrationHandler implements UserRegistrationInterface {
     @Override
     public String getHSDPAccessToken() {
         if (accessToken.isEmpty() && !accessTokenRefreshInProgress) {
-            accessToken = gethsdpaccesstoken();
+            accessToken = getUser(context).getHsdpAccessToken();
         }
         return accessToken;
     }
@@ -95,11 +65,6 @@ public class UserRegistrationHandler implements UserRegistrationInterface {
     @NonNull
     @Override
     public UserProfile getUserProfile() {
-        return getUserProfileUserRegistrationPart();
-    }
-
-    @NonNull
-    private UserProfile getUserProfileUserRegistrationPart() {
         final UserProfile userProfile;
         User user = new User(context);
         userProfile = new UserProfile(user.getGivenName(), user.getFamilyName(), user.getEmail(), user.getHsdpUUID());
@@ -124,6 +89,30 @@ public class UserRegistrationHandler implements UserRegistrationInterface {
         accessTokenRefreshInProgress = false;
     }
 
+    private Runnable refreshLoginSessionRunnable = new Runnable() {
+        @Override
+        public void run() {
+            user.refreshLoginSession(new RefreshLoginSessionHandler() {
+                @Override
+                public void onRefreshLoginSessionSuccess() {
+                    accessToken = getUser(context).getHsdpAccessToken();
+                    notifyLoginSessionResponse();
+                }
+
+                @Override
+                public void onRefreshLoginSessionFailedWithError(int statusCode) {
+                    Toast.makeText(context, "refresh token failed and status code is = " + statusCode, Toast.LENGTH_LONG).show();
+                    notifyLoginSessionResponse();
+                }
+
+                @Override
+                public void onRefreshLoginSessionInProgress(String s) {
+                    accessTokenRefreshInProgress = true;
+                }
+            });
+        }
+    };
+
     private void notifyLoginSessionResponse() {
         synchronized (this) {
             notify();
@@ -141,6 +130,13 @@ public class UserRegistrationHandler implements UserRegistrationInterface {
         Object propertyForKey = DemoAppManager.getInstance().getAppInfra().getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL,
                 URConfigurationConstants.UR, new AppConfigurationInterface.AppConfigurationError());
         return propertyForKey.toString();
+    }
+
+    public void clearUserData(DBRequestListener dbRequestListener) {
+        DataServicesManager manager = DataServicesManager.getInstance();
+        manager.deleteAll(dbRequestListener);
+        clearPreferences();
+        accessToken = "";
     }
 
 }
