@@ -116,6 +116,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
+        TextView lblListHeaderShowAllorShowLess = (TextView) convertView
+                .findViewById(R.id.lblshowAll);
+        if(isExpanded){
+            lblListHeaderShowAllorShowLess.setText(context.getString(R.string.show_less));
+        }else{
+            lblListHeaderShowAllorShowLess.setText(context.getString(R.string.show_all));
+        }
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
 

@@ -37,7 +37,6 @@
       android:layout_centerVertical="true"
       android:gravity="left|center_vertical"
       android:paddingRight="@dimen/ths_fab_margin"
-      android:text="@string/show_all"
       android:layout_alignParentEnd="true"
       android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
       android:textSize="@dimen/ths_body_text" />
