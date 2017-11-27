@@ -133,30 +133,33 @@ dependencies {
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
 }
 
-tasks.whenTaskAdded { task ->
-    if (task.name.equals('build')) {
-        println("Installing build app with right permissions..")
+project.gradle.buildFinished { buildResult ->
+    project.gradle.getStartParameter().taskRequests.get(0).args.each { String argument ->
+        //If the gradle arguments contains 'assembleDebugAndroidTest' for this project, then pre-install APK with permissions.
+        if (argument == ":$project.name:assembleDebugAndroidTest") {
+            println("Installing build app with right permissions..")
 
-        def absolutePath = file('.')
-        def stdout = new ByteArrayOutputStream()
+            def absolutePath = file('.')
+            def stdout = new ByteArrayOutputStream()
 
-        exec {
-            def rootDir = project.rootDir
-            def localProperties = new File(rootDir, "local.properties")
-            if (localProperties.exists()) {
-                Properties properties = new Properties()
-                localProperties.withInputStream { instr ->
-                    properties.load(instr)
+            exec {
+                def rootDir = project.rootDir
+                def localProperties = new File(rootDir, "local.properties")
+                if (localProperties.exists()) {
+                    Properties properties = new Properties()
+                    localProperties.withInputStream { instr ->
+                        properties.load(instr)
+                    }
+
+                    def sdkDir = properties.getProperty('sdk.dir')
+                    def packageName = "com.philips.cdp2.commlib.devicetest"
+                    def apk_name = "commlib-integration-tests-debug"
+
+                    commandLine "$absolutePath/install_with_permissions.sh", sdkDir, packageName, apk_name
                 }
-
-                def sdkDir = properties.getProperty('sdk.dir')
-                def packageName = "com.philips.cdp2.commlib.devicetest"
-                def apk_name = "commlib-integration-tests-debug"
-
-                commandLine "$absolutePath/install_with_permissions.sh", sdkDir, packageName, apk_name
             }
-        }
 
-        print stdout
+            print stdout
+        }
     }
 }
