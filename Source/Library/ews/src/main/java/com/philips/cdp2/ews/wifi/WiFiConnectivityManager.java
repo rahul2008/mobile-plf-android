@@ -10,7 +10,6 @@ import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.util.Log;
 
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.util.TextUtil;
@@ -102,7 +101,6 @@ public class WiFiConnectivityManager {
                     if (attempt < maxAttempts) {
                         wifiManager.startScan();
                         attempt++;
-                        Log.e(WiFiConnectivityManager.class.getName(), "attempt:"+attempt);
                         tryToConnectToNetwork(ssid);
                         return;
                     }
