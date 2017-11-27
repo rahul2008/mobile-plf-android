@@ -51,7 +51,7 @@ public class WiFiConnectivityManagerTest {
     private static final String HOME_WIFI_SSID = "BrightEyes";
     private static final String APPLIANCE_SSID = WiFiUtil.DEVICE_SSID;
 
-    private WiFiConnectivityManager connectivityManager;
+    private WiFiConnectivityManager subject;
 
     @Rule
     public PowerMockRule rule = new PowerMockRule();
@@ -72,8 +72,8 @@ public class WiFiConnectivityManagerTest {
         initMocks(this);
         PowerMockito.mockStatic(EWSLogger.class);
         wifiUtil = new WiFiUtil(wifiManagerMock);
-        connectivityManager = new WiFiConnectivityManager(wifiManagerMock, wifiMock, wifiUtil);
-        connectivityManager.handler = mockHandler;
+        subject = new WiFiConnectivityManager(wifiManagerMock, wifiMock, wifiUtil);
+        subject.handler = mockHandler;
         implementAsDirectExecutor(mockHandler);
         stubHomeNetworkConnection();
     }
@@ -87,7 +87,7 @@ public class WiFiConnectivityManagerTest {
 
     @Test
     public void itShouldConfigureOpenNetworkWhenApplianceHotspotIsNotFound() throws Exception {
-        connectivityManager.connectToApplianceHotspotNetwork(APPLIANCE_SSID);
+        subject.connectToApplianceHotspotNetwork(APPLIANCE_SSID);
 
         final ArgumentCaptor<WifiConfiguration> wifiConfigurationCaptor = ArgumentCaptor.forClass(WifiConfiguration.class);
 
@@ -105,7 +105,7 @@ public class WiFiConnectivityManagerTest {
     public void connectToApplianceHotspotIfFound() throws Exception {
         final ScanResult scannedResultMock = getScanResult(APPLIANCE_SSID);
         when(wifiManagerMock.getScanResults()).thenReturn(null).thenReturn(Collections.singletonList(scannedResultMock));
-        connectivityManager.connectToApplianceHotspotNetwork(APPLIANCE_SSID);
+        subject.connectToApplianceHotspotNetwork(APPLIANCE_SSID);
 
         verify(wifiMock).connectToConfiguredNetwork(wifiManagerMock, scannedResultMock);
     }
@@ -119,8 +119,8 @@ public class WiFiConnectivityManagerTest {
     }
 
     private void verifyApplianceNotConnected(final ScanResult scannedResultMock) {
-        connectivityManager.setMaxScanAttempts(1);
-        connectivityManager.connectToApplianceHotspotNetwork(APPLIANCE_SSID);
+        subject.setMaxScanAttempts(1);
+        subject.connectToApplianceHotspotNetwork(APPLIANCE_SSID);
 
         verify(wifiMock, never()).connectToConfiguredNetwork(wifiManagerMock, scannedResultMock);
     }
@@ -134,11 +134,17 @@ public class WiFiConnectivityManagerTest {
     }
 
     @Test
+    public void itShouldStopToFindNetwork() {
+        subject.stopFindNetwork();
+        verify(mockHandler).removeCallbacks(any(Runnable.class));
+    }
+
+    @Test
     public void connectToHomeWiFiNetworkWhenRequested() throws Exception {
         final ScanResult scannedResultMock = getScanResult(HOME_WIFI_SSID);
         when(wifiManagerMock.getScanResults()).thenReturn(Collections.singletonList(scannedResultMock));
 
-        connectivityManager.connectToHomeWiFiNetwork(HOME_WIFI_SSID);
+        subject.connectToHomeWiFiNetwork(HOME_WIFI_SSID);
 
         verify(wifiMock).connectToConfiguredNetwork(wifiManagerMock, scannedResultMock);
     }
