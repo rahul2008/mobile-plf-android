@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
  * Created by philips on 11/24/17.
  */
 @RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 25)
 public class MyaPagerTest {
 
     MyaPager myaPager;
