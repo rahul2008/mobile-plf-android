@@ -134,6 +134,12 @@ public class DSLaunchActivity extends AppCompatActivity
 
     @Override
     public void onUserRegistrationComplete(final Activity activity) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                SyncScheduler.getInstance().scheduleSync();
+            }
+        });
+
         showFragment();
     }
 
