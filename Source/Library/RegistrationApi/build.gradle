@@ -5,6 +5,12 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+}
+
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
