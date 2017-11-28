@@ -13,10 +13,12 @@ import static org.junit.Assert.*;
 
 public class THSFileProviderTest {
     THSFileUtils thsFileUtils;
+    THSFileProvider thsFileProvider;
 
     @Before
     public void setUp() throws Exception {
         thsFileUtils = new THSFileUtils();
+        thsFileProvider = new THSFileProvider();
     }
 
     @Test

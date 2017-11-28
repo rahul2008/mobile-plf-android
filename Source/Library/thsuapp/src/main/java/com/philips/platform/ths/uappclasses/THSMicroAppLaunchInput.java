@@ -11,7 +11,6 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 public class THSMicroAppLaunchInput extends UappLaunchInput {
 
-    private String welcomeMessage;
 
     public THSCompletionProtocol getThsCompletionProtocol() {
         return thsCompletionProtocol;
@@ -20,11 +19,6 @@ public class THSMicroAppLaunchInput extends UappLaunchInput {
     private final THSCompletionProtocol thsCompletionProtocol;
 
     public THSMicroAppLaunchInput(String welcomeMessage, THSCompletionProtocol thsCompletionProtocol) {
-        this.welcomeMessage = welcomeMessage;
         this.thsCompletionProtocol = thsCompletionProtocol;
-    }
-
-    public String getWelcomeMessage() {
-        return welcomeMessage;
     }
 }

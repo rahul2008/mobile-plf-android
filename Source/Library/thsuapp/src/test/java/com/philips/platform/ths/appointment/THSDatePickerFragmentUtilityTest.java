@@ -6,6 +6,8 @@
 
 package com.philips.platform.ths.appointment;
 
+import android.app.DatePickerDialog;
+
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSDateEnum;
 
@@ -22,6 +24,9 @@ public class THSDatePickerFragmentUtilityTest {
 
     @Mock
     THSBaseFragment thsBaseFragmentMock;
+
+    @Mock
+    DatePickerDialog.OnDateSetListener onDateSetListenerMock;
 
     @Before
     public void setUp() throws Exception {

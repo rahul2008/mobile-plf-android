@@ -40,7 +40,7 @@ public class THSLaunchActivity extends UIDActivity implements ActionBarListener 
 
     private FragmentManager fragmentManager;
     private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_Bright;
-    private Toolbar toolbar;
+    protected Toolbar toolbar;
     private FragmentLauncher fragmentLauncher;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +60,10 @@ public class THSLaunchActivity extends UIDActivity implements ActionBarListener 
             thsBaseFragment.setArguments(bundle);
             thsBaseFragment.setFragmentLauncher(fragmentLauncher);
             thsBaseFragment.setActionBarListener(this);
-            fragmentTransaction.replace(R.id.uappFragmentLayout, thsBaseFragment, THSInitFragment.TAG).
-                    addToBackStack(THSInitFragment.TAG).commitAllowingStateLoss();
+            final FragmentTransaction replace = fragmentTransaction.replace(R.id.uappFragmentLayout, thsBaseFragment, THSInitFragment.TAG);
+            if (replace!=null) {
+                replace.addToBackStack(THSInitFragment.TAG).commitAllowingStateLoss();
+            }
         }
     }
 

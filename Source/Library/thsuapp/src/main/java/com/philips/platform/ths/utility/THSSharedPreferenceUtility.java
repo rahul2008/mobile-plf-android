@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 public class THSSharedPreferenceUtility {
 
-    private final static String SHARED_PREF_HELPER_FILE = "THS_SHARED_PREF_FILE";
+    protected final static String SHARED_PREF_HELPER_FILE = "THS_SHARED_PREF_FILE";
 
     /**
      * Set a string shared preference

@@ -403,4 +403,13 @@ public class THSWelcomePresenterTest {
         pthWelcomePresenter.onFailure(throwableMock);
     }*/
 
+    @Test
+    public void onEventCustomer_support() throws Exception {
+        when(pTHBaseViewMock.getContext()).thenReturn(contextMock);
+        when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
+        when(userMock.getHsdpUUID()).thenReturn("1234");
+        pthWelcomePresenter.onEvent(R.id.customer_support);
+        verify(pTHBaseViewMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class),anyBoolean());
+    }
+
 }

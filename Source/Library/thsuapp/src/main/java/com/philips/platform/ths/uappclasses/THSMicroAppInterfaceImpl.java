@@ -30,8 +30,8 @@ import java.util.List;
 
 
 public class THSMicroAppInterfaceImpl implements UappInterface {
-    private Context context;
-    private AppInfraInterface appInfra;
+    protected Context context;
+    protected AppInfraInterface appInfra;
     /**
      * @param uappDependencies - App dependencies
      * @param uappSettings     - App settings

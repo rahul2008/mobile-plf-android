@@ -16,7 +16,9 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.intake.THSVisitContext;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -53,6 +55,9 @@ public class THSPreOnBoardingTourFragmentTest {
     @Mock
     LoggingInterface loggingInterface;
 
+    @Mock
+    ActionBarListener actionBarListenerMock;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -63,6 +68,7 @@ public class THSPreOnBoardingTourFragmentTest {
         when(appInfraInterfaceMock.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
         THSManager.getInstance().setAppInfra(appInfraInterfaceMock);
         mTHSPreWelcomeFragment = new THSPreWelcomeFragmentTestMock();
+        mTHSPreWelcomeFragment.setActionBarListener(actionBarListenerMock);
         SupportFragmentTestUtil.startFragment(mTHSPreWelcomeFragment);
         mTHSPreWelcomeFragment.mThsPreWelcomeScreenPresenter = thsPreWelcomePresenter;
     }
@@ -86,6 +92,14 @@ public class THSPreOnBoardingTourFragmentTest {
         final View viewById = mTHSPreWelcomeFragment.getView().findViewById(R.id.ths_licence);
         viewById.performClick();
         verify(thsPreWelcomePresenter).onEvent(R.id.ths_licence);
+    }
+
+    @Test
+    public void onClickths_terms_and_conditions_cross() throws Exception {
+        final View viewById = mTHSPreWelcomeFragment.getView().findViewById(R.id.ths_terms_and_conditions_cross);
+        viewById.performClick();
+        final THSVisitContext pthVisitContext = THSManager.getInstance().getPthVisitContext();
+        assertNull(pthVisitContext);
     }
 
     @Test

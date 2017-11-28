@@ -45,6 +45,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -153,6 +154,7 @@ public class THSInitPresenterTest {
         when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);
 
         THSManager.getInstance().setAppInfra(appInfraInterfaceMock);
+        when(thsInitFragmentMock.isFragmentAttached()).thenReturn(true);
 
 
         THSManager.getInstance().setUser(userMock);
@@ -207,6 +209,7 @@ public class THSInitPresenterTest {
 
     @Test
     public void onInitializationFailure() throws Exception {
+        when(thsInitFragmentMock.getContext()).thenReturn(contextMock);
         mThsInitPresenter.onInitializationFailure(throwableMock);
     }
 
@@ -433,5 +436,4 @@ public class THSInitPresenterTest {
         mThsInitPresenter.launchWelcomeScreen();
         verify(thsInitFragmentMock).addFragment(any(THSBaseFragment.class), anyString(), any(Bundle.class), anyBoolean());
     }
-
 }
