@@ -159,4 +159,11 @@ public class ConfirmWifiNetworkViewModelTest {
         verifyStatic();
         EWSTagger.trackPage("confirmWifiNetwork");
     }
+
+    @Test
+    public void itShouldVerifyHelperDescription() throws Exception{
+        subject.getHelperDescription();
+        verify(mockStringProvider).getString(R.string.label_ews_confirm_connection_tip_lower,
+                mockBaseContentConfig.getDeviceName());
+    }
 }
