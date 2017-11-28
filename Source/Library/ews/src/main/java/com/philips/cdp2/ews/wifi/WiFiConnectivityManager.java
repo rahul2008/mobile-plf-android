@@ -82,11 +82,15 @@ public class WiFiConnectivityManager {
 
     private void connectToNetwork(@NonNull final String ssid) {
         EWSLogger.d(EWS_STEPS, "Trying to connect to network " + ssid);
-        tryToConnectToNetwork(ssid, 0);
+        attempt = 0;
+        tryToConnectToNetwork(ssid);
     }
 
-    private void tryToConnectToNetwork(@NonNull final String ssid, final int attempt) {
-        handler.postDelayed(new Runnable() {
+    private int attempt = 0;
+    private Runnable runnable;
+
+    private void tryToConnectToNetwork(@NonNull final String ssid) {
+       runnable = new Runnable() {
             @Override
             public void run() {
                 ScanResult accessPoint = null;
@@ -96,7 +100,8 @@ public class WiFiConnectivityManager {
                 } else {
                     if (attempt < maxAttempts) {
                         wifiManager.startScan();
-                        tryToConnectToNetwork(ssid, attempt + 1);
+                        attempt++;
+                        tryToConnectToNetwork(ssid);
                         return;
                     }
                 }
@@ -107,7 +112,12 @@ public class WiFiConnectivityManager {
                 EWSLogger.d(EWS_STEPS, "Connecting to  " + accessPoint);
                 wifi.connectToConfiguredNetwork(wifiManager, accessPoint);
             }
-        }, DELAY_IN_EACH_NEW_SCAN);
+        };
+        handler.postDelayed(runnable, DELAY_IN_EACH_NEW_SCAN);
+    }
+
+    public void stopFindNetwork() {
+        handler.removeCallbacks(runnable);
     }
 
     private ScanResult findNetworkAccessPoint(@NonNull final String ssid) {
