@@ -8,7 +8,6 @@ package com.philips.platform.mya.settings;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
 import com.philips.platform.mya.launcher.MyaInterface;
@@ -33,8 +31,6 @@ import java.util.LinkedHashMap;
 public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClickListener,MyaSettingsContract.View {
 
 
-    private AppInfraInterface appInfra;
-
     public static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
     private MyaSettingsContract.Presenter presenter;
     private RecyclerView recyclerView;
@@ -47,6 +43,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         initViews(view);
         recyclerView.setNestedScrollingEnabled(false);
         presenter = new MyaSettingsPresenter(this);
+        setRetainInstance(true);
         return view;
     }
 
@@ -54,17 +51,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         recyclerView = view.findViewById(R.id.mya_settings_recycler_view);
         Button logOutButton = view.findViewById(R.id.mya_settings_logout_btn);
         Label philipsWebsite = view.findViewById(R.id.philips_website);
-       // this.config = new ConsentBundleConfig(getArguments());
-        this.appInfra = MyaInterface.getMyaDependencyComponent().getAppInfra();
-       /* TextView countryTextView = (TextView) view.findViewById(R.id.settings_country_value);
-        Button logOutButton = (Button) view.findViewById(R.id.mya_settings_logout_btn);
-        RelativeLayout consentLayout = (RelativeLayout) view.findViewById(R.id.consent_layout);
-        RelativeLayout countryLayout = (RelativeLayout) view.findViewById(R.id.country_layout);
-        countryTextView.setText(appInfra.getServiceDiscovery().getHomeCountry());
-        Label philipsWebsite = (Label) view.findViewById(R.id.philips_website);
-        consentLayout.setOnClickListener(this);
-        countryLayout.setOnClickListener(this);
->>>>>>> c83af7c2288cf2234c1f7597198f585cf0dcc6b1*/
         philipsWebsite.setOnClickListener(this);
         logOutButton.setOnClickListener(this);
     }
@@ -72,7 +58,9 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        presenter.getSettingItems(getContext(), MyaInterface.getMyaDependencyComponent().getAppInfra());
+        setRetainInstance(true);
+        if (savedInstanceState == null)
+            presenter.getSettingItems(getContext(), MyaInterface.getMyaDependencyComponent().getAppInfra());
     }
 
     @Override
@@ -165,9 +153,11 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialogFragment.dismiss();
-                exitMyAccounts();
-                MyaInterface.getMyaUiComponent().getMyaListener().onLogOut();
+                boolean onLogOut = MyaInterface.getMyaUiComponent().getMyaListener().onLogOut();
+                if(!onLogOut) {
+                    alertDialogFragment.dismiss();
+                    presenter.logOut();
+                }
             }
         };
     }
@@ -185,8 +175,8 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     }
 
     @Override
-    public void showFragment(Fragment fragment) {
-        super.showFragment(fragment);
+    public void handleLogOut() {
+        exitMyAccounts();
     }
 
     private View.OnClickListener getOnClickListener(final LinkedHashMap<String, SettingsModel> profileList) {

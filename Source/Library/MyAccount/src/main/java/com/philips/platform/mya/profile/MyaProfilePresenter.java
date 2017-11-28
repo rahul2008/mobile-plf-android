@@ -11,8 +11,12 @@ import android.content.Context;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.base.mvp.MyaBasePresenter;
+import com.philips.platform.mya.launcher.MyaInterface;
+import com.philips.platform.myaplugin.uappadaptor.DataInterface;
+import com.philips.platform.myaplugin.uappadaptor.DataModelType;
+import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
+import com.philips.platform.myaplugin.user.UserDataModelProvider;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -29,6 +33,23 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
     @Override
     public void getProfileItems(Context context, AppInfraInterface appInfra) {
         view.showProfileItems(getProfileList(context, MyaInterface.getMyaDependencyComponent().getAppInfra().getConfigInterface()));
+    }
+
+    @Override
+    public void setUserName() {
+        DataInterface dataInterface = MyaInterface.getMyaUiComponent().getMyaListener().getDataInterface(DataModelType.USER);
+        UserDataModelProvider userDataModelProvider = (UserDataModelProvider)dataInterface ;
+        if (userDataModelProvider != null) {
+            UserDataModel userDataModel = (UserDataModel) userDataModelProvider.getData(DataModelType.USER);
+            setUserModel(userDataModel);
+        }
+
+    }
+
+    private void setUserModel(UserDataModel userDataModel) {
+        if (userDataModel != null && userDataModel.getGivenName() != null) {
+            view.setUserName(userDataModel.getGivenName());
+        }
     }
 
     private TreeMap<String,String> getProfileList(Context context, AppConfigurationInterface appConfigurationManager) {

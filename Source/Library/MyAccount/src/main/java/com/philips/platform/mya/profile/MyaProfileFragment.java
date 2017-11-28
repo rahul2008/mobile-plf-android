@@ -18,15 +18,11 @@ import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
 import com.philips.platform.mya.details.MyaDetailsFragment;
 import com.philips.platform.mya.launcher.MyaInterface;
+import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.TreeMap;
-
-import com.philips.platform.myaplugin.uappadaptor.DataInterface;
-import com.philips.platform.myaplugin.uappadaptor.DataModelType;
-import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
-import com.philips.platform.myaplugin.user.UserDataModelProvider;
 
 
 public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileContract.View {
@@ -34,9 +30,6 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     private RecyclerView recyclerView;
     private MyaProfileContract.Presenter presenter;
     private TextView userNameTextView;
-    private DataInterface dataInterface;
-    UserDataModel userDataModel;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,6 +38,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         recyclerView = view.findViewById(R.id.profile_recycler_view);
         userNameTextView = view.findViewById(R.id.mya_user_name);
         presenter = new MyaProfilePresenter(this);
+        setRetainInstance(true);
         return view;
     }
 
@@ -63,15 +57,8 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        dataInterface = MyaInterface.getMyaUiComponent().getMyaListener().getDataInterface(DataModelType.USER);
-        UserDataModelProvider userDataModelProvider = (UserDataModelProvider)dataInterface ;
-        if (userDataModelProvider != null) {
-            userDataModel = (UserDataModel) userDataModelProvider.getData(DataModelType.USER);
-
-        }
-        if(userDataModel != null && userDataModel.getGivenName()!=null) {
-            userNameTextView.setText(userDataModel.getGivenName());
-        }
+        setRetainInstance(true);
+        presenter.setUserName();
         presenter.getProfileItems(getContext(), MyaInterface.getMyaDependencyComponent().getAppInfra());
     }
 
@@ -126,10 +113,11 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
             if (profileItem.equals(getContext().getString(R.string.MYA_My_details)) || profileItem.equalsIgnoreCase("MYA_My_details")) {
                 MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("user_plugin",dataInterface);
+                bundle.putSerializable("user_plugin", MyaInterface.getMyaUiComponent().getMyaListener().getDataInterface(DataModelType.USER));
                 myaDetailsFragment.setArguments(bundle);
-                showFragment(myaDetailsFragment,MyaInterface.getMyaUiComponent().getFragmentLauncher());
+                showFragment(myaDetailsFragment, MyaInterface.getMyaUiComponent().getFragmentLauncher());
             }
         }
     }
+
 }

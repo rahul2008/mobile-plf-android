@@ -35,7 +35,7 @@ class MyaDetailPresenter extends MyaBasePresenter<MyaDetailContract.View> implem
                 setUserName(userDataModel);
                 view.setEmail(userDataModel.getEmail());
                 view.setMobileNumber(userDataModel.getMobileNumber());
-                view.handleArrowVisibility(userDataModel.getEmail(),userDataModel.getMobileNumber());
+                view.handleArrowVisibility(userDataModel.getEmail(), userDataModel.getMobileNumber());
                 view.setGender(userDataModel.getGender());
                 view.setDateOfBirth(userDataModel.getBirthday());
             }

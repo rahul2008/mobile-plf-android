@@ -35,6 +35,7 @@ public class MyaTabFragment extends MyaBaseFragment {
             viewPager.setAdapter(adapter);
             tabLayout.addOnTabSelectedListener(getTabListener(viewPager));
         }
+        setRetainInstance(true);
         return view;
     }
 

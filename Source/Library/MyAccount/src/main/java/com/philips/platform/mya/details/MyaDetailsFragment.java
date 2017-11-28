@@ -22,8 +22,6 @@ import com.philips.platform.uid.view.widget.Label;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailContract.View {
@@ -32,15 +30,25 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
     private Label email_address, mobile_number;
     private Label nameLabel, genderLabel, mobile_number_heading, name_value, dob_value, DOB_heading, email_address_heading;
     private View email_divider, name_divider, gender_divider, dob_divider;
-
+    private String MYA_SETTINGS_BUNDLE = "settings_bundle";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mya_user_detail_fragment, container, false);
         UIDHelper.injectCalligraphyFonts();
         initViews(view);
+        setRetainInstance(true);
         MyaDetailPresenter myaDetailPresenter = new MyaDetailPresenter(this);
-        myaDetailPresenter.setUserDetails(getArguments());
+        if (savedInstanceState == null) {
+            myaDetailPresenter.setUserDetails(getArguments());
+        } else {
+            myaDetailPresenter.setUserDetails(savedInstanceState.getBundle(MYA_SETTINGS_BUNDLE));
+        }
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBundle(MYA_SETTINGS_BUNDLE, getArguments());
     }
 
     private void initViews(View view) {
@@ -75,23 +83,6 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
     @Override
     public boolean getBackButtonState() {
         return true;
-    }
-
-    String printFirstCharacter(String nameString) {
-        StringBuilder finalName = new StringBuilder();
-        Pattern pattern = Pattern.compile("\\b[a-zA-z[$&+,:;=?@#|'<>.-^*()%!]0-9]");
-        Matcher matcher = pattern.matcher(nameString);
-        while (matcher.find()) {
-            String matchString = matcher.group();
-            finalName.append(matchString);
-
-        }
-        if (finalName.toString().length() == 1) {
-            return nameString.length() == 1 ? nameString : nameString.substring(0, 2).toUpperCase();
-        } else if (finalName.toString().length() > 2) {
-            return finalName.substring(0, 2).toUpperCase();
-        }
-        return finalName.toString().toUpperCase();
     }
 
     @Override

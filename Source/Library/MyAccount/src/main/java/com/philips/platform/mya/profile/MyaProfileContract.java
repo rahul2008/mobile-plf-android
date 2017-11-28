@@ -25,5 +25,7 @@ interface MyaProfileContract {
 
     interface Presenter extends MyaPresenterInterface<View> {
         void getProfileItems(Context context, AppInfraInterface appInfra);
+
+        void setUserName();
     }
 }

@@ -7,7 +7,12 @@ package com.philips.platform.mya.settings;
 
 
 import android.content.Context;
+import android.widget.Toast;
 
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.R;
@@ -20,7 +25,6 @@ import java.util.LinkedHashMap;
 class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> implements MyaSettingsContract.Presenter {
 
     private MyaSettingsContract.View view;
-    private AppInfraInterface appInfraInterface;
 
     MyaSettingsPresenter(MyaSettingsContract.View view) {
         this.view = view;
@@ -28,7 +32,6 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     @Override
     public void getSettingItems(Context context, AppInfraInterface appInfra) {
-        this.appInfraInterface = appInfra;
         view.showSettingsItems(getSettingsMap(context, appInfra));
     }
 
@@ -37,6 +40,29 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
        if (key.equals("MYA_Country")) {
             view.showDialog(context.getString(R.string.MYA_change_country), context.getString(R.string.MYA_change_country_message));
        }
+    }
+
+    @Override
+    public void logOut() {
+        HsdpUser user = new HsdpUser(view.getContext());
+        User mUser = new User(view.getContext());
+        if (RegistrationConfiguration.getInstance().isHsdpFlow() && null != user.getHsdpUserRecord()) {
+            user.logOut(getLogoutHandler());
+        } else {
+            mUser.logout(getLogoutHandler());
+        }
+    }
+
+    private LogoutHandler getLogoutHandler() {
+        return new LogoutHandler() {
+            public void onLogoutSuccess() {
+                view.handleLogOut();
+            }
+
+            public void onLogoutFailure(int responseCode, String message) {
+                Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        };
     }
 
     private LinkedHashMap<String, SettingsModel> getSettingsMap(Context context, AppInfraInterface appInfraInterface) {
