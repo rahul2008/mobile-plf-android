@@ -87,26 +87,29 @@ public class EWSTaggerTest {
 
     @Test
     public void itShouldTrackInAppNotificationResponseWhenAsked() throws Exception {
-        final ArgumentCaptor<HashMap> mapArgumentCaptor = ArgumentCaptor.forClass(HashMap.class);
+        final ArgumentCaptor<Map> mapArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         final String key = Tag.KEY.SEND_DATA;
         final String notificationResopnseKey = "inAppNotificationResponse";
         final String successTagValue = "successValueTag";
         EWSTagger.trackInAppNotificationResponse(successTagValue);
         verify(appTaggingInterfaceMock).trackActionWithInfo(eq(key), mapArgumentCaptor.capture());
-        HashMap map = mapArgumentCaptor.getValue();
+        Map map = mapArgumentCaptor.getValue();
         assertEquals(1, map.size());
         assertEquals(successTagValue, map.get(notificationResopnseKey));
     }
+    
     @Test
     public void itShouldTrackInAppNotificationWhenAsked() throws Exception {
         final String pageName = "SomePageName";
-        final ArgumentCaptor<HashMap> mapArgumentCaptor = ArgumentCaptor.forClass(HashMap.class);
-        final String key = Tag.KEY.SEND_DATA;
+        final ArgumentCaptor<Map> mapArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         final String notificationResponse = "inAppNotification";
         final String dialogTagValue = "dialogTagValue";
+
         EWSTagger.trackInAppNotification(pageName,dialogTagValue);
+
         verify(appTaggingInterfaceMock).trackPageWithInfo(eq(pageName), mapArgumentCaptor.capture());
-        HashMap map = mapArgumentCaptor.getValue();
+
+        Map map = mapArgumentCaptor.getValue();
         assertEquals(1, map.size());
         assertEquals(dialogTagValue, map.get(notificationResponse));
 
@@ -125,7 +128,7 @@ public class EWSTaggerTest {
     @SuppressWarnings("unchecked")
     @Test
     public void itShouldTrackActionWithDifferentParamsWhenAsked() throws Exception {
-        final ArgumentCaptor<HashMap> mapArgumentCaptor = ArgumentCaptor.forClass(HashMap.class);
+        final ArgumentCaptor<Map> mapArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         final String key = Tag.KEY.CONNECTED_PRODUCT_NAME;
         final String value = "taggedValue";
 
@@ -133,7 +136,7 @@ public class EWSTaggerTest {
 
         verify(appTaggingInterfaceMock).trackActionWithInfo(eq(ACTION.CONNECTION_UNSUCCESSFUL), mapArgumentCaptor.capture());
 
-        HashMap map = mapArgumentCaptor.getValue();
+        Map map = mapArgumentCaptor.getValue();
 
         assertEquals(1, map.size());
         assertEquals(value, map.get(key));
@@ -141,12 +144,12 @@ public class EWSTaggerTest {
 
     @Test
     public void itShouldTrackActionSendDataWhenAsked() throws Exception {
-        final ArgumentCaptor<HashMap> mapArgumentCaptor = ArgumentCaptor.forClass(HashMap.class);
+        final ArgumentCaptor<Map> mapArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         final String key = Tag.KEY.SEND_DATA;
         final String successTagValue = "successValueTag";
         EWSTagger.trackActionSendData(key, successTagValue);
         verify(appTaggingInterfaceMock).trackActionWithInfo(eq(key), mapArgumentCaptor.capture());
-        HashMap map = mapArgumentCaptor.getValue();
+        Map map = mapArgumentCaptor.getValue();
         assertEquals(1, map.size());
         assertEquals(successTagValue, map.get(key));
     }

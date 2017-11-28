@@ -57,8 +57,6 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
             }
         });
 
-        EWSTagger.collectLifecycleInfo(this);
-
         if (savedInstanceState == null) {
             navigator.navigateToGettingStartedScreen();
         }
@@ -110,7 +108,6 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
 
     @Override
     protected void onDestroy() {
-        EWSTagger.pauseLifecycleInfo();
         ewsEventingChannel.stop();
         EWSDependencyProvider.getInstance().clear();
         super.onDestroy();
@@ -169,12 +166,12 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
     @Override
     protected void onResume() {
         super.onResume();
-        Config.collectLifecycleData();
+        EWSTagger.collectLifecycleInfo(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Config.pauseCollectingLifecycleData();
+        EWSTagger.pauseLifecycleInfo();
     }
 }

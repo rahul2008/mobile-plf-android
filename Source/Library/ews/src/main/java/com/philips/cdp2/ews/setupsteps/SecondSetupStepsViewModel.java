@@ -142,9 +142,11 @@ public class SecondSetupStepsViewModel {
     void tagLocationPermission() {
         EWSTagger.trackInAppNotification(Page.SETUP_STEP2,Tag.VALUE.LOCATION_PERMISSION_NOTIFICATION);
     }
+
     void tagLocationPermissionAllow() {
         EWSTagger.trackInAppNotificationResponse(Tag.ACTION.ALLOW);
     }
+    
     void tagLocationPermissionCancel() {
         EWSTagger.trackInAppNotificationResponse(Tag.ACTION.CANCEL_SETUP);
     }
