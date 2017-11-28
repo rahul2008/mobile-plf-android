@@ -35,17 +35,17 @@ class AllSessionsProvider implements SessionProvider.Callback {
 
     @NonNull private final RefAppBleReferenceAppliance appliance;
     @NonNull private final SessionProviderFactory sessionProviderFactory;
-//    @NonNull private RetryHelper retryHelper;
+    @NonNull private RetryHelper retryHelper;
     @NonNull private List<Session> newSessionsData;
     @NonNull private DateTime latestMomentDateTime;
     @Nullable private Callback sessionsDataCallback;
     private long currentSessionNumber;
     private long oldestSessionNumber;
 
-    AllSessionsProvider(@NonNull RefAppBleReferenceAppliance appliance, @NonNull SessionProviderFactory sessionProviderFactory) {
+    AllSessionsProvider(@NonNull RefAppBleReferenceAppliance appliance, @NonNull SessionProviderFactory sessionProviderFactory,RetryHelper retryHelper) {
         this.appliance = appliance;
         this.sessionProviderFactory = sessionProviderFactory;
-//        this.retryHelper = retryHelper;
+        this.retryHelper = retryHelper;
         this.newSessionsData = new ArrayList<>();
     }
 
@@ -103,7 +103,7 @@ class AllSessionsProvider implements SessionProvider.Callback {
 
     private void fetchNextSession(boolean isOlderThanLastDbSession) {
         currentSessionNumber--;
-//        retryHelper.reset();
+        retryHelper.reset();
         fetchSession(currentSessionNumber, isOlderThanLastDbSession);
     }
 
@@ -111,14 +111,14 @@ class AllSessionsProvider implements SessionProvider.Callback {
     public void onError(@NonNull Throwable error) {
         RALog.d(TAG, "onError ");
 
-//        if (retryHelper.canRetry()) {
-//            Logger.d(TAG, "retry");
-//            fetchSession(currentSessionNumber, false);
-//        } else {
-//            retryHelper.reset();
+        if (retryHelper.canRetry()) {
+            RALog.d(TAG, "retrying.....");
+            fetchSession(currentSessionNumber, false);
+        } else {
+            retryHelper.reset();
             if (sessionsDataCallback != null) {
                 sessionsDataCallback.onError(error);
             }
-//        }
+        }
     }
 }

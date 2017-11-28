@@ -18,6 +18,6 @@ class AllSessionsProviderFactory {
 
     @NonNull
     AllSessionsProvider createAllSessionProvider(RefAppBleReferenceAppliance appliance) {
-        return new AllSessionsProvider(appliance, new SessionProviderFactory()/*, new RetryHelper()*/);
+        return new AllSessionsProvider(appliance, new SessionProviderFactory(), new RetryHelper());
     }
 }
