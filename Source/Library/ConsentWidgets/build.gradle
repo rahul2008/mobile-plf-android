@@ -244,7 +244,7 @@ dependencies {
     // Philips Components
 
     def dp = project.ext.has('useprojectdependencies')
-    if(dp) {
+    if (dp) {
         project(':uid')
     } else {
         compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
@@ -340,4 +340,17 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
 
 tasks.withType(Test) {
     ignoreFailures = true
+}
+
+task updateResources(type: Exec) {
+
+    workingDir "$rootDir"
+    commandLine './ConsentWidgets/generateLocalization.sh'
+    ignoreExitValue true
+    doLast {
+        println "$execResult"
+        if (execResult.exitValue == 0) {
+            throw new GradleException('error occurred while generating Localization files from Excel')
+        }
+    }
 }
