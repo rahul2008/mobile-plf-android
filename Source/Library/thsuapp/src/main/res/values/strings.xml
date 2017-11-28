@@ -174,7 +174,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <!-- Set Reminder Dialog text strings -->
     <string name="ths_rb_no_reminder">No Reminder</string>
-    <string name="ths_rb_15_mins_reminder">15 mins before</string>
+    <string name="ths_rb_15_mins_reminder">15 minutes before</string>
     <string name="ths_rb_one_hour_before">1 hour before</string>
     <string name="ths_rb_four_hours_before">4 hours before</string>
     <string name="ths_rb_eight_hours_before">8 hours before</string>
