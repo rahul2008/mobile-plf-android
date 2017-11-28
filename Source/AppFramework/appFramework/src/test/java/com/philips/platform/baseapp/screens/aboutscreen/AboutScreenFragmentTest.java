@@ -13,8 +13,6 @@ import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
-import com.philips.platform.baseapp.screens.termsandconditions.WebViewEnum;
-import com.philips.platform.baseapp.screens.termsandconditions.WebViewStateData;
 
 import org.junit.After;
 import org.junit.Before;
@@ -29,6 +27,7 @@ import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
 @RunWith(CustomRobolectricRunner.class)
@@ -68,13 +67,13 @@ public class AboutScreenFragmentTest {
     @Test
     public void testTermsClick() {
         aboutScreenFragment.getView().findViewById(R.id.uid_about_screen_terms).performClick();
-        verify(aboutScreenActionListener).loadTermsAndPrivacy(WebViewEnum.TERMS_CLICKED);
+        verify(aboutScreenActionListener).loadTermsAndPrivacy(any(String.class));
     }
 
     @Test
     public void testPrivacyClick() {
         aboutScreenFragment.getView().findViewById(R.id.uid_about_screen_privacy).performClick();
-        verify(aboutScreenActionListener).loadTermsAndPrivacy(WebViewEnum.PRIVACY_CLICKED);
+        verify(aboutScreenActionListener).loadTermsAndPrivacy(any(String.class));
     }
 
     @Test

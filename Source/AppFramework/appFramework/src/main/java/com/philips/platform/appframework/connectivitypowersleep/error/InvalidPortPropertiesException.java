@@ -9,8 +9,6 @@ package com.philips.platform.appframework.connectivitypowersleep.error;
 
 public class InvalidPortPropertiesException extends Exception {
 
-    private static final long serialVersionUID = -8371299561393589092L;
-
     public InvalidPortPropertiesException() {
     }
 }

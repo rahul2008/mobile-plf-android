@@ -6,9 +6,7 @@
 package com.philips.platform.baseapp.screens.termsandconditions;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,58 +26,35 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
-import java.net.URL;
-
 public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements WebViewContract.View {
 
     private static final String TAG = WebViewActivity.class.getSimpleName();
-    public static String STATE="state";
-    public static final String URL_TO_LOAD="url to load";
-    public static final String LOW_DEEPSLEEPSCORE="low_deepsleepscore";
-    public static final String HIGH_DEEPSLEEPSCORE="high_deepsleepscore";
-
-    public static final String ARTICLE_SERVICE_ID="app.articlesdeepsleepscore";
-
+    public static final String URL_TO_LOAD = "url to load";
+    public static final String SERVICE_ID_KEY = "serviceId";
     private WebView webView;
-
-    private WebViewContract.Action termsAndConditionsAction;
-
-    protected WebViewEnum state;
-
     private String url;
+    private String serviceId;
+    private WebViewContract.Action webViewActions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
-        state= getWebViewEnum();
-        url=(String)getIntent().getSerializableExtra(URL_TO_LOAD);
-        webView = (WebView) findViewById(R.id.web_view);
         UIDHelper.setupToolbar(this);
-        termsAndConditionsAction = getWebViewPresenter();
-        if(state== WebViewEnum.PRIVACY_CLICKED){
-            UIDHelper.setTitle(this,R.string.global_privacy_link);
-            termsAndConditionsAction.loadUrl(state);
-        }else if(state==WebViewEnum.TERMS_CLICKED){
-            UIDHelper.setTitle(this,R.string.global_terms_link);
-            termsAndConditionsAction.loadUrl(state);
-        }else if(state==WebViewEnum.LOW_DEEP_SLEEP_ARTICLE_CLICKED){
-            updateUiOnUrlLoaded("");
-        }else if(state==WebViewEnum.HIGH_DEEP_SLEEP_ARTICLE_CLICKED){
-            updateUiOnUrlLoaded("");
+        url = (String) getIntent().getSerializableExtra(URL_TO_LOAD);
+        serviceId = (String) getIntent().getSerializableExtra(SERVICE_ID_KEY);
+        webView = (WebView) findViewById(R.id.web_view);
+        webViewActions = getWebViewPresenter();
+        if (TextUtils.isEmpty(url)) {
+            webViewActions.loadUrl(serviceId);
+        } else {
+            showWebPage(url);
         }
-
     }
 
-    protected WebViewEnum getWebViewEnum() {
-        return (WebViewEnum) getIntent().getSerializableExtra(STATE);
-    }
-
-    @NonNull
     protected WebViewPresenter getWebViewPresenter() {
         return new WebViewPresenter(this, this);
     }
-
 
     @Override
     public int getContainerId() {
@@ -119,40 +94,10 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
         finish();
     }
 
-    @Override
-    public void updateUiOnUrlLoaded(String url) {
-        switch(state){
-            case PRIVACY_CLICKED:
-            case TERMS_CLICKED:
-                showWebPage(url);
-                break;
-            case LOW_DEEP_SLEEP_ARTICLE_CLICKED:
-                termsAndConditionsAction.loadArticle(ARTICLE_SERVICE_ID,LOW_DEEPSLEEPSCORE);
-                break;
-            case HIGH_DEEP_SLEEP_ARTICLE_CLICKED:
-                termsAndConditionsAction.loadArticle(ARTICLE_SERVICE_ID,HIGH_DEEPSLEEPSCORE);
-                break;
-        }
-    }
 
     protected void showWebPage(String url) {
-        url=url.replaceAll("^\"|\"$", "");
+        url = url.replaceAll("^\"|\"$", "");
         webView.loadUrl(url);
-    }
-
-    @Override
-    public void onUrlLoadError(String errorMessage) {
-        showToast(errorMessage);
-    }
-
-    @Override
-    public void showToast(String message) {
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onArticleLoaded(String articleWebPageUrl) {
-        showWebPage(articleWebPageUrl);
     }
 
     @Override
@@ -163,5 +108,15 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
     @Override
     public void updateActionBar(String s, boolean b) {
 
+    }
+
+    @Override
+    public void onUrlLoadSuccess(String url) {
+        showWebPage(url);
+    }
+
+    @Override
+    public void onUrlLoadError(String errorMessage) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
     }
 }

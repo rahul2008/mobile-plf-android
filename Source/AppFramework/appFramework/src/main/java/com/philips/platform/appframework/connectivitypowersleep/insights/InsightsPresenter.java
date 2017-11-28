@@ -10,6 +10,7 @@ package com.philips.platform.appframework.connectivitypowersleep.insights;
 
 import android.content.Context;
 
+import com.philips.platform.appframework.data.loaders.ArticleLoader;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -19,7 +20,6 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.screens.termsandconditions.WebViewEnum;
 import com.philips.platform.baseapp.screens.termsandconditions.WebViewStateData;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.datatypes.Insight;
@@ -46,30 +46,40 @@ public class InsightsPresenter implements InsightsContract.Action, DBFetchReques
     }
 
     @Override
-    public void showArticle(String insightTitle) {
-        BaseFlowManager targetFlowManager = ((AppFrameworkApplication)context).getTargetFlowManager();
-        BaseState baseState = null;
-        try {
-            baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.INSIGHTS), INSIGHTS_CLICKED);
-        } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
-                e) {
-            RALog.d(TAG, e.getMessage());
-        }
-        if (null != baseState) {
-            WebViewStateData webViewStateData =new WebViewStateData();
-            if(insightTitle.equalsIgnoreCase("LOW_DEEP_SLEEP")){
-                webViewStateData.setWebViewEnum(WebViewEnum.LOW_DEEP_SLEEP_ARTICLE_CLICKED);
-            }else{
-                webViewStateData.setWebViewEnum(WebViewEnum.HIGH_DEEP_SLEEP_ARTICLE_CLICKED);
+    public void showArticle(final String insightTitle) {
+        view.showProgressDialog();
+        new ArticleLoader(context).getArticleUrl(insightTitle, new ArticleLoader.ArticleUrlLoadListener() {
+            @Override
+            public void onSuccess(String url) {
+                view.hideProgressDialog();
+                BaseFlowManager targetFlowManager = ((AppFrameworkApplication)context).getTargetFlowManager();
+                BaseState baseState = null;
+                try {
+                    baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.INSIGHTS), INSIGHTS_CLICKED);
+                } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+                        e) {
+                    RALog.d(TAG, e.getMessage());
+                }
+                if (null != baseState) {
+                    WebViewStateData webViewStateData =new WebViewStateData();
+                    webViewStateData.setUrl(url);
+                    baseState.setUiStateData(webViewStateData);
+                    baseState.navigate(new FragmentLauncher(((InsightsFragment)view).getActivity(),((InsightsFragment)view).getContainerId(),((InsightsFragment)view).getActionBarListener()));
+                }
             }
-            baseState.setUiStateData(webViewStateData);
-            baseState.navigate(new FragmentLauncher(((InsightsFragment)view).getActivity(),((InsightsFragment)view).getContainerId(),((InsightsFragment)view).getActionBarListener()));
-        }
+
+            @Override
+            public void onError(String errorMessage) {
+                view.hideProgressDialog();
+                view.showToast(errorMessage);
+            }
+        });
+
     }
 
     @Override
     public void loadInsights(DataServicesManager dataServicesManager) {
-        view.showProgressBar();
+        view.showProgressDialog();
         dataServicesManager.fetchInsights(this);
     }
 
@@ -77,7 +87,7 @@ public class InsightsPresenter implements InsightsContract.Action, DBFetchReques
     @Override
     public void onFetchSuccess(List list) {
         RALog.d(TAG, "onFetchSuccess : " + list.size());
-        view.hideProgressBar();
+        view.hideProgressDialog();
         Iterator iterable = list.iterator();
         while (iterable.hasNext()) {
             Insight insight = (Insight) iterable.next();
@@ -91,7 +101,7 @@ public class InsightsPresenter implements InsightsContract.Action, DBFetchReques
     @Override
     public void onFetchFailure(Exception e) {
         RALog.d(TAG, "onFetchFailure : " + e.getMessage());
-        view.hideProgressBar();
+        view.hideProgressDialog();
         view.onInsightLoadError(e.getMessage());
     }
 }

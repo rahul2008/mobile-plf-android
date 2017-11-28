@@ -53,7 +53,6 @@ public class WebViewStateTest extends TestCase{
     @Test
     public void navigateTest(){
         WebViewStateData webViewStateData =new WebViewStateData();
-        webViewStateData.setWebViewEnum(WebViewEnum.TERMS_CLICKED);
         webViewState.setUiStateData(webViewStateData);
         webViewState.navigate(fragmentLauncher);
         assertNotNull(shadowOf(launchActivity).getNextStartedActivity());

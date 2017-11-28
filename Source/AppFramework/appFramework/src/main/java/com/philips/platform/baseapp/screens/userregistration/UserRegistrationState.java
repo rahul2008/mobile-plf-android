@@ -34,16 +34,12 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.termsandconditions.WebViewStateData;
-import com.philips.platform.baseapp.screens.termsandconditions.WebViewEnum;
 import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.dscdemo.DemoAppManager;
-import com.philips.platform.dscdemo.moments.MomentFragment;
-import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -297,15 +293,15 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onPrivacyPolicyClick(Activity activity) {
-        launchWebView(WebViewEnum.PRIVACY_CLICKED);
+        launchWebView(Constants.PRIVACY);
     }
 
     @Override
     public void onTermsAndConditionClick(Activity activity) {
-        launchWebView(WebViewEnum.TERMS_CLICKED);
+        launchWebView(Constants.TERMS_AND_CONDITIONS);
     }
 
-    public void launchWebView(WebViewEnum termsAndPrivacyEnum){
+    public void launchWebView(String serviceId) {
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         BaseState baseState = null;
         try {
@@ -316,8 +312,8 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
             Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
         }
         if (null != baseState) {
-            WebViewStateData webViewStateData =new WebViewStateData();
-            webViewStateData.setWebViewEnum(termsAndPrivacyEnum);
+            WebViewStateData webViewStateData = new WebViewStateData();
+            webViewStateData.setServiceId(serviceId);
             baseState.setUiStateData(webViewStateData);
             baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
         }

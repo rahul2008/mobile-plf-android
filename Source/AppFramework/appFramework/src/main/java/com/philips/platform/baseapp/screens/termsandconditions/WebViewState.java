@@ -28,8 +28,10 @@ public class WebViewState extends BaseState {
     public void navigate(UiLauncher uiLauncher) {
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
         Intent intent=new Intent(fragmentLauncher.getFragmentActivity(),WebViewActivity.class);
-        WebViewEnum termsAndPrivacyEnum=((WebViewStateData)getUiStateData()).getWebViewEnum();
-        intent.putExtra(WebViewActivity.STATE,termsAndPrivacyEnum);
+        String url=((WebViewStateData)getUiStateData()).getUrl();
+        String serviceId=((WebViewStateData)getUiStateData()).getServiceId();
+        intent.putExtra(WebViewActivity.URL_TO_LOAD,url);
+        intent.putExtra(WebViewActivity.SERVICE_ID_KEY,serviceId);
         fragmentLauncher.getFragmentActivity().startActivity(intent);
     }
 

@@ -16,9 +16,9 @@ import java.util.List;
 public interface InsightsContract {
 
     interface View{
-        void showProgressBar();
+        void showProgressDialog();
 
-        void hideProgressBar();
+        void hideProgressDialog();
 
         void showToast(String message);
 

@@ -11,19 +11,13 @@ package com.philips.platform.baseapp.screens.termsandconditions;
 
 public interface WebViewContract {
     interface View {
-        void updateUiOnUrlLoaded(String url);
+        void onUrlLoadSuccess(String url);
 
         void onUrlLoadError(String errorMessage);
-
-        void showToast(String message);
-
-        void onArticleLoaded(String articleWebPageUrl);
     }
 
     interface Action {
-        void loadUrl(WebViewEnum state);
-
-        void loadArticle(String articleServiceId,String articleTitle);
+        void loadUrl(String serviceId);
     }
 
 }

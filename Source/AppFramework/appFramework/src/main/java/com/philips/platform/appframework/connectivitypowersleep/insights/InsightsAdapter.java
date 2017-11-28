@@ -62,7 +62,7 @@ public class InsightsAdapter extends RecyclerView.Adapter<InsightsAdapter.Insigh
         sb.append("\nMomentId : " + insight.getMomentId());
         holder.tvDetail.setText(sb.toString());
 
-        holder.tvTitle.setTag(insight.getRuleId());
+        holder.tvTitle.setTag(insight.getTitle());
     }
 
     @Override

@@ -8,14 +8,23 @@ import com.philips.platform.appframework.flowmanager.base.UIStateData;
 
 public class WebViewStateData extends UIStateData {
 
-    private WebViewEnum webViewEnum;
+    private String url;
 
-    public WebViewEnum getWebViewEnum() {
-        return webViewEnum;
+    private String serviceId;
+
+    public void setUrl(String url){
+        this.url=url;
     }
 
-    public void setWebViewEnum(WebViewEnum termsAndPrivacyEnum) {
-        this.webViewEnum = termsAndPrivacyEnum;
+    public String getUrl(){
+        return url;
     }
 
+    public String getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
+    }
 }

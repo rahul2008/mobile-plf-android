@@ -10,7 +10,6 @@ package com.philips.platform.appframework.connectivitypowersleep.error;
 import com.philips.cdp.dicommclient.request.Error;
 
 public class PortErrorException extends Exception {
-    private static final long serialVersionUID = -9059320105452053669L;
     private final Error error;
 
     public PortErrorException(Error error) {

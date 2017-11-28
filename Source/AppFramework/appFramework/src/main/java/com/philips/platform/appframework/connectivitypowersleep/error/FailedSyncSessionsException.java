@@ -8,8 +8,6 @@
 package com.philips.platform.appframework.connectivitypowersleep.error;
 
 public class FailedSyncSessionsException extends Exception {
-    private static final long serialVersionUID = 8366188850206283421L;
-
     public FailedSyncSessionsException() {
         super("Failed to sync sessions from power sleep device");
     }

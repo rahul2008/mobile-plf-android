@@ -2,8 +2,6 @@ package com.philips.platform.appframework.connectivitypowersleep.insights;
 
 import android.content.Context;
 
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -56,7 +54,7 @@ public class InsightsPresenterTest {
     @Test
     public void loadInsightsTest() {
         insightsPresenter.loadInsights(dataServicesManager);
-        verify(view).showProgressBar();
+        verify(view).showProgressDialog();
         verify(dataServicesManager).fetchInsights(insightsPresenter);
     }
 
@@ -67,7 +65,7 @@ public class InsightsPresenterTest {
         dbFetchRequestListner = captor.getValue();
         List<Insight> insightList = new ArrayList<Insight>();
         dbFetchRequestListner.onFetchSuccess(insightList);
-        verify(view, times(1)).hideProgressBar();
+        verify(view, times(1)).hideProgressDialog();
         verify(view, times(1)).onInsightLoadSuccess(insightList);
     }
 
@@ -77,7 +75,7 @@ public class InsightsPresenterTest {
         verify(dataServicesManager).fetchInsights(captor.capture());
         dbFetchRequestListner = captor.getValue();
         dbFetchRequestListner.onFetchFailure(new Exception("error"));
-        verify(view, times(1)).hideProgressBar();
+        verify(view, times(1)).hideProgressDialog();
         verify(view, times(1)).onInsightLoadError("error");
     }
 

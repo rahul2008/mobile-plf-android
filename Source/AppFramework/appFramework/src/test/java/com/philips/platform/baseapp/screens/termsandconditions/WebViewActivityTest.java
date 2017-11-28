@@ -94,19 +94,10 @@ public class WebViewActivityTest {
     }
 
     @Test
-    public void updatUiOnUrlLoadedTest_showPage(){
-        webViewActivity.setWebViewEnum(WebViewEnum.PRIVACY_CLICKED);
-        webViewActivity.updateUiOnUrlLoaded("https://www.usa.philips.com/content/B2C/en_US/apps/77000/deep-sleep/sleep-score/articles/sleep-score/high-sleepscore.html");
+    public void onUrlLoadSuccessTest(){
+        webViewActivity.onUrlLoadSuccess("https://www.usa.philips.com/content/B2C/en_US/apps/77000/deep-sleep/sleep-score/articles/sleep-score/high-sleepscore.html");
         ShadowWebView shadowWebView=shadowOf(webView);
         assertEquals(shadowWebView.getLastLoadedUrl(),"https://www.usa.philips.com/content/B2C/en_US/apps/77000/deep-sleep/sleep-score/articles/sleep-score/high-sleepscore.html");
-    }
-
-    @Test
-    public void onArticleLoadedTest(){
-        webViewActivity.onArticleLoaded("https://www.usa.philips.com/content/B2C/en_US/apps/77000/deep-sleep/sleep-score/articles/sleep-score/high-sleepscore.html");
-        ShadowWebView shadowWebView=shadowOf(webView);
-        assertEquals(shadowWebView.getLastLoadedUrl(),"https://www.usa.philips.com/content/B2C/en_US/apps/77000/deep-sleep/sleep-score/articles/sleep-score/high-sleepscore.html");
-
     }
 
     @Test
@@ -115,14 +106,6 @@ public class WebViewActivityTest {
         assertTrue(webViewActivity.onCreateOptionsMenu(menu));
     }
 
-    @Test
-    public void updateUiOnUrlLoadedTest() throws Exception {
-        webViewActivity.setWebViewEnum(WebViewEnum.HIGH_DEEP_SLEEP_ARTICLE_CLICKED);
-        webViewActivity.updateUiOnUrlLoaded("");
-        webViewActivity.setWebViewEnum(WebViewEnum.LOW_DEEP_SLEEP_ARTICLE_CLICKED);
-        webViewActivity.updateUiOnUrlLoaded("");
-        verify(webViewPresenter,times(2)).loadArticle(any(String.class),any(String.class));
-    }
 
     @Test
     public void onOptionsItemSelectedTest(){
@@ -147,20 +130,9 @@ public class WebViewActivityTest {
             super.onCreate(savedInstanceState);
         }
 
-        @NonNull
         @Override
         protected WebViewPresenter getWebViewPresenter() {
             return webViewPresenter;
-        }
-
-
-        @Override
-        protected WebViewEnum getWebViewEnum() {
-            return state;
-        }
-
-        public void setWebViewEnum(WebViewEnum webViewEnum) {
-            state = webViewEnum;
         }
     }
 }

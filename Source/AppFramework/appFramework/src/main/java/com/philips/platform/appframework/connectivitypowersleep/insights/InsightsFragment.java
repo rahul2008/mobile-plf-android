@@ -5,6 +5,7 @@
 */
 package com.philips.platform.appframework.connectivitypowersleep.insights;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -13,21 +14,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
-import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.base.FragmentView;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
-import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +50,8 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
 
     @BindView(R.id.insights_recycler_view)
     RecyclerView recyclerViewInsights;
+
+    private ProgressDialog progressDialog;
 
     @Override
     public void onResume() {
@@ -106,16 +107,25 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
     }
 
     @Override
-    public void showProgressBar() {
+    public void showProgressDialog() {
+        progressDialog = ProgressDialog.show(getActivity(), "", getString(R.string.RA_loading_articles));
     }
 
     @Override
-    public void hideProgressBar() {
+    public void hideProgressDialog() {
+        if(progressDialog!=null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 
     @Override
-    public void showToast(String message) {
-
+    public void showToast(final String message) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getActivity(),message,Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -163,7 +173,6 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment implement
     @Override
     public void onInsightsItemClicked(String momentId) {
         RALog.d(TAG, "Moment id : " + momentId);
-        Toast.makeText(getActivity(), "Moment id : " + momentId, Toast.LENGTH_LONG).show();
         insightPresenter.showArticle(momentId);
     }
 

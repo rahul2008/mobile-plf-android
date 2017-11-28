@@ -17,7 +17,7 @@ import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.baseapp.screens.termsandconditions.WebViewState;
-import com.philips.platform.baseapp.screens.termsandconditions.WebViewEnum;
+import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import org.junit.After;
@@ -72,7 +72,7 @@ public class AboutScreenPresenterTest {
 
     @Test
     public void loadTermsAndPrivacy() throws Exception {
-        aboutScreenPresenterMock.loadTermsAndPrivacy(WebViewEnum.TERMS_CLICKED);
+        aboutScreenPresenterMock.loadTermsAndPrivacy(Constants.PRIVACY);
         verify(webViewState).navigate(any(UiLauncher.class));
     }
 
