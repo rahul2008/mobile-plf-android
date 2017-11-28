@@ -3,9 +3,6 @@ package com.philips.platform.myaplugin.uappadaptor;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created by philips on 11/16/17.
- */
 
 public class UserDataModel implements DataModel, Serializable {
     private String givenName;

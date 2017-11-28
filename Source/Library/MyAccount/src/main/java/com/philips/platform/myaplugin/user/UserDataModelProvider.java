@@ -15,8 +15,8 @@ public class UserDataModelProvider extends UserInterface implements Serializable
 
     //UserInterface userInterface;
 
-    UserDataModel userDataModel;
-    User user;
+    private UserDataModel userDataModel;
+    private transient User user;
 
 
     public UserDataModelProvider(Context context){
