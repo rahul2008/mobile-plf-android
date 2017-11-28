@@ -44,12 +44,9 @@ public class ConsentAccessToolKit {
     ConsentAccessToolKit() {
     }
 
-    public static ConsentAccessToolKit getInstance() {
-        if (sSoleInstance == null) { // if there is no instance available... create new one
-            synchronized (ConsentAccessToolKit.class) {
-                if (sSoleInstance == null)
-                    sSoleInstance = new ConsentAccessToolKit();
-            }
+    public static synchronized ConsentAccessToolKit getInstance() {
+        if (sSoleInstance == null) {
+            sSoleInstance = new ConsentAccessToolKit();
         }
         return sSoleInstance;
     }
