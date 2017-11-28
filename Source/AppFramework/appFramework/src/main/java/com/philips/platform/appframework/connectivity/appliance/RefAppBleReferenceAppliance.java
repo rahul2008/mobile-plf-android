@@ -48,7 +48,6 @@ public class RefAppBleReferenceAppliance extends Appliance {
             case POWER_SLEEP:
                 powerSleepSessionInfoPort = new GenericPort<>(communicationStrategy, "session", PRODUCT_ID, SessionInfoPortProperties.class);
                 powerSleepSessionDataPort = new SessionDataPort<>(communicationStrategy, "session/%s", PRODUCT_ID, SessionDataPortProperties.class);
-//                powerSleepSessionDataPort = new SessionDataPort(communicationStrategy, "session", PRODUCT_ID, SessionDataPortProperties.class);
                 addPort(powerSleepSessionInfoPort);
                 addPort(powerSleepSessionDataPort);
                 break;

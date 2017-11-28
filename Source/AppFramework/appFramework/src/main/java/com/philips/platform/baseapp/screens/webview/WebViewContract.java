@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.baseapp.screens.termsandconditions;
+package com.philips.platform.baseapp.screens.webview;
 
 /**
  * Created by philips on 25/07/17.

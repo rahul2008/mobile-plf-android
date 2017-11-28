@@ -3,11 +3,10 @@
 * in whole or in part is prohibited without the prior written
 * consent of the copyright holder.
 */
-package com.philips.platform.baseapp.screens.termsandconditions;
+package com.philips.platform.baseapp.screens.webview;
 
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
@@ -36,7 +35,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.Shadows.shadowOf;
 

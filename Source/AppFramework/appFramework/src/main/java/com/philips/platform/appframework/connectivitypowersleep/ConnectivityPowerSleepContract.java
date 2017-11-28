@@ -32,7 +32,7 @@ public interface ConnectivityPowerSleepContract {
 
         void savePowerSleepMomentsData(List<Session> sessionList);
 
-        void synchroniseSessionData(RefAppBleReferenceAppliance bleReferenceAppliance);
+        void synchronizeSessionData(RefAppBleReferenceAppliance bleReferenceAppliance);
 
     }
 

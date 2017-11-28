@@ -20,7 +20,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.screens.termsandconditions.WebViewStateData;
+import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.listeners.DBFetchRequestListner;

@@ -4,7 +4,7 @@
  * consent of the copyright holder.
 */
 
-package com.philips.platform.baseapp.screens.termsandconditions;
+package com.philips.platform.baseapp.screens.webview;
 
 import android.content.Context;
 import android.content.Intent;

@@ -14,19 +14,13 @@ import java.util.Date;
 
 public class Session implements Comparable<Session> {
 
-    public static final int UNSAVED_INDEX = -1;
     @NonNull private final Summary summary;
 
-    private final int index;
 
     public Session(@NonNull Summary summary) {
-        this(summary, UNSAVED_INDEX);
+        this.summary = summary;
     }
 
-    public Session(@NonNull Summary summary, int index) {
-        this.summary = summary;
-        this.index = index;
-    }
 
     @NonNull
     public Summary getSummary() {
@@ -38,9 +32,6 @@ public class Session implements Comparable<Session> {
         return getSummary().getDate();
     }
 
-    public int getIndex() {
-        return index;
-    }
 
     @Override
     public int compareTo(@NonNull Session o) {
@@ -50,7 +41,6 @@ public class Session implements Comparable<Session> {
 
     protected Session(Parcel in) {
         this.summary = in.readParcelable(Summary.class.getClassLoader());
-        this.index = in.readInt();
     }
 
     @Override
@@ -60,7 +50,6 @@ public class Session implements Comparable<Session> {
 
         Session session = (Session) o;
 
-        if (index != session.index) return false;
         if (!summary.equals(session.summary)) return false;
         return true;
 
@@ -69,7 +58,7 @@ public class Session implements Comparable<Session> {
     @Override
     public int hashCode() {
         int result = summary.hashCode();
-        result = 31 * result + index;
+        result = 31 * result ;
         return result;
     }
 }

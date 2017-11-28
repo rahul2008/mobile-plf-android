@@ -3,7 +3,7 @@
 * in whole or in part is prohibited without the prior written
 * consent of the copyright holder.
 */
-package com.philips.platform.baseapp.screens.termsandconditions;
+package com.philips.platform.baseapp.screens.webview;
 
 import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;

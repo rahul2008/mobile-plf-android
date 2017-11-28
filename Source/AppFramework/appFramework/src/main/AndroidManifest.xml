@@ -124,7 +124,7 @@
             android:label="SimpleDemoApplication"
             android:theme="@style/Theme.Janrain.Dialog.Light"
             android:windowSoftInputMode="stateHidden"></activity>
-        <activity android:name="com.philips.platform.baseapp.screens.termsandconditions.WebViewActivity" android:theme="@style/Theme.Philips.DarkBlue.Gradient"/>
+        <activity android:name="com.philips.platform.baseapp.screens.webview.WebViewActivity" android:theme="@style/Theme.Philips.DarkBlue.Gradient"/>
 
     </application>
 

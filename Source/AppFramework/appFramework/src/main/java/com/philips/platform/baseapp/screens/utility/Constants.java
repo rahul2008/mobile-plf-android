@@ -44,4 +44,7 @@ public class Constants {
     //Terms and Privacy service Constants
     public static final String TERMS_AND_CONDITIONS = "app.termsandconditions";
     public static final String PRIVACY = "app.privacynotice";
+
+    //TAG PowerSleepConnectivity
+    public static final String POWER_SLEEP_CONNECTIVITY_TAG ="PowerSleepConnectivity";
 }

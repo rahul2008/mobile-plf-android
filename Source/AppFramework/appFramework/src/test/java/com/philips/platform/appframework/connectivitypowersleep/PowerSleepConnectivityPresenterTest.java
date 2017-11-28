@@ -21,12 +21,10 @@ import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIView;
-import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.dscdemo.database.datatypes.MomentType;
 import com.philips.platform.dscdemo.database.table.OrmMoment;
 import com.philips.platform.dscdemo.database.table.OrmMomentType;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -45,8 +43,6 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.modules.junit4.rule.PowerMockRule;
-import org.powermock.reflect.Whitebox;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -114,7 +110,7 @@ public class PowerSleepConnectivityPresenterTest {
 
     @Test
     public void synchronizeSessionDataTest() throws Exception {
-        powerSleepConnectivityPresenter.synchroniseSessionData(bleReferenceAppliance);
+        powerSleepConnectivityPresenter.synchronizeSessionData(bleReferenceAppliance);
         verify(dataServicesManager).fetchLatestMomentByType(any(String.class),dbFetchRequestListnerArgumentCaptor.capture());
         DBFetchRequestListner<Moment> momentDBFetchRequestListner=dbFetchRequestListnerArgumentCaptor.getValue();
         ArrayList<Moment> moments=new ArrayList<>();
@@ -125,7 +121,7 @@ public class PowerSleepConnectivityPresenterTest {
 
     @Test
     public void synchronizeSessionDataWithEmptyListTest() throws Exception {
-        powerSleepConnectivityPresenter.synchroniseSessionData(bleReferenceAppliance);
+        powerSleepConnectivityPresenter.synchronizeSessionData(bleReferenceAppliance);
         verify(dataServicesManager).fetchLatestMomentByType(any(String.class),dbFetchRequestListnerArgumentCaptor.capture());
         DBFetchRequestListner<Moment> momentDBFetchRequestListner=dbFetchRequestListnerArgumentCaptor.getValue();
         ArrayList<Moment> moments=new ArrayList<>();
@@ -135,7 +131,7 @@ public class PowerSleepConnectivityPresenterTest {
 
     @Test
     public void synchronizeSessionDataFailureTest() throws Exception {
-        powerSleepConnectivityPresenter.synchroniseSessionData(bleReferenceAppliance);
+        powerSleepConnectivityPresenter.synchronizeSessionData(bleReferenceAppliance);
         verify(dataServicesManager).fetchLatestMomentByType(any(String.class),dbFetchRequestListnerArgumentCaptor.capture());
         DBFetchRequestListner<Moment> momentDBFetchRequestListner=dbFetchRequestListnerArgumentCaptor.getValue();
         momentDBFetchRequestListner.onFetchFailure(new Exception());
@@ -144,7 +140,7 @@ public class PowerSleepConnectivityPresenterTest {
 
     @Test
     public void onSynchronizeSucceedWithNonEmptyListTest() throws Exception {
-        powerSleepConnectivityPresenter.synchroniseSessionData(bleReferenceAppliance);
+        powerSleepConnectivityPresenter.synchronizeSessionData(bleReferenceAppliance);
         verify(dataServicesManager).fetchLatestMomentByType(any(String.class),dbFetchRequestListnerArgumentCaptor.capture());
         DBFetchRequestListner<Moment> momentDBFetchRequestListner=dbFetchRequestListnerArgumentCaptor.getValue();
         ArrayList<Moment> moments=new ArrayList<>();
@@ -173,7 +169,7 @@ public class PowerSleepConnectivityPresenterTest {
 
     @Test
     public void onSynchronizeSucceedWithEmptyListTest() throws Exception {
-        powerSleepConnectivityPresenter.synchroniseSessionData(bleReferenceAppliance);
+        powerSleepConnectivityPresenter.synchronizeSessionData(bleReferenceAppliance);
         verify(dataServicesManager).fetchLatestMomentByType(any(String.class),dbFetchRequestListnerArgumentCaptor.capture());
         DBFetchRequestListner<Moment> momentDBFetchRequestListner=dbFetchRequestListnerArgumentCaptor.getValue();
         ArrayList<Moment> moments=new ArrayList<>();
@@ -194,7 +190,7 @@ public class PowerSleepConnectivityPresenterTest {
 
     @Test
     public void onNoNewSessionsAvailableTest() throws Exception {
-        powerSleepConnectivityPresenter.synchroniseSessionData(bleReferenceAppliance);
+        powerSleepConnectivityPresenter.synchronizeSessionData(bleReferenceAppliance);
         verify(dataServicesManager).fetchLatestMomentByType(any(String.class),dbFetchRequestListnerArgumentCaptor.capture());
         DBFetchRequestListner<Moment> momentDBFetchRequestListner=dbFetchRequestListnerArgumentCaptor.getValue();
         ArrayList<Moment> moments=new ArrayList<>();
@@ -209,7 +205,7 @@ public class PowerSleepConnectivityPresenterTest {
 
     @Test
     public void onErrorTest() throws Exception {
-        powerSleepConnectivityPresenter.synchroniseSessionData(bleReferenceAppliance);
+        powerSleepConnectivityPresenter.synchronizeSessionData(bleReferenceAppliance);
         verify(dataServicesManager).fetchLatestMomentByType(any(String.class),dbFetchRequestListnerArgumentCaptor.capture());
         DBFetchRequestListner<Moment> momentDBFetchRequestListner=dbFetchRequestListnerArgumentCaptor.getValue();
         ArrayList<Moment> moments=new ArrayList<>();

@@ -22,7 +22,7 @@ import com.philips.platform.baseapp.screens.productregistration.ProductRegistrat
 import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
 import com.philips.platform.baseapp.screens.splash.SplashState;
 import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesState;
-import com.philips.platform.baseapp.screens.termsandconditions.WebViewState;
+import com.philips.platform.baseapp.screens.webview.WebViewState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.utility.RALog;

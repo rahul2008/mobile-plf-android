@@ -15,7 +15,6 @@ import com.philips.platform.appframework.connectivitypowersleep.datamodels.Sessi
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionsOldestToNewest;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;
 import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
-import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPort;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -27,17 +26,12 @@ import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetExc
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIView;
+import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
-import com.philips.platform.core.datatypes.Measurement;
-import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.dscdemo.database.datatypes.MeasurementDetailType;
-import com.philips.platform.dscdemo.database.datatypes.MeasurementGroupDetailType;
-import com.philips.platform.dscdemo.database.datatypes.MeasurementType;
-import com.philips.platform.dscdemo.database.datatypes.MomentDetailType;
 import com.philips.platform.dscdemo.database.datatypes.MomentType;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -45,9 +39,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static com.janrain.android.engage.JREngage.getApplicationContext;
 
@@ -72,7 +64,7 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
     }
 
     @Override
-    public void synchroniseSessionData(final RefAppBleReferenceAppliance bleReferenceAppliance) {
+    public void synchronizeSessionData(final RefAppBleReferenceAppliance bleReferenceAppliance) {
         connectivityViewListener.showProgressDialog();
         dataServicesManager.fetchLatestMomentByType(MomentType.SLEEP_SESSION,new DBFetchRequestListner<Moment>() {
             @Override
@@ -88,12 +80,13 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
                     public void onSynchronizeSucceed(@NonNull SessionsOldestToNewest sleepDataList) {
                         if (connectivityViewListener != null) {
                             connectivityViewListener.hideProgressDialog();
-                            connectivityViewListener.showToast("Moment list size::" + sleepDataList.getSortedList().size());
                         }
                         if(sleepDataList.size()>0) {
                             savePowerSleepMomentsData(sleepDataList.getSortedList());
+                            RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,"Moment list size::" + sleepDataList.getSortedList().size());
                         }else{
                             onNoNewSessionsAvailable();
+                            RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,"No New session available");
                         }
                     }
 
@@ -112,7 +105,7 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
 
             @Override
             public void onFetchFailure(final Exception e) {
-                connectivityViewListener.showToast("Exception");
+                RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,"Error while fetching latest moment with type sleepSession");
             }
         });
     }
@@ -133,13 +126,12 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
             public void onSuccess(List<? extends Moment> list) {
                 fetchLatestSessionInfo();
                 dataServicesManager.synchronize();
-                connectivityViewListener.showToast("Power sleep data pushed to DB" + list.size());
+                RALog.d(TAG,"Power sleep data pushed to DB" + list.size());
             }
 
             @Override
             public void onFailure(Exception e) {
                 RALog.e(TAG, "Exception while saving moment in DB" + e.getMessage());
-                connectivityViewListener.showToast("Exception while saving moment in DB" + e.getMessage());
             }
         });
     }
@@ -170,7 +162,7 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
                             Summary summary=connectivityHelper.getSummaryInfoFromMoment(moment);
                             connectivityViewListener.updateScreenWithLatestSessionInfo(summary);
                         }else{
-                            connectivityViewListener.showToast("Data not available.");
+                            RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,"sessions data not available in db");
                         }
 
             }

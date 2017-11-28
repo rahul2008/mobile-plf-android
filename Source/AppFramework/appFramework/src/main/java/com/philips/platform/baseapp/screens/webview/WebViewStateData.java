@@ -1,4 +1,4 @@
-package com.philips.platform.baseapp.screens.termsandconditions;
+package com.philips.platform.baseapp.screens.webview;
 
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 

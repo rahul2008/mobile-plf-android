@@ -32,6 +32,7 @@ import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferen
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.UIView;
+import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
@@ -73,6 +74,8 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
 
     private DataServicesManager dataServicesManager;
 
+    private View view;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -104,13 +107,12 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
             dataServicesManager.registerSynchronisationCompleteListener(this);
             dataServicesManager.synchronize();
         }else{
+            RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,"User not logged in");
             showToast("Please sign in!");
         }
         mBluetoothAdapter = getBluetoothAdapter();
     }
 
-
-    private View view;
 
 
     @Override
@@ -175,11 +177,11 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     protected void startDiscovery() {
 
         if (bleReferenceAppliance != null) {
-            connectivityPresenter.synchroniseSessionData(bleReferenceAppliance);
+            connectivityPresenter.synchronizeSessionData(bleReferenceAppliance);
             return;
         }
 
-        RALog.i(TAG, "Ble device discovery started ");
+        RALog.i(Constants.POWER_SLEEP_CONNECTIVITY_TAG, "Ble device discovery started ");
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -195,14 +197,14 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
                             @Override
                             public void onDeviceSelected(final RefAppBleReferenceAppliance bleRefAppliance) {
                                 bleReferenceAppliance = bleRefAppliance;
-                                connectivityPresenter.synchroniseSessionData(bleRefAppliance);
+                                connectivityPresenter.synchronizeSessionData(bleRefAppliance);
                             }
                         });
 
                         mCommCentral.startDiscovery();
                         handler.postDelayed(stopDiscoveryRunnable, STOP_DISCOVERY_TIMEOUT);
                     } catch (MissingPermissionException e) {
-                        RALog.e(TAG, "Permission missing");
+                        RALog.e(Constants.POWER_SLEEP_CONNECTIVITY_TAG, "Permission missing");
                     }
                 }
             }
@@ -252,7 +254,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
-        RALog.d(TAG, "Device Error : " + error.getErrorMessage() + ", " + s);
+        RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG, "Device Error : " + error.getErrorMessage() + ", " + s);
         Toast.makeText(getContext(), getString(R.string.RA_DLS_data_fetch_error), Toast.LENGTH_LONG).show();
     }
 
@@ -274,6 +276,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         handler.post(new Runnable() {
             @Override
             public void run() {
+                RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,message);
                 Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
             }
         });
@@ -311,6 +314,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
 
     @Override
     public void onSyncComplete() {
+        RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,"On Sync complete");
         connectivityPresenter.fetchLatestSessionInfo();
     }
 
@@ -321,13 +325,14 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
 
     @Override
     public void dBChangeSuccess(SyncType syncType) {
+        RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,"On DB change success");
         dataServicesManager.synchronize();
         connectivityPresenter.fetchLatestSessionInfo();
     }
 
     @Override
     public void dBChangeFailed(Exception e) {
-        showToast("DB Change failed");
+        RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG,"DB Change failed");
     }
 
 }
