@@ -177,17 +177,22 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
                 mTHSWaitingRoomPresenter.onEvent(R.id.uid_dialog_positive_button);
 
             } else {
-
-                THSConfirmationDialogFragment tHSConfirmationDialogFragment = new THSConfirmationDialogFragment();
-                tHSConfirmationDialogFragment.setPresenter(mTHSWaitingRoomPresenter);
-                tHSConfirmationDialogFragment.show(getFragmentManager(), THSConfirmationDialogFragment.TAG);
-
-
+                showCancelDialog();
             }
         }
 
 
     }
+    @Override
+    public boolean handleBackEvent() {
+        showCancelDialog();
+        return true;
+    }
 
+    private void showCancelDialog(){
+        THSConfirmationDialogFragment tHSConfirmationDialogFragment = new THSConfirmationDialogFragment();
+        tHSConfirmationDialogFragment.setPresenter(mTHSWaitingRoomPresenter);
+        tHSConfirmationDialogFragment.show(getFragmentManager(), THSConfirmationDialogFragment.TAG);
+    }
 
 }
