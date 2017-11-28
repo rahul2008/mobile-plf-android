@@ -313,7 +313,7 @@ def coverageSourceDirs = [
         '../RegistrationApi/src/main/java'
 ]
 
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+task jacocoTestReport(type: JacocoReport, dependsOn:["testDebugUnitTest","createDebugCoverageReport"]) {
     group = "Reporting"
 
     description = "Generate Jacoco coverage reports"
@@ -326,7 +326,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     sourceDirectories = files(coverageSourceDirs)
     //executionData = files('build/jacoco/testDebugUnitTest.exec')
 
-    executionData = files('build/jacoco/testDebugUnitTest.exec')
+    executionData = files('build/jacoco/testDebugUnitTest.exec','build/outputs/code-coverage/connected/*coverage.ec')
     reports {
         xml.enabled = true
         html.enabled = true
