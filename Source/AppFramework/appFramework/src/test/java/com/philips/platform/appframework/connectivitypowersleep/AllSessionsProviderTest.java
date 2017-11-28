@@ -50,6 +50,7 @@ public class AllSessionsProviderTest {
     @Mock private RefAppBleReferenceAppliance mockPowerSleepAppliance;
     @Mock private AllSessionsProvider.Callback mockSessionsDataCallback;
     @Mock private SessionProviderFactory mockSessionProviderFactory;
+    @Mock private RetryHelper mockRetryHelper;
     @Mock private Throwable mockThrowable;
     @Mock private SessionProvider mockSessionProvider1;
     @Mock private SessionProvider mockSessionProvider2;
@@ -126,29 +127,48 @@ public class AllSessionsProviderTest {
     public void itShouldRetryFetchingSessionWhenErrorIsReported() throws Exception {
         itShouldFetchNextWhenFirstSuccessResponseIsReceived();
 
+        when(mockRetryHelper.canRetry()).thenReturn(true);
         sleepDataCallbackArgumentCaptor.getValue().onError(mockThrowable);
 
-        verify(mockSessionProvider2, times(1)).fetchSession();
+        verify(mockSessionsDataCallback, never()).onError(any(Throwable.class));
+        verify(mockSessionProvider2, times(2)).fetchSession();
     }
 
     @Test
     public void itShouldReportErrorWhenErrorWasReported3Times() throws Exception {
         itShouldFetchNextWhenFirstSuccessResponseIsReceived();
 
+        reset(mockRetryHelper);
+        when(mockRetryHelper.canRetry()).thenReturn(false);
         sleepDataCallbackArgumentCaptor.getValue().onError(mockThrowable);
 
         verify(mockSessionsDataCallback).onError(any(Throwable.class));
+        verify(mockRetryHelper).reset();
     }
 
     @Test
     public void itShouldResetHelperWhenSessionIsFetchedAfterRetry() throws Exception {
         itShouldFetchNextWhenFirstSuccessResponseIsReceived();
 
+        reset(mockRetryHelper);
+        when(mockRetryHelper.canRetry()).thenReturn(true);
         sleepDataCallbackArgumentCaptor.getValue().onError(mockThrowable);
         sleepDataCallbackArgumentCaptor.getValue().onSuccess(sleepData2);
 
+        verify(mockRetryHelper).reset();
     }
 
+    @Test
+    public void itShouldResetHelperWhenRetryHappenedForPreviousSessionWithSuccess() throws Exception {
+        itShouldFetchNextWhenFirstSuccessResponseIsReceived();
+
+        reset(mockRetryHelper);
+        when(mockRetryHelper.canRetry()).thenReturn(true);
+        sleepDataCallbackArgumentCaptor.getValue().onError(mockThrowable);
+        sleepDataCallbackArgumentCaptor.getValue().onSuccess(sleepData2);
+
+        verify(mockRetryHelper).reset();
+    }
 
     @Test
     public void itShouldFetchNextWhenSecondSuccessResponseIsReceived() throws Exception {
