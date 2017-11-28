@@ -15,6 +15,7 @@ package com.philips.cdp.digitalcare;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
@@ -109,6 +110,11 @@ public class DigitalCareConfigManager {
      */
     public Context getContext() {
         return mContext;
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    public void setContext(Context mContext) {
+        this.mContext = mContext;
     }
 
     /**
