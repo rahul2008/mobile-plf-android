@@ -35,10 +35,16 @@ public class WelcomePagerAdapter extends FragmentStatePagerAdapter {
             R.string.RA_DLS_onboarding_screen6_sub_text, R.string.RA_DLS_onboarding_screen7_sub_text,
             R.string.RA_DLS_onboarding_screen8_sub_text, R.string.RA_DLS_onboarding_screen9_sub_text};
 
-    private final int[] drawableResIds = new int[]{R.drawable.onboarding_screen_2,
-            R.drawable.onboarding_screen_2, R.drawable.onboarding_screen_3, R.drawable.onboarding_screen_4,
-            R.drawable.onboarding_screen_5, R.drawable.onboarding_screen_6, R.drawable.onboarding_screen_7,
-            R.drawable.onboarding_screen_8, R.drawable.onboarding_screen_9};
+    private final int[] drawableResIds = new int[]{R.drawable.onboarding_01,
+            R.drawable.onboarding_01, R.drawable.onboarding_02, R.drawable.onboarding_03,
+            R.drawable.onboarding_04, R.drawable.onboarding_05, R.drawable.onboarding_06,
+            R.drawable.onboarding_07, R.drawable.onboarding_08};
+
+    private final int[] groupResIds = new int[]{R.drawable.group1,R.drawable.group1,
+            R.drawable.group2, R.drawable.group3, R.drawable.group4,
+            R.drawable.group5, R.drawable.group6, R.drawable.group7,
+            R.drawable.group8};
+
 
     public WelcomePagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
@@ -56,7 +62,7 @@ public class WelcomePagerAdapter extends FragmentStatePagerAdapter {
         }
 
         return WelcomePagerFragment.newInstance(titleResIds[position],
-                subTitleResIds[position], drawableResIds[position]);
+                subTitleResIds[position], drawableResIds[position],groupResIds[position]);
     }
 
     private boolean isValidPosition(int position) {
