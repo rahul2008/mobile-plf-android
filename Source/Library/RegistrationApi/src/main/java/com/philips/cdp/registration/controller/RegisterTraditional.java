@@ -119,7 +119,8 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
                         .put("givenName", mProfile.getGivenName())
                         .put("password", mProfile.getPassword())
                         .put("olderThanAgeLimit", mProfile.getOlderThanAgeLimit())
-                        .put("receiveMarketingEmail", mProfile.getReceiveMarketingEmail());
+                        .put("receiveMarketingEmail", mProfile.getReceiveMarketingEmail())
+                        .put("familyName",mProfile.getFamilyName());
                 new RussianConsent().addRussianConsent(newUser);
             } catch (JSONException e) {
             }
