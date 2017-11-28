@@ -12,6 +12,9 @@ import android.support.annotation.StringRes;
 import com.philips.cdp2.ews.R;
 
 
+/**
+ *This class is for setting the configuration for TroubleShootContent.
+ */
 public class TroubleShootContentConfiguration implements Parcelable {
 
     // configuration for EWS_H_03.2 reset connnection screen.
@@ -92,54 +95,93 @@ public class TroubleShootContentConfiguration implements Parcelable {
         }
     };
 
+    /**
+     * @return @StringRes ResetConnectionTitle
+     */
     public int getResetConnectionTitle() {
         return resetConnectionTitle;
     }
 
+    /**
+     * @return @StringRes ResetConnectionBody
+     */
     public int getResetConnectionBody() {
         return resetConnectionBody;
     }
 
+    /**
+     * @return @DrawableRes ResetConnectionImage
+     */
     public int getResetConnectionImage() {
         return resetConnectionImage;
     }
 
+    /**
+     * @return @StringRes ResetDeviceTitle
+     */
     public int getResetDeviceTitle() {
         return resetDeviceTitle;
     }
 
+    /**
+     * @return @StringRes ResetDeviceBody
+     */
     public int getResetDeviceBody() {
         return resetDeviceBody;
     }
 
+    /**
+     * @return @DrawableRes ResetDeviceImage
+     */
     public int getResetDeviceImage() {
         return resetDeviceImage;
     }
 
+    /**
+     * @return @StringRes SetUpAccessPointTitle
+     */
     public int getSetUpAccessPointTitle() {
         return setUpAccessPointTitle;
     }
 
+    /**
+     * @return @StringRes SetUpAccessPointBody
+     */
     public int getSetUpAccessPointBody() {
         return setUpAccessPointBody;
     }
 
+    /**
+     * @return @DrawableRes SetUpAccessPointImage
+     */
     public int getSetUpAccessPointImage() {
         return setUpAccessPointImage;
     }
 
+    /**
+     * @return @StringRes ConnectWrongPhoneTitle
+     */
     public int getConnectWrongPhoneTitle() {
         return connectWrongPhoneTitle;
     }
 
+    /**
+     * @return @StringRes ConnectWrongPhoneBody
+     */
     public int getConnectWrongPhoneBody() {
         return connectWrongPhoneBody;
     }
 
+    /**
+     * @return @DrawableRes ConnectWrongPhoneImage
+     */
     public int getConnectWrongPhoneImage() {
         return connectWrongPhoneImage;
     }
 
+    /**
+     * @return @StringRes ConnectWrongPhoneQuestion
+     */
     public int getConnectWrongPhoneQuestion() {
         return connectWrongPhoneQuestion;
     }
@@ -199,6 +241,9 @@ public class TroubleShootContentConfiguration implements Parcelable {
         @StringRes
         private  int connectWrongPhoneQuestion;
 
+        /**
+         *This will Build TroubleShootContent with default values.
+         */
         public Builder(){
             //Todo : need to change default text on base on ui
             resetConnectionTitle = R.string.label_ews_support_reset_connection_title_default;
@@ -220,71 +265,140 @@ public class TroubleShootContentConfiguration implements Parcelable {
 
         }
 
+        /**
+         * Setter for ResetConnectionTitle
+         * @param resetConnectionTitle  ResetConnectionTitle
+         * @return Builder
+         */
         public Builder setResetConnectionTitle(@StringRes int resetConnectionTitle){
             this.resetConnectionTitle = resetConnectionTitle;
             return this;
         }
 
+        /**
+         * Setter for ResetConnectionBody
+         * @param resetConnectionBody ResetConnectionBody
+         * @return Builder
+         */
         public Builder setResetConnectionBody(@StringRes int resetConnectionBody){
             this.resetConnectionBody = resetConnectionBody;
             return this;
         }
 
+        /**
+         * Setter for ResetConnectionImage
+         * @param resetConnectionImage ResetConnectionImage
+         * @return Builder
+         */
         public Builder setResetConnectionImage(@DrawableRes int resetConnectionImage){
             this.resetConnectionImage = resetConnectionImage;
             return this;
         }
 
+        /**
+         * Setter for ResetDeviceTitle
+         * @param resetDeviceTitle ResetDeviceTitle
+         * @return Builder
+         */
         public Builder setResetDeviceTitle(@StringRes int resetDeviceTitle){
             this.resetDeviceTitle = resetDeviceTitle;
             return this;
         }
 
+        /**
+         * Setter for ResetDeviceBody
+         * @param resetDeviceBody ResetDeviceBody
+         * @return Builder
+         */
         public Builder setResetDeviceBody(@StringRes int resetDeviceBody){
             this.resetDeviceBody = resetDeviceBody;
             return this;
         }
 
+        /**
+         * Setter for ResetDeviceImage
+         * @param resetDeviceImage ResetDeviceImage
+         * @return Builder
+         */
         public Builder setResetDeviceImage(@DrawableRes int resetDeviceImage){
             this.resetDeviceImage = resetDeviceImage;
             return this;
         }
 
+        /**
+         * Setter for SetUpAccessPointTitle
+         * @param setUpAccessPointTitle SetUpAccessPointTitle
+         * @return Builder
+         */
         public Builder setSetUpAccessPointTitle(@StringRes int setUpAccessPointTitle) {
             this.setUpAccessPointTitle = setUpAccessPointTitle;
             return this;
         }
 
+        /**
+         * Setter for SetUpAccessPointBody
+         * @param setUpAccessPointBody SetUpAccessPointBody
+         * @return Builder
+         */
         public Builder setSetUpAccessPointBody(@StringRes int setUpAccessPointBody) {
             this.setUpAccessPointBody = setUpAccessPointBody;
             return this;
         }
 
+        /**
+         * Setter for SetUpAccessPointImage
+         * @param setUpAccessPointImage SetUpAccessPointImage
+         * @return Builder
+         */
         public Builder setSetUpAccessPointImage(@DrawableRes int setUpAccessPointImage) {
             this.setUpAccessPointImage = setUpAccessPointImage;
             return this;
         }
 
+        /**
+         * Setter for ConnectWrongPhoneTitle
+         * @param connectWrongPhoneTitle ConnectWrongPhoneTitle
+         * @return Builder
+         */
         public Builder setConnectWrongPhoneTitle(@StringRes int connectWrongPhoneTitle) {
             this.connectWrongPhoneTitle = connectWrongPhoneTitle;
             return this;
         }
 
+        /**
+         * Setter for ConnectWrongPhoneBody
+         * @param connectWrongPhoneBody ConnectWrongPhoneBody
+         * @return Builder
+         */
         public Builder setConnectWrongPhoneBody(@StringRes int connectWrongPhoneBody) {
             this.connectWrongPhoneBody = connectWrongPhoneBody;
             return this;
         }
 
+        /**
+         * Setter for ConnectWrongPhoneImage
+         * @param connectWrongPhoneImage ConnectWrongPhoneImage
+         * @return Builder
+         */
         public Builder setConnectWrongPhoneImage(@DrawableRes int connectWrongPhoneImage) {
             this.connectWrongPhoneImage = connectWrongPhoneImage;
             return this;
         }
 
+        /**
+         * Setter for ConnectWrongPhoneQuestion
+         * @param connectWrongPhoneQuestion ConnectWrongPhoneQuestion
+         * @return Builder
+         */
         public Builder setConnectWrongPhoneQuestion(@StringRes int connectWrongPhoneQuestion) {
             this.connectWrongPhoneQuestion = connectWrongPhoneQuestion;
             return this;
         }
 
+        /**
+         * This will provide TroubleShootContentConfiguration.
+         * @return TroubleShootContentConfiguration
+         */
         public TroubleShootContentConfiguration build(){
             return new TroubleShootContentConfiguration(resetConnectionTitle, resetConnectionBody, resetConnectionImage, resetDeviceTitle, resetDeviceBody,
                     resetDeviceImage, setUpAccessPointTitle, setUpAccessPointBody, setUpAccessPointImage, connectWrongPhoneTitle, connectWrongPhoneBody,

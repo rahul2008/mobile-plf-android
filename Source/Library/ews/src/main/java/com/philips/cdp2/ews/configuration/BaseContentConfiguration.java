@@ -10,6 +10,9 @@ import android.support.annotation.StringRes;
 
 import com.philips.cdp2.ews.R;
 
+/**
+ * This class will provide BaseContentConfiguration
+ */
 public class BaseContentConfiguration implements Parcelable {
 
     @StringRes
@@ -18,11 +21,19 @@ public class BaseContentConfiguration implements Parcelable {
     @StringRes
     private final int appName;
 
+    /**
+     * Default constructor
+     */
     public BaseContentConfiguration() {
         deviceName = R.string.ews_device_name_default;
         appName = R.string.ews_app_name_default;
     }
 
+    /**
+     * Create BaseContentConfiguration by using deviceName and AppName provided By Proposition.
+     * @param deviceName  DeviceName @StringRes
+     * @param appName  AppName @StringRes
+     */
     public BaseContentConfiguration(@StringRes int deviceName, @StringRes int appName) {
         this.deviceName = deviceName;
         this.appName = appName;
@@ -33,14 +44,25 @@ public class BaseContentConfiguration implements Parcelable {
         this.appName = in.readInt();
     }
 
+    /**
+     * Provide DeviceName String Resources
+     * @return DeviceName
+     */
     public int getDeviceName() {
         return deviceName;
     }
 
+    /**
+     * Provide AppName String Resources
+     * @return AppName
+     */
     public int getAppName() {
         return appName;
     }
 
+    /**
+     * @return content
+     */
     @Override
     public int describeContents() {
         return 0;
