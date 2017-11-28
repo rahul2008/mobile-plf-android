@@ -10,7 +10,6 @@ import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.communication.events.ConnectApplianceToHomeWiFiEvent;
 import com.philips.cdp2.ews.communication.events.DiscoverApplianceEvent;
-import com.philips.cdp2.ews.communication.events.FetchDevicePortPropertiesEvent;
 import com.philips.cdp2.ews.communication.events.PairingSuccessEvent;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
@@ -77,13 +76,6 @@ public class ApplianceAccessEventMonitorTest {
 
         subject = new ApplianceAccessEventMonitor(applianceAccessManagerMock, eventBusMock, sessionInfoMock,
                 discoverManagerMock);
-    }
-
-    @Test
-    public void itShouldFetchApplianceDevicePortDetailsWhenRequested() throws Exception {
-        subject.fetchDevicePortProperties(new FetchDevicePortPropertiesEvent());
-
-        verify(applianceAccessManagerMock).fetchDevicePortProperties(isNull(ApplianceAccessManager.FetchCallback.class));
     }
 
     @Test

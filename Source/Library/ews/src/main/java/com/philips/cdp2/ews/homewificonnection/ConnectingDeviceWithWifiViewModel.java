@@ -85,9 +85,6 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     @NonNull
     private final ApplianceSessionDetailsInfo applianceSessionDetailsInfo;
 
-    @Nullable
-    private String cppId;
-    
     @NonNull
     private final Runnable timeoutRunnable = new Runnable() {
         @Override
@@ -107,7 +104,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         @Override
         public void onPropertiesSet(@NonNull WifiPortProperties wifiPortProperties) {
             if (startConnectionModel != null) {
-                cppId = wifiPortProperties.getCppid();
+                applianceSessionDetailsInfo.setCppId(wifiPortProperties.getCppid());
                 connectToHomeWifiInternal(startConnectionModel.getHomeWiFiSSID());
             } else {
                 EWSLogger.e(TAG, "startConnectionModel cannot be null");
@@ -125,7 +122,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
                 @Override
                 public void onApplianceFound(Appliance appliance) {
                     //TODO remove cppID from networkNode and replace it with wifiPortProperties.cppID once the api will be finalized within commlib
-                    if (appliance.getNetworkNode().getCppId().equalsIgnoreCase(cppId)) {
+                    if (appliance.getNetworkNode().getCppId().equalsIgnoreCase(applianceSessionDetailsInfo.getCppId())) {
                         String appliancePin = applianceSessionDetailsInfo.getAppliancePin();
                         removeTimeoutRunnable();
                         discoveryHelper.stopDiscovery();
