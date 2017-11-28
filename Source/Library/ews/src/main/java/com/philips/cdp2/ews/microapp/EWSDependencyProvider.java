@@ -28,6 +28,10 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import java.util.Map;
 
+/**
+ * This class is been used for creating EWSComponent for Activity and Fragment launch.
+ * Provide AppInfraInterface, Logging, Tagging and ProductMap as well.
+ */
 public class EWSDependencyProvider {
 
     private static LoggingInterface loggingInterface;
@@ -55,6 +59,10 @@ public class EWSDependencyProvider {
     EWSDependencyProvider() {
     }
 
+    /**
+     * Provide a instance of EWSDependencyProvider
+     * @return EWSDependencyProvider
+     */
     public static EWSDependencyProvider getInstance() {
         if (instance == null) {
             synchronized (EWSDependencyProvider.class) {
@@ -65,10 +73,20 @@ public class EWSDependencyProvider {
         return instance;
     }
 
+    /**
+     * For Setting context for EWSDependencyProvider
+     * @param context
+     */
     public void setContext(@Nullable Context context) {
         this.context = context;
     }
 
+    /**
+     * This is for initialising Dependencies for EWSDependencyProvider.
+     * It will provide appInra and productkeymap where-ever required.
+     * @param appInfraInterface  AppInfraInterface
+     * @param productKeyMap     Map<String, String>
+     */
     public void initDependencies(@NonNull final AppInfraInterface appInfraInterface,
                                  @NonNull final Map<String, String> productKeyMap) {
         this.appInfraInterface = appInfraInterface;
@@ -79,10 +97,18 @@ public class EWSDependencyProvider {
         }
     }
 
+    /**
+     * This will return AppInfraInterface.
+     * @return  AppInfraInterface
+     */
     public AppInfraInterface getAppInfra() {
         return appInfraInterface;
     }
 
+    /**
+     * This will return LoggingInterface.
+     * @return LoggingInterface
+     */
     public LoggingInterface getLoggerInterface() {
         if (loggingInterface == null) {
             loggingInterface = getAppInfra().getLogging().createInstanceForComponent("EasyWifiSetupLogger", "1.0.0");
@@ -91,6 +117,10 @@ public class EWSDependencyProvider {
         return loggingInterface;
     }
 
+    /**
+     * This will return AppTaggingInterface.
+     * @return AppTaggingInterface
+     */
     public AppTaggingInterface getTaggingInterface() {
         if (appTaggingInterface == null) {
             appTaggingInterface = getAppInfra().getTagging().createInstanceForComponent("EasyWifiSetupTagger", "1.0.0");
@@ -98,10 +128,23 @@ public class EWSDependencyProvider {
         return appTaggingInterface;
     }
 
+    /**
+     * This will create EWSComponent(Dagger)  using FragmentLauncher and ContentConfiguration for Fragment Launch
+     * This need to called once before creating any injection
+     * @param fragmentLauncher  FragmentLauncher
+     * @param contentConfiguration  ContentConfiguration
+     */
     void createEWSComponent(@NonNull FragmentLauncher fragmentLauncher, @NonNull ContentConfiguration contentConfiguration) {
         createEWSComponent(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(), contentConfiguration);
     }
 
+    /**
+     * This will create EWSComponent(Dagger)  using FragmentActivity,parentContainerResourceID and ContentConfiguration for Activity Launch
+     * This need to called once before creating any injection
+     * @param fragmentActivity  FragmentActivity
+     * @param parentContainerResourceID  @IdRes int
+     * @param contentConfiguration  ContentConfiguration
+     */
     public void createEWSComponent(@NonNull FragmentActivity fragmentActivity, @IdRes int parentContainerResourceID, @NonNull ContentConfiguration contentConfiguration) {
         ewsComponent = DaggerEWSComponent.builder()
                 .eWSModule(new EWSModule(fragmentActivity
@@ -111,10 +154,18 @@ public class EWSDependencyProvider {
                 .build();
     }
 
+    /**
+     * This will provide EWSComponent
+     * @return EWSComponent
+     */
     public EWSComponent getEwsComponent() {
         return ewsComponent;
     }
 
+    /**
+     * This will return ProductName
+     * @return ProductName
+     */
     @NonNull
     public String getProductName() {
         if (productKeyMap == null) {
@@ -123,10 +174,17 @@ public class EWSDependencyProvider {
         return productKeyMap.get(EWSInterface.PRODUCT_NAME);
     }
 
+    /**
+     * This will check if appInfraInterface and productKeyMap are null or not
+     * @return boolean
+     */
     boolean areDependenciesInitialized() {
         return appInfraInterface != null && productKeyMap != null;
     }
 
+    /**
+     *This will clear all the object of EWSDependencyProvider.
+     */
     public void clear() {
         loggingInterface = null;
         appTaggingInterface = null;
@@ -136,6 +194,10 @@ public class EWSDependencyProvider {
         ewsComponent = null;
     }
 
+    /**
+     * This will provide CommCentral object.
+     * @return CommCentral
+     */
     public CommCentral getCommCentral() {
         if (commCentral == null) {
             commCentral = createCommCentral();
@@ -152,10 +214,18 @@ public class EWSDependencyProvider {
         return new CommCentral(factory, lanTransportContext);
     }
 
+    /**
+     * This need to be called for setting ThemeConfiguration
+     * @param themeConfiguration ThemeConfiguration
+     */
     public void setThemeConfiguration(@Nullable ThemeConfiguration themeConfiguration) {
         this.themeConfiguration = themeConfiguration;
     }
 
+    /**
+     * This will provide you ThemeConfiguration object.
+     * @return ThemeConfiguration
+     */
     public ThemeConfiguration getThemeConfiguration() {
         return themeConfiguration;
     }
