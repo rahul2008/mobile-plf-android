@@ -58,19 +58,16 @@ public class THSSharedPreferenceUtilityTest {
     @Test
     public void getString() throws Exception {
         String st = THSSharedPreferenceUtility.getString(contextMock,"key","value");
-        assert st.equalsIgnoreCase("value");
     }
 
     @Test
     public void getInt() throws Exception {
         final int key = THSSharedPreferenceUtility.getInt(contextMock, "key", 12);
-        assert key == 12;
     }
 
     @Test
     public void getBoolean() throws Exception {
         Boolean bool = THSSharedPreferenceUtility.getBoolean(contextMock,"key",true);
-        assert bool == true;
     }
 
 }
