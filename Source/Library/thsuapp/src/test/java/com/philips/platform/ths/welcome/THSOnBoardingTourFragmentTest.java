@@ -202,6 +202,16 @@ public class THSOnBoardingTourFragmentTest {
     }
 
     @Test
+    public void onClickCustomer_support() throws Exception {
+        SupportFragmentTestUtil.startFragment(mWelcomeFragment);
+        mWelcomeFragment.presenter = presenterMock;
+        mWelcomeFragment.setFragmentLauncher(fragmentLauncherMock);
+        final View viewById = mWelcomeFragment.getView().findViewById(R.id.customer_support);
+        viewById.performClick();
+        verify(presenterMock).onEvent(R.id.customer_support);
+    }
+
+    @Test
     public void updateViewtest() throws Exception {
         SupportFragmentTestUtil.startFragment(mWelcomeFragment);
         View viewById = mWelcomeFragment.getView().findViewById(R.id.how_it_works);

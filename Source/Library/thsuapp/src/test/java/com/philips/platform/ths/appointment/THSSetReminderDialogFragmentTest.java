@@ -115,4 +115,47 @@ public class THSSetReminderDialogFragmentTest {
         verify(thsDialogFragmentCallbackMock).onPostData(THSConstants.THS_ONE_WEEK_REMINDER);
     }
 
+    @Test
+    public void setReminder_EIGHT_HOURS(){
+        mthsSetReminderDialogFragment.setReminder(RemindOptions.EIGHT_HOURS);
+        assert mthsSetReminderDialogFragment.radioGroup.isSelected() == true;
+    }
+
+    @Test
+    public void setReminder_ONE_DAY(){
+        mthsSetReminderDialogFragment.setReminder(RemindOptions.ONE_DAY);
+        assert mthsSetReminderDialogFragment.radioGroup.isSelected() == true;
+    }
+
+
+    @Test
+    public void setReminder_NO_REMINDER(){
+        mthsSetReminderDialogFragment.setReminder(RemindOptions.NO_REMINDER);
+        assert mthsSetReminderDialogFragment.radioGroup.isSelected() == true;
+    }
+
+    @Test
+    public void setReminder_FIFTEEN_MIN(){
+        mthsSetReminderDialogFragment.setReminder(RemindOptions.FIFTEEN_MIN);
+        assert mthsSetReminderDialogFragment.radioGroup.isSelected() == true;
+    }
+
+    @Test
+    public void setReminder_ONE_HOUR(){
+        mthsSetReminderDialogFragment.setReminder(RemindOptions.ONE_HOUR);
+        assert mthsSetReminderDialogFragment.radioGroup.isSelected() == true;
+    }
+
+    @Test
+    public void setReminder_FOUR_HOURS(){
+        mthsSetReminderDialogFragment.setReminder(RemindOptions.FOUR_HOURS);
+        assert mthsSetReminderDialogFragment.radioGroup.isSelected() == true;
+    }
+
+    @Test
+    public void setReminder_ONE_WEEK(){
+        mthsSetReminderDialogFragment.setReminder(RemindOptions.ONE_WEEK);
+        assert mthsSetReminderDialogFragment.radioGroup.isSelected() == true;
+    }
+
 }

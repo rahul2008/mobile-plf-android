@@ -31,7 +31,7 @@ public class THSVisitHistoryFragment extends THSBaseFragment{
     public static final String TAG = THSVisitHistoryFragment.class.getSimpleName();
     private RecyclerView mRecyclerView;
     private THSVisitHistoryPresenter mThsVisitHistoryPresenter;
-    private THSVisitHistoryAdapter mThsVisitHistoryAdapter;
+    protected THSVisitHistoryAdapter mThsVisitHistoryAdapter;
     private Label mNumberOfAppointmentsLabel;
     RelativeLayout mRelativeLayout;
     @Nullable

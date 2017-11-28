@@ -119,6 +119,7 @@ public class THSScheduledVisitsPresenterTest {
         when(thsScheduledVisitsFragmentMock.getContext()).thenReturn(contextMock);
         when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);
         when(thsScheduledVisitsFragmentMock.isFragmentAttached()).thenReturn(true);
+        when(thsScheduledVisitsFragmentMock.isFragmentAttached()).thenReturn(true);
 
         mTHSScheduledVisitsPresenter = new THSScheduledVisitsPresenter(thsScheduledVisitsFragmentMock);
         when(thsScheduledVisitsFragmentMock.isFragmentAttached()).thenReturn(true);

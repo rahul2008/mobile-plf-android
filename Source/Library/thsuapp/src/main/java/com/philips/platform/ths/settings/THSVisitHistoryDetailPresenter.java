@@ -68,7 +68,7 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
     @Override
     public void onResponse(FileAttachment fileAttachment, SDKError sdkError) {
         if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
-            if (sdkError != null) {
+            if (sdkError != null && sdkError.getSDKErrorReason()!=null) {
                 mThsVisitHistoryDetailFragment.showError(sdkError.getSDKErrorReason().name());
                 return;
             }
@@ -107,7 +107,8 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
                 }
             });
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+            mThsVisitHistoryDetailFragment.hideProgressBar();
+            mThsVisitHistoryDetailFragment.showError(mThsVisitHistoryDetailFragment.getString(R.string.ths_se_server_error_toast_message));
         }
 
 
