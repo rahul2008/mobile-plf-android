@@ -157,7 +157,6 @@ dependencies {
     compile "com.android.support:design:${versions.support}"
     compile "com.android.support:appcompat-v7:${versions.support}"
     compile "com.android.support:animated-vector-drawable:${versions.support}"
-    compile "com.android.support:cardview-v7:${versions.support}"
 
     // Philips Dependencies
     def dp = project.ext.has('useprojectdependencies')
@@ -170,7 +169,7 @@ dependencies {
                 transitive = true
             }
     }
-    
+
     if(dp) {
         project(':commlib-lan')
     } else {
@@ -187,16 +186,6 @@ dependencies {
             transitive = true
         }
     }
-
-    if(dp) {
-        project(':IconFont')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'IconFont', version: versions.icf_iconFont + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive = true
-            }
-    }
-    
 
     if(dp) {
         project(':uAppFwLib')
@@ -219,7 +208,5 @@ dependencies {
     testCompile "org.powermock:powermock-api-mockito:${versionsExternal.powerMock}"
     testCompile "org.powermock:powermock-module-junit4-rule:${versionsExternal.powerMock}"
     testCompile "org.powermock:powermock-classloading-xstream:${versionsExternal.powerMock}"
-    testCompile("com.nhaarman:mockito-kotlin:${versionsExternal.mockitoKotlin}") {
-        exclude group: 'org.mockito'
-    }
+
 }

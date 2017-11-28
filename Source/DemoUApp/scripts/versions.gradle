@@ -22,19 +22,6 @@ ext.versionsAndroid = [
 
 ]
 
-// Most up to date versions of used Philips common components
-ext.versionsPhilips = [
-        uaf     : "1.6.2-rc.20170901140757",  // uApp Framework
-        prg     : "2.5.2-rc.20170901144329",  // Product Registration
-        cba     : "8.0.0-rc.+",  // CommLib-All
-        dsc     : "1.2.2-rc.20170901144720",  // DataServices
-        dcc     : "7.5.2-rc.20170901143221",  // Consumer Care
-        sdb     : "1.2.2-rc.20170901140724",  // Secure DB
-        lcm     : "2.5.0",   // LocaleMatch
-        uid     : "0.1.1-rc.20170920184517",
-        IconFont: "1.0.0-rc.20171017141918"
-]
-
 // Version of used external libraries and tools
 ext.versionsExternal = [
 
