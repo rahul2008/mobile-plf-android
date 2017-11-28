@@ -8,7 +8,6 @@ package com.philips.platform.dscdemo.moments;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
-import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.core.datatypes.Moment;
@@ -34,12 +32,10 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.DemoAppManager;
 import com.philips.platform.dscdemo.R;
-import com.philips.platform.dscdemo.activity.DSLaunchActivity;
 import com.philips.platform.dscdemo.characteristics.CharacteristicsFragment;
 import com.philips.platform.dscdemo.consents.ConsentFragment;
 import com.philips.platform.dscdemo.insights.InsightFragment;
 import com.philips.platform.dscdemo.settings.SettingsFragment;
-import com.philips.platform.dscdemo.utility.UserRegistrationHandler;
 import com.philips.platform.dscdemo.utility.Utility;
 
 import java.util.ArrayList;
