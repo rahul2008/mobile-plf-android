@@ -11,6 +11,7 @@ import org.mockito.Mock;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -61,5 +62,12 @@ public class BEApplianceFactoryTest {
                 .thenReturn(mockStrategy);
 
         assertTrue(subject.createApplianceForNode(mockNetworkNode) instanceof BEAppliance);
+    }
+
+    @Test
+    public void itShouldReturnNullWhenApplianceForNodeCannotBeCreated() throws Exception{
+        NetworkNode mockNetworkNode = mock(NetworkNode.class);
+        when(mockNetworkNode.getDeviceType()).thenReturn("NotSupportedType");
+        assertNull(subject.createApplianceForNode(mockNetworkNode));
     }
 }

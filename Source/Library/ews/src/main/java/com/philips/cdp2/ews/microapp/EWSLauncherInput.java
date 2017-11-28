@@ -25,17 +25,6 @@ public class EWSLauncherInput extends UappLaunchInput {
     public EWSLauncherInput() {
     }
 
-
-    /**
-     * create EWSLauncherInput object
-     * @param fragmentManager
-     * @param containerFrameId
-     */
-    public EWSLauncherInput(FragmentManager fragmentManager, int containerFrameId) {
-        this.fragmentManager = fragmentManager;
-        this.containerFrameId = containerFrameId;
-    }
-
     /**
      * Handles close button click for Fragment
      */
