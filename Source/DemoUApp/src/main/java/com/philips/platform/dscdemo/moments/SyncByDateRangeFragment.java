@@ -163,8 +163,8 @@ public class SyncByDateRangeFragment extends DSBaseFragment
     }
 
     private void fetchSyncByDateRange() {
-        jodaStartDate = (mStartDate == null) ? null : new DateTime(mStartDate);
-        jodaEndDate = (mEndDate == null) ? null : new DateTime(mEndDate);
+        jodaStartDate = (mStartDate == null) ? new DateTime(0) : new DateTime(mStartDate);
+        jodaEndDate = (mEndDate == null) ? new DateTime() : new DateTime(mEndDate);
         if (jodaStartDate != null && jodaEndDate != null) {
             updateTextView(getString(R.string.sync_inProgress));
         }
