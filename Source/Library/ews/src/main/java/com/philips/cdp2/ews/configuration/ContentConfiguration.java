@@ -9,7 +9,8 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 /**
- * This class will provide ContentConfiguration
+ * ContentConfiguration is a model class for configuration,
+ * Which is keeping BaseContentConfiguration, HappyFlowContentConfiguration, TroubleShootContentConfiguration in it.
  */
 public class ContentConfiguration implements Parcelable {
 
@@ -27,7 +28,7 @@ public class ContentConfiguration implements Parcelable {
     }
 
     /**
-     * This will create ContentConfiguration by using BaseContentConfiguration,HappyFlowContentConfiguration and TroubleShootContentConfiguration provided by Proposition.
+     * This constructor creates ContentConfiguration by using BaseContentConfiguration,HappyFlowContentConfiguration and TroubleShootContentConfiguration provided by Proposition.
      * @param baseConfig  BaseContentConfiguration
      * @param happyFlowConfig  HappyFlowContentConfiguration
      * @param troubleShootContentConfiguration  TroubleShootContentConfiguration
@@ -41,7 +42,7 @@ public class ContentConfiguration implements Parcelable {
     }
 
     /**
-     * This will return BaseContentConfiguration
+     * Return BaseContentConfiguration
      * @return BaseContentConfiguration
      */
     @NonNull
@@ -50,7 +51,7 @@ public class ContentConfiguration implements Parcelable {
     }
 
     /**
-     * This will return HappyFlowContentConfiguration
+     * Return HappyFlowContentConfiguration
      * @return HappyFlowContentConfiguration
      */
     @NonNull
@@ -59,7 +60,7 @@ public class ContentConfiguration implements Parcelable {
     }
 
     /**
-     * This will return HappyFlowContentConfiguration
+     * Return HappyFlowContentConfiguration
      * @return TroubleShootContentConfiguration
      */
     @NonNull

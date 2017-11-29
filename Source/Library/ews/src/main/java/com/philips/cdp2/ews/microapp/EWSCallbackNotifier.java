@@ -7,7 +7,7 @@ package com.philips.cdp2.ews.microapp;
 import android.support.annotation.NonNull;
 
 /**
- *This class provide callback to EWSCallBack
+ * EWSCallbackNotifier class provide callback to EWSCallBack
  */
 public class EWSCallbackNotifier {
 
@@ -18,7 +18,7 @@ public class EWSCallbackNotifier {
     }
 
     /**
-     *Provide static instance of EWSCallbackNotifier
+     * Return static instance of EWSCallbackNotifier
      */
     public static EWSCallbackNotifier getInstance() {
         if (callbackNotifier == null) {
@@ -31,7 +31,7 @@ public class EWSCallbackNotifier {
     }
 
     /**
-     * For setting EWSCallback instance
+     * Setter for EWSCallback instance
      * @param callback EWSCallback
      */
     public void setCallback(@NonNull EWSCallback callback) {
@@ -49,7 +49,7 @@ public class EWSCallbackNotifier {
     }
 
     /**
-     * Provide callback on ApplianceDiscovery
+     * Callback on ApplianceDiscovery
      * @param cppId String cppId
      */
     public void onApplianceDiscovered(String cppId) {
@@ -59,7 +59,7 @@ public class EWSCallbackNotifier {
     }
 
     /**
-     *CallBack for Cancel
+     * CallBack for Cancel
      */
     public void onCancel() {
         if (callback != null) {

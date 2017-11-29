@@ -12,7 +12,8 @@ import android.support.annotation.StringRes;
 import com.philips.cdp2.ews.R;
 
 /**
- *This class is for setting the configuration for Happy Flow.
+ * HappyFlowContentConfiguration is a model class for Happy Flow configuration,
+ * Which is setting different string and drawables to happy Flow Screens.
  */
 public class HappyFlowContentConfiguration implements Parcelable {
 
@@ -63,6 +64,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return GettingStartedScreenTitle
      * @return @StringRes GettingStartedScreenTitle
      */
     public int getGettingStartedScreenTitle() {
@@ -70,6 +72,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return GettingStartedScreenImage
      * @return @DrawableRes GettingStartedScreenImage
      */
     public int getGettingStartedScreenImage() {
@@ -77,6 +80,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return SetUpScreenTitle
      * @return @StringRes SetUpScreenTitle
      */
     public int getSetUpScreenTitle() {
@@ -84,6 +88,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return SetUpScreenBody
      * @return @StringRes SetUpScreenBody
      */
     public int getSetUpScreenBody() {
@@ -91,6 +96,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return SetUpScreenImage
      * @return @DrawableRes SetUpScreenImage
      */
     public int getSetUpScreenImage() {
@@ -98,6 +104,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return SetUpVerifyScreenTitle
      * @return @StringRes SetUpVerifyScreenTitle
      */
     public int getSetUpVerifyScreenTitle() {
@@ -105,6 +112,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return SetUpVerifyScreenQuestion
      * @return @StringRes SetUpVerifyScreenQuestion
      */
     public int getSetUpVerifyScreenQuestion() {
@@ -112,6 +120,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return SetUpVerifyScreenYesButton
      * @return @StringRes SetUpVerifyScreenYesButton
      */
     public int getSetUpVerifyScreenYesButton() {
@@ -119,6 +128,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return SetUpVerifyScreenNoButton
      * @return @StringRes SetUpVerifyScreenNoButton
      */
     public int getSetUpVerifyScreenNoButton() {
@@ -126,6 +136,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return SetUpVerifyScreenImage
      * @return @DrawableRes SetUpVerifyScreenImage
      */
     public int getSetUpVerifyScreenImage() {
@@ -179,7 +190,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
         @DrawableRes private int setUpVerifyScreenImage;
 
         /**
-         *This will Build HappyFlow with default values.
+         * Build HappyFlow with default strings and drawables.
          */
         public Builder() {
             gettingStartedScreenTitle = R.string.label_ews_get_started_title;
@@ -297,7 +308,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
         }
 
         /**
-         * This will provide HappyFlowContentConfiguration.
+         * Return HappyFlowContentConfiguration.
          * @return HappyFlowContentConfiguration
          */
         public HappyFlowContentConfiguration build() {

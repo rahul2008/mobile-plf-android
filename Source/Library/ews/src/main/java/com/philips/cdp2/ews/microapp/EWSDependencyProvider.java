@@ -29,7 +29,7 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import java.util.Map;
 
 /**
- * This class is been used for creating EWSComponent for Activity and Fragment launch.
+ * EWSDependencyProvider is been used for creating EWSComponent for Activity and Fragment launch.
  * Provide AppInfraInterface, Logging, Tagging and ProductMap as well.
  */
 public class EWSDependencyProvider {
@@ -60,7 +60,7 @@ public class EWSDependencyProvider {
     }
 
     /**
-     * Provide a instance of EWSDependencyProvider
+     * create a static instance of EWSDependencyProvider
      * @return EWSDependencyProvider
      */
     public static EWSDependencyProvider getInstance() {
@@ -74,7 +74,7 @@ public class EWSDependencyProvider {
     }
 
     /**
-     * For Setting context for EWSDependencyProvider
+     * Set context for EWSDependencyProvider
      * @param context
      */
     public void setContext(@Nullable Context context) {
@@ -82,7 +82,7 @@ public class EWSDependencyProvider {
     }
 
     /**
-     * This is for initialising Dependencies for EWSDependencyProvider.
+     * Initialise Dependencies for EWSDependencyProvider.
      * It will provide appInra and productkeymap where-ever required.
      * @param appInfraInterface  AppInfraInterface
      * @param productKeyMap     Map<String, String>
@@ -98,7 +98,7 @@ public class EWSDependencyProvider {
     }
 
     /**
-     * This will return AppInfraInterface.
+     * Return AppInfraInterface.
      * @return  AppInfraInterface
      */
     public AppInfraInterface getAppInfra() {
@@ -106,7 +106,7 @@ public class EWSDependencyProvider {
     }
 
     /**
-     * This will return LoggingInterface.
+     * Return LoggingInterface.
      * @return LoggingInterface
      */
     public LoggingInterface getLoggerInterface() {
@@ -118,7 +118,7 @@ public class EWSDependencyProvider {
     }
 
     /**
-     * This will return AppTaggingInterface.
+     * Return AppTaggingInterface.
      * @return AppTaggingInterface
      */
     public AppTaggingInterface getTaggingInterface() {
@@ -129,7 +129,7 @@ public class EWSDependencyProvider {
     }
 
     /**
-     * This will create EWSComponent(Dagger)  using FragmentLauncher and ContentConfiguration for Fragment Launch
+     * Create EWSComponent(Dagger)  using FragmentLauncher and ContentConfiguration for Fragment Launch
      * This need to called once before creating any injection
      * @param fragmentLauncher  FragmentLauncher
      * @param contentConfiguration  ContentConfiguration
@@ -139,7 +139,7 @@ public class EWSDependencyProvider {
     }
 
     /**
-     * This will create EWSComponent(Dagger)  using FragmentActivity,parentContainerResourceID and ContentConfiguration for Activity Launch
+     * Create EWSComponent(Dagger)  using FragmentActivity,parentContainerResourceID and ContentConfiguration for Activity Launch
      * This need to called once before creating any injection
      * @param fragmentActivity  FragmentActivity
      * @param parentContainerResourceID  @IdRes int
@@ -155,7 +155,7 @@ public class EWSDependencyProvider {
     }
 
     /**
-     * This will provide EWSComponent
+     * Return EWSComponent
      * @return EWSComponent
      */
     public EWSComponent getEwsComponent() {
@@ -163,7 +163,7 @@ public class EWSDependencyProvider {
     }
 
     /**
-     * This will return ProductName
+     * Return ProductName
      * @return ProductName
      */
     @NonNull
@@ -175,7 +175,7 @@ public class EWSDependencyProvider {
     }
 
     /**
-     * This will check if appInfraInterface and productKeyMap are null or not
+     * Check and return if appInfraInterface and productKeyMap are null or not
      * @return boolean
      */
     boolean areDependenciesInitialized() {
@@ -183,7 +183,7 @@ public class EWSDependencyProvider {
     }
 
     /**
-     *This will clear all the object of EWSDependencyProvider.
+     *Clear all the object of EWSDependencyProvider.
      */
     public void clear() {
         loggingInterface = null;
@@ -195,7 +195,7 @@ public class EWSDependencyProvider {
     }
 
     /**
-     * This will provide CommCentral object.
+     * Return CommCentral object.
      * @return CommCentral
      */
     public CommCentral getCommCentral() {
@@ -215,7 +215,7 @@ public class EWSDependencyProvider {
     }
 
     /**
-     * This need to be called for setting ThemeConfiguration
+     * Setter for ThemeConfiguration
      * @param themeConfiguration ThemeConfiguration
      */
     public void setThemeConfiguration(@Nullable ThemeConfiguration themeConfiguration) {
@@ -223,7 +223,7 @@ public class EWSDependencyProvider {
     }
 
     /**
-     * This will provide you ThemeConfiguration object.
+     * Return ThemeConfiguration object.
      * @return ThemeConfiguration
      */
     public ThemeConfiguration getThemeConfiguration() {

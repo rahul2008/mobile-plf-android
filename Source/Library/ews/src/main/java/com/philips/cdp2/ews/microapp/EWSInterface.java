@@ -26,8 +26,8 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 import javax.inject.Inject;
 
 /*
- * This class is an entry point for EWS launching,
- * All the initialisation is done using it.
+ * EWSInterface is an entry point for EWS launching,
+ * All the initialisation for EWS should be done using it.
  */
 @SuppressWarnings("WeakerAccess")
 public class EWSInterface implements UappInterface {

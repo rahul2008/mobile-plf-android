@@ -12,7 +12,7 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 
 /**
- * This class is used to providing support to use EWS library as fragment launcher
+ * EWSLauncherInput class is used to provide support to use EWS library as fragment launcher.
  */
 public class EWSLauncherInput extends UappLaunchInput {
     private FragmentManager fragmentManager;

@@ -15,7 +15,8 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import java.util.Map;
 
 /**
- *This Class create EWSDependencies for initialisation of EWSInterface.
+ * EWSDependencies class is for initialisation of EWSInterface.
+ * It is keeping productKeyMap and ContentConfiguration.
  */
 @SuppressWarnings("WeakerAccess")
 public class EWSDependencies extends UappDependencies {
@@ -38,7 +39,7 @@ public class EWSDependencies extends UappDependencies {
     }
 
     /**
-     * This will Provide ProductKeyMap.
+     * Return ProductKeyMap.
      * @return Product Map
      */
     @NonNull
@@ -47,7 +48,7 @@ public class EWSDependencies extends UappDependencies {
     }
 
     /**
-     * This will provide ContentConfiguration.
+     * Return ContentConfiguration.
      * @return ContentConfiguration
      */
     @Nullable

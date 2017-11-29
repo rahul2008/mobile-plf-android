@@ -13,7 +13,8 @@ import com.philips.cdp2.ews.R;
 
 
 /**
- *This class is for setting the configuration for TroubleShootContent.
+ * TroubleShootContentConfiguration is a model class for Trouble-Shoot configuration,
+ * Which is setting different string and drawables to Trouble-Shoot Screens.
  */
 public class TroubleShootContentConfiguration implements Parcelable {
 
@@ -96,6 +97,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
     };
 
     /**
+     * Return ResetConnectionTitle
      * @return @StringRes ResetConnectionTitle
      */
     public int getResetConnectionTitle() {
@@ -103,6 +105,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return ResetConnectionBody
      * @return @StringRes ResetConnectionBody
      */
     public int getResetConnectionBody() {
@@ -110,6 +113,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return ResetConnectionImage
      * @return @DrawableRes ResetConnectionImage
      */
     public int getResetConnectionImage() {
@@ -117,6 +121,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return ResetDeviceTitle
      * @return @StringRes ResetDeviceTitle
      */
     public int getResetDeviceTitle() {
@@ -124,6 +129,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return ResetDeviceBody
      * @return @StringRes ResetDeviceBody
      */
     public int getResetDeviceBody() {
@@ -131,6 +137,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return ResetDeviceImage
      * @return @DrawableRes ResetDeviceImage
      */
     public int getResetDeviceImage() {
@@ -138,6 +145,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return SetUpAccessPointTitle
      * @return @StringRes SetUpAccessPointTitle
      */
     public int getSetUpAccessPointTitle() {
@@ -145,6 +153,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return SetUpAccessPointBody
      * @return @StringRes SetUpAccessPointBody
      */
     public int getSetUpAccessPointBody() {
@@ -152,6 +161,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return SetUpAccessPointImage
      * @return @DrawableRes SetUpAccessPointImage
      */
     public int getSetUpAccessPointImage() {
@@ -159,6 +169,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return ConnectWrongPhoneTitle
      * @return @StringRes ConnectWrongPhoneTitle
      */
     public int getConnectWrongPhoneTitle() {
@@ -166,6 +177,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return ConnectWrongPhoneBody
      * @return @StringRes ConnectWrongPhoneBody
      */
     public int getConnectWrongPhoneBody() {
@@ -173,6 +185,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return ConnectWrongPhoneImage
      * @return @DrawableRes ConnectWrongPhoneImage
      */
     public int getConnectWrongPhoneImage() {
@@ -180,6 +193,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
     }
 
     /**
+     * Return ConnectWrongPhoneQuestion
      * @return @StringRes ConnectWrongPhoneQuestion
      */
     public int getConnectWrongPhoneQuestion() {
@@ -242,7 +256,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
         private  int connectWrongPhoneQuestion;
 
         /**
-         *This will Build TroubleShootContent with default values.
+         * Build TroubleShootContent with default strings and drawables.
          */
         public Builder(){
             //Todo : need to change default text on base on ui
@@ -396,7 +410,7 @@ public class TroubleShootContentConfiguration implements Parcelable {
         }
 
         /**
-         * This will provide TroubleShootContentConfiguration.
+         * Return TroubleShootContentConfiguration.
          * @return TroubleShootContentConfiguration
          */
         public TroubleShootContentConfiguration build(){
