@@ -6,6 +6,7 @@
 package com.philips.platform.mya.profile;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,9 +17,8 @@ import android.widget.TextView;
 
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
-import com.philips.platform.mya.details.MyaDetailsFragment;
 import com.philips.platform.mya.launcher.MyaInterface;
-import com.philips.platform.myaplugin.uappadaptor.DataModelType;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
@@ -58,7 +58,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
-        presenter.setUserName();
+        presenter.setUserName(getArguments());
         presenter.getProfileItems(getContext(), MyaInterface.getMyaDependencyComponent().getAppInfra());
     }
 
@@ -97,27 +97,30 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
                 int viewType = recyclerView.indexOfChild(view);
                 String key = (String) profileList.keySet().toArray()[viewType];
                 String value = profileList.get(key);
-                boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(key);
-                handleTransition(onClickMyaItem, value != null ? value : key);
+                String profileItem = value != null ? value : key;
+                boolean handled = presenter.handleOnClickProfileItem(profileItem, getArguments());
+                if (!handled) {
+                    boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(key);
+                    handleTransition(onClickMyaItem, profileItem);
+                }
             }
         };
     }
+
+
 
     @Override
     public void setUserName(String userName) {
         userNameTextView.setText(userName);
     }
 
+    @Override
+    public void showPassedFragment(Fragment fragment, FragmentLauncher fragmentLauncher) {
+        showFragment(fragment, fragmentLauncher);
+    }
+
     private void handleTransition(boolean onClickMyaItem, String profileItem) {
-        if (!onClickMyaItem) {
-            if (profileItem.equals(getContext().getString(R.string.MYA_My_details)) || profileItem.equalsIgnoreCase("MYA_My_details")) {
-                MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("user_plugin", MyaInterface.getMyaUiComponent().getMyaListener().getDataInterface(DataModelType.USER));
-                myaDetailsFragment.setArguments(bundle);
-                showFragment(myaDetailsFragment, MyaInterface.getMyaUiComponent().getFragmentLauncher());
-            }
-        }
+            // code to be added in future
     }
 
 }

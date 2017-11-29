@@ -156,7 +156,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
                 boolean onLogOut = MyaInterface.getMyaUiComponent().getMyaListener().onLogOut();
                 if(!onLogOut) {
                     alertDialogFragment.dismiss();
-                    presenter.logOut();
+                    presenter.logOut(getArguments());
                 }
             }
         };
@@ -186,9 +186,13 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
                 int viewType = recyclerView.indexOfChild(view);
                 String key = (String) profileList.keySet().toArray()[viewType];
                 SettingsModel value = profileList.get(key);
-                boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(key);
-                if (!onClickMyaItem)
-                    presenter.onClickRecyclerItem(getContext(), key, value);
+                boolean handled = presenter.handleOnClickSettingsItem(key);
+                if (!handled) {
+                    boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(key);
+                    if (!onClickMyaItem)
+                        presenter.onClickRecyclerItem(getContext(), key, value);
+                }
+
             }
         };
     }

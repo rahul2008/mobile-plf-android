@@ -44,7 +44,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class DemoAppActivity extends UIDActivity {
-    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_Bright;
 
     public static final String TITLE_TEXT = "TITLE_TEXT";
     public static final String THEMESETTINGS_ACTIVITY_RESTART = "THEMESETTINGS_ACTIVITY_RESTART";
@@ -53,10 +52,9 @@ public class DemoAppActivity extends UIDActivity {
     private ColorRange colorRange;
     private NavigationColor navigationColor;
     private NavigationController navigationController;
-    private ViewDataBinding activityMainBinding;
     private SharedPreferences defaultSharedPreferences;
     private AccentRange accentColorRange;
-    private  int  themeResourceId=0;
+    private  int themeResourceId=0;
     private TextView mTitle;
 
     @Override
@@ -66,7 +64,7 @@ public class DemoAppActivity extends UIDActivity {
         initTheme();
         super.onCreate(savedInstanceState);
 
-        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        ViewDataBinding activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         EventBus.getDefault().register(this);
 
 
