@@ -117,6 +117,7 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
 
     public void handleCancelButtonClicked() {
         // TODO cancel whatever is going on now
+        wiFiConnectivityManager.stopFindNetwork();
         navigator.navigateBack();
     }
 

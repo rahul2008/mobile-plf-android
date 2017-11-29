@@ -144,6 +144,7 @@ public class ConnectingWithDeviceViewModelTest {
     @Test
     public void itShouldNavigateBackOnHandleCancelButtonClicked() {
         subject.handleCancelButtonClicked();
+        verify(mockWiFiConnectivityManager).stopFindNetwork();
         verify(mockNavigator, times(1)).navigateBack();
     }
 
