@@ -104,7 +104,7 @@ public class WiFiUtilTest {
     public void itShouldReturnNullIfWiFiIsNotConnected() throws Exception {
         disconnectNetwork();
 
-        assertNull(null, subject.getCurrentWiFiSSID());
+        assertNull(subject.getCurrentWiFiSSID());
         assertFalse(subject.getCurrentWifiState() == WiFiUtil.HOME_WIFI);
     }
 

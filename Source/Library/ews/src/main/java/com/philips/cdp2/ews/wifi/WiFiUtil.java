@@ -59,7 +59,7 @@ public class WiFiUtil {
     }
 
     public String getFormattedSSID(@NonNull final String SSID) {
-        return (SSID.replace("\"", ""));
+        return SSID.replace("\"", "");
     }
 
     @Nullable
