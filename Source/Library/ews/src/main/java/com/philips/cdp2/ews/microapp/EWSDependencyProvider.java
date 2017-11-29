@@ -134,7 +134,6 @@ public class EWSDependencyProvider {
         productKeyMap = null;
         instance = null;
         ewsComponent = null;
-        commCentral = null;
     }
 
     @VisibleForTesting
