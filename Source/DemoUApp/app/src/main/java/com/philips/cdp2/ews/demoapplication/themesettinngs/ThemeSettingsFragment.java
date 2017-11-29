@@ -47,13 +47,11 @@ public class ThemeSettingsFragment extends Fragment {
 
     private int colorPickerWidth = 48;
 
-    private ThemeColorAdapter colorRangeAdapter;
     private ThemeColorAdapter contentTonalRangeAdapter;
     private ThemeColorAdapter navigationListAdapter;
     private ContentColor contentColor = ContentColor.ULTRA_LIGHT;
 
     private ColorRange colorRange = ColorRange.GROUP_BLUE;
-    private ThemeHelper themeHelper;
     private int colorRangeSelectedPosition;
     private int contentSelectedPosition;
     private int navigationSelectedPosition;
@@ -73,7 +71,7 @@ public class ThemeSettingsFragment extends Fragment {
         accentColorRangeList = view.findViewById(R.id.accentColorRangeList);
         warningText = view.findViewById(R.id.warningText);
         themeColorHelper = new ThemeColorHelper();
-        themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getActivity()), getActivity());
+        ThemeHelper themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getActivity()), getActivity());
 
         colorRange = themeHelper.initColorRange();
         navigationColor = themeHelper.initNavigationRange();
@@ -156,7 +154,7 @@ public class ThemeSettingsFragment extends Fragment {
 
     @NonNull
     private ThemeColorAdapter getColorRangeAdapter() {
-        colorRangeAdapter = new ThemeColorAdapter(themeColorHelper.getColorRangeItemsList(), new ThemeChangedListener() {
+        ThemeColorAdapter colorRangeAdapter = new ThemeColorAdapter(themeColorHelper.getColorRangeItemsList(), new ThemeChangedListener() {
             @Override
             public void onThemeSettingsChanged(final String changedColorRange) {
                 colorRange = ColorRange.valueOf(changedColorRange.toUpperCase());

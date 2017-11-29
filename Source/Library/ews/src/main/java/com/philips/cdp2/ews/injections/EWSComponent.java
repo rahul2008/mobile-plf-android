@@ -10,7 +10,6 @@ import com.philips.cdp2.ews.base.BaseTroubleShootingViewModel;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.confirmwifi.ConfirmWifiNetworkViewModel;
 import com.philips.cdp2.ews.connectionsuccessful.ConnectionSuccessfulViewModel;
-import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiViewModel;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel;
 import com.philips.cdp2.ews.microapp.EWSInterface;

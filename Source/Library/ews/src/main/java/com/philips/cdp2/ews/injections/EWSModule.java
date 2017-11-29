@@ -121,10 +121,7 @@ public class EWSModule {
     }
 
     private LanDeviceCache createLanCache() {
-        LanDeviceCache lanDeviceCache =
-                new LanDeviceCache(Executors.newSingleThreadScheduledExecutor());
-
-        return lanDeviceCache;
+        return new LanDeviceCache(Executors.newSingleThreadScheduledExecutor());
     }
 
     private NetworkNode createFakeNetworkNodeForHotSpot() {

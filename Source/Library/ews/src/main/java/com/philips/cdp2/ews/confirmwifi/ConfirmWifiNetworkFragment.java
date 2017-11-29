@@ -22,16 +22,12 @@ import com.philips.cdp2.ews.databinding.FragmentConfirmWifiNetworkBinding;
 import com.philips.cdp2.ews.dialog.EWSAlertDialogFragment;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
-import com.philips.cdp2.ews.util.ColorsUtil;
-import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.util.Locale;
-
-import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class ConfirmWifiNetworkFragment extends BaseFragment
         implements ConfirmWifiNetworkViewModel.ViewCallback {

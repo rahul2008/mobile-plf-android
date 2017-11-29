@@ -15,7 +15,6 @@ import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
 import com.philips.cdp2.ews.tagging.EWSTagger;
-import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.GpsUtil;
 import com.philips.cdp2.ews.util.StringProvider;
 

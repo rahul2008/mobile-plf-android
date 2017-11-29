@@ -68,7 +68,6 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
             final NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
             if (netInfo.getState() == NetworkInfo.State.CONNECTED) {
                 int currentWifiState = wiFiUtil.getCurrentWifiState();
-                Log.d("CONNECT", "Current Wifi State: " + wiFiUtil.getCurrentWifiState());
                 if (currentWifiState == WiFiUtil.DEVICE_HOTSPOT_WIFI) {
                     onPhoneConnectedToHotspotWifi();
                     unregisterBroadcastReceiver();

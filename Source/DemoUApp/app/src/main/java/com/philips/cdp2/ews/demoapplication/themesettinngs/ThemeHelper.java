@@ -25,26 +25,22 @@ public class ThemeHelper {
 
     public NavigationColor initNavigationRange() {
         String navigation = sharedPreferences.getString(UIDHelper.NAVIGATION_RANGE, NavigationColor.BRIGHT.name());
-        final NavigationColor navigationColor = NavigationColor.valueOf(navigation);
-        return navigationColor;
+        return NavigationColor.valueOf(navigation);
     }
 
     public ColorRange initColorRange() {
         String color = sharedPreferences.getString(UIDHelper.COLOR_RANGE, ColorRange.GROUP_BLUE.name());
-        final ColorRange colorRange = ColorRange.valueOf(color);
-        return colorRange;
+        return ColorRange.valueOf(color);
     }
 
     public ContentColor initContentTonalRange() {
         String tonalRange = sharedPreferences.getString(UIDHelper.CONTENT_TONAL_RANGE, ContentColor.ULTRA_LIGHT.name());
-        final ContentColor contentColor = ContentColor.valueOf(tonalRange);
-        return contentColor;
+         return ContentColor.valueOf(tonalRange);
     }
 
     public AccentRange initAccentRange() {
         String accentRangeString = sharedPreferences.getString(UIDHelper.ACCENT_RANGE, AccentRange.ORANGE.name());
-        final AccentRange accentRange = AccentRange.valueOf(accentRangeString);
-        return accentRange;
+        return AccentRange.valueOf(accentRangeString);
     }
 
     @StyleRes

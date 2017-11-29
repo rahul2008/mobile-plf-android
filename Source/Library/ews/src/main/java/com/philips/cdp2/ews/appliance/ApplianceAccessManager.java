@@ -51,7 +51,6 @@ public class ApplianceAccessManager {
     private EventBus eventBus;
     private EWSGenericAppliance appliance;
     ApplianceSessionDetailsInfo sessionDetailsInfo;
-    private String homeWiFiSSID;
     private DICommPortListener<WifiPort> wifiPortListener = new DICommPortListener<WifiPort>() {
 
         @Override
@@ -147,7 +146,6 @@ public class ApplianceAccessManager {
         if (requestType == ApplianceRequestType.UNKNOWN) {
             putCallback = callback;
             requestType = ApplianceRequestType.PUT_WIFI_PROPS;
-            this.homeWiFiSSID = homeWiFiSSID;
             WifiPort wifiPort = appliance.getWifiPort();
             wifiPort.addPortListener(wifiPortListener);
 

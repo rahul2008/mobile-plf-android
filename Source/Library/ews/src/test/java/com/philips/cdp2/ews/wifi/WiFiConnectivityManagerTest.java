@@ -65,13 +65,11 @@ public class WiFiConnectivityManagerTest {
     @Mock
     Handler mockHandler;
 
-    private WiFiUtil wifiUtil;
-
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         PowerMockito.mockStatic(EWSLogger.class);
-        wifiUtil = new WiFiUtil(wifiManagerMock);
+        WiFiUtil wifiUtil = new WiFiUtil(wifiManagerMock);
         subject = new WiFiConnectivityManager(wifiManagerMock, wifiMock, wifiUtil);
         subject.handler = mockHandler;
         implementAsDirectExecutor(mockHandler);
