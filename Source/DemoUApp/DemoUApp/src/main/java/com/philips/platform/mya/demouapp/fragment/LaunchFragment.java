@@ -166,7 +166,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
     private List<ConsentDefinition> createConsentDefinitions(Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
         definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", Collections.singletonList("moment"), 1, currentLocale));
-        definitions.add(new ConsentDefinition("I allow don't Philips to store my data in cloud", "No one is able to see this text in the app", Collections.singletonList("tnemom"), 1, currentLocale));
+        definitions.add(new ConsentDefinition("I allow Philips to generate insights based on my data", "No one is able to see this text in the app", Collections.singletonList("coaching"), 1, currentLocale));
         return definitions;
 
     }
