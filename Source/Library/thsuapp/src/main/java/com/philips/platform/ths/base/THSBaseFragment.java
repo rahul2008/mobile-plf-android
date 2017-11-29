@@ -6,6 +6,8 @@
 
 package com.philips.platform.ths.base;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -16,8 +18,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.activity.THSLaunchActivity;
@@ -63,6 +65,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 networkStateListener,
                 new IntentFilter(
                         ConnectivityManager.CONNECTIVITY_ACTION));
+        hideKeypad(getActivity());
 
        /* Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
@@ -208,17 +211,19 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
     }
 
     public void showError(String message) {
-        showError( message, false);
+        showError(message, false);
     }
 
-    public void showError( String message, final boolean shouldGoBack) {
+    public void showError(String message, final boolean shouldGoBack) {
         if (isFragmentAttached()) {
             hideProgressBar();
-            if(null==message){  // if message is not identified make it THS_GENERIC_SERVER_ERROR
+            if (null == message) {  // if message is not identified make it THS_GENERIC_SERVER_ERROR
                 message = getString(R.string.ths_se_server_error_toast_message);
                 //doTagging(module,message,true);
             }
-
+            if (alertDialogFragment != null) {
+                alertDialogFragment.dismiss();
+            }
             alertDialogFragment = new AlertDialogFragment.Builder(UIDHelper.getPopupThemedContext(getContext())).setDialogType(DialogConstants.TYPE_ALERT).setTitle(R.string.ths_matchmaking_error)
                     .setMessage(message).
                             setPositiveButton(R.string.ths_matchmaking_ok_button, new View.OnClickListener() {
@@ -226,34 +231,37 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                                 public void onClick(View v) {
                                     alertDialogFragment.dismiss();
                                     if (shouldGoBack) {
-                                        if(null!=getActivity()) {
-                                            if (getFragmentManager().getBackStackEntryCount() > 1) {
+                                        if (null != getActivity()) {
+                                            if (getFragmentManager().getBackStackEntryCount() > 0) {
                                                 Fragment fragment = getFragmentManager().findFragmentByTag(THSInitFragment.TAG);
-                                                getActivity().getSupportFragmentManager().popBackStack();
-                                                if (fragment instanceof THSInitFragment) {
-                                                    if (THSManager.getInstance().getThsCompletionProtocol() != null) {
-                                                        THSManager.getInstance().getThsCompletionProtocol().didExitTHS(THSCompletionProtocol.THSExitType.Other);
-                                                        THSManager.getInstance().resetTHSManagerData();
-                                                    }
-
+                                                if (fragment instanceof THSInitFragment || fragment instanceof THSWelcomeFragment) {
+                                                    // if any error comes in init fragment then exit to uGrow
+                                                    exitFromAmWell(THSCompletionProtocol.THSExitType.Other);
+                                                } else {
+                                                    getActivity().getSupportFragmentManager().popBackStack();
                                                 }
+
                                             }
                                         }
                                     }
                                 }
                             }).setCancelable(false).create();
-            alertDialogFragment.show(getActivity().getSupportFragmentManager(), ALERT_DIALOG_TAG);
+            if (null != alertDialogFragment && null != getActivity()) {
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.add(alertDialogFragment, ALERT_DIALOG_TAG);
+                ft.commitAllowingStateLoss();
+            }
         }
 
     }
 
-    public void doTagging(String module, String message, boolean isServerError){
-            final String errorTag= THSTagUtils.createErrorTag(module,message);
-            if(isServerError) {
-                THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR, errorTag);
-            }else{
-                THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_USER_ERROR, errorTag);
-            }
+    public void doTagging(String module, String message, boolean isServerError) {
+        final String errorTag = THSTagUtils.createErrorTag(module, message);
+        if (isServerError) {
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SERVER_ERROR, errorTag);
+        } else {
+            THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_USER_ERROR, errorTag);
+        }
 
     }
 
@@ -288,11 +296,11 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 fragmentManager.popBackStack(THSWelcomeBackFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             } else if (tHSInitFragment != null) {
                 fragmentManager.popBackStack(THSInitFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            } else if(thsPreWelcomeFragment != null){
+            } else if (thsPreWelcomeFragment != null) {
                 fragmentManager.popBackStack(THSPreWelcomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
-        THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,"exitToPropositon","toUgrowPage");
+        THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "exitToPropositon", "toUgrowPage");
         if (THSManager.getInstance().getThsCompletionProtocol() != null) {
             THSManager.getInstance().getThsCompletionProtocol().didExitTHS(tHSExitType);
         }
@@ -311,8 +319,17 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
             if (getActivity() != null && getActivity().getSupportFragmentManager() != null) {
                 getActivity().getSupportFragmentManager().popBackStack();
             }
-        }catch (IllegalStateException exception){
+        } catch (IllegalStateException exception) {
 
+        }
+    }
+
+    public static void hideKeypad(Activity context) {
+        InputMethodManager inputMethodManager = (InputMethodManager)
+                context.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        if (null != (context).getCurrentFocus()) {
+            inputMethodManager.hideSoftInputFromWindow(context.getCurrentFocus().getWindowToken(), 0);
         }
     }
 }

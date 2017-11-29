@@ -80,6 +80,7 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     public void onQuerySubmit(CharSequence charSequence) {
         zipSearchString = String.valueOf(charSequence);
         createCustomProgressBar(linearLayout,SMALL);
+        hideKeypad(getActivity());
         if(thsSearchPharmacyPresenter.validateZip(zipSearchString)) {
             thsSearchPharmacyPresenter.onEvent(SEARCH_EVENT_ID);
         }else {
