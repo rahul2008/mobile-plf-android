@@ -53,6 +53,6 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="center_vertical|start"
-        android:text="@string/reg_mya_consent_help_label" />
+        android:text="@string/csw_consent_help_label" />
 
 </RelativeLayout>
