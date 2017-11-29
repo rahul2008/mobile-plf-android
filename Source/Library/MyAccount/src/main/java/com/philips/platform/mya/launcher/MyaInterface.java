@@ -13,6 +13,7 @@ import android.os.Bundle;
 
 import com.philips.platform.mya.activity.MyaActivity;
 
+import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.injection.DaggerMyaDependencyComponent;
 import com.philips.platform.mya.injection.DaggerMyaUiComponent;
 import com.philips.platform.mya.injection.MyaDependencyComponent;
@@ -20,6 +21,9 @@ import com.philips.platform.mya.injection.MyaDependencyModule;
 import com.philips.platform.mya.injection.MyaUiComponent;
 import com.philips.platform.mya.injection.MyaUiModule;
 import com.philips.platform.mya.tabs.MyaTabFragment;
+import com.philips.platform.myaplugin.uappadaptor.DataModelType;
+import com.philips.platform.myaplugin.uappadaptor.UserInterface;
+import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -36,7 +40,7 @@ public class MyaInterface implements UappInterface {
     private static MyaDependencyComponent myaDependencyComponent;
     private static MyaUiComponent myaUiComponent;
     private MyaUiModule myaUiModule;
-
+    public static String USER_PLUGIN = "user_plugin";
     /**
      * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
      *
@@ -46,30 +50,34 @@ public class MyaInterface implements UappInterface {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         MyaLaunchInput myaLaunchInput = (MyaLaunchInput) uappLaunchInput;
+        UserDataModelProvider userDataModelProvider = new UserDataModelProvider(myaLaunchInput.getContext());
+        if(!userDataModelProvider.isUserLoggedIn()) {
+            myaLaunchInput.getMyaListener().onError(MyaError.USER_NOT_SIGNED_IN);
+            return;
+        }
         myaUiModule = new MyaUiModule(uiLauncher, myaLaunchInput.getMyaListener());
         myaUiComponent = DaggerMyaUiComponent.builder()
                 .myaUiModule(myaUiModule).build();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
             launchAsActivity(activityLauncher, myaLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
-            launchAsFragment((FragmentLauncher) uiLauncher);
+            launchAsFragment((FragmentLauncher) uiLauncher, bundle);
         }
     }
 
-    private void launchAsFragment(FragmentLauncher fragmentLauncher) {
-        Bundle extras = null;
+    private void launchAsFragment(FragmentLauncher fragmentLauncher, Bundle arguments) {
         myaUiModule.setFragmentLauncher(fragmentLauncher);
-
         MyaTabFragment myaTabFragment = new MyaTabFragment();
-
+        myaTabFragment.setArguments(arguments);
         myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
     }
 
     private void launchAsActivity(ActivityLauncher uiLauncher, MyaLaunchInput myaLaunchInput) {
         if (null != uiLauncher && myaLaunchInput != null) {
             Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyaActivity.class);
-
             myAccountIntent.putExtra(MYA_DLS_THEME, uiLauncher.getUiKitTheme());
             myaLaunchInput.getContext().startActivity(myAccountIntent);
         }

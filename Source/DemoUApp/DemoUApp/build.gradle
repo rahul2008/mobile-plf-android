@@ -214,8 +214,12 @@ dependencies {
 
     def dp = project.ext.has('useprojectdependencies')
     compile(dp ? project(':mya') : project(':MyAccount'))
-    compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
+    compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
                 transitive = true
-            }
+    }
+    if(dp) {
+        project(':usrUApp')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    }
 }

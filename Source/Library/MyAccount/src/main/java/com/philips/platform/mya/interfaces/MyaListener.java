@@ -6,6 +6,7 @@
 package com.philips.platform.mya.interfaces;
 
 
+import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.myaplugin.uappadaptor.DataInterface;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 
@@ -16,4 +17,6 @@ public interface MyaListener {
     boolean onLogOut();
 
     DataInterface getDataInterface(DataModelType modelType);
+
+    void onError(MyaError myaError);
 }
