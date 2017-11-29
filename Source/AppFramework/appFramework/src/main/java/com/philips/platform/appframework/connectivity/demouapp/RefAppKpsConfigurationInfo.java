@@ -32,7 +32,7 @@ public class RefAppKpsConfigurationInfo extends KpsConfigurationInfo {
 
     @Override
     public String getComponentId() {
-        return "CDP-APP-AND";
+        return "FI-AIR-AND";
     }
 
     @Override
@@ -51,7 +51,7 @@ public class RefAppKpsConfigurationInfo extends KpsConfigurationInfo {
     }
 
     public String getAppType() {
-        return "CDP-AND-DEV";
+        return "FI-AIR-AND-DEV";
     }
 
     @Override
