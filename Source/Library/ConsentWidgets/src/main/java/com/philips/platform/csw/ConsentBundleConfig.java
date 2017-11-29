@@ -20,6 +20,7 @@ public class ConsentBundleConfig {
     private List<ConsentDefinition> consentDefinitions;
 
 
+    @Deprecated
     public ConsentBundleConfig(String applicationName, String propositionName, List<ConsentDefinition> consentDefinitions) {
         this.consentDefinitions = consentDefinitions;
     }

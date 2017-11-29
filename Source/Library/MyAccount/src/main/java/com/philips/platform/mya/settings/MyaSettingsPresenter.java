@@ -5,11 +5,13 @@
  */
 package com.philips.platform.mya.settings;
 
+import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
 
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -28,14 +30,10 @@ import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-
-import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
-
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> implements MyaSettingsContract.Presenter {
 
@@ -52,10 +50,10 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     @Override
     public void onClickRecyclerItem(String key, SettingsModel settingsModel) {
-       if (key.equals("MYA_Country")) {
-           Context context = view.getContext();
-           view.showDialog(context.getString(R.string.MYA_change_country), context.getString(R.string.MYA_change_country_message));
-       }
+        if (key.equals("MYA_Country")) {
+            Context context = view.getContext();
+            view.showDialog(context.getString(R.string.MYA_change_country), context.getString(R.string.MYA_change_country_message));
+        }
     }
 
     @Override
@@ -70,14 +68,17 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     public boolean handleOnClickSettingsItem(String key) {
         if (key.equals("Mya_Privacy_Settings")) {
             AppInfraInterface appInfra = MyaInterface.getMyaDependencyComponent().getAppInfra();
-            ConsentAccessToolKit.getInstance().init(initConsentToolKit("OneBackend", "OneBackendProp", view.getContext(),appInfra));
+            String appName = (String) appInfra.getConfigInterface().getPropertyForKey("appName", "hdsp", new AppConfigurationInterface.AppConfigurationError());
+            String propName = (String) appInfra.getConfigInterface().getPropertyForKey("propositionName", "hdsp", new AppConfigurationInterface.AppConfigurationError());
+
+            ConsentAccessToolKit.getInstance().init(initConsentToolKit(appName, propName, view.getContext(), appInfra));
             CswInterface cswInterface = new CswInterface();
 
             CswDependencies cswDependencies = new CswDependencies(appInfra);
             UappSettings uappSettings = new UappSettings(view.getContext());
             cswInterface.init(cswDependencies, uappSettings);
             FragmentLauncher fragmentLauncher = new FragmentLauncher((FragmentActivity) view.getContext(), R.id.mainContainer, null);
-            cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext(), appInfra.getConfigInterface()));
+            cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext()));
             return true;
         }
         return false;
@@ -98,10 +99,8 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     private LinkedHashMap<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface) {
         String profileItems = "settings.menuItems";
         try {
-            final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
-                    .AppConfigurationError();
-            ArrayList propertyForKey = (ArrayList) appInfraInterface.getConfigInterface().getPropertyForKey
-                    (profileItems, "mya", configError);
+            final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+            ArrayList propertyForKey = (ArrayList) appInfraInterface.getConfigInterface().getPropertyForKey(profileItems, "mya", configError);
             return getLocalisedList(propertyForKey, appInfraInterface);
         } catch (IllegalArgumentException exception) {
             exception.getMessage();
@@ -145,15 +144,10 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         }
     }
 
+    private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
 
-    private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context, AppConfigurationInterface configInterface) {
-
-
-        String appName = (String) configInterface.getPropertyForKey("appName", "hdsp", new AppConfigurationInterface.AppConfigurationError());
-        String propName = (String) configInterface.getPropertyForKey("propositionName", "hdsp", new AppConfigurationInterface.AppConfigurationError());
-
-        ConsentBundleConfig config = new ConsentBundleConfig(appName, propName, createConsentDefinitions(Locale.US));
-        CswLaunchInput cswLaunchInput = new CswLaunchInput(config,context);
+        ConsentBundleConfig config = new ConsentBundleConfig(createConsentDefinitions(Locale.US));
+        CswLaunchInput cswLaunchInput = new CswLaunchInput(config, context);
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
     }
@@ -169,8 +163,10 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     private List<ConsentDefinition> createConsentDefinitions(Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", Collections.singletonList("moment"), 1, currentLocale));
-        definitions.add(new ConsentDefinition("I allow don't Philips to store my data in cloud", "No one is able to see this text in the app", Collections.singletonList("tnemom"), 1, currentLocale));
+        definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", Collections.singletonList("moment"), 1,
+                currentLocale));
+        definitions.add(new ConsentDefinition("I allow don't Philips to store my data in cloud", "No one is able to see this text in the app", Collections.singletonList("tnemom"),
+                1, currentLocale));
         return definitions;
 
     }
