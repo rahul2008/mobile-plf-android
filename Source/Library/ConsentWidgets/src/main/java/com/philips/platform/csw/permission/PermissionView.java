@@ -14,6 +14,7 @@ import com.philips.platform.csw.utils.CswLogger;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.mya.consentwidgets.R2;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
@@ -21,6 +22,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -45,6 +47,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @BindView(R2.id.consentList)
     RecyclerView recyclerView;
 
+    private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
+
     @Override
     protected void setViewParams(Configuration config, int width) {
         applyParams(config, recyclerView, width);
@@ -57,7 +61,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_mya_privacy_settings;
+        return R.string.csw_privacy_settings;
     }
 
     @Override
@@ -108,6 +112,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         permissionPresenter.getConsentStatus();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
+        recyclerView.addItemDecoration(separatorItemDecoration);
         recyclerView.setAdapter(permissionPresenter.getAdapter());
     }
 
@@ -139,9 +145,9 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         CswLogger.e(TAG, error.getMessage());
         OkOnErrorListener okListener = new OkOnErrorListener();
         final AlertDialogFragment alertDialogFragment = new AlertDialogFragment.Builder(getContext())
-                .setTitle(R.string.reg_mya_problem_occurred_error_title)
-                .setMessage(getString(R.string.reg_mya_problem_occurred_error_message, error.getCatkErrorCode()))
-                .setPositiveButton(R.string.reg_mya_ok, okListener)
+                .setTitle(R.string.csw_problem_occurred_error_title)
+                .setMessage(getString(R.string.csw_problem_occurred_error_message, error.getCatkErrorCode()))
+                .setPositiveButton(R.string.csw_ok, okListener)
                 .create();
         okListener.setDialog(alertDialogFragment);
         alertDialogFragment.show(getFragmentManager(), TAG);

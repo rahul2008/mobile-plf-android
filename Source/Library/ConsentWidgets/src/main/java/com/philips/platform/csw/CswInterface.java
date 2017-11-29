@@ -63,8 +63,6 @@ public class CswInterface implements UappInterface {
             if (uappLaunchInput.getConfig() == null) {
                 Log.i("Deepthi", "config = null ");
             }
-            Log.i("Deepthi", "config app name = " + uappLaunchInput.getConfig().getApplicationName());
-            Log.i("Deepthi", "config pro name = " + uappLaunchInput.getConfig().getPropositionName());
             Log.i("Deepthi", "config List name = " + uappLaunchInput.getConfig().getConsentDefinitions().toString());
 
             Bundle fragmentConfig = uappLaunchInput.getConfig().toBundle();
@@ -92,8 +90,6 @@ public class CswInterface implements UappInterface {
             if (uappLaunchInput.getConfig() == null) {
                 Log.i("Deepthi", "Activity config = null ");
             }
-            Log.i("Deepthi", "Activity config app name = " + uappLaunchInput.getConfig().getApplicationName());
-            Log.i("Deepthi", "Activity config pro name = " + uappLaunchInput.getConfig().getPropositionName());
             Log.i("Deepthi", "Activity config List name = " + uappLaunchInput.getConfig().getConsentDefinitions().toString());
 
             cswIntent.putExtra(CswConstants.DLS_THEME, uiLauncher.getUiKitTheme());

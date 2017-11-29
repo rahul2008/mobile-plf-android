@@ -62,30 +62,26 @@ public class CswFragmentTest {
     public void onCreateView_setsApplicationAndPropositionName() throws Exception {
         givenArgumentsAre(APPLICATION_NAME, PROPOSITION_NAME, CONSENT_DEFINITIONS, IS_ADDED_TO_BACKSTACK);
         whenOnCreateViewIsInvoked();
-        thenApplicationNameIs(APPLICATION_NAME);
-        thenPropositionNameIs(PROPOSITION_NAME);
     }
 
     @Test
     public void onCreateView_InvokesInflatorWthRightParams() throws Exception {
         givenArgumentsAre(APPLICATION_NAME, PROPOSITION_NAME, CONSENT_DEFINITIONS, IS_ADDED_TO_BACKSTACK);
         whenOnCreateViewIsInvoked();
-        thenBuildPermissionViewIsCreatedWith(R.id.csw_frame_layout_view_container, APPLICATION_NAME, PROPOSITION_NAME);
+        thenBuildPermissionViewIsCreatedWith(R.id.csw_frame_layout_view_container);
     }
 
     @Test
     public void onCreateView_BuildsPermissionView() throws Exception {
         givenArgumentsAre(APPLICATION_NAME, PROPOSITION_NAME, CONSENT_DEFINITIONS, IS_ADDED_TO_BACKSTACK);
         whenOnCreateViewIsInvoked();
-        thenBuildPermissionViewIsCreatedWith(R.id.csw_frame_layout_view_container, APPLICATION_NAME, PROPOSITION_NAME);
+        thenBuildPermissionViewIsCreatedWith(R.id.csw_frame_layout_view_container);
     }
 
     @Test
     public void onViewStateRestored_ReadsApplicationNameAndPropositionNameFromState() {
         givenBundleStateWithValues(APPLICATION_NAME, PROPOSITION_NAME, CONSENT_DEFINITIONS, IS_ADDED_TO_BACKSTACK);
         whenOnViewStateRestoredIsInvoked();
-        thenApplicationNameIs(APPLICATION_NAME);
-        thenPropositionNameIs(PROPOSITION_NAME);
         thenConsentDefinitionsIs(CONSENT_DEFINITIONS);
         thenIsAddedToBackStackIs(IS_ADDED_TO_BACKSTACK);
     }
@@ -95,8 +91,6 @@ public class CswFragmentTest {
         givenBundleStateWithValues(APPLICATION_NAME, PROPOSITION_NAME, CONSENT_DEFINITIONS, IS_ADDED_TO_BACKSTACK);
         whenOnViewStateRestoredIsInvoked();
         whenOnViewStateSaveIsInvoked();
-        thenStateContainsApplicationName(APPLICATION_NAME);
-        thenStateContainsPropositionName(PROPOSITION_NAME);
         thenStateContainsIsAddedToBackStack(IS_ADDED_TO_BACKSTACK);
     }
 
@@ -213,14 +207,8 @@ public class CswFragmentTest {
         actualResourceId = fragment.getResourceID();
     }
 
-    private void thenBuildPermissionViewIsCreatedWith(int csw_frame_layout_view_container, String applicationName, String propositionName) {
+    private void thenBuildPermissionViewIsCreatedWith(int csw_frame_layout_view_container) {
         assertEquals(csw_frame_layout_view_container, fragmentTransactionMock.replace_containerId);
-        assertEquals(applicationName, fragmentTransactionMock.replace_fragment.getArguments().get("appName"));
-        assertEquals(propositionName, fragmentTransactionMock.replace_fragment.getArguments().get("propName"));
-    }
-
-    private void thenPropositionNameIs(String propositionName) {
-        Assert.assertEquals(propositionName, fragment.getPropositionName());
     }
 
     private void thenIsAddedToBackStackIs(boolean isAddedToBackstack) {
@@ -229,10 +217,6 @@ public class CswFragmentTest {
 
     private void thenResourceIdReturnedIs(int expectedResourceId) {
         assertEquals(expectedResourceId, actualResourceId);
-    }
-
-    private void thenApplicationNameIs(String applicationName) {
-        Assert.assertEquals(applicationName, fragment.getApplicationName());
     }
 
     private void thenStateContainsApplicationName(String expected) {

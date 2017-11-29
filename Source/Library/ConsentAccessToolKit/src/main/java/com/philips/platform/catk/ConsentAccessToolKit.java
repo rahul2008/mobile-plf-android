@@ -7,6 +7,7 @@
 
 package com.philips.platform.catk;
 
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.catk.dto.CreateConsentModelRequest;
 import com.philips.platform.catk.dto.GetConsentDto;
 import com.philips.platform.catk.dto.GetConsentsModelRequest;
@@ -44,12 +45,9 @@ public class ConsentAccessToolKit {
     ConsentAccessToolKit() {
     }
 
-    public static ConsentAccessToolKit getInstance() {
-        if (sSoleInstance == null) { // if there is no instance available... create new one
-            synchronized (ConsentAccessToolKit.class) {
-                if (sSoleInstance == null)
-                    sSoleInstance = new ConsentAccessToolKit();
-            }
+    public static synchronized ConsentAccessToolKit getInstance() {
+        if (sSoleInstance == null) {
+            sSoleInstance = new ConsentAccessToolKit();
         }
         return sSoleInstance;
     }
@@ -60,8 +58,10 @@ public class ConsentAccessToolKit {
         catkComponent = componentProvider.getComponent(catkInputs);
         CatkLogger.init();
         CatkLogger.enableLogging();
-        this.applicationName = catkInputs.getApplicationName();
-        this.propositionName = catkInputs.getPropositionName();
+        AppConfigurationInterface appConfigInterface = catkInputs.getAppInfra().getConfigInterface();
+        AppConfigurationInterface.AppConfigurationError error = new AppConfigurationInterface.AppConfigurationError();
+        this.applicationName = (String)appConfigInterface.getPropertyForKey("appName", "hsdp", error);
+        this.propositionName = (String)appConfigInterface.getPropertyForKey("propositionName", "hsdp", error);
     }
 
     private void retrieveConsentServiceInfo(final ConfigCompletionListener listner) {
