@@ -50,4 +50,6 @@
     <dimen name="hamburger_menu_icon_height_width">24dp</dimen>
     <dimen name="hamburger_menu_item_padding">4dp</dimen>
     <dimen name="onboarding_group_icon_size">130dp</dimen>
+
+    <dimen name="cross_icon_size">10sp</dimen>
 </resources>

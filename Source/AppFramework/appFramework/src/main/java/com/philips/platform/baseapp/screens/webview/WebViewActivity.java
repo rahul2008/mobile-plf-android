@@ -5,6 +5,7 @@
 */
 package com.philips.platform.baseapp.screens.webview;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
@@ -24,6 +25,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetExc
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
 public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements WebViewContract.View {
@@ -68,7 +70,9 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
+        FontIconDrawable drawable = new FontIconDrawable(this, getResources().getString(R.string.dls_cross), Typeface.createFromAsset(getAssets(), "fonts/iconfont.ttf")).sizeDp((int) getResources().getDimension(R.dimen.cross_icon_size));
         inflater.inflate(R.menu.menu_web_view_activity, menu);
+        menu.findItem(R.id.menu_close).setIcon(drawable);
         return true;
     }
 
