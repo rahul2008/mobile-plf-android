@@ -9,7 +9,6 @@
 package com.philips.platform.mya.details;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +50,7 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState == null) {
             myaDetailPresenter.setUserDetails(getArguments());

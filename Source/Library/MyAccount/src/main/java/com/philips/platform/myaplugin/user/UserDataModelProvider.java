@@ -14,12 +14,10 @@ import java.io.Serializable;
 
 public class UserDataModelProvider extends UserInterface implements Serializable {
 
-    private UserDataModel userDataModel;
+    private transient UserDataModel userDataModel;
     private transient User user;
-    private Context context;
 
     public UserDataModelProvider(Context context) {
-        this.context = context;
         if (userDataModel == null) {
             userDataModel = new UserDataModel();
         }
