@@ -30,6 +30,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     private RecyclerView recyclerView;
     private MyaProfileContract.Presenter presenter;
     private TextView userNameTextView;
+    private String PROFILE_BUNDLE = "profile_bundle";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,6 +41,12 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         presenter = new MyaProfilePresenter(this);
         setRetainInstance(true);
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBundle(PROFILE_BUNDLE, getArguments());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -58,7 +65,13 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
-        presenter.setUserName(getArguments());
+        Bundle arguments;
+        if (savedInstanceState == null) {
+            arguments = getArguments();
+        } else {
+            arguments = savedInstanceState.getBundle(PROFILE_BUNDLE);
+        }
+        presenter.setUserName(arguments);
         presenter.getProfileItems(MyaInterface.getMyaDependencyComponent().getAppInfra());
     }
 
@@ -79,7 +92,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     }
 
     @Override
-    public void showProfileItems(final TreeMap<String,String> profileList) {
+    public void showProfileItems(final TreeMap<String, String> profileList) {
         MyaProfileAdaptor myaProfileAdaptor = new MyaProfileAdaptor(profileList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         RecyclerViewSeparatorItemDecoration contentThemedRightSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
@@ -108,7 +121,6 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     }
 
 
-
     @Override
     public void setUserName(String userName) {
         userNameTextView.setText(userName);
@@ -120,7 +132,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     }
 
     private void handleTransition(boolean onClickMyaItem, String profileItem) {
-            // code to be added in future
+        // code to be added in future
     }
 
 }

@@ -34,6 +34,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     public static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
     private MyaSettingsContract.Presenter presenter;
     private RecyclerView recyclerView;
+    private String SETTINGS_BUNDLE = "settings_bundle";
 
 
     @Override
@@ -70,6 +71,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        outState.putBundle(SETTINGS_BUNDLE, getArguments());
         super.onSaveInstanceState(outState);
     }
 

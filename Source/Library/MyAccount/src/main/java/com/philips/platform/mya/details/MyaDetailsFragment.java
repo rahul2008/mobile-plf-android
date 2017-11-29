@@ -9,6 +9,7 @@
 package com.philips.platform.mya.details;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,8 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
     private Label email_address, mobile_number;
     private Label nameLabel, genderLabel, mobile_number_heading, name_value, dob_value, email_address_heading;
     private View email_divider, dob_divider;
-    private String MYA_SETTINGS_BUNDLE = "settings_bundle";
+    private String DETAILS_BUNDLE = "details_bundle";
+    private MyaDetailPresenter myaDetailPresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,18 +40,24 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
         UIDHelper.injectCalligraphyFonts();
         initViews(view);
         setRetainInstance(true);
-        MyaDetailPresenter myaDetailPresenter = new MyaDetailPresenter(this);
-        if (savedInstanceState == null) {
-            myaDetailPresenter.setUserDetails(getArguments());
-        } else {
-            myaDetailPresenter.setUserDetails(savedInstanceState.getBundle(MYA_SETTINGS_BUNDLE));
-        }
+        myaDetailPresenter = new MyaDetailPresenter(this);
         return view;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putBundle(MYA_SETTINGS_BUNDLE, getArguments());
+        outState.putBundle(DETAILS_BUNDLE, getArguments());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState == null) {
+            myaDetailPresenter.setUserDetails(getArguments());
+        } else {
+            myaDetailPresenter.setUserDetails(savedInstanceState.getBundle(DETAILS_BUNDLE));
+        }
     }
 
     private void initViews(View view) {

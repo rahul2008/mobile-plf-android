@@ -229,6 +229,7 @@ configurations.all {
 
 dependencies {
     //3rd party
+    compile "com.android.support:appcompat-v7:${versions.support}"
     compile project(':ConsentWidgets')
     def daggerVer = 2.11
     compile "com.google.dagger:dagger:$daggerVer"
