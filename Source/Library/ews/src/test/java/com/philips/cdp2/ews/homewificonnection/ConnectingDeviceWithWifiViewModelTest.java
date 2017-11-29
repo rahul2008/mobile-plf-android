@@ -472,6 +472,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
         when(mockAppliance.getNetworkNode()).thenReturn(mockNetworkNode);
         when(mockAppliance.getNetworkNode().getCppId()).thenReturn("MOCKEDCPPID12345678");
         when(mockApplianceSessionDetailInfo.getAppliancePin()).thenReturn("MOCKEDPIN12345678");
+        when(mockApplianceSessionDetailInfo.getCppId()).thenReturn("MOCKEDCPPID12345678");
         discoveryCallbackArgumentCaptor.getValue().onApplianceFound(mockAppliance);
     }
 
