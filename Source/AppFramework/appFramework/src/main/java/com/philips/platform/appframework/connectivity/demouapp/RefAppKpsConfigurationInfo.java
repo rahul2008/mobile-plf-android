@@ -8,21 +8,21 @@ package com.philips.platform.appframework.connectivity.demouapp;
 import com.philips.cdp.cloudcontroller.KpsConfigurationInfo;
 
 public class RefAppKpsConfigurationInfo extends KpsConfigurationInfo {
-
     // Example configuration for test environment in Europe
+
     @Override
     public String getBootStrapId() {
-        return "000000fff0000012";
+        return "000000ffe0000003";
     }
 
     @Override
     public String getBootStrapKey() {
-        return "68b6717490cc1265a6e31884ad16e0e5";
+        return "45240d84f206035f9f19856fd266e59b";
     }
 
     @Override
     public String getProductId() {
-        return "CDP_KPSPROV";
+        return "FI-AIR_KPSPROV";
     }
 
     @Override
