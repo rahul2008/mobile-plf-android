@@ -111,7 +111,7 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
 
     @Override
     public void setGender(String gender) {
-        if (!TextUtils.isEmpty(gender)) {
+        if (!TextUtils.isEmpty(gender) && !gender.equalsIgnoreCase("null")) {
             genderLabel.setText(gender);
             gender_divider.setVisibility(View.VISIBLE);
         }
