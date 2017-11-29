@@ -189,14 +189,14 @@ android {
 
     defaultConfig {
         minSdkVersion config.minSdk
-        targetSdkVersion versionsAndroid.config
+        targetSdkVersion config.targetSdk
         versionCode config.versionCode
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi config.renderScriptApi
         renderscriptSupportModeEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-//        multiDexEnabled true
+        multiDexEnabled true
     }
 
     apply from: "../scripts/proposition_specific.gradle"
