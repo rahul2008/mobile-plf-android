@@ -193,9 +193,8 @@ public class EWSDependencyProviderTest {
 
     @Test
     public void itShouldVerifyGetCommCentralIfCommCentralIsNotNull() throws Exception{
-        subject.commCentral = mockCommCentral;
+        EWSDependencyProvider.commCentral = mockCommCentral;
         assertSame(subject.getCommCentral(),mockCommCentral);
-
     }
 
     @Test

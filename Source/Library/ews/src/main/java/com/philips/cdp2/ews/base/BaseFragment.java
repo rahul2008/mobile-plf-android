@@ -70,8 +70,8 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
 
         alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
 
-        Button yesButton = (Button) view.findViewById(R.id.ews_04_02_button_cancel_setup_yes);
-        Button noButton = (Button) view.findViewById(R.id.ews_04_02_button_cancel_setup_no);
+        Button yesButton = view.findViewById(R.id.ews_04_02_button_cancel_setup_yes);
+        Button noButton = view.findViewById(R.id.ews_04_02_button_cancel_setup_no);
         ((TextView) view.findViewById(R.id.ews_verify_device_body)).setText(getString(R.string.label_ews_cancel_setup_body, getString(deviceName)));
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override

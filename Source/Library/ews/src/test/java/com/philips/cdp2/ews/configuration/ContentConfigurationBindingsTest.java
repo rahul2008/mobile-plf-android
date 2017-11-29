@@ -41,10 +41,7 @@ public class ContentConfigurationBindingsTest {
     Context mMockContext;
     @Mock
     BaseContentConfiguration mockBaseContentConfiguration;
-    @Mock
-    ContentConfigurationBindings subject;
 
-    final String STARTED_TITLE = "Let’s connect your %1$s to your WiFi so you can enjoy all the app enabled features!";
     final String APPNAME = "SleepMapper";
     final String DEVICENAME = "DeviceSleeping";
 
@@ -59,8 +56,6 @@ public class ContentConfigurationBindingsTest {
                 return !(a != null && a.length() > 0);
             }
         });
-
-        subject = new ContentConfigurationBindings();
         when(mockTextView.getContext()).thenReturn(mMockContext);
         when(mockBaseContentConfiguration.getAppName()).thenReturn(123234);
         when(mockBaseContentConfiguration.getDeviceName()).thenReturn(45345345);
@@ -70,47 +65,47 @@ public class ContentConfigurationBindingsTest {
     @Test
     public void itShouldCheckWhenSetTextFormatterCallWithOneArg() throws Exception {
         String formatedString = String.format(mMockContext.getString(R.string.label_ews_get_started_title), APPNAME);
-        subject.setFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_get_started_title), mockBaseContentConfiguration.getAppName());
+        ContentConfigurationBindings.setFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_get_started_title), mockBaseContentConfiguration.getAppName());
         verify(mockTextView).setText(formatedString);
     }
 
     @Test
     public void itShouldFailWhenAppNameResourceNotSetTextFormatterCallWithOneArg() throws Exception {
         when(mockBaseContentConfiguration.getAppName()).thenReturn(0);
-        subject.setFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_get_started_title), mockBaseContentConfiguration.getAppName());
+        ContentConfigurationBindings.setFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_get_started_title), mockBaseContentConfiguration.getAppName());
         verify(mockTextView, times(0)).setText(anyString());
     }
 
     @Test
     public void itShouldSuccessWhenImageResourceSet() throws Exception {
-        subject.setEWSImageResource(mockImageView, R.drawable.ic_ews_device_apmode_blinking);
+        ContentConfigurationBindings.setEWSImageResource(mockImageView, R.drawable.ic_ews_device_apmode_blinking);
         verify(mockImageView).setImageResource(anyInt());
     }
 
     @Test
     public void itShouldFailWhenImageResourceNotSet() throws Exception {
-        subject.setEWSImageResource(mockImageView, 0);
+        ContentConfigurationBindings.setEWSImageResource(mockImageView, 0);
         verify(mockImageView, times(0)).setImageResource(anyInt());
     }
 
     @Test
     public void itShouldCheckWhenSetTextFormatterCallWithTwoArgs() throws Exception {
         String formatedString = String.format(mMockContext.getString(R.string.label_ews_confirm_connection_tip_upper), DEVICENAME, APPNAME);
-        subject.setFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_confirm_connection_tip_upper), mockBaseContentConfiguration.getDeviceName());
+        ContentConfigurationBindings.setFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_confirm_connection_tip_upper), mockBaseContentConfiguration.getDeviceName(), mockBaseContentConfiguration.getDeviceName());
         verify(mockTextView).setText(formatedString);
     }
 
     @Test
     public void itShouldFailWhenArg1NotSet() throws Exception {
         when(mockBaseContentConfiguration.getDeviceName()).thenReturn(0);
-        subject.setFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_confirm_connection_tip_upper), mockBaseContentConfiguration.getDeviceName(), mockBaseContentConfiguration.getAppName());
+        ContentConfigurationBindings.setFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_confirm_connection_tip_upper), mockBaseContentConfiguration.getDeviceName(), mockBaseContentConfiguration.getAppName());
         verify(mockTextView, times(0)).setText(anyString());
     }
 
     @Test
     public void itShouldFailWhenArg2NotSet() throws Exception {
         when(mockBaseContentConfiguration.getAppName()).thenReturn(0);
-        subject.setFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_confirm_connection_tip_upper), mockBaseContentConfiguration.getDeviceName(), mockBaseContentConfiguration.getAppName());
+        ContentConfigurationBindings.setFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_confirm_connection_tip_upper), mockBaseContentConfiguration.getDeviceName(), mockBaseContentConfiguration.getAppName());
         verify(mockTextView, times(0)).setText(anyString());
     }
 
@@ -118,7 +113,7 @@ public class ContentConfigurationBindingsTest {
     public void itShouldFailWhenBothArgNotSet() throws Exception {
         when(mockBaseContentConfiguration.getDeviceName()).thenReturn(0);
         when(mockBaseContentConfiguration.getAppName()).thenReturn(0);
-        subject.setFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_confirm_connection_tip_upper), mockBaseContentConfiguration.getDeviceName(), mockBaseContentConfiguration.getAppName());
+        ContentConfigurationBindings.setFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_confirm_connection_tip_upper), mockBaseContentConfiguration.getDeviceName(), mockBaseContentConfiguration.getAppName());
         verify(mockTextView, times(0)).setText(anyString());
     }
 
@@ -126,40 +121,40 @@ public class ContentConfigurationBindingsTest {
     @Test
     public void itShouldCheckWhenSetStringUsingStringFormatter() throws Exception {
         String formatedString = String.format(mMockContext.getString(R.string.label_ews_get_started_title), APPNAME);
-        subject.setStringFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_get_started_title), APPNAME);
+        ContentConfigurationBindings.setStringFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_get_started_title), APPNAME);
         verify(mockTextView).setText(formatedString);
     }
 
     @Test
     public void itShouldFailWhenEmptyStringPassedINSetStringUsingStringFormatter() throws Exception {
-        subject.setStringFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_get_started_title), "");
+        ContentConfigurationBindings.setStringFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_get_started_title), "");
         verify(mockTextView, times(0)).setText(anyString());
     }
 
     @Test
     public void itShouldCheckWhenSetStringUsingStringFormatterWithResourceId() throws Exception {
         String formatedString = String.format(mMockContext.getString(R.string.label_ews_confirm_connection_tip_upper), DEVICENAME, APPNAME);
-        subject.setStringFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_confirm_connection_tip_upper), mockBaseContentConfiguration.getDeviceName(), APPNAME);
+        ContentConfigurationBindings.setStringFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_confirm_connection_tip_upper), mockBaseContentConfiguration.getDeviceName(), APPNAME);
         verify(mockTextView).setText(formatedString);
     }
 
     @Test
     public void itShouldFailWhenResourceIdNotaddedandDeviceNameAvailable() throws Exception {
         when(mockBaseContentConfiguration.getDeviceName()).thenReturn(0);
-        subject.setStringFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_confirm_connection_tip_upper), mockBaseContentConfiguration.getDeviceName(), APPNAME);
+        ContentConfigurationBindings.setStringFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_confirm_connection_tip_upper), mockBaseContentConfiguration.getDeviceName(), APPNAME);
         verify(mockTextView, times(0)).setText(anyString());
     }
 
     @Test
     public void itShouldFailWhenResourceIdAvailableAndAppnameIsEmpty() throws Exception {
-        subject.setStringFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_confirm_connection_tip_upper), mockBaseContentConfiguration.getDeviceName(), "");
+        ContentConfigurationBindings.setStringFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_confirm_connection_tip_upper), mockBaseContentConfiguration.getDeviceName(), "");
         verify(mockTextView, times(0)).setText(anyString());
     }
 
     @Test
     public void itShouldFailWhenResourceIdAndDeviceNameEmpty() throws Exception {
         when(mockBaseContentConfiguration.getDeviceName()).thenReturn(0);
-        subject.setStringFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_confirm_connection_tip_upper), mockBaseContentConfiguration.getDeviceName(), "");
+        ContentConfigurationBindings.setStringFormattedText(mockTextView, mMockContext.getString(R.string.label_ews_confirm_connection_tip_upper), mockBaseContentConfiguration.getDeviceName(), "");
         verify(mockTextView, times(0)).setText(anyString());
     }
 }

@@ -79,11 +79,11 @@ public class FragmentNavigatorTest {
     public void itShouldCallPopBackStack() throws Exception {
         int containerId = 50;
 
-        when(mockFragmentManager.popBackStackImmediate(anyString(), eq(subject.POP_BACK_STACK_EXCLUSIVE))).thenReturn(true);
+        when(mockFragmentManager.popBackStackImmediate(anyString(), eq(FragmentNavigator.POP_BACK_STACK_EXCLUSIVE))).thenReturn(true);
 
         subject.push(mockFragment, containerId,true,true);
 
-        verify(mockFragmentManager).popBackStackImmediate(anyString(), eq(subject.POP_BACK_STACK_EXCLUSIVE));
+        verify(mockFragmentManager).popBackStackImmediate(anyString(), eq(FragmentNavigator.POP_BACK_STACK_EXCLUSIVE));
 
         InOrder inOrder = inOrder(mockFragmentManager, mockFragmentTransaction);
 
@@ -103,7 +103,7 @@ public class FragmentNavigatorTest {
 
         subject.push(mockFragment, containerId,false,true);
 
-        verify(mockFragmentManager).popBackStackImmediate(anyString(), eq(subject.POP_BACK_STACK_EXCLUSIVE));
+        verify(mockFragmentManager).popBackStackImmediate(anyString(), eq(FragmentNavigator.POP_BACK_STACK_EXCLUSIVE));
 
         InOrder inOrder = inOrder(mockFragmentManager, mockFragmentTransaction);
         inOrder.verify(mockFragmentManager).beginTransaction();
@@ -116,7 +116,7 @@ public class FragmentNavigatorTest {
     public void itShouldVerifyPopBackStackExclusiveWhenCalled() throws Exception {
         String anyString = "anyString";
         subject.popToFragment(anyString);
-        verify(mockFragmentManager).popBackStackImmediate(anyString, subject.POP_BACK_STACK_EXCLUSIVE);
+        verify(mockFragmentManager).popBackStackImmediate(anyString, FragmentNavigator.POP_BACK_STACK_EXCLUSIVE);
     }
 
     @Test

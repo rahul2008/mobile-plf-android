@@ -130,10 +130,7 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
     }
 
     private boolean isThemeScreen() {
-        if (getCurrentFragment() instanceof ThemeSettingsFragment) {
-            return true;
-        }
-        return false;
+        return getCurrentFragment() instanceof ThemeSettingsFragment;
     }
 
     @Override
