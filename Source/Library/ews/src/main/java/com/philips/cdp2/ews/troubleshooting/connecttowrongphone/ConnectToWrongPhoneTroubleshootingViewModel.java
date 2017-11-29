@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdp2.ews.troubleshooting.connecttowrongphone;
 
 import android.databinding.ObservableField;
@@ -16,16 +20,24 @@ import javax.inject.Inject;
 
 public class ConnectToWrongPhoneTroubleshootingViewModel {
 
-    @NonNull private final Navigator navigator;
-    @NonNull public final ObservableField<String> title;
-    @NonNull public final ObservableField<String> description;
-    @NonNull public final ObservableField<String> questions;
-    @NonNull private StringProvider stringProvider;
-    @NonNull public final Drawable connectWrongImage;
+    @NonNull
+    public final ObservableField<String> title;
+    @NonNull
+    public final ObservableField<String> description;
+    @NonNull
+    public final ObservableField<String> questions;
+    @NonNull
+    public final Drawable connectWrongImage;
+    @NonNull
+    private final Navigator navigator;
+    @NonNull
+    private final StringProvider stringProvider;
 
     @Inject
-    public ConnectToWrongPhoneTroubleshootingViewModel(@NonNull Navigator navigator, @NonNull StringProvider stringProvider, @NonNull BaseContentConfiguration contentConfiguration,
-                                                   @NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
+    public ConnectToWrongPhoneTroubleshootingViewModel(@NonNull Navigator navigator,
+                                                       @NonNull StringProvider stringProvider,
+                                                       @NonNull BaseContentConfiguration contentConfiguration,
+                                                       @NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
         this.navigator = navigator;
         this.stringProvider = stringProvider;
         this.title = new ObservableField<>(getTitle(troubleShootContentConfiguration, contentConfiguration));
@@ -34,9 +46,33 @@ public class ConnectToWrongPhoneTroubleshootingViewModel {
         this.connectWrongImage = getWrongPhoneImage(troubleShootContentConfiguration);
     }
 
-    @VisibleForTesting
     @NonNull
-    Drawable getWrongPhoneImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
+    @VisibleForTesting
+    private String getTitle(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
+                    @NonNull BaseContentConfiguration baseConfig) {
+        return stringProvider.getString(troubleShootContentConfiguration.getConnectWrongPhoneTitle(),
+                baseConfig.getDeviceName());
+    }
+
+    @NonNull
+    @VisibleForTesting
+    private String getBody(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
+                   @NonNull BaseContentConfiguration baseConfig) {
+        return stringProvider.getString(troubleShootContentConfiguration.getConnectWrongPhoneBody(),
+                baseConfig.getDeviceName());
+    }
+
+    @NonNull
+    @VisibleForTesting
+    private String getQuestions(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
+                        @NonNull BaseContentConfiguration baseConfig) {
+        return stringProvider.getString(troubleShootContentConfiguration.getConnectWrongPhoneQuestion(),
+                baseConfig.getDeviceName());
+    }
+
+    @NonNull
+    @VisibleForTesting
+    private Drawable getWrongPhoneImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
         return stringProvider.getImageResource(troubleShootContentConfiguration.getConnectWrongPhoneImage());
     }
 
@@ -46,31 +82,6 @@ public class ConnectToWrongPhoneTroubleshootingViewModel {
 
     public void onNoButtonClicked() {
         navigator.navigateToResetConnectionTroubleShootingScreen();
-    }
-
-    @VisibleForTesting
-    @NonNull
-    String getTitle(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
-                    @NonNull BaseContentConfiguration baseConfig) {
-        return stringProvider.getString(troubleShootContentConfiguration.getConnectWrongPhoneTitle(),
-                baseConfig.getDeviceName());
-    }
-
-
-    @VisibleForTesting
-    @NonNull
-    String getBody(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
-                    @NonNull BaseContentConfiguration baseConfig) {
-        return stringProvider.getString(troubleShootContentConfiguration.getConnectWrongPhoneBody(),
-                baseConfig.getDeviceName());
-    }
-
-    @VisibleForTesting
-    @NonNull
-    String getQuestions(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
-                   @NonNull BaseContentConfiguration baseConfig) {
-        return stringProvider.getString(troubleShootContentConfiguration.getConnectWrongPhoneQuestion(),
-                baseConfig.getDeviceName());
     }
 
     void trackPageName() {
