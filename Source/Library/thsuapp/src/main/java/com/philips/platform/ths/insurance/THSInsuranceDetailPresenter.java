@@ -20,7 +20,6 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
-import com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
@@ -157,7 +156,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
             }
         } else if (componentID == R.id.ths_confirmation_dialog_primary_button) {  // continue without Insurance verification
             showCostSummaryFragment();
-        } else if (componentID == R.id.ths_confirmation_dialog_secondary_button_label) {
+        } else if (componentID == R.id.ths_confirmation_dialog_secondary_button) {
             // stay on same insurance screen
             mTHSBaseFragment.hideProgressBar();
         }

@@ -19,24 +19,12 @@
         android:layout_marginRight="12dp"
         android:layout_marginTop="24dp">
 
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/ths_confirmation_dialog_title_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ths_fab_margin"
-            style="@style/ths_font_icon_style"
-            android:layout_centerVertical="false"
-            android:layout_alignParentEnd="true"
-            android:text="@string/dls_cross_bold">
-
-        </com.philips.platform.uid.view.widget.Label>
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ths_confirmation_dialog_title_label"
             fontPath="fonts/centralesansbold.ttf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/ths_confirmation_dialog_title_image"
             android:text="@string/ths_insurance_confirm_cancel_visit"
             android:textSize="18sp">
 
@@ -49,9 +37,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ths_confirmation_dialog_title_relativelayout"
+        android:layout_marginBottom="24dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:layout_marginBottom="24dp"
         android:text="@string/ths_insurance_visit_shall_be_cancelled">
 
 
@@ -68,17 +56,17 @@
 
         />
 
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/ths_confirmation_dialog_secondary_button_label"
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/ths_confirmation_dialog_secondary_button"
+        style="@style/UIDQuietButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ths_confirmation_dialog_primary_button"
+        android:layout_marginBottom="12dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:layout_marginBottom="12dp"
         android:text="@string/ths_insurance_no_continue_waiting"
-        android:gravity="center_horizontal"
-        android:textColor="?attr/uidColorLevel45"
 
         />
 

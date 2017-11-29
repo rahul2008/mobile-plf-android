@@ -49,4 +49,9 @@ public class THSInitFragment extends THSBaseFragment{
         THSManager.getInstance().getThsTagging().collectLifecycleInfo(this.getActivity());
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_INIT_PAGE, null, null);
     }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+       //do nothing , here connection error will be handled by other call backs
+    }
 }

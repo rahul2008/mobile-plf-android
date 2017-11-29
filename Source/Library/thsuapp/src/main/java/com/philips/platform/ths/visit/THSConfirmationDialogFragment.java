@@ -11,11 +11,9 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
@@ -24,8 +22,6 @@ import com.philips.platform.uid.view.widget.Label;
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_CANCEL_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_CANCEL_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_RESPONSE_DONT_CANCEL_VISIT;
-import static com.philips.platform.ths.utility.THSConstants.THS_IN_APP_NOTIFICATION;
-import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 public class THSConfirmationDialogFragment extends DialogFragment implements View.OnClickListener{
     public static final String TAG = THSConfirmationDialogFragment.class.getSimpleName();
@@ -33,9 +29,8 @@ public class THSConfirmationDialogFragment extends DialogFragment implements Vie
     THSBasePresenter mPresenter;
     Label mTitleLabel;
     Label mMessageLabel;
-    Label mTitleImage;
     Button mPrimaryButton;
-    Label mSecondaryButtonLabel;
+    Button mSecondaryButtonButton;
 
     @Nullable
     @Override
@@ -43,12 +38,11 @@ public class THSConfirmationDialogFragment extends DialogFragment implements Vie
         LayoutInflater layoutInflater = inflater.cloneInContext(UIDHelper.getPopupThemedContext(this.getContext()));
         View view = layoutInflater.inflate(R.layout.ths_confirmation_dialog_fragment, container, false);
         mTitleLabel = (Label) view.findViewById(R.id.ths_confirmation_dialog_title_label);
-        mTitleImage = (Label) view.findViewById(R.id.ths_confirmation_dialog_title_image);
         mMessageLabel = (Label) view.findViewById(R.id.ths_confirmation_dialog_message_label);
         mPrimaryButton = (Button) view.findViewById(R.id.ths_confirmation_dialog_primary_button);
         mPrimaryButton.setOnClickListener(this);
-        mSecondaryButtonLabel = (Label) view.findViewById(R.id.ths_confirmation_dialog_secondary_button_label);
-        mSecondaryButtonLabel.setOnClickListener(this);
+        mSecondaryButtonButton = (Button) view.findViewById(R.id.ths_confirmation_dialog_secondary_button);
+        mSecondaryButtonButton.setOnClickListener(this);
         return view;
     }
 
@@ -68,10 +62,10 @@ public class THSConfirmationDialogFragment extends DialogFragment implements Vie
             dismiss();
             THSTagUtils.tagInAppNotification(THS_ANALYTICS_CANCEL_VISIT,THS_ANALYTICS_RESPONSE_CANCEL_VISIT);
             mPresenter.onEvent(R.id.ths_confirmation_dialog_primary_button);
-        }else if (v.getId()==R.id.ths_confirmation_dialog_secondary_button_label){
+        }else if (v.getId()==R.id.ths_confirmation_dialog_secondary_button){
             dismiss();
             THSTagUtils.tagInAppNotification(THS_ANALYTICS_CANCEL_VISIT,THS_ANALYTICS_RESPONSE_DONT_CANCEL_VISIT);
-            mPresenter.onEvent(R.id.ths_confirmation_dialog_secondary_button_label);
+            mPresenter.onEvent(R.id.ths_confirmation_dialog_secondary_button);
 
         }
 

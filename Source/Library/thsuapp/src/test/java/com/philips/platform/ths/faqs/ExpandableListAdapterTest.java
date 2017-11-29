@@ -6,6 +6,7 @@
 
 package com.philips.platform.ths.faqs;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -51,6 +53,12 @@ public class ExpandableListAdapterTest {
     @Mock
     TextView textViewMock;
 
+    @Mock
+    Label textViewShowHideMock;
+
+    @Mock
+    Context contextMock;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -61,6 +69,8 @@ public class ExpandableListAdapterTest {
         map.put("Spoorti",list1);
         when(faqBeanPojoMock1.getAnswer()).thenReturn("hello");
         when(faqBeanPojoMock1.getQuestion()).thenReturn("how are you");
+        when(thsFaqFragmentMock.getContext()).thenReturn(contextMock);
+        when(contextMock.getString(anyInt())).thenReturn("Text");
         mExpandableListAdapter = new ExpandableListAdapter(thsFaqFragmentMock,map);
     }
 
@@ -113,6 +123,7 @@ public class ExpandableListAdapterTest {
     @Test
     public void getGroupView() throws Exception {
         when(viewMock.findViewById(R.id.lblListHeader)).thenReturn(textViewMock);
+        when(viewMock.findViewById(R.id.lblshowAll)).thenReturn(textViewShowHideMock);
         final View groupView = mExpandableListAdapter.getGroupView(0, true, viewMock, viewGroupMock);
         assertNotNull(groupView);
         assertThat(groupView).isInstanceOf(View.class);

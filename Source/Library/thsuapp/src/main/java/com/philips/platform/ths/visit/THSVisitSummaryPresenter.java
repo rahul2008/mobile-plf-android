@@ -34,7 +34,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSummaryCallbacks.THSVisitSummaryCallback<THSVisitSummary, THSSDKError>, THSSDKCallback<Void, SDKError>, THSVisitReportListCallback<List<VisitReport>,SDKError> {
 
     THSVisitSummaryFragment mTHSVisitSummaryFragment;
-    private ProviderInfo mProviderInfo;
+    ProviderInfo mProviderInfo;
 
     public THSVisitSummaryPresenter(THSVisitSummaryFragment mTHSVisitSummaryFragment) {
         this.mTHSVisitSummaryFragment = mTHSVisitSummaryFragment;
@@ -42,11 +42,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
 
     @Override
     public void onEvent(int componentID) {
-
-        if (componentID == R.id.ths_visit_summary_continue_button) {
-            mTHSVisitSummaryFragment.exitFromAmWell(visitSuccessful);
-        }
-
+        mTHSVisitSummaryFragment.exitFromAmWell(visitSuccessful);
     }
 
     void fetchVisitSummary() {
@@ -82,71 +78,17 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     }
 
 
-    public void updateShippingAddressView(Address address, String consumerName) {
-        //ths_shipping_pharmacy_layout.setVisibility(View.VISIBLE);
-        mTHSVisitSummaryFragment.consumerName.setText(consumerName);
-        if (null != address) {
-            mTHSVisitSummaryFragment.consumerCity.setText(address.getCity());
-            mTHSVisitSummaryFragment.consumerState.setText(address.getState().getCode());
-            mTHSVisitSummaryFragment.consumerShippingAddress.setText(address.getAddress1());
-            mTHSVisitSummaryFragment.consumerShippingZip.setText(address.getZipCode());
-        } else {
-            mTHSVisitSummaryFragment.medicationShippingLabel.setVisibility(View.GONE);
-            mTHSVisitSummaryFragment.medicationShippingRelativeLayout.setVisibility(View.GONE);
-        }
-    }
-
-    public void updatePharmacyDetailsView(Pharmacy pharmacy) {
-        if (null != pharmacy) {
-            mTHSVisitSummaryFragment.pharmacyAddressLineOne.setText(pharmacy.getAddress().getAddress1());
-            mTHSVisitSummaryFragment.pharmacyAddressLIneTwo.setText(pharmacy.getAddress().getAddress2());
-            mTHSVisitSummaryFragment.pharmacyName.setText(pharmacy.getName());
-            mTHSVisitSummaryFragment.pharmacyState.setText(pharmacy.getAddress().getState().getCode());
-            mTHSVisitSummaryFragment.pharmacyZip.setText(pharmacy.getAddress().getZipCode());
-        }
-    }
 
     //start of visit summary callbacks
     @Override
     public void onResponse(THSVisitSummary tHSVisitSummary, THSSDKError tHSSDKError) {
         if (null != mTHSVisitSummaryFragment && mTHSVisitSummaryFragment.isFragmentAttached()) {
-            updateView(tHSVisitSummary);
+            mTHSVisitSummaryFragment.updateView(tHSVisitSummary);
         }
 
     }
 
-    private void updateView(THSVisitSummary tHSVisitSummary) {
-        VisitSummary visitSummary = tHSVisitSummary.getVisitSummary();
-        mTHSVisitSummaryFragment.providerName.setText(visitSummary.getAssignedProviderInfo().getFullName());
-        mProviderInfo=visitSummary.getAssignedProviderInfo();
-        mTHSVisitSummaryFragment.providerPractice.setText(visitSummary.getAssignedProviderInfo().getPracticeInfo().getName());
-        if (tHSVisitSummary.getVisitSummary().getVisitCost().isFree()) {
-            mTHSVisitSummaryFragment.visitCost.setText("$ 0");
-        } else {
-            //mTHSVisitSummaryFragment.visitCost.setText(tHSVisitSummary.getVisitSummary().getVisitCost().getDeferredBillingWrapUpText());
-            double cost = tHSVisitSummary.getVisitSummary().getVisitCost().getExpectedConsumerCopayCost();
 
-            mTHSVisitSummaryFragment.visitCost.setText("$" + Double.toString(cost));
-        }
-        if (visitSummary.getAssignedProviderInfo().hasImage()) {
-            try {
-                THSManager.getInstance().getAwsdk(mTHSVisitSummaryFragment.getFragmentActivity()).getPracticeProvidersManager().
-                        newImageLoader(visitSummary.getAssignedProviderInfo(), mTHSVisitSummaryFragment.mImageProviderImage,
-                                ProviderImageSize.SMALL).placeholder(mTHSVisitSummaryFragment.mImageProviderImage.getResources().
-                        getDrawable(R.drawable.doctor_placeholder, mTHSVisitSummaryFragment.getFragmentActivity().getTheme())).build().load();
-            } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        Address address = visitSummary.getShippingAddress();
-        String consumerFullName = visitSummary.getConsumerInfo().getFullName();
-        updateShippingAddressView(address, consumerFullName);
-        Pharmacy pharmacy = visitSummary.getPharmacy();
-        updatePharmacyDetailsView(pharmacy);
-        getVisitHistory();
-    }
 
 
     @Override

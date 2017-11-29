@@ -214,10 +214,10 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
         showError(message, false);
     }
 
-    public void showError(String message, final boolean shouldGoBack) {
+    public void showError( String message, final boolean shouldGoBack) {
         if (isFragmentAttached()) {
             hideProgressBar();
-            if (null == message) {  // if message is not identified make it THS_GENERIC_SERVER_ERROR
+            if(null==message){  // if message is not identified make it THS_GENERIC_SERVER_ERROR
                 message = getString(R.string.ths_se_server_error_toast_message);
                 //doTagging(module,message,true);
             }
