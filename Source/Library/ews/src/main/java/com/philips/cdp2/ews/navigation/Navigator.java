@@ -51,7 +51,7 @@ public class Navigator {
     }
 
     public void navigateToConnectToDeviceWithPasswordScreen(String friendlyName) {
-        pushFragment(ConnectWithPasswordFragment.newInstance(friendlyName), true);
+        pushFragmentForNoPopBackStack(ConnectWithPasswordFragment.newInstance(friendlyName), true);
     }
 
     public void navigateToPairingSuccessScreen() {
@@ -75,7 +75,7 @@ public class Navigator {
     }
 
     public void navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(@NonNull String deviceName, @NonNull String wifiSSID) {
-        pushFragment(WifiConnectionUnsuccessfulFragment.newInstance(deviceName, wifiSSID), true);
+        pushFragmentForNoPopBackStack(WifiConnectionUnsuccessfulFragment.newInstance(deviceName, wifiSSID), true);
     }
 
     public void navigateToConnectingPhoneToHotspotWifiScreen() {
@@ -91,7 +91,7 @@ public class Navigator {
     }
 
     public void navigateToEWSWiFiPairedScreen() {
-        pushFragment(new ConnectionSuccessfulFragment(), true);
+        pushFragmentForNoPopBackStack(new ConnectionSuccessfulFragment(), true);
     }
 
     public void navigateToWrongWifiNetworkScreen(Bundle bundle) {
