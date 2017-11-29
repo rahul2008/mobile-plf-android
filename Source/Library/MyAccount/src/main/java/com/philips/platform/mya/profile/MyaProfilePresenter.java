@@ -34,8 +34,8 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
     }
 
     @Override
-    public void getProfileItems(Context context, AppInfraInterface appInfra) {
-        view.showProfileItems(getProfileList(context, MyaInterface.getMyaDependencyComponent().getAppInfra().getConfigInterface()));
+    public void getProfileItems(AppInfraInterface appInfra) {
+        view.showProfileItems(getProfileList(MyaInterface.getMyaDependencyComponent().getAppInfra().getConfigInterface()));
     }
 
     @Override
@@ -65,14 +65,14 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
         }
     }
 
-    private TreeMap<String,String> getProfileList(Context context, AppConfigurationInterface appConfigurationManager) {
+    private TreeMap<String,String> getProfileList(AppConfigurationInterface appConfigurationManager) {
         String profileItems = "profile.menuItems";
         try {
             final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
                     .AppConfigurationError();
             ArrayList propertyForKey = (ArrayList) appConfigurationManager.getPropertyForKey
                     (profileItems, "mya", configError);
-            return getLocalisedList(context,propertyForKey);
+            return getLocalisedList(propertyForKey);
         } catch (IllegalArgumentException exception) {
             // TODO: Deepthi, use TLA while logging
             exception.getMessage();
@@ -80,21 +80,22 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
         return null;
     }
 
-    private TreeMap<String, String> getLocalisedList(Context context, ArrayList propertyForKey) {
+    private TreeMap<String, String> getLocalisedList(ArrayList propertyForKey) {
         TreeMap<String, String> profileList = new TreeMap<>();
         if (propertyForKey != null && propertyForKey.size() != 0) {
             for (int i = 0; i < propertyForKey.size(); i++) {
                 String profileKey = (String) propertyForKey.get(i);
-                String stringResourceByName = getStringResourceByName(context, profileKey);
+                String stringResourceByName = getStringResourceByName(profileKey);
                 profileList.put(profileKey, stringResourceByName);
             }
         } else {
-            profileList.put("MYA_My_details", context.getResources().getString(R.string.MYA_My_details));
+            profileList.put("MYA_My_details", view.getContext().getResources().getString(R.string.MYA_My_details));
         }
         return profileList;
     }
 
-    private String getStringResourceByName(Context context, String aString) {
+    private String getStringResourceByName(String aString) {
+        Context context = view.getContext();
         String packageName = context.getPackageName();
         int resId = context.getResources().getIdentifier(aString, "string", packageName);
         try {

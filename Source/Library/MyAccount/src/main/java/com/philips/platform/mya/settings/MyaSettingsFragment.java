@@ -60,7 +60,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
         if (savedInstanceState == null)
-            presenter.getSettingItems(getContext(), MyaInterface.getMyaDependencyComponent().getAppInfra());
+            presenter.getSettingItems(MyaInterface.getMyaDependencyComponent().getAppInfra());
     }
 
     @Override
@@ -190,7 +190,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
                 if (!handled) {
                     boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(key);
                     if (!onClickMyaItem)
-                        presenter.onClickRecyclerItem(getContext(), key, value);
+                        presenter.onClickRecyclerItem(key, value);
                 }
 
             }

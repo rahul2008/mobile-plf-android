@@ -59,7 +59,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
         presenter.setUserName(getArguments());
-        presenter.getProfileItems(getContext(), MyaInterface.getMyaDependencyComponent().getAppInfra());
+        presenter.getProfileItems(MyaInterface.getMyaDependencyComponent().getAppInfra());
     }
 
 

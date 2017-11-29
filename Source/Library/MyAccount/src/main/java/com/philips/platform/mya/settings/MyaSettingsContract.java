@@ -5,7 +5,6 @@
  */
 package com.philips.platform.mya.settings;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -24,9 +23,9 @@ interface MyaSettingsContract {
 
     interface Presenter extends MyaPresenterInterface<View> {
 
-        void getSettingItems(Context context, AppInfraInterface appInfra);
+        void getSettingItems(AppInfraInterface appInfra);
 
-        void onClickRecyclerItem(Context context, String key, SettingsModel settingsModel);
+        void onClickRecyclerItem(String key, SettingsModel settingsModel);
 
         void logOut(Bundle bundle);
 

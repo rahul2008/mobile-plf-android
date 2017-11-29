@@ -31,6 +31,7 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
     private Label nameLabel, genderLabel, mobile_number_heading, name_value, dob_value, email_address_heading;
     private View email_divider, dob_divider;
     private String MYA_SETTINGS_BUNDLE = "settings_bundle";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mya_user_detail_fragment, container, false);
@@ -119,10 +120,7 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
             String tempDate = formatter.format(dateOfBirth);
             dob_value.setText(tempDate);
             dob_divider.setVisibility(View.VISIBLE);
-        } /*else {
-            dob_value.setVisibility(View.GONE);
-            DOB_heading.setVisibility(View.GONE);
-        }*/
+        }
     }
 
     @Override

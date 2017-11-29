@@ -5,7 +5,6 @@
  */
 package com.philips.platform.mya.profile;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -30,7 +29,7 @@ interface MyaProfileContract {
 
     interface Presenter extends MyaPresenterInterface<View> {
 
-        void getProfileItems(Context context, AppInfraInterface appInfra);
+        void getProfileItems(AppInfraInterface appInfra);
 
         void setUserName(Bundle bundle);
 

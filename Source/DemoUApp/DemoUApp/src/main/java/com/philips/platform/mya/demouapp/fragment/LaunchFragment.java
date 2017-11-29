@@ -40,7 +40,10 @@ import com.philips.platform.urdemo.URDemouAppDependencies;
 import com.philips.platform.urdemo.URDemouAppInterface;
 import com.philips.platform.urdemo.URDemouAppSettings;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -95,16 +98,19 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra());
-        MyaLaunchInput launchInput = new MyaLaunchInput(((DemoAppActivity) getActivity()), getMyaListener());
+        MyaLaunchInput launchInput = new MyaLaunchInput(getActivity(), getMyaListener());
+        launchInput.setConsentDefinitions(createConsentDefinitions(Locale.US));
+        launchInput.setApplicationName("OneBackend");
+        launchInput.setPropositionName("OneBackendProp");
         MyaInterface myaInterface = new MyaInterface();
-        myaInterface.init(uappDependencies, new MyaSettings((DemoAppActivity) getActivity()));
+        myaInterface.init(uappDependencies, new MyaSettings(getActivity()));
         if (checkedId == R.id.radioButton) {
             ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
                     ActivityOrientation.SCREEN_ORIENTATION_SENSOR, ((DemoAppActivity) getActivity()).getThemeConfig(),
                     ((DemoAppActivity) getActivity()).getThemeResourceId(), null);
             myaInterface.launch(activityLauncher, launchInput);
         } else {
-            myaInterface.launch(new FragmentLauncher((DemoAppActivity) getActivity(), R.id.mainContainer, new ActionBarListener() {
+            myaInterface.launch(new FragmentLauncher(getActivity(), R.id.mainContainer, new ActionBarListener() {
                 @Override
                 public void updateActionBar(@StringRes int i, boolean b) {
                     ((DemoAppActivity) getActivity()).setTitle(i);
@@ -155,6 +161,14 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
             return new UserDataModelProvider(this.getActivity());
 
         return null;
+    }
+
+    private List<ConsentDefinition> createConsentDefinitions(Locale currentLocale) {
+        final List<ConsentDefinition> definitions = new ArrayList<>();
+        definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", Collections.singletonList("moment"), 1, currentLocale));
+        definitions.add(new ConsentDefinition("I allow don't Philips to store my data in cloud", "No one is able to see this text in the app", Collections.singletonList("tnemom"), 1, currentLocale));
+        return definitions;
+
     }
 
 }
