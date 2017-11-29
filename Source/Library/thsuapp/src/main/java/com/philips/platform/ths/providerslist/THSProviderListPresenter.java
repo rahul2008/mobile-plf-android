@@ -143,6 +143,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
     @Override
     public void onResponse(List<THSOnDemandSpeciality> onDemandSpecialties, THSSDKError sdkError) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            mThsBaseFragment.hideProgressBar();
             if (null != sdkError.getSdkError()) {
                 mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_ON_DEMAND_SPECIALITIES, sdkError.getSdkError()));
             } else {
@@ -151,6 +152,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                     THSManager.getInstance().setMatchMakingVisit(false);
                     return;
                 }
+                THSManager.getInstance().setMatchMakingVisit(true);
                 mThsOnDemandSpeciality = onDemandSpecialties;
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(THSConstants.THS_ON_DEMAND, onDemandSpecialties.get(0));
@@ -164,6 +166,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
     @Override
     public void onFailure(Throwable throwable) {
+        THSManager.getInstance().setMatchMakingVisit(false);
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             mThsBaseFragment.hideProgressBar();
             mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));

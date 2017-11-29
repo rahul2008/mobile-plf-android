@@ -78,12 +78,6 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         }
         mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(), this, this, this, this, view);
 
-        if ((THSManager.getInstance().getPthVisitContext() != null
-                && THSManager.getInstance().getPthVisitContext().getVisitContext() != null
-                && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty())
-                && !THSManager.getInstance().getPthVisitContext().getVisitContext().hasProvider()) {
-            THSManager.getInstance().setMatchMakingVisit(true);
-        }
 
         if (THSManager.getInstance().isMatchMakingVisit()) { // if provider is not yet selected
             providerDetailsPresenter.doMatchMaking();

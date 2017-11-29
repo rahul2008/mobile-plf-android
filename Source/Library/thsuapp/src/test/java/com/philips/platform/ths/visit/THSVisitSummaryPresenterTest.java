@@ -127,10 +127,7 @@ public class THSVisitSummaryPresenterTest {
         thsVisitSummaryPresenter = new THSVisitSummaryPresenter(thsVisitSummaryFragment);
     }
 
-    @Test
-    public void onEvent() throws Exception {
-        thsVisitSummaryPresenter.onEvent(R.id.ths_visit_summary_continue_button);
-    }
+   
 
     @Test
     public void fetchVisitSummary() throws Exception {

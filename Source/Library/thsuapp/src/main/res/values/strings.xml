@@ -284,6 +284,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_matchmaking_progressbar_meesage_parent_text">We\'re finding right provider for your visit \n%1$s</string>
     <string name="ths_matchmaking_progressbar_meesage_child_text">This may take few minutes</string>
     <string name="ths_matchmaking_error_text">No provider is available right now</string>
+    <string name="ths_matchmaking_no_provider_available_text">No OnDemandSpecialities available at present, please try after some time</string>
     <string name="ths_valid_credit_card">Credit card is valid</string>
     <string name="ths_not_valid_credit_card">Credit card is not valid</string>
 
@@ -419,5 +420,4 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
     <!-- Credit card details strings -->
     <string name="ths_credit_card_details_whats_this_text">What\'s this?</string>
-    <string name="ths_matchmaking_no_provider_available_text">No OnDemandSpecialities available at present, please try after some time</string>
 </resources>
