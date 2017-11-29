@@ -79,7 +79,7 @@
     <string name="label_ews_phone_not_found_on_network_step_1">1) 您輸入了錯誤的網絡密碼</string>
     <string name="label_ews_phone_not_found_on_network_step_2">2) 您的 %1$s 超出範圍</string>
     <string name="label_ews_phone_not_found_on_network_upper_helper"></string>
-    <string name="label_ews_phone_not_found_on_network_lower_helper">您的 ％@ 不支援 5Ghz 網絡。</string>
+    <string name="label_ews_phone_not_found_on_network_lower_helper">您的 %1$s 不支援 5Ghz 網絡。</string>
     <string name="button_ews_phone_not_found_on_network_try_again">重試</string>
     <string name="button_ews_phone_not_found_on_network_still_having_issues">是否出現問題？</string>
     <string name="label_ews_support_reset_connection_title_default">%1$s 是否已離開設定模式？</string>
