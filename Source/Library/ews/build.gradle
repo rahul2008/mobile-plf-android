@@ -165,12 +165,12 @@ dependencies {
     if(dp) {
         project(':uikitLib')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar')
+        compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix())
             {
                 transitive = true
             }
     }
-    
+
     if(dp) {
         project(':commlib-lan')
     } else {
@@ -183,7 +183,7 @@ dependencies {
     if(dp) {
         project(':uid')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), changing: true) {
             transitive = true
         }
     }
@@ -191,12 +191,12 @@ dependencies {
     if(dp) {
         project(':IconFont')
     } else {
-        compile(group: 'com.philips.cdp', name: 'IconFont', version: versions.icf_iconFont + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        compile(group: 'com.philips.cdp', name: 'IconFont', version: versions.icf_iconFont + objcdp.getVersionSuffix(), changing: true)
             {
                 transitive = true
             }
     }
-    
+
 
     if(dp) {
         project(':uAppFwLib')
