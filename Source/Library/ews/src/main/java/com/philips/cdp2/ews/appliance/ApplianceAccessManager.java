@@ -74,6 +74,9 @@ public class ApplianceAccessManager {
                             putCallback.onPropertiesSet(wifiPortProperties);
                         }
                         break;
+                    case ApplianceRequestType.GET_DEVICE_PROPS:
+                    case ApplianceRequestType.PUT_DEVICE_PROPS:
+                    case ApplianceRequestType.UNKNOWN:
                     default:
                         EWSLogger.e(TAG, "Unknown request type");
                         break;
