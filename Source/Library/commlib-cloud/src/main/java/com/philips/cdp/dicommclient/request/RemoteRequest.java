@@ -15,12 +15,8 @@ import com.philips.cdp.cloudcontroller.api.listener.PublishEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.util.GsonProvider;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.Locale;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -157,7 +153,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
         } else if (dataObject == null) {
             Log.e(TAG, "extractData: no data received: " + data + "");
         } else {
-            res = dataObject.toString();
+            res = gson.toJson(dataObject);
         }
         return res;
     }
