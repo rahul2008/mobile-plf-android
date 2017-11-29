@@ -143,8 +143,7 @@
   },
   "mya": {
     "profile.menuItems": [
-      "MYA_My_details",
-      "MYA_My_products"
+      "MYA_My_details"
     ],
     "settings.menuItems": [
       "MYA_Country",
