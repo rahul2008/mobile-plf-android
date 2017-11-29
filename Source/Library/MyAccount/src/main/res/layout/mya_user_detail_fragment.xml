@@ -25,7 +25,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/action_settings"
+                android:contentDescription="@string/app_name"
                 android:layout_centerInParent="true"
                 android:background="@drawable/mya_circle_shape"/>
 
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:textColor="@color/uikit_white"
-                android:textSize="75sp"
+                android:textSize="40sp"
                 />
 
         </RelativeLayout>

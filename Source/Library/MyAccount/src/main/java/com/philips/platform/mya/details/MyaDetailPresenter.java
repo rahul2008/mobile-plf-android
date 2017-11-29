@@ -49,7 +49,7 @@ class MyaDetailPresenter extends MyaBasePresenter<MyaDetailContract.View> implem
         String familyName = userDataModel.getFamilyName();
         if (!TextUtils.isEmpty(givenName) && !TextUtils.isEmpty(familyName)) {
             view.setUserName(givenName.concat(" ").concat(familyName));
-            view.setCircleText(String.valueOf(givenName.charAt(0)).concat(String.valueOf(familyName.charAt(0))));
+            view.setCircleText(String.valueOf(givenName.charAt(0)).toUpperCase().concat(String.valueOf(familyName.charAt(0))).toUpperCase());
         } else if (!TextUtils.isEmpty(givenName)) {
             view.setUserName(givenName);
             view.setCircleText(printFirstCharacter(givenName));
