@@ -8,20 +8,23 @@ import android.support.annotation.NonNull;
 
 public class EWSCallbackNotifier {
 
-    private static EWSCallbackNotifier callbackNotifier;
+    private static EWSCallbackNotifier instance;
     private EWSCallback callback;
 
     private EWSCallbackNotifier() {
     }
 
-    public static EWSCallbackNotifier getInstance() {
-        if (callbackNotifier == null) {
-            synchronized (EWSCallbackNotifier.class) {
-                if (callbackNotifier == null)
-                    callbackNotifier = new EWSCallbackNotifier();
-            }
+    @Override
+    @SuppressWarnings("all")
+    protected Object clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException();
+    }
+
+    public static synchronized EWSCallbackNotifier getInstance() {
+        if (instance == null) {
+            instance = new EWSCallbackNotifier();
         }
-        return callbackNotifier;
+        return instance;
     }
 
     public void setCallback(@NonNull EWSCallback callback) {
@@ -32,7 +35,7 @@ public class EWSCallbackNotifier {
         if (callback != null) {
             callback.onSuccess();
         }
-        callbackNotifier = null;
+        instance = null;
     }
 
     public void onApplianceDiscovered(String cppId) {
@@ -45,13 +48,13 @@ public class EWSCallbackNotifier {
         if (callback != null) {
             callback.onCancel();
         }
-        callbackNotifier = null;
+        instance = null;
     }
 
     public void onBackPressed() {
         if (callback != null) {
             callback.onBackPressed();
         }
-        callbackNotifier = null;
+        instance = null;
     }
 }
