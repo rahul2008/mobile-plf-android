@@ -90,7 +90,7 @@ public class NavigatorTest {
     public void itShouldPushConnectToDeviceWithPasswordScreenWhenNavigating() throws Exception {
         subject.navigateToConnectToDeviceWithPasswordScreen("deviceFriendlyName");
 
-        verifyFragmentPushed(ConnectWithPasswordFragment.class);
+        verifyFragmentPushedForNoPopBackStack(ConnectWithPasswordFragment.class);
     }
 
     @Test
@@ -143,7 +143,7 @@ public class NavigatorTest {
     public void itShouldNavigateToWifiConnectionUnsuccessfulScreen() throws Exception {
         subject.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen("deviceName", "homeWifiSssid");
 
-        verifyFragmentPushed(WifiConnectionUnsuccessfulFragment.class);
+        verifyFragmentPushedForNoPopBackStack(WifiConnectionUnsuccessfulFragment.class);
     }
 
     @Test
@@ -176,7 +176,7 @@ public class NavigatorTest {
     public void itShouldNavigateToEWSWiFiPairedScreen() throws Exception {
         subject.navigateToEWSWiFiPairedScreen();
 
-        verifyFragmentPushed(ConnectionSuccessfulFragment.class);
+        verifyFragmentPushedForNoPopBackStack(ConnectionSuccessfulFragment.class);
     }
 
     @Test
