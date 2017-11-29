@@ -28,8 +28,8 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
 
     private ImageButton email_mobile_arrow, email_arrow, mobile_arrow;
     private Label email_address, mobile_number;
-    private Label nameLabel, genderLabel, mobile_number_heading, name_value, dob_value, DOB_heading, email_address_heading;
-    private View email_divider, name_divider, gender_divider, dob_divider;
+    private Label nameLabel, genderLabel, mobile_number_heading, name_value, dob_value, email_address_heading;
+    private View email_divider, dob_divider;
     private String MYA_SETTINGS_BUNDLE = "settings_bundle";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,10 +63,7 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
         email_address_heading = view.findViewById(R.id.email_address_heading);
         name_value = view.findViewById(R.id.name_value);
         dob_value = view.findViewById(R.id.dob_value);
-        DOB_heading = view.findViewById(R.id.DOB_heading);
         email_divider = view.findViewById(R.id.email_divider);
-        name_divider = view.findViewById(R.id.name_divider);
-        gender_divider = view.findViewById(R.id.gender_divider);
         dob_divider = view.findViewById(R.id.dob_divider);
     }
 
@@ -89,7 +86,6 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
     public void setUserName(String name) {
         if (!TextUtils.isEmpty(name)) {
             name_value.setText(name);
-            name_divider.setVisibility(View.VISIBLE);
         }
     }
 
@@ -113,7 +109,6 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
     public void setGender(String gender) {
         if (!TextUtils.isEmpty(gender) && !gender.equalsIgnoreCase("null")) {
             genderLabel.setText(gender);
-            gender_divider.setVisibility(View.VISIBLE);
         }
     }
 
@@ -124,10 +119,10 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
             String tempDate = formatter.format(dateOfBirth);
             dob_value.setText(tempDate);
             dob_divider.setVisibility(View.VISIBLE);
-        } else {
+        } /*else {
             dob_value.setVisibility(View.GONE);
             DOB_heading.setVisibility(View.GONE);
-        }
+        }*/
     }
 
     @Override
