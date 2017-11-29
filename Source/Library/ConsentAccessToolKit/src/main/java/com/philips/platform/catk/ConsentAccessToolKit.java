@@ -8,6 +8,11 @@
 package com.philips.platform.catk;
 
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import com.android.volley.VolleyError;
 import com.philips.platform.catk.dto.CreateConsentModelRequest;
 import com.philips.platform.catk.dto.GetConsentDto;
 import com.philips.platform.catk.dto.GetConsentsModelRequest;
@@ -27,9 +32,8 @@ import com.philips.platform.catk.provider.ComponentProvider;
 import com.philips.platform.catk.provider.ServiceInfoProvider;
 import com.philips.platform.catk.utils.CatkLogger;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 public class ConsentAccessToolKit {
 
@@ -74,6 +78,7 @@ public class ConsentAccessToolKit {
             @Override
             public void onError(String message) {
                 CatkLogger.e("ConsentAccessToolKit", "markErrorAndGetPrevious retrieving cssUrl: " + message);
+                listner.onConfigurationError(message);
             }
         };
         serviceInfoProvider.retrieveInfo(catkComponent.getServiceDiscoveryInterface(), responseListener);
@@ -85,8 +90,14 @@ public class ConsentAccessToolKit {
 
     public void getConsentDetails(final ConsentResponseListener consentListener) {
         retrieveConsentServiceInfo(new ConfigCompletionListener() {
+
             @Override
-            public void onConfigurationCompletion(String cssUrl) {
+            public void onConfigurationError(String message) {
+                consentListener.onResponseFailureConsent(new ConsentNetworkError(new VolleyError(message)));
+            }
+
+            @Override
+            public void onConfigurationCompletion(@NonNull String cssUrl) {
                 GetConsentsModelRequest model = new GetConsentsModelRequest(cssUrl, applicationName, propositionName, new NetworkAbstractModel.DataLoadListener() {
                     @Override
                     public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
@@ -109,8 +120,14 @@ public class ConsentAccessToolKit {
 
     public void createConsent(final Consent consent, final CreateConsentListener consentListener) {
         retrieveConsentServiceInfo(new ConfigCompletionListener() {
+
             @Override
-            public void onConfigurationCompletion(String cssUrl) {
+            public void onConfigurationError(String message) {
+                consentListener.onFailure(new ConsentNetworkError(new VolleyError(message)));
+            }
+
+            @Override
+            public void onConfigurationCompletion(@NonNull String cssUrl) {
                 ConsentToDtoMapper mapper = new ConsentToDtoMapper(catkComponent.getUser().getHsdpUUID(), catkComponent.getUser().getCountryCode(), propositionName,
                         applicationName);
                 CreateConsentModelRequest model = new CreateConsentModelRequest(cssUrl, mapper.map(consent), new NetworkAbstractModel.DataLoadListener() {
@@ -129,6 +146,10 @@ public class ConsentAccessToolKit {
                 sendRequest(model);
             }
         });
+    }
+
+    private boolean isInvalidUrl(@Nullable String cssUrl) {
+        return cssUrl == null || "".equals(cssUrl);
     }
 
     public void getStatusForConsentType(final String consentType, int version, final ConsentResponseListener consentListener) {
@@ -154,7 +175,9 @@ public class ConsentAccessToolKit {
     }
 
     interface ConfigCompletionListener {
-        void onConfigurationCompletion(String cssUrl);
+        void onConfigurationCompletion(@NonNull String cssUrl);
+
+        void onConfigurationError(String message);
     }
 
     void setCatkComponent(CatkComponent component) {
