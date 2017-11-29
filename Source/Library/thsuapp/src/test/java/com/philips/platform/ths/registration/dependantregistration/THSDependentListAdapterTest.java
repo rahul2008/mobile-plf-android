@@ -11,13 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
-import com.philips.platform.ths.settings.THSVisitHistoryAdapter;
-import com.philips.platform.ths.settings.THSVisitHistoryFragmentMock;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -25,17 +22,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -109,6 +102,7 @@ public class THSDependentListAdapterTest {
         customViewHolder.logo = imageViewMock;
         customViewHolder.label = labelMock;
         customViewHolder.relativeLayout = relativeLayoutMock;
+        customViewHolder.initials = labelMock;
         mTHSDependentListAdapter.onBindViewHolder(customViewHolder,0);
         verify(customViewHolder.relativeLayout).setOnClickListener(any(View.OnClickListener.class));
     }

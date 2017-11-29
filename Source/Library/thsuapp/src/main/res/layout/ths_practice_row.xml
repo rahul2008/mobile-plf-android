@@ -17,6 +17,15 @@
             android:id="@+id/pth_practice_logo"
             android:layout_width="@dimen/ths_image_size"
             android:layout_height="@dimen/ths_image_size" />
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_practice_initials"
+            android:visibility="gone"
+            android:background="@drawable/reg_circle"
+            android:layout_width="36dp"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="?attr/uidButtonPrimaryNormalTextColor"
+            android:layout_height="36dp" />
     </RelativeLayout>
   
 
