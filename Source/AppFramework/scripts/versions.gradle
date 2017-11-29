@@ -1,6 +1,3 @@
-// Use below cmd to analyze 'dagger' dependency
-// ./gradlew :appFramework:dependencyInsight --configuration compile  --dependency dagger
-
 
 ext.config = [
 
