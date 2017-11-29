@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
 
@@ -75,10 +76,25 @@ public class THSDependentListAdapter extends RecyclerView.Adapter<THSDependentLi
                 holder.logo.setImageResource(R.mipmap.child_icon);
             }
         } else {
-            holder.logo.setImageResource(R.mipmap.child_icon);
+            showProfilePicAsInitials(holder, thsConsumer);
         }
     }
 
+    private void showProfilePicAsInitials(CustomViewHolder holder, THSConsumer thsConsumer) {
+        String firstName = "",lastName = "";
+        if(null != thsConsumer.getFirstName()){
+            firstName = String.valueOf(thsConsumer.getFirstName().charAt(0));
+        }
+
+        if(null != thsConsumer.getLastName()){
+            lastName = String.valueOf(thsConsumer.getLastName().charAt(0));
+        }
+        String nameInitials = firstName.toUpperCase() + lastName.toUpperCase();
+        holder.logo.setVisibility(View.GONE);
+        holder.initials.setVisibility(View.VISIBLE);
+        holder.initials.setText(nameInitials);
+
+    }
     @Override
     public int getItemCount() {
         return mDependents.size();
@@ -88,12 +104,14 @@ public class THSDependentListAdapter extends RecyclerView.Adapter<THSDependentLi
         protected ImageView logo;
         protected TextView label;
         protected RelativeLayout relativeLayout;
+        protected Label initials;
 
         public CustomViewHolder(View view) {
             super(view);
-            this.logo = (ImageView) view.findViewById(R.id.pth_practice_logo);
-            this.relativeLayout = (RelativeLayout) view.findViewById(R.id.pth_practice_row_layout);
-            this.label = (TextView) view.findViewById(R.id.pth_practice_name);
+            this.initials = view.findViewById(R.id.ths_practice_initials);
+            this.logo = view.findViewById(R.id.pth_practice_logo);
+            this.relativeLayout =  view.findViewById(R.id.pth_practice_row_layout);
+            this.label =  view.findViewById(R.id.pth_practice_name);
 
         }
     }

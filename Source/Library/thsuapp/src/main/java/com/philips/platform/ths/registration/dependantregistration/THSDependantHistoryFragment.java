@@ -38,7 +38,7 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
     private ActionBarListener actionBarListener;
     protected THSDependentPresenter mThsDependentPresenter;
     private RelativeLayout mParentContainer;
-    protected Label mLabelParentName,visitForLabel,choose_person;
+    protected Label mLabelParentName,visitForLabel,choose_person,parentInitials;
     private ImageView mImageViewLogo;
     protected int mLaunchInput = -1;
     private RelativeLayout mRelativeLayoutContainer;
@@ -63,6 +63,7 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
 
         mLabelParentName = (Label) view.findViewById(R.id.ths_parent_name);
         mLabelParentName.setText(THSManager.getInstance().getThsParentConsumer(getContext()).getFirstName());
+        parentInitials = view.findViewById(R.id.ths_parent_initials);
 
         mImageViewLogo = (ImageView) view.findViewById(R.id.ths_parent_logo);
         showProfilePic(THSManager.getInstance().getThsParentConsumer(getContext()));
@@ -139,7 +140,23 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
                 mImageViewLogo.setImageResource(R.mipmap.child_icon);
             }
         }else {
-            mImageViewLogo.setImageResource(R.mipmap.child_icon);
+                showInitials(thsConsumer);
         }
+    }
+
+    private void showInitials(THSConsumer thsConsumer) {
+        String firstName = "",lastName = "";
+        if(null != thsConsumer.getFirstName()){
+            firstName = String.valueOf(thsConsumer.getFirstName().charAt(0));
+        }
+
+        if(null != thsConsumer.getLastName()){
+            lastName = String.valueOf(thsConsumer.getLastName().charAt(0));
+        }
+        String nameInitials = firstName.toUpperCase() + lastName.toUpperCase();
+        mImageViewLogo.setVisibility(View.GONE);
+        parentInitials.setVisibility(View.VISIBLE);
+        parentInitials.setText(nameInitials);
+
     }
 }
