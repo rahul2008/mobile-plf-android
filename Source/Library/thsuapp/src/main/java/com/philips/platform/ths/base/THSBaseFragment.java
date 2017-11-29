@@ -222,7 +222,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 //doTagging(module,message,true);
             }
             if (alertDialogFragment != null) {
-                alertDialogFragment.dismiss();
+                alertDialogFragment.dismissAllowingStateLoss();
             }
             alertDialogFragment = new AlertDialogFragment.Builder(UIDHelper.getPopupThemedContext(getContext())).setDialogType(DialogConstants.TYPE_ALERT).setTitle(R.string.ths_matchmaking_error)
                     .setMessage(message).
