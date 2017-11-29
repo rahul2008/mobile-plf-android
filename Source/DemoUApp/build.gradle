@@ -1,7 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     apply from: "../../ci-build-support/gradle/versions.gradle"
-    apply from: "scripts/versions.gradle"
 
     repositories {
         maven {
