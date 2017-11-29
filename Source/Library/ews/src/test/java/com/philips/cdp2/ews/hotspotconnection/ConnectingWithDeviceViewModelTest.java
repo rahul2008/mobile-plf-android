@@ -48,9 +48,6 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({EWSTagger.class, Log.class})
 public class ConnectingWithDeviceViewModelTest {
-
-    //TODO pls extend the tests in every viewModel in this PR
-
     private ConnectingWithDeviceViewModel subject;
 
     @Mock

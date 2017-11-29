@@ -104,8 +104,6 @@
     <string name="button_ews_support_wrong_phone_yes">Yes</string>
     <string name="button_ews_support_wrong_phone_no">No</string>
 
-
-    <!-- ToDo: need to update permission text after consulting design team -->
     <string name="label_location_permission_required">%1$s requires location permission</string>
 
 
