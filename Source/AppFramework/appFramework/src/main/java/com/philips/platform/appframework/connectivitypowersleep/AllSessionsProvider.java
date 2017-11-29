@@ -23,15 +23,7 @@ import java.util.List;
 
 class AllSessionsProvider implements SessionProvider.Callback {
 
-    public static final String TAG = "AllSessionsProvider";
-
-    interface Callback {
-        void onResult(@NonNull final SessionsOldestToNewest result);
-
-        void onError(@NonNull Throwable error);
-
-        void onDeviceContainsNoSessions();
-    }
+    private static final String TAG = "AllSessionsProvider";
 
     @NonNull private final RefAppBleReferenceAppliance appliance;
     @NonNull private final SessionProviderFactory sessionProviderFactory;
@@ -41,6 +33,14 @@ class AllSessionsProvider implements SessionProvider.Callback {
     @Nullable private Callback sessionsDataCallback;
     private long currentSessionNumber;
     private long oldestSessionNumber;
+
+    interface Callback {
+        void onResult(@NonNull final SessionsOldestToNewest result);
+
+        void onError(@NonNull Throwable error);
+
+        void onDeviceContainsNoSessions();
+    }
 
     AllSessionsProvider(@NonNull RefAppBleReferenceAppliance appliance, @NonNull SessionProviderFactory sessionProviderFactory,RetryHelper retryHelper) {
         this.appliance = appliance;

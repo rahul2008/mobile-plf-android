@@ -32,6 +32,8 @@ import java.util.List;
 
 public class InsightsPresenter implements InsightsContract.Action, DBFetchRequestListner {
 
+    public static final String HIGH_DEEP_SLEEP = "HIGH_DEEP_SLEEP";
+    public static final String LOW_DEEP_SLEEP = "LOW_DEEP_SLEEP";
     private InsightsContract.View view;
 
     private Context context;
@@ -91,7 +93,7 @@ public class InsightsPresenter implements InsightsContract.Action, DBFetchReques
         Iterator iterable = list.iterator();
         while (iterable.hasNext()) {
             Insight insight = (Insight) iterable.next();
-            if (!insight.getRuleId().equals("HIGH_DEEP_SLEEP") && !insight.getRuleId().equals("LOW_DEEP_SLEEP")) {
+            if (!insight.getRuleId().equals(HIGH_DEEP_SLEEP) && !insight.getRuleId().equals(LOW_DEEP_SLEEP)) {
                 iterable.remove();
             }
         }

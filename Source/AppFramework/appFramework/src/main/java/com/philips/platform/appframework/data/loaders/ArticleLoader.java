@@ -19,11 +19,9 @@ import java.util.List;
 
 import static com.janrain.android.engage.JREngage.getApplicationContext;
 
-/**
- * Created by philips on 28/11/17.
- */
-
 public class ArticleLoader {
+
+    public static final String ARTICLES = "articles";
 
     private Context context;
 
@@ -40,7 +38,7 @@ public class ArticleLoader {
 
     public ArticleLoader(Context context) {
         this.context = context;
-        contentLoder = new ContentLoader(getApplicationContext(), articleServiceId, 24, ContentArticle.class, "articles", getAppInfra(), 0);
+        contentLoder = new ContentLoader(getApplicationContext(), articleServiceId, 24, ContentArticle.class, ARTICLES, getAppInfra(), 0);
     }
 
     protected AppInfraInterface getAppInfra() {

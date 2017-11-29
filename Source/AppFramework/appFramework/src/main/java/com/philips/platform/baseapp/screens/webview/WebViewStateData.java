@@ -2,10 +2,6 @@ package com.philips.platform.baseapp.screens.webview;
 
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 
-/**
- * Created by philips on 31/07/17.
- */
-
 public class WebViewStateData extends UIStateData {
 
     private String url;

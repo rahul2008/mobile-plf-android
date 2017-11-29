@@ -22,6 +22,8 @@ public class RefAppBleReferenceAppliance extends Appliance {
 
     public static final String MODELNAME = "ReferenceNode";
     public static final String TAG = "RefAppBleReferenceAppliance";
+    public static final String SESSION = "session";
+    public static final String SESSION_WITH_NUMBER = "session/%s";
 
     private DeviceMeasurementPort deviceMeasurementPort;
     public static final String MODEL_NAME_HH1600 = "HH1600";
@@ -46,8 +48,8 @@ public class RefAppBleReferenceAppliance extends Appliance {
     private void initializePorts(ConnectivityDeviceType deviceType, CommunicationStrategy communicationStrategy) {
         switch (deviceType) {
             case POWER_SLEEP:
-                powerSleepSessionInfoPort = new GenericPort<>(communicationStrategy, "session", PRODUCT_ID, SessionInfoPortProperties.class);
-                powerSleepSessionDataPort = new SessionDataPort<>(communicationStrategy, "session/%s", PRODUCT_ID, SessionDataPortProperties.class);
+                powerSleepSessionInfoPort = new GenericPort<>(communicationStrategy, SESSION, PRODUCT_ID, SessionInfoPortProperties.class);
+                powerSleepSessionDataPort = new SessionDataPort<>(communicationStrategy, SESSION_WITH_NUMBER, PRODUCT_ID, SessionDataPortProperties.class);
                 addPort(powerSleepSessionInfoPort);
                 addPort(powerSleepSessionDataPort);
                 break;

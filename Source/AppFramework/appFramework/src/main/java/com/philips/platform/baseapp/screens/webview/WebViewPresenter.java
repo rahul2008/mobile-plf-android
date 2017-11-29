@@ -13,11 +13,6 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 
 import java.net.URL;
 
-
-/**
- * Created by philips on 25/07/17.
- */
-
 public class WebViewPresenter implements WebViewContract.Action {
 
     private WebViewContract.View viewListener;
