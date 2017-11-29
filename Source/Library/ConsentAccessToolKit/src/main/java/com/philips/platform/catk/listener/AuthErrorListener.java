@@ -11,8 +11,8 @@ import com.android.volley.VolleyError;
 import com.google.gson.JsonArray;
 import com.philips.platform.catk.request.ConsentRequest;
 
-public interface ConsentRequestListener {
-    void onResponse(ConsentRequest request, JsonArray response);
+public interface AuthErrorListener {
 
-    void onErrorResponse(ConsentRequest request, VolleyError error);
+    void onAuthError(ConsentRequest request, VolleyError error);
+
 }
