@@ -1,0 +1,39 @@
+// Use below cmd to analyze 'dagger' dependency
+// ./gradlew :appFramework:dependencyInsight --configuration compile  --dependency dagger
+
+
+ext.config = [
+
+        versionCode    : 1,
+        targetSdk      : 26,
+        renderScriptApi: 26,
+        minSdk         : 21,
+        buildTools     : "26.0.2",
+]
+
+// Version of libraries and tools provided by Android framework
+ext.versionsAndroid = [
+
+        gradle  : "2.2.3",
+        support : "26.0.2",
+        multidex: "1.0.2"
+
+]
+
+// Version of used external libraries and tools
+ext.versionsExternal = [
+
+        junit               : "4.12",
+        robolectric         : "3.4.2",
+        robolectricSupport  : "3.3.2",
+        mockitoAll          : "2.0.2-beta",
+        powerMock           : "1.6.6",
+        leakCanary          : "1.5",
+        stetho              : "1.2.0",
+        dagger              : "2.9",
+        mockitoKotlin       : "1.5.0",
+        butterknife         : "8.8.1",
+        json                : "20170516",
+        crittercism         : "5.8.7",
+        opengl              : "gl1.1-android-2.1_r1"
+]

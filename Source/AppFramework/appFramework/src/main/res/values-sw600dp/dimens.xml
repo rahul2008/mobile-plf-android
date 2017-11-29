@@ -8,10 +8,11 @@
     <dimen name="intro_small_text_margin_top">54.5dp</dimen>
     <dimen name="intro_small_text_margin_bottom">180dp</dimen>
     <dimen name="intro_large_textfont">38sp</dimen>
-    <dimen name="intro_small_text_font">17sp</dimen>
+    <dimen name="intro_small_text_font">20sp</dimen>
     <dimen name="skip_layout_margin_top">25dp</dimen>
     <dimen name="skip_layout_padding_bottom">40dp</dimen>
     <dimen name="homescreen_left_margin">86dp</dimen>
+    <dimen name="onboarding_group_icon_size">200dp</dimen>
 
 
 </resources>

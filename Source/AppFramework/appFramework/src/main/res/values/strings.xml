@@ -389,4 +389,9 @@ Receive free product accessories</string>
     <string name="RA_DLS_about_privacy" translatable="false">Privacy policy</string>
     <string name="RA_DLS_about_description" translatable="false">This reference app is the starting point for any new patient medical or consumer mobile app. It is made up of configurable common components which are all part of the CDP2 Platform. It will help accelerate your app development, harmonize UX across Philips and ensures appropriate integration with HSDP.</string>
 
+    <!-- My Account -->
+    <string name="RA_MYA_Consent_Moment_Text" translatable="false">I allow Philips to store my data in cloud</string>
+    <string name="RA_MYA_Consent_Moment_Help" translatable="false">Giving this consent you are allowing Philips to store information related to you</string>
+    <string name="RA_MYA_Consent_Coaching_Text" translatable="false">I allow Philips to use my data for Coaching purposes</string>
+    <string name="RA_MYA_Consent_Coaching_Help" translatable="false">Giving this consent you are allowing Philips to process information related to you</string>
 </resources>

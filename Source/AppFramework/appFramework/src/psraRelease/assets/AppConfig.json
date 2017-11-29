@@ -63,5 +63,14 @@
   },
   "ths":{
     "apiKey":"dc573250"
+  },
+  "mya": {
+    "profile.menuItems": [
+      "MYA_My_details"
+    ],
+    "settings.menuItems": [
+      "MYA_Country",
+      "Mya_Privacy_Settings"
+    ]
   }
 }
