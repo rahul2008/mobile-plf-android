@@ -226,6 +226,7 @@ dependencies {
     }
     compile "com.android.support:design:${versionsAndroid.support}"
     compile "com.android.support:appcompat-v7:${versionsAndroid.support}"
+
     debugCompile "com.squareup.leakcanary:leakcanary-android-no-op:${versionsExternal.leakCanary}"
     leakCanaryCompile "com.squareup.leakcanary:leakcanary-android:${versionsExternal.leakCanary}"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${versionsExternal.leakCanary}"
@@ -235,7 +236,7 @@ dependencies {
     compile "com.j256.ormlite:ormlite-core:${versionsExternal.ormLite}"
     compile "com.j256.ormlite:ormlite-android:${versionsExternal.ormLite}"
     compile "com.android.support:multidex:${versionsAndroid.multidex}"
-    annotationProcessor "com.jakewharton:butterknife-compiler:${versionsExternal.leakCanary}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${versionsExternal.butterKnife}"
 
     compile ("com.crittercism:crittercism-android-agent:${versionsExternal.crittercism}")
 

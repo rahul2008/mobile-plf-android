@@ -8,7 +8,7 @@ ext.config = [
         targetSdk      : 26,
         renderScriptApi: 26,
         minSdk         : 21,
-        buildTools     : "26.0.2",
+        buildTools     : "26.0.2"
 ]
 
 // Version of libraries and tools provided by Android framework
@@ -35,5 +35,7 @@ ext.versionsExternal = [
         butterknife         : "8.8.1",
         json                : "20170516",
         crittercism         : "5.8.7",
-        opengl              : "gl1.1-android-2.1_r1"
+        opengl              : "gl1.1-android-2.1_r1",
+        ormLite             : "5.0",
+        butterKnife         : "8.8.1"
 ]
