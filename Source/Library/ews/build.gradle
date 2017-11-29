@@ -219,7 +219,4 @@ dependencies {
     testCompile "org.powermock:powermock-api-mockito:${versionsExternal.powerMock}"
     testCompile "org.powermock:powermock-module-junit4-rule:${versionsExternal.powerMock}"
     testCompile "org.powermock:powermock-classloading-xstream:${versionsExternal.powerMock}"
-    testCompile("com.nhaarman:mockito-kotlin:${versionsExternal.mockitoKotlin}") {
-        exclude group: 'org.mockito'
-    }
 }
