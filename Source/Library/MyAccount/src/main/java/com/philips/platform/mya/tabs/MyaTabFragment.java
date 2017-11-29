@@ -30,11 +30,12 @@ public class MyaTabFragment extends MyaBaseFragment {
             TabLayout tabLayout = view.findViewById(R.id.tab_layout);
             ViewPager viewPager = view.findViewById(R.id.pager);
             addTabs(tabLayout);
-            MyaPager adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount());
+            MyaPager adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount(),getArguments());
 
             viewPager.setAdapter(adapter);
             tabLayout.addOnTabSelectedListener(getTabListener(viewPager));
         }
+        setRetainInstance(true);
         return view;
     }
 

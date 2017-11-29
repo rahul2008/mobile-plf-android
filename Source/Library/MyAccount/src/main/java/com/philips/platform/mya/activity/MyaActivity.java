@@ -15,13 +15,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.injection.DaggerMyaUiComponent;
 import com.philips.platform.mya.injection.MyaUiComponent;
 import com.philips.platform.mya.injection.MyaUiModule;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.tabs.MyaTabFragment;
+import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -32,7 +32,7 @@ import com.philips.platform.uid.utils.UIDActivity;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
-
+import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
 
 public class MyaActivity extends UIDActivity {
@@ -62,7 +62,9 @@ public class MyaActivity extends UIDActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        launchTabFragment();
+        if (savedInstanceState == null) {
+            launchTabFragment();
+        }
     }
 
 
@@ -154,9 +156,11 @@ public class MyaActivity extends UIDActivity {
         MyaUiComponent myaUiComponent = DaggerMyaUiComponent.builder()
                 .myaUiModule(myaUiModule).build();
         MyaInterface.setMyaUiComponent(myaUiComponent);
-
+        UserDataModelProvider userDataModelProvider = new UserDataModelProvider(this);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
         MyaTabFragment myaTabFragment = new MyaTabFragment();
-
+        myaTabFragment.setArguments(bundle);
         myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
     }
 

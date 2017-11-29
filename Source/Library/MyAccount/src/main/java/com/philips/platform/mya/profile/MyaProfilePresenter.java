@@ -7,15 +7,22 @@ package com.philips.platform.mya.profile;
 
 
 import android.content.Context;
+import android.os.Bundle;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.base.mvp.MyaBasePresenter;
+import com.philips.platform.mya.details.MyaDetailsFragment;
+import com.philips.platform.mya.launcher.MyaInterface;
+import com.philips.platform.myaplugin.uappadaptor.DataModelType;
+import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
+import com.philips.platform.myaplugin.user.UserDataModelProvider;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
+
+import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
 
 class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> implements MyaProfileContract.Presenter {
@@ -27,18 +34,45 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
     }
 
     @Override
-    public void getProfileItems(Context context, AppInfraInterface appInfra) {
-        view.showProfileItems(getProfileList(context, MyaInterface.getMyaDependencyComponent().getAppInfra().getConfigInterface()));
+    public void getProfileItems(AppInfraInterface appInfra) {
+        view.showProfileItems(getProfileList(MyaInterface.getMyaDependencyComponent().getAppInfra().getConfigInterface()));
     }
 
-    private TreeMap<String,String> getProfileList(Context context, AppConfigurationInterface appConfigurationManager) {
+    @Override
+    public void setUserName(Bundle bundle) {
+        UserDataModelProvider userDataModelProvider = (UserDataModelProvider) bundle.getSerializable(USER_PLUGIN);
+        if (userDataModelProvider != null) {
+            UserDataModel userDataModel = (UserDataModel) userDataModelProvider.getData(DataModelType.USER);
+            setUserModel(userDataModel);
+        }
+
+    }
+
+    @Override
+    public boolean handleOnClickProfileItem(String profileItem, Bundle bundle) {
+        if (profileItem.equals(view.getContext().getString(R.string.MYA_My_details)) || profileItem.equalsIgnoreCase("MYA_My_details")) {
+            MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
+            myaDetailsFragment.setArguments(bundle);
+            view.showPassedFragment(myaDetailsFragment, MyaInterface.getMyaUiComponent().getFragmentLauncher());
+            return true;
+        }
+        return false;
+    }
+
+    private void setUserModel(UserDataModel userDataModel) {
+        if (userDataModel != null && userDataModel.getGivenName() != null) {
+            view.setUserName(userDataModel.getGivenName());
+        }
+    }
+
+    private TreeMap<String,String> getProfileList(AppConfigurationInterface appConfigurationManager) {
         String profileItems = "profile.menuItems";
         try {
             final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
                     .AppConfigurationError();
             ArrayList propertyForKey = (ArrayList) appConfigurationManager.getPropertyForKey
                     (profileItems, "mya", configError);
-            return getLocalisedList(context,propertyForKey);
+            return getLocalisedList(propertyForKey);
         } catch (IllegalArgumentException exception) {
             // TODO: Deepthi, use TLA while logging
             exception.getMessage();
@@ -46,21 +80,22 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
         return null;
     }
 
-    private TreeMap<String, String> getLocalisedList(Context context, ArrayList propertyForKey) {
+    private TreeMap<String, String> getLocalisedList(ArrayList propertyForKey) {
         TreeMap<String, String> profileList = new TreeMap<>();
         if (propertyForKey != null && propertyForKey.size() != 0) {
             for (int i = 0; i < propertyForKey.size(); i++) {
                 String profileKey = (String) propertyForKey.get(i);
-                String stringResourceByName = getStringResourceByName(context, profileKey);
+                String stringResourceByName = getStringResourceByName(profileKey);
                 profileList.put(profileKey, stringResourceByName);
             }
         } else {
-            profileList.put("MYA_My_details", context.getResources().getString(R.string.MYA_My_details));
+            profileList.put("MYA_My_details", view.getContext().getResources().getString(R.string.MYA_My_details));
         }
         return profileList;
     }
 
-    private String getStringResourceByName(Context context, String aString) {
+    private String getStringResourceByName(String aString) {
+        Context context = view.getContext();
         String packageName = context.getPackageName();
         int resId = context.getResources().getIdentifier(aString, "string", packageName);
         try {
