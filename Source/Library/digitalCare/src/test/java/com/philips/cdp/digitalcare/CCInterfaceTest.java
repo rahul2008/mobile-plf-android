@@ -18,6 +18,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 import junit.framework.Assert;
 
 import org.apache.tools.ant.taskdefs.Length;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +27,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RuntimeEnvironment;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
@@ -36,9 +40,6 @@ import static org.powermock.api.mockito.PowerMockito.when;
 public class CCInterfaceTest {
 
     int DLS_THEME = com.philips.platform.uid.R.style.Theme_DLS_Purple_VeryDark;
-
-    @Mock
-    private Context mContext;
 
     @Mock
     CcDependencies ccDependenciesMock;
@@ -76,12 +77,37 @@ public class CCInterfaceTest {
     @Mock
     private DigitalCareConfigManager mockDigitalCareConfigManager;
 
+    private Context mContext;
+
+    private DigitalCareConfigManager digitalCareConfigManager;
+
+    private  AppInfraInterface appInfraInterface;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        mContext = RuntimeEnvironment.application.getApplicationContext();
+        mContext = mock(Context.class);
+        appInfraInterface = Mockito.mock(AppInfraInterface.class);
+        digitalCareConfigManager = DigitalCareConfigManager.getInstance();
         ccInterface = new CcInterface();
         ccInterface.init(ccDependenciesMock, ccSettingsMock);
+
+
+        when(activityLauncherMock.getEnterAnimation()).thenReturn(R.anim.consumercare_left_in);
+        when(activityLauncherMock.getExitAnimation()).thenReturn(R.anim.consumercare_right_out);
+        when(activityLauncherMock.getUiKitTheme()).thenReturn(DLS_THEME);
+
+        String[] ctnList = {"SCD888/26", "HX9192/03"};
+
+        ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
+        productsSelection.setCatalog(PrxConstants.Catalog.CARE);
+        productsSelection.setSector(PrxConstants.Sector.B2C);
+
+        when(productModelSelectionTypeMock.getHardCodedProductList()).thenReturn(ctnList);
+        when(productModelSelectionTypeMock.getCatalog()).thenReturn(PrxConstants.Catalog.CARE);
+        when(productModelSelectionTypeMock.getSector()).thenReturn(PrxConstants.Sector.B2C);
+
+        when(ccLaunchInputMock.getProductModelSelectionType()).thenReturn(productsSelection);
     }
 
     @Test
@@ -90,45 +116,39 @@ public class CCInterfaceTest {
         Assert.assertNotNull(ccSettingsMock);
     }
 
-    @Test(expected = RuntimeException.class)
+    @After
+    public void tearDown(){
+        mContext = null;
+        appInfraInterface = null;
+        digitalCareConfigManager = null;
+    }
+    @Test
     public void testActivityLaunch() throws IllegalArgumentException{
-        String[] ctnList = {"SCD888/26", "HX9192/03"};
 
-        when(activityLauncherMock.getEnterAnimation()).thenReturn(R.anim.consumercare_left_in);
-        when(activityLauncherMock.getExitAnimation()).thenReturn(R.anim.consumercare_right_out);
-        when(activityLauncherMock.getUiKitTheme()).thenReturn(DLS_THEME);
-
-        ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
-        productsSelection.setCatalog(PrxConstants.Catalog.CARE);
-        productsSelection.setSector(PrxConstants.Sector.B2C);
-
-        when(productModelSelectionTypeMock.getHardCodedProductList()).thenReturn(ctnList);
-        when(productModelSelectionTypeMock.getCatalog()).thenReturn(PrxConstants.Catalog.CARE);
-        when(productModelSelectionTypeMock.getSector()).thenReturn(PrxConstants.Sector.B2C);
-
-        when(ccLaunchInputMock.getProductModelSelectionType()).thenReturn(productsSelection);
+        digitalCareConfigManager.initializeDigitalCareLibrary(mContext, appInfraInterface);
+        when(activityLauncherMock.getScreenOrientation()).thenReturn(com.philips.platform.uappframework.
+                launcher.ActivityLauncher.
+                ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
 
         ccInterface.launch(activityLauncherMock, ccLaunchInputMock);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
+    public void testActivityLaunchNull() throws IllegalArgumentException{
+        ccInterface = mock(CcInterface.class);
+        digitalCareConfigManager.initializeDigitalCareLibrary(null, null);
+        when(activityLauncherMock.getScreenOrientation()).thenReturn(com.philips.platform.uappframework.
+                launcher.ActivityLauncher.
+                ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
+
+       verify(ccInterface, never()).launch(activityLauncherMock, ccLaunchInputMock);
+    }
+
+    @Test(expected = NullPointerException.class)
     public void testFragmentLaunch() throws IllegalArgumentException{
-        final String[] ctnList = { "HX6064/33"};
 
-        when(activityLauncherMock.getEnterAnimation()).thenReturn(R.anim.consumercare_left_in);
-        when(activityLauncherMock.getExitAnimation()).thenReturn(R.anim.consumercare_right_out);
-        when(fragmentLauncherMock.getParentContainerResourceID()).thenReturn(DLS_THEME);
+        digitalCareConfigManager.initializeDigitalCareLibrary(mContext, appInfraInterface);
         when(fragmentLauncherMock.getActionbarListener()).thenReturn(actionBarListenerMock);
-
-        ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
-        productsSelection.setCatalog(PrxConstants.Catalog.CARE);
-        productsSelection.setSector(PrxConstants.Sector.B2C);
-
-        when(productModelSelectionTypeMock.getHardCodedProductList()).thenReturn(ctnList);
-        when(productModelSelectionTypeMock.getCatalog()).thenReturn(PrxConstants.Catalog.CARE);
-        when(productModelSelectionTypeMock.getSector()).thenReturn(PrxConstants.Sector.B2C);
-
-        when(ccLaunchInputMock.getProductModelSelectionType()).thenReturn(productsSelection);
 
         ccInterface.launch(fragmentLauncherMock, ccLaunchInputMock);
     }
