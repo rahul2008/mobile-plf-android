@@ -16,6 +16,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
@@ -28,7 +29,10 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
 
 import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
@@ -73,7 +77,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             UappSettings uappSettings = new UappSettings(view.getContext());
             cswInterface.init(cswDependencies, uappSettings);
             FragmentLauncher fragmentLauncher = new FragmentLauncher((FragmentActivity) view.getContext(), R.id.mainContainer, null);
-            cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext()));
+            cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext(), appInfra.getConfigInterface()));
             return true;
         }
         return false;
@@ -142,8 +146,13 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     }
 
 
-    private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-        ConsentBundleConfig config = new ConsentBundleConfig(null, null, null);
+    private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context, AppConfigurationInterface configInterface) {
+
+
+        String appName = (String) configInterface.getPropertyForKey("appName", "hdsp", new AppConfigurationInterface.AppConfigurationError());
+        String propName = (String) configInterface.getPropertyForKey("propositionName", "hdsp", new AppConfigurationInterface.AppConfigurationError());
+
+        ConsentBundleConfig config = new ConsentBundleConfig(appName, propName, createConsentDefinitions(Locale.US));
         CswLaunchInput cswLaunchInput = new CswLaunchInput(config,context);
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
@@ -158,4 +167,11 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         return catkInputs;
     }
 
+    private List<ConsentDefinition> createConsentDefinitions(Locale currentLocale) {
+        final List<ConsentDefinition> definitions = new ArrayList<>();
+        definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", Collections.singletonList("moment"), 1, currentLocale));
+        definitions.add(new ConsentDefinition("I allow don't Philips to store my data in cloud", "No one is able to see this text in the app", Collections.singletonList("tnemom"), 1, currentLocale));
+        return definitions;
+
+    }
 }
