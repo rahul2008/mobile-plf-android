@@ -281,7 +281,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
                        '**/adapters/*.class',
                        '**/analytics/*.class',
                        '**/utils/*.class',
-                       '**/activity/*.class',
                        '**/Fragments/*.class']
     )
 
