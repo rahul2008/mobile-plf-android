@@ -28,6 +28,7 @@ import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.DemoAppManager;
@@ -43,7 +44,7 @@ import java.util.List;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class MomentFragment extends DSBaseFragment
-        implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener {
+        implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener {
 
     private Context mContext;
 
@@ -88,7 +89,6 @@ public class MomentFragment extends DSBaseFragment
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mDataServicesManager = DataServicesManager.getInstance();
-
         mUser = new User(mContext);
         mMomentPresenter = new MomentPresenter(mContext, this);
         mUtility = new Utility();
@@ -146,6 +146,8 @@ public class MomentFragment extends DSBaseFragment
     public void onStart() {
         super.onStart();
         mDataServicesManager.registerDBChangeListener(this);
+        mDataServicesManager.registerSynchronisationCompleteListener(this);
+        mDataServicesManager.synchronize();
 
         if (mUser != null && !mUser.isUserSignIn()) {
             Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
@@ -160,7 +162,6 @@ public class MomentFragment extends DSBaseFragment
             mTvCharacteristics.setVisibility(View.INVISIBLE);
             return;
         }
-
         deleteUserDataIfNewUserLoggedIn();
 
         if (!mUtility.isOnline(getContext())) {
@@ -192,6 +193,7 @@ public class MomentFragment extends DSBaseFragment
     public void onStop() {
         super.onStop();
         DataServicesManager.getInstance().unRegisterDBChangeListener();
+        DataServicesManager.getInstance().unRegisterSynchronisationCosmpleteListener();
         dismissProgressDialog();
     }
 
@@ -348,9 +350,22 @@ public class MomentFragment extends DSBaseFragment
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                MomentFragment.this.getView().invalidate();
+                View view = MomentFragment.this.getView();
+                if (view != null) {
+                    view.invalidate();
+                }
             }
         });
+    }
+
+    @Override
+    public void onSyncComplete() {
+        reloadData();
+    }
+
+    @Override
+    public void onSyncFailed(Exception exception) {
+        reloadData();
     }
 
     private class DeleteExpiredMomentsListener implements DBRequestListener<Integer> {
