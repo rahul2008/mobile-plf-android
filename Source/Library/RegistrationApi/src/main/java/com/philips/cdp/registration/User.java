@@ -387,8 +387,10 @@ public class User {
             if (null != gender) {
                 if (gender.equalsIgnoreCase(Gender.MALE.toString())) {
                     diUserProfile.setGender(Gender.MALE);
-                } else {
+                } else if(gender.equalsIgnoreCase(Gender.FEMALE.toString())) {
                     diUserProfile.setGender(Gender.FEMALE);
+                } else {
+                    diUserProfile.setGender(Gender.NONE);
                 }
             }
 

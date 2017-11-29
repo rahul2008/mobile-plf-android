@@ -12,7 +12,8 @@ package com.philips.cdp.registration.ui.utils;
  */
 public enum Gender {
     MALE("Male"),
-    FEMALE("Female");
+    FEMALE("Female"),
+    NONE("NULL");
 
     private final String gender;
 

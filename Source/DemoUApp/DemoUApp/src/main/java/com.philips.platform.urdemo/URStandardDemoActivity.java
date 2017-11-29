@@ -377,8 +377,10 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
         if (mRadioGender.getCheckedRadioButtonId() == R.id.Male) {
             gender = Gender.MALE;
-        } else {
+        } else if (mRadioGender.getCheckedRadioButtonId() == R.id.Female) {
             gender = Gender.FEMALE;
+        }else {
+            gender = Gender.NONE;
         }
 
         final User user1 = new User(mContext);
