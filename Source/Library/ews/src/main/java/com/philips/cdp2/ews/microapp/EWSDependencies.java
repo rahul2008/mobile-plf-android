@@ -13,12 +13,22 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 import java.util.Map;
 
+/**
+ * EWSDependencies class is for initialisation of EWSInterface.
+ * It is keeping productKeyMap and ContentConfiguration.
+ */
 @SuppressWarnings("WeakerAccess")
 public class EWSDependencies extends UappDependencies {
 
     @NonNull private final Map<String, String> productKeyMap;
     @Nullable private final ContentConfiguration contentConfiguration;
 
+    /**
+     * This will create EWSDependency Object
+     * @param appInfra  AppInfraInterface
+     * @param productKeyMap Map<String, String>
+     * @param contentConfiguration ContentConfiguration
+     */
     public EWSDependencies(@NonNull final AppInfraInterface appInfra,
                            @NonNull final Map<String, String> productKeyMap,
                            @Nullable final ContentConfiguration contentConfiguration) {
@@ -27,11 +37,19 @@ public class EWSDependencies extends UappDependencies {
         this.contentConfiguration = contentConfiguration;
     }
 
+    /**
+     * Return ProductKeyMap.
+     * @return Product Map
+     */
     @NonNull
     Map<String, String> getProductKeyMap() {
         return productKeyMap;
     }
 
+    /**
+     * Return ContentConfiguration.
+     * @return ContentConfiguration
+     */
     @Nullable
     ContentConfiguration getContentConfiguration() {
         return contentConfiguration;
