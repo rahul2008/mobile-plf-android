@@ -3,6 +3,7 @@ package com.philips.platform.myaplugin.user;
 import android.content.Context;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.myaplugin.uappadaptor.DataModel;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
@@ -13,33 +14,36 @@ import java.io.Serializable;
 
 public class UserDataModelProvider extends UserInterface implements Serializable {
 
-    //UserInterface userInterface;
+    private transient UserDataModel userDataModel;
+    private transient User user;
 
-    UserDataModel userDataModel;
-    User user;
-
-
-    public UserDataModelProvider(Context context){
-        if(userDataModel==null){
-            userDataModel=new UserDataModel();
+    public UserDataModelProvider(Context context) {
+        if (userDataModel == null) {
+            userDataModel = new UserDataModel();
         }
-
         user = new User(context);
-
-
     }
 
     @Override
     public DataModel getData(DataModelType dataModelType) {
-        if(userDataModel==null){
-            userDataModel=new UserDataModel();
+        if (userDataModel == null) {
+            userDataModel = new UserDataModel();
         }
-
         fillUserData();
         return userDataModel;
     }
 
-    public void  fillUserData(){
+    @Override
+    public boolean isUserLoggedIn() {
+        return user.isUserSignIn();
+    }
+
+    @Override
+    public void logOut(LogoutHandler logoutHandler) {
+        user.logout(logoutHandler);
+    }
+
+    private void fillUserData() {
         userDataModel.setName(user.getDisplayName());
         userDataModel.setBirthday(user.getDateOfBirth());
         userDataModel.setEmail(user.getEmail());

@@ -23,24 +23,25 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.catk.listener.ConsentRequestListener;
+import com.philips.platform.catk.error.ConsentNetworkError;
+import com.philips.platform.catk.listener.AuthErrorListener;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 public class ConsentRequest extends Request<JsonArray> {
-    private ConsentRequestListener mResponseListener;
+    private AuthErrorListener authErrorListener;
     private NetworkAbstractModel model;
     private String body;
     private Map<String, String> header;
 
     private static final int POST_SUCCESS_CODE = 201;
 
-    public ConsentRequest(NetworkAbstractModel model, int method, String url, Map<String, String> header, String params, ConsentRequestListener responseListener, Response.ErrorListener errorListener) {
-        super(method, url, errorListener);
+    public ConsentRequest(NetworkAbstractModel model, int method, String url, Map<String, String> header, String params, AuthErrorListener authErrorListener) {
+        super(method, url, null);
         this.model = model;
-        this.mResponseListener = responseListener;
+        this.authErrorListener = authErrorListener;
         this.body = params;
         this.header = header;
     }
@@ -83,19 +84,27 @@ public class ConsentRequest extends Request<JsonArray> {
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             ParseError error = new ParseError(e);
-            mResponseListener.onErrorResponse(this, error);
+            authErrorListener.onAuthError(this, error);
             return Response.error(error);
         }
     }
 
     @Override
     protected void deliverResponse(JsonArray response) {
-        mResponseListener.onResponse(this, response);
+        if (model != null) {
+            model.onResponseSuccess(model.parseResponse(response));
+        }
     }
 
     @Override
     public void deliverError(final VolleyError error) {
-        mResponseListener.onErrorResponse(this, error);
+        if (error instanceof AuthFailureError) {
+            authErrorListener.onAuthError(this, error);
+        } else {
+            if (model != null) {
+                model.onResponseError(new ConsentNetworkError(error));
+            }
+        }
     }
 
     public NetworkAbstractModel getModel() {

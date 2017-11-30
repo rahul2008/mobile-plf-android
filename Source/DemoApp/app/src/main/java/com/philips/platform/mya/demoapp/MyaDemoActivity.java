@@ -6,19 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.philips.cdp.registration.User;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.utils.UIDActivity;
-import com.philips.platform.mya.demoapp.R;
-import com.philips.platform.urdemo.URDemouAppDependencies;
-import com.philips.platform.urdemo.URDemouAppInterface;
-import com.philips.platform.urdemo.URDemouAppSettings;
 import com.philips.themesettings.ThemeSettingsActivity;
 
 public class MyaDemoActivity extends UIDActivity {
@@ -36,22 +29,7 @@ public class MyaDemoActivity extends UIDActivity {
                 startActivity(intent);
             }
         });
-        setStandardFlow();
         setMyaccountFlow();
-    }
-
-    private void setStandardFlow() {
-        TextView standardFlow = (TextView) findViewById(R.id.usrdemo_mainScreen_standard_text);
-        standardFlow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                URDemouAppInterface uAppInterface;
-                uAppInterface = new URDemouAppInterface();
-                AppInfraInterface appInfraInterface = MyaDemoApplication.getInstance().getAppInfra();
-                uAppInterface.init(new URDemouAppDependencies(appInfraInterface), new URDemouAppSettings(MyaDemoActivity.this.getApplicationContext()));
-                uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
-            }
-        });
     }
 
     private void setMyaccountFlow() {
@@ -59,27 +37,16 @@ public class MyaDemoActivity extends UIDActivity {
         myAccountFlow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if (isUserLoggedIn()) {
-                    launch();
-                } else {
-                    Toast.makeText(MyaDemoActivity.this, "please login before launching My account", Toast.LENGTH_SHORT).show();
-                }
+              launch();
             }
         });
     }
-
-
 
     public void launch() {
         MyAccountDemoUAppInterface myAccountDemoUAppInterface = new MyAccountDemoUAppInterface();
         MyaDemoApplication applicationContext = (MyaDemoApplication) getApplicationContext();
         MyaDependencies uappDependencies = new MyaDependencies(applicationContext.getAppInfra());
-
         myAccountDemoUAppInterface.init(uappDependencies, new UappSettings(this));
         myAccountDemoUAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null, -1, null), null);
-    }
-
-    public boolean isUserLoggedIn() {
-        return new User(this).isUserSignIn();
     }
 }

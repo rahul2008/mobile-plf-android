@@ -7,7 +7,6 @@
 
 package com.philips.platform.csw.permission;
 
-import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
@@ -16,8 +15,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +52,9 @@ public class PermissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Nullable
     private ConsentToggleListener consentToggleListener;
 
+    public static int heilightColorCode;
+    public static int deafaultColorCode;
+
     @Inject
     PermissionAdapter(@NonNull final List<ConsentView> definitions, @NonNull HelpClickListener helpClickListener) {
         this.items = new ArrayList<>(definitions);
@@ -65,11 +70,15 @@ public class PermissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_consent, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.csw_permission_list_row, parent, false);
             applyParams(view,parent.getWidth());
+            heilightColorCode = parent.getContext().getResources().getColor(com.philips.cdp.registration.R.color.reg_hyperlink_highlight_color);
+            deafaultColorCode = ContextCompat.getColor(parent.getContext(),
+                    android.R.color.transparent);
             return new PermissionViewHolder(view, helpClickListener, consentToggleListener);
+
         } else if (viewType == TYPE_HEADER) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.csw_privacy_settings_header_view, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.csw_permission_list_header, parent, false);
             applyParams(view,parent.getWidth());
             return new Header(view);
         }
@@ -220,27 +229,12 @@ public class PermissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     }
                 }
             });
-            help.setOnClickListener(new View.OnClickListener() {
+            linkifyPrivacyPolicy(help, new ClickableSpan() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View widget) {
                     helpClickListener.onHelpClicked(consentView.getHelpText());
                 }
             });
-        }
-
-        private static void setupLinkify(TextView accountSettingPhilipsNews,
-                                         ClickableSpan accountSettingsPhilipsClickListener) {
-            SpannableString spanableString = new SpannableString(moreAccountSettings);
-            int termStartIndex = moreAccountSettings.toLowerCase().indexOf(
-                    link.toLowerCase());
-            spanableString.setSpan(accountSettingsPhilipsClickListener, termStartIndex,
-                    termStartIndex + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            //   removeUnderlineFromLink(spanableString);
-            accountSettingPhilipsNews.setText(spanableString);
-            accountSettingPhilipsNews.setMovementMethod(LinkMovementMethod.getInstance());
-            accountSettingPhilipsNews.setLinkTextColor(com.philips.cdp.registration.R.color.reg_hyperlink_highlight_color);
-            accountSettingPhilipsNews.setHighlightColor(ContextCompat.getColor
-                    (activity, android.R.color.transparent));
         }
 
 
@@ -267,6 +261,45 @@ public class PermissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private boolean isPositionHeader(int position) {
         return position == 0;
     }
+
+    private static void linkifyPrivacyPolicy(TextView pTvPrivacyPolicy, ClickableSpan span) {
+        String privacy = pTvPrivacyPolicy.getText().toString();
+        SpannableString spannableString = new SpannableString(privacy);
+
+        spannableString.setSpan(span, 0, privacy.length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        removeUnderlineFromLink(spannableString);
+
+        pTvPrivacyPolicy.setText(spannableString);
+        pTvPrivacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
+        pTvPrivacyPolicy.setLinkTextColor(heilightColorCode);
+        pTvPrivacyPolicy.setHighlightColor(deafaultColorCode);
+    }
+
+
+
+    private static void removeUnderlineFromLink(SpannableString spanableString) {
+        for (ClickableSpan u : spanableString.getSpans(0, spanableString.length(),
+                ClickableSpan.class)) {
+            spanableString.setSpan(new UnderlineSpan() {
+
+                public void updateDrawState(TextPaint tp) {
+                    tp.setUnderlineText(false);
+                }
+            }, spanableString.getSpanStart(u), spanableString.getSpanEnd(u), 0);
+        }
+
+        for (URLSpan u : spanableString.getSpans(0, spanableString.length(), URLSpan.class)) {
+            spanableString.setSpan(new UnderlineSpan() {
+
+                public void updateDrawState(TextPaint tp) {
+                    tp.setUnderlineText(false);
+                }
+            }, spanableString.getSpanStart(u), spanableString.getSpanEnd(u), 0);
+        }
+    }
+
 
     class Header extends RecyclerView.ViewHolder {
 

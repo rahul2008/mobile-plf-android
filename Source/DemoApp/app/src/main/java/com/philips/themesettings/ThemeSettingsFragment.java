@@ -73,7 +73,7 @@ public class ThemeSettingsFragment extends BaseFragment {
         tonalRangeListview = (RecyclerView) view.findViewById(R.id.tonalRangeList);
         notificationBarListview = (RecyclerView) view.findViewById(R.id.notificationBarList);
         accentColorRangeList = (RecyclerView) view.findViewById(R.id.accentColorRangeList);
-        applyTheme = (Button) view.findViewById(R.id.apply_theme_button);
+        /*applyTheme = (Button) view.findViewById(R.id.apply_theme_button);
         applyTheme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +81,7 @@ public class ThemeSettingsFragment extends BaseFragment {
                 ThemeSettingsActivity activity = (ThemeSettingsActivity) getActivity();
                 activity.applyTheme();
             }
-        });
+        });*/
         themeColorHelper = new ThemeColorHelper();
         themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getContext()));
 

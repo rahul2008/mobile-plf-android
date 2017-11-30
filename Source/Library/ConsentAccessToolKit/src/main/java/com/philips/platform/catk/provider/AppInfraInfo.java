@@ -1,13 +1,16 @@
 package com.philips.platform.catk.provider;
 
 
-public class AppInfraInfo {
-    private String cssUrl;
+import android.support.annotation.NonNull;
 
-    public AppInfraInfo(String cssUrl) {
+public class AppInfraInfo {
+    @NonNull private String cssUrl;
+
+    public AppInfraInfo(@NonNull String cssUrl) {
         this.cssUrl = cssUrl;
     }
 
+    @NonNull
     public String getCssUrl() {
         return cssUrl;
     }
