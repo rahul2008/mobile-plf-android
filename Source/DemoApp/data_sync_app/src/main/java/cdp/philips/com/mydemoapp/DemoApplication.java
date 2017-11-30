@@ -37,8 +37,6 @@ public class DemoApplication extends MultiDexApplication {
     private static final String CHINA_CODE = "CN";
     private static final String DEFAULT = "default";
     private static final String URL_ENCODING = "UTF-8";
-    private static final String APPLICATION_NAME = "OneBackend";
-    private static final String PROPOSITION_NAME = "OneBackendProp";
     private static DemoApplication sDemoApplicationInstance = null;
     public AppInfraInterface mAppInfraInterface;
 
@@ -76,8 +74,6 @@ public class DemoApplication extends MultiDexApplication {
         CatkInputs catkInputs = new CatkInputs();
         catkInputs.setContext(this);
         catkInputs.setAppInfra(mAppInfraInterface);
-        catkInputs.setApplicationName(APPLICATION_NAME);
-        catkInputs.setApplicationName(PROPOSITION_NAME);
         ConsentAccessToolKit.getInstance().init(catkInputs);
     }
 
@@ -332,7 +328,7 @@ public class DemoApplication extends MultiDexApplication {
     }
 
     public static DemoApplication getInstance() {
-        return sDemoApplicationInstance ;
+        return sDemoApplicationInstance;
     }
 
     public AppInfraInterface getAppInfra() {
