@@ -12,5 +12,7 @@ interface THSFollowUpViewInterface extends THSBaseView{
     void showProviderDetailsFragment();
     void showConditionsFragment();
     void showInvalidPhoneNumberToast(String message);
-    void showError(String errorMessage);
+    void showInlineError();
+    void hideInlineError();
+    void showError(String error);
 }
