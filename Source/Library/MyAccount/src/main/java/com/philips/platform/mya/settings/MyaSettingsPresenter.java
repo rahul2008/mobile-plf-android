@@ -5,33 +5,29 @@
  */
 package com.philips.platform.mya.settings;
 
-import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
+import android.content.Context;
+import android.os.Bundle;
+import android.widget.Toast;
 
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswLaunchInput;
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBasePresenter;
-import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+
+import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
 class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> implements MyaSettingsContract.Presenter {
 
@@ -65,7 +61,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     @Override
     public boolean handleOnClickSettingsItem(String key) {
         if (key.equals("Mya_Privacy_Settings")) {
-            AppInfraInterface appInfra = MyaInterface.getMyaDependencyComponent().getAppInfra();
+            AppInfraInterface appInfra = MyaHelper.getInstance().getAppInfra();
 
             ConsentAccessToolKit.getInstance().init(initConsentToolKit(view.getContext(), appInfra));
             CswInterface cswInterface = new CswInterface();
@@ -73,7 +69,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             CswDependencies cswDependencies = new CswDependencies(appInfra);
             UappSettings uappSettings = new UappSettings(view.getContext());
             cswInterface.init(cswDependencies, uappSettings);
-            cswInterface.launch(MyaInterface.getMyaUiComponent().getFragmentLauncher(), buildLaunchInput(true, view.getContext()));
+            cswInterface.launch(MyaHelper.getInstance().getFragmentLauncher(), buildLaunchInput(true, view.getContext()));
             return true;
         }
         return false;
@@ -140,8 +136,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     }
 
     private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-
-        ConsentBundleConfig config = new ConsentBundleConfig(createConsentDefinitions(Locale.US));
+        ConsentBundleConfig config = new ConsentBundleConfig(MyaHelper.getInstance().getMyaLaunchInput().getConsentDefinitions());
         CswLaunchInput cswLaunchInput = new CswLaunchInput(config, context);
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
@@ -152,15 +147,5 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         catkInputs.setContext(context);
         catkInputs.setAppInfra(appInfra);
         return catkInputs;
-    }
-
-    private List<ConsentDefinition> createConsentDefinitions(Locale currentLocale) {
-        final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", Collections.singletonList("moment"), 1,
-                currentLocale));
-        definitions.add(new ConsentDefinition("I allow don't Philips to store my data in cloud", "No one is able to see this text in the app", Collections.singletonList("tnemom"),
-                1, currentLocale));
-        return definitions;
-
     }
 }
