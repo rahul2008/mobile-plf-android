@@ -17,6 +17,7 @@ import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.StringProvider;
+import com.philips.cdp2.ews.util.TextUtil;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
 import javax.inject.Inject;
@@ -57,6 +58,10 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
 
     @Bindable
     public String getHomeWiFiSSID() {
+        if (TextUtil.isEmpty(wiFiUtil.getConnectedWiFiSSID()) ||
+                WiFiUtil.UNKNOWN_SSID.equalsIgnoreCase(wiFiUtil.getConnectedWiFiSSID())){
+            return "";
+        }
         return wiFiUtil.getConnectedWiFiSSID();
     }
 
