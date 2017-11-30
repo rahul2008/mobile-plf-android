@@ -23,11 +23,11 @@ public class EWSLauncherInput extends UappLaunchInput {
         baseFragment.handleCancelButtonClicked();
     }
 
-    public void setFragmentManager(FragmentManager fragmentManager) {
+    void setFragmentManager(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
 
-    public void setContainerFrameId(int containerFrameId) {
+    void setContainerFrameId(int containerFrameId) {
         this.containerFrameId = containerFrameId;
     }
 }

@@ -74,5 +74,4 @@ dependencies {
     compile 'com.android.support:multidex:1.0.2'
     compile "com.android.support:design:${versions.support}"
     compile "com.android.support:appcompat-v7:${versions.support}"
-    compile 'com.google.dagger:dagger:2.9'
 }

@@ -65,11 +65,11 @@ public class EWSDependencyProvider {
         return instance;
     }
 
-    protected void setContext(@Nullable Context context) {
+    void setContext(@Nullable Context context) {
         this.context = context;
     }
 
-    public void initDependencies(@NonNull final AppInfraInterface appInfraInterface,
+    void initDependencies(@NonNull final AppInfraInterface appInfraInterface,
                                  @NonNull final Map<String, String> productKeyMap) {
         this.appInfraInterface = appInfraInterface;
         this.productKeyMap = productKeyMap;
@@ -98,7 +98,7 @@ public class EWSDependencyProvider {
         return appTaggingInterface;
     }
 
-    protected void createEWSComponent(@NonNull FragmentLauncher fragmentLauncher, @NonNull ContentConfiguration contentConfiguration) {
+    void createEWSComponent(@NonNull FragmentLauncher fragmentLauncher, @NonNull ContentConfiguration contentConfiguration) {
         createEWSComponent(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(), contentConfiguration);
     }
 
@@ -153,7 +153,7 @@ public class EWSDependencyProvider {
         return new CommCentral(factory, lanTransportContext);
     }
 
-    protected void setThemeConfiguration(@Nullable ThemeConfiguration themeConfiguration) {
+    void setThemeConfiguration(@Nullable ThemeConfiguration themeConfiguration) {
         this.themeConfiguration = themeConfiguration;
     }
 
