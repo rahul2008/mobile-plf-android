@@ -31,9 +31,10 @@ public class ConsumerInterestUpdate {
     private Context mContext;
     public void updateConsumerInterest(Context context, UpdateConsumerInterestHandler updateConsumerInterestHandler,
                                        ArrayList<ConsumerInterest> consumerInterests) {
-        baseUrl = UserRegistrationInitializer.getInstance().getRegistrationSettings().getmRegisterBaseCaptureUrl()+"/entity.replace";
+
         mContext = context;
-        startUpdateTask(updateConsumerInterestHandler, convertConsumerArrayToJOSNString(consumerInterests));
+        String s = convertConsumerArrayToJOSNString(consumerInterests);
+        startUpdateTask(updateConsumerInterestHandler, s);
     }
 
     private String convertConsumerArrayToJOSNString(ArrayList<ConsumerInterest> consumerInterests) {
@@ -101,10 +102,13 @@ public class ConsumerInterestUpdate {
         nameValuePair.add(new Pair<String, String>(ATTRIBUTE_NAME, CONSUMER_INTERESTS));
 
         updateConsumerInterestTask prodRegTask = new updateConsumerInterestTask();
-        prodRegTask.url = baseUrl;
         prodRegTask.accessToken = accessToken;
         prodRegTask.nameValuePairs = nameValuePair;
         prodRegTask.updateConsumerInterestHandler = updateConsumerInterestHandler;
+
+        baseUrl = UserRegistrationInitializer.getInstance().getRegistrationSettings().getmRegisterBaseCaptureUrl()+"/entity.replace";
+        prodRegTask.url = baseUrl;
+
         prodRegTask.execute();
     }
 
