@@ -8,18 +8,31 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+/**
+ * ContentConfiguration is a model class for configuration,
+ * Which is keeping BaseContentConfiguration, HappyFlowContentConfiguration, TroubleShootContentConfiguration in it.
+ */
 public class ContentConfiguration implements Parcelable {
 
     @NonNull private final BaseContentConfiguration baseContentConfiguration;
     @NonNull private final HappyFlowContentConfiguration happyFlowContentConfiguration;
     @NonNull private final TroubleShootContentConfiguration troubleShootContentConfiguration;
 
+    /**
+     * Default Constructor for ContentConfiguration
+     */
     public ContentConfiguration() {
         baseContentConfiguration = new BaseContentConfiguration();
         happyFlowContentConfiguration = new HappyFlowContentConfiguration.Builder().build();
         troubleShootContentConfiguration = new TroubleShootContentConfiguration.Builder().build();
     }
 
+    /**
+     * This constructor creates ContentConfiguration by using BaseContentConfiguration,HappyFlowContentConfiguration and TroubleShootContentConfiguration provided by Proposition.
+     * @param baseConfig  BaseContentConfiguration
+     * @param happyFlowConfig  HappyFlowContentConfiguration
+     * @param troubleShootContentConfiguration  TroubleShootContentConfiguration
+     */
     public ContentConfiguration(@NonNull BaseContentConfiguration baseConfig,
                                 @NonNull HappyFlowContentConfiguration happyFlowConfig,
                                 @NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
@@ -28,16 +41,28 @@ public class ContentConfiguration implements Parcelable {
         this.troubleShootContentConfiguration = troubleShootContentConfiguration;
     }
 
+    /**
+     * Return BaseContentConfiguration
+     * @return BaseContentConfiguration
+     */
     @NonNull
     public BaseContentConfiguration getBaseContentConfiguration() {
         return baseContentConfiguration;
     }
 
+    /**
+     * Return HappyFlowContentConfiguration
+     * @return HappyFlowContentConfiguration
+     */
     @NonNull
     public HappyFlowContentConfiguration getHappyFlowContentConfiguration() {
         return happyFlowContentConfiguration;
     }
 
+    /**
+     * Return HappyFlowContentConfiguration
+     * @return TroubleShootContentConfiguration
+     */
     @NonNull
     public TroubleShootContentConfiguration getTroubleShootContentConfiguration(){
         return troubleShootContentConfiguration;
