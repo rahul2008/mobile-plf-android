@@ -238,7 +238,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/MYA_top_margin"
-            android:visibility="gone"
+            android:visibility="visible"
             android:background="?attr/uidContentSecondaryBackgroundColor"/>
 
         <com.philips.platform.uid.view.widget.Label

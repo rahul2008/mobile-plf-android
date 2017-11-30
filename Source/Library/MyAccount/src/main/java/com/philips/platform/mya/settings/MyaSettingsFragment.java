@@ -35,16 +35,19 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     private MyaSettingsContract.Presenter presenter;
     private RecyclerView recyclerView;
     private String SETTINGS_BUNDLE = "settings_bundle";
-
+    private boolean isDialogOpen = false;
+    private String DIALOG_TITLE = "dialog_title", DIALOG_MESSAGE = "dialog_message", DIALOG_OPEN = "dialog_open";
+    private AlertDialogFragment alertDialogFragment;
+    private String dialogTitle,dialogMessage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mya_settings_fragment, container, false);
         UIDHelper.injectCalligraphyFonts();
+        setRetainInstance(true);
         initViews(view);
         recyclerView.setNestedScrollingEnabled(false);
         presenter = new MyaSettingsPresenter(this);
-        setRetainInstance(true);
         return view;
     }
 
@@ -60,7 +63,17 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
-        presenter.getSettingItems(MyaHelper.getInstance().getAppInfra());
+        if (savedInstanceState == null) {
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra());
+        } else {
+            if (savedInstanceState.getBoolean(DIALOG_OPEN)) {
+                dismissDialog(alertDialogFragment);
+                showDialog(savedInstanceState.getString(DIALOG_TITLE), savedInstanceState.getString(DIALOG_MESSAGE));
+            } else {
+                dismissDialog(alertDialogFragment);
+            }
+        }
+
     }
 
     @Override
@@ -71,6 +84,9 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putBundle(SETTINGS_BUNDLE, getArguments());
+        outState.putString(DIALOG_MESSAGE, dialogMessage);
+        outState.putString(DIALOG_TITLE, dialogTitle);
+        outState.putBoolean(DIALOG_OPEN, isDialogOpen);
         super.onSaveInstanceState(outState);
     }
 
@@ -118,7 +134,9 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
     @Override
     public void showDialog(String title, String message) {
-
+        this.dialogTitle = title;
+        this.dialogMessage = message;
+        this.isDialogOpen = true;
         LayoutInflater inflater = LayoutInflater.from(getContext()).cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
         View view = inflater.inflate(R.layout.mya_dialog_layout, null);
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
@@ -134,7 +152,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         Button cancel = view.findViewById(R.id.mya_dialog_cancel_btn);
         textView.setText(message);
         title_label.setText(title);
-        final AlertDialogFragment alertDialogFragment = builder.create();
+        alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
 
         logout.setOnClickListener(handleOnClickLogOut(alertDialogFragment));
@@ -145,9 +163,15 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialogFragment.dismiss();
+                isDialogOpen = false;
+                dismissDialog(alertDialogFragment);
             }
         };
+    }
+
+    private void dismissDialog(AlertDialogFragment alertDialogFragment) {
+        if (alertDialogFragment != null && alertDialogFragment.isVisible())
+            alertDialogFragment.dismiss();
     }
 
     private View.OnClickListener handleOnClickLogOut(final AlertDialogFragment alertDialogFragment) {
@@ -156,7 +180,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
             public void onClick(View view) {
                 boolean onLogOut = MyaHelper.getInstance().getMyaListener().onLogOut();
                 if(!onLogOut) {
-                    alertDialogFragment.dismiss();
+                    dismissDialog(alertDialogFragment);
                     presenter.logOut(getArguments());
                 }
             }

@@ -29,7 +29,7 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
     private ImageButton email_mobile_arrow, email_arrow, mobile_arrow;
     private Label email_address, mobile_number;
     private Label nameLabel, genderLabel, mobile_number_heading, name_value, dob_value, email_address_heading;
-    private View email_divider, dob_divider;
+    private View email_divider;
     private String DETAILS_BUNDLE = "details_bundle";
     private MyaDetailPresenter myaDetailPresenter;
 
@@ -72,7 +72,6 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
         name_value = view.findViewById(R.id.name_value);
         dob_value = view.findViewById(R.id.dob_value);
         email_divider = view.findViewById(R.id.email_divider);
-        dob_divider = view.findViewById(R.id.dob_divider);
     }
 
     @Override
@@ -126,7 +125,6 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
             SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
             String tempDate = formatter.format(dateOfBirth);
             dob_value.setText(tempDate);
-            dob_divider.setVisibility(View.VISIBLE);
         }
     }
 
