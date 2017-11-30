@@ -7,6 +7,8 @@ package com.philips.cdp2.ews.startconnectwithdevice;
 
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -31,11 +33,21 @@ public class StartConnectWithDeviceFragment extends BaseFragment {
         FragmentStartConnectWithDeviceBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_start_connect_with_device, container, false);
         viewModel = createViewModel();
         binding.setViewModel(viewModel);
-        ImageView gyroView = binding.getRoot().findViewById(R.id.ews_paired_image);
-        gyroView.setBackgroundResource(R.drawable.ic_ews_device_successful_animation);
-        AnimationDrawable gyroAnimation = (AnimationDrawable) gyroView.getBackground();
-        gyroAnimation.start();
+        startImageAnimation((ImageView) binding.getRoot().findViewById(R.id.ews_press_and_play_icon));
         return binding.getRoot();
+    }
+
+    private void startImageAnimation(ImageView imageView) {
+        if (imageView != null) {
+            startDrawableAnimation(imageView);
+        }
+    }
+
+    private void startDrawableAnimation(ImageView imageView) {
+        Drawable drawable = imageView.getDrawable();
+        if (drawable != null && drawable instanceof Animatable) {
+            ((Animatable) drawable).start();
+        }
     }
 
     @NonNull
