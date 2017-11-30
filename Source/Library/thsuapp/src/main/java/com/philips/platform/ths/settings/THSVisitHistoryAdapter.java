@@ -41,7 +41,7 @@ public class THSVisitHistoryAdapter extends RecyclerView.Adapter<THSVisitHistory
 
     @Override
     public void onBindViewHolder(final CustomViewHolder holder, final int position) {
-        final VisitReport visitReport = mVisitReports.get(holder.getAdapterPosition());
+        final VisitReport visitReport = mVisitReports.get(position);
 
         final Long scheduledStartTime = visitReport.getSchedule().getActualStartTime();
         final String date = new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(scheduledStartTime).toString();

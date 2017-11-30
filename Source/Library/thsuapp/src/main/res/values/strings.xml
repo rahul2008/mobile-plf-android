@@ -203,6 +203,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_customer_support_for_support">For support:</string>
     <string name="ths_customer_support_phone_number">800-552-4111</string>
     <string name="ths_customer_support_mail">ugrow.support@americanwell.com</string>
+    <string name="ths_loading_text">Loading...</string>
 
     <string name="ths_welcome">Welcome</string>
     <string name="ths_welcome_back">Welcome back</string>
