@@ -20,12 +20,9 @@
             android:checked="false"
             android:gravity="center_vertical|end" />
 
-
         <FrameLayout
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:paddingEnd="0dp"
             android:paddingStart="4dp">
 
@@ -71,7 +68,7 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="center_vertical|start"
-        android:textColor="@color/reg_hyperlink_highlight_color"
-        android:text="@string/csw_consent_help_label" />
+        android:text="@string/reg_mya_consent_help_label"
+        android:textColor="@color/reg_hyperlink_highlight_color" />
 
 </RelativeLayout>
