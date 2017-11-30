@@ -60,7 +60,7 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     @Override
     protected void setViewParams(Configuration config, int width) {
-        applyParams(config,regRootContainer,width);
+       // applyParams(config,regRootContainer,width);
     }
 
     @Override

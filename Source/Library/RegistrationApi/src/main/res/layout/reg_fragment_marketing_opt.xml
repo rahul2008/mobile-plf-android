@@ -21,6 +21,8 @@
             android:layout_marginTop="@dimen/reg_dimen_24dp"
             android:orientation="vertical"
             android:paddingBottom="@dimen/reg_dimen_12dp"
+            android:layout_marginLeft="@dimen/reg_layout_margin_16"
+            android:layout_marginRight="@dimen/reg_layout_margin_16"
             android:weightSum="1">
 
             <com.philips.platform.uid.view.widget.Label

@@ -166,7 +166,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, usr_almostDoneScreen_rootContainer_linearLayout, width);
+
     }
 
     @Override
