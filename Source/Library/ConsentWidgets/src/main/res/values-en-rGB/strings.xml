@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?><resources>
-<string name="reg_mya_privacy_settings">en-GB-Privacy Settings</string>
-<string name="reg_mya_problem_occurred_error_title">en-GB-Problem Occurred</string>
-<string name="reg_mya_problem_occurred_error_message">en-GB-There was a problem (error %1$d). Please try again.</string>
-<string name="reg_mya_ok">en-GB-OK</string>
-<string name="reg_mya_invalid_access_token_error_message">en-GB-There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
-<string name="reg_mya_consent_help_label">en-GB-What does this mean ?</string>
+    <string name="csw_privacy_settings">en-GB-Privacy Settings</string>
+    <string name="csw_problem_occurred_error_title">en-GB-Problem Occurred</string>
+    <string name="csw_problem_occurred_error_message">en-GB-There was a problem (error %1$d). Please try again.</string>
+    <string name="csw_ok">en-GB-OK</string>
+    <string name="csw_invalid_access_token_error_message">en-GB-There was a problem connecting to the server. Make sure the date/time on your device is set correctly. If the problem persists, please logout and login.</string>
+    <string name="csw_consent_help_label">en-GB-What does this mean ?</string>
+    <string name="csw_privacy_settings_desc">en-GB-To make sure you have full control of your privacy settings.Philips takes secure data to provide service based on online behaviour.</string>
+
 </resources>

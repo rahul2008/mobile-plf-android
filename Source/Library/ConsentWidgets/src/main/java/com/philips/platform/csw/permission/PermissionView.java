@@ -51,7 +51,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     protected void setViewParams(Configuration config, int width) {
-        applyParams(config, recyclerView, width);
+        //Update recycle view rows
+      //  applyParams(config, recyclerView, width);
     }
 
     @Override
@@ -61,7 +62,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_mya_privacy_settings;
+        return R.string.csw_privacy_settings;
     }
 
     @Override
@@ -145,9 +146,9 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         CswLogger.e(TAG, error.getMessage());
         OkOnErrorListener okListener = new OkOnErrorListener();
         final AlertDialogFragment alertDialogFragment = new AlertDialogFragment.Builder(getContext())
-                .setTitle(R.string.reg_mya_problem_occurred_error_title)
-                .setMessage(getString(R.string.reg_mya_problem_occurred_error_message, error.getCatkErrorCode()))
-                .setPositiveButton(R.string.reg_mya_ok, okListener)
+                .setTitle(R.string.csw_problem_occurred_error_title)
+                .setMessage(getString(R.string.csw_problem_occurred_error_message, error.getCatkErrorCode()))
+                .setPositiveButton(R.string.csw_ok, okListener)
                 .create();
         okListener.setDialog(alertDialogFragment);
         alertDialogFragment.show(getFragmentManager(), TAG);
