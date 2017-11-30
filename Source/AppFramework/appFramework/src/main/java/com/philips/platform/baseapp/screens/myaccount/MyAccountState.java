@@ -18,6 +18,7 @@ import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswSettings;
 import com.philips.platform.csw.CswLaunchInput;
 import com.philips.platform.mya.MyaFragment;
+import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
@@ -119,6 +120,11 @@ public class MyAccountState extends BaseState implements MyaListener{
         }
 
         return false;
+
+    }
+
+    @Override
+    public void onError(MyaError myaError) {
 
     }
 
