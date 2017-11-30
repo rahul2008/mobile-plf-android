@@ -76,12 +76,19 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
             mTHSCostSummaryFragment.addFragment(fragment, THSInsuranceDetailFragment.TAG, bundle, true);
         } else if (componentID == R.id.ths_cost_summary_promotion_code_apply_button) {
             applyCouponCode(mTHSCostSummaryFragment.mCouponCodeEdittext.getText().toString().trim());
+        }else if (componentID == R.id.ths_cost_summary_cancel_button) {
+            mTHSCostSummaryFragment.popSelfBeforeTransition();
         }
+
+
+
+
+
 
     }
 
 
-    private void createVisit() {
+     void createVisit() {
         try {
             mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(false);
             THSManager.getInstance().createVisit(mTHSCostSummaryFragment.getFragmentActivity(), THSManager.getInstance().getPthVisitContext(), this);
@@ -132,7 +139,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     @Override
     public void onCreateVisitResponse(THSVisit tHSVisit, THSSDKError tHSSDKError) {
         if (null != mTHSCostSummaryFragment && mTHSCostSummaryFragment.isFragmentAttached()) {
-            mTHSCostSummaryFragment.hideProgressBar();
+            mTHSCostSummaryFragment.hideCalculatingCostScreen();
             if (tHSSDKError!=null && null != tHSSDKError.getSdkError()) {
                 if (null!=tHSSDKError.getSdkError().getSDKErrorReason() && tHSSDKError.getSdkError().getSDKErrorReason() == SDKErrorReason.PROVIDER_OFFLINE) {
                     mTHSCostSummaryFragment.doTagging(ANALYTICS_ESTIMATED_VISIT_COST, mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_provider_offline), false);
@@ -197,7 +204,6 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     public void onCreateVisitFailure(Throwable var1) {
         if (null != mTHSCostSummaryFragment && mTHSCostSummaryFragment.isFragmentAttached()) {
             mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(false);
-            mTHSCostSummaryFragment.hideProgressBar();
             showCreateVisitError(true, true, mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_provider_offline));
         }
     }
@@ -205,7 +211,6 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     @Override
     public void onCreateVisitValidationFailure(Map<String, ValidationReason> var1) {
         if (null != mTHSCostSummaryFragment && mTHSCostSummaryFragment.isFragmentAttached()) {
-            mTHSCostSummaryFragment.hideProgressBar();
             showCreateVisitError(true, true, var1.toString());
         }
     }
@@ -232,7 +237,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
                     mTHSCostSummaryFragment.mInsuranceDetailRelativeLayout.setVisibility(View.GONE);
                     mTHSCostSummaryFragment.mNoInsuranceDetailRelativeLayout.setVisibility(View.VISIBLE);
                 }
-                createVisit();
+                //createVisit();
             }
         }
     }
