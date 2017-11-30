@@ -51,7 +51,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     protected void setViewParams(Configuration config, int width) {
-        applyParams(config, recyclerView, width);
+        //Update recycle view rows
+      //  applyParams(config, recyclerView, width);
     }
 
     @Override
