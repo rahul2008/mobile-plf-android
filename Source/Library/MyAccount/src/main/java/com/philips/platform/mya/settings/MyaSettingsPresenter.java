@@ -13,6 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
+import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.catk.CatkInputs;
@@ -24,6 +25,10 @@ import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswLaunchInput;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBasePresenter;
+import com.philips.platform.mya.launcher.MyaInterface;
+import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -33,16 +38,14 @@ import android.widget.Toast;
 class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> implements MyaSettingsContract.Presenter {
 
     private MyaSettingsContract.View view;
-    private AppInfraInterface appInfraInterface;
 
     MyaSettingsPresenter(MyaSettingsContract.View view) {
         this.view = view;
     }
 
     @Override
-    public void getSettingItems(Context context, AppInfraInterface appInfra) {
-        this.appInfraInterface = appInfra;
-        view.showSettingsItems(getSettingsMap(context, appInfra));
+    public void getSettingItems(AppInfraInterface appInfra) {
+        view.showSettingsItems(getSettingsMap(appInfra));
     }
 
     @Override
@@ -105,13 +108,13 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         return null;
     }
 
-    private LinkedHashMap<String, SettingsModel> getLocalisedList(Context context, ArrayList propertyForKey, AppInfraInterface appInfraInterface) {
+    private LinkedHashMap<String, SettingsModel> getLocalisedList(ArrayList propertyForKey, AppInfraInterface appInfraInterface) {
         LinkedHashMap<String, SettingsModel> profileList = new LinkedHashMap<>();
         if (propertyForKey != null && propertyForKey.size() != 0) {
             for (int i = 0; i < propertyForKey.size(); i++) {
                 SettingsModel settingsModel = new SettingsModel();
                 String key = (String) propertyForKey.get(i);
-                settingsModel.setFirstItem(getStringResourceByName(context, key));
+                settingsModel.setFirstItem(getStringResourceByName(key));
                 if (key.equals("MYA_Country")) {
                     settingsModel.setItemCount(2);
                     settingsModel.setSecondItem(appInfraInterface.getServiceDiscovery().getHomeCountry());
@@ -120,17 +123,18 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             }
         } else {
             SettingsModel countrySettingsModel = new SettingsModel();
-            countrySettingsModel.setFirstItem(context.getResources().getString(R.string.MYA_Country));
+            countrySettingsModel.setFirstItem(view.getContext().getResources().getString(R.string.MYA_Country));
             countrySettingsModel.setSecondItem(appInfraInterface.getServiceDiscovery().getHomeCountry());
             profileList.put("MYA_Country", countrySettingsModel);
             SettingsModel privacySettingsModel = new SettingsModel();
-            privacySettingsModel.setFirstItem(context.getResources().getString(R.string.Mya_Privacy_Settings));
+            privacySettingsModel.setFirstItem(view.getContext().getResources().getString(R.string.Mya_Privacy_Settings));
             profileList.put("Mya_Privacy_Settings", privacySettingsModel);
         }
         return profileList;
     }
 
-    private String getStringResourceByName(Context context, String aString) {
+    private String getStringResourceByName(String aString) {
+        Context context = view.getContext();
         String packageName = context.getPackageName();
         int resId = context.getResources().getIdentifier(aString, "string", packageName);
         try {
