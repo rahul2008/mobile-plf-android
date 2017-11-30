@@ -25,24 +25,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!--<ImageView
+            <ImageView
                 android:id="@+id/ews_gs_image_header"
                 style="@style/EWS.ImageScale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@null"
-                android:src="@{viewModel.image}" />-->
-
-            <ImageView
-                android:id="@+id/ews_press_and_play_icon"
-                style="@style/EWS.ImageScale"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_image_top_margin"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_ews_device_successful_animation"
-                android:contentDescription="@null"
-                />
+                android:src="@{viewModel.image}" />
 
             <LinearLayout
                 android:layout_width="match_parent"
