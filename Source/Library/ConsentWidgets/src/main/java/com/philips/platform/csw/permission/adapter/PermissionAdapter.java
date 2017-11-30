@@ -42,7 +42,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
     private ConsentToggleListener consentToggleListener;
 
     @Inject
-    PermissionAdapter(@NonNull final List<ConsentView> definitions, @NonNull HelpClickListener helpClickListener) {
+    public PermissionAdapter(@NonNull final List<ConsentView> definitions, @NonNull HelpClickListener helpClickListener) {
         this.items = new ArrayList<>(definitions);
         this.helpClickListener = helpClickListener;
     }

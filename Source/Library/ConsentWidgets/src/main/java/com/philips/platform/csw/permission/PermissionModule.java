@@ -1,14 +1,14 @@
 package com.philips.platform.csw.permission;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.CreateConsentInteractor;
 import com.philips.platform.catk.GetConsentInteractor;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.csw.permission.adapter.PermissionAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import dagger.Module;
 import dagger.Provides;
@@ -32,7 +32,7 @@ public class PermissionModule {
     }
 
     @Provides
-    HelpClickListener provideHelpClickListener(){
+    HelpClickListener provideHelpClickListener() {
         return helpClickListener;
     }
 
