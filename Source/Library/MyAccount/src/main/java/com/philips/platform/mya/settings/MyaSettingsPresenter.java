@@ -7,7 +7,6 @@ package com.philips.platform.mya.settings;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.handlers.LogoutHandler;
@@ -74,7 +73,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             CswDependencies cswDependencies = new CswDependencies(appInfra);
             UappSettings uappSettings = new UappSettings(view.getContext());
             cswInterface.init(cswDependencies, uappSettings);
-            FragmentLauncher fragmentLauncher = new FragmentLauncher((FragmentActivity) view.getContext(), R.id.mainContainer, null);
+            FragmentLauncher fragmentLauncher = MyaHelper.getInstance().getFragmentLauncher();
             cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext()));
             return true;
         }
