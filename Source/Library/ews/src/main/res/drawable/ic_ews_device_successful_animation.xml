@@ -9,13 +9,32 @@
         android:drawable="@drawable/ic_10"
         android:duration="@integer/animation_circle_duration"/>
     <item
+        android:drawable="@drawable/ic_11"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_12"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_13"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_14"
+        android:duration="@integer/animation_circle_duration"/>
+
+    <item
         android:drawable="@drawable/ic_15"
         android:duration="@integer/animation_circle_duration"/>
     <item
-        android:drawable="@drawable/ic_17"
+        android:drawable="@drawable/ic_16"
         android:duration="@integer/animation_circle_duration"/>
     <item
         android:drawable="@drawable/ic_17"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_18"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_19"
         android:duration="@integer/animation_circle_duration"/>
     <item
         android:drawable="@drawable/ic_20"
@@ -34,6 +53,18 @@
         android:duration="@integer/animation_circle_duration"/>
     <item
         android:drawable="@drawable/ic_25"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_26"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_27"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_28"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_29"
         android:duration="@integer/animation_circle_duration"/>
     <item
         android:drawable="@drawable/ic_30"
@@ -67,5 +98,146 @@
         android:duration="@integer/animation_circle_duration"/>
     <item
         android:drawable="@drawable/ic_40"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_41"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_42"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_43"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_44"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_45"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_46"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_47"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_48"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_49"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_50"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_51"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_52"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_53"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_54"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_55"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_56"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_57"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_58"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_59"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_60"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_61"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_62"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_63"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_64"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_65"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_66"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_67"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_68"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_69"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_70"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_71"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_72"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_73"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_74"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_75"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_76"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_77"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_78"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_79"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_80"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_81"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_82"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_83"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_84"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_85"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_86"
+        android:duration="@integer/animation_circle_duration"/>
+    <item
+        android:drawable="@drawable/ic_87"
         android:duration="@integer/animation_circle_duration"/>
 </animation-list>
