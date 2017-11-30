@@ -7,10 +7,10 @@
 
 package com.philips.platform.csw.permission;
 
-import android.support.annotation.Nullable;
-
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.RequiredConsent;
+
+import android.support.annotation.Nullable;
 
 public class ConsentView {
 
@@ -26,11 +26,11 @@ public class ConsentView {
         this.definition = definition;
     }
 
-    String getConsentText() {
+    public String getConsentText() {
         return definition.getText();
     }
 
-    String getHelpText() {
+    public String getHelpText() {
         return definition.getHelpText();
     }
 
@@ -42,7 +42,7 @@ public class ConsentView {
         return definition.getVersion();
     }
 
-    ConsentView storeConsent(RequiredConsent consent) {
+    public ConsentView storeConsent(RequiredConsent consent) {
         this.consent = consent;
         this.isLoading = false;
         this.isError = false;
@@ -50,40 +50,40 @@ public class ConsentView {
         return this;
     }
 
-    void setError(boolean isError) {
+    public void setError(boolean isError) {
         this.isLoading = false;
         this.isError = isError;
     }
 
-    void setOnline(boolean isOnline) {
+    public void setOnline(boolean isOnline) {
         this.isOnline = isOnline;
     }
 
-    void setIsLoading(boolean isLoading) {
+    public void setIsLoading(boolean isLoading) {
         this.isLoading = isLoading;
     }
 
-    boolean isEnabled() {
+    public boolean isEnabled() {
         return (consent == null || consent.isChangeable()) && !isError;
     }
 
-    boolean isChecked() {
+    public boolean isChecked() {
         return consent != null && consent.isAccepted();
     }
 
-    boolean isError() {
+    public boolean isError() {
         return isError;
     }
 
-    ConsentDefinition getDefinition() {
+    public ConsentDefinition getDefinition() {
         return definition;
     }
 
-    boolean isLoading() {
+    public boolean isLoading() {
         return isLoading;
     }
 
-    void setNotFound() {
+    public void setNotFound() {
         isLoading = false;
     }
 

@@ -5,6 +5,7 @@ import com.philips.platform.catk.CreateConsentInteractor;
 import com.philips.platform.catk.GetConsentInteractor;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.ConsentBundleConfig;
+import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

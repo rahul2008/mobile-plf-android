@@ -1,5 +1,5 @@
 package com.philips.platform.csw.permission;
 
-interface HelpClickListener {
+public interface HelpClickListener {
     void onHelpClicked(String helpText);
 }
