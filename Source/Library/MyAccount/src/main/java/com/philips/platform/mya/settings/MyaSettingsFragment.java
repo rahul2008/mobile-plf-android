@@ -111,18 +111,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         if (viewType == R.id.mya_settings_logout_btn) {
             showDialog(getString(R.string.MYA_logout_title), getString(R.string.MYA_logout_message));
         } else if (viewType == R.id.philips_website) {
-
-       /* int viewId = view.getId();
-        if (viewId== R.id.consent_layout) {
-            CswInterface cswInterface = new CswInterface();
-            CswDependencies cswDependencies = new CswDependencies(appInfra);
-            cswDependencies.setApplicationName(config.getApplicationName());
-            cswDependencies.setPropositionName(config.getPropositionName());
-            UappSettings uappSettings = new UappSettings(getContext());
-            cswInterface.init(cswDependencies, uappSettings);
-            cswInterface.launch(MyaInterface.getMyaUiComponent().getFragmentLauncher(), buildLaunchInput(true));
-        } else if (viewId == R.id.philips_website) {
->>>>>>> c83af7c2288cf2234c1f7597198f585cf0dcc6b1*/
             String url = "https://www.Philips.com";
             Intent i = new Intent();
             i.setAction(Intent.ACTION_VIEW);
@@ -171,7 +159,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
     private void dismissDialog(AlertDialogFragment alertDialogFragment) {
         if (alertDialogFragment != null && alertDialogFragment.isVisible())
-            alertDialogFragment.dismiss();
+            alertDialogFragment.dismissAllowingStateLoss();
     }
 
     private View.OnClickListener handleOnClickLogOut(final AlertDialogFragment alertDialogFragment) {
