@@ -52,25 +52,16 @@ public class ConsentAccessToolKitTest {
     private ConsentAccessToolKit consentAccessToolKit;
 
     @Mock
-    RestInterface mockRestInterface;
-
-    @Mock
     private ConsentResponseListener listenerMock;
 
     @Mock
     private NetworkController mockNetworkController;
 
     @Mock
-    private CatkComponent mockCatkComponent;
-
-    @Mock
     CreateConsentListener mockCreateConsentListener;
 
     @Mock
     User user;
-
-    @Mock
-    ConsentAccessToolKit mockConsentAccessToolKit;
 
     @Captor
     ArgumentCaptor<NetworkAbstractModel> captorNetworkAbstractModel;

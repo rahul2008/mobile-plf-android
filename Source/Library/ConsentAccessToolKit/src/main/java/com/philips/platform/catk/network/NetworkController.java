@@ -9,15 +9,13 @@ package com.philips.platform.catk.network;
 
 import android.util.Log;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.gson.JsonArray;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.listener.ConsentRequestListener;
+import com.philips.platform.catk.listener.AuthErrorListener;
 import com.philips.platform.catk.listener.RefreshTokenListener;
 import com.philips.platform.catk.request.ConsentRequest;
 
@@ -26,7 +24,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-public class NetworkController implements ConsentRequestListener, Response.ErrorListener {
+public class NetworkController implements AuthErrorListener {
     @Inject
     RestInterface restInterface;
 
@@ -56,33 +54,12 @@ public class NetworkController implements ConsentRequestListener, Response.Error
     }
 
     protected ConsentRequest getConsentJsonRequest(final NetworkAbstractModel model) {
-        return new ConsentRequest(model, model.getMethod(), model.getUrl(), requestHeader(), model.requestBody(), this, this);
+        return new ConsentRequest(model, model.getMethod(), model.getUrl(), requestHeader(), model.requestBody(), this);
     }
 
     @Override
-    public void onResponse(ConsentRequest request, JsonArray response) {
-        NetworkAbstractModel model = request.getModel();
-        if (model != null) {
-            model.onResponseSuccess(model.parseResponse(response));
-        }
-    }
-
-    @Override
-    public void onErrorResponse(ConsentRequest request, VolleyError error) {
-        if (error instanceof AuthFailureError) {
-            performRefreshToken(request, error);
-        } else {
-            NetworkAbstractModel model = request.getModel();
-            if (model != null) {
-                model.onResponseError(new ConsentNetworkError(error));
-            }
-        }
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        // No need to handle, all response return via other 'onErrorResponse'
-        Log.e("Consent access toolkit", "Error from volley", error);
+    public void onAuthError(ConsentRequest request, VolleyError error) {
+        performRefreshToken(request, error);
     }
 
     public static Map<String, String> requestHeader() {

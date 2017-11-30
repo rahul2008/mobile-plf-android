@@ -7,6 +7,8 @@
 
 package com.philips.platform.catk.dto;
 
+import android.support.annotation.NonNull;
+
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -16,10 +18,10 @@ import java.util.List;
 
 public class CreateConsentModelRequest extends NetworkAbstractModel {
 
-    private String url;
-    CreateConsentDto dto;
+    @NonNull private String url;
+    @NonNull private CreateConsentDto dto;
 
-    public CreateConsentModelRequest(String url, CreateConsentDto dto, DataLoadListener dataLoadListener) {
+    public CreateConsentModelRequest(@NonNull String url, @NonNull CreateConsentDto dto, DataLoadListener dataLoadListener) {
         super(dataLoadListener);
         this.url = url;
         this.dto = dto;
@@ -40,6 +42,7 @@ public class CreateConsentModelRequest extends NetworkAbstractModel {
         return new Gson().toJson(dto);
     }
 
+    @NonNull
     @Override
     public String getUrl() {
         return url;

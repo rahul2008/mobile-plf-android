@@ -8,6 +8,8 @@
 package com.philips.platform.catk.dto;
 
 
+import android.support.annotation.NonNull;
+
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -17,15 +19,16 @@ import com.philips.platform.catk.network.NetworkAbstractModel;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GetConsentsModelRequest extends NetworkAbstractModel {
 
-    private String url;
-    private String mApplicationName;
-    private String mPropositionName;
+    @NonNull private String url;
+    @NonNull private String mApplicationName;
+    @NonNull private String mPropositionName;
 
-    public GetConsentsModelRequest(String url, String applicationName, String propositionName, DataLoadListener dataLoadListener) {
+    public GetConsentsModelRequest(@NonNull String url, @NonNull String applicationName, @NonNull String propositionName, DataLoadListener dataLoadListener) {
         super(dataLoadListener);
         this.url = url;
         mApplicationName = applicationName;
@@ -37,9 +40,7 @@ public class GetConsentsModelRequest extends NetworkAbstractModel {
         List<GetConsentDto> consents = new ArrayList<>();
         if (response != null && response.size() > 0) {
             GetConsentDto[] modelResults = new Gson().fromJson(response, GetConsentDto[].class);
-            for (GetConsentDto modelResult : modelResults) {
-                consents.add(modelResult);
-            }
+            consents.addAll(Arrays.asList(modelResults));
         }
         return consents;
     }
