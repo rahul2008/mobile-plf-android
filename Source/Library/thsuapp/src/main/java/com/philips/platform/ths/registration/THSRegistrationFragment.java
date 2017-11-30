@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.Country;
 import com.americanwell.sdk.entity.State;
+import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
