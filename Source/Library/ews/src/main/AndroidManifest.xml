@@ -18,7 +18,8 @@
         <activity
             android:name=".EWSActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false">
         </activity>
     </application>
 
