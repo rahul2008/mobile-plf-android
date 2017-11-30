@@ -50,6 +50,15 @@
                     android:text="@{viewModel.title}"
                     tools:text="@string/label_ews_get_started_title"/>
 
+
+                <ImageView
+                    android:id="@+id/ews_paired_image"
+                    style="@style/EWS.ImageScale"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:layout_marginTop="@dimen/default_image_top_margin"
+                   />
+
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/ews_01_00_label_get_started_description"
                     android:layout_marginTop="@dimen/default_body_labels_margin"
