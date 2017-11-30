@@ -15,9 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
-import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -60,8 +60,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
-        if (savedInstanceState == null)
-            presenter.getSettingItems(MyaInterface.getMyaDependencyComponent().getAppInfra());
+        presenter.getSettingItems(MyaHelper.getInstance().getAppInfra());
     }
 
     @Override
@@ -155,7 +154,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean onLogOut = MyaInterface.getMyaUiComponent().getMyaListener().onLogOut();
+                boolean onLogOut = MyaHelper.getInstance().getMyaListener().onLogOut();
                 if(!onLogOut) {
                     alertDialogFragment.dismiss();
                     presenter.logOut(getArguments());
@@ -190,7 +189,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
                 SettingsModel value = profileList.get(key);
                 boolean handled = presenter.handleOnClickSettingsItem(key);
                 if (!handled) {
-                    boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(key);
+                    boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onClickMyaItem(key);
                     if (!onClickMyaItem)
                         presenter.onClickRecyclerItem(key, value);
                 }

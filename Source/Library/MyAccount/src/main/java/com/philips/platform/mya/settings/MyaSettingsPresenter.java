@@ -8,7 +8,6 @@ package com.philips.platform.mya.settings;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.handlers.LogoutHandler;
@@ -20,11 +19,11 @@ import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswLaunchInput;
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBasePresenter;
-import com.philips.platform.mya.launcher.MyaInterface;
+import com.philips.platform.mya.launcher.MyaLaunchInput;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
@@ -65,15 +64,14 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     @Override
     public boolean handleOnClickSettingsItem(String key) {
         if (key.equals("Mya_Privacy_Settings")) {
-            AppInfraInterface appInfra = MyaInterface.getMyaDependencyComponent().getAppInfra();
-            ConsentAccessToolKit.getInstance().init(initConsentToolKit("OneBackend", "OneBackendProp", view.getContext(),appInfra));
+            AppInfraInterface appInfra = MyaHelper.getInstance().getAppInfra();
+            ConsentAccessToolKit.getInstance().init(initConsentToolKit(MyaHelper.getInstance().getMyaLaunchInput().getApplicationName(), MyaHelper.getInstance().getMyaLaunchInput().getPropositionName(), view.getContext(),appInfra));
             CswInterface cswInterface = new CswInterface();
 
             CswDependencies cswDependencies = new CswDependencies(appInfra);
             UappSettings uappSettings = new UappSettings(view.getContext());
             cswInterface.init(cswDependencies, uappSettings);
-            FragmentLauncher fragmentLauncher = new FragmentLauncher((FragmentActivity) view.getContext(), R.id.mainContainer, null);
-            cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext()));
+            cswInterface.launch(MyaHelper.getInstance().getFragmentLauncher(), buildLaunchInput(true, view.getContext()));
             return true;
         }
         return false;
@@ -141,9 +139,9 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         }
     }
 
-
     private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-        ConsentBundleConfig config = new ConsentBundleConfig(null, null, null);
+        MyaLaunchInput myaLaunchInput = MyaHelper.getInstance().getMyaLaunchInput();
+        ConsentBundleConfig config = new ConsentBundleConfig(myaLaunchInput.getApplicationName(), myaLaunchInput.getPropositionName(), myaLaunchInput.getConsentDefinitions());
         CswLaunchInput cswLaunchInput = new CswLaunchInput(config,context);
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;

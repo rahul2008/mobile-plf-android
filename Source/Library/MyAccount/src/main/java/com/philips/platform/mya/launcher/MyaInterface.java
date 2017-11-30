@@ -10,19 +10,10 @@ package com.philips.platform.mya.launcher;
 import android.content.Intent;
 import android.os.Bundle;
 
-
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.activity.MyaActivity;
-
 import com.philips.platform.mya.error.MyaError;
-import com.philips.platform.mya.injection.DaggerMyaDependencyComponent;
-import com.philips.platform.mya.injection.DaggerMyaUiComponent;
-import com.philips.platform.mya.injection.MyaDependencyComponent;
-import com.philips.platform.mya.injection.MyaDependencyModule;
-import com.philips.platform.mya.injection.MyaUiComponent;
-import com.philips.platform.mya.injection.MyaUiModule;
 import com.philips.platform.mya.tabs.MyaTabFragment;
-import com.philips.platform.myaplugin.uappadaptor.DataModelType;
-import com.philips.platform.myaplugin.uappadaptor.UserInterface;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -37,9 +28,6 @@ import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
 
 public class MyaInterface implements UappInterface {
 
-    private static MyaDependencyComponent myaDependencyComponent;
-    private static MyaUiComponent myaUiComponent;
-    private MyaUiModule myaUiModule;
     public static String USER_PLUGIN = "user_plugin";
     /**
      * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
@@ -55,27 +43,27 @@ public class MyaInterface implements UappInterface {
             myaLaunchInput.getMyaListener().onError(MyaError.USER_NOT_SIGNED_IN);
             return;
         }
-        myaUiModule = new MyaUiModule(uiLauncher, myaLaunchInput.getMyaListener());
-        myaUiComponent = DaggerMyaUiComponent.builder()
-                .myaUiModule(myaUiModule).build();
+        MyaHelper.getInstance().setMyaListener(((MyaLaunchInput) uappLaunchInput).getMyaListener());
+        MyaHelper.getInstance().setMyaLaunchInput(myaLaunchInput);
         Bundle bundle = new Bundle();
         bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
-            launchAsActivity(activityLauncher, myaLaunchInput);
+            MyaHelper.getInstance().setThemeConfiguration(activityLauncher.getDlsThemeConfiguration());
+            launchAsActivity(activityLauncher, myaLaunchInput,bundle);
         } else if (uiLauncher instanceof FragmentLauncher) {
             launchAsFragment((FragmentLauncher) uiLauncher, bundle);
         }
     }
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher, Bundle arguments) {
-        myaUiModule.setFragmentLauncher(fragmentLauncher);
+        MyaHelper.getInstance().setFragmentLauncher(fragmentLauncher);
         MyaTabFragment myaTabFragment = new MyaTabFragment();
         myaTabFragment.setArguments(arguments);
         myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
     }
 
-    private void launchAsActivity(ActivityLauncher uiLauncher, MyaLaunchInput myaLaunchInput) {
+    private void launchAsActivity(ActivityLauncher uiLauncher, MyaLaunchInput myaLaunchInput, Bundle bundle) {
         if (null != uiLauncher && myaLaunchInput != null) {
             Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyaActivity.class);
             myAccountIntent.putExtra(MYA_DLS_THEME, uiLauncher.getUiKitTheme());
@@ -92,21 +80,7 @@ public class MyaInterface implements UappInterface {
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         MyaDependencies myaDependencies = (MyaDependencies) uappDependencies;
-
-        myaDependencyComponent = DaggerMyaDependencyComponent.builder()
-                .myaDependencyModule(new MyaDependencyModule(myaDependencies.getAppInfra())).build();
+        MyaHelper.getInstance().setAppInfra(myaDependencies.getAppInfra());
     }
 
-
-    public static MyaDependencyComponent getMyaDependencyComponent() {
-        return myaDependencyComponent;
-    }
-
-    public static MyaUiComponent getMyaUiComponent() {
-        return myaUiComponent;
-    }
-
-    public static void setMyaUiComponent(MyaUiComponent myaUiComponent) {
-        MyaInterface.myaUiComponent = myaUiComponent;
-    }
 }
