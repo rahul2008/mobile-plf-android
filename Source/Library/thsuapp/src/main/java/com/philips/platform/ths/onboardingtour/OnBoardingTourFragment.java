@@ -108,8 +108,8 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
                         rightArrow.setVisibility(View.VISIBLE);
                         doneButton.setVisibility(View.GONE);
                     }
-                    skipButton.setVisibility(View.GONE);
-                    leftArrow.setVisibility(View.VISIBLE);
+                    skipButton.setVisibility(View.VISIBLE);
+                    leftArrow.setVisibility(View.GONE);
                 }
 
                 startAppTagging(position);
