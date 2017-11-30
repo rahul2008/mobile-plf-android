@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -23,6 +24,7 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
 
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -40,6 +42,12 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     private ActionBarListener actionBarListener;
     protected THSCostSummaryPresenter mPresenter;
     private RelativeLayout mProgressbarContainer;
+
+    ScrollView costSummaryScrollView;
+    RelativeLayout costSummaryVisibleRelativeLayout;
+    RelativeLayout costSummaryCalculateContainer;
+    //ProgressBarWithLabel mProgressBarWithLabel;
+    Button costSummaryCancelButton;
     Button mCostSummaryContinueButton;
     Button mAddPaymentMethodButton;
     protected Label costBigLabel;
@@ -85,10 +93,17 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_cost_summary, container, false);
         mPresenter = new THSCostSummaryPresenter(this);
 
+        costSummaryScrollView = (ScrollView) view.findViewById(R.id.cost_scrollview_container);
+        costSummaryCalculateContainer = (RelativeLayout) view.findViewById(R.id.ths_cost_summary_calculate_container);
+        costSummaryVisibleRelativeLayout = (RelativeLayout) view.findViewById(R.id.ths_cost_summary_details_visible);
 
         costBigLabel = (Label) view.findViewById(R.id.ths_cost_summary_cost_big_label);
         costSmallLabel = (Label) view.findViewById(R.id.ths_cost_summary_cost_small_label);
-        mProgressbarContainer = (RelativeLayout) view.findViewById(R.id.ths_cost_summary_relativelayout);
+        //mProgressbarContainer = (RelativeLayout) view.findViewById(R.id.ths_cost_summary_relativelayout);
+
+        costSummaryCancelButton = (Button) view.findViewById(R.id.ths_cost_summary_cancel_button);
+        costSummaryCancelButton.setOnClickListener(this);
+
         mCostSummaryContinueButton = (Button) view.findViewById(R.id.ths_cost_summary_continue_button);
         mCostSummaryContinueButton.setOnClickListener(this);
 
@@ -130,8 +145,13 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        createCustomProgressBar(mProgressbarContainer, BIG);
+        //createCustomProgressBar(mProgressbarContainer, BIG);
         actionBarListener = getActionBarListener();
+        showCalculatingCostScreen();
+        mPresenter.createVisit();
+        mPresenter.getPaymentMethod();
+
+        mPresenter.fetchExistingSubscription();
 
     }
 
@@ -144,8 +164,7 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
         }
         alertDialogFragmentCreateVisit = (AlertDialogFragment) getFragmentManager().findFragmentByTag(THS_COST_SUMMARY_CREATE_VISIT_ERROR);
         alertDialogFragmentCouponCode = (AlertDialogFragment) getFragmentManager().findFragmentByTag(THS_COST_SUMMARY_COUPON_CODE_ERROR);
-        mPresenter.getPaymentMethod();
-        mPresenter.fetchExistingSubscription();
+
     }
 
 
@@ -164,5 +183,20 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     public void onDestroy() {
         super.onDestroy();
         thsVisit = null;
+    }
+
+    void hideCalculatingCostScreen() {
+        hideProgressBar();
+        costSummaryScrollView.setScrollContainer(true);
+        costSummaryCalculateContainer.setVisibility(View.GONE);
+        costSummaryVisibleRelativeLayout.setVisibility(View.VISIBLE);
+
+    }
+
+    void showCalculatingCostScreen() {
+        createCustomProgressBar(costSummaryCalculateContainer,BIG);
+        costSummaryScrollView.setScrollContainer(false);
+        costSummaryVisibleRelativeLayout.setVisibility(View.GONE);
+        costSummaryCalculateContainer.setVisibility(View.VISIBLE);
     }
 }
