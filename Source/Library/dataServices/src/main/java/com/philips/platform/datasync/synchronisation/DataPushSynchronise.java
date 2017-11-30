@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
-import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.listener.ConsentResponseListener;
@@ -21,7 +20,6 @@ import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DataServicesConstants;
 import com.philips.platform.datasync.UserAccessProvider;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
 import com.philips.platform.datasync.consent.ConsentDataSender;
@@ -155,15 +153,15 @@ public class DataPushSynchronise extends EventMonitor {
                     Log.d(" Consent : ", "status :" + consentModel.getStatus());
                     if (consentModel.getStatus().equals(ConsentStatus.active)) {
                         executor.execute(new Runnable() {
-                                             @Override
-                                             public void run() {
-                                                 try {
-                                                     syncOthers(sender, nonSynchronizedData);
-                                                 } finally {
-                                                     countDownLatch.countDown();
-                                                 }
-                                             }
-                                         });
+                            @Override
+                            public void run() {
+                                try {
+                                    syncOthers(sender, nonSynchronizedData);
+                                } finally {
+                                    countDownLatch.countDown();
+                                }
+                            }
+                        });
                     } else {
                         countDownLatch.countDown();
                     }
@@ -184,15 +182,6 @@ public class DataPushSynchronise extends EventMonitor {
 
     private void syncOthers(final DataSender sender, final GetNonSynchronizedDataResponse nonSynchronizedData) {
         sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
-    }
-
-    @NonNull
-    private CatkInputs getCatkInputs() {
-        CatkInputs catkInputs = new CatkInputs();
-        catkInputs.setAppInfra(mDataServicesManager.getAppInfra());
-        catkInputs.setApplicationName(DataServicesConstants.APPLICATION_NAME);
-        catkInputs.setPropositionName(DataServicesConstants.PROPOSITION_NAME);
-        return catkInputs;
     }
 
     private void registerEvent() {
@@ -219,7 +208,7 @@ public class DataPushSynchronise extends EventMonitor {
     private List<? extends DataSender> getSenders() {
         Set<String> configurableSenders = mDataServicesManager.getSyncTypes();
 
-        if (configurableSenders == null ||(configurableSenders != null && configurableSenders.isEmpty())) {
+        if (configurableSenders == null || (configurableSenders != null && configurableSenders.isEmpty())) {
             return senders;
         }
 
