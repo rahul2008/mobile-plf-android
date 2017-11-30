@@ -44,7 +44,6 @@ public class ContentConfigurationBindingsTest {
     @Mock
     ContentConfigurationBindings subject;
 
-    final String STARTED_TITLE = "Let’s connect your %1$s to your WiFi so you can enjoy all the app enabled features!";
     final String APPNAME = "SleepMapper";
     final String DEVICENAME = "DeviceSleeping";
 
