@@ -1,4 +1,3 @@
-/*
 package com.philips.cdp.registration.app.tagging;
 
 import android.util.*;
@@ -133,4 +132,4 @@ public class EncryptionTest extends TestCase {
                 "4eOamXgDqUrXpf+AWNOSl5kOQYQe3ANZkIREVA==";
         assertEquals(decrypt(expectedValue), encrpytedValue);
     }
-}*/
+}
