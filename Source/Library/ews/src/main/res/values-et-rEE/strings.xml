@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Jah</string>
     <string name="button_ews_support_wrong_phone_no">Ei</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Asukoha luba</string>
+    <string name="label_ews_location_permission_body">Seadmes %1$s PHILIPSi Wi-Fi võrgu leidmiseks vajame luba teie asukohaandmetele juurdepääsemiseks.</string>
+    <string name="label_ews_location_permission_allow">Luba</string>
+    <string name="label_ews_location_permission_cancel">Tühista seadistamine</string>
+    <string name="label_ews_location_services_title">Luba asukohateenused</string>
+    <string name="label_ews_location_services_body">Seadmes %1$s PHILIPSi Wi-Fi võrgu leidmiseks peavad asukohateenused aktiveeritud olema. Palun aktiveerige asukohateenused ja avage rakendus uuesti.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Ava asukohaseaded</string>
 </resources>

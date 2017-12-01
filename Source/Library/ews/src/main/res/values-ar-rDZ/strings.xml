@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">نعم</string>
     <string name="button_ews_support_wrong_phone_no">لا</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">إذن الوصول إلى الموقع</string>
+    <string name="label_ews_location_permission_body">للعثور على شبكة Wi-Fi لـ PHILIPS Setup الخاصة بـ %1$s، نحن بحاجة إلى إذن للوصول إلى موقعك.</string>
+    <string name="label_ews_location_permission_allow">السماح</string>
+    <string name="label_ews_location_permission_cancel">إلغاء الإعداد</string>
+    <string name="label_ews_location_services_title">تمكين خدمات الموقع</string>
+    <string name="label_ews_location_services_body">للعثور على شبكة Wi-Fi لـ PHILIPS Setup الخاصة بـ %1$s، يجب تمكين خدمات الموقع.  يرجى تمكين خدمات الموقع في إعدادات الموقع والعودة إلى التطبيق.</string>
+    <string name="label_ews_location_services_go_to_location_settings">انتقل إلى إعدادات الموقع</string>
 </resources>
