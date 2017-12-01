@@ -11,7 +11,6 @@ import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.communication.events.ConnectApplianceToHomeWiFiEvent;
 import com.philips.cdp2.ews.communication.events.DiscoverApplianceEvent;
-import com.philips.cdp2.ews.communication.events.FetchDevicePortPropertiesEvent;
 import com.philips.cdp2.ews.communication.events.PairingSuccessEvent;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
@@ -48,11 +47,6 @@ public class ApplianceAccessEventMonitor extends EventMonitor implements Discove
         this.applianceAccessManager = applianceAccessManager;
         this.sessionDetailsInfo = sessionDetailsInfo;
         this.discoveryHelper = discoveryHelper;
-    }
-
-    @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void fetchDevicePortProperties(@SuppressWarnings("UnusedParameters") @NonNull final FetchDevicePortPropertiesEvent event) {
-        applianceAccessManager.fetchDevicePortProperties(null);
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
