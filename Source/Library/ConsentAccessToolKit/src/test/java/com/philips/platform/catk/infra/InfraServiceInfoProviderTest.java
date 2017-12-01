@@ -119,7 +119,7 @@ public class InfraServiceInfoProviderTest {
 
     private void whenRetrievingInfo() {
         givenInfraServiceProvider.retrieveInfo(mockServiceDiscover, mockResponseListener);
-        verify(mockServiceDiscover).getServicesWithLanguagePreference(any(ArrayList.class), responseCaptor.capture());
+        verify(mockServiceDiscover).getServicesWithCountryPreference(any(ArrayList.class), responseCaptor.capture());
     }
 
     private void andSuccessfullResponseIs(Map<String, ServiceDiscoveryService> response) {

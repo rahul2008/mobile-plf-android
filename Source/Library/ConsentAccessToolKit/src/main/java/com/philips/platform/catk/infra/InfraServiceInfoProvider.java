@@ -26,7 +26,7 @@ public class InfraServiceInfoProvider implements ServiceInfoProvider {
         discoveryListener.setResponseListener(responseListener);
         ArrayList<String> services = new ArrayList<>();
         services.add(CSS_SERVICE_DISCOVERY_KEY);
-        serviceDiscovery.getServicesWithLanguagePreference(services, discoveryListener);
+        serviceDiscovery.getServicesWithCountryPreference(services, discoveryListener);
     }
 
     static class DiscoveryListener implements ServiceDiscoveryInterface.OnGetServiceUrlMapListener {
