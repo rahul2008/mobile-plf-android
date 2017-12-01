@@ -12,11 +12,14 @@ import com.philips.cdp2.ews.communication.events.ConnectApplianceToHomeWiFiEvent
 import com.philips.cdp2.ews.communication.events.DiscoverApplianceEvent;
 import com.philips.cdp2.ews.communication.events.PairingSuccessEvent;
 import com.philips.cdp2.ews.logger.EWSLogger;
+import com.philips.cdp2.ews.microapp.EWSDependencies;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import org.greenrobot.eventbus.EventBus;
 import org.junit.Before;
@@ -51,22 +54,31 @@ public class ApplianceAccessEventMonitorTest {
     @Mock private ApplianceSessionDetailsInfo sessionInfoMock;
     @Mock private EventBus eventBusMock;
     @Mock private Appliance applianceMock;
+    @Mock
+    private EWSDependencies mockEWSUAppDependencies;
 
+    @Mock
+    private UappSettings mockUappSettings;
     private static String CPP = "cc1ad323";
     private static String DEVICE_MODEL = "deviceModel";
     private static String DEVICE_NAME = "deviceFriendlyName";
+
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         PowerMockito.mockStatic(EWSLogger.class);
         PowerMockito.mockStatic(EWSTagger.class);
-
+        AppTaggingInterface mockTaggingInterface = mock(AppTaggingInterface.class);
         AppInfraInterface mockAppInfraInterface = mock(AppInfraInterface.class);
         Map<String, String> mockMap = new HashMap<>();
         mockMap.put(EWSInterface.PRODUCT_NAME, DEVICE_NAME);
-        EWSDependencyProvider.getInstance().initDependencies(mockAppInfraInterface, mockMap);
 
+        when(mockEWSUAppDependencies.getProductKeyMap()).thenReturn(mockMap);
+        when(mockEWSUAppDependencies.getAppInfra()).thenReturn(mockAppInfraInterface);
+        when(mockEWSUAppDependencies.getAppInfra().getTagging()).thenReturn(mockTaggingInterface);
+        EWSInterface ewsInterface = new EWSInterface();
+        ewsInterface.init(mockEWSUAppDependencies, mockUappSettings);
         when(sessionInfoMock.getCppId()).thenReturn(CPP);
 
         NetworkNode mockNetworkNode = mock(NetworkNode.class);

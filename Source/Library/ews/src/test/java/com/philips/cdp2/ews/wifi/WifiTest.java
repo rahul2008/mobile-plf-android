@@ -7,8 +7,11 @@ import android.os.Build;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.util.ReflectionHelpers;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +23,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(Build.VERSION.class)
 public class WifiTest {
 
     @Mock
@@ -45,9 +49,9 @@ public class WifiTest {
     public void setUp() throws Exception {
         initMocks(this);
         subject = spy(new Wifi());
+        Whitebox.setInternalState(Build.VERSION.class, "SDK_INT", Build.VERSION_CODES.LOLLIPOP);
         subject.ConfigSec = mockConfigurationSecurities;
         mockWifiConfiguration.SSID = testString;
-        stubAndroidSdkVersion(Build.VERSION_CODES.LOLLIPOP);
         mockWifiConfiguration.priority = 1000000;
         wifiConfigurationList.add(mockWifiConfiguration);
     }
@@ -168,11 +172,6 @@ public class WifiTest {
         when(mockWifiManager.getConfiguredNetworks()).thenReturn(null);
         subject.connectToConfiguredNetwork(mockWifiManager, mockScanResult);
         verify(mockWifiManager).startScan();
-    }
-
-
-    private void stubAndroidSdkVersion(final int sdkInt) {
-        ReflectionHelpers.setStaticField(Build.VERSION.class, "SDK_INT", sdkInt);
     }
 
 }

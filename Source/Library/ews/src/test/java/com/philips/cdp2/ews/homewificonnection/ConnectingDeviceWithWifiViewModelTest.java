@@ -21,6 +21,7 @@ import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.logger.EWSLogger;
+import com.philips.cdp2.ews.microapp.EWSDependencies;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.navigation.Navigator;
@@ -31,6 +32,8 @@ import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uappframework.uappinput.UappDependencies;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -125,6 +128,12 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Mock
     private ApplianceSessionDetailsInfo mockApplianceSessionDetailInfo;
 
+    @Mock
+    EWSDependencies mockEWSUAppDependencies;
+
+    @Mock
+    UappSettings mockUappSettings;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -137,7 +146,11 @@ public class ConnectingDeviceWithWifiViewModelTest {
         when(mockAppInfraInterface.getTagging()).thenReturn(mockTaggingInterface);
         Map<String, String> mockMap = new HashMap<>();
         mockMap.put(EWSInterface.PRODUCT_NAME, DEVICE_NAME);
-        EWSDependencyProvider.getInstance().initDependencies(mockAppInfraInterface, mockMap);
+        when(mockEWSUAppDependencies.getProductKeyMap()).thenReturn(mockMap);
+        when(mockEWSUAppDependencies.getAppInfra()).thenReturn(mockAppInfraInterface);
+        when(mockEWSUAppDependencies.getAppInfra().getTagging()).thenReturn(mockTaggingInterface);
+        EWSInterface ewsInterface = new EWSInterface();
+        ewsInterface.init(mockEWSUAppDependencies, mockUappSettings);
         subject = new ConnectingDeviceWithWifiViewModel(mockApplianceAccessManager, mockNavigator,
                 mockWiFiConnectivityManager, mockWiFiUtil, mockDeviceFriendlyNameChanger,
                 mockHandler, mockDiscoveryHelper, mockBaseContentConfiguration, mockStringProvider, mockApplianceSessionDetailInfo);

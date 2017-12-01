@@ -23,7 +23,6 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
-import org.apache.tools.ant.types.resources.comparators.Content;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -206,7 +205,7 @@ public class EWSDependencyProviderTest {
         CommCentral mockCommCentral = mock(CommCentral.class);
 
         whenNew(RuntimeConfiguration.class)
-                .withArguments(any(Content.class), any(AppInfraInterface.class))
+                .withArguments(any(), any(AppInfraInterface.class))
                 .thenReturn(mockRuntimeConfiguration);
         whenNew(LanTransportContext.class)
                 .withArguments(mockRuntimeConfiguration)
@@ -221,7 +220,7 @@ public class EWSDependencyProviderTest {
         subject.createCommCentral();
 
         verifyNew(RuntimeConfiguration.class)
-                .withArguments(any(Content.class), any(AppInfraInterface.class));
+                .withArguments(any(), any(AppInfraInterface.class));
         verifyNew(LanTransportContext.class)
                 .withArguments(mockRuntimeConfiguration);
         verifyNew(BEApplianceFactory.class)
