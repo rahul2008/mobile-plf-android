@@ -160,7 +160,12 @@ public class SecondSetupStepsViewModel {
 
     protected void startConnection() {
         eventBus.unregister(this);
-        navigator.navigateToConnectingPhoneToHotspotWifiScreen();
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                navigator.navigateToConnectingPhoneToHotspotWifiScreen();
+            }
+        }, 500);
     }
 
     public void trackPageName() {

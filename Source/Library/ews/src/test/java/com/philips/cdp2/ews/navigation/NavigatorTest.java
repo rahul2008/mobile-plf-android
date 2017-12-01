@@ -90,7 +90,7 @@ public class NavigatorTest {
     public void itShouldPushConnectToDeviceWithPasswordScreenWhenNavigating() throws Exception {
         subject.navigateToConnectToDeviceWithPasswordScreen("deviceFriendlyName");
 
-        verifyFragmentPushedForNoPopBackStack(ConnectWithPasswordFragment.class);
+        verifyFragmentPushed(ConnectWithPasswordFragment.class);
     }
 
     @Test
@@ -143,14 +143,14 @@ public class NavigatorTest {
     public void itShouldNavigateToWifiConnectionUnsuccessfulScreen() throws Exception {
         subject.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen("deviceName", "homeWifiSssid");
 
-        verifyFragmentPushedForNoPopBackStack(WifiConnectionUnsuccessfulFragment.class);
+        verifyFragmentPushed(WifiConnectionUnsuccessfulFragment.class);
     }
 
     @Test
     public void itShouldNavigateToConnectingPhoneToHotspotWifiFragment() throws Exception {
         subject.navigateToConnectingPhoneToHotspotWifiScreen();
 
-        verifyFragmentPushedForNoPopBackStack(ConnectingWithDeviceFragment.class);
+        verifyFragmentPushed(ConnectingWithDeviceFragment.class);
     }
 
     @Test
@@ -176,7 +176,7 @@ public class NavigatorTest {
     public void itShouldNavigateToEWSWiFiPairedScreen() throws Exception {
         subject.navigateToEWSWiFiPairedScreen();
 
-        verifyFragmentPushedForNoPopBackStack(ConnectionSuccessfulFragment.class);
+        verifyFragmentPushed(ConnectionSuccessfulFragment.class);
     }
 
     @Test
@@ -194,12 +194,7 @@ public class NavigatorTest {
     }
 
     private void verifyFragmentPushed(@NonNull Class fragmentClass) {
-        verify(mockFragmentNavigator).push(captor.capture(), anyInt(),anyBoolean(),eq(true));
-        assertEquals(fragmentClass, captor.getValue().getClass());
-    }
-
-    private void verifyFragmentPushedForNoPopBackStack(@NonNull Class fragmentClass) {
-        verify(mockFragmentNavigator).push(captor.capture(), anyInt(),anyBoolean(),eq(false));
+        verify(mockFragmentNavigator).push(captor.capture(), anyInt());
         assertEquals(fragmentClass, captor.getValue().getClass());
     }
 }
