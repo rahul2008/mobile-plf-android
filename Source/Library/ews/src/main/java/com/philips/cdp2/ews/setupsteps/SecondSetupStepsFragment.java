@@ -88,7 +88,9 @@ public class SecondSetupStepsFragment extends BaseFragment implements LocationPe
         alertDialogFragment.setDialogLifeCycleListener(new EWSAlertDialogFragment.DialogLifeCycleListener() {
             @Override
             public void onStart() {
-                //todo: add analytics tag : EWSTagger.trackPage("");
+                if (viewModel != null) {
+                    viewModel.tagLocationPermission();
+                }
             }
         });
         alertDialogFragment.showAllowingStateLoss(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
@@ -103,6 +105,7 @@ public class SecondSetupStepsFragment extends BaseFragment implements LocationPe
                 if (viewModel != null) {
                     alertDialogFragment.dismiss();
                     if (isAdded()) {
+                        viewModel.tagLocationPermissionAllow();
                         requestPermissions(new String[]{SecondSetupStepsViewModel.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSIONS_REQUEST_CODE);
                     }
                 }
@@ -112,6 +115,9 @@ public class SecondSetupStepsFragment extends BaseFragment implements LocationPe
         noButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (viewModel != null) {
+                    viewModel.tagLocationPermissionCancel();
+                }
                     getActivity().finish();
             }
         });
@@ -132,7 +138,9 @@ public class SecondSetupStepsFragment extends BaseFragment implements LocationPe
         alertDialogFragment.setDialogLifeCycleListener(new EWSAlertDialogFragment.DialogLifeCycleListener() {
             @Override
             public void onStart() {
-                //todo: add analytics tag : EWSTagger.trackPage("");
+                if (viewModel != null) {
+                    viewModel.tagLocationDisabled();
+                }
             }
         });
         alertDialogFragment.showAllowingStateLoss(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
@@ -142,6 +150,7 @@ public class SecondSetupStepsFragment extends BaseFragment implements LocationPe
             @Override
             public void onClick(View v) {
                 if (viewModel != null) {
+                    viewModel.tagLocationOpenSettings();
                     getActivity().startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     alertDialogFragment.dismiss();
                 }

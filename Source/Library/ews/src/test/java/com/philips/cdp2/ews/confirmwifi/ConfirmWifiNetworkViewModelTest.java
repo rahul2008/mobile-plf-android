@@ -100,16 +100,6 @@ public class ConfirmWifiNetworkViewModelTest {
         verify(callbackListenerMock).onPropertyChanged(subject, BR.homeWiFiSSID);
     }
 
-    private void testConfirmNetworkEWSTagger() {
-        verifyStatic();
-        EWSTagger.trackActionSendData("specialEvents", "connectToExistingNetwork");
-    }
-
-    private void testChangeNetworkEWSTagger() {
-        verifyStatic();
-        EWSTagger.trackActionSendData("specialEvents", "changeNetworkToConnect");
-    }
-
     @Test
     public void itShouldShowTroubleShootingScreenWhenNotConnectedToHomeWifi() throws Exception {
         when(wifiUtilMock.isHomeWiFiEnabled()).thenReturn(false);
@@ -164,5 +154,30 @@ public class ConfirmWifiNetworkViewModelTest {
         subject.trackPageName();
         verifyStatic();
         EWSTagger.trackPage("confirmWifiNetwork");
+    }
+
+    @Test
+    public void itShouldVerifyHelperDescription() throws Exception{
+        subject.getHelperDescription();
+        verify(mockStringProvider).getString(R.string.label_ews_confirm_connection_tip_lower,
+                mockBaseContentConfig.getDeviceName());
+    }
+
+    @Test
+    public void itShouldVerifyValueForHomeWifiSSIdForEmptyString() throws Exception{
+        String ssid = WiFiUtil.UNKNOWN_SSID;
+
+        when(wifiUtilMock.getConnectedWiFiSSID()).thenReturn(ssid);
+        assertEquals(subject.getHomeWiFiSSID(), "");
+    }
+
+    private void testConfirmNetworkEWSTagger() {
+        verifyStatic();
+        EWSTagger.trackActionSendData("specialEvents", "connectToExistingNetwork");
+    }
+
+    private void testChangeNetworkEWSTagger() {
+        verifyStatic();
+        EWSTagger.trackActionSendData("specialEvents", "changeNetworkToConnect");
     }
 }

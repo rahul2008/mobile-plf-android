@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.adobe.mobile.Config;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
@@ -55,8 +56,6 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
                 handleCancelButtonClicked();
             }
         });
-
-        EWSTagger.collectLifecycleInfo(this);
 
         if (savedInstanceState == null) {
             navigator.navigateToGettingStartedScreen();
@@ -109,7 +108,6 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
 
     @Override
     protected void onDestroy() {
-        EWSTagger.pauseLifecycleInfo();
         ewsEventingChannel.stop();
         EWSDependencyProvider.getInstance().clear();
         super.onDestroy();
@@ -163,5 +161,17 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
     @Override
     public void updateActionBar(String s, boolean b) {
      setToolbarTitle(s);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EWSTagger.collectLifecycleInfo(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EWSTagger.pauseLifecycleInfo();
     }
 }
