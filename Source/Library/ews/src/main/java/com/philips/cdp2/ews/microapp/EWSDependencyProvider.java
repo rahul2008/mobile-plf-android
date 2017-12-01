@@ -178,7 +178,7 @@ public class EWSDependencyProvider {
      * Check and return if appInfraInterface and productKeyMap are null or not
      * @return boolean
      */
-    boolean areDependenciesInitialized() {
+    public boolean areDependenciesInitialized() {
         return appInfraInterface != null && productKeyMap != null;
     }
 

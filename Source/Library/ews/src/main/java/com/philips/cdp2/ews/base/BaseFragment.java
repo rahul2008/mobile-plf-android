@@ -30,6 +30,14 @@ import com.philips.platform.uid.view.widget.Button;
 public abstract class BaseFragment extends Fragment implements BackEventListener {
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (!EWSDependencyProvider.getInstance().areDependenciesInitialized()){
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((EWSActionBarListener) getContext()).closeButton(true);
