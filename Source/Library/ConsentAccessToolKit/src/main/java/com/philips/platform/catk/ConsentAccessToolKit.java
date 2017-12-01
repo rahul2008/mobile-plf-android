@@ -7,12 +7,12 @@
 
 package com.philips.platform.catk;
 
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import com.android.volley.VolleyError;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.catk.dto.CreateConsentModelRequest;
 import com.philips.platform.catk.dto.GetConsentDto;
 import com.philips.platform.catk.dto.GetConsentsModelRequest;
@@ -33,9 +33,16 @@ import com.philips.platform.catk.provider.ServiceInfoProvider;
 import com.philips.platform.catk.utils.CatkLogger;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 public class ConsentAccessToolKit {
+
+    private static final String PROPOSITION_CONFIG_ERROR = "Missing '%s' -> Please add the following section to AppConfig.json:\n\"hsdp\":\n" +
+                                                           "{\n" +
+                                                           "    \"appName\": \"<appName>\",\n" +
+                                                           "    \"propositionName\": \"<propName>\"\n" +
+                                                           "}";
+    private static final String PROPOSITION_INIT_ERROR = "ConsentAccessToolKit is not initialized. Call ConsentAccessToolKit.getInstance().init(catkInputs); before using it";
 
     private static volatile ConsentAccessToolKit sSoleInstance;
 
@@ -64,8 +71,20 @@ public class ConsentAccessToolKit {
         CatkLogger.enableLogging();
         AppConfigurationInterface appConfigInterface = catkInputs.getAppInfra().getConfigInterface();
         AppConfigurationInterface.AppConfigurationError error = new AppConfigurationInterface.AppConfigurationError();
-        this.applicationName = (String)appConfigInterface.getPropertyForKey("appName", "hsdp", error);
-        this.propositionName = (String)appConfigInterface.getPropertyForKey("propositionName", "hsdp", error);
+        this.applicationName = (String) appConfigInterface.getPropertyForKey("appName", "hsdp", error);
+        this.propositionName = (String) appConfigInterface.getPropertyForKey("propositionName", "hsdp", error);
+
+        validateAppNameAndPropName();
+    }
+
+    private void validateAppNameAndPropName() {
+        if (this.serviceInfoProvider == null) {
+            throw new IllegalStateException(PROPOSITION_INIT_ERROR);
+        } else if (this.applicationName == null || "".equals(this.applicationName)) {
+            throw new IllegalStateException(String.format(PROPOSITION_CONFIG_ERROR, "appName"));
+        } else if (this.propositionName == null || "".equals(this.propositionName)) {
+            throw new IllegalStateException(String.format(PROPOSITION_CONFIG_ERROR, "propName"));
+        }
     }
 
     private void retrieveConsentServiceInfo(final ConfigCompletionListener listner) {
@@ -89,6 +108,9 @@ public class ConsentAccessToolKit {
     }
 
     public void getConsentDetails(final ConsentResponseListener consentListener) {
+
+        validateAppNameAndPropName();
+
         retrieveConsentServiceInfo(new ConfigCompletionListener() {
 
             @Override
@@ -119,6 +141,9 @@ public class ConsentAccessToolKit {
     }
 
     public void createConsent(final Consent consent, final CreateConsentListener consentListener) {
+
+        validateAppNameAndPropName();
+
         retrieveConsentServiceInfo(new ConfigCompletionListener() {
 
             @Override
@@ -148,11 +173,9 @@ public class ConsentAccessToolKit {
         });
     }
 
-    private boolean isInvalidUrl(@Nullable String cssUrl) {
-        return cssUrl == null || "".equals(cssUrl);
-    }
-
     public void getStatusForConsentType(final String consentType, int version, final ConsentResponseListener consentListener) {
+
+        validateAppNameAndPropName();
 
         getConsentDetails(new ConsentResponseListener() {
 

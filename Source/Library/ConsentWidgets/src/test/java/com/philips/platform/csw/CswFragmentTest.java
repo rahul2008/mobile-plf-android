@@ -42,7 +42,7 @@ public class CswFragmentTest {
 
     @Test
     public void getFragmentCount() throws Exception {
-        givenBundleStateWithValues(APPLICATION_NAME, PROPOSITION_NAME, CONSENT_DEFINITIONS, IS_NOT_ADDED_TO_BACKSTACK);
+        givenBundleStateWithValues(CONSENT_DEFINITIONS, IS_NOT_ADDED_TO_BACKSTACK);
         whenOnViewStateRestoredIsInvoked();
         givenFragmentCountIs(3);
         whenGetFragmetCountIsInvoked();
@@ -51,7 +51,7 @@ public class CswFragmentTest {
 
     @Test
     public void getFragmentCountWithBackStack() throws Exception {
-        givenBundleStateWithValues(APPLICATION_NAME, PROPOSITION_NAME, CONSENT_DEFINITIONS, IS_ADDED_TO_BACKSTACK);
+        givenBundleStateWithValues(CONSENT_DEFINITIONS, IS_ADDED_TO_BACKSTACK);
         whenOnViewStateRestoredIsInvoked();
         givenFragmentCountIs(3);
         whenGetFragmetCountIsInvoked();
@@ -60,27 +60,27 @@ public class CswFragmentTest {
 
     @Test
     public void onCreateView_setsApplicationAndPropositionName() throws Exception {
-        givenArgumentsAre(APPLICATION_NAME, PROPOSITION_NAME, CONSENT_DEFINITIONS, IS_ADDED_TO_BACKSTACK);
+        givenArgumentsAre(CONSENT_DEFINITIONS, IS_ADDED_TO_BACKSTACK);
         whenOnCreateViewIsInvoked();
     }
 
     @Test
     public void onCreateView_InvokesInflatorWthRightParams() throws Exception {
-        givenArgumentsAre(APPLICATION_NAME, PROPOSITION_NAME, CONSENT_DEFINITIONS, IS_ADDED_TO_BACKSTACK);
+        givenArgumentsAre(CONSENT_DEFINITIONS, IS_ADDED_TO_BACKSTACK);
         whenOnCreateViewIsInvoked();
         thenBuildPermissionViewIsCreatedWith(R.id.csw_frame_layout_view_container);
     }
 
     @Test
     public void onCreateView_BuildsPermissionView() throws Exception {
-        givenArgumentsAre(APPLICATION_NAME, PROPOSITION_NAME, CONSENT_DEFINITIONS, IS_ADDED_TO_BACKSTACK);
+        givenArgumentsAre(CONSENT_DEFINITIONS, IS_ADDED_TO_BACKSTACK);
         whenOnCreateViewIsInvoked();
         thenBuildPermissionViewIsCreatedWith(R.id.csw_frame_layout_view_container);
     }
 
     @Test
     public void onViewStateRestored_ReadsApplicationNameAndPropositionNameFromState() {
-        givenBundleStateWithValues(APPLICATION_NAME, PROPOSITION_NAME, CONSENT_DEFINITIONS, IS_ADDED_TO_BACKSTACK);
+        givenBundleStateWithValues(CONSENT_DEFINITIONS, IS_ADDED_TO_BACKSTACK);
         whenOnViewStateRestoredIsInvoked();
         thenConsentDefinitionsIs(CONSENT_DEFINITIONS);
         thenIsAddedToBackStackIs(IS_ADDED_TO_BACKSTACK);
@@ -88,7 +88,7 @@ public class CswFragmentTest {
 
     @Test
     public void onViewStateSave_savesApplicationNameAndPropositionNameToState() {
-        givenBundleStateWithValues(APPLICATION_NAME, PROPOSITION_NAME, CONSENT_DEFINITIONS, IS_ADDED_TO_BACKSTACK);
+        givenBundleStateWithValues(CONSENT_DEFINITIONS, IS_ADDED_TO_BACKSTACK);
         whenOnViewStateRestoredIsInvoked();
         whenOnViewStateSaveIsInvoked();
         thenStateContainsIsAddedToBackStack(IS_ADDED_TO_BACKSTACK);
@@ -147,15 +147,15 @@ public class CswFragmentTest {
         fragment.setOnUpdateTitleListener(actionBarListener);
     }
 
-    private void givenArgumentsAre(String applicationName, String propositionName, List<ConsentDefinition> definitions, boolean isAddedToBackStack) {
-        ConsentBundleConfig config = new ConsentBundleConfig(applicationName, propositionName, definitions);
+    private void givenArgumentsAre(List<ConsentDefinition> definitions, boolean isAddedToBackStack) {
+        ConsentBundleConfig config = new ConsentBundleConfig(definitions);
         Bundle configBundle = config.toBundle();
         configBundle.putBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK, isAddedToBackStack);
         fragment.setArguments(configBundle);
     }
 
-    private void givenBundleStateWithValues(String applicationName, String propositionName, List<ConsentDefinition> consentDefinitions, boolean addedToBackStack) {
-        state = new ConsentBundleConfig(applicationName, propositionName, consentDefinitions).toBundle();
+    private void givenBundleStateWithValues(List<ConsentDefinition> consentDefinitions, boolean addedToBackStack) {
+        state = new ConsentBundleConfig(consentDefinitions).toBundle();
         state.putBoolean(BUNDLE_KEY_ADDTOBACKSTACK, addedToBackStack);
     }
 
@@ -219,14 +219,6 @@ public class CswFragmentTest {
         assertEquals(expectedResourceId, actualResourceId);
     }
 
-    private void thenStateContainsApplicationName(String expected) {
-        Assert.assertEquals(expected, state.getString(APPLICATION_NAME_KEY));
-    }
-
-    private void thenStateContainsPropositionName(String expected) {
-        Assert.assertEquals(expected, state.getString(PROPOSITION_NAME_KEY));
-    }
-
     private void thenConsentDefinitionsIs(List<ConsentDefinition> consentDefinitions) {
         assertEquals(consentDefinitions, fragment.getConsentDefinitions());
     }
@@ -269,11 +261,7 @@ public class CswFragmentTest {
     private int actualResourceId;
     private ActionBarListener actualActionBarListener;
     private ActionBarListenerMock actionBarListenerMock = new ActionBarListenerMock();
-    private static final String APPLICATION_NAME_KEY = "appName";
-    private static final String PROPOSITION_NAME_KEY = "propName";
     public static final String BUNDLE_KEY_ADDTOBACKSTACK = "addToBackStack";
-    private static final String PROPOSITION_NAME = "PROPOSITION_NAME";
-    private static final String APPLICATION_NAME = "APPLICATION_NAME";
     private static final List<ConsentDefinition> CONSENT_DEFINITIONS = new ArrayList<>();
     private static final boolean IS_ADDED_TO_BACKSTACK = true;
     private static final boolean IS_NOT_ADDED_TO_BACKSTACK = false;

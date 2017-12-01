@@ -7,31 +7,27 @@
 
 package com.philips.platform.csw;
 
-import android.os.Bundle;
-import android.os.Parcelable;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.model.ConsentDefinition;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.os.Bundle;
+import android.os.Parcelable;
 
 public class ConsentBundleConfig {
-    private List<ConsentDefinition> consentDefinitions;
-
-
-    @Deprecated
-    public ConsentBundleConfig(String applicationName, String propositionName, List<ConsentDefinition> consentDefinitions) {
-        this.consentDefinitions = consentDefinitions;
-    }
+    private final List<ConsentDefinition> consentDefinitions;
 
     public ConsentBundleConfig(List<ConsentDefinition> consentDefinitions) {
-        this.consentDefinitions = consentDefinitions;
+        this.consentDefinitions = consentDefinitions == null ? new ArrayList<ConsentDefinition>() : consentDefinitions;
     }
 
     public ConsentBundleConfig(Bundle bundle) {
         if (bundle != null) {
             this.consentDefinitions = bundle.getParcelableArrayList(CatkConstants.BUNDLE_KEY_CONSENT_DEFINITIONS);
+        } else {
+            this.consentDefinitions = new ArrayList<>();
         }
     }
 
