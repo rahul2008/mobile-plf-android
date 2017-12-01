@@ -51,7 +51,7 @@ public class CswInterfaceTest {
     @Test
     public void launchReplacesWithCswFragmentOnParentContainer() throws InterruptedException {
         givenFragmentLauncherWithParentContainerId(A_SPECIFIC_CONTAINER_ID);
-        givenConsentBundleConfig(new ConsentBundleConfig("appName1", "propName1", new ArrayList<ConsentDefinition>()));
+        givenConsentBundleConfig(new ConsentBundleConfig(new ArrayList<ConsentDefinition>()));
         givenLaunchInput();
         whenCallingLaunchWithAddToBackstack();
         thenReplaceWasCalledWith(A_SPECIFIC_CONTAINER_ID, CswFragment.class, CSWFRAGMENT);
@@ -62,7 +62,7 @@ public class CswInterfaceTest {
     @Test
     public void launchWithActivityLauncher_correctFragmentIsReplacedInContainer() {
         givenActivityLauncher();
-        givenConsentBundleConfig(new ConsentBundleConfig("appName1", "propName1", new ArrayList<ConsentDefinition>()));
+        givenConsentBundleConfig(new ConsentBundleConfig(new ArrayList<ConsentDefinition>()));
         givenLaunchInput();
         whenCallingLaunchWithoutAddToBackstack();
         thenStartActivityWasCalledWithIntent();
@@ -119,16 +119,12 @@ public class CswInterfaceTest {
     private ActivityLauncherMock givenActivityLauncher;
     private FragmentLauncherMock givenFragmentLauncher;
     private LaunchInputMock givenLaunchInput;
-    private CswSettings myaSettings;
     private AppInfraInterfaceMock appInfraInterface;
     private MockContext context;
 
-    private int containerId = 12345678;
-    private ActionBarListener actionBarListener;
     private FragmentActivityMock fragmentActivity;
     private FragmentTransactionMock fragmentTransaction;
     private FragmentManagerMock fragmentManager;
-    private AppInfraInterface appInfra;
     private ConsentAccessToolKitEmulator consentAccessToolKit;
 
     private static final String CSWFRAGMENT = "CSWFRAGMENT";
