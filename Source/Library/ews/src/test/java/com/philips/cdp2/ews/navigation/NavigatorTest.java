@@ -123,8 +123,6 @@ public class NavigatorTest {
 
     @Test
     public void itShouldPushResetConnectionScreenWhenNotPresentInStack() throws Exception {
-        when(mockFragmentNavigator.popToFragment(anyString())).thenReturn(false);
-
         subject.navigateToResetConnectionTroubleShootingScreen();
 
         verifyFragmentPushed(ResetConnectionTroubleshootingFragment.class);
@@ -132,8 +130,6 @@ public class NavigatorTest {
 
     @Test
     public void itShouldPushPowerOnScreenWhenNotPresentInStack() throws Exception {
-        when(mockFragmentNavigator.popToFragment(anyString())).thenReturn(false);
-
         subject.navigateToDevicePoweredOnConfirmationScreen();
 
         verifyFragmentPushed(FirstSetupStepsFragment.class);
