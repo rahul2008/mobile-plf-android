@@ -3,9 +3,7 @@
 
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
--verbose
 
-# Should be removed If we are removing eventbus
 ##--------------- Eventbus  ----------START
 -keepclassmembers class ** {
     !private void onEvent*(**);
