@@ -5,13 +5,9 @@
  */
 package com.philips.platform.mya.settings;
 
-import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
+import android.content.Context;
+import android.os.Bundle;
+import android.widget.Toast;
 
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -29,9 +25,13 @@ import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+
+import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
 class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> implements MyaSettingsContract.Presenter {
 
@@ -158,7 +158,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         final List<ConsentDefinition> definitions = new ArrayList<>();
         definitions.add(new ConsentDefinition("I allow Philips to store my data in cloud", "The actual content of the help text here", Collections.singletonList("moment"), 1,
                 currentLocale));
-        definitions.add(new ConsentDefinition("I allow don't Philips to store my data in cloud", "No one is able to see this text in the app", Collections.singletonList("tnemom"),
+        definitions.add(new ConsentDefinition("I allow Philips to use my data for Coaching purposes", "Coaching purpose explanation", Collections.singletonList("coaching"),
                 1, currentLocale));
         return definitions;
 
