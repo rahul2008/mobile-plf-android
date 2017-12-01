@@ -138,6 +138,10 @@
       ]
     }
   },
+  "hsdp": {
+    "appName": "OneBackend",
+    "propositionName": "OneBackendProp"
+  },
   "dataservices": {
     "appname": "OneBackend"
   }
