@@ -33,7 +33,7 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     public void onAttach(Context context) {
         super.onAttach(context);
         if (!EWSDependencyProvider.getInstance().areDependenciesInitialized()){
-            getActivity().getSupportFragmentManager().popBackStack();
+            this.getActivity().finish();
         }
     }
 
