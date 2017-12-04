@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/registration_container_layout_top"
-    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -104,37 +104,30 @@
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
                 android:text="@string/ths_dob" />
 
-
-            <RelativeLayout
-                android:id="@+id/ths_dob_layout"
-                android:layout_below="@id/ths_dob"
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/ths_edit_dob_container"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ths_dob"
                 android:layout_marginBottom="@dimen/ths_fab_margin"
-                android:layout_height="wrap_content">
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="@string/ths_inline_error_message">
 
-                <com.philips.platform.uid.view.widget.EditText
+                <com.philips.platform.uid.view.widget.ValidationEditText
                     android:id="@+id/ths_edit_dob"
                     style="@style/ths_calendar_right"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="@string/ths_dob_format"
+                    android:inputType="none" />
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
 
-                    android:inputType="none"
-                    android:hint="@string/ths_dob_format" />
-
-                <com.philips.platform.uid.view.widget.Label
-                    style="@style/ths_font_icon_style"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/ths_fab_margin"
-                    android:layout_alignParentEnd="true"
-                    android:text="@string/dls_calendar" />
-            </RelativeLayout>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ths_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ths_dob_layout"
+                android:layout_below="@id/ths_edit_dob_container"
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
                 android:text="@string/ths_gender" />
 
@@ -173,31 +166,28 @@
 
             <RelativeLayout
                 android:id="@+id/ths_edit_location_container_layout"
-                android:layout_below="@+id/ths_label"
                 android:layout_width="match_parent"
-                android:layout_marginBottom="@dimen/ths_fab_margin"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ths_label">
 
-                <com.philips.platform.uid.view.widget.EditText
+                <com.philips.platform.uid.view.widget.InputValidationLayout
                     android:id="@+id/ths_edit_location_container"
-                    style="@style/ths_location_right"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:editable="false"
-                    android:inputType="none"
-                    android:hint="@string/ths_state" />
+                    app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                    app:uidTextBoxValidationErrorText="@string/ths_inline_error_message">
 
-                <com.philips.platform.uid.view.widget.Label
-                    style="@style/ths_font_icon_style"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/ths_fab_margin"
-                    android:layout_alignParentEnd="true"
-                    android:text="@string/dls_location" />
+                    <com.philips.platform.uid.view.widget.ValidationEditText
+                        android:id="@+id/ths_edit_location"
+                        style="@style/ths_location_right"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:editable="false"
+                        android:inputType="none"
+                        android:hint="@string/ths_state" />
+
+                </com.philips.platform.uid.view.widget.InputValidationLayout>
             </RelativeLayout>
-
-
-
         </RelativeLayout>
     </ScrollView>
 

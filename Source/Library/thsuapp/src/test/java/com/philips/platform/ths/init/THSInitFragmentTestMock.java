@@ -16,4 +16,8 @@ public class THSInitFragmentTestMock extends THSInitFragment {
     public void showError(String message, final boolean shouldGoBack) {
 
     }
+
+    protected void addCustomProgreeBar(ViewGroup view) {
+
+    }
 }

@@ -203,6 +203,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_customer_support_for_support">For support:</string>
     <string name="ths_customer_support_phone_number">800-552-4111</string>
     <string name="ths_customer_support_mail">ugrow.support@americanwell.com</string>
+    <string name="ths_loading_text">Loading...</string>
 
     <string name="ths_welcome">Welcome</string>
     <string name="ths_welcome_back">Welcome back</string>
@@ -353,10 +354,14 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
 
 
     <!-- Registration validation strings -->
-    <string name="ths_registration_name_validation_not_empty">Name cannot be blank</string>
-    <string name="ths_registration_name_validation_not_more_two_characters">Name should contain at least 2 characters</string>
-    <string name="ths_registration_name_validation_only_alphabets">Name should contain only alphanumerics</string>
-    <string name="ths_registration_name_validation_not_more_than_25_characters">Name should be less than 25 characters</string>
+    <string name="ths_registration_first_name_validation_not_empty">First Name cannot be blank</string>
+    <string name="ths_registration_first_name_validation_not_more_two_characters">First Name should contain at least 2 characters</string>
+    <string name="ths_registration_first_name_validation_only_alphabets">First Name should contain only alphanumerics</string>
+    <string name="ths_registration_first_name_validation_not_more_than_25_characters">First Name should be less than 25 characters</string>
+    <string name="ths_registration_last_name_validation_not_empty">Last Name cannot be blank</string>
+    <string name="ths_registration_last_name_validation_not_more_two_characters">Last Name should contain at least 2 characters</string>
+    <string name="ths_registration_last_name_validation_only_alphabets">Last Name should contain only alphanumerics</string>
+    <string name="ths_registration_last_name_validation_not_more_than_25_characters">Last Name should be less than 25 characters</string>
     <string name="ths_registration_dob_validation_error">Please enter the age above 18 years</string>
     <string name="ths_registration_location_validation_error">Please select a location</string>
 

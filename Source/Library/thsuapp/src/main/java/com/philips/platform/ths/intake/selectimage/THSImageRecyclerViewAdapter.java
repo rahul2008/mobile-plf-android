@@ -40,7 +40,7 @@ public class THSImageRecyclerViewAdapter extends RecyclerView.Adapter<THSImageRe
 
     @Override
     public void onBindViewHolder(THSImageRecyclerViewHolder holder, final int position) {
-        THSSelectedImagePojo selectImage = imagesList.get(position);
+        THSSelectedImagePojo selectImage = imagesList.get(holder.getAdapterPosition());
         if(!selectImage.isUploaded()){
             holder.progressBar.setVisibility(View.VISIBLE);
         }

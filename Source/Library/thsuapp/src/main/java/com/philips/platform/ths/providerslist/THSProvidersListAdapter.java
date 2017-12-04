@@ -83,8 +83,8 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
         String providerAvailabilityString = null;
         String providerVisibility;
         Context context;
-        if ((getThsProviderEntity(position) instanceof THSProviderInfo)) {
-            thsProviderInfo = getThsProviderInfo(position);
+        if ((getThsProviderEntity(holder.getAdapterPosition()) instanceof THSProviderInfo)) {
+            thsProviderInfo = getThsProviderInfo(holder.getAdapterPosition());
             providerVisibility = thsProviderInfo.getVisibility().toString();
             context = holder.isAvailableStatus.getContext();
             if (providerVisibility.equals(THSConstants.WEB_AVAILABLE)) {

@@ -146,11 +146,11 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
 
     private void showInitials(THSConsumer thsConsumer) {
         String firstName = "",lastName = "";
-        if(null != thsConsumer.getFirstName()){
+        if(null != thsConsumer.getFirstName() && !thsConsumer.getFirstName().isEmpty()){
             firstName = String.valueOf(thsConsumer.getFirstName().charAt(0));
         }
 
-        if(null != thsConsumer.getLastName()){
+        if(null != thsConsumer.getLastName() && !thsConsumer.getLastName().isEmpty()){
             lastName = String.valueOf(thsConsumer.getLastName().charAt(0));
         }
         String nameInitials = firstName.toUpperCase() + lastName.toUpperCase();
