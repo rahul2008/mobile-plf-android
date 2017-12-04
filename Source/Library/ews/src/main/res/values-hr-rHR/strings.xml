@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Da</string>
     <string name="button_ews_support_wrong_phone_no">Ne</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Dopuštenje za lokaciju</string>
+    <string name="label_ews_location_permission_body">Za pronalaženje PHILIPS Setup Wi-Fi mreže za %1$s trebamo dopuštenje za pristup lokaciji.</string>
+    <string name="label_ews_location_permission_allow">Dopusti</string>
+    <string name="label_ews_location_permission_cancel">Poništi postavljanje</string>
+    <string name="label_ews_location_services_title">Omogući usluge praćenja lokacije</string>
+    <string name="label_ews_location_services_body">Za pronalaženje PHILIPS Setup Wi-Fi mreže za %1$s opcija Usluge praćenja lokacije treba biti omogućena. Omogućite Usluge praćenja lokacije u Postavkama lokacije i vratite se u aplikaciju.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Idi na Postavke lokacije</string>
 </resources>

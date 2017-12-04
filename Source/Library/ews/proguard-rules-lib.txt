@@ -1,4 +1,8 @@
+# This is a configuration file for ProGuard.
+# http://proguard.sourceforge.net/index.html#manual/usage.html
 
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
 
 
 #Tagging lib and jar
@@ -6,12 +10,9 @@
 -keep, includedescriptorclasses public class com.philips.platform.appinfra.tagging.** {*;}
 -keep class org.apache.commons.logging.**
 
-# App-framework
--keep, includedescriptorclasses class com.philips.platform.appframework.** {*;}
--keep, includedescriptorclasses class com.philips.cdp.**{*;}
-
 -keep class com.google.android.gms.** {*;}
 -dontwarn com.google.android.gms.**
 
--dontnote sun.misc.Unsafe
--dontnote android.net.http.HttpResponseCache
+#UIKit
+-keep class com.shamanland.** {*;}
+-keep class uk.co.chrisjenx.** {*;}

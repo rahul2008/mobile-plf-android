@@ -31,10 +31,10 @@
     <string name="label_ews_plug_in_title_default">Ist Ihr Gerät eingeschaltet?</string>
     <string name="label_ews_plug_in_body_default">Proposition-specific instructions to power the device.</string>
     <string name="button_ews_plug_in_next">Fertig</string>
-    <string name="label_ews_verify_ready_title_default">3. Ist Ihr Gerät im Einrichtungsmodus?</string>
+    <string name="label_ews_verify_ready_title_default">Ist Ihr Gerät im Einrichtungsmodus?</string>
     <string name="label_ews_verify_ready_question_default">Blinkt die WLAN-Leuchte?</string>
     <string name="button_ews_verify_ready_yes_default">Ja, die WLAN-Leuchte blinkt.</string>
-    <string name="button_ews_verify_ready_no_default">Nein, die WLAN-Leuchte blinkt nicht.</string>
+    <string name="button_ews_verify_ready_no_default">WLAN-Leuchte blinkt nicht</string>
     <string name="label_ews_select_wifi_title">Mit %1$s verbinden</string>
     <string name="label_ews_select_wifi_body">Folgen Sie diesen Schritten, um Ihr Telefon mit PHILIPS Setup zu verbinden.</string>
     <string name="label_ews_select_wifi_step1">1. Tippen Sie in den Einstellung Ihres Telefons auf WLAN.</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Ja</string>
     <string name="button_ews_support_wrong_phone_no">Nein</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Standort-Berechtigung</string>
+    <string name="label_ews_location_permission_body">Um %1$s\'s PHILIPS Setup WLAN-Netzwerk zu finden, benötigen wir die Berechtigung, um auf Ihren Standort zuzugreifen.</string>
+    <string name="label_ews_location_permission_allow">Zulassen</string>
+    <string name="label_ews_location_permission_cancel">Einrichtung Abbrechen</string>
+    <string name="label_ews_location_services_title">Standortdienste aktivieren</string>
+    <string name="label_ews_location_services_body">Um %1$s\'s PHILIPS Setup WLAN-Netzwerk zu finden, müssen die Standortdienste aktiviert sein. Aktivieren Sie die Standortdienste in den Standorteinstellungen und kehren Sie zur App zurück.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Einstellungen aufrufen</string>
 </resources>

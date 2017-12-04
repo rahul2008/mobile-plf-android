@@ -34,7 +34,7 @@
     <string name="label_ews_verify_ready_title_default">Je zařízení v režimu nastavení?</string>
     <string name="label_ews_verify_ready_question_default">Bliká kontrolka sítě Wi-Fi?</string>
     <string name="button_ews_verify_ready_yes_default">Ano, kontrolka sítě Wi-Fi bliká</string>
-    <string name="button_ews_verify_ready_no_default">Ne, kontrolka sítě Wi-Fi nebliká</string>
+    <string name="button_ews_verify_ready_no_default">Kontrolka sítě Wi-Fi nebliká</string>
     <string name="label_ews_select_wifi_title">Připojit k %1$s</string>
     <string name="label_ews_select_wifi_body">Podle těchto kroků připojte telefon k síti PHILIPS Setup.</string>
     <string name="label_ews_select_wifi_step1">1. V telefonu přejděte do Nastavení a klepněte na Wi-Fi</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Ano</string>
     <string name="button_ews_support_wrong_phone_no">Ne</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Oprávnění pro určení polohy zařízení</string>
+    <string name="label_ews_location_permission_body">Abychom našli síť Wi-Fi PHILIPS Setup pro zařízení %1$s, potřebujeme oprávnění pro určení polohy.</string>
+    <string name="label_ews_location_permission_allow">Povolit</string>
+    <string name="label_ews_location_permission_cancel">Zrušit nastavení</string>
+    <string name="label_ews_location_services_title">Povolit služby určení polohy</string>
+    <string name="label_ews_location_services_body">Abychom našli síť Wi-Fi PHILIPS Setup pro zařízení %1$s, potřebujeme oprávnění pro určení polohy. Povolte služby určení polohy v nastavení polohy a vraťte se do aplikace.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Přejít k nastavení polohy</string>
 </resources>

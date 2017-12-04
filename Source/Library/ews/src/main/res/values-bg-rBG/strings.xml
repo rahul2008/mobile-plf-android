@@ -9,8 +9,8 @@
     <string name="ews_support_title">Поддръжка Philips</string>
     <string name="label_ews_cancel_setup_title">Наистина ли искате да отмените конфигурирането на Wi-Fi?</string>
     <string name="label_ews_cancel_setup_body">Ако отмените сега, няма да имате достъп до %1$s, като използвате Wi-Fi.</string>
-    <string name="button_ews_cancel_setup_yes">Отмени конфигуриране</string>
-    <string name="button_ews_cancel_setup_no">Продължи конфигуриране</string>
+    <string name="button_ews_cancel_setup_yes">Спри настройване</string>
+    <string name="button_ews_cancel_setup_no">Продължи настройване</string>
     <string name="label_ews_get_started_title">Свързване към Wi-Fi</string>
     <string name="label_ews_get_started_body">Свържете %1$s си към Wi-Fi, за да насладите на това приложение и всичките му функции.</string>
     <string name="label_ews_get_started_description">За да се свържете успешно, поставете %1$s близо до вашия маршрутизатор. Препятствия като стени могат да окажат влияние на силата на сигнала.</string>
@@ -33,8 +33,8 @@
     <string name="button_ews_plug_in_next">Оk, включих го</string>
     <string name="label_ews_verify_ready_title_default">Устройството в режим конфигурация ли е</string>
     <string name="label_ews_verify_ready_question_default">Мига ли индикаторът за Wi-Fi?</string>
-    <string name="button_ews_verify_ready_yes_default">Да, индикаторът за Wi-Fi мига</string>
-    <string name="button_ews_verify_ready_no_default">Не, индикаторът за Wi-Fi не мига</string>
+    <string name="button_ews_verify_ready_yes_default">Индикаторът за Wi-Fi мига</string>
+    <string name="button_ews_verify_ready_no_default">Светлина Wi-Fi не мига</string>
     <string name="label_ews_select_wifi_title">Свързване към %1$s</string>
     <string name="label_ews_select_wifi_body">Следвайте тези стъпки, за да свържете телефона си към PHILIPS Setup.</string>
     <string name="label_ews_select_wifi_step1">1. Изберете Settings (Настройки) и натиснете Wi-Fi</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Да</string>
     <string name="button_ews_support_wrong_phone_no">Не</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Разрешение за локация</string>
+    <string name="label_ews_location_permission_body">За да намерим %1$s PHILIPS Setup на Wi-Fi мрежата, се нуждаем от разрешение за достъп до локацията ви.</string>
+    <string name="label_ews_location_permission_allow">Позволете</string>
+    <string name="label_ews_location_permission_cancel">Отменете конфигурирането</string>
+    <string name="label_ews_location_services_title">Разрешете \"Услуги за локация\"</string>
+    <string name="label_ews_location_services_body">За да намерим %1$s PHILIPS Setup на Wi-Fi мрежата, се нуждаем от разрешени \"Услуги за локация\". Моля, разрешете \"Услуги за локация\" в \"Настройки за локация\" и се върнете към приложението.</string>
+    <string name="label_ews_location_services_go_to_location_settings">За \"Настройки за локация\"</string>
 </resources>

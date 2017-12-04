@@ -10,6 +10,10 @@ import android.support.annotation.StringRes;
 
 import com.philips.cdp2.ews.R;
 
+/**
+ * BaseContentConfiguration is a model class for configuration,
+ * being used to keep deviceName and appName provided By Proposition.
+ */
 public class BaseContentConfiguration implements Parcelable {
 
     @StringRes
@@ -18,11 +22,19 @@ public class BaseContentConfiguration implements Parcelable {
     @StringRes
     private final int appName;
 
+    /**
+     * Default constructor
+     */
     public BaseContentConfiguration() {
         deviceName = R.string.ews_device_name_default;
         appName = R.string.ews_app_name_default;
     }
 
+    /**
+     * This constructor creates BaseContentConfiguration by providing Name of device used for EWS and Name of app.
+     * @param deviceName  DeviceName @StringRes
+     * @param appName  AppName @StringRes
+     */
     public BaseContentConfiguration(@StringRes int deviceName, @StringRes int appName) {
         this.deviceName = deviceName;
         this.appName = appName;
@@ -33,14 +45,26 @@ public class BaseContentConfiguration implements Parcelable {
         this.appName = in.readInt();
     }
 
+    /**
+     * Returns DeviceName String Resources
+     * @return DeviceName
+     */
     public int getDeviceName() {
         return deviceName;
     }
 
+    /**
+     * Returns AppName String Resources
+     * @return AppName
+     */
     public int getAppName() {
         return appName;
     }
 
+    /**
+     * Returns Content
+     * @return content
+     */
     @Override
     public int describeContents() {
         return 0;

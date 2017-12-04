@@ -5,8 +5,7 @@
 package com.philips.cdp2.ews.appliance;
 
 import android.support.annotation.NonNull;
-
-import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
+import android.support.annotation.Nullable;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -15,42 +14,36 @@ import javax.inject.Singleton;
 @Singleton
 public class ApplianceSessionDetailsInfo {
 
-    private WifiPortProperties wifiPortProperties;
-
+    @Nullable
     private String appliancePin;
+
+    @Nullable
+    private String cppId;
 
     @Inject
     public ApplianceSessionDetailsInfo() {
     }
 
-    public WifiPortProperties getWifiPortProperties() {
-        return wifiPortProperties;
-    }
-
-    public void setWifiPortProperties(WifiPortProperties wifiPortProperties) {
-        this.wifiPortProperties = wifiPortProperties;
-    }
-
-    public boolean hasSessionProperties() {
-        return wifiPortProperties != null;
-    }
-
+    @Nullable
     public String getCppId() {
-        if(wifiPortProperties == null) {
-            throw new IllegalStateException("Trying to get cpp id, without wifi properties being set");
-        }
-        return this.wifiPortProperties.getCppid();
+        return cppId;
     }
 
+    public void setCppId(@NonNull String cppId) {
+        this.cppId = cppId;
+    }
+
+    @Nullable
     public String getAppliancePin() {
         return appliancePin;
     }
 
-    public void setAppliancePin(@NonNull  String appliancePin) {
+    public void setAppliancePin(@Nullable String appliancePin) {
         this.appliancePin = appliancePin;
     }
 
     public void clear() {
         this.appliancePin = null;
+        this.cppId = null;
     }
 }
