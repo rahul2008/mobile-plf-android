@@ -7,15 +7,23 @@
 
 package com.philips.platform.catk.mock;
 
+import com.philips.platform.catk.dto.GetConsentDto;
 import com.philips.platform.catk.network.NetworkAbstractModel;
 import com.philips.platform.catk.network.NetworkController;
 
+import java.util.List;
+
 public class NetworkControllerMock extends NetworkController {
     public NetworkAbstractModel sendConsentRequest_model;
+    public List<GetConsentDto> sendConsentRequest_onSuccessResponse;
+
 
     @Override
     public void sendConsentRequest(final NetworkAbstractModel model) {
         this.sendConsentRequest_model = model;
+        if (model != null && sendConsentRequest_onSuccessResponse != null) {
+            model.onResponseSuccess(sendConsentRequest_onSuccessResponse);
+        }
     }
 
 }

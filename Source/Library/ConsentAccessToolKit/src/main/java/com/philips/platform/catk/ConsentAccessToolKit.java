@@ -175,8 +175,6 @@ public class ConsentAccessToolKit {
 
     public void getStatusForConsentType(final String consentType, int version, final ConsentResponseListener consentListener) {
 
-        validateAppNameAndPropName();
-
         getConsentDetails(new ConsentResponseListener() {
 
             @Override
