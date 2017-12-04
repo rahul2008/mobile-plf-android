@@ -5,19 +5,21 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
-import com.philips.platform.csw.CswSettings;
 import com.philips.platform.csw.CswLaunchInput;
+import com.philips.platform.csw.CswSettings;
 import com.philips.platform.mya.MyaFragment;
+import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
@@ -28,19 +30,14 @@ import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.uappinput.UappSettings;
-import com.philips.platform.appframework.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-public class MyAccountState extends BaseState implements MyaListener{
-    public static final String APPLICATION_NAME = "OneBackend";
-    public static final String PROPOSITION_NAME = "OneBackendProp";
+public class MyAccountState extends BaseState implements MyaListener {
     private final String SETTINGS_MYA_PRIVACY_SETTINGS = "Mya_Privacy_Settings";
-    private static List<ConsentDefinition> consentDefinitionList;
 
     public MyAccountState() {
         super(AppStates.MY_ACCOUNT);
@@ -48,14 +45,15 @@ public class MyAccountState extends BaseState implements MyaListener{
 
     private Context actContext;
     FragmentLauncher fragmentLauncher;
+
     @Override
     public void navigate(UiLauncher uiLauncher) {
-         fragmentLauncher = (FragmentLauncher)uiLauncher;
-         actContext = fragmentLauncher.getFragmentActivity();
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
+        actContext = fragmentLauncher.getFragmentActivity();
 
-        ((AbstractAppFrameworkBaseActivity)actContext).handleFragmentBackStack(null,MyaFragment.TAG,getUiStateData().getFragmentLaunchState());
+        ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, MyaFragment.TAG, getUiStateData().getFragmentLaunchState());
 
-        MyaLaunchInput launchInput = new MyaLaunchInput(actContext,this);
+        MyaLaunchInput launchInput = new MyaLaunchInput(actContext, this);
         launchInput.setContext(actContext);
         launchInput.addToBackStack(true);
         MyaInterface myaInterface = getInterface();
@@ -65,7 +63,8 @@ public class MyAccountState extends BaseState implements MyaListener{
 
     /**
      * <p>Creates a list of ConsentDefinitions</p
-     * @param context : can be used to for localized strings <code>context.getString(R.string.consent_definition)</code>
+     *
+     * @param context       : can be used to for localized strings <code>context.getString(R.string.consent_definition)</code>
      * @param currentLocale : locale of the strings
      * @return non-null list (may be empty though)
      */
@@ -81,12 +80,8 @@ public class MyAccountState extends BaseState implements MyaListener{
     public void init(Context context) {
         CatkInputs catkInputs = new CatkInputs();
         catkInputs.setContext(context);
-        catkInputs.setAppInfra(((AppFrameworkApplication)context.getApplicationContext()).appInfra);
-        catkInputs.setApplicationName(APPLICATION_NAME);
-        catkInputs.setPropositionName(PROPOSITION_NAME);
+        catkInputs.setAppInfra(((AppFrameworkApplication) context.getApplicationContext()).appInfra);
         ConsentAccessToolKit.getInstance().init(catkInputs);
-
-        consentDefinitionList = createConsentDefinitions(context, Locale.getDefault());
     }
 
 
@@ -113,12 +108,16 @@ public class MyAccountState extends BaseState implements MyaListener{
             CswDependencies cswDependencies = new CswDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra());
             CswSettings cswSettings = new CswSettings(actContext);
             cswInterface.init(cswDependencies, cswSettings);
-
-            cswInterface.launch(fragmentLauncher, buildLaunchInput(true, actContext));
+            cswInterface.launch(MyaInterface.getMyaUiComponent().getFragmentLauncher(), buildLaunchInput(true, actContext));
             return true;
         }
 
         return false;
+
+    }
+
+    @Override
+    public void onError(MyaError myaError) {
 
     }
 
@@ -132,10 +131,10 @@ public class MyAccountState extends BaseState implements MyaListener{
         return new UserDataModelProvider(actContext);
 
     }
-    private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
 
-        ConsentBundleConfig config = new ConsentBundleConfig(APPLICATION_NAME, PROPOSITION_NAME, createConsentDefinitions(actContext, Locale.US));
-        CswLaunchInput cswLaunchInput = new CswLaunchInput(config,context);
+    private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
+        ConsentBundleConfig config = new ConsentBundleConfig(createConsentDefinitions(actContext, Locale.US));
+        CswLaunchInput cswLaunchInput = new CswLaunchInput(config, context);
         cswLaunchInput.addToBackStack(addToBackStack);
         return cswLaunchInput;
     }

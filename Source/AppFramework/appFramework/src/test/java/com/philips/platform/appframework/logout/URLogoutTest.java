@@ -16,6 +16,8 @@ import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.referenceapp.PushNotificationManager;
 
 import org.junit.After;
@@ -61,6 +63,9 @@ public class URLogoutTest {
 
     @Mock
     private static PushNotificationManager pushNotificationManager;
+
+    @Mock
+    private static DataServicesManager dataServicesManager;
 
     @Captor
     private ArgumentCaptor<LogoutHandler> logoutHandlerArgumentCaptor;
@@ -110,10 +115,11 @@ public class URLogoutTest {
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutSuccess();
-        verify(pushNotificationManager, times(1)).saveTokenRegistrationState(any(Context.class), anyBoolean());
-        verify(demoDataServicesState, times(1)).deregisterDSForRegisteringToken();
-        verify(demoDataServicesState, times(1)).deregisterForReceivingPayload();
-        verify(urLogoutListener, times(1)).onLogoutResultSuccess();
+        verify(pushNotificationManager).saveTokenRegistrationState(any(Context.class), anyBoolean());
+        verify(demoDataServicesState).deregisterDSForRegisteringToken();
+        verify(demoDataServicesState).deregisterForReceivingPayload();
+        verify(urLogoutListener).onLogoutResultSuccess();
+        verify(dataServicesManager).deleteAll(any(DBRequestListener.class));
     }
 
     @Test
@@ -130,7 +136,7 @@ public class URLogoutTest {
         verify(pushNotificationManager, times(0)).saveTokenRegistrationState(any(Context.class), anyBoolean());
         verify(demoDataServicesState, times(0)).deregisterDSForRegisteringToken();
         verify(demoDataServicesState, times(0)).deregisterForReceivingPayload();
-        verify(urLogoutListener, times(1)).onLogoutResultFailure(ERROR_CODE, ERROR_MESSAGE);
+        verify(urLogoutListener).onLogoutResultFailure(ERROR_CODE, ERROR_MESSAGE);
     }
 
 
@@ -139,16 +145,17 @@ public class URLogoutTest {
         when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.polling"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(false));
         when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.autoLogout"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
         urLogoutInterface.performLogout(testActivity, user);
-        verify(pushNotificationManager, times(1)).deregisterTokenWithBackend(any(Context.class), deregisterTokenListenerArgumentCaptor.capture());
+        verify(pushNotificationManager).deregisterTokenWithBackend(any(Context.class), deregisterTokenListenerArgumentCaptor.capture());
         deregisterTokenListener = deregisterTokenListenerArgumentCaptor.getValue();
         deregisterTokenListener.onError();
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutSuccess();
-        verify(pushNotificationManager, times(1)).saveTokenRegistrationState(any(Context.class), anyBoolean());
-        verify(demoDataServicesState, times(1)).deregisterDSForRegisteringToken();
-        verify(demoDataServicesState, times(1)).deregisterForReceivingPayload();
-        verify(urLogoutListener, times(1)).onLogoutResultSuccess();
+        verify(pushNotificationManager).saveTokenRegistrationState(any(Context.class), anyBoolean());
+        verify(demoDataServicesState).deregisterDSForRegisteringToken();
+        verify(demoDataServicesState).deregisterForReceivingPayload();
+        verify(urLogoutListener).onLogoutResultSuccess();
+        verify(dataServicesManager).deleteAll(any(DBRequestListener.class));
     }
 
     @Test
@@ -181,7 +188,8 @@ public class URLogoutTest {
         verify(pushNotificationManager, times(0)).saveTokenRegistrationState(any(Context.class), anyBoolean());
         verify(demoDataServicesState, times(0)).deregisterDSForRegisteringToken();
         verify(demoDataServicesState, times(0)).deregisterForReceivingPayload();
-        verify(urLogoutListener, times(1)).onLogoutResultSuccess();
+        verify(dataServicesManager).deleteAll(any(DBRequestListener.class));
+        verify(urLogoutListener).onLogoutResultSuccess();
     }
 
     @Test
@@ -193,7 +201,7 @@ public class URLogoutTest {
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutFailure(ERROR_CODE, ERROR_MESSAGE);
-        verify(urLogoutListener, times(1)).onLogoutResultFailure(ERROR_CODE, ERROR_MESSAGE);
+        verify(urLogoutListener).onLogoutResultFailure(ERROR_CODE, ERROR_MESSAGE);
     }
 
     @Test
@@ -206,6 +214,7 @@ public class URLogoutTest {
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutSuccess();
+        verify(dataServicesManager).deleteAll(any(DBRequestListener.class));
         verify(urLogoutListener, times(0)).onLogoutResultSuccess();
     }
 
@@ -255,12 +264,18 @@ public class URLogoutTest {
         appInfraInterface = null;
         testActivity = null;
         activityController = null;
+        dataServicesManager = null;
     }
 
     class URLogoutMock extends URLogout {
         @Override
         protected PushNotificationManager getPushNotificationInstance() {
             return pushNotificationManager;
+        }
+
+        @Override
+        protected DataServicesManager getDataServicesManager() {
+            return dataServicesManager;
         }
     }
 }

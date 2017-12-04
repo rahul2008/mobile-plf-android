@@ -62,10 +62,14 @@
   },
   "ReferenceApp":{
     "PushNotification.autoLogout":"true",
-    "PushNotification.polling":"false"
+    "PushNotification.polling":"true"
   },
   "ths":{
     "apiKey":"dc573250"
+  },
+  "hsdp": {
+    "appName": "OneBackend",
+    "propositionName": "OneBackendProp"
   },
   "mya": {
     "profile.menuItems": [

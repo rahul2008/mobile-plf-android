@@ -3,21 +3,21 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.baseapp.screens.termsandconditions;
+package com.philips.platform.baseapp.screens.webview;
 
 /**
  * Created by philips on 25/07/17.
  */
 
-public interface TermsAndConditionsContract {
+public interface WebViewContract {
     interface View {
-        void updateUiOnUrlLoaded(String url);
+        void onUrlLoadSuccess(String url);
 
         void onUrlLoadError(String errorMessage);
     }
 
     interface Action {
-        void loadTermsAndConditionsUrl(TermsAndPrivacyStateData.TermsAndPrivacyEnum state);
+        void loadUrl(String serviceId);
     }
 
 }

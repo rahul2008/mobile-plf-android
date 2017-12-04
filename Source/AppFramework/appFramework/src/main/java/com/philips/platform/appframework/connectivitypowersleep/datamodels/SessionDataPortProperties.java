@@ -11,11 +11,15 @@ import android.support.annotation.Nullable;
 import com.google.gson.annotations.SerializedName;
 import com.philips.cdp2.commlib.core.port.PortProperties;
 
+import java.util.Date;
+
 public class SessionDataPortProperties implements PortProperties {
 
     private final String KEY_TST = "tst";
     private final String KEY_DST = "dst";
     private final String KEY_NRI = "nri";
+    private final String KEY_TIME = "time";
+    private final String KEY_RTC = "rtc_idx";
 
     @SerializedName(KEY_TST)
     private Long totalSleepTime;
@@ -25,6 +29,13 @@ public class SessionDataPortProperties implements PortProperties {
 
     @SerializedName(KEY_NRI)
     private Long numberOfInterruptions;
+
+    @SerializedName(KEY_TIME)
+    private Long time;
+
+    @SerializedName(KEY_RTC)
+    private Long rtc;
+
 
     @Nullable
     public Long getTotalSleepTime() {
@@ -41,4 +52,41 @@ public class SessionDataPortProperties implements PortProperties {
         return numberOfInterruptions;
     }
 
+    @Nullable
+    public Long getRTC() {
+        return rtc;
+    }
+
+    public void setTotalSleepTime(Long totalSleepTime) {
+        this.totalSleepTime = totalSleepTime;
+    }
+
+    public void setDeepSleepTime(Long deepSleepTime) {
+        this.deepSleepTime = deepSleepTime;
+    }
+
+    public void setNumberOfInterruptions(Long numberOfInterruptions) {
+        this.numberOfInterruptions = numberOfInterruptions;
+    }
+
+    @Nullable
+    public Long getEpochTime() {
+        return time;
+    }
+
+    @Nullable
+    public Date getDate() {
+        if (time == null) {
+            return null;
+        }
+        return new Date(time * 1000);
+    }
+
+    public boolean isEmptySession(){
+        return totalSleepTime == null || totalSleepTime < 1;
+    }
+
+    public boolean isSessionTimeValid(){
+        return rtc != null && rtc == 0;
+    }
 }

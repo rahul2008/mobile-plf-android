@@ -67,6 +67,10 @@
   "ths":{
     "apiKey":"dc573250"
   },
+  "hsdp": {
+    "appName": "OneBackend",
+    "propositionName": "OneBackendProp"
+  },
   "mya": {
     "profile.menuItems": [
       "MYA_My_details"

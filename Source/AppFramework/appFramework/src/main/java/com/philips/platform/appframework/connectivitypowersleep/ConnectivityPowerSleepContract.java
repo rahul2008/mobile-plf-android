@@ -5,25 +5,35 @@
 */
 package com.philips.platform.appframework.connectivitypowersleep;
 
-import android.support.annotation.NonNull;
-
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
+import com.philips.platform.appframework.connectivitypowersleep.datamodels.Session;
+import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;
+
+import java.util.List;
 
 public interface ConnectivityPowerSleepContract {
 
     interface View {
 
-        void updateSessionData(long sleepTime, long numberOfInteruptions, long deepSleepTime);
-
         void showError(Error error, String s);
+
+        void showProgressDialog();
+
+        void hideProgressDialog();
+
+        void showToast(String message);
+
+        void updateScreenWithLatestSessionInfo(final Summary summary);
 
     }
 
     interface UserActionsListener {
 
-        void setUpApplicance(@NonNull RefAppBleReferenceAppliance appliance);
+        void savePowerSleepMomentsData(List<Session> sessionList);
 
-        void removeSessionPortListener(RefAppBleReferenceAppliance appliance);
+        void synchronizeSessionData(RefAppBleReferenceAppliance bleReferenceAppliance);
+
     }
+
 }

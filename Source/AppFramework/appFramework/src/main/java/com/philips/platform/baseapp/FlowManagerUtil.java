@@ -22,7 +22,7 @@ import com.philips.platform.baseapp.screens.productregistration.ProductRegistrat
 import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
 import com.philips.platform.baseapp.screens.splash.SplashState;
 import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesState;
-import com.philips.platform.baseapp.screens.termsandconditions.TermsAndConditionsState;
+import com.philips.platform.baseapp.screens.webview.WebViewState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.utility.RALog;
@@ -48,7 +48,7 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.PR, new ProductRegistrationState());
         uiStateMap.put(AppStates.SUPPORT, new SupportFragmentState());
         uiStateMap.put(AppStates.SPLASH, new SplashState());
-        uiStateMap.put(AppStates.TERMSANDCONITIONSSTATE, new TermsAndConditionsState());
+        uiStateMap.put(AppStates.WEB_VIEW_STATE,new WebViewState());
         uiStateMap.put(AppStates.CONNECTIVITY, new ConnectivityFragmentState());
         uiStateMap.put(AppStates.EWS, new EWSFragmentState());
         uiStateMap.put(AppStates.POWER_SLEEP_CONNECTIVITY, new PowerSleepConnectivityFragmentState());

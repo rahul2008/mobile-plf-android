@@ -7,18 +7,19 @@
 package com.philips.platform.appframework.connectivitypowersleep.datamodels;
 
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.port.PortProperties;
 
-public class SessionDataPort extends GenericPort<SessionDataPortProperties> {
+public class SessionDataPort<T extends PortProperties> extends GenericPort<T> {
 
     private long sessionNumber;
 
-    public SessionDataPort(final CommunicationStrategy communicationStrategy, String name, int productID, Class<SessionDataPortProperties> propertiesClass) {
-        super(communicationStrategy, name, productID, propertiesClass);
+    public SessionDataPort(CommunicationStrategy communicationStrategy, String name, int productId, Class<T> propertiesClass) {
+        super(communicationStrategy, name, productId, propertiesClass);
     }
 
     @Override
     public String getDICommPortName() {
-        return name + "/" + sessionNumber;
+        return String.format(name, sessionNumber);
     }
 
     public void setSpecificSession(long sessionnum) {

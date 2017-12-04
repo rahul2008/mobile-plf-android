@@ -394,4 +394,6 @@ Receive free product accessories</string>
     <string name="RA_MYA_Consent_Moment_Help" translatable="false">Giving this consent you are allowing Philips to store information related to you</string>
     <string name="RA_MYA_Consent_Coaching_Text" translatable="false">I allow Philips to use my data for Coaching purposes</string>
     <string name="RA_MYA_Consent_Coaching_Help" translatable="false">Giving this consent you are allowing Philips to process information related to you</string>
+    <string name="RA_DLS_insights_error" translatable="false">Error loading Insights</string>
+    <string name="RA_loading_articles" translatable="false">Loading Article</string>
 </resources>

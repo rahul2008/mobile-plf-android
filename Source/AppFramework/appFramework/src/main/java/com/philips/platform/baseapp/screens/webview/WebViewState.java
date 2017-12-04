@@ -4,7 +4,7 @@
  * consent of the copyright holder.
 */
 
-package com.philips.platform.baseapp.screens.termsandconditions;
+package com.philips.platform.baseapp.screens.webview;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,24 +18,20 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
  * Created by philips on 24/07/17.
  */
 
-public class TermsAndConditionsState extends BaseState {
+public class WebViewState extends BaseState {
 
-    public TermsAndConditionsState() {
-        super(AppStates.TERMSANDCONITIONSSTATE);
+    public WebViewState() {
+        super(AppStates.WEB_VIEW_STATE);
     }
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
         Intent intent=new Intent(fragmentLauncher.getFragmentActivity(),WebViewActivity.class);
-        TermsAndPrivacyStateData.TermsAndPrivacyEnum termsAndPrivacyEnum=((TermsAndPrivacyStateData)getUiStateData()).getTermsAndPrivacyEnum();
-        intent.putExtra(WebViewActivity.STATE,termsAndPrivacyEnum);
-//        if(((TermsAndPrivacyStateData)getUiStateData()).getTermsAndPrivacyEnum()== TermsAndPrivacyStateData.TermsAndPrivacyEnum.PRIVACY_CLICKED){
-//            intent.putExtra(WebViewActivity.STATE,)
-//            intent.putExtra(WebViewActivity.STATE,WebViewActivity.PRIVACY);
-//        }else{
-//            intent.putExtra(WebViewActivity.STATE,WebViewActivity.TERMS_AND_CONDITIONS);
-//        }
+        String url=((WebViewStateData)getUiStateData()).getUrl();
+        String serviceId=((WebViewStateData)getUiStateData()).getServiceId();
+        intent.putExtra(WebViewActivity.URL_TO_LOAD,url);
+        intent.putExtra(WebViewActivity.SERVICE_ID_KEY,serviceId);
         fragmentLauncher.getFragmentActivity().startActivity(intent);
     }
 

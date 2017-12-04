@@ -253,7 +253,7 @@ dependencies {
     if(dp) {
         project(':dcc')
     } else {
-        compile(group: 'com.philips.cdp', name: 'digitalCare', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
+        compile(group: 'com.philips.cdp', name: 'digitalCare', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
             transitive = true
         }
     }
@@ -261,7 +261,7 @@ dependencies {
     if(dp) {
         project(':iap')
     } else {
-        compile(group: 'com.philips.cdp', name: 'iap', version: versions.iap_iap + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
+        compile(group: 'com.philips.cdp', name: 'iap', version: versions.iap_iap + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
             transitive = true
         }
     }
@@ -269,7 +269,7 @@ dependencies {
     if(dp) {
         project(':dsc')
     } else {
-        compile(group: 'com.philips.cdp', name: 'dataServices', version: versions.dsc_dataServices + objcdp.getVersionSuffix(), ext: 'aar') {            
+        compile(group: 'com.philips.cdp', name: 'dataServices', version: versions.dsc_dataServices + objcdp.getVersionSuffix(), ext: 'aar') {
             exclude group: 'com.android.support'
             transitive = true
         }
@@ -288,7 +288,7 @@ dependencies {
     if(dp) {
         project(':commlib')
     } else {
-        compile(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
+        compile(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
             exclude group: 'com.android.support'
             transitive = true
         }
@@ -370,7 +370,7 @@ dependencies {
     if(dp) {
         project(':ths')
     } else {
-        compile(group: 'com.philips.cdp', name: 'telehealth', version: versions.ths_telehealth+ objcdp.getVersionSuffix(), ext: 'aar') {		
+        compile(group: 'com.philips.cdp', name: 'telehealth', version: versions.ths_telehealth+ objcdp.getVersionSuffix(), ext: 'aar') {
            transitive = true
         }
     }

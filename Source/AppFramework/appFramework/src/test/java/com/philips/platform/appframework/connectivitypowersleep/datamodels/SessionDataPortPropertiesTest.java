@@ -41,7 +41,7 @@ public class SessionDataPortPropertiesTest {
     public void setUp() {
         sessionDataPort = new SessionDataPort(communicationStrategy, NAME, PRODUCT_ID, SessionDataPortProperties.class);
         sessionDataPort.processResponse(DUMMY_DATA);
-        sessionDataPortProperties = sessionDataPort.getPortProperties();
+        sessionDataPortProperties = (SessionDataPortProperties) sessionDataPort.getPortProperties();
     }
 
     @Test

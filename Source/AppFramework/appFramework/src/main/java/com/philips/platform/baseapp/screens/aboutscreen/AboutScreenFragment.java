@@ -17,7 +17,7 @@ import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
-import com.philips.platform.baseapp.screens.termsandconditions.TermsAndPrivacyStateData;
+import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uid.text.utils.UIDClickableSpan;
 import com.philips.platform.uid.view.widget.AboutScreen;
 import com.philips.platform.uid.view.widget.Label;
@@ -69,7 +69,7 @@ public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment implem
         termsLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                aboutScreenActionListener.loadTermsAndPrivacy(TermsAndPrivacyStateData.TermsAndPrivacyEnum.TERMS_CLICKED);
+                aboutScreenActionListener.loadTermsAndPrivacy(Constants.TERMS_AND_CONDITIONS);
             }
         });
         privacyLabel = (Label) view.findViewById(R.id.uid_about_screen_privacy);
@@ -77,7 +77,7 @@ public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment implem
             @Override
             public void onClick(View view) {
                 startAppTagging();
-                aboutScreenActionListener.loadTermsAndPrivacy(TermsAndPrivacyStateData.TermsAndPrivacyEnum.PRIVACY_CLICKED);
+                aboutScreenActionListener.loadTermsAndPrivacy(Constants.PRIVACY);
             }
         });
 
