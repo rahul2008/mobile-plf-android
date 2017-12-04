@@ -81,7 +81,7 @@ public class JsonUtils {
             throws RuntimeException {
         try {
             this_.put(name, value);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
     }

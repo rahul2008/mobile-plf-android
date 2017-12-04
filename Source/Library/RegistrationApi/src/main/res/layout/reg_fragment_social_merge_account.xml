@@ -16,6 +16,8 @@
             android:id="@+id/usr_mergeScreen_baseLayout_LinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/reg_layout_margin_16"
+            android:layout_marginRight="@dimen/reg_layout_margin_16"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/reg_dimen_24dp"
             android:orientation="vertical"
