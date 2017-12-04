@@ -58,7 +58,7 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     RelativeLayout mInsuranceDetailRelativeLayout;
     RelativeLayout mNoInsuranceDetailRelativeLayout;
 
-    private FrameLayout mPaymentMethodDetailFrameLayout;
+    protected FrameLayout mPaymentMethodDetailFrameLayout;
     RelativeLayout mPaymentMethodDetailRelativeLayout;
     RelativeLayout mNoPaymentMethodDetailRelativeLayout;
 

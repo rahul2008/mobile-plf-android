@@ -130,7 +130,9 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
 
     void updatePatientAheadCount(int count) {
-        if (count > 0) {
+        if(count==0){
+            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(null);
+        }else if (count > 0) {
             mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(count + " patients waiting");
         }
 

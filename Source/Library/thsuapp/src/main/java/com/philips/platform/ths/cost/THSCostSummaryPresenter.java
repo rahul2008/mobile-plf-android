@@ -172,11 +172,12 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
             mTHSCostSummaryFragment.costSmallLabel.setText(null);
             String initialCostString = String.format(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_initial_Full_cover_cost), "$" + String.valueOf(thsVisit.getInitialVisitCost()));
             mTHSCostSummaryFragment.mInitialVisitCostLabel.setText(initialCostString);
-            if (null == mTHSCostSummaryFragment.mTHSPaymentMethod || null == mTHSCostSummaryFragment.mTHSPaymentMethod.getPaymentMethod()) {
+            //if (null == mTHSCostSummaryFragment.mTHSPaymentMethod || null == mTHSCostSummaryFragment.mTHSPaymentMethod.getPaymentMethod()) {
                 // if payment is not yet added then show Payment not required with continue button
                 noPaymentRequired();
-            }
+           // }
         } else {
+            mTHSCostSummaryFragment.mPaymentMethodDetailFrameLayout.setClickable(true);
             double costDouble = thsVisit.getVisit().getVisitCost().getExpectedConsumerCopayCost();
             String costString = String.valueOf(costDouble);
             String[] costStringArray = costString.split("\\.");// seperate the decimal value
@@ -297,7 +298,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
 
         mTHSCostSummaryFragment.mCostSummaryContinueButtonRelativeLayout.setVisibility(View.VISIBLE);
         mTHSCostSummaryFragment.mAddPaymentMethodButtonRelativeLayout.setVisibility(View.GONE);
-
+        mTHSCostSummaryFragment.mPaymentMethodDetailFrameLayout.setClickable(false);
     }
 
     @Override
