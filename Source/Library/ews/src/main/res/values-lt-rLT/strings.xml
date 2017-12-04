@@ -33,8 +33,8 @@
     <string name="button_ews_plug_in_next">Gerai, įjungiau</string>
     <string name="label_ews_verify_ready_title_default">Ar prietaisas veikia nustatymų režimu?</string>
     <string name="label_ews_verify_ready_question_default">Ar dega „Wi-Fi\" ryšio lemputė?</string>
-    <string name="button_ews_verify_ready_yes_default">Taip, „Wi-Fi\" ryšio lemputė dega</string>
-    <string name="button_ews_verify_ready_no_default">Ne, „Wi-Fi\" ryšio lemputė nedega</string>
+    <string name="button_ews_verify_ready_yes_default">„Wi-Fi\" ryšio lemputė dega</string>
+    <string name="button_ews_verify_ready_no_default">„Wi-Fi\" ryšio lemputė nedega</string>
     <string name="label_ews_select_wifi_title">Prijungti prie %1$s</string>
     <string name="label_ews_select_wifi_body">Atlikite šiuos veiksmus, norėdami prijungti telefoną prie „PHILIPS Setup\".</string>
     <string name="label_ews_select_wifi_step1">1. Eikite į nustatymus telefone ir palieskite „Wi-Fi\".</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Taip</string>
     <string name="button_ews_support_wrong_phone_no">Ne</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Leidimas vietai nustatyti</string>
+    <string name="label_ews_location_permission_body">Norint rasti %1$s’s „PHILIPS Setup Wi-Fi\" tinklą, mums reikia leidimo vietos informacijai gauti.</string>
+    <string name="label_ews_location_permission_allow">Leisti</string>
+    <string name="label_ews_location_permission_cancel">Atšaukti nustatymus</string>
+    <string name="label_ews_location_services_title">Įjungti vietos paslaugas</string>
+    <string name="label_ews_location_services_body">Norint rasti %1$s’s „PHILIPS Setup Wi-Fi\" tinklą, reikia įjungti vietos paslaugas. Įjunkite vietos paslaugas skirtuke „Vietos paslaugos\" ir grįžkite į programą.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Eiti į vietos nustatymus</string>
 </resources>

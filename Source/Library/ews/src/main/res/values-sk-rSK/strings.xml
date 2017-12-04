@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Áno</string>
     <string name="button_ews_support_wrong_phone_no">Nie</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Povolenie polohy</string>
+    <string name="label_ews_location_permission_body">Na nájdete siete PHILIPS Setup Wi-Fi zariadenia %1$s potrebujeme povolenie na prístup k polohe.</string>
+    <string name="label_ews_location_permission_allow">Povoliť</string>
+    <string name="label_ews_location_permission_cancel">Zrušiť nastavenie</string>
+    <string name="label_ews_location_services_title">Povoliť lokalizačné služby</string>
+    <string name="label_ews_location_services_body">Na nájdete siete PHILIPS Setup Wi-Fi zariadenia %1$s potrebujeme povolené lokalizačné služby.  Povoľte lokalizačné služby v nastaveniach polohy a vráťte sa do aplikácie.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Prejsť do nastavení</string>
 </resources>

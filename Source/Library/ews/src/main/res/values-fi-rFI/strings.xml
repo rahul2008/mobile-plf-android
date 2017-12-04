@@ -33,7 +33,7 @@
     <string name="button_ews_plug_in_next">OK, onnistui</string>
     <string name="label_ews_verify_ready_title_default">Onko laite asennustilassa?</string>
     <string name="label_ews_verify_ready_question_default">Vilkkuuko Wi-Fi-merkkivalo?</string>
-    <string name="button_ews_verify_ready_yes_default">Kyllä, Wi-Fi-merkkivalo vilkkuu</string>
+    <string name="button_ews_verify_ready_yes_default">Wi-Fi-merkkivalo vilkkuu</string>
     <string name="button_ews_verify_ready_no_default">Ei, Wi-Fi-merkkivalo ei vilku</string>
     <string name="label_ews_select_wifi_title">Yhdistä %1$s</string>
     <string name="label_ews_select_wifi_body">Yhdistä puhelin ja PHILIPS Setup seuraavasti:</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Kyllä</string>
     <string name="button_ews_support_wrong_phone_no">Ei</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Sijainnin käyttöoikeus</string>
+    <string name="label_ews_location_permission_body">Sovellus tarvitsee oikeuden käyttää sijaintitietojasi, jotta se löytää %1$s PHILIPS Setup Wi-Fi -verkon.</string>
+    <string name="label_ews_location_permission_allow">Salli</string>
+    <string name="label_ews_location_permission_cancel">Peruuta asennus</string>
+    <string name="label_ews_location_services_title">Ota sijaintipalvelut käyttöön</string>
+    <string name="label_ews_location_services_body">Sijaintipalvelut on otettavat käyttöön, jotta sovellus löytää %1$s PHILIPS Setup Wi-Fi -verkon.  Siirry sijaintiasetuksiin, ota sijaintipalvelut käyttöön ja palaa sovellukseen.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Siirry sijaintiasetuksiin</string>
 </resources>
