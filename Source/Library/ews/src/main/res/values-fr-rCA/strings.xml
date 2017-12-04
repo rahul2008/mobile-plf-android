@@ -34,7 +34,7 @@
     <string name="label_ews_verify_ready_title_default">L’appareil est en mode configuration?</string>
     <string name="label_ews_verify_ready_question_default">Le voyant Wi-Fi clignote-t-il?</string>
     <string name="button_ews_verify_ready_yes_default">Oui, le voyant Wi-Fi clignote.</string>
-    <string name="button_ews_verify_ready_no_default">Non, le voyant Wi-Fi ne clignote pas.</string>
+    <string name="button_ews_verify_ready_no_default">Voyant Wi-Fi clignote pas</string>
     <string name="label_ews_select_wifi_title">Connexion à %1$s</string>
     <string name="label_ews_select_wifi_body">Suivez ces étapes pour connecter votre téléphone à PHILIPS Setup.</string>
     <string name="label_ews_select_wifi_step1">1. Allez à Paramètres sur le téléphone, appuyez sur Wi-Fi.</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Oui</string>
     <string name="button_ews_support_wrong_phone_no">Non</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Permission de localisation</string>
+    <string name="label_ews_location_permission_body">Pour trouver le réseau Wi-Fi PHILIPS Setup de %1$s, nous avons besoin d’accéder à votre emplacement.</string>
+    <string name="label_ews_location_permission_allow">Permettre</string>
+    <string name="label_ews_location_permission_cancel">Annuler</string>
+    <string name="label_ews_location_services_title">Autoriser les services de localisation</string>
+    <string name="label_ews_location_services_body">Pour trouver le réseau Wi-Fi PHILIPS Setup de %1$s, les services de localisation doivent être autorisés. Veuillez autoriser les services de localisation dans Paramètres de localisation, puis retournez dans l\'application.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Paramètres localisation</string>
 </resources>

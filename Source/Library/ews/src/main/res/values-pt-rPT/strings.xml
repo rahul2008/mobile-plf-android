@@ -33,8 +33,8 @@
     <string name="button_ews_plug_in_next">OK, já está</string>
     <string name="label_ews_verify_ready_title_default">Está no modo de configuração?</string>
     <string name="label_ews_verify_ready_question_default">A luz de Wi-Fi está a piscar?</string>
-    <string name="button_ews_verify_ready_yes_default">Sim, a luz de Wi-Fi está a piscar</string>
-    <string name="button_ews_verify_ready_no_default">Não, a luz de Wi-Fi não está a piscar</string>
+    <string name="button_ews_verify_ready_yes_default">A luz de Wi-Fi está a piscar</string>
+    <string name="button_ews_verify_ready_no_default">A luz Wi-Fi não está a piscar</string>
     <string name="label_ews_select_wifi_title">Ligar a %1$s</string>
     <string name="label_ews_select_wifi_body">Siga estes passos para ligar o seu telemóvel à PHILIPS Setup.</string>
     <string name="label_ews_select_wifi_step1">1. Aceda às Definições no seu telemóvel e toque em Wi-Fi</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Sim</string>
     <string name="button_ews_support_wrong_phone_no">Não</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Permissão de localização</string>
+    <string name="label_ews_location_permission_body">Para encontrar a rede Wi-Fi da PHILIPS Setup de %1$s, precisamos de permissão para aceder à sua localização.</string>
+    <string name="label_ews_location_permission_allow">Permitir</string>
+    <string name="label_ews_location_permission_cancel">Cancelar configuração</string>
+    <string name="label_ews_location_services_title">Ativar serviços de localização</string>
+    <string name="label_ews_location_services_body">Para encontrar a rede Wi-Fi da PHILIPS Setup de %1$s, é necessário ativar os serviços de localização. Ative os serviços de localização nas definições de localização e volte à aplicação.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Ir para as definições</string>
 </resources>

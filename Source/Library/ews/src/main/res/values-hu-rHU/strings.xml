@@ -10,7 +10,7 @@
     <string name="label_ews_cancel_setup_title">Biztosan le kívánja állítani a Wi-Fi beállítását?</string>
     <string name="label_ews_cancel_setup_body">Ha most leállítja, nem fog tudni hozzáférni a(z) %1$s eszközéhez a Wi-Fi segítségével.</string>
     <string name="button_ews_cancel_setup_yes">Leállítom a beállítást</string>
-    <string name="button_ews_cancel_setup_no">Nem, folytatom a beállítást</string>
+    <string name="button_ews_cancel_setup_no">Nem, beállítás folytatása</string>
     <string name="label_ews_get_started_title">Csatlakoztatás Wi-Fi kapcsolathoz</string>
     <string name="label_ews_get_started_body">Csatlakoztassa %1$s eszközét a Wi-Fi-hez, hogy élvezhesse az alkalmazást és annak összes funkcióját.</string>
     <string name="label_ews_get_started_description">A sikeres csatlakoztatáshoz helyezze %1$s eszközét közel az útválasztóhoz. Az akadályok, mint például falak, befolyásolhatják a jelerősséget.</string>
@@ -34,7 +34,7 @@
     <string name="label_ews_verify_ready_title_default">Az eszköze beállítási módban van?</string>
     <string name="label_ews_verify_ready_question_default">A Wi-Fi jelzőfénye villog?</string>
     <string name="button_ews_verify_ready_yes_default">Igen, a Wi-Fi jelzőfénye villog</string>
-    <string name="button_ews_verify_ready_no_default">Nem, a Wi-Fi jelzőfénye nem villog</string>
+    <string name="button_ews_verify_ready_no_default">A Wi-Fi jelzőfénye nem villog</string>
     <string name="label_ews_select_wifi_title">Összekapcsolás a(z) %1$s eszközzel</string>
     <string name="label_ews_select_wifi_body">Kövesse ezeket a lépéseket a telefonja és a PHILIPS Setup csatlakoztatásához.</string>
     <string name="label_ews_select_wifi_step1">1. Lépjen a telefonja Beállítások menüjébe, és érintse meg a Wi-Fi lehetőséget</string>
@@ -60,7 +60,7 @@
     <string name="label_ews_connection_problem_please_step2">2. Ellenőrizze, hogy a telefonja és %1$s eszköze ugyanabban a helyiségben van-e a beállítás során</string>
     <string name="label_ews_connection_problem_please_step3">3. Engedélyezze a beállítási módot %1$s eszközén</string>
     <string name="label_ews_connection_problem_question">Szüksége van segítségre a beállítási mód engedélyezésekor?</string>
-    <string name="button_ews_connection_problem_setup_mode_yes">Igen, szükségem van segítségre</string>
+    <string name="button_ews_connection_problem_setup_mode_yes">Segítséget kérek</string>
     <string name="button_ews_connection_problem_setup_mode_no">Köszönöm, nem kérem</string>
     <string name="label_ews_succesful_title">Sikeres csatlakozás</string>
     <string name="label_ews_succesful_body">%1$s eszköze mostantól sikeresen csatlakoztatva van a(z) %2$s hálózathoz, és párosítva van a telefonjával.</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Igen</string>
     <string name="button_ews_support_wrong_phone_no">Nem</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Tartózkodási helyre vonatkozó engedély</string>
+    <string name="label_ews_location_permission_body">A(z) %1$s PHILIPS Setup Wi-Fi hálózatának megkereséséhez engedélyre van szükségünk a tartózkodásihely-adataihoz való hozzáférésre.</string>
+    <string name="label_ews_location_permission_allow">Engedélyezés</string>
+    <string name="label_ews_location_permission_cancel">Beállítás visszavonása</string>
+    <string name="label_ews_location_services_title">Helyszolgáltatások engedélyezése</string>
+    <string name="label_ews_location_services_body">A(z) %1$s PHILIPS Setup Wi-Fi hálózatának megkereséséhez engedélyezni kell a helyszolgáltatásokat. Kérjük, engedélyezze a helyszolgáltatásokat a Helybeállításokban, majd térjen vissza az alkalmazáshoz.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Lépés ide:Helybeállítások</string>
 </resources>

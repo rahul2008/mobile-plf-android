@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Jā</string>
     <string name="button_ews_support_wrong_phone_no">Nē</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Atrašanās vietas atļauja</string>
+    <string name="label_ews_location_permission_body">Lai atrastu %1$s PHILIPS iestatīšanas Wi-Fi tīklu, mums nepieciešama atļauja piekļūt jūsu atrašanās vietas informācijai.</string>
+    <string name="label_ews_location_permission_allow">Atļaut</string>
+    <string name="label_ews_location_permission_cancel">Atcelt iestatīšanu</string>
+    <string name="label_ews_location_services_title">Iespējot atrašanās vietas pakalpojumus</string>
+    <string name="label_ews_location_services_body">Lai atrastu %1$s PHILIPS iestatīšanas Wi-Fi tīklu, jābūt iespējotiem atrašanās vietas pakalpojumiem. Lūdzu, iespējojiet atrašanās vietas pakalpojumu atrašanās vietas iestatījumos un vēlreiz atveriet lietotni.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Atvērt atr. vietas iest.</string>
 </resources>

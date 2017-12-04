@@ -9,7 +9,7 @@
     <string name="ews_support_title">Підтримка Philips</string>
     <string name="label_ews_cancel_setup_title">Справді скасувати налаштування Wi-Fi?</string>
     <string name="label_ews_cancel_setup_body">Якщо скасувати зараз, Ви не зможете користуватися %1$s через Wi-Fi.</string>
-    <string name="button_ews_cancel_setup_yes">Скасувати налаштування</string>
+    <string name="button_ews_cancel_setup_yes">Так, скасувати</string>
     <string name="button_ews_cancel_setup_no">Ні, продовжити</string>
     <string name="label_ews_get_started_title">Під’єднання до Wi-Fi</string>
     <string name="label_ews_get_started_body">Під’єднайте свій %1$s до Wi-Fi, щоб користуватися цим додатком та усіма його функціями.</string>
@@ -34,7 +34,7 @@
     <string name="label_ews_verify_ready_title_default">Ваш пристрій у режимі налаштування?</string>
     <string name="label_ews_verify_ready_question_default">Індикатор Wi-Fi блимає?</string>
     <string name="button_ews_verify_ready_yes_default">Так, індикатор Wi-Fi блимає</string>
-    <string name="button_ews_verify_ready_no_default">Ні, індикатор Wi-Fi не блимає</string>
+    <string name="button_ews_verify_ready_no_default">Індикатор Wi-Fi не блимає</string>
     <string name="label_ews_select_wifi_title">Під’єднання до %1$s</string>
     <string name="label_ews_select_wifi_body">Виконайте ці дії, щоб під’єднати телефон до PHILIPS Setup.</string>
     <string name="label_ews_select_wifi_step1">1. Перейдіть до налаштувань на телефоні й натисніть Wi-Fi</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Так</string>
     <string name="button_ews_support_wrong_phone_no">Ні</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Дозвіл для визначення мізцезнаходження</string>
+    <string name="label_ews_location_permission_body">Щоб знайти мережу Wi-Fi для %1$s PHILIPS Setup, нам потрібен дозвіл для визначення Вашого місцезнаходження.</string>
+    <string name="label_ews_location_permission_allow">Дозволити</string>
+    <string name="label_ews_location_permission_cancel">Скасувати налаштування</string>
+    <string name="label_ews_location_services_title">Увімкнути визначення місцезнаходження</string>
+    <string name="label_ews_location_services_body">Щоб знайти мережу Wi-Fi для %1$s PHILIPS Setup, потрібно увімкнути послуги визначення місцезнаходження. Увімкніть послуги визначення місцезнаходження у параметрах місцезнаходження та поверніться до додатка.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Перейти до параметрів</string>
 </resources>

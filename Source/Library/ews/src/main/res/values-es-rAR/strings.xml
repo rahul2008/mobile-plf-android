@@ -10,7 +10,7 @@
     <string name="label_ews_cancel_setup_title">¿Está seguro de que desea cancelar los ajustes de Wi-Fi?</string>
     <string name="label_ews_cancel_setup_body">Si los cancela ahora, no podrá acceder a su %1$s con la red Wi-Fi.</string>
     <string name="button_ews_cancel_setup_yes">Cancelar ajustes</string>
-    <string name="button_ews_cancel_setup_no">Continuar con los ajustes</string>
+    <string name="button_ews_cancel_setup_no">Continuar con ajustes</string>
     <string name="label_ews_get_started_title">Conexión a Wi-Fi</string>
     <string name="label_ews_get_started_body">Conecte su %1$s a Wi-Fi para disfrutar esta aplicación y todas sus funciones.</string>
     <string name="label_ews_get_started_description">Para conectarse correctamente, coloque su %1$s cerca del router. Los obstáculos, como paredes, pueden afectar la intensidad de la señal.</string>
@@ -33,8 +33,8 @@
     <string name="button_ews_plug_in_next">Listo, lo hice</string>
     <string name="label_ews_verify_ready_title_default">¿Está el dispositivo en modo de configuración?</string>
     <string name="label_ews_verify_ready_question_default">¿Está parpadeando la luz de Wi-Fi?</string>
-    <string name="button_ews_verify_ready_yes_default">Sí, la luz de Wi-Fi está parpadeando</string>
-    <string name="button_ews_verify_ready_no_default">No, la luz de Wi-Fi no está parpadeando</string>
+    <string name="button_ews_verify_ready_yes_default">La luz de Wi-Fi parpadea</string>
+    <string name="button_ews_verify_ready_no_default">La luz de Wi-Fi no parpadea</string>
     <string name="label_ews_select_wifi_title">Conexión a %1$s</string>
     <string name="label_ews_select_wifi_body">Siga estos pasos para conectar su teléfono a PHILIPS Setup.</string>
     <string name="label_ews_select_wifi_step1">1. Vaya a la configuración de su teléfono y presione Wi-Fi</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Sí</string>
     <string name="button_ews_support_wrong_phone_no">No</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Permiso de localización</string>
+    <string name="label_ews_location_permission_body">Para encontrar la red Wi-Fi PHILIPS Setup de %1$s, se necesitan permisos para acceder a su localización.</string>
+    <string name="label_ews_location_permission_allow">Permitir</string>
+    <string name="label_ews_location_permission_cancel">Cancelar configuración</string>
+    <string name="label_ews_location_services_title">Activar servicios de localización</string>
+    <string name="label_ews_location_services_body">Para encontrar la red Wi-Fi PHILIPS Setup de %1$s, es necesario activar los servicios de localización. Active los servicios de localización en Opciones de localización y vuelva a la aplicación.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Opciones de localización</string>
 </resources>
