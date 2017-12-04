@@ -4,14 +4,18 @@ import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Filter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.view.MotionEvent;
+import android.widget.TextView;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.R;
@@ -41,6 +45,8 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
     private ArrayList<SummaryModel> productList = null;
     private CustomSearchView mSearchBox = null;
 
+    private LinearLayout noresult = null;
+
     public ProductSelectionListingFragment() {
 
     }
@@ -64,6 +70,9 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                 return false;
             }
         });
+
+        noresult = (LinearLayout) view.findViewById(R.id.ll_no_result_found);
+
     }
 
     @Override
@@ -79,7 +88,14 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (isConnectionAvailable()) {
-                    mUserSelectedProduct = (productList.get(position));
+
+                    if(mSearchBox.getText().length() == 0)
+                    {
+                        mUserSelectedProduct = (productList.get(position));
+                    }else {
+                        mUserSelectedProduct = mProductAdapter.getData();
+                    }
+
                     DetailedScreenFragmentSelection detailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
                     detailedScreenFragmentSelection.setUserSelectedProduct(mUserSelectedProduct);
                     showFragment(detailedScreenFragmentSelection);
@@ -145,10 +161,15 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                         public void onFilterComplete(int count) {
                             mProductListView.setAdapter(mProductAdapter);
                             mProductListView.setVisibility(View.VISIBLE);
-                           // mProductListView.setVisibility(View.GONE);
+
+                            if(count ==0 ){
+                                noresult.setVisibility(View.VISIBLE);
+                                mProductListView.setVisibility(View.GONE);
+                            }
                         }
                     });
         }
+
     }
 
     @Override

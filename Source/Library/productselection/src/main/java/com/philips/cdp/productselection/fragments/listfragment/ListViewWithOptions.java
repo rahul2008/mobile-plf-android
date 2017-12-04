@@ -44,7 +44,8 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
     private TextView ctnView;
     //private ImageView imageView;
     private Activity activity;
-    private boolean isNoResultFound;
+
+    SummaryModel mData = null;
 
     public ListViewWithOptions(Activity activity, List<SummaryModel> data) {
         this.activity = activity;
@@ -73,53 +74,63 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
         View vi = convertView;
-        if (convertView == null)
+        if ( convertView == null) {
             vi = inflater.inflate(R.layout.fragment_listscreen_adaper_view, null);
 
-        SummaryModel summaryModel = mProductsList.get(position);
-        if (isNoResultFound){
-            vi = inflater.inflate(R.layout.consumercare_zero_results_found, null);
+            SummaryModel summaryModel = mProductsList.get(position);
+
+            Data data = summaryModel.getData();
+            final ImageView image = (ImageView) vi.findViewById(R.id.image);
+            productNameView = (TextView) vi.findViewById(R.id.product_name_view);
+            //imageView = (ImageView) vi.findViewById(R.id.image);
+            ctnView = (TextView) vi.findViewById(R.id.ctn_view);
+
+            String imagepath = data.getImageURL();
+            int imageWidth = (int) (85 * Resources.getSystem().getDisplayMetrics().density);
+            imagepath = /*imagepath + "?wid=" + imageWidth + "&;";*/
+                    imagepath + "?wid=" + imageWidth +
+                            "&hei=" + imageWidth +
+                            "&fit=fit,1";
+
+            ProductSelectionLogger.d(TAG, "Image URL's of the listed Products : " + imagepath);
+
+            final  ImageRequest request = new ImageRequest(imagepath,
+                    new Response.Listener<Bitmap>() {
+                        @Override
+                        public void onResponse(Bitmap bitmap) {
+                            image.setImageBitmap(bitmap);
+                        }
+                    }, 0, 0, null,
+                    new Response.ErrorListener() {
+                        public void onErrorResponse(VolleyError error) {
+                        }
+                    });
+
+            request.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+            mActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    VolleyWrapper.getInstance(mActivity).addToRequestQueue(request);
+                }
+            });
+            productNameView.setText(data.getProductTitle());
+            ctnView.setText(data.getCtn());
+            vi.setTag(position);
+            setData(summaryModel);
         }
-        Data data = summaryModel.getData();
-        final ImageView image = (ImageView) vi.findViewById(R.id.image);
-        productNameView = (TextView) vi.findViewById(R.id.product_name_view);
-        //imageView = (ImageView) vi.findViewById(R.id.image);
-        ctnView = (TextView) vi.findViewById(R.id.ctn_view);
 
-        String imagepath = data.getImageURL();
-        int imageWidth = (int) (85 * Resources.getSystem().getDisplayMetrics().density);
-        imagepath = /*imagepath + "?wid=" + imageWidth + "&;";*/
-        imagepath + "?wid=" + imageWidth +
-                "&hei=" + imageWidth +
-                "&fit=fit,1";
-
-        ProductSelectionLogger.d(TAG, "Image URL's of the listed Products : " + imagepath);
-
-        final  ImageRequest request = new ImageRequest(imagepath,
-                new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap bitmap) {
-                        image.setImageBitmap(bitmap);
-                    }
-                }, 0, 0, null,
-                new Response.ErrorListener() {
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                });
-
-        request.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                VolleyWrapper.getInstance(mActivity).addToRequestQueue(request);
-            }
-        });
-        productNameView.setText(data.getProductTitle());
-        ctnView.setText(data.getCtn());
-        vi.setTag(position);
         return vi;
+    }
+
+
+    public SummaryModel getData(){
+        return mData;
+    }
+
+    private void setData(SummaryModel data){
+        mData = data;
     }
 
     private class CustomFilter extends Filter {
@@ -159,25 +170,10 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
         @Override
         protected void publishResults(CharSequence constraint,
                                       FilterResults results) {
-            if (results.count == 0 && constraintStr.length() > 0){
-                showNoRecordsFound(constraintStr.toString());
-                isNoResultFound = true;
-            }
-            else {
-                isNoResultFound = false;
+            if (results.count != 0){
                 mProductsList = (ArrayList<SummaryModel>) results.values;
             }
             notifyDataSetChanged();
-        }
-
-        private void showNoRecordsFound(String searchStr) {
-            mProductsList.clear();
-            SummaryModel summaryModel = new SummaryModel();
-            Data data=new Data();
-            data.setProductTitle(activity.getResources().getString(R.string.pse_No_Result)+" "+searchStr);
-            data.setCtn(String.valueOf(activity.getResources().getString(R.string.pse_No_Result_Desc)));
-            summaryModel.setData(data);
-            mProductsList.add(summaryModel);
         }
     }
 
