@@ -31,7 +31,7 @@ public class UpdateJanRainUserProfile implements UpdateUserProfile {
         });
     }
 
-    private void updateUserEmail(String emailId, CaptureApiRequestCallback captureApiRequestCallback) {
+    void updateUserEmail(String emailId, CaptureApiRequestCallback captureApiRequestCallback) {
         CaptureRecord currentUser = Jump.getSignedInUser();
         try {
             currentUser.put(JANRAIN_UPDATE_EMAIL_KEY, emailId);

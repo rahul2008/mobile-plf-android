@@ -190,7 +190,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
    }
 
-    private static void setupSpannableText(TextView mTvVerifyEmailText,
+    private  void setupSpannableText(TextView mTvVerifyEmailText,
                                            String moreAccountSettings, String link) {
         SpannableString spanableString = new SpannableString(moreAccountSettings);
         int termStartIndex = moreAccountSettings.toLowerCase().indexOf(
@@ -276,18 +276,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
                 , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
     }
 
-//    private void showResendAlertDialog() {
-//        RegAlertDialog.showDialog(mContext.getResources().getString(
-//                R.string.reg_verify_resend_mail_intime_title),
-//                mContext.getResources().getString(
-//                        R.string.reg_verify_resend_mail_intime_desc),
-//                mContext.getResources().getString(
-//                        R.string.reg_verify_resend_mail_intime_desc2),
-//                mContext.getResources().getString(
-//                        R.string.reg_verify_resend_mail_intime_button_ok)
-//                , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
-//    }
-
     @Override
     public void hideActivateSpinner() {
         mBtnActivate.hideProgressIndicator();
@@ -338,7 +326,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void onCounterEventReceived(String event, long timeLeft) {
-       // RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed" + timeLeft);
 
         if (event.equals(RegConstants.COUNTER_FINISH)) {
             proceedResend = true;
