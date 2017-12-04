@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
-import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.logger.EWSLogger;
@@ -51,48 +50,34 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({EWSDependencyProvider.class, EWSCallbackNotifier.class,EWSLogger.class})
+@PrepareForTest({EWSDependencyProvider.class, EWSCallbackNotifier.class, EWSLogger.class})
 public class EWSInterfaceTest {
-
-    @Rule
-    private ExpectedException thrownException = ExpectedException.none();
-
-    private EWSInterface subject;
-
-    @Mock
-    private AppInfraInterface appInfraInterfaceMock;
-
-    @Mock
-    private EWSDependencies ewsDependenciesMock;
-
-    @Mock
-    private UappSettings uappSettingsMock;
-
-    @Mock
-    private FragmentLauncher fragmentLauncherMock;
-
-    @Mock
-    private ActivityLauncher activityLauncherMock;
-
-    @Mock
-    private Context contextMock;
-
-    @Mock
-    private Navigator mockNavigator;
-    @Mock
-    private EventingChannel<EventingChannel.ChannelCallback> mockEWSEventingChannel;
-
-    @Mock
-    private Map<String, String> productKeyMap;
-
-    @Mock
-    private EWSComponent mockEwsComponent;
 
     @Mock
     LoggingInterface mockLoggingInterface;
-
     @Mock
     EWSDependencyProvider mockEWSDependencyProvider;
+    @Rule
+    private ExpectedException thrownException = ExpectedException.none();
+    private EWSInterface subject;
+    @Mock
+    private AppInfraInterface appInfraInterfaceMock;
+    @Mock
+    private EWSDependencies ewsDependenciesMock;
+    @Mock
+    private UappSettings uappSettingsMock;
+    @Mock
+    private FragmentLauncher fragmentLauncherMock;
+    @Mock
+    private ActivityLauncher activityLauncherMock;
+    @Mock
+    private Context contextMock;
+    @Mock
+    private Navigator mockNavigator;
+    @Mock
+    private Map<String, String> productKeyMap;
+    @Mock
+    private EWSComponent mockEwsComponent;
 
     @Before
     public void setUp() throws Exception {
@@ -114,13 +99,12 @@ public class EWSInterfaceTest {
             public Void answer(InvocationOnMock invocation) throws Throwable {
                 return null;
             }
-        }).when(EWSDependencyProvider.getInstance()).createEWSComponent(any(FragmentLauncher.class),any(ContentConfiguration.class));
+        }).when(EWSDependencyProvider.getInstance()).createEWSComponent(any(FragmentLauncher.class), any(ContentConfiguration.class));
 
         doAnswer(new Answer() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
                 subject.navigator = mockNavigator;
-                subject.ewsEventingChannel = mockEWSEventingChannel;
                 return null;
             }
         }).when(mockEwsComponent).inject(any(EWSInterface.class));
@@ -148,46 +132,45 @@ public class EWSInterfaceTest {
     }
 
     @Test
-    public void itShouldLaunchEWSAsFragmentIfLauncherConfigurationIsValid() throws Exception{
+    public void itShouldLaunchEWSAsFragmentIfLauncherConfigurationIsValid() throws Exception {
         initEWS();
-        doReturn(mock(FragmentActivity.class,withSettings().extraInterfaces(EWSActionBarListener.class)))
+        doReturn(mock(FragmentActivity.class, withSettings().extraInterfaces(EWSActionBarListener.class)))
                 .when(fragmentLauncherMock).getFragmentActivity();
-        subject.launch(fragmentLauncherMock,new EWSLauncherInput());
-        verify(subject).launchAsFragment(any(FragmentLauncher.class),any(UappLaunchInput.class));
+        subject.launch(fragmentLauncherMock, new EWSLauncherInput());
+        verify(subject).launchAsFragment(any(FragmentLauncher.class), any(UappLaunchInput.class));
     }
 
     @Test
-    public void itShouldLaunchEWSAsFragmentIfLauncherConfigurationIsNotValid() throws Exception{
+    public void itShouldLaunchEWSAsFragmentIfLauncherConfigurationIsNotValid() throws Exception {
         thrownException.expect(UnsupportedOperationException.class);
         thrownException.expectMessage(EWSInterface.ERROR_MSG_INVALID_IMPLEMENTATION);
         initEWS();
-        subject.launch(fragmentLauncherMock,new EWSLauncherInput());
-        verify(subject).launchAsFragment(any(FragmentLauncher.class),any(UappLaunchInput.class));
+        subject.launch(fragmentLauncherMock, new EWSLauncherInput());
+        verify(subject).launchAsFragment(any(FragmentLauncher.class), any(UappLaunchInput.class));
     }
 
     @Test
-    public void itShouldThrowAnErrorIfLauncherConfigurationIsNotValid() throws Exception{
+    public void itShouldThrowAnErrorIfLauncherConfigurationIsNotValid() throws Exception {
         thrownException.expect(UnsupportedOperationException.class);
         thrownException.expectMessage(EWSInterface.ERROR_MSG_INVALID_CALL);
 
-        subject.launch(fragmentLauncherMock,new EWSLauncherInput());
+        subject.launch(fragmentLauncherMock, new EWSLauncherInput());
     }
 
     @Test
-    public void itShouldNavigateToFirstFragmentOnFragmentLauncher() throws  Exception{
+    public void itShouldNavigateToFirstFragmentOnFragmentLauncher() throws Exception {
         doReturn(mock(FragmentActivity.class)).when(fragmentLauncherMock).getFragmentActivity();
         doReturn(1).when(fragmentLauncherMock).getParentContainerResourceID();
-        subject.launchAsFragment(fragmentLauncherMock,new EWSLauncherInput());
+        subject.launchAsFragment(fragmentLauncherMock, new EWSLauncherInput());
         verify(mockNavigator).navigateToGettingStartedScreen();
-        verify(mockEWSEventingChannel).start();
     }
 
     @Test
-    public void itShouldVerifyLaunchAsFragmentOnErrorCatchBlockCalled() throws Exception{
+    public void itShouldVerifyLaunchAsFragmentOnErrorCatchBlockCalled() throws Exception {
         doThrow(new IllegalStateException("error")).when(mockNavigator).navigateToGettingStartedScreen();
-        subject.launchAsFragment(fragmentLauncherMock,new EWSLauncherInput());
+        subject.launchAsFragment(fragmentLauncherMock, new EWSLauncherInput());
         verifyStatic();
-        EWSLogger.e(anyString(),anyString());
+        EWSLogger.e(anyString(), anyString());
     }
 
     private void initEWS() {

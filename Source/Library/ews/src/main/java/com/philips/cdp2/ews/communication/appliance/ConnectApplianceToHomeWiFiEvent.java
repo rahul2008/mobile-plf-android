@@ -2,7 +2,7 @@
  * Copyright (c) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
-package com.philips.cdp2.ews.communication.events;
+package com.philips.cdp2.ews.communication.appliance;
 
 import android.support.annotation.Keep;
 

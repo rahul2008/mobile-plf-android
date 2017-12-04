@@ -1,15 +1,4 @@
-##--------------- Eventbus  ----------
--keepclassmembers class ** {
-    !private void onEvent*(**);
-}
--keepclassmembers, includedescriptorclasses class ** {
-    @org.greenrobot.eventbus.Subscribe <methods>;
-}
 
--keep enum org.greenrobot.eventbus.ThreadMode { *; }
--keep class de.greenrobot.event.** { *; }
--keep class de.greenrobot.** {*;}
--keep class org.greenrobot.eventbus.util.ThrowableFailureEvent {*;}
 
 
 #Tagging lib and jar

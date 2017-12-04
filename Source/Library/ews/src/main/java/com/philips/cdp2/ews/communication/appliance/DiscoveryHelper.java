@@ -1,4 +1,4 @@
-package com.philips.cdp2.ews.communication;
+package com.philips.cdp2.ews.communication.appliance;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

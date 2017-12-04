@@ -50,7 +50,6 @@ ext.versionsExternal = [
         ormLite      : "5.0",
         stetho       : "1.2.0",
         dagger       : "2.9",
-        eventBus     : "3.0.0",
         mockitoKotlin: "1.5.0",
         joda         : "2.9.9"
 ]

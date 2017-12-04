@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp2.ews.communication.events;
+package com.philips.cdp2.ews.communication.wifi;
 
 import android.support.annotation.Keep;
 import android.support.annotation.NonNull;

@@ -5,6 +5,8 @@
 
 package com.philips.cdp2.ews.communication.events;
 
+import com.philips.cdp2.ews.communication.appliance.ConnectApplianceToHomeWiFiEvent;
+
 import org.junit.Before;
 import org.junit.Test;
 

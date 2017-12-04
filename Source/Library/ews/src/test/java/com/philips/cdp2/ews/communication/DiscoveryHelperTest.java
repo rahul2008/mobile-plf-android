@@ -4,6 +4,7 @@ import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.cdp2.ews.communication.appliance.DiscoveryHelper;
 import com.philips.cdp2.ews.logger.EWSLogger;
 
 import org.junit.Before;

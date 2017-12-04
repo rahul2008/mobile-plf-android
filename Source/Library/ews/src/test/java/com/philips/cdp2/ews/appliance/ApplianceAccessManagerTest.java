@@ -9,12 +9,9 @@ import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.ews.annotations.ApplianceRequestType;
-import com.philips.cdp2.ews.communication.events.ApplianceConnectErrorEvent;
-import com.philips.cdp2.ews.communication.events.DeviceConnectionErrorEvent;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 
-import org.greenrobot.eventbus.EventBus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +22,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import static com.philips.cdp2.ews.annotations.ApplianceRequestType.GET_WIFI_PROPS;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -42,12 +38,16 @@ public class ApplianceAccessManagerTest {
     private static final String HOME_WIFI_PASSWORD = "BrightEyes123";
     private static final String HOME_WIFI_SSID = "BrightEyes2.4";
 
-    @Mock private EventBus eventBusMock;
-    @Mock private DevicePort devicePortMock;
-    @Mock private WifiPort wifiPortMock;
-    @Mock private EWSGenericAppliance applianceMock;
-    @Mock private ApplianceAccessManager.FetchCallback mockFetchCallback;
-    @Mock private ApplianceAccessManager.SetPropertiesCallback mockSetPropertiesCallback;
+    @Mock
+    private DevicePort devicePortMock;
+    @Mock
+    private WifiPort wifiPortMock;
+    @Mock
+    private EWSGenericAppliance applianceMock;
+    @Mock
+    private ApplianceAccessManager.FetchCallback mockFetchCallback;
+    @Mock
+    private ApplianceAccessManager.SetPropertiesCallback mockSetPropertiesCallback;
 
     private ApplianceSessionDetailsInfo sessionInfoDetails;
 
@@ -61,7 +61,8 @@ public class ApplianceAccessManagerTest {
 
         stubAppliancePorts();
         sessionInfoDetails = new ApplianceSessionDetailsInfo();
-        accessManager = new ApplianceAccessManager(eventBusMock, applianceMock, sessionInfoDetails);
+        accessManager = new ApplianceAccessManager(
+                applianceMock, sessionInfoDetails);
     }
 
     private void stubAppliancePorts() {
@@ -132,7 +133,6 @@ public class ApplianceAccessManagerTest {
         verifyStatic();
         EWSTagger.trackActionSendData("technicalError", "EWS:Network:AWSDK:wifiPortError");
 
-        verify(eventBusMock).post(isA(DeviceConnectionErrorEvent.class));
     }
 
     @Test
@@ -141,7 +141,6 @@ public class ApplianceAccessManagerTest {
 
         accessManager.getWifiPortListener().onPortError(wifiPortMock, Error.UNKNOWN, "");
 
-        verify(eventBusMock).post(isA(ApplianceConnectErrorEvent.class));
     }
 
     @Test
@@ -150,8 +149,6 @@ public class ApplianceAccessManagerTest {
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.PUT_WIFI_PROPS);
 
         accessManager.getWifiPortListener().onPortUpdate(wifiPortMock);
-
-        verifyZeroInteractions(eventBusMock);
     }
 
     @Test
@@ -160,7 +157,7 @@ public class ApplianceAccessManagerTest {
 
         connectApplianceToHomeWiFi();
 
-        verifyZeroInteractions(eventBusMock, wifiPortMock, applianceMock);
+        verifyZeroInteractions(wifiPortMock, applianceMock);
     }
 
     @Test
@@ -168,8 +165,6 @@ public class ApplianceAccessManagerTest {
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.UNKNOWN);
 
         accessManager.getWifiPortListener().onPortError(wifiPortMock, Error.UNKNOWN, "hypothetical");
-
-        verifyZeroInteractions(eventBusMock);
 
         verifyRequestType(ApplianceRequestType.UNKNOWN);
     }

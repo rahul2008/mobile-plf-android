@@ -8,10 +8,9 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
-import com.philips.cdp2.ews.communication.events.ConnectApplianceToHomeWiFiEvent;
-import com.philips.cdp2.ews.communication.events.DiscoverApplianceEvent;
-import com.philips.cdp2.ews.communication.events.FetchDevicePortPropertiesEvent;
-import com.philips.cdp2.ews.communication.events.PairingSuccessEvent;
+import com.philips.cdp2.ews.communication.appliance.ApplianceAccessEventMonitor;
+import com.philips.cdp2.ews.communication.appliance.ConnectApplianceToHomeWiFiEvent;
+import com.philips.cdp2.ews.communication.appliance.DiscoveryHelper;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.microapp.EWSInterface;
@@ -19,7 +18,6 @@ import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.platform.appinfra.AppInfraInterface;
 
-import org.greenrobot.eventbus.EventBus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +32,6 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.isA;
 import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -45,17 +42,18 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @PrepareForTest({EWSDependencyProvider.class, EWSLogger.class, EWSTagger.class})
 public class ApplianceAccessEventMonitorTest {
 
-    private ApplianceAccessEventMonitor subject;
-
-    @Mock private ApplianceAccessManager applianceAccessManagerMock;
-    @Mock private DiscoveryHelper discoverManagerMock;
-    @Mock private ApplianceSessionDetailsInfo sessionInfoMock;
-    @Mock private EventBus eventBusMock;
-    @Mock private Appliance applianceMock;
-
     private static String CPP = "cc1ad323";
     private static String DEVICE_MODEL = "deviceModel";
     private static String DEVICE_NAME = "deviceFriendlyName";
+    private ApplianceAccessEventMonitor subject;
+    @Mock
+    private ApplianceAccessManager applianceAccessManagerMock;
+    @Mock
+    private DiscoveryHelper discoverManagerMock;
+    @Mock
+    private ApplianceSessionDetailsInfo sessionInfoMock;
+    @Mock
+    private Appliance applianceMock;
 
     @Before
     public void setUp() throws Exception {
@@ -75,13 +73,13 @@ public class ApplianceAccessEventMonitorTest {
         when(mockNetworkNode.getDeviceType()).thenReturn(DEVICE_MODEL);
         when(applianceMock.getNetworkNode()).thenReturn(mockNetworkNode);
 
-        subject = new ApplianceAccessEventMonitor(applianceAccessManagerMock, eventBusMock, sessionInfoMock,
+        subject = new ApplianceAccessEventMonitor(applianceAccessManagerMock, sessionInfoMock,
                 discoverManagerMock);
     }
 
     @Test
     public void itShouldFetchApplianceDevicePortDetailsWhenRequested() throws Exception {
-        subject.fetchDevicePortProperties(new FetchDevicePortPropertiesEvent());
+        subject.fetchDevicePortProperties();
 
         verify(applianceAccessManagerMock).fetchDevicePortProperties(isNull(ApplianceAccessManager.FetchCallback.class));
     }
@@ -105,22 +103,14 @@ public class ApplianceAccessEventMonitorTest {
 
     @Test
     public void itShouldStartDiscoverApplianceWhenRequested() throws Exception {
-        subject.discoverAppliance(new DiscoverApplianceEvent());
+        subject.discoverAppliance();
 
         verify(discoverManagerMock).startDiscovery(any(DiscoveryHelper.DiscoveryCallback.class));
     }
 
     @Test
-    public void itShouldStopDiscoverWhenOnStopIsCalled() throws Exception {
-        subject.onStop();
-        verify(discoverManagerMock).stopDiscovery();
-    }
-
-    @Test
     public void itShouldCheckForApplianceInCallbackResultAndSendSuccessEvent() throws Exception {
         subject.onApplianceFound(applianceMock);
-
-        verify(eventBusMock).post(isA(PairingSuccessEvent.class));
     }
 
     @Test

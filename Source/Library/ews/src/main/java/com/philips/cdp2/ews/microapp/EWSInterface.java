@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.EWSActivity;
-import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
@@ -35,8 +34,7 @@ public class EWSInterface implements UappInterface {
     private static final String TAG = "EWSInterface";
     @Inject
     Navigator navigator;
-    @Inject
-    EventingChannel<EventingChannel.ChannelCallback> ewsEventingChannel;
+
     private Context context;
     private ContentConfiguration contentConfiguration;
 
@@ -61,7 +59,7 @@ public class EWSInterface implements UappInterface {
             }
             launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
         } else if (uiLauncher instanceof ActivityLauncher) {
-            EWSDependencyProvider.getInstance().setThemeConfiguration(((ActivityLauncher)uiLauncher).getDlsThemeConfiguration());
+            EWSDependencyProvider.getInstance().setThemeConfiguration(((ActivityLauncher) uiLauncher).getDlsThemeConfiguration());
             launchAsActivity();
         }
     }
@@ -74,7 +72,7 @@ public class EWSInterface implements UappInterface {
             ((EWSLauncherInput) uappLaunchInput).setContainerFrameId(fragmentLauncher.getParentContainerResourceID());
             ((EWSLauncherInput) uappLaunchInput).setFragmentManager(fragmentLauncher.getFragmentActivity().getSupportFragmentManager());
             navigator.navigateToGettingStartedScreen();
-            ewsEventingChannel.start();
+//            ewsEventingChannel.start();
             EWSTagger.collectLifecycleInfo(fragmentLauncher.getFragmentActivity());
         } catch (Exception e) {
             EWSLogger.e(TAG,

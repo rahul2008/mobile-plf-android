@@ -8,7 +8,6 @@ import android.app.Dialog;
 import android.support.v4.app.Fragment;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.communication.events.ShowPasswordEntryScreenEvent;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.logger.EWSLogger;
@@ -18,11 +17,9 @@ import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.GpsUtil;
 import com.philips.cdp2.ews.util.StringProvider;
 
-import org.greenrobot.eventbus.EventBus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -36,15 +33,13 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({GpsUtil.class, EWSLogger.class, EWSTagger.class})
 public class SecondSetupStepsViewModelTest {
 
     @Mock
     private Navigator navigatorMock;
-
-    @Mock
-    private EventBus eventBusMock;
 
     @Mock
     private PermissionHandler permissionHandlerMock;
@@ -54,11 +49,14 @@ public class SecondSetupStepsViewModelTest {
 
     private SecondSetupStepsViewModel subject;
 
-    @Mock private StringProvider mockStringProvider;
+    @Mock
+    private StringProvider mockStringProvider;
 
-    @Mock private HappyFlowContentConfiguration mockHappyFlowConfiguration;
+    @Mock
+    private HappyFlowContentConfiguration mockHappyFlowConfiguration;
 
-    @Mock private BaseContentConfiguration baseContentConfiguration;
+    @Mock
+    private BaseContentConfiguration baseContentConfiguration;
 
     @Mock
     private Dialog dialogMock;
@@ -71,8 +69,9 @@ public class SecondSetupStepsViewModelTest {
         initMocks(this);
         mockStatic(EWSLogger.class);
         mockStatic(EWSTagger.class);
-        subject = new SecondSetupStepsViewModel(navigatorMock, eventBusMock, permissionHandlerMock,
-                mockStringProvider, mockHappyFlowConfiguration,baseContentConfiguration);
+        subject = new SecondSetupStepsViewModel(navigatorMock,
+                permissionHandlerMock,
+                mockStringProvider, mockHappyFlowConfiguration, baseContentConfiguration);
 
         subject.setFragment(fragmentMock);
     }
@@ -123,7 +122,7 @@ public class SecondSetupStepsViewModelTest {
     public void itShouldVerifyLocationPermissionInAppNotificationTag() throws Exception {
         subject.tagLocationPermission();
         verifyStatic();
-        EWSTagger.trackInAppNotification("setupStep2","Location Permission");
+        EWSTagger.trackInAppNotification("setupStep2", "Location Permission");
     }
 
     @Test
@@ -144,7 +143,7 @@ public class SecondSetupStepsViewModelTest {
     public void itShouldVerifyLocationDisabledInAppNotificationTag() throws Exception {
         subject.tagLocationDisabled();
         verifyStatic();
-        EWSTagger.trackInAppNotification("setupStep2","Location Disabled");
+        EWSTagger.trackInAppNotification("setupStep2", "Location Disabled");
     }
 
     @Test
@@ -168,7 +167,6 @@ public class SecondSetupStepsViewModelTest {
     @Test
     public void itShouldStartConnection() throws Exception {
         subject.startConnection();
-        verify(eventBusMock).unregister(Matchers.anyObject());
         verify(navigatorMock).navigateToConnectingPhoneToHotspotWifiScreen();
     }
 
@@ -180,7 +178,7 @@ public class SecondSetupStepsViewModelTest {
     }
 
     @Test
-    public void itShouldVerifyGetQuestionText() throws Exception{
+    public void itShouldVerifyGetQuestionText() throws Exception {
         when(mockHappyFlowConfiguration.getSetUpVerifyScreenQuestion()).thenReturn(R.string.label_ews_verify_ready_question_default);
         subject.getQuestion(mockHappyFlowConfiguration);
         verify(mockStringProvider).getString(mockHappyFlowConfiguration.getSetUpVerifyScreenQuestion());
@@ -234,15 +232,8 @@ public class SecondSetupStepsViewModelTest {
         verify(navigatorMock).navigateToConnectToDeviceWithPasswordScreen(anyString());
     }
 
-    @Test
-    public void itShouldUnregisterFromEventBusWhenPhoneIsConnectedToApplianceHotspot() throws Exception {
-        sendEventToShowPasswordEntryScreen();
-
-        verify(eventBusMock).unregister(subject);
-    }
-
     private void sendEventToShowPasswordEntryScreen() {
-        subject.showPasswordEntryScreenEvent(new ShowPasswordEntryScreenEvent());
+        subject.showPasswordEntryScreenEvent();
     }
 
     @Test
@@ -266,7 +257,6 @@ public class SecondSetupStepsViewModelTest {
     }
 
     private void verifyConnectRequest() {
-       verify(eventBusMock).unregister(Matchers.anyObject());
         verify(navigatorMock).navigateToConnectingPhoneToHotspotWifiScreen();
     }
 }

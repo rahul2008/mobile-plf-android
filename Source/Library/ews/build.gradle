@@ -209,7 +209,6 @@ dependencies {
     // External
     compile "com.google.dagger:dagger:${versionsExternal.dagger}"
     annotationProcessor "com.google.dagger:dagger-compiler:${versionsExternal.dagger}"
-    compile "org.greenrobot:eventbus:${versionsExternal.eventBus}"
 
     // Test
     testCompile "junit:junit:${versionsExternal.junit}"

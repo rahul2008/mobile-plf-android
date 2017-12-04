@@ -13,14 +13,9 @@ import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.ews.annotations.ApplianceRequestType;
-import com.philips.cdp2.ews.annotations.ConnectionErrorType;
-import com.philips.cdp2.ews.communication.events.ApplianceConnectErrorEvent;
-import com.philips.cdp2.ews.communication.events.DeviceConnectionErrorEvent;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Tag;
-
-import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -32,25 +27,14 @@ import javax.inject.Singleton;
 public class ApplianceAccessManager {
 
     public static final String TAG = "ApplianceAccessManager";
-
-    public interface FetchCallback {
-        void onDeviceInfoReceived(@NonNull WifiPortProperties properties);
-        void onFailedToFetchDeviceInfo();
-    }
-
-    public interface SetPropertiesCallback {
-        void onPropertiesSet(@NonNull WifiPortProperties wifiPortProperties);
-        void onFailedToSetProperties();
-    }
-
-    @Nullable private FetchCallback fetchCallback;
-    @Nullable private SetPropertiesCallback putCallback;
-
     @ApplianceRequestType
     int requestType = ApplianceRequestType.UNKNOWN;
-    private EventBus eventBus;
-    private EWSGenericAppliance appliance;
     ApplianceSessionDetailsInfo sessionDetailsInfo;
+    @Nullable
+    private FetchCallback fetchCallback;
+    @Nullable
+    private SetPropertiesCallback putCallback;
+    private EWSGenericAppliance appliance;
     private DICommPortListener<WifiPort> wifiPortListener = new DICommPortListener<WifiPort>() {
 
         @Override
@@ -101,10 +85,9 @@ public class ApplianceAccessManager {
     };
 
     @Inject
-    public ApplianceAccessManager(@NonNull @Named("ews.event.bus") EventBus eventBus,
-                                  @NonNull final @Named("ews.temporary.appliance") EWSGenericAppliance appliance,
-                                  @NonNull final ApplianceSessionDetailsInfo sessionDetailsInfo) {
-        this.eventBus = eventBus;
+    public ApplianceAccessManager(
+            @NonNull final @Named("ews.temporary.appliance") EWSGenericAppliance appliance,
+            @NonNull final ApplianceSessionDetailsInfo sessionDetailsInfo) {
         this.appliance = appliance;
         this.sessionDetailsInfo = sessionDetailsInfo;
     }
@@ -129,10 +112,8 @@ public class ApplianceAccessManager {
             case ApplianceRequestType.GET_WIFI_PROPS:
             case ApplianceRequestType.GET_DEVICE_PROPS:
                 EWSLogger.d("TAG", "onPortError for requestType:" + requestType);
-                eventBus.post(new DeviceConnectionErrorEvent());
                 break;
             case ApplianceRequestType.PUT_WIFI_PROPS:
-                eventBus.post(new ApplianceConnectErrorEvent(ConnectionErrorType.WRONG_CREDENTIALS));
                 break;
             default:
                 EWSLogger.e(TAG, "Unknown request type in properties");
@@ -168,5 +149,17 @@ public class ApplianceAccessManager {
     @VisibleForTesting
     void setApplianceWifiRequestType(@ApplianceRequestType int type) {
         this.requestType = type;
+    }
+
+    public interface FetchCallback {
+        void onDeviceInfoReceived(@NonNull WifiPortProperties properties);
+
+        void onFailedToFetchDeviceInfo();
+    }
+
+    public interface SetPropertiesCallback {
+        void onPropertiesSet(@NonNull WifiPortProperties wifiPortProperties);
+
+        void onFailedToSetProperties();
     }
 }
