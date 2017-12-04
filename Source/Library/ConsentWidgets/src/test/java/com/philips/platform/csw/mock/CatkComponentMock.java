@@ -14,14 +14,10 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.dto.CreateConsentModelRequest;
-import com.philips.platform.catk.dto.GetConsentsModelRequest;
+import com.philips.platform.catk.CreateConsentModelRequest;
+import com.philips.platform.catk.GetConsentsModelRequest;
 import com.philips.platform.catk.injection.CatkComponent;
-import com.philips.platform.catk.network.NetworkController;
-import com.philips.platform.csw.utils.CswLogger;
-import com.philips.platform.mya.consentwidgets.BuildConfig;
-
-import org.mockito.Mockito;
+import com.philips.platform.catk.NetworkController;
 
 import java.util.Map;
 

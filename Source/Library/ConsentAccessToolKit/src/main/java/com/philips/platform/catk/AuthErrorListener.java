@@ -5,14 +5,12 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.catk.listener;
+package com.philips.platform.catk;
 
 import com.android.volley.VolleyError;
-import com.google.gson.JsonArray;
-import com.philips.platform.catk.request.ConsentRequest;
 
 public interface AuthErrorListener {
 
-    void onAuthError(ConsentRequest request, VolleyError error);
+    void onAuthError(NetworkAbstractModel model, VolleyError error);
 
 }

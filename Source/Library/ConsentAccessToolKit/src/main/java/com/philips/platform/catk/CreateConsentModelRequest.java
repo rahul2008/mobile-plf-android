@@ -5,18 +5,20 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.catk.dto;
+package com.philips.platform.catk;
 
 import android.support.annotation.NonNull;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.philips.platform.catk.network.NetworkAbstractModel;
+import com.philips.platform.catk.NetworkAbstractModel;
+import com.philips.platform.catk.dto.CreateConsentDto;
+import com.philips.platform.catk.dto.GetConsentDto;
 
 import java.util.List;
 
-public class CreateConsentModelRequest extends NetworkAbstractModel {
+class CreateConsentModelRequest extends NetworkAbstractModel {
 
     @NonNull private String url;
     @NonNull private CreateConsentDto dto;

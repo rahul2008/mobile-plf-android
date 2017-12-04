@@ -13,9 +13,8 @@ import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.injection.CatkComponent;
-import com.philips.platform.catk.dto.CreateConsentModelRequest;
-import com.philips.platform.catk.dto.GetConsentsModelRequest;
-import com.philips.platform.catk.network.NetworkController;
+
+import com.philips.platform.catk.NetworkController;
 
 import android.content.Context;
 
@@ -68,16 +67,6 @@ public class CatkComponentMock implements CatkComponent {
 
     @Override
     public void inject(NetworkController networkController) {
-
-    }
-
-    @Override
-    public void inject(CreateConsentModelRequest createConsentModelRequest) {
-
-    }
-
-    @Override
-    public void inject(GetConsentsModelRequest getConsentsModelRequest) {
 
     }
 

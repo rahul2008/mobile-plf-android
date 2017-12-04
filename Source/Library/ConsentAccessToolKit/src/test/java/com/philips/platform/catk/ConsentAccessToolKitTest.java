@@ -13,20 +13,15 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.catk.dto.CreateConsentModelRequest;
 import com.philips.platform.catk.dto.GetConsentDto;
-import com.philips.platform.catk.dto.GetConsentsModelRequest;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.injection.CatkComponent;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.mock.CatkComponentMock;
-import com.philips.platform.catk.mock.NetworkControllerMock;
 import com.philips.platform.catk.mock.ServiceInfoProviderMock;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.model.ConsentStatus;
-import com.philips.platform.catk.network.NetworkAbstractModel;
-import com.philips.platform.catk.network.NetworkController;
 import com.philips.platform.catk.provider.AppInfraInfo;
 import com.philips.platform.catk.provider.ComponentProvider;
 import com.philips.platform.mya.consentaccesstoolkit.BuildConfig;
@@ -44,7 +39,6 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 

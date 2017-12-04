@@ -5,14 +5,9 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.catk.network;
+package com.philips.platform.catk;
 
-import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.ConsentAccessToolKitManipulator;
-import com.philips.platform.catk.dto.GetConsentsModelRequest;
 import com.philips.platform.catk.injection.CatkComponent;
-import com.philips.platform.catk.mock.ModelDataLoadListenerMock;
-import com.philips.platform.catk.mock.NetworkControllerMock;
 
 import org.junit.After;
 import org.junit.Before;

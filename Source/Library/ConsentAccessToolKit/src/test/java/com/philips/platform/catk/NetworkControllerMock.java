@@ -5,11 +5,11 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.catk.mock;
+package com.philips.platform.catk;
 
 import com.philips.platform.catk.dto.GetConsentDto;
-import com.philips.platform.catk.network.NetworkAbstractModel;
-import com.philips.platform.catk.network.NetworkController;
+import com.philips.platform.catk.NetworkAbstractModel;
+import com.philips.platform.catk.NetworkController;
 
 import java.util.List;
 

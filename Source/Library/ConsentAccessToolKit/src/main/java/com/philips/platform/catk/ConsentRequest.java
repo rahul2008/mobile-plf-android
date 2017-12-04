@@ -9,7 +9,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.platform.catk.request;
+package com.philips.platform.catk;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -22,15 +22,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
-import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.listener.AuthErrorListener;
-import com.philips.platform.catk.network.NetworkAbstractModel;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
-public class ConsentRequest extends Request<JsonArray> {
+class ConsentRequest extends Request<JsonArray> {
     private AuthErrorListener authErrorListener;
     private NetworkAbstractModel model;
     private String body;
@@ -84,7 +81,7 @@ public class ConsentRequest extends Request<JsonArray> {
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             ParseError error = new ParseError(e);
-            authErrorListener.onAuthError(this, error);
+            authErrorListener.onAuthError(this.getModel(), error);
             return Response.error(error);
         }
     }
@@ -99,7 +96,7 @@ public class ConsentRequest extends Request<JsonArray> {
     @Override
     public void deliverError(final VolleyError error) {
         if (error instanceof AuthFailureError) {
-            authErrorListener.onAuthError(this, error);
+            authErrorListener.onAuthError(this.getModel(), error);
         } else {
             if (model != null) {
                 model.onResponseError(new ConsentNetworkError(error));

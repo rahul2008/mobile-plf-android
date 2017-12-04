@@ -5,17 +5,19 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.catk.dto;
+package com.philips.platform.catk;
 
 import com.android.volley.Request;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.philips.cdp.registration.User;
 import com.philips.platform.catk.ConsentAccessToolKitManipulator;
+import com.philips.platform.catk.GetConsentsModelRequest;
+import com.philips.platform.catk.dto.GetConsentDto;
 import com.philips.platform.catk.injection.CatkComponent;
 import com.philips.platform.catk.model.ConsentStatus;
-import com.philips.platform.catk.network.NetworkAbstractModel;
-import com.philips.platform.catk.network.NetworkController;
+import com.philips.platform.catk.NetworkAbstractModel;
+import com.philips.platform.catk.NetworkController;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -64,7 +66,7 @@ public class GetConsentDtoRequestTest extends MockitoConfiguration {
         jsonObject.addProperty("status", status);
         jsonObject.addProperty("subject", subject);
         jsonArray.add(jsonObject);
-        assertArrayEquals(expectedConsentModelRequest, consentModelRequest.parseResponse(jsonArray).toArray());
+        Assert.assertArrayEquals(expectedConsentModelRequest, consentModelRequest.parseResponse(jsonArray).toArray());
     }
 
     @Test

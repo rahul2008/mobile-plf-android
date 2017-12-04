@@ -5,7 +5,7 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.catk.network;
+package com.philips.platform.catk;
 
 import com.google.gson.JsonArray;
 import com.philips.platform.catk.dto.GetConsentDto;
@@ -13,7 +13,7 @@ import com.philips.platform.catk.error.ConsentNetworkError;
 
 import java.util.List;
 
-public abstract class NetworkAbstractModel {
+abstract class NetworkAbstractModel {
 
     protected DataLoadListener mDataLoadListener;
 
