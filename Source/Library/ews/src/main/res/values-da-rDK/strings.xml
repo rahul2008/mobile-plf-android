@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Ja</string>
     <string name="button_ews_support_wrong_phone_no">Nej</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Positionstilladelse</string>
+    <string name="label_ews_location_permission_body">Vi skal have adgang til din position for at kunne finde %1$s\'s PHILIPS-Setup Wi-Fi-netværk.</string>
+    <string name="label_ews_location_permission_allow">Tillad</string>
+    <string name="label_ews_location_permission_cancel">Annuller opsætning</string>
+    <string name="label_ews_location_services_title">Aktiver Positionstjenester</string>
+    <string name="label_ews_location_services_body">Vi skal aktivere Positionstjenester for at kunne finde %1$s\'s PHILIPS Setup Wi-Fi-netværk. Aktiver Positionstjenester under Positionsindstillinger, og vend tilbage til appen.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Gå til Indstillinger</string>
 </resources>

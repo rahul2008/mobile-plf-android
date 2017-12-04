@@ -33,8 +33,8 @@
     <string name="button_ews_plug_in_next">Ok, am terminat</string>
     <string name="label_ews_verify_ready_title_default">Dispozitivul e în modul de configurare?</string>
     <string name="label_ews_verify_ready_question_default">LED-ul Wi-Fi luminează intermitent?</string>
-    <string name="button_ews_verify_ready_yes_default">Da, LED-ul Wi-Fi luminează intermitent</string>
-    <string name="button_ews_verify_ready_no_default">Nu, LED-ul Wi-Fi nu luminează intermitent</string>
+    <string name="button_ews_verify_ready_yes_default">LED-ul luminează intermitent</string>
+    <string name="button_ews_verify_ready_no_default">Ledul nu luminează intermitent</string>
     <string name="label_ews_select_wifi_title">Conectează-te la %1$s</string>
     <string name="label_ews_select_wifi_body">Urmează aceşti paşi pentru a conecta telefonul la PHILIPS Setup.</string>
     <string name="label_ews_select_wifi_step1">1. Accesează Setările de pe telefon şi atinge Wi-Fi</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Da</string>
     <string name="button_ews_support_wrong_phone_no">Nu</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Permisiune pentru locaţie</string>
+    <string name="label_ews_location_permission_body">Pentru a găsi reţeaua Wi-Fi PHILIPS Setup pentru %1$s, avem nevoie de permisiunea de a-ţi accesa locaţia.</string>
+    <string name="label_ews_location_permission_allow">Permite</string>
+    <string name="label_ews_location_permission_cancel">Anulează configurarea</string>
+    <string name="label_ews_location_services_title">Activează serviciile de localizare</string>
+    <string name="label_ews_location_services_body">Pentru a găsi reţeaua Wi-Fi PHILIPS Setup pentru %1$s, serviciile de localizare trebuie să fie activate. Activează serviciile de localizare în setările de locaţie şi revino la aplicaţie.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Accesare setări locaţie</string>
 </resources>

@@ -9,8 +9,8 @@
     <string name="ews_support_title">フィリップスサポート</string>
     <string name="label_ews_cancel_setup_title">Wi-Fi セットアップをキャンセルしますか？</string>
     <string name="label_ews_cancel_setup_body">ここでキャンセルすると、Wi-Fi 経由で %1$s でアクセスできません。</string>
-    <string name="button_ews_cancel_setup_yes">はい、セットアップをキャンセルします</string>
-    <string name="button_ews_cancel_setup_no">いいえ、セットアップを続行します</string>
+    <string name="button_ews_cancel_setup_yes">はい、キャンセルします</string>
+    <string name="button_ews_cancel_setup_no">いいえ、続行します</string>
     <string name="label_ews_get_started_title">Wi-Fi への接続</string>
     <string name="label_ews_get_started_body">%1$s を Wi-Fi に接続すると、このアプリとアプリの全機能をご利用いただけます。</string>
     <string name="label_ews_get_started_description">正しく接続するには %1$s をルーターの近くに置いてください。壁などの障害物が信号強度に影響することがあります。</string>
@@ -30,11 +30,11 @@
     <string name="label_ews_select_wakeup_wifi_steps_4">4. %1$s に戻ります。</string>
     <string name="label_ews_plug_in_title_default">デバイスの電源は入っていますか？</string>
     <string name="label_ews_plug_in_body_default">Proposition-specific instructions to power the device.</string>
-    <string name="button_ews_plug_in_next">はい、電源は入っています。</string>
+    <string name="button_ews_plug_in_next">はい、入っています</string>
     <string name="label_ews_verify_ready_title_default">デバイスはセットアップモードですか？</string>
     <string name="label_ews_verify_ready_question_default">Wi-Fi ライトは点滅していますか？</string>
-    <string name="button_ews_verify_ready_yes_default">はい、Wi-Fi ライトは点滅しています。</string>
-    <string name="button_ews_verify_ready_no_default">いいえ、Wi-Fi ライトは点滅していません。</string>
+    <string name="button_ews_verify_ready_yes_default">はい、点滅しています</string>
+    <string name="button_ews_verify_ready_no_default">いいえ、点滅していません</string>
     <string name="label_ews_select_wifi_title">%1$s への接続</string>
     <string name="label_ews_select_wifi_body">スマートフォンを PHILIPS Setup に接続するには、以下の手順に従ってください。</string>
     <string name="label_ews_select_wifi_step1">1. スマートフォンの設定で Wi-Fi をタップします。</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">はい</string>
     <string name="button_ews_support_wrong_phone_no">いいえ</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">位置情報へのアクセス許可</string>
+    <string name="label_ews_location_permission_body">%1$s の PHILIPS Setup Wi-Fi ネットワークを検出するには、位置情報へのアクセス許可が必要です。</string>
+    <string name="label_ews_location_permission_allow">許可</string>
+    <string name="label_ews_location_permission_cancel">セットアップのキャンセル</string>
+    <string name="label_ews_location_services_title">位置情報サービスを有効にする</string>
+    <string name="label_ews_location_services_body">%1$s の PHILIPS Setup Wi-Fi ネットワークを検出するには、位置情報サービスを有効にする必要があります。［位置情報設定］で位置情報サービスを有効にしてからアプリに戻ってください。</string>
+    <string name="label_ews_location_services_go_to_location_settings">［位置情報設定］に移動</string>
 </resources>

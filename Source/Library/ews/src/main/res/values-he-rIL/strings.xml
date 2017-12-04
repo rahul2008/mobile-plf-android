@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">כן</string>
     <string name="button_ews_support_wrong_phone_no">לא</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">הרשאת מיקום</string>
+    <string name="label_ews_location_permission_body">כדי למצוא את רשת ה-Wi-Fi להגדרת פיליפס של %1$s, אנו זקוקים להרשאת גישה למיקומך.</string>
+    <string name="label_ews_location_permission_allow">אפשר</string>
+    <string name="label_ews_location_permission_cancel">בטל הגדרה</string>
+    <string name="label_ews_location_services_title">הפעל שירותי מיקום</string>
+    <string name="label_ews_location_services_body">כדי למצוא את רשת ה-Wi-Fi להגדרת פיליפס של %1$s, דרושים לנו שירותי מיקום מופעלים. הפעל את שירותי המיקום בהגדרות המיקום וחזור אל האפליקציה.</string>
+    <string name="label_ews_location_services_go_to_location_settings">עבור אל הגדרות מיקום</string>
 </resources>
