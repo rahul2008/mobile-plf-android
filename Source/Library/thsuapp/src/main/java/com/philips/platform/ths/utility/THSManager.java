@@ -1291,7 +1291,7 @@ public class THSManager {
 
     public void scheduleAppointment(Context context, final THSProviderInfo thsProviderInfo, Date appointmentDate,final RemindOptions consumerRemindOptions, final THSSDKValidatedCallback<Void, SDKError> thssdkValidatedCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().scheduleAppointment(getPTHConsumer(context).getConsumer(), thsProviderInfo.getProviderInfo(),
-                appointmentDate, null,consumerRemindOptions, RemindOptions.FIFTEEN_MIN, new SDKValidatedCallback<Void, SDKError>() {
+                appointmentDate, null,consumerRemindOptions, RemindOptions.NO_REMINDER, new SDKValidatedCallback<Void, SDKError>() {
                     @Override
                     public void onValidationFailure(Map<String, ValidationReason> map) {
                         thssdkValidatedCallback.onValidationFailure(map);

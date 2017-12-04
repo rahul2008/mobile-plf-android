@@ -58,7 +58,7 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     RelativeLayout mInsuranceDetailRelativeLayout;
     RelativeLayout mNoInsuranceDetailRelativeLayout;
 
-    private FrameLayout mPaymentMethodDetailFrameLayout;
+    protected FrameLayout mPaymentMethodDetailFrameLayout;
     RelativeLayout mPaymentMethodDetailRelativeLayout;
     RelativeLayout mNoPaymentMethodDetailRelativeLayout;
 
@@ -198,5 +198,9 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
         costSummaryScrollView.setScrollContainer(false);
         costSummaryVisibleRelativeLayout.setVisibility(View.GONE);
         costSummaryCalculateContainer.setVisibility(View.VISIBLE);
+    }
+
+    void enablePaymentOption(boolean enable){
+        mPaymentMethodDetailFrameLayout.setClickable(enable);
     }
 }
