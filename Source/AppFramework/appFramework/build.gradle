@@ -215,7 +215,6 @@ configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
     resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
 
-    resolutionStrategy.force "com.android.support:support-annotations:${versionsAndroid.support}"
     exclude group: 'commons-codec', module: 'commons-codec'
     exclude module: 'httpcore'
 }
@@ -408,7 +407,6 @@ dependencies {
 //    testCompile "org.robolectric:shadows-multidex:${versionsExternal.junit}"
     testCompile "org.robolectric:shadows-support-v4:${versionsExternal.robolectricSupport}"
     testCompile "org.mockito:mockito-all:${versionsExternal.mockitoAll}"
-    testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
 
     testCompile "org.powermock:powermock-core:${versionsExternal.powerMock}"
     testCompile "org.powermock:powermock-module-junit4:${versionsExternal.powerMock}"
