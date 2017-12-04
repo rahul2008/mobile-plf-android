@@ -4,6 +4,7 @@ package com.philips.platform.baseapp.screens.myaccount;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
@@ -72,10 +73,20 @@ public class MyAccountState extends BaseState {
         });
         launchInput.setContext(actContext);
         launchInput.addToBackStack(true);
-        launchInput.setConsentDefinitions(createConsentDefinitions(actContext, Locale.US));
+        launchInput.setConsentDefinitions(createConsentDefinitions(actContext, getLocale(actContext)));
         MyaInterface myaInterface = getInterface();
         myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
         myaInterface.launch(fragmentLauncher, launchInput);
+    }
+
+    private Locale getLocale(Context actContext) {
+        Locale locale;
+        if (actContext != null && actContext.getResources() != null) {
+            locale = actContext.getResources().getConfiguration().locale;
+        } else {
+            locale = Locale.US;
+        }
+        return locale;
     }
 
     /**
