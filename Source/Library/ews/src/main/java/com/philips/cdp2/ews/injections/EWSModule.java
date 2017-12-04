@@ -22,7 +22,7 @@ import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.appliance.EWSGenericAppliance;
-import com.philips.cdp2.ews.communication.appliance.DiscoveryHelper;
+import com.philips.cdp2.ews.communication.DiscoveryHelper;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.navigation.FragmentNavigator;
