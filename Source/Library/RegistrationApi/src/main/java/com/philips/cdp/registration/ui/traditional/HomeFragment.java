@@ -361,7 +361,7 @@ public class HomeFragment extends RegistrationBaseFragment implements HomeContra
     @Override
     public void setViewParams(Configuration config, int width) {
         RLog.i(RLog.CALLBACK, "HomeFragment : onLoginSuccess lenth"+width);
-        //applyParams(config, usr_startScreen_baseLayout_LinearLayout, width);
+       // applyParams(config, usr_startScreen_baseLayout_LinearLayout, width);
         //applyParams(config, usr_StartScreen_privacyNotice_country_LinearLayout, width);
         //applyParams(config, usr_StartScreen_privacyNotice_country_LinearLayout2, width);
         handlePrivacyPolicyAndCountryView(width);

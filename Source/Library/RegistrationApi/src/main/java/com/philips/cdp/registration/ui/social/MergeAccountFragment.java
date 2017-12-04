@@ -200,7 +200,6 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, usr_mergeScreen_baseLayout_LinearLayout, width);
     }
 
     @Override

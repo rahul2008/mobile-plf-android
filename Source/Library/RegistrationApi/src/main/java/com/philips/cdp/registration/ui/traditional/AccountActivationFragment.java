@@ -221,7 +221,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, usr_activation_root_layout, width);
+       // applyParams(config, usr_activation_root_layout, width);
     }
 
     @Override

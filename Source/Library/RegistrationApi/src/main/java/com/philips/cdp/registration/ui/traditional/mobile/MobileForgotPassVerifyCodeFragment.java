@@ -174,7 +174,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, usrVerificationRootLayout, width);
+       // applyParams(config, usrVerificationRootLayout, width);
     }
 
     @Override

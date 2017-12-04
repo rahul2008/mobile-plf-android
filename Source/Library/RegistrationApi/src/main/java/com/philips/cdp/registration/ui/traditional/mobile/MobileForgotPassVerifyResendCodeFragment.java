@@ -215,7 +215,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, fragmentRootLayout, width);
+       // applyParams(config, fragmentRootLayout, width);
     }
 
     @Override

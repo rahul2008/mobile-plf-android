@@ -220,8 +220,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, usr_loginScreen_rootLayout_LinearLayout, width);
-        applyParams(config,resetPasswordLabel,width);
+        //applyParams(config, usr_loginScreen_rootLayout_LinearLayout, width);
+        //applyParams(config,resetPasswordLabel,width);
     }
 
     @Override

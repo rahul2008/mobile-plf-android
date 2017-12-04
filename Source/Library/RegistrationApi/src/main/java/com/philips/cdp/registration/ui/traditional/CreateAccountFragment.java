@@ -301,7 +301,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, usr_createScreen_baseLayout_LinearLayout, width);
+       // applyParams(config, usr_createScreen_baseLayout_LinearLayout, width);
     }
 
     @Override

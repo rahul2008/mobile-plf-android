@@ -207,7 +207,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, rootLayout, width);
+        //applyParams(config, rootLayout, width);
     }
 
     @Override

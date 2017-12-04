@@ -163,7 +163,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, usrAccountRootLayout, width);
+        //applyParams(config, usrAccountRootLayout, width);
     }
 
     @Override

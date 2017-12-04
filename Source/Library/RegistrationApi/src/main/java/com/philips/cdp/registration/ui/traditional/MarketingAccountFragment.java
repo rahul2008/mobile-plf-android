@@ -174,7 +174,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config,usr_marketingScreen_rootContainer_linearLayout,width);
+       // applyParams(config,usr_marketingScreen_rootContainer_linearLayout,width);
     }
 
     @Override

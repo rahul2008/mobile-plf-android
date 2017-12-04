@@ -14,6 +14,8 @@
 
         <LinearLayout
             android:id="@+id/usr_almostDoneScreen_rootContainer_linearLayout"
+            android:layout_marginLeft="@dimen/reg_layout_margin_16"
+            android:layout_marginRight="@dimen/reg_layout_margin_16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
