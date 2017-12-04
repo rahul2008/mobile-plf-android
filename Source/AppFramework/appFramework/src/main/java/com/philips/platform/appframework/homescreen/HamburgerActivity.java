@@ -227,6 +227,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
             String appState = ((AppFrameworkApplication) getApplicationContext()).getAppState();
             avatarName.setText(user.getGivenName());
             hamburgerLogoutLabel.setText(R.string.RA_Settings_Logout);
+            if(!appState.equalsIgnoreCase(AppStateConfiguration.STAGING.getValue()))
             envInfo.setText(appState);
 
         }

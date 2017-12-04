@@ -1,0 +1,68 @@
+// Flavors for Configuration Management
+android {
+
+
+    productFlavors {
+        AppFrameworkHamburger {
+            applicationId = "com.philips.platform.referenceapp"
+            resValue "string", "af_app_name", "ReferenceApp"
+
+        }
+        /*
+        AppFrameworkTabbed {
+            applicationId = "com.philips.platform.referenceapp"
+            resValue "string", "af_app_name", "ReferenceApp"
+        }
+        */
+        applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                if (variant.productFlavors[0].name.equals("AppFrameworkHamburger")) {
+                    output.outputFile = new File(output.outputFile.parent,
+                            output.outputFile.name.replace("-AppFrameworkHamburger", ""));
+                }
+            }
+        }
+        applicationVariants.all { variant ->
+            def productFlavor = variant.productFlavors[0] != null ? "${variant.productFlavors[0].name.capitalize()}" : ""
+            def buildType = "${variant.buildType.name.capitalize()}"
+            tasks["compile${productFlavor}${buildType}UnitTestSources"].dependsOn(tasks["merge${productFlavor}${buildType}Assets"])
+        }
+
+    }
+
+    buildTypes {
+        def BOOLEAN = "bool"
+        def TRUE = "true"
+        def AWSDK_DEV_SSL_ALLOW_ALL = "awsdk_dev_ssl_allow_all"
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            testCoverageEnabled = true
+            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+        }
+
+        leakCanary {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            signingConfig signingConfigs.debug
+            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFile 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+        }
+        psraRelease {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            proguardFile 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+        }
+    }
+}
