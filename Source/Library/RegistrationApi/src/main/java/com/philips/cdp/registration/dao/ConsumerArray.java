@@ -8,7 +8,9 @@
 
 package com.philips.cdp.registration.dao;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Consumer array for interested items.

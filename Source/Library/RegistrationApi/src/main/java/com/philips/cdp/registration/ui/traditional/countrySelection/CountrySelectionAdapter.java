@@ -1,16 +1,18 @@
 package com.philips.cdp.registration.ui.traditional.countrySelection;
 
-import android.os.*;
-import android.support.v7.widget.*;
-import android.view.*;
+import android.os.Handler;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.dao.*;
-import com.philips.cdp.registration.listener.*;
-import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.uid.view.widget.*;
+import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.dao.Country;
+import com.philips.cdp.registration.listener.SelectedCountryListener;
+import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.platform.uid.view.widget.Label;
 
-import java.util.*;
+import java.util.List;
 
 public class CountrySelectionAdapter extends RecyclerView.Adapter< RecyclerView.ViewHolder> {
 

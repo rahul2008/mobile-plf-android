@@ -8,48 +8,90 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.content.*;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.*;
-import android.support.annotation.*;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.text.*;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
-import android.text.style.*;
-import android.view.*;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
+import android.text.style.UnderlineSpan;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.janrain.android.Jump;
-import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.HttpClientService;
+import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.R2;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.configuration.ClientIDConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.events.*;
+import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
-import com.philips.cdp.registration.handlers.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.customviews.*;
-import com.philips.cdp.registration.ui.traditional.mobile.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.events.NetworkStateListener;
+import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
+import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
+import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.RegistrationSettingsURL;
+import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
+import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPassVerifyCodeFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.LoginFailureNotification;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegAlertDialog;
+import com.philips.cdp.registration.ui.utils.RegChinaUtil;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uid.utils.DialogConstants;
-import com.philips.platform.uid.view.widget.*;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
+import com.philips.platform.uid.view.widget.InputValidationLayout;
+import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.ProgressBarButton;
+import com.philips.platform.uid.view.widget.ValidationEditText;
 import com.squareup.okhttp.RequestBody;
 
-import org.greenrobot.eventbus.*;
-import org.json.*;
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.net.*;
-import java.util.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
-import butterknife.*;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.Observable;
-import io.reactivex.disposables.*;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,

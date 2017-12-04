@@ -18,10 +18,13 @@ import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.update.UpdateUser;
 import com.philips.ntputils.ServerTime;
 
-import org.json.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.text.*;
-import java.util.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class UpdateDateOfBirth extends UpdateUserDetailsBase {
 

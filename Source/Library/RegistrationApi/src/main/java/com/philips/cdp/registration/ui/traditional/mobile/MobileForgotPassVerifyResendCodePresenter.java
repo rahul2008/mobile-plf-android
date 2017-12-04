@@ -1,27 +1,34 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.content.*;
-import android.os.*;
-import android.support.annotation.*;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
-import com.janrain.android.*;
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.infra.*;
-import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.events.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.janrain.android.Jump;
+import com.philips.cdp.registration.HttpClientServiceReceiver;
+import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.configuration.ClientIDConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.events.NetworkStateListener;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.URInterface;
 
-import org.json.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
-import io.reactivex.*;
-import io.reactivex.android.schedulers.*;
-import io.reactivex.disposables.*;
-import io.reactivex.observers.*;
-import io.reactivex.schedulers.*;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class MobileForgotPassVerifyResendCodePresenter implements
         HttpClientServiceReceiver.Listener, NetworkStateListener {

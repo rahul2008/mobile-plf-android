@@ -1,32 +1,45 @@
 package com.philips.cdp.registration.ui.traditional;
 
-import android.content.*;
-import android.os.*;
-import android.support.annotation.*;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 
-import com.janrain.android.*;
-import com.philips.cdp.registration.*;
+import com.janrain.android.Jump;
+import com.philips.cdp.registration.HttpClientService;
+import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.app.infra.*;
-import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.dao.*;
-import com.philips.cdp.registration.events.*;
-import com.philips.cdp.registration.handlers.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.traditional.mobile.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.configuration.ClientIDConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.events.EventHelper;
+import com.philips.cdp.registration.events.EventListener;
+import com.philips.cdp.registration.events.NetworkStateListener;
+import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPassVerifyCodeFragment;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegChinaUtil;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.URInterface;
 
-import org.json.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.net.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
-import io.reactivex.android.schedulers.*;
-import io.reactivex.disposables.*;
-import io.reactivex.observers.*;
-import io.reactivex.schedulers.*;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by philips on 22/06/17.

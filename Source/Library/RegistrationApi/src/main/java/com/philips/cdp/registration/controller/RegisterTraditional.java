@@ -9,17 +9,25 @@
 
 package com.philips.cdp.registration.controller;
 
-import android.content.*;
 
-import com.janrain.android.*;
+import android.content.Context;
+
+import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.dao.*;
-import com.philips.cdp.registration.events.*;
-import com.philips.cdp.registration.handlers.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.dao.DIUserProfile;
+import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
+import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
+import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
-import org.json.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener, TraditionalRegistrationHandler {
 

@@ -9,32 +9,57 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.content.*;
+import android.content.Context;
 import android.content.res.Configuration;
-import android.os.*;
-import android.support.v4.app.*;
-import android.support.v4.content.*;
-import android.text.*;
-import android.text.style.*;
-import android.view.*;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.text.style.ClickableSpan;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.*;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.customviews.*;
-import com.philips.cdp.registration.ui.traditional.mobile.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.R2;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.LoginIdValidator;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.PasswordValidator;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
+import com.philips.cdp.registration.ui.utils.UIFlow;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.ValidLoginId;
+import com.philips.cdp.registration.ui.utils.ValidPassword;
 import com.philips.platform.uid.view.widget.CheckBox;
-import com.philips.platform.uid.view.widget.*;
+import com.philips.platform.uid.view.widget.InputValidationLayout;
+import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.ProgressBarButton;
+import com.philips.platform.uid.view.widget.ValidationEditText;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
-import butterknife.*;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class CreateAccountFragment extends RegistrationBaseFragment implements CreateAccountContract {
 

@@ -9,33 +9,48 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.content.*;
-import android.content.res.*;
-import android.graphics.*;
-import android.os.*;
-import android.text.*;
-import android.text.style.*;
-import android.view.*;
-import android.widget.*;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.dao.*;
-import com.philips.cdp.registration.events.*;
-import com.philips.cdp.registration.handlers.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.customviews.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.R2;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.events.CounterHelper;
+import com.philips.cdp.registration.events.CounterListener;
+import com.philips.cdp.registration.handlers.RefreshUserHandler;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegAlertDialog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.UpdateEmail;
 import com.philips.platform.uid.view.widget.Button;
-import com.philips.platform.uid.view.widget.*;
+import com.philips.platform.uid.view.widget.ProgressBarButton;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
-import butterknife.*;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AccountActivationFragment extends RegistrationBaseFragment implements
         AccountActivationContract, RefreshUserHandler, CounterListener {

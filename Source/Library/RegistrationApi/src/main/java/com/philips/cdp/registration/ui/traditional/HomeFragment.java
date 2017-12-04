@@ -8,40 +8,66 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.*;
-import android.content.*;
-import android.content.res.*;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
-import android.os.*;
-import android.support.graphics.drawable.*;
-import android.support.v4.content.*;
-import android.text.*;
-import android.text.method.*;
-import android.text.style.*;
-import android.util.*;
-import android.view.*;
-import android.widget.*;
+import android.os.Bundle;
+import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
+import android.text.style.UnderlineSpan;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.dao.*;
-import com.philips.cdp.registration.listener.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.customviews.*;
-import com.philips.cdp.registration.ui.traditional.mobile.*;
-import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.uid.view.widget.*;
+import com.philips.cdp.registration.R2;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.dao.Country;
+import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.listener.CountrySelectionListener;
+import com.philips.cdp.registration.settings.RegistrationFunction;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.customviews.XProviderButton;
+import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
+import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.platform.uid.view.widget.Label;
 
-import org.json.*;
+import org.json.JSONObject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
-import butterknife.*;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-import static com.philips.cdp.registration.ui.utils.RegConstants.*;
+import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER_FACEBOOK;
+import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER_GOOGLEPLUS;
+import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER_WECHAT;
 
 
 public class HomeFragment extends RegistrationBaseFragment implements HomeContract {

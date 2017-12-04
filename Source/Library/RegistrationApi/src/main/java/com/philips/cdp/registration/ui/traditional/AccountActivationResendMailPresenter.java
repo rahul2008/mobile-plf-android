@@ -1,11 +1,11 @@
 package com.philips.cdp.registration.ui.traditional;
 
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.dao.*;
-import com.philips.cdp.registration.events.*;
-import com.philips.cdp.registration.handlers.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.events.NetworkStateListener;
+import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.URInterface;
 
 public class AccountActivationResendMailPresenter implements NetworkStateListener,
         ResendVerificationEmailHandler {

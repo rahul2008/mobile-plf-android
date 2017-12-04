@@ -9,22 +9,27 @@
 
 package com.philips.cdp.registration.controller;
 
-import android.content.*;
+import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.janrain.android.Jump;
-import com.janrain.android.capture.*;
+import com.janrain.android.capture.Capture;
 import com.janrain.android.capture.Capture.InvalidApidChangeException;
+import com.janrain.android.capture.CaptureApiError;
+import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationSettings;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Locale;
 

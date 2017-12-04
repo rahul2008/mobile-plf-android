@@ -8,12 +8,14 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.content.res.*;
-import android.os.*;
-import android.view.*;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.ui.utils.RLog;
 
 public class PhilipsNewsFragment extends RegistrationBaseFragment {
 

@@ -1,37 +1,55 @@
 package com.philips.cdp.registration.ui.traditional;
 
 
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.infra.*;
-import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.dao.*;
-import com.philips.cdp.registration.events.*;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
+import com.philips.cdp.registration.configuration.AppConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.dao.Country;
+import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
-import com.philips.cdp.registration.handlers.*;
-import com.philips.cdp.registration.listener.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.utils.*;
-import com.philips.cdp.registration.wechat.*;
-import com.philips.platform.appinfra.servicediscovery.*;
-import com.tencent.mm.sdk.modelbase.*;
-import com.tencent.mm.sdk.modelmsg.*;
-import com.tencent.mm.sdk.openapi.*;
+import com.philips.cdp.registration.events.NetworkStateListener;
+import com.philips.cdp.registration.events.SocialProvider;
+import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.listener.WeChatAuthenticationListener;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.LoginFailureNotification;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.wechat.WeChatAuthenticator;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
-import org.greenrobot.eventbus.*;
-import org.json.*;
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
-import io.reactivex.android.schedulers.*;
-import io.reactivex.observers.*;
-import io.reactivex.schedulers.*;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
-import static com.philips.cdp.registration.app.tagging.AppTagging.*;
+import static com.philips.cdp.registration.app.tagging.AppTagging.trackPage;
 
 public class HomePresenter implements NetworkStateListener, SocialProviderLoginHandler, EventListener {
 

@@ -9,41 +9,64 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.*;
-import android.content.*;
-import android.content.res.*;
-import android.os.*;
-import android.support.annotation.*;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.*;
-import android.view.View.*;
-import android.widget.*;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.ScrollView;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.dao.*;
-import com.philips.cdp.registration.events.*;
-import com.philips.cdp.registration.handlers.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.customviews.*;
-import com.philips.cdp.registration.ui.utils.*;
-import com.philips.cdp.registration.update.*;
+import com.philips.cdp.registration.R2;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.events.CounterHelper;
+import com.philips.cdp.registration.events.CounterListener;
+import com.philips.cdp.registration.handlers.RefreshUserHandler;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.NotificationBarHandler;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegAlertDialog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.UpdateEmail;
+import com.philips.cdp.registration.update.UpdateUserProfile;
 import com.philips.platform.uid.view.widget.Button;
-import com.philips.platform.uid.view.widget.*;
+import com.philips.platform.uid.view.widget.InputValidationLayout;
+import com.philips.platform.uid.view.widget.ProgressBarButton;
+import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
+import com.philips.platform.uid.view.widget.ValidationEditText;
 
-import org.greenrobot.eventbus.*;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
-import java.util.*;
+import java.util.HashMap;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
-import butterknife.*;
-import io.reactivex.android.schedulers.*;
-import io.reactivex.disposables.*;
-import io.reactivex.observers.*;
-import io.reactivex.schedulers.*;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class AccountActivationResendMailFragment extends RegistrationBaseFragment implements
         RefreshUserHandler, AccountActivationResendMailContract, CounterListener {

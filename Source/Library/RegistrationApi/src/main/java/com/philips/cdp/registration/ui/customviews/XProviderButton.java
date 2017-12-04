@@ -12,10 +12,14 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.widget.*;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class XProviderButton extends RelativeLayout {
 

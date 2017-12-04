@@ -1,24 +1,31 @@
 package com.philips.cdp.registration.ui.social;
 
 
-import android.os.*;
+import android.os.Bundle;
 
-import com.janrain.android.*;
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.dao.*;
-import com.philips.cdp.registration.events.*;
-import com.philips.cdp.registration.handlers.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.janrain.android.Jump;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.events.NetworkStateListener;
+import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.LoginFailureNotification;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.URInterface;
 
-import org.greenrobot.eventbus.*;
-import org.json.*;
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
-import static com.philips.cdp.registration.ui.utils.RegConstants.*;
+import static com.philips.cdp.registration.ui.utils.RegConstants.EMAIL_ADDRESS_ALREADY_USE_CODE;
 
 public class AlmostDonePresenter implements NetworkStateListener, SocialProviderLoginHandler, UpdateUserDetailsHandler {
 

@@ -1,7 +1,7 @@
 package com.philips.cdp.registration.ui.social;
 
 
-import android.app.*;
+import android.app.Activity;
 
 interface MergeSocialToSocialAccountContract {
 

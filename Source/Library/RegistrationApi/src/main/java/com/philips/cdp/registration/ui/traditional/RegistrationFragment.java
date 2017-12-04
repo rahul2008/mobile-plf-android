@@ -8,35 +8,52 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.*;
-import android.content.*;
-import android.os.*;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.view.*;
-import android.view.View.*;
-import android.view.inputmethod.*;
-import android.widget.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
-import com.janrain.android.*;
+import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.events.*;
-import com.philips.cdp.registration.listener.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.social.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTaggingPages;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.events.CounterHelper;
+import com.philips.cdp.registration.events.CounterListener;
+import com.philips.cdp.registration.events.NetworkStateListener;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
+import com.philips.cdp.registration.ui.social.MergeAccountFragment;
+import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
+import com.philips.cdp.registration.ui.utils.NetworkStateReceiver;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.NotificationBarHandler;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.dhpclient.BuildConfig;
-import com.philips.platform.uappframework.listener.*;
+import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
-import org.greenrobot.eventbus.*;
-import org.json.*;
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
 
 public class RegistrationFragment extends Fragment implements NetworkStateListener,

@@ -14,12 +14,15 @@ import android.support.annotation.Nullable;
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.handlers.*;
+import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
+import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.update.UpdateUser;
 
-import org.json.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class UpdateUserDetailsBase implements
         JanrainInitializer.JanrainInitializeListener,

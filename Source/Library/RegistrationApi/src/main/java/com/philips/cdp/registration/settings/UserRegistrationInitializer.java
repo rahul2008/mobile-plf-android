@@ -9,25 +9,35 @@
 
 package com.philips.cdp.registration.settings;
 
-import android.content.*;
-import android.os.*;
-import android.support.v4.content.*;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 
-import com.janrain.android.*;
-import com.philips.cdp.registration.app.infra.*;
-import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.events.*;
-import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.appinfra.servicediscovery.*;
+import com.janrain.android.Jump;
+import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
+import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.events.EventHelper;
+import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
-import java.util.*;
+import java.util.Locale;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
-import io.reactivex.android.schedulers.*;
-import io.reactivex.disposables.*;
-import io.reactivex.observers.*;
-import io.reactivex.schedulers.*;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class UserRegistrationInitializer {
 

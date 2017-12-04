@@ -9,36 +9,66 @@
 
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.content.*;
-import android.content.res.*;
-import android.graphics.*;
-import android.os.*;
-import android.text.*;
-import android.text.style.*;
-import android.view.*;
-import android.widget.*;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.os.Handler;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
-import com.jakewharton.rxbinding2.widget.*;
-import com.philips.cdp.registration.*;
+import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.philips.cdp.registration.HttpClientService;
+import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.handlers.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.customviews.*;
-import com.philips.cdp.registration.ui.traditional.*;
-import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.uid.view.widget.*;
+import com.philips.cdp.registration.R2;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.handlers.RefreshUserHandler;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
+import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegAlertDialog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.UpdateMobile;
+import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.ProgressBarButton;
+import com.philips.platform.uid.view.widget.ValidationEditText;
 
-import org.greenrobot.eventbus.*;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
-import butterknife.*;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.*;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.ACTIVATION_NOT_VERIFIED;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_INAPPNATIFICATION;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_EMAIL_VERFICATION;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.REGISTRATION_ACTIVATION_SMS;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SEND_DATA;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SPECIAL_EVENTS;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCESS_USER_REGISTRATION;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.USER_ERROR;
 
 public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements
         MobileVerifyCodeContract, RefreshUserHandler, OnUpdateListener{

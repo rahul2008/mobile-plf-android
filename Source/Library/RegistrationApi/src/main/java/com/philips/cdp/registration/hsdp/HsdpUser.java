@@ -9,21 +9,35 @@
 package com.philips.cdp.registration.hsdp;
 
 import android.content.Context;
-import android.os.*;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.Encryption;
+import com.philips.cdp.registration.configuration.HSDPInfo;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.handlers.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
+import com.philips.cdp.registration.handlers.SocialLoginHandler;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.security.SecureStorage;
-import com.philips.dhpclient.*;
-import com.philips.dhpclient.response.*;
+import com.philips.dhpclient.DhpApiClientConfiguration;
+import com.philips.dhpclient.DhpAuthenticationManagementClient;
+import com.philips.dhpclient.response.DhpAuthenticationResponse;
+import com.philips.dhpclient.response.DhpResponse;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.Map;
 
 import javax.inject.Inject;

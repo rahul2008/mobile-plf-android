@@ -16,7 +16,9 @@ import com.philips.cdp.registration.settings.JanrainInitializer;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.update.UpdateUser;
 
-import org.json.*;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class UpdateReceiveMarketingEmail extends UpdateUserDetailsBase {
 

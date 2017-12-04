@@ -9,15 +9,20 @@
 package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
-import android.content.res.*;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.view.*;
-import android.widget.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class XCheckBox extends LinearLayout {
 

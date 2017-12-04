@@ -1,17 +1,19 @@
 package com.philips.cdp.registration.ui.social;
 
 
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.dao.*;
-import com.philips.cdp.registration.events.*;
-import com.philips.cdp.registration.handlers.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.events.NetworkStateListener;
+import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.LoginFailureNotification;
+import com.philips.cdp.registration.ui.utils.URInterface;
 
-import org.greenrobot.eventbus.*;
-import org.json.*;
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
 public class MergeSocialToSocialAccountPresenter implements NetworkStateListener, SocialProviderLoginHandler {
 

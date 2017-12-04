@@ -9,10 +9,10 @@
 
 package com.philips.cdp.registration.settings;
 
-import android.content.*;
+import android.content.Context;
+import android.content.SharedPreferences;
 
-import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 public abstract class RegistrationSettings {
 

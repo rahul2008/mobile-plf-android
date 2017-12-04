@@ -1,15 +1,23 @@
 package com.philips.cdp.registration.settings;
 
-import com.janrain.android.*;
-import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.events.*;
-import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.appinfra.servicediscovery.*;
-import com.philips.platform.appinfra.servicediscovery.model.*;
+import com.janrain.android.Jump;
+import com.janrain.android.JumpConfig;
+import com.philips.cdp.registration.configuration.ClientIDConfiguration;
+import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.HSDPConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.events.EventHelper;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Map;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
 
 public class RegistrationSettingsURL extends RegistrationSettings {

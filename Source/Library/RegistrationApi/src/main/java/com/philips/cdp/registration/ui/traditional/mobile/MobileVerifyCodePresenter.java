@@ -1,24 +1,33 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.content.*;
-import android.os.*;
-import android.support.annotation.*;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
-import com.janrain.android.*;
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.infra.*;
-import com.philips.cdp.registration.events.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.janrain.android.Jump;
+import com.philips.cdp.registration.HttpClientServiceReceiver;
+import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
+import com.philips.cdp.registration.events.NetworkStateListener;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.RegChinaConstants;
+import com.philips.cdp.registration.ui.utils.URInterface;
 
-import org.json.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
-import io.reactivex.disposables.*;
+import io.reactivex.disposables.CompositeDisposable;
 
-import static com.philips.cdp.registration.HttpClientService.*;
-import static com.philips.cdp.registration.ui.utils.RegConstants.*;
+import static com.philips.cdp.registration.HttpClientService.HTTP_BODY_CONTENT;
+import static com.philips.cdp.registration.HttpClientService.HTTP_RECEIVER;
+import static com.philips.cdp.registration.HttpClientService.HTTP_SERVICE_REQUEST_CODE;
+import static com.philips.cdp.registration.HttpClientService.HTTP_SERVICE_RESPONSE;
+import static com.philips.cdp.registration.HttpClientService.HTTP_URL_TO_BE_CALLED;
+import static com.philips.cdp.registration.ui.utils.RegConstants.SUCCESS_STATE_RESPONSE;
+import static com.philips.cdp.registration.ui.utils.RegConstants.SUCCESS_STATE_RESPONSE_OK;
 
 public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.Listener, NetworkStateListener {
 

@@ -8,7 +8,9 @@
 
 package com.philips.cdp.registration.configuration;
 
-import android.support.annotation.*;
+
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.registration.app.infra.AppInfraWrapper;
 import com.philips.cdp.registration.settings.RegistrationHelper;

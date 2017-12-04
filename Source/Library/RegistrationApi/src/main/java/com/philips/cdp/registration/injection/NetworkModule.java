@@ -6,7 +6,9 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 
 import javax.inject.Singleton;
 
-import dagger.*;
+import dagger.Module;
+import dagger.Provides;
+
 
 @Module
 public class NetworkModule {

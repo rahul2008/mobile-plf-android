@@ -1,23 +1,55 @@
 package com.philips.cdp.registration.injection;
 
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.controller.*;
-import com.philips.cdp.registration.hsdp.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.social.*;
-import com.philips.cdp.registration.ui.traditional.*;
-import com.philips.cdp.registration.ui.traditional.mobile.*;
-import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.appinfra.abtestclient.*;
-import com.philips.platform.appinfra.logging.*;
-import com.philips.platform.appinfra.servicediscovery.*;
-import com.philips.platform.appinfra.tagging.*;
-import com.philips.platform.appinfra.timesync.*;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.AppConfiguration;
+import com.philips.cdp.registration.configuration.BaseConfiguration;
+import com.philips.cdp.registration.configuration.HSDPConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.controller.RussianConsent;
+import com.philips.cdp.registration.controller.UpdateUserRecord;
+import com.philips.cdp.registration.hsdp.HsdpUser;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.RegistrationSettingsURL;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
+import com.philips.cdp.registration.ui.social.AlmostDonePresenter;
+import com.philips.cdp.registration.ui.social.MergeAccountFragment;
+import com.philips.cdp.registration.ui.social.MergeAccountPresenter;
+import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
+import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountPresenter;
+import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
+import com.philips.cdp.registration.ui.traditional.AccountActivationPresenter;
+import com.philips.cdp.registration.ui.traditional.AccountActivationResendMailFragment;
+import com.philips.cdp.registration.ui.traditional.AccountActivationResendMailPresenter;
+import com.philips.cdp.registration.ui.traditional.CreateAccountFragment;
+import com.philips.cdp.registration.ui.traditional.CreateAccountPresenter;
+import com.philips.cdp.registration.ui.traditional.ForgotPasswordFragment;
+import com.philips.cdp.registration.ui.traditional.ForgotPasswordPresenter;
+import com.philips.cdp.registration.ui.traditional.HomeFragment;
+import com.philips.cdp.registration.ui.traditional.HomePresenter;
+import com.philips.cdp.registration.ui.traditional.MarketingAccountFragment;
+import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
+import com.philips.cdp.registration.ui.traditional.SignInAccountFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.AddSecureEmailPresenter;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPassVerifyCodeFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPassVerifyCodePresenter;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPassVerifyResendCodeFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPassVerifyResendCodePresenter;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodePresenter;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyResendCodeFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyResendCodePresenter;
+import com.philips.cdp.registration.ui.utils.NetworkStateReceiver;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 
-import javax.inject.*;
+import javax.inject.Singleton;
 
-import dagger.*;
+import dagger.Component;
 
 @Singleton
 @Component(modules = {NetworkModule.class, AppInfraModule.class, ConfigurationModule.class, RegistrationModule.class})
