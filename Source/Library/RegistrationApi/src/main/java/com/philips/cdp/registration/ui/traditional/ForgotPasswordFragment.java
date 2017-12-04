@@ -188,7 +188,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, usrForgotPasswordBaseLayout, width);
+        //applyParams(config, usrForgotPasswordBaseLayout, width);
     }
 
     private void handleUiState() {
