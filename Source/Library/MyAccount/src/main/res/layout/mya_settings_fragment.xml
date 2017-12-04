@@ -43,7 +43,7 @@
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/philips_website"
             style="@style/UIDLabel.Header"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/MYA_start_margin"
             android:layout_marginEnd="@dimen/MYA_end_margin"
