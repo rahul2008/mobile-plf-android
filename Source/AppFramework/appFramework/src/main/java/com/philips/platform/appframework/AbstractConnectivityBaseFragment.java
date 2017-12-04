@@ -182,6 +182,5 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mCommCentral = null;
     }
 }

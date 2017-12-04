@@ -41,4 +41,10 @@ public class Constants {
     public static final String SHARED_PREF = "SHARED_PREF";
     public static final String TAGGING_CHURN="rap:triggerchurn";
 
+    //Terms and Privacy service Constants
+    public static final String TERMS_AND_CONDITIONS = "app.termsandconditions";
+    public static final String PRIVACY = "app.privacynotice";
+
+    //TAG PowerSleepConnectivity
+    public static final String POWER_SLEEP_CONNECTIVITY_TAG ="PowerSleepConnectivity";
 }

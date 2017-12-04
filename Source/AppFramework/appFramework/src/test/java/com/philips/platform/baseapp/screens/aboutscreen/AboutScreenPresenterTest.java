@@ -16,8 +16,8 @@ import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
-import com.philips.platform.baseapp.screens.termsandconditions.TermsAndConditionsState;
-import com.philips.platform.baseapp.screens.termsandconditions.TermsAndPrivacyStateData;
+import com.philips.platform.baseapp.screens.webview.WebViewState;
+import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import org.junit.After;
@@ -51,7 +51,7 @@ public class AboutScreenPresenterTest {
     FlowManager flowManager;
 
     @Mock
-    TermsAndConditionsState termsAndConditionsState;
+    WebViewState webViewState;
 
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
@@ -66,14 +66,14 @@ public class AboutScreenPresenterTest {
         activityController = Robolectric.buildActivity(TestActivity.class);
         hamburgerActivity = activityController.create().start().get();
         aboutScreenPresenterMock = new AboutScreenPresenterMock(hamburgerActivity, view);
-        when(flowManager.getNextState(any(BaseState.class),any(String.class))).thenReturn(termsAndConditionsState);
+        when(flowManager.getNextState(any(BaseState.class),any(String.class))).thenReturn(webViewState);
 
     }
 
     @Test
     public void loadTermsAndPrivacy() throws Exception {
-        aboutScreenPresenterMock.loadTermsAndPrivacy(TermsAndPrivacyStateData.TermsAndPrivacyEnum.TERMS_CLICKED);
-        verify(termsAndConditionsState).navigate(any(UiLauncher.class));
+        aboutScreenPresenterMock.loadTermsAndPrivacy(Constants.PRIVACY);
+        verify(webViewState).navigate(any(UiLauncher.class));
     }
 
     @After
@@ -82,7 +82,7 @@ public class AboutScreenPresenterTest {
         aboutScreenPresenterMock=null;
         view=null;
         flowManager=null;
-        termsAndConditionsState=null;
+        webViewState =null;
         hamburgerActivity=null;
     }
 

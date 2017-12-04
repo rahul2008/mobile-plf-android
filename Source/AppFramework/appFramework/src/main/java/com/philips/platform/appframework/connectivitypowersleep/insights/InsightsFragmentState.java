@@ -26,7 +26,7 @@ public class InsightsFragmentState extends BaseState {
     private FragmentLauncher fragmentLauncher;;
 
     public InsightsFragmentState() {
-        super(AppStates.POWER_SLEEP_CONNECTIVITY);
+        super(AppStates.INSIGHTS);
     }
 
     @Override

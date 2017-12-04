@@ -62,7 +62,7 @@
   },
   "ReferenceApp":{
     "PushNotification.autoLogout":"true",
-    "PushNotification.polling":"false"
+    "PushNotification.polling":"true"
   },
   "ths":{
     "apiKey":"dc573250"
