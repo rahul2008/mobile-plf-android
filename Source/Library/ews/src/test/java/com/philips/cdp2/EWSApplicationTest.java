@@ -17,7 +17,6 @@ public class EWSApplicationTest extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //TODO fix the hashmap
         EWSDependencyProvider.getInstance().initDependencies(new AppInfra.Builder().build(getBaseContext()), new HashMap<String, String>());
     }
 }

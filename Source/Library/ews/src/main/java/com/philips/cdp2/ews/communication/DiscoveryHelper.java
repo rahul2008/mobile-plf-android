@@ -32,12 +32,12 @@ public class DiscoveryHelper {
 
         @Override
         public void onApplianceUpdated(@NonNull Appliance appliance) {
-            // TODO check if called during our flow
+            // TODO verify if action needed, right now not according to our cases
         }
 
         @Override
         public void onApplianceLost(@NonNull Appliance appliance) {
-            // TODO check if called during our flow
+            // TODO verify if action needed, right now not according to our cases
         }
     };
 
