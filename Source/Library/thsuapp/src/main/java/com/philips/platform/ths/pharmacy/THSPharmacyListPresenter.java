@@ -112,8 +112,6 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
         if (null != thsPharmacyListViewListener && null != thsPharmacyListViewListener.getFragmentActivity()) {
             thsPharmacyListViewListener.hideProgressBar();
             thsPharmacyListViewListener.validateForMailOrder(pharmacy);
-            thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_preferred_pharmacy_update));
-
         }
     }
 
