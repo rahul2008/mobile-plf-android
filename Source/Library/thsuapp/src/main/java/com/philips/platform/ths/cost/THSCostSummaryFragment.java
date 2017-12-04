@@ -199,4 +199,8 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
         costSummaryVisibleRelativeLayout.setVisibility(View.GONE);
         costSummaryCalculateContainer.setVisibility(View.VISIBLE);
     }
+
+    void enablePaymentOption(boolean enable){
+        mPaymentMethodDetailFrameLayout.setClickable(enable);
+    }
 }

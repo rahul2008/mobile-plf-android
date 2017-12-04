@@ -177,7 +177,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
                 noPaymentRequired();
            // }
         } else {
-            mTHSCostSummaryFragment.mPaymentMethodDetailFrameLayout.setClickable(true);
+            mTHSCostSummaryFragment.enablePaymentOption(true);
             double costDouble = thsVisit.getVisit().getVisitCost().getExpectedConsumerCopayCost();
             String costString = String.valueOf(costDouble);
             String[] costStringArray = costString.split("\\.");// seperate the decimal value
@@ -298,7 +298,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
 
         mTHSCostSummaryFragment.mCostSummaryContinueButtonRelativeLayout.setVisibility(View.VISIBLE);
         mTHSCostSummaryFragment.mAddPaymentMethodButtonRelativeLayout.setVisibility(View.GONE);
-        mTHSCostSummaryFragment.mPaymentMethodDetailFrameLayout.setClickable(false);
+        mTHSCostSummaryFragment.enablePaymentOption(false);
     }
 
     @Override
