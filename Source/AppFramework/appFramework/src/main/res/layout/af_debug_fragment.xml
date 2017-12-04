@@ -21,7 +21,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="10dip"
             android:text="@string/RA_Change_Configuration"
-            android:textColor="#fff" />
+            android:textColor="@color/colorPrimary" />
 
         <Spinner
             android:id="@+id/spinner"
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/RA_Current_Configuration"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorPrimary"
             android:textSize="18dp" />
 
         <TextView
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:text=""
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorPrimary"
             android:textSize="18dp" />
     </LinearLayout>
 
