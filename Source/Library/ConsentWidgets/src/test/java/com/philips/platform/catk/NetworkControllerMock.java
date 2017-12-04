@@ -5,7 +5,7 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.csw.mock;
+package com.philips.platform.catk;
 
 import com.philips.platform.catk.NetworkAbstractModel;
 import com.philips.platform.catk.NetworkController;
