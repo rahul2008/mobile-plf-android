@@ -35,7 +35,7 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
 
     @Override
     public void getProfileItems(AppInfraInterface appInfra) {
-        view.showProfileItems(getProfileList(MyaHelper.getInstance().getAppInfra().getConfigInterface()));
+        view.showProfileItems(getProfileList(appInfra.getConfigInterface()));
     }
 
     @Override

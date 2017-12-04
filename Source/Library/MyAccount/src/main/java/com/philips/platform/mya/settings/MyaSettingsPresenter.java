@@ -82,6 +82,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             }
 
             public void onLogoutFailure(int responseCode, String message) {
+                //TODO - need to discuss with design team and handle on logout failure
                 Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
             }
         };

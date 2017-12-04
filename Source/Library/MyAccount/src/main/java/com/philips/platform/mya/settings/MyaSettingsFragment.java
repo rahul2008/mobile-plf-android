@@ -66,6 +66,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         if (savedInstanceState == null) {
             presenter.getSettingItems(MyaHelper.getInstance().getAppInfra());
         } else {
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra());
             if (savedInstanceState.getBoolean(DIALOG_OPEN)) {
                 dismissDialog(alertDialogFragment);
                 showDialog(savedInstanceState.getString(DIALOG_TITLE), savedInstanceState.getString(DIALOG_MESSAGE));

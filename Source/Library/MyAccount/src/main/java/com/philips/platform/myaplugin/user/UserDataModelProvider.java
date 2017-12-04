@@ -42,6 +42,9 @@ public class UserDataModelProvider extends UserInterface implements Serializable
 
     @Override
     public void logOut(LogoutHandler logoutHandler) {
+        if(user == null) {
+            user = new User(context);
+        }
         user.logout(logoutHandler);
     }
 
