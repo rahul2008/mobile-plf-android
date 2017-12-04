@@ -15,6 +15,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
+import com.philips.cdp2.commlib.lan.context.LanTransportContext;
+import com.philips.cdp2.ews.appliance.BEApplianceFactory;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
@@ -101,13 +105,22 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
     }
 
     @NonNull
-    private UappDependencies createUappDependencies(AppInfraInterface appInfra,
+    private UappDependencies createUappDependencies(final AppInfraInterface appInfra,
                                                     Map<String, String> productKeyMap) {
         return new EWSDependencies(appInfra, productKeyMap,
                 new ContentConfiguration(createBaseContentConfiguration(),
                         createHappyFlowConfiguration(),
-                        createTroubleShootingConfiguration()));
+                        createTroubleShootingConfiguration())) {
+            @Override
+            public CommCentral getCommCentral() {
+                LanTransportContext lanTransportContext = new LanTransportContext(
+                        new RuntimeConfiguration(getActivity(), appInfra));
+                BEApplianceFactory factory = new BEApplianceFactory(lanTransportContext);
+                return new CommCentral(factory, lanTransportContext);
+            }
+        };
     }
+
 
     @NonNull
     private Map<String, String> createProductMap() {
