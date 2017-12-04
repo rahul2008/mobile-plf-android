@@ -94,8 +94,6 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
         MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra());
         MyaLaunchInput launchInput = new MyaLaunchInput(getActivity(), getMyaListener());
         launchInput.setConsentDefinitions(createConsentDefinitions(Locale.US));
-        launchInput.setApplicationName("OneBackend");
-        launchInput.setPropositionName("OneBackendProp");
         MyaInterface myaInterface = new MyaInterface();
         myaInterface.init(uappDependencies, new MyaSettings(getActivity()));
         if (checkedId == R.id.radioButton) {
@@ -156,6 +154,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
 
         return null;
     }
+
 
     private List<ConsentDefinition> createConsentDefinitions(Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();

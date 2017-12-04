@@ -11,10 +11,10 @@ import android.os.Bundle;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBasePresenter;
 import com.philips.platform.mya.details.MyaDetailsFragment;
-import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
@@ -35,7 +35,7 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
 
     @Override
     public void getProfileItems(AppInfraInterface appInfra) {
-        view.showProfileItems(getProfileList(MyaInterface.getMyaDependencyComponent().getAppInfra().getConfigInterface()));
+        view.showProfileItems(getProfileList(appInfra.getConfigInterface()));
     }
 
     @Override
@@ -53,7 +53,7 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
         if (profileItem.equals(view.getContext().getString(R.string.MYA_My_details)) || profileItem.equalsIgnoreCase("MYA_My_details")) {
             MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
             myaDetailsFragment.setArguments(bundle);
-            view.showPassedFragment(myaDetailsFragment, MyaInterface.getMyaUiComponent().getFragmentLauncher());
+            view.showPassedFragment(myaDetailsFragment, MyaHelper.getInstance().getFragmentLauncher());
             return true;
         }
         return false;

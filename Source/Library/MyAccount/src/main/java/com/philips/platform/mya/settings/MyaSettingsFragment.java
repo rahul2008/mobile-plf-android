@@ -15,9 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
-import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -35,16 +35,19 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     private MyaSettingsContract.Presenter presenter;
     private RecyclerView recyclerView;
     private String SETTINGS_BUNDLE = "settings_bundle";
-
+    private boolean isDialogOpen = false;
+    private String DIALOG_TITLE = "dialog_title", DIALOG_MESSAGE = "dialog_message", DIALOG_OPEN = "dialog_open";
+    private AlertDialogFragment alertDialogFragment;
+    private String dialogTitle,dialogMessage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mya_settings_fragment, container, false);
         UIDHelper.injectCalligraphyFonts();
+        setRetainInstance(true);
         initViews(view);
         recyclerView.setNestedScrollingEnabled(false);
         presenter = new MyaSettingsPresenter(this);
-        setRetainInstance(true);
         return view;
     }
 
@@ -60,8 +63,18 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
-        if (savedInstanceState == null)
-            presenter.getSettingItems(MyaInterface.getMyaDependencyComponent().getAppInfra());
+        if (savedInstanceState == null) {
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra());
+        } else {
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra());
+            if (savedInstanceState.getBoolean(DIALOG_OPEN)) {
+                dismissDialog(alertDialogFragment);
+                showDialog(savedInstanceState.getString(DIALOG_TITLE), savedInstanceState.getString(DIALOG_MESSAGE));
+            } else {
+                dismissDialog(alertDialogFragment);
+            }
+        }
+
     }
 
     @Override
@@ -72,6 +85,9 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putBundle(SETTINGS_BUNDLE, getArguments());
+        outState.putString(DIALOG_MESSAGE, dialogMessage);
+        outState.putString(DIALOG_TITLE, dialogTitle);
+        outState.putBoolean(DIALOG_OPEN, isDialogOpen);
         super.onSaveInstanceState(outState);
     }
 
@@ -96,18 +112,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         if (viewType == R.id.mya_settings_logout_btn) {
             showDialog(getString(R.string.MYA_logout_title), getString(R.string.MYA_logout_message));
         } else if (viewType == R.id.philips_website) {
-
-       /* int viewId = view.getId();
-        if (viewId== R.id.consent_layout) {
-            CswInterface cswInterface = new CswInterface();
-            CswDependencies cswDependencies = new CswDependencies(appInfra);
-            cswDependencies.setApplicationName(config.getApplicationName());
-            cswDependencies.setPropositionName(config.getPropositionName());
-            UappSettings uappSettings = new UappSettings(getContext());
-            cswInterface.init(cswDependencies, uappSettings);
-            cswInterface.launch(MyaInterface.getMyaUiComponent().getFragmentLauncher(), buildLaunchInput(true));
-        } else if (viewId == R.id.philips_website) {
->>>>>>> c83af7c2288cf2234c1f7597198f585cf0dcc6b1*/
             String url = "https://www.Philips.com";
             Intent i = new Intent();
             i.setAction(Intent.ACTION_VIEW);
@@ -119,7 +123,9 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
     @Override
     public void showDialog(String title, String message) {
-
+        this.dialogTitle = title;
+        this.dialogMessage = message;
+        this.isDialogOpen = true;
         LayoutInflater inflater = LayoutInflater.from(getContext()).cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
         View view = inflater.inflate(R.layout.mya_dialog_layout, null);
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
@@ -135,7 +141,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         Button cancel = view.findViewById(R.id.mya_dialog_cancel_btn);
         textView.setText(message);
         title_label.setText(title);
-        final AlertDialogFragment alertDialogFragment = builder.create();
+        alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
 
         logout.setOnClickListener(handleOnClickLogOut(alertDialogFragment));
@@ -146,18 +152,24 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialogFragment.dismiss();
+                isDialogOpen = false;
+                dismissDialog(alertDialogFragment);
             }
         };
+    }
+
+    private void dismissDialog(AlertDialogFragment alertDialogFragment) {
+        if (alertDialogFragment != null && alertDialogFragment.isVisible())
+            alertDialogFragment.dismissAllowingStateLoss();
     }
 
     private View.OnClickListener handleOnClickLogOut(final AlertDialogFragment alertDialogFragment) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean onLogOut = MyaInterface.getMyaUiComponent().getMyaListener().onLogOut();
+                boolean onLogOut = MyaHelper.getInstance().getMyaListener().onLogOut();
                 if(!onLogOut) {
-                    alertDialogFragment.dismiss();
+                    dismissDialog(alertDialogFragment);
                     presenter.logOut(getArguments());
                 }
             }
@@ -190,7 +202,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
                 SettingsModel value = profileList.get(key);
                 boolean handled = presenter.handleOnClickSettingsItem(key);
                 if (!handled) {
-                    boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(key);
+                    boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onClickMyaItem(key);
                     if (!onClickMyaItem)
                         presenter.onClickRecyclerItem(key, value);
                 }

@@ -15,9 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
-import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
@@ -72,7 +72,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
             arguments = savedInstanceState.getBundle(PROFILE_BUNDLE);
         }
         presenter.setUserName(arguments);
-        presenter.getProfileItems(MyaInterface.getMyaDependencyComponent().getAppInfra());
+        presenter.getProfileItems(MyaHelper.getInstance().getAppInfra());
     }
 
 
@@ -113,7 +113,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
                 String profileItem = value != null ? value : key;
                 boolean handled = presenter.handleOnClickProfileItem(profileItem, getArguments());
                 if (!handled) {
-                    boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(key);
+                    boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onClickMyaItem(key);
                     handleTransition(onClickMyaItem, profileItem);
                 }
             }

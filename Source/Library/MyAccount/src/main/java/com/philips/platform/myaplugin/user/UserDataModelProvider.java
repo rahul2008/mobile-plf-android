@@ -16,8 +16,10 @@ public class UserDataModelProvider extends UserInterface implements Serializable
 
     private transient UserDataModel userDataModel;
     private transient User user;
+    private transient Context context;
 
     public UserDataModelProvider(Context context) {
+        this.context = context;
         if (userDataModel == null) {
             userDataModel = new UserDataModel();
         }
@@ -40,10 +42,16 @@ public class UserDataModelProvider extends UserInterface implements Serializable
 
     @Override
     public void logOut(LogoutHandler logoutHandler) {
+        if(user == null) {
+            user = new User(context);
+        }
         user.logout(logoutHandler);
     }
 
     private void fillUserData() {
+        if(user == null) {
+            user = new User(context);
+        }
         userDataModel.setName(user.getDisplayName());
         userDataModel.setBirthday(user.getDateOfBirth());
         userDataModel.setEmail(user.getEmail());
@@ -54,7 +62,7 @@ public class UserDataModelProvider extends UserInterface implements Serializable
         userDataModel.setMobileNumber(user.getMobile());
         userDataModel.setMobileVerified(user.isMobileVerified());
         userDataModel.setGender(user.getGender().toString());
-        userDataModel.setVerified(user.isTermsAndConditionAccepted());
+//        userDataModel.setVerified(user.isTermsAndConditionAccepted());
         userDataModel.setFamilyName(user.getFamilyName());
     }
 

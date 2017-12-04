@@ -24,8 +24,6 @@ public class MyaLaunchInput extends UappLaunchInput {
     private Context context;
     private boolean isAddToBackStack;
     private MyaListener myaListener;
-    private String applicationName;
-    private String propositionName;
     private List<ConsentDefinition> consentDefinitions;
 
     public MyaLaunchInput(){}
@@ -64,22 +62,6 @@ public class MyaLaunchInput extends UappLaunchInput {
 
     public MyaListener getMyaListener() {
         return myaListener;
-    }
-
-    public String getApplicationName() {
-        return applicationName;
-    }
-
-    public void setApplicationName(String applicationName) {
-        this.applicationName = applicationName;
-    }
-
-    public String getPropositionName() {
-        return propositionName;
-    }
-
-    public void setPropositionName(String propositionName) {
-        this.propositionName = propositionName;
     }
 
     public List<ConsentDefinition> getConsentDefinitions() {

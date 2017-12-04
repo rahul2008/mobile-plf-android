@@ -20,23 +20,41 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 public class MyaTabFragment extends MyaBaseFragment {
 
     private View view;
+    private String TAB_BUNDLE = "tab_bundle";
+    private String TAB_POSITION = "tab_position";
+    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         UIDHelper.injectCalligraphyFonts();
+        setRetainInstance(true);
         if (view == null) {
-
             view = inflater.inflate(R.layout.mya_tab_fragment, container, false);
             TabLayout tabLayout = view.findViewById(R.id.tab_layout);
-            ViewPager viewPager = view.findViewById(R.id.pager);
+            viewPager = view.findViewById(R.id.pager);
             addTabs(tabLayout);
-            MyaPager adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount(),getArguments());
-
-            viewPager.setAdapter(adapter);
+            MyaPager adapter;
+            int tabPosition=0;
+            if (savedInstanceState == null) {
+                adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount(), getArguments());
+                viewPager.setAdapter(adapter);
+            } else {
+                adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount(), savedInstanceState.getBundle(TAB_BUNDLE));
+                viewPager.setAdapter(adapter);
+                tabPosition = savedInstanceState.getInt(TAB_POSITION);
+            }
             tabLayout.addOnTabSelectedListener(getTabListener(viewPager));
+            viewPager.setCurrentItem(tabPosition, true);
+            tabLayout.setScrollPosition(tabPosition, 0, true);
         }
-        setRetainInstance(true);
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBundle(TAB_BUNDLE, getArguments());
+        outState.putInt(TAB_POSITION, viewPager.getCurrentItem());
+        super.onSaveInstanceState(outState);
     }
 
     private void addTabs(TabLayout tabLayout) {
