@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.csw.ConsentBundleConfig;
@@ -115,6 +116,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             }
         } else {
             SettingsModel countrySettingsModel = new SettingsModel();
+            countrySettingsModel.setItemCount(2);
             countrySettingsModel.setFirstItem(view.getContext().getResources().getString(R.string.MYA_Country));
             countrySettingsModel.setSecondItem(appInfraInterface.getServiceDiscovery().getHomeCountry());
             profileList.put("MYA_Country", countrySettingsModel);
@@ -122,6 +124,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             privacySettingsModel.setFirstItem(view.getContext().getResources().getString(R.string.Mya_Privacy_Settings));
             profileList.put("Mya_Privacy_Settings", privacySettingsModel);
         }
+        appInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, "setting list size= ", "" + profileList.size());
         return profileList;
     }
 

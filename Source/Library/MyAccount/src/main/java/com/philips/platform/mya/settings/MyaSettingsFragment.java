@@ -8,6 +8,8 @@ package com.philips.platform.mya.settings;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,7 +39,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     private String SETTINGS_BUNDLE = "settings_bundle";
     private boolean isDialogOpen = false;
     private String DIALOG_TITLE = "dialog_title", DIALOG_MESSAGE = "dialog_message", DIALOG_OPEN = "dialog_open";
-    private AlertDialogFragment alertDialogFragment;
     private String dialogTitle,dialogMessage;
 
     @Override
@@ -49,6 +50,13 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         recyclerView.setNestedScrollingEnabled(false);
         presenter = new MyaSettingsPresenter(this);
         return view;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        dismissDialog();
     }
 
     private void initViews(View view) {
@@ -68,10 +76,10 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         } else {
             presenter.getSettingItems(MyaHelper.getInstance().getAppInfra());
             if (savedInstanceState.getBoolean(DIALOG_OPEN)) {
-                dismissDialog(alertDialogFragment);
+                dismissDialog();
                 showDialog(savedInstanceState.getString(DIALOG_TITLE), savedInstanceState.getString(DIALOG_MESSAGE));
             } else {
-                dismissDialog(alertDialogFragment);
+                dismissDialog();
             }
         }
 
@@ -141,7 +149,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         Button cancel = view.findViewById(R.id.mya_dialog_cancel_btn);
         textView.setText(message);
         title_label.setText(title);
-        alertDialogFragment = builder.create();
+        AlertDialogFragment alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
 
         logout.setOnClickListener(handleOnClickLogOut(alertDialogFragment));
@@ -153,14 +161,20 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
             @Override
             public void onClick(View view) {
                 isDialogOpen = false;
-                dismissDialog(alertDialogFragment);
+                dismissDialog();
             }
         };
     }
 
-    private void dismissDialog(AlertDialogFragment alertDialogFragment) {
-        if (alertDialogFragment != null && alertDialogFragment.isVisible())
-            alertDialogFragment.dismissAllowingStateLoss();
+    private void dismissDialog() {
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isDestroyed()) {
+            Fragment prev = getFragmentManager().findFragmentByTag(ALERT_DIALOG_TAG);
+            if (prev != null && prev instanceof AlertDialogFragment) {
+                AlertDialogFragment alertDialogFragment = (AlertDialogFragment) prev;
+                alertDialogFragment.dismissAllowingStateLoss();
+            }
+        }
     }
 
     private View.OnClickListener handleOnClickLogOut(final AlertDialogFragment alertDialogFragment) {
@@ -169,7 +183,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
             public void onClick(View view) {
                 boolean onLogOut = MyaHelper.getInstance().getMyaListener().onLogOut();
                 if(!onLogOut) {
-                    dismissDialog(alertDialogFragment);
                     presenter.logOut(getArguments());
                 }
             }
@@ -190,6 +203,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
     @Override
     public void handleLogOut() {
+        dismissDialog();
         exitMyAccounts();
     }
 
