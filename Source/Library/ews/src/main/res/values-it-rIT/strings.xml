@@ -9,12 +9,12 @@
     <string name="ews_support_title">Assistenza Philips</string>
     <string name="label_ews_cancel_setup_title">Vuoi annullare la configurazione della rete Wi-Fi?</string>
     <string name="label_ews_cancel_setup_body">Se annulli la configurazione, non sarai in grado di accedere a %1$s tramite Wi-Fi.</string>
-    <string name="button_ews_cancel_setup_yes">Sì, annulla configurazione</string>
-    <string name="button_ews_cancel_setup_no">No, continua configurazione</string>
+    <string name="button_ews_cancel_setup_yes">Annulla</string>
+    <string name="button_ews_cancel_setup_no">Continua</string>
     <string name="label_ews_get_started_title">Collegamento alla rete Wi-Fi</string>
     <string name="label_ews_get_started_body">Collega %1$s alla rete Wi-Fi per sfruttare questa app e tutte le sue funzionalità.</string>
     <string name="label_ews_get_started_description">Per un collegamento corretto, posiziona %1$s vicino al router. Ostacoli quali le pareti possono influenzare la potenza del segnale.</string>
-    <string name="button_ews_get_started_get_started">Eseguire le operazioni preliminari</string>
+    <string name="button_ews_get_started_get_started">Inizia</string>
     <string name="label_ews_confirm_connection_title">Conferma la rete Wi-Fi.</string>
     <string name="label_ews_confirm_connection_currently_connected">Collegamento stabilito con:</string>
     <string name="label_ews_confirm_connection_tip_upper">Si consiglia di utilizzare la rete Wi-Fi domestica più vicina a %1$s.</string>
@@ -33,8 +33,8 @@
     <string name="button_ews_plug_in_next">Ok, l\'ho fatto</string>
     <string name="label_ews_verify_ready_title_default">Il dispositivo è in modalità di configurazione?</string>
     <string name="label_ews_verify_ready_question_default">La spia della rete Wi-Fi lampeggia?</string>
-    <string name="button_ews_verify_ready_yes_default">Sì, la spia della rete Wi-Fi lampeggia</string>
-    <string name="button_ews_verify_ready_no_default">No, spia della rete Wi-Fi non lampeggia</string>
+    <string name="button_ews_verify_ready_yes_default">Sì, la spia Wi-Fi lampeggia</string>
+    <string name="button_ews_verify_ready_no_default">No, la spia non lampeggia</string>
     <string name="label_ews_select_wifi_title">Collega a %1$s</string>
     <string name="label_ews_select_wifi_body">Attieniti a questa procedura per collegare il telefono a PHILIPS Setup.</string>
     <string name="label_ews_select_wifi_step1">1. Vai a Impostazioni sul telefono e tocca Wi-Fi</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Sì</string>
     <string name="button_ews_support_wrong_phone_no">No</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Permessi di localizzazione</string>
+    <string name="label_ews_location_permission_body">Per trovare la rete Wi-Fi PHILIPS Setup per %1$s, abbiamo bisogno dell\'autorizzazione per accedere alla tua posizione.</string>
+    <string name="label_ews_location_permission_allow">Consenti</string>
+    <string name="label_ews_location_permission_cancel">Annulla configurazione</string>
+    <string name="label_ews_location_services_title">Abilita i servizi di localizzazione</string>
+    <string name="label_ews_location_services_body">Per trovare la rete Wi-Fi PHILIPS Setup per %1$s, i servizi di localizzazione devono essere abilitati. Abilita i servizi di localizzazione nelle relative impostazioni, quindi torna all\'app.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Vai alle impostazioni</string>
 </resources>

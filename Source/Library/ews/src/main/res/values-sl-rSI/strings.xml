@@ -33,8 +33,8 @@
     <string name="button_ews_plug_in_next">Opravljeno</string>
     <string name="label_ews_verify_ready_title_default">Ali je naprava v načinu nastavitve?</string>
     <string name="label_ews_verify_ready_question_default">Ali indikator povezave Wi-Fi utripa?</string>
-    <string name="button_ews_verify_ready_yes_default">Da, indikator povezave Wi-Fi utripa</string>
-    <string name="button_ews_verify_ready_no_default">Ne, indikator povezave Wi-Fi ne utripa</string>
+    <string name="button_ews_verify_ready_yes_default">Da, indikator Wi-Fi utripa</string>
+    <string name="button_ews_verify_ready_no_default">Ne, indikator Wi-Fi ne utripa</string>
     <string name="label_ews_select_wifi_title">Povezava z %1$s</string>
     <string name="label_ews_select_wifi_body">Sledite korakom, da telefon povežete z omrežjem PHILIPS Setup.</string>
     <string name="label_ews_select_wifi_step1">1. V telefonu odprite nastavitve in izberite Wi-Fi</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Da</string>
     <string name="button_ews_support_wrong_phone_no">Ne</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Dovoljenje za lokacijo</string>
+    <string name="label_ews_location_permission_body">Potrebujemo dovoljenje za dostop do vaše lokacije, da lahko poiščemo omrežje PHILIPS Setup Wi-Fi za %1$s.</string>
+    <string name="label_ews_location_permission_allow">Dovoli</string>
+    <string name="label_ews_location_permission_cancel">Prekliči nastavitev</string>
+    <string name="label_ews_location_services_title">Omogoči storitve lokacije</string>
+    <string name="label_ews_location_services_body">Storitve lokacije morajo biti omogočene, da lahko poiščemo omrežje PHILIPS Setup Wi-Fi za %1$s. Omogočite storitve lokacije v nastavitvah lokacije in se vrnite v aplikacijo.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Odpri Nastavitve lokacije</string>
 </resources>

@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">มี</string>
     <string name="button_ews_support_wrong_phone_no">ไม่ได้</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">การเข้าถึงตำแหน่ง</string>
+    <string name="label_ews_location_permission_body">ในการหาเครือข่าย Wi-Fi PHILIPS Setup ของ %1$s เราต้องเข้าถึงตำแหน่งของคุณ</string>
+    <string name="label_ews_location_permission_allow">อนุญาต</string>
+    <string name="label_ews_location_permission_cancel">ยกเลิกการตั้งค่า</string>
+    <string name="label_ews_location_services_title">เปิดใช้งานบริการระบุตำแหน่ง</string>
+    <string name="label_ews_location_services_body">ในการหาเครือข่าย Wi-Fi PHILIPS Setup ของ %1$s เราการบริการระบุตำแหน่ง โปรดเปิดใช้งานบริการระบุตำแหน่งและกลับไปที่แอปพลิเคชัน</string>
+    <string name="label_ews_location_services_go_to_location_settings">ไปที่การตั้งค่าตำแหน่ง</string>
 </resources>

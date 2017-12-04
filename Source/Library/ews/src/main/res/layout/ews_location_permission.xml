@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_main_button_top_margin"
-            android:text="@string/button_ews_location_permission_yes"
+            android:text="@string/label_ews_location_permission_allow"
             app:uidComponentType="Primary" />
 
         <com.philips.platform.uid.view.widget.Button
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_between_button_margin"
-            android:text="@string/button_ews_location_permission_no"
+            android:text="@string/label_ews_location_permission_cancel"
             app:uidComponentType="Secondary" />
 
     </LinearLayout>

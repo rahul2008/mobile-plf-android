@@ -30,17 +30,17 @@
     <string name="label_ews_select_wakeup_wifi_steps_4">4. Keer terug naar %1$s</string>
     <string name="label_ews_plug_in_title_default">Is uw apparaat ingeschakeld?</string>
     <string name="label_ews_plug_in_body_default">Proposition-specific instructions to power the device.</string>
-    <string name="button_ews_plug_in_next">Oké, gebeurd</string>
+    <string name="button_ews_plug_in_next">Oké, gedaan</string>
     <string name="label_ews_verify_ready_title_default">Staat uw apparaat in de configuratiemodus?</string>
     <string name="label_ews_verify_ready_question_default">Knippert het Wi-Fi-lampje?</string>
-    <string name="button_ews_verify_ready_yes_default">Ja, het Wi-Fi-lampje knippert</string>
-    <string name="button_ews_verify_ready_no_default">Nee, het Wi-Fi-lampje knippert niet</string>
-    <string name="label_ews_select_wifi_title">Koppelen met %1$s</string>
+    <string name="button_ews_verify_ready_yes_default">Ja, Wi-Fi-lampje knippert</string>
+    <string name="button_ews_verify_ready_no_default">Wi-Fi-lampje knippert niet</string>
+    <string name="label_ews_select_wifi_title">Verbinden met %1$s</string>
     <string name="label_ews_select_wifi_body">Volg deze stappen om uw telefoon te verbinden met \'PHILIPS Setup\'.</string>
     <string name="label_ews_select_wifi_step1">1. Ga naar \'Instellingen\' op uw telefoon en tik op Wi-Fi</string>
     <string name="label_ews_select_wifi_step2">2. Ga naar \'Netwerk\' en selecteer \'PHILIPS Setup\'</string>
     <string name="label_ews_select_wifi_step3">3. Keer terug naar %1$s</string>
-    <string name="button_ews_select_wifi_next">Oké, gebeurd</string>
+    <string name="button_ews_select_wifi_next">Oké, gedaan</string>
     <string name="button_ews_select_wifi_having_issues">Lukt het niet?</string>
     <string name="label_ews_establishing_connection_title">Verbinding maken met \'PHILIPS Setup\'</string>
     <string name="label_ews_establishing_connection_body">Dit kan een paar seconden duren. U wordt automatisch doorgestuurd wanneer dit is voltooid.</string>
@@ -72,7 +72,7 @@
     <string name="label_ews_phone_reconnected_different_network_step_2">2. Schakel de Wi-Fi in</string>
     <string name="label_ews_phone_reconnected_different_network_step_3">3. Selecteer %1$s</string>
     <string name="label_ews_phone_reconnected_different_network_step_4">4. Keer terug naar %1$s</string>
-    <string name="button_ews_phone_reconnected_different_network_confirm">Oké, gebeurd</string>
+    <string name="button_ews_phone_reconnected_different_network_confirm">Oké, gedaan</string>
     <string name="label_ews_phone_not_found_on_network_title">Verbindingsfout</string>
     <string name="label_ews_phone_not_found_on_network_upper_body">De telefoon kan uw %1$s niet detecteren op uw Wi-Fi-thuisnetwerk.</string>
     <string name="label_ews_phone_not_found_on_network_lower_body">Mogelijke oorzaken zijn:</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Ja</string>
     <string name="button_ews_support_wrong_phone_no">Nee</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Toestemming locatie</string>
+    <string name="label_ews_location_permission_body">Om het Wi-Fi-netwerk PHILIPS Setup van %1$s te vinden, hebben we toegang tot uw locatie nodig.</string>
+    <string name="label_ews_location_permission_allow">Toestaan</string>
+    <string name="label_ews_location_permission_cancel">Installatie annuleren</string>
+    <string name="label_ews_location_services_title">Locatiediensten inschakelen</string>
+    <string name="label_ews_location_services_body">Om het Wi-Fi-netwerk PHILIPS Setup van %1$s te vinden, moeten de locatiediensten zijn ingeschakeld.  Schakel de locatiediensten in de locatie-instellingen in en ga terug naar de app.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Naar locatie-instellingen</string>
 </resources>

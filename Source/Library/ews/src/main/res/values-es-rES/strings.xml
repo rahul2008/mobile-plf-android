@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Sí</string>
     <string name="button_ews_support_wrong_phone_no">No</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Permiso de ubicación</string>
+    <string name="label_ews_location_permission_body">Para encontrar la red Wi-Fi de configuración de PHILIPS de %1$s, necesitamos permiso para acceder a tu ubicación.</string>
+    <string name="label_ews_location_permission_allow">Permitir</string>
+    <string name="label_ews_location_permission_cancel">Cancelar configuración</string>
+    <string name="label_ews_location_services_title">Habilitar servicios de ubicación</string>
+    <string name="label_ews_location_services_body">Para encontrar la red Wi-Fi de configuración de PHILIPS de %1$s, es necesario que estén activados los servicios de ubicación.  Activa los servicios de ubicación en los ajustes de ubicación y vuelve a la aplicación.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Ubicación</string>
 </resources>
