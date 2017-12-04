@@ -52,7 +52,7 @@ public class THSInitFragment extends THSBaseFragment {
     }
 
     protected void addCustomProgreeBar(ViewGroup view) {
-        LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = vi.inflate(R.layout.ths_custom_progress_bar, null, false);
         RelativeLayout.LayoutParams pbParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         pbParams.addRule(RelativeLayout.CENTER_IN_PARENT, v.getId());
