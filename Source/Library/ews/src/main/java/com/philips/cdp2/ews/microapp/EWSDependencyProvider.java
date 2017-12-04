@@ -101,7 +101,7 @@ public class EWSDependencyProvider {
      * Return AppInfraInterface.
      * @return  AppInfraInterface
      */
-    public AppInfraInterface getAppInfra() {
+    AppInfraInterface getAppInfra() {
         return appInfraInterface;
     }
 

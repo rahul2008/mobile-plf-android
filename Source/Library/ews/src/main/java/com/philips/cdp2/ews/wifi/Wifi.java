@@ -43,13 +43,13 @@ public class Wifi {
     private static final int MAX_PRIORITY = 99999;
 
     @VisibleForTesting
-    public ConfigurationSecurities ConfigSec = new ConfigurationSecurities();
+    ConfigurationSecurities ConfigSec = new ConfigurationSecurities();
 
     @Inject
     public Wifi() {
     }
 
-    public static String convertToQuotedString(String string) {
+    private String convertToQuotedString(String string) {
         if (TextUtil.isEmpty(string)) {
             return "";
         }
@@ -62,7 +62,7 @@ public class Wifi {
         return "\"" + string + "\"";
     }
 
-    public boolean connectToConfiguredNetwork(final WifiManager wifiMgr, WifiConfiguration config, boolean reassociate) {
+    private boolean connectToConfiguredNetwork(final WifiManager wifiMgr, WifiConfiguration config, boolean reassociate) {
         final String security = ConfigSec.getWifiConfigurationSecurity(config);
         if (config == null) return false;
 
@@ -189,7 +189,7 @@ public class Wifi {
         return null;
     }
 
-    public WifiConfiguration getWifiConfiguration(final WifiManager wifiMgr, final WifiConfiguration configToFind, String security) {
+    private WifiConfiguration getWifiConfiguration(final WifiManager wifiMgr, final WifiConfiguration configToFind, String security) {
         final String ssid = configToFind.SSID;
         if (ssid.length() == 0) {
             return null;

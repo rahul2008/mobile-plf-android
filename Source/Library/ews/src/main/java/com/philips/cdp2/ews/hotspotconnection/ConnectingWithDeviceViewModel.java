@@ -29,7 +29,7 @@ import javax.inject.Named;
 
 public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.Callback {
 
-    public interface ConnectingPhoneToHotSpotCallback {
+    interface ConnectingPhoneToHotSpotCallback {
         void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
 
         void unregisterReceiver(@NonNull BroadcastReceiver receiver);
@@ -79,7 +79,7 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
 
     @VisibleForTesting
     @NonNull
-    protected final Runnable timeOutAction = new Runnable() {
+    final Runnable timeOutAction = new Runnable() {
         @Override
         public void run() {
             onConnectionAttemptTimedOut();
@@ -101,7 +101,7 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
         this.baseContentConfiguration = baseContentConfiguration;
     }
 
-    public void connectToHotSpot() {
+    void connectToHotSpot() {
         if (wiFiUtil.isHomeWiFiEnabled()) {
             if (fragmentCallback != null) {
                 fragmentCallback.registerReceiver(broadcastReceiver, createIntentFilter());
@@ -121,16 +121,16 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
         navigator.navigateBack();
     }
 
-    public void onHelpNeeded() {
+    void onHelpNeeded() {
         EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.USER_NEEDS_HELP);
         navigator.navigateToResetConnectionTroubleShootingScreen();
     }
 
-    public void onHelpNotNeeded() {
+    void onHelpNotNeeded() {
         navigator.navigateToCompletingDeviceSetupScreen();
     }
 
-    public void clear() {
+    void clear() {
         if (fragmentCallback != null) {
             fragmentCallback.unregisterReceiver(broadcastReceiver);
         }
@@ -138,7 +138,7 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
     }
 
     @VisibleForTesting
-    protected void onPhoneConnectedToHotspotWifi() {
+    void onPhoneConnectedToHotspotWifi() {
         deviceFriendlyNameFetcher.setNameFetcherCallback(this);
         deviceFriendlyNameFetcher.fetchFriendlyName();
     }
@@ -153,7 +153,7 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
     }
 
     @VisibleForTesting
-    protected void onConnectionAttemptTimedOut() {
+    void onConnectionAttemptTimedOut() {
         showUnsuccessfulDialog();
     }
 
@@ -162,7 +162,7 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
     }
 
     @VisibleForTesting
-    protected void unregisterBroadcastReceiver() {
+    void unregisterBroadcastReceiver() {
         if (fragmentCallback != null) {
             fragmentCallback.unregisterReceiver(broadcastReceiver);
         }else{
@@ -186,11 +186,11 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
         return fragmentCallback;
     }
 
-    public void setFragmentCallback(@Nullable ConnectingPhoneToHotSpotCallback fragmentCallback) {
+    void setFragmentCallback(@Nullable ConnectingPhoneToHotSpotCallback fragmentCallback) {
         this.fragmentCallback = fragmentCallback;
     }
 
-    public void trackPageName() {
+    void trackPageName() {
         EWSTagger.trackPage(Page.CONNECTING_WITH_DEVICE);
     }
 }

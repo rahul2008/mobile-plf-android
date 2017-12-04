@@ -43,7 +43,7 @@ public class FragmentNavigator {
         return fragmentManager.popBackStackImmediate(tag, POP_BACK_STACK_EXCLUSIVE);
     }
 
-    public int getContainerId() {
+    int getContainerId() {
         return containerId;
     }
 

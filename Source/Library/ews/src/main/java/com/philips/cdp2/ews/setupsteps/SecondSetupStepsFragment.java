@@ -30,7 +30,7 @@ import com.philips.platform.uid.view.widget.Label;
 
 public class SecondSetupStepsFragment extends BaseFragment implements LocationPermissionFlowCallback {
 
-    public static final int LOCATION_PERMISSIONS_REQUEST_CODE = 10;
+    private static final int LOCATION_PERMISSIONS_REQUEST_CODE = 10;
 
     private SecondSetupStepsViewModel viewModel;
     private boolean pendingPermissionResultRequest;

@@ -12,9 +12,8 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 public class BEAppliance extends Appliance {
 
-    public static final String DEVICE_TYPE = "Wake-up Light";
-    public static final String PRODUCT_STUB = "BCM943903";
-    private static final String TAG = "BEAppliance";
+    static final String DEVICE_TYPE = "Wake-up Light";
+    static final String PRODUCT_STUB = "BCM943903";
 
     BEAppliance(@NonNull final NetworkNode networkNode, @NonNull final CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);

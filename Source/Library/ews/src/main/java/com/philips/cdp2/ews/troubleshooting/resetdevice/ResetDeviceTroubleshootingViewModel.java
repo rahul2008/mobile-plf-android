@@ -38,7 +38,7 @@ public class ResetDeviceTroubleshootingViewModel {
         return stringProvider.getImageResource(troubleShootContentConfiguration.getResetDeviceImage());
     }
 
-    public void onDoneButtonClicked() {
+    void onDoneButtonClicked() {
         navigator.navigateToCompletingDeviceSetupScreen();
     }
 

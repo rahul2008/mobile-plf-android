@@ -18,8 +18,6 @@ import com.philips.cdp2.ews.databinding.FragmentFirstSetupStepsBinding;
 
 public class FirstSetupStepsFragment extends BaseFragment {
 
-    public static final int FRAGMENT_HIERARCHY_LEVEL = 3;
-
     private FirstSetupStepsViewModel viewModel;
 
 

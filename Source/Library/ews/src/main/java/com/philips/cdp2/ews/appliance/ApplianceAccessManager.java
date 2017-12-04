@@ -31,9 +31,9 @@ import javax.inject.Singleton;
 @Singleton
 public class ApplianceAccessManager {
 
-    public static final String TAG = "ApplianceAccessManager";
+    private static final String TAG = "ApplianceAccessManager";
 
-    public interface FetchCallback {
+    interface FetchCallback {
         void onDeviceInfoReceived(@NonNull WifiPortProperties properties);
         void onFailedToFetchDeviceInfo();
     }
@@ -111,7 +111,7 @@ public class ApplianceAccessManager {
         this.sessionDetailsInfo = sessionDetailsInfo;
     }
 
-    public void fetchDevicePortProperties(@NonNull FetchCallback callback) {
+    void fetchDevicePortProperties(@NonNull FetchCallback callback) {
         EWSLogger.d(TAG, "STEP 2 : Appliance found, fetching properties from device");
         if (requestType == ApplianceRequestType.UNKNOWN) {
             fetchCallback = callback;
