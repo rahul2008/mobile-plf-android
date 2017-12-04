@@ -34,5 +34,6 @@ ext.versionsExternal = [
         crittercism         : "5.8.7",
         opengl              : "gl1.1-android-2.1_r1",
         ormLite             : "5.0",
-        butterKnife         : "8.8.1"
+        butterKnife         : "8.8.1",
+        jacocoToolVersion   : "0.7.1.201405082137"
 ]

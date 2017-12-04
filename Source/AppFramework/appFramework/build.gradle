@@ -9,7 +9,7 @@ apply from: "../scripts/task_verification.gradle"
 apply from: "../scripts/task_reporting.gradle"
 
 jacoco {
-    toolVersion = "0.7.1.201405082137"
+    toolVersion = "${versionsExternal.jacocoToolVersion}"
 }
 
 buildscript {
@@ -33,13 +33,13 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
-        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath "com.trickyandroid:jacoco-everywhere:0.2.1"
+        classpath "com.android.tools.build:gradle:2.3.1"
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
         classpath(builddeps.cdpSCM)
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
-        classpath 'de.felixschulze.gradle:gradle-hockeyapp-plugin:3.6'
+        classpath "com.neenbedankt.gradle.plugins:android-apt:1.8"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2"
+        classpath "de.felixschulze.gradle:gradle-hockeyapp-plugin:3.6"
     }
 }
 
