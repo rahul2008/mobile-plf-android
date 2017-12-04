@@ -59,6 +59,7 @@ public class DiscoveryHelper {
 
     public void stopDiscovery() {
         commCentral.stopDiscovery();
+        commCentral.getApplianceManager().removeApplianceListener(applianceListener);
         callback = null;
     }
 
