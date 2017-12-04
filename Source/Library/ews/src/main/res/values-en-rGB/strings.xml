@@ -33,8 +33,8 @@
     <string name="button_ews_plug_in_next">Ok, I did it</string>
     <string name="label_ews_verify_ready_title_default">Is your device in setup mode?</string>
     <string name="label_ews_verify_ready_question_default">Is the Wi-Fi light flashing?</string>
-    <string name="button_ews_verify_ready_yes_default">Yes, the Wi-Fi light is flashing</string>
-    <string name="button_ews_verify_ready_no_default">No, the Wi-Fi light is not flashing</string>
+    <string name="button_ews_verify_ready_yes_default">Yes, Wi-Fi light is flashing</string>
+    <string name="button_ews_verify_ready_no_default">No, Wi-Fi light is not flashing</string>
     <string name="label_ews_select_wifi_title">Connect to %1$s</string>
     <string name="label_ews_select_wifi_body">Follow these steps to connect your phone to PHILIPS Setup.</string>
     <string name="label_ews_select_wifi_step1">1. Go to Settings on your phone and tap Wi-Fi</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Yes</string>
     <string name="button_ews_support_wrong_phone_no">No</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Location permission</string>
+    <string name="label_ews_location_permission_body">To find %1$s\'s PHILIPS Setup Wi-Fi network, we need permission to access your location.</string>
+    <string name="label_ews_location_permission_allow">Allow</string>
+    <string name="label_ews_location_permission_cancel">Cancel setup</string>
+    <string name="label_ews_location_services_title">Enable Location Services</string>
+    <string name="label_ews_location_services_body">To find %1$s\'s PHILIPS Setup Wi-Fi network, we need Location Services enabled. Please enable Location Services in Location Settings and return to the app.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Go to Location Settings</string>
 </resources>
