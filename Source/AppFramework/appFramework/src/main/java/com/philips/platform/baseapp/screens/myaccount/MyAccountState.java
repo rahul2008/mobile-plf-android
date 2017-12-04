@@ -13,11 +13,6 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.catk.CatkInputs;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.csw.ConsentBundleConfig;
-import com.philips.platform.csw.CswDependencies;
-import com.philips.platform.csw.CswInterface;
-import com.philips.platform.csw.CswLaunchInput;
-import com.philips.platform.csw.CswSettings;
 import com.philips.platform.mya.MyaFragment;
 import com.philips.platform.mya.error.MyaError;
 import com.philips.platform.mya.interfaces.MyaListener;
@@ -36,7 +31,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-public class MyAccountState extends BaseState implements MyaListener {
+public class MyAccountState extends BaseState {
     private final String SETTINGS_MYA_PRIVACY_SETTINGS = "Mya_Privacy_Settings";
 
     public MyAccountState() {
@@ -53,9 +48,31 @@ public class MyAccountState extends BaseState implements MyaListener {
 
         ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, MyaFragment.TAG, getUiStateData().getFragmentLaunchState());
 
-        MyaLaunchInput launchInput = new MyaLaunchInput(actContext, this);
+        MyaLaunchInput launchInput = new MyaLaunchInput(actContext, new MyaListener() {
+            @Override
+            public boolean onClickMyaItem(String itemName) {
+                return false;
+            }
+
+            @Override
+            public boolean onLogOut() {
+                return false;
+            }
+
+            @Override
+            public DataInterface getDataInterface(DataModelType modelType) {
+                return new UserDataModelProvider(actContext);
+
+            }
+
+            @Override
+            public void onError(MyaError myaError) {
+
+            }
+        });
         launchInput.setContext(actContext);
         launchInput.addToBackStack(true);
+        launchInput.setConsentDefinitions(createConsentDefinitions(actContext, Locale.US));
         MyaInterface myaInterface = getInterface();
         myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
         myaInterface.launch(fragmentLauncher, launchInput);
@@ -96,46 +113,7 @@ public class MyAccountState extends BaseState implements MyaListener {
 
     @NonNull
     protected MyaDependencies getUappDependencies(Context actContext) {
-        MyaDependencies myaDependencies = new MyaDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra());
 
-        return myaDependencies;
-    }
-
-    @Override
-    public boolean onClickMyaItem(String s) {
-        if (s.equals(SETTINGS_MYA_PRIVACY_SETTINGS)) {
-            CswInterface cswInterface = new CswInterface();
-            CswDependencies cswDependencies = new CswDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra());
-            CswSettings cswSettings = new CswSettings(actContext);
-            cswInterface.init(cswDependencies, cswSettings);
-            cswInterface.launch(MyaInterface.getMyaUiComponent().getFragmentLauncher(), buildLaunchInput(true, actContext));
-            return true;
-        }
-
-        return false;
-
-    }
-
-    @Override
-    public void onError(MyaError myaError) {
-
-    }
-
-    @Override
-    public boolean onLogOut() {
-        return false;
-    }
-
-    @Override
-    public DataInterface getDataInterface(DataModelType dataModelType) {
-        return new UserDataModelProvider(actContext);
-
-    }
-
-    private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-        ConsentBundleConfig config = new ConsentBundleConfig(createConsentDefinitions(actContext, Locale.US));
-        CswLaunchInput cswLaunchInput = new CswLaunchInput(config, context);
-        cswLaunchInput.addToBackStack(addToBackStack);
-        return cswLaunchInput;
+        return new MyaDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra());
     }
 }
