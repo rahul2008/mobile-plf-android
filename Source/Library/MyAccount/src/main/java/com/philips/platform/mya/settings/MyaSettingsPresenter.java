@@ -22,6 +22,7 @@ import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBasePresenter;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
@@ -63,20 +64,26 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     public boolean handleOnClickSettingsItem(String key) {
         if (key.equals("Mya_Privacy_Settings")) {
             AppInfraInterface appInfra = MyaHelper.getInstance().getAppInfra();
-
             ConsentAccessToolKit.getInstance().init(initConsentToolKit(view.getContext(), appInfra));
-            CswInterface cswInterface = new CswInterface();
-
+            CswInterface cswInterface = getCswInterface();
             CswDependencies cswDependencies = new CswDependencies(appInfra);
             UappSettings uappSettings = new UappSettings(view.getContext());
             cswInterface.init(cswDependencies, uappSettings);
-            cswInterface.launch(MyaHelper.getInstance().getFragmentLauncher(), buildLaunchInput(true, view.getContext()));
+            cswInterface.launch(getFragmentLauncher(), buildLaunchInput(true, view.getContext()));
             return true;
         }
         return false;
     }
 
-    private LogoutHandler getLogoutHandler() {
+    CswInterface getCswInterface() {
+        return new CswInterface();
+    }
+
+    FragmentLauncher getFragmentLauncher() {
+        return MyaHelper.getInstance().getFragmentLauncher();
+    }
+
+    LogoutHandler getLogoutHandler() {
         return new LogoutHandler() {
             public void onLogoutSuccess() {
                 view.handleLogOut();

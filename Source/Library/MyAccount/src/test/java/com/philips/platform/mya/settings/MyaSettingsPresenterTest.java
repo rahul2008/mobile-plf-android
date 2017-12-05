@@ -8,17 +8,21 @@
 package com.philips.platform.mya.settings;
 
 import android.content.Context;
+import android.os.Bundle;
 
+import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.mya.R;
+import com.philips.platform.myaplugin.user.UserDataModelProvider;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -66,5 +70,47 @@ public class MyaSettingsPresenterTest {
         verify(view).showDialog("some title", "some message");
     }
 
+    @Test
+    public void testHandleLogOut() {
+        LogoutHandler logoutHandler = myaSettingsPresenter.getLogoutHandler();
+        Bundle bundle = new Bundle();
+        UserDataModelProvider userDataModelProvider = new UserDataModelProvider(context);
+        bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
+        myaSettingsPresenter.logOut(bundle);
+        logoutHandler.onLogoutSuccess();
+        verify(view).handleLogOut();
+    }
 
+   /* @Test
+    public void testHandleOnClickSettingsItem() {
+        final CswInterface cswInterface = mock(CswInterface.class);
+        final CswLaunchInput cswLaunchInput = mock(CswLaunchInput.class);
+        final CatkInputs catkInputs = mock(CatkInputs.class);
+        final FragmentLauncher fragmentLauncher = mock(FragmentLauncher.class);
+        myaSettingsPresenter = new MyaSettingsPresenter(view) {
+            @Override
+            CswInterface getCswInterface() {
+                return cswInterface;
+            }
+
+            @Override
+            FragmentLauncher getFragmentLauncher() {
+                return fragmentLauncher;
+            }
+
+            @Override
+            CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
+                return cswLaunchInput;
+            }
+
+            @Override
+            CatkInputs initConsentToolKit(Context context, AppInfraInterface appInfra) {
+                return catkInputs;
+            }
+        };
+        String key = "Mya_Privacy_Settings";
+        assertTrue(myaSettingsPresenter.handleOnClickSettingsItem(key));
+        verify(cswInterface).launch(fragmentLauncher, cswLaunchInput);
+        assertFalse(myaSettingsPresenter.handleOnClickSettingsItem("some_key"));
+    }*/
 }
