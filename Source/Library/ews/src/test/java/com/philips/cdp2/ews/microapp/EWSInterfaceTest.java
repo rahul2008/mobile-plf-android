@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
+import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.logger.EWSLogger;
@@ -50,7 +51,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({EWSDependencyProvider.class, EWSCallbackNotifier.class, EWSLogger.class})
+@PrepareForTest({EWSDependencyProvider.class, EWSCallbackNotifier.class,EWSLogger.class, CommCentral.class})
 public class EWSInterfaceTest {
 
     @Mock
@@ -79,11 +80,15 @@ public class EWSInterfaceTest {
     @Mock
     private EWSComponent mockEwsComponent;
 
+    @Mock
+    private CommCentral mockCommCentral;
+
     @Before
     public void setUp() throws Exception {
         PowerMockito.mock(EWSDependencyProvider.class);
         PowerMockito.mock(EWSCallbackNotifier.class);
         mockStatic(EWSLogger.class);
+        mockStatic(CommCentral.class);
         initMocks(this);
 
         subject = spy(new EWSInterface());
@@ -114,14 +119,14 @@ public class EWSInterfaceTest {
     public void itShouldEnsureEWSDependenciesAreInitializedWhenOnInitIsCalled() throws Exception {
         verifyStatic();
 
-        EWSDependencyProvider.getInstance().initDependencies(appInfraInterfaceMock, productKeyMap);
+        EWSDependencyProvider.getInstance().initDependencies(appInfraInterfaceMock, productKeyMap, mockCommCentral);
     }
 
     @Test
     public void itShouldInitEWSDependenciesWhenOnInitIsCalled() throws Exception {
         initEWS();
         verifyStatic();
-        EWSDependencyProvider.getInstance().initDependencies(appInfraInterfaceMock, productKeyMap);
+        EWSDependencyProvider.getInstance().initDependencies(appInfraInterfaceMock, productKeyMap, mockCommCentral);
     }
 
     @Test
