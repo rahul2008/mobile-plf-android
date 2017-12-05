@@ -74,20 +74,17 @@ public class MyAccountState extends BaseState {
         });
         launchInput.setContext(actContext);
         launchInput.addToBackStack(true);
-        launchInput.setConsentDefinitions(createConsentDefinitions(actContext, getLocale(actContext)));
+        launchInput.setConsentDefinitions(createConsentDefinitions(actContext, getLocale((AppFrameworkApplication) actContext.getApplicationContext())));
         MyaInterface myaInterface = getInterface();
         myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
         myaInterface.launch(fragmentLauncher, launchInput);
     }
 
-    private Locale getLocale(Context actContext) {
+    private Locale getLocale(AppFrameworkApplication frameworkApplication) {
         Locale locale;
-        if (actContext != null && actContext.getResources() != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                locale = actContext.getResources().getConfiguration().getLocales().get(0);
-            } else {
-                locale = actContext.getResources().getConfiguration().locale;
-            }
+        if (frameworkApplication != null) {
+            String[] localeComponents = frameworkApplication.getAppInfra().getInternationalization().getUILocaleString().split("_");
+            locale = new Locale(localeComponents[0], localeComponents[1]);
         } else {
             locale = Locale.US;
         }
