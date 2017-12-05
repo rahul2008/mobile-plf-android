@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +27,8 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
@@ -36,8 +37,11 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.ContactUsUtils;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+
 import com.philips.cdp.digitalcare.util.Utils;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,12 +60,24 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
     private ValueCallback<Uri> mUploadMessage;
     private ValueCallback<Uri[]> mFilePathCallbackArray;
 
+    private boolean layoutListenerAdded;
+    private boolean isImmersiveMode;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.consumercare_webview_noscroll, container, false);
         setChatEndPoint(ContactUsUtils.liveChatUrl(getActivity()) + "&origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app");
+
+        int systemUiVisibility = getActivity().getWindow().getDecorView().getSystemUiVisibility();
+        if (((systemUiVisibility & View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY) != 0)
+                || ((systemUiVisibility & View.SYSTEM_UI_FLAG_IMMERSIVE) != 0)) {
+            isImmersiveMode = true;
+        }
+
+
         initView(view);
         return view;
     }
@@ -77,6 +93,31 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
                 (AnalyticsConstants.PAGE_CONTACTUS_CHATNOW, contextData);
         loadChat();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (isImmersiveMode && !layoutListenerAdded) {
+            layoutListenerAdded = true;
+            getView().getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
+        }
+    }
+
+
+    int getKeyboardHeight() {
+        InputMethodManager systemService = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        try {
+            Method getInputMethodWindowVisibleHeight = systemService.getClass().getDeclaredMethod("getInputMethodWindowVisibleHeight", null);
+            getInputMethodWindowVisibleHeight.setAccessible(true);
+            return (int) getInputMethodWindowVisibleHeight.invoke(systemService);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
 
     private void loadChat() {
         if (ContactUsUtils.liveChatUrl(getActivity()) == null) {
@@ -114,6 +155,22 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
     public String setPreviousPageName() {
         return AnalyticsConstants.PAGE_CONTACTUS_CHATNOW;
     }
+
+    @Override
+    public void onDestroyView() {
+        if (isImmersiveMode && layoutListenerAdded) {
+            layoutListenerAdded = false;
+            View view = getView();
+            if (view != null) {
+                ViewTreeObserver viewTreeObserver = view.getViewTreeObserver();
+                if (viewTreeObserver != null) {
+                    viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener);
+                }
+            }
+        }
+        super.onDestroyView();
+    }
+
 
     @Override
     public void onDestroy() {
@@ -244,6 +301,29 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
         return Intent.createChooser(intent,"Choose image");
     }
 
+    ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+            if (getActivity() != null && isVisible()) {
+                int keyboardHeight = getKeyboardHeight();
+                int screenHeight = getActivity().findViewById(R.id.webViewParent).getHeight();
+                DigiCareLogger.d("globalLayoutListener", "keypadHeight = " + keyboardHeight);
+                if (keyboardHeight != 0 && mWebView.getHeight() == screenHeight) {
+                    ViewGroup.LayoutParams layoutParams = mWebView.getLayoutParams();
+                    layoutParams.height = screenHeight - keyboardHeight;
+                    mWebView.setLayoutParams(layoutParams);
+                    mWebView.requestLayout();
+                }
+
+                if (keyboardHeight == 0 && mWebView.getHeight() != screenHeight) {
+                    ViewGroup.LayoutParams layoutParams = mWebView.getLayoutParams();
+                    layoutParams.height = screenHeight;
+                    mWebView.setLayoutParams(layoutParams);
+                    mWebView.requestLayout();
+                }
+            }
+        }
+    };
 
     public static String loadWebPageContent(final String webUrl, final WebView webView, final ProgressBar viewProgressBar) {
 
