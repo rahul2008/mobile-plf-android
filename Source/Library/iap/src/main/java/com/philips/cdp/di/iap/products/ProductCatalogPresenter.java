@@ -35,14 +35,14 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     private HybrisDelegate mHybrisDelegate;
     private StoreListener mStore;
 
-    Products mProducts;
-    ProductCatalogHelper mProductCatalogHelper;
+    private Products mProducts;
+    private ProductCatalogHelper mProductCatalogHelper;
 
     protected ProductCatalogListener mProductCatalogListener;
     IAPListener mIAPListener;
 
-    final int PAGE_SIZE = 20;
-    final int CURRENT_PAGE = 0;
+    private final int PAGE_SIZE = 20;
+    private final int CURRENT_PAGE = 0;
 
     public interface ProductCatalogListener {
         void onLoadFinished(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity);
@@ -57,8 +57,6 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     }
 
     public void getCompleteProductList(final IAPListener iapListener) {
-//        String currentCountryCode = HybrisDelegate.getInstance().getStore().getCountry();
-//        String savedCountry = Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY);
         completeProductList(iapListener);
     }
 

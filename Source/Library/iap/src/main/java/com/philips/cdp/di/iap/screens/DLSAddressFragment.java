@@ -288,7 +288,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         if (!CartModelContainer.getInstance().isAddessStateVisible()) {
             mShippingAddressHashMap.put(ModelConstants.REGION_ISOCODE, null);
         } else {
-            mShippingAddressHashMap.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
+            mShippingAddressHashMap.put(ModelConstants.REGION_ISOCODE, pAddressFields.getRegionIsoCode());
         }
 
         return mShippingAddressHashMap;
