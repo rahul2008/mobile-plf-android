@@ -123,8 +123,6 @@ public class NavigatorTest {
 
     @Test
     public void itShouldPushResetConnectionScreenWhenNotPresentInStack() throws Exception {
-        when(mockFragmentNavigator.popToFragment(anyString())).thenReturn(false);
-
         subject.navigateToResetConnectionTroubleShootingScreen();
 
         verifyFragmentPushed(ResetConnectionTroubleshootingFragment.class);
@@ -132,8 +130,6 @@ public class NavigatorTest {
 
     @Test
     public void itShouldPushPowerOnScreenWhenNotPresentInStack() throws Exception {
-        when(mockFragmentNavigator.popToFragment(anyString())).thenReturn(false);
-
         subject.navigateToDevicePoweredOnConfirmationScreen();
 
         verifyFragmentPushed(FirstSetupStepsFragment.class);
@@ -150,7 +146,7 @@ public class NavigatorTest {
     public void itShouldNavigateToConnectingPhoneToHotspotWifiFragment() throws Exception {
         subject.navigateToConnectingPhoneToHotspotWifiScreen();
 
-        verifyFragmentPushedForNoPopBackStack(ConnectingWithDeviceFragment.class);
+        verifyFragmentPushed(ConnectingWithDeviceFragment.class);
     }
 
     @Test
@@ -194,12 +190,7 @@ public class NavigatorTest {
     }
 
     private void verifyFragmentPushed(@NonNull Class fragmentClass) {
-        verify(mockFragmentNavigator).push(captor.capture(), anyInt(),anyBoolean(),eq(true));
-        assertEquals(fragmentClass, captor.getValue().getClass());
-    }
-
-    private void verifyFragmentPushedForNoPopBackStack(@NonNull Class fragmentClass) {
-        verify(mockFragmentNavigator).push(captor.capture(), anyInt(),anyBoolean(),eq(false));
+        verify(mockFragmentNavigator).push(captor.capture(), anyInt());
         assertEquals(fragmentClass, captor.getValue().getClass());
     }
 }
