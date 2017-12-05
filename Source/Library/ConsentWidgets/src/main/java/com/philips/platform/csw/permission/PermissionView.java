@@ -10,6 +10,7 @@ package com.philips.platform.csw.permission;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.csw.ConsentBundleConfig;
 import com.philips.platform.csw.CswBaseFragment;
+import com.philips.platform.csw.description.DescriptionView;
 import com.philips.platform.csw.utils.CswLogger;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.mya.consentwidgets.R2;
@@ -22,6 +23,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -156,7 +158,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     public void onHelpClicked(String helpText) {
-        Toast.makeText(getContext(), helpText, Toast.LENGTH_LONG).show();
+        DescriptionView.show(getFragmentManager(), helpText);
+//        Toast.makeText(getContext(), helpText, Toast.LENGTH_LONG).show();
     }
 
     private static class OkOnErrorListener implements View.OnClickListener {
