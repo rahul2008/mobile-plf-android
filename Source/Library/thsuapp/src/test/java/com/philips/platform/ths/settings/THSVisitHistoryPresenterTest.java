@@ -22,7 +22,6 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
-import com.philips.platform.ths.cost.THSVisit;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
@@ -34,19 +33,15 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 public class THSVisitHistoryPresenterTest {
@@ -153,7 +148,6 @@ public class THSVisitHistoryPresenterTest {
 
         mThsVisitHistoryPresenter.onResponse(list,null);
         verify(thsVisitHistoryFragmentMock).updateVisitHistoryView(anyList());
-        verify(thsVisitHistoryFragmentMock).hideProgressBar();
 
     }
 
