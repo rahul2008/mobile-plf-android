@@ -39,11 +39,11 @@ public class MyaInterface implements UappInterface {
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         MyaLaunchInput myaLaunchInput = (MyaLaunchInput) uappLaunchInput;
         UserDataModelProvider userDataModelProvider = new UserDataModelProvider(myaLaunchInput.getContext());
-        if(!userDataModelProvider.isUserLoggedIn()) {
+        if (!userDataModelProvider.isUserLoggedIn(myaLaunchInput.getContext())) {
             myaLaunchInput.getMyaListener().onError(MyaError.USER_NOT_SIGNED_IN);
             return;
         }
-        MyaHelper.getInstance().setMyaListener(((MyaLaunchInput) uappLaunchInput).getMyaListener());
+        MyaHelper.getInstance().setMyaListener(myaLaunchInput.getMyaListener());
         MyaHelper.getInstance().setMyaLaunchInput(myaLaunchInput);
         Bundle bundle = new Bundle();
         bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
@@ -57,7 +57,6 @@ public class MyaInterface implements UappInterface {
     }
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher, Bundle arguments) {
-//        MyaHelper.getInstance().setFragmentLauncher(fragmentLauncher);
         MyaTabFragment myaTabFragment = new MyaTabFragment();
         myaTabFragment.setArguments(arguments);
         myaTabFragment.setFragmentLauncher(fragmentLauncher);

@@ -34,13 +34,13 @@ public class UserDataModelProvider extends UserInterface implements Serializable
     }
 
     @Override
-    public boolean isUserLoggedIn() {
+    public boolean isUserLoggedIn(Context context) {
         User user = new User(context);
         return user.isUserSignIn();
     }
 
     @Override
-    public void logOut(LogoutHandler logoutHandler) {
+    public void logOut(Context context, LogoutHandler logoutHandler) {
         User user = new User(context);
         user.logout(logoutHandler);
     }
