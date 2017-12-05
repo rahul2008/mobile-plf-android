@@ -91,8 +91,6 @@ android {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi versions.target
-        renderscriptSupportModeEnabled true
         multiDexEnabled true
         versionName assignedVersionNumber
         consumerProguardFiles('proguard-rules.txt', 'proguard-rules-lib.txt')
