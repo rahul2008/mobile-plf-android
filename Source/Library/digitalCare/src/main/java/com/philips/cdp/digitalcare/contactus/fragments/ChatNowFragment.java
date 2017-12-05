@@ -69,7 +69,6 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.consumercare_webview_noscroll, container, false);
-        setChatEndPoint(ContactUsUtils.liveChatUrl(getActivity()) + "&origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app");
 
         int systemUiVisibility = getActivity().getWindow().getDecorView().getSystemUiVisibility();
         if (((systemUiVisibility & View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY) != 0)
@@ -77,7 +76,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
             isImmersiveMode = true;
         }
 
-
+        setChatEndPoint(ContactUsUtils.liveChatUrl(getActivity()) + "&origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app");
         initView(view);
         return view;
     }
