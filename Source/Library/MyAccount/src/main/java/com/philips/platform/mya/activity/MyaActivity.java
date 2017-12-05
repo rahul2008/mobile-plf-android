@@ -128,7 +128,9 @@ public class MyaActivity extends UIDActivity {
     }
 
     private void setLeftImage(int resId) {
-        leftImageView.setBackgroundResource(resId);
+        if (resId != 0) {
+            leftImageView.setBackgroundResource(resId);
+        }
     }
 
     private void launchTabFragment() {
