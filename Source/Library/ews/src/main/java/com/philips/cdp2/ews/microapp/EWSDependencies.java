@@ -7,10 +7,10 @@ package com.philips.cdp2.ews.microapp;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import java.util.Map;
 
@@ -19,7 +19,7 @@ import java.util.Map;
  * It is keeping productKeyMap and ContentConfiguration.
  */
 @SuppressWarnings("WeakerAccess")
-public class EWSDependencies extends UappDependencies {
+public abstract class EWSDependencies extends UappDependencies {
 
     @NonNull private final Map<String, String> productKeyMap;
     @Nullable private final ContentConfiguration contentConfiguration;
@@ -55,4 +55,6 @@ public class EWSDependencies extends UappDependencies {
     public ContentConfiguration getContentConfiguration() {
         return contentConfiguration;
     }
+
+    public abstract CommCentral getCommCentral();
 }

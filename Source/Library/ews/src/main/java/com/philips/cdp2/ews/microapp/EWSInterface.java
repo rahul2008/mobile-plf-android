@@ -52,7 +52,7 @@ public class EWSInterface implements UappInterface {
     @Override
     public void init(@NonNull final UappDependencies uappDependencies, @NonNull final UappSettings uappSettings) {
         EWSDependencies ewsDependencies = (EWSDependencies) uappDependencies;
-        EWSDependencyProvider.getInstance().initDependencies(uappDependencies.getAppInfra(), ewsDependencies.getProductKeyMap());
+        EWSDependencyProvider.getInstance().initDependencies(uappDependencies.getAppInfra(), ewsDependencies.getProductKeyMap(), ewsDependencies.getCommCentral());
         context = uappSettings.getContext();
         EWSDependencyProvider.getInstance().setContext(context);
         contentConfiguration = ewsDependencies.getContentConfiguration();
