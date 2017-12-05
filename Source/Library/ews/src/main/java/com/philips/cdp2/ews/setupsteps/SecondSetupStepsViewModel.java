@@ -141,6 +141,7 @@ public class SecondSetupStepsViewModel {
     }
 
     protected void startConnection() {
+
         navigator.navigateToConnectingPhoneToHotspotWifiScreen();
     }
 
