@@ -2,6 +2,7 @@ package com.philips.platform.baseapp.screens.myaccount;
 
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
@@ -82,7 +83,11 @@ public class MyAccountState extends BaseState {
     private Locale getLocale(Context actContext) {
         Locale locale;
         if (actContext != null && actContext.getResources() != null) {
-            locale = actContext.getResources().getConfiguration().locale;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                locale = actContext.getResources().getConfiguration().getLocales().get(0);
+            } else {
+                locale = actContext.getResources().getConfiguration().locale;
+            }
         } else {
             locale = Locale.US;
         }
