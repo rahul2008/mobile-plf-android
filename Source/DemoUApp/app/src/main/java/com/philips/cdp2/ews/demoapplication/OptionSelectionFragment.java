@@ -65,7 +65,7 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
     @Override
     public void onResume() {
         super.onResume();
-        ((EWSActionBarListener) getActivity()).updateActionBar("EWS Ref App", true);
+        ((EWSActionBarListener) getActivity()).updateActionBar(getString(R.string.app_name), true);
     }
 
     @Override
