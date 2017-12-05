@@ -104,7 +104,7 @@ public class ApplianceAccessManager {
         this.sessionDetailsInfo = sessionDetailsInfo;
     }
 
-    public void fetchDevicePortProperties(@NonNull FetchCallback callback) {
+    void fetchDevicePortProperties(@NonNull FetchCallback callback) {
         EWSLogger.d(TAG, "STEP 2 : Appliance found, fetching properties from device");
         if (requestType == ApplianceRequestType.UNKNOWN) {
             fetchCallback = callback;

@@ -26,7 +26,7 @@ public class ConnectionSuccessfulViewModel {
     private FragmentCallback fragmentCallback;
 
     @NonNull
-    StringProvider stringProvider;
+    private StringProvider stringProvider;
     @NonNull
     public final ObservableField<String> title;
     @NonNull
@@ -41,7 +41,7 @@ public class ConnectionSuccessfulViewModel {
         title = new ObservableField<>(getTitle(baseConfig));
     }
 
-    public void setFragmentCallback(@NonNull FragmentCallback fragmentCallback) {
+    protected void setFragmentCallback(@NonNull FragmentCallback fragmentCallback) {
         this.fragmentCallback = fragmentCallback;
     }
 

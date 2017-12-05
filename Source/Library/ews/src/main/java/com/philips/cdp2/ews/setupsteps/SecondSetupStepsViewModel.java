@@ -31,7 +31,14 @@ import static com.philips.cdp2.ews.EWSActivity.EWS_STEPS;
 @SuppressWarnings("WeakerAccess")
 public class SecondSetupStepsViewModel {
 
+    interface LocationPermissionFlowCallback {
+        void showGPSEnableDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
+
+        void showLocationPermissionDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
+    }
+
     public static final String ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+
     @NonNull
     public final ObservableField<String> title;
     @NonNull
@@ -145,7 +152,7 @@ public class SecondSetupStepsViewModel {
         navigator.navigateToConnectingPhoneToHotspotWifiScreen();
     }
 
-    public void trackPageName() {
+    void trackPageName() {
         EWSTagger.trackPage(Page.SETUP_STEP2);
     }
 
@@ -170,7 +177,7 @@ public class SecondSetupStepsViewModel {
         }
     }
 
-    public void setFragment(@NonNull final Fragment fragment) {
+    void setFragment(@NonNull final Fragment fragment) {
         this.fragment = fragment;
     }
 
@@ -182,14 +189,8 @@ public class SecondSetupStepsViewModel {
         navigator.navigateToConnectToDeviceWithPasswordScreen("");
     }
 
-    public void setLocationPermissionFlowCallback(@Nullable LocationPermissionFlowCallback locationPermissionFlowCallback) {
+    void setLocationPermissionFlowCallback(@Nullable LocationPermissionFlowCallback locationPermissionFlowCallback) {
         this.locationPermissionFlowCallback = locationPermissionFlowCallback;
-    }
-
-    public interface LocationPermissionFlowCallback {
-        void showGPSEnableDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
-
-        void showLocationPermissionDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
     }
 }
 

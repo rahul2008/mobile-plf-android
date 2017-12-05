@@ -52,7 +52,7 @@ public abstract class EWSDependencies extends UappDependencies {
      * @return ContentConfiguration
      */
     @Nullable
-    public ContentConfiguration getContentConfiguration() {
+    ContentConfiguration getContentConfiguration() {
         return contentConfiguration;
     }
 

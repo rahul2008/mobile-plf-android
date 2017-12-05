@@ -56,7 +56,7 @@ public class WrongWifiNetworkViewModel {
         navigator.navigateToConnectingDeviceWithWifiScreen(bundle);
     }
 
-    public void setBundle(Bundle bundle) {
+    void setBundle(Bundle bundle) {
         this.bundle = bundle;
     }
 
@@ -65,7 +65,7 @@ public class WrongWifiNetworkViewModel {
         return bundle;
     }
 
-    public int getAppName() {
+    int getAppName() {
         return baseContentConfiguration.getAppName();
     }
 

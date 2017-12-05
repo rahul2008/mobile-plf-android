@@ -175,5 +175,4 @@ public class EWSDependencyProviderTest {
         verify(mockDaggerEWSComponentBuilder).eWSConfigurationModule(any(EWSConfigurationModule.class));
         verify(mockDaggerEWSComponentBuilder).build();
     }
-
 }
