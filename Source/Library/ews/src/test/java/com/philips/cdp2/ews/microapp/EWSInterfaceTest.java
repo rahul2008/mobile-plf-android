@@ -50,13 +50,11 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({EWSDependencyProvider.class, EWSCallbackNotifier.class, EWSLogger.class})
+@PrepareForTest({EWSDependencyProvider.class, EWSLogger.class})
 public class EWSInterfaceTest {
 
     @Mock
     LoggingInterface mockLoggingInterface;
-    @Mock
-    EWSDependencyProvider mockEWSDependencyProvider;
     @Rule
     private ExpectedException thrownException = ExpectedException.none();
     private EWSInterface subject;
@@ -82,7 +80,6 @@ public class EWSInterfaceTest {
     @Before
     public void setUp() throws Exception {
         PowerMockito.mock(EWSDependencyProvider.class);
-        PowerMockito.mock(EWSCallbackNotifier.class);
         mockStatic(EWSLogger.class);
         initMocks(this);
 
