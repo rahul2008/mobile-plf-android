@@ -16,7 +16,6 @@ import com.philips.platform.ths.utility.THSManager;
 
 import java.util.List;
 
-import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_ENROLLMENT_MANGER;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_FETCH_VISIT_HISTORY;
 
 public class THSVisitHistoryPresenter implements THSBasePresenter, THSVisitReportListCallback<List<VisitReport>,SDKError>{
@@ -48,7 +47,7 @@ public class THSVisitHistoryPresenter implements THSBasePresenter, THSVisitRepor
                 return;
             }
             mThsVisitHistoryFragment.updateVisitHistoryView(visitReports);
-            mThsVisitHistoryFragment.hideProgressBar();
+            mThsVisitHistoryFragment.stopRefreshing();
         }
     }
 

@@ -59,7 +59,6 @@ public class THSVisitHistoryFragment extends THSBaseFragment implements SwipeRef
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_visit_history),true);
         }
-        createCustomProgressBar(mRelativeLayout,BIG);
         onRefresh();
     }
 
