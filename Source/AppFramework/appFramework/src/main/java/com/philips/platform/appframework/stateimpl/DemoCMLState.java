@@ -7,10 +7,10 @@ package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
 
+import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.demouapp.CommlibUapp;
-import com.philips.cdp2.demouapp.DefaultCommlibUappDependencies;
+import com.philips.cdp2.demouapp.CommlibUappDependencies;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -36,16 +36,22 @@ public class DemoCMLState extends DemoBaseState {
         if (uAppInterface != null) {
             RALog.d(TAG, "CommlibUApp is null");
             try {
-                final AppInfraInterface appInfraInterface = ((AppFrameworkApplication) context.getApplicationContext()).getAppInfra();
-                uAppInterface.init(new DefaultCommlibUappDependencies(context, appInfraInterface), new UappSettings(context.getApplicationContext()));
+                final AppFrameworkApplication appContext = ((AppFrameworkApplication) context.getApplicationContext());
+
+                uAppInterface.init(new CommlibUappDependencies() {
+                    @Override
+                    public CommCentral getCommCentral() {
+                        RALog.i("testing","DemoCML getCommCentralInstance - " + appContext.getCommCentralInstance());
+                        return appContext.getCommCentralInstance();
+                    }
+                }, new UappSettings(context.getApplicationContext()));
+
             } catch (UnsatisfiedLinkError error) {
                 RALog.d(TAG, "Not able to find native implementation");
             }
             uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
                     getDLSThemeConfiguration(context.getApplicationContext()), 0, null), null);
         }
-
-
     }
 
     @Override
