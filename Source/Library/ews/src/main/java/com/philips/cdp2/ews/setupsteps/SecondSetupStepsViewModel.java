@@ -146,7 +146,7 @@ public class SecondSetupStepsViewModel {
     void tagLocationPermissionAllow() {
         EWSTagger.trackInAppNotificationResponse(Tag.ACTION.ALLOW);
     }
-    
+
     void tagLocationPermissionCancel() {
         EWSTagger.trackInAppNotificationResponse(Tag.ACTION.CANCEL_SETUP);
     }
@@ -160,7 +160,7 @@ public class SecondSetupStepsViewModel {
 
     protected void startConnection() {
         eventBus.unregister(this);
-        navigator.navigateToConnectingPhoneToHotspotWifiScreen();
+                navigator.navigateToConnectingPhoneToHotspotWifiScreen();
     }
 
     void trackPageName() {
