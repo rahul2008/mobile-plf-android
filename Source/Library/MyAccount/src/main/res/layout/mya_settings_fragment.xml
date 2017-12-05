@@ -2,8 +2,8 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/uid_adaptive_layout_width"
-    android:layout_gravity="center"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,8 @@
             android:id="@+id/mya_settings_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
+
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/mya_settings_logout_btn"
@@ -30,26 +31,32 @@
             android:layout_marginTop="@dimen/MYA_top_margin"
             android:text="@string/MYA_Log_Out" />
 
-        <com.philips.platform.uid.view.widget.Label
-            style="@style/UIDLabel.Header"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/MYA_start_margin"
-            android:layout_marginEnd="@dimen/MYA_end_margin"
             android:layout_marginTop="@dimen/MYA_top_margin"
-            android:paddingTop="@dimen/MYA_top_margin"
-            android:text="@string/MYA_visit_website" />
+            android:background="?attr/uidContentSecondaryBackgroundColor"
+            android:orientation="vertical">
 
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/philips_website"
-            style="@style/UIDLabel.Header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/MYA_start_margin"
-            android:layout_marginEnd="@dimen/MYA_end_margin"
-            android:layout_marginBottom="@dimen/MYA_bottom_margin"
-            android:text="@string/MYA_philips_website" />
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/MYA_end_margin"
+                android:layout_marginStart="@dimen/MYA_start_margin"
+                android:paddingTop="@dimen/MYA_top_margin"
+                android:text="@string/MYA_visit_website" />
 
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/philips_website"
+                style="@style/UIDLabel.Header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/MYA_bottom_margin"
+                android:layout_marginEnd="@dimen/MYA_end_margin"
+                android:layout_marginStart="@dimen/MYA_start_margin"
+                android:text="@string/MYA_philips_website" />
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

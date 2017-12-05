@@ -49,7 +49,8 @@ public class MyaActivity extends UIDActivity {
         Toolbar toolbar = findViewById(R.id.mya_toolbar);
         mTitle = toolbar.findViewById(R.id.mya_toolbar_title);
         leftImageView = toolbar.findViewById(R.id.mya_toolbar_left_image);
-        leftImageView.setOnClickListener(new View.OnClickListener() {
+        View leftImageViewLayout = toolbar.findViewById(R.id.mya_toolbar_left_image_layout);
+        leftImageViewLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
