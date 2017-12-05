@@ -32,11 +32,11 @@ import javax.inject.Inject;
 @SuppressWarnings("WeakerAccess")
 public class EWSInterface implements UappInterface {
 
-    static final String ERROR_MSG_INVALID_CALL = "Please call \"init\" method, before calling launching ews with valid params";
-    static final String ERROR_MSG_INVALID_IMPLEMENTATION = "Please implement EWSActionBarListener in Activity";
-    static final String SCREEN_ORIENTATION = "screen.orientation";
-    static final String TAG = "EWSInterface";
+    public static final String ERROR_MSG_INVALID_CALL = "Please call \"init\" method, before calling launching ews with valid params";
+    public static final String ERROR_MSG_INVALID_IMPLEMENTATION = "Please implement EWSActionBarListener in Activity";
+    public static final String SCREEN_ORIENTATION = "screen.orientation";
     public static final String PRODUCT_NAME = "productName";
+    private static final String TAG = "EWSInterface";
     @Inject
     Navigator navigator;
     @Inject
@@ -52,7 +52,7 @@ public class EWSInterface implements UappInterface {
     @Override
     public void init(@NonNull final UappDependencies uappDependencies, @NonNull final UappSettings uappSettings) {
         EWSDependencies ewsDependencies = (EWSDependencies) uappDependencies;
-        EWSDependencyProvider.getInstance().initDependencies(ewsDependencies.getAppInfra(), ewsDependencies.getProductKeyMap());
+        EWSDependencyProvider.getInstance().initDependencies(uappDependencies.getAppInfra(), ewsDependencies.getProductKeyMap(), ewsDependencies.getCommCentral());
         context = uappSettings.getContext();
         EWSDependencyProvider.getInstance().setContext(context);
         contentConfiguration = ewsDependencies.getContentConfiguration();

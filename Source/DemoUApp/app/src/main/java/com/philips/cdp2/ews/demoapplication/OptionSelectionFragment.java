@@ -5,6 +5,7 @@
 
 package com.philips.cdp2.ews.demoapplication;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +16,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
+import com.philips.cdp2.commlib.lan.context.LanTransportContext;
+import com.philips.cdp2.ews.appliance.BEApplianceFactory;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
@@ -44,6 +49,9 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
     private static final String AIRPURIFIER = "Air Purifier";
     private static final String DEFAULT = "Default";
     private AppInfraInterface appInfra;
+
+    @Nullable
+    private static CommCentral commCentral;
 
     @Nullable
     @Override
@@ -100,14 +108,45 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
         ewsInterface.launch(fragmentLauncher, ((EWSDemoActivity) getActivity()).getEwsLauncherInput());
     }
 
+    /**
+     *
+     * Singleton instance for commCentral is necessary as only one instance is allowed for CommCentral.
+     * @param context
+     * @param appInfraInterface
+     * @return Singleton commCental to be passed to micro app
+     */
     @NonNull
-    private UappDependencies createUappDependencies(AppInfraInterface appInfra,
+    private CommCentral createCommCentral(Context context, AppInfraInterface appInfraInterface) {
+        if (commCentral == null){
+            LanTransportContext lanTransportContext = new LanTransportContext(
+                    new RuntimeConfiguration(context, appInfraInterface));
+            BEApplianceFactory factory = new BEApplianceFactory(lanTransportContext);
+            commCentral =  new CommCentral(factory, lanTransportContext);
+        }
+        return commCentral;
+    }
+
+    /**
+     * create uApp dependency from proposition for EWS microapp.
+     * commCentral should be created and passed from proposition.
+     * @param appInfra
+     * @param productKeyMap
+     * @return
+     */
+    @NonNull
+    private UappDependencies createUappDependencies(final AppInfraInterface appInfra,
                                                     Map<String, String> productKeyMap) {
         return new EWSDependencies(appInfra, productKeyMap,
                 new ContentConfiguration(createBaseContentConfiguration(),
                         createHappyFlowConfiguration(),
-                        createTroubleShootingConfiguration()));
+                        createTroubleShootingConfiguration())) {
+            @Override
+            public CommCentral getCommCentral() {
+                return  createCommCentral(getActivity(), appInfra);
+            }
+        };
     }
+
 
     @NonNull
     private Map<String, String> createProductMap() {

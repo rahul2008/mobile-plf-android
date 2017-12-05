@@ -13,6 +13,7 @@ import android.os.Handler;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
+import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.cdp2.ews.R;
@@ -21,7 +22,6 @@ import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.logger.EWSLogger;
-import com.philips.cdp2.ews.microapp.EWSDependencies;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.navigation.Navigator;
@@ -32,8 +32,6 @@ import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.uappframework.uappinput.UappDependencies;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -64,7 +62,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({EWSTagger.class,EWSLogger.class, LanTransportContext.class})
+@PrepareForTest({EWSTagger.class,EWSLogger.class, LanTransportContext.class, CommCentral.class})
 public class ConnectingDeviceWithWifiViewModelTest {
 
     private static final String HOME_SSID = "homeSsid";
@@ -129,10 +127,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
     private ApplianceSessionDetailsInfo mockApplianceSessionDetailInfo;
 
     @Mock
-    EWSDependencies mockEWSUAppDependencies;
-
-    @Mock
-    UappSettings mockUappSettings;
+    private CommCentral mockCommCentral;
 
     @Before
     public void setUp() throws Exception {
@@ -140,17 +135,14 @@ public class ConnectingDeviceWithWifiViewModelTest {
         mockStatic(EWSTagger.class);
         mockStatic(EWSLogger.class);
         mockStatic(LanTransportContext.class);
+        mockStatic(CommCentral.class);
 
         AppInfraInterface mockAppInfraInterface = mock(AppInfraInterface.class);
         AppTaggingInterface mockTaggingInterface = mock(AppTaggingInterface.class);
         when(mockAppInfraInterface.getTagging()).thenReturn(mockTaggingInterface);
         Map<String, String> mockMap = new HashMap<>();
         mockMap.put(EWSInterface.PRODUCT_NAME, DEVICE_NAME);
-        when(mockEWSUAppDependencies.getProductKeyMap()).thenReturn(mockMap);
-        when(mockEWSUAppDependencies.getAppInfra()).thenReturn(mockAppInfraInterface);
-        when(mockEWSUAppDependencies.getAppInfra().getTagging()).thenReturn(mockTaggingInterface);
-        EWSInterface ewsInterface = new EWSInterface();
-        ewsInterface.init(mockEWSUAppDependencies, mockUappSettings);
+        EWSDependencyProvider.getInstance().initDependencies(mockAppInfraInterface, mockMap, mockCommCentral);
         subject = new ConnectingDeviceWithWifiViewModel(mockApplianceAccessManager, mockNavigator,
                 mockWiFiConnectivityManager, mockWiFiUtil, mockDeviceFriendlyNameChanger,
                 mockHandler, mockDiscoveryHelper, mockBaseContentConfiguration, mockStringProvider, mockApplianceSessionDetailInfo);
