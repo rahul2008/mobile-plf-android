@@ -129,14 +129,19 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
 
     @NonNull
     private BaseContentConfiguration createBaseContentConfiguration() {
-        switch ((String)configSpinner.getSelectedItem()){
+        switch ((String) configSpinner.getSelectedItem()) {
             case WAKEUP_LIGHT:
-                return new BaseContentConfiguration(R.string.ews_device_name_wl, R.string.ews_app_name_wl);
+                return new BaseContentConfiguration.Builder()
+                        .setDeviceName(R.string.ews_device_name_wl)
+                        .setAppName(R.string.ews_app_name_wl)
+                        .build();
             case AIRPURIFIER:
-                return new BaseContentConfiguration(R.string.ews_device_name_ap, R.string.ews_app_name_ap);
+                return new BaseContentConfiguration.Builder()
+                        .setDeviceName(R.string.ews_device_name_ap)
+                        .setAppName(R.string.ews_app_name_ap).build();
             case DEFAULT:
             default:
-                return new BaseContentConfiguration();
+                return new BaseContentConfiguration.Builder().build();
         }
     }
 
