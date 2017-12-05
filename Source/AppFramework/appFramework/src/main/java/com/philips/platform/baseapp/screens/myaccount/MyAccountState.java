@@ -82,7 +82,7 @@ public class MyAccountState extends BaseState {
 
     private Locale getLocale(AppFrameworkApplication frameworkApplication) {
         Locale locale;
-        if (frameworkApplication != null) {
+        if (frameworkApplication != null && frameworkApplication.getAppInfra().getInternationalization() != null && frameworkApplication.getAppInfra().getInternationalization().getUILocaleString() != null) {
             String[] localeComponents = frameworkApplication.getAppInfra().getInternationalization().getUILocaleString().split("_");
             locale = new Locale(localeComponents[0], localeComponents[1]);
         } else {
