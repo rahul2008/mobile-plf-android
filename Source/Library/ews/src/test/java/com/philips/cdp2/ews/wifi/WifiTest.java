@@ -58,12 +58,12 @@ public class WifiTest {
 
     @Test
     public void itShouldVerifyWhenconvertToQuotedStringIsNull() throws Exception {
-        assertEquals(Wifi.convertToQuotedString(null), "");
+        assertEquals(subject.convertToQuotedString(null), "");
     }
 
     @Test
     public void itShouldVerifyWhenConvertToQuotedStringIsNotNull() throws Exception {
-        assertEquals(Wifi.convertToQuotedString(testString), testString);  //"\"" + testString + "\""
+        assertEquals(subject.convertToQuotedString(testString), testString);  //"\"" + testString + "\""
     }
 
     @Test

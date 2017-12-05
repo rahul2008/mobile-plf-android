@@ -49,7 +49,8 @@ public class Wifi {
     public Wifi() {
     }
 
-    private String convertToQuotedString(String string) {
+    @VisibleForTesting
+    String convertToQuotedString(String string) {
         if (TextUtil.isEmpty(string)) {
             return "";
         }
@@ -62,7 +63,8 @@ public class Wifi {
         return "\"" + string + "\"";
     }
 
-    private boolean connectToConfiguredNetwork(final WifiManager wifiMgr, WifiConfiguration config, boolean reassociate) {
+    @VisibleForTesting
+    boolean connectToConfiguredNetwork(final WifiManager wifiMgr, WifiConfiguration config, boolean reassociate) {
         final String security = ConfigSec.getWifiConfigurationSecurity(config);
         if (config == null) return false;
 
@@ -189,7 +191,8 @@ public class Wifi {
         return null;
     }
 
-    private WifiConfiguration getWifiConfiguration(final WifiManager wifiMgr, final WifiConfiguration configToFind, String security) {
+    @VisibleForTesting
+    WifiConfiguration getWifiConfiguration(final WifiManager wifiMgr, final WifiConfiguration configToFind, String security) {
         final String ssid = configToFind.SSID;
         if (ssid.length() == 0) {
             return null;
