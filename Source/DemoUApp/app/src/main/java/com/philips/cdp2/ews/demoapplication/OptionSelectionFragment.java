@@ -5,6 +5,7 @@
 
 package com.philips.cdp2.ews.demoapplication;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -48,6 +49,9 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
     private static final String AIRPURIFIER = "Air Purifier";
     private static final String DEFAULT = "Default";
     private AppInfraInterface appInfra;
+
+    @Nullable
+    private static CommCentral commCentral;
 
     @Nullable
     @Override
@@ -104,6 +108,31 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
         ewsInterface.launch(fragmentLauncher, ((EWSDemoActivity) getActivity()).getEwsLauncherInput());
     }
 
+    /**
+     *
+     * Singleton instance for commCentral is necessary as only one instance is allowed for CommCentral.
+     * @param context
+     * @param appInfraInterface
+     * @return Singleton commCental to be passed to micro app
+     */
+    @NonNull
+    private CommCentral createCommCentral(Context context, AppInfraInterface appInfraInterface) {
+        if (commCentral == null){
+            LanTransportContext lanTransportContext = new LanTransportContext(
+                    new RuntimeConfiguration(context, appInfraInterface));
+            BEApplianceFactory factory = new BEApplianceFactory(lanTransportContext);
+            commCentral =  new CommCentral(factory, lanTransportContext);
+        }
+        return commCentral;
+    }
+
+    /**
+     * create uApp dependency from proposition for EWS microapp.
+     * commCentral should be created and passed from proposition.
+     * @param appInfra
+     * @param productKeyMap
+     * @return
+     */
     @NonNull
     private UappDependencies createUappDependencies(final AppInfraInterface appInfra,
                                                     Map<String, String> productKeyMap) {
@@ -113,10 +142,7 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
                         createTroubleShootingConfiguration())) {
             @Override
             public CommCentral getCommCentral() {
-                LanTransportContext lanTransportContext = new LanTransportContext(
-                        new RuntimeConfiguration(getActivity(), appInfra));
-                BEApplianceFactory factory = new BEApplianceFactory(lanTransportContext);
-                return new CommCentral(factory, lanTransportContext);
+                return  createCommCentral(getActivity(), appInfra);
             }
         };
     }

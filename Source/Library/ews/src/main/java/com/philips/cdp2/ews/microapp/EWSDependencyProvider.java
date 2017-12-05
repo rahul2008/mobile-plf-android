@@ -35,7 +35,8 @@ public class EWSDependencyProvider {
     private static AppTaggingInterface appTaggingInterface;
     private AppInfraInterface appInfraInterface;
     private Map<String, String> productKeyMap;
-    private CommCentral commCentral;
+
+    @NonNull private CommCentral commCentral;
 
     @VisibleForTesting
     static EWSDependencyProvider instance;
