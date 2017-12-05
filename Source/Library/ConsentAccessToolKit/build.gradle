@@ -240,12 +240,17 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVer"
 
     // Philips Components
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive = true
-                exclude group: 'com.android.support', module: 'customtabs'
-                exclude group: 'com.google.dagger'
-            }
+    def dp = project.ext.has('useprojectdependencies')
+    if (dp) {
+        project(':registrationApi')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+                {
+                    transitive = true
+                    exclude group: 'com.android.support', module: 'customtabs'
+                    exclude group: 'com.google.dagger'
+                }
+    }
 
     // Tests
     testCompile 'junit:junit:4.12'

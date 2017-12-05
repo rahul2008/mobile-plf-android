@@ -138,20 +138,20 @@
       ]
     }
   },
+  "hsdp": {
+    "appName": "OneBackend",
+    "propositionName": "OneBackendProp"
+  },
   "dataservices": {
     "appname": "OneBackend"
   },
   "mya": {
     "profile.menuItems": [
-      "MYA_My_details",
-      "MYA_My_products",
-      "MYA_My_subscriptions",
-      "MYA_My_orders"
+      "MYA_My_details"
     ],
     "settings.menuItems": [
       "MYA_Country",
-      "Mya_Privacy_Settings",
-      "MYA_Notifications"
+      "Mya_Privacy_Settings"
     ]
   }
 }

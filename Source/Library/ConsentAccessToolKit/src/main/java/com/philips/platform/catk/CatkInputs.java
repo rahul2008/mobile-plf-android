@@ -21,10 +21,6 @@ public class CatkInputs {
 
     private Context context;
 
-    private String propositionName;
-
-    private String applicationName;
-
     public void setContext(Context context) {
         this.context = context;
     }
@@ -35,22 +31,6 @@ public class CatkInputs {
 
     public AppInfraInterface getAppInfra() {
         return appInfra;
-    }
-
-    public String getPropositionName() {
-        return propositionName;
-    }
-
-    public String getApplicationName() {
-        return applicationName;
-    }
-
-    public void setPropositionName(String propositionName) {
-        this.propositionName = propositionName;
-    }
-
-    public void setApplicationName(String applicationName) {
-        this.applicationName = applicationName;
     }
 
     public void setAppInfra(AppInfraInterface appInfra) {

@@ -45,7 +45,7 @@ public class GetConsentInteractorTest {
     @Mock
     private GetConsentInteractor.Callback mockCallback;
     @Captor
-    private ArgumentCaptor<GetConsentInteractor.ConsentViewResponseListener> captorConsentDetails;
+    private ArgumentCaptor<GetConsentInteractor.GetConsentsResponseListener> captorConsentDetails;
     @Captor
     private ArgumentCaptor<List<RequiredConsent>> captorRequired;
 
@@ -56,16 +56,23 @@ public class GetConsentInteractorTest {
     }
 
     @Test
-    public void itShouldGetConsentDetails() throws Exception {
+    public void fetchLatestConsents_itShouldGetConsentDetails() throws Exception {
         givenAccessToolkitWithConsentDefinitions();
-        whenGetConsentCalled();
+        whenFetchLatestConsentsCalled();
+        thenGetConsentDetailsIsCalled();
+    }
+
+    @Test
+    public void checkConsents_itShouldGetConsentDetails() throws Exception {
+        givenAccessToolkitWithConsentDefinitions();
+        whenCheckConsentsCalled();
         thenGetConsentDetailsIsCalled();
     }
 
     @Test
     public void itShouldReportConsentRetrievedWhenEmptyResponse() throws Exception {
         givenAccessToolkitWithConsentDefinitions();
-        whenGetConsentCalled();
+        whenFetchLatestConsentsCalled();
         andResponseIsEmpty();
 
         thenConsentRetrievedIsReported();
@@ -75,7 +82,7 @@ public class GetConsentInteractorTest {
     @Test
     public void itShouldReportConsentFailedWhenResponseFails() throws Exception {
         givenAccessToolkitWithConsentDefinitions();
-        whenGetConsentCalled();
+        whenFetchLatestConsentsCalled();
         andResponseFailsWithError(new ConsentNetworkError(new VolleyError()));
 
         thenConsentFailedIsReported();
@@ -84,7 +91,7 @@ public class GetConsentInteractorTest {
     @Test
     public void itShouldReportConsentSuccessWhenNonEmptyResponse() throws Exception {
         givenAccessToolkitWithConsentDefinitions(new ConsentDefinition("text", "help", Collections.singletonList("moment"), 0, Locale.getDefault()));
-        whenGetConsentCalled();
+        whenFetchLatestConsentsCalled();
         andResponseIs(new Consent(Locale.CANADA, ConsentStatus.active, "type", 0));
 
         thenConsentRetrievedIsReported();
@@ -97,8 +104,12 @@ public class GetConsentInteractorTest {
         subject = new GetConsentInteractor(mockContentAccessToolkit, givenConsentDefinitions);
     }
 
-    private void whenGetConsentCalled() {
+    private void whenFetchLatestConsentsCalled() {
         subject.fetchLatestConsents(mockCallback);
+    }
+
+    private void whenCheckConsentsCalled() {
+        subject.checkConsents(mockCallback);
     }
 
     private void andResponseFailsWithError(ConsentNetworkError error) {
@@ -116,7 +127,7 @@ public class GetConsentInteractorTest {
     }
 
     private void thenGetConsentDetailsIsCalled() {
-        verify(mockContentAccessToolkit).getConsentDetails(isA(GetConsentInteractor.ConsentViewResponseListener.class));
+        verify(mockContentAccessToolkit).getConsentDetails(isA(GetConsentInteractor.GetConsentsResponseListener.class));
     }
 
     private void thenConsentFailedIsReported() {

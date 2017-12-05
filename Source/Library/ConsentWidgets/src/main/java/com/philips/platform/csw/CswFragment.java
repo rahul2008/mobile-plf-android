@@ -129,14 +129,6 @@ public class CswFragment extends Fragment implements BackEventListener {
         return !(onBackPressed());
     }
 
-    public String getApplicationName() {
-        return config.getApplicationName();
-    }
-
-    public String getPropositionName() {
-        return config.getPropositionName();
-    }
-
     public List<ConsentDefinition> getConsentDefinitions() {
         return config.getConsentDefinitions();
     }

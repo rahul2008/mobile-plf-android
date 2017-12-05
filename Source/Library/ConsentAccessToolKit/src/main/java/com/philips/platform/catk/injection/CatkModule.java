@@ -20,7 +20,7 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class CatkModule {
+class CatkModule {
     private final Context context;
     private final AppInfraInterface appInfraInterface;
 

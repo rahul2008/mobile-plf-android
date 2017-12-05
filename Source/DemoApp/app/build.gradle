@@ -247,7 +247,7 @@ dependencies {
     } else {
         compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     }
-    
+
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
    /*     if(dp) {
         project(':registrationApi')

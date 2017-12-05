@@ -7,9 +7,22 @@
 
 package com.philips.platform.csw.permission;
 
+import com.philips.platform.catk.error.ConsentNetworkError;
+import com.philips.platform.csw.ConsentBundleConfig;
+import com.philips.platform.csw.CswBaseFragment;
+import com.philips.platform.csw.utils.CswLogger;
+import com.philips.platform.mya.consentwidgets.R;
+import com.philips.platform.mya.consentwidgets.R2;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
+
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,17 +30,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.csw.ConsentBundleConfig;
-import com.philips.platform.csw.CswBaseFragment;
-import com.philips.platform.mya.consentwidgets.R;
-import com.philips.platform.mya.consentwidgets.R2;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class PermissionView extends CswBaseFragment implements PermissionInterface, HelpClickListener {
+
+    private static final String TAG = "PermissionView";
 
     private ProgressDialog mProgressDialog;
 
@@ -38,9 +47,12 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @BindView(R2.id.consentList)
     RecyclerView recyclerView;
 
+    private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
+
     @Override
     protected void setViewParams(Configuration config, int width) {
-        applyParams(config, recyclerView, width);
+        //Update recycle view rows
+      //  applyParams(config, recyclerView, width);
     }
 
     @Override
@@ -50,7 +62,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     public int getTitleResourceId() {
-        return R.string.csw_permissions;
+        return R.string.reg_mya_privacy_settings;
     }
 
     @Override
@@ -101,6 +113,8 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         permissionPresenter.getConsentStatus();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
+        recyclerView.addItemDecoration(separatorItemDecoration);
         recyclerView.setAdapter(permissionPresenter.getAdapter());
     }
 
@@ -129,11 +143,35 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
 
     @Override
     public void showErrorDialog(ConsentNetworkError error) {
-        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+        CswLogger.e(TAG, error.getMessage());
+        OkOnErrorListener okListener = new OkOnErrorListener();
+        final AlertDialogFragment alertDialogFragment = new AlertDialogFragment.Builder(getContext())
+                .setTitle(R.string.reg_mya_problem_occurred_error_title)
+                .setMessage(getString(R.string.reg_mya_problem_occurred_error_message, error.getCatkErrorCode()))
+                .setPositiveButton(R.string.reg_mya_ok, okListener)
+                .create();
+        okListener.setDialog(alertDialogFragment);
+        alertDialogFragment.show(getFragmentManager(), TAG);
     }
 
     @Override
     public void onHelpClicked(String helpText) {
         Toast.makeText(getContext(), helpText, Toast.LENGTH_LONG).show();
+    }
+
+    private static class OkOnErrorListener implements View.OnClickListener {
+
+        @Nullable DialogFragment dialog;
+
+        @Override
+        public void onClick(View view) {
+            if (dialog != null) {
+                dialog.dismiss();
+            }
+        }
+
+        void setDialog(@NonNull DialogFragment dialog) {
+            this.dialog = dialog;
+        }
     }
 }

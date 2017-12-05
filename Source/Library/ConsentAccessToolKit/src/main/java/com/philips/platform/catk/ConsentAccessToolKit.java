@@ -7,9 +7,13 @@
 
 package com.philips.platform.catk;
 
-import com.philips.platform.catk.dto.CreateConsentModelRequest;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import com.android.volley.VolleyError;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.catk.dto.GetConsentDto;
-import com.philips.platform.catk.dto.GetConsentsModelRequest;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.infra.InfraServiceInfoProvider;
 import com.philips.platform.catk.injection.CatkComponent;
@@ -19,18 +23,21 @@ import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.mapper.ConsentToDtoMapper;
 import com.philips.platform.catk.mapper.DtoToConsentMapper;
 import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.network.NetworkAbstractModel;
-import com.philips.platform.catk.network.NetworkController;
 import com.philips.platform.catk.provider.AppInfraInfo;
 import com.philips.platform.catk.provider.ComponentProvider;
 import com.philips.platform.catk.provider.ServiceInfoProvider;
 import com.philips.platform.catk.utils.CatkLogger;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import android.support.annotation.NonNull;
 
 public class ConsentAccessToolKit {
+
+    private static final String PROPOSITION_CONFIG_ERROR = "Missing '%s' -> Please add the following section to AppConfig.json:\n\"hsdp\":\n" +
+                                                           "{\n" +
+                                                           "    \"appName\": \"<appName>\",\n" +
+                                                           "    \"propositionName\": \"<propName>\"\n" +
+                                                           "}";
+    private static final String PROPOSITION_INIT_ERROR = "ConsentAccessToolKit is not initialized. Call ConsentAccessToolKit.getInstance().init(catkInputs); before using it";
 
     private static volatile ConsentAccessToolKit sSoleInstance;
 
@@ -44,12 +51,9 @@ public class ConsentAccessToolKit {
     ConsentAccessToolKit() {
     }
 
-    public static ConsentAccessToolKit getInstance() {
-        if (sSoleInstance == null) { // if there is no instance available... create new one
-            synchronized (ConsentAccessToolKit.class) {
-                if (sSoleInstance == null)
-                    sSoleInstance = new ConsentAccessToolKit();
-            }
+    public static synchronized ConsentAccessToolKit getInstance() {
+        if (sSoleInstance == null) {
+            sSoleInstance = new ConsentAccessToolKit();
         }
         return sSoleInstance;
     }
@@ -60,8 +64,22 @@ public class ConsentAccessToolKit {
         catkComponent = componentProvider.getComponent(catkInputs);
         CatkLogger.init();
         CatkLogger.enableLogging();
-        this.applicationName = catkInputs.getApplicationName();
-        this.propositionName = catkInputs.getPropositionName();
+        AppConfigurationInterface appConfigInterface = catkInputs.getAppInfra().getConfigInterface();
+        AppConfigurationInterface.AppConfigurationError error = new AppConfigurationInterface.AppConfigurationError();
+        this.applicationName = (String) appConfigInterface.getPropertyForKey("appName", "hsdp", error);
+        this.propositionName = (String) appConfigInterface.getPropertyForKey("propositionName", "hsdp", error);
+
+        validateAppNameAndPropName();
+    }
+
+    private void validateAppNameAndPropName() {
+        if (this.serviceInfoProvider == null) {
+            throw new IllegalStateException(PROPOSITION_INIT_ERROR);
+        } else if (this.applicationName == null || "".equals(this.applicationName)) {
+            throw new IllegalStateException(String.format(PROPOSITION_CONFIG_ERROR, "appName"));
+        } else if (this.propositionName == null || "".equals(this.propositionName)) {
+            throw new IllegalStateException(String.format(PROPOSITION_CONFIG_ERROR, "propName"));
+        }
     }
 
     private void retrieveConsentServiceInfo(final ConfigCompletionListener listner) {
@@ -74,6 +92,7 @@ public class ConsentAccessToolKit {
             @Override
             public void onError(String message) {
                 CatkLogger.e("ConsentAccessToolKit", "markErrorAndGetPrevious retrieving cssUrl: " + message);
+                listner.onConfigurationError(message);
             }
         };
         serviceInfoProvider.retrieveInfo(catkComponent.getServiceDiscoveryInterface(), responseListener);
@@ -84,9 +103,18 @@ public class ConsentAccessToolKit {
     }
 
     public void getConsentDetails(final ConsentResponseListener consentListener) {
+
+        validateAppNameAndPropName();
+
         retrieveConsentServiceInfo(new ConfigCompletionListener() {
+
             @Override
-            public void onConfigurationCompletion(String cssUrl) {
+            public void onConfigurationError(String message) {
+                consentListener.onResponseFailureConsent(new ConsentNetworkError(new VolleyError(message)));
+            }
+
+            @Override
+            public void onConfigurationCompletion(@NonNull String cssUrl) {
                 GetConsentsModelRequest model = new GetConsentsModelRequest(cssUrl, applicationName, propositionName, new NetworkAbstractModel.DataLoadListener() {
                     @Override
                     public void onModelDataLoadFinished(List<GetConsentDto> dtos) {
@@ -108,9 +136,18 @@ public class ConsentAccessToolKit {
     }
 
     public void createConsent(final Consent consent, final CreateConsentListener consentListener) {
+
+        validateAppNameAndPropName();
+
         retrieveConsentServiceInfo(new ConfigCompletionListener() {
+
             @Override
-            public void onConfigurationCompletion(String cssUrl) {
+            public void onConfigurationError(String message) {
+                consentListener.onFailure(new ConsentNetworkError(new VolleyError(message)));
+            }
+
+            @Override
+            public void onConfigurationCompletion(@NonNull String cssUrl) {
                 ConsentToDtoMapper mapper = new ConsentToDtoMapper(catkComponent.getUser().getHsdpUUID(), catkComponent.getUser().getCountryCode(), propositionName,
                         applicationName);
                 CreateConsentModelRequest model = new CreateConsentModelRequest(cssUrl, mapper.map(consent), new NetworkAbstractModel.DataLoadListener() {
@@ -154,7 +191,9 @@ public class ConsentAccessToolKit {
     }
 
     interface ConfigCompletionListener {
-        void onConfigurationCompletion(String cssUrl);
+        void onConfigurationCompletion(@NonNull String cssUrl);
+
+        void onConfigurationError(String message);
     }
 
     void setCatkComponent(CatkComponent component) {

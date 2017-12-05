@@ -17,11 +17,12 @@ import com.philips.platform.mya.settings.MyaSettingsFragment;
 public class MyaPager extends FragmentStatePagerAdapter {
 
     private int tabCount;
+    private Bundle arguments;
 
-
-    public MyaPager(FragmentManager fm, int tabCount) {
+    public MyaPager(FragmentManager fm, int tabCount, Bundle arguments) {
         super(fm);
         this.tabCount= tabCount;
+        this.arguments = arguments;
     }
 
     @Override
@@ -29,9 +30,11 @@ public class MyaPager extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 MyaProfileFragment myaProfileFragment = new MyaProfileFragment();
+                myaProfileFragment.setArguments(arguments);
                 return myaProfileFragment;
             case 1:
                 MyaSettingsFragment myaSettingsFragment = new MyaSettingsFragment();
+                myaSettingsFragment.setArguments(arguments);
                 return myaSettingsFragment;
 
             default:

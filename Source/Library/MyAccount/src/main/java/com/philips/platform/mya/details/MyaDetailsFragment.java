@@ -8,8 +8,8 @@
 
 package com.philips.platform.mya.details;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,74 +17,61 @@ import android.widget.ImageButton;
 
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
-import com.philips.platform.myaplugin.uappadaptor.DataModelType;
-import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
-import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.text.SimpleDateFormat;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Date;
 
 
-public class MyaDetailsFragment extends MyaBaseFragment {
+public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailContract.View {
 
-    ImageButton email_mobile_arrow, email_arrow, mobile_arrow;
-    Label email_address, mobile_number;
-    Label name, gender, mobile_number_heading, name_value, dob_value, email_address_heading;
-    UserDataModel userDataModel;
-    private Context mContext;
-
-    @Override
-    public void onCreate( Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getDataFromBundle();
-    }
+    private ImageButton email_mobile_arrow, email_arrow, mobile_arrow;
+    private Label email_address, mobile_number;
+    private Label nameLabel, genderLabel, mobile_number_heading, name_value, dob_value, email_address_heading;
+    private View email_divider;
+    private String DETAILS_BUNDLE = "details_bundle";
+    private MyaDetailPresenter myaDetailPresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mya_user_detail_fragment, container, false);
         UIDHelper.injectCalligraphyFonts();
-
-        name = (Label) view.findViewById(R.id.mya_name);
-
-        email_mobile_arrow = (ImageButton) view.findViewById(R.id.email_mobile_right_arrow);
-        email_arrow = (ImageButton) view.findViewById(R.id.email_right_arrow);
-        mobile_arrow = (ImageButton) view.findViewById(R.id.mobile_right_arrow);
-        email_address = (Label) view.findViewById(R.id.email_address_value);
-        mobile_number = (Label) view.findViewById(R.id.mobile_number_value);
-        gender = (Label) view.findViewById(R.id.gender_value);
-        mobile_number_heading = (Label) view.findViewById(R.id.mobile_number_heading);
-        email_address_heading = (Label) view.findViewById(R.id.email_address_heading);
-        name_value = (Label) view.findViewById(R.id.name_value);
-        dob_value = (Label) view.findViewById(R.id.dob_value);
-
+        initViews(view);
+        setRetainInstance(true);
+        myaDetailPresenter = new MyaDetailPresenter(this);
         return view;
     }
 
-    private void getDataFromBundle() {
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            UserDataModelProvider userDataModelProvider = (UserDataModelProvider) bundle.getSerializable("user_plugin");
-            if (userDataModelProvider != null) {
-                userDataModel = (UserDataModel) userDataModelProvider.getData(DataModelType.USER);
-
-            }
-        }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBundle(DETAILS_BUNDLE, getArguments());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setUserDetails();
+        if (savedInstanceState == null) {
+            myaDetailPresenter.setUserDetails(getArguments());
+        } else {
+            myaDetailPresenter.setUserDetails(savedInstanceState.getBundle(DETAILS_BUNDLE));
+        }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
-
+    private void initViews(View view) {
+        nameLabel = view.findViewById(R.id.mya_name);
+        email_mobile_arrow = view.findViewById(R.id.email_mobile_right_arrow);
+        email_arrow = view.findViewById(R.id.email_right_arrow);
+        mobile_arrow = view.findViewById(R.id.mobile_right_arrow);
+        email_address = view.findViewById(R.id.email_address_value);
+        mobile_number = view.findViewById(R.id.mobile_number_value);
+        genderLabel = view.findViewById(R.id.gender_value);
+        mobile_number_heading = view.findViewById(R.id.mobile_number_heading);
+        email_address_heading = view.findViewById(R.id.email_address_heading);
+        name_value = view.findViewById(R.id.name_value);
+        dob_value = view.findViewById(R.id.dob_value);
+        email_divider = view.findViewById(R.id.email_divider);
     }
 
     @Override
@@ -93,8 +80,8 @@ public class MyaDetailsFragment extends MyaBaseFragment {
     }
 
     @Override
-    public String getActionbarTitle(Context context) {
-        return context.getString(R.string.MYA_My_account);
+    public String getActionbarTitle() {
+        return getString(R.string.MYA_My_account);
     }
 
     @Override
@@ -102,61 +89,62 @@ public class MyaDetailsFragment extends MyaBaseFragment {
         return true;
     }
 
-    String printFirstCharacter(String nameString) {
-        StringBuilder finalName = new StringBuilder();
-        Pattern pattern = Pattern.compile("\\b[a-zA-z]");
-        Matcher matcher = pattern.matcher(nameString);
-        while (matcher.find()) {
-            String temp = matcher.group();
-            finalName.append(temp.toString());
-
+    @Override
+    public void setUserName(String name) {
+        if (!TextUtils.isEmpty(name)) {
+            name_value.setText(name);
         }
-        if (finalName.toString().length() == 1) {
-            return nameString.toString().length() == 1 ? nameString : nameString.substring(0, 2);
-        }
-        return finalName.toString();
     }
 
-    private void setUserDetails() {
+    @Override
+    public void setCircleText(String data) {
+        nameLabel.setText(data);
+    }
 
-        if (userDataModel.getGivenName() != null) {
-            name.setText(printFirstCharacter(userDataModel.getGivenName()));
-        }
-
-        if (userDataModel.getEmail() == null) {
+    @Override
+    public void setEmail(String email) {
+        if (TextUtils.isEmpty(email)) {
             email_arrow.setVisibility(View.VISIBLE);
             email_address_heading.setVisibility(View.GONE);
             email_address.setText(getString(R.string.MYA_Add_email_address));
         } else {
-            email_address.setText(userDataModel.getEmail());
+            email_address.setText(email);
         }
+    }
 
-        if (userDataModel.getMobileNumber() == null) {
-            mobile_number_heading.setVisibility(View.INVISIBLE);
-            mobile_arrow.setVisibility(View.VISIBLE);
-            mobile_number.setText(getString(R.string.MYA_Add_mobile_number));
-
-        } else {
-            mobile_number.setText(userDataModel.getMobileNumber());
+    @Override
+    public void setGender(String gender) {
+        if (!TextUtils.isEmpty(gender) && !gender.equalsIgnoreCase("null")) {
+            genderLabel.setText(gender);
         }
+    }
 
-
-        if (userDataModel.getEmail() != null && userDataModel.getMobileNumber() != null) {
-            email_mobile_arrow.setVisibility(View.VISIBLE);
-        }
-
-        if (userDataModel.getGender() != null) {
-            gender.setText(userDataModel.getGender());
-        }
-        if (userDataModel.getName() != null) {
-            name_value.setText(userDataModel.getGivenName());
-        }
-
-
-        if (userDataModel.getBirthday() != null) {
+    @Override
+    public void setDateOfBirth(Date dateOfBirth) {
+        if (dateOfBirth != null) {
             SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
-            String tempDate = formatter.format(userDataModel.getBirthday());
+            String tempDate = formatter.format(dateOfBirth);
             dob_value.setText(tempDate);
         }
+    }
+
+    @Override
+    public void setMobileNumber(String number) {
+        if (TextUtils.isEmpty(number)) {
+            mobile_number_heading.setVisibility(View.GONE);
+            mobile_arrow.setVisibility(View.GONE);
+            mobile_number.setText(getString(R.string.MYA_Add_mobile_number));
+            mobile_number.setVisibility(View.GONE);
+        } else {
+            mobile_number.setText(number);
+            email_divider.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void handleArrowVisibility(String email, String mobileNumber) {
+        if (email != null && mobileNumber != null)
+            email_mobile_arrow.setVisibility(View.VISIBLE);
+
     }
 }

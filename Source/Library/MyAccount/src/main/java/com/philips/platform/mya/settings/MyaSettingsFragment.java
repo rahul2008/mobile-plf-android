@@ -5,23 +5,19 @@
  */
 package com.philips.platform.mya.settings;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
-import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -35,17 +31,20 @@ import java.util.LinkedHashMap;
 public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClickListener,MyaSettingsContract.View {
 
 
-    private AppInfraInterface appInfra;
-
     public static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
     private MyaSettingsContract.Presenter presenter;
     private RecyclerView recyclerView;
-
+    private String SETTINGS_BUNDLE = "settings_bundle";
+    private boolean isDialogOpen = false;
+    private String DIALOG_TITLE = "dialog_title", DIALOG_MESSAGE = "dialog_message", DIALOG_OPEN = "dialog_open";
+    private AlertDialogFragment alertDialogFragment;
+    private String dialogTitle,dialogMessage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mya_settings_fragment, container, false);
         UIDHelper.injectCalligraphyFonts();
+        setRetainInstance(true);
         initViews(view);
         recyclerView.setNestedScrollingEnabled(false);
         presenter = new MyaSettingsPresenter(this);
@@ -56,17 +55,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         recyclerView = view.findViewById(R.id.mya_settings_recycler_view);
         Button logOutButton = view.findViewById(R.id.mya_settings_logout_btn);
         Label philipsWebsite = view.findViewById(R.id.philips_website);
-       // this.config = new ConsentBundleConfig(getArguments());
-        this.appInfra = MyaInterface.getMyaDependencyComponent().getAppInfra();
-       /* TextView countryTextView = (TextView) view.findViewById(R.id.settings_country_value);
-        Button logOutButton = (Button) view.findViewById(R.id.mya_settings_logout_btn);
-        RelativeLayout consentLayout = (RelativeLayout) view.findViewById(R.id.consent_layout);
-        RelativeLayout countryLayout = (RelativeLayout) view.findViewById(R.id.country_layout);
-        countryTextView.setText(appInfra.getServiceDiscovery().getHomeCountry());
-        Label philipsWebsite = (Label) view.findViewById(R.id.philips_website);
-        consentLayout.setOnClickListener(this);
-        countryLayout.setOnClickListener(this);
->>>>>>> c83af7c2288cf2234c1f7597198f585cf0dcc6b1*/
         philipsWebsite.setOnClickListener(this);
         logOutButton.setOnClickListener(this);
     }
@@ -74,7 +62,19 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        presenter.getSettingItems(getContext(), MyaInterface.getMyaDependencyComponent().getAppInfra());
+        setRetainInstance(true);
+        if (savedInstanceState == null) {
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra());
+        } else {
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra());
+            if (savedInstanceState.getBoolean(DIALOG_OPEN)) {
+                dismissDialog(alertDialogFragment);
+                showDialog(savedInstanceState.getString(DIALOG_TITLE), savedInstanceState.getString(DIALOG_MESSAGE));
+            } else {
+                dismissDialog(alertDialogFragment);
+            }
+        }
+
     }
 
     @Override
@@ -84,6 +84,10 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        outState.putBundle(SETTINGS_BUNDLE, getArguments());
+        outState.putString(DIALOG_MESSAGE, dialogMessage);
+        outState.putString(DIALOG_TITLE, dialogTitle);
+        outState.putBoolean(DIALOG_OPEN, isDialogOpen);
         super.onSaveInstanceState(outState);
     }
 
@@ -93,8 +97,8 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     }
 
     @Override
-    public String getActionbarTitle(Context context) {
-        return context.getString(R.string.MYA_My_account);
+    public String getActionbarTitle() {
+        return getString(R.string.MYA_My_account);
     }
 
     @Override
@@ -108,18 +112,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         if (viewType == R.id.mya_settings_logout_btn) {
             showDialog(getString(R.string.MYA_logout_title), getString(R.string.MYA_logout_message));
         } else if (viewType == R.id.philips_website) {
-
-       /* int viewId = view.getId();
-        if (viewId== R.id.consent_layout) {
-            CswInterface cswInterface = new CswInterface();
-            CswDependencies cswDependencies = new CswDependencies(appInfra);
-            cswDependencies.setApplicationName(config.getApplicationName());
-            cswDependencies.setPropositionName(config.getPropositionName());
-            UappSettings uappSettings = new UappSettings(getContext());
-            cswInterface.init(cswDependencies, uappSettings);
-            cswInterface.launch(MyaInterface.getMyaUiComponent().getFragmentLauncher(), buildLaunchInput(true));
-        } else if (viewId == R.id.philips_website) {
->>>>>>> c83af7c2288cf2234c1f7597198f585cf0dcc6b1*/
             String url = "https://www.Philips.com";
             Intent i = new Intent();
             i.setAction(Intent.ACTION_VIEW);
@@ -131,19 +123,25 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
     @Override
     public void showDialog(String title, String message) {
-        View view = View.inflate(getContext(), R.layout.mya_dialog_layout, null);
+        this.dialogTitle = title;
+        this.dialogMessage = message;
+        this.isDialogOpen = true;
+        LayoutInflater inflater = LayoutInflater.from(getContext()).cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
+        View view = inflater.inflate(R.layout.mya_dialog_layout, null);
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDialogView(view)
-                .setMessage(message)
                 .setDimLayer(DialogConstants.DIM_SUBTLE)
                 .setCancelable(false)
-                .setTitle(title);
-        TextView textView = view.findViewById(R.id.message_label);
+                .setDividers(false);
+
+        Label textView = view.findViewById(R.id.message_label);
+        Label title_label = view.findViewById(R.id.title_label);
         Button logout = view.findViewById(R.id.mya_dialog_logout_btn);
         Button cancel = view.findViewById(R.id.mya_dialog_cancel_btn);
         textView.setText(message);
-        final AlertDialogFragment alertDialogFragment = builder.create();
+        title_label.setText(title);
+        alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
 
         logout.setOnClickListener(handleOnClickLogOut(alertDialogFragment));
@@ -154,18 +152,26 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialogFragment.dismiss();
+                isDialogOpen = false;
+                dismissDialog(alertDialogFragment);
             }
         };
+    }
+
+    private void dismissDialog(AlertDialogFragment alertDialogFragment) {
+        if (alertDialogFragment != null && alertDialogFragment.isVisible())
+            alertDialogFragment.dismissAllowingStateLoss();
     }
 
     private View.OnClickListener handleOnClickLogOut(final AlertDialogFragment alertDialogFragment) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialogFragment.dismiss();
-                exitMyAccounts();
-                MyaInterface.getMyaUiComponent().getMyaListener().onLogOut();
+                boolean onLogOut = MyaHelper.getInstance().getMyaListener().onLogOut();
+                if(!onLogOut) {
+                    dismissDialog(alertDialogFragment);
+                    presenter.logOut(getArguments());
+                }
             }
         };
     }
@@ -183,8 +189,8 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     }
 
     @Override
-    public void showFragment(Fragment fragment) {
-        super.showFragment(fragment);
+    public void handleLogOut() {
+        exitMyAccounts();
     }
 
     private View.OnClickListener getOnClickListener(final LinkedHashMap<String, SettingsModel> profileList) {
@@ -194,9 +200,13 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
                 int viewType = recyclerView.indexOfChild(view);
                 String key = (String) profileList.keySet().toArray()[viewType];
                 SettingsModel value = profileList.get(key);
-                boolean onClickMyaItem = MyaInterface.getMyaUiComponent().getMyaListener().onClickMyaItem(key);
-                if (!onClickMyaItem)
-                    presenter.onClickRecyclerItem(getContext(), key, value);
+                boolean handled = presenter.handleOnClickSettingsItem(key);
+                if (!handled) {
+                    boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onClickMyaItem(key);
+                    if (!onClickMyaItem)
+                        presenter.onClickRecyclerItem(key, value);
+                }
+
             }
         };
     }

@@ -5,40 +5,35 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.catk.network;
+package com.philips.platform.catk;
 
 import android.util.Log;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.gson.JsonArray;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.rest.RestInterface;
-import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.listener.ConsentRequestListener;
 import com.philips.platform.catk.listener.RefreshTokenListener;
-import com.philips.platform.catk.request.ConsentRequest;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
 
-public class NetworkController implements ConsentRequestListener, Response.ErrorListener {
+
+public class NetworkController implements AuthErrorListener {
     @Inject
     RestInterface restInterface;
 
-    public NetworkController() {
+    NetworkController() {
         init();
     }
 
-    protected void init() {
+    void init() {
         ConsentAccessToolKit.getInstance().getCatkComponent().inject(this);
     }
 
-    public void sendConsentRequest(final NetworkAbstractModel model) {
+    void sendConsentRequest(final NetworkAbstractModel model) {
         ConsentRequest request = getConsentJsonRequest(model);
         request.setShouldCache(false);
         addRequestToQueue(request);
@@ -55,34 +50,13 @@ public class NetworkController implements ConsentRequestListener, Response.Error
         }
     }
 
-    protected ConsentRequest getConsentJsonRequest(final NetworkAbstractModel model) {
-        return new ConsentRequest(model, model.getMethod(), model.getUrl(), requestHeader(), model.requestBody(), this, this);
+    ConsentRequest getConsentJsonRequest(final NetworkAbstractModel model) {
+        return new ConsentRequest(model, model.getMethod(), model.getUrl(), requestHeader(), model.requestBody(), this);
     }
 
     @Override
-    public void onResponse(ConsentRequest request, JsonArray response) {
-        NetworkAbstractModel model = request.getModel();
-        if (model != null) {
-            model.onResponseSuccess(model.parseResponse(response));
-        }
-    }
-
-    @Override
-    public void onErrorResponse(ConsentRequest request, VolleyError error) {
-        if (error instanceof AuthFailureError) {
-            performRefreshToken(request, error);
-        } else {
-            NetworkAbstractModel model = request.getModel();
-            if (model != null) {
-                model.onResponseError(new ConsentNetworkError(error));
-            }
-        }
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        // No need to handle, all response return via other 'onErrorResponse'
-        Log.e("Consent access toolkit", "Error from volley", error);
+    public void onAuthError(NetworkAbstractModel model, VolleyError error) {
+        performRefreshToken(model, error);
     }
 
     public static Map<String, String> requestHeader() {
@@ -100,17 +74,17 @@ public class NetworkController implements ConsentRequestListener, Response.Error
         headers.put("authorization", "bearer " + ConsentAccessToolKit.getInstance().getCatkComponent().getUser().getHsdpAccessToken());
     }
 
-    private void performRefreshToken(final ConsentRequest request, final VolleyError error) {
+    private void performRefreshToken(final NetworkAbstractModel triedModel, final VolleyError error) {
         refreshAccessToken(new RefreshTokenListener() {
             @Override
             public void onRefreshSuccess() {
-                NetworkAbstractModel model = request.getModel();
+                NetworkAbstractModel model = triedModel;
                 sendConsentRequest(model);
             }
 
             @Override
             public void onRefreshFailed(int errCode) {
-                NetworkAbstractModel model = request.getModel();
+                NetworkAbstractModel model = triedModel;
                 if (model != null) {
                     model.onResponseError(new ConsentNetworkError(error));
                 }

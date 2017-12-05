@@ -7,30 +7,36 @@
 
 package com.philips.platform.csw.permission;
 
-import android.support.annotation.NonNull;
-
-import com.philips.platform.catk.CreateConsentInteractor;
-import com.philips.platform.catk.GetConsentInteractor;
-import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.RequiredConsent;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 
+import com.philips.platform.catk.CreateConsentInteractor;
+import com.philips.platform.catk.GetConsentInteractor;
+import com.philips.platform.catk.error.ConsentNetworkError;
+import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.catk.model.RequiredConsent;
+import com.philips.platform.csw.permission.adapter.PermissionAdapter;
+
+import android.support.annotation.NonNull;
+
 public class PermissionPresenter implements GetConsentInteractor.Callback, ConsentToggleListener, CreateConsentInteractor.Callback {
 
-    @NonNull private final PermissionInterface permissionInterface;
-    @NonNull private final GetConsentInteractor getConsentInteractor;
-    @NonNull private final CreateConsentInteractor createConsentInteractor;
-    @NonNull private final PermissionAdapter adapter;
+    @NonNull
+    private final PermissionInterface permissionInterface;
+    @NonNull
+    private final GetConsentInteractor getConsentInteractor;
+    @NonNull
+    private final CreateConsentInteractor createConsentInteractor;
+    @NonNull
+    private final PermissionAdapter adapter;
 
     @Inject
     PermissionPresenter(
-            @NonNull final PermissionInterface permissionInterface, @NonNull final GetConsentInteractor getConsentInteractor, @NonNull final CreateConsentInteractor createConsentInteractor, @NonNull final PermissionAdapter adapter) {
+            @NonNull final PermissionInterface permissionInterface, @NonNull final GetConsentInteractor getConsentInteractor,
+            @NonNull final CreateConsentInteractor createConsentInteractor, @NonNull final PermissionAdapter adapter) {
         this.permissionInterface = permissionInterface;
         this.getConsentInteractor = getConsentInteractor;
         this.createConsentInteractor = createConsentInteractor;

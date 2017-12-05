@@ -1,14 +1,18 @@
 package com.philips.platform.myaplugin.uappadaptor;
 
-import java.io.Serializable;
+import com.philips.cdp.registration.handlers.LogoutHandler;
 
-/**
- * Created by philips on 11/16/17.
- */
+import java.io.Serializable;
 
 public abstract class UserInterface implements DataInterface, Serializable {
 
 
     @Override
     public abstract DataModel getData(DataModelType dataModelType);
+
+    public abstract boolean isUserLoggedIn();
+
+    public abstract void logOut(LogoutHandler logoutHandler);
+
+
 }

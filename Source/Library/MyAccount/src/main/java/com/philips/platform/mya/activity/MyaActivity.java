@@ -15,12 +15,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.injection.DaggerMyaUiComponent;
-import com.philips.platform.mya.injection.MyaUiComponent;
-import com.philips.platform.mya.injection.MyaUiModule;
-import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.tabs.MyaTabFragment;
+import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -31,7 +29,7 @@ import com.philips.platform.uid.utils.UIDActivity;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static com.philips.platform.mya.MyaConstants.MYA_DLS_THEME;
-
+import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
 
 public class MyaActivity extends UIDActivity {
@@ -61,7 +59,9 @@ public class MyaActivity extends UIDActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        launchTabFragment();
+        if (savedInstanceState == null) {
+            launchTabFragment();
+        }
     }
 
 
@@ -84,14 +84,11 @@ public class MyaActivity extends UIDActivity {
     }
 
     public void initDLSThemeIfExists() {
-        MyaUiComponent myaUiComponent = MyaInterface.getMyaUiComponent();
-        if (myaUiComponent != null) {
-            ThemeConfiguration themeConfiguration = MyaInterface.getMyaUiComponent().getThemeConfiguration();
-            if (getIntent().getExtras() != null && themeConfiguration != null) {
-                Bundle extras = getIntent().getExtras();
-                UIDHelper.init(themeConfiguration);
-                getTheme().applyStyle(extras.getInt(MYA_DLS_THEME), true);
-            }
+        ThemeConfiguration themeConfiguration = MyaHelper.getInstance().getThemeConfiguration();
+        if (getIntent().getExtras() != null && themeConfiguration != null) {
+            Bundle extras = getIntent().getExtras();
+            UIDHelper.init(themeConfiguration);
+            getTheme().applyStyle(extras.getInt(MYA_DLS_THEME), true);
         }
     }
 
@@ -148,14 +145,12 @@ public class MyaActivity extends UIDActivity {
                 handleLeftImage(shouldBackEnable);
             }
         });
-
-        MyaUiModule myaUiModule = new MyaUiModule(fragmentLauncher, MyaInterface.getMyaUiComponent().getMyaListener());
-        MyaUiComponent myaUiComponent = DaggerMyaUiComponent.builder()
-                .myaUiModule(myaUiModule).build();
-        MyaInterface.setMyaUiComponent(myaUiComponent);
-
+        MyaHelper.getInstance().setFragmentLauncher(fragmentLauncher);
+        UserDataModelProvider userDataModelProvider = new UserDataModelProvider(this);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
         MyaTabFragment myaTabFragment = new MyaTabFragment();
-
+        myaTabFragment.setArguments(bundle);
         myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
     }
 

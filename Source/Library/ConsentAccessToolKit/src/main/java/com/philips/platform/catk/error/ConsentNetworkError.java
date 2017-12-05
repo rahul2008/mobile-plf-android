@@ -7,8 +7,6 @@
 
 package com.philips.platform.catk.error;
 
-import android.util.Log;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
@@ -16,6 +14,8 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.listener.NetworkErrorListener;
+
+import android.util.Log;
 
 public class ConsentNetworkError implements NetworkErrorListener {
 
@@ -99,7 +99,7 @@ public class ConsentNetworkError implements NetworkErrorListener {
                 mServerError = new Gson().fromJson(errorString, ServerError.class);
             }
         } catch (Exception e) {
-            Log.e("Network markErrorAndGetPrevious", e.getMessage());
+            Log.e("NetworkError", e.getMessage());
             mServerError = null;
         }
     }

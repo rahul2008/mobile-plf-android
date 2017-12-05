@@ -123,7 +123,7 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
         context = null;
     }
 
-    public boolean exitMyAccounts() {
+    public final boolean exitMyAccounts() {
         final FragmentActivity activity = getActivity();
         try {
             if (activity != null && !activity.isFinishing()) {

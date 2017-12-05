@@ -5,8 +5,7 @@
  */
 package com.philips.platform.mya.settings;
 
-import android.content.Context;
-import android.support.v4.app.Fragment;
+import android.os.Bundle;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.base.mvp.MyaBaseView;
@@ -18,12 +17,18 @@ interface MyaSettingsContract {
 
     interface View extends MyaBaseView {
         void showSettingsItems(LinkedHashMap<String, SettingsModel> dataModelLinkedHashMap);
-        void showFragment(Fragment fragment);
         void showDialog(String title, String message);
+        void handleLogOut();
     }
 
     interface Presenter extends MyaPresenterInterface<View> {
-        void getSettingItems(Context context, AppInfraInterface appInfra);
-        void onClickRecyclerItem(Context context, String key, SettingsModel settingsModel);
+
+        void getSettingItems(AppInfraInterface appInfra);
+
+        void onClickRecyclerItem(String key, SettingsModel settingsModel);
+
+        void logOut(Bundle bundle);
+
+        boolean handleOnClickSettingsItem(String key);
     }
 }
