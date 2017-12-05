@@ -49,7 +49,10 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_vitals, container, false);
         mSystolic = (EditText) view.findViewById(systolic);
+        mSystolic.setOnFocusChangeListener(this);
+
         mDiastolic = (EditText) view.findViewById(R.id.diastolic);
+        mDiastolic.setOnFocusChangeListener(this);
         mTemperature = (EditText) view.findViewById(R.id.edit_farenheit);
         THSInputFilters<Integer> thsInputFiltersInt = new THSInputFilters<>(0, 500);
         mWeight = (EditText) view.findViewById(R.id.ponds);
