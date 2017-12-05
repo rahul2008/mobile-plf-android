@@ -26,6 +26,18 @@ import javax.inject.Singleton;
 @Singleton
 public class ApplianceAccessManager {
 
+    public interface FetchCallback {
+        void onDeviceInfoReceived(@NonNull WifiPortProperties properties);
+
+        void onFailedToFetchDeviceInfo();
+    }
+
+    public interface SetPropertiesCallback {
+        void onPropertiesSet(@NonNull WifiPortProperties wifiPortProperties);
+
+        void onFailedToSetProperties();
+    }
+
     public static final String TAG = "ApplianceAccessManager";
     @ApplianceRequestType
     int requestType = ApplianceRequestType.UNKNOWN;
@@ -149,17 +161,5 @@ public class ApplianceAccessManager {
     @VisibleForTesting
     void setApplianceWifiRequestType(@ApplianceRequestType int type) {
         this.requestType = type;
-    }
-
-    public interface FetchCallback {
-        void onDeviceInfoReceived(@NonNull WifiPortProperties properties);
-
-        void onFailedToFetchDeviceInfo();
-    }
-
-    public interface SetPropertiesCallback {
-        void onPropertiesSet(@NonNull WifiPortProperties wifiPortProperties);
-
-        void onFailedToSetProperties();
     }
 }

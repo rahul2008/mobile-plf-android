@@ -44,8 +44,9 @@ public class EWSInterface implements UappInterface {
 
     /**
      * Entry point for EWS. Please make sure no EWS components are being used before EWSInterface$init.
+     *
      * @param uappDependencies - With an AppInfraInterface instance.
-     * @param uappSettings - With an application context.
+     * @param uappSettings     - With an application context.
      */
     @Override
     public void init(@NonNull final UappDependencies uappDependencies, @NonNull final UappSettings uappSettings) {
@@ -58,7 +59,8 @@ public class EWSInterface implements UappInterface {
 
     /**
      * Launches the EWS user interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
-     * @param uiLauncher - ActivityLauncher or FragmentLauncher
+     *
+     * @param uiLauncher      - ActivityLauncher or FragmentLauncher
      * @param uappLaunchInput - URLaunchInput
      */
     @Override
@@ -86,7 +88,6 @@ public class EWSInterface implements UappInterface {
             ((EWSLauncherInput) uappLaunchInput).setContainerFrameId(fragmentLauncher.getParentContainerResourceID());
             ((EWSLauncherInput) uappLaunchInput).setFragmentManager(fragmentLauncher.getFragmentActivity().getSupportFragmentManager());
             navigator.navigateToGettingStartedScreen();
-//            ewsEventingChannel.start();
             EWSTagger.collectLifecycleInfo(fragmentLauncher.getFragmentActivity());
         } catch (Exception e) {
             EWSLogger.e(TAG,
