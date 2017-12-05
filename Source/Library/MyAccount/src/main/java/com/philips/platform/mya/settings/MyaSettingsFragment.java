@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
@@ -27,7 +28,7 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClickListener,MyaSettingsContract.View {
@@ -72,9 +73,9 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
         if (savedInstanceState == null) {
-            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra());
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), new AppConfigurationInterface.AppConfigurationError());
         } else {
-            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra());
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), new AppConfigurationInterface.AppConfigurationError());
             if (savedInstanceState.getBoolean(DIALOG_OPEN)) {
                 dismissDialog();
                 showDialog(savedInstanceState.getString(DIALOG_TITLE), savedInstanceState.getString(DIALOG_MESSAGE));
@@ -190,7 +191,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     }
 
     @Override
-    public void showSettingsItems(LinkedHashMap<String, SettingsModel> dataModelLinkedHashMap) {
+    public void showSettingsItems(Map<String, SettingsModel> dataModelLinkedHashMap) {
         MyaSettingsAdapter myaSettingsAdaptor = new MyaSettingsAdapter(dataModelLinkedHashMap);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         RecyclerViewSeparatorItemDecoration contentThemedRightSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
@@ -207,7 +208,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         exitMyAccounts();
     }
 
-    private View.OnClickListener getOnClickListener(final LinkedHashMap<String, SettingsModel> profileList) {
+    private View.OnClickListener getOnClickListener(final Map<String, SettingsModel> profileList) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {

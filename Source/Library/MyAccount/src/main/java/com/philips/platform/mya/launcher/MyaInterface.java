@@ -50,7 +50,7 @@ public class MyaInterface implements UappInterface {
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
             MyaHelper.getInstance().setThemeConfiguration(activityLauncher.getDlsThemeConfiguration());
-            launchAsActivity(activityLauncher, myaLaunchInput,bundle);
+            launchAsActivity(activityLauncher, myaLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
             launchAsFragment((FragmentLauncher) uiLauncher, bundle);
         }
@@ -63,7 +63,7 @@ public class MyaInterface implements UappInterface {
         myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
     }
 
-    private void launchAsActivity(ActivityLauncher uiLauncher, MyaLaunchInput myaLaunchInput, Bundle bundle) {
+    private void launchAsActivity(ActivityLauncher uiLauncher, MyaLaunchInput myaLaunchInput) {
         if (null != uiLauncher && myaLaunchInput != null) {
             Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyaActivity.class);
             myAccountIntent.putExtra(MYA_DLS_THEME, uiLauncher.getUiKitTheme());

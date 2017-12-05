@@ -9,7 +9,7 @@ import com.philips.platform.mya.R;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Label;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Aidan Follestad (afollestad)
@@ -19,10 +19,10 @@ class MyaSettingsAdapter extends RecyclerView.Adapter<MyaSettingsAdapter.Setting
     private final static int DOUBLE_VIEW = 0;
     private final static int SINGLE_VIEW = 1;
 
-    private LinkedHashMap<String, SettingsModel> settingsList;
+    private Map<String, SettingsModel> settingsList;
     private View.OnClickListener onClickListener;
 
-    MyaSettingsAdapter(LinkedHashMap<String, SettingsModel> settingsList) {
+    MyaSettingsAdapter(Map<String, SettingsModel> settingsList) {
         this.settingsList = settingsList;
     }
 
