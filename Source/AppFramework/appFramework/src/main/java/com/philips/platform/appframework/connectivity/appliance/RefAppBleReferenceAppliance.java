@@ -21,6 +21,7 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 public class RefAppBleReferenceAppliance extends Appliance {
 
     public static final String MODELNAME = "ReferenceNode";
+    public static final String MODELNAME_PS = "PS1234";
     public static final String TAG = "RefAppBleReferenceAppliance";
     public static final String SESSION = "session";
     public static final String SESSION_WITH_NUMBER = "session/%s";

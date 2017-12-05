@@ -83,7 +83,7 @@ public class RefAppApplianceFactory implements ApplianceFactory {
                     }
                 case BleReferenceAppliance.DEVICETYPE:
                     if(networkNode.getModelId().equals(RefAppBleReferenceAppliance.MODEL_NAME_HH1600) || networkNode.getModelId().equals(RefAppBleReferenceAppliance.MODEL_NAME_HHS)||
-                            networkNode.getModelId().equals(RefAppBleReferenceAppliance.MODELNAME)) {
+                            networkNode.getModelId().equals(RefAppBleReferenceAppliance.MODELNAME)||networkNode.getModelId().equals(RefAppBleReferenceAppliance.MODELNAME_PS)) {
                         return new RefAppBleReferenceAppliance(networkNode, communicationStrategy, deviceType);
                     }
                     else {
