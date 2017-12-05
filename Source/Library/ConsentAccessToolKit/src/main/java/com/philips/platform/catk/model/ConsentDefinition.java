@@ -31,11 +31,11 @@ public class ConsentDefinition implements Parcelable {
         }
         String country = locale.getCountry();
         if (country == null || country.isEmpty()) {
-            throw new ConsentDefinitionException("incorrect locale");
+            throw new ConsentDefinitionException("incorrect locale country");
         }
         String language = locale.getLanguage();
         if (language == null || language.isEmpty()) {
-            throw new ConsentDefinitionException("incorrect locale");
+            throw new ConsentDefinitionException("incorrect locale language");
         }
     }
 
