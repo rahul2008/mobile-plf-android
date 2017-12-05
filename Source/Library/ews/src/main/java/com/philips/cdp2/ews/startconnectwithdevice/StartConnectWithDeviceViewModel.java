@@ -13,7 +13,6 @@ import android.support.annotation.VisibleForTesting;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
-import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
@@ -87,10 +86,6 @@ public class StartConnectWithDeviceViewModel {
 
     private void tapGetStarted() {
         EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.GET_STARTED);
-    }
-
-    public void onBackPressed(EWSCallbackNotifier ewsCallbackNotifier) {
-        ewsCallbackNotifier.onBackPressed();
     }
 
     public void trackPageName() {
