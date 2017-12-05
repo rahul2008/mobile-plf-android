@@ -66,7 +66,7 @@ public class FirstSetupStepsViewModel {
         navigator.navigateToCompletingDeviceSetupScreen();
     }
 
-    public void trackPageName() {
+    void trackPageName() {
         EWSTagger.trackPage(Page.SETUP_STEP1);
     }
 }

@@ -12,9 +12,6 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
-import com.philips.cdp2.commlib.lan.context.LanTransportContext;
-import com.philips.cdp2.ews.appliance.BEApplianceFactory;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSComponent;
@@ -39,11 +36,10 @@ public class EWSDependencyProvider {
     private AppInfraInterface appInfraInterface;
     private Map<String, String> productKeyMap;
 
-    @VisibleForTesting
-    static EWSDependencyProvider instance;
+    @NonNull private CommCentral commCentral;
 
     @VisibleForTesting
-    static CommCentral commCentral;
+    static EWSDependencyProvider instance;
 
     @VisibleForTesting
     EWSComponent ewsComponent;
@@ -88,10 +84,11 @@ public class EWSDependencyProvider {
      * @param productKeyMap     Map<String, String>
      */
     public void initDependencies(@NonNull final AppInfraInterface appInfraInterface,
-                                 @NonNull final Map<String, String> productKeyMap) {
+                                 @NonNull final Map<String, String> productKeyMap,
+                                 @NonNull CommCentral commCentral) {
         this.appInfraInterface = appInfraInterface;
         this.productKeyMap = productKeyMap;
-
+        this.commCentral = commCentral;
         if (productKeyMap == null || !productKeyMap.containsKey(EWSInterface.PRODUCT_NAME)) {
             throw new IllegalArgumentException("productKeyMap does not contain the productName");
         }
@@ -149,7 +146,7 @@ public class EWSDependencyProvider {
         ewsComponent = DaggerEWSComponent.builder()
                 .eWSModule(new EWSModule(fragmentActivity
                         , fragmentActivity.getSupportFragmentManager()
-                        , parentContainerResourceID, getCommCentral()))
+                        , parentContainerResourceID, commCentral))
                 .eWSConfigurationModule(new EWSConfigurationModule(fragmentActivity, contentConfiguration))
                 .build();
     }
@@ -178,7 +175,7 @@ public class EWSDependencyProvider {
      * Check and return if appInfraInterface and productKeyMap are null or not
      * @return boolean
      */
-    boolean areDependenciesInitialized() {
+    public boolean areDependenciesInitialized() {
         return appInfraInterface != null && productKeyMap != null;
     }
 
@@ -192,26 +189,6 @@ public class EWSDependencyProvider {
         productKeyMap = null;
         instance = null;
         ewsComponent = null;
-    }
-
-    /**
-     * Return CommCentral object.
-     * @return CommCentral
-     */
-    public CommCentral getCommCentral() {
-        if (commCentral == null) {
-            commCentral = createCommCentral();
-        }
-        return commCentral;
-    }
-
-    @VisibleForTesting
-    @NonNull
-    CommCentral createCommCentral() {
-        LanTransportContext lanTransportContext = new LanTransportContext(
-                new RuntimeConfiguration(context, appInfraInterface));
-        BEApplianceFactory factory = new BEApplianceFactory(lanTransportContext);
-        return new CommCentral(factory, lanTransportContext);
     }
 
     /**

@@ -42,6 +42,10 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!EWSDependencyProvider.getInstance().areDependenciesInitialized()){
+            this.finish();
+            return;
+        }
         setContentView(R.layout.ews_activity_main);
         initEWSComponent(getBundle(savedInstanceState));
         setUpToolBar();

@@ -38,7 +38,7 @@ public class FragmentNavigator {
         fragmentManager.popBackStackImmediate();
     }
 
-    public int getContainerId() {
+    int getContainerId() {
         return containerId;
     }
 

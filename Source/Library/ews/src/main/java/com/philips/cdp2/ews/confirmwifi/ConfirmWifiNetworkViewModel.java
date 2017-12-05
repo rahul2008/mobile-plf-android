@@ -24,7 +24,7 @@ import javax.inject.Inject;
 
 public class ConfirmWifiNetworkViewModel extends BaseObservable {
 
-    public interface ViewCallback {
+    interface ViewCallback {
         void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
     }
 
@@ -65,7 +65,7 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
         return wiFiUtil.getConnectedWiFiSSID();
     }
 
-    public void refresh() {
+    void refresh() {
         notifyPropertyChanged(BR.homeWiFiSSID);
         notifyPropertyChanged(BR.title);
         notifyPropertyChanged(BR.note);
