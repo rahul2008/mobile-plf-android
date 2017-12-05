@@ -9,8 +9,8 @@
     <string name="ews_support_title">Υποστήριξη Philips</string>
     <string name="label_ews_cancel_setup_title">Θέλετε σίγουρα να ακυρώσετε τη ρύθμιση Wi-Fi;</string>
     <string name="label_ews_cancel_setup_body">Αν την ακυρώσετε τώρα, δεν θα είναι δυνατή η πρόσβαση στο %1$s με τη χρήση Wi-Fi.</string>
-    <string name="button_ews_cancel_setup_yes">Ναι, ακύρωση ρύθμισης</string>
-    <string name="button_ews_cancel_setup_no">Όχι, συνέχιση ρύθμισης</string>
+    <string name="button_ews_cancel_setup_yes">Ακύρωση ρύθμισης</string>
+    <string name="button_ews_cancel_setup_no">Συνέχιση ρύθμισης</string>
     <string name="label_ews_get_started_title">Σύνδεση σε Wi-Fi</string>
     <string name="label_ews_get_started_body">Συνδέστε το %1$s στο Wi-Fi για να απολαύσετε αυτή την εφαρμογή και όλες τις δυνατότητές της.</string>
     <string name="label_ews_get_started_description">Για επιτυχία σύνδεσης, τοποθετήστε το %1$s κοντά στο δρομολογητή σας. Εμπόδια όπως τοίχοι μπορεί να επηρεάσουν την ισχύ σήματος.</string>
@@ -33,8 +33,8 @@
     <string name="button_ews_plug_in_next">Οκ, τα κατάφερα</string>
     <string name="label_ews_verify_ready_title_default">Είναι η συσκευή σε ρύθμιση;</string>
     <string name="label_ews_verify_ready_question_default">Αναβοσβήνει η λυχνία Wi-Fi;</string>
-    <string name="button_ews_verify_ready_yes_default">Ναι, η λυχνία Wi-Fi αναβοσβήνει</string>
-    <string name="button_ews_verify_ready_no_default">Όχι, η λυχνία Wi-Fi δεν αναβοσβήνει</string>
+    <string name="button_ews_verify_ready_yes_default">Η λυχνία Wi-Fi αναβοσβήνει</string>
+    <string name="button_ews_verify_ready_no_default">Η Wi-Fi δεν αναβοσβήνει</string>
     <string name="label_ews_select_wifi_title">Σύνδεση με %1$s</string>
     <string name="label_ews_select_wifi_body">Ακολουθήστε τα βήματα για να συνδέσετε το τηλέφωνο με το PHILIPS Setup.</string>
     <string name="label_ews_select_wifi_step1">1. Μεταβείτε στις Ρυθμίσεις του τηλεφώνου και πατήστε Wi-Fi</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Ναι</string>
     <string name="button_ews_support_wrong_phone_no">Όχι</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Άδεια τοποθεσίας</string>
+    <string name="label_ews_location_permission_body">Για την εύρεση του δικτύου Wi-Fi PHILIPS Setup του %1$s, χρειαζόμαστε δικαίωμα πρόσβασης στην τοποθεσία.</string>
+    <string name="label_ews_location_permission_allow">Αποδοχή</string>
+    <string name="label_ews_location_permission_cancel">Ακύρωση ρύθμισης</string>
+    <string name="label_ews_location_services_title">Ενεργοποίηση υπηρεσιών τοποθεσίας</string>
+    <string name="label_ews_location_services_body">Για εύρεση του δικτύου Wi-Fi PHILIPS Setup του %1$s, πρέπει να είναι ενεργοποιημένες οι υπηρεσίες τοποθεσίας.  Ενεργοποιήστε τις υπηρεσίες τοποθεσίας στις Ρυθμίσεις τοποθεσίας και επιστρέψτε στην εφαρμογή.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Προς Ρυθμίσεις τοποθεσίας</string>
 </resources>

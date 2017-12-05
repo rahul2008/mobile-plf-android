@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Ja</string>
     <string name="button_ews_support_wrong_phone_no">Nej</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Platstillstånd</string>
+    <string name="label_ews_location_permission_body">För att hitta %1$ss PHILIPS Wi-Fi-installationsnätverk, behöver vi tillstånd att komma åt din plats.</string>
+    <string name="label_ews_location_permission_allow">Tillåt</string>
+    <string name="label_ews_location_permission_cancel">Avbryt konfiguration</string>
+    <string name="label_ews_location_services_title">Aktivera platstjänster</string>
+    <string name="label_ews_location_services_body">För att hitta %1$ss PHILIPS Wi-Fi-installationsnätverk måste platstjänster vara aktiverade. Aktivera platstjänster i platsinställningar och återgå till appen.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Gå till inställningar</string>
 </resources>

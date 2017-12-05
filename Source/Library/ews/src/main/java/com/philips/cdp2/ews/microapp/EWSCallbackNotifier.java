@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
@@ -6,9 +6,12 @@ package com.philips.cdp2.ews.microapp;
 
 import android.support.annotation.NonNull;
 
+/**
+ * EWSCallbackNotifier class provide callback to EWSCallBack
+ */
 public class EWSCallbackNotifier {
 
-    private static EWSCallbackNotifier instance;
+    private static EWSCallbackNotifier callbackNotifier;
     private EWSCallback callback;
 
     private EWSCallbackNotifier() {
@@ -21,40 +24,57 @@ public class EWSCallbackNotifier {
     }
 
     public static synchronized EWSCallbackNotifier getInstance() {
-        if (instance == null) {
-            instance = new EWSCallbackNotifier();
+        if (callbackNotifier == null) {
+            callbackNotifier = new EWSCallbackNotifier();
         }
-        return instance;
+        return callbackNotifier;
     }
 
+    /**
+     * Setter for EWSCallback instance
+     * @param callback EWSCallback
+     */
     public void setCallback(@NonNull EWSCallback callback) {
         this.callback = callback;
     }
 
+    /**
+     *CallBack for Success
+     */
     public void onSuccess() {
         if (callback != null) {
             callback.onSuccess();
         }
-        instance = null;
+        callbackNotifier = null;
     }
 
+    /**
+     * Callback on ApplianceDiscovery
+     * @param cppId String cppId
+     */
     public void onApplianceDiscovered(String cppId) {
         if (callback != null) {
             callback.onApplianceDiscovered(cppId);
         }
     }
 
+    /**
+     * CallBack for Cancel
+     */
     public void onCancel() {
         if (callback != null) {
             callback.onCancel();
         }
-        instance = null;
+        callbackNotifier = null;
     }
 
+    /**
+     * CallBack for Back press
+     */
     public void onBackPressed() {
         if (callback != null) {
             callback.onBackPressed();
         }
-        instance = null;
+        callbackNotifier = null;
     }
 }

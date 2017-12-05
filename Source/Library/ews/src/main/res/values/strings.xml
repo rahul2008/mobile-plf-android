@@ -103,23 +103,18 @@
     <string name="label_ews_support_wrong_phone_question_default">Do you see this?</string>
     <string name="button_ews_support_wrong_phone_yes">Yes</string>
     <string name="button_ews_support_wrong_phone_no">No</string>
-
+    <!--EWS_02_02.b_enable_location-->
+    <string name="label_ews_location_services_title">Enable in system Location Settings</string>
+    <string name="label_ews_location_services_body">To find %1$s’s PHILIPS Setup Wi-Fi network, we need Location Services enabled.  Please enable Location Services in Location Settings and return to the app.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Go to Location Settings</string>
+    <!--EWS_02_02.a_location_permission-->
+    <string name="label_ews_location_permission_title">Location permission</string>
+    <string name="label_ews_location_permission_body">To find %1$s’s PHILIPS Setup Wi-Fi network, we need permission to access your location.</string>
+    <string name="label_ews_location_permission_allow">Allow</string>
+    <string name="label_ews_location_permission_cancel">Cancel setup</string>
 
     <!-- ToDo: need to update permission text after consulting design team -->
     <string name="label_location_permission_required">%1$s requires location permission</string>
-
-
-    <!--GPS Strings Missing in localisation-->
-    <string name="label_ews_enable_gps_settings_title">Enable in system Location Settings</string>
-    <string name="label_ews_enable_gps_settings_body">To find %1$s’s PHILIPS Setup Wi-Fi network, we need Location Services enabled.  Please enable Location Services in Location Settings and return to the app.</string>
-    <string name="button_ews_enable_gps_settings">Go to Location Settings</string>
-
-    <!--EWS Location Permission -->
-    <string name="label_ews_location_permission_title">Location permission</string>
-    <string name="label_ews_location_permission_body">To find %1$s’s PHILIPS Setup Wi-Fi network, we need permission to access your location.</string>
-    <string name="button_ews_location_permission_yes">Allow</string>
-    <string name="button_ews_location_permission_no">Cancel setup</string>
-
 
     <!--Not Used(Added for Default Missing Warning) -->
     <string name="button_ews_contact_us">Contact Us</string>

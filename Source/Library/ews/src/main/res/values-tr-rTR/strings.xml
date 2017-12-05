@@ -33,8 +33,8 @@
     <string name="button_ews_plug_in_next">Tamam, yaptım</string>
     <string name="label_ews_verify_ready_title_default">Cihazınız kurulum modunda mı?</string>
     <string name="label_ews_verify_ready_question_default">Wi-Fi ışığı yanıp sönüyor mu?</string>
-    <string name="button_ews_verify_ready_yes_default">Evet, Wi-Fi ışığı yanıp sönüyor</string>
-    <string name="button_ews_verify_ready_no_default">Hayır, Wi-Fi ışığı yanıp sönmüyor</string>
+    <string name="button_ews_verify_ready_yes_default">Wi-Fi ışığı yanıp sönüyor</string>
+    <string name="button_ews_verify_ready_no_default">Wi-Fi ışığı yanıp sönmüyor</string>
     <string name="label_ews_select_wifi_title">%1$s öğesine bağlanma</string>
     <string name="label_ews_select_wifi_body">Telefonunuzu PHILIPS Setup\'a bağlamak için bu talimatları uygulayın.</string>
     <string name="label_ews_select_wifi_step1">1. Telefonunuzdaki Ayarlar\'a gidip Wi-Fi\'a dokunun</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Evet</string>
     <string name="button_ews_support_wrong_phone_no">Hayır</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Konum izni</string>
+    <string name="label_ews_location_permission_body">%1$s öğesinin PHILIPS Setup Wi-Fi ağını bulmak için konumunuza erişim izni vermeniz gerekiyor.</string>
+    <string name="label_ews_location_permission_allow">İzin ver</string>
+    <string name="label_ews_location_permission_cancel">Kurulumu iptal et</string>
+    <string name="label_ews_location_services_title">Konum Hizmetlerini Etkinleştir</string>
+    <string name="label_ews_location_services_body">%1$s öğesinin PHILIPS Setup Wi-Fi ağını bulmak için Konum Hizmetlerinin etkinleştirilmesi gerekiyor.  Lütfen, Konum Ayarlarında Konum Hizmetlerini etkinleştirip uygulamaya geri dönün.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Konum Ayarlarına Git</string>
 </resources>

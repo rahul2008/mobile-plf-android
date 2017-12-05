@@ -33,8 +33,8 @@
     <string name="button_ews_plug_in_next">Ok, đã xong</string>
     <string name="label_ews_verify_ready_title_default">Thiết bị có ở chế độ thiết lập không?</string>
     <string name="label_ews_verify_ready_question_default">Đèn báo Wi-Fi có nhấp nháy không?</string>
-    <string name="button_ews_verify_ready_yes_default">Có, đèn báo Wi-Fi đang nhấp nháy</string>
-    <string name="button_ews_verify_ready_no_default">Đèn báo Wi-Fi không nhấp nháy</string>
+    <string name="button_ews_verify_ready_yes_default">Đèn Wi-Fi đang nhấp nháy</string>
+    <string name="button_ews_verify_ready_no_default">Đèn Wi-Fi không nhấp nháy</string>
     <string name="label_ews_select_wifi_title">Kết nối với %1$s</string>
     <string name="label_ews_select_wifi_body">Làm theo các bước sau đây để kết nối điện thoại của bạn với PHILIPS Setup.</string>
     <string name="label_ews_select_wifi_step1">1. Đến mục Cài đặt trên điện thoại và chạm vào Wi-Fi</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Có</string>
     <string name="button_ews_support_wrong_phone_no">Không</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Cho phép truy cập vị trí</string>
+    <string name="label_ews_location_permission_body">Để tìm mạng Wi-Fi PHILIPS Setup của %1$s, chúng tôi cần được phép truy cập vị trí của bạn.</string>
+    <string name="label_ews_location_permission_allow">Cho phép</string>
+    <string name="label_ews_location_permission_cancel">Hủy thiết lập</string>
+    <string name="label_ews_location_services_title">Kích hoạt Dịch vụ định vị</string>
+    <string name="label_ews_location_services_body">Để tìm mạng Wi-Fi PHILIPS Setup của %1$s, Dịch vụ định vị cần được kích hoạt.  Vui lòng kích hoạt Dịch vụ định vị trong Cài đặt vị trí và quay lại ứng dụng.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Đến mục Cài đặt vị trí</string>
 </resources>

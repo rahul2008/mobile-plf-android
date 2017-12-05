@@ -1,69 +1,28 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    apply from: "scripts/versions.gradle"
-    apply from: "../../ci-build-support/gradle/versions.gradle"
-
     repositories {
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
-            credentials {
-                username "readonly"
-                password "123qweasdzxc"
-            }
+    maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
         }
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local'
-            credentials {
-                username "readonly"
-                password "123qweasdzxc"
-            }
-        }
-
-        mavenCentral()
+    }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:${versionsExternal.dexCount}"
-        classpath(builddeps.cdpSCM)
+            classpath 'com.android.tools.build:gradle:2.3.3'
+            classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
     }
 }
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
-
-version = objcdp.getVersion(versions.ews_ews)
 
 allprojects {
     repositories {
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-        flatDir {
-            dirs 'libs'
-        }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
 
     // Increasing number of errors displayed by JavaCompiler to 400, so that we can see root cause
@@ -74,8 +33,3 @@ allprojects {
         }
     }
 }
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-
