@@ -4,19 +4,6 @@
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
 
-##--------------- Eventbus  ----------START
--keepclassmembers class ** {
-    !private void onEvent*(**);
-}
--keepclassmembers, includedescriptorclasses class ** {
-    @org.greenrobot.eventbus.Subscribe <methods>;
-}
-
--keep enum org.greenrobot.eventbus.ThreadMode { *; }
--keep class de.greenrobot.event.** { *; }
--keep class de.greenrobot.** {*;}
--keep class org.greenrobot.eventbus.util.ThrowableFailureEvent {*;}
-##--------------- Eventbus  ----------END
 
 #Tagging lib and jar
 -keep, includedescriptorclasses public class com.adobe.mobile.** {*;}

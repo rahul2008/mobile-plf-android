@@ -56,7 +56,7 @@ def gitBranch() {
     proc.in.eachLine { line -> branch += line }
     proc.err.eachLine { line -> println line }
     proc.waitFor()
-    branch.replaceAll("/","-")
+    branch.replaceAll("/", "-")
 }
 
 def getMyVersionCode() {
@@ -77,6 +77,5 @@ dependencies {
     compile "com.android.support:appcompat-v7:${versions.support}"
     compile 'com.google.dagger:dagger:2.9'
     annotationProcessor "com.google.dagger:dagger-compiler:2.9"
-    compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

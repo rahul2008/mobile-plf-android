@@ -13,7 +13,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 
-import com.philips.cdp2.ews.communication.events.ShowPasswordEntryScreenEvent;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.logger.EWSLogger;
@@ -25,36 +24,14 @@ import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.util.GpsUtil;
 import com.philips.cdp2.ews.util.StringProvider;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import static com.philips.cdp2.ews.EWSActivity.EWS_STEPS;
 
 @SuppressWarnings("WeakerAccess")
 public class SecondSetupStepsViewModel {
 
-    public interface LocationPermissionFlowCallback {
-        void showGPSEnableDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
-
-        void showLocationPermissionDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
-    }
-
     public static final String ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
-    @NonNull
-    protected final Navigator navigator;
-    @NonNull
-    protected final EventBus eventBus;
-    @NonNull
-    private final PermissionHandler permissionHandler;
-    @NonNull
-    private final BaseContentConfiguration baseContentConfiguration;
-
-    private Fragment fragment;
-
     @NonNull
     public final ObservableField<String> title;
     @NonNull
@@ -66,14 +43,20 @@ public class SecondSetupStepsViewModel {
     @NonNull
     public final ObservableField<String> noButton;
     @NonNull
-    private final StringProvider stringProvider;
+    protected final Navigator navigator;
 
+    @NonNull
+    private final PermissionHandler permissionHandler;
+    @NonNull
+    private final BaseContentConfiguration baseContentConfiguration;
+    @NonNull
+    private final StringProvider stringProvider;
+    private Fragment fragment;
     @Nullable
     private LocationPermissionFlowCallback locationPermissionFlowCallback;
 
     @Inject
     public SecondSetupStepsViewModel(@NonNull final Navigator navigator,
-                                     @NonNull @Named("ews.event.bus") final EventBus eventBus,
                                      @NonNull final PermissionHandler permissionHandler,
                                      @NonNull final StringProvider stringProvider,
                                      @NonNull final HappyFlowContentConfiguration happyFlowContentConfiguration,
@@ -86,9 +69,7 @@ public class SecondSetupStepsViewModel {
         this.noButton = new ObservableField<>(getNoButton(happyFlowContentConfiguration));
         this.navigator = navigator;
         this.permissionHandler = permissionHandler;
-        this.eventBus = eventBus;
         this.baseContentConfiguration = baseContentConfiguration;
-        eventBus.register(this);
     }
 
     @VisibleForTesting
@@ -140,26 +121,26 @@ public class SecondSetupStepsViewModel {
     }
 
     void tagLocationPermission() {
-        EWSTagger.trackInAppNotification(Page.SETUP_STEP2,Tag.VALUE.LOCATION_PERMISSION_NOTIFICATION);
+        EWSTagger.trackInAppNotification(Page.SETUP_STEP2, Tag.VALUE.LOCATION_PERMISSION_NOTIFICATION);
     }
 
     void tagLocationPermissionAllow() {
         EWSTagger.trackInAppNotificationResponse(Tag.ACTION.ALLOW);
     }
-    
+
     void tagLocationPermissionCancel() {
         EWSTagger.trackInAppNotificationResponse(Tag.ACTION.CANCEL_SETUP);
     }
 
     void tagLocationDisabled() {
-        EWSTagger.trackInAppNotification(Page.SETUP_STEP2,Tag.VALUE.LOCATION_DISABLED_NOTIFICATION);
+        EWSTagger.trackInAppNotification(Page.SETUP_STEP2, Tag.VALUE.LOCATION_DISABLED_NOTIFICATION);
     }
+
     void tagLocationOpenSettings() {
         EWSTagger.trackInAppNotificationResponse(Tag.ACTION.OPEN_LOCATION_SETTINGS);
     }
 
     protected void startConnection() {
-        eventBus.unregister(this);
         navigator.navigateToConnectingPhoneToHotspotWifiScreen();
     }
 
@@ -196,14 +177,18 @@ public class SecondSetupStepsViewModel {
         return permissionHandler.areAllPermissionsGranted(grantResults);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void showPasswordEntryScreenEvent(@SuppressWarnings("UnusedParameters") ShowPasswordEntryScreenEvent entryScreenEvent) {
-        eventBus.unregister(this);
+    public void showPasswordEntryScreenEvent() {
         navigator.navigateToConnectToDeviceWithPasswordScreen("");
     }
 
     public void setLocationPermissionFlowCallback(@Nullable LocationPermissionFlowCallback locationPermissionFlowCallback) {
         this.locationPermissionFlowCallback = locationPermissionFlowCallback;
+    }
+
+    public interface LocationPermissionFlowCallback {
+        void showGPSEnableDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
+
+        void showLocationPermissionDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
     }
 }
 

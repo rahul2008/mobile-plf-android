@@ -22,10 +22,7 @@ import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.appliance.EWSGenericAppliance;
-import com.philips.cdp2.ews.communication.ApplianceAccessEventMonitor;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
-import com.philips.cdp2.ews.communication.EventingChannel;
-import com.philips.cdp2.ews.communication.WiFiEventMonitor;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.navigation.FragmentNavigator;
@@ -36,19 +33,16 @@ import com.philips.cdp2.ews.setupsteps.SecondSetupStepsViewModel;
 import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 
 import javax.inject.Named;
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+
 
 @SuppressWarnings("WeakerAccess")
 @Module
@@ -75,24 +69,6 @@ public class EWSModule {
     @Provides
     WifiManager providesWiFiManager() {
         return (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-    }
-
-    @Singleton
-    @Provides
-    @Named("ews.event.bus")
-    EventBus providesEWSEventBus() {
-        return EventBus.builder().build();
-    }
-
-    @SuppressWarnings("unchecked")
-    @Singleton
-    @Provides
-    EventingChannel<EventingChannel.ChannelCallback> providesEWSEventingChannel(
-            @NonNull final ApplianceAccessEventMonitor applianceAccessEventMonitor,
-            @NonNull final WiFiEventMonitor wiFiEventMonitor) {
-        return new EventingChannel<>(
-                Arrays.<EventingChannel.ChannelCallback>asList(applianceAccessEventMonitor,
-                        wiFiEventMonitor));
     }
 
     @Provides
@@ -146,18 +122,18 @@ public class EWSModule {
                                                                    @NonNull BaseContentConfiguration baseContentConfiguration,
                                                                    @NonNull StringProvider stringProvider) {
         return new ConnectWithPasswordViewModel(wifiUtil, sessionInfo, navigator,
-                 baseContentConfiguration, stringProvider);
+                baseContentConfiguration, stringProvider);
     }
 
     @Provides
     SecondSetupStepsViewModel provideSecondSetupStepsViewModel(
             @NonNull final Navigator navigator,
-            @NonNull final @Named("ews.event.bus") EventBus eventBus,
             @NonNull final PermissionHandler permissionHandler,
             @NonNull HappyFlowContentConfiguration happyFlowContentConfiguration,
-            @NonNull StringProvider stringProvider,@NonNull BaseContentConfiguration baseContentConfiguration) {
+            @NonNull StringProvider stringProvider, @NonNull BaseContentConfiguration baseContentConfiguration) {
 
-        return new SecondSetupStepsViewModel(navigator, eventBus, permissionHandler, stringProvider, happyFlowContentConfiguration,baseContentConfiguration);
+        return new SecondSetupStepsViewModel(navigator,
+                permissionHandler, stringProvider, happyFlowContentConfiguration, baseContentConfiguration);
     }
 
 

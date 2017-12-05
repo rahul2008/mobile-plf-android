@@ -13,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.philips.cdp2.ews.base.BaseFragment;
-import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
@@ -33,9 +32,6 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
     public static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
     public static final String EWS_STEPS = "EWS_STEPS";
     public static final String KEY_CONTENT_CONFIGURATION = "contentConfiguration";
-
-    @Inject
-    EventingChannel<EventingChannel.ChannelCallback> ewsEventingChannel;
 
     @Inject
     Navigator navigator;
@@ -73,7 +69,6 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
                 contentConfiguration);
 
         EWSDependencyProvider.getInstance().getEwsComponent().inject(this);
-        ewsEventingChannel.start();
     }
 
     @Override
@@ -107,7 +102,6 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
 
     @Override
     protected void onDestroy() {
-        ewsEventingChannel.stop();
         EWSDependencyProvider.getInstance().clear();
         super.onDestroy();
     }
@@ -159,7 +153,7 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
 
     @Override
     public void updateActionBar(String s, boolean b) {
-     setToolbarTitle(s);
+        setToolbarTitle(s);
     }
 
     @Override

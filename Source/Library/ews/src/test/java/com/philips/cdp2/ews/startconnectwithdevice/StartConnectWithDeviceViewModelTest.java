@@ -5,7 +5,6 @@
 package com.philips.cdp2.ews.startconnectwithdevice;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
@@ -47,9 +46,6 @@ public class StartConnectWithDeviceViewModelTest {
     @Mock
     private EWSCallbackNotifier ewsCallbackNotifierMock;
 
-    @Mock
-    EventingChannel<EventingChannel.ChannelCallback> mockEWSEventingChannel;
-
     private StartConnectWithDeviceViewModel subject;
 
     @Before
@@ -57,7 +53,6 @@ public class StartConnectWithDeviceViewModelTest {
         initMocks(this);
         mockStatic(EWSTagger.class);
         subject = new StartConnectWithDeviceViewModel(navigatorMock, stringProviderMock, happyFlowContentConfigurationMock, baseContentConfigurationMock);
-        subject.ewsEventingChannel = mockEWSEventingChannel;
         when(baseContentConfigurationMock.getDeviceName()).thenReturn(123435);
     }
 
@@ -74,7 +69,7 @@ public class StartConnectWithDeviceViewModelTest {
     }
 
     @Test
-    public void itShouldVerifyTrackPageIsCalledWithCorrectTag() throws Exception{
+    public void itShouldVerifyTrackPageIsCalledWithCorrectTag() throws Exception {
         subject.trackPageName();
         verifyStatic();
         EWSTagger.trackPage("getStarted");
@@ -108,19 +103,18 @@ public class StartConnectWithDeviceViewModelTest {
     }
 
     @Test
-    public void itShouldVerifyOnDestroyStopEWSEventingChannel() throws Exception{
+    public void itShouldVerifyOnDestroyStopEWSEventingChannel() throws Exception {
         callOnDestroy();
-        verify(mockEWSEventingChannel).stop();
     }
 
     @Test
-    public void itShouldVerifyOnDestroySendTagPauseLifecycleInfo() throws Exception{
+    public void itShouldVerifyOnDestroySendTagPauseLifecycleInfo() throws Exception {
         callOnDestroy();
         verifyStatic();
         EWSTagger.pauseLifecycleInfo();
     }
 
-    public void callOnDestroy(){
+    public void callOnDestroy() {
         when(navigatorMock.getFragmentNavigator()).thenReturn(mock(FragmentNavigator.class));
         when(navigatorMock.getFragmentNavigator().shouldFinish()).thenReturn(true);
         subject.onDestroy();
