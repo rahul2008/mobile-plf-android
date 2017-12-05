@@ -113,4 +113,9 @@ Ontvang gratis productaccessoires</string>
 <string name="RA_unknown_device">Onbekend apparaat</string>
 <string name="RA_no_device_found">Geen apparaat gevonden</string>
 <string name="RA_something_wrong">Er is iets misgegaan</string>
+
+<string name="RA_MYA_Consent_Moment_Text" translatable="false">nl-NL I allow Philips to store my data in cloud</string>
+<string name="RA_MYA_Consent_Moment_Help" translatable="false">nl-NL Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Coaching_Text" translatable="false">nl-NL I allow Philips to use my data for Coaching purposes</string>
+<string name="RA_MYA_Consent_Coaching_Help" translatable="false">nl-NL Giving this consent you are allowing Philips to process information related to you</string>
 </resources>
