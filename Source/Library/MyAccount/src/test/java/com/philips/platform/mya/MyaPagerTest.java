@@ -1,5 +1,6 @@
 package com.philips.platform.mya;
 
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
 import com.philips.platform.mya.profile.MyaProfileFragment;
@@ -38,7 +39,7 @@ public class MyaPagerTest {
     @Before
     public void setUp() throws Exception{
         initMocks(this);
-        myaPager = new MyaPager(fragmentManagerMock,tabCount);
+        myaPager = new MyaPager(fragmentManagerMock,tabCount,new Bundle());
     }
 
     @Test

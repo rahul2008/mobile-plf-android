@@ -11,7 +11,6 @@ import android.content.Context;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.catk.injection.CatkComponent;
-import com.philips.platform.mya.injection.MyaDependencyComponent;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
@@ -29,7 +28,6 @@ import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

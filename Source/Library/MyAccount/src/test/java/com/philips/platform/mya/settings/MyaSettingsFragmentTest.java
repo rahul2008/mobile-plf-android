@@ -51,7 +51,7 @@ public class MyaSettingsFragmentTest {
     }
 
     @Test
-    public void notNullgetBackButtonState() throws Exception{
+    public void notNullgetBackButtonState() throws Exception {
         assertNotNull(myaSettingsFragment.getBackButtonState());
     }
 
