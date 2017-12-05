@@ -53,7 +53,7 @@ public class DeviceFriendlyNameChanger {
         }
     }
 
-    public void clear() {
+    void clear() {
         callback = null;
     }
 

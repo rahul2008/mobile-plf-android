@@ -209,7 +209,6 @@ dependencies {
     compile "com.android.support:design:${versions.support}"
     compile "com.android.support:appcompat-v7:${versions.support}"
     compile "com.android.support:animated-vector-drawable:${versions.support}"
-    compile "com.android.support:cardview-v7:${versions.support}"
 
     // Philips Dependencies
     def dp = project.ext.has('useprojectdependencies')
@@ -222,7 +221,7 @@ dependencies {
                 transitive = true
             }
     }
-    
+
     if(dp) {
         project(':commlib-lan')
     } else {
@@ -241,16 +240,6 @@ dependencies {
     }
 
     if(dp) {
-        project(':IconFont')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'IconFont', version: versions.icf_iconFont + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive = true
-            }
-    }
-    
-
-    if(dp) {
         project(':uAppFwLib')
     } else {
         compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {
@@ -259,19 +248,16 @@ dependencies {
     }
 
     // External
-    compile "com.google.dagger:dagger:${versionsExternal.dagger}"
-    annotationProcessor "com.google.dagger:dagger-compiler:${versionsExternal.dagger}"
-    compile "org.greenrobot:eventbus:${versionsExternal.eventBus}"
+    compile "com.google.dagger:dagger:2.9"
+    annotationProcessor "com.google.dagger:dagger-compiler:2.9"
+    compile "org.greenrobot:eventbus:3.0.0"
 
     // Test
-    testCompile "junit:junit:${versionsExternal.junit}"
-    testCompile "org.mockito:mockito-core:${versionsExternal.mockito}"
-    testCompile "org.robolectric:robolectric:${versionsExternal.robolectric}"
-    testCompile "org.powermock:powermock-module-junit4:${versionsExternal.powerMock}"
-    testCompile "org.powermock:powermock-api-mockito:${versionsExternal.powerMock}"
-    testCompile "org.powermock:powermock-module-junit4-rule:${versionsExternal.powerMock}"
-    testCompile "org.powermock:powermock-classloading-xstream:${versionsExternal.powerMock}"
-    testCompile("com.nhaarman:mockito-kotlin:${versionsExternal.mockitoKotlin}") {
-        exclude group: 'org.mockito'
-    }
+    testCompile "junit:junit:4.12"
+    testCompile "org.mockito:mockito-core:1.10.19"
+    testCompile "org.powermock:powermock-module-junit4:1.6.5"
+    testCompile "org.powermock:powermock-api-mockito:1.6.5"
+    testCompile "org.powermock:powermock-module-junit4-rule:1.6.5"
+    testCompile "org.powermock:powermock-classloading-xstream:1.6.5"
+
 }

@@ -44,7 +44,7 @@ import javax.inject.Named;
 
 public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChanger.Callback {
 
-    public interface ConnectingDeviceToWifiCallback {
+    interface ConnectingDeviceToWifiCallback {
         void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
 
         void unregisterReceiver(@NonNull BroadcastReceiver receiver);
@@ -193,7 +193,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
     }
 
-    public void clear() {
+    void clear() {
         removeTimeoutRunnable();
         discoveryHelper.stopDiscovery();
         unregisterBroadcastReceiver();

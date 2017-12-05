@@ -40,11 +40,11 @@ public class ConnectToWrongPhoneTroubleshootingViewModel {
         return stringProvider.getImageResource(troubleShootContentConfiguration.getConnectWrongPhoneImage());
     }
 
-    public void onYesButtonClicked() {
+    void onYesButtonClicked() {
         navigator.navigateSetupAccessPointModeScreen();
     }
 
-    public void onNoButtonClicked() {
+    void onNoButtonClicked() {
         navigator.navigateToResetConnectionTroubleShootingScreen();
     }
 

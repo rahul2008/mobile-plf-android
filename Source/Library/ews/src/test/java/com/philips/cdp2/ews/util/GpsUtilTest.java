@@ -10,7 +10,10 @@ import android.os.Build;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.robolectric.util.ReflectionHelpers;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -21,12 +24,13 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({Build.VERSION.class})
 public class GpsUtilTest {
 
     @Before
     public void itShouldReturnTrueAlwaysIfOSVersionIsBelowAndroidM() throws Exception {
-        stubAndroidSdkVersion(Build.VERSION_CODES.LOLLIPOP);
-
+        Whitebox.setInternalState(Build.VERSION.class, "SDK_INT", 16);
         assertFalse(GpsUtil.isGPSRequiredForWifiScan());
     }
 
@@ -40,8 +44,7 @@ public class GpsUtilTest {
 
     @Test
     public void itShouldReturnTrueIfVersionOSIsFromAndroidM() throws Exception {
-        stubAndroidSdkVersion(Build.VERSION_CODES.M);
-
+        Whitebox.setInternalState(Build.VERSION.class, "SDK_INT", 23);
         assertTrue(GpsUtil.isGPSRequiredForWifiScan());
     }
 
@@ -54,10 +57,6 @@ public class GpsUtilTest {
         when(locationMangerMock.isProviderEnabled(LocationManager.GPS_PROVIDER)).thenReturn(true);
 
         assertTrue(GpsUtil.isGPSEnabled(contextMock));
-    }
-
-    private void stubAndroidSdkVersion(final int sdkInt) {
-        ReflectionHelpers.setStaticField(Build.VERSION.class, "SDK_INT", sdkInt);
     }
 
 }

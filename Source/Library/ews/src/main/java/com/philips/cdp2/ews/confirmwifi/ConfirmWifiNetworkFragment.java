@@ -37,7 +37,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
         implements ConfirmWifiNetworkViewModel.ViewCallback {
 
     @VisibleForTesting
-    public ConfirmWifiNetworkViewModel viewModel;
+    ConfirmWifiNetworkViewModel viewModel;
 
 
     @SuppressWarnings("ConstantConditions")
@@ -53,7 +53,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
 
     @VisibleForTesting
     @NonNull
-    private ConfirmWifiNetworkViewModel createViewModel() {
+    ConfirmWifiNetworkViewModel createViewModel() {
         return getEWSComponent().confirmWifiNetworkViewModel();
     }
 

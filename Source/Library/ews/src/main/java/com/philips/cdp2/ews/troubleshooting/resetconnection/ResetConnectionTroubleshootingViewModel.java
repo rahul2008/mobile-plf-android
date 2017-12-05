@@ -32,11 +32,11 @@ public class ResetConnectionTroubleshootingViewModel {
         this.resetConnectionImage = getResetConnectionImage(troubleShootContentConfiguration);
     }
 
-    public void onYesButtonClicked() {
+    void onYesButtonClicked() {
         navigator.navigateToResetDeviceTroubleShootingScreen();
     }
 
-    public void onNoButtonClicked() {
+    void onNoButtonClicked() {
         navigator.navigateToConnectToWrongPhoneTroubleShootingScreen();
     }
 
