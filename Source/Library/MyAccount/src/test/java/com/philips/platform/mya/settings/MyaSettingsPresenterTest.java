@@ -88,7 +88,7 @@ public class MyaSettingsPresenterTest {
         verify(view).handleLogOut();
     }
 
-   @Test
+    @Test
     public void testHandleOnClickSettingsItem() {
         final CswInterface cswInterface = mock(CswInterface.class);
         final ConsentAccessToolKit consentAccessToolKit = mock(ConsentAccessToolKit.class);
@@ -99,11 +99,6 @@ public class MyaSettingsPresenterTest {
             @Override
             CswInterface getCswInterface() {
                 return cswInterface;
-            }
-
-            @Override
-            FragmentLauncher getFragmentLauncher() {
-                return fragmentLauncher;
             }
 
             @Override
@@ -122,9 +117,9 @@ public class MyaSettingsPresenterTest {
             }
         };
         String key = "Mya_Privacy_Settings";
-        assertTrue(myaSettingsPresenter.handleOnClickSettingsItem(key));
+        assertTrue(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
         verify(cswInterface).launch(fragmentLauncher, cswLaunchInput);
-        assertFalse(myaSettingsPresenter.handleOnClickSettingsItem("some_key"));
+        assertFalse(myaSettingsPresenter.handleOnClickSettingsItem("some_key", fragmentLauncher));
     }
 
 

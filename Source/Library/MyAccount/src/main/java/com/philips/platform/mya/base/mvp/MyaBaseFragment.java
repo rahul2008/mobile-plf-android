@@ -32,6 +32,10 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
 
     private Context context;
 
+    private FragmentLauncher fragmentLauncher;
+
+
+
     @Override
     public void onStart() {
         super.onStart();
@@ -59,20 +63,16 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
         }
     }
 
-    public void showFragment(Fragment fragment, FragmentLauncher fragmentLauncher) {
+    public void showFragment(Fragment fragment) {
+        if (fragmentLauncher == null) {
+            exitMyAccounts();
+            return;
+        }
         final FragmentActivity fragmentActivity = fragmentLauncher.getFragmentActivity();
-        mActionbarUpdateListener = fragmentLauncher.getActionbarListener();
         int containerId = fragmentLauncher.getParentContainerResourceID();
         if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
             initAnimation(fragmentLauncher.getEnterAnimation(), fragmentLauncher.getExitAnimation(), fragmentActivity);
             addFragment(fragment, fragmentActivity, containerId);
-        }
-    }
-
-    public void showFragment(Fragment fragment) {
-        final FragmentActivity fragmentActivity = getActivity();
-        if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
-            addFragment(fragment, fragmentActivity, getId());
         }
     }
 
@@ -138,5 +138,21 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
             e.getMessage();
         }
         return false;
+    }
+
+    public void setActionbarUpdateListener(ActionBarListener mActionbarUpdateListener) {
+        this.mActionbarUpdateListener = mActionbarUpdateListener;
+    }
+
+    public ActionBarListener getActionbarUpdateListener() {
+        return mActionbarUpdateListener;
+    }
+
+    public FragmentLauncher getFragmentLauncher() {
+        return fragmentLauncher;
+    }
+
+    public void setFragmentLauncher(FragmentLauncher fragmentLauncher) {
+        this.fragmentLauncher = fragmentLauncher;
     }
 }

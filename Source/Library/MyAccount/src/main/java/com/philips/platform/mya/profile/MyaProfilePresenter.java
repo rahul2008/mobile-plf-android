@@ -53,7 +53,7 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
         if (profileItem.equals(view.getContext().getString(R.string.MYA_My_details)) || profileItem.equalsIgnoreCase("MYA_My_details")) {
             MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
             myaDetailsFragment.setArguments(bundle);
-            view.showPassedFragment(myaDetailsFragment, MyaHelper.getInstance().getFragmentLauncher());
+            view.showPassedFragment(myaDetailsFragment);
             return true;
         }
         return false;

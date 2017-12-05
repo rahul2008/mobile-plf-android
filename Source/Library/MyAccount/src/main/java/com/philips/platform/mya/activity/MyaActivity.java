@@ -148,13 +148,15 @@ public class MyaActivity extends UIDActivity {
                 handleLeftImage(shouldBackEnable);
             }
         });
-        MyaHelper.getInstance().setFragmentLauncher(fragmentLauncher);
+//        MyaHelper.getInstance().setFragmentLauncher(fragmentLauncher);
         UserDataModelProvider userDataModelProvider = new UserDataModelProvider(this);
         Bundle bundle = new Bundle();
         bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
         MyaTabFragment myaTabFragment = new MyaTabFragment();
+        myaTabFragment.setFragmentLauncher(fragmentLauncher);
+        myaTabFragment.setActionbarUpdateListener(fragmentLauncher.getActionbarListener());
         myaTabFragment.setArguments(bundle);
-        myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
+        myaTabFragment.showFragment(myaTabFragment);
     }
 
 

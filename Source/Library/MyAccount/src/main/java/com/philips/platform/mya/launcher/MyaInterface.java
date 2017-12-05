@@ -57,10 +57,12 @@ public class MyaInterface implements UappInterface {
     }
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher, Bundle arguments) {
-        MyaHelper.getInstance().setFragmentLauncher(fragmentLauncher);
+//        MyaHelper.getInstance().setFragmentLauncher(fragmentLauncher);
         MyaTabFragment myaTabFragment = new MyaTabFragment();
         myaTabFragment.setArguments(arguments);
-        myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
+        myaTabFragment.setFragmentLauncher(fragmentLauncher);
+        myaTabFragment.setActionbarUpdateListener(fragmentLauncher.getActionbarListener());
+        myaTabFragment.showFragment(myaTabFragment);
     }
 
     private void launchAsActivity(ActivityLauncher uiLauncher, MyaLaunchInput myaLaunchInput) {

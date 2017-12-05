@@ -1,11 +1,11 @@
 package com.philips.platform.mya;
 
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
 import com.philips.platform.mya.profile.MyaProfileFragment;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.mya.settings.MyaSettingsFragment;
+import com.philips.platform.mya.tabs.MyaTabFragment;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,10 +36,13 @@ public class MyaPagerTest {
     @Mock
     FragmentManager fragmentManagerMock;
 
+    @Mock
+    MyaTabFragment myaTabFragment;
+
     @Before
     public void setUp() throws Exception{
         initMocks(this);
-        myaPager = new MyaPager(fragmentManagerMock,tabCount,new Bundle());
+        myaPager = new MyaPager(fragmentManagerMock, tabCount, myaTabFragment);
     }
 
     @Test

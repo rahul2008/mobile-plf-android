@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
@@ -128,8 +127,8 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     }
 
     @Override
-    public void showPassedFragment(Fragment fragment, FragmentLauncher fragmentLauncher) {
-        showFragment(fragment, fragmentLauncher);
+    public void showPassedFragment(Fragment fragment) {
+        showFragment(fragment);
     }
 
     private void handleTransition(boolean onClickMyaItem, String profileItem) {

@@ -11,6 +11,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.base.mvp.MyaBaseView;
 import com.philips.platform.mya.base.mvp.MyaPresenterInterface;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.Map;
 
@@ -30,6 +31,6 @@ interface MyaSettingsContract {
 
         void logOut(Bundle bundle);
 
-        boolean handleOnClickSettingsItem(String key);
+        boolean handleOnClickSettingsItem(String key, FragmentLauncher fragmentLauncher);
     }
 }

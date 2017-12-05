@@ -61,7 +61,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     }
 
     @Override
-    public boolean handleOnClickSettingsItem(String key) {
+    public boolean handleOnClickSettingsItem(String key, FragmentLauncher fragmentLauncher) {
         if (key.equals("Mya_Privacy_Settings")) {
             AppInfraInterface appInfra = MyaHelper.getInstance().getAppInfra();
             getConsentAccessInstance().init(initConsentToolKit(view.getContext(), appInfra));
@@ -69,7 +69,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             CswDependencies cswDependencies = new CswDependencies(appInfra);
             UappSettings uappSettings = new UappSettings(view.getContext());
             cswInterface.init(cswDependencies, uappSettings);
-            cswInterface.launch(getFragmentLauncher(), buildLaunchInput(true, view.getContext()));
+            cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext()));
             return true;
         }
         return false;
@@ -81,10 +81,6 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     CswInterface getCswInterface() {
         return new CswInterface();
-    }
-
-    FragmentLauncher getFragmentLauncher() {
-        return MyaHelper.getInstance().getFragmentLauncher();
     }
 
     LogoutHandler getLogoutHandler() {

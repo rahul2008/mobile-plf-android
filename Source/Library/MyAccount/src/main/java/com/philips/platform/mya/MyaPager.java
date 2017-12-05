@@ -6,11 +6,11 @@
 package com.philips.platform.mya;
 
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.philips.platform.mya.base.mvp.MyaBaseFragment;
 import com.philips.platform.mya.profile.MyaProfileFragment;
 import com.philips.platform.mya.settings.MyaSettingsFragment;
 
@@ -18,12 +18,12 @@ import com.philips.platform.mya.settings.MyaSettingsFragment;
 public class MyaPager extends FragmentStatePagerAdapter {
 
     private int tabCount;
-    private Bundle arguments;
+    private MyaBaseFragment myaBaseFragment;
 
-    public MyaPager(FragmentManager fm, int tabCount, Bundle arguments) {
+    public MyaPager(FragmentManager fm, int tabCount, MyaBaseFragment myaBaseFragment) {
         super(fm);
         this.tabCount= tabCount;
-        this.arguments = arguments;
+        this.myaBaseFragment = myaBaseFragment;
     }
 
     @Override
@@ -31,11 +31,15 @@ public class MyaPager extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 MyaProfileFragment myaProfileFragment = new MyaProfileFragment();
-                myaProfileFragment.setArguments(arguments);
+                myaProfileFragment.setArguments(myaBaseFragment.getArguments());
+                myaProfileFragment.setActionbarUpdateListener(myaBaseFragment.getActionbarUpdateListener());
+                myaProfileFragment.setFragmentLauncher(myaBaseFragment.getFragmentLauncher());
                 return myaProfileFragment;
             case 1:
                 MyaSettingsFragment myaSettingsFragment = new MyaSettingsFragment();
-                myaSettingsFragment.setArguments(arguments);
+                myaSettingsFragment.setArguments(myaBaseFragment.getArguments());
+                myaSettingsFragment.setActionbarUpdateListener(myaBaseFragment.getActionbarUpdateListener());
+                myaSettingsFragment.setFragmentLauncher(myaBaseFragment.getFragmentLauncher());
                 return myaSettingsFragment;
 
             default:

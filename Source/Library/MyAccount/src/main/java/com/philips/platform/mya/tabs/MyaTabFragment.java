@@ -37,10 +37,11 @@ public class MyaTabFragment extends MyaBaseFragment {
             MyaPager adapter;
             int tabPosition=0;
             if (savedInstanceState == null) {
-                adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount(), getArguments());
+                adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount(), this);
                 viewPager.setAdapter(adapter);
             } else {
-                adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount(), savedInstanceState.getBundle(TAB_BUNDLE));
+                this.setArguments(savedInstanceState.getBundle(TAB_BUNDLE));
+                adapter = new MyaPager(this.getChildFragmentManager(), tabLayout.getTabCount(), this);
                 viewPager.setAdapter(adapter);
                 tabPosition = savedInstanceState.getInt(TAB_POSITION);
             }
