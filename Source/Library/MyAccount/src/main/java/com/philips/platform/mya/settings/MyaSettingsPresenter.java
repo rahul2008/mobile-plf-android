@@ -64,7 +64,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     public boolean handleOnClickSettingsItem(String key) {
         if (key.equals("Mya_Privacy_Settings")) {
             AppInfraInterface appInfra = MyaHelper.getInstance().getAppInfra();
-            ConsentAccessToolKit.getInstance().init(initConsentToolKit(view.getContext(), appInfra));
+            getConsentAccessInstance().init(initConsentToolKit(view.getContext(), appInfra));
             CswInterface cswInterface = getCswInterface();
             CswDependencies cswDependencies = new CswDependencies(appInfra);
             UappSettings uappSettings = new UappSettings(view.getContext());
@@ -73,6 +73,10 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             return true;
         }
         return false;
+    }
+
+    ConsentAccessToolKit getConsentAccessInstance() {
+        return ConsentAccessToolKit.getInstance();
     }
 
     CswInterface getCswInterface() {
@@ -94,6 +98,20 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
                 Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
             }
         };
+    }
+
+    CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
+        ConsentBundleConfig config = new ConsentBundleConfig(MyaHelper.getInstance().getMyaLaunchInput().getConsentDefinitions());
+        CswLaunchInput cswLaunchInput = new CswLaunchInput(config, context);
+        cswLaunchInput.addToBackStack(addToBackStack);
+        return cswLaunchInput;
+    }
+
+    CatkInputs initConsentToolKit(Context context, AppInfraInterface appInfra) {
+        CatkInputs catkInputs = new CatkInputs();
+        catkInputs.setContext(context);
+        catkInputs.setAppInfra(appInfra);
+        return catkInputs;
     }
 
     private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface, AppConfigurationInterface.AppConfigurationError error) {
@@ -142,19 +160,5 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         } catch (Exception exception) {
             return null;
         }
-    }
-
-    private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-        ConsentBundleConfig config = new ConsentBundleConfig(MyaHelper.getInstance().getMyaLaunchInput().getConsentDefinitions());
-        CswLaunchInput cswLaunchInput = new CswLaunchInput(config, context);
-        cswLaunchInput.addToBackStack(addToBackStack);
-        return cswLaunchInput;
-    }
-
-    private CatkInputs initConsentToolKit(Context context, AppInfraInterface appInfra) {
-        CatkInputs catkInputs = new CatkInputs();
-        catkInputs.setContext(context);
-        catkInputs.setAppInfra(appInfra);
-        return catkInputs;
     }
 }

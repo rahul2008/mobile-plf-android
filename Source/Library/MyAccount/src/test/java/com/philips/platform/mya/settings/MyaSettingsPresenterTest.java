@@ -14,8 +14,13 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.catk.CatkInputs;
+import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.csw.CswInterface;
+import com.philips.platform.csw.CswLaunchInput;
 import com.philips.platform.mya.R;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +28,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -81,9 +88,10 @@ public class MyaSettingsPresenterTest {
         verify(view).handleLogOut();
     }
 
-   /* @Test
+   @Test
     public void testHandleOnClickSettingsItem() {
         final CswInterface cswInterface = mock(CswInterface.class);
+        final ConsentAccessToolKit consentAccessToolKit = mock(ConsentAccessToolKit.class);
         final CswLaunchInput cswLaunchInput = mock(CswLaunchInput.class);
         final CatkInputs catkInputs = mock(CatkInputs.class);
         final FragmentLauncher fragmentLauncher = mock(FragmentLauncher.class);
@@ -107,10 +115,17 @@ public class MyaSettingsPresenterTest {
             CatkInputs initConsentToolKit(Context context, AppInfraInterface appInfra) {
                 return catkInputs;
             }
+
+            @Override
+            ConsentAccessToolKit getConsentAccessInstance() {
+                return consentAccessToolKit;
+            }
         };
         String key = "Mya_Privacy_Settings";
         assertTrue(myaSettingsPresenter.handleOnClickSettingsItem(key));
         verify(cswInterface).launch(fragmentLauncher, cswLaunchInput);
         assertFalse(myaSettingsPresenter.handleOnClickSettingsItem("some_key"));
-    }*/
+    }
+
+
 }
