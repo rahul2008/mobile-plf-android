@@ -8,6 +8,7 @@
 
 package com.philips.platform.mya.details;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -80,8 +81,8 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
     }
 
     @Override
-    public String getActionbarTitle() {
-        return getString(R.string.MYA_My_account);
+    public String getActionbarTitle(Context context) {
+        return context.getString(R.string.MYA_My_account);
     }
 
     @Override

@@ -13,7 +13,7 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class UserModule {
+class UserModule {
 
     private final User user;
 

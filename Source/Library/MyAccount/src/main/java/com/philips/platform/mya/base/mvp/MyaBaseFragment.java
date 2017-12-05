@@ -22,12 +22,11 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
 
     private int mEnterAnimation = 0;
     private int mExitAnimation = 0;
-    private String TAG = MyaBaseFragment.class.getSimpleName();
     private ActionBarListener mActionbarUpdateListener;
 
     public abstract int getActionbarTitleResId();
 
-    public abstract String getActionbarTitle();
+    public abstract String getActionbarTitle(Context context);
 
     public abstract boolean getBackButtonState();
 
@@ -108,7 +107,7 @@ public abstract class MyaBaseFragment extends Fragment implements MyaBaseView {
     private void setActionbarTitle() {
         if (mActionbarUpdateListener != null) {
             mActionbarUpdateListener.updateActionBar(getActionbarTitleResId(), getBackButtonState());
-            mActionbarUpdateListener.updateActionBar(getActionbarTitle(), getBackButtonState());
+            mActionbarUpdateListener.updateActionBar(getActionbarTitle(context), getBackButtonState());
         }
     }
 

@@ -15,9 +15,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.dto.CreateConsentModelRequest;
-import com.philips.platform.catk.dto.GetConsentsModelRequest;
-import com.philips.platform.catk.network.NetworkController;
+import com.philips.platform.catk.NetworkController;
 
 import android.content.Context;
 
@@ -35,10 +33,6 @@ public interface CatkComponent {
     User getUser();
 
     void inject(NetworkController networkController);
-
-    void inject(CreateConsentModelRequest createConsentModelRequest);
-
-    void inject(GetConsentsModelRequest getConsentsModelRequest);
 
     void inject(ConsentAccessToolKit consentAccessToolKit);
 

@@ -13,9 +13,7 @@ import java.util.List;
 
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.catk.dto.CreateConsentModelRequest;
 import com.philips.platform.catk.dto.GetConsentDto;
-import com.philips.platform.catk.dto.GetConsentsModelRequest;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.infra.InfraServiceInfoProvider;
 import com.philips.platform.catk.injection.CatkComponent;
@@ -25,15 +23,12 @@ import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.mapper.ConsentToDtoMapper;
 import com.philips.platform.catk.mapper.DtoToConsentMapper;
 import com.philips.platform.catk.model.Consent;
-import com.philips.platform.catk.network.NetworkAbstractModel;
-import com.philips.platform.catk.network.NetworkController;
 import com.philips.platform.catk.provider.AppInfraInfo;
 import com.philips.platform.catk.provider.ComponentProvider;
 import com.philips.platform.catk.provider.ServiceInfoProvider;
 import com.philips.platform.catk.utils.CatkLogger;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
 public class ConsentAccessToolKit {
 
@@ -174,8 +169,6 @@ public class ConsentAccessToolKit {
     }
 
     public void getStatusForConsentType(final String consentType, int version, final ConsentResponseListener consentListener) {
-
-        validateAppNameAndPropName();
 
         getConsentDetails(new ConsentResponseListener() {
 

@@ -5,7 +5,7 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.catk.dto;
+package com.philips.platform.catk;
 
 
 import android.support.annotation.NonNull;
@@ -14,7 +14,8 @@ import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.network.NetworkAbstractModel;
+import com.philips.platform.catk.NetworkAbstractModel;
+import com.philips.platform.catk.dto.GetConsentDto;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GetConsentsModelRequest extends NetworkAbstractModel {
+class GetConsentsModelRequest extends NetworkAbstractModel {
 
     @NonNull private String url;
     @NonNull private String mApplicationName;

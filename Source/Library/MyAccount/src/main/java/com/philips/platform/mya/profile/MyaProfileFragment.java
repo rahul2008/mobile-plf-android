@@ -5,6 +5,7 @@
  */
 package com.philips.platform.mya.profile;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -82,8 +83,8 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     }
 
     @Override
-    public String getActionbarTitle() {
-        return getString(R.string.MYA_My_account);
+    public String getActionbarTitle(Context context) {
+        return context.getString(R.string.MYA_My_account);
     }
 
     @Override

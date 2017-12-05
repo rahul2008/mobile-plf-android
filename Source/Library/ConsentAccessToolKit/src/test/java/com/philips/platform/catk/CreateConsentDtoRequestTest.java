@@ -5,16 +5,18 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.catk.dto;
+package com.philips.platform.catk;
 
 import com.android.volley.Request;
 import com.google.gson.JsonArray;
 import com.philips.cdp.registration.User;
 import com.philips.platform.catk.ConsentAccessToolKitManipulator;
+import com.philips.platform.catk.CreateConsentModelRequest;
+import com.philips.platform.catk.dto.CreateConsentDto;
 import com.philips.platform.catk.injection.CatkComponent;
 import com.philips.platform.catk.model.ConsentStatus;
-import com.philips.platform.catk.network.NetworkAbstractModel;
-import com.philips.platform.catk.network.NetworkController;
+import com.philips.platform.catk.NetworkAbstractModel;
+import com.philips.platform.catk.NetworkController;
 
 import org.junit.Before;
 import org.junit.Test;

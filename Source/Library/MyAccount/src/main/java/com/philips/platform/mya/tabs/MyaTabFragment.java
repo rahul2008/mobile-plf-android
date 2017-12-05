@@ -5,6 +5,7 @@
  */
 package com.philips.platform.mya.tabs;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -87,8 +88,8 @@ public class MyaTabFragment extends MyaBaseFragment {
     }
 
     @Override
-    public String getActionbarTitle() {
-        return getString(R.string.MYA_My_account);
+    public String getActionbarTitle(Context context) {
+        return context.getString(R.string.MYA_My_account);
     }
 
     @Override

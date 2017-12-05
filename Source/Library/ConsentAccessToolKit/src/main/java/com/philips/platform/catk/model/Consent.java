@@ -27,6 +27,11 @@ public class Consent {
         this.version = version;
     }
 
+    public Consent(Locale locale, ConsentStatus status, String type, int version, DateTime timestamp) {
+        this(locale, status, type, version);
+        this.timestamp = timestamp;
+    }
+
     public Locale getLocale() {
         return locale;
     }

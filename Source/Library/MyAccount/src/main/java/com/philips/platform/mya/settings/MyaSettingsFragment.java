@@ -5,6 +5,7 @@
  */
 package com.philips.platform.mya.settings;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -106,8 +107,8 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     }
 
     @Override
-    public String getActionbarTitle() {
-        return getString(R.string.MYA_My_account);
+    public String getActionbarTitle(Context context) {
+        return context.getString(R.string.MYA_My_account);
     }
 
     @Override
