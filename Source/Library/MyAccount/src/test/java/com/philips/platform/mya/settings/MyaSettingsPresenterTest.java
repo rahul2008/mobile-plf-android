@@ -18,7 +18,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.mock;
@@ -27,8 +26,8 @@ import static org.mockito.Mockito.when;
 
 public class MyaSettingsPresenterTest {
 
-    MyaSettingsContract.View view;
-    Context context;
+    private MyaSettingsContract.View view;
+    private Context context;
     private MyaSettingsPresenter myaSettingsPresenter;
 
     @Before
@@ -53,8 +52,7 @@ public class MyaSettingsPresenterTest {
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
         myaSettingsPresenter.getSettingItems(appInfraInterface, error);
-        Map dataModelLinkedHashMap = anyMap();
-        verify(view).showSettingsItems(dataModelLinkedHashMap);
+        verify(view).showSettingsItems(anyMap());
 
     }
 
