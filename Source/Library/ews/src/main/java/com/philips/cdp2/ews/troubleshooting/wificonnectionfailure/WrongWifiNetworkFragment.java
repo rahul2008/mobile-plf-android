@@ -17,6 +17,11 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.databinding.FragmentWrongWifiNetworkBinding;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
+import com.philips.cdp2.ews.injections.AppModule;
+import com.philips.cdp2.ews.injections.DaggerEWSComponent;
+import com.philips.cdp2.ews.injections.EWSConfigurationModule;
+import com.philips.cdp2.ews.injections.EWSModule;
+import com.philips.cdp2.ews.microapp.EWSLauncherInput;
 import com.philips.cdp2.ews.util.BundleUtils;
 
 public class WrongWifiNetworkFragment extends BaseFragment {
@@ -49,7 +54,12 @@ public class WrongWifiNetworkFragment extends BaseFragment {
 
     @NonNull
     private WrongWifiNetworkViewModel createViewModel() {
-        return getEWSComponent().wrongWifiNetworkViewModel();
+        return DaggerEWSComponent.builder()
+                .eWSModule(new EWSModule(this.getActivity()
+                        , EWSLauncherInput.getFragmentManager()
+                        , EWSLauncherInput.getContainerFrameId(), AppModule.getCommCentral()))
+                .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), AppModule.getContentConfiguration()))
+                .build().wrongWifiNetworkViewModel();
     }
 
     @NonNull

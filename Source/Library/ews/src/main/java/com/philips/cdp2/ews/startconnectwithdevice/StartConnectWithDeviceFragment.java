@@ -17,6 +17,11 @@ import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.databinding.FragmentStartConnectWithDeviceBinding;
+import com.philips.cdp2.ews.injections.AppModule;
+import com.philips.cdp2.ews.injections.DaggerEWSComponent;
+import com.philips.cdp2.ews.injections.EWSConfigurationModule;
+import com.philips.cdp2.ews.injections.EWSModule;
+import com.philips.cdp2.ews.microapp.EWSLauncherInput;
 
 public class StartConnectWithDeviceFragment extends BaseFragment {
 
@@ -34,7 +39,12 @@ public class StartConnectWithDeviceFragment extends BaseFragment {
 
     @NonNull
     private StartConnectWithDeviceViewModel createViewModel() {
-        return getEWSComponent().ewsGettingStartedViewModel();
+        return DaggerEWSComponent.builder()
+                .eWSModule(new EWSModule(this.getActivity()
+                        , EWSLauncherInput.getFragmentManager()
+                        , EWSLauncherInput.getContainerFrameId(), AppModule.getCommCentral()))
+                .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), AppModule.getContentConfiguration()))
+                .build().ewsGettingStartedViewModel();
     }
 
     @Override

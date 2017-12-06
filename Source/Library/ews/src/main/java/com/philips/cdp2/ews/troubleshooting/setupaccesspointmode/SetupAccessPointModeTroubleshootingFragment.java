@@ -11,6 +11,11 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseTroubleShootingFragment;
 import com.philips.cdp2.ews.databinding.FragmentSetupAccessPointTroubleshootingLayoutBinding;
+import com.philips.cdp2.ews.injections.AppModule;
+import com.philips.cdp2.ews.injections.DaggerEWSComponent;
+import com.philips.cdp2.ews.injections.EWSConfigurationModule;
+import com.philips.cdp2.ews.injections.EWSModule;
+import com.philips.cdp2.ews.microapp.EWSLauncherInput;
 
 public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShootingFragment {
 
@@ -33,7 +38,13 @@ public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShoo
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = getEWSComponent().setupAccessPointModeTroubleshootingViewModel();
+        viewModel = DaggerEWSComponent.builder()
+                .eWSModule(new EWSModule(this.getActivity()
+                        , EWSLauncherInput.getFragmentManager()
+                        , EWSLauncherInput.getContainerFrameId(), AppModule.getCommCentral()))
+                .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), AppModule.getContentConfiguration()))
+                .build().setupAccessPointModeTroubleshootingViewModel();
+
         setupAccessPointTroubleshootingLayoutBinding.setViewmodel(viewModel);
 
         view.findViewById(R.id.ews_H_03_04_button_done)

@@ -15,6 +15,11 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.databinding.FragmentFirstSetupStepsBinding;
+import com.philips.cdp2.ews.injections.AppModule;
+import com.philips.cdp2.ews.injections.DaggerEWSComponent;
+import com.philips.cdp2.ews.injections.EWSConfigurationModule;
+import com.philips.cdp2.ews.injections.EWSModule;
+import com.philips.cdp2.ews.microapp.EWSLauncherInput;
 
 public class FirstSetupStepsFragment extends BaseFragment {
 
@@ -33,7 +38,12 @@ public class FirstSetupStepsFragment extends BaseFragment {
 
     @NonNull
     private FirstSetupStepsViewModel createViewModel() {
-        return getEWSComponent().firstSetupStepsViewModel();
+        return DaggerEWSComponent.builder()
+                .eWSModule(new EWSModule(this.getActivity()
+                        , EWSLauncherInput.getFragmentManager()
+                        , EWSLauncherInput.getContainerFrameId(), AppModule.getCommCentral()))
+                .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), AppModule.getContentConfiguration()))
+                .build().firstSetupStepsViewModel();
     }
 
     @Override

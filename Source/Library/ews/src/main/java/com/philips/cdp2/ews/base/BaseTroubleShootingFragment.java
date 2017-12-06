@@ -4,7 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.injections.AppModule;
+import com.philips.cdp2.ews.injections.DaggerEWSComponent;
+import com.philips.cdp2.ews.injections.EWSConfigurationModule;
+import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
+import com.philips.cdp2.ews.microapp.EWSLauncherInput;
 
 public abstract class BaseTroubleShootingFragment extends BaseFragment {
 
@@ -22,7 +27,12 @@ public abstract class BaseTroubleShootingFragment extends BaseFragment {
     @Override
     public void handleCancelButtonClicked() {
         BaseTroubleShootingViewModel viewModel =
-                getEWSComponent().baseTroubleShootingViewModel();
+                DaggerEWSComponent.builder()
+                        .eWSModule(new EWSModule(this.getActivity()
+                                , EWSLauncherInput.getFragmentManager()
+                                , EWSLauncherInput.getContainerFrameId(), AppModule.getCommCentral()))
+                        .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), AppModule.getContentConfiguration()))
+                        .build().baseTroubleShootingViewModel();
         viewModel.onCancelButtonClicked();
     }
 

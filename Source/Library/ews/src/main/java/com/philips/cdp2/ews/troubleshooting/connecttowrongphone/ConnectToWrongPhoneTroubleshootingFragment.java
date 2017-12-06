@@ -11,6 +11,11 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseTroubleShootingFragment;
 import com.philips.cdp2.ews.databinding.FragmentConnectToWrongPhoneTroubleshootingLayoutBinding;
+import com.philips.cdp2.ews.injections.AppModule;
+import com.philips.cdp2.ews.injections.DaggerEWSComponent;
+import com.philips.cdp2.ews.injections.EWSConfigurationModule;
+import com.philips.cdp2.ews.injections.EWSModule;
+import com.philips.cdp2.ews.microapp.EWSLauncherInput;
 
 public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShootingFragment {
 
@@ -32,8 +37,14 @@ public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShoot
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = getEWSComponent()
+        viewModel = DaggerEWSComponent.builder()
+                .eWSModule(new EWSModule(this.getActivity()
+                        , EWSLauncherInput.getFragmentManager()
+                        , EWSLauncherInput.getContainerFrameId(), AppModule.getCommCentral()))
+                .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), AppModule.getContentConfiguration()))
+                .build()
                 .connectToWrongPhoneTroubleshootingViewModel();
+
         connectToWrongPhoneTroubleshootingLayoutBinding.setViewmodel(viewModel);
 
         view.findViewById(R.id.ews_H_03_01_button_yes)

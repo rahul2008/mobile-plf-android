@@ -30,7 +30,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {EWSModule.class, EWSConfigurationModule.class})
+@Component(modules = {EWSModule.class, EWSConfigurationModule.class, EWSDependencyProviderModule.class})
 public interface EWSComponent {
 
     void inject(EWSInterface ewsInterface);

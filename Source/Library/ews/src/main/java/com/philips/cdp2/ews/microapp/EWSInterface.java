@@ -10,7 +10,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.EWSActivity;
-import com.philips.cdp2.ews.configuration.ContentConfiguration;
+import com.philips.cdp2.ews.injections.AppModule;
+import com.philips.cdp2.ews.injections.DaggerEWSComponent;
+import com.philips.cdp2.ews.injections.EWSConfigurationModule;
+import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
@@ -40,8 +43,7 @@ public class EWSInterface implements UappInterface {
     Navigator navigator;
 
     private Context context;
-    private ContentConfiguration contentConfiguration;
-
+    private  AppModule appModule;
     /**
      * Entry point for EWS. Please make sure no EWS components are being used before EWSInterface$init.
      *
@@ -51,10 +53,8 @@ public class EWSInterface implements UappInterface {
     @Override
     public void init(@NonNull final UappDependencies uappDependencies, @NonNull final UappSettings uappSettings) {
         EWSDependencies ewsDependencies = (EWSDependencies) uappDependencies;
-        EWSDependencyProvider.getInstance().initDependencies(uappDependencies.getAppInfra(), ewsDependencies.getProductKeyMap(), ewsDependencies.getCommCentral());
+        appModule = new AppModule(uappDependencies.getAppInfra(), ewsDependencies.getCommCentral(), ewsDependencies.getProductKeyMap(), ewsDependencies.getContentConfiguration() );
         context = uappSettings.getContext();
-        EWSDependencyProvider.getInstance().setContext(context);
-        contentConfiguration = ewsDependencies.getContentConfiguration();
     }
 
     /**
@@ -65,7 +65,7 @@ public class EWSInterface implements UappInterface {
      */
     @Override
     public void launch(@NonNull final UiLauncher uiLauncher, @NonNull final UappLaunchInput uappLaunchInput) {
-        if (!EWSDependencyProvider.getInstance().areDependenciesInitialized()) {
+        if (!AppModule.areDependenciesInitialized()) {
             throw new UnsupportedOperationException(ERROR_MSG_INVALID_CALL);
         }
 
@@ -75,7 +75,7 @@ public class EWSInterface implements UappInterface {
             }
             launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
         } else if (uiLauncher instanceof ActivityLauncher) {
-            EWSDependencyProvider.getInstance().setThemeConfiguration(((ActivityLauncher) uiLauncher).getDlsThemeConfiguration());
+            appModule.setThemeConfiguration(((ActivityLauncher) uiLauncher).getDlsThemeConfiguration());
             launchAsActivity();
         }
     }
@@ -83,8 +83,13 @@ public class EWSInterface implements UappInterface {
     @VisibleForTesting
     void launchAsFragment(@NonNull final FragmentLauncher fragmentLauncher, @NonNull final UappLaunchInput uappLaunchInput) {
         try {
-            EWSDependencyProvider.getInstance().createEWSComponent(fragmentLauncher, contentConfiguration);
-            EWSDependencyProvider.getInstance().getEwsComponent().inject(this);
+            DaggerEWSComponent.builder()
+                    .eWSModule(new EWSModule(fragmentLauncher.getFragmentActivity()
+                            , fragmentLauncher.getFragmentActivity().getSupportFragmentManager()
+                            , fragmentLauncher.getParentContainerResourceID(), AppModule.getCommCentral()))
+                    .eWSConfigurationModule(new EWSConfigurationModule(fragmentLauncher.getFragmentActivity(), AppModule.getContentConfiguration()))
+                    .build().inject(this);
+
             ((EWSLauncherInput) uappLaunchInput).setContainerFrameId(fragmentLauncher.getParentContainerResourceID());
             ((EWSLauncherInput) uappLaunchInput).setFragmentManager(fragmentLauncher.getFragmentActivity().getSupportFragmentManager());
             navigator.navigateToGettingStartedScreen();
@@ -99,10 +104,9 @@ public class EWSInterface implements UappInterface {
     private void launchAsActivity() {
         Intent intent = new Intent(context, EWSActivity.class);
         intent.putExtra(SCREEN_ORIENTATION, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT);
-        intent.putExtra(EWSActivity.KEY_CONTENT_CONFIGURATION, contentConfiguration);
+        intent.putExtra(EWSActivity.KEY_CONTENT_CONFIGURATION, AppModule.getContentConfiguration());
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         context.startActivity(intent);
-
     }
 
 }

@@ -15,6 +15,10 @@ import android.view.View;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
+import com.philips.cdp2.ews.injections.AppModule;
+import com.philips.cdp2.ews.injections.DaggerEWSComponent;
+import com.philips.cdp2.ews.injections.EWSConfigurationModule;
+import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.Navigator;
@@ -42,7 +46,7 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!EWSDependencyProvider.getInstance().areDependenciesInitialized()){
+        if (!AppModule.areDependenciesInitialized()){
             this.finish();
             return;
         }
@@ -69,10 +73,17 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
             contentConfiguration = new ContentConfiguration();
         }
 
-        EWSDependencyProvider.getInstance().createEWSComponent(this, R.id.contentFrame,
-                contentConfiguration);
+        DaggerEWSComponent.builder()
+                .eWSModule(new EWSModule(this
+                        , this.getSupportFragmentManager()
+                        , R.id.contentFrame, AppModule.getCommCentral()))
+                .eWSConfigurationModule(new EWSConfigurationModule(this, contentConfiguration))
+                .build().inject(this);
 
-        EWSDependencyProvider.getInstance().getEwsComponent().inject(this);
+//        EWSDependencyProvider.getInstance().createEWSComponent(this, R.id.contentFrame,
+//                contentConfiguration);
+//
+//        EWSDependencyProvider.getInstance().getEwsComponent().inject(this);
     }
 
     @Override

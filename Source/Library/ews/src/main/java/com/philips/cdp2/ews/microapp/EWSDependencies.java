@@ -21,7 +21,7 @@ import java.util.Map;
 @SuppressWarnings("WeakerAccess")
 public abstract class EWSDependencies extends UappDependencies {
 
-    @NonNull private final Map<String, String> productKeyMap;
+    @NonNull private Map<String, String> productKeyMap;
     @Nullable private final ContentConfiguration contentConfiguration;
 
     /**
@@ -43,7 +43,7 @@ public abstract class EWSDependencies extends UappDependencies {
      * @return Product Map
      */
     @NonNull
-    public Map<String, String> getProductKeyMap() {
+    public  Map<String, String> getProductKeyMap() {
         return productKeyMap;
     }
 

@@ -5,23 +5,14 @@
 package com.philips.cdp2.ews.microapp;
 
 import android.content.Context;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.FragmentActivity;
 
-import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.ews.configuration.ContentConfiguration;
-import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.injections.EWSConfigurationModule;
-import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import java.util.Map;
 
@@ -36,16 +27,11 @@ public class EWSDependencyProvider {
     private AppInfraInterface appInfraInterface;
     private Map<String, String> productKeyMap;
 
-    @NonNull private CommCentral commCentral;
-
     @VisibleForTesting
     static EWSDependencyProvider instance;
 
     @VisibleForTesting
     EWSComponent ewsComponent;
-
-    @Nullable
-    private ThemeConfiguration themeConfiguration;
 
     @VisibleForTesting
     @Nullable
@@ -75,23 +61,6 @@ public class EWSDependencyProvider {
      */
     public void setContext(@Nullable Context context) {
         this.context = context;
-    }
-
-    /**
-     * Initialise Dependencies for EWSDependencyProvider.
-     * It will provide appInra and productkeymap where-ever required.
-     * @param appInfraInterface  AppInfraInterface
-     * @param productKeyMap     Map<String, String>
-     */
-    public void initDependencies(@NonNull final AppInfraInterface appInfraInterface,
-                                 @NonNull final Map<String, String> productKeyMap,
-                                 @NonNull CommCentral commCentral) {
-        this.appInfraInterface = appInfraInterface;
-        this.productKeyMap = productKeyMap;
-        this.commCentral = commCentral;
-        if (productKeyMap == null || !productKeyMap.containsKey(EWSInterface.PRODUCT_NAME)) {
-            throw new IllegalArgumentException("productKeyMap does not contain the productName");
-        }
     }
 
     /**
@@ -125,31 +94,6 @@ public class EWSDependencyProvider {
         return appTaggingInterface;
     }
 
-    /**
-     * Create EWSComponent(Dagger)  using FragmentLauncher and ContentConfiguration for Fragment Launch
-     * This need to called once before creating any injection
-     * @param fragmentLauncher  FragmentLauncher
-     * @param contentConfiguration  ContentConfiguration
-     */
-    void createEWSComponent(@NonNull FragmentLauncher fragmentLauncher, @NonNull ContentConfiguration contentConfiguration) {
-        createEWSComponent(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(), contentConfiguration);
-    }
-
-    /**
-     * Create EWSComponent(Dagger)  using FragmentActivity,parentContainerResourceID and ContentConfiguration for Activity Launch
-     * This need to called once before creating any injection
-     * @param fragmentActivity  FragmentActivity
-     * @param parentContainerResourceID  @IdRes int
-     * @param contentConfiguration  ContentConfiguration
-     */
-    public void createEWSComponent(@NonNull FragmentActivity fragmentActivity, @IdRes int parentContainerResourceID, @NonNull ContentConfiguration contentConfiguration) {
-        ewsComponent = DaggerEWSComponent.builder()
-                .eWSModule(new EWSModule(fragmentActivity
-                        , fragmentActivity.getSupportFragmentManager()
-                        , parentContainerResourceID, commCentral))
-                .eWSConfigurationModule(new EWSConfigurationModule(fragmentActivity, contentConfiguration))
-                .build();
-    }
 
     /**
      * Return EWSComponent
@@ -191,19 +135,4 @@ public class EWSDependencyProvider {
         ewsComponent = null;
     }
 
-    /**
-     * Setter for ThemeConfiguration
-     * @param themeConfiguration ThemeConfiguration
-     */
-    public void setThemeConfiguration(@Nullable ThemeConfiguration themeConfiguration) {
-        this.themeConfiguration = themeConfiguration;
-    }
-
-    /**
-     * Return ThemeConfiguration object.
-     * @return ThemeConfiguration
-     */
-    public ThemeConfiguration getThemeConfiguration() {
-        return themeConfiguration;
-    }
 }

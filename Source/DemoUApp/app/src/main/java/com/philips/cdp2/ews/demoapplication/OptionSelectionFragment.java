@@ -97,7 +97,8 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
         EWSInterface ewsInterface = new EWSInterface();
         ewsInterface.init(createUappDependencies(appInfra, createProductMap()), new UappSettings(getActivity()));
         //its upto propotion to pass theme or not ,if not passing theme then it will show default theme of library
-        ewsInterface.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, ((EWSDemoActivity) getActivity()).getThemeConfig(), -1, null), ((EWSDemoActivity) getActivity()).getEwsLauncherInput());
+        ewsInterface.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, ((EWSDemoActivity) getActivity()).getThemeConfig(), -1, null),
+                ((EWSDemoActivity) getActivity()).getEwsLauncherInput());
     }
 
     private void launchEWSFragmentUApp() {
