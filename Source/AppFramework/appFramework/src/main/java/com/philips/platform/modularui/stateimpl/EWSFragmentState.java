@@ -3,6 +3,7 @@ package com.philips.platform.modularui.stateimpl;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
@@ -77,7 +78,12 @@ public class EWSFragmentState extends BaseState {
         return new EWSDependencies(appInfra, createProductMap(),
                 new ContentConfiguration(new BaseContentConfiguration(),
                         new HappyFlowContentConfiguration.Builder().build(),
-                        new TroubleShootContentConfiguration.Builder().build()));
+                        new TroubleShootContentConfiguration.Builder().build())) {
+            @Override
+            public CommCentral getCommCentral() {
+                return ((AppFrameworkApplication) context.getApplicationContext()).getCommCentralInstance();
+            }
+        };
     }
 
 
