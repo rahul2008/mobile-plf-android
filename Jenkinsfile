@@ -88,6 +88,9 @@ node ('android&&docker') {
                 
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/MyAccount/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'MyAccount - release test'])
                 
+                // DexCount
+                publishHTML(target: [reportDir: 'Source/DemoApp/app/build/outputs/dexcount/deviceDebugChart', reportFiles:‘index.html’, reportName: ‘Dexcount’])
+                
                 archiveArtifacts '**/*dependencies*.lock'
             }
             stage('informing') {

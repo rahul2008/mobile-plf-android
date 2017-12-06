@@ -24,6 +24,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.2'
         classpath(builddeps.cdpSCM)
     }
 }
@@ -312,5 +313,7 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
 tasks.withType(Test) {
     ignoreFailures = true
 }
+
+apply plugin: 'com.getkeepsafe.dexcount'
 
 
