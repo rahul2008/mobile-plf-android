@@ -32,6 +32,7 @@ package com.philips.cdp2.ews.wifi;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiConfiguration.KeyMgmt;
+import android.support.annotation.NonNull;
 
 @SuppressWarnings("WeakerAccess")
 public class ConfigurationSecurities {
@@ -53,7 +54,7 @@ public class ConfigurationSecurities {
         return (config.wepKeys[0] != null) ? SECURITY_WEP : SECURITY_NONE;
     }
 
-    private static int getSecurity(ScanResult result) {
+    private static int getSecurity(@NonNull ScanResult result) {
         if (result.capabilities.contains("WEP")) {
             return SECURITY_WEP;
         } else if (result.capabilities.contains("PSK")) {
@@ -68,7 +69,7 @@ public class ConfigurationSecurities {
         return String.valueOf(getSecurity(wifiConfig));
     }
 
-    public String getScanResultSecurity(ScanResult scanResult) {
+    public String getScanResultSecurity(@NonNull ScanResult scanResult) {
         return String.valueOf(getSecurity(scanResult));
     }
 }

@@ -27,6 +27,7 @@ public class WiFiUtil {
     private static final String TAG = "WiFiUtil";
     public static final String DEVICE_SSID = "PHILIPS Setup";
     public static final String UNKNOWN_SSID = "<unknown ssid>";
+    @NonNull
     private WifiManager wifiManager;
 
     private String lastWifiSSid;
