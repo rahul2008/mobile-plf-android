@@ -27,7 +27,6 @@
         android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
         android:background="@null"
         android:clickable="false"
-        android:contentDescription="@string/action_settings"
         android:gravity="center"
         app:srcCompat="@drawable/ic_right_arrow_show_more" />
 </RelativeLayout>
