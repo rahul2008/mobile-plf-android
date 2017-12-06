@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
@@ -9,7 +9,8 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -38,9 +39,10 @@ if (project.hasProperty('envCode')) {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "ewsUApp"
 
 allprojects {
@@ -83,7 +85,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('aar')
+                publications('aar')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -93,7 +95,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 
@@ -129,7 +132,6 @@ android {
     buildToolsVersion "26.0.2"
 
     defaultConfig {
-        applicationId "com.philips.cdp2.ews.demoapplication"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode getMyVersionCode()
@@ -149,38 +151,15 @@ android {
     }
     buildTypes {
         debug {
-            minifyEnabled false
-            shrinkResources false
-            pseudoLocalesEnabled true
+
         }
         release {
-            signingConfig signingConfigs.release
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
         }
     }
     lintOptions {
         abortOnError false
     }
-
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def appName = "ews_demo_U_app_"
-            def buildType = variant.variantData.variantConfiguration.buildType.name
-            def newName = "${appName}${gitBranch()}_${buildType}_${getMyVersionCode()}.apk"
-            output.outputFile = new File(output.outputFile.parent, newName)
-        }
-    }
-}
-
-def gitBranch() {
-    def branch = ""
-    def proc = "git rev-parse --abbrev-ref HEAD".execute()
-    proc.in.eachLine { line -> branch += line }
-    proc.err.eachLine { line -> println line }
-    proc.waitFor()
-    branch.replaceAll("/", "-")
 }
 
 def getMyVersionCode() {

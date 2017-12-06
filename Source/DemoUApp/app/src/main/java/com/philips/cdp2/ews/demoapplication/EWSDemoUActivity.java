@@ -36,7 +36,7 @@ import com.philips.platform.uid.view.widget.ActionBarTextView;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener {
+public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListener {
 
     private SharedPreferences defaultSharedPreferences;
     private OptionSelectionFragment optionSelectionFragment;
@@ -135,13 +135,13 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_set_theme_settings:
-                saveThemeSettings();
-                restartActivity();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
+        int i = item.getItemId();
+        if (i == R.id.menu_set_theme_settings) {
+            saveThemeSettings();
+            restartActivity();
+
+        } else {
+            return super.onOptionsItemSelected(item);
         }
         return true;
     }
@@ -236,7 +236,7 @@ public class EWSDemoActivity extends UIDActivity implements EWSActionBarListener
 
     private void restartActivity() {
         injectNewTheme(colorRange, contentColor, navigationColor, accentColorRange);
-        Intent intent = new Intent(this, EWSDemoActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent intent = new Intent(this, EWSDemoUActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
