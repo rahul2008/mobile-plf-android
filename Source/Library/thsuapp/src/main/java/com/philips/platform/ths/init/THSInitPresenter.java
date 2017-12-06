@@ -212,8 +212,8 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
             @Override
             public void onRefreshLoginSessionFailedWithError(int i) {
                 AmwellLog.d(AmwellLog.LOG,"In onRefreshLoginSessionFailedWithError" + i);
-                mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_refresh_signon_failed));
                 mThsInitFragment.hideProgressBar();
+                mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_refresh_signon_failed));
             }
 
             @Override
