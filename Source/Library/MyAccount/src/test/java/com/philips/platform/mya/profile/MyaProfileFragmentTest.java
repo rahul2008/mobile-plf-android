@@ -1,7 +1,6 @@
 package com.philips.platform.mya.profile;
 
 import android.content.Context;
-import android.view.InflateException;
 
 import com.philips.platform.mya.BuildConfig;
 import com.philips.platform.mya.R;
@@ -12,7 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -36,10 +34,10 @@ public class MyaProfileFragmentTest {
     }
 
 
-    @Test(expected = InflateException.class)
+    /*@Test(expected = InflateException.class)
     public void testStartFragment_ShouldNotNul() {
         SupportFragmentTestUtil.startFragment(myaProfileFragment);
-    }
+    }*/
 
     @Test
     public void testEquals_getActionbarTitleResId() throws Exception{
