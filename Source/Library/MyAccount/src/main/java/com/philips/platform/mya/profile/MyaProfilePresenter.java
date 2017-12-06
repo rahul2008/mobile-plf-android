@@ -11,7 +11,6 @@ import android.os.Bundle;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBasePresenter;
 import com.philips.platform.mya.details.MyaDetailsFragment;
@@ -21,8 +20,6 @@ import com.philips.platform.myaplugin.user.UserDataModelProvider;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
-
-import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
 
 class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> implements MyaProfileContract.Presenter {
@@ -39,8 +36,7 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
     }
 
     @Override
-    public void setUserName(Bundle bundle) {
-        UserDataModelProvider userDataModelProvider = (UserDataModelProvider) bundle.getSerializable(USER_PLUGIN);
+    public void setUserName(UserDataModelProvider userDataModelProvider) {
         if (userDataModelProvider != null) {
             UserDataModel userDataModel = (UserDataModel) userDataModelProvider.getData(DataModelType.USER);
             setUserModel(userDataModel);
@@ -89,7 +85,7 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
                 profileList.put(profileKey, stringResourceByName);
             }
         } else {
-            profileList.put("MYA_My_details", view.getContext().getResources().getString(R.string.MYA_My_details));
+            profileList.put("MYA_My_details", view.getContext().getString(R.string.MYA_My_details));
         }
         return profileList;
     }

@@ -19,10 +19,13 @@ import android.widget.TextView;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
+import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
-import java.util.TreeMap;
+import java.util.Map;
+
+import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
 
 public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileContract.View {
@@ -71,7 +74,8 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         } else {
             arguments = savedInstanceState.getBundle(PROFILE_BUNDLE);
         }
-        presenter.setUserName(arguments);
+        if(arguments!=null)
+            presenter.setUserName((UserDataModelProvider) arguments.getSerializable(USER_PLUGIN));
         presenter.getProfileItems(MyaHelper.getInstance().getAppInfra());
     }
 
@@ -92,7 +96,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
     }
 
     @Override
-    public void showProfileItems(final TreeMap<String, String> profileList) {
+    public void showProfileItems(final Map<String, String> profileList) {
         MyaProfileAdaptor myaProfileAdaptor = new MyaProfileAdaptor(profileList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         RecyclerViewSeparatorItemDecoration contentThemedRightSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
@@ -103,7 +107,7 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         myaProfileAdaptor.setOnClickListener(getOnClickListener(profileList));
     }
 
-    private View.OnClickListener getOnClickListener(final TreeMap<String, String> profileList) {
+    private View.OnClickListener getOnClickListener(final Map<String, String> profileList) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
