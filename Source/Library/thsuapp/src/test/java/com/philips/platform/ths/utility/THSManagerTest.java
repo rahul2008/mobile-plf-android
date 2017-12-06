@@ -1278,4 +1278,10 @@ public class THSManagerTest {
         verify(thsConsumerShippingAddressCallbackMock).onFailure(any(Throwable.class));
     }
 
+    @Test
+    public void getRamdomPassword(){
+        final String s = thsManager.generatePasswordRandomly();
+        assert s.contains(anyString());
+    }
+
 }
