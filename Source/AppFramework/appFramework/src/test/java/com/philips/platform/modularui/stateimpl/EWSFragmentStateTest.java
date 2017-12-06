@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp2.commlib.core.util.ContextProvider;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
-import com.philips.cdp2.ews.microapp.EWSDependencies;
 import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -41,9 +40,13 @@ public class EWSFragmentStateTest {
     @Mock
     private ContentConfiguration contentConfiguration;
 
+    @Mock
+    private UappDependencies uappDependencies;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+
 
         ContextProvider.setTestingContext(context);
         ewsState = new EWSFragmentMock();
@@ -73,7 +76,7 @@ public class EWSFragmentStateTest {
         @Override
         protected UappDependencies getUappDependencies() {
 
-            return new EWSDependencies(appInfraInterface, createProductMap(), contentConfiguration);
+            return uappDependencies;
         }
 
         @NonNull
