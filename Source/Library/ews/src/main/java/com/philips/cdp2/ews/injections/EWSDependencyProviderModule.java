@@ -8,6 +8,7 @@ package com.philips.cdp2.ews.injections;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp2.ews.microapp.EWSInterface;
+import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -28,7 +29,7 @@ public class EWSDependencyProviderModule {
     private Map<String, String> productKeyMap;
 
     public EWSDependencyProviderModule(@NonNull final AppInfraInterface appInfraInterface,
-                                 @NonNull final Map<String, String> productKeyMap){
+                                       @NonNull final Map<String, String> productKeyMap){
         this.appInfraInterface = appInfraInterface;
         this.productKeyMap = productKeyMap;
 
@@ -63,6 +64,11 @@ public class EWSDependencyProviderModule {
         return appInfraInterface.getTagging().createInstanceForComponent("EasyWifiSetupTagger", "1.0.0");
     }
 
+    @Provides
+    @Singleton
+    public EWSTagger provideEWSTagger(){
+        return new EWSTagger(provideTaggingInterface());
+    }
 
     @Provides
     @Named("ProductName")
