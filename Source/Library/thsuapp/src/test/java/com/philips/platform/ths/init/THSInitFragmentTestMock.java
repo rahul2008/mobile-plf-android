@@ -17,7 +17,7 @@ public class THSInitFragmentTestMock extends THSInitFragment {
 
     }
 
-    protected void addCustomProgreeBar(ViewGroup view) {
+    protected void addCustomProgressBar(ViewGroup view) {
 
     }
 }

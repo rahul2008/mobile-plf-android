@@ -47,11 +47,11 @@ public class THSInitFragment extends THSBaseFragment {
     }
 
     private void initializeSDK(ViewGroup view) {
-        addCustomProgreeBar(view);
+        addCustomProgressBar(view);
         mThsInitPresenter.initializeAwsdk();
     }
 
-    protected void addCustomProgreeBar(ViewGroup view) {
+    protected void addCustomProgressBar(ViewGroup view) {
         LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = vi.inflate(R.layout.ths_custom_progress_bar, null, false);
         RelativeLayout.LayoutParams pbParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
