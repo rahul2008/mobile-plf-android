@@ -8,6 +8,7 @@ package com.philips.platform.ths.settings;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,7 +27,7 @@ import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_HISTORY_LIST;
 
-public class THSVisitHistoryFragment extends THSBaseFragment{
+public class THSVisitHistoryFragment extends THSBaseFragment implements SwipeRefreshLayout.OnRefreshListener{
 
     public static final String TAG = THSVisitHistoryFragment.class.getSimpleName();
     private RecyclerView mRecyclerView;
@@ -34,6 +35,8 @@ public class THSVisitHistoryFragment extends THSBaseFragment{
     protected THSVisitHistoryAdapter mThsVisitHistoryAdapter;
     private Label mNumberOfAppointmentsLabel;
     RelativeLayout mRelativeLayout;
+    protected SwipeRefreshLayout swipeRefreshLayout;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,6 +46,8 @@ public class THSVisitHistoryFragment extends THSBaseFragment{
         mRecyclerView = (RecyclerView) view.findViewById(R.id.ths_visit_dates_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRelativeLayout = (RelativeLayout) view.findViewById(R.id.providerListItemLayout);
+        swipeRefreshLayout = view.findViewById(R.id.ths_visit_dates_list_swipe_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
         mNumberOfAppointmentsLabel.setVisibility(View.GONE);
         return view;
     }
@@ -54,12 +59,12 @@ public class THSVisitHistoryFragment extends THSBaseFragment{
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_visit_history),true);
         }
-        createCustomProgressBar(mRelativeLayout,BIG);
-        mThsVisitHistoryPresenter.getVisitHistory();
+        onRefresh();
     }
 
     public void updateVisitHistoryView(List<VisitReport> visitReports) {
         if(getContext()!=null) {
+            stopRefreshing();
             mNumberOfAppointmentsLabel.setVisibility(View.VISIBLE);
             String text = getString(R.string.ths_number_of_visits_report, visitReports.size());
             mNumberOfAppointmentsLabel.setText(text);
@@ -68,9 +73,25 @@ public class THSVisitHistoryFragment extends THSBaseFragment{
         }
     }
 
+    public void stopRefreshing() {
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    public void startRefreshing() {
+        if (!swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(true);
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VISIT_HISTORY_LIST,null,null);
+    }
+
+    @Override
+    public void onRefresh() {
+        startRefreshing();
+        mThsVisitHistoryPresenter.getVisitHistory();
     }
 }
