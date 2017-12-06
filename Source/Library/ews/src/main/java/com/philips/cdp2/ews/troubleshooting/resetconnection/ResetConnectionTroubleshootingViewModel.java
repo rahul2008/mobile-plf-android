@@ -21,15 +21,17 @@ public class ResetConnectionTroubleshootingViewModel {
     @NonNull public final ObservableField<String> description;
     @NonNull private StringProvider stringProvider;
     @NonNull public final Drawable resetConnectionImage;
+    @NonNull private final EWSTagger ewsTagger;
 
     @Inject
     public ResetConnectionTroubleshootingViewModel(@NonNull Navigator navigator, @NonNull StringProvider stringProvider, @NonNull BaseContentConfiguration contentConfiguration,
-                                                   @NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
+                                                   @NonNull TroubleShootContentConfiguration troubleShootContentConfiguration, @NonNull final EWSTagger ewsTagger) {
         this.navigator = navigator;
         this.stringProvider = stringProvider;
         this.title = new ObservableField<>(getTitle(troubleShootContentConfiguration, contentConfiguration));
         this.description = new ObservableField<>(getNote(troubleShootContentConfiguration,contentConfiguration));
         this.resetConnectionImage = getResetConnectionImage(troubleShootContentConfiguration);
+        this.ewsTagger = ewsTagger;
     }
 
     void onYesButtonClicked() {
@@ -62,6 +64,6 @@ public class ResetConnectionTroubleshootingViewModel {
     }
 
     void trackPageName() {
-        EWSTagger.trackPage(Page.RESET_CONNECTION);
+        ewsTagger.trackPage(Page.RESET_CONNECTION);
     }
 }

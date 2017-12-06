@@ -17,10 +17,11 @@ import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.injections.AppModule;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
+import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.injections.EWSConfigurationModule;
+import com.philips.cdp2.ews.injections.EWSDependencyProviderModule;
 import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.BundleUtils;
@@ -43,6 +44,7 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
     @Inject
     BaseContentConfiguration baseContentConfiguration;
 
+    private EWSTagger ewsTagger;
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,12 +75,16 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
             contentConfiguration = new ContentConfiguration();
         }
 
-        DaggerEWSComponent.builder()
+        EWSComponent ewsComponent = DaggerEWSComponent.builder()
                 .eWSModule(new EWSModule(this
                         , this.getSupportFragmentManager()
                         , R.id.contentFrame, AppModule.getCommCentral()))
                 .eWSConfigurationModule(new EWSConfigurationModule(this, contentConfiguration))
-                .build().inject(this);
+                .eWSDependencyProviderModule(new EWSDependencyProviderModule(AppModule.getAppInfraInterface(), AppModule.getProductKeyMap()))
+                .build();
+        ewsComponent.inject(this);
+
+        ewsTagger = ewsComponent.getEWSTagger();
 
 //        EWSDependencyProvider.getInstance().createEWSComponent(this, R.id.contentFrame,
 //                contentConfiguration);
@@ -117,7 +123,6 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
 
     @Override
     protected void onDestroy() {
-        EWSDependencyProvider.getInstance().clear();
         super.onDestroy();
     }
 
@@ -174,12 +179,12 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
     @Override
     protected void onResume() {
         super.onResume();
-        EWSTagger.collectLifecycleInfo(this);
+        ewsTagger.collectLifecycleInfo(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        EWSTagger.pauseLifecycleInfo();
+        ewsTagger.pauseLifecycleInfo();
     }
 }

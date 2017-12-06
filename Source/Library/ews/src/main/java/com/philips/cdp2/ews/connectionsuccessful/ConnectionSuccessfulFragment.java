@@ -17,12 +17,7 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
 import com.philips.cdp2.ews.databinding.FragmentConnectionSuccessfulBinding;
-import com.philips.cdp2.ews.injections.AppModule;
-import com.philips.cdp2.ews.injections.DaggerEWSComponent;
-import com.philips.cdp2.ews.injections.EWSConfigurationModule;
-import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
-import com.philips.cdp2.ews.microapp.EWSLauncherInput;
 
 import javax.inject.Inject;
 
@@ -51,12 +46,7 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
 
     @NonNull
     private ConnectionSuccessfulViewModel createViewModel() {
-        return DaggerEWSComponent.builder()
-                .eWSModule(new EWSModule(this.getActivity()
-                        , EWSLauncherInput.getFragmentManager()
-                        , EWSLauncherInput.getContainerFrameId(), AppModule.getCommCentral()))
-                .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), AppModule.getContentConfiguration()))
-                .build().connectionSuccessfulViewModel();
+        return getEWSComponent().connectionSuccessfulViewModel();
     }
 
     @Override

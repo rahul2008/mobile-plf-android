@@ -18,13 +18,7 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.databinding.FragmentConnectingDeviceWithWifiBinding;
-import com.philips.cdp2.ews.injections.AppModule;
-import com.philips.cdp2.ews.injections.DaggerEWSComponent;
-import com.philips.cdp2.ews.injections.EWSConfigurationModule;
-import com.philips.cdp2.ews.injections.EWSModule;
-import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
-import com.philips.cdp2.ews.microapp.EWSLauncherInput;
 import com.philips.cdp2.ews.util.BundleUtils;
 
 public class ConnectingDeviceWithWifiFragment extends BaseFragment
@@ -114,12 +108,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
 
     @NonNull
     private ConnectingDeviceWithWifiViewModel createViewModel() {
-        return DaggerEWSComponent.builder()
-                .eWSModule(new EWSModule(this.getActivity()
-                        , EWSLauncherInput.getFragmentManager()
-                        , EWSLauncherInput.getContainerFrameId(), AppModule.getCommCentral()))
-                .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), AppModule.getContentConfiguration()))
-                .build().connectingDeviceWithWifiViewModel();
+        return getEWSComponent().connectingDeviceWithWifiViewModel();
     }
 
     @Override
@@ -133,7 +122,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
         try {
             getActivity().unregisterReceiver(receiver);
         } catch (IllegalArgumentException e) {
-            EWSLogger.d(TAG, e.toString());
+            viewModel.getEwsLogger().d(TAG, e.toString());
         }
     }
 

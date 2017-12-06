@@ -37,13 +37,15 @@ public class ConnectWithPasswordViewModel extends BaseObservable {
     @NonNull private final Navigator navigator;
     @NonNull private final StringProvider stringProvider;
     @NonNull private final BaseContentConfiguration baseContentConfiguration;
+    @NonNull private final EWSTagger ewsTagger;
 
     @Inject
     public ConnectWithPasswordViewModel(@NonNull final WiFiUtil wiFiUtil,
                                         @NonNull final ApplianceSessionDetailsInfo sessionDetailsInfo,
                                         @NonNull final Navigator navigator,
                                         @NonNull BaseContentConfiguration baseConfig,
-                                        @NonNull StringProvider stringProvider) {
+                                        @NonNull StringProvider stringProvider,
+                                        @NonNull final EWSTagger ewsTagger) {
         this.wiFiUtil = wiFiUtil;
         this.sessionDetailsInfo = sessionDetailsInfo;
         this.navigator = navigator;
@@ -54,6 +56,7 @@ public class ConnectWithPasswordViewModel extends BaseObservable {
         title = new ObservableField<>(getTitle(baseConfig));
         note = new ObservableField<>(getNote(baseConfig));
         this.baseContentConfiguration = baseConfig;
+        this.ewsTagger = ewsTagger;
 
     }
 
@@ -115,6 +118,6 @@ public class ConnectWithPasswordViewModel extends BaseObservable {
     }
 
     public void trackPageName() {
-        EWSTagger.trackPage(Page.CONNECT_WITH_PASSWORD);
+        ewsTagger.trackPage(Page.CONNECT_WITH_PASSWORD);
     }
 }

@@ -62,12 +62,18 @@ public class SecondSetupStepsViewModel {
     @Nullable
     private LocationPermissionFlowCallback locationPermissionFlowCallback;
 
+    @NonNull private final EWSTagger ewsTagger;
+
+    @NonNull private final EWSLogger ewsLogger;
+
     @Inject
     public SecondSetupStepsViewModel(@NonNull final Navigator navigator,
                                      @NonNull final PermissionHandler permissionHandler,
                                      @NonNull final StringProvider stringProvider,
                                      @NonNull final HappyFlowContentConfiguration happyFlowContentConfiguration,
-                                     @NonNull final BaseContentConfiguration baseContentConfiguration) {
+                                     @NonNull final BaseContentConfiguration baseContentConfiguration,
+                                     @NonNull final EWSTagger ewsTagger,
+                                     @NonNull final EWSLogger ewsLogger) {
         this.stringProvider = stringProvider;
         this.question = new ObservableField<>(getQuestion(happyFlowContentConfiguration));
         this.title = new ObservableField<>(getTitle(happyFlowContentConfiguration));
@@ -77,6 +83,8 @@ public class SecondSetupStepsViewModel {
         this.navigator = navigator;
         this.permissionHandler = permissionHandler;
         this.baseContentConfiguration = baseContentConfiguration;
+        this.ewsTagger = ewsTagger;
+        this.ewsLogger = ewsLogger;
     }
 
     @VisibleForTesting
@@ -120,31 +128,31 @@ public class SecondSetupStepsViewModel {
     }
 
     private void tapWifiNotBlinking() {
-        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.WIFI_NOT_BLINKING);
+        ewsTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.WIFI_NOT_BLINKING);
     }
 
     private void tapWifiBlinking() {
-        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.WIFI_BLINKING);
+        ewsTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.WIFI_BLINKING);
     }
 
     void tagLocationPermission() {
-        EWSTagger.trackInAppNotification(Page.SETUP_STEP2, Tag.VALUE.LOCATION_PERMISSION_NOTIFICATION);
+        ewsTagger.trackInAppNotification(Page.SETUP_STEP2, Tag.VALUE.LOCATION_PERMISSION_NOTIFICATION);
     }
 
     void tagLocationPermissionAllow() {
-        EWSTagger.trackInAppNotificationResponse(Tag.ACTION.ALLOW);
+        ewsTagger.trackInAppNotificationResponse(Tag.ACTION.ALLOW);
     }
 
     void tagLocationPermissionCancel() {
-        EWSTagger.trackInAppNotificationResponse(Tag.ACTION.CANCEL_SETUP);
+        ewsTagger.trackInAppNotificationResponse(Tag.ACTION.CANCEL_SETUP);
     }
 
     void tagLocationDisabled() {
-        EWSTagger.trackInAppNotification(Page.SETUP_STEP2, Tag.VALUE.LOCATION_DISABLED_NOTIFICATION);
+        ewsTagger.trackInAppNotification(Page.SETUP_STEP2, Tag.VALUE.LOCATION_DISABLED_NOTIFICATION);
     }
 
     void tagLocationOpenSettings() {
-        EWSTagger.trackInAppNotificationResponse(Tag.ACTION.OPEN_LOCATION_SETTINGS);
+        ewsTagger.trackInAppNotificationResponse(Tag.ACTION.OPEN_LOCATION_SETTINGS);
     }
 
     protected void startConnection() {
@@ -153,7 +161,7 @@ public class SecondSetupStepsViewModel {
     }
 
     void trackPageName() {
-        EWSTagger.trackPage(Page.SETUP_STEP2);
+        ewsTagger.trackPage(Page.SETUP_STEP2);
     }
 
     public void connectPhoneToDeviceHotspotWifi() {
@@ -167,7 +175,7 @@ public class SecondSetupStepsViewModel {
     }
 
     private void connect() {
-        EWSLogger.d(EWS_STEPS, "Step 1 : Trying to connect to appliance hot spot");
+        ewsLogger.d(EWS_STEPS, "Step 1 : Trying to connect to appliance hot spot");
         if (GpsUtil.isGPSRequiredForWifiScan() && !GpsUtil.isGPSEnabled(fragment.getContext())) {
             if (locationPermissionFlowCallback != null) {
                 locationPermissionFlowCallback.showGPSEnableDialog(baseContentConfiguration);

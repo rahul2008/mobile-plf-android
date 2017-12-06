@@ -38,12 +38,7 @@ public class FirstSetupStepsFragment extends BaseFragment {
 
     @NonNull
     private FirstSetupStepsViewModel createViewModel() {
-        return DaggerEWSComponent.builder()
-                .eWSModule(new EWSModule(this.getActivity()
-                        , EWSLauncherInput.getFragmentManager()
-                        , EWSLauncherInput.getContainerFrameId(), AppModule.getCommCentral()))
-                .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), AppModule.getContentConfiguration()))
-                .build().firstSetupStepsViewModel();
+        return getEWSComponent().firstSetupStepsViewModel();
     }
 
     @Override

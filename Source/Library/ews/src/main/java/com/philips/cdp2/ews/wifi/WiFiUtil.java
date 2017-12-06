@@ -12,7 +12,6 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.util.TextUtil;
 
 import java.util.List;
@@ -85,7 +84,7 @@ public class WiFiUtil {
     @WiFiState
     int getCurrentWifiState() {
         String currentWifi = getConnectedWiFiSSID();
-        EWSLogger.d(TAG, "Connected to:" + (currentWifi == null ? "Nothing" : currentWifi));
+        //EWSLogger.d(TAG, "Connected to:" + (currentWifi == null ? "Nothing" : currentWifi));
 
         if (lastWifiSSid == null || currentWifi == null || currentWifi
                 .equalsIgnoreCase(UNKNOWN_SSID)) {
@@ -96,9 +95,9 @@ public class WiFiUtil {
             return HOME_WIFI;
         } else if (!lastWifiSSid.equals(currentWifi)
                 && !lastWifiSSid.equals(DEVICE_SSID)) {
-            EWSLogger.d(TAG,
-                    "Connected to wrong wifi, Current wifi " + currentWifi + " Home wifi " +
-                            lastWifiSSid);
+//            EWSLogger.d(TAG,
+//                    "Connected to wrong wifi, Current wifi " + currentWifi + " Home wifi " +
+//                            lastWifiSSid);
             return WRONG_WIFI;
         }
         return UNKNOWN_WIFI;
@@ -107,13 +106,13 @@ public class WiFiUtil {
     public void forgetHotSpotNetwork(String hotSpotWiFiSSID) {
         List<WifiConfiguration> configs = wifiManager.getConfiguredNetworks();
         for (WifiConfiguration config : configs) {
-            EWSLogger.d(TAG, "Pre configured Wifi ssid " + config.SSID);
+            //EWSLogger.d(TAG, "Pre configured Wifi ssid " + config.SSID);
             String cleanSSID = config.SSID;
             cleanSSID = cleanSSID.replaceAll("^\"|\"$", "");
             if (cleanSSID.equals(hotSpotWiFiSSID)) {
                 boolean success = wifiManager.removeNetwork(config.networkId);
                 wifiManager.saveConfiguration();
-                EWSLogger.i(TAG, "Removing network " + success);
+                //EWSLogger.i(TAG, "Removing network " + success);
             }
         }
     }

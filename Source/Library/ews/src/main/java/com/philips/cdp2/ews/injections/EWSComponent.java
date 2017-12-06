@@ -12,12 +12,14 @@ import com.philips.cdp2.ews.confirmwifi.ConfirmWifiNetworkViewModel;
 import com.philips.cdp2.ews.connectionsuccessful.ConnectionSuccessfulViewModel;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiViewModel;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel;
+import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordViewModel;
 import com.philips.cdp2.ews.setupsteps.FirstSetupStepsViewModel;
 import com.philips.cdp2.ews.setupsteps.SecondSetupStepsViewModel;
 import com.philips.cdp2.ews.startconnectwithdevice.StartConnectWithDeviceViewModel;
+import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingViewModel;
 import com.philips.cdp2.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingViewModel;
 import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingViewModel;
@@ -70,4 +72,9 @@ public interface EWSComponent {
     ConnectionSuccessfulViewModel connectionSuccessfulViewModel();
 
     BaseContentConfiguration getBaseContentConfiguration();
+
+    EWSTagger getEWSTagger();
+
+    EWSLogger getEWSLogger();
+
 }

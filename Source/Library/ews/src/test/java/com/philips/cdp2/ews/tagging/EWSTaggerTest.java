@@ -6,7 +6,6 @@ package com.philips.cdp2.ews.tagging;
 
 import android.app.Activity;
 
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.tagging.Tag.ACTION;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 

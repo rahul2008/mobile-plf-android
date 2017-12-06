@@ -20,11 +20,6 @@ import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConfirmWifiNetworkBinding;
 import com.philips.cdp2.ews.dialog.EWSAlertDialogFragment;
-import com.philips.cdp2.ews.injections.AppModule;
-import com.philips.cdp2.ews.injections.DaggerEWSComponent;
-import com.philips.cdp2.ews.injections.EWSConfigurationModule;
-import com.philips.cdp2.ews.injections.EWSModule;
-import com.philips.cdp2.ews.microapp.EWSLauncherInput;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.platform.uid.thememanager.UIDHelper;
@@ -55,12 +50,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
     @VisibleForTesting
     @NonNull
     ConfirmWifiNetworkViewModel createViewModel() {
-        return DaggerEWSComponent.builder()
-                .eWSModule(new EWSModule(this.getActivity()
-                        , EWSLauncherInput.getFragmentManager()
-                        , EWSLauncherInput.getContainerFrameId(), AppModule.getCommCentral()))
-                .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), AppModule.getContentConfiguration()))
-                .build().confirmWifiNetworkViewModel();
+        return getEWSComponent().confirmWifiNetworkViewModel();
     }
 
     @Override
@@ -81,7 +71,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
     }
 
     @Override
-    public void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration) {
+    public void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration, @NonNull final EWSTagger ewsTagger) {
         if (getChildFragmentManager().findFragmentByTag(AlertDialogFragment.class.getCanonicalName()) == null) {
             Context context = getContext();
             final View view = LayoutInflater.from(context).cloneInContext(UIDHelper.getPopupThemedContext(context)).inflate(R.layout.troubleshoot_home_wifi_fragment,
@@ -96,7 +86,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
             alertDialogFragment.setDialogLifeCycleListener(new EWSAlertDialogFragment.DialogLifeCycleListener() {
                 @Override
                 public void onStart() {
-                    EWSTagger.trackPage(Page.SELECT_HOME_WIFI);
+                    ewsTagger.trackPage(Page.SELECT_HOME_WIFI);
                 }
             });
             alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());

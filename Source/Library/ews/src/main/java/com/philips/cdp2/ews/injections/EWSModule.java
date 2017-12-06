@@ -25,16 +25,16 @@ import com.philips.cdp2.ews.appliance.EWSGenericAppliance;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
+import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
 import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordViewModel;
 import com.philips.cdp2.ews.setupsteps.SecondSetupStepsViewModel;
+import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
-import java.io.Serializable;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 
@@ -118,9 +118,10 @@ public class EWSModule {
                                                                    @NonNull final ApplianceSessionDetailsInfo sessionInfo,
                                                                    @NonNull final Navigator navigator,
                                                                    @NonNull BaseContentConfiguration baseContentConfiguration,
-                                                                   @NonNull StringProvider stringProvider) {
+                                                                   @NonNull StringProvider stringProvider,
+                                                                   @NonNull final EWSTagger ewsTagger) {
         return new ConnectWithPasswordViewModel(wifiUtil, sessionInfo, navigator,
-                baseContentConfiguration, stringProvider);
+                baseContentConfiguration, stringProvider, ewsTagger);
     }
 
     @Provides
@@ -128,10 +129,12 @@ public class EWSModule {
             @NonNull final Navigator navigator,
             @NonNull final PermissionHandler permissionHandler,
             @NonNull HappyFlowContentConfiguration happyFlowContentConfiguration,
-            @NonNull StringProvider stringProvider, @NonNull BaseContentConfiguration baseContentConfiguration) {
+            @NonNull StringProvider stringProvider, @NonNull BaseContentConfiguration baseContentConfiguration,
+            @NonNull final EWSTagger ewsTagger,
+            @NonNull final EWSLogger ewsLogger) {
 
         return new SecondSetupStepsViewModel(navigator,
-                permissionHandler, stringProvider, happyFlowContentConfiguration, baseContentConfiguration);
+                permissionHandler, stringProvider, happyFlowContentConfiguration, baseContentConfiguration, ewsTagger, ewsLogger);
     }
 
 

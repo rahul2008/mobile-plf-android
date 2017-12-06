@@ -7,7 +7,6 @@ import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
-import com.philips.cdp2.ews.logger.EWSLogger;
 
 public class DiscoveryHelper {
 
@@ -52,8 +51,8 @@ public class DiscoveryHelper {
             commCentral.getApplianceManager().addApplianceListener(applianceListener);
             commCentral.startDiscovery();
         } catch (MissingPermissionException e) {
-            EWSLogger.e(TAG, "Starting LAN discovery threw MissingPermissionException exception " +
-                    e.getLocalizedMessage());
+//            EWSLogger.e(TAG, "Starting LAN discovery threw MissingPermissionException exception " +
+//                    e.getLocalizedMessage());
         }
     }
 

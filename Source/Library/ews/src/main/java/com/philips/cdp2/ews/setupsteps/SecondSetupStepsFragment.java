@@ -21,11 +21,6 @@ import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentSecondSetupStepsBinding;
 import com.philips.cdp2.ews.dialog.EWSAlertDialogFragment;
-import com.philips.cdp2.ews.injections.AppModule;
-import com.philips.cdp2.ews.injections.DaggerEWSComponent;
-import com.philips.cdp2.ews.injections.EWSConfigurationModule;
-import com.philips.cdp2.ews.injections.EWSModule;
-import com.philips.cdp2.ews.microapp.EWSLauncherInput;
 import com.philips.cdp2.ews.setupsteps.SecondSetupStepsViewModel.LocationPermissionFlowCallback;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -54,12 +49,7 @@ public class SecondSetupStepsFragment extends BaseFragment implements LocationPe
 
     @NonNull
     private SecondSetupStepsViewModel createViewModel() {
-        return DaggerEWSComponent.builder()
-                .eWSModule(new EWSModule(this.getActivity()
-                        , EWSLauncherInput.getFragmentManager()
-                        , EWSLauncherInput.getContainerFrameId(), AppModule.getCommCentral()))
-                .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), AppModule.getContentConfiguration()))
-                .build().secondSetupStepsViewModel();
+        return getEWSComponent().secondSetupStepsViewModel();
     }
 
     @Override

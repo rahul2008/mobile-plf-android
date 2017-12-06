@@ -26,7 +26,6 @@ import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.logger.EWSLogger;
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameChanger;
 import com.philips.cdp2.ews.tagging.EWSTagger;
@@ -85,6 +84,17 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     @NonNull
     private final ApplianceSessionDetailsInfo applianceSessionDetailsInfo;
 
+    @NonNull private final EWSTagger ewsTagger;
+
+    @NonNull
+    public EWSLogger getEwsLogger() {
+        return ewsLogger;
+    }
+
+    @NonNull private final EWSLogger ewsLogger;
+
+    @NonNull private final String productNme;
+
     @NonNull
     private final Runnable timeoutRunnable = new Runnable() {
         @Override
@@ -107,7 +117,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
                 applianceSessionDetailsInfo.setCppId(wifiPortProperties.getCppid());
                 connectToHomeWifiInternal(startConnectionModel.getHomeWiFiSSID());
             } else {
-                EWSLogger.e(TAG, "startConnectionModel cannot be null");
+                ewsLogger.e(TAG, "startConnectionModel cannot be null");
             }
         }
 
@@ -163,7 +173,9 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
                                              @NonNull DiscoveryHelper discoveryHelper,
                                              @NonNull final BaseContentConfiguration baseContentConfiguration,
                                              @NonNull final StringProvider stringProvider,
-                                             @NonNull ApplianceSessionDetailsInfo applianceSessionDetailsInfo) {
+                                             @NonNull ApplianceSessionDetailsInfo applianceSessionDetailsInfo,
+                                             @NonNull final EWSTagger ewsTagger, @NonNull final EWSLogger ewsLogger,
+                                             @NonNull @Named("ProductName") String productName) {
         this.applianceAccessManager = applianceAccessManager;
         this.navigator = navigator;
         this.wiFiConnectivityManager = wiFiConnectivityManager;
@@ -174,6 +186,9 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         this.stringProvider = stringProvider;
         this.title = new ObservableField<>(getTitle(baseContentConfiguration));
         this.applianceSessionDetailsInfo = applianceSessionDetailsInfo;
+        this.ewsTagger = ewsTagger;
+        this.ewsLogger = ewsLogger;
+        this.productNme = productName;
     }
 
     void setFragmentCallback(@Nullable ConnectingDeviceToWifiCallback fragmentCallback) {
@@ -211,9 +226,9 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     }
 
     private void tagConnectionStart() {
-        EWSTagger.startTimedAction(Tag.ACTION.TIME_TO_CONNECT);
-        EWSTagger.trackAction(Tag.ACTION.CONNECTION_START, Tag.KEY.PRODUCT_NAME,
-                EWSDependencyProvider.getInstance().getProductName());
+        ewsTagger.startTimedAction(Tag.ACTION.TIME_TO_CONNECT);
+        ewsTagger.trackAction(Tag.ACTION.CONNECTION_START, Tag.KEY.PRODUCT_NAME,
+                productNme);
     }
 
     private void removeTimeoutRunnable() {
@@ -263,7 +278,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         if (startConnectionModel != null) {
             sendNetworkInfoToDevice(startConnectionModel);
         } else {
-            EWSLogger.e(TAG, "startConnectionModel cannot be null");
+            ewsLogger.e(TAG, "startConnectionModel cannot be null");
         }
     }
 
@@ -280,7 +295,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     }
 
     public void trackPageName() {
-        EWSTagger.trackPage(Page.CONNECTING_DEVICE_WITH_WIFI);
+        ewsTagger.trackPage(Page.CONNECTING_DEVICE_WITH_WIFI);
     }
 
     @Nullable

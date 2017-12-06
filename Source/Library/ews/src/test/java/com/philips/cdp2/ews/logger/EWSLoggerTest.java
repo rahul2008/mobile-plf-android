@@ -5,7 +5,6 @@
 
 package com.philips.cdp2.ews.logger;
 
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import org.junit.Before;

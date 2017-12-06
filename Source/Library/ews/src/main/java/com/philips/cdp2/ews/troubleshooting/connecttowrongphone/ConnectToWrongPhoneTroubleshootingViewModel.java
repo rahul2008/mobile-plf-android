@@ -33,17 +33,22 @@ public class ConnectToWrongPhoneTroubleshootingViewModel {
     @NonNull
     private final StringProvider stringProvider;
 
+    @NonNull private final EWSTagger ewsTagger;
+
     @Inject
     public ConnectToWrongPhoneTroubleshootingViewModel(@NonNull Navigator navigator,
                                                        @NonNull StringProvider stringProvider,
                                                        @NonNull BaseContentConfiguration contentConfiguration,
-                                                       @NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
+                                                       @NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
+                                                       @NonNull final EWSTagger ewsTagger) {
         this.navigator = navigator;
         this.stringProvider = stringProvider;
         this.title = new ObservableField<>(getTitle(troubleShootContentConfiguration, contentConfiguration));
         this.description = new ObservableField<>(getBody(troubleShootContentConfiguration, contentConfiguration));
         this.questions = new ObservableField<>(getQuestions(troubleShootContentConfiguration, contentConfiguration));
         this.connectWrongImage = getWrongPhoneImage(troubleShootContentConfiguration);
+        this.ewsTagger = ewsTagger;
+
     }
 
     @NonNull
@@ -83,7 +88,7 @@ public class ConnectToWrongPhoneTroubleshootingViewModel {
     }
 
     void trackPageName() {
-        EWSTagger.trackPage(Page.CONNECT_TO_WRONG_PHONE);
+        ewsTagger.trackPage(Page.CONNECT_TO_WRONG_PHONE);
     }
 
 

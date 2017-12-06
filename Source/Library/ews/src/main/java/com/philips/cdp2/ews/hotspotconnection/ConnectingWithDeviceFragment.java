@@ -18,14 +18,7 @@ import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentConnectingWithDeviceBinding;
 import com.philips.cdp2.ews.dialog.EWSAlertDialogFragment;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel.ConnectingPhoneToHotSpotCallback;
-import com.philips.cdp2.ews.injections.AppModule;
-import com.philips.cdp2.ews.injections.DaggerEWSComponent;
-import com.philips.cdp2.ews.injections.EWSConfigurationModule;
-import com.philips.cdp2.ews.injections.EWSModule;
-import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
-import com.philips.cdp2.ews.microapp.EWSLauncherInput;
-import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -78,14 +71,14 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
         try {
             getActivity().unregisterReceiver(receiver);
         } catch (IllegalArgumentException e) {
-            EWSLogger.e(TAG, e.toString());
+            viewModel.getEwsLogger().e(TAG, e.toString());
         }
     }
 
     @Override
     public void showTroubleshootHomeWifiDialog(@NonNull  BaseContentConfiguration baseContentConfiguration) {
         Context context = getContext();
-        View view = LayoutInflater.from(context).cloneInContext(UIDHelper.getPopupThemedContext(context)).inflate(R.layout.ews_device_conn_unsuccessful_dialog,
+        final View view = LayoutInflater.from(context).cloneInContext(UIDHelper.getPopupThemedContext(context)).inflate(R.layout.ews_device_conn_unsuccessful_dialog,
                 null, false);
 
         EWSAlertDialogFragment.Builder builder = new EWSAlertDialogFragment.Builder(context)
@@ -97,7 +90,7 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
         alertDialogFragment.setDialogLifeCycleListener(new EWSAlertDialogFragment.DialogLifeCycleListener() {
             @Override
             public void onStart() {
-                EWSTagger.trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
+                viewModel.getEwsTagger().trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
             }
         });
         alertDialogFragment.showAllowingStateLoss(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
@@ -148,11 +141,6 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
     }
 
     private ConnectingWithDeviceViewModel createViewModel() {
-        return DaggerEWSComponent.builder()
-                .eWSModule(new EWSModule(this.getActivity()
-                        , EWSLauncherInput.getFragmentManager()
-                        , EWSLauncherInput.getContainerFrameId(), AppModule.getCommCentral()))
-                .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), AppModule.getContentConfiguration()))
-                .build().connectingWithDeviceViewModel();
+        return getEWSComponent().connectingWithDeviceViewModel();
     }
 }

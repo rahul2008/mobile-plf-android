@@ -10,13 +10,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.EWSActivity;
+import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.injections.AppModule;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
+import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.injections.EWSConfigurationModule;
+import com.philips.cdp2.ews.injections.EWSDependencyProviderModule;
 import com.philips.cdp2.ews.injections.EWSModule;
-import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
-import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -76,32 +77,36 @@ public class EWSInterface implements UappInterface {
             launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
         } else if (uiLauncher instanceof ActivityLauncher) {
             appModule.setThemeConfiguration(((ActivityLauncher) uiLauncher).getDlsThemeConfiguration());
-            launchAsActivity();
+            launchAsActivity( uappLaunchInput);
         }
     }
 
     @VisibleForTesting
     void launchAsFragment(@NonNull final FragmentLauncher fragmentLauncher, @NonNull final UappLaunchInput uappLaunchInput) {
+        EWSComponent ewsComponent = null;
         try {
-            DaggerEWSComponent.builder()
+            ewsComponent = DaggerEWSComponent.builder()
                     .eWSModule(new EWSModule(fragmentLauncher.getFragmentActivity()
                             , fragmentLauncher.getFragmentActivity().getSupportFragmentManager()
                             , fragmentLauncher.getParentContainerResourceID(), AppModule.getCommCentral()))
                     .eWSConfigurationModule(new EWSConfigurationModule(fragmentLauncher.getFragmentActivity(), AppModule.getContentConfiguration()))
-                    .build().inject(this);
+                    .eWSDependencyProviderModule(new EWSDependencyProviderModule(AppModule.getAppInfraInterface(), AppModule.getProductKeyMap()))
+                    .build();
 
+            ewsComponent.inject(this);
             ((EWSLauncherInput) uappLaunchInput).setContainerFrameId(fragmentLauncher.getParentContainerResourceID());
             ((EWSLauncherInput) uappLaunchInput).setFragmentManager(fragmentLauncher.getFragmentActivity().getSupportFragmentManager());
             navigator.navigateToGettingStartedScreen();
-            EWSTagger.collectLifecycleInfo(fragmentLauncher.getFragmentActivity());
+            ewsComponent.getEWSTagger().collectLifecycleInfo(fragmentLauncher.getFragmentActivity());
         } catch (Exception e) {
-            EWSLogger.e(TAG,
+            ewsComponent.getEWSLogger().e(TAG,
                     "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
                             + e.getMessage());
         }
     }
 
-    private void launchAsActivity() {
+    private void launchAsActivity(@NonNull final UappLaunchInput uappLaunchInput) {
+        ((EWSLauncherInput) uappLaunchInput).setContainerFrameId(R.id.contentFrame);
         Intent intent = new Intent(context, EWSActivity.class);
         intent.putExtra(SCREEN_ORIENTATION, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT);
         intent.putExtra(EWSActivity.KEY_CONTENT_CONFIGURATION, AppModule.getContentConfiguration());

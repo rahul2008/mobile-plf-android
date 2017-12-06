@@ -31,13 +31,17 @@ public class WrongWifiNetworkViewModel {
     @NonNull
     private BaseContentConfiguration baseContentConfiguration;
 
+    @NonNull private final EWSTagger ewsTagger;
+
     @Inject
-    public WrongWifiNetworkViewModel(@NonNull Navigator navigator, @NonNull BaseContentConfiguration baseContentConfiguration) {
+    public WrongWifiNetworkViewModel(@NonNull Navigator navigator, @NonNull BaseContentConfiguration baseContentConfiguration,
+                                     @NonNull final EWSTagger ewsTagger) {
         this.navigator = navigator;
         upperDescription = new ObservableField<>();
         lowerDescription = new ObservableField<>();
         stepFourText = new ObservableField<>();
         this.baseContentConfiguration = baseContentConfiguration;
+        this.ewsTagger = ewsTagger;
     }
 
     void setUpperDescription(@NonNull String name) {
@@ -70,6 +74,6 @@ public class WrongWifiNetworkViewModel {
     }
 
     void trackPageName() {
-        EWSTagger.trackPage(Page.WRONG_WIFI_NETWORK);
+        ewsTagger.trackPage(Page.WRONG_WIFI_NETWORK);
     }
 }
