@@ -8,7 +8,7 @@ properties([
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]
 ])
 
-def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_App_chassis@philips.com'
+def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_ph_cdp2_iap@philips.com'
 def errors = []
 
 node ('android&&docker') {
