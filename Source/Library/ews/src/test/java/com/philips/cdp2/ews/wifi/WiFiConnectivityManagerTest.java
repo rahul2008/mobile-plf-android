@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdp2.ews.wifi;
 
 import android.net.wifi.ScanResult;
@@ -7,11 +11,9 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 
-import com.philips.cdp2.ews.BuildConfig;
 import com.philips.cdp2.ews.logger.EWSLogger;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -19,13 +21,11 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.rule.PowerMockRule;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
@@ -37,24 +37,16 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-
-/**
- * Copyright (c) Koninklijke Philips N.V., 2017.
- * All rights reserved.
- */
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25, manifest = Config.NONE)
-@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
-@PrepareForTest(EWSLogger.class)
+import static org.powermock.api.mockito.PowerMockito.spy;
+import static org.powermock.api.mockito.PowerMockito.whenNew;
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({WiFiConnectivityManager.class,EWSLogger.class,WifiConfiguration.class})
 public class WiFiConnectivityManagerTest {
 
     private static final String HOME_WIFI_SSID = "BrightEyes";
     private static final String APPLIANCE_SSID = WiFiUtil.DEVICE_SSID;
 
     private WiFiConnectivityManager subject;
-
-    @Rule
-    public PowerMockRule rule = new PowerMockRule();
 
     @Mock
     private WifiManager wifiManagerMock;
@@ -65,22 +57,41 @@ public class WiFiConnectivityManagerTest {
     @Mock
     Handler mockHandler;
 
+    @Mock
+    WifiConfiguration mockWifiConfiguration;
+
+    private WiFiUtil wifiUtil;
+
     @Before
     public void setUp() throws Exception {
-        initMocks(this);
         PowerMockito.mockStatic(EWSLogger.class);
-        WiFiUtil wifiUtil = new WiFiUtil(wifiManagerMock);
-        subject = new WiFiConnectivityManager(wifiManagerMock, wifiMock, wifiUtil);
+        initMocks(this);
+        wifiUtil = new WiFiUtil(wifiManagerMock);
+        subject = spy(new WiFiConnectivityManager(wifiManagerMock, wifiMock, wifiUtil));
         subject.handler = mockHandler;
         implementAsDirectExecutor(mockHandler);
         stubHomeNetworkConnection();
     }
 
-    private void stubHomeNetworkConnection() {
+    private void stubHomeNetworkConnection() throws Exception{
         final WifiInfo wifiInfoMock = mock(WifiInfo.class);
         when(wifiManagerMock.getConnectionInfo()).thenReturn(wifiInfoMock);
         when(wifiInfoMock.getSupplicantState()).thenReturn(SupplicantState.COMPLETED);
         when(wifiInfoMock.getSSID()).thenReturn("WLAN-PUB");
+
+        whenNew(WifiConfiguration.class)
+                .withAnyArguments()
+                .thenAnswer(new Answer<WifiConfiguration>() {
+                    @Override
+                    public WifiConfiguration answer(InvocationOnMock invocation) throws Throwable {
+                        mockWifiConfiguration.allowedAuthAlgorithms = PowerMockito.mock(BitSet.class);
+                        mockWifiConfiguration.allowedGroupCiphers = PowerMockito.mock(BitSet.class);
+                        mockWifiConfiguration.allowedKeyManagement = PowerMockito.mock(BitSet.class);
+                        mockWifiConfiguration.allowedPairwiseCiphers = PowerMockito.mock(BitSet.class);
+                        mockWifiConfiguration.allowedProtocols = PowerMockito.mock(BitSet.class);
+                        return mockWifiConfiguration;
+                    }
+                });
     }
 
     @Test

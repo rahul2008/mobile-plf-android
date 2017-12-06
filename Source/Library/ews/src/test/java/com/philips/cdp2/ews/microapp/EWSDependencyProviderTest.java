@@ -8,9 +8,6 @@ import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
-import com.philips.cdp2.commlib.lan.context.LanTransportContext;
-import com.philips.cdp2.ews.appliance.BEApplianceFactory;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSComponent;
@@ -23,7 +20,6 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
-import org.apache.tools.ant.types.resources.comparators.Content;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,10 +47,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.doReturn;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyNew;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 
 @RunWith(PowerMockRunner.class)
@@ -112,7 +105,7 @@ public class EWSDependencyProviderTest {
 
     @Test
     public void itShouldEnsureAllDependenciesAreInitialized() throws Exception {
-        subject.initDependencies(appInfraInterfaceMock, productKeyMap);
+        subject.initDependencies(appInfraInterfaceMock, productKeyMap, mockCommCentral);
 
         assertTrue(subject.areDependenciesInitialized());
         assertNotNull(subject.getAppInfra());
@@ -123,7 +116,7 @@ public class EWSDependencyProviderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void itShouldThrowExceptionIfMapDoesNotContainProductName() throws Exception {
-        subject.initDependencies(appInfraInterfaceMock, new HashMap<String, String>());
+        subject.initDependencies(appInfraInterfaceMock, new HashMap<String, String>(), mockCommCentral);
     }
 
     @Test(expected = IllegalStateException.class)
@@ -168,7 +161,6 @@ public class EWSDependencyProviderTest {
     @Test
     public void itShouldVerifyCreateEwsComponent() throws Exception{
 
-        doReturn(mockCommCentral).when(subject).getCommCentral();
         when(mockDaggerEWSComponentBuilder.eWSConfigurationModule(any(EWSConfigurationModule.class))).thenReturn(mockDaggerEWSComponentBuilder);
         when(mockDaggerEWSComponentBuilder.eWSModule(any(EWSModule.class))).thenReturn(mockDaggerEWSComponentBuilder);
 
@@ -183,51 +175,4 @@ public class EWSDependencyProviderTest {
         verify(mockDaggerEWSComponentBuilder).eWSConfigurationModule(any(EWSConfigurationModule.class));
         verify(mockDaggerEWSComponentBuilder).build();
     }
-
-    @Test
-    public void itShouldVerifyGetCommCentralIfCommCentralIsNull() throws Exception{
-        doReturn(mockCommCentral).when(subject).createCommCentral();
-        subject.getCommCentral();
-        verify(subject).createCommCentral();
-    }
-
-    @Test
-    public void itShouldVerifyGetCommCentralIfCommCentralIsNotNull() throws Exception{
-        EWSDependencyProvider.commCentral = mockCommCentral;
-        assertSame(subject.getCommCentral(),mockCommCentral);
-    }
-
-    @Test
-    public void itShouldVerifyCreateCommCentral() throws Exception{
-        RuntimeConfiguration mockRuntimeConfiguration = mock(RuntimeConfiguration.class);
-        LanTransportContext mockLanTransportContext = mock(LanTransportContext.class);
-        BEApplianceFactory mockBeApplianceFactory = mock(BEApplianceFactory.class);
-        CommCentral mockCommCentral = mock(CommCentral.class);
-
-        whenNew(RuntimeConfiguration.class)
-                .withArguments(any(Content.class), any(AppInfraInterface.class))
-                .thenReturn(mockRuntimeConfiguration);
-        whenNew(LanTransportContext.class)
-                .withArguments(mockRuntimeConfiguration)
-                .thenReturn(mockLanTransportContext);
-        whenNew(BEApplianceFactory.class)
-                .withArguments(mockLanTransportContext)
-                .thenReturn(mockBeApplianceFactory);
-        whenNew(CommCentral.class)
-                .withArguments(mockBeApplianceFactory,mockLanTransportContext)
-                .thenReturn(mockCommCentral);
-
-        subject.createCommCentral();
-
-        verifyNew(RuntimeConfiguration.class)
-                .withArguments(any(Content.class), any(AppInfraInterface.class));
-        verifyNew(LanTransportContext.class)
-                .withArguments(mockRuntimeConfiguration);
-        verifyNew(BEApplianceFactory.class)
-                .withArguments(mockLanTransportContext);
-        verifyNew(CommCentral.class)
-                .withArguments(mockBeApplianceFactory,mockLanTransportContext);
-        verify(subject).createCommCentral();
-    }
-
 }

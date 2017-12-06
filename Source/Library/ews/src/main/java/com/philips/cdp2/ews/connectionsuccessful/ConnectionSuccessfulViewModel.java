@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
-import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.StringProvider;
@@ -26,7 +25,7 @@ public class ConnectionSuccessfulViewModel {
     private FragmentCallback fragmentCallback;
 
     @NonNull
-    StringProvider stringProvider;
+    private StringProvider stringProvider;
     @NonNull
     public final ObservableField<String> title;
     @NonNull
@@ -41,12 +40,11 @@ public class ConnectionSuccessfulViewModel {
         title = new ObservableField<>(getTitle(baseConfig));
     }
 
-    public void setFragmentCallback(@NonNull FragmentCallback fragmentCallback) {
+    protected void setFragmentCallback(@NonNull FragmentCallback fragmentCallback) {
         this.fragmentCallback = fragmentCallback;
     }
 
     public void onStartClicked() {
-        EWSCallbackNotifier.getInstance().onSuccess();
         if (fragmentCallback != null) {
             fragmentCallback.finishMicroApp();
         }

@@ -24,7 +24,7 @@ import javax.inject.Singleton;
 @Singleton
 public class WiFiUtil {
 
-    public static final String TAG = "WiFiUtil";
+    private static final String TAG = "WiFiUtil";
     public static final String DEVICE_SSID = "PHILIPS Setup";
     public static final String UNKNOWN_SSID = "<unknown ssid>";
     private WifiManager wifiManager;

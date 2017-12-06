@@ -20,8 +20,6 @@ import java.util.Set;
 
 public class BEApplianceFactory implements ApplianceFactory {
 
-    private static final String TAG = "BEApplianceFactory";
-
     @NonNull
     private final LanTransportContext lanTransportContext;
 

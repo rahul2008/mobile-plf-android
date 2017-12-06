@@ -47,6 +47,18 @@ public class ConnectToWrongPhoneTroubleshootingViewModel {
     }
 
     @NonNull
+    Drawable getWrongPhoneImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
+        return stringProvider.getImageResource(troubleShootContentConfiguration.getConnectWrongPhoneImage());
+    }
+
+    void onYesButtonClicked() {
+        navigator.navigateSetupAccessPointModeScreen();
+    }
+
+    void onNoButtonClicked() {
+        navigator.navigateToResetConnectionTroubleShootingScreen();
+    }
+
     @VisibleForTesting
     private String getTitle(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration,
                     @NonNull BaseContentConfiguration baseConfig) {
@@ -68,20 +80,6 @@ public class ConnectToWrongPhoneTroubleshootingViewModel {
                         @NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(troubleShootContentConfiguration.getConnectWrongPhoneQuestion(),
                 baseConfig.getDeviceName());
-    }
-
-    @NonNull
-    @VisibleForTesting
-    private Drawable getWrongPhoneImage(@NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
-        return stringProvider.getImageResource(troubleShootContentConfiguration.getConnectWrongPhoneImage());
-    }
-
-    public void onYesButtonClicked() {
-        navigator.navigateSetupAccessPointModeScreen();
-    }
-
-    public void onNoButtonClicked() {
-        navigator.navigateToResetConnectionTroubleShootingScreen();
     }
 
     void trackPageName() {
