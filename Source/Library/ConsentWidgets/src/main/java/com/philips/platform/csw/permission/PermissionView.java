@@ -54,7 +54,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @Override
     protected void setViewParams(Configuration config, int width) {
         //Update recycle view rows
-      //  applyParams(config, recyclerView, width);
+        //  applyParams(config, recyclerView, width);
     }
 
     @Override
@@ -159,12 +159,12 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
     @Override
     public void onHelpClicked(String helpText) {
         DescriptionView.show(getFragmentManager(), helpText);
-//        Toast.makeText(getContext(), helpText, Toast.LENGTH_LONG).show();
     }
 
     private static class OkOnErrorListener implements View.OnClickListener {
 
-        @Nullable DialogFragment dialog;
+        @Nullable
+        DialogFragment dialog;
 
         @Override
         public void onClick(View view) {

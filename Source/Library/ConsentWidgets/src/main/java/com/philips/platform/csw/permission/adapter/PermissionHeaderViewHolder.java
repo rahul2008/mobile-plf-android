@@ -7,8 +7,6 @@
 
 package com.philips.platform.csw.permission.adapter;
 
-import com.philips.platform.csw.permission.adapter.BasePermissionViewHolder;
-
 import android.view.View;
 
 class PermissionHeaderViewHolder extends BasePermissionViewHolder {

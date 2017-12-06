@@ -55,7 +55,7 @@ public class DescriptionView extends CswBaseFragment implements
         fragment.setArguments(args);
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.csw_frame_layout_view_container, fragment, TAG);
+        fragmentTransaction.replace(R.id.csw_frame_layout_view_container, fragment, TAG);
         fragmentTransaction.addToBackStack(TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
