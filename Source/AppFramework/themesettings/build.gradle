@@ -1,0 +1,117 @@
+apply plugin: 'com.android.library'
+
+apply from: "../scripts/versions.gradle"
+
+buildscript {
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+
+    repositories {
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.2'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath(builddeps.cdpSCM)
+    }
+}
+
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment )
+
+allprojects {
+    repositories {
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-snapshot"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+}
+
+android {
+    compileSdkVersion config.targetSdk
+    buildToolsVersion config.buildTools
+
+    defaultConfig {
+        minSdkVersion config.minSdk
+        targetSdkVersion config.targetSdk
+        versionCode 1
+        versionName version
+
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            consumerProguardFiles "proguard-rules.pro"
+        }
+        debug {
+            testCoverageEnabled true
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile project.file('../../CatalogApp/extra/signing/debug.keystore')
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+dependencies {
+
+    compile "com.android.support:appcompat-v7:${versionsAndroid.support}"
+
+    compile "com.android.support:recyclerview-v7:${versionsAndroid.support}"
+
+    def dp = project.ext.has('useprojectdependencies')
+
+    if(dp) {
+        project(':uid')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
+    }
+
+    testCompile "junit:junit:${versionsExternal.junit}"
+    testCompile "org.robolectric:robolectric:${versionsExternal.robolectric}"
+    testCompile "org.robolectric:shadows-support-v4:${versionsExternal.robolectricSupport}"
+
+}

@@ -1,1 +1,1 @@
-include ':appFramework', ':pushnotification'
+include ':appFramework', ':pushnotification',':themesettings'

@@ -392,15 +392,6 @@ dependencies {
         }
     }
 
-    if(dp) {
-        project(':themesettings')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'themesettings', version: '1.0.0', ext: 'aar')
-        {
-            transitive = true
-        }
-    }
-
     testCompile "junit:junit:${versionsExternal.junit}"
     testCompile "org.khronos:opengl-api:${versionsExternal.opengl}"
     testCompile "org.robolectric:robolectric:${versionsExternal.robolectric}"
@@ -418,6 +409,8 @@ dependencies {
     testCompile "org.json:json:${versionsExternal.json}"
 
     compile project(':pushnotification')
+
+    compile project(':themesettings')
 }
 
 task copyToLib(type: Copy) {
