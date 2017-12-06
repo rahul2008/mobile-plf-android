@@ -18,6 +18,7 @@ import com.americanwell.sdk.entity.visit.VisitEndReason;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.utility.AmwellLog;
@@ -89,6 +90,8 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
             THSManager.getInstance().startVisit(mTHSWaitingRoomFragment.getFragmentActivity(), mTHSWaitingRoomFragment.mVisit, null, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
+        }catch (Exception e){
+            mTHSWaitingRoomFragment.showError(mTHSWaitingRoomFragment.getString(R.string.something_went_wrong));
         }
 
     }
