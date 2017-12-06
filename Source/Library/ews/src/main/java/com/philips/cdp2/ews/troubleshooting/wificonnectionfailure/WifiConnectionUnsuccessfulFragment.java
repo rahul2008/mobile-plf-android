@@ -57,7 +57,6 @@ public class WifiConnectionUnsuccessfulFragment extends BaseFragment {
         return getEWSComponent().wIFIConnectionUnsuccessfulViewModel();
     }
 
-    @NonNull
     @Override
     protected void callTrackPageName() {
         viewModel.trackPageName();

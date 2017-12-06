@@ -127,8 +127,6 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
                 baseContentConfiguration.getDeviceName());
     }
 
-
-    @NonNull
     public void trackPageName() {
         EWSTagger.trackPage(Page.CONFIRM_WIFI_NETWORK);
     }

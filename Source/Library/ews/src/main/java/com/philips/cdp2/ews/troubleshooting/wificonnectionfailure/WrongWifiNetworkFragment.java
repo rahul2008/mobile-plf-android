@@ -52,7 +52,6 @@ public class WrongWifiNetworkFragment extends BaseFragment {
         return getEWSComponent().wrongWifiNetworkViewModel();
     }
 
-    @NonNull
     @Override
     protected void callTrackPageName() {
         viewModel.trackPageName();

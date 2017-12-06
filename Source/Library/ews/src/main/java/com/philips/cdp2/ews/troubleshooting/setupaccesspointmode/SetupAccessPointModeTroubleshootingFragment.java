@@ -45,7 +45,6 @@ public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShoo
                 });
     }
 
-    @NonNull
     @Override
     protected void callTrackPageName() {
         viewModel.trackPageName();

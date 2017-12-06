@@ -46,8 +46,6 @@ public class ResetDeviceTroubleshootingFragment extends BaseTroubleShootingFragm
 
     }
 
-
-    @NonNull
     @Override
     protected void callTrackPageName() {
         viewModel.trackPageName();
