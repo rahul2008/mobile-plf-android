@@ -80,6 +80,7 @@ import com.philips.platform.ths.settings.THSGetAppointmentsCallback;
 import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -1281,7 +1282,8 @@ public class THSManagerTest {
     @Test
     public void getRamdomPassword(){
         final String s = thsManager.generatePasswordRandomly();
-        assert s.contains(anyString());
+        assertNotNull(s);
+        assertThat(s).isInstanceOf(String.class);
     }
 
 }
