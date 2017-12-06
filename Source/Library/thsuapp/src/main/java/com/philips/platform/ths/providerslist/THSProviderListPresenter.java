@@ -94,7 +94,8 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
     @Override
     public void onProvidersListFetchError(Throwable throwable) {
         if (null != mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
-            mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message));
+            final String string = mThsBaseFragment.getString(R.string.ths_se_server_error_toast_message);
+            mThsBaseFragment.showError(string,true);
         }
     }
 
