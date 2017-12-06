@@ -41,7 +41,7 @@ public class WrongWifiNetworkFragment extends BaseFragment {
         String wifiSSID = BundleUtils.extractStringFromBundleOrThrow(getArguments(), ConnectingDeviceWithWifiFragment.HOME_WIFI_SSID);
         viewModel.setUpperDescription(getString(R.string.label_ews_phone_reconnected_different_network_upper_body, wifiSSID));
         viewModel.setLowerDescription(getString(R.string.label_ews_phone_reconnected_different_network_step_3, wifiSSID));
-        viewModel.setStepFourText(getString(R.string.label_ews_phone_reconnected_different_network_step_4,getString(viewModel.getAppName())));
+        viewModel.setStepFourText(getString(R.string.label_ews_phone_reconnected_different_network_step_4, getString(viewModel.getAppName())));
         viewModel.setBundle(getArguments());
         binding.setViewModel(viewModel);
         return binding.getRoot();
@@ -54,6 +54,8 @@ public class WrongWifiNetworkFragment extends BaseFragment {
 
     @Override
     protected void callTrackPageName() {
-        viewModel.trackPageName();
+        if (viewModel != null) {
+            viewModel.trackPageName();
+        }
     }
 }
