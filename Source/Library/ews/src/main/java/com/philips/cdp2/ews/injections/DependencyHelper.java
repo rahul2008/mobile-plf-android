@@ -15,7 +15,7 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import java.util.Map;
 
-public class AppModule {
+public class DependencyHelper {
 
     @NonNull private static AppInfraInterface appInfra;
 
@@ -31,8 +31,8 @@ public class AppModule {
 
     @NonNull private static ContentConfiguration contentConfiguration;
 
-    public AppModule(@NonNull AppInfraInterface appInfraInterface, @NonNull CommCentral commCentral, @NonNull  Map<String, String> prodKeyMap,
-                     @NonNull ContentConfiguration configuration) {
+    public DependencyHelper(@NonNull AppInfraInterface appInfraInterface, @NonNull CommCentral commCentral, @NonNull  Map<String, String> prodKeyMap,
+                            @NonNull ContentConfiguration configuration) {
         appInfra = appInfraInterface;
         commCentralInstance = commCentral;
         productKeyMap = prodKeyMap;

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseTroubleShootingFragment;
 import com.philips.cdp2.ews.databinding.FragmentResetConnectionTroubleshootingLayoutBinding;
-import com.philips.cdp2.ews.injections.AppModule;
+import com.philips.cdp2.ews.injections.DependencyHelper;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSConfigurationModule;
 import com.philips.cdp2.ews.injections.EWSModule;
@@ -40,8 +40,8 @@ public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingF
         viewModel = DaggerEWSComponent.builder()
                 .eWSModule(new EWSModule(this.getActivity()
                         , EWSLauncherInput.getFragmentManager()
-                        , EWSLauncherInput.getContainerFrameId(), AppModule.getCommCentral()))
-                .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), AppModule.getContentConfiguration()))
+                        , EWSLauncherInput.getContainerFrameId(), DependencyHelper.getCommCentral()))
+                .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), DependencyHelper.getContentConfiguration()))
                 .build()
                 .resetConnectionTroubleshootingViewModel();
         fragmentResetConnectionTroubleshootingLayoutBinding.setViewModel(viewModel);

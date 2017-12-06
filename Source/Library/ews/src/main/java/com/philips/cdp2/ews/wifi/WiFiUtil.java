@@ -17,10 +17,8 @@ import com.philips.cdp2.ews.util.TextUtil;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 @SuppressWarnings("WeakerAccess")
-@Singleton
 public class WiFiUtil {
 
     private static final String TAG = "WiFiUtil";

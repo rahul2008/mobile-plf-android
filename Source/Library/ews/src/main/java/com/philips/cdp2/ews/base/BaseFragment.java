@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.dialog.EWSAlertDialogFragment;
-import com.philips.cdp2.ews.injections.AppModule;
+import com.philips.cdp2.ews.injections.DependencyHelper;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.injections.EWSConfigurationModule;
@@ -38,7 +38,7 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (!AppModule.areDependenciesInitialized()){
+        if (!DependencyHelper.areDependenciesInitialized()){
             this.getActivity().finish();
         }
     }
@@ -116,9 +116,9 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
         return DaggerEWSComponent.builder()
                 .eWSModule(new EWSModule(this.getActivity()
                         , this.getActivity().getSupportFragmentManager()
-                        , EWSLauncherInput.getContainerFrameId(), AppModule.getCommCentral()))
-                .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), AppModule.getContentConfiguration()))
-                .eWSDependencyProviderModule(new EWSDependencyProviderModule(AppModule.getAppInfraInterface(), AppModule.getProductKeyMap()))
+                        , EWSLauncherInput.getContainerFrameId(), DependencyHelper.getCommCentral()))
+                .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), DependencyHelper.getContentConfiguration()))
+                .eWSDependencyProviderModule(new EWSDependencyProviderModule(DependencyHelper.getAppInfraInterface(), DependencyHelper.getProductKeyMap()))
                 .build();
     }
 

@@ -33,14 +33,13 @@ public class EWSDependencyProviderModule {
                                        @NonNull final Map<String, String> productKeyMap){
         this.appInfraInterface = appInfraInterface;
         this.productKeyMap = productKeyMap;
-
         if (productKeyMap == null || !productKeyMap.containsKey(EWSInterface.PRODUCT_NAME)) {
             throw new IllegalArgumentException("productKeyMap does not contain the productName");
         }
     }
 
     private LoggingInterface provideLoggerInterface() {
-        return AppModule.getAppInfraInterface().getLogging().createInstanceForComponent("EasyWifiSetupLogger", "1.0.0");
+        return appInfraInterface.getLogging().createInstanceForComponent("EasyWifiSetupLogger", "1.0.0");
     }
 
     /**
