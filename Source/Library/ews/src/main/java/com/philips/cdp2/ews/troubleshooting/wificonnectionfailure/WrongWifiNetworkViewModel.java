@@ -26,7 +26,7 @@ public class WrongWifiNetworkViewModel {
     private final Navigator navigator;
 
     @Nullable
-    public Bundle bundle;
+    private Bundle bundle;
 
     @NonNull
     private BaseContentConfiguration baseContentConfiguration;
