@@ -8,10 +8,9 @@
 package com.philips.platform.mya.details;
 
 
-import android.os.Bundle;
-
 import com.philips.platform.mya.base.mvp.MyaBaseView;
 import com.philips.platform.mya.base.mvp.MyaPresenterInterface;
+import com.philips.platform.myaplugin.user.UserDataModelProvider;
 
 import java.util.Date;
 
@@ -36,6 +35,6 @@ class MyaDetailContract {
     }
 
     interface Presenter extends MyaPresenterInterface<View> {
-        void setUserDetails(Bundle bundle);
+        void setUserDetails(UserDataModelProvider userDataModelProvider);
     }
 }

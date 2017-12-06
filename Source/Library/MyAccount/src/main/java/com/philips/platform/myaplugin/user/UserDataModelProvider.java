@@ -15,7 +15,6 @@ import java.io.Serializable;
 public class UserDataModelProvider extends UserInterface implements Serializable {
 
     private transient UserDataModel userDataModel;
-    private transient User user;
     private transient Context context;
 
     public UserDataModelProvider(Context context) {
@@ -23,7 +22,6 @@ public class UserDataModelProvider extends UserInterface implements Serializable
         if (userDataModel == null) {
             userDataModel = new UserDataModel();
         }
-        user = new User(context);
     }
 
     @Override
@@ -36,22 +34,19 @@ public class UserDataModelProvider extends UserInterface implements Serializable
     }
 
     @Override
-    public boolean isUserLoggedIn() {
+    public boolean isUserLoggedIn(Context context) {
+        User user = new User(context);
         return user.isUserSignIn();
     }
 
     @Override
-    public void logOut(LogoutHandler logoutHandler) {
-        if(user == null) {
-            user = new User(context);
-        }
+    public void logOut(Context context, LogoutHandler logoutHandler) {
+        User user = new User(context);
         user.logout(logoutHandler);
     }
 
     private void fillUserData() {
-        if(user == null) {
-            user = new User(context);
-        }
+        User user = getUser();
         userDataModel.setName(user.getDisplayName());
         userDataModel.setBirthday(user.getDateOfBirth());
         userDataModel.setEmail(user.getEmail());
@@ -66,7 +61,9 @@ public class UserDataModelProvider extends UserInterface implements Serializable
         userDataModel.setFamilyName(user.getFamilyName());
     }
 
-
+    User getUser() {
+        return new User(context);
+    }
 
 
 }

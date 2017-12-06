@@ -240,10 +240,6 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
     if (dp) {
         project(':uit')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar') {
-            transitive = true
-        }
     }
 
     if (dp) {
@@ -266,14 +262,12 @@ dependencies {
     // Tests
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile('org.robolectric:robolectric:3.4-rc2') {
+    testCompile ('org.robolectric:robolectric:3.4.2'){
         exclude module: 'commons-logging'
         exclude module: 'support-v4'
     }
-    testCompile 'org.robolectric:shadows-support-v4:3.3.2'
+    testCompile "org.robolectric:shadows-support-v4:3.3.2"
     testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
-    testCompile 'org.robolectric:robolectric-utils:3.4-rc2'
-    testCompile 'org.robolectric:robolectric-junit:3.4-rc2'
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

@@ -11,13 +11,11 @@ package com.philips.platform.mya;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 public class MyaHelper {
 
     private static MyaHelper instance;
-    private FragmentLauncher fragmentLauncher;
     private AppInfraInterface appInfra;
     private MyaListener myaListener;
     private ThemeConfiguration themeConfiguration;
@@ -34,14 +32,6 @@ public class MyaHelper {
             }
         }
         return instance;
-    }
-
-    public FragmentLauncher getFragmentLauncher() {
-        return fragmentLauncher;
-    }
-
-    public void setFragmentLauncher(FragmentLauncher fragmentLauncher) {
-        this.fragmentLauncher = fragmentLauncher;
     }
 
     public AppInfraInterface getAppInfra() {

@@ -38,32 +38,37 @@ public class MyaInterface implements UappInterface {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         MyaLaunchInput myaLaunchInput = (MyaLaunchInput) uappLaunchInput;
-        UserDataModelProvider userDataModelProvider = new UserDataModelProvider(myaLaunchInput.getContext());
-        if(!userDataModelProvider.isUserLoggedIn()) {
+        UserDataModelProvider userDataModelProvider = getUserDataModelProvider(myaLaunchInput);
+        if (!userDataModelProvider.isUserLoggedIn(myaLaunchInput.getContext())) {
             myaLaunchInput.getMyaListener().onError(MyaError.USER_NOT_SIGNED_IN);
             return;
         }
-        MyaHelper.getInstance().setMyaListener(((MyaLaunchInput) uappLaunchInput).getMyaListener());
+        MyaHelper.getInstance().setMyaListener(myaLaunchInput.getMyaListener());
         MyaHelper.getInstance().setMyaLaunchInput(myaLaunchInput);
         Bundle bundle = new Bundle();
         bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
             MyaHelper.getInstance().setThemeConfiguration(activityLauncher.getDlsThemeConfiguration());
-            launchAsActivity(activityLauncher, myaLaunchInput,bundle);
+            launchAsActivity(activityLauncher, myaLaunchInput);
         } else if (uiLauncher instanceof FragmentLauncher) {
             launchAsFragment((FragmentLauncher) uiLauncher, bundle);
         }
     }
 
-    private void launchAsFragment(FragmentLauncher fragmentLauncher, Bundle arguments) {
-        MyaHelper.getInstance().setFragmentLauncher(fragmentLauncher);
-        MyaTabFragment myaTabFragment = new MyaTabFragment();
-        myaTabFragment.setArguments(arguments);
-        myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
+    public UserDataModelProvider getUserDataModelProvider(MyaLaunchInput myaLaunchInput) {
+        return new UserDataModelProvider(myaLaunchInput.getContext());
     }
 
-    private void launchAsActivity(ActivityLauncher uiLauncher, MyaLaunchInput myaLaunchInput, Bundle bundle) {
+    private void launchAsFragment(FragmentLauncher fragmentLauncher, Bundle arguments) {
+        MyaTabFragment myaTabFragment = new MyaTabFragment();
+        myaTabFragment.setArguments(arguments);
+        myaTabFragment.setFragmentLauncher(fragmentLauncher);
+        myaTabFragment.setActionbarUpdateListener(fragmentLauncher.getActionbarListener());
+        myaTabFragment.showFragment(myaTabFragment);
+    }
+
+    private void launchAsActivity(ActivityLauncher uiLauncher, MyaLaunchInput myaLaunchInput) {
         if (null != uiLauncher && myaLaunchInput != null) {
             Intent myAccountIntent = new Intent(myaLaunchInput.getContext(), MyaActivity.class);
             myAccountIntent.putExtra(MYA_DLS_THEME, uiLauncher.getUiKitTheme());

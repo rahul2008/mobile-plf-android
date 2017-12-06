@@ -49,7 +49,8 @@ public class MyaActivity extends UIDActivity {
         Toolbar toolbar = findViewById(R.id.mya_toolbar);
         mTitle = toolbar.findViewById(R.id.mya_toolbar_title);
         leftImageView = toolbar.findViewById(R.id.mya_toolbar_left_image);
-        leftImageView.setOnClickListener(new View.OnClickListener() {
+        View leftImageViewLayout = toolbar.findViewById(R.id.mya_toolbar_left_image_layout);
+        leftImageViewLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
@@ -127,7 +128,9 @@ public class MyaActivity extends UIDActivity {
     }
 
     private void setLeftImage(int resId) {
-        leftImageView.setBackgroundResource(resId);
+        if (resId != 0) {
+            leftImageView.setBackgroundResource(resId);
+        }
     }
 
     private void launchTabFragment() {
@@ -145,13 +148,15 @@ public class MyaActivity extends UIDActivity {
                 handleLeftImage(shouldBackEnable);
             }
         });
-        MyaHelper.getInstance().setFragmentLauncher(fragmentLauncher);
+//        MyaHelper.getInstance().setFragmentLauncher(fragmentLauncher);
         UserDataModelProvider userDataModelProvider = new UserDataModelProvider(this);
         Bundle bundle = new Bundle();
         bundle.putSerializable(USER_PLUGIN, userDataModelProvider);
         MyaTabFragment myaTabFragment = new MyaTabFragment();
+        myaTabFragment.setFragmentLauncher(fragmentLauncher);
+        myaTabFragment.setActionbarUpdateListener(fragmentLauncher.getActionbarListener());
         myaTabFragment.setArguments(bundle);
-        myaTabFragment.showFragment(myaTabFragment, fragmentLauncher);
+        myaTabFragment.showFragment(myaTabFragment);
     }
 
 

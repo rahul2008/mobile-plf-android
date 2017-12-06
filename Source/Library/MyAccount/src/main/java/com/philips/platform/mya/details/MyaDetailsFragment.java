@@ -18,11 +18,14 @@ import android.widget.ImageButton;
 
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
+import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
 
 public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailContract.View {
@@ -53,11 +56,14 @@ public class MyaDetailsFragment extends MyaBaseFragment implements MyaDetailCont
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Bundle bundle;
         if (savedInstanceState == null) {
-            myaDetailPresenter.setUserDetails(getArguments());
+            bundle = getArguments();
         } else {
-            myaDetailPresenter.setUserDetails(savedInstanceState.getBundle(DETAILS_BUNDLE));
+            bundle = savedInstanceState.getBundle(DETAILS_BUNDLE);
         }
+        if (bundle != null)
+            myaDetailPresenter.setUserDetails((UserDataModelProvider) bundle.getSerializable(USER_PLUGIN));
     }
 
     private void initViews(View view) {

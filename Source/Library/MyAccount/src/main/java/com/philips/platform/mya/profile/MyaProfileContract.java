@@ -11,19 +11,19 @@ import android.support.v4.app.Fragment;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.base.mvp.MyaBaseView;
 import com.philips.platform.mya.base.mvp.MyaPresenterInterface;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.myaplugin.user.UserDataModelProvider;
 
-import java.util.TreeMap;
+import java.util.Map;
 
 interface MyaProfileContract {
 
     interface View extends MyaBaseView {
 
-        void showProfileItems(TreeMap<String,String> profileList);
+        void showProfileItems(Map<String,String> profileList);
 
         void setUserName(String userName);
 
-        void showPassedFragment(Fragment fragment, FragmentLauncher fragmentLauncher);
+        void showPassedFragment(Fragment fragment);
 
     }
 
@@ -31,7 +31,7 @@ interface MyaProfileContract {
 
         void getProfileItems(AppInfraInterface appInfra);
 
-        void setUserName(Bundle bundle);
+        void setUserName(UserDataModelProvider userDataModelProvider);
 
         boolean handleOnClickProfileItem(String profileItem, Bundle bundle);
     }

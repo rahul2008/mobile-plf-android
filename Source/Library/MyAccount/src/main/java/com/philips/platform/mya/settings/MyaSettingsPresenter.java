@@ -22,10 +22,12 @@ import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBasePresenter;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
 
@@ -38,8 +40,8 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     }
 
     @Override
-    public void getSettingItems(AppInfraInterface appInfra) {
-        view.showSettingsItems(getSettingsMap(appInfra));
+    public void getSettingItems(AppInfraInterface appInfra, AppConfigurationInterface.AppConfigurationError error) {
+        view.showSettingsItems(getSettingsMap(appInfra, error));
     }
 
     @Override
@@ -54,28 +56,34 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
     public void logOut(Bundle bundle) {
         UserDataModelProvider userDataModelProvider = (UserDataModelProvider) bundle.getSerializable(USER_PLUGIN);
         if (userDataModelProvider != null) {
-            userDataModelProvider.logOut(getLogoutHandler());
+            userDataModelProvider.logOut(view.getContext(), getLogoutHandler());
         }
     }
 
     @Override
-    public boolean handleOnClickSettingsItem(String key) {
+    public boolean handleOnClickSettingsItem(String key, FragmentLauncher fragmentLauncher) {
         if (key.equals("Mya_Privacy_Settings")) {
             AppInfraInterface appInfra = MyaHelper.getInstance().getAppInfra();
-
-            ConsentAccessToolKit.getInstance().init(initConsentToolKit(view.getContext(), appInfra));
-            CswInterface cswInterface = new CswInterface();
-
+            getConsentAccessInstance().init(initConsentToolKit(view.getContext(), appInfra));
+            CswInterface cswInterface = getCswInterface();
             CswDependencies cswDependencies = new CswDependencies(appInfra);
             UappSettings uappSettings = new UappSettings(view.getContext());
             cswInterface.init(cswDependencies, uappSettings);
-            cswInterface.launch(MyaHelper.getInstance().getFragmentLauncher(), buildLaunchInput(true, view.getContext()));
+            cswInterface.launch(fragmentLauncher, buildLaunchInput(true, view.getContext()));
             return true;
         }
         return false;
     }
 
-    private LogoutHandler getLogoutHandler() {
+    ConsentAccessToolKit getConsentAccessInstance() {
+        return ConsentAccessToolKit.getInstance();
+    }
+
+    CswInterface getCswInterface() {
+        return new CswInterface();
+    }
+
+    LogoutHandler getLogoutHandler() {
         return new LogoutHandler() {
             public void onLogoutSuccess() {
                 view.handleLogOut();
@@ -88,11 +96,24 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         };
     }
 
-    private LinkedHashMap<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface) {
+    CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
+        ConsentBundleConfig config = new ConsentBundleConfig(MyaHelper.getInstance().getMyaLaunchInput().getConsentDefinitions());
+        CswLaunchInput cswLaunchInput = new CswLaunchInput(config, context);
+        cswLaunchInput.addToBackStack(addToBackStack);
+        return cswLaunchInput;
+    }
+
+    CatkInputs initConsentToolKit(Context context, AppInfraInterface appInfra) {
+        CatkInputs catkInputs = new CatkInputs();
+        catkInputs.setContext(context);
+        catkInputs.setAppInfra(appInfra);
+        return catkInputs;
+    }
+
+    private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface, AppConfigurationInterface.AppConfigurationError error) {
         String profileItems = "settings.menuItems";
         try {
-            final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-            ArrayList propertyForKey = (ArrayList) appInfraInterface.getConfigInterface().getPropertyForKey(profileItems, "mya", configError);
+            ArrayList propertyForKey = (ArrayList) appInfraInterface.getConfigInterface().getPropertyForKey(profileItems, "mya", error);
             return getLocalisedList(propertyForKey, appInfraInterface);
         } catch (IllegalArgumentException exception) {
             exception.getMessage();
@@ -115,11 +136,12 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
             }
         } else {
             SettingsModel countrySettingsModel = new SettingsModel();
-            countrySettingsModel.setFirstItem(view.getContext().getResources().getString(R.string.MYA_Country));
+            countrySettingsModel.setItemCount(2);
+            countrySettingsModel.setFirstItem(view.getContext().getString(R.string.MYA_Country));
             countrySettingsModel.setSecondItem(appInfraInterface.getServiceDiscovery().getHomeCountry());
             profileList.put("MYA_Country", countrySettingsModel);
             SettingsModel privacySettingsModel = new SettingsModel();
-            privacySettingsModel.setFirstItem(view.getContext().getResources().getString(R.string.Mya_Privacy_Settings));
+            privacySettingsModel.setFirstItem(view.getContext().getString(R.string.Mya_Privacy_Settings));
             profileList.put("Mya_Privacy_Settings", privacySettingsModel);
         }
         return profileList;
@@ -134,19 +156,5 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         } catch (Exception exception) {
             return null;
         }
-    }
-
-    private CswLaunchInput buildLaunchInput(boolean addToBackStack, Context context) {
-        ConsentBundleConfig config = new ConsentBundleConfig(MyaHelper.getInstance().getMyaLaunchInput().getConsentDefinitions());
-        CswLaunchInput cswLaunchInput = new CswLaunchInput(config, context);
-        cswLaunchInput.addToBackStack(addToBackStack);
-        return cswLaunchInput;
-    }
-
-    private CatkInputs initConsentToolKit(Context context, AppInfraInterface appInfra) {
-        CatkInputs catkInputs = new CatkInputs();
-        catkInputs.setContext(context);
-        catkInputs.setAppInfra(appInfra);
-        return catkInputs;
     }
 }

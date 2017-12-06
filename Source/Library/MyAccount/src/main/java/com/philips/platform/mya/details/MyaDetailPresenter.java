@@ -7,7 +7,6 @@
 
 package com.philips.platform.mya.details;
 
-import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.philips.platform.mya.base.mvp.MyaBasePresenter;
@@ -18,8 +17,6 @@ import com.philips.platform.myaplugin.user.UserDataModelProvider;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.philips.platform.mya.launcher.MyaInterface.USER_PLUGIN;
-
 class MyaDetailPresenter extends MyaBasePresenter<MyaDetailContract.View> implements MyaDetailContract.Presenter {
 
     private MyaDetailContract.View view;
@@ -29,18 +26,16 @@ class MyaDetailPresenter extends MyaBasePresenter<MyaDetailContract.View> implem
     }
 
     @Override
-    public void setUserDetails(Bundle bundle) {
-        if (bundle != null) {
-            UserDataModelProvider userDataModelProvider = (UserDataModelProvider) bundle.getSerializable(USER_PLUGIN);
-            if (userDataModelProvider != null) {
-                UserDataModel userDataModel = (UserDataModel) userDataModelProvider.getData(DataModelType.USER);
-                setUserName(userDataModel);
-                view.setEmail(userDataModel.getEmail());
-                view.setMobileNumber(userDataModel.getMobileNumber());
-                view.handleArrowVisibility(userDataModel.getEmail(), userDataModel.getMobileNumber());
-                view.setGender(userDataModel.getGender());
-                view.setDateOfBirth(userDataModel.getBirthday());
-            }
+    public void setUserDetails(UserDataModelProvider userDataModelProvider) {
+        if (userDataModelProvider != null) {
+            UserDataModel userDataModel = (UserDataModel) userDataModelProvider.getData(DataModelType.USER);
+            setUserName(userDataModel);
+            view.setEmail(userDataModel.getEmail());
+            view.setMobileNumber(userDataModel.getMobileNumber());
+            view.handleArrowVisibility(userDataModel.getEmail(), userDataModel.getMobileNumber());
+            view.setGender(userDataModel.getGender());
+            view.setDateOfBirth(userDataModel.getBirthday());
+
         }
     }
 

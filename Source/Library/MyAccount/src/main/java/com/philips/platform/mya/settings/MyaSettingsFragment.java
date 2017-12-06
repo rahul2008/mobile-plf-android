@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
 import com.philips.platform.mya.base.mvp.MyaBaseFragment;
@@ -26,7 +29,7 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClickListener,MyaSettingsContract.View {
@@ -38,7 +41,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     private String SETTINGS_BUNDLE = "settings_bundle";
     private boolean isDialogOpen = false;
     private String DIALOG_TITLE = "dialog_title", DIALOG_MESSAGE = "dialog_message", DIALOG_OPEN = "dialog_open";
-    private AlertDialogFragment alertDialogFragment;
     private String dialogTitle,dialogMessage;
 
     @Override
@@ -50,6 +52,13 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         recyclerView.setNestedScrollingEnabled(false);
         presenter = new MyaSettingsPresenter(this);
         return view;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        dismissDialog();
     }
 
     private void initViews(View view) {
@@ -65,14 +74,14 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
         if (savedInstanceState == null) {
-            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra());
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), new AppConfigurationInterface.AppConfigurationError());
         } else {
-            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra());
+            presenter.getSettingItems(MyaHelper.getInstance().getAppInfra(), new AppConfigurationInterface.AppConfigurationError());
             if (savedInstanceState.getBoolean(DIALOG_OPEN)) {
-                dismissDialog(alertDialogFragment);
+                dismissDialog();
                 showDialog(savedInstanceState.getString(DIALOG_TITLE), savedInstanceState.getString(DIALOG_MESSAGE));
             } else {
-                dismissDialog(alertDialogFragment);
+                dismissDialog();
             }
         }
 
@@ -142,7 +151,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
         Button cancel = view.findViewById(R.id.mya_dialog_cancel_btn);
         textView.setText(message);
         title_label.setText(title);
-        alertDialogFragment = builder.create();
+        AlertDialogFragment alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
 
         logout.setOnClickListener(handleOnClickLogOut(alertDialogFragment));
@@ -154,14 +163,20 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
             @Override
             public void onClick(View view) {
                 isDialogOpen = false;
-                dismissDialog(alertDialogFragment);
+                dismissDialog();
             }
         };
     }
 
-    private void dismissDialog(AlertDialogFragment alertDialogFragment) {
-        if (alertDialogFragment != null && alertDialogFragment.isVisible())
-            alertDialogFragment.dismissAllowingStateLoss();
+    private void dismissDialog() {
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isDestroyed()) {
+            Fragment prev = getFragmentManager().findFragmentByTag(ALERT_DIALOG_TAG);
+            if (prev != null && prev instanceof AlertDialogFragment) {
+                AlertDialogFragment alertDialogFragment = (AlertDialogFragment) prev;
+                alertDialogFragment.dismissAllowingStateLoss();
+            }
+        }
     }
 
     private View.OnClickListener handleOnClickLogOut(final AlertDialogFragment alertDialogFragment) {
@@ -170,7 +185,6 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
             public void onClick(View view) {
                 boolean onLogOut = MyaHelper.getInstance().getMyaListener().onLogOut();
                 if(!onLogOut) {
-                    dismissDialog(alertDialogFragment);
                     presenter.logOut(getArguments());
                 }
             }
@@ -178,7 +192,7 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
     }
 
     @Override
-    public void showSettingsItems(LinkedHashMap<String, SettingsModel> dataModelLinkedHashMap) {
+    public void showSettingsItems(Map<String, SettingsModel> dataModelLinkedHashMap) {
         MyaSettingsAdapter myaSettingsAdaptor = new MyaSettingsAdapter(dataModelLinkedHashMap);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         RecyclerViewSeparatorItemDecoration contentThemedRightSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(getContext());
@@ -191,17 +205,18 @@ public class MyaSettingsFragment extends MyaBaseFragment implements View.OnClick
 
     @Override
     public void handleLogOut() {
+        dismissDialog();
         exitMyAccounts();
     }
 
-    private View.OnClickListener getOnClickListener(final LinkedHashMap<String, SettingsModel> profileList) {
+    private View.OnClickListener getOnClickListener(final Map<String, SettingsModel> profileList) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int viewType = recyclerView.indexOfChild(view);
                 String key = (String) profileList.keySet().toArray()[viewType];
                 SettingsModel value = profileList.get(key);
-                boolean handled = presenter.handleOnClickSettingsItem(key);
+                boolean handled = presenter.handleOnClickSettingsItem(key, getFragmentLauncher());
                 if (!handled) {
                     boolean onClickMyaItem = MyaHelper.getInstance().getMyaListener().onClickMyaItem(key);
                     if (!onClickMyaItem)
