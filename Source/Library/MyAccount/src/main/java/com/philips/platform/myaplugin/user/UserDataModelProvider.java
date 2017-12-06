@@ -46,7 +46,7 @@ public class UserDataModelProvider extends UserInterface implements Serializable
     }
 
     private void fillUserData() {
-        User user = new User(context);
+        User user = getUser();
         userDataModel.setName(user.getDisplayName());
         userDataModel.setBirthday(user.getDateOfBirth());
         userDataModel.setEmail(user.getEmail());
@@ -57,11 +57,13 @@ public class UserDataModelProvider extends UserInterface implements Serializable
         userDataModel.setMobileNumber(user.getMobile());
         userDataModel.setMobileVerified(user.isMobileVerified());
         userDataModel.setGender(user.getGender().toString());
-//        userDataModel.setVerified(user.isTermsAndConditionAccepted());
+        userDataModel.setVerified(user.isTermsAndConditionAccepted());
         userDataModel.setFamilyName(user.getFamilyName());
     }
 
-
+    User getUser() {
+        return new User(context);
+    }
 
 
 }

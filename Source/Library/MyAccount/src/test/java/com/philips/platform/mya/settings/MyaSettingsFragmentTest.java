@@ -44,7 +44,7 @@ public class MyaSettingsFragmentTest {
     }
 
     @Test
-    public void testNotNull_getActionbarTitle() throws Exception{
+    public void testNotNull_getActionbarTitle() throws Exception {
         assertNotNull(myaSettingsFragment.getActionbarTitle(mContext));
     }
 
