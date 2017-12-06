@@ -9,10 +9,8 @@ package com.philips.platform.ths.registration;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.widget.DatePicker;
 
 import com.americanwell.sdk.AWSDK;
-import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -20,7 +18,6 @@ import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.entity.enrollment.ConsumerEnrollment;
 import com.americanwell.sdk.entity.enrollment.DependentEnrollment;
 import com.americanwell.sdk.manager.ConsumerManager;
-import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -50,9 +47,7 @@ import static com.americanwell.sdk.entity.SDKErrorReason.AUTH_SCHEDULED_DOWNTIME
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -246,17 +241,17 @@ public class THSRegistrationPresenterTest {
 
     @Test(expected = IllegalStateException.class)
     public void validateNameValid(){
-        mTHSRegistrationPresenter.validateName("Spoorti");
+        mTHSRegistrationPresenter.validateName("Spoorti", false);
     }
 
     @Test(expected = IllegalStateException.class)
     public void validateNameAlphanumericName(){
-        mTHSRegistrationPresenter.validateName("Spoorti12223785*&%$");
+        mTHSRegistrationPresenter.validateName("Spoorti12223785*&%$", false);
     }
 
     @Test(expected = IllegalStateException.class)
     public void validateNameTwoChars(){
-        mTHSRegistrationPresenter.validateName("S");
+        mTHSRegistrationPresenter.validateName("S", false);
     }
 
     @Test

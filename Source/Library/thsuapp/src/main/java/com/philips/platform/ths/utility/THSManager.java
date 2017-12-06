@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.AWSDKFactory;
@@ -142,6 +143,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static com.philips.platform.ths.utility.THSConstants.THS_SDK_SERVICE_ID;
@@ -441,7 +443,7 @@ public class THSManager {
         newConsumerEnrollment.setConsumerAuthKey(getThsConsumer(context).getHsdpUUID());
 
         newConsumerEnrollment.setEmail(getThsConsumer(context).getEmail());
-        newConsumerEnrollment.setPassword("Password123*");
+        newConsumerEnrollment.setPassword(generatePasswordRandomly());
 
         newConsumerEnrollment.setDob(SDKLocalDate.valueOf(dateOfBirth));
 
@@ -451,6 +453,39 @@ public class THSManager {
 
         newConsumerEnrollment.setLegalResidence(state);
         return newConsumerEnrollment;
+    }
+
+    protected String generatePasswordRandomly() {
+        //First 3 Capital Letter
+        String firstThreeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        StringBuilder password = new StringBuilder();
+        Random rnd = new Random();
+        while (password.length() < 3) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * firstThreeChars.length());
+            password.append(firstThreeChars.charAt(index));
+        }
+
+        //Next 3 Small letters
+        String fourthThreeChars = "abcdefghijklmnopqrstuvwxyz";
+        StringBuilder nextPassword = new StringBuilder();;
+        while (nextPassword.length() < 3) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * fourthThreeChars.length());
+            nextPassword.append(fourthThreeChars.charAt(index));
+        }
+        password.append(nextPassword);
+
+        //Last 2 numbers
+        String lastTwoChars = "0123456789";
+        StringBuilder lastTwoPassword = new StringBuilder();;
+        while (lastTwoPassword.length() < 2) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * lastTwoChars.length());
+            lastTwoPassword.append(lastTwoChars.charAt(index));
+        }
+        password.append(lastTwoPassword);
+
+        String saltStr = password.toString();
+        //AmwellLog.e(AmwellLog.LOG,"password -> " + saltStr);
+        return saltStr;
     }
 
     public void enrollDependent(final Context context, Date dateOfBirth, String firstName, String lastName, Gender gender, final State state, final THSSDKValidatedCallback<THSConsumerWrapper, SDKError> thssdkValidatedCallback) throws AWSDKInstantiationException {
@@ -1291,7 +1326,7 @@ public class THSManager {
 
     public void scheduleAppointment(Context context, final THSProviderInfo thsProviderInfo, Date appointmentDate,final RemindOptions consumerRemindOptions, final THSSDKValidatedCallback<Void, SDKError> thssdkValidatedCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().scheduleAppointment(getPTHConsumer(context).getConsumer(), thsProviderInfo.getProviderInfo(),
-                appointmentDate, null,consumerRemindOptions, RemindOptions.FIFTEEN_MIN, new SDKValidatedCallback<Void, SDKError>() {
+                appointmentDate, null,consumerRemindOptions, RemindOptions.NO_REMINDER, new SDKValidatedCallback<Void, SDKError>() {
                     @Override
                     public void onValidationFailure(Map<String, ValidationReason> map) {
                         thssdkValidatedCallback.onValidationFailure(map);

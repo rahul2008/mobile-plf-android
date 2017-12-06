@@ -21,6 +21,7 @@ import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
+import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 import static com.philips.platform.ths.utility.THSConstants.THS_FOLLOW_UP_PAGE;
@@ -34,6 +35,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     private ActionBarListener actionBarListener;
     private Label nopp_label;
     private Label mLabelPatientName;
+    private InputValidationLayout ths_intake_follow_up_phone_number_container;
 
     @Nullable
     @Override
@@ -50,6 +52,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         mFollowUpContinueButton.setOnClickListener(this);
         mFollowUpContinueButton.setEnabled(false);
         mNoppAgreeCheckBox = (CheckBox) view.findViewById(R.id.pth_intake_follow_up_nopp_agree_check_box);
+        ths_intake_follow_up_phone_number_container = view.findViewById(R.id.ths_intake_follow_up_phone_number_container);
         mNoppAgreeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -122,6 +125,19 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     @Override
     public void showInvalidPhoneNumberToast(String message) {
         showError(message);
+    }
+
+    @Override
+    public void showInlineError() {
+        ths_intake_follow_up_phone_number_container.setErrorMessage(R.string.ths_invalid_phone_number);
+        ths_intake_follow_up_phone_number_container.showError();
+    }
+
+    @Override
+    public void hideInlineError() {
+        if(ths_intake_follow_up_phone_number_container.isShowingError()){
+           ths_intake_follow_up_phone_number_container.hideError();
+        }
     }
 
     /**

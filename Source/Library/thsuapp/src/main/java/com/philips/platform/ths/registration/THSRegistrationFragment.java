@@ -6,6 +6,7 @@
 
 package com.philips.platform.ths.registration;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -25,6 +26,7 @@ import com.philips.platform.ths.pharmacy.THSSpinnerAdapter;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSUtilities;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
@@ -50,12 +52,14 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     private RadioButton mCheckBoxMale;
     private RadioButton mCheckBoxFemale;
     private CustomSpinner mStateSpinner;
+
     private THSSpinnerAdapter spinnerAdapter;
     private List<State> mValidStates = null;
     private Date mDob;
     private RadioGroup radio_group_single_line;
     protected int mLaunchInput = -1;
-    private InputValidationLayout firstNameValidationLayout, lastNameValidationLayout;
+    private InputValidationLayout firstNameValidationLayout, lastNameValidationLayout, ths_edit_dob_container, ths_edit_location_container;
+    private boolean isLocationValid;
 
     @Nullable
     @Override
@@ -84,14 +88,20 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         mEditTextLastName = (EditText) view.findViewById(R.id.ths_edit_last_name);
         mEditTextLastName.setOnFocusChangeListener(this);
         mDateOfBirth = (EditText) view.findViewById(R.id.ths_edit_dob);
-        firstNameValidationLayout = (InputValidationLayout) view.findViewById(R.id.ths_edit_first_name_container);
-        lastNameValidationLayout = (InputValidationLayout) view.findViewById(R.id.ths_edit_last_name_container);
+        firstNameValidationLayout = view.findViewById(R.id.ths_edit_first_name_container);
+        lastNameValidationLayout = view.findViewById(R.id.ths_edit_last_name_container);
+        ths_edit_dob_container = view.findViewById(R.id.ths_edit_dob_container);
+        ths_edit_location_container = view.findViewById(R.id.ths_edit_location_container);
         mDateOfBirth.setFocusable(false);
         mDateOfBirth.setClickable(true);
         mDateOfBirth.setOnClickListener(this);
-        mEditTextStateSpinner = (EditText) view.findViewById(R.id.ths_edit_location_container);
-        radio_group_single_line = (RadioGroup) view.findViewById(R.id.radio_group_single_line);
+        mEditTextStateSpinner = (EditText) view.findViewById(R.id.ths_edit_location);
+        int defaultLocationIcoColor = THSUtilities.getAttributeColor(getContext(), R.attr.uidButtonPrimaryNormalBackgroundColor);
+        Drawable drawableInt = THSUtilities.getGpsDrawableFromFontIcon(getContext(), R.string.dls_location, defaultLocationIcoColor, 24);
+
+        mEditTextStateSpinner.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableInt, null);
         mEditTextStateSpinner.setFocusable(false);
+        radio_group_single_line = (RadioGroup) view.findViewById(R.id.radio_group_single_line);
         mEditTextStateSpinner.setClickable(true);
         mEditTextStateSpinner.setOnClickListener(this);
         mCheckBoxMale = (RadioButton) view.findViewById(R.id.ths_checkbox_male);
@@ -106,6 +116,8 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         }
 
         spinnerAdapter = new THSSpinnerAdapter(getActivity(), R.layout.ths_pharmacy_spinner_layout, mValidStates);
+
+
         mStateSpinner.setAdapter(spinnerAdapter);
         mStateSpinner.setSelection(0);
         mStateSpinner.setOnItemSelectedEvenIfUnchangedListener(this);
@@ -160,8 +172,6 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         if (id == R.id.ths_continue) {
             if (validateUserDetails()) {
 
-                mContinueButton.showProgressIndicator();
-
                 if (THSManager.getInstance().getThsConsumer(getContext()).isDependent()) {
                     mThsRegistrationPresenter.enrollDependent(mDob, mEditTextFirstName.getText().toString(),
                             mEditTextLastName.getText().toString(), Gender.MALE, mValidStates.get(mStateSpinner.getSelectedItemPosition()));
@@ -175,22 +185,32 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         if (id == R.id.ths_edit_dob) {
             mThsRegistrationPresenter.onEvent(R.id.ths_edit_dob);
         }
-        if (id == R.id.ths_edit_location_container) {
+        if (id == R.id.ths_edit_location) {
             mStateSpinner.performClick();
         }
     }
 
     private boolean validateUserDetails() {
         if (validateNameFields()) {
-            if (mThsRegistrationPresenter.validateDOB(mDob)) {
-                if (mThsRegistrationPresenter.validateLocation(mEditTextStateSpinner.getText().toString())) {
-                    showError(getString(R.string.ths_registration_location_validation_error));
+            boolean isValidDOB = mThsRegistrationPresenter.validateDOB(mDob);
+            if (isValidDOB) {
+                if (ths_edit_dob_container.isShowingError()) {
+                    ths_edit_dob_container.hideError();
+                }
+                isLocationValid = mThsRegistrationPresenter.validateLocation(mEditTextStateSpinner.getText().toString());
+                if (isLocationValid) {
+                    ths_edit_location_container.setErrorMessage(R.string.ths_registration_location_validation_error);
+                    ths_edit_location_container.showError();
                     return false;
                 } else {
+                    if (ths_edit_location_container.isShowingError()) {
+                        ths_edit_location_container.hideError();
+                    }
                     return true;
                 }
             } else {
-                showError(getString(R.string.ths_registration_dob_validation_error));
+                ths_edit_dob_container.setErrorMessage(R.string.ths_registration_dob_validation_error);
+                ths_edit_dob_container.showError();
                 return false;
             }
         } else {
@@ -233,7 +253,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     }
 
     public void validateLastNameField() {
-        if (!mThsRegistrationPresenter.validateName(mEditTextLastName.getText().toString())) {
+        if (!mThsRegistrationPresenter.validateName(mEditTextLastName.getText().toString(), false)) {
             setInLineErrorMessageLastName();
             setInLineErrorVisibilityLN(true);
         } else {
@@ -242,7 +262,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     }
 
     public void validateFirstNameField() {
-        if (!mThsRegistrationPresenter.validateName(mEditTextFirstName.getText().toString())) {
+        if (!mThsRegistrationPresenter.validateName(mEditTextFirstName.getText().toString(), true)) {
             setInLineErrorMessageFirstName();
             setInLineErrorVisibilityFN(true);
         } else {

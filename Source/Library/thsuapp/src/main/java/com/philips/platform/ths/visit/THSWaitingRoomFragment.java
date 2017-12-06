@@ -9,6 +9,7 @@ package com.philips.platform.ths.visit;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
@@ -78,6 +80,16 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     }
 
     private void doTaggingUponStartWaiting() {
+
+        if(THSManager.getInstance().getThsTagging() == null){
+            if(THSManager.getInstance().getLoggingInterface() != null) {
+                AmwellLog.e("TagInterface", "Tagging interface is null");
+            }else {
+                Log.e(AmwellLog.LOG, "TagInterface and logging interface are null");
+            }
+            return;
+        }
+
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_WAITING, null, null);
 
         THSManager.getInstance().getThsTagging().trackTimedActionEnd("totalPreparationTimePreVisit");
