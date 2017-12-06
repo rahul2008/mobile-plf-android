@@ -2,10 +2,8 @@ package com.philips.platform.baseapp.screens.myaccount;
 
 
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.util.Log;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
@@ -81,12 +79,13 @@ public class MyAccountState extends BaseState {
     }
 
     private Locale getLocale(AppFrameworkApplication frameworkApplication) {
-        Locale locale;
+        Locale locale = Locale.US;
         if (frameworkApplication != null && frameworkApplication.getAppInfra().getInternationalization() != null && frameworkApplication.getAppInfra().getInternationalization().getUILocaleString() != null) {
             String[] localeComponents = frameworkApplication.getAppInfra().getInternationalization().getUILocaleString().split("_");
-            locale = new Locale(localeComponents[0], localeComponents[1]);
-        } else {
-            locale = Locale.US;
+            // TODO AppInfra should add method `getHsdpLocaleString()`: getUILocaleString mostly returns just 'en', but we need 'en_US' or 'ca_FR' -> right now, falling back to Locale.US
+            if (localeComponents.length == 2) {
+                locale = new Locale(localeComponents[0], localeComponents[1]);
+            }
         }
         return locale;
     }
