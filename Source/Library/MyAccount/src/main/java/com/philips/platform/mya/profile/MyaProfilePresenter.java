@@ -47,12 +47,16 @@ class MyaProfilePresenter extends MyaBasePresenter<MyaProfileContract.View> impl
     @Override
     public boolean handleOnClickProfileItem(String profileItem, Bundle bundle) {
         if (profileItem.equals(view.getContext().getString(R.string.MYA_My_details)) || profileItem.equalsIgnoreCase("MYA_My_details")) {
-            MyaDetailsFragment myaDetailsFragment = new MyaDetailsFragment();
+            MyaDetailsFragment myaDetailsFragment = getMyaDetailsFragment();
             myaDetailsFragment.setArguments(bundle);
             view.showPassedFragment(myaDetailsFragment);
             return true;
         }
         return false;
+    }
+
+    MyaDetailsFragment getMyaDetailsFragment() {
+        return new MyaDetailsFragment();
     }
 
     private void setUserModel(UserDataModel userDataModel) {

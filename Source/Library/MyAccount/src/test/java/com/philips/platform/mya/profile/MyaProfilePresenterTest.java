@@ -13,6 +13,7 @@ import android.content.Context;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.mya.R;
+import com.philips.platform.mya.details.MyaDetailsFragment;
 import com.philips.platform.myaplugin.uappadaptor.DataModelType;
 import com.philips.platform.myaplugin.uappadaptor.UserDataModel;
 import com.philips.platform.myaplugin.user.UserDataModelProvider;
@@ -21,8 +22,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Date;
 
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -60,16 +61,24 @@ public class MyaProfilePresenterTest {
     public void testSetUserName() {
         UserDataModelProvider userDataModelProvider = mock(UserDataModelProvider.class);
         UserDataModel userDataModel = new UserDataModel();
-        userDataModel.setEmail("some_email");
         userDataModel.setGivenName("some_name");
-        userDataModel.setFamilyName("some_family_name");
-        userDataModel.setMobileNumber("98278383939");
-        userDataModel.setGender("male");
-        Date birthday = new Date();
-        userDataModel.setBirthday(birthday);
-        userDataModel.setEmail("some_email");
         when(userDataModelProvider.getData(DataModelType.USER)).thenReturn(userDataModel);
         myaProfilePresenter.setUserName(userDataModelProvider);
         verify(view).setUserName(userDataModel.getGivenName());
+    }
+
+    @Test
+    public void testHandleOnClickProfileItem() {
+        final MyaDetailsFragment myaDetailsFragment = mock(MyaDetailsFragment.class);
+        myaProfilePresenter = new MyaProfilePresenter(view) {
+            @Override
+            MyaDetailsFragment getMyaDetailsFragment() {
+                return myaDetailsFragment;
+            }
+        };
+        String key="MYA_My_details";
+        assertTrue(myaProfilePresenter.handleOnClickProfileItem(key, null));
+        verify(myaDetailsFragment).setArguments(null);
+        verify(view).showPassedFragment(myaDetailsFragment);
     }
 }
