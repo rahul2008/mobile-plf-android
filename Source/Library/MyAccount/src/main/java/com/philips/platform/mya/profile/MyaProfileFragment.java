@@ -104,10 +104,10 @@ public class MyaProfileFragment extends MyaBaseFragment implements MyaProfileCon
         recyclerView.addItemDecoration(contentThemedRightSeparatorItemDecoration);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(myaProfileAdaptor);
-        myaProfileAdaptor.setOnClickListener(getOnClickListener(profileList));
+        myaProfileAdaptor.setOnClickListener(onClickRecylerViewItem(profileList));
     }
 
-    private View.OnClickListener getOnClickListener(final Map<String, String> profileList) {
+    private View.OnClickListener onClickRecylerViewItem(final Map<String, String> profileList) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {

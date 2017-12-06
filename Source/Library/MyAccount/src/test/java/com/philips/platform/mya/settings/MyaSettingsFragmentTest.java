@@ -16,9 +16,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by philips on 11/24/17.
- */
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25)
 public class MyaSettingsFragmentTest {

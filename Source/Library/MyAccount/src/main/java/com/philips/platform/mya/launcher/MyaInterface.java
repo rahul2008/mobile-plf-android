@@ -38,7 +38,7 @@ public class MyaInterface implements UappInterface {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         MyaLaunchInput myaLaunchInput = (MyaLaunchInput) uappLaunchInput;
-        UserDataModelProvider userDataModelProvider = new UserDataModelProvider(myaLaunchInput.getContext());
+        UserDataModelProvider userDataModelProvider = getUserDataModelProvider(myaLaunchInput);
         if (!userDataModelProvider.isUserLoggedIn(myaLaunchInput.getContext())) {
             myaLaunchInput.getMyaListener().onError(MyaError.USER_NOT_SIGNED_IN);
             return;
@@ -54,6 +54,10 @@ public class MyaInterface implements UappInterface {
         } else if (uiLauncher instanceof FragmentLauncher) {
             launchAsFragment((FragmentLauncher) uiLauncher, bundle);
         }
+    }
+
+    public UserDataModelProvider getUserDataModelProvider(MyaLaunchInput myaLaunchInput) {
+        return new UserDataModelProvider(myaLaunchInput.getContext());
     }
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher, Bundle arguments) {
