@@ -44,7 +44,7 @@ public class MyaActivityTest {
         when(fragmentManagerMock.beginTransaction()).thenReturn(fragmentTransactionMock);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testActivity() {
         /*activity = buildActivity(MyaActivity.class, intent).withIntent(intent).get();
         MyaActivity spyActivity = Mockito.spy(activity);
