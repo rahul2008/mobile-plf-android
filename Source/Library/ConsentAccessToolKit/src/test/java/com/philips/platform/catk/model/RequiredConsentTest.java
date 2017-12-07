@@ -91,10 +91,6 @@ public class RequiredConsentTest {
         backendConsent = new Consent(Locale.US, ConsentStatus.active, TYPE, version);
     }
 
-    private void givenInaciveBackendConsentOfVersion(int version) {
-        backendConsent = new Consent(Locale.US, ConsentStatus.active, TYPE, version);
-    }
-
     private void whenRequiredConsentIsCreated() {
         requiredConsent = new RequiredConsent(backendConsent, consentDefinition);
     }
