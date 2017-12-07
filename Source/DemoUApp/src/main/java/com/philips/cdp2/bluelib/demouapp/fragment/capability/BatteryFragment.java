@@ -23,6 +23,8 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
+import java.util.Locale;
+
 public class BatteryFragment extends Fragment {
 
     private static final String TAG = "BatteryFragment";
@@ -35,7 +37,7 @@ public class BatteryFragment extends Fragment {
         @Override
         public void onActionCompleted(int value, SHNResult result) {
             if(result == SHNResult.SHNOk) {
-                batteryValue.setText(String.format("%d%%", value));
+                batteryValue.setText(String.format(Locale.US, "%d%%", value));
             } else {
                 SHNLogger.w(TAG, "Error retrieving battery level.");
             }
