@@ -12,6 +12,7 @@ import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
+import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -35,6 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
@@ -81,6 +83,10 @@ public class EWSUappTest {
     private FragmentActivity mockFragmentActivity;
     @Mock
     private CommCentral mockCommCentral;
+    @Mock
+    private EWSTagger mockEWSTagger;
+    @Mock
+    private EWSLogger mockEWSLogger;
 
     @Before
     public void setUp() throws Exception {
@@ -93,7 +99,7 @@ public class EWSUappTest {
         productKeyMap.put(EWSUapp.PRODUCT_NAME, "product");
 
 //
-//        doReturn(mockEwsComponent).when(EWSDependencyProvider.getInstance()).getEwsComponent();
+        doReturn(mockEwsComponent).when(subject).createEWSComponent(any(FragmentLauncher.class));
 
 //        doAnswer(new Answer() {
 //            @Override
@@ -110,6 +116,8 @@ public class EWSUappTest {
             }
         }).when(mockEwsComponent).inject(any(EWSUapp.class));
 
+        when(mockEwsComponent.getEWSTagger()).thenReturn(mockEWSTagger);
+        when(mockEwsComponent.getEWSLogger()).thenReturn(mockEWSLogger);
     }
 
     @Test
@@ -174,8 +182,7 @@ public class EWSUappTest {
     public void itShouldVerifyLaunchAsFragmentOnErrorCatchBlockCalled() throws Exception {
         doThrow(new IllegalStateException("error")).when(mockNavigator).navigateToGettingStartedScreen();
         subject.launchAsFragment(fragmentLauncherMock, new EWSLauncherInput());
-//        verifyStatic();
-        //EWSLogger.e(anyString(), anyString());
+        verify(mockEWSLogger).e(anyString(), anyString());
     }
 
     private void initEWS() {
