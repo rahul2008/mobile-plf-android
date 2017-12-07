@@ -16,7 +16,7 @@ def errors = []
 timestamps {
     try {
         node ('android && device') {
-            stage ('Checkout 2') {
+            stage ('Checkout') {
                 checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'LocalBranch' , localBranch: "**"], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'CloneOption', depth: 1, noTags: false, reference: '', shallow: true], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/opa-android']]])
 
                 sh """#!/bin/bash -le
@@ -26,7 +26,7 @@ timestamps {
                 """
             }
 
-            stage ('unit test 2') {
+            stage ('unit test') {
                 sh '''#!/bin/bash -l
                     set -e
                     chmod -R 755 . 
@@ -35,7 +35,7 @@ timestamps {
                 '''
             }
 
-            stage ('reporting 2') {
+            stage ('reporting') {
                 junit allowEmptyResults: false, testResults: 'Source/Library/ail/Source/Library/*/build/outputs/androidTest-results/*/*.xml'
                 junit allowEmptyResults: false, testResults: 'Source/Library/pse/Source/Library/**/build/outputs/androidTest-results/*/*.xml'
                 junit allowEmptyResults: false, testResults: 'Source/Library/sdb/Source/Library/**/build/outputs/androidTest-results/*/*.xml'
