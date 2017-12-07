@@ -71,16 +71,18 @@ public class IAPServiceDiscoveryWrapper {
                 IAPLog.i(IAPLog.LOG, " getServicesWithCountryPreference Map" + map.toString());
                 Collection<ServiceDiscoveryService> collection = map.values();
 
+
+
                 List<ServiceDiscoveryService> list = new ArrayList<>();
                 list.addAll(collection);
                 ServiceDiscoveryService serviceDiscoveryService = list.get(0);
 
+                pIAPHandler.initIAPRequisite();
                 String locale = serviceDiscoveryService.getLocale();
                 String configUrls = serviceDiscoveryService.getConfigUrls();
                 if (locale != null) {
                     setLangAndCountry(locale);
                 }
-
                 //Condition for launching IAP screens
                 if (iapListener == null && entry == null) {
                     if (configUrls == null || configUrls.isEmpty()) {

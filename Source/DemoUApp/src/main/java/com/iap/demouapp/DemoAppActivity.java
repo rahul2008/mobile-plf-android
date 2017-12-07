@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -170,9 +169,24 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     private void displayUIOnCartVisible() {
         mIapInterface.isCartVisible(this);
+      //  mIapInterface.getCompleteProductList(this);
+//        onResumeRetailer();
 
     }
 
+    private void onResumeRetailer(){
+        mAddCTNLl.setVisibility(View.VISIBLE);
+        mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
+        mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
+        mShopNowCategorized.setVisibility(View.VISIBLE);
+        mLaunchProductDetail.setVisibility(View.VISIBLE);
+        mLaunchProductDetail.setEnabled(true);
+        mCartIcon.setVisibility(View.GONE);
+        mCountText.setVisibility(View.GONE);
+        mShopNow.setVisibility(View.GONE);
+        mPurchaseHistory.setVisibility(View.GONE);
+        mShoppingCart.setVisibility(View.GONE);
+    }
     private void displayFlowViews(boolean b) {
 
         mAddCTNLl.setVisibility(View.VISIBLE);
