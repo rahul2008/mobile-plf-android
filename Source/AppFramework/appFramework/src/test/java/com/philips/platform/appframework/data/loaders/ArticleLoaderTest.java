@@ -75,9 +75,11 @@ public class ArticleLoaderTest {
         verify(contentLoader).getContentById(anyString(),onResultListenerArgumentCaptor.capture());
         onResultListener=onResultListenerArgumentCaptor.getValue();
         List<ContentArticle> contentArticles=new ArrayList<>();
-        contentArticles.add(new ContentArticle());
+        ContentArticle contentArticle=new ContentArticle();
+        contentArticle.setLink("");
+        contentArticles.add(contentArticle);
         onResultListener.onSuccess(contentArticles);
-        verify(articleUrlLoadListener).onSuccess(anyString());
+        verify(articleUrlLoadListener).onSuccess(any(String.class));
 
 
     }
