@@ -137,8 +137,8 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        mockStatic(EWSTagger.class);
-        mockStatic(EWSLogger.class);
+//        mockStatic(EWSTagger.class);
+//        mockStatic(EWSLogger.class);
         mockStatic(LanTransportContext.class);
         mockStatic(CommCentral.class);
 
@@ -324,7 +324,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
             Exception {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
 
-        verify(mockDiscoveryHelper).startDiscovery(any(DiscoveryHelper.DiscoveryCallback.class), mockEWSLogger);
+        verify(mockDiscoveryHelper).startDiscovery(any(DiscoveryHelper.DiscoveryCallback.class), eq(mockEWSLogger));
     }
 
     @Test
@@ -477,7 +477,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
     private void simulateApplianceFound() {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
-        verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture(), mockEWSLogger);
+        verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture(), eq(mockEWSLogger));
         when(mockAppliance.getNetworkNode()).thenReturn(mockNetworkNode);
         when(mockAppliance.getNetworkNode().getCppId()).thenReturn("MOCKEDCPPID12345678");
         when(mockApplianceSessionDetailInfo.getAppliancePin()).thenReturn("MOCKEDPIN12345678");
@@ -487,7 +487,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
     private void simulateWrongApplianceFound() {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
-        verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture(), mockEWSLogger);
+        verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture(), eq(mockEWSLogger));
         when(mockAppliance.getNetworkNode()).thenReturn(mockNetworkNode);
         when(mockAppliance.getNetworkNode().getCppId()).thenReturn("WorngMOCKEDCPPID12345678");
         discoveryCallbackArgumentCaptor.getValue().onApplianceFound(mockAppliance);

@@ -11,8 +11,8 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.injections.DependencyHelper;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
+import com.philips.cdp2.ews.injections.DependencyHelper;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.injections.EWSConfigurationModule;
 import com.philips.cdp2.ews.injections.EWSDependencyProviderModule;
@@ -47,6 +47,7 @@ public class EWSUapp implements UappInterface {
     private Context context;
 
     private DependencyHelper dependencyHelper;
+
     /**
      * Entry point for EWS. Please make sure no EWS components are being used before EWSInterface$init.
      *
@@ -56,7 +57,7 @@ public class EWSUapp implements UappInterface {
     @Override
     public void init(@NonNull final UappDependencies uappDependencies, @NonNull final UappSettings uappSettings) {
         EWSDependencies ewsDependencies = (EWSDependencies) uappDependencies;
-        dependencyHelper = new DependencyHelper(uappDependencies.getAppInfra(), ewsDependencies.getCommCentral(), ewsDependencies.getProductKeyMap(), ewsDependencies.getContentConfiguration() );
+        dependencyHelper = new DependencyHelper(uappDependencies.getAppInfra(), ewsDependencies.getCommCentral(), ewsDependencies.getProductKeyMap(), ewsDependencies.getContentConfiguration());
         context = uappSettings.getContext();
     }
 
@@ -79,7 +80,7 @@ public class EWSUapp implements UappInterface {
             launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
         } else if (uiLauncher instanceof ActivityLauncher) {
             dependencyHelper.setThemeConfiguration(((ActivityLauncher) uiLauncher).getDlsThemeConfiguration());
-            launchAsActivity( uappLaunchInput);
+            launchAsActivity(uappLaunchInput);
         }
     }
 
@@ -88,13 +89,12 @@ public class EWSUapp implements UappInterface {
         EWSComponent ewsComponent = null;
         try {
             ewsComponent = DaggerEWSComponent.builder()
-                    .eWSModule(new EWSModule(fragmentLauncher.getFragmentActivity()
-                            , fragmentLauncher.getFragmentActivity().getSupportFragmentManager()
-                            , fragmentLauncher.getParentContainerResourceID(), DependencyHelper.getCommCentral()))
+                    .eWSModule(new EWSModule(fragmentLauncher.getFragmentActivity(),
+                            fragmentLauncher.getFragmentActivity().getSupportFragmentManager(),
+                            fragmentLauncher.getParentContainerResourceID(), DependencyHelper.getCommCentral()))
                     .eWSConfigurationModule(new EWSConfigurationModule(fragmentLauncher.getFragmentActivity(), DependencyHelper.getContentConfiguration()))
                     .eWSDependencyProviderModule(new EWSDependencyProviderModule(DependencyHelper.getAppInfraInterface(), DependencyHelper.getProductKeyMap()))
                     .build();
-
             ewsComponent.inject(this);
             ((EWSLauncherInput) uappLaunchInput).setContainerFrameId(fragmentLauncher.getParentContainerResourceID());
             ((EWSLauncherInput) uappLaunchInput).setFragmentManager(fragmentLauncher.getFragmentActivity().getSupportFragmentManager());

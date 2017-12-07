@@ -14,6 +14,7 @@ import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
@@ -53,6 +54,8 @@ public class EWSUappTest {
 
     @Mock
     LoggingInterface mockLoggingInterface;
+    @Mock
+    AppTaggingInterface mockAppTaggingInterface;
     @Rule
     private ExpectedException thrownException = ExpectedException.none();
     private EWSUapp subject;
@@ -74,7 +77,8 @@ public class EWSUappTest {
     private Map<String, String> productKeyMap;
     @Mock
     private EWSComponent mockEwsComponent;
-
+    @Mock
+    private FragmentActivity mockFragmentActivity;
     @Mock
     private CommCentral mockCommCentral;
 
@@ -90,7 +94,7 @@ public class EWSUappTest {
 
 //
 //        doReturn(mockEwsComponent).when(EWSDependencyProvider.getInstance()).getEwsComponent();
-//        doReturn(mockLoggingInterface).when(EWSDependencyProvider.getInstance()).getLoggerInterface();
+
 //        doAnswer(new Answer() {
 //            @Override
 //            public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -105,6 +109,7 @@ public class EWSUappTest {
                 return null;
             }
         }).when(mockEwsComponent).inject(any(EWSUapp.class));
+
     }
 
     @Test
@@ -118,7 +123,7 @@ public class EWSUappTest {
     public void itShouldInitEWSDependenciesWhenOnInitIsCalled() throws Exception {
         initEWS();
         verifyStatic();
-       // EWSDependencyProvider.getInstance().initDependencies(appInfraInterfaceMock, productKeyMap, mockCommCentral);
+        // EWSDependencyProvider.getInstance().initDependencies(appInfraInterfaceMock, productKeyMap, mockCommCentral);
     }
 
     @Test
@@ -131,6 +136,7 @@ public class EWSUappTest {
     @Test
     public void itShouldLaunchEWSAsFragmentIfLauncherConfigurationIsValid() throws Exception {
         initEWS();
+
         doReturn(mock(FragmentActivity.class, withSettings().extraInterfaces(EWSActionBarListener.class)))
                 .when(fragmentLauncherMock).getFragmentActivity();
         subject.launch(fragmentLauncherMock, new EWSLauncherInput());
@@ -148,8 +154,10 @@ public class EWSUappTest {
 
     @Test
     public void itShouldThrowAnErrorIfLauncherConfigurationIsNotValid() throws Exception {
+        initEWS();
         thrownException.expect(UnsupportedOperationException.class);
         thrownException.expectMessage(EWSUapp.ERROR_MSG_INVALID_CALL);
+        thrownException.expectMessage(EWSUapp.ERROR_MSG_INVALID_IMPLEMENTATION);
 
         subject.launch(fragmentLauncherMock, new EWSLauncherInput());
     }
@@ -166,12 +174,14 @@ public class EWSUappTest {
     public void itShouldVerifyLaunchAsFragmentOnErrorCatchBlockCalled() throws Exception {
         doThrow(new IllegalStateException("error")).when(mockNavigator).navigateToGettingStartedScreen();
         subject.launchAsFragment(fragmentLauncherMock, new EWSLauncherInput());
-        verifyStatic();
+//        verifyStatic();
         //EWSLogger.e(anyString(), anyString());
     }
 
     private void initEWS() {
         when(ewsDependenciesMock.getAppInfra()).thenReturn(appInfraInterfaceMock);
+        when(ewsDependenciesMock.getAppInfra().getLogging()).thenReturn(mockLoggingInterface);
+        when(ewsDependenciesMock.getAppInfra().getTagging()).thenReturn(mockAppTaggingInterface);
         when(ewsDependenciesMock.getProductKeyMap()).thenReturn(productKeyMap);
         when(uappSettingsMock.getContext()).thenReturn(contextMock);
         subject.init(ewsDependenciesMock, uappSettingsMock);

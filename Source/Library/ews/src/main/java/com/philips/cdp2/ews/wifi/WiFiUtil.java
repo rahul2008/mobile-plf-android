@@ -24,25 +24,18 @@ import javax.inject.Singleton;
 @Singleton
 public class WiFiUtil {
 
-    private static final String TAG = "WiFiUtil";
     public static final String DEVICE_SSID = "PHILIPS Setup";
     public static final String UNKNOWN_SSID = "<unknown ssid>";
-    @NonNull
-    private WifiManager wifiManager;
-
-    @NonNull
-    private EWSLogger ewsLogger;
-
-    private static String lastWifiSSid;
-
     public static final int HOME_WIFI = 1;
     public static final int WRONG_WIFI = 2;
     public static final int UNKNOWN_WIFI = 3;
     public static final int DEVICE_HOTSPOT_WIFI = 4;
-
-    @IntDef({HOME_WIFI, WRONG_WIFI, DEVICE_HOTSPOT_WIFI, UNKNOWN_WIFI})
-    public @interface WiFiState {
-    }
+    private static final String TAG = "WiFiUtil";
+    private String lastWifiSSid;
+    @NonNull
+    private WifiManager wifiManager;
+    @NonNull
+    private EWSLogger ewsLogger;
 
     @Inject
     public WiFiUtil(@NonNull WifiManager wifiManager, @NonNull EWSLogger ewsLogger) {
@@ -121,5 +114,9 @@ public class WiFiUtil {
                 ewsLogger.i(TAG, "Removing network " + success);
             }
         }
+    }
+
+    @IntDef({HOME_WIFI, WRONG_WIFI, DEVICE_HOTSPOT_WIFI, UNKNOWN_WIFI})
+    public @interface WiFiState {
     }
 }

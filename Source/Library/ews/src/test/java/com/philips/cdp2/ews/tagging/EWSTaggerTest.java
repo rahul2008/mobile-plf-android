@@ -10,6 +10,7 @@ import com.philips.cdp2.ews.tagging.Tag.ACTION;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -44,8 +45,10 @@ public class EWSTaggerTest {
         subject = new EWSTagger(mockTaggingInterface);
 
     }
-
+    @Ignore
+    @Deprecated
     @Test
+    //todo constructor is not private anymore
     public void itShouldVerifyConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Constructor<EWSTagger> constructor = EWSTagger.class.getDeclaredConstructor();
         assertTrue(Modifier.isPrivate(constructor.getModifiers()));
