@@ -83,20 +83,17 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
         int i = v.getId();
         if (i == R.id.btnLaunchEws) {
             launchEwsUApp();
-
         } else if (i == R.id.btnLaunchFragmentEws) {
             launchEWSFragmentUApp();
-
         } else if (i == R.id.btnTheme) {
             ((EWSDemoUActivity) getActivity()).openThemeScreen();
-
         }
     }
 
     private void launchEwsUApp() {
         EWSInterface ewsInterface = new EWSInterface();
         ewsInterface.init(createUappDependencies(appInfra, createProductMap()), new UappSettings(getActivity()));
-        //its upto propotion to pass theme or not ,if not passing theme then it will show default theme of library
+        //its up to proposition to pass theme or not, if not passing theme then it will show default theme of library
         ewsInterface.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, ((EWSDemoUActivity) getActivity()).getThemeConfig(), -1, null), ((EWSDemoUActivity) getActivity()).getEwsLauncherInput());
     }
 

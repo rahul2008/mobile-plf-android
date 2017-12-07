@@ -73,6 +73,7 @@ allprojects {
 group = 'com.philips.cdp'
 version = objcdp.getVersion(versions.ews_ews)
 
+//start publishing
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
@@ -95,6 +96,7 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
+
     clientConfig.timeout = 600
     // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
@@ -111,7 +113,7 @@ publishing {
             release in the path done here to prevent local publishing, possibility to publish only release
              which comes from jenkins
              */
-            artifact("$buildDir/outputs/aar/${archivesBaseName}_release.aar")
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
@@ -136,6 +138,7 @@ android {
         targetSdkVersion 26
         versionCode getMyVersionCode()
         versionName "1.0"
+        consumerProguardFiles('proguard-rules.txt', 'proguard-rules-lib.txt')
     }
     dataBinding {
         enabled = true
