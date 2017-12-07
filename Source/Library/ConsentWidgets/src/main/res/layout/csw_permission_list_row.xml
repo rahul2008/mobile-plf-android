@@ -68,7 +68,7 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="center_vertical|start"
-        android:text="@string/reg_mya_consent_help_label"
+        android:text="@string/reg_DLS_OptIn_What_does_This_Mean_Txt"
         android:textColor="@color/reg_hyperlink_highlight_color" />
 
 </RelativeLayout>
