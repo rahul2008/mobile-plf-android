@@ -61,7 +61,7 @@ public class SessionProviderTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        subject = new SessionProviderForTest(bleReferenceAppliance, SESSION_NUMBER, mockSessionProviderCallback);
+        subject = new SessionProviderMock(bleReferenceAppliance, SESSION_NUMBER, mockSessionProviderCallback);
     }
 
     @Test
@@ -123,9 +123,9 @@ public class SessionProviderTest {
     }
 
 
-    private class SessionProviderForTest extends SessionProvider {
+    private class SessionProviderMock extends SessionProvider {
 
-        SessionProviderForTest(@NonNull RefAppBleReferenceAppliance appliance, long sessionNumber, @NonNull Callback SessionGroupCallback) {
+        SessionProviderMock(@NonNull RefAppBleReferenceAppliance appliance, long sessionNumber, @NonNull Callback SessionGroupCallback) {
             super(appliance, sessionNumber, SessionGroupCallback);
         }
 
