@@ -6,69 +6,12 @@
 
 <resources>
 
-  <dimen name="title_text_size">20sp</dimen>
   <dimen name="body_text_size">16sp</dimen>
-  <dimen name="body_link_text_size">16sp</dimen>
-  <dimen name="small_text_size">14sp</dimen>
-  <dimen name="extra_small_text_size">12sp</dimen>
-  <dimen name="large_text_size">24sp</dimen>
-  <dimen name="extra_large_text_size">68sp</dimen>
   <dimen name="helper_text_size">12sp</dimen>
 
   <dimen name="line_spacing_extra">8dp</dimen>
-  <dimen name="small_line_spacing_extra">6dp</dimen>
 
-  <string name="centrale_sans_bold" translatable="false">fonts/centralesansbold.ttf</string>
   <string name="centrale_sans_book" translatable="false">fonts/centralesansbook.ttf</string>
-  <string name="centrale_sans_medium" translatable="false">fonts/centralesansmedium.ttf</string>
-  <string name="centrale_sans_light" translatable="false">fonts/centralesanslight.ttf</string>
-  <string name="centrale_sans_condensed_book" translatable="false">fonts/centralesanscondensedbook.otf</string>
-  <string name="centrale_sans_condensed_medium" translatable="false">fonts/centralesanscondensedmedium.ttf</string>
-  <string name="centrale_sans_book_italic" translatable="false">fonts/centralesansbookitalic.otf</string>
-
-  <style name="TextAppearance.Title" parent="android:TextAppearance.WindowTitle">
-    <item name="textSize">@dimen/title_text_size</item>
-  </style>
-
-  <style name="Txt.Title.Light">
-    <item name="fontPath">@string/centrale_sans_book</item>
-    <item name="android:textSize">@dimen/title_text_size</item>
-  </style>
-  <style name="Txt.Small">
-    <item name="android:textSize">@dimen/small_text_size</item>
-    <item name="android:lineSpacingExtra">@dimen/small_line_spacing_extra</item>
-  </style>
-  <style name="Txt.Small.Extra">
-    <item name="android:textSize">@dimen/extra_small_text_size</item>
-    <item name="android:lineSpacingExtra">@dimen/small_line_spacing_extra</item>
-  </style>
-  <style name="Txt.Small.Extra.Light">
-    <item name="android:textSize">@dimen/extra_small_text_size</item>
-    <item name="android:lineSpacingExtra">@dimen/small_line_spacing_extra</item>
-    <item name="android:textColor">@color/white_with_opacity_50</item>
-  </style>
-  <style name="Txt.Large">
-    <item name="fontPath">@string/centrale_sans_light</item>
-    <item name="android:textSize">@dimen/large_text_size</item>
-    <item name="android:maxLines">1</item>
-  </style>
-  <style name="Txt.Large.Bold">
-    <item name="fontPath">@string/centrale_sans_bold</item>
-  </style>
-  <style name="Txt.Large.Extra">
-    <item name="fontPath">@string/centrale_sans_condensed_book</item>
-    <item name="android:textSize">@dimen/extra_large_text_size</item>
-    <item name="android:maxLines">1</item>
-  </style>
-
-  <style name="Txt.Small.PS">
-    <item name="fontPath">@string/centrale_sans_book</item>
-  </style>
-
-  <style name="Txt.PSItem">
-    <item name="fontPath">@string/centrale_sans_light</item>
-    <item name="android:textSize">17sp</item>
-  </style>
 
 
   ///////////

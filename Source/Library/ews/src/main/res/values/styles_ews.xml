@@ -28,88 +28,13 @@
         <item name="textAllCaps">false</item>
     </style>
 
-    <style name="EWSToolbarTitle" parent="@style/EWS.Txt.Large">
-        <item name="android:textColor">@color/white</item>
-    </style>
-
     <dimen name="ews_title_text_size">20sp</dimen>
-    <dimen name="ews_body_text_size">16sp</dimen>
-    <dimen name="ews_body_link_text_size">16sp</dimen>
-    <dimen name="ews_small_text_size">14sp</dimen>
-    <dimen name="ews_extra_small_text_size">12sp</dimen>
-    <dimen name="ews_large_text_size">24sp</dimen>
-    <dimen name="ews_extra_large_text_size">68sp</dimen>
-
-    <dimen name="ews_line_spacing_extra">8dp</dimen>
-    <dimen name="ews_small_line_spacing_extra">6dp</dimen>
 
     <string name="ews_sans_bold" translatable="false">fonts/centralesansbold.ttf</string>
-    <string name="ews_sans_book" translatable="false">fonts/centralesansbook.ttf</string>
-    <string name="ews_sans_medium" translatable="false">fonts/centralesansmedium.ttf</string>
-    <string name="ews_sans_light" translatable="false">fonts/centralesanslight.ttf</string>
-    <string name="ews_sans_condensed_book" translatable="false">fonts/centralesanscondensedbook.otf</string>
-
-    <style name="EWS.Txt">
-        <item name="fontPath">@string/ews_sans_book</item>
-        <item name="android:textSize">@dimen/ews_body_text_size</item>
-        <item name="android:lineSpacingExtra">@dimen/ews_line_spacing_extra</item>
-    </style>
-
-    <style name="EWS.Txt.Title">
-        <item name="fontPath">@string/ews_sans_bold</item>
-        <item name="android:textSize">@dimen/ews_title_text_size</item>
-    </style>
-
-    <style name="EWS.Txt.Body"></style>
-
-    <style name="EWS.Txt.Body.Link">
-        <!--<item name="android:textColor">@color/colorAccent</item>-->
-        <item name="android:textSize">@dimen/ews_body_link_text_size</item>
-        <item name="android:autoLink">web</item>
-    </style>
-
-    <style name="EWS.Txt.Body.Dark">
-        <item name="android:textColor">@color/color_primary_dark_opacity_50</item>
-    </style>
-
-    <style name="EWS.Txt.Small">
-        <item name="android:textSize">@dimen/ews_small_text_size</item>
-        <item name="android:lineSpacingExtra">@dimen/ews_small_line_spacing_extra</item>
-    </style>
-
-    <style name="EWS.Txt.Small.Extra">
-        <item name="android:textSize">@dimen/ews_extra_small_text_size</item>
-        <item name="android:lineSpacingExtra">@dimen/ews_small_line_spacing_extra</item>
-    </style>
-
-    <style name="EWS.Txt.Large">
-        <item name="fontPath">@string/ews_sans_light</item>
-        <item name="android:textSize">@dimen/ews_large_text_size</item>
-        <item name="android:maxLines">1</item>
-    </style>
-
-    <style name="EWS.Txt.Large.Extra">
-        <item name="fontPath">@string/ews_sans_condensed_book</item>
-        <item name="android:textSize">@dimen/ews_extra_large_text_size</item>
-        <item name="android:maxLines">1</item>
-    </style>
-
-    <style name="EWS.Txt.HtmlBody">
-        <item name="fontPath">@string/ews_sans_book</item>
-        <item name="android:textSize">@dimen/ews_small_text_size</item>
-    </style>
 
     <style name="EWS.ImageScale">
         <item name="android:adjustViewBounds">true</item>
         <item name="android:scaleType">centerCrop</item>
-    </style>
-
-    <style name="EWSDialogActivity" parent="@style/Theme.AppCompat.Light">
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:backgroundDimEnabled">true</item>
     </style>
 
 </resources>
