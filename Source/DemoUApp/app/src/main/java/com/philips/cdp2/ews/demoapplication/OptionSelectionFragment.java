@@ -26,7 +26,7 @@ import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.cdp2.ews.microapp.EWSDependencies;
-import com.philips.cdp2.ews.microapp.EWSInterface;
+import com.philips.cdp2.ews.microapp.EWSUapp;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -94,19 +94,19 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
     }
 
     private void launchEwsUApp() {
-        EWSInterface ewsInterface = new EWSInterface();
-        ewsInterface.init(createUappDependencies(appInfra, createProductMap()), new UappSettings(getActivity()));
+        EWSUapp ewsUapp = new EWSUapp();
+        ewsUapp.init(createUappDependencies(appInfra, createProductMap()), new UappSettings(getActivity()));
         //its upto propotion to pass theme or not ,if not passing theme then it will show default theme of library
-        ewsInterface.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, ((EWSDemoActivity) getActivity()).getThemeConfig(), -1, null),
+        ewsUapp.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, ((EWSDemoActivity) getActivity()).getThemeConfig(), -1, null),
                 ((EWSDemoActivity) getActivity()).getEwsLauncherInput());
     }
 
     private void launchEWSFragmentUApp() {
-        EWSInterface ewsInterface = new EWSInterface();
-        ewsInterface.init(createUappDependencies(appInfra, createProductMap()), new UappSettings(getActivity()));
+        EWSUapp ewsUapp = new EWSUapp();
+        ewsUapp.init(createUappDependencies(appInfra, createProductMap()), new UappSettings(getActivity()));
         FragmentLauncher fragmentLauncher = new FragmentLauncher
                 (getActivity(), R.id.mainContainer, ((ActionBarListener) getActivity()));
-        ewsInterface.launch(fragmentLauncher, ((EWSDemoActivity) getActivity()).getEwsLauncherInput());
+        ewsUapp.launch(fragmentLauncher, ((EWSDemoActivity) getActivity()).getEwsLauncherInput());
     }
 
     /**
@@ -154,13 +154,13 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
         Map<String, String> productKeyMap = new HashMap<>();
         switch ((String)configSpinner.getSelectedItem()){
             case DEFAULT:
-                productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.ews_device_name_default));
+                productKeyMap.put(EWSUapp.PRODUCT_NAME, getString(R.string.ews_device_name_default));
                 break;
             case WAKEUP_LIGHT:
-                productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.ews_device_name_wl));
+                productKeyMap.put(EWSUapp.PRODUCT_NAME, getString(R.string.ews_device_name_wl));
                 break;
             case AIRPURIFIER:
-                productKeyMap.put(EWSInterface.PRODUCT_NAME, getString(R.string.ews_device_name_ap));
+                productKeyMap.put(EWSUapp.PRODUCT_NAME, getString(R.string.ews_device_name_ap));
                 break;
 
         }

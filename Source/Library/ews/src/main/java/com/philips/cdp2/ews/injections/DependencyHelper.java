@@ -18,17 +18,9 @@ import java.util.Map;
 public class DependencyHelper {
 
     @NonNull private static AppInfraInterface appInfra;
-
     @NonNull private static CommCentral commCentralInstance;
-
     @NonNull private static  Map<String, String> productKeyMap;
-
-    public void setThemeConfiguration(@Nullable ThemeConfiguration themeConfiguration) {
-        this.themeConfiguration = themeConfiguration;
-    }
-
     @Nullable private static ThemeConfiguration themeConfiguration;
-
     @NonNull private static ContentConfiguration contentConfiguration;
 
     public DependencyHelper(@NonNull AppInfraInterface appInfraInterface, @NonNull CommCentral commCentral, @NonNull  Map<String, String> prodKeyMap,
@@ -65,6 +57,10 @@ public class DependencyHelper {
      */
     public static boolean areDependenciesInitialized() {
         return appInfra != null && productKeyMap != null;
+    }
+
+    public void setThemeConfiguration(@Nullable ThemeConfiguration themeConfiguration) {
+        this.themeConfiguration = themeConfiguration;
     }
 
     @Nullable

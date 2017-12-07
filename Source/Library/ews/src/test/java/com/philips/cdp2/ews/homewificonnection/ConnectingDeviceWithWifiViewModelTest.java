@@ -22,7 +22,7 @@ import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.logger.EWSLogger;
-import com.philips.cdp2.ews.microapp.EWSInterface;
+import com.philips.cdp2.ews.microapp.EWSUapp;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameChanger;
 import com.philips.cdp2.ews.tagging.EWSTagger;
@@ -140,7 +140,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
         AppTaggingInterface mockTaggingInterface = mock(AppTaggingInterface.class);
         when(mockAppInfraInterface.getTagging()).thenReturn(mockTaggingInterface);
         Map<String, String> mockMap = new HashMap<>();
-        mockMap.put(EWSInterface.PRODUCT_NAME, DEVICE_NAME);
+        mockMap.put(EWSUapp.PRODUCT_NAME, DEVICE_NAME);
         EWSDependencyProvider.getInstance().initDependencies(mockAppInfraInterface, mockMap, mockCommCentral);
         subject = new ConnectingDeviceWithWifiViewModel(mockApplianceAccessManager, mockNavigator,
                 mockWiFiConnectivityManager, mockWiFiUtil, mockDeviceFriendlyNameChanger,

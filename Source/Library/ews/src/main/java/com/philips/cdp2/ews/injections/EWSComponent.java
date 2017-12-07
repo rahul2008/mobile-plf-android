@@ -13,7 +13,7 @@ import com.philips.cdp2.ews.connectionsuccessful.ConnectionSuccessfulViewModel;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiViewModel;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel;
 import com.philips.cdp2.ews.logger.EWSLogger;
-import com.philips.cdp2.ews.microapp.EWSInterface;
+import com.philips.cdp2.ews.microapp.EWSUapp;
 import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordViewModel;
 import com.philips.cdp2.ews.setupsteps.FirstSetupStepsViewModel;
@@ -35,7 +35,7 @@ import dagger.Component;
 @Component(modules = {EWSModule.class, EWSConfigurationModule.class, EWSDependencyProviderModule.class})
 public interface EWSComponent {
 
-    void inject(EWSInterface ewsInterface);
+    void inject(EWSUapp ewsUapp);
 
     void inject(EWSActivity ewsActivity);
 
