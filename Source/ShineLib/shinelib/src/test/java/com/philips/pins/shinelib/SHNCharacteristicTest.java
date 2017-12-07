@@ -15,6 +15,7 @@ import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.helper.Utility;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -295,10 +296,10 @@ public class SHNCharacteristicTest {
         verify(resultReporterMock).reportResult(SHNResult.SHNErrorInvalidResponse, null);
     }
 
-    public class WhenTogglingNotifications
-    {
-        public class AndNotConnectedToBLELayer
-        {
+    @Ignore("Ignore as test class, NestedRunner will execute the tests.")
+    public class WhenTogglingNotifications {
+        @Ignore("Ignore as test class, NestedRunner will execute the tests.")
+        public class AndNotConnectedToBLELayer {
             @Before
             public void setUp() {
                 shnCharacteristic.setNotification(true, resultReporterMock);
@@ -310,12 +311,14 @@ public class SHNCharacteristicTest {
             }
         }
 
+        @Ignore("Ignore as test class, NestedRunner will execute the tests.")
         public class AndConnectedToBLELayer {
             @Before
             public void setUp() {
                 shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
             }
 
+            @Ignore("Ignore as test class, NestedRunner will execute the tests.")
             public class AndSetCharacteristicNotificationFails {
                 @Before
                 public void setUp() {
@@ -329,6 +332,7 @@ public class SHNCharacteristicTest {
                 }
             }
 
+            @Ignore("Ignore as test class, NestedRunner will execute the tests.")
             public class AndAcquiringTheClientCharacteristicConfigurationDescriptorFails {
                 @Before
                 public void setUp() {
@@ -343,6 +347,7 @@ public class SHNCharacteristicTest {
                 }
             }
 
+            @Ignore("Ignore as test class, NestedRunner will execute the tests.")
             public class AndBTGattRespondsProperly {
                 @Before
                 public void setUp() {
@@ -350,6 +355,7 @@ public class SHNCharacteristicTest {
                     doReturn(mockedDescriptor).when(mockedBluetoothGattCharacteristic).getDescriptor(eq(CLIENT_CHARACTERISTIC_CONFIG_UUID));
                 }
 
+                @Ignore("Ignore as test class, NestedRunner will execute the tests.")
                 public class AndNotificationsAreEnabled {
                     @Before
                     public void setUp() {
@@ -385,6 +391,7 @@ public class SHNCharacteristicTest {
 
                 }
 
+                @Ignore("Ignore as test class, NestedRunner will execute the tests.")
                 public class AndNotificationsAreDisabled {
                     @Before
                     public void setUp() {
@@ -420,6 +427,7 @@ public class SHNCharacteristicTest {
                 }
             }
 
+            @Ignore("Ignore as test class, NestedRunner will execute the tests.")
             public class AndWriteDescriptorFails {
                 @Before
                 public void setUp() {
@@ -434,6 +442,7 @@ public class SHNCharacteristicTest {
                     }).when(mockedBTGatt).writeDescriptor(any(BluetoothGattDescriptor.class), any(byte[].class));
                 }
 
+                @Ignore("Ignore as test class, NestedRunner will execute the tests.")
                 public class AndNotificationsAreEnabled {
                     @Before
                     public void setUp() {
@@ -449,10 +458,10 @@ public class SHNCharacteristicTest {
         }
     }
 
-    public class WhenTogglingIndications
-    {
-        public class AndNotConnectedToBLELayer
-        {
+    @Ignore("Ignore as test class, NestedRunner will execute the tests.")
+    public class WhenTogglingIndications {
+        @Ignore("Ignore as test class, NestedRunner will execute the tests.")
+        public class AndNotConnectedToBLELayer {
             @Before
             public void setUp() {
                 shnCharacteristic.setIndication(true, resultReporterMock);
@@ -464,12 +473,14 @@ public class SHNCharacteristicTest {
             }
         }
 
+        @Ignore("Ignore as test class, NestedRunner will execute the tests.")
         public class AndConnectedToBLELayer {
             @Before
             public void setUp() {
                 shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
             }
 
+            @Ignore("Ignore as test class, NestedRunner will execute the tests.")
             public class AndSetCharacteristicNotificationFails {
                 @Before
                 public void setUp() {
@@ -483,6 +494,7 @@ public class SHNCharacteristicTest {
                 }
             }
 
+            @Ignore("Ignore as test class, NestedRunner will execute the tests.")
             public class AndAcquiringTheClientCharacteristicConfigurationDescriptorFails {
                 @Before
                 public void setUp() {
@@ -497,6 +509,7 @@ public class SHNCharacteristicTest {
                 }
             }
 
+            @Ignore("Ignore as test class, NestedRunner will execute the tests.")
             public class AndBTGattRespondsProperly {
                 @Before
                 public void setUp() {
@@ -504,6 +517,7 @@ public class SHNCharacteristicTest {
                     doReturn(mockedDescriptor).when(mockedBluetoothGattCharacteristic).getDescriptor(eq(CLIENT_CHARACTERISTIC_CONFIG_UUID));
                 }
 
+                @Ignore("Ignore as test class, NestedRunner will execute the tests.")
                 public class AndIndicationsAreEnabled {
                     @Before
                     public void setUp() {
@@ -532,6 +546,7 @@ public class SHNCharacteristicTest {
                     }
                 }
 
+                @Ignore("Ignore as test class, NestedRunner will execute the tests.")
                 public class AndIndicationsAreDisabled {
                     @Before
                     public void setUp() {
@@ -567,6 +582,7 @@ public class SHNCharacteristicTest {
                 }
             }
 
+            @Ignore("Ignore as test class, NestedRunner will execute the tests.")
             public class AndWriteDescriptorFails {
                 @Before
                 public void setUp() {
@@ -581,6 +597,7 @@ public class SHNCharacteristicTest {
                     }).when(mockedBTGatt).writeDescriptor(any(BluetoothGattDescriptor.class), any(byte[].class));
                 }
 
+                @Ignore("Ignore as test class, NestedRunner will execute the tests.")
                 public class AndIndicationsAreEnabled {
                     @Before
                     public void setUp() {
