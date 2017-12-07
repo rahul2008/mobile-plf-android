@@ -37,15 +37,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_body_labels_margin"
                 android:text="@{viewModel.title}" />
-
             <ImageView
-                android:id="@+id/ews_paired_image"
+                android:id="@+id/ews_04_01_pairing_successful_image"
                 style="@style/EWS.ImageScale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_image_top_margin"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_ews_device_successful_animation"
                 android:contentDescription="@null"
-                app:srcCompat="@drawable/ews_connection_succesful" />
+                />
 
             <Space
                 android:layout_width="match_parent"
