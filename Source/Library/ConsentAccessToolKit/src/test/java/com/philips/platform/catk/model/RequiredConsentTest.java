@@ -21,7 +21,66 @@ public class RequiredConsentTest {
     public void isAccepted_trueIfHigherVersionBackendConsentIsActive () {
         givenActiveBackendConsentOfVersion(1);
         givenConsentDefinitionOfVersion(0);
+        whenRequiredConsentIsCreated();
         thenRequiredConsentIsActive();
+    }
+
+    @Test
+    public void isAccepted_falseWhenConsentIsRejected() {
+        givenInactiveBackendConsentOfVersion(1);
+        givenConsentDefinitionOfVersion(1);
+        whenRequiredConsentIsCreated();
+        thenRequiredConsentIsInactive();
+    }
+
+    @Test
+    public void isAccepted_falseWhenThereIsNoConsent() {
+        givenConsentDefinitionOfVersion(1);
+        whenRequiredConsentIsCreated();
+        thenRequiredConsentIsInactive();
+    }
+
+    @Test
+    public void isAccepted_falseWhenConsentGivenButOldVersion() {
+        givenActiveBackendConsentOfVersion(0);
+        givenConsentDefinitionOfVersion(1);
+        whenRequiredConsentIsCreated();
+        thenRequiredConsentIsInactive();
+    }
+
+    @Test
+    public void isAccepted_trueWhenConsentGivenAndSameVersion() {
+        givenActiveBackendConsentOfVersion(1);
+        givenConsentDefinitionOfVersion(1);
+        whenRequiredConsentIsCreated();
+        thenRequiredConsentIsActive();
+    }
+
+    @Test
+    public void isChangeable_falseWhenCurrentVersionHigherThanDefinition() {
+        givenActiveBackendConsentOfVersion(1);
+        givenConsentDefinitionOfVersion(0);
+        whenRequiredConsentIsCreated();
+        thenRequiredConsentIsNotChangeable();
+    }
+
+    @Test
+    public void isChangeable_trueWhenThereIsNoConsent() {
+        givenConsentDefinitionOfVersion(0);
+        whenRequiredConsentIsCreated();
+        thenRequiredConsentIsChangeable();
+    }
+
+    @Test
+    public void isChangeable_trueWhenCurrentVersionLowerThanDefinition() {
+        givenActiveBackendConsentOfVersion(0);
+        givenConsentDefinitionOfVersion(1);
+        whenRequiredConsentIsCreated();
+        thenRequiredConsentIsChangeable();
+    }
+
+    private void givenInactiveBackendConsentOfVersion(int version) {
+        backendConsent = new Consent(Locale.US, ConsentStatus.inactive, TYPE, version);
     }
 
     private void givenConsentDefinitionOfVersion(int version) {
@@ -32,9 +91,28 @@ public class RequiredConsentTest {
         backendConsent = new Consent(Locale.US, ConsentStatus.active, TYPE, version);
     }
 
-    private void thenRequiredConsentIsActive() {
+    private void givenInaciveBackendConsentOfVersion(int version) {
+        backendConsent = new Consent(Locale.US, ConsentStatus.active, TYPE, version);
+    }
+
+    private void whenRequiredConsentIsCreated() {
         requiredConsent = new RequiredConsent(backendConsent, consentDefinition);
+    }
+
+    private void thenRequiredConsentIsActive() {
         assertTrue(requiredConsent.isAccepted());
+    }
+
+    private void thenRequiredConsentIsInactive() {
+        assertFalse(requiredConsent.isAccepted());
+    }
+
+    private void thenRequiredConsentIsChangeable() {
+        assertTrue(requiredConsent.isChangeable());
+    }
+
+    private void thenRequiredConsentIsNotChangeable() {
+        assertFalse(requiredConsent.isChangeable());
     }
 
     private RequiredConsent requiredConsent;
