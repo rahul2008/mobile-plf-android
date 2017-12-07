@@ -1,9 +1,7 @@
 <resources>
     <!-- Application -->
     <string name="bll_unknown">N/A</string>
-    <string name="bll_app_name">BlueLib Example App</string>
     <string name="bll_get">Get</string>
-    <string name="bll_set">Set</string>
 
     <!-- Device definitions -->
     <string name="bll_device_definitions_header">Device definitions</string>
@@ -29,11 +27,6 @@
 
     <!-- Device details -->
     <string name="bll_device_detail_rssi">"RSSI: %1$d dBm"</string>
-    <string name="bll_device_detail_title">Device detail</string>
-    <string name="bll_device_connected">"Device %1$s connected."</string>
-    <string name="bll_device_connecting">Device connecting…</string>
-    <string name="bll_device_disconnected">Device disconnected.</string>
-    <string name="bll_device_disconnecting">Device disconnecting…</string>
 
     <!-- Device Information capability -->
     <string name="bll_device_information">Device information</string>
