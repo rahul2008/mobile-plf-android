@@ -61,8 +61,6 @@ public class EWSModule {
     @IdRes
     int parentContainerResourceID;
     @NonNull
-    private Map<String, Serializable> configurationMap;
-    @NonNull
     private CommCentral commCentral;
 
     public EWSModule(@NonNull Context context, @NonNull FragmentManager fragmentManager, @IdRes int parentContainerResourceID, @NonNull CommCentral commCentral) {

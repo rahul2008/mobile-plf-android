@@ -78,7 +78,7 @@
     <string name="label_ews_phone_not_found_on_network_lower_body">这可能是因为：</string>
     <string name="label_ews_phone_not_found_on_network_step_1">1) 您输入的网络密码不正确</string>
     <string name="label_ews_phone_not_found_on_network_step_2">2) 您的 %1$s 超出范围</string>
-    <string name="label_ews_phone_not_found_on_network_upper_helper"></string>
+    <string name="label_ews_phone_not_found_on_network_upper_helper">请验证您的密码，将您的 %1$s 和手机靠近 %2$s 路由器并重试。如果您有其他路由器或网络，您也可以尝试使用。</string>
     <string name="label_ews_phone_not_found_on_network_lower_helper">您的 %1$s 不支持 5Ghz 网络。</string>
     <string name="button_ews_phone_not_found_on_network_try_again">重试</string>
     <string name="button_ews_phone_not_found_on_network_still_having_issues">是否遇到问题？</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">是</string>
     <string name="button_ews_support_wrong_phone_no">否</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">位置许可</string>
+    <string name="label_ews_location_permission_body">要寻找 %1$s 的 PHILIPS Setup Wi-Fi 网络，我们需要您所在位置的访问许可。</string>
+    <string name="label_ews_location_permission_allow">允许</string>
+    <string name="label_ews_location_permission_cancel">取消设置</string>
+    <string name="label_ews_location_services_title">启用位置服务</string>
+    <string name="label_ews_location_services_body">要寻找 %1$s 的 PHILIPS Setup Wi-Fi 网络，我们需要启用位置服务。请在位置设置中启用位置服务并返回应用程序。</string>
+    <string name="label_ews_location_services_go_to_location_settings">转到位置设置</string>
 </resources>

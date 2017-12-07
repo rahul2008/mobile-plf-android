@@ -33,8 +33,8 @@
     <string name="button_ews_plug_in_next">Ok, fiz isso</string>
     <string name="label_ews_verify_ready_title_default">Dispositivo no modo de configuração?</string>
     <string name="label_ews_verify_ready_question_default">A luz Wi-Fi está piscando?</string>
-    <string name="button_ews_verify_ready_yes_default">Sim, a luz Wi-Fi está piscando</string>
-    <string name="button_ews_verify_ready_no_default">Não, a luz Wi-Fi não está piscando</string>
+    <string name="button_ews_verify_ready_yes_default">Sim, luz Wi-Fi piscando</string>
+    <string name="button_ews_verify_ready_no_default">A luz Wi-Fi não está piscando</string>
     <string name="label_ews_select_wifi_title">Conexão ao %1$s</string>
     <string name="label_ews_select_wifi_body">Siga estas etapas para conectar seu telefone ao PHILIPS Setup.</string>
     <string name="label_ews_select_wifi_step1">1. Acesse as Configurações em seu telefone e toque em Wi-Fi</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Sim</string>
     <string name="button_ews_support_wrong_phone_no">Não</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Permissão de localização</string>
+    <string name="label_ews_location_permission_body">Para encontrar a rede Wi-Fi PHILIPS Setup de %1$s, precisamos de permissão para acessar sua localização.</string>
+    <string name="label_ews_location_permission_allow">Permitir</string>
+    <string name="label_ews_location_permission_cancel">Cancelar configuração</string>
+    <string name="label_ews_location_services_title">Habilitar Serviços de localização</string>
+    <string name="label_ews_location_services_body">Para encontrar a rede Wi-Fi PHILIPS Setup de %1$s, precisamos que os Serviços de localização estejam habilitados. Habilite Serviços de localização nas Configurações de localização e volte para o aplicativo.</string>
+    <string name="label_ews_location_services_go_to_location_settings">Ir para Configuração local</string>
 </resources>

@@ -5,6 +5,7 @@
 package com.philips.cdp2.ews.communication;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
@@ -41,7 +42,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({EWSDependencyProvider.class, EWSLogger.class, EWSTagger.class})
+@PrepareForTest({EWSDependencyProvider.class, EWSLogger.class, EWSTagger.class, CommCentral.class})
 public class ApplianceAccessEventMonitorTest {
 
     private ApplianceAccessEventMonitor subject;
@@ -55,17 +56,19 @@ public class ApplianceAccessEventMonitorTest {
     private static String CPP = "cc1ad323";
     private static String DEVICE_MODEL = "deviceModel";
     private static String DEVICE_NAME = "deviceFriendlyName";
+    @Mock private CommCentral mockCommCentral;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         PowerMockito.mockStatic(EWSLogger.class);
         PowerMockito.mockStatic(EWSTagger.class);
+        PowerMockito.mockStatic(CommCentral.class);
 
         AppInfraInterface mockAppInfraInterface = mock(AppInfraInterface.class);
         Map<String, String> mockMap = new HashMap<>();
         mockMap.put(EWSInterface.PRODUCT_NAME, DEVICE_NAME);
-        EWSDependencyProvider.getInstance().initDependencies(mockAppInfraInterface, mockMap);
+        EWSDependencyProvider.getInstance().initDependencies(mockAppInfraInterface, mockMap, mockCommCentral);
 
         when(sessionInfoMock.getCppId()).thenReturn(CPP);
 

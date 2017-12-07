@@ -36,7 +36,7 @@ public class SetupAccessPointModeTroubleshootingViewModel {
         this.setupAccessPointImage = getSetupAccessPointImage(troubleShootContentConfiguration);
     }
 
-    public void onDoneButtonClicked() {
+    void onDoneButtonClicked() {
         navigator.navigateToCompletingDeviceSetupScreen();
     }
 
@@ -46,11 +46,11 @@ public class SetupAccessPointModeTroubleshootingViewModel {
         return stringProvider.getImageResource(troubleShootContentConfiguration.getSetUpAccessPointImage());
     }
 
-    public void onYesButtonClicked() {
+    void onYesButtonClicked() {
         navigator.navigateToResetDeviceTroubleShootingScreen();
     }
 
-    public void onNoButtonClicked() {
+    void onNoButtonClicked() {
         navigator.navigateToConnectToWrongPhoneTroubleShootingScreen();
     }
 

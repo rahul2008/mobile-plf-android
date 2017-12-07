@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.adobe.mobile.Config;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
@@ -47,6 +46,10 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!EWSDependencyProvider.getInstance().areDependenciesInitialized()){
+            this.finish();
+            return;
+        }
         setContentView(R.layout.ews_activity_main);
         initEWSComponent(getBundle(savedInstanceState));
         setUpToolBar();
@@ -108,7 +111,9 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
 
     @Override
     protected void onDestroy() {
-        ewsEventingChannel.stop();
+        if (ewsEventingChannel != null){
+            ewsEventingChannel.stop();
+        }
         EWSDependencyProvider.getInstance().clear();
         super.onDestroy();
     }

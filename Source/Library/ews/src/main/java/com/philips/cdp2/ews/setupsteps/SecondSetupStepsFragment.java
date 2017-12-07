@@ -30,7 +30,7 @@ import com.philips.platform.uid.view.widget.Label;
 
 public class SecondSetupStepsFragment extends BaseFragment implements LocationPermissionFlowCallback {
 
-    public static final int LOCATION_PERMISSIONS_REQUEST_CODE = 10;
+    private static final int LOCATION_PERMISSIONS_REQUEST_CODE = 10;
 
     private SecondSetupStepsViewModel viewModel;
     private boolean pendingPermissionResultRequest;
@@ -145,8 +145,8 @@ public class SecondSetupStepsFragment extends BaseFragment implements LocationPe
         });
         alertDialogFragment.showAllowingStateLoss(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());
         getChildFragmentManager().executePendingTransactions();
-        ((Label) view.findViewById(R.id.ews_verify_device_body)).setText(getString(R.string.label_ews_enable_gps_settings_body, getString(baseContentConfiguration.getDeviceName())));
-        view.findViewById(R.id.ews_04_02_button_cancel_setup_yes).setOnClickListener(new View.OnClickListener() {
+        ((Label) view.findViewById(R.id.ews_02_02b_enable_location_body)).setText(getString(R.string.label_ews_location_services_body, getString(baseContentConfiguration.getDeviceName())));
+        view.findViewById(R.id.ews_02_02b_enable_location_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (viewModel != null) {

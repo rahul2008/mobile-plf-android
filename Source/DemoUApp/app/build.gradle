@@ -1,4 +1,128 @@
 apply plugin: 'com.android.application'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+
+
+buildscript {
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+
+    repositories {
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath(builddeps.cdpSCM)
+    }
+}
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment )
+archivesBaseName = "ewsUApp"
+
+allprojects {
+    repositories {
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url objcdp.getArtifactoryUrl()
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.cdp'
+
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion(versions.ews_ews)
+
+artifactory {
+    contextUrl = objcdp.getArtifactoryContextUrl()
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications ('aar')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
+            }
+        }
+    }
+    resolve {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+        }
+    }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            /*
+            release in the path done here to prevent local publishing, possibility to publish only release
+             which comes from jenkins
+             */
+            artifact("$buildDir/outputs/aar/${archivesBaseName}_release.aar")
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                }
+            }
+        }
+    }
+}
 
 android {
     compileSdkVersion 26
@@ -65,18 +189,12 @@ def getMyVersionCode() {
 }
 
 dependencies {
-    apply from: "../../../ci-build-support/gradle/versions.gradle"
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // Philips Dependencies
     compile project(':ews')
     compile "com.android.support:support-annotations:${versions.support}"
     compile "com.android.support:animated-vector-drawable:${versions.support}"
-    compile "com.android.support:cardview-v7:${versions.support}"
     compile 'com.android.support:multidex:1.0.2'
     compile "com.android.support:design:${versions.support}"
     compile "com.android.support:appcompat-v7:${versions.support}"
-    compile 'com.google.dagger:dagger:2.9'
-    annotationProcessor "com.google.dagger:dagger-compiler:2.9"
-    compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

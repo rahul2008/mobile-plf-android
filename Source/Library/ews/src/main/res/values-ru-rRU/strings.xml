@@ -9,7 +9,7 @@
     <string name="ews_support_title">Поддержка Philips</string>
     <string name="label_ews_cancel_setup_title">Отменить настройку сети Wi-Fi?</string>
     <string name="label_ews_cancel_setup_body">Если отменить сейчас, доступ к устройству %1$s с помощью Wi-Fi будет невозможен.</string>
-    <string name="button_ews_cancel_setup_yes">Да, отменить настройку</string>
+    <string name="button_ews_cancel_setup_yes">Отменить настройку</string>
     <string name="button_ews_cancel_setup_no">Нет, продолжить</string>
     <string name="label_ews_get_started_title">Подключение к Wi-Fi</string>
     <string name="label_ews_get_started_body">Чтобы использовать приложение и все его функции, подключите устройство %1$s к сети Wi-Fi.</string>
@@ -34,7 +34,7 @@
     <string name="label_ews_verify_ready_title_default">Ваше устройство находится в режиме настройки?</string>
     <string name="label_ews_verify_ready_question_default">Индикатор Wi-Fi мигает?</string>
     <string name="button_ews_verify_ready_yes_default">Да, индикатор Wi-Fi мигает</string>
-    <string name="button_ews_verify_ready_no_default">Нет, индикатор Wi-Fi не мигает</string>
+    <string name="button_ews_verify_ready_no_default">Индикатор Wi-Fi не мигает</string>
     <string name="label_ews_select_wifi_title">Подключение к %1$s</string>
     <string name="label_ews_select_wifi_body">Чтобы подключить телефон к Philips Setup, выполните следующие действия.</string>
     <string name="label_ews_select_wifi_step1">1. В разделе настроек телефона выберите параметры Wi-Fi.</string>
@@ -100,4 +100,11 @@
     <string name="button_ews_support_wrong_phone_yes">Да</string>
     <string name="button_ews_support_wrong_phone_no">Нет</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
+    <string name="label_ews_location_permission_title">Доступ к информации о местоположении</string>
+    <string name="label_ews_location_permission_body">Для обнаружения сети Wi-Fi PHILIPS Setup для %1$s необходимо разрешить доступ к информации о вашем местоположении.</string>
+    <string name="label_ews_location_permission_allow">Разрешить</string>
+    <string name="label_ews_location_permission_cancel">Отмена настройки</string>
+    <string name="label_ews_location_services_title">Включить службу определения местоположения</string>
+    <string name="label_ews_location_services_body">Для обнаружения сети Wi-Fi PHILIPS Setup для %1$s необходимо включить службу определения местоположения. Для этого перейдите к настройкам Служб геолокации и включите службу. Затем снова откройте приложение.</string>
+    <string name="label_ews_location_services_go_to_location_settings">К меню местоположения</string>
 </resources>

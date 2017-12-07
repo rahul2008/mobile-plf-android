@@ -10,10 +10,12 @@ import org.mockito.InOrder;
 import org.mockito.Mock;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -41,12 +43,14 @@ public class FragmentNavigatorTest {
     public void itShouldReplaceFragmentAndAddToBackStackWhenPushed() throws Exception {
         int containerId = 50;
 
-
         when(mockFragmentManager.beginTransaction()).thenReturn(mockFragmentTransaction);
         when(mockFragmentTransaction.replace(anyInt(), any(Fragment.class))).thenReturn(mockFragmentTransaction);
         when(mockFragmentTransaction.addToBackStack(anyString())).thenReturn(mockFragmentTransaction);
+        when(mockFragmentManager.isStateSaved()).thenReturn(false);
 
-        subject.push(mockFragment, containerId,false,false);
+        subject.push(mockFragment, containerId);
+
+        verify(mockFragmentManager).popBackStack(anyString(), eq(subject.POP_BACK_STACK_INCLUSIVE));
 
         InOrder inOrder = inOrder(mockFragmentManager, mockFragmentTransaction);
 
@@ -64,8 +68,10 @@ public class FragmentNavigatorTest {
         when(mockFragmentManager.beginTransaction()).thenReturn(mockFragmentTransaction);
         when(mockFragmentTransaction.replace(anyInt(), any(Fragment.class))).thenReturn(mockFragmentTransaction);
         when(mockFragmentTransaction.addToBackStack(anyString())).thenReturn(mockFragmentTransaction);
+        when(mockFragmentManager.isStateSaved()).thenReturn(true);
+        subject.push(mockFragment, containerId);
 
-        subject.push(mockFragment, containerId,true,false);
+        verify(mockFragmentManager,times(0)).popBackStack(anyString(), eq(subject.POP_BACK_STACK_INCLUSIVE));
 
         InOrder inOrder = inOrder(mockFragmentManager, mockFragmentTransaction);
 
@@ -73,50 +79,6 @@ public class FragmentNavigatorTest {
         inOrder.verify(mockFragmentTransaction).replace(containerId, mockFragment);
         inOrder.verify(mockFragmentTransaction).addToBackStack("android.support.v4.app.Fragment");
         inOrder.verify(mockFragmentTransaction).commitAllowingStateLoss();
-    }
-
-    @Test
-    public void itShouldCallPopBackStack() throws Exception {
-        int containerId = 50;
-
-        when(mockFragmentManager.popBackStackImmediate(anyString(), eq(subject.POP_BACK_STACK_EXCLUSIVE))).thenReturn(true);
-
-        subject.push(mockFragment, containerId,true,true);
-
-        verify(mockFragmentManager).popBackStackImmediate(anyString(), eq(subject.POP_BACK_STACK_EXCLUSIVE));
-
-        InOrder inOrder = inOrder(mockFragmentManager, mockFragmentTransaction);
-
-        inOrder.verify(mockFragmentManager,times(0)).beginTransaction();
-        inOrder.verify(mockFragmentTransaction,times(0)).replace(containerId, mockFragment);
-        inOrder.verify(mockFragmentTransaction,times(0)).addToBackStack("android.support.v4.app.Fragment");
-        inOrder.verify(mockFragmentTransaction,times(0)).commitAllowingStateLoss();
-    }
-
-    @Test
-    public void itShouldCallPopBackStackAndReplaceFragmentAndAddToBackStack() throws Exception {
-        int containerId = 50;
-
-        when(mockFragmentManager.beginTransaction()).thenReturn(mockFragmentTransaction);
-        when(mockFragmentTransaction.replace(anyInt(), any(Fragment.class))).thenReturn(mockFragmentTransaction);
-        when(mockFragmentTransaction.addToBackStack(anyString())).thenReturn(mockFragmentTransaction);
-
-        subject.push(mockFragment, containerId,false,true);
-
-        verify(mockFragmentManager).popBackStackImmediate(anyString(), eq(subject.POP_BACK_STACK_EXCLUSIVE));
-
-        InOrder inOrder = inOrder(mockFragmentManager, mockFragmentTransaction);
-        inOrder.verify(mockFragmentManager).beginTransaction();
-        inOrder.verify(mockFragmentTransaction).replace(containerId, mockFragment);
-        inOrder.verify(mockFragmentTransaction).addToBackStack("android.support.v4.app.Fragment");
-        inOrder.verify(mockFragmentTransaction).commit();
-    }
-
-    @Test
-    public void itShouldVerifyPopBackStackExclusiveWhenCalled() throws Exception {
-        String anyString = "anyString";
-        subject.popToFragment(anyString);
-        verify(mockFragmentManager).popBackStackImmediate(anyString, subject.POP_BACK_STACK_EXCLUSIVE);
     }
 
     @Test
