@@ -50,7 +50,7 @@ node('Android') {
             stage('Build Debug') {
                    sh """#!/bin/bash -l
                                 chmod -R 755 . 
-                                cd ./Source/DemoUApp 
+                                cd ./Source/DemoApp
                                 ./gradlew --refresh-dependencies -PbuildNumber=${env.BUILD_NUMBER} clean assembleDebug lint
                             """
             }
@@ -58,7 +58,7 @@ node('Android') {
             stage('Build Release') {
                     sh """#!/bin/bash -l
                                 chmod -R 755 . 
-                                cd ./Source/DemoUApp
+                                cd ./Source/DemoApp
                                 ./gradlew  -PbuildNumber=${env.BUILD_NUMBER} assembleRelease 
                             """
             }
@@ -75,7 +75,8 @@ node('Android') {
                 echo "stage Archive results"
                  androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
 
-                archiveArtifacts artifacts: 'Source/DemoUApp/app/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
+                archiveArtifacts artifacts: 'Source/DemoApp/app/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
+                archiveArtifacts artifacts: 'Source/DemoUApp/app/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
                 archiveArtifacts artifacts: 'Source/Library/ews/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
                 archiveArtifacts '**/*dependencies*.lock'
             }
@@ -88,6 +89,14 @@ node('Android') {
                             chmod -R 755 . 
                             cd ./Source/Library 
                             ./gradlew :ews:artifactoryPublish
+                        """
+            }
+                    stage('Publish Library on Artifactory') {
+                    echo "Publish Library on Artifactory"
+                     sh """#!/bin/bash -l
+                            chmod -R 755 . 
+                            cd ./Source/DemoUApp 
+                            ./gradlew :Uapp:artifactoryPublish
                         """
             }
             }
