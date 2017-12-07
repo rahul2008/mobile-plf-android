@@ -26,7 +26,7 @@ public class WrongWifiNetworkViewModel {
     private final Navigator navigator;
 
     @Nullable
-    public Bundle bundle;
+    private Bundle bundle;
 
     @NonNull
     private BaseContentConfiguration baseContentConfiguration;
@@ -56,10 +56,11 @@ public class WrongWifiNetworkViewModel {
         navigator.navigateToConnectingDeviceWithWifiScreen(bundle);
     }
 
-    void setBundle(Bundle bundle) {
+    void setBundle(@Nullable Bundle bundle) {
         this.bundle = bundle;
     }
 
+    @Nullable
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     Bundle getBundle() {
         return bundle;

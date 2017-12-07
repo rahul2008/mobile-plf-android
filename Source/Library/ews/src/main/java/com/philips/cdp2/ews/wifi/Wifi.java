@@ -28,10 +28,12 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.util.TextUtil;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -64,7 +66,7 @@ public class Wifi {
     }
 
     @VisibleForTesting
-    boolean connectToConfiguredNetwork(final WifiManager wifiMgr, WifiConfiguration config, boolean reassociate) {
+    boolean connectToConfiguredNetwork(@NonNull final WifiManager wifiMgr, WifiConfiguration config, boolean reassociate) {
         final String security = ConfigSec.getWifiConfigurationSecurity(config);
         if (config == null) return false;
 
@@ -122,8 +124,8 @@ public class Wifi {
         return reconnectResult;
     }
 
-    private void sortByPriority(final List<WifiConfiguration> configurations) {
-        java.util.Collections.sort(configurations, new Comparator<WifiConfiguration>() {
+    private void sortByPriority(@NonNull final List<WifiConfiguration> configurations) {
+        Collections.sort(configurations, new Comparator<WifiConfiguration>() {
 
             @Override
             public int compare(WifiConfiguration object1,
@@ -133,7 +135,7 @@ public class Wifi {
         });
     }
 
-    private int shiftPriorityAndSave(final WifiManager wifiMgr) {
+    private int shiftPriorityAndSave(@NonNull final WifiManager wifiMgr) {
         final List<WifiConfiguration> configurations = wifiMgr.getConfiguredNetworks();
         sortByPriority(configurations);
         final int size = configurations.size();
@@ -146,7 +148,7 @@ public class Wifi {
         return size;
     }
 
-    private int getMaxPriority(final WifiManager wifiManager) {
+    private int getMaxPriority(@NonNull final WifiManager wifiManager) {
         final List<WifiConfiguration> configurations = wifiManager.getConfiguredNetworks();
         int pri = 0;
         for (final WifiConfiguration config : configurations) {
@@ -157,7 +159,8 @@ public class Wifi {
         return pri;
     }
 
-    private WifiConfiguration getWifiConfiguration(final WifiManager wifiMgr, final ScanResult hotspot, String hotspotSecurity) {
+    @Nullable
+    private WifiConfiguration getWifiConfiguration(@NonNull final WifiManager wifiMgr, final ScanResult hotspot, String hotspotSecurity) {
         final String ssid = convertToQuotedString(hotspot.SSID);
         if (ssid.length() == 0) {
             return null;

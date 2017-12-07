@@ -115,11 +115,10 @@ public class EWSModule {
 
     @Provides
     ConnectWithPasswordViewModel providesSetDeviceConnectViewModel(@NonNull final WiFiUtil wifiUtil,
-                                                                   @NonNull final ApplianceSessionDetailsInfo sessionInfo,
                                                                    @NonNull final Navigator navigator,
                                                                    @NonNull BaseContentConfiguration baseContentConfiguration,
                                                                    @NonNull StringProvider stringProvider) {
-        return new ConnectWithPasswordViewModel(wifiUtil, sessionInfo, navigator,
+        return new ConnectWithPasswordViewModel(wifiUtil, navigator,
                 baseContentConfiguration, stringProvider);
     }
 

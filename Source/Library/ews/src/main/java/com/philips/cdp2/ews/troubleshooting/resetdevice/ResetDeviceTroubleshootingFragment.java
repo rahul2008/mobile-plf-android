@@ -14,10 +14,13 @@ import com.philips.cdp2.ews.databinding.FragmentResetDeviceTroubleshootingLayout
 
 public class ResetDeviceTroubleshootingFragment extends BaseTroubleShootingFragment {
 
-    @Nullable
+    @NonNull
+    @SuppressWarnings("NullableProblems")
     FragmentResetDeviceTroubleshootingLayoutBinding resetDeviceTroubleshootingLayoutBinding;
 
+
     @NonNull
+    @SuppressWarnings("NullableProblems")
     ResetDeviceTroubleshootingViewModel viewModel;
 
     @Nullable
@@ -46,8 +49,6 @@ public class ResetDeviceTroubleshootingFragment extends BaseTroubleShootingFragm
 
     }
 
-
-    @NonNull
     @Override
     protected void callTrackPageName() {
         viewModel.trackPageName();

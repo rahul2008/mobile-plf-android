@@ -15,9 +15,11 @@ import com.philips.cdp2.ews.databinding.FragmentSetupAccessPointTroubleshootingL
 public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShootingFragment {
 
     @NonNull
+    @SuppressWarnings("NullableProblems")
     FragmentSetupAccessPointTroubleshootingLayoutBinding setupAccessPointTroubleshootingLayoutBinding;
 
     @NonNull
+    @SuppressWarnings("NullableProblems")
     SetupAccessPointModeTroubleshootingViewModel viewModel;
 
 
@@ -45,7 +47,6 @@ public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShoo
                 });
     }
 
-    @NonNull
     @Override
     protected void callTrackPageName() {
         viewModel.trackPageName();
