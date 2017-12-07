@@ -71,7 +71,9 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
         try {
             getActivity().unregisterReceiver(receiver);
         } catch (IllegalArgumentException e) {
-            viewModel.getEwsLogger().e(TAG, e.toString());
+            if (viewModel != null){
+                viewModel.getEwsLogger().e(TAG, e.toString());
+            }
         }
     }
 
@@ -90,7 +92,9 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
         alertDialogFragment.setDialogLifeCycleListener(new EWSAlertDialogFragment.DialogLifeCycleListener() {
             @Override
             public void onStart() {
-                viewModel.getEwsTagger().trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
+                if (viewModel != null){
+                    viewModel.getEwsTagger().trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
+                }
             }
         });
         alertDialogFragment.showAllowingStateLoss(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());

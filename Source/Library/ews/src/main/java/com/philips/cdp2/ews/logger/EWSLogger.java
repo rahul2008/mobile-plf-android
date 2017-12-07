@@ -18,26 +18,27 @@ public class EWSLogger {
     }
 
     public  void v(String tag, String msg) {
-        getLoggerInterface().log(LoggingInterface.LogLevel.VERBOSE, tag, msg);
+        getLoggingInterface().log(LoggingInterface.LogLevel.VERBOSE, tag, msg);
     }
 
     public void d(String tag, String msg) {
-        getLoggerInterface().log(LoggingInterface.LogLevel.DEBUG, tag, msg);
+        getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, tag, msg);
     }
 
     public void i(String tag, String msg) {
-        getLoggerInterface().log(LoggingInterface.LogLevel.INFO, tag, msg);
+        getLoggingInterface().log(LoggingInterface.LogLevel.INFO, tag, msg);
     }
 
     public void w(String tag, String msg) {
-        getLoggerInterface().log(LoggingInterface.LogLevel.WARNING, tag, msg);
+        getLoggingInterface().log(LoggingInterface.LogLevel.WARNING, tag, msg);
     }
 
     public void e(String tag, String msg) {
-        getLoggerInterface().log(LoggingInterface.LogLevel.ERROR, tag, msg);
+        getLoggingInterface().log(LoggingInterface.LogLevel.ERROR, tag, msg);
     }
 
-    private LoggingInterface getLoggerInterface() {
+    private LoggingInterface getLoggingInterface() {
         return loggingInterface;
     }
+
 }

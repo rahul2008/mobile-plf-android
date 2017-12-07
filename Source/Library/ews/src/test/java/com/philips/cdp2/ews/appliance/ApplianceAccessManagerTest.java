@@ -49,9 +49,15 @@ public class ApplianceAccessManagerTest {
     @Mock
     private ApplianceAccessManager.SetPropertiesCallback mockSetPropertiesCallback;
 
-    private ApplianceSessionDetailsInfo sessionInfoDetails;
+    @Mock
+    private EWSLogger mockEWSLogger;
+
+    @Mock
+    private EWSTagger mockEWSTagger;
 
     private ApplianceAccessManager accessManager;
+
+
 
     @Before
     public void setUp() throws Exception {
@@ -60,9 +66,7 @@ public class ApplianceAccessManagerTest {
         mockStatic(EWSLogger.class);
 
         stubAppliancePorts();
-        sessionInfoDetails = new ApplianceSessionDetailsInfo();
-        accessManager = new ApplianceAccessManager(
-                applianceMock, sessionInfoDetails);
+        accessManager = new ApplianceAccessManager(applianceMock, mockEWSTagger, mockEWSLogger);
     }
 
     private void stubAppliancePorts() {
@@ -131,7 +135,7 @@ public class ApplianceAccessManagerTest {
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.GET_WIFI_PROPS);
         accessManager.getWifiPortListener().onPortError(wifiPortMock, Error.UNKNOWN, "");
         verifyStatic();
-        EWSTagger.trackActionSendData("technicalError", "EWS:Network:AWSDK:wifiPortError");
+        verify(mockEWSTagger).trackActionSendData("technicalError", "EWS:Network:AWSDK:wifiPortError");
 
     }
 

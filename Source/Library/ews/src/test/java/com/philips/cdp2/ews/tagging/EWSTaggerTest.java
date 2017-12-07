@@ -14,8 +14,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.lang.reflect.Constructor;
@@ -30,25 +28,21 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(EWSDependencyProvider.class)
 public class EWSTaggerTest {
 
     @Mock
-    private AppTaggingInterface appTaggingInterfaceMock;
+    private AppTaggingInterface mockTaggingInterface;
+
+    private EWSTagger subject;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        subject = new EWSTagger(mockTaggingInterface);
 
-        PowerMockito.mockStatic(EWSDependencyProvider.class);
-        final EWSDependencyProvider ewsDependencyProviderMock = mock(EWSDependencyProvider.class);
-
-        when(EWSDependencyProvider.getInstance()).thenReturn(ewsDependencyProviderMock);
-        when(EWSDependencyProvider.getInstance().getTaggingInterface()).thenReturn(appTaggingInterfaceMock);
     }
 
     @Test
@@ -63,24 +57,24 @@ public class EWSTaggerTest {
     public void itShouldCallOnResumeTaggingLifeCycleInfoWhenAsked() throws Exception {
         final Activity activityMock = mock(Activity.class);
 
-        EWSTagger.collectLifecycleInfo(activityMock);
+        subject.collectLifecycleInfo(activityMock);
 
-        verify(appTaggingInterfaceMock).collectLifecycleInfo(activityMock);
+        verify(mockTaggingInterface).collectLifecycleInfo(activityMock);
     }
 
     @Test
     public void itShouldTagPauseLifeCycleInfoWhenAsked() throws Exception {
-        EWSTagger.pauseLifecycleInfo();
+        subject.pauseLifecycleInfo();
 
-        verify(appTaggingInterfaceMock).pauseLifecycleInfo();
+        verify(mockTaggingInterface).pauseLifecycleInfo();
     }
 
     @Test
     public void itShouldTrackPageNameWhenAsked() throws Exception {
         final String pageName = "SomePageName";
-        EWSTagger.trackPage(pageName);
+        subject.trackPage(pageName);
 
-        verify(appTaggingInterfaceMock).trackPageWithInfo(pageName, null);
+        verify(mockTaggingInterface).trackPageWithInfo(pageName, null);
     }
 
     @Test
@@ -89,8 +83,8 @@ public class EWSTaggerTest {
         final String key = Tag.KEY.SEND_DATA;
         final String notificationResopnseKey = "inAppNotificationResponse";
         final String successTagValue = "successValueTag";
-        EWSTagger.trackInAppNotificationResponse(successTagValue);
-        verify(appTaggingInterfaceMock).trackActionWithInfo(eq(key), mapArgumentCaptor.capture());
+        subject.trackInAppNotificationResponse(successTagValue);
+        verify(mockTaggingInterface).trackActionWithInfo(eq(key), mapArgumentCaptor.capture());
         Map map = mapArgumentCaptor.getValue();
         assertEquals(1, map.size());
         assertEquals(successTagValue, map.get(notificationResopnseKey));
@@ -103,9 +97,9 @@ public class EWSTaggerTest {
         final String notificationResponse = "inAppNotification";
         final String dialogTagValue = "dialogTagValue";
 
-        EWSTagger.trackInAppNotification(pageName,dialogTagValue);
+        subject.trackInAppNotification(pageName,dialogTagValue);
 
-        verify(appTaggingInterfaceMock).trackPageWithInfo(eq(pageName), mapArgumentCaptor.capture());
+        verify(mockTaggingInterface).trackPageWithInfo(eq(pageName), mapArgumentCaptor.capture());
 
         Map map = mapArgumentCaptor.getValue();
         assertEquals(1, map.size());
@@ -118,9 +112,9 @@ public class EWSTaggerTest {
         final Map<String, String> map = new HashMap<>();
         map.put(Tag.KEY.IN_APP_NOTIFICATION, Tag.VALUE.CONN_ERROR_NOTIFICATION);
 
-        EWSTagger.trackAction(ACTION.CONNECTION_UNSUCCESSFUL, map);
+        subject.trackAction(ACTION.CONNECTION_UNSUCCESSFUL, map);
 
-        verify(appTaggingInterfaceMock).trackActionWithInfo(ACTION.CONNECTION_UNSUCCESSFUL, map);
+        verify(mockTaggingInterface).trackActionWithInfo(ACTION.CONNECTION_UNSUCCESSFUL, map);
     }
 
     @SuppressWarnings("unchecked")
@@ -130,9 +124,9 @@ public class EWSTaggerTest {
         final String key = Tag.KEY.CONNECTED_PRODUCT_NAME;
         final String value = "taggedValue";
 
-        EWSTagger.trackAction(ACTION.CONNECTION_UNSUCCESSFUL, key, value);
+        subject.trackAction(ACTION.CONNECTION_UNSUCCESSFUL, key, value);
 
-        verify(appTaggingInterfaceMock).trackActionWithInfo(eq(ACTION.CONNECTION_UNSUCCESSFUL), mapArgumentCaptor.capture());
+        verify(mockTaggingInterface).trackActionWithInfo(eq(ACTION.CONNECTION_UNSUCCESSFUL), mapArgumentCaptor.capture());
 
         Map map = mapArgumentCaptor.getValue();
 
@@ -145,8 +139,8 @@ public class EWSTaggerTest {
         final ArgumentCaptor<Map> mapArgumentCaptor = ArgumentCaptor.forClass(Map.class);
         final String key = Tag.KEY.SEND_DATA;
         final String successTagValue = "successValueTag";
-        EWSTagger.trackActionSendData(key, successTagValue);
-        verify(appTaggingInterfaceMock).trackActionWithInfo(eq(key), mapArgumentCaptor.capture());
+        subject.trackActionSendData(key, successTagValue);
+        verify(mockTaggingInterface).trackActionWithInfo(eq(key), mapArgumentCaptor.capture());
         Map map = mapArgumentCaptor.getValue();
         assertEquals(1, map.size());
         assertEquals(successTagValue, map.get(key));
@@ -154,22 +148,22 @@ public class EWSTaggerTest {
 
     @Test
     public void itShouldGiveTaggInterfaceWhenAsked() throws Exception {
-        EWSTagger.getAppTaggingInterface();
-        assertNotNull(appTaggingInterfaceMock);
+        subject.getAppTaggingInterface();
+        assertNotNull(mockTaggingInterface);
     }
 
     @Test
     public void itShouldStartTimedActionWhenAsked() throws Exception {
         String timeActionStart = "timeActionStart";
-        EWSTagger.startTimedAction(timeActionStart);
-        verify(appTaggingInterfaceMock).trackTimedActionStart(eq(timeActionStart));
+        subject.startTimedAction(timeActionStart);
+        verify(mockTaggingInterface).trackTimedActionStart(eq(timeActionStart));
     }
 
     @Test
     public void itShouldStopTimedActionWhenAsked() throws Exception{
         String timeActionEnd = "timeActionStart";
-        EWSTagger.stopTimedAction(timeActionEnd);
-        verify(appTaggingInterfaceMock).trackTimedActionEnd(eq(timeActionEnd));
+        subject.stopTimedAction(timeActionEnd);
+        verify(mockTaggingInterface).trackTimedActionEnd(eq(timeActionEnd));
     }
 
 

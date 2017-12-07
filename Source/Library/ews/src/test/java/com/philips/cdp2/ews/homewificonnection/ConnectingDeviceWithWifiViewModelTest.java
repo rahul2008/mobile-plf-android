@@ -128,6 +128,12 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Mock
     private CommCentral mockCommCentral;
 
+    @Mock
+    private EWSTagger mockEWSTagger;
+
+    @Mock
+    private EWSLogger mockEWSLogger;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -141,10 +147,12 @@ public class ConnectingDeviceWithWifiViewModelTest {
         when(mockAppInfraInterface.getTagging()).thenReturn(mockTaggingInterface);
         Map<String, String> mockMap = new HashMap<>();
         mockMap.put(EWSUapp.PRODUCT_NAME, DEVICE_NAME);
-        EWSDependencyProvider.getInstance().initDependencies(mockAppInfraInterface, mockMap, mockCommCentral);
+        //EWSDependencyProvider.getInstance().initDependencies(mockAppInfraInterface, mockMap, mockCommCentral);
         subject = new ConnectingDeviceWithWifiViewModel(mockApplianceAccessManager, mockNavigator,
                 mockWiFiConnectivityManager, mockWiFiUtil, mockDeviceFriendlyNameChanger,
-                mockHandler, mockDiscoveryHelper, mockBaseContentConfiguration, mockStringProvider, mockApplianceSessionDetailInfo);
+                mockHandler, mockDiscoveryHelper, mockBaseContentConfiguration, mockStringProvider, mockApplianceSessionDetailInfo,
+                mockEWSTagger, mockEWSLogger, "Product");
+
         subject.setFragmentCallback(mockFragmentCallback);
     }
 
@@ -238,8 +246,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
         subject.startConnectionModel = null;
         putPropsCallbackCaptor.getValue().onPropertiesSet(mockWifiPortProperties);
-        verifyStatic();
-        EWSLogger.e(anyString(),anyString());
+        verify(mockEWSLogger).e(anyString(),anyString());
     }
 
     @Test
@@ -317,7 +324,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
             Exception {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
 
-        verify(mockDiscoveryHelper).startDiscovery(any(DiscoveryHelper.DiscoveryCallback.class));
+        verify(mockDiscoveryHelper).startDiscovery(any(DiscoveryHelper.DiscoveryCallback.class), mockEWSLogger);
     }
 
     @Test
@@ -459,20 +466,18 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Test
     public void itShouldVerifyTrackPageIsCalledWithCorrectTag() throws Exception{
         subject.trackPageName();
-        verifyStatic();
-        EWSTagger.trackPage("connectingDeviceWithWifi");
+        verify(mockEWSTagger).trackPage("connectingDeviceWithWifi");
     }
 
     @Test
     public void itShouldGeneratedErrorLogOnStartConnectionModelIsNullAndFriendlyNameChangingSuccessCalled() throws Exception{
         subject.onFriendlyNameChangingSuccess();
-        verifyStatic();
-        EWSLogger.e(anyString(),anyString());
+        verify(mockEWSLogger).e(anyString(),anyString());
     }
 
     private void simulateApplianceFound() {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
-        verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture());
+        verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture(), mockEWSLogger);
         when(mockAppliance.getNetworkNode()).thenReturn(mockNetworkNode);
         when(mockAppliance.getNetworkNode().getCppId()).thenReturn("MOCKEDCPPID12345678");
         when(mockApplianceSessionDetailInfo.getAppliancePin()).thenReturn("MOCKEDPIN12345678");
@@ -482,7 +487,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
     private void simulateWrongApplianceFound() {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
-        verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture());
+        verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture(), mockEWSLogger);
         when(mockAppliance.getNetworkNode()).thenReturn(mockNetworkNode);
         when(mockAppliance.getNetworkNode().getCppId()).thenReturn("WorngMOCKEDCPPID12345678");
         discoveryCallbackArgumentCaptor.getValue().onApplianceFound(mockAppliance);

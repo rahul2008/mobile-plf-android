@@ -39,6 +39,7 @@ import java.util.UUID;
 import java.util.concurrent.Executors;
 
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -67,6 +68,12 @@ public class EWSModule {
     @Provides
     WifiManager providesWiFiManager() {
         return (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+    }
+
+    @Provides
+    @Singleton
+    CommCentral provideCommCentral(){
+        return commCentral;
     }
 
     @Provides

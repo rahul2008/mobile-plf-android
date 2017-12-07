@@ -32,7 +32,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(EWSTagger.class)
@@ -56,12 +55,15 @@ public class ConnectWithPasswordViewModelTest {
 
     private ConnectWithPasswordViewModel subject;
 
+    @Mock
+    private EWSTagger mockEWSTagger;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(EWSTagger.class);
         subject = new ConnectWithPasswordViewModel(wifiUtilMock, sessionInfoMock, navigatorMock,
-                 mockBaseContentConfig, mockStringProvider);
+                 mockBaseContentConfig, mockStringProvider, mockEWSTagger);
         when(mockBaseContentConfig.getDeviceName()).thenReturn(123435);
     }
 
@@ -139,8 +141,7 @@ public class ConnectWithPasswordViewModelTest {
     @Test
     public void itShouldVerifyTrackPageName() throws Exception {
         subject.trackPageName();
-        verifyStatic();
-        EWSTagger.trackPage("connectWithPassword");
+        verify(mockEWSTagger).trackPage("connectWithPassword");
     }
 
     @Test

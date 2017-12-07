@@ -11,8 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.lang.reflect.Constructor;
@@ -25,29 +23,25 @@ import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.IN
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.VERBOSE;
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.WARNING;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(EWSDependencyProvider.class)
 public class EWSLoggerTest {
 
     private static final String TAG = "EWSLogger";
     private static final String MSG = "sample message";
 
     @Mock
-    private LoggingInterface loggingInterfaceMock;
+    private LoggingInterface mockLoggingInterface;
+
+    private EWSLogger subject;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
 
-        PowerMockito.mockStatic(EWSDependencyProvider.class);
-        final EWSDependencyProvider ewsDependencyProviderMock = mock(EWSDependencyProvider.class);
-        when(EWSDependencyProvider.getInstance()).thenReturn(ewsDependencyProviderMock);
-        when(EWSDependencyProvider.getInstance().getLoggerInterface()).thenReturn(loggingInterfaceMock);
+        subject = new EWSLogger(mockLoggingInterface);
     }
 
     @Test
@@ -60,36 +54,36 @@ public class EWSLoggerTest {
 
     @Test
     public void itShouldLogMessageInVerboseLevel() throws Exception {
-        EWSLogger.v(TAG, MSG);
+        subject.v(TAG, MSG);
 
-        verify(loggingInterfaceMock).log(VERBOSE, TAG, MSG);
+        verify(mockLoggingInterface).log(VERBOSE, TAG, MSG);
     }
 
     @Test
     public void itShouldLogMessageInDebugLevel() throws Exception {
-        EWSLogger.d(TAG, MSG);
+        subject.d(TAG, MSG);
 
-        verify(loggingInterfaceMock).log(DEBUG, TAG, MSG);
+        verify(mockLoggingInterface).log(DEBUG, TAG, MSG);
     }
 
     @Test
     public void itShouldLogMessageInWarningLevel() throws Exception {
-        EWSLogger.w(TAG, MSG);
+        subject.w(TAG, MSG);
 
-        verify(loggingInterfaceMock).log(WARNING, TAG, MSG);
+        verify(mockLoggingInterface).log(WARNING, TAG, MSG);
     }
 
     @Test
     public void itShouldLogMessageInInfoLevel() throws Exception {
-        EWSLogger.i(TAG, MSG);
+        subject.i(TAG, MSG);
 
-        verify(loggingInterfaceMock).log(INFO, TAG, MSG);
+        verify(mockLoggingInterface).log(INFO, TAG, MSG);
     }
 
     @Test
     public void itShouldLogMessageInErrorLevel() throws Exception {
-        EWSLogger.e(TAG, MSG);
+        subject.e(TAG, MSG);
 
-        verify(loggingInterfaceMock).log(ERROR, TAG, MSG);
+        verify(mockLoggingInterface).log(ERROR, TAG, MSG);
     }
 }

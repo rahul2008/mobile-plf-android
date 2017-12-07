@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(EWSTagger.class)
@@ -29,12 +28,13 @@ public class SetupAccessPointModeTroubleshootingViewModelTest {
     @Mock private TroubleShootContentConfiguration mockTroubleShootContentConfiguration;
     @Mock private BaseContentConfiguration mockBaseContentConfiguration;
     @Mock private StringProvider mockStringProvider;
+    @Mock private EWSTagger mockEWSTagger;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(EWSTagger.class);
-        subject = new SetupAccessPointModeTroubleshootingViewModel(mockNavigator, mockStringProvider, mockBaseContentConfiguration, mockTroubleShootContentConfiguration);
+        subject = new SetupAccessPointModeTroubleshootingViewModel(mockNavigator, mockStringProvider, mockBaseContentConfiguration, mockTroubleShootContentConfiguration, mockEWSTagger);
     }
 
     @Test
@@ -68,8 +68,7 @@ public class SetupAccessPointModeTroubleshootingViewModelTest {
     @Test
     public void itShouldVerifyTrackPageName() throws Exception {
         subject.trackPageName();
-        verifyStatic();
-        EWSTagger.trackPage("setupAccessPointMode");
+        verify(mockEWSTagger).trackPage("setupAccessPointMode");
     }
 
     @Test

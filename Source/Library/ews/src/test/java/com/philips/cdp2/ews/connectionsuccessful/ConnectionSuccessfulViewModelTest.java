@@ -23,7 +23,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
@@ -44,11 +43,14 @@ public class ConnectionSuccessfulViewModelTest {
     @Mock
     private WiFiUtil mockWiFiUtil;
 
+    @Mock
+    private EWSTagger mockEWSTagger;
+
     @Before
     public void setup() {
         initMocks(this);
         mockStatic(EWSTagger.class);
-        subject = new ConnectionSuccessfulViewModel(mockBaseContentConfig, mockStringProvider, mockWiFiUtil);
+        subject = new ConnectionSuccessfulViewModel(mockBaseContentConfig, mockStringProvider, mockWiFiUtil, mockEWSTagger);
         when(mockBaseContentConfig.getDeviceName()).thenReturn(R.string.ews_device_name_default);
         subject.setFragmentCallback(mockFragmentCallback);
     }
@@ -87,8 +89,7 @@ public class ConnectionSuccessfulViewModelTest {
     @Test
     public void itShouldSendPageNameToAnalytics() throws Exception {
         subject.trackPageName();
-        verifyStatic();
-        EWSTagger.trackPage("connectionSuccessful");
+        verify(mockEWSTagger).trackPage("connectionSuccessful");
     }
 
 }

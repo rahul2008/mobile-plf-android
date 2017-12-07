@@ -31,7 +31,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 
 @RunWith(PowerMockRunner.class)
@@ -64,6 +63,12 @@ public class SecondSetupStepsViewModelTest {
     @Mock
     private SecondSetupStepsViewModel.LocationPermissionFlowCallback mockLocationPermissionFlowCallback;
 
+    @Mock
+    private EWSTagger mockEWSTagger;
+
+    @Mock
+    private EWSLogger mockEWSLogger;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -71,7 +76,7 @@ public class SecondSetupStepsViewModelTest {
         mockStatic(EWSTagger.class);
         subject = new SecondSetupStepsViewModel(navigatorMock,
                 permissionHandlerMock,
-                mockStringProvider, mockHappyFlowConfiguration, baseContentConfiguration);
+                mockStringProvider, mockHappyFlowConfiguration, baseContentConfiguration, mockEWSTagger, mockEWSLogger);
 
         subject.setFragment(fragmentMock);
     }
@@ -107,50 +112,43 @@ public class SecondSetupStepsViewModelTest {
     @Test
     public void itShouldSendWifiBlinkingActionTagOnNextButtonClick() throws Exception {
         subject.onNextButtonClicked();
-        verifyStatic();
-        EWSTagger.trackActionSendData("specialEvents", "wifiBlinking");
+        verify(mockEWSTagger).trackActionSendData("specialEvents", "wifiBlinking");
     }
 
     @Test
     public void itShouldSendWifiNotBlinkingActionTagOnNoButtonClick() throws Exception {
         subject.onNoButtonClicked();
-        verifyStatic();
-        EWSTagger.trackActionSendData("specialEvents", "wifiNotBlinking");
+        verify(mockEWSTagger).trackActionSendData("specialEvents", "wifiNotBlinking");
     }
 
     @Test
     public void itShouldVerifyLocationPermissionInAppNotificationTag() throws Exception {
         subject.tagLocationPermission();
-        verifyStatic();
-        EWSTagger.trackInAppNotification("setupStep2", "Location Permission");
+        verify(mockEWSTagger).trackInAppNotification("setupStep2", "Location Permission");
     }
 
     @Test
     public void itShouldVerifyAllowInAppNotificationResponseTag() throws Exception {
         subject.tagLocationPermissionAllow();
-        verifyStatic();
-        EWSTagger.trackInAppNotificationResponse("Allow");
+        verify(mockEWSTagger).trackInAppNotificationResponse("Allow");
     }
 
     @Test
     public void itShouldVerifyCancelInAppNotificationResponseTag() throws Exception {
         subject.tagLocationPermissionCancel();
-        verifyStatic();
-        EWSTagger.trackInAppNotificationResponse("Cancel setup");
+        verify(mockEWSTagger).trackInAppNotificationResponse("Cancel setup");
     }
 
     @Test
     public void itShouldVerifyLocationDisabledInAppNotificationTag() throws Exception {
         subject.tagLocationDisabled();
-        verifyStatic();
-        EWSTagger.trackInAppNotification("setupStep2", "Location Disabled");
+        verify(mockEWSTagger).trackInAppNotification("setupStep2", "Location Disabled");
     }
 
     @Test
     public void itShouldVerifyLocationOpenSettingsInAppNotificationResponseTag() throws Exception {
         subject.tagLocationOpenSettings();
-        verifyStatic();
-        EWSTagger.trackInAppNotificationResponse("openLocationSettings");
+        verify(mockEWSTagger).trackInAppNotificationResponse("openLocationSettings");
     }
 
     private void setPermissionGranted(final boolean permissionGranted) {
@@ -173,8 +171,7 @@ public class SecondSetupStepsViewModelTest {
     @Test
     public void itShouldCheckAnalyticsPageName() throws Exception {
         subject.trackPageName();
-        verifyStatic();
-        EWSTagger.trackPage("setupStep2");
+        verify(mockEWSTagger).trackPage("setupStep2");
     }
 
     @Test

@@ -43,7 +43,9 @@ public class EWSUapp implements UappInterface {
     @Inject
     Navigator navigator;
 
+    @NonNull
     private Context context;
+
     private DependencyHelper dependencyHelper;
     /**
      * Entry point for EWS. Please make sure no EWS components are being used before EWSInterface$init.

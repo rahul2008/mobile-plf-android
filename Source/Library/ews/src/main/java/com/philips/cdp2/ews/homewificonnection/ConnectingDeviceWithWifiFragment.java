@@ -122,7 +122,9 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
         try {
             getActivity().unregisterReceiver(receiver);
         } catch (IllegalArgumentException e) {
-            viewModel.getEwsLogger().d(TAG, e.toString());
+            if (viewModel != null){
+                viewModel.getEwsLogger().d(TAG, e.toString());
+            }
         }
     }
 

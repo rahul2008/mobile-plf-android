@@ -86,10 +86,6 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
 
         ewsTagger = ewsComponent.getEWSTagger();
 
-//        EWSDependencyProvider.getInstance().createEWSComponent(this, R.id.contentFrame,
-//                contentConfiguration);
-//
-//        EWSDependencyProvider.getInstance().getEwsComponent().inject(this);
     }
 
     @Override

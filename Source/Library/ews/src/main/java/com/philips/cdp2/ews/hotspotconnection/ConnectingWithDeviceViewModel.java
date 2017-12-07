@@ -62,17 +62,7 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
     @Nullable
     private ConnectingPhoneToHotSpotCallback fragmentCallback;
 
-    @NonNull
-    public EWSTagger getEwsTagger() {
-        return ewsTagger;
-    }
-
     @NonNull private final EWSTagger ewsTagger;
-
-    @NonNull
-    public EWSLogger getEwsLogger() {
-        return ewsLogger;
-    }
 
     @NonNull private final EWSLogger ewsLogger;
 
@@ -209,5 +199,15 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
 
     void trackPageName() {
         ewsTagger.trackPage(Page.CONNECTING_WITH_DEVICE);
+    }
+
+    @NonNull
+    public EWSTagger getEwsTagger() {
+        return ewsTagger;
+    }
+
+    @NonNull
+    public EWSLogger getEwsLogger() {
+        return ewsLogger;
     }
 }

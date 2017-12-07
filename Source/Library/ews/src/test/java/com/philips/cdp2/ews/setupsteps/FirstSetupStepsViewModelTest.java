@@ -22,7 +22,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(EWSTagger.class)
@@ -38,11 +37,12 @@ public class FirstSetupStepsViewModelTest {
 
     @Mock private HappyFlowContentConfiguration mockHappyFlowConfiguration;
 
+    @Mock private EWSTagger mockEWSTagger;
     @Before
     public void setUp() throws Exception {
         mockStatic(EWSTagger.class);
         initMocks(this);
-        subject = new FirstSetupStepsViewModel(mockNavigator, mockStringProvider, mockBaseContentConfiguration, mockHappyFlowConfiguration);
+        subject = new FirstSetupStepsViewModel(mockNavigator, mockStringProvider, mockBaseContentConfiguration, mockHappyFlowConfiguration, mockEWSTagger);
     }
 
     @Test
@@ -70,7 +70,6 @@ public class FirstSetupStepsViewModelTest {
     @Test
     public void itShouldVerifyTaggerTrackPageCalledWithCorrectTag() throws Exception {
         subject.trackPageName();
-        verifyStatic();
-        EWSTagger.trackPage("setupStep1");
+        verify(mockEWSTagger).trackPage("setupStep1");
     }
 }

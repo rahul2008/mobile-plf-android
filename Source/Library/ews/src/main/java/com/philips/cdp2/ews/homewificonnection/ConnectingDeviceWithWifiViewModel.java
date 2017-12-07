@@ -86,11 +86,6 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
 
     @NonNull private final EWSTagger ewsTagger;
 
-    @NonNull
-    public EWSLogger getEwsLogger() {
-        return ewsLogger;
-    }
-
     @NonNull private final EWSLogger ewsLogger;
 
     @NonNull private final String productNme;
@@ -153,7 +148,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
                     int currentWifiState = wiFiUtil.getCurrentWifiState();
                     if (currentWifiState == WiFiUtil.HOME_WIFI) {
                         unregisterBroadcastReceiver();
-                        discoveryHelper.startDiscovery(discoveryCallback);
+                        discoveryHelper.startDiscovery(discoveryCallback, ewsLogger);
                     } else if (currentWifiState != WiFiUtil.UNKNOWN_WIFI) {
                         unregisterBroadcastReceiver();
                         handleFailureWrongWifiNetwork();
@@ -301,6 +296,11 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     @Nullable
     public String getHomeWiFiSSID() {
         return wiFiUtil.getHomeWiFiSSD();
+    }
+
+    @NonNull
+    public EWSLogger getEwsLogger() {
+        return ewsLogger;
     }
 
 }
