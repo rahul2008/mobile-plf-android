@@ -8,6 +8,7 @@
 package com.philips.platform.appframework.data.loaders;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.contentloader.ContentLoader;
@@ -16,8 +17,6 @@ import com.philips.platform.appinfra.contentloader.model.ContentArticle;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 
 import java.util.List;
-
-import static com.janrain.android.engage.JREngage.getApplicationContext;
 
 public class ArticleLoader {
 
@@ -38,7 +37,12 @@ public class ArticleLoader {
 
     public ArticleLoader(Context context) {
         this.context = context;
-        contentLoder = new ContentLoader(getApplicationContext(), articleServiceId, 24, ContentArticle.class, ARTICLES, getAppInfra(), 0);
+        contentLoder = getContentLoader();
+    }
+
+    @NonNull
+    protected ContentLoader getContentLoader() {
+        return new ContentLoader(context.getApplicationContext(), articleServiceId, 24, ContentArticle.class, ARTICLES, getAppInfra(), 0);
     }
 
     protected AppInfraInterface getAppInfra() {
