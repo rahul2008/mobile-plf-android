@@ -214,7 +214,7 @@ dependencies {
     if(dp) {
         project(':uikitLib')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar')
+        compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix())
             {
                 transitive = true
             }
@@ -232,7 +232,7 @@ dependencies {
     if(dp) {
         project(':uid')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), changing: true) {
             transitive = true
         }
     }
@@ -251,6 +251,7 @@ dependencies {
 
 
     // Test
+
     testCompile "junit:junit:4.12"
     testCompile "org.mockito:mockito-core:1.10.19"
     testCompile "org.powermock:powermock-module-junit4:1.6.5"
