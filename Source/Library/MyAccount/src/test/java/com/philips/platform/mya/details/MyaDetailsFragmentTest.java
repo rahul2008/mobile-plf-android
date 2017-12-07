@@ -5,12 +5,8 @@ import android.view.View;
 
 import com.philips.platform.mya.BuildConfig;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.mock.FragmentActivityMock;
-import com.philips.platform.mya.mock.FragmentManagerMock;
 import com.philips.platform.mya.mock.FragmentTransactionMock;
-import com.philips.platform.mya.mock.LayoutInflatorMock;
 import com.philips.platform.mya.runner.CustomRobolectricRunner;
-import com.philips.platform.mya.wrapper.MyaFragmentWrapper;
 import com.philips.platform.uid.view.widget.Label;
 
 import org.junit.Before;
@@ -31,12 +27,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @Config(constants = BuildConfig.class, sdk = 25)
 public class MyaDetailsFragmentTest {
 
-    MyaDetailsFragment myaDetailsFragment;
-    private MyaFragmentWrapper myaFragment;
-    private LayoutInflatorMock mockLayoutInflater = LayoutInflatorMock.createMock();
+    private MyaDetailsFragment myaDetailsFragment;
     private FragmentTransactionMock fragmentTransaction = new FragmentTransactionMock();
-    private FragmentManagerMock fragmentManager = new FragmentManagerMock(fragmentTransaction);
-    private FragmentActivityMock mockFragmentActivity = new FragmentActivityMock(fragmentManager);
     private Context mContext;
 
     @Before
