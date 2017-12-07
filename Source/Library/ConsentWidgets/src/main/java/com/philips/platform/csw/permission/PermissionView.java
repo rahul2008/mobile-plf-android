@@ -147,7 +147,7 @@ public class PermissionView extends CswBaseFragment implements PermissionInterfa
         final AlertDialogFragment alertDialogFragment = new AlertDialogFragment.Builder(getContext())
                 .setTitle(R.string.csw_problem_occurred_error_title)
                 .setMessage(getString(R.string.csw_problem_occurred_error_message, error.getCatkErrorCode()))
-                .setPositiveButton(com.philips.cdp.registration.R.string.reg_DLS_Button_Title_Ok, okListener)
+                .setPositiveButton(R.string.csw_ok, okListener)
                 .create();
         okListener.setDialog(alertDialogFragment);
         alertDialogFragment.show(getFragmentManager(), TAG);
