@@ -18,8 +18,8 @@ public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShoot
     @SuppressWarnings("NullableProblems")
     private FragmentConnectToWrongPhoneTroubleshootingLayoutBinding connectToWrongPhoneTroubleshootingLayoutBinding;
 
-    @SuppressWarnings("NullableProblems")
     @NonNull
+    @SuppressWarnings("NullableProblems")
     private ConnectToWrongPhoneTroubleshootingViewModel viewModel;
 
     @Nullable
