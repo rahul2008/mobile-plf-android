@@ -14,6 +14,8 @@ import org.mockito.Mock;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNotSame;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -29,7 +31,7 @@ public class BaseContentConfigurationTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        subject = new BaseContentConfiguration();
+        subject = new BaseContentConfiguration.Builder().build();
     }
 
     @Test
@@ -54,10 +56,25 @@ public class BaseContentConfigurationTest {
     }
 
     @Test
-    public void itShouldVerifyConfigurationWhenParameterizedConstructorIsCalled() {
-        subject = new BaseContentConfiguration(R.string.ews_device_name_default, R.string.ews_app_name_default);
+    public void itShouldVerifySetDeviceNameWithBuilder() {
+        subject = new BaseContentConfiguration.Builder()
+                .setDeviceName(R.string.label_ews_password_body)
+                .setAppName(R.string.label_ews_cancel_setup_body)
+                .build();
         assertNotNull(subject);
-        assertEquals(subject.getAppName(), R.string.ews_app_name_default);
+        assertNotEquals(subject.getDeviceName(),R.string.ews_device_name_default);
+        assertEquals(subject.getDeviceName(), R.string.label_ews_password_body);
+    }
+
+    @Test
+    public void itShouldVerifySetAppNameWithBuilder() {
+        subject = new BaseContentConfiguration.Builder()
+                .setDeviceName(R.string.label_ews_password_body)
+                .setAppName(R.string.label_ews_cancel_setup_body)
+                .build();
+        assertNotNull(subject);
+        assertNotEquals(subject.getAppName(), R.string.ews_app_name_default);
+        assertEquals(subject.getAppName(), R.string.label_ews_cancel_setup_body);
     }
 
     @Test
