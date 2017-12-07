@@ -47,12 +47,6 @@ public class MyaDetailsFragmentTest {
         SupportFragmentTestUtil.startFragment(myaDetailsFragment);
     }
 
-   /* @Test(expected = InflateException.class)
-    public void testNotNull_getActionbarTitleResId() throws Exception{
-        SupportFragmentTestUtil.startFragment(myaDetailsFragment);
-        assertNotNull(myaDetailsFragment.getActionbarTitleResId());
-    }*/
-
     @Test
     public void testEquals_getActionbarTitleResId() throws Exception{
         assertEquals(R.string.MYA_My_account,myaDetailsFragment.getActionbarTitleResId());
