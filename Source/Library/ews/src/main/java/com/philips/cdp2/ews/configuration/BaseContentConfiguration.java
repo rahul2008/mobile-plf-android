@@ -18,24 +18,15 @@ public class BaseContentConfiguration implements Parcelable {
 
     @StringRes
     private final int deviceName;
-
     @StringRes
     private final int appName;
-
-    /**
-     * Default constructor
-     */
-    public BaseContentConfiguration() {
-        deviceName = R.string.ews_device_name_default;
-        appName = R.string.ews_app_name_default;
-    }
 
     /**
      * This constructor creates BaseContentConfiguration by providing Name of device used for EWS and Name of app.
      * @param deviceName  DeviceName @StringRes
      * @param appName  AppName @StringRes
      */
-    public BaseContentConfiguration(@StringRes int deviceName, @StringRes int appName) {
+    private BaseContentConfiguration(@StringRes int deviceName, @StringRes int appName) {
         this.deviceName = deviceName;
         this.appName = appName;
     }
@@ -87,4 +78,46 @@ public class BaseContentConfiguration implements Parcelable {
             return new BaseContentConfiguration[size];
         }
     };
+
+    public static class Builder {
+
+        @StringRes private int deviceName;
+        @StringRes private int appName;
+
+        /**
+         * Builder to build {@link BaseContentConfiguration} with default string resource ids.
+         */
+        public Builder() {
+            deviceName = R.string.ews_device_name_default;
+            appName = R.string.ews_app_name_default;
+        }
+
+        /**
+         * Setter for DeviceName
+         * @param deviceName Device name string resource id
+         * @return Builder
+         */
+        public Builder setDeviceName(@StringRes int deviceName) {
+            this.deviceName = deviceName;
+            return this;
+        }
+
+        /**
+         * Setter for AppName
+         * @param appName App name string resource id
+         * @return Builder
+         */
+        public Builder setAppName(@StringRes int appName) {
+            this.appName = appName;
+            return this;
+        }
+
+        /**
+         * Return BaseContentConfiguration.
+         * @return BaseContentConfiguration
+         */
+        public BaseContentConfiguration build() {
+            return new BaseContentConfiguration(deviceName,appName);
+        }
+    }
 }

@@ -38,18 +38,16 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListener {
 
+    private final int TOOLBAR_UPDATE_TIMER = 100;
     private SharedPreferences defaultSharedPreferences;
     private OptionSelectionFragment optionSelectionFragment;
-
     private ColorRange colorRange = ColorRange.GROUP_BLUE;
     private ContentColor contentColor = ContentColor.VERY_DARK;
     private AccentRange accentColorRange = AccentRange.ORANGE;
     private NavigationColor navigationColor = NavigationColor.VERY_DARK;
-
     private EWSLauncherInput ewsLauncherInput;
     private ThemeHelper themeHelper;
     private ImageView closeImageView;
-    private final int TOOLBAR_UPDATE_TIMER = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,11 +133,9 @@ public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListene
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        int i = item.getItemId();
-        if (i == R.id.menu_set_theme_settings) {
+        if (item.getItemId() == R.id.menu_set_theme_settings) {
             saveThemeSettings();
             restartActivity();
-
         } else {
             return super.onOptionsItemSelected(item);
         }
