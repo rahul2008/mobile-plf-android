@@ -28,7 +28,7 @@ public class WiFiUtil {
     public static final String UNKNOWN_SSID = "<unknown ssid>";
     private WifiManager wifiManager;
 
-    private String lastWifiSSid;
+    private static String lastWifiSSid;
 
     public static final int HOME_WIFI = 1;
     public static final int WRONG_WIFI = 2;
