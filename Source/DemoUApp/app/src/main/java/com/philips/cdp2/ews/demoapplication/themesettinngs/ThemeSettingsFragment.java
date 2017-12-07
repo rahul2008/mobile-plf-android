@@ -19,7 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
-import com.philips.cdp2.ews.demoapplication.EWSDemoActivity;
+import com.philips.cdp2.ews.demoapplication.EWSDemoUActivity;
 import com.philips.cdp2.ews.demoapplication.R;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.platform.uid.drawable.SeparatorDrawable;
@@ -162,7 +162,7 @@ public class ThemeSettingsFragment extends Fragment {
                 updateTonalRangeColors();
                 updateNavigationRangeColors();
                 buildAccentColorsList(colorRange);
-                ((EWSDemoActivity) getActivity()).updateColorRange(colorRange);
+                ((EWSDemoUActivity) getActivity()).updateColorRange(colorRange);
             }
         }, colorPickerWidth);
         colorRangeAdapter.setSelected(colorRangeSelectedPosition == 0 ? colorRange.ordinal() : colorRangeSelectedPosition);
@@ -189,7 +189,7 @@ public class ThemeSettingsFragment extends Fragment {
             @Override
             public void onThemeSettingsChanged(final String tonalRangeChanged) {
                 contentColor = getContentTonalRangeByPosition();
-                ((EWSDemoActivity) getActivity()).updateContentColor(contentColor);
+                ((EWSDemoUActivity) getActivity()).updateContentColor(contentColor);
             }
         }, colorPickerWidth);
         contentTonalRangeAdapter.setSelected(getSelectedContentTonalRangePosition());
@@ -230,7 +230,7 @@ public class ThemeSettingsFragment extends Fragment {
     }
 
     private void notifyNavigationSettingsChanged() {
-        ((EWSDemoActivity) getActivity()).updateNavigationColor(navigationColor);
+        ((EWSDemoUActivity) getActivity()).updateNavigationColor(navigationColor);
     }
 
     private void initNavigationColor(final int selectedPosition) {
@@ -280,7 +280,7 @@ public class ThemeSettingsFragment extends Fragment {
     private void initAccentColor(final int selectedPosition) {
         final ColorModel colorModel = accentColorsList.get(selectedPosition);
         accentRange = AccentRange.valueOf(colorModel.getName());
-        ((EWSDemoActivity) getActivity()).updateAccentColor(accentRange);
+        ((EWSDemoUActivity) getActivity()).updateAccentColor(accentRange);
     }
 
     private void setLayoutOrientation(final RecyclerView recyclerView) {
