@@ -36,7 +36,7 @@ public class DescriptionView extends CswBaseFragment implements
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_mya_consent_help_label;
+        return R.string.csw_privacy_settings;
     }
 
     @Override

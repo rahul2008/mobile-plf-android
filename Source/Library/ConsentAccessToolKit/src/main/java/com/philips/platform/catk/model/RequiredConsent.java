@@ -20,7 +20,7 @@ public class RequiredConsent {
     }
 
     public boolean isAccepted() {
-        return consent != null && consent.getStatus().equals(ConsentStatus.active) && consent.getVersion() == definition.getVersion();
+        return consent != null && consent.getStatus().equals(ConsentStatus.active) && definition.getVersion() <= consent.getVersion();
     }
 
     public Consent getConsent() { return consent; }
