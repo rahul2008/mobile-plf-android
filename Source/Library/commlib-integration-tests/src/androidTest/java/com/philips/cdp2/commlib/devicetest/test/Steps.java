@@ -113,7 +113,11 @@ public class Steps {
         scenario.write("Phone brand: " + Build.BRAND);
         scenario.write("Phone model: " + Build.MODEL);
         scenario.write("Phone codename: " + Build.DEVICE);
-        scenario.write("Android version: " + Build.VERSION.RELEASE + " " + Build.VERSION.SECURITY_PATCH);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            scenario.write("Android version: " + Build.VERSION.RELEASE + " " + Build.VERSION.SECURITY_PATCH);
+        } else {
+            scenario.write("Android version: " + Build.VERSION.RELEASE);
+        }
         scenario.write("---- Logging environment ----");
     }
 
