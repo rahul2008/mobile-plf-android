@@ -99,7 +99,7 @@ public class EWSDependencyProviderTest {
         when(DaggerEWSComponent.builder()).thenReturn(mockDaggerEWSComponentBuilder);
 
         productKeyMap = new HashMap<>();
-        productKeyMap.put(EWSInterface.PRODUCT_NAME, "product");
+        productKeyMap.put(EWSUapp.PRODUCT_NAME, "product");
 
     }
 

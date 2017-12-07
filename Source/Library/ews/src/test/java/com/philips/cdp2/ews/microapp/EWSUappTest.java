@@ -52,13 +52,13 @@ import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({EWSDependencyProvider.class,  EWSLogger.class, CommCentral.class})
-public class EWSInterfaceTest {
+public class EWSUappTest {
 
     @Mock
     LoggingInterface mockLoggingInterface;
     @Rule
     private ExpectedException thrownException = ExpectedException.none();
-    private EWSInterface subject;
+    private EWSUapp subject;
     @Mock
     private AppInfraInterface appInfraInterfaceMock;
     @Mock
@@ -88,9 +88,9 @@ public class EWSInterfaceTest {
         mockStatic(CommCentral.class);
         initMocks(this);
 
-        subject = spy(new EWSInterface());
+        subject = spy(new EWSUapp());
         productKeyMap = new HashMap<>();
-        productKeyMap.put(EWSInterface.PRODUCT_NAME, "product");
+        productKeyMap.put(EWSUapp.PRODUCT_NAME, "product");
 
         EWSDependencyProvider.instance = spy(new EWSDependencyProvider());
 
@@ -109,7 +109,7 @@ public class EWSInterfaceTest {
                 subject.navigator = mockNavigator;
                 return null;
             }
-        }).when(mockEwsComponent).inject(any(EWSInterface.class));
+        }).when(mockEwsComponent).inject(any(EWSUapp.class));
     }
 
     @Test
@@ -145,7 +145,7 @@ public class EWSInterfaceTest {
     @Test
     public void itShouldLaunchEWSAsFragmentIfLauncherConfigurationIsNotValid() throws Exception {
         thrownException.expect(UnsupportedOperationException.class);
-        thrownException.expectMessage(EWSInterface.ERROR_MSG_INVALID_IMPLEMENTATION);
+        thrownException.expectMessage(EWSUapp.ERROR_MSG_INVALID_IMPLEMENTATION);
         initEWS();
         subject.launch(fragmentLauncherMock, new EWSLauncherInput());
         verify(subject).launchAsFragment(any(FragmentLauncher.class), any(UappLaunchInput.class));
@@ -154,7 +154,7 @@ public class EWSInterfaceTest {
     @Test
     public void itShouldThrowAnErrorIfLauncherConfigurationIsNotValid() throws Exception {
         thrownException.expect(UnsupportedOperationException.class);
-        thrownException.expectMessage(EWSInterface.ERROR_MSG_INVALID_CALL);
+        thrownException.expectMessage(EWSUapp.ERROR_MSG_INVALID_CALL);
 
         subject.launch(fragmentLauncherMock, new EWSLauncherInput());
     }

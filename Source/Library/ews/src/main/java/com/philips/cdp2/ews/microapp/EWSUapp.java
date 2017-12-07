@@ -33,7 +33,7 @@ import javax.inject.Inject;
  * All the initialisation for EWS should be done using it.
  */
 @SuppressWarnings("WeakerAccess")
-public class EWSInterface implements UappInterface {
+public class EWSUapp implements UappInterface {
 
     public static final String ERROR_MSG_INVALID_CALL = "Please call \"init\" method, before calling launching ews with valid params";
     public static final String ERROR_MSG_INVALID_IMPLEMENTATION = "Please implement EWSActionBarListener in Activity";
