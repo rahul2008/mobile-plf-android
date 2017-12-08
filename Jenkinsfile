@@ -17,7 +17,7 @@ timestamps {
     try {
         node ('android && device') {
             stage ('Checkout') {
-                checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'LocalBranch' , localBranch: "**"], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'CloneOption', depth: 1, noTags: false, reference: '', shallow: true], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/opa-android']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'LocalBranch' , localBranch: "**"], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'CloneOption', depth: 1, noTags: false, reference: '', shallow: true], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/plf-android']]])
 
                 sh """#!/bin/bash -le
                     echo "---------------------- Printing Environment --------------------------"
@@ -31,7 +31,7 @@ timestamps {
                     set -e
                     chmod -R 755 . 
                     #do not use -PenvCode=${JENKINS_ENV} since the option 'opa' is hardcoded in the archive
-                    ./gradlew :AppInfra:cC :uid:createDebugCoverageReport :productselection:cC :registrationApi:cC :registrationApi:test :product-registration-lib:test :product-registration-lib:jacocoTestReport :securedblibrary:cC :digitalCareUApp:cC :digitalCareUApp:testRelease :digitalCare:cC :digitalCare:testRelease :IconFont:test :uAppFwLib:test :devicepairingUApp:test :iap:test :dataServices:testReleaseUnitTest :dataServicesUApp:testReleaseUnitTest :MyAccount:cC :MyAccount:testRelease :MyAccountUApp:cC :MyAccountUApp:testRelease :commlib-api:generateJavadocPublicApi :commlib-ble:generateJavadocPublicApi :commlib-lan:generateJavadocPublicApi :commlib-cloud:generateJavadocPublicApi :commlib:test :commlib-testutils:testReleaseUnitTest :commlib-ble:testReleaseUnitTest :commlib-lan:testReleaseUnitTest :commlib-cloud:testReleaseUnitTest :commlib-api:testReleaseUnitTest :shinelib:generateJavadoc :shinelib:test
+                    ./gradlew clean :AppInfra:cC :uid:createDebugCoverageReport :productselection:cC :registrationApi:cC :registrationApi:test :product-registration-lib:test :product-registration-lib:jacocoTestReport :securedblibrary:cC :digitalCareUApp:cC :digitalCareUApp:testRelease :digitalCare:cC :digitalCare:testRelease :IconFont:test :uAppFwLib:test :devicepairingUApp:test :iap:test :dataServices:testReleaseUnitTest :dataServicesUApp:testReleaseUnitTest :MyAccount:cC :MyAccount:testRelease :MyAccountUApp:cC :MyAccountUApp:testRelease :commlib-api:generateJavadocPublicApi :commlib-ble:generateJavadocPublicApi :commlib-lan:generateJavadocPublicApi :commlib-cloud:generateJavadocPublicApi :commlib:test :commlib-testutils:testReleaseUnitTest :commlib-ble:testReleaseUnitTest :commlib-lan:testReleaseUnitTest :commlib-cloud:testReleaseUnitTest :commlib-api:testReleaseUnitTest :shinelib:generateJavadoc :shinelib:test
                 '''
             }
 
@@ -117,8 +117,7 @@ timestamps {
                     set -e
                     chmod -R 755 . 
                     #do not use -PenvCode=${JENKINS_ENV} since the option 'opa' is hardcoded in the archive
-                    ./gradlew --refresh-dependencies clean
-                    ./gradlew assembleRelease
+                    ./gradlew --refresh-dependencies clean assembleRelease
                 '''
             }
 
