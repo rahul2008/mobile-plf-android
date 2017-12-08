@@ -269,13 +269,14 @@ timestamps {
 
 node('master') {
     stage('Cleaning workspace') {
-        if (BranchName =~ /master|develop|release\/platform_.*/) {
-            echo "${BranchName} does not get cleared"
-        } else {
+//Disabled the skipping of clean-up for now.
+//        if (BranchName =~ /master|develop|release\/platform_.*/) {
+//            echo "${BranchName} does not get cleared"
+//        } else {
             def wrk = pwd() + "@script/"
             dir("${wrk}") {
                 deleteDir()
             }
-        }
+//        }
     }
 }
