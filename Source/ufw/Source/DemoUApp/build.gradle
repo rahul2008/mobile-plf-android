@@ -165,7 +165,7 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        project(':uit')
+        project(':uikitLib')
     } else {
         compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
             exclude group: 'com.android.support'	
@@ -173,7 +173,7 @@ dependencies {
         }
     }
 
-    compile(dp ? project(':ufw') : project(':uAppFwLib'))
+    compile(dp ? project(':uAppFwLib') : project(':uAppFwLib'))
 }
 
 tasks.withType(Test) {

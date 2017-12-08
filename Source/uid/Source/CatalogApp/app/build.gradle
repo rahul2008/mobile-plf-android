@@ -14,7 +14,7 @@ def butterKnifeVer = "7.0.1"
 def eventbusVer = "3.0.0"
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {
