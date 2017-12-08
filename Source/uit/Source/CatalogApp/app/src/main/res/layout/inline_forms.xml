@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/input_field_container"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:animateLayoutChanges="true"
+              android:background="@color/uikit_white"
+              android:orientation="vertical">
+
+    <com.philips.cdp.uikit.customviews.InlineForms
+        android:id="@+id/InlineForms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/firstNameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/diabaledtextfeild1"
+                style="@style/PhilipsTextInputLayoutTextViewDisabledStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:ellipsize="end"
+                android:hint="First Name" />
+
+            <EditText
+                android:id="@+id/diabaledtextfeild2"
+                style="@style/PhilipsTextInputLayoutStyleDisabled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="Samanta" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lastNamelayouthorzontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/firstname"
+                style="@style/PhilipsTextInputLayoutTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:hint="Last Name"
+                android:text="Last Name"/>
+
+            <EditText
+                android:id="@+id/firstnamevalue"
+                style="@style/PhilipsTextInputLayoutStyleEnabled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="Jones"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/emailIdlayouthorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/lastname"
+                style="@style/PhilipsTextInputLayoutTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:hint="Email Address"
+                android:text="Email Address"/>
+
+            <EditText
+                android:id="@+id/lastnamevalue"
+                style="@style/PhilipsTextInputLayoutStyleEnabled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="s.jones@philips.com"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fullnamelasthorzontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/fullnamelastfirstname"
+                style="@style/PhilipsTextInputLayoutTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:hint="Full Name"
+                android:text="Full Name"/>
+
+            <EditText
+                android:id="@+id/fullnamelastfirstnamevalue"
+                style="@style/PhilipsTextInputLayoutStyleEnabled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="Samanta Jones"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/passwordFieldLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/paswordText"
+                style="@style/PhilipsTextInputLayoutTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:text="Password"/>
+
+            <com.philips.cdp.uikit.customviews.UikitPasswordEditText
+                android:id="@+id/passwordValue"
+                style="@style/PhilipsTextInputLayoutStyleEnabled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="Samanta Jones"/>
+        </LinearLayout>
+    </com.philips.cdp.uikit.customviews.InlineForms>
+
+
+</LinearLayout>

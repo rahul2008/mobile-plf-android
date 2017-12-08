@@ -1,0 +1,44 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/seekbar_placeholder"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.philips.cdp.uikit.customviews.BaseSlider
+        android:id="@+id/baseslider"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"></com.philips.cdp.uikit.customviews.BaseSlider>
+
+    <com.philips.cdp.uikit.customviews.IndicatorSlider
+        android:id="@+id/indicatorslider"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"></com.philips.cdp.uikit.customviews.IndicatorSlider>
+
+    <com.philips.cdp.uikit.customviews.DiscreteSlider
+        android:id="@+id/discreteslider"
+        android:layout_width="269dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        app:uikit_discreteValue="7"></com.philips.cdp.uikit.customviews.DiscreteSlider>
+
+
+    <com.philips.cdp.uikit.customviews.RangeSlider
+        android:id="@+id/rangeslider"
+        android:layout_width="269dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        app:uikit_absoluteMaxValue="300"
+        app:uikit_absoluteMinValue="90" />
+</LinearLayout>
+
+
+
+

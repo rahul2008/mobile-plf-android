@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.philips.cdp.ui.catalog">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Philips.BrightOrange">
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.ActionButtonsActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activity.ThemesActivity"
+            android:label="@string/app_name" />
+        <activity android:name=".activity.ButtonsActivity" />
+        <activity android:name=".SplashActivityLogoTop" />
+        <activity android:name=".activity.AboutScreenLauncher" />
+        <activity
+            android:name=".activity.AboutScreenPhilips"
+            android:theme="@style/AboutScreenTheme" />
+        <activity
+            android:name=".activity.AboutScreenMM"
+            android:theme="@style/AboutScreenTheme.MM" />
+        <activity android:name=".SplashActivityLogoBottom" />
+        <activity android:name=".SplashActivityLogoCenterTitleBottom" />
+        <activity android:name=".SplashLauncher" />
+        <activity android:name=".activity.InputTextFieldsActivity" />
+        <activity android:name=".activity.DotNavigation" />
+        <activity android:name=".activity.ImageNavigation" />
+        <activity android:name=".activity.TabBarDemo" />
+        <activity android:name=".activity.ActionBarDemo" />
+        <activity android:name=".activity.SliderActivity" />
+        <activity
+            android:name=".activity.HamburgerMenuDemo"
+            android:configChanges="keyboardHidden|screenSize" />
+        <activity android:name=".activity.HamburgerActivity" />
+        <activity android:name=".activity.RatingBarLauncher" />
+        <activity android:name=".activity.ActionBarLauncher" />
+        <activity android:name=".activity.DummyActivityForListItemClick" />
+        <activity android:name=".activity.ListDemo" />
+        <activity android:name=".activity.SocialIconsActivity" />
+        <activity android:name=".activity.PopOverMenu" />
+        <activity android:name=".activity.SpringBoardListActivity" />
+        <activity
+            android:name=".activity.ProgressBarActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation" />
+        <activity
+            android:name=".activity.SpringboardFullBlocksActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.SpringBoardsctivity" />
+        <activity
+            android:name=".activity.SpringBoardSixGridActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.TextLayoutInputFeildInlineForms" />
+        <activity android:name=".cardviewpager.CardActivity" />
+        <activity android:name=".activity.ModalAlertDemo" />
+        <activity android:name=".activity.FavoritesActivity" />
+        <activity android:name=".activity.PickerActivity" />
+        <activity
+            android:name=".activity.ControlsActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation" />
+        <activity
+            android:name=".activity.FontActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.SpinnerOnButtonActivity" />
+        <activity
+            android:name=".activity.TabBarDemoBottom"
+            android:label="@string/title_activity_tab_bar_demo_bottom" />
+        <activity
+            android:name=".activity.TabBarDemoTop"
+            android:label="@string/title_activity_tab_bar_demo_top"></activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Enrichers -->
+    <color name="uikit_white">#FFFFFF</color>
+    <color name="uikit_enricher4">#B9B9B9</color>
+    <color name="uikit_enricher5">#CCCCCC</color>
+    <color name="uikit_enricher6">#E0E0E0</color>
+    <color name="uikit_enricher7">#EFEFEF</color>
+    <color name="uikit_enricher_red">#CD202C</color>
+    <color name="uikit_offwhite">#edf2f8</color>
+
+
+    <!-- Blue theme -->
+    <color name="uikit_philips_blue">#7ba4d9</color>
+    <color name="uikit_philips_blue_actionbar">#7ba4d9</color>
+    <color name="uikit_gradient_blue_start">@android:color/holo_blue_light</color>
+    <color name="uikit_gradient_blue_end">#629fd5</color>
+    <color name="uikit_gradient_orange_end">#eda600</color>
+    <color name="uikit_gradient_aqua_end">#4fb5ae</color>
+    <color name="uikit_gradient_pink_end">#e08291</color>
+    <color name="uikit_gradient_green_end">#a4b507</color>
+    <color name="uikit_gradient_purple_end">#a873a9</color>
+
+
+
+    <!-- Dark Blue theme -->
+    <color name="uikit_philips_dark_blue">#003478</color>
+    <color name="uikit_philips_very_dark_blue">#0f204b</color>
+    <color name="uikit_philips_dark_blue_actionbar">#003478</color>
+    <color name="uikit_gradient_dark_blue_start">@android:color/holo_blue_light</color>
+    <color name="uikit_gradient_dark_blue_end">@android:color/holo_blue_dark</color>
+    <color name="uikit_philips_bright_blue">#0066a1</color>
+    <color name="uikit_philips_light_blue">#7ba4d9</color>
+    <color name="uikit_philips_very_light_blue">#b3c8e6</color>
+    <!-- Very Light Blue Theme with opacity 100-->
+    <color name="uikit_philips_very_light_blue_with_opacity_100">#FFb3c8e6</color>
+    <color name="uikit_philips_very_light_blue_with_opacity_15">#f4f7fb</color>
+
+    <!-- Very Light Blue Theme with opacity 30-->
+    <color name="uikit_philips_very_light_blue_with_opacity_30">#4Db3c8e6</color>
+
+
+    <!-- Very Light Blue Theme with opacity 25-->
+    <color name="uikit_philips_very_light_blue_with_opacity_25">#40b3c8e6</color>
+
+    <color name="uikit_philips_very_dark_blue_with_opacity_35">#590f204b</color>
+
+    <!-- List Divider very Light BLue with 20% opacity-->
+    <color name="uikit_philips_list_divider_very_light_blue">#33b3c8e6</color>
+
+
+    <!-- Group Blue -->
+    <color name="uikit_philips_group_blue_1">#72b5cc</color>
+    <color name="uikit_philips_group_blue_2">#008964</color>
+    <color name="uikit_philips_group_blue_3">#005a8b</color>
+    <color name="uikit_philips_group_blue_4">#0039a6</color>
+    <color name="uikit_philips_group_blue_5">#0b2265</color>
+
+    <!-- Aqua -->
+    <color name="uikit_philips_very_dark_aqua">#22505f</color>
+    <color name="uikit_philips_dark_aqua">#156570</color>
+    <color name="uikit_philips_bright_aqua">#1e9d8b</color>
+    <color name="uikit_philips_light_aqua">#5bbbb7</color>
+    <color name="uikit_philips_very_light_aqua">#cae3e9</color>
+    <!-- Very Light Aqua Theme with opacity 25-->
+    <color name="uikit_philips_very_light_aqua_with_opacity_25">#40cae3e9</color>
+    <color name="uikit_philips_very_light_aqua_with_opacity_15">#f7fbfc</color>
+    <!-- List Divider very Light Aqua with 20% opacity-->
+    <color name="uikit_philips_list_divider_very_light_Aqua">#33cae3e9</color>
+
+    <!-- Very Light Aqua Theme with opacity 100-->
+    <color name="uikit_philips_very_light_Aqua_with_opacity_100">#FFcae3e9</color>
+
+    <!-- Very Light Aqua Theme with opacity 30-->
+    <color name="uikit_philips_very_light_Aqua_with_opacity_30">#4Dcae3e9</color>
+    <color name="uikit_philips_very_dark_Aqua_with_opacity_35">#5922505f</color>
+    <!-- Green -->
+    <color name="uikit_philips_very_dark_green">#024731</color>
+    <color name="uikit_philips_dark_green">#00693c</color>
+    <color name="uikit_philips_bright_green">#5b8f22</color>
+    <color name="uikit_philips_light_green">#b6bf00</color>
+    <color name="uikit_philips_very_light_green">#e0e96e</color>
+    <!-- Very Light Green Theme with opacity 25-->
+    <color name="uikit_philips_very_light_green_with_opacity_25">#40e0e96e</color>
+    <color name="uikit_philips_very_light_green_with_opacity_15">#fafce9</color>
+    <!-- List Divider very Light Green with 20% opacity-->
+    <color name="uikit_philips_list_divider_very_light_Green">#33e0e96e</color>
+
+    <!-- Very Light Green Theme with opacity 100-->
+    <color name="uikit_philips_very_light_green_with_opacity_100">#FFe0e96e</color>
+
+    <!-- Very Light Green Theme with opacity 30-->
+    <color name="uikit_philips_very_light_green_with_opacity_30">#4De0e96e</color>
+    <color name="uikit_philips_very_dark_green_with_opacity_35">#59024731</color>
+
+
+    <!-- Orange -->
+    <color name="uikit_philips_very_dark_orange">#772432</color>
+    <color name="uikit_philips_dark_orange">#983222</color>
+    <color name="uikit_philips_bright_orange">#e98300</color>
+    <color name="uikit_philips_light_orange">#eeaf00</color>
+    <color name="uikit_philips_very_light_orange">#fbd476</color>
+    <!-- Very Light Orange Theme with opacity 25-->
+    <color name="uikit_philips_very_light_orange_with_opacity_25">#40fbd476</color>
+    <color name="uikit_philips_very_light_orange_with_opacity_15">#fef9eb</color>
+    <!-- List Divider very Light Orange with 20% opacity-->
+    <color name="uikit_philips_list_divider_very_light_Orange">#33fbd476</color>
+
+    <!-- Very Light Orange Theme with opacity 100-->
+    <color name="uikit_philips_very_light_Orange_with_opacity_100">#FFfbd476</color>
+
+    <!-- Very Light Orange Theme with opacity 30-->
+    <color name="uikit_philips_very_light_Orange_with_opacity_30">#4Dfbd476</color>
+    <color name="uikit_philips_very_dark_orange_with_opacity_35">#59983222</color>
+
+    <!-- Pink -->
+    <color name="uikit_philips_very_dark_pink">#662046</color>
+    <color name="uikit_philips_dark_pink">#91004b</color>
+    <color name="uikit_philips_bright_pink">#ec4371</color>
+    <color name="uikit_philips_light_pink">#e59aaa</color>
+    <color name="uikit_philips_very_light_pink">#e9c5cb</color>
+    <!-- Very Light Pink Theme with opacity 25-->
+    <color name="uikit_philips_very_light_pink_with_opacity_25">#40e9c5cb</color>
+    <color name="uikit_philips_very_light_pink_with_opacity_15">#fcf6f7</color>
+    <!-- List Divider very Light Pink with 20% opacity-->
+    <color name="uikit_philips_list_divider_very_light_Pink">#33e9c5cb</color>
+
+    <!-- Very Light Pink Theme with opacity 100-->
+    <color name="uikit_philips_very_light_Pink_with_opacity_100">#FFe9c5cb</color>
+
+    <!-- Very Light Pink Theme with opacity 30-->
+    <color name="uikit_philips_very_light_Pink_with_opacity_30">#4De9c5cb</color>
+    <color name="uikit_philips_very_dark_Pink_with_opacity_35">#5991004b</color>
+
+
+    <!-- Purple -->
+    <color name="uikit_philips_very_dark_purple">#42145f</color>
+    <color name="uikit_philips_dark_purple">#631d76</color>
+    <color name="uikit_philips_bright_purple">#7d0063</color>
+    <color name="uikit_philips_light_purple">#b390bb</color>
+    <color name="uikit_philips_very_light_purple">#dbcfe9</color>
+    <!-- Very Light Purple Theme with opacity 25-->
+    <color name="uikit_philips_very_light_purple_with_opacity_25">#dbcfe9</color>
+    <!-- List Divider very Light Purple with 20% opacity-->
+    <color name="uikit_philips_list_divider_very_light_Purple">#33dbcfe9</color>
+
+    <!-- Very Light Purple Theme with opacity 100-->
+    <color name="uikit_philips_very_light_Purple_with_opacity_100">#FFdbcfe9</color>
+
+    <!-- Very Light Purple Theme with opacity 30-->
+    <color name="uikit_philips_very_light_Purple_with_opacity_30">#4Ddbcfe9</color>
+    <color name="uikit_philips_very_light_Purple_with_opacity_15">#faf8fc</color>
+
+    <color name="uikit_philips_very_dark_Purple_with_opacity_35">#59631d76</color>
+
+    <!-- Color codes for Miscellaneous buttons -->
+    <color name="uikit_philips_Red">#CD202C</color>
+    <color name="uikit_philips_slider_text">#252525</color>
+    <color name="uikit_password_icon_color">#1d1d1b</color>
+
+    <!-- White Color with 0% Opacity-->
+    <color name="uikit_philips_White_with_opacity_0">#00FFFFFF</color>
+
+    <color name="uikit_modal_alert_glass">#19ffffff</color>
+    <!-- Dark themes-->
+    <color name="uikit_bright_blue_with_opacity_80">#CC0066a1</color>
+    <color name="uikit_bright_blue_with_opacity_60">#990066a1</color>
+    <color name="uikit_bright_blue_with_opacity_40">#660066a1</color>
+    <color name="uikit_bright_blue_with_opacity_20">#330066a1</color>
+
+
+    <color name="uikit_bright_green_with_opacity_80">#CC5b8f22</color>
+    <color name="uikit_bright_green_with_opacity_60">#995b8f22</color>
+    <color name="uikit_bright_green_with_opacity_40">#665b8f22</color>
+    <color name="uikit_bright_green_with_opacity_20">#335b8f22</color>
+
+    <color name="uikit_bright_aqua_with_opacity_80">#CC1e9d8b</color>
+    <color name="uikit_bright_aqua_with_opacity_60">#991e9d8b</color>
+    <color name="uikit_bright_aqua_with_opacity_40">#661e9d8b</color>
+    <color name="uikit_bright_aqua_with_opacity_20">#331e9d8b</color>
+
+
+    <color name="uikit_bright_purple_with_opacity_80">#CC7d0063</color>
+    <color name="uikit_bright_purple_with_opacity_60">#997d0063</color>
+    <color name="uikit_bright_purple_with_opacity_40">#667d0063</color>
+    <color name="uikit_bright_purple_with_opacity_20">#337d0063</color>
+
+    <color name="uikit_bright_orange_with_opacity_80">#CCe98300</color>
+    <color name="uikit_bright_orange_with_opacity_60">#99e98300</color>
+    <color name="uikit_bright_orange_with_opacity_40">#66e98300</color>
+    <color name="uikit_bright_orange_with_opacity_20">#33e98300</color>
+
+    <color name="uikit_bright_pink_with_opacity_80">#CCec4371</color>
+    <color name="uikit_bright_pink_with_opacity_60">#99ec4371</color>
+    <color name="uikit_bright_pink_with_opacity_40">#66ec4371</color>
+    <color name="uikit_bright_pink_with_opacity_20">#33ec4371</color>
+
+    <!--Bright Themes -->
+
+    <color name="uikit_light_blue_with_opacity_80">#CC7ba4d9</color>
+    <color name="uikit_light_blue_with_opacity_60">#997ba4d9</color>
+    <color name="uikit_light_blue_with_opacity_40">#667ba4d9</color>
+    <color name="uikit_light_blue_with_opacity_20">#337ba4d9</color>
+
+
+    <color name="uikit_light_green_with_opacity_80">#CCb6bf00</color>
+    <color name="uikit_light_green_with_opacity_60">#99b6bf00</color>
+    <color name="uikit_light_green_with_opacity_40">#66b6bf00</color>
+    <color name="uikit_light_green_with_opacity_20">#33b6bf00</color>
+
+    <color name="uikit_light_aqua_with_opacity_80">#CC5bbbb7</color>
+    <color name="uikit_light_aqua_with_opacity_60">#995bbbb7</color>
+    <color name="uikit_light_aqua_with_opacity_40">#665bbbb7</color>
+    <color name="uikit_light_aqua_with_opacity_20">#335bbbb7</color>
+
+
+    <color name="uikit_light_purple_with_opacity_80">#CCb390bb</color>
+    <color name="uikit_light_purple_with_opacity_60">#99b390bb</color>
+    <color name="uikit_light_purple_with_opacity_40">#66b390bb</color>
+    <color name="uikit_light_purple_with_opacity_20">#33b390bb</color>
+
+    <color name="uikit_light_orange_with_opacity_80">#CCeeaf00</color>
+    <color name="uikit_light_orange_with_opacity_60">#99eeaf00</color>
+    <color name="uikit_light_orange_with_opacity_40">#66eeaf00</color>
+    <color name="uikit_light_orange_with_opacity_20">#33eeaf00</color>
+
+    <color name="uikit_light_pink_with_opacity_80">#CCe59aaa</color>
+    <color name="uikit_light_pink_with_opacity_60">#99e59aaa</color>
+    <color name="uikit_light_pink_with_opacity_40">#66e59aaa</color>
+    <color name="uikit_light_pink_with_opacity_20">#33e59aaa</color>
+
+    <!-- Light themes -->
+
+
+    <color name="uikit_very_light_blue_with_opacity_80">#CCb3c8e6</color>
+    <color name="uikit_very_light_blue_with_opacity_60">#99b3c8e6</color>
+    <color name="uikit_very_light_blue_with_opacity_40">#66b3c8e6</color>
+    <color name="uikit_very_light_blue_with_opacity_20">#33b3c8e6</color>
+
+
+    <color name="uikit_very_light_green_with_opacity_80">#CCe0e96e</color>
+    <color name="uikit_very_light_green_with_opacity_60">#99e0e96e</color>
+    <color name="uikit_very_light_green_with_opacity_40">#66e0e96e</color>
+    <color name="uikit_very_light_green_with_opacity_20">#33e0e96e</color>
+
+    <color name="uikit_very_light_aqua_with_opacity_80">#CCcae3e9</color>
+    <color name="uikit_very_light_aqua_with_opacity_60">#99cae3e9</color>
+    <color name="uikit_very_light_aqua_with_opacity_40">#66cae3e9</color>
+    <color name="uikit_very_light_aqua_with_opacity_20">#33cae3e9</color>
+
+
+    <color name="uikit_very_light_purple_with_opacity_80">#CCdbcfe9</color>
+    <color name="uikit_very_light_purple_with_opacity_60">#99dbcfe9</color>
+    <color name="uikit_very_light_purple_with_opacity_40">#66dbcfe9</color>
+    <color name="uikit_very_light_purple_with_opacity_20">#33dbcfe9</color>
+
+    <color name="uikit_very_light_orange_with_opacity_80">#CCfbd476</color>
+    <color name="uikit_very_light_orange_with_opacity_60">#99fbd476</color>
+    <color name="uikit_very_light_orange_with_opacity_40">#66fbd476</color>
+    <color name="uikit_very_light_orange_with_opacity_20">#33fbd476</color>
+
+    <color name="uikit_very_light_pink_with_opacity_80">#CCe9c5cb</color>
+    <color name="uikit_very_light_pink_with_opacity_60">#99e9c5cb</color>
+    <color name="uikit_very_light_pink_with_opacity_40">#66e9c5cb</color>
+    <color name="uikit_very_light_pink_with_opacity_20">#33e9c5cb</color>
+
+    <color name="uikit_modal_alert_black_alpha_30">#b3000000</color>
+
+</resources>

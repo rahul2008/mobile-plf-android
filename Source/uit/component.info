@@ -1,0 +1,17 @@
+{
+  "name"               : "Mobile UIToolkit",
+  "type"               : "toolkit",
+  "technology"         : "Java",
+  "topic"              : "GUI, widgets, DLS compatible",
+  "deployment"         : "Android",
+  "deployment details" : "Android 4.0+",
+  "med62304"           : "",
+  "medFDA"             : "",
+  "maturity"           : "production",
+  "contact"            : "Raymond Kloprogge",
+  "release format"     : "maven",
+  "release url"        : "",
+  "version"            : "3.2.0",
+  "source url"         : "https://bitbucket.atlas.philips.com/projects/MU/repos/mobileuitoolkit-android",
+  "documentation url"  : "",
+}

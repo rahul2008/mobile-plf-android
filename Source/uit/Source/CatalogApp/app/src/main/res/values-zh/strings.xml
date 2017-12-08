@@ -1,0 +1,97 @@
+<resources>
+    <string name="app_name">Catalog App</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_navigation_buttons">导航按钮活动</string>
+    <string name="change_theme">更改主题</string>
+    <string name="previous_theme">先前主题</string>
+    <string name="uikit_splash_title">移动应用程序</string>
+    <string name="color_background">使用彩色背景</string>
+    <string name="solid">持续亮起</string>
+    <string name="gradient">渐变</string>
+    <string name="image">图像</string>
+    <string name="blue_theme">蓝色主题</string>
+    <string name="orange_theme">橙色主题</string>
+    <string name="aqua_theme">浅绿色主题</string>
+    <string name="misc_shadow_message">多种渐变式按钮</string>
+    <string name="action_icons">操作图标</string>
+    <string name="enter_text_here">在此输入文字</string>
+    <string name="FirstName">名字</string>
+    <string name="LastName">姓氏</string>
+    <string name="FullName">全名</string>
+    <string name="EmailAddress">电子邮件地址</string>
+    <string name="invalid_email_format">不正确的电子邮件格式</string>
+    <string name="invalid_pwd_format">无效的密码格式</string>
+    <string name="sample_button">Sample Button</string>
+    <string name="uikit_hamburger">汉堡包</string>
+    <string name="share">分享</string>
+    <string name="mail">邮件</string>
+    <string name="chat">聊天</string>
+
+    <string-array name="hamburger_drawer_items">
+        <item>标题长</item>
+        <item>购物单</item>
+        <item>咖啡</item>
+        <item>营养学</item>
+        <item>风格建议</item>
+        <item>食谱</item>
+        <item>食谱</item>
+        <item>标题长</item>
+        <item>支持</item>
+        <item>设置</item>
+    </string-array>
+
+    <array name="hamburger_drawer_icons">
+        <item>@drawable/uikit_cart</item>
+        <item>@drawable/uikit_cart</item>
+        <item>@drawable/uikit_coffee</item>
+        <item>@drawable/uikit_stats</item>
+        <item>@drawable/uikit_recycle_bin</item>
+        <item>@drawable/uikit_radio</item>
+        <item>@drawable/uikit_factory</item>
+        <item>@drawable/uikit_factory</item>
+        <item>@drawable/uikit_apple</item>
+        <item>@drawable/uikit_gear</item>
+    </array>
+
+    <string-array name="controls_array">
+        <item>选项1</item>
+        <item>选项 2</item>
+        <item>选项 3</item>
+    </string-array>
+
+    <string-array name="controls_array2">
+        <item>选项 1</item>
+        <item>选项 2</item>
+    </string-array>
+
+    <string name="title_activity_social_icons">社会图标</string>
+    <string name="title_activity_list_view_without_icons">列表视图，无图标</string>
+    <string name="title_activity_pop_over_menu">弹出菜单</string>
+
+    <string name="title_activity_spring_boardsctivity">弹簧板活动</string>
+    <string name="title_activity_spring_board_six_grid">SpringBoardSixGridActivity</string>
+    <string name="title_activity_cards">卡活动</string>
+
+    <string name="hello_world">你好世界</string>
+    <string name="title_activity_cards_spike">CardsSpike</string>
+    <string name="title_activity_controls">控制活动</string>
+    <string name="spinneronbuttontext">飞利浦帐号</string>
+    <string name="finishloading">完成加载</string>
+
+    <array name="control_icons">
+        <item>@drawable/uikit_arrow_up</item>
+        <item>@drawable/uikit_arrow_down</item>
+    </array>
+
+
+    <!-- About Screen -->
+    <string name="uikit_about_screen_apptitle">移动应用</string>
+    <string name="uikit_about_screen_actionbar_title">关于</string>
+    <string name="uikit_about_screen_version">版 1.0.1</string>
+    <string name="uikit_about_screen_copyright">Copyright \u00A9 2014 Philips</string>
+    <string name="uikit_about_screen_terms">Terms &amp; conditions \u203A</string>
+    <string name="uikit_about_screen_privacy">隐私政策 \u203A</string>
+    <string name="uikit_about_screen_content">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa.</string>
+
+</resources>

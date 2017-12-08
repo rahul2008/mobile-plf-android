@@ -1,0 +1,104 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity=""
+        android:paddingBottom="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <com.philips.cdp.uikit.customviews.StateControls
+                android:id="@+id/controls"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                app:uikit_controlButtonHeight="44dp"
+                app:uikit_controlButtonWidth="42dp" />
+
+            <com.philips.cdp.uikit.customviews.StateControls
+                android:id="@+id/controls0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                app:uikit_controlButtonHeight="44dp"
+                app:uikit_controlButtonWidth="42dp"
+                app:uikit_controlMultiChoice="true" />
+
+            <com.philips.cdp.uikit.customviews.StateControls
+                android:id="@+id/controls1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                app:uikit_controlButtonHeight="44dp"
+                app:uikit_controlButtonWidth="143dp"
+                app:uikit_controlEntries="@array/controls_array2"
+                app:uikit_controlMultiChoice="false" />
+
+            <com.philips.cdp.uikit.customviews.StateControls
+                android:id="@+id/controls2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                app:uikit_controlButtonHeight="@dimen/uikit_controls_default_height"
+                app:uikit_controlButtonWidth="@dimen/uikit_controls_default_width"
+                app:uikit_controlEntries="@array/controls_array"
+                app:uikit_controlMultiChoice="false" />
+
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <com.philips.cdp.uikit.customviews.UIKitRadioButton
+                    android:id="@+id/radioButton1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginBottom="5dp"
+                    android:text="One " />
+
+                <com.philips.cdp.uikit.customviews.UIKitRadioButton
+                    android:id="@+id/radioButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="Two" />
+
+                <com.philips.cdp.uikit.customviews.UIKitRadioButton
+                    android:id="@+id/radioButton3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="Three" />
+
+
+            </RadioGroup>
+
+            <com.philips.cdp.uikit.customviews.PuiCheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

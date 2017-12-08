@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PhilipsUIKit">
+        <attr name="uikit_actionBarBackground" format="reference|color"/>
+        <attr name="uikit_outlinedButtonStyle" format="reference"/>
+        <attr name="uikit_pickerOutlinedButtonStyle" format="reference"/>
+        <attr name="uikit_pickerButtonStyle" format="reference"/>
+        <attr name="uikit_baseColor" format="reference|color"/>
+        <attr name="uikit_verydarkBaseColor" format="reference|color"/>
+        <attr name="uikit_listSelectorBackground" format="reference|color"/>
+        <attr name="uikit_listtextselector" format="reference|color"/>
+        <attr name="uikit_favoriteTabTextSelector" format="reference|color"/>
+        <attr name="uikit_favoriteTabSelector" format="reference|color"/>
+        <attr name="uikit_errortextcolorinlineforms" format="reference|color"/>
+        <attr name="uikit_erroriconcolorinlineforms" format="reference|color"/>
+        <attr name="uikit_gradWindowBackground" format="reference|color"/>
+        <attr name="uikit_listDividerColor" format="reference|color"/>
+        <attr name="uikit_springBoardDivider" format="reference|color"/>
+        <attr name="uikit_outlinedButtonTransparentStyle" format="reference"/>
+        <attr name="uikit_springBoardTextColor" format="reference|color"/>
+        <attr name="uikit_themeSwitch" format="reference"/>
+        <attr name="uikit_switchOffColor" format="color"/>
+        <attr name="uikit_veryLightColor" format="reference|color"/>
+        <attr name="uikit_brightColor" format="color" />
+        <attr name="uikit_splashGradient" format="reference"/>
+        <attr name="uikit_gradientColorForListHeader" format="reference|color"/>
+        <attr name="uikit_gradientColorForListSectionTitle" format="reference|color"/>
+        <attr name="uikit_darkerColor" format="reference|color"/>
+        <attr name="uikit_notificationBarGradient" format="reference"/>
+        <attr name="uikit_tabBarGradient" format="reference"/>
+        <attr name="uikit_hamburgerGradient" format="reference"/>
+        <!--  Definiton of these gradients vary as per the theme -->
+        <attr name="uikit_baseGradient" format="reference"/>
+        <attr name="uikit_darkerGradient" format="reference"/>
+        <attr name="uikit_lighterGradient" format="reference"/>
+        <attr name="uikit_evenLighterGradient" format="reference"/>
+        <attr name="uikit_veryLightGradient" format="reference"/>
+        <attr name="uikit_veryLightselectoropacityfifteen" format="reference|color"/>
+        <attr name="uikit_popoverImageStyle" format="reference"/>
+        <attr name="uikit_springBoardButton" format="reference"/>
+        <attr name="uikit_springBoardButtonWithIcon" format="reference"/>
+        <attr name="uikit_springBoardButtonOutLined" format="reference"/>
+        <attr name="uikit_springBoardButtonOutLinedWithIcon" format="reference"/>
+        <attr name="uikit_LightColor" format="reference|color"/>
+        <attr name="uikit_LighterColorOpacity80" format="reference|color"/>
+        <attr name="uikit_LighterColorOpacity60" format="reference|color"/>
+        <attr name="uikit_LighterColorOpacity40" format="reference|color"/>
+        <attr name="uikit_LighterColorOpacity20" format="reference|color"/>
+        <attr name="uikit_progressBarButton" format="reference"/>
+
+    </declare-styleable>
+
+    <declare-styleable name="TintableImageView">
+        <attr name="uikit_themeStyle" format="enum">
+            <enum name="none" value="0"/>
+            <enum name="theme" value="1"/>
+            <enum name="inverted" value="2"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="UikitSpringBoardLayout">
+        <attr name="uikit_opacityStyle" format="enum">
+            <enum name="darker_color" value="0"/>
+            <enum name="darker_with_opacity" value="1"/>
+
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="ActionButton">
+        <attr name="uikit_actionButtonShape" format="enum">
+            <enum name="square" value="0"/>
+            <enum name="circle" value="1"/>
+        </attr>
+        <attr name="uikit_actionButtonBgColor" format="color"/>
+        <attr name="uikit_actionButtonBgColorPressed" format="color"/>
+        <attr name="uikit_actionButtonImageDrawable" format="reference"/>
+        <attr name="uikit_actionButtonStyleRef" format="reference"/>
+        <attr name="uikit_actionButtonShadow" format="boolean"/>
+    </declare-styleable>
+
+    <attr name="uikit_splashTitleStyle" format="reference"/>
+
+    <declare-styleable name="RatingBarView">
+        <attr name="uikit_isratingbarbig" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="InputTextField">
+        <attr name="uikit_singleLine" format="boolean"/>
+        <attr name="uikit_hintText" format="string"/>
+        <attr name="uikit_errorText" format="string"/>
+        <attr name="uikit_enabled" format="boolean"/>
+        <attr name="uikit_errorTextColor" format="color"/>
+        <attr name="uikit_errorIcon" format="reference"/>
+        <attr name="uikit_errorBackground" format="reference"/>
+        <attr name="uikit_password_edit_field" format="boolean"/>
+    </declare-styleable>
+
+    <attr name="uikit_enableStroke" format="boolean"/>
+    <attr name="uikit_strokeColor" format="color" />
+
+    <declare-styleable name="VectorCompat">
+        <attr name="uikit_vc_tintMode" format="enum">
+            <enum name="src_over" value="3" />
+            <enum name="src_in" value="5" />
+            <enum name="src_atop" value="9" />
+            <enum name="multiply" value="14" />
+            <enum name="screen" value="15" />
+            <enum name="add" value="16" />
+        </attr>
+        <attr name="uikit_vc_tint" format="reference|color"/>
+        <attr name="uikit_vc_autoMirrored" format="boolean"/>
+        <attr name="android:width" />
+        <attr name="android:height" />
+        <attr name="uikit_vc_viewportWidth" format="float"/>
+        <attr name="uikit_vc_viewportHeight" format="float"/>
+        <attr name="android:name"/>
+        <attr name="android:alpha"/>
+    </declare-styleable>
+    <declare-styleable name="VectorCompatGroup">
+        <attr name="android:name" />
+        <attr name="android:rotation" />
+        <attr name="android:pivotX" />
+        <attr name="android:pivotY" />
+        <attr name="uikit_vc_translateX" format="float"/>
+        <attr name="uikit_vc_translateY" format="float"/>
+        <attr name="android:scaleX" />
+        <attr name="android:scaleY" />
+    </declare-styleable>
+    <declare-styleable name="VectorCompatClipPath">
+        <attr name="android:name" />
+        <attr name="uikit_vc_pathData"/>
+    </declare-styleable>
+
+    <declare-styleable name="VectorCompatPath">
+        <attr name="android:name" />
+        <attr name="uikit_vc_strokeWidth" format="float" />
+        <attr name="uikit_vc_strokeColor" format="reference|color" />
+        <attr name="uikit_vc_strokeAlpha" format="float" />
+        <attr name="uikit_vc_fillColor" format="reference|color" />
+        <attr name="uikit_vc_fillAlpha" format="float" />
+        <attr name="uikit_vc_pathData" format="string" />
+        <attr name="uikit_vc_trimPathStart" format="float" />
+        <attr name="uikit_vc_trimPathEnd" format="float" />
+        <attr name="uikit_vc_trimPathOffset" format="float" />
+        <attr name="uikit_vc_strokeLineCap" format="enum">
+            <enum name="butt" value="0"/>
+            <enum name="round" value="1"/>
+            <enum name="square" value="2"/>
+        </attr>
+        <attr name="uikit_vc_strokeLineJoin" format="enum">
+            <enum name="miter" value="0"/>
+            <enum name="round" value="1"/>
+            <enum name="bevel" value="2"/>
+        </attr>
+        <attr name="uikit_vc_strokeMiterLimit" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="slider">
+        <attr name="uikit_discreteValue" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="popover_alert">
+        <attr name="uikit_popover_right_icon" format="reference"/>
+        <attr name="uikit_popover_left_icon" format="reference"/>
+        <attr name="uikit_popover_title_text" format="reference|string"/>
+        <attr name="uikit_popover_opacity" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="notification_label">
+        <attr name="uikit_notification_label_small" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="RangeSeekBar">
+        <attr name="uikit_absoluteMinValue" format="integer|float"/>
+        <attr name="uikit_absoluteMaxValue" format="integer|float"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIKitProgressBar">
+        <attr name="uikit_secondaryprogress" format="boolean" />
+        <attr name="uikit_whiteprogress" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="UIKitProgressBarCircular">
+        <attr name="uikit_grayprogress" format="boolean" />
+        <attr name="uikit_transparentprogress" format="boolean" />
+        <attr name="uikit_circularprogresssmall" format="boolean" />
+        <attr name="uikit_themeable" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="Controls">
+        <attr name="uikit_controlEntries" format="reference" />
+        <attr name="uikit_controlCount" format="integer" />
+        <attr name="uikit_controlMultiChoice" format="boolean" />
+        <attr name="uikit_controlButtonWidth" format="reference|dimension" />
+        <attr name="uikit_controlButtonHeight" format="reference|dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="UiKit_CheckBox">
+        <attr name="uikit_checked" format="boolean"/>
+        <attr name="uikit_textValue" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="UiKit_ProgressSpinner">
+        <attr name="uikit_duration" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="UiKit_PasswordIcon">
+        <attr name="uikit_state_emptyPassword" format="integer"/>
+        <attr name="uikit_state_maskedPassword" format="integer"/>
+        <attr name="uikit_state_showPassword" format="integer"/>
+    </declare-styleable>
+</resources>

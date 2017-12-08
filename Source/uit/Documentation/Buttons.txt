@@ -1,0 +1,10 @@
+Buttons supports below versions
+
+
+Outlined: 	       style="?attr/outlinedButtonStyle"
+Outline transParent:   style="?attr/outlinedButtonTransparentStyle"
+Transparent white:     style="@style/Button.TransparentWhite"
+
+Apply the above style as per the requirement while declaring button in the xml.
+
+Without style, button defaults to white text and theme base color as button background.

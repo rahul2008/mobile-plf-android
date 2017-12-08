@@ -1,0 +1,84 @@
+NOTE : Using Android EditText is recommeded.
+
+Use PuiEditText if you need to validate your input and show the error icon and the error message.
+
+Reference : CatalogApp : activity_input_text_fields.xml, InputTextFieldsActivity.java, PuiEditText.java
+
+How to use PuiEditText :
+
+Declare 
+
+xmlns:inputText="http://schemas.android.com/apk/res-auto"
+
+To access attributes of the PuiEditText.
+
+Attributes defined for PuiEditText :
+
+
+"singleLine" : EditText will be restricted to a single line.
+"hintText" : EditText hint.
+"errorText" : Text to be displyed below the EditText when input validation fails.
+"enabled" : Enables the EditText (allows user to click and enter the text).
+"errorTextColor" : Do not change unless absolutely nessecary. Will be provided by the Theme. Sets the colour of the error text shown.
+"errorIcon" : Do not change unless absolutely nessecary. Will be provided by the Theme. The error icon shown below the EditText
+"errorBackground" : Do not change unless absolutely nessecary. Will be provided by the Theme. It's a drawable which is set as the background of the EditText when input validation fails.
+
+
+Sample usage : 
+
+<com.philips.cdp.uikit.customviews.PuiEditText
+        android:id="@+id/input_field_1"  			-> Unique id of the PuiEditText
+        android:layout_width="wrap_content" 			-> Width of the EditText and layout container
+        android:layout_height="wrap_content" 			-> Height of the EditText and layout container
+        android:layout_centerHorizontal="true" 
+        android:layout_marginTop="20dp"
+        inputText:errorText="@string/invalid_email_format" 	-> Error text to be shown when validation fails.
+        inputText:hintText="@string/enter_text_here" 		-> EditText hint text.
+        inputText:inputFieldWidth="240dp" 			-> Width of the EditText
+
+        inputText:singleLine="true"/> -> Is EditText restricted to a single line.
+
+	Add this if you want to disable the EditText
+	inputText:enabled="false" 				-> EditText is not enabled (not clickable, not editable).
+
+
+Public methods in PuiEditText
+
+public EditText getEditText() 
+
+public void setValidator(Validator validator)
+
+public void setWidth(int width)
+
+public void setHeight(int height)
+
+public void setEditTextEnabled(boolean enabled)
+
+Public Interfaces : 
+
+Usage of the validator :
+
+	puiEditText1 = (PuiEditText) findViewById(R.id.input_field_1);
+        puiEditText1.setValidator(new PuiEditText.Validator() {
+            @Override
+            public boolean validate(final String inputToBeValidated) {
+                return validateEmail(inputToBeValidated);
+            }
+        });
+
+	private static final String EMAIL_PATTERN =
+            "^[A-Za-z0-9._%+\\-]+(\\.[_A-Za-z0-9-]+)*@"
+                    + "[A-Za-z0-9-]{2,30}+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,5})$";
+
+	private boolean validateEmail(final String email) {
+        if (email == null) return false;
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    	}
+
+public interface Validator
+
+interface methods : 
+
+boolean validate(String inputToBeValidated)

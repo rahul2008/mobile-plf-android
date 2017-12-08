@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="uikit_philips_action_button_radius">33dp</dimen>
+    <dimen name="uikit_philips_action_button_float_radius">53dp</dimen>
+    <dimen name="uikit_philips_action_button_text_size">9dp</dimen>
+    <dimen name="uikit_philips_action_button_padding">2dp</dimen>
+    <dimen name="uikit_action_button_shadow_radius">6dp</dimen>
+
+    <!-- Dimensions for margins of the Splash Screen -->
+    <dimen name="uikit_splash_logo_margin_top">53dp</dimen>
+    <dimen name="uikit_splash_logo_margin_bottom">53dp</dimen>
+    <dimen name="uikit_splash_logo_height">138dp</dimen>
+    <dimen name="uikit_splash_logo_width">109dp</dimen>
+    <dimen name="uikit_splash_title_margin_top">53dp</dimen>
+    <dimen name="uikit_splash_title_margin_bottom">53dp</dimen>
+    <dimen name="uikit_splash_title_text_size">38sp</dimen>
+
+    <dimen name="uikit_button_corner_rounding">2dp</dimen>
+    <dimen name="uikit_button_stroke_width">1dp</dimen>
+    <dimen name="uikit_button_height">44dp</dimen>
+    <dimen name="uikit_button_padding_sides">20dp</dimen>
+    <dimen name="uikit_button_text_size">14sp</dimen>
+
+    <!-- About screen -->
+    <dimen name="uikit_about_screen_apptitle_size">24sp</dimen>
+    <dimen name="uikit_about_screen_actionbar_title_size">20sp</dimen>
+    <dimen name="uikit_about_screen_actionbar_icon_margin">14dp</dimen>
+    <dimen name="uikit_about_screen_version_copyright_size">16sp</dimen>
+    <dimen name="uikit_about_screen_terms_privacy_content_size">14sp</dimen>
+    <dimen name="uikit_about_screen_version_margin">14dp</dimen> <!-- 17dp -->
+    <dimen name="uikit_about_screen_copyright_margin">5dp</dimen> <!-- 8dp -->
+    <dimen name="uikit_about_screen_terms_margin">31dp</dimen> <!-- 31dp -->
+    <dimen name="uikit_about_screen_privacy_margin">31dp</dimen>
+    <dimen name="uikit_about_screen_content_top_margin">27dp</dimen><!-- 27dp -->
+    <dimen name="uikit_about_screen_content_right_margin">32dp</dimen>
+    <dimen name="uikit_about_screen_layout_top_margin">48dp</dimen>
+    <dimen name="uikit_about_screen_layout_left_margin">31dp</dimen><!-- 32dp -->
+    <dimen name="uikit_about_screen_layout_rest_left_margin">32dp</dimen><!-- 31dp-->
+    <dimen name="uikit_about_screen_logo_margin">44dp</dimen> <!-- 48dp 1dp iconfont-->
+    <dimen name="uikit_about_screen_logo_margin_bottom">53dp</dimen>
+    <dimen name="uikit_about_screen_logo_width">67dp</dimen>
+    <dimen name="uikit_about_screen_logo_height">85sp</dimen>
+    <dimen name="uikit_about_screen_mm_logo_height">63dp</dimen>
+    <dimen name="uikit_about_screen_content_linespacing">8dp</dimen>
+    <dimen name="uikit_about_screen_version_copyright_left_margin">32dp</dimen>
+    <dimen name="uikit_about_screen_dismiss_icon_margin">12dp</dimen><!-- 15dp 3dp iconfont-->
+    <dimen name="uikit_about_screen_dismiss_icon_margin_right">14dp</dimen><!-- 15dp 1dp iconfont-->
+    <dimen name="uikit_about_screen_dismiss_icon_size">19sp</dimen>
+    <dimen name="uikit_about_screen_dismiss_icon_cross_size">17sp</dimen><!-- 15dp 2dp iconfont-->
+
+    <dimen name="uikit_dot_navigation_selected_width">12dp</dimen>
+    <dimen name="uikit_dot_navigation_selected_height">12dp</dimen>
+    <dimen name="uikit_dot_navigation_unselected_width">7dp</dimen>
+    <dimen name="uikit_dot_navigation_unselected_height">7dp</dimen>
+    <dimen name="uikit_dot_navigation_distance_between_circles">9dp</dimen>
+
+    <!-- Tab layout -->
+    <dimen name="uikit_tab_layout_height_with_image">85dp</dimen>
+    <dimen name="uikit_tab_layout_height_without_image">53dp</dimen>
+    <dimen name="uikit_tab_icon_width">33dp</dimen>
+    <dimen name="uikit_tab_icon_height">33dp</dimen>
+    <dimen name="uikit_tab_icon_margin_top">16dp</dimen>
+    <dimen name="uikit_tab_text_margin_top">14dp</dimen>
+    <dimen name="uikit_tab_text_margin_bottom">9dp</dimen> <!-- 13dp -->
+    <dimen name="uikit_tab_text_size_with_image">12sp</dimen>
+    <dimen name="uikit_tab_text_size_without_image">14sp</dimen>
+    <color name="uikit_tab_text_enabled_color">#fff</color>
+    <dimen name="uikit_tab_minwidth">90dp</dimen>
+    <dimen name="uikit_tab_shadow">0dp</dimen>
+    <dimen name="uikit_tab_badge_margin_left">-5dp</dimen>
+    <dimen name="uikit_tab_badge_margin_top">10dp</dimen>
+
+                      <!-- Hamburger Menu -->
+    <dimen name="uikit_hamburger_menu_title_text_size">20sp</dimen>
+    <dimen name="uikit_hamburger_width">222dp</dimen>
+    <dimen name="uikit_hamburger_menu_logo_top_margin">107dp</dimen>
+    <dimen name="uikit_hamburger_menu_logo_bottom_margin">121dp</dimen>
+    <dimen name="uikit_hamburger_logo_width">67dp</dimen>
+    <dimen name="uikit_hamburger_logo_height">85dp</dimen>
+    <dimen name="uikit_tab_divider_width">1dp</dimen>
+    <dimen name="uikit_hamburger_list_item_height">53dp</dimen>
+    <dimen name="uikit_hamburger_item_counter_right_margin">20dp</dimen>
+    <dimen name="uikit_hamburger_item_text_left_margin">45dp</dimen>
+    <dimen name="uikit_hamburgur_item_text_size">16sp</dimen>
+    <dimen name="uikit_hamburger_item_text_title_size">16sp</dimen>
+    <dimen name="uikit_hamburger_group_item_height">33dp</dimen>
+    <dimen name="uikit_hamburger_item_icon_left_margin">13dp</dimen>
+    <!-- variable to hold info for tablet or phone -->
+    <bool name="uikit_istablet">false</bool>
+
+    <!--Slider-->
+    <dimen name="slider_thumb_width">20dp</dimen>
+    <dimen name="slider_thumb_height">20dp</dimen>
+    <dimen name="slider_thumb_stroke_width">1dp</dimen>
+    <dimen name="baseslider_bar_width">2dp</dimen>
+    <dimen name="baseslider_bar_padding">2dp</dimen>
+    <dimen name="slider_bar_progress">4dp</dimen>
+    <dimen name="slider_padding_right">0dp</dimen>
+    <dimen name="slider_padding_left">0dp</dimen>
+    <dimen name="slider_padding">10dp</dimen>
+    <dimen name="slider_text_size">14dp</dimen>
+    <dimen name="slider_indicator_margin">2dp</dimen>
+    <dimen name="slider_textview_margin_bottom">2dp</dimen>
+    <dimen name="slider_bar_height">1dp</dimen>
+    <dimen name="slider_margin_text_thumb">16dp</dimen>
+    <dimen name="slider_text_size_sp">14sp</dimen>
+    <dimen name="slider_range_margin">-2dp</dimen>
+    <dimen name="slider_range_margin_right">-1dp</dimen>
+
+    <dimen name="uikit_notification_label_square_round_width">45dp</dimen>
+    <dimen name="uikit_notification_label_square_round_height">33dp</dimen>
+    <dimen name="uikit_notification_label_square_round_width_small">27dp</dimen>
+    <dimen name="uikit_notification_label_square_round_height_small">20dp</dimen>
+    <dimen name="uikit_notification_label_square_round_textSize">20sp</dimen>
+    <dimen name="uikit_notification_label_default_radius">33dp</dimen>
+    <dimen name="uikit_notification_label_square_round_textSize_small">14sp</dimen>
+    <dimen name="uikit_notification_label_small_circle_radius">20dp</dimen>
+    <dimen name="uikit_notification_label_square_round_padding">5dp</dimen>
+    <dimen name="uikit_toolbar_elevation">6dp</dimen>
+    <dimen name="uikit_hamburger_icon_left_margin">14dp</dimen>
+    <dimen name="uikit_hamburger_counter_icon_left_margin">4dp</dimen>
+    <dimen name="uikit_hamburger_list_top_margin">24dp</dimen>
+
+    <dimen name="discreteslider_padding">1dp</dimen>
+    <dimen name="discreteslider_circle_radius">1dp</dimen>
+    <dimen name="resolution_factor">1dp</dimen>
+
+    <!-- For Rating Bar -->
+    <dimen name="star_width">37dp</dimen>
+    <dimen name="star_height">37dp</dimen>
+
+    <dimen name="star_width_small">22dp</dimen>
+    <dimen name="star_height_small">22dp</dimen>
+
+    <!-- PopOver alert-->
+    <dimen name="popover_info_layout_height">53dp</dimen>
+    <dimen name="popover_info_icon_margin_left">13dp</dimen>
+    <dimen name="popover_alert_title_margin_top">13dp</dimen>
+    <dimen name="popover_alert_title_size">14sp</dimen>
+    <dimen name="popover_alert_progress_margin_top">6dp</dimen>  <!-- 12dp -->
+    <dimen name="popover_alert_progress_margin_bottom">4dp</dimen>  <!-- 10dp -->
+    <dimen name="popover_alert_progress_margin_left">69dp</dimen>
+    <dimen name="popover_alert_progress_margin_right">67dp</dimen>
+    <dimen name="popover_alert_close_margin_right">14dp</dimen>
+    <dimen name="uikit_hamburger_divider_height">1dp</dimen>
+
+    <!-- Modal alert-->
+    <dimen name="uikit_modal_alert_dialog_width">296dp</dimen>
+    <dimen name="uikit_modal_alert_dialog_height">228dp</dimen>
+    <dimen name="uikit_modal_alert_text_top_margin">29dp</dimen>
+    <dimen name="uikit_modal_alert_message_text_top_margin">13dp</dimen>
+    <dimen name="uikit_modal_alert_label_text_size">20sp</dimen>
+    <dimen name="uikit_modal_alert_message_text_size">14sp</dimen>
+    <dimen name="uikit_modal_alert_button_top_margin">30dp</dimen>
+    <dimen name="uikit_modal_alert_button_left_margin">20dp</dimen>
+    <dimen name="uikit_modal_alert_bottom_margin">30dp</dimen>
+    <dimen name="uikit_modal_alert_text_right_margin">21dp</dimen>
+
+
+    <!--Popup Over menu-->
+    <dimen name="popup_menu_width">180dp</dimen>
+    <dimen name="popup_text_size">16sp</dimen>
+    <dimen name="popup_top_margin">5dp</dimen>
+    <dimen name="uikit_modal_alert_button_width">118dp</dimen>
+
+    <!-- Set View Height -->
+    <dimen name="uikit_view_height">1dp</dimen>
+
+
+    <dimen name="springboard_gridsize">117dp</dimen>
+    <dimen name="springboard_title_text_margin_top">30dp</dimen>
+    <dimen name="springboard_title_text_margin_bottom">15dp</dimen>
+    <dimen name="springboard_gridspacing">10dp</dimen>
+    <dimen name="springboard_grid_margin_left">38dp</dimen>
+    <dimen name="springboard_text_margin_top">8dp</dimen>
+    <dimen name="springboard_text_margin_bottom">8dp</dimen>
+    <dimen name="image_margin_top">30dp</dimen>
+    <dimen name="springboard_grid_margin_right">31dp</dimen>
+    <dimen name="activity_horizontal_margin">5dp</dimen>
+    <dimen name="activity_vertical_margin">5dp</dimen>
+    <dimen name="springboard_list_left_margin">121dp</dimen>
+    <dimen name="springboard_list_right_margin">120dp</dimen>
+
+    <!-- SpringBoard Buttons -->
+    <dimen name="uikit_springboard_button_padding">33dp</dimen>
+    <dimen name="uikit_springboard_button_image_padding_left">20dp</dimen>
+    <dimen name="uikit_springboard_button_image_padding_right">53dp</dimen>
+    <dimen name="uikit_sprinboard_button_height">53dp</dimen>
+    <dimen name="uikit_springboard_button_text_size">20sp</dimen>
+    <dimen name="uikit_sprinboard_icon_offset">12dp</dimen>
+    <dimen name="uikit_control_default_stroke">2dp</dimen>
+    <dimen name="uikit_controls_default_width">95dp</dimen>
+    <dimen name="uikit_controls_default_height">44dp</dimen>
+    <dimen name="uikit_controls_button_corner_rounding">2dp</dimen>
+    <dimen name="uikit_modal_alert_bottom_layout_margin">10dp</dimen>
+    <dimen name="uikit_controls_checkbox_stroke">1dp</dimen>
+    <bool name="isChinese">false</bool>
+
+    <!--Actionbar PopUp-->
+    <dimen name="uikit_action_bar_Pop_Height">53dp</dimen>
+
+    <!-- Spinner on Button -->
+    <dimen name="uikit_spinneronbutton_button_padding_left">33dp</dimen>
+    <dimen name="uikit_spinneronbutton_button_padding_top">15dp</dimen>
+    <dimen name="uikit_spinneronbutton_button_padding_bottom">15dp</dimen>
+    <dimen name="uikit_spinneronbutton_spinner_width">34dp</dimen>
+    <dimen name="uikit_spinneronbutton_spinner_height">34dp</dimen>
+
+
+</resources>

@@ -1,0 +1,102 @@
+apply plugin: 'com.android.application'
+apply plugin: 'spoon'
+
+
+buildscript {
+    repositories {
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+}
+    }
+
+    dependencies {
+        classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.1.0'
+    }
+}
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
+
+    defaultConfig {
+        applicationId "com.philips.cdp.ui.catalog"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 24
+        versionName "1.0.24"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        renderscriptTargetApi 26
+        renderscriptSupportModeEnabled true
+        generatedDensities = []
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'LICENSE.txt'
+
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+//    compile 'com.android.support:appcompat-v7:22.2.1'
+//    compile 'com.android.support:support-annotations:23.2.0'
+//    compile 'com.android.support:appcompat-v7:26.0.2'
+//    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
+//    compile 'com.android.support:design:26.0.2'
+//    compile 'com.shamanland:fonticon:0.1.8'
+
+//    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
+//    androidTestCompile 'com.android.support.test:runner:0.3'
+//    androidTestCompile 'com.android.support.test:rules:0.3'
+
+    compile project(':uikitLib')
+}
+
+configurations.all {
+    resolutionStrategy.force 'com.android.support:support-annotations:22.2.1'
+}
+
+
+spoon {
+    // for debug output
+    debug = true
+
+    // To run a single test class
+//    className = 'com.philips.cdp.ui.catalog.HamburgerMenuTest'
+//    className = 'com.philips.cdp.ui.catalog.RegularButtonPressedTest'
+//    className = 'com.philips.cdp.ui.catalog.OutlineButtonTest'
+//    className = 'com.philips.cdp.ui.catalog.OutlineButtonPressedTest'
+//    className = 'com.philips.cdp.ui.catalog.TransparentButtonTest'
+//    className = 'com.philips.cdp.ui.catalog.TransparentButtonPressedTest'
+//    className = 'com.philips.cdp.ui.catalog.TransparentWhiteButtonTest'
+//    className = 'com.philips.cdp.ui.catalog.TransparentWhiteButtonPressedTest'
+//    className = 'com.philips.cdp.ui.catalog.ActionButtonTest'
+//    className = 'com.philips.cdp.ui.catalog.ActionButtonPressedTest'
+//    className = 'com.philips.cdp.ui.catalog.SplashScreenMobileTest'
+
+    // To run a single method in TestCase
+//    methodName = 'testAButtonSquareCrossIsPixelPerfect'
+}
+
+tasks.withType(Test) {
+  ignoreFailures = true
+}

@@ -1,0 +1,21 @@
+A) Splash screen has following 3 variants
+
+
+    position  | layout
+   ------------------------------------------------------------------	
+1. Top        | com.philips.cdp.uikit.R.layout.splash_screen_logo_top
+2. Center     | com.philips.cdp.uikit.R.layout.splash_screen_logo_center_tb
+3. Bottom     | com.philips.cdp.uikit.R.layout.splash_screen_logo_bottom
+
+
+B) Extends UiKitActivity and setview to above file as per the requirement.
+
+C) Changing background: By default gradient is applied as per the selected theme.
+
+   The main layout is a relative layout with id=splash_layout. 
+   For example below calls can be used
+   
+        ViewGroup group = (ViewGroup)findViewById(R.id.splash_layout);
+        group.setBackgroundResource(R.drawable.food);
+
+D) Lib doesn't support mixture of normal and bold text. It can be done using SpannableString or via HTML tags in String xml

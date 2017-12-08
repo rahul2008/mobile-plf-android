@@ -1,0 +1,221 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="PickerButton">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minHeight">@dimen/uikit_button_height</item>
+        <item name="android:clickable">true</item>
+        <item name="android:textSize">@dimen/uikit_button_text_size</item>
+        <item name="android:paddingRight">@dimen/uikit_button_padding_sides</item>
+        <item name="android:paddingLeft">@dimen/uikit_button_padding_sides</item>
+    </style>
+
+    <style name="PickerButton.Solid">
+        <item name="android:textColor">@drawable/uikit_solid_button_text_selector</item>
+        <item name="android:layout_marginLeft">20dp</item>
+    </style>
+
+    <style name="PickerButton.Solid.DarkBlue">
+        <item name="android:background">@drawable/uikit_bright_blue_selector</item>
+    </style>
+
+    <style name="PickerButton.Solid.BrightOrange">
+        <item name="android:background">@drawable/uikit_light_orange_selector</item>
+    </style>
+
+    <style name="PickerButton.Solid.BrightAqua">
+        <item name="android:background">@drawable/uikit_light_aqua_selector</item>
+    </style>
+
+    <style name="PickerButton.OutlinedDarkBlue">
+        <item name="android:textColor">@drawable/uikit_bright_blue_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_bright_blue_outlined_selector</item>
+    </style>
+
+    <style name="PickerButton.OutlinedBrightOrange">
+        <item name="android:textColor">@drawable/uikit_light_orange_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_orange_outlined_selector</item>
+    </style>
+
+    <style name="PickerButton.OutlinedBrightAqua">
+        <item name="android:textColor">@drawable/uikit_light_aqua_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_aqua_outlined_selector</item>
+    </style>
+
+    <style name="PickerButton.TransparentBlue">
+        <item name="android:textColor">@drawable/uikit_blue_transparent_text_selector</item>
+        <item name="android:background">@drawable/uikit_blue_transparent_selector</item>
+    </style>
+
+    <style name="PickerButton.TransparentOrange">
+        <item name="android:textColor">@drawable/uikit_orange_transparent_text_selector</item>
+        <item name="android:background">@drawable/uikit_orange_transparent_selector</item>
+    </style>
+
+    <style name="PickerButton.TransparentAqua">
+        <item name="android:textColor">@drawable/uikit_aqua_transparent_text_selector</item>
+        <item name="android:background">@drawable/uikit_aqua_transparent_selector</item>
+    </style>
+
+    <style name="PickerButton.TransparentWhite">
+        <item name="android:textColor">@drawable/uikit_white_transparent_text_selector</item>
+        <item name="android:background">@drawable/uikit_white_transparent_selector</item>
+    </style>
+
+    <style name="PickerButton.OutlinedBrightGreen">
+        <item name="android:textColor">@drawable/uikit_light_green_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_green_outlined_selector</item>
+    </style>
+
+    <style name="PickerButton.TransparentGreen">
+        <item name="android:textColor">@drawable/uikit_green_transparent_text_selector</item>
+        <item name="android:background">@drawable/uikit_green_transparent_selector</item>
+    </style>
+
+    <style name="PickerButton.Solid.BrightGreen">
+        <item name="android:background">@drawable/uikit_light_green_selector</item>
+    </style>
+
+    <!-- Bright pink-->
+    <style name="PickerButton.OutlinedBrightPink">
+        <item name="android:textColor">@drawable/uikit_light_pink_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_pink_outlined_selector</item>
+    </style>
+
+    <style name="PickerButton.TransparentPink">
+        <item name="android:textColor">@drawable/uikit_pink_transparent_text_selector</item>
+        <item name="android:background">@drawable/uikit_pink_transparent_selector</item>
+    </style>
+
+    <style name="PickerButton.Solid.BrightPink">
+        <item name="android:background">@drawable/uikit_light_pink_selector</item>
+    </style>
+
+    <style name="PickerButton.Solid.DarkPurple">
+        <item name="android:background">@drawable/uikit_bright_purple_selector</item>
+    </style>
+
+    <style name="PickerButton.OutlinedDarkPurple">
+        <item name="android:textColor">@drawable/uikit_bright_purple_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_bright_purple_outlined_selector</item>
+    </style>
+
+    <style name="PickerButton.TransparentPurple">
+        <item name="android:textColor">@drawable/uikit_purple_transparent_text_selector</item>
+        <item name="android:background">@drawable/uikit_purple_transparent_selector</item>
+    </style>
+
+    <style name="PickerButton.Solid.DarkAqua">
+        <item name="android:background">@drawable/uikit_bright_aqua_selector</item>
+    </style>
+
+    <style name="PickerButton.OutlinedDarkAqua">
+        <item name="android:textColor">@drawable/uikit_bright_aqua_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_bright_aqua_outlined_selector</item>
+    </style>
+
+    <style name="PickerButton.Solid.DarkGreen">
+        <item name="android:background">@drawable/uikit_bright_green_selector</item>
+    </style>
+
+    <style name="PickerButton.OutlinedDarkGreen">
+        <item name="android:textColor">@drawable/uikit_bright_green_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_bright_green_outlined_selector</item>
+    </style>
+
+    <style name="PickerButton.Solid.DarkOrange">
+        <item name="android:background">@drawable/uikit_bright_orange_selector</item>
+    </style>
+
+    <style name="PickerButton.OutlinedDarkOrange">
+        <item name="android:textColor">@drawable/uikit_bright_orange_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_bright_orange_outlined_selector</item>
+    </style>
+
+    <style name="PickerButton.Solid.DarkPink">
+        <item name="android:background">@drawable/uikit_bright_pink_selector</item>
+    </style>
+
+    <style name="PickerButton.OutlinedDarkPink">
+        <item name="android:textColor">@drawable/uikit_bright_pink_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_bright_pink_outlined_selector</item>
+    </style>
+
+    <style name="PickerButton.Solid.BrightBlue">
+        <item name="android:background">@drawable/uikit_light_blue_selector</item>
+    </style>
+
+    <style name="PickerButton.BrightBlue">
+        <item name="android:textColor">@drawable/uikit_light_blue_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_blue_outlined_selector</item>
+    </style>
+
+    <style name="PickerButton.OutlinedBrightBlue">
+        <item name="android:textColor">@drawable/uikit_light_blue_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_blue_outlined_selector</item>
+    </style>
+
+    <style name="PickerButton.Solid.BrightPurple">
+        <item name="android:background">@drawable/uikit_light_purple_selector</item>
+    </style>
+
+    <style name="PickerButton.OutlinedBrightPurple">
+        <item name="android:textColor">@drawable/uikit_light_purple_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_purple_outlined_selector</item>
+    </style>
+
+
+    <style name="PickerButton.Solid.LightBlue">
+        <item name="android:background">@drawable/uikit_light_blue_selector</item>
+    </style>
+
+    <style name="PickerButton.OutlinedLightBlue">
+        <item name="android:textColor">@drawable/uikit_light_blue_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_blue_outlined_selector</item>
+    </style>
+
+    <style name="PickerButton.Solid.LightOrange">
+        <item name="android:background">@drawable/uikit_light_orange_selector</item>
+    </style>
+
+    <style name="PickerButton.OutlinedLightOrange">
+        <item name="android:textColor">@drawable/uikit_light_orange_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_orange_outlined_selector</item>
+    </style>
+
+    <style name="PickerButton.Solid.LightAqua">
+        <item name="android:background">@drawable/uikit_light_aqua_selector</item>
+    </style>
+
+    <style name="PickerButton.OutlinedLightAqua">
+        <item name="android:textColor">@drawable/uikit_light_aqua_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_aqua_outlined_selector</item>
+    </style>
+
+    <style name="PickerButton.Solid.LightGreen">
+        <item name="android:background">@drawable/uikit_light_green_selector</item>
+    </style>
+
+    <style name="PickerButton.OutlinedLightGreen">
+        <item name="android:textColor">@drawable/uikit_light_green_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_green_outlined_selector</item>
+    </style>
+
+    <style name="PickerButton.Solid.LightPink">
+        <item name="android:background">@drawable/uikit_light_pink_selector</item>
+    </style>
+
+    <style name="PickerButton.OutlinedLightPink">
+        <item name="android:textColor">@drawable/uikit_light_pink_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_pink_outlined_selector</item>
+    </style>
+
+    <style name="PickerButton.Solid.LightPurple">
+        <item name="android:background">@drawable/uikit_light_purple_selector</item>
+    </style>
+
+    <style name="PickerButton.OutlinedLightPurple">
+        <item name="android:textColor">@drawable/uikit_light_purple_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_purple_outlined_selector</item>
+    </style>
+</resources>

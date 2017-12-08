@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textviewleft"
+        fontPath="fonts/centralesanslight.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/slider_range_margin"
+        android:textColor="@color/uikit_philips_slider_text"
+        android:textSize="@dimen/slider_text_size_sp"
+        />
+    <TextView
+        android:id="@+id/textviewright"
+        fontPath="fonts/centralesanslight.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/slider_range_margin_right"
+        android:textColor="@color/uikit_philips_slider_text"
+        android:textSize="@dimen/slider_text_size_sp"
+        />
+    <com.philips.cdp.uikit.customviews.RangeSeekBar
+        android:id="@+id/baserangebar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textviewleft"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/slider_margin_text_thumb"
+        />
+
+</RelativeLayout>

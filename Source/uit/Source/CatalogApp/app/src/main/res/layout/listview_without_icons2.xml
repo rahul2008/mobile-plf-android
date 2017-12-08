@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/ratingtheme"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <ListView
+        android:id="@+id/listwithouticon2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:divider="?attr/uikit_listDividerColor"
+        android:dividerHeight="1dp"
+        android:listSelector="?attr/uikit_listSelectorBackground"></ListView>
+
+</RelativeLayout>

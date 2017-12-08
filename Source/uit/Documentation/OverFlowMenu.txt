@@ -1,0 +1,68 @@
+To show image icon in overflow menu should call below function inside onPrepareOptionsMenu()
+
+Example: public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        UikitUtils.menuShowIcon(menu);
+    }
+
+
+Attributes defined for Action Bar overflow menu customization:
+
+1)attr for menu item image : Add below line in your theme to override UIKIt style
+
+    <item name="popoverImageStyle">@style/YourStyle</item>
+
+    Defult is the below style.
+
+   Example: 
+
+  <style name="PopOverImageStyle" parent="android:Widget.ListView.DropDown">
+        <item name="android:tint">?attr/darkerColor</item>
+  </style>
+
+
+2) attrs for divider and colorbackground for menu list
+
+  <item name="dropDownListViewStyle">@style/PDropDownStyle</item>
+ 
+
+Example: 
+
+<style name="PDropDownStyle" parent="android:Widget.ListView.DropDown">
+        <item name="android:divider">@drawable/line</item>
+        <item name="android:colorBackground">?attr/veryLightColor</item>
+</style>
+
+
+
+3) attrs for menulist selector 
+
+<item name="veryLightselectoropacityfifteen">@drawable/your_selector</item>
+
+Example: Default is below selector
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/uikit_philips_very_light_blue_with_opacity_15" android:state_pressed="true"/>
+    <item android:drawable="@color/uikit_white" android:state_pressed="false"/>
+</selector>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+ 

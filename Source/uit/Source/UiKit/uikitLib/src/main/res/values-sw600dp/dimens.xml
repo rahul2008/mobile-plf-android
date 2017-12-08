@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="uikit_splash_title_text_size">53dp</dimen>
+    <dimen name="uikit_splash_logo_height">223dp</dimen>
+    <dimen name="uikit_splash_logo_width">175dp</dimen>
+
+    <dimen name="uikit_splash_logo_margin_top">85dp</dimen>
+    <dimen name="uikit_splash_title_margin_bottom">81dp</dimen>
+
+    <dimen name="uikit_splash_logo_margin_bottom">85dp</dimen>
+    <dimen name="uikit_splash_title_margin_top">85dp</dimen>
+
+    <!-- To do items -->
+    <dimen name="uikit_tab_icon_width">33dp</dimen>
+    <dimen name="uikit_tab_icon_height">33dp</dimen>
+    <dimen name="uikit_tab_icon_margin_top">11dp</dimen>
+    <dimen name="uikit_tab_text_margin_top">12dp</dimen>
+    <dimen name="uikit_tab_text_margin_bottom">9dp</dimen> <!-- 10 -->
+    <dimen name="uikit_tab_minwidth">100dp</dimen>
+    <!-- To do items -->
+    <dimen name="uikit_tab_text_size_with_image">14dp</dimen>
+    <dimen name="uikit_tab_text_size_without_image">14dp</dimen>
+
+    <!-- variable to hold info for tablet or phone -->
+    <bool name="uikit_istablet">true</bool>
+
+    <!-- About screen -->
+    <dimen name="uikit_about_screen_apptitle_size">24dp</dimen>
+    <dimen name="uikit_about_screen_actionbar_title_size">24dp</dimen>
+    <dimen name="uikit_about_screen_actionbar_icon_margin">14dp</dimen>
+    <dimen name="uikit_about_screen_version_copyright_size">20dp</dimen>
+    <dimen name="uikit_about_screen_terms_privacy_content_size">16dp</dimen>
+    <dimen name="uikit_about_screen_version_margin">10dp</dimen> <!-- 14 -->
+    <dimen name="uikit_about_screen_copyright_margin">4dp</dimen>
+    <dimen name="uikit_about_screen_terms_margin">29dp</dimen><!-- 33 -->
+    <dimen name="uikit_about_screen_privacy_margin">36dp</dimen>
+    <dimen name="uikit_about_screen_content_top_margin">28dp</dimen><!-- 32 -->
+    <dimen name="uikit_about_screen_content_right_margin">138dp</dimen>
+    <dimen name="uikit_about_screen_layout_top_margin">85dp</dimen>
+    <dimen name="uikit_about_screen_layout_left_margin">137dp</dimen><!-- 138 -->
+    <dimen name="uikit_about_screen_layout_rest_left_margin">139dp</dimen><!-- 138 -->
+    <dimen name="uikit_about_screen_logo_margin">85dp</dimen>
+    <!-- 53dp 1dp iconfont-->
+    <dimen name="uikit_about_screen_logo_margin_bottom">85dp</dimen>
+    <dimen name="uikit_about_screen_logo_width">176dp</dimen>
+    <dimen name="uikit_about_screen_logo_height">138dp</dimen>
+    <dimen name="uikit_about_screen_mm_logo_height">63dp</dimen>
+    <dimen name="uikit_about_screen_content_linespacing">6dp</dimen>
+    <dimen name="uikit_about_screen_version_copyright_left_margin">139dp</dimen>
+    <dimen name="uikit_about_screen_dismiss_icon_margin">17dp</dimen><!-- 20dp 3dp iconfont-->
+    <dimen name="uikit_about_screen_dismiss_icon_margin_right">19dp</dimen><!-- 20dp 1dp iconfont-->
+    <dimen name="uikit_about_screen_dismiss_icon_cross_size">22dp</dimen><!-- 20dp 2dp iconfont-->
+    <dimen name="springboard_gridsize">140dp</dimen>
+    <dimen name="springboard_title_text_margin_top">53dp</dimen>
+    <dimen name="springboard_title_text_margin_bottom">25dp</dimen>
+    <dimen name="springboard_gridspacing">18dp</dimen>
+    <dimen name="springboard_grid_margin_left">33dp</dimen>
+    <dimen name="springboard_text_margin_top">17dp</dimen>
+    <dimen name="springboard_text_margin_bottom">14dp</dimen>
+    <dimen name="image_margin_top">36dp</dimen>
+    <dimen name="springboard_list_margin_left_tablet">189dp</dimen>
+    <dimen name="springboard_list_margin_right_tablet">189dp</dimen>
+    <dimen name="springboard_list_margin_top_tablet">189dp</dimen>
+
+    <dimen name="springboard_grid_margin_right">31dp</dimen>
+
+    <dimen name="uikit_modal_alert_dialog_width">356dp</dimen>
+    <dimen name="uikit_modal_alert_dialog_height">275dp</dimen>
+</resources>

@@ -1,0 +1,253 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:gravity="center|center_horizontal">
+
+            <HorizontalScrollView
+                android:id="@+id/scrollView_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_twitter_32"
+                        style="@style/FontIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_twitter" />
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_linkedin_32"
+                        style="@style/FontIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_linkedin" />
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_youtube_32"
+                        style="@style/FontIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_youtube" />
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_pininterest_32"
+                        style="@style/FontIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_pininterest" />
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_facebook_32"
+                        style="@style/FontIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_facebook" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <HorizontalScrollView
+                android:id="@+id/scrollview_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/scrollView_top"
+                android:layout_margin="20dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_twitter_20"
+                        style="@style/FontIcon.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_twitter" />
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_linkedin_20"
+                        style="@style/FontIcon.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_linkedin" />
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_youtube_20"
+                        style="@style/FontIcon.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_youtube" />
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_pininterest_20"
+                        style="@style/FontIcon.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_pininterest" />
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_facebook_20"
+                        style="@style/FontIcon.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_facebook" />
+
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <HorizontalScrollView
+                android:id="@+id/scrollView_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/scrollview_two"
+                android:layout_margin="20dp"
+                android:background="@android:color/white"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="?attr/uikit_baseColor"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_twitter_inverse"
+                        style="@style/FontIcon.Inverse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_twitter" />
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_linkedin_inverse"
+                        style="@style/FontIcon.Inverse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_linkedin" />
+
+                    <com.shamanland.fonticon.FontIconView
+                        style="@style/FontIcon.Inverse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_youtube" />
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_pininterest_inverse"
+                        style="@style/FontIcon.Inverse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_pininterest" />
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_facebook_inverse"
+                        style="@style/FontIcon.Inverse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_facebook" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <HorizontalScrollView
+                android:id="@+id/scrollViewfour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/scrollView_three"
+                android:layout_margin="20dp"
+                android:background="@android:color/white"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="?attr/uikit_baseColor"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_twitter_inverse_20"
+                        style="@style/FontIcon.SmallInverse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_twitter" />
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_linkedin_inverse_20"
+                        style="@style/FontIcon.SmallInverse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_linkedin" />
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_youtube_inverse_20"
+                        style="@style/FontIcon.SmallInverse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_youtube" />
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_pininterest_inverse_20"
+                        style="@style/FontIcon.SmallInverse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_pininterest" />
+
+                    <com.shamanland.fonticon.FontIconView
+                        android:id="@+id/uikit_social_facebook_inverse_20"
+                        style="@style/FontIcon.SmallInverse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:text="@string/uikit_fonticon_facebook" />
+
+                </LinearLayout>
+            </HorizontalScrollView>
+        </RelativeLayout>
+    </ScrollView>
+</LinearLayout>

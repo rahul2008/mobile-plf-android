@@ -1,0 +1,75 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="Philips.ActionButton" parent="@android:style/Widget.ImageButton">
+        <item name="android:minWidth">@dimen/uikit_philips_action_button_radius</item>
+        <item name="android:minHeight">@dimen/uikit_philips_action_button_radius</item>
+        <item name="android:padding">0dp</item>
+        <item name="uikit_actionButtonShape">square</item>
+    </style>
+
+    <style name="Philips.ActionButton.Circle">
+        <item name="uikit_actionButtonShape">circle</item>
+    </style>
+
+    <style name="Philips.ActionButton.Square">
+        <item name="uikit_actionButtonShape">square</item>
+    </style>
+
+    <style name="Philips.ActionButton.Square.Arrow">
+        <item name="uikit_actionButtonImageDrawable">@drawable/uikit_right_arrow</item>
+    </style>
+
+    <style name="Philips.ActionButton.Square.Plus">
+        <item name="uikit_actionButtonImageDrawable">@drawable/uikit_plus</item>
+    </style>
+
+    <style name="Philips.ActionButton.Square.Minus">
+        <item name="uikit_actionButtonImageDrawable">@drawable/uikit_minus</item>
+    </style>
+
+    <style name="Philips.ActionButton.Square.QuestionMark">
+        <item name="uikit_actionButtonImageDrawable">@drawable/uikit_question_mark</item>
+    </style>
+
+    <style name="Philips.ActionButton.Square.CrossMark">
+        <item name="uikit_actionButtonImageDrawable">@drawable/uikit_cross</item>
+    </style>
+
+    <style name="Philips.ActionButton.Circle.Arrow">
+        <item name="uikit_actionButtonImageDrawable">@drawable/uikit_right_arrow</item>
+
+    </style>
+
+    <style name="Philips.ActionButton.Circle.Plus">
+        <item name="uikit_actionButtonImageDrawable">@drawable/uikit_plus</item>
+    </style>
+
+    <style name="Philips.ActionButton.Circle.Minus">
+        <item name="uikit_actionButtonImageDrawable">@drawable/uikit_minus</item>
+    </style>
+
+    <style name="Philips.ActionButton.Circle.QuestionMark">
+        <item name="uikit_actionButtonImageDrawable">@drawable/uikit_question_mark</item>
+    </style>
+
+    <style name="Philips.ActionButton.Circle.CrossMark">
+        <item name="uikit_actionButtonImageDrawable">@drawable/uikit_cross</item>
+    </style>
+
+    <style name="Philips.ActionButton.Circle.Float">
+        <item name="uikit_actionButtonShape">circle</item>
+        <item name="uikit_actionButtonShadow">true</item>
+        <item name="android:elevation">@dimen/uikit_action_button_shadow_radius</item>
+        <item name="android:minWidth">@dimen/uikit_philips_action_button_float_radius</item>
+        <item name="android:minHeight">@dimen/uikit_philips_action_button_float_radius</item>
+    </style>
+
+    <style name="Philips.ActionButton.Circle.Float.Plus">
+        <item name="uikit_actionButtonImageDrawable">@drawable/uikit_action_icon_plus</item>
+    </style>
+
+    <style name="Philips.ActionButton.Circle.Float.Pencil">
+        <item name="uikit_actionButtonImageDrawable">@drawable/uikit_pencil_01</item>
+    </style>
+
+</resources>

@@ -1,0 +1,132 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.philips.cdp.ui.catalog.activity.ButtonsActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.philips.cdp.uikit.customviews.PuiSwitch
+                android:id="@+id/change_button_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="50dp"/>
+
+            <Button
+                android:id="@+id/theme_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="@string/sample_button"/>
+
+            <Button
+                android:id="@+id/outlined_button"
+                style="?attr/uikit_outlinedButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/theme_button"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="@string/sample_button"/>
+
+            <Button
+                android:id="@+id/outlined_transparent_button"
+                style="?attr/uikit_outlinedButtonTransparentStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/outlined_button"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="@string/sample_button"/>
+
+            <Button
+                android:id="@+id/outlined_transparent_white_button"
+                style="@style/Button.TransparentWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/outlined_transparent_button"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="@string/sample_button"/>
+
+            <Button
+                android:id="@+id/show_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/outlined_transparent_white_button"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="Show notification"/>
+
+
+            <!-- Springboard buttons-->
+            <Button
+                android:id="@+id/spButton"
+                style="?attr/uikit_springBoardButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/show_notification"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="Sample button"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/spButtonIcon"
+                style="?attr/uikit_springBoardButtonWithIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/spButton"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Sample button"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/spButtonOutLined"
+                style="?attr/uikit_springBoardButtonOutLined"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/spButtonIcon"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Sample button"
+                android:textAllCaps="false" />
+
+            <com.philips.cdp.uikit.customviews.UIKitButton
+                android:id="@+id/spButtonOutlinedWithIcon"
+                style="?attr/uikit_springBoardButtonOutLinedWithIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/spButtonOutLined"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Sample button"
+                android:textAllCaps="false" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <com.philips.cdp.uikit.customviews.PopoverAlert
+        android:id="@+id/popover_alert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:uikit_popover_left_icon="@drawable/gear"
+        app:uikit_popover_right_icon="@drawable/apple"
+        app:uikit_popover_title_text="Uploading settings"/>
+</RelativeLayout>

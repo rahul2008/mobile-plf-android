@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ratingtheme"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="85dp">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="85dp"
+            android:layout_height="75dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="?attr/uikit_baseColor" />
+
+
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+    android:layout_marginTop="13dp"
+    android:layout_toEndOf="@+id/image"
+    android:layout_toRightOf="@+id/image"
+    android:gravity="center_vertical"
+    android:paddingRight="20dp">
+
+    <TextView
+        android:id="@+id/text1Name"
+        fontPath="fonts/centralesansbold.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="true"
+        android:scrollHorizontally="false"
+        android:text="DiamondClean Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod. Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod. Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod."
+        android:textColor="?attr/uikit_listtextselector"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:id="@+id/text2value"
+        fontPath="fonts/centralesansbook.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text1Name"
+        android:layout_marginTop="3dp"
+        android:layout_toEndOf="@+id/from"
+        android:layout_toRightOf="@+id/from"
+        android:includeFontPadding="true"
+        android:text="€ 209,99*"
+        android:textColor="?attr/uikit_listtextselector"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:id="@+id/from"
+        fontPath="fonts/centralesansbook.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/text2value"
+        android:layout_marginRight="3dp"
+        android:layout_toEndOf="@+id/image"
+        android:layout_toRightOf="@+id/image"
+        android:includeFontPadding="true"
+        android:text="from"
+        android:textColor="?attr/uikit_listtextselector"
+        android:textSize="10sp"
+        />
+
+
+</RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,19 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:width="19dp"
+    android:height="14dp"
+    android:viewportHeight="30.1"
+    android:viewportWidth="42.5"
+    app:uikit_vc_viewportHeight="30.1"
+    app:uikit_vc_viewportWidth="42.5">
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M21.3,20.1L21.3,20.1L21.3,20.1L21.3,20.1L21.3,20.1L21.3,20.1L21.3,20.1L21.3,20.1L21.3,20.1L21.3,20.1L21.3,20.1L21.3,20.1L0,7.8v19.9c0,1.3 1.1,2.4 2.4,2.4h37.8c1.3,0 2.4,-1.1 2.4,-2.4V7.8L21.3,20.1z"
+        app:uikit_vc_fillColor="#FF000000"
+        app:uikit_vc_pathData="M21.3,20.1L21.3,20.1L21.3,20.1L21.3,20.1L21.3,20.1L21.3,20.1L21.3,20.1L21.3,20.1L21.3,20.1L21.3,20.1L21.3,20.1L21.3,20.1L0,7.8v19.9c0,1.3 1.1,2.4 2.4,2.4h37.8c1.3,0 2.4,-1.1 2.4,-2.4V7.8L21.3,20.1z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M21.3,17.2L42.5,5V2.4c0,-1.3 -1.1,-2.4 -2.4,-2.4H2.4C1.1,0 0,1.1 0,2.4v2.5L21.3,17.2z"
+        app:uikit_vc_fillColor="#FF000000"
+        app:uikit_vc_pathData="M21.3,17.2L42.5,5V2.4c0,-1.3 -1.1,-2.4 -2.4,-2.4H2.4C1.1,0 0,1.1 0,2.4v2.5L21.3,17.2z" />
+</vector>

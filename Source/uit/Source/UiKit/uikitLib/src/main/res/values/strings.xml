@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">UiKit</string>
+    <string name="uikit_question_mark">\?</string>
+    <string name="uikit_plus">\+</string>
+    <string name="uikit_minus">-</string>
+    <string name="uikit_greater">&gt;</string>
+    <string name="uikit_cross_mark">X</string>
+    <string name="uikit_release_version">UIKITLib Version 3.2.2</string>
+
+    <!-- Splash screen title-->
+    <string name="uikit_splash_title">@null</string>
+
+    <!-- About Screen -->
+    <string name="uikit_about_screen_apptitle">@null</string>
+    <string name="uikit_about_screen_actionbar_title">@null</string>
+    <string name="uikit_about_screen_version">@null</string>
+    <string name="uikit_about_screen_copyright">@null</string>
+    <string name="uikit_about_screen_terms">@null</string>
+    <string name="uikit_about_screen_privacy">@null</string>
+    <string name="uikit_about_screen_content">@null</string>
+
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
+    <string name="action_settings">Settings</string>
+    <string name="uikit_reload">Reload</string>
+    <string name="uikit_info">Info</string>
+
+    <string name="uikit_modal_alert_label">@null</string>
+    <string name="uikit_modal_alert_message">@null</string>
+    <string name="uikit_modal_alert_negative_button_text">Just Once</string>
+    <string name="uikit_modal_alert_positive_button_text">Always</string>
+
+    <string name="invalid_email_format">Incorrect email format</string>
+
+    <array name="control_icons">
+        <item>@drawable/uikit_arrow_up</item>
+        <item>@drawable/uikit_arrow_down</item>
+    </array>
+
+    <!-- UIKit_springboard_list and uikit_springboard_fullblocks-->
+    <string name="uikit_springboard_textview_label">TextView</string>
+
+    <!-- uikit_slider -->
+    <string name="uikit_slider_indicator_text_value">0</string>
+
+    <!-- uikit_popover_alert -->
+    <string name="uikit_popover_alert_title">Pop Over Alert</string>
+
+    <!-- uikit_card_view strings-->
+    <string name="uikit_card_view_title_text">Your title goes here</string>
+    <string name="uikit_card_view_cardimage_text">12</string>
+    <string name="uikit_card_view_card_text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, quis nostrud exercitation ullamco laboris nisi ut. Eiusmod tempor incididunt ut labore.</string>
+    <string name="uikit_card_view_link_text">Link dolor elit ›</string>
+</resources>

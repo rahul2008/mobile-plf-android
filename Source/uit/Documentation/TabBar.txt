@@ -1,0 +1,65 @@
+For TabBar, lib uses TabLayout from android design library.
+
+Reference: https://developer.android.com/reference/android/support/design/widget/TabLayout.html
+
+How to include in xml?
+
+1. If the tab contains icons with text
+
+     <android.support.design.widget.TabLayout
+        android:id="@+id/urid"
+        style="@style/PTablayout.Image"/> 
+
+2. If only text
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_bar_text"
+        android:layout_alignParentBottom="true"
+        style="@style/PTablayout"/>
+
+3. Styles: Below styles must be applied
+	   
+	   Icons with text: style="@style/PTablayout.Image
+           Only Text:       style="@style/PTablayout
+
+4. Creating tabs:  Tabs are addded using helpler class TabUtils.
+	a) Get your tablayout and create TabUtils instance.
+
+		TabLayout tabLayout= (TabLayout) findViewById(R.id.tab_bar);
+
+		TabUtils utils = new TabUtils(context, tabLayout, true); //False if icon always remains white or same color
+
+	b) Create new tab: 
+		The newTab has signature : newTab(int titleResID, int iconResID, int count)
+
+		TabLayout.Tab tab = utils.newTab(R.string.uikit_splash_title, R.drawable.alarm, 0);
+
+	c) Updating title/icon:
+
+		utils.setTitle(tab, "title"); //Update title
+		utils.setIcon(tab, drawable) //update icon
+
+	d) Add tabs:
+		tablayout.addTab(tab)
+
+
+5. Size adjustment: Since this design lib doesn't support automatic width adjust with scroll, the app must call few functions in 
+        onResume {
+		TabUtils.adjustTabs(tabLayout, context);
+        }
+ 
+6: Restore selected tab: Since frameworm doesn't provide this by default, we need to save the selected tab index
+			
+			a)  in onSavedInstance
+				outState.putInt("selectedPos", tabLayout.getSelectedTabPosition());
+                        
+			b) apply in onCreate
+				if(savedInstanceState != null) {
+        			    topLayout.post(new Runnable() {
+			                @Override
+				                public void run() {
+                    				tabLayout.getTabAt(savedInstanceState.getInt("selectedPos")).select();
+			                        }
+				            });
+			        } 
+	

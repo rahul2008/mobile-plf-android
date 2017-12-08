@@ -1,0 +1,100 @@
+<resources>
+    <string name="app_name">Catalog App</string>
+
+    <string name="action_settings">الإعدادات</string>
+    <string name="title_activity_navigation_buttons">نشاط أزرار التنقل</string>
+    <string name="change_theme">تغيير النسق</string>
+    <string name="previous_theme">النسق السابق</string>
+    <string name="uikit_splash_title">تطبيق للجهاز المحمول</string>
+    <string name="color_background">استخدام لون في الخلفية</string>
+    <string name="solid">ثابت</string>
+    <string name="gradient">متدرج</string>
+    <string name="image">الصورة</string>
+    <string name="blue_theme"> الأزرق موضوع</string>
+    <string name="orange_theme"> البرتقال موضوع</string>
+    <string name="aqua_theme">نسق أزرق</string>
+    <string name="misc_shadow_message">أزرار متفرقة مع ظل</string>
+    <string name="action_icons">أزرار النشاط</string>
+    <string name="enter_text_here"> أدخل النص هنا</string>
+    <string name="FirstName">الاسم</string>
+    <string name="LastName">اسم العائلة</string>
+    <string name="FullName">الاسم الكامل</string>
+    <string name="EmailAddress">عنوان البريد الإلكتروني</string>
+    <string name="invalid_email_format"> شكل بريد إلكتروني غير صحيح</string>
+    <string name="invalid_pwd_format"> صيغة كلمة السر غير صحيحة</string>
+    <string name="sample_button">زر نموذجي</string>
+    <string name="uikit_hamburger">هامبورجر</string>
+    <string name="share">مشاركة</string>
+    <string name="mail">البريد الإلكتروني</string>
+    <string name="chat">الدردشة</string>
+
+    <string-array name="hamburger_drawer_items">
+        <item>عنوان طويل</item>
+        <item>لائحة التسوّق</item>
+        <item>القهوة</item>
+        <item>التغذية</item>
+        <item>نصيحة حول النمط</item>
+        <item>وصفات الطعام</item>
+        <item>لمحة عن التطبيق</item>
+        <item>العنوان طويل</item>
+        <item>الدعم</item>
+        <item>الإعدادات</item>
+    </string-array>
+
+    <array name="hamburger_drawer_icons">
+        <item>@drawable/uikit_cart</item>
+        <item>@drawable/uikit_cart</item>
+        <item>@drawable/uikit_coffee</item>
+        <item>@drawable/uikit_stats</item>
+        <item>@drawable/uikit_recycle_bin</item>
+        <item>@drawable/uikit_radio</item>
+        <item>@drawable/uikit_factory</item>
+        <item>@drawable/uikit_factory</item>
+        <item>@drawable/uikit_apple</item>
+        <item>@drawable/uikit_gear</item>
+    </array>
+
+    <string-array name="controls_array">
+        <item>الخيار 1</item>
+        <item>الخيار 2</item>
+        <item>الخيار 3</item>
+    </string-array>
+
+    <string-array name="controls_array2">
+        <item>الخيار 1</item>
+        <item>الخيار 2</item>
+    </string-array>
+
+    <string name="title_activity_social_icons">أيقونات الاجتماعية</string>
+    <string name="title_activity_list_view_without_icons">عرض القوائم من دون الرموز</string>
+    <string name="title_activity_pop_over_menu">قائمة منبثقة</string>
+
+    <string name="title_activity_spring_boardsctivity">نشاط لوحة الانتقال السريع</string>
+    <string name="title_activity_spring_board_six_grid">SpringBoardSixGridActivity</string>
+    <string name="title_activity_cards">نشاط البطاقات</string>
+
+    <string name="hello_world">مرحبًا!</string>
+    <string name="title_activity_cards_spike">CardsSpike</string>
+    <string name="title_activity_controls">آخر الضوابط</string>
+    <string name="spinneronbuttontext">فيليبس</string>
+    <string name="finishloading">إنهاء التحميل</string>
+
+    <array name="control_icons">
+        <item>@drawable/uikit_arrow_up</item>
+        <item>@drawable/uikit_arrow_down</item>
+    </array>
+
+    <!-- About Screen -->
+    <string name="uikit_about_screen_apptitle"> تطبيقات الجوال </string>
+    <string name="uikit_about_screen_actionbar_title"> حول </string>
+    <string name="uikit_about_screen_version">الإصدار 1.0.1</string>
+    <string name="uikit_about_screen_copyright">Copyright \u00A9 2014 Philips</string>
+    <string name="uikit_about_screen_terms">Terms &amp; conditions \u203A</string>
+    <string name="uikit_about_screen_privacy">سياسة الخصوصية \u203A</string>
+    <string name="uikit_about_screen_content">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa.</string>
+
+    <string name="uikit_modal_alert_label">Alert Label</string>
+    <string name="uikit_modal_alert_message">Lorem ipsum dolor sit amet, consectetur adipisicing elit dolor sit amet dolor sit amet magnus et domine.</string>
+    <string name="uikit_modal_alert_negative_button_text">Just Once</string>
+    <string name="uikit_modal_alert_positive_button_text">Always</string>
+</resources>

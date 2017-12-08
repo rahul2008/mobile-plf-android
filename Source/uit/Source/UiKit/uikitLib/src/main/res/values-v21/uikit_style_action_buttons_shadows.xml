@@ -1,0 +1,52 @@
+<resources>
+
+    <style name="Philips.ActionButton.Circle.Shadow">
+        <item name="uikit_actionButtonShadow">true</item>
+    </style>
+
+    <style name="Philips.ActionButton.Square.Shadow">
+        <item name="uikit_actionButtonShadow">true</item>
+    </style>
+
+    <style name="Philips.ActionButton.Square.Arrow.Shadow">
+        <item name="uikit_actionButtonShadow">true</item>
+    </style>
+
+    <style name="Philips.ActionButton.Square.Plus.Shadow">
+        <item name="uikit_actionButtonShadow">true</item>
+    </style>
+
+    <style name="Philips.ActionButton.Square.Minus.Shadow">
+        <item name="uikit_actionButtonShadow">true</item>
+    </style>
+
+    <style name="Philips.ActionButton.Square.QuestionMark.Shadow">
+        <item name="uikit_actionButtonShadow">true</item>
+    </style>
+
+    <style name="Philips.ActionButton.Square.CrossMark.Shadow">
+        <item name="uikit_actionButtonShadow">true</item>
+    </style>
+
+    <style name="Philips.ActionButton.Circle.Arrow.Shadow">
+        <item name="uikit_actionButtonShadow">true</item>
+    </style>
+
+    <style name="Philips.ActionButton.Circle.Plus.Shadow">
+        <item name="uikit_actionButtonShadow">true</item>
+    </style>
+
+    <style name="Philips.ActionButton.Circle.Minus.Shadow">
+        <item name="uikit_actionButtonShadow">true</item>
+    </style>
+
+    <style name="Philips.ActionButton.Circle.QuestionMark.Shadow">
+        <item name="uikit_actionButtonShadow">true</item>
+    </style>
+
+    <style name="Philips.ActionButton.Circle.CrossMark.Shadow">
+        <item name="uikit_actionButtonShadow">true</item>
+    </style>
+
+
+</resources>

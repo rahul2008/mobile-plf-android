@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">UiKit</string>
+    <string name="uikit_question_mark">\?</string>
+    <string name="uikit_plus">\+</string>
+    <string name="uikit_minus">-</string>
+    <string name="uikit_greater">&gt;</string>
+    <string name="uikit_cross_mark">X</string>
+    <string name="uikit_release_version">UIKITLib Version 3.0.0</string>
+
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="reload">Reload</string>
+
+    <string name="invalid_email_format">format email incorrecte</string>
+
+    <array name="control_icons">
+        <item>@drawable/uikit_arrow_up</item>
+        <item>@drawable/uikit_arrow_down</item>
+    </array>
+ 
+    <!-- UIKit_springboard_list and uikit_springboard_fullblocks-->
+    <string name="uikit_springboard_textview_label">TextView</string>
+
+    <!-- uikit_slider -->
+    <string name="uikit_slider_indicator_text_value">0</string>
+
+    <!-- uikit_popover_alert -->
+    <string name="uikit_popover_alert_title">Pop Over Alert</string>
+
+    <!-- uikit_card_view strings-->
+    <string name="uikit_card_view_title_text">Your title goes here</string>
+    <string name="uikit_card_view_cardimage_text">12</string>
+    <string name="uikit_card_view_card_text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, quis nostrud exercitation ullamco laboris nisi ut. Eiusmod tempor incididunt ut labore.</string>
+    <string name="uikit_card_view_link_text">Link dolor elit ›</string>
+</resources>

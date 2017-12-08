@@ -1,0 +1,86 @@
+<resources>
+    <string name="app_name">Catalog App</string>
+
+    <string name="action_settings">Impostazioni</string>
+    <string name="title_activity_navigation_buttons">Attività con pulsanti di navigazione</string>
+    <string name="change_theme">Cambia tema</string>
+    <string name="previous_theme">Tema precedente</string>
+    <string name="uikit_splash_title">App mobile</string>
+    <string name="color_background">Utilizza sfondo a colori</string>
+    <string name="solid">fisso</string>
+    <string name="gradient">graduale</string>
+    <string name="image">Immagine</string>
+    <string name="blue_theme">Tema blu</string>
+    <string name="orange_theme">Tema arancione</string>
+    <string name="aqua_theme">Tema acqua</string>
+    <string name="misc_shadow_message">Pulsanti vari con ombreggiatura</string>
+    <string name="action_icons">Icone azioni</string>
+    <string name="enter_text_here">Inserisci qui il testo</string>
+    <string name="FirstName">Nome</string>
+    <string name="LastName">Cognome</string>
+    <string name="FullName">Nome completo</string>
+    <string name="EmailAddress">Indirizzo e-mail</string>
+    <string name="invalid_email_format">Indirizzo e-mail errato</string>
+    <string name="invalid_pwd_format">Formato password non valido</string>
+    <string name="sample_button">Pulsante di esempio</string>
+    <string name="uikit_hamburger">Hamburger</string>
+    <string name="share">Share</string>
+    <string name="mail">Invia per e-mail</string>
+    <string name="chat">Chat</string>
+    <string name="spinneronbuttontext">Philips account</string>
+    <string name="finishloading">Finish loading</string>
+
+    <string-array name="hamburger_drawer_items">
+        <item>Titolo completo</item>
+        <item>Lista della spesa</item>
+        <item>Caffè</item>
+        <item>Nutrizione</item>
+        <item>Consigli di stile</item>
+        <item>Eget In</item>
+        <item>Ricette</item>
+        <item>Titolo completo</item>
+        <item>Informazioni sull applicazione</item>
+        <item>Impostazioni</item>
+    </string-array>
+
+    <array name="hamburger_drawer_icons">
+        <item>@drawable/uikit_cart</item>
+        <item>@drawable/uikit_cart</item>
+        <item>@drawable/uikit_coffee</item>
+        <item>@drawable/uikit_stats</item>
+        <item>@drawable/uikit_recycle_bin</item>
+        <item>@drawable/uikit_radio</item>
+        <item>@drawable/uikit_factory</item>
+        <item>@drawable/uikit_factory</item>
+        <item>@drawable/uikit_apple</item>
+        <item>@drawable/uikit_gear</item>
+    </array>
+
+    <string-array name="controls_array">
+        <item>Opzione 1</item>
+        <item>Opzione 2</item>
+        <item>Opzione 3</item>
+    </string-array>
+
+    <string-array name="controls_array2">
+        <item>Opzione 1</item>
+        <item>Opzione 2</item>
+    </string-array>
+
+    <string name="title_activity_social_icons">Icone social</string>
+    <string name="title_activity_list_view_without_icons">Vista elenco senza icone</string>
+    <string name="title_activity_pop_over_menu">Menu pop-over</string>
+
+    <string name="title_activity_spring_boardsctivity">Attività con schermata di accesso rapido</string>
+    <string name="title_activity_spring_board_six_grid">SpringBoardSixGridActivity</string>
+    <string name="title_activity_cards">Attività con schede</string>
+
+    <string name="hello_world">Ciao, mondo</string>
+    <string name="title_activity_cards_spike">CardsSpike</string>
+    <string name="title_activity_controls">Controlla attività</string>
+
+    <array name="control_icons">
+        <item>@drawable/uikit_arrow_up</item>
+        <item>@drawable/uikit_arrow_down</item>
+    </array>
+</resources>

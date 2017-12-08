@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:inputText="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="20dp" >
+
+    <RelativeLayout
+        android:id="@+id/input_field_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
+
+        <com.philips.cdp.uikit.customviews.PuiEditText
+            android:id="@+id/input_field_1"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            inputText:uikit_errorText="@string/invalid_email_format"
+            inputText:uikit_hintText="@string/enter_text_here"
+            inputText:uikit_singleLine="true"/>
+
+        <com.philips.cdp.uikit.customviews.PuiEditText
+            android:id="@+id/input_field_2"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/input_field_1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            inputText:uikit_errorText="@string/invalid_email_format"
+            inputText:uikit_hintText="@string/enter_text_here"
+            inputText:uikit_singleLine="true"/>
+
+        <com.philips.cdp.uikit.customviews.PuiEditText
+            android:id="@+id/input_field_disabled"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/input_field_2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            inputText:uikit_enabled="false"
+            inputText:uikit_hintText="@string/enter_text_here"
+            inputText:uikit_singleLine="true"/>
+
+        <com.philips.cdp.uikit.customviews.PuiEditText
+            android:layout_height="wrap_content"
+            android:id="@+id/password"
+            android:layout_width="240dp"
+            android:hint="password"
+            android:layout_below="@+id/input_field_disabled"
+            android:textCursorDrawable="@null"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            inputText:uikit_hintText="Password"
+            inputText:uikit_errorText="@string/invalid_pwd_format"
+            inputText:uikit_password_edit_field="true"
+            />
+
+
+    </RelativeLayout>
+</ScrollView>

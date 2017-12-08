@@ -1,0 +1,66 @@
+<resources>
+    <!-- Text size -->
+    <dimen name="action_button_cordinate">15sp</dimen>
+    <dimen name="action_icon_cordinate">20sp</dimen>
+    <dimen name="sb_x_cordinate">5sp</dimen>
+    <dimen name="outline_x_cordinate">0sp</dimen>
+    <dimen name="outline_y_cordinate">5sp</dimen>
+    <dimen name="theme_button_text_size">15sp</dimen>
+    <dimen name="input_field_text_size">16sp</dimen>
+    <dimen name="about_title_text_size">24dp</dimen>
+    <dimen name="about_version_text_size">16dp</dimen>
+    <dimen name="about_terms_content_text_size">14dp</dimen>
+    <dimen name="splash_title_text_size">38dp</dimen>
+    <dimen name="splash_title_text_size_tablet">53dp</dimen>
+    <dimen name="splash_logo_height">138dp</dimen>
+    <dimen name="splash_logo_width">109dp</dimen>
+    <dimen name="button_size">44dp</dimen>
+    <dimen name="action_button_width">33dp</dimen>
+    <dimen name="action_button_height">33dp</dimen>
+    <dimen name="about_screen_philips_logo_height">86sp</dimen>
+    <dimen name="input_text_field_height">44dp</dimen>
+    <dimen name="inline_form_field_height">52dp</dimen>
+    <dimen name="tab_bar_height">85sp</dimen>
+    <dimen name="slider_thumb_height">18sp</dimen>
+    <dimen name="slider_progressbar_height">4sp</dimen>
+    <dimen name="slider_backgroundbar_height">2sp</dimen>
+    <dimen name="slider_indicator_height">33sp</dimen>
+    <dimen name="slider_indicator_text_size">14sp</dimen>
+    <dimen name="ndot_selected_height">12dp</dimen>
+    <dimen name="ndot_selected_width">13dp</dimen>
+    <dimen name="ndot_unselected_height">7dp</dimen>
+    <dimen name="ndot_unselected_width">7dp</dimen>
+    <dimen name="popover_alert_height">53sp</dimen>
+    <dimen name="popover_alert_text_size">14sp</dimen>
+    <dimen name="actionbar_up_width">10dp</dimen>
+    <dimen name="actionbar_up_height">19dp</dimen>
+    <dimen name="badgeview_small_fontsize">14sp</dimen>
+    <dimen name="badgeview_large_fontlarge">20sp</dimen>
+    <dimen name="hmenu_listitem_height">53dp</dimen>
+    <dimen name="hmenu_listitem_width">222dp</dimen>
+    <dimen name="hmenu_title_listitem_height">33dp</dimen>
+    <dimen name="modal_alert_title_size">20sp</dimen>
+    <dimen name="modal_alert_description_buttontext_size">14sp</dimen>
+    <dimen name="springboard_divider_height">1dp</dimen>
+    <dimen name="springboard_font_size">16sp</dimen>
+    <dimen name="springboard_list_title_font_size">38dp</dimen>
+
+    <dimen name="springboard__lists_font_size">20dp</dimen>
+    <dimen name="springboard_lists_item_size">55dp</dimen>
+    <dimen name="springboard_grid_title_font_size">33dp</dimen>
+    <dimen name="springboard_grid_font_size">16sp</dimen>
+    <dimen name="socialicons_height">20sp</dimen>
+    <dimen name="socialicons_width">20sp</dimen>
+    <dimen name="socialicons_height_large">32sp</dimen>
+    <dimen name="socialicons_width_large">32sp</dimen>
+    <dimen name="hmenu_fontsize_list_item">16sp</dimen>
+    <dimen name="sbgrid_testImageBGColorDBTheme_x">5dp</dimen>
+    <dimen name="sbgrid_testImageBGColorDBTheme_y">10dp</dimen>
+    <dimen name="sbgrid_dividercolor_x">0dp</dimen>
+    <dimen name="sbgrid_dividercolor_y">2dp</dimen>
+    <dimen name="nlabel_large_2digit_height">33dp</dimen>
+    <dimen name="nlabel_large_2digit_width">45dp</dimen>
+    <dimen name="nlabel_small_2digit_height">20dp</dimen>
+    <dimen name="nlabel_small_2digit_width">27dp</dimen>
+
+</resources>

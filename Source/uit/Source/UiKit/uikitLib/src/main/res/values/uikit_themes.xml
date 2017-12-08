@@ -1,0 +1,72 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Placeholder to start PhilipsTheme definition -->
+    <style name="Theme.Philips" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="uikit_darkerGradient">@drawable/uikit_grad_blue_verydark_to_dark</item>
+        <item name="uikit_baseGradient">@drawable/uikit_grad_blue_dark_to_bright</item>
+        <item name="uikit_lighterGradient">@drawable/uikit_grad_blue_bright_to_light</item>
+        <item name="uikit_gradWindowBackground">?attr/uikit_lighterGradient</item>
+        <item name="uikit_splashGradient">?attr/uikit_lighterGradient</item>
+        <item name="uikit_notificationBarGradient">?attr/uikit_darkerGradient</item>
+        <item name="uikit_actionBarBackground">?attr/uikit_baseGradient</item>
+        <item name="uikit_tabBarGradient">?attr/uikit_baseGradient</item>
+        <item name="uikit_hamburgerGradient">?attr/uikit_darkerGradient</item>
+        <item name="uikit_errorTextColor">@color/uikit_philips_bright_orange</item>
+        <item name="uikit_errorIcon">@drawable/uikit_red_error_cross</item>
+        <item name="uikit_errorBackground">@drawable/uikit_edittext_error_bg</item>
+        <item name="actionBarStyle">@style/HoloActionBar</item>
+        <item name="uikit_splashTitleStyle">@style/SplashTitle</item>
+        <item name="uikit_actionButtonStyleRef">@style/Philips.ActionButton</item>
+        <item name="uikit_actionButtonBgColor">?attr/uikit_baseColor</item>
+        <item name="uikit_actionButtonBgColorPressed">@color/uikit_philips_light_blue</item>
+        <item name="android:textAppearance">@style/TextAppearance</item>
+        <item name="uikit_baseColor">@color/uikit_philips_dark_blue</item>
+        <item name="uikit_veryLightColor">@color/uikit_philips_very_light_blue</item>
+        <item name="uikit_enableStroke">false</item>
+        <item name="android:seekBarStyle">@style/Slider</item>
+        <item name="colorPrimaryDark">?attr/uikit_actionBarBackground</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">?attr/uikit_baseColor</item>
+        <item name="actionOverflowButtonStyle">@style/OverFlow</item>
+        <item name="uikit_listSelectorBackground">@drawable/uikit_background_lists_selector_blue_color
+        </item>
+        <item name="android:listChoiceBackgroundIndicator">?attr/uikit_listSelectorBackground</item>
+        <item name="android:datePickerDialogTheme">@style/PhilipsDatePickerDialogTheme</item>
+        <item name="android:timePickerDialogTheme">@style/PhilipsTimePickerDialogTheme</item>
+        <item name="dropDownListViewStyle">@style/PDropDownStyle</item>
+        <item name="actionBarPopupTheme">@style/PDropDownStyle</item>
+        <item name="uikit_veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_blue_selector
+        </item>
+        <item name="uikit_popoverImageStyle">@style/PopOverImageStyle</item>
+        <item name="uikit_springBoardButton">@style/SpringBoardButton.Solid.DarkBlue</item>
+        <item name="uikit_springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkBlue</item>
+        <item name="uikit_springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkBlue</item>
+        <item name="uikit_springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedDarkBlue
+        </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.DarkBlue</item>
+        <item name="uikit_LightColor">@color/uikit_philips_light_blue</item>
+        <item name="colorControlHighlight">?attr/uikit_veryLightColor</item>
+    </style>
+
+    <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/uikit_hamburger_options</item>
+    </style>
+
+    <style name="TextAppearance" parent="android:TextAppearance">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="HoloActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="background">?attr/uikit_actionBarBackground</item>
+    </style>
+
+    <style name="UikitModalAlertTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/uikit_modal_alert_black_alpha_30</item>
+        <item name="android:windowEnterAnimation">@anim/uikit_modal_alert_zoom_in</item>
+        <item name="android:windowExitAnimation">@anim/uikit_modal_alert_zoom_out</item>
+    </style>
+</resources>
