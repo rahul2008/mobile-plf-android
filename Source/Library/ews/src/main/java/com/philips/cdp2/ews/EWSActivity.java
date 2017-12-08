@@ -6,6 +6,7 @@
 package com.philips.cdp2.ews;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -13,11 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.philips.cdp2.ews.base.BaseFragment;
-import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
-import com.philips.cdp2.ews.injections.DependencyHelper;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
-import com.philips.cdp2.ews.injections.EWSComponent;
+import com.philips.cdp2.ews.injections.DependencyHelper;
 import com.philips.cdp2.ews.injections.EWSConfigurationModule;
 import com.philips.cdp2.ews.injections.EWSDependencyProviderModule;
 import com.philips.cdp2.ews.injections.EWSModule;
@@ -30,25 +29,20 @@ import com.philips.platform.uid.view.widget.ActionBarTextView;
 
 import java.util.concurrent.TimeUnit;
 
-import javax.inject.Inject;
-
 public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActionBarListener {
 
     public static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
     public static final String EWS_STEPS = "EWS_STEPS";
     public static final String KEY_CONTENT_CONFIGURATION = "contentConfiguration";
+    @NonNull
+    EWSTagger ewsTagger;
+    @NonNull
+    private Navigator navigator;
 
-    @Inject
-    Navigator navigator;
-
-    @Inject
-    BaseContentConfiguration baseContentConfiguration;
-
-    private EWSTagger ewsTagger;
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!DependencyHelper.areDependenciesInitialized()){
+        if (!DependencyHelper.areDependenciesInitialized()) {
             this.finish();
             return;
         }
@@ -75,17 +69,19 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
             contentConfiguration = new ContentConfiguration();
         }
 
-        EWSComponent ewsComponent = DaggerEWSComponent.builder()
-                .eWSModule(new EWSModule(this
-                        , this.getSupportFragmentManager()
-                        , R.id.contentFrame, DependencyHelper.getCommCentral()))
-                .eWSConfigurationModule(new EWSConfigurationModule(this, contentConfiguration))
-                .eWSDependencyProviderModule(new EWSDependencyProviderModule(DependencyHelper.getAppInfraInterface(), DependencyHelper.getProductKeyMap()))
+        EWSModule ewsModule = new EWSModule(this
+                , this.getSupportFragmentManager()
+                , R.id.contentFrame, DependencyHelper.getCommCentral());
+        EWSDependencyProviderModule ewsDependencyProviderModule = new EWSDependencyProviderModule(DependencyHelper.getAppInfraInterface(), DependencyHelper.getProductKeyMap());
+        EWSConfigurationModule ewsConfigurationModule = new EWSConfigurationModule(this, contentConfiguration);
+
+        DaggerEWSComponent.builder()
+                .eWSModule(ewsModule)
+                .eWSConfigurationModule(ewsConfigurationModule)
+                .eWSDependencyProviderModule(ewsDependencyProviderModule)
                 .build();
-        ewsComponent.inject(this);
-
-        ewsTagger = ewsComponent.getEWSTagger();
-
+        navigator = ewsModule.provideNavigator();
+        ewsTagger = ewsDependencyProviderModule.provideEWSTagger();
     }
 
     @Override

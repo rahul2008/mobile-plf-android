@@ -144,7 +144,7 @@ public class EWSModule {
 
 
     @Provides
-    Navigator provideNavigator() {
+    public Navigator provideNavigator() {
         return new Navigator(new FragmentNavigator(fragmentManager, parentContainerResourceID));
     }
 

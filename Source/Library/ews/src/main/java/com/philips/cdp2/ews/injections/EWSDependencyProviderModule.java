@@ -12,8 +12,6 @@ import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.microapp.EWSUapp;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.Map;
 
@@ -27,47 +25,39 @@ import dagger.Provides;
 @Module
 public class EWSDependencyProviderModule {
 
-    private AppInfraInterface appInfraInterface;
+    @NonNull private final EWSLogger ewsLogger;
+    @NonNull private final  EWSTagger ewsTagger;
     @VisibleForTesting
     Map<String, String> productKeyMap;
 
     public EWSDependencyProviderModule(@NonNull final AppInfraInterface appInfraInterface,
-                                       @NonNull final Map<String, String> productKeyMap){
-        this.appInfraInterface = appInfraInterface;
+                                       @NonNull final Map<String, String> productKeyMap) {
         this.productKeyMap = productKeyMap;
-        if (productKeyMap == null || !productKeyMap.containsKey(EWSUapp.PRODUCT_NAME)) {
+        this.ewsTagger = new EWSTagger(appInfraInterface.getTagging().createInstanceForComponent("EasyWifiSetupTagger", "1.0.0"));
+        this.ewsLogger = new EWSLogger(appInfraInterface.getLogging().createInstanceForComponent("EasyWifiSetupLogger", "1.0.0"));
+        if (!productKeyMap.containsKey(EWSUapp.PRODUCT_NAME)) {
             throw new IllegalArgumentException("productKeyMap does not contain the productName");
         }
     }
 
-    private LoggingInterface provideLoggerInterface() {
-        return appInfraInterface.getLogging().createInstanceForComponent("EasyWifiSetupLogger", "1.0.0");
-    }
 
-    /**
-     * Return AppTaggingInterface.
-     * @return AppTaggingInterface
-     */
-    private AppTaggingInterface provideTaggingInterface() {
-        return appInfraInterface.getTagging().createInstanceForComponent("EasyWifiSetupTagger", "1.0.0");
+    @Provides
+    @Singleton
+    @NonNull
+    public EWSTagger provideEWSTagger() {
+        return ewsTagger;
     }
 
     @Provides
     @Singleton
     @NonNull
-    public EWSTagger provideEWSTagger(){
-        return new EWSTagger(provideTaggingInterface());
-    }
-
-    @Provides
-    @Singleton
-    @NonNull
-    public EWSLogger provideEWSLogger(){
-        return new EWSLogger(provideLoggerInterface());
+    public EWSLogger provideEWSLogger() {
+        return ewsLogger;
     }
 
     /**
      * Return ProductName
+     *
      * @return ProductName
      */
     @Provides

@@ -11,9 +11,9 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.EWSActivity;
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.DependencyHelper;
-import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.injections.EWSConfigurationModule;
 import com.philips.cdp2.ews.injections.EWSDependencyProviderModule;
 import com.philips.cdp2.ews.injections.EWSModule;
@@ -25,8 +25,6 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
-
-import javax.inject.Inject;
 
 /*
  * EWSInterface is an entry point for EWS launching,
@@ -40,8 +38,8 @@ public class EWSUapp implements UappInterface {
     public static final String SCREEN_ORIENTATION = "screen.orientation";
     public static final String PRODUCT_NAME = "productName";
     private static final String TAG = "EWSInterface";
-    @Inject
-    Navigator navigator;
+    @NonNull
+    private Navigator navigator;
 
     @NonNull
     private Context context;
@@ -57,7 +55,11 @@ public class EWSUapp implements UappInterface {
     @Override
     public void init(@NonNull final UappDependencies uappDependencies, @NonNull final UappSettings uappSettings) {
         EWSDependencies ewsDependencies = (EWSDependencies) uappDependencies;
-        dependencyHelper = new DependencyHelper(uappDependencies.getAppInfra(), ewsDependencies.getCommCentral(), ewsDependencies.getProductKeyMap(), ewsDependencies.getContentConfiguration());
+        ContentConfiguration contentConfiguration = ewsDependencies.getContentConfiguration();
+        if (contentConfiguration == null) {
+            contentConfiguration = new ContentConfiguration();
+        }
+        dependencyHelper = new DependencyHelper(uappDependencies.getAppInfra(), ewsDependencies.getCommCentral(), ewsDependencies.getProductKeyMap(), contentConfiguration);
         context = uappSettings.getContext();
     }
 
@@ -86,31 +88,28 @@ public class EWSUapp implements UappInterface {
 
     @VisibleForTesting
     void launchAsFragment(@NonNull final FragmentLauncher fragmentLauncher, @NonNull final UappLaunchInput uappLaunchInput) {
-        EWSComponent ewsComponent = null;
+        EWSDependencyProviderModule ewsDependencyProviderModule = new EWSDependencyProviderModule(DependencyHelper.getAppInfraInterface(), DependencyHelper.getProductKeyMap());
         try {
-            ewsComponent = createEWSComponent(fragmentLauncher);
-            ewsComponent.inject(this);
+            EWSModule ewsModule = new EWSModule(fragmentLauncher.getFragmentActivity(),
+                    fragmentLauncher.getFragmentActivity().getSupportFragmentManager(),
+                    fragmentLauncher.getParentContainerResourceID(), DependencyHelper.getCommCentral());
+
+            DaggerEWSComponent.builder()
+                    .eWSModule(ewsModule)
+                    .eWSConfigurationModule(new EWSConfigurationModule(fragmentLauncher.getFragmentActivity(), DependencyHelper.getContentConfiguration()))
+                    .eWSDependencyProviderModule(ewsDependencyProviderModule)
+                    .build();
+            navigator = ewsModule.provideNavigator();
+
             ((EWSLauncherInput) uappLaunchInput).setContainerFrameId(fragmentLauncher.getParentContainerResourceID());
             ((EWSLauncherInput) uappLaunchInput).setFragmentManager(fragmentLauncher.getFragmentActivity().getSupportFragmentManager());
             navigator.navigateToGettingStartedScreen();
-            ewsComponent.getEWSTagger().collectLifecycleInfo(fragmentLauncher.getFragmentActivity());
+            ewsDependencyProviderModule.provideEWSTagger().collectLifecycleInfo(fragmentLauncher.getFragmentActivity());
         } catch (Exception e) {
-            ewsComponent.getEWSLogger().e(TAG,
+            ewsDependencyProviderModule.provideEWSLogger().e(TAG,
                     "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
                             + e.getMessage());
         }
-    }
-
-    @VisibleForTesting
-    @NonNull
-    EWSComponent createEWSComponent(@NonNull FragmentLauncher fragmentLauncher) {
-        return DaggerEWSComponent.builder()
-                .eWSModule(new EWSModule(fragmentLauncher.getFragmentActivity(),
-                        fragmentLauncher.getFragmentActivity().getSupportFragmentManager(),
-                        fragmentLauncher.getParentContainerResourceID(), DependencyHelper.getCommCentral()))
-                .eWSConfigurationModule(new EWSConfigurationModule(fragmentLauncher.getFragmentActivity(), DependencyHelper.getContentConfiguration()))
-                .eWSDependencyProviderModule(new EWSDependencyProviderModule(DependencyHelper.getAppInfraInterface(), DependencyHelper.getProductKeyMap()))
-                .build();
     }
 
     private void launchAsActivity(@NonNull final UappLaunchInput uappLaunchInput) {
