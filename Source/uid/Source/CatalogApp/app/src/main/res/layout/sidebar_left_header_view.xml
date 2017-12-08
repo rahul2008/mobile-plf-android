@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        style="@style/UIDLabel.SidebarHeaderText"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/sidebar_left_header_height"
+        android:paddingEnd="@dimen/sidebar_item_margin_left_right"
+        android:paddingStart="@dimen/sidebar_item_margin_left_right"
+        android:drawablePadding="@dimen/sidebar_item_margin_left_right"
+        android:drawableStart="@drawable/sidebar_left_avatar"
+        android:gravity="start|center_vertical"
+        android:text="@string/sidebar_header_item"/>
+
+    <include
+        layout="@layout/uid_horizontal_separator" />
+
+</LinearLayout>

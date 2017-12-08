@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.SliderFragment" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:text="@string/page_title_slider" />
+
+            <com.philips.platform.uid.view.widget.Slider
+                android:progress="50"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/slider_top_bottom_margin"
+                android:layout_marginBottom="@dimen/slider_temporary_vertical_margin"
+                android:layout_marginEnd="@dimen/slider_temporary_horizontal_margin"
+                android:layout_marginStart="@dimen/slider_temporary_horizontal_margin"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/slider_temporary_vertical_margin"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_marginStart="@dimen/layout_margin_left_right">
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/slider_icon_start_label"
+                    android:textColor="?attr/uidLabelDescriptorNormalTextColor"
+                    android:textSize="@dimen/slider_label_size" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/slider_icon_end_label"
+                    android:textColor="?attr/uidLabelDescriptorNormalTextColor"
+                    android:textSize="@dimen/slider_label_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/slider_top_bottom_margin"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_marginStart="@dimen/layout_margin_left_right">
+
+                <ImageView
+                    android:id="@+id/temparature_low_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/ic_brightness_low"
+                    android:layout_centerVertical="true"/>
+
+                <ImageView
+                    android:id="@+id/temparature_high_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_brightness_high"
+                    android:layout_centerVertical="true"/>
+
+                <com.philips.platform.uid.view.widget.Slider
+                    android:progress="50"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/temparature_low_icon"
+                    android:layout_toStartOf="@id/temparature_high_icon" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</layout>

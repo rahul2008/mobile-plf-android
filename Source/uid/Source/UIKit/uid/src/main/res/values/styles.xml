@@ -1,0 +1,75 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.DLS" parent="BaseDLSTheme">
+        <item name="actionBarSize">@dimen/uid_navigation_bar_height</item>
+        <item name="android:windowBackground">?attr/uidContentPrimaryBackgroundColor</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorControlHighlight">@android:color/transparent</item>
+        <item name="android:timePickerDialogTheme" tools:targetApi="lollipop">
+            @style/UIDDatePickerDialogTheme
+        </item>
+        <item name="android:datePickerDialogTheme" tools:targetApi="lollipop">
+            @style/UIDDatePickerDialogTheme
+        </item>
+
+        <!-- Action bar and toolbar style-->
+        <!-- <item name="actionBarStyle">@style/UIDToolbar</item>
+         <item name="android:actionBarStyle">@style/UIDToolbar</item>
+        -->
+        <item name="android:toolbarStyle" tools:targetApi="lollipop">@style/UIDToolbar</item>
+        <item name="toolbarStyle">@style/UIDToolbar</item>
+
+
+        <item name="actionOverflowButtonStyle">@style/UIDActionBarOverflowButton</item>
+        <!-- Navigation color for lolipop-->
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
+
+        <item name="android:colorPrimary" tools:targetApi="lollipop">
+            ?attr/uidNavigationPrimaryBackgroundColor
+        </item>
+
+        <!--  navigation bar should remain black in all other cases if wants the theme color un-commite it
+          <item name="android:navigationBarColor" tools:targetApi="lollipop">?attr/uidActionBarBackground</item>
+          -->
+
+        <!--Don't use below, as we want status bar background native on lollipop-->
+        <!--<item name="android:colorPrimaryDark" tools:targetApi="lollipop">-->
+            <!--?attr/uidNavigationSecondaryBackgroundColor-->
+        <!--</item>-->
+        <item name="android:actionMenuTextAppearance">@style/UIDToolbarMenuTextAppearance</item>
+        <item name="actionMenuTextAppearance">@style/UIDToolbarMenuTextAppearance</item>
+
+        <!-- Below lines are to set the color for options menu items text color -->
+        <item name="actionMenuTextColor">?attr/uidNavigationPrimaryTextColor</item>
+        <item name="android:actionMenuTextColor">?attr/uidNavigationPrimaryTextColor</item>
+
+        <item name="actionBarStyle">@style/UIDActionBarStyle</item>
+
+        <item name="android:listDivider">?attr/uidSeparatorContentNormalBackgroundColor</item>
+        <item name="android:dividerHeight">@dimen/uid_divider_Height</item>
+
+        <item name="uidButtonStyle">@style/UIDDefaultButton</item>
+        <item name="uidSwitchStyle">@style/UIDSwitchStyle</item>
+        <item name="uidProgressBarStyle">@style/UIDProgressBarHorizontalDeterminate</item>
+        <item name="uidCheckBoxStyle">@style/UIDCheckBox</item>
+        <item name="uidImageButtonStyle">@style/UIDImageButton</item>
+        <item name="uidEditTextStyle">@style/UIDEditTextBox</item>
+        <item name="uidRatingBarStyle">@style/UIDRatingBarStyle</item>
+        <item name="uidLabelStyle">@style/UIDLabel</item>
+        <item name="uidSliderStyle">@style/UIDSliderStyle</item>
+        <item name="uidAboutScreenStyle">@style/UIDAboutScreenStyle</item>
+
+        <item name="uidIndeterminateLinearPBStyle">@style/UIDIndeterminateLinearProgress</item>
+
+        <item name="uidRadioButtonStyle">@style/UIDRadioButton</item>
+        <item name="android:dropDownListViewStyle">@style/UIDDropDownStyle</item>
+        <item name="listPopupWindowStyle">@style/UIDListPopupWindow</item>
+        <!-- Moved to based temporarily to avoid crash-->
+        <!--<item name="uidInputTextTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
+        <item name="uidInputTextHintTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
+        -->
+    </style>
+
+</resources>

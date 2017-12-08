@@ -1,0 +1,38 @@
+<resources>
+  <style name="UIDNavigationbarUltraLight">
+    <item name="uidNavigationRange">UltraLight</item>
+    <item name="uidNavigationPrimaryBackgroundColor">@color/uid_level_white</item>
+    <item name="uidNavigationPrimaryIconColor">?attr/uidColorLevel45</item>
+    <item name="uidNavigationPrimaryTextColor">?attr/uidColorLevel45</item>
+    <item name="uidNavigationSecondaryBackgroundColor">?attr/uidColorLevel5</item>
+    <item name="uidNavigationSecondaryIconColor">?attr/uidColorLevel45</item>
+    <item name="uidNavigationSecondaryTextColor">?attr/uidColorLevel45</item>
+  </style>
+  <style name="UIDNavigationbarVeryLight">
+    <item name="uidNavigationRange">VeryLight</item>
+    <item name="uidNavigationPrimaryBackgroundColor">?attr/uidColorLevel10</item>
+    <item name="uidNavigationPrimaryIconColor">?attr/uidColorLevel45</item>
+    <item name="uidNavigationPrimaryTextColor">?attr/uidColorLevel45</item>
+    <item name="uidNavigationSecondaryBackgroundColor">?attr/uidColorLevel15</item>
+    <item name="uidNavigationSecondaryIconColor">?attr/uidColorLevel45</item>
+    <item name="uidNavigationSecondaryTextColor">?attr/uidColorLevel45</item>
+  </style>
+  <style name="UIDNavigationbarBright">
+    <item name="uidNavigationRange">Bright</item>
+    <item name="uidNavigationPrimaryBackgroundColor">?attr/uidColorLevel40</item>
+    <item name="uidNavigationPrimaryIconColor">@color/uid_level_white</item>
+    <item name="uidNavigationPrimaryTextColor">@color/uid_level_white</item>
+    <item name="uidNavigationSecondaryBackgroundColor">?attr/uidColorLevel45</item>
+    <item name="uidNavigationSecondaryIconColor">@color/uid_level_white</item>
+    <item name="uidNavigationSecondaryTextColor">@color/uid_level_white</item>
+  </style>
+  <style name="UIDNavigationbarVeryDark">
+    <item name="uidNavigationRange">VeryDark</item>
+    <item name="uidNavigationPrimaryBackgroundColor">?attr/uidColorLevel70</item>
+    <item name="uidNavigationPrimaryIconColor">@color/uid_level_white</item>
+    <item name="uidNavigationPrimaryTextColor">@color/uid_level_white</item>
+    <item name="uidNavigationSecondaryBackgroundColor">?attr/uidColorLevel75</item>
+    <item name="uidNavigationSecondaryIconColor">@color/uid_level_white</item>
+    <item name="uidNavigationSecondaryTextColor">@color/uid_level_white</item>
+  </style>
+</resources>

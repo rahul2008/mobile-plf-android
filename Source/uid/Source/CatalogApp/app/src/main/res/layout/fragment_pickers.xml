@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.graphics.Color"/>
+
+        <import type="java.util.Date"/>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="fragment"
+            type="com.philips.platform.catalogapp.fragments.PickersFragment"/>
+
+        <variable
+            name="dateTimePickerDate"
+            type="java.lang.Object"/>
+
+        <variable
+            name="rangePickerStartDate"
+            type="java.lang.Object"/>
+
+        <variable
+            name="rangePickerEndDate"
+            type="java.lang.Object"/>
+
+        <variable
+            name="timeslotPickerTime"
+            type="java.lang.Object"/>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.Header"
+            android:text="@string/date_picker"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/listview_row_height"
+            android:layout_gravity="center"
+            android:gravity="start|center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/uid_date_picker_margin_left_right"
+            android:paddingStart="@dimen/uid_date_picker_margin_left_right">
+
+            <ImageView
+                android:id="@+id/calender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:contentDescription="@string/date_picker"
+                android:onClick="@{(v) ->fragment.showDatePicker(dateTimePickerDate, false)}"
+                android:tint="?attr/uidContentItemSecondaryNormalTextColor"
+                app:srcCompat="@drawable/ic_calender"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/datePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/uid_date_margin_start"
+                android:onClick="@{(v) ->fragment.showDatePicker(dateTimePickerDate, false)}"
+                android:text="@{fragment.getFormattedDate(fragment.dateTimePickerDate.get())}"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/timePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:onClick="@{(v) ->fragment.showTimePicker(dateTimePickerDate, false)}"
+                android:text="@{fragment.getFormattedTime(fragment.dateTimePickerDate.get())}"
+                android:visibility="@{fragment.disableTimePicker}"/>
+        </LinearLayout>
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.Header"
+            android:text="@string/range_picker"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/listview_row_height"
+            android:layout_gravity="center"
+            android:gravity="start|center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/uid_date_picker_margin_left_right"
+            android:paddingStart="@dimen/uid_date_picker_margin_left_right">
+
+            <ImageView
+                android:id="@+id/rangePickerStartCalender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:contentDescription="@string/date_picker"
+                android:onClick="@{(v) ->fragment.showDatePicker(rangePickerStartDate, true)}"
+                android:tint="?attr/uidContentItemSecondaryNormalTextColor"
+                app:srcCompat="@drawable/ic_calender"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/startDatePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/uid_date_margin_start"
+                android:onClick="@{(v) ->fragment.showDatePicker(rangePickerStartDate, true)}"
+                android:text="@{fragment.getFormattedDate(fragment.rangePickerStartDate)}"
+                android:textColor="?attr/uidContentItemSecondaryNormalTextColor"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/startTimePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:onClick="@{(v) ->fragment.showTimePicker(rangePickerStartDate, true)}"
+                android:text="@{fragment.getFormattedTime(fragment.rangePickerStartDate)}"
+                android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
+                android:visibility="@{fragment.disableTimePicker}"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/listview_row_height"
+            android:layout_gravity="center"
+            android:gravity="start|center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/uid_date_picker_margin_left_right"
+            android:paddingStart="@dimen/uid_date_picker_margin_left_right">
+
+            <ImageView
+                android:id="@+id/rangePickerEndCalender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:contentDescription="@string/date_picker"
+                android:onClick="@{(v) ->fragment.showDatePicker(rangePickerEndDate, true)}"
+                android:tint="@{fragment.isValidRange? Color.RED: fragment.getTextColor()}"
+                app:srcCompat="@drawable/ic_calender"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/endDatePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/uid_date_margin_start"
+                android:onClick="@{(v) ->fragment.showDatePicker(rangePickerEndDate, true)}"
+                android:text="@{fragment.getFormattedDate(fragment.rangePickerEndDate)}"
+                android:textColor="@{fragment.isValidRange? Color.RED: fragment.getTextColor()}"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/endTimePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:onClick="@{(v) ->fragment.showTimePicker(rangePickerEndDate, true)}"
+                android:text="@{fragment.getFormattedTime(fragment.rangePickerEndDate)}"
+                android:textColor="@{fragment.isValidRange? Color.RED: fragment.getTextColor()}"
+                android:visibility="@{fragment.disableTimePicker}"/>
+        </LinearLayout>
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.Header"
+            android:text="@string/timeslot_picker"
+            android:visibility="@{fragment.disableTimePicker}"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/listview_row_height"
+            android:layout_gravity="center"
+            android:gravity="start"
+            android:onClick="@{(v) ->fragment.showTimePicker(timeslotPickerTime, false)}"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/uid_date_picker_margin_left_right"
+            android:paddingStart="@dimen/uid_date_picker_margin_left_right"
+            android:visibility="@{fragment.disableTimePicker}">
+
+            <ImageView
+                android:id="@+id/timeslotCalender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/date_picker"
+                app:srcCompat="@drawable/ic_query"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/uid_date_margin_start"
+                android:text="@string/start"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/timeslotPicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="@{fragment.getFormattedTime(fragment.timeslotPickerTime)}"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>

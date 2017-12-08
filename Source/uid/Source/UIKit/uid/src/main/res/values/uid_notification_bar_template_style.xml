@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="UIDNotificationBarTitle" parent="UIDLabel">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="android:textSize">@dimen/uid_notification_bar_title_text_size</item>
+        <item name="android:textColor">?attr/uidNotificationBarWhiteNormalPrimaryTextColor</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:layout_marginTop">@dimen/uid_notification_bar_margin</item>
+        <item name="android:layout_marginStart">@dimen/uid_notification_bar_margin</item>
+        <item name="android:layout_marginEnd">@dimen/uid_notification_bar_margin</item>
+        <item name="android:lineSpacingExtra">@dimen/uid_notification_bar_line_spacing</item>
+        <item name="android:lineSpacingMultiplier">
+            @integer/uid_notification_bar_line_space_multiplier
+        </item>
+    </style>
+
+    <style name="UIDNotificationBarContent" parent="UIDNotificationBarTitle">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textColor">?attr/uidNotificationBarWhiteNormalSecondaryTextColor</item>
+        <item name="android:textSize">@dimen/uid_notification_bar_content_text_size</item>
+        <item name="android:layout_marginTop">@dimen/uid_notification_bar_margin_top_content</item>
+    </style>
+
+    <style name="UIDNotificationBarCloseButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:padding">@dimen/uid_notification_bar_margin</item>
+        <item name="android:tint">?attr/uidNotificationBarWhiteNormalPrimaryTextColor</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="UIDNotificationBarButton1" parent="UIDQuietButton">
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:minHeight">@dimen/uid_notification_bar_action_btn_height</item>
+        <item name="android:layout_marginStart">@dimen/uid_notification_bar_margin</item>
+    </style>
+
+    <style name="UIDNotificationBarButton2" parent="UIDQuietButton">
+        <item name="android:minHeight">@dimen/uid_notification_bar_action_btn_height</item>
+    </style>
+</resources>

@@ -1,0 +1,40 @@
+<resources>
+    <string name="catalog_app_name">Catalog App DLS</string>
+    <string name="demo_primary_button">Primary button</string>
+    <string name="buttons_with_icons">Buttons with icon</string>
+    <string name="individual_buttons_label">Individual Buttons</string>
+    <string name="alternate_primary_label">Alternate Primary Button</string>
+    <string name="secondary_button_label">Secondary Button</string>
+    <string name="quiet_button_label">Quiet Button</string>
+    <string name="textbox_dummy_string">TextBox</string>
+    <string name="navigation_content_desc">Navigation content description</string>
+    <string name="progress_button">button_press_me</string>
+    <string name="progress_button_loading">button_loading</string>
+    <string name="checkbox">checkbox</string>
+    <string name="language_pack_label">Language pack label</string>
+    <string name="test_links_description"><a href="http://www.philips.com">Philips website</a>
+       <a href="http://www.google.com">Google</a></string>
+    <string name="radiobutton1">radiobutton1</string>
+    <string name="radiobutton2">Multi-line label Lorem ipsum dolor sit amet consectetur adipiscing elit duis a feugiat tortor. Multi-line label Lorem ipsum dolor sit amet consectetur adipiscing elit duis a feugiat tortor
+    .Multi-line label Lorem ipsum dolor sit amet consectetur adipiscing elit duis a feugiat tortor. Multi-line label Lorem ipsum dolor sit amet consectetur adipiscing elit duis a feugiat tortor</string>
+    <string name="search_box_no_result">No result found</string>
+    <string name="uipicker_item_text">UI Picker Test Multi-line label Lorem ipsum dolor sit amet consectetur adipiscing elit duis a feugiat tortorMulti-line label Lorem ipsum dolor sit amet consectetur adipiscing elit duis a feugiat tortorMulti-line label Lorem ipsum dolor sit amet consectetur adipiscing elit duis a feugiat tortor</string>
+    <string name="sidebar_main_content_label">Sidebar main content label</string>
+    <string name="sidebar_left_label">Sidebar left label</string>
+    <string name="sidebar_right_label">Sidebar right label</string>
+    <string name="test_sidebar_open">Open</string>
+    <string name="test_sidebar_close">Close</string>
+    <string name="dialog_title">dialog_screen_title_text</string>
+    <string name="dialog_positive">Okay</string>
+    <string name="dialog_negative">Cancel</string>
+    <string name="dialog_alternate">Maybe</string>
+    <string name="dialog_message">Lorem ipsum dolor sit amet consectetur adipiscing elit duis a feugiat tortor</string>
+
+    <string name="about_screen_appname">Philips application name</string>
+    <string name="about_screen_appversion">Version 3.1</string>
+    <string name="about_screen_copyright">Copyright \u00A9 2016 Philips</string>
+    <string name="about_screen_terms"><a href="http://www.philips.com">Terms &amp; conditions \u203A</a></string>
+    <string name="about_screen_privacy"><a href="http://www.philips.com">Privacy policy \u203A</a></string>
+    <string name="about_screen_disclosure">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa.</string>
+
+</resources>

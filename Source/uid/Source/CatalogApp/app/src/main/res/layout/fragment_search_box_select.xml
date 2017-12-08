@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.philips.platform.catalogapp.fragments.SearchBoxSelectFragment" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/trigger_expandable_search"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+            android:onClick="@{(v) -> fragment.onExpandableClicked()}"
+            android:orientation="horizontal">
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.MarginStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:paddingEnd="0dp"
+                android:paddingStart="0dp"
+                android:text="@string/search_box_expandable" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
+                android:background="@null"
+                android:clickable="false"
+                android:gravity="center"
+                app:srcCompat="@drawable/ic_right_arrow_show_more" />
+        </RelativeLayout>
+
+        <include
+            android:id="@+id/divider"
+            layout="@layout/uid_horizontal_separator" />
+
+        <RelativeLayout
+            android:id="@+id/trigger_persistent_search"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+            android:onClick="@{(v) -> fragment.onPersistentClicked()}"
+            android:orientation="horizontal">
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.MarginStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:paddingEnd="0dp"
+                android:paddingStart="0dp"
+                android:text="@string/search_box_persistent" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
+                android:background="@null"
+                android:clickable="false"
+                android:gravity="center"
+                app:srcCompat="@drawable/ic_right_arrow_show_more" />
+        </RelativeLayout>
+
+        <include
+            android:id="@+id/divider"
+            layout="@layout/uid_horizontal_separator" />
+    </LinearLayout>
+
+</layout>

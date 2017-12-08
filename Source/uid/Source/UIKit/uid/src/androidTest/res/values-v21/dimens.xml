@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--checkbox text leading-->
+    <dimen name="checkbox_line_spacing">6dp</dimen>
+    <integer name="checkbox_line_spacing_multiplier">1</integer>
+    <!--radiobutton text leading-->
+    <dimen name="radiobutton_line_spacing">6dp</dimen>
+    <integer name="radiobutton_line_spacing_multiplier">1</integer>
+</resources>

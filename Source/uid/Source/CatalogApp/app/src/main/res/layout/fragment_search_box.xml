@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.SearchBoxFragment" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/search_description"
+            style="@style/UIDLabel"
+            android:textColor="?attr/uidLabelRegularNormalTextColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/layout_margin_left_right"
+            android:layout_marginStart="@dimen/layout_margin_left_right"
+            android:layout_marginTop="@dimen/layout_margin_top"
+            android:text="@string/search_box_content" />
+
+        <ListView
+            android:id="@+id/country_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/search_list_margin_top"
+            android:divider="@null"
+            android:listSelector="@drawable/uid_list_item_selector"
+            android:visibility="gone" />
+    </LinearLayout>
+</layout>

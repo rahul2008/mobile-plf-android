@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="UIDAlertDialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:textColorPrimary">?attr/uidContentItemPrimaryNormalTextColor</item>
+        <item name="android:windowTitleStyle">@style/UIDAlertDialogTitleTextStyle</item>
+        <item name="android:windowMinWidthMajor">0%</item>
+        <item name="android:windowMinWidthMinor">0%</item>
+        <item name="android:backgroundDimAmount">@dimen/uid_alpha_per_80</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:background">?attr/uidPopupDefaultNormalBackgroundColor</item>
+    </style>
+
+    <style name="UIDAlertDialogTitleTextStyle">
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+        <item name="android:layout_gravity">top</item>
+        <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
+        <item name="android:layout_marginTop">@dimen/uid_page_margin_left_right</item>
+        <item name="android:maxLines">@integer/uid_alert_dialog_title_max_lines</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:lineSpacingMultiplier">1</item>
+        <item name="android:lineSpacingExtra">@dimen/uid_alert_dialog_title_text_line_spacing</item>
+        <item name="android:textSize">@dimen/uid_alert_dialog_title_text_size</item>
+    </style>
+
+    <style name="UIDDialogTitleIconStyle">
+        <item name="android:layout_marginTop">@dimen/uid_alert_dialog_title_icon_top_padding</item>
+        <item name="android:tint">?attr/uidContentItemSecondaryNormalTextColor</item>
+    </style>
+
+    <style name="UIDAlertDialogMessageTextStyle">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:layout_marginStart">@dimen/uid_page_margin_left_right</item>
+        <item name="android:layout_marginEnd">@dimen/uid_page_margin_left_right</item>
+        <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
+        <item name="android:lineSpacingMultiplier">1</item>
+        <item name="android:overScrollMode">never</item>
+        <item name="android:fillViewport">true</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
+        <item name="android:scrollIndicators" tools:targetApi="m">right</item>
+        <item name="android:lineSpacingExtra">@dimen/uid_alert_dialog_message_line_spacing</item>
+        <item name="android:textSize">@dimen/uid_alert_dialog_message_text_size</item>
+    </style>
+
+    <style name="UIDAlertDialogActionAreaStyle">
+        <item name="android:layout_marginTop">@dimen/uid_page_margin_left_right</item>
+        <item name="android:layout_gravity">end|center_vertical</item>
+        <item name="android:layout_height">@dimen/uid_alert_dialog_control_area_height</item>
+        <item name="android:gravity">end|center_vertical</item>
+    </style>
+
+    <style name="UIDDialogActionAreaStyle">
+        <item name="android:paddingTop">@dimen/uid_dialog_padding</item>
+        <item name="android:paddingBottom">@dimen/uid_dialog_padding</item>
+        <item name="android:paddingStart">@dimen/uid_dialog_padding</item>
+        <item name="android:paddingEnd">@dimen/uid_dialog_padding</item>
+        <item name="android:gravity">end|center_vertical</item>
+    </style>
+
+    <style name="UIDAlertDialogMessageContainerStyle">
+        <item name="android:overScrollMode">never</item>
+        <item name="android:fillViewport">true</item>
+        <item name="android:scrollIndicators" tools:targetApi="m">right</item>
+        <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
+        <item name="android:scrollbarFadeDuration">
+            @integer/uid_alert_dialog_scrollbar_fade_duration
+        </item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:scrollbarThumbVertical">?attr/uidThumbScrollbarNormalBackgroundColor</item>
+        <item name="android:scrollbarSize">8dp</item>
+    </style>
+
+    <style name="UIDAlertAnimation">
+        <item name="android:windowEnterAnimation">@anim/uid_alert_dialog_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/uid_alert_dialog_fade_out</item>
+    </style>
+</resources>

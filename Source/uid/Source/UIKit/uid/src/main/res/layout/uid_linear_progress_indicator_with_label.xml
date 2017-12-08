@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/uid_progress_indicator_label_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/uid_progress_indicator_label_top_left"
+            style="@style/UIDLabel.ProgressBarLabel"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/uid_determinate_linear_progress_indicator_label_margin"/>
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/uid_progress_indicator_label_top_right"
+            style="@style/UIDLabel.ProgressBarLabel"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/uid_determinate_linear_progress_indicator_label_margin"/>
+    </LinearLayout>
+
+    <com.philips.platform.uid.view.widget.ProgressBar
+        android:id="@+id/uid_determinate_linear_progress_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/uid_progress_indicator_label_top_layout"
+        android:indeterminate="false"
+        android:minWidth="@dimen/uid_progress_bar_min_width"
+        android:progressDrawable="@drawable/uid_secondary_progress_bar"
+        app:uidIsLinearProgressBar="true"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/uid_progress_indicator_label_bottom_left"
+        style="@style/UIDLabel.ProgressBarLabel"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/uid_determinate_linear_progress_indicator"
+        android:layout_marginTop="@dimen/uid_determinate_linear_progress_indicator_label_margin"
+        android:visibility="gone"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/uid_progress_indicator_label_bottom_right"
+        style="@style/UIDLabel.ProgressBarLabel"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/uid_determinate_linear_progress_indicator"
+        android:layout_marginTop="@dimen/uid_determinate_linear_progress_indicator_label_margin"
+        android:visibility="gone"/>
+</RelativeLayout>

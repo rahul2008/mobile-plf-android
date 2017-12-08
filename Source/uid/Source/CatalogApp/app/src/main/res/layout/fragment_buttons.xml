@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        >
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.ButtonFragment"/>
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!--With Icon layout-->
+            <LinearLayout
+                style="@style/BaseLayoutMargins.Dimens"
+                android:orientation="horizontal">
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/TestButtonTexts"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/with_icon"/>
+
+                <com.philips.platform.uid.view.widget.Switch
+                    android:id="@+id/toggleicon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:gravity="center_vertical|end"
+                    android:onCheckedChanged="@{(v, isChecked) -> frag.toggleIcons(isChecked)}"/>
+            </LinearLayout>
+
+            <include layout="@layout/divider_layout"/>
+
+            <!--Extra layout-->
+            <LinearLayout
+                style="@style/BaseLayoutMargins.Dimens"
+                android:orientation="horizontal">
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/TestButtonTexts"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/extra_wide"/>
+
+                <com.philips.platform.uid.view.widget.Switch
+                    android:id="@+id/toggleextraWide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:gravity="center_vertical|end"
+                    android:onCheckedChanged="@{(v, isChecked) -> frag.toggleExtraWideButtons(isChecked)}"/>
+            </LinearLayout>
+
+            <include layout="@layout/divider_layout"/>
+
+            <!--Disabled layout-->
+            <LinearLayout
+                style="@style/BaseLayoutMargins.Dimens"
+                android:orientation="horizontal">
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/TestButtonTexts"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/disabled"/>
+
+                <com.philips.platform.uid.view.widget.Switch
+                    android:id="@+id/toggleDisable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_weight="1"
+                    android:checked="false"
+                    android:gravity="center_vertical|end"
+                    android:onCheckedChanged="@{(v, isChecked) -> frag.disableButtons(isChecked)}"/>
+
+            </LinearLayout>
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:text="@string/buttons"/>
+
+            <!--Extra wide buttons-->
+            <LinearLayout
+                android:id="@+id/groupExtraWide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="@{frag.showExtraWideButtons ? View.VISIBLE : View.GONE}">
+
+                <com.philips.platform.uid.view.widget.Button
+                    style="@style/UIDImageTextButton.Center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/layout_margin_left_right"
+                    android:layout_marginRight="@dimen/layout_margin_left_right"
+                    android:layout_marginTop="@dimen/button_first_last_element_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:text="@string/buttons_text_primary"/>
+
+                <com.philips.platform.uid.view.widget.Button
+                    style="@style/UIDImageTextButton.Center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/layout_margin_left_right"
+                    android:layout_marginRight="@dimen/layout_margin_left_right"
+                    android:layout_marginTop="@dimen/button_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:text="@string/buttons_text_secondary"
+                    app:uidComponentType="Secondary"/>
+
+                <com.philips.platform.uid.view.widget.Button
+                    style="@style/UIDExtraWideIconQuietButton.Center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/layout_margin_left_right"
+                    android:layout_marginRight="@dimen/layout_margin_left_right"
+                    android:layout_marginTop="@dimen/button_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:gravity="center"
+                    android:text="@string/buttons_text_quiet"/>
+
+                <com.philips.platform.uid.view.widget.Button
+                        style="@style/UIDImageTextButton.Center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/layout_margin_left_right"
+                        android:layout_marginLeft="@dimen/layout_margin_left_right"
+                        android:layout_marginRight="@dimen/layout_margin_left_right"
+                        android:layout_marginTop="@dimen/button_gap"
+                        android:enabled="@{frag.isButtonsEnabled}"
+                        android:text="@string/accent_button_label"
+                        app:uidAccent="true"/>
+            </LinearLayout>
+
+            <!--Left aligned extra wide buttons[start]-->
+
+            <LinearLayout
+                android:id="@+id/groupLeftAlignedExtraWide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="@{frag.showExtraWideButtons ? View.VISIBLE : View.GONE}">
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel.Header"
+                    android:text="@string/buttons_text_left_aligned_category"/>
+
+                <com.philips.platform.uid.view.widget.Button
+                    style="@style/UIDDefaultButton.UIDImageTextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/button_first_last_element_gap"
+                    android:layout_marginLeft="@dimen/layout_margin_left_right"
+                    android:layout_marginRight="@dimen/layout_margin_left_right"
+                    android:layout_marginTop="@dimen/button_first_last_element_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:text="@string/buttons_text_left_aligned"
+                    app:uidComponentType="Secondary"/>
+            </LinearLayout>
+            <!--Left aligned extra wide buttons[end]-->
+
+            <!--Defualt buttons-->
+            <LinearLayout
+                android:id="@+id/groupDefault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="@{frag.showExtraWideButtons ? View.GONE : View.VISIBLE}">
+
+                <com.philips.platform.uid.view.widget.Button
+                    style="@style/UIDDefaultButton.UIDImageTextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/button_first_last_element_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:gravity="center"
+                    android:text="@string/buttons_text_primary"/>
+
+                <com.philips.platform.uid.view.widget.Button
+                    style="@style/UIDDefaultButton.UIDImageTextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/button_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:gravity="center"
+                    android:text="@string/buttons_text_secondary"
+                    app:uidComponentType="Secondary"/>
+
+                <com.philips.platform.uid.view.widget.Button
+                    style="@style/UIDQuietButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/button_gap"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:gravity="center"
+                    android:text="@string/buttons_text_quiet"/>
+
+                <com.philips.platform.uid.view.widget.Button
+                        style="@style/UIDDefaultButton.UIDImageTextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/layout_margin_left_right"
+                        android:layout_marginTop="@dimen/button_gap"
+                        android:enabled="@{frag.isButtonsEnabled}"
+                        android:text="@string/accent_button_label"
+                        app:uidAccent="true"/>
+            </LinearLayout>
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:text="@string/buttons_icon_only"/>
+
+            <!--Icon only buttons-->
+            <LinearLayout
+                android:id="@+id/groupIconOnly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/layout_margin_left_right"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.philips.platform.uid.view.widget.ImageButton
+                    android:id="@+id/imageShare"
+                    style="@style/UIDImageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
+
+                <com.philips.platform.uid.view.widget.ImageButton
+                    android:id="@+id/quietIconOnly"
+                    style="@style/UIDQuietIconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                style="@style/UIDLabel.Header"
+                android:onClick="@{(v) -> frag.showGridFragment()}"
+                android:visibility="@{frag.isButtonsEnabled? View.VISIBLE: View.GONE}">
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel.Header"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="0dp"
+                    android:text="@string/social_media_icons"/>
+
+                <ImageButton
+                    android:id="@+id/show_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
+                    android:background="@null"
+                    android:clickable="false"
+                    android:gravity="center"
+                    app:srcCompat="@drawable/ic_right_arrow_show_more"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/socialMediaIcons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/layout_margin_left_right"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="@{frag.isButtonsEnabled ? View.VISIBLE : View.GONE}">
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/socialIconFacebook"
+                    style="@style/UIDSocialIconPrimaryOutline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:enabled="@{frag.isButtonsEnabled}"/>
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/socialIconTwitter"
+                    style="@style/UIDSocialIconWhiteOutline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:enabled="@{frag.isButtonsEnabled}"/>
+
+            </LinearLayout>
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:text="@string/buttons_progress"/>
+
+            <LinearLayout
+                android:id="@+id/groupProgressButtonsNormal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/layout_margin_left_right"
+                android:orientation="vertical"
+                android:visibility="@{frag.showExtraWideButtons ? View.GONE : View.VISIBLE}">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <com.philips.platform.uid.view.widget.Label
+                        style="@style/UIDLabel.MarginTop"
+                        android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/button_label_margin_bottom"
+                        android:text="@string/buttons_determinate"/>
+
+                    <com.philips.platform.uid.view.widget.ProgressBarButton
+                        android:id="@+id/progressButtonsNormalDeterminate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="@{frag.isButtonsEnabled}"
+                        android:onClick="@{(v) -> frag.onProgressIndicatorButtonClicked(v)}"
+                        app:uidProgressIndicatorButtonProgress="50"
+                        app:uidProgressIndicatorButtonText="@string/buttons_press_me"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/groupProgressButtonsNormalIndeterminate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <com.philips.platform.uid.view.widget.Label
+                        style="@style/UIDLabel"
+                        android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/button_label_margin_bottom"
+                        android:layout_marginTop="@dimen/layout_margin_top"
+                        android:text="@string/buttons_indeterminate"/>
+
+                    <com.philips.platform.uid.view.widget.ProgressBarButton
+                        android:id="@+id/progressButtonsNormalIndeterminate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="@{frag.isButtonsEnabled}"
+                        android:onClick="@{(v) -> frag.onProgressIndicatorButtonClicked(v)}"
+                        app:uidIsIndeterminateProgressIndicator="true"
+                        app:uidProgressIndicatorButtonText="@string/buttons_press_me"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/groupProgressButtonsExtraWide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/layout_margin_left_right"
+                android:orientation="vertical"
+                android:visibility="@{frag.showExtraWideButtons ? View.VISIBLE : View.GONE}">
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel.MarginTop"
+                    android:textColor="?attr/uidLabelDescriptorNormalTextColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/button_label_margin_bottom"
+                    android:text="@string/buttons_determinate"/>
+
+                <com.philips.platform.uid.view.widget.ProgressBarButton
+                    android:id="@+id/buttonsProgressIndicatorExtraWideDeterminate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:onClick="@{(v) -> frag.onProgressIndicatorButtonClicked(v)}"
+                    app:uidProgressIndicatorButtonProgress="50"
+                    app:uidProgressIndicatorButtonProgressText="@string/buttons_loading"
+                    app:uidProgressIndicatorButtonText="@string/buttons_press_me"/>
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel"
+                    android:textColor="?attr/uidLabelDescriptorNormalTextColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/button_label_margin_bottom"
+                    android:layout_marginTop="@dimen/layout_margin_top"
+                    android:text="@string/buttons_indeterminate"/>
+
+                <com.philips.platform.uid.view.widget.ProgressBarButton
+                    android:id="@+id/buttonsProgressIndicatorExtraWideIndeterminate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:onClick="@{(v) -> frag.onProgressIndicatorButtonClicked(v)}"
+                    app:uidIsIndeterminateProgressIndicator="true"
+                    app:uidProgressIndicatorButtonProgressText="@string/buttons_loading"
+                    app:uidProgressIndicatorButtonText="@string/buttons_press_me"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</layout>
+

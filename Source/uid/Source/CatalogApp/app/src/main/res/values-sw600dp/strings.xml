@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--CheckBox-->
+    <string name="checkbox_check_item_4">Multi-line label Lorem ipsum dolor sit amet consectetur adipiscing elit duis a feugiat tortor in consectetur enim quis dolor facilisis fermentum in eu imperdiet neque et interdum felis quisque tempus augue ac ullamcorper interdum</string>
+
+    <!--Radiobutton-->
+    <string name="radiobutton_selection_item_4">Multi-line label Lorem ipsum dolor sit amet consectetur adipiscing elit duis a feugiat tortor in consectetur enim quis dolor facilisis fermentum in eu imperdiet neque et interdum felis quisque tempus augue ac ullamcorper interdum</string>
+</resources>

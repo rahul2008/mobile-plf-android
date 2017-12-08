@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        >
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.CheckBoxFragment"/>
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!--With Icon layout-->
+            <LinearLayout
+                style="@style/BaseLayoutMargins.Dimens"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TestButtonTexts"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/disabled"/>
+
+                <com.philips.platform.uid.view.widget.Switch
+                    android:id="@+id/toggleicon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:gravity="center_vertical|end"
+                    android:onCheckedChanged="@{(v, isChecked) -> frag.setEnabled(!isChecked)}"/>
+            </LinearLayout>
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:text="@string/checkbox_check_box"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/checkbox_list_margin_top_bottom"
+                android:orientation="vertical">
+
+                <com.philips.platform.uid.view.widget.CheckBox
+                    android:id="@+id/checkbox_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:enabled="@{frag.isCheckBoxEnabled}"
+                    android:text="@string/checkbox_check_item_1"/>
+
+                <include layout="@layout/divider_layout"/>
+
+                <com.philips.platform.uid.view.widget.CheckBox
+                    android:id="@+id/checkbox_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:enabled="@{frag.isCheckBoxEnabled}"
+                    android:text="@string/checkbox_check_item_2"/>
+
+                <include layout="@layout/divider_layout"/>
+
+                <com.philips.platform.uid.view.widget.CheckBox
+                    android:id="@+id/checkbox_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:enabled="@{frag.isCheckBoxEnabled}"
+                    android:text="@string/checkbox_check_item_3"/>
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel.Header"
+                    android:layout_marginBottom="@dimen/checkbox_list_margin_top_bottom"
+                    android:text="@string/checkbox_check_multi_line"/>
+
+                <com.philips.platform.uid.view.widget.CheckBox
+                    android:id="@+id/checkbox_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:enabled="@{frag.isCheckBoxEnabled}"
+                    android:text="@string/checkbox_check_item_4"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</layout>
+

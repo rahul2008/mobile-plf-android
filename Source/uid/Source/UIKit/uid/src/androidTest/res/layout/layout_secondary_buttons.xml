@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <Switch
+        android:id="@+id/disable_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:textOff="Disabled"
+        android:textOn="Enabled"/>
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/seconday_button"
+        style="@style/UIDDefaultButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/component_bottom_spacing"
+        android:text="@string/secondary_button_label"
+        app:uidComponentType="Secondary"/>
+
+</LinearLayout>

@@ -1,0 +1,98 @@
+<resources>
+  <style name="NavigationGroupBlueUltraLightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26FFFFFF</item>
+  </style>
+  <style name="NavigationGroupBlueVeryLightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26DAF1F7</item>
+  </style>
+  <style name="NavigationGroupBlueBrightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#332B86B2</item>
+  </style>
+  <style name="NavigationGroupBlueVeryDarkTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#261A3670</item>
+  </style>
+  <style name="NavigationBlueUltraLightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26FFFFFF</item>
+  </style>
+  <style name="NavigationBlueVeryLightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26DEEAFF</item>
+  </style>
+  <style name="NavigationBlueBrightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#33438BCC</item>
+  </style>
+  <style name="NavigationBlueVeryDarkTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26123E68</item>
+  </style>
+  <style name="NavigationAquaUltraLightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26FFFFFF</item>
+  </style>
+  <style name="NavigationAquaVeryLightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26DAF1F2</item>
+  </style>
+  <style name="NavigationAquaBrightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#33299F8F</item>
+  </style>
+  <style name="NavigationAquaVeryDarkTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26174A52</item>
+  </style>
+  <style name="NavigationGreenUltraLightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26FFFFFF</item>
+  </style>
+  <style name="NavigationGreenVeryLightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26ECF2AC</item>
+  </style>
+  <style name="NavigationGreenBrightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#3377A422</item>
+  </style>
+  <style name="NavigationGreenVeryDarkTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26004E30</item>
+  </style>
+  <style name="NavigationOrangeUltraLightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26FFFFFF</item>
+  </style>
+  <style name="NavigationOrangeVeryLightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26FCEDBA</item>
+  </style>
+  <style name="NavigationOrangeBrightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#33E38B10</item>
+  </style>
+  <style name="NavigationOrangeVeryDarkTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26802726</item>
+  </style>
+  <style name="NavigationPinkUltraLightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26FFFFFF</item>
+  </style>
+  <style name="NavigationPinkVeryLightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26FAE6EA</item>
+  </style>
+  <style name="NavigationPinkBrightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#33E85D80</item>
+  </style>
+  <style name="NavigationPinkVeryDarkTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26801145</item>
+  </style>
+  <style name="NavigationPurpleUltraLightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26FFFFFF</item>
+  </style>
+  <style name="NavigationPurpleVeryLightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26EEE6FC</item>
+  </style>
+  <style name="NavigationPurpleBrightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#33B35BB2</item>
+  </style>
+  <style name="NavigationPurpleVeryDarkTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#265E1A54</item>
+  </style>
+  <style name="NavigationGrayUltraLightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26FFFFFF</item>
+  </style>
+  <style name="NavigationGrayVeryLightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#26E8E8E8</item>
+  </style>
+  <style name="NavigationGrayBrightTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#33787878</item>
+  </style>
+  <style name="NavigationGrayVeryDarkTopTheme">
+    <item name="uidStatusBarAndroid6BackgroundTopColor">#262B2B2B</item>
+  </style>
+</resources>

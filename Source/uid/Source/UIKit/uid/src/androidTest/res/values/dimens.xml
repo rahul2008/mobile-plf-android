@@ -1,0 +1,183 @@
+<resources>
+    <!-- Padding in button test layout. We can remove this dependency later -->
+    <dimen name="button_layout_padding">30dp</dimen>
+    <dimen name="edge_left_spacing">10dp</dimen>
+    <dimen name="component_bottom_spacing">10dp</dimen>
+    <dimen name="category_divider_width">40dp</dimen>
+
+    <dimen name="button_height">40dp</dimen>
+    <dimen name="button_left_padding">24dp</dimen>
+    <dimen name="button_right_padding">24dp</dimen>
+    <dimen name="button_font_size">16sp</dimen>
+    <dimen name="button_cornerradius">2dp</dimen>
+
+    <dimen name="iconbutton_height">40dp</dimen>
+    <dimen name="iconbutton_width">40dp</dimen>
+    <dimen name="icon_height">24dp</dimen>
+    <dimen name="icon_width">24dp</dimen>
+    <dimen name="iconbutton_left_padding">8dp</dimen>
+    <dimen name="iconbutton_right_padding">8dp</dimen>
+    <dimen name="iconbutton_cornerradius">2dp</dimen>
+
+    <dimen name="iconandtextbutton_compoundpadding">8dp</dimen>
+
+    <dimen name="quietbutton_left_right_padding">24dp</dimen>
+
+    <!--TextEditBox dimens-->
+    <dimen name="edittext_corner_radius">2dp</dimen>
+    <dimen name="edittext_fill_corner_radius">4dp</dimen>
+    <dimen name="edittext_height">40dp</dimen>
+    <dimen name="edittext_fontsize">16sp</dimen>
+    <dimen name="edittext_left_padding">12dp</dimen>
+    <dimen name="edittext_right_padding">12dp</dimen>
+    <dimen name="edittext_stroke_height">1dp</dimen>
+    <dimen name="edittext_compound_drawble_width">24dp</dimen>
+
+    <dimen name="edittext_passwordtextbox_compound_drawable_padding">20dp</dimen>
+
+    <dimen name="edittext_clear_icon_width_height">16dp</dimen>
+
+
+
+    <!--ToggleSwitch dimens-->
+    <dimen name="toggleswitch_width">48dp</dimen>
+    <dimen name="toggleswitch_track_height">16dp</dimen>
+    <dimen name="toggleswitch_track_width">40dp</dimen>
+    <dimen name="toggleswitch_thumb_height">24dp</dimen>
+    <dimen name="toggleswitch_corner_radius">8dp</dimen>
+    <dimen name="toggleswitch_ripple_radius">20dp</dimen>
+
+    <!--LinearProgressBar dimens-->
+    <dimen name="linearprogressbar_height">4dp</dimen>
+    <dimen name="linearprogressbar_minwidth">96dp</dimen>
+    <dimen name="linearprogressbar_leftmargin">22dp</dimen>
+
+    <!--CircularProgressBar dimens-->
+    <dimen name="circularprogressbar_small_heightwidth">24dp</dimen>
+    <dimen name="circularprogressbar_middle_heightwidth">48dp</dimen>
+    <dimen name="circularprogressbar_large_heightwidth">88dp</dimen>
+    <integer name="circularprogressbar_small_duration">1000</integer>
+    <integer name="circularprogressbar_medium_duration">1250</integer>
+    <integer name="circularprogressbar_large_duration">1500</integer>
+    <dimen name="circularprogressbar_small_thickness">2dp</dimen>
+    <dimen name="circularprogressbar_medium_thickness">3dp</dimen>
+    <dimen name="circularprogressbar_large_thickness">4dp</dimen>
+    <dimen name="circularprogressbar_small_radius">10dp</dimen>
+    <dimen name="circularprogressbar_medium_radius">21dp</dimen>
+    <dimen name="circularprogressbar_large_radius">40dp</dimen>
+
+    <!--Alert dimens-->
+    <dimen name="alert_corner_radius">2dp</dimen>
+    <dimen name="alert_font_size">16sp</dimen>
+    <dimen name="alert_title_font_size">20sp</dimen>
+    <dimen name="alerttitle_leftrighttop_margin">24dp</dimen>
+    <dimen name="alerttitle_icon_leftrighttop_margin">27dp</dimen>
+    <dimen name="alert_content_top_margin_when_no_title">24dp</dimen>
+    <dimen name="dialog_divider_height">1dp</dimen>
+    <dimen name="alert_width">272dp</dimen>
+    <dimen name="uid_alert_dialog_positive_button_margin_end">12dp</dimen>
+
+    <!-- Navigation bar-->
+    <dimen name="navigation_height">56dp</dimen>
+    <dimen name="navigation_left_margin">16dp</dimen>
+    <dimen name="navigation_right_margin">16dp</dimen>
+    <dimen name="navigation_menu_text_padding_left_right">8dp</dimen>
+    <dimen name="navigation_menu_text_margin">4dp</dimen>
+    <dimen name="navigation_icon_size">24dp</dimen>
+    <dimen name="navigation_title_margin">24dp</dimen>
+    <dimen name="navigation_height_land">48dp</dimen>
+    <dimen name="navigation_button_touchable_area">48dp</dimen>
+    <dimen name="navigation_button_touchable_area_landscape">44dp</dimen>
+    <dimen name="navigation_title_text_size">20sp</dimen>
+    <dimen name="navigation_menu_text_size">16sp</dimen>
+    <dimen name="navigation_title_text_height">24dp</dimen>
+    <dimen name="navigation_title_text_spacing">24dp</dimen>
+
+    <!--Below margin needs to be 20 but changed to 24 because of design contraint -->
+    <dimen name="alert_content_top_padding">20dp</dimen>
+    <dimen name="alertcontent_leftrightbottom_margin">24dp</dimen>
+    <dimen name="alerttitle_iconsize">24dp</dimen>
+    <dimen name="alerttitle_icon_rightpadding">8dp</dimen>
+    <dimen name="alertaction_buttons_padding">8dp</dimen>
+    <dimen name="alertaction_button_rightpadding">12dp</dimen>
+    <dimen name="alertactionarea_height">64dp</dimen>
+    <dimen name="alertcontenttext_linespacing">6dp</dimen>
+    <dimen name="alerttitletext_linespacing">4dp</dimen>
+
+    <!--Label dimens -->
+    <dimen name="label_fontsize">16sp</dimen>
+    <dimen name="label_fontsize_text_size_overidden">20sp</dimen>
+
+    <!--Checkbox dimens -->
+    <dimen name="checkbox_height">48dp</dimen>
+    <dimen name="checkbox_cornerradius">2dp</dimen>
+    <dimen name="checkbox_leftrightmargin">12dp</dimen>
+    <dimen name="checkbox_tickmarkheightwidth">16dp</dimen>
+    <dimen name="checkbox_line_spacing">0dp</dimen>
+    <integer name="checkbox_line_spacing_multiplier">1</integer>
+
+    <!--RecyclerView dimens-->
+    <dimen name="recyclerview_header_height">40dp</dimen>
+    <dimen name="recyclerview_header_text_size">14sp</dimen>
+    <dimen name="recyclerview_header_padding_left_right">16dp</dimen>
+    <dimen name="recyclerview_one_line_title_text_size">16sp</dimen>
+    <dimen name="recyclerview_item_one_line_height">48dp</dimen>
+    <dimen name="recyclerview_one_line_item_margin_left_right">16dp</dimen>
+    <dimen name="recyclerview_separator_drawable_padding">32dp</dimen>
+    <dimen name="recyclerview_two_lines_title_text_size">16sp</dimen>
+    <dimen name="recyclerview_two_lines_description_text_size">14sp</dimen>
+    <dimen name="recyclerview_item_two_lines_height">72dp</dimen>
+    <dimen name="recyclerview_two_lines_item_margin_left_right">16dp</dimen>
+    <dimen name="recyclerview_padding_top_bottom">8dp</dimen>
+
+    <!--notification bar template-->
+    <dimen name="notification_bar_title_text_size">16dp</dimen>
+    <dimen name="notification_bar_general_margin">16dp</dimen>
+    <dimen name="notification_bar_content_text_size">14dp</dimen>
+    <dimen name="notification_bar_content_margin_top">5dp</dimen>
+
+    <!--Rating bar-->
+    <dimen name="ratingbar_input_height">48dp</dimen>
+    <dimen name="ratingbar_display_height">16dp</dimen>
+    <dimen name="rating_bar_display_padding">10dp</dimen>
+    <dimen name="rating_bar_text_size">14dp</dimen>
+
+    <!--Search Box -->
+    <dimen name="searchbox_height">56dp</dimen>
+    <dimen name="searchbox_button_dimen">24dp</dimen>
+    <dimen name="searchbox_button_padding">20dp</dimen>
+    <dimen name="searchbox_button_padding_end">28dp</dimen>
+    <dimen name="searchbox_search_text_offset">0dp</dimen>
+    <dimen name="searchbox_back_icon_margin">16dp</dimen>
+    <dimen name="searchbox_font_size">20sp</dimen>
+
+    <!--Radiobutton dimens -->
+    <dimen name="radiobutton_height">48dp</dimen>
+    <dimen name="radiobutton_width">48dp</dimen>
+    <dimen name="radiobutton_margin_left_right">12dp</dimen>
+    <dimen name="radiobutton_line_spacing">0dp</dimen>
+    <integer name="radiobutton_line_spacing_multiplier">1</integer>
+
+    <!--UIPicker Item dimens -->
+    <dimen name="uipicker_item_height">48dp</dimen>
+    <dimen name="uipicker_item_text_size">16sp</dimen>
+    <dimen name="uipicker_item_text_left_right_padding">16dp</dimen>
+    <dimen name="uipicker_item_width">300dp</dimen>
+
+    <!--Sidebar dimens -->
+    <dimen name="sidebar_elevation">5dp</dimen>
+    <dimen name="sidebar_max_width">320dp</dimen>
+
+    <!--About Screen-->
+    <dimen name="uid_about_screen_margin_start_end">16dp</dimen>
+    <dimen name="uid_about_screen_app_name_bottom_margin">40dp</dimen>
+    <dimen name="uid_about_screen_label_bottom_margin">24dp</dimen>
+    <dimen name="uid_about_screen_app_name_size">20sp</dimen>
+    <dimen name="uid_about_screen_label_size">16sp</dimen>
+
+    <!--Slider-->
+    <dimen name="uid_slider_border_ripple_radius">20dp</dimen>
+    <dimen name="uid_slider_progress_bar_height">4dp</dimen>
+    <dimen name="uid_slider_min_width">96dp</dimen>
+
+</resources>

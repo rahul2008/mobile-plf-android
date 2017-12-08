@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="UIDGridGradientStyle">
+        <item name="gradientStartColor">?attr/uidGridViewGradientBackgroundStopColor</item>
+        <item name="gradientEndColor">?attr/uidGridViewGradientBackgroundStartColor</item>
+    </style>
+    <style name="UIDGridViewImage">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="UIDGridViewImageButton" parent="UIDImageButton">
+        <item name="uidImageButtonDrawableWidth">@dimen/uid_grid_icon_size</item>
+        <item name="uidImageButtonDrawableHeight">@dimen/uid_grid_icon_size</item>
+        <item name="android:minHeight">@dimen/uid_grid_icon_size</item>
+        <item name="android:minWidth">@dimen/uid_grid_icon_size</item>
+        <item name="uidImageButtonColorList">@null</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+</resources>

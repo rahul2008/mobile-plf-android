@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="UIDButton">
+        <attr name="uidButtonBackgroundColorList" format="reference"/>
+        <attr name="uidButtonTextColorList" format="reference"/>
+        <attr name="uidButtonDrawableColorList" format="reference"/>
+        <attr name="uidButtonImageColorList" format="reference"/>
+        <attr name="uidButtonImageDrawableHeight" format="dimension"/>
+        <attr name="uidButtonImageDrawableWidth" format="dimension"/>
+        <attr name="uidButtonImageDrawableSrc" format="reference"/>
+        <attr name="uidButtonCenter" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDImageButton">
+        <attr name="uidImageButtonDrawableHeight" format="dimension"/>
+        <attr name="uidImageButtonDrawableWidth" format="dimension"/>
+        <attr name="uidImageButtonDrawableSrc" format="reference"/>
+        <attr name="uidImageButtonDrawableColorList" format="reference"/>
+        <attr name="uidImageButtonColorList" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDTextEditBox">
+        <attr name="uidInputTextFillColorList" format="reference"/>
+        <attr name="uidInputTextFillBackground" format="reference"/>
+        <attr name="uidInputTextFillBackgroundColorList" format="reference"/>
+        <attr name="uidInputTextBorderWidth" format="reference|dimension"/>
+        <attr name="uidInputTextBorderBackground" format="reference"/>
+        <attr name="uidInputTextBorderBackgroundColorList" format="reference"/>
+        <attr name="uidInputTextTextSelector" format="reference"/>
+        <attr name="uidInputTextHintTextSelector" format="reference"/>
+        <attr name="uidInputTextWithClearButton" format="reference|boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDProgressBar">
+        <attr name="uidIsLinearProgressBar" format="boolean"/>
+        <attr name="uidProgressBarCircularEndColor" format="reference|color"/>
+        <attr name="uidProgressBarCircularProgressColorList" format="reference|color"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDLabel">
+        <attr name="uidDrawableTint" format="reference|color"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDIndeterminateLinearProgressBar">
+        <attr name="uidIndeterminateLinearProgressBGColor" format="reference|color"/>
+        <attr name="uidIndeterminateLinearProgressStartColor" format="reference|color"/>
+        <attr name="uidIndeterminateLinearProgressCenterColor" format="reference|color"/>
+        <attr name="uidIndeterminateLinearProgressEndColor" format="reference|color"/>
+        <attr name="uidIndeterminateLinearProgressAnimDuration" format="reference|integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDProgressIndicatorButton">
+        <attr name="uidIsIndeterminateProgressIndicator" format="reference|boolean"/>
+        <attr name="uidProgressIndicatorButtonDrawable" format="reference"/>
+        <attr name="uidProgressIndicatorButtonText" format="reference|string"/>
+        <attr name="uidProgressIndicatorButtonProgress" format="reference|integer"/>
+        <attr name="uidProgressIndicatorButtonProgressText" format="reference|string"/>
+        <attr name="uidProgressIndicatorButtonProgressBackground" format="reference"/>
+        <attr name="uidProgressIndicatorButtonProgressBackgroundColor" format="reference|color"/>
+        <attr name="uidProgressIndicatorButtonProgressColor" format="reference|color"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDProgressIndicatorWithLabel">
+        <attr name="uidIsIndeterminateProgressIndicator"/>
+        <attr name="uidIsLinearProgressBar"/>
+        <attr name="android:text"/>
+        <attr name="android:textSize"/>
+        <attr name="android:textColor"/>
+        <attr name="android:progress"/>
+        <attr name="android:secondaryProgress"/>
+        <attr name="uidLabelPosition" format="enum">
+            <enum name="top_left" value="0"/>
+            <enum name="top_right" value="1"/>
+            <enum name="bottom_left" value="2"/>
+            <enum name="bottom_right" value="3"/>
+            <enum name="center" value="4"/>
+            <enum name="bottom_center" value="5"/>
+        </attr>
+        <attr name="uidCircularProgressBarSize" format="enum">
+            <enum name="small" value="0"/>
+            <enum name="middle" value="1"/>
+            <enum name="big" value="2"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="UIDSeparator"/>
+
+    <declare-styleable name="UIDNavigationContainer">
+        <attr name="uidShadowDrawable" format="reference"/>
+        <attr name="uidShadowOffset" format="dimension|integer"/>
+        <attr name="uidShadowType" format="enum">
+            <enum name="primary" value="0"/>
+            <enum name="secondary" value="1"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="UIDGradientView">
+        <attr name="gradientStartColor" format="reference|color"/>
+        <attr name="gradientEndColor" format="reference|color"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDInputValidation">
+        <attr name="uidTextBoxValidationErrorDrawable" format="reference"/>
+        <attr name="uidTextBoxValidationErrorText" format="reference|string"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDRatingBar">
+        <attr name="android:text"/>
+        <attr name="uidRatingBarStarOnColor" format="color|reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDSearchBox">
+        <attr name="uidSearchInputHintText" format="string|reference" />
+        <attr name="uidSearchDecoyHintText" format="string|reference" />
+        <attr name="uidSearchInContentArea" format="boolean|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="UIDAboutScreen">
+        <attr name="uidAboutScreenAppName" format="string|reference" />
+        <attr name="uidAboutScreenAppVersion" format="string|reference" />
+        <attr name="uidAboutScreenCopyright" format="string|reference" />
+        <attr name="uidAboutScreenTerms" format="string|reference" />
+        <attr name="uidAboutScreenPrivacy" format="string|reference" />
+        <attr name="uidAboutScreenDisclosure" format="string|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="UIDSplashScreen">
+        <attr name="uidSplashScreenAppName" format="string|reference"/>
+    </declare-styleable>
+</resources>

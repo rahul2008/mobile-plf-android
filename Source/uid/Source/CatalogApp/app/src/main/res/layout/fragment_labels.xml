@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        >
+
+    <data>
+
+        <variable
+            name="labelFrag"
+            type="com.philips.platform.catalogapp.fragments.LabelFragment"/>
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:text="@string/page_title_label"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                android:orientation="vertical">
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/button_label_margin_bottom"
+                    android:layout_marginTop="@dimen/layout_margin_left_right"
+                    android:text="@string/label_text"
+                    android:textColor="?attr/uidLabelDescriptorNormalTextColor"/>
+
+                <com.philips.platform.uid.view.widget.CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/label_item_text_one"/>
+
+                <com.philips.platform.uid.view.widget.CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/label_item_text_two"/>
+
+                <com.philips.platform.uid.view.widget.CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_item_text_three"/>
+            </LinearLayout>
+
+            <!--Label text top [START]-->
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.MarginTop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/button_label_margin_bottom"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
+                android:text="@string/label_text"
+                android:textColor="?attr/uidLabelDescriptorNormalTextColor"/>
+
+            <com.philips.platform.uid.view.widget.EditText
+                android:id="@+id/tb1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/layout_margin_left_right"
+                android:layout_marginRight="@dimen/layout_margin_left_right"
+                android:hint="@string/label_input_field"/>
+            <!--Label text top [END]-->
+
+            <!--Horizontal text box [START]-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/layout_margin_left_right"
+                android:layout_marginRight="@dimen/layout_margin_left_right"
+                android:layout_marginTop="@dimen/label_margin_top">
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel.MarginEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_text"
+                    android:textColor="?attr/uidLabelDescriptorNormalTextColor"/>
+
+                <com.philips.platform.uid.view.widget.EditText
+                    android:id="@+id/tb2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/label_input_field"
+                    android:inputType="text"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+</layout>

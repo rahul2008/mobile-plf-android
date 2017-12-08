@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.LanguagePackFragment"/>
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:text="@string/language_pack_label"/>
+
+            <com.philips.platform.uid.view.widget.CheckBox
+                android:id="@+id/checkbox_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
+                android:gravity="left|center_vertical"
+                android:text="@string/language_pack_checkbox"/>
+
+            <com.philips.platform.uid.view.widget.ValidationEditText
+                android:id="@+id/field_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
+                android:hint="@string/language_pack_hint"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                app:uidInputTextWithClearButton="true"/>
+
+            <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDImageTextButton.Center"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_height"
+                android:layout_marginBottom="@dimen/button_first_last_element_gap"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                android:layout_marginTop="@dimen/button_first_last_element_gap"
+                android:text="@string/language_pack_button"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</layout>

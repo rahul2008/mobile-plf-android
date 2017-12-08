@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.philips.platform.catalogapp.fragments.DialogComponentFragment" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/uidContentPrimaryBackgroundColor">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:text="@string/dim_layer_header" />
+
+            <com.philips.platform.uid.view.widget.RadioGroup
+                android:id="@+id/dim_layer_type"
+                style="@style/TestRadioGroupStyle">
+
+                <com.philips.platform.uid.view.widget.RadioButton
+                    android:id="@+id/subtle"
+                    style="@style/TestRadioButtonStyle"
+                    android:checked="@{fragment.isSubtle}"
+                    android:onCheckedChanged="@{(v, isChecked) -> fragment.setIsSubtle(isChecked)}"
+                    android:text="@string/dialog_subtle" />
+
+                <com.philips.platform.uid.view.widget.RadioButton
+                    android:id="@+id/strong"
+                    style="@style/TestRadioButtonStyle"
+                    android:checked="@{!fragment.isSubtle}"
+                    android:text="@string/dialog_strong" />
+
+            </com.philips.platform.uid.view.widget.RadioGroup>
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:text="@string/alert_header_text" />
+
+            <com.philips.platform.uid.view.widget.CheckBox
+                android:id="@+id/alert_checkbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                android:checked="@{fragment.isAlertWithTitle}"
+                android:onCheckedChanged="@{(v, isChecked) -> fragment.setIsAlertWithTitle(isChecked)}"
+                android:text="@string/dialog_screen_alert_checkbox_text" />
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/alert_button"
+                style="@style/UIDExtraWideButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/layout_margin_top_bottom"
+                android:layout_marginLeft="@dimen/layout_margin_left_right"
+                android:layout_marginRight="@dimen/layout_margin_left_right"
+                android:onClick="@{(v)-> fragment.showAlert()}"
+                android:text="@string/dialog_screen_button_text_alert" />
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:text="@string/dialog_header_text" />
+
+            <com.philips.platform.uid.view.widget.CheckBox
+                android:id="@+id/dialog_checkbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                android:checked="@{fragment.isDialogWithList}"
+                android:onCheckedChanged="@{(v, isChecked) -> fragment.setIsDialogWithList(isChecked)}"
+                android:text="@string/dialog_screen_dialog_checkbox_text" />
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/dialog_button"
+                style="@style/UIDExtraWideButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/layout_margin_top_bottom"
+                android:layout_marginLeft="@dimen/layout_margin_left_right"
+                android:layout_marginRight="@dimen/layout_margin_left_right"
+                android:onClick="@{(v)-> fragment.showDialog()}"
+                android:text="@string/dialog_screen_button_text_dialog" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

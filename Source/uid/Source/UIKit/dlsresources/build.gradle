@@ -1,0 +1,17 @@
+apply plugin: 'groovy'
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.12'
+    compile 'com.google.code.gson:gson:2.8.1'
+    compile "junit:junit:4.12"
+}
+
+task generateAllThemes(type: JavaExec, group: "DLS theme tasks") {
+    main = 'com.philips.uid.ThemesGenerator'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task generateThemesAndCopyXmls(dependsOn: ['generateAllThemes', "test"], type: Copy, group: "DLS theme tasks") {
+    from 'generated'
+    into '../../UIKit/uid/Src/main/res/values'
+}

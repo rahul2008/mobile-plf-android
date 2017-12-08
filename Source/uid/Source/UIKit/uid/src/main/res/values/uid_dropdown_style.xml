@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="UIDDropDownStyle" parent="android:Widget.ListView.DropDown">
+        <item name="android:divider">@null</item>
+        <item name="android:choiceMode">singleChoice</item>
+        <item name="android:dividerHeight">@dimen/uid_uipicker_divider_height</item>
+
+        <!--We need transparent selector to avoid any overlaying double color effect-->
+        <item name="android:listSelector">@drawable/uid_ui_picker_row_selector</item>
+        <item name="android:background">?attr/uidPopupDefaultNormalBackgroundColor</item>
+        <item name="android:scrollbarThumbVertical">?attr/uidThumbScrollbarNormalBackgroundColor</item>
+        <item name="android:scrollbarSize">@dimen/uid_uipicker_scrollbar_width</item>
+        <item name="android:fadeScrollbars">false</item>
+    </style>
+
+    <style name="UIDListPopupWindow">
+        <item name="android:popupElevation">@dimen/uid_uipicker_popup_elevation</item>
+    </style>
+</resources>

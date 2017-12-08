@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.RadioButtonFragment"/>
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!--With Icon layout-->
+            <LinearLayout
+                style="@style/BaseLayoutMargins.Dimens"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TestButtonTexts"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/disabled"/>
+
+                <com.philips.platform.uid.view.widget.Switch
+                    android:id="@+id/toggleicon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:gravity="center_vertical|end"
+                    android:onCheckedChanged="@{(v, isChecked) -> frag.setEnabled(!isChecked)}"/>
+            </LinearLayout>
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:text="@string/checkbox_check_box"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.philips.platform.uid.view.widget.RadioGroup
+                    android:id="@+id/radio_group_single_line"
+                    style="@style/TestRadioGroupStyle">
+
+                    <com.philips.platform.uid.view.widget.RadioButton
+                        android:id="@+id/radiobutton_1"
+                        style="@style/TestRadioButtonStyle"
+                        android:enabled="@{frag.isRadioButtonEnabled}"
+                        android:checked="true"
+                        android:text="@string/radiobutton_selection_item_1"/>
+
+                    <com.philips.platform.uid.view.widget.RadioButton
+                        android:id="@+id/radiobutton_2"
+                        style="@style/TestRadioButtonStyle"
+                        android:enabled="@{frag.isRadioButtonEnabled}"
+                        android:text="@string/radiobutton_selection_item_2"/>
+
+                    <com.philips.platform.uid.view.widget.RadioButton
+                        android:id="@+id/radiobutton_3"
+                        style="@style/TestRadioButtonStyle"
+                        android:enabled="@{frag.isRadioButtonEnabled}"
+                        android:text="@string/radiobutton_selection_item_3"/>
+                </com.philips.platform.uid.view.widget.RadioGroup>
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel.Header"
+                    android:text="@string/checkbox_check_multi_line"/>
+
+                <com.philips.platform.uid.view.widget.RadioGroup
+                    android:id="@+id/radio_group_multi_line"
+                    style="@style/TestRadioGroupStyle" >
+
+                    <com.philips.platform.uid.view.widget.RadioButton
+                        android:id="@+id/radiobutton_4"
+                        style="@style/TestRadioButtonStyle"
+                        android:layout_marginTop="@dimen/radio_group_top_margin"
+                        android:enabled="@{frag.isRadioButtonEnabled}"
+                        android:checked="true"
+                        android:text="@string/radiobutton_selection_item_4"/>
+
+                    <com.philips.platform.uid.view.widget.RadioButton
+                        android:id="@+id/radiobutton_5"
+                        style="@style/TestRadioButtonStyle"
+                        android:layout_marginTop="@dimen/layout_margin_top_bottom"
+                        android:enabled="@{frag.isRadioButtonEnabled}"
+                        android:text="@string/radiobutton_selection_item_4"/>
+                </com.philips.platform.uid.view.widget.RadioGroup>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</layout>

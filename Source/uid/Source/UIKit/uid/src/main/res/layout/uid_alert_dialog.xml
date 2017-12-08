@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@id/uid_alert"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@id/uid_dialog_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/uid_alert_dialog_message_top_margin"
+            android:layout_marginEnd="@dimen/uid_page_margin_left_right"
+            android:layout_marginStart="@dimen/uid_page_margin_left_right"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@id/uid_dialog_icon"
+                style="@style/UIDDialogTitleIconStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/uid_alert_dialog_title_icon_padding"
+                android:minHeight="@dimen/uid_alert_dialog_icon_width_height"
+                android:minWidth="@dimen/uid_alert_dialog_icon_width_height"/>
+
+            <TextView
+                android:id="@id/uid_dialog_title"
+                style="@style/UIDAlertDialogTitleTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+        <com.philips.platform.uid.utils.MaxHeightScrollView
+            android:id="@id/uid_alert_message_scroll_container"
+            style="@style/UIDAlertDialogMessageContainerStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@id/uid_alert_message"
+                style="@style/UIDAlertDialogMessageTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.philips.platform.uid.utils.MaxHeightScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@id/uid_dialog_control_area"
+        style="@style/UIDAlertDialogActionAreaStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uid_alert_dialog_control_area_height"
+        android:layout_marginBottom="0dp">
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@id/uid_dialog_negative_button"
+            style="@style/UIDQuietButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@id/uid_dialog_positive_button"
+            style="@style/UIDDefaultButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="@dimen/uid_alert_dialog_positive_button_margin_start"/>
+
+    </LinearLayout>
+</LinearLayout>

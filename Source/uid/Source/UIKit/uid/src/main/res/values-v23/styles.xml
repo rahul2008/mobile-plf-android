@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BaseDLSTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">?attr/uidStatusBarAndroid6BackgroundTopColor</item>
+        <item name="android:colorPrimaryDark">?attr/uidNavigationPrimaryBackgroundColor</item>
+    </style>
+</resources>

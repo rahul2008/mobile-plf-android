@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.philips.platform.catalogapp.fragments.NotificationBarFragment"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/notification_liniear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/info_notification_view"
+                layout="@layout/uid_notification_bg_white" />
+
+            <include
+                android:id="@+id/notification_view"
+                layout="@layout/uid_notification_bg_white"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/show_hide_notification"
+            style="@style/UIDExtraWideButton"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:onClick="@{(v) -> fragment.alterNotificationState()}"
+            android:text="@string/notification_bar_notification_show"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="UIDLabel" parent="@android:style/Widget.TextView">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textColor">?attr/uidLabelValueNormalTextColor</item>
+        <item name="android:textAppearance">@style/UIDLabelTextAppearance</item>
+        <item name="android:lineSpacingExtra">@dimen/uid_label_line_spacing</item>
+        <item name="android:lineSpacingMultiplier">@integer/uid_label_font_spacing_multiplier</item>
+    </style>
+
+    <style name="UIDLabelTextAppearance">
+        <item name="android:textColor">?attr/uidLabelRegularNormalTextColor</item>
+        <item name="android:textSize">@dimen/uid_label_text_size</item>
+    </style>
+
+    <style name="UIDLabel.MarginTop">
+        <item name="android:layout_marginTop">@dimen/uid_label_margin_bottom</item>
+    </style>
+
+    <style name="UIDLabel.MarginEnd">
+        <item name="android:layout_marginEnd">@dimen/uid_label_margin_start</item>
+    </style>
+
+    <style name="UIDLabel.MarginBottom">
+        <item name="android:layout_marginBottom">@dimen/uid_label_margin_bottom_control</item>
+    </style>
+
+    <style name="UIDLabel.MarginStart">
+        <item name="android:layout_marginStart">@dimen/uid_label_margin_left_control</item>
+    </style>
+
+    <style name="UIDLabel.SliderMarginBottom">
+        <item name="android:layout_marginBottom">@dimen/uid_label_margin_bottom_slider</item>
+    </style>
+
+    <style name="UIDLabelDescription">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="android:textColor">?attr/uidLabelRegularNormalTextColor</item>
+    </style>
+
+    <style name="UIDLabelDescription.MarginStart">
+        <item name="android:layout_marginStart">@dimen/uid_label_margin_left_control</item>
+    </style>
+
+    <style name="UIDLabelDescription.SliderMarginBottom">
+        <item name="android:layout_marginBottom">@dimen/uid_label_margin_bottom_slider</item>
+    </style>
+
+    <style name="UIDLabel.RecyclerViewItemOneLineTitleText">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textSize">@dimen/uid_recyclerview_item_title_text_size</item>
+        <item name="uidDrawableTint">@color/uid_list_item_icon_selector</item>
+        <item name="android:textColor">@color/uid_list_item_text_selector</item>
+    </style>
+
+    <style name="UIDLabel.RecyclerViewItemMultipleLinesTitleText">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="android:textSize">@dimen/uid_recyclerview_item_title_text_size</item>
+        <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
+    </style>
+
+    <style name="UIDLabel.RecyclerViewItemSubtitleText">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="android:textSize">@dimen/uid_recyclerview_item_subtitle_text_size</item>
+        <item name="android:textColor">?attr/uidContentItemSecondaryNormalTextColor</item>
+    </style>
+
+    <style name="UIDLabel.RecyclerViewItemDescriptionText">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textSize">@dimen/uid_recyclerview_item_description_text_size</item>
+        <item name="android:textColor">?attr/uidContentItemTertiaryNormalTextColor</item>
+    </style>
+
+    <style name="UIDLabel.RecyclerViewHeaderText">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="android:textSize">@dimen/uid_recyclerview_header_text_size</item>
+        <item name="android:paddingStart">@dimen/uid_recyclerview_margin_left_right</item>
+        <item name="android:minHeight">@dimen/uid_recyclerview_header_height</item>
+        <item name="android:textColor">?attr/uidContentItemTertiaryNormalTextColor</item>
+        <item name="android:background">?attr/uidContentSecondaryBackgroundColor</item>
+    </style>
+
+    <style name="UIDLabel.RecyclerViewHeader">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="android:textSize">@dimen/uid_recyclerview_header_text_size</item>
+        <item name="android:paddingStart">@dimen/uid_recyclerview_margin_left_right</item>
+        <item name="android:minHeight">@dimen/uid_recyclerview_lable_height</item>
+        <item name="android:textColor">?attr/uidContentItemTertiaryNormalTextColor</item>
+        <item name="android:paddingTop">@dimen/uid_recyclerview_lable_top</item>
+        <item name="android:paddingBottom">@dimen/uid_recyclerview_lable_bottom</item>
+    </style>
+
+    <style name="UIDLabel.ProgressBarLabel">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textSize">@dimen/uid_label_text_size</item>
+        <item name="android:textColor">?attr/uidContentItemTertiaryNormalTextColor</item>
+    </style>
+
+    <style name="UIDLabel.GridViewHeaderText">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="android:textSize">@dimen/uid_gridview_header_text_size</item>
+        <item name="android:paddingStart">@dimen/uid_gridview_margin_left_right</item>
+        <item name="android:minHeight">@dimen/uid_gridview_header_height</item>
+        <item name="android:textColor">?attr/uidContentItemTertiaryNormalTextColor</item>
+    </style>
+
+    <style name="UIDLabel.GridViewTitleText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">@dimen/uid_grid_title_padding</item>
+        <item name="android:paddingEnd">@dimen/uid_grid_title_padding</item>
+        <item name="android:textIsSelectable">true</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:textSize">@dimen/uid_grid_title_size</item>
+        <item name="android:textColor">@color/uid_gridview_title_text_selector</item>
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+    </style>
+
+    <style name="UIDLabel.GridViewDescriptionText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">@dimen/uid_grid_title_padding</item>
+        <item name="android:paddingEnd">@dimen/uid_grid_title_padding</item>
+        <item name="android:textIsSelectable">true</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:textSize">@dimen/uid_grid_descrption_size</item>
+        <item name="android:textColor">@color/uid_gridview_subtitle_text_selector</item>
+
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="UIDLabel.GridViewSettingsText">
+        <item name="android:textSize">@dimen/uid_recyclerview_item_title_text_size</item>
+        <item name="android:textColor">?attr/uidLabelValueNormalTextColor</item>
+        <item name="android:background">?attr/uidContentTertiaryBackgroundColor</item>
+    </style>
+
+    <style name="UIDLabel.SearchBoxHint">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="android:textColor">?attr/uidSearchBoxAndroidDefaultNormalHintTextColor</item>
+        <item name="android:textSize">@dimen/uid_searchbox_text_size</item>
+        <item name="android:paddingEnd">@dimen/uid_searchbox_button_padding</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="UIDLabel.ListItemText">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textSize">@dimen/uid_recyclerview_item_title_text_size</item>
+        <item name="android:textColor">@color/uid_list_item_text_selector</item>
+    </style>
+
+    <style name="UIDLabel.SidebarHeaderText">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="android:textSize">@dimen/uid_recyclerview_item_title_text_size</item>
+    </style>
+
+    <style name="UIDLabel.SidebarFooterText">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textSize">@dimen/uid_recyclerview_item_title_text_size</item>
+    </style>
+
+    <style name="UIDLabel.Header" parent="UIDLabel.RecyclerViewHeaderText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+</resources>

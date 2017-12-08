@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="uid_texteditbox_stroke_drawable" type="id"/>
+    <item name="uid_texteditbox_fill_drawable" type="id"/>
+    <item name="uid_id_switch_track" type="id"/>
+    <item name="uid_id_progressbar_drawable" type="id"/>
+    <item name="uid_dialog_header" type="id"/>
+    <item name="uid_dialog_positive_button" type="id"/>
+    <item name="uid_dialog_negative_button" type="id"/>
+    <item name="uid_dialog_alternate_button" type="id"/>
+    <item name="uid_dialog_title" type="id"/>
+    <item name="uid_dialog_control_area" type="id"/>
+    <item name="uid_dialog_icon" type="id"/>
+    <item name="uid_dialog_container" type="id"/>
+    <item name="uid_dialog_top_divider" type="id"/>
+    <item name="uid_dialog_bottom_divider" type="id"/>
+    <item name="uid_alert_message" type="id"/>
+    <item name="uid_alert_message_container" type="id"/>
+    <item name="uid_alert_message_scroll_container" type="id"/>
+    <item name="uid_alert" type="id"/>
+    <item name="uid_toolbar" type="id"/>
+    <item name="uid_toolbar_title" type="id"/>
+    <item name="uid_recyclerview_layout" type="id"/>
+    <item name="uid_recyclerview_recyclerview" type="id"/>
+    <item name="uid_recyclerview_header" type="id"/>
+    <item name="uid_recyclerview_item_one_line" type="id"/>
+    <item name="uid_recyclerview_item_two_lines" type="id"/>
+    <item name="uid_recyclerview_two_line_title" type="id"/>
+    <item name="uid_recyclerview_two_line_description" type="id"/>
+    <item name="uid_progress_indicator_button_layout" type="id"/>
+    <item name="uid_progress_indicator_button_button" type="id"/>
+    <item name="uid_progress_indicator_button_progress_bar" type="id"/>
+    <item name="uid_progress_indicator_button_text" type="id"/>
+    <item name="uid_gridview" type="id"/>
+    <item name="uid_gridview_thumbnail" type="id"/>
+    <item name="uid_gridview_icon_holder" type="id"/>
+    <item name="uid_gridview_icon" type="id"/>
+    <item name="uid_gridview_title" type="id"/>
+    <item name="uid_gridview_description" type="id"/>
+    <item name="uid_gridview_two_line_text" type="id"/>
+    <item name="uid_gridview_solid_holder" type="id"/>
+    <item name="uid_inline_validation_icon" type="id"/>
+    <item name="uid_inline_validation_text" type="id"/>
+    <item name="uid_inline_validation_edittext" type="id"/>
+    <item name="uid_inline_validation_message_layout" type="id"/>
+    <item name="uid_notification_title" type="id"/>
+    <item name="uid_notification_icon" type="id"/>
+    <item name="uid_notification_content" type="id"/>
+    <item name="uid_notification_btn_1" type="id"/>
+    <item name="uid_notification_btn_2" type="id"/>
+    <item name="uid_search_close_btn" type="id" />
+    <item name="uid_search_clear_layout" type="id" />
+    <item name="uid_search_src_text" type="id" />
+    <item name="uid_search_back_button" type="id" />
+    <item name="uid_search_box_layout" type="id" />
+    <item name="uid_search_icon_holder" type="id" />
+    <item name="uid_search_decoy_view" type="id" />
+    <item name="uid_search_decoy_hint_icon" type="id" />
+    <item name="uid_search_decoy_hint_text" type="id" />
+    <item name="uid_splash_screen" type="id" />
+    <item name="uid_splash_screen_app_name" type="id" />
+    <item name="uid_splash_screen_icon" type="id" />
+    <item name="uid_about_screen" type="id"/>
+    <item name="uid_about_screen_icon" type="id"/>
+    <item name="uid_about_screen_app_name" type="id"/>
+    <item name="uid_about_screen_version" type="id"/>
+    <item name="uid_about_screen_copyright" type="id"/>
+    <item name="uid_about_screen_terms" type="id"/>
+    <item name="uid_about_screen_privacy" type="id"/>
+    <item name="uid_about_screen_disclosure" type="id"/>
+</resources>

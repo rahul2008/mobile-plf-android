@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ (C) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  ~
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.CheckBox
+        android:id="@+id/checkbox_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/layout_margin_left_right"
+        android:layout_marginStart="@dimen/layout_margin_left_right"
+        android:text="Alabama" />
+
+    <com.philips.platform.uid.view.widget.CheckBox
+        android:id="@+id/checkbox_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/layout_margin_left_right"
+        android:layout_marginStart="@dimen/layout_margin_left_right"
+        android:text="Arizona" />
+
+    <com.philips.platform.uid.view.widget.CheckBox
+        android:id="@+id/checkbox_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/layout_margin_left_right"
+        android:layout_marginStart="@dimen/layout_margin_left_right"
+        android:text="California" />
+
+    <com.philips.platform.uid.view.widget.CheckBox
+        android:id="@+id/checkbox_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/layout_margin_left_right"
+        android:layout_marginStart="@dimen/layout_margin_left_right"
+        android:text="Florida" />
+
+    <com.philips.platform.uid.view.widget.CheckBox
+        android:id="@+id/checkbox_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/layout_margin_left_right"
+        android:layout_marginStart="@dimen/layout_margin_left_right"
+        android:text="Kentucky" />
+
+    <com.philips.platform.uid.view.widget.CheckBox
+        android:id="@+id/checkbox_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/layout_margin_left_right"
+        android:layout_marginStart="@dimen/layout_margin_left_right"
+        android:text="New Jersey" />
+
+
+    <com.philips.platform.uid.view.widget.CheckBox
+        android:id="@+id/checkbox_7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/layout_margin_left_right"
+        android:layout_marginStart="@dimen/layout_margin_left_right"
+        android:text="North Carolina" />
+
+    <com.philips.platform.uid.view.widget.CheckBox
+        android:id="@+id/checkbox_8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/layout_margin_left_right"
+        android:layout_marginStart="@dimen/layout_margin_left_right"
+        android:text="New York" />
+
+    <com.philips.platform.uid.view.widget.CheckBox
+        android:id="@+id/checkbox_9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/layout_margin_left_right"
+        android:layout_marginStart="@dimen/layout_margin_left_right"
+        android:text="Pennsylvania" />
+
+    <com.philips.platform.uid.view.widget.CheckBox
+        android:id="@+id/checkbox_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/layout_margin_left_right"
+        android:layout_marginStart="@dimen/layout_margin_left_right"
+        android:text="West Virginia" />
+
+    <com.philips.platform.uid.view.widget.CheckBox
+        android:id="@+id/checkbox_11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/layout_margin_left_right"
+        android:layout_marginStart="@dimen/layout_margin_left_right"
+        android:text="Wisconsin" />
+
+    <com.philips.platform.uid.view.widget.CheckBox
+        android:id="@+id/checkbox_12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/layout_margin_left_right"
+        android:layout_marginStart="@dimen/layout_margin_left_right"
+        android:text="Wyoming" />
+
+</LinearLayout>
+

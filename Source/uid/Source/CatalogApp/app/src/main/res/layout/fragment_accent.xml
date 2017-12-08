@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+
+   <!-- <com.philips.platform.uid.view.widget.Label
+        style="@style/UIDLabel.MarginTop"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_margin_top"
+        android:background="?attr/uidControlAccent"
+        android:text="Control accent"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        style="@style/UIDLabel.MarginTop"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_margin_top"
+        android:alpha="?attr/uidControlAccentDisabledAlpha"
+        android:background="?attr/uidControlAccentDisabled"
+        android:text="Control accent disabled"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        style="@style/UIDLabel.MarginTop"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_margin_top"
+        android:background="?attr/uidControlAccentFocus"
+        android:text="Control accent focus"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        style="@style/UIDLabel.MarginTop"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_margin_top"
+        android:background="?attr/uidControlPrimary"
+        android:text="Control accent primary"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        style="@style/UIDLabel.MarginTop"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_margin_top"
+        android:background="?attr/uidControlAccentPressed"
+        android:text="Control accent pressed"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        style="@style/UIDLabel.MarginTop"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_margin_top"
+        android:background="?attr/uidControlAccent"
+        android:text="Control accent text"
+        android:textColor="@color/uidColorBlack"/>-->
+
+
+</LinearLayout>

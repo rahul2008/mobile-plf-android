@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="UIDLabelInlineValidation">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textSize">@dimen/uid_inline_label_text_size</item>
+        <item name="android:textColor">?attr/uidTypographyValidationTextColor</item>
+    </style>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ (C) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  ~
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/uid_search_decoy_view"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/uid_searchbox_decoy_height"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginEnd="@dimen/uid_searchbox_layout_margin"
+    android:layout_marginStart="@dimen/uid_searchbox_layout_margin"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:id="@id/uid_search_decoy_hint_icon"
+        android:layout_width="@dimen/uid_searchbox_button_dimen"
+        android:layout_height="@dimen/uid_searchbox_button_dimen"
+        android:layout_marginEnd="@dimen/uid_searchbox_button_padding_end"
+        android:layout_marginStart="@dimen/uid_searchbox_button_padding"
+        app:srcCompat="@drawable/uid_search_icon"
+        android:tint="?attr/uidSearchBoxAndroidDefaultNormalHintTextColor" />
+
+    <com.philips.platform.uid.view.widget.Label
+        style="@style/UIDLabel.SearchBoxHint"
+        android:id="@id/uid_search_decoy_hint_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

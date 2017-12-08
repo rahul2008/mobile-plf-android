@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                          xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                          android:layout_width="match_parent"
+                                                          android:layout_height="match_parent"
+                                                          android:background="@drawable/uid_shadow_level_two" >
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/uidNotificationBarWhiteNormalBackgroundColor"
+        android:orientation="vertical">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@id/uid_notification_title"
+            style="@style/UIDNotificationBarTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/uid_notification_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@id/uid_notification_content"
+            style="@style/UIDNotificationBarContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/uid_notification_icon"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/uid_notification_title"/>
+
+        <ImageButton
+            android:id="@id/uid_notification_icon"
+            style="@style/UIDNotificationBarCloseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/uid_ic_cross_icon"/>
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@id/uid_notification_btn_1"
+            style="@style/UIDNotificationBarButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/uid_notification_content"/>
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@id/uid_notification_btn_2"
+            style="@style/UIDNotificationBarButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/uid_notification_btn_1"
+            app:layout_constraintTop_toBottomOf="@id/uid_notification_content"/>
+    </android.support.constraint.ConstraintLayout>
+</FrameLayout>

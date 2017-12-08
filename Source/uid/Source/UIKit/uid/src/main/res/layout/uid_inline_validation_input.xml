@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@id/uid_inline_validation_message_layout"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:visibility="gone">
+
+    <ImageView
+        android:id="@id/uid_inline_validation_icon"
+        android:layout_width="@dimen/uid_inline_validation_icon_size"
+        android:layout_height="@dimen/uid_inline_validation_icon_size"
+        android:layout_marginEnd="@dimen/uid_inline_validation_icon_margin_end"
+        android:tint="?attr/uidTypographyValidationIconColor"
+        android:visibility="gone"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@id/uid_inline_validation_text"
+        style="@style/UIDLabelInlineValidation"
+        android:gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+</LinearLayout>

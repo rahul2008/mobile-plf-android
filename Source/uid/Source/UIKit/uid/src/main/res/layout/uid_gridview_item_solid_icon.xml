@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/uid_gridview"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/uid_grid_item_size"
+                android:layout_gravity="center"
+                android:descendantFocusability="blocksDescendants">
+
+    <ImageView
+        android:id="@id/uid_gridview_thumbnail"
+        style="@style/UIDGridViewImage"
+        android:layout_height="@dimen/uid_grid_image_height"
+        android:layout_alignParentTop="true"/>
+
+    <RelativeLayout
+        android:id="@id/uid_gridview_solid_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/uid_gridview_thumbnail"
+        android:background="?attr/uidGridViewPrimaryNormalHeaderBackgroundColor">
+
+        <LinearLayout
+            android:id="@id/uid_gridview_two_line_text"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/uid_grid_two_line_text_height"
+            android:layout_alignParentStart="true"
+
+            android:background="#0000"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@id/uid_gridview_title"
+                style="@style/UIDLabel.GridViewTitleText"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@id/uid_gridview_description"
+                style="@style/UIDLabel.GridViewDescriptionText"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+</RelativeLayout>
+
+
+
+

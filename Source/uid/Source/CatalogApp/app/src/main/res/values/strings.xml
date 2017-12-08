@@ -1,0 +1,343 @@
+<resources>
+    <string name="catalog_app_name">Catalog App DLS</string>
+    <string name="demo_primary_button">Primary button</string>
+    <string name="color_ranges_label">Color range</string>
+    <string name="tonal_range_label">Content tonal range</string>
+    <string name="for_content_area_text">For Contents Area</string>
+    <string name="for_navigation_area_text">For Navigation Area</string>
+    <string name="for_primary_controls_text">For Primary controls</string>
+    <string name="for_dim_text">For Dim</string>
+    <string name="accent_color_range_text">Accent color range</string>
+    <string name="warning_text">This color is not selectable with current theme combination. Please re-select alternatives above to use this color.</string>
+    <string name="buttons_with_icons">Buttons with icon</string>
+    <string name="individual_buttons_label">Individual Buttons</string>
+    <string name="alternate_primary_label">Alternate Primary Button</string>
+    <string name="secondary_button_label">Secondary Button</string>
+    <string name="accent_button_label">Accent Button</string>
+    <string name="multi_line_input">Multi-line label check item. Lorem ipsum dolor sit amet consectetur adipiscing </string>
+
+    <!--Buttons layout page-->
+    <string name="with_icon">With icon</string>
+    <string name="extra_wide">Extra wide</string>
+    <string name="disabled">Disabled</string>
+    <string name="inline_validation">Inline</string>
+    <string name="tooltip_validation">Tooltip</string>
+    <string name="data_validation">Data Validation</string>
+    <string name="buttons">Buttons</string>
+    <string name="buttons_icon_only">Icon only buttons</string>
+    <string name="buttons_text_left_aligned_category">Text left-aligned button</string>
+    <string name="buttons_text_left_aligned">Text left aligned</string>
+    <string name="buttons_text_primary">Primary button</string>
+    <string name="buttons_text_secondary">Secondary button</string>
+    <string name="buttons_progress">Progress button</string>
+    <string name="buttons_determinate">Determinate</string>
+    <string name="buttons_indeterminate">Indeterminate</string>
+    <string name="buttons_press_me">Press me</string>
+    <string name="buttons_loading">Loading...</string>
+    <string name="set_theme_settings">Set</string>
+
+    <string name="page_title_theme_settings">Theme Setting</string>
+    <string name="page_title_preview">Preview</string>
+    <string name="page_title_buttons">Buttons</string>
+    <string name="page_title_textbox">TextBox</string>
+    <string name="page_title_toggle_switch">Toggle Switch</string>
+    <string name="page_title_alertDialog">Dialog</string>
+
+    <string name="hint_text">Frits Philips</string>
+    <string name="hamburger_menu">Hamburger</string>
+    <string name="hamburger_not_ready">Hamburger is not ready yet</string>
+    <string name="hint_text_multi_lines">Hint text multi lines</string>
+    <string name="filled_text">Filled text</string>
+    <string name="content_desc_back">back</string>
+    <string name="content_desc_disabled">Disabled</string>
+    <string name="content_desc_enabled">Enabled</string>
+    <string name="content_desc_close">close</string>
+    <string name="preview">Preview</string>
+    <string name="done">Done</string>
+    <string name="buttons_text_quiet">Quiet Button</string>
+
+    <!--Settings page for ToggleSwitch-->
+    <string name="switch_text">Switch</string>
+    <string name="switch_disabled_on">Disabled Switch(On)</string>
+    <string name="switch_disabled_off">Disabled Switch(Off)</string>
+
+
+    <!-- AlertDialog -->
+    <string name="dim_layer_header">Dimlayer Options</string>
+    <string name="dialog_subtle">Subtle</string>
+    <string name="dialog_strong">Strong</string>
+    <string name="dialog_screen_alert_checkbox_text">With icon and title</string>
+    <string name="dialog_screen_dialog_checkbox_text">With scrollable list</string>
+    <string name="dialog_header_text">Dialog</string>
+    <string name="alert_header_text">Alert</string>
+    <string name="dialog_screen_button_text_dialog">Show dialog</string>
+    <string name="dialog_screen_button_text_alert">Show alert</string>
+    <string name="alert_short_content_text">Delete this record?</string>
+    <string name="alert_long_content_text">Joe Doe will be removed from the patient list and all records related to this patient will be deleted.</string>
+    <string name="alert_title_text">Are you sure you want to delete?</string>
+    <string name="alert_positive_button_text">Delete</string>
+    <string name="alert_negative_button_text">Cancel</string>
+    <string name="dialog_title_text">People list</string>
+    <string name="dialog_with_list_title_text">Select state(s)</string>
+    <string name="dialog_content_text">This list includes contacts, friends and anyone you\'ve messaged on. People you know will be added here.</string>
+    <string name="dialog_positive_button_text">OK</string>
+    <string name="dialog_negative_button_text">Learn more</string>
+    <string name="dialog_with_list_positive_button_text">Select</string>
+    <string name="dialog_with_list_negative_button_text">Cancel</string>
+
+    <!--Settings page for ProgressBar-->
+    <string name="progress_bar_linear_subtitle">Linear progress indicators</string>
+    <string name="progress_bar_circular_small_subtitle">Circular progress indicators - small</string>
+    <string name="progress_bar_circular_medium_subtitle">Circular progress indicators - medium</string>
+    <string name="progress_bar_circular_large_subtitle">Circular progress indicators - large</string>
+    <string name="page_title_progress_bar">Progress indicator</string>
+    <string name="progress_bar_value">Value</string>
+    <string name="progress_bar_scale">Scale</string>
+
+    <!--Labels-->
+    <string name="page_title_label">Label</string>
+    <string name="label_input_field">Input text</string>
+    <string name="label_text">Label text</string>
+    <string name="label_description">Description label</string>
+    <string name="label_item_text">Item text</string>
+    <string name="label_label_left">Label left</string>
+    <string name="label_label_right">Label right</string>
+    <string name="title">Title</string>
+    <string name="cancel">Cancel</string>
+    <string name="label_password">Password</string>
+    <string name="password_hint_text">#16!(.Nac</string>
+    <string name="hint_text_number">+310334343434</string>
+    <string name="label_number">Phone number</string>
+    <string name="label_email">E-mail</string>
+    <string name="label_multiline_input_field">Multiline input</string>
+    <string name="hint_email">name@philips.com</string>
+    <string name="with_label">With label</string>
+    <string name="label_textboxes">Textboxes</string>
+
+    <!--Checkbox-->
+    <string name="page_title_checkbox">Check box</string>
+    <string name="checkbox_check_box">Single-line label</string>
+    <string name="checkbox_check_multi_line">Multi-line label</string>
+    <string name="checkbox_check_item_1">Check item 1</string>
+    <string name="checkbox_check_item_2">Check item 2</string>
+    <string name="checkbox_check_item_3">Check item 3</string>
+    <string name="checkbox_check_item_4">Multi-line label check item lorem ipsum dolor sit amet consectetur adipiscing. Multi-line label check item lorem ipsum dolor sit amet consectetur adipiscing </string>
+
+    <string name="page_title_social_icon">Social icons</string>
+
+    <string name="social_media_icons">Social media icons</string>
+    <string name="page_title_separator">Separator</string>
+
+    <string name="title1">ListView Item 1</string>
+    <string name="title2">ListView Item 2</string>
+    <string name="title3">ListView Item 3</string>
+    <string name="title4">ListView Item 4</string>
+    <string name="title5">ListView Item 5</string>
+    <string name="title6">ListView Item 6</string>
+
+    <!--<string name="page_title_recyclerview">RecyclerView</string>-->
+    <string name="page_title_recyclerview">ListView</string>
+    <string name="page_title_recyclerview_settings">RecyclerView Settings</string>
+    <string name="recyclerview_settings">RecyclerView settings</string>
+    <string name="description1">Two-Line ListView with description 1</string>
+    <string name="description2">Two-Line ListView with description 2</string>
+    <string name="description3">Two-Line ListView with description 3</string>
+    <string name="description4">Two-Line ListView with description 4</string>
+    <string name="description5">Two-Line ListView with description 5</string>
+    <string name="description6">Two-Line ListView with description 6</string>
+
+    <string name="show_separators">Show separators</string>
+    <string name="show_header">Show header</string>
+    <string name="disabled_listview">Disabled ListView</string>
+
+    <string name="page_title_date_time_picker">Datepicker</string>
+    <string name="show_date_picker">show date picker</string>
+    <string name="show_time_picker">Show time picker</string>
+    <string name="date_picker"><![CDATA[Date picker]]></string>
+    <string name="range_picker">Range picker</string>
+    <string name="timeslot_picker">Timeslot picker</string>
+    <string name="start">Start</string>
+
+    <string name="primary_social_media_icons">Primary social icons</string>
+    <string name="white_social_media_icons">White social icons</string>
+    <string name="single_line_with_icon">Single line with icon</string>
+    <string name="two_lines">Two lines</string>
+    <string name="template_selection">Template selection</string>
+    <string name="recyclerview_the_header">ListView Header</string>
+    <string name="display_labels">Display labels</string>
+    <string name="loading">Loading</string>
+    <string name="label_left_top">Label left top</string>
+    <string name="label_right_top">Label right top</string>
+    <string name="label_left_bottom">Label left bottom</string>
+    <string name="label_right_bottom">Label right bottom</string>
+    <string name="inline_error_message">The e-mail address you entered is incorrect</string>
+
+    <!--GridView-->
+    <string name="page_title_gridView">GridView</string>
+    <string name="page_title_gridview_settings">GridView Settings</string>
+    <string name="gridView_title_long">This is a long title for an image</string>
+    <string name="gridView_description_long">This is a long description for an image</string>
+    <string name="gridView_title_short">Title</string>
+    <string name="gridView_description_short">Description</string>
+    <string name="secondary_action">Secondary Action</string>
+    <string name="enlarged_gutter">Enlarged Gutter</string>
+    <string name="grid_disabled">Disabled</string>
+    <string name="secondary_action_description">Secondary action can be placed at 4 corner of the tiles</string>
+    <string name="without_secondary_content">Without Secondary Content</string>
+    <string name="double_line_footer">Double-line Filled Footer</string>
+    <string name="single_line_header">Single-line Gradient Header</string>
+    <string name="gridview_header">Title</string>
+
+    <!--Notification Bar-->
+    <string name="page_title_notification_bar">NotificationBar</string>
+    <string name="notification_bar_title">Notification title</string>
+    <string name="notification_bar_content">Display the notification content here to explain details and guide users.</string>
+    <string name="notification_bar_action_1">Action 1</string>
+    <string name="notification_bar_action_2">Action 2</string>
+    <string name="notification_bar_notification_show">Show notification</string>
+    <string name="notification_bar_notification_hide">Hide notification</string>
+    <string name="info_notification_bar_content">There are additional capabilities which are not displayed currently. Please refer the DLS hub.</string>
+    <string name="info_notification_got_it">Got it</string>
+    <string name="info_notification_note">Note</string>
+
+    <!--Notification Badge-->
+    <string name="page_title_notification_badge">Notification badge</string>
+    <string name="accent_color">Accent color</string>
+    <string name="normal_size">Normal size</string>
+    <string name="small_size">Small size</string>
+    <string name="hint_enter_number">Enter badge count</string>
+    <string name="e_mails">E-mails</string>
+
+    <!--Language Pack-->
+    <string name="page_title_language_pack">Language Pack</string>
+    <string name="language_pack_button">Primary Button</string>
+    <string name="language_pack_label">Language Pack Label</string>
+    <string name="language_pack_checkbox">Check Box item</string>
+    <string name="language_pack_switch">Switch</string>
+    <string name="language_pack_hint">Enter Text</string>
+
+    <!--Rating Bar-->
+    <string name="page_title_ratingbar">Rating Bar</string>
+    <string name="ratingbar_mini_display">Mini Display Rating</string>
+    <string name="ratingbar_display">Standard Display Rating</string>
+    <string name="ratingbar_input">Input Rating</string>
+    <string name="ratingbar_rating_text">4.5</string>
+    <string name="ratingbar_reset">Reset</string>
+
+    <!--Search Box-->
+    <string name="page_title_searchbox">Search box</string>
+    <string name="search_box_no_result">Sorry! No result found</string>
+    <string name="search_box_content">Please search for the states of USA</string>
+    <string name="search_box_expandable">Expandable</string>
+    <string name="search_box_persistent">Persistent in navigation bar</string>
+    <string name="page_title_searchbox_persistent"></string>
+    <string name="search_box_hint">Search</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="page_title_accent">Accent</string>
+
+    <!--Dot navigation -->
+
+    <string name="page_title_dot_navigation">Dot navigation</string>
+    <string name="page_number">Page %d</string>
+    <string name="setting_list_one">Setting List 1</string>
+    <string name="setting_list_two">Setting List 2</string>
+    <string name="setting_list_three">Setting List 3</string>
+    <string name="description_label">Description label</string>
+    <string name="volume_down">Volume down</string>
+    <string name="volume_up">Volume up</string>
+    <string name="label_item_text_one">Item 1</string>
+    <string name="label_item_text_two">Item 2</string>
+    <string name="label_item_text_three">Item 3</string>
+
+
+    <!--Hyperlink page-->
+    <string name="page_title_links">Links</string>
+    <string name="links_heading">Hyperlink</string>
+    <string name="links_description">Integer bibendum erat nunc, vitae consequat odio fringilla ut.
+        In pharetra sem quis sodales efficitur. Nam rhoncus mauris sed purus ullamcorper aliquet.
+        Volutpat consequat odio fringilla visit the  <a href="http://www.philips.com">Philips website</a> sed placerat dapibus, venenatis eu ligula. Quisque id malesuda lectus. Ut ac commodo diam.
+        Ut euismod ligula ut pharetra tempor <a href="mailto:someone@example.com">drop an email</a>.
+        Cras vel dapibus libero</string>
+    <string name="links_button_page">Button page</string>
+    <string name="no_internet">No internet connection available</string>
+
+
+    <!--Radiobutton-->
+    <string name="page_title_radiobutton">Radio button</string>
+    <string name="radiobutton_selection_item_1">Selection item 1</string>
+    <string name="radiobutton_selection_item_2">Selection item 2</string>
+    <string name="radiobutton_selection_item_3">Selection item 3</string>
+    <string name="radiobutton_selection_item_4">Multi-line label Lorem ipsum dolor sit amet consectetur adipiscing elit duis a feugiat tortor</string>
+
+    <!--UI Picker-->
+    <string name="page_title_uipicker">UI Picker</string>
+    <string name="menu_uipicker">Menu UI picker</string>
+    <string name="add_location">Add Location</string>
+
+    <!--Splash screen-->
+    <string name="page_title_splash_screen">Splash screen</string>
+    <string name="splash_usage_type">Usage</string>
+    <string name="splash_usage_non_medical">Non-medical application</string>
+    <string name="splash_usage_medical">Medical application *</string>
+    <string name="show_splash_screen">Show splash screen</string>
+    <string name="splash_background_image">Image background *</string>
+    <string name="splash_background_direction">Directional light background</string>
+    <string name="splash_screen_app_name">Philips sDLS Toolkit</string>
+
+    <!--Sidebar-->
+    <string name="page_title_sidebar">Sidebar</string>
+    <string name="menu1">Menu item 1</string>
+    <string name="menu2">Menu item 2</string>
+    <string name="menu3">Menu item 3</string>
+    <string name="menu4">Menu item 4</string>
+    <string name="menu5">Menu item 5</string>
+    <string name="menu6">Menu item 6</string>
+    <string name="sidebar_open">Open</string>
+    <string name="sidebar_close">Close</string>
+    <string name="sidebar_header_item">Header item</string>
+    <string name="sidebar_footer_item">Footer item</string>
+    <string name="sidebar_right_header_avatar">Sidebar Right Header Avatar</string>
+    <string name="sidebar_location">Location</string>
+    <string name="sidebar_bg_color">Background color</string>
+    <string name="sidebar_left_side">Left side</string>
+    <string name="sidebar_right_side">Right side</string>
+    <string name="sidebar_map_content">Map to content</string>
+    <string name="sidebar_map_navigation">Map to navigation</string>
+    <string name="sidebar_close_hint">Touching outside the sidebar closes it</string>
+    <string name="sidebar_show">Show sidebar</string>
+    <string-array name="sidebar_right_menu_items">
+        <item>Profile item 1</item>
+        <item>Profile item 2</item>
+        <item>Profile item 3</item>
+        <item>Profile item 4</item>
+        <item>Profile item 5</item>
+        <item>Profile item 6</item>
+        <item>Profile item 7</item>
+        <item>Profile item 8</item>
+    </string-array>
+
+    <string name="branding_screen_later">* To be released</string>
+
+    <!--About Screen-->
+    <string name="page_title_about_screen">About</string>
+    <string name="about_screen_appname">Philips sDLS Toolkit</string>
+    <string name="about_screen_appversion">Version 1.0.0</string>
+    <string name="about_screen_copyright">Copyright \u00A9 2017 Philips</string>
+    <string name="about_screen_terms">Terms &amp; conditions</string>
+    <string name="about_screen_privacy">Privacy policy</string>
+    <string name="about_screen_disclosure">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nam rhoncus mauris sed purus ullamcorper aliquet. \n \n Lorem ipsum dolor sit amet consectetur adipiscing elit duis a feugiat tortor, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="show_about_screen">Show about screen</string>
+    <string name="about_usage_type">Usage</string>
+    <string name="about_usage_non_medical">Non-medical application</string>
+    <string name="about_usage_medical">Medical application *</string>
+    <string name="about_dialog_button_text">Got it</string>
+    <string name="about_dialog_text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+
+    <!--Sliders-->
+    <string name="page_title_slider">Slider</string>
+    <string name="slider_icon_start_label">Min</string>
+    <string name="slider_icon_end_label">Max</string>
+
+</resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="GroupBlue05">#F0F8FA</color>
+    <color name="GroupBlue45">#1474A4</color>
+    <color name="GroupBlue55">#1B578E</color>
+    <color name="GroupBlue75">#1C2D66</color>
+    <color name="GroupBlue35">#431AC1</color>
+    <color name="GroupBlue15">#BFE2EB</color>
+    <color name="GroupBlue10">#DAF1F7</color>
+    <color name="GroupBlue90">#0A0C1E</color>
+    <color name="White">#FFFFFF</color>
+    <color name="Gray20">#C4C4C4</color>
+    <color name="Gray75">#212121</color>
+    <color name="Gray65">#383838</color>
+    <color name="Gray35">#8C8C8C</color>
+    <color name="Gray30">#9E9E9E</color>
+    <color name="Gray10">#E8E8E8</color>
+    <color name="navigationTextColor">#212121</color>
+
+</resources>

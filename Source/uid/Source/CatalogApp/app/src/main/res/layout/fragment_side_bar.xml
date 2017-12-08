@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.SideBarFragment"/>
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:id="@+id/sidebar_frag_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/sidebar_frag_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel.Header"
+                    android:text="@string/sidebar_location"/>
+
+                <com.philips.platform.uid.view.widget.RadioGroup
+                    android:id="@+id/radio_group_location"
+                    style="@style/TestRadioGroupStyle">
+
+                    <com.philips.platform.uid.view.widget.RadioButton
+                        android:id="@+id/radiobutton_left"
+                        style="@style/TestRadioButtonStyle"
+                        android:checked="true"
+                        android:text="@string/sidebar_left_side"/>
+
+                    <com.philips.platform.uid.view.widget.RadioButton
+                        android:id="@+id/radiobutton_right"
+                        style="@style/TestRadioButtonStyle"
+                        android:text="@string/sidebar_right_side"/>
+
+                </com.philips.platform.uid.view.widget.RadioGroup>
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel.Header"
+                    android:text="@string/sidebar_bg_color"/>
+
+                <com.philips.platform.uid.view.widget.RadioGroup
+                    android:id="@+id/radio_group_bg_color"
+                    style="@style/TestRadioGroupStyle" >
+
+                    <com.philips.platform.uid.view.widget.RadioButton
+                        android:id="@+id/radiobutton_map_content"
+                        style="@style/TestRadioButtonStyle"
+                        android:checked="true"
+                        android:text="@string/sidebar_map_content"/>
+
+                    <com.philips.platform.uid.view.widget.RadioButton
+                        android:id="@+id/radiobutton_map_navigation"
+                        style="@style/TestRadioButtonStyle"
+                        android:text="@string/sidebar_map_navigation"/>
+
+                </com.philips.platform.uid.view.widget.RadioGroup>
+
+                <include
+                    layout="@layout/uid_horizontal_separator" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/sidebar_text_height"
+                    android:layout_marginStart="@dimen/sidebar_item_margin_left_right"
+                    android:layout_marginEnd="@dimen/sidebar_item_margin_left_right"
+                    android:gravity="start|bottom"
+                    android:textColor="?attr/uidTypographyTertiaryTextColor"
+                    android:textSize="@dimen/sidebar_close_hint_text_size"
+                    android:text="@string/sidebar_close_hint"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/show_sidebar_linear"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/sidebar_frag_linear_layout"
+                android:layout_margin="@dimen/sidebar_item_margin_left_right" >
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/show_sidebar"
+                    style="@style/UIDExtraWideButton"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:onClick="@{(v) -> frag.showSideBar()}"
+                    android:text="@string/sidebar_show"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</layout>

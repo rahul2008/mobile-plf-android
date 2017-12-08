@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/label_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calories"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/label_text_textsize_overriden"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calories"
+        android:textSize="20sp"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/label_numeric"
+        style="@style/UIDLabelDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:text="1500-2000"/>
+
+</LinearLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/social_icon_facebook"
+        style="@style/UIDSocialIconPrimaryOutline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:uidButtonImageDrawableSrc="@drawable/ic_hamburger_menu"/>
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/social_icon_twitter"
+        style="@style/UIDSocialIconWhiteOutline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:uidButtonImageDrawableSrc="@drawable/ic_hamburger_menu"/>
+
+</LinearLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="UIDPrimaryControl"/>
+
+    <style name="UIDPrimaryControl.Secondary">
+        <item name="uidButtonPrimaryNormalBackgroundColor">
+            ?attr/uidButtonSecondaryNormalBackgroundColor
+        </item>
+        <item name="uidButtonPrimaryPressedBackgroundColor">
+            ?attr/uidButtonSecondaryPressedBackgroundColor
+        </item>
+        <item name="uidButtonPrimaryDisabledBackgroundColor">
+            ?attr/uidButtonSecondaryDisabledBackgroundColor
+        </item>
+        <item name="uidButtonPrimaryDisabledTextColor">?attr/uidButtonSecondaryDisabledTextColor
+        </item>
+        <item name="uidButtonPrimaryNormalTextColor">?attr/uidButtonSecondaryNormalTextColor</item>
+    </style>
+</resources>

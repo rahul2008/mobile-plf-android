@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.philips.platform.catalogapp.fragments.NotificationBadgeFragment" />
+    </data>
+<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/ll_number"
+            android:layout_alignParentTop="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!--With Icon layout-->
+                <LinearLayout
+                    style="@style/BaseLayoutMargins.Dimens"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TestButtonTexts"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|start"
+                        android:text="@string/accent_color" />
+
+                    <com.philips.platform.uid.view.widget.Switch
+                        android:id="@+id/toggleicon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/layout_margin_left_right"
+                        android:checked="false"
+                        android:enabled="false"
+                        android:gravity="center_vertical|end" />
+                </LinearLayout>
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel.Header"
+                    android:text="@string/normal_size" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/notifaction_badge_margin_top_bottom"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/notification_default_margin">
+
+                        <com.philips.platform.uid.view.widget.Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/uid_notificationbadge_default_margin"
+                            android:layout_marginTop="@dimen/uid_notificationbadge_default_margin"
+                            android:gravity="center|center_horizontal"
+                            android:stateListAnimator="@null"
+                            android:text="@string/e_mails" />
+
+                        <com.philips.platform.uid.view.widget.NotificationBadge
+                            android:id="@+id/uid_text_default"
+                            style="@style/NotificationBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{fragment.badgeCount}"/>
+                    </FrameLayout>
+
+                    <com.philips.platform.uid.view.widget.Label
+                        style="@style/UIDLabel.Header"
+                        android:layout_marginBottom="@dimen/notifaction_badge_margin_top_bottom"
+                        android:text="@string/small_size" />
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/notification_small_margin">
+
+                        <com.philips.platform.uid.view.widget.ImageButton
+                            android:id="@+id/quiet_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:paddingEnd="@dimen/uid_notificationbadge_small_margin"
+                            android:paddingTop="@dimen/uid_notificationbadge_small_margin"
+                            android:stateListAnimator="@null"
+                            app:uidImageButtonColorList="@color/uid_quiet_button_icon_selector"
+                            app:uidImageButtonDrawableColorList="@color/uid_quiet_button_icon_selector" />
+
+                        <com.philips.platform.uid.view.widget.NotificationBadge
+                            android:id="@+id/uid_text_small"
+                            style="@style/NotificationBadge.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{fragment.badgeCount}"/>
+                    </FrameLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/ll_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <include layout="@layout/divider_layout" />
+
+            <com.philips.platform.uid.view.widget.EditText
+                android:id="@+id/edit_input_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/notifaction_badge_edit_text_margin_top_bottom"
+                android:layout_marginLeft="@dimen/notifaction_badge_edit_text_margin_left_right"
+                android:layout_marginRight="@dimen/notifaction_badge_edit_text_margin_left_right"
+                android:layout_marginTop="@dimen/notifaction_badge_edit_text_margin_top_bottom"
+                android:freezesText="true"
+                android:hint="@string/hint_enter_number"
+                android:inputType="number"
+                android:maxLines="1"
+                android:maxLength="10"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</layout>

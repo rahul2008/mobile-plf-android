@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="UIDSocialIconPrimary" parent="UIDDefaultButton">
+        <item name="fontPath">"fonts/iconfont.ttf"</item>
+        <item name="android:textSize">@dimen/uid_social_icons_width</item>
+        <item name="android:paddingLeft">@dimen/uid_social_icons_padding</item>
+        <item name="android:paddingRight">@dimen/uid_social_icons_padding</item>
+        <item name="android:minHeight">@dimen/uid_social_icons_width</item>
+        <item name="android:minWidth">@dimen/uid_social_icons_height</item>
+        <item name="android:drawablePadding">@dimen/uid_social_icons_drawable_padding</item>
+        <item name="uidButtonImageDrawableWidth">@dimen/uid_social_icons_width</item>
+        <item name="uidButtonImageDrawableHeight">@dimen/uid_social_icons_height</item>
+        <item name="uidButtonBackgroundColorList">@color/uid_social_icon_primary_button_drawable_selector</item>
+        <item name="uidButtonDrawableColorList">@color/uid_social_icon_primary_button_drawable_selector</item>
+        <item name="uidButtonTextColorList">@color/uid_social_icon_primary_button_background_selector</item>
+    </style>
+
+    <style name="UIDSocialIconPrimaryOutline" parent="UIDSocialIconPrimary">
+        <item name="uidButtonBackgroundColorList">@color/uid_social_icon_primary_button_background_selector</item>
+        <item name="uidButtonDrawableColorList">@color/uid_social_icon_primary_button_drawable_selector</item>
+        <item name="uidButtonTextColorList">@color/uid_social_icon_primary_button_drawable_selector</item>
+    </style>
+
+    <style name="UIDSocialIconWhite" parent="UIDSocialIconPrimary">
+        <item name="uidButtonBackgroundColorList">@color/uid_social_icon_white_button_background_selector</item>
+        <item name="uidButtonDrawableColorList">@color/uid_social_icon_white_button_background_selector</item>
+        <item name="uidButtonTextColorList">@color/uid_social_icon_white_button_icon_selector</item>
+    </style>
+
+    <style name="UIDSocialIconWhiteOutline" parent="UIDSocialIconPrimary">
+        <item name="uidButtonBackgroundColorList">@color/uid_social_icon_white_button_icon_selector</item>
+        <item name="uidButtonDrawableColorList">@color/uid_social_icon_white_button_background_selector</item>
+        <item name="uidButtonTextColorList">@color/uid_social_icon_white_button_background_selector</item>
+    </style>
+
+</resources>

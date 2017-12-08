@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="UIDControls">
+        <attr name="uidIndeterminateLinearPBStyle" format="reference"/>
+        <attr name="uidButtonDisabledAlpha" format="reference|float"/>
+        <attr name="uidProgressIndicatorButtonBackgroundColor" format="reference|color"/>
+        <attr name="uidProgressIndicatorButtonBackgroundAlpha" format="reference|float"/>
+        <attr name="uid_state_error" format="boolean"/>
+        <attr name="uid_state_visited" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDComponentType">
+        <attr name="uidComponentType" format="enum">
+            <enum name="Primary" value="0"/>
+            <enum name="Secondary" value="1"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="UIDAccentType">
+        <attr name="uidAccent" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIDSidebarContextType">
+        <attr name="uidSidebarContextType" format="enum">
+            <enum name="Content" value="0"/>
+            <enum name="Navigation" value="1"/>
+        </attr>
+    </declare-styleable>
+</resources>
+
+

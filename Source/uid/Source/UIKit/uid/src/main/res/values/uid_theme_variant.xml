@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Base">
+    </style>
+
+    <style name="Base.UltraLight">
+        <!--Don't add tonal range as it creates conflict with extend tonal range.-->
+        <!--<item name="uidTonalRange">UltraLight</item>-->
+    </style>
+
+    <style name="Base.VeryLight">
+        <!--Don't add tonal range as it creates conflict with extend tonal range.-->
+        <!--<item name="uidTonalRange">VeryLight</item>-->
+    </style>
+
+    <!--  <style name="Base.Light">
+    </style>
+-->
+    <style name="Base.Bright">
+        <!--Don't add tonal range as it creates conflict with extend tonal range.-->
+        <!--<item name="uidTonalRange">Bright</item>-->
+    </style>
+    <style name="Base.VeryDark">
+        <!--Don't add tonal range as it creates conflict with extend tonal range.-->
+        <!--<item name="uidTonalRange">VeryDark</item>-->
+    </style>
+</resources>

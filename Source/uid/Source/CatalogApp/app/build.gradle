@@ -1,0 +1,248 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+apply plugin: 'de.felixschulze.gradle.hockeyapp'
+
+
+def supportLibraryVer = '26.0.2'
+def minSdkVer = 21
+def compileSdkVer = 26
+def targetSdkVer = 26
+def buildToolsVer = "26.0.2"
+def jUnitVer = 4.12
+def butterKnifeVer = "7.0.1"
+def eventbusVer = "3.0.0"
+
+buildscript {
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+
+    repositories {
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.2'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath(builddeps.cdpSCM)
+    }
+}
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment)
+archivesBaseName = "uidApp"
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion(versions.uid_uid)
+
+allprojects {
+    repositories {
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url objcdp.getArtifactoryUrl()
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+}
+
+artifactory {
+    contextUrl = objcdp.getArtifactoryContextUrl()
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications('apk')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
+            }
+        }
+    }
+    resolve {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+        }
+    }
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+publishing {
+    publications {
+        apk(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            artifact("$projectDir/dependencies.lock") {
+                classifier = '1stleveldependencies'
+            }
+
+            artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                }
+            }
+        }
+    }
+}
+
+hockeyapp {
+    apiToken = "b9d6e2f453894b4fbcb161b33a94f6c8"
+    commitSha = objcdp.getCommitHashLong()
+    buildServerUrl = objcdp.getArtifactoryUrl()
+    releaseType = 2 // alpha
+    notify = 1
+    mappingFileNameRegex = "mapping.txt"
+    mandatory = 1
+    status = 2
+    notesType = 1
+    notes = new File(file(objcdp.getExternalDocPath() + '/ReleaseNotes.md').absolutePath).getText('UTF-8')
+}
+
+android {
+    compileSdkVersion compileSdkVer
+    buildToolsVersion buildToolsVer
+
+    defaultConfig {
+        applicationId "com.philips.platform.catalogapp"
+        minSdkVersion "${minSdkVer}"
+        targetSdkVersion "${targetSdkVer}"
+        versionCode 1
+        versionName version
+
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+    }
+
+    dataBinding.enabled = true
+
+    signingConfigs {
+        TestPhilipsStore {
+            keyAlias 'philips'
+            keyPassword 'philips'
+            storeFile file("${projectDir}/../extra/signing/UIT_GoogleBeta_KeyStore.jks")
+            storePassword 'philips'
+        }
+        debug {
+            storeFile file("${projectDir}/../extra/signing/debug.keystore")
+        }
+    }
+
+    lintOptions {
+        disable 'GoogleAppIndexingWarning'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
+            signingConfig signingConfigs.TestPhilipsStore
+        }
+
+        debug {
+            signingConfig signingConfigs.debug
+            testCoverageEnabled true
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'asm-license.txt'
+        exclude 'LICENSE.txt'
+
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+}
+
+dependencies {
+    compile("com.android.support:recyclerview-v7:${supportLibraryVer}") {
+        exclude module: "com.android.support"
+    }
+    compile("com.android.support:appcompat-v7:${supportLibraryVer}") {
+        exclude module: "com.android.support"
+    }
+
+
+    compile("com.jakewharton:butterknife:${butterKnifeVer}") {
+        exclude module: "com.android.support"
+    }
+    compile "org.greenrobot:eventbus:${eventbusVer}"
+
+
+    compile project(':uid')
+
+    testCompile("junit:junit:${jUnitVer}") {
+        exclude module: "com.android.support"
+        exclude module: "support-annotations"
+    }
+
+    androidTestCompile("com.android.support.test.espresso:espresso-core:2.2.2") {
+        exclude module: "com.android.support"
+        exclude module: "support-annotations"
+    }
+    androidTestCompile("com.android.support.test:runner:0.5") {
+        exclude module: "com.android.support"
+        exclude module: "support-annotations"
+    }
+    androidTestCompile("com.android.support.test:rules:0.5") {
+        exclude module: "com.android.support"
+        exclude module: "support-annotations"
+    }
+
+
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    androidTestCompile 'org.apache.commons:commons-lang3:3.4'
+
+}

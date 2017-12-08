@@ -1,0 +1,16 @@
+<!--
+  ~ (C) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:autoMirrored="true"
+    android:viewportHeight="48.0"
+    android:viewportWidth="48.0">
+    <path
+        android:fillColor="?attr/uidContentItemSecondaryNormalTextColor"
+        android:pathData="M32.08,5V2h-16.1v3H6v5h36V5H32.08zM9,12v34h30V12H9zM17,42h-2V16h2V42zM25,42h-2V16h2V42zM33,42h-2V16h2V42z" />
+</vector>

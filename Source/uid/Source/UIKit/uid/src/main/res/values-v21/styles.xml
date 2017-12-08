@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--We need separate theme for native status bar color on Android-->
+    <style name="BaseDLSTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
+</resources>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+    </data>
+
+    <com.philips.platform.uid.view.widget.SideBar
+        android:id="@+id/sidebar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <com.philips.platform.uid.view.widget.NavigationContainer
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <android.support.design.widget.AppBarLayout
+                    android:id="@+id/appBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:elevation="0dp">
+
+                    <include
+                        layout="@layout/uid_toolbar_layout"/>
+                </android.support.design.widget.AppBarLayout>
+
+                <FrameLayout
+                    android:id="@+id/mainContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+                </FrameLayout>
+            </LinearLayout>
+        </com.philips.platform.uid.view.widget.NavigationContainer>
+
+        <LinearLayout
+            android:id="@+id/sidebar_left_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            android:background="?attr/uidContentPrimaryBackgroundColor">
+
+            <com.philips.platform.catalogapp.SidebarFrameLayoutContainer
+                android:id="@+id/sidebar_content_themed_left_root"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:uidSidebarContextType="Content"
+                android:background="?attr/uidContentPrimaryBackgroundColor">
+
+                <include
+                    layout="@layout/sidebar_content_themed_left_container" />
+
+            </com.philips.platform.catalogapp.SidebarFrameLayoutContainer>
+
+            <com.philips.platform.catalogapp.SidebarFrameLayoutContainer
+                android:id="@+id/sidebar_navigation_themed_left_root"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:uidSidebarContextType="Navigation"
+                android:background="?attr/uidNavigationPrimaryBackgroundColor">
+
+                <include layout="@layout/sidebar_navigation_themed_left_container" />
+
+            </com.philips.platform.catalogapp.SidebarFrameLayoutContainer>
+
+        </LinearLayout>
+
+        <com.philips.platform.catalogapp.SidebarNavigationViewContainer
+            android:id="@+id/sidebar_right_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:fitsSystemWindows="true">
+
+            <com.philips.platform.catalogapp.SidebarNavigationViewContainer
+                android:id="@+id/sidebar_content_themed_right_root"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:uidSidebarContextType="Content"
+                android:background="?attr/uidContentPrimaryBackgroundColor">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/sidebar_content_themed_right_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"/>
+
+            </com.philips.platform.catalogapp.SidebarNavigationViewContainer>
+
+            <com.philips.platform.catalogapp.SidebarNavigationViewContainer
+                android:id="@+id/sidebar_navigation_themed_right_root"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:uidSidebarContextType="Navigation"
+                android:background="?attr/uidNavigationPrimaryBackgroundColor">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/sidebar_navigation_themed_right_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"/>
+
+            </com.philips.platform.catalogapp.SidebarNavigationViewContainer>
+
+        </com.philips.platform.catalogapp.SidebarNavigationViewContainer>
+
+    </com.philips.platform.uid.view.widget.SideBar>
+
+</layout>

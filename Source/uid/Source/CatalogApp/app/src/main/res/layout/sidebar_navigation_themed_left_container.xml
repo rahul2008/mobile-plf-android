@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:id="@+id/sidebar_navigation_themed_left_root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/sidebar_navigation_themed_left_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_alignParentTop="true">
+        <include
+            android:id="@+id/sidebar_navigation_themed_left_header_layout"
+            layout="@layout/sidebar_left_header_view"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/sidebar_navigation_themed_left_footer_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_alignParentBottom="true">
+        <include
+            android:id="@+id/sidebar_left_footer_layout"
+            layout="@layout/sidebar_footer_view"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/sidebar_navigation_themed_left_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:layout_below="@id/sidebar_navigation_themed_left_header_container"
+        android:layout_above="@id/sidebar_navigation_themed_left_footer_container"/>
+
+</RelativeLayout>

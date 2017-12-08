@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.EditText
+        android:id="@+id/textBox"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/component_bottom_spacing"
+        android:hint="Hint text"/>
+
+    <com.philips.platform.uid.view.widget.EditText
+        android:id="@+id/textBoxMultiLine"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/component_bottom_spacing"
+        android:hint="Hint text multi lines"/>
+
+    <com.philips.platform.uid.view.widget.EditText
+        android:id="@+id/hintTextBoxDisabled"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:enabled="false"
+        android:layout_marginTop="@dimen/component_bottom_spacing"
+        android:hint="Hint text"/>
+
+
+    <com.philips.platform.uid.view.widget.EditText
+        android:id="@+id/FilledTextBoxDisabled"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:enabled="false"
+        android:layout_marginTop="@dimen/component_bottom_spacing"
+        android:hint="Filled text"/>
+
+    <com.philips.platform.uid.view.widget.EditText
+        android:id="@+id/passwordTextBox"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:enabled="true"
+        android:inputType="textPassword"
+        android:layout_marginTop="@dimen/component_bottom_spacing"
+        android:hint="password"/>
+
+    <com.philips.platform.uid.view.widget.EditText
+        android:id="@+id/clearButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:uidInputTextWithClearButton="true"
+        android:enabled="true"
+        android:layout_marginTop="@dimen/component_bottom_spacing"
+        android:hint="password"/>
+
+</LinearLayout>

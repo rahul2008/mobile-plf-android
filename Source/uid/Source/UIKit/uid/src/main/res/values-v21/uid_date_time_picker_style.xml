@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="UIDDatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorControlActivated">?attr/uidDatePickerAndroidNormalButtonTextColor</item>
+        <item name="colorControlHighlight">?attr/uidDatePickerAndroidNormalButtonTextColor</item>
+        <item name="colorAccent">?attr/uidDatePickerAndroidNormalHeaderBackgroundColor</item>
+        <item name="android:textColorPrimary">?attr/uidDatePickerAndroidNormalContentTextColor
+        </item>
+        <item name="android:calendarViewStyle">@style/UIDCalendarViewStyle</item>
+        <item name="android:datePickerStyle">@style/UIDDatePicker</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/UIDCalendarButtonStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/UIDCalendarButtonStyle</item>
+        <item name="android:textColorSecondary">?attr/uidDatePickerAndroidNormalHeaderTextColor
+        </item>
+        <item name="android:textColorSecondaryInverse">
+            ?attr/uidDatePickerAndroidNormalHeaderTextColor
+        </item>
+        <item name="android:disabledAlpha">@dimen/uid_alpha_per_60</item>
+        <item name="android:headerMonthTextAppearance">@style/UIDHeaderMonthAppearance</item>
+        <item name="android:selectableItemBackground">@null</item>
+        <item name="android:yearListItemTextAppearance">@style/UIDWeekDayTextAppearance</item>
+        <item name="android:listChoiceBackgroundIndicator">@drawable/uid_selector_transparent</item>
+    </style>
+
+    <style name="UIDCalendarViewStyle" parent="@android:style/Widget.Material.Light.CalendarView">
+        <item name="android:weekDayTextAppearance">@style/UIDWeekDayTextAppearance</item>
+    </style>
+
+    <style name="UIDWeekDayTextAppearance">
+        <item name="android:textColor">?attr/uidDatePickerAndroidNormalDaysTextColor</item>
+    </style>
+
+    <style name="UIDHeaderMonthAppearance">
+        <item name="android:textColor">@color/uid_datepicker_header_selector</item>
+        <item name="android:textSize">@dimen/uid_date_picker_header_text_size</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="UIDHeaderDayOfMonthAppearance">
+        <item name="android:textColor">@color/uid_datepicker_header_selector</item>
+        <item name="android:textSize">@dimen/uid_date_picker_header_dayofmonth_size</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="UIDHeaderYearAppearance">
+        <item name="android:textColor">@color/uid_datepicker_header_selector</item>
+        <item name="android:textSize">@dimen/uid_date_picker_header_year_size</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="UIDCalendarButtonStyle">
+        <item name="android:background">@null</item>
+        <item name="android:textColor">?attr/uidDatePickerAndroidNormalButtonTextColor</item>
+    </style>
+
+    <style name="UIDDayOfWeekTextAppearance" parent="android:TextAppearance.Material">
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">?attr/uidDatePickerAndroidNormalOnHeaderTextColor</item>
+        <item name="android:textSize">@dimen/uid_date_picker_header_dayofweek_size</item>
+    </style>
+
+    <style name="UIDDatePicker" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:headerBackground">
+            ?attr/uidDatePickerAndroidNormalHeaderBackgroundColor
+        </item>
+        <item name="android:weekDayTextAppearance">@style/UIDWeekDayTextAppearance</item>
+        <item name="android:calendarTextColor">?attr/uidDatePickerAndroidNormalContentTextColor
+        </item>
+        <item name="android:dayOfWeekTextAppearance">@style/UIDDayOfWeekTextAppearance</item>
+        <item name="android:dayOfWeekBackground">
+            ?attr/uidDatePickerAndroidNormalHeaderBackgroundColor
+        </item>
+        <item name="android:headerMonthTextAppearance">@style/UIDHeaderMonthAppearance</item>
+        <item name="android:headerDayOfMonthTextAppearance">@style/UIDHeaderDayOfMonthAppearance</item>
+        <item name="android:headerYearTextAppearance">@style/UIDHeaderYearAppearance</item>
+    </style>
+</resources>

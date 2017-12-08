@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/uid_gridview"
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="@dimen/uid_grid_item_size"
+             android:descendantFocusability="blocksDescendants">
+
+    <ImageView
+        android:id="@id/uid_gridview_thumbnail"
+        style="@style/UIDGridViewImage"
+        android:layout_height="@dimen/uid_grid_item_size" />
+
+    <com.philips.platform.uid.utils.GradientContainer
+        style="@style/UIDGridGradientStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uid_grid_single_line_text_height">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@id/uid_gridview_title"
+            style="@style/UIDLabel.GridViewTitleText"
+            android:textColor="@color/uidColorWhite"
+            android:layout_gravity="center|start"/>
+
+    </com.philips.platform.uid.utils.GradientContainer>
+</FrameLayout>

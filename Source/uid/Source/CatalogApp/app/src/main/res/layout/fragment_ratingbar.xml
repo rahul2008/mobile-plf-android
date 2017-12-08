@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.RatingBarFragment"/>
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:text="@string/ratingbar_input"/>
+
+            <!--Applied Input style to Rating Bar from UIDRatingBar styles.-->
+
+            <com.philips.platform.uid.view.widget.RatingBar
+                android:id="@+id/rating_input"
+                style="@style/UIDRatingBarInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/layout_margin_left_right"/>
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/reset_rating"
+                style="@style/UIDExtraWideButton"
+                android:layout_width="@dimen/rating_bar_reset_button_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
+                android:enabled="@{!frag.isRatingZero}"
+                android:onClick="@{(v) -> frag.inputRatingBar.setRating(0)}"
+                android:text="@string/ratingbar_reset"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
+                android:text="@string/ratingbar_display"/>
+
+            <!--Applied Standard Display style to Rating Bar from UIDRatingBar styles.-->
+
+            <com.philips.platform.uid.view.widget.RatingBar
+                android:id="@+id/rating_display_default"
+                style="@style/UIDRatingBarStandardDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
+                android:rating="4.5"
+                android:text="@string/ratingbar_rating_text"/>
+
+            <!--Applied Standard Display style to Rating Bar from UIDRatingBar styles.-->
+
+            <com.philips.platform.uid.view.widget.RatingBar
+                android:id="@+id/rating_display_star_only"
+                style="@style/UIDRatingBarStandardDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
+                android:rating="4.5"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
+                android:text="@string/ratingbar_mini_display"/>
+
+            <!--Applied Mini Display style to Rating Bar from UIDRatingBar styles.-->
+
+            <com.philips.platform.uid.view.widget.RatingBar
+                android:id="@+id/rating_display_mini"
+                style="@style/UIDRatingBarMiniDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/layout_margin_left_right"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
+                android:rating="4.5"
+                android:text="@string/ratingbar_rating_text"/>
+
+            <include
+                android:id="@+id/divider"
+                layout="@layout/uid_horizontal_separator"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</layout>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.RecyclerViewSettingsFragment"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/BaseLayoutMargins.Dimens"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TestButtonTexts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/show_separators"/>
+
+            <com.philips.platform.uid.view.widget.Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_weight="1"
+                android:checked="@={frag.isSeparatorEnabled}"
+                android:onCheckedChanged="@{(v, isChecked) -> frag.setSeparatorEnabled(isChecked)}"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/BaseLayoutMargins.Dimens"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TestButtonTexts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/show_header"/>
+
+            <com.philips.platform.uid.view.widget.Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_weight="1"
+                android:checked="@={frag.isHeaderEnabled}"
+                android:onCheckedChanged="@{(v, isChecked) -> frag.setHeaderEnabled(isChecked)}"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+            android:background="?attr/uidContentTertiaryBackgroundColor"
+            android:orientation="horizontal">
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.RecyclerViewHeaderText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="@string/template_selection"/>
+        </RelativeLayout>
+
+        <RadioGroup
+            android:id="@+id/radioGroupTemplates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/single_line_with_icon"
+                style="@style/RecyclerViewRadioButton"
+                android:checked="@{frag.isIconTemplateSelected}"
+                android:text="@string/single_line_with_icon"/>
+
+            <RadioButton
+                android:id="@+id/two_lines"
+                style="@style/RecyclerViewRadioButton"
+                android:checked="@{!frag.isIconTemplateSelected}"
+                android:text="@string/two_lines"/>
+        </RadioGroup>
+    </LinearLayout>
+</layout>

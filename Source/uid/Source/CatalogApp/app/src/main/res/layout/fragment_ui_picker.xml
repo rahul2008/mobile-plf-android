@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.UIPickerFragment"/>
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/menu_lable"
+            style="@style/UIDLabel.Header"
+            android:text="@string/menu_uipicker"/>
+
+        <LinearLayout
+            android:id="@+id/anchor_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/listview_row_height"
+            android:layout_gravity="center"
+            android:gravity="start|center_vertical"
+            android:orientation="horizontal"
+            android:onClick="@{(v) ->frag.showListPopupWindow()}"
+            android:paddingEnd="@dimen/uid_ui_picker_margin_left_right"
+            android:paddingStart="@dimen/uid_ui_picker_margin_left_right">
+
+            <ImageView
+                android:id="@+id/location_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/menu_uipicker"
+                app:srcCompat="@drawable/ic_location"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/add_location_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/uid_add_location_margin_start"
+                android:text="@string/add_location"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/selected_location_label"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:gravity="center_vertical|end"
+                android:text="@{frag.selectedLocation}"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

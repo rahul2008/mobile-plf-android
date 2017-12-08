@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.LinksFragment" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/main_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:text="@string/links_heading" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/link_description"
+                style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                android:layout_marginTop="@dimen/button_first_last_element_gap"
+                android:gravity="center_vertical|start"
+                android:text="@string/links_description"
+                android:textColorHighlight="@color/uidTransparent" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/button_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                android:layout_marginTop="@dimen/button_first_last_element_gap"
+                android:gravity="center_vertical|start"
+                android:text="@string/links_button_page"
+                android:textColorHighlight="@color/uidTransparent"
+                android:layout_marginBottom="@dimen/button_first_last_element_gap" />
+        </LinearLayout>
+    </ScrollView>
+</layout>

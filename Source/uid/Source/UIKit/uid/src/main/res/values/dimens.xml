@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="uid_page_margin_left_right">24dp</dimen>
+
+    <!--Adaptive layout-->
+    <item name="uid_adaptive_layout_width" format="integer" type="dimen">-1</item>
+
+    <!--Percentage for opacity-->
+    <item name="uid_alpha_per_60" format="float" type="dimen">0.60</item>
+    <item name="uid_alpha_per_80" format="float" type="dimen">0.80</item>
+
+    <!--Switch dimensions-->
+    <dimen name="uid_switch_thumb_radius">24dp</dimen>
+    <dimen name="uid_switch_border_ripple_radius">20dp</dimen>
+    <dimen name="uid_switch_track_radius">8dp</dimen>
+    <dimen name="uid_switch_track_width">32dp</dimen>
+    <dimen name="uid_switch_track_height">16dp</dimen>
+    <dimen name="uid_switch_track_inset">4dp</dimen>
+
+    <!--Text only button-->
+    <dimen name="uid_button_min_height">40dp</dimen>
+    <dimen name="uid_button_min_width">48dp</dimen> <!-- 24 + 24 dp -->
+    <dimen name="uid_button_padding_left_right">24dp</dimen>
+    <dimen name="uid_button_corner_radius">2dp</dimen>
+    <dimen name="uid_button_text_size">16sp</dimen>
+    <item name="uid_button_disabled_alpha" format="float" type="dimen">0.25</item>
+
+    <!-- Quiet button-->
+    <dimen name="uid_quiet_button_padding_left_right">24dp</dimen>
+    <dimen name="uid_quiet_button_min_size">24dp</dimen>
+    <dimen name="uid_quiet_button_max_width">40dp</dimen>
+    <dimen name="uid_quiet_icon_only_padding_left_right">8dp</dimen>
+
+    <!--ImageButton-->
+    <dimen name="uid_imagebutton_size">40dp</dimen>
+    <dimen name="uid_imagebutton_image_size">24dp</dimen>
+    <dimen name="uid_imagebutton_padding">8dp</dimen>
+    <dimen name="uid_image_text_button_padding_left">32dp</dimen>
+
+
+    <dimen name="uid_progress_indicator_button_progress_text_padding">8dp</dimen>
+    <item name="uid_progress_indicator_button_label_alpha" format="float" type="dimen">1.0</item>
+
+    <!--TextBox-->
+    <dimen name="uid_edittext_corner_radius">2dp</dimen>
+    <dimen name="uid_edittext_fill_corner_radius">2dp</dimen>
+    <dimen name="uid_edittext_height">48dp</dimen>
+    <dimen name="uid_edittext_stroke_width">1dp</dimen>
+    <dimen name="uid_edittext_text_padding">12dp</dimen>
+    <dimen name="uid_edittext_min_width">24dp</dimen>
+    <dimen name="uid_edittext_text_size">16sp</dimen>
+    <dimen name="uid_edittext_line_spacing">26sp</dimen>
+    <dimen name="uid_edittext_vertical_padding">12dp</dimen>
+    <item name="uid_edittext_fill_disabled_alpha" format="float" type="dimen">0.35</item>
+    <item name="uid_edittext_border_20_alpha" format="float" type="dimen">0.20</item>
+    <item name="uid_edittext_border_25_alpha" format="float" type="dimen">0.25</item>
+    <item name="uid_editboxtext_border_35_alpha" format="float" type="dimen">0.35</item>
+    <integer name="uid_edittext_font_spacing_multiplier">0</integer>
+    <dimen name="uid_edittext_password_drawable_touch_area">48dp</dimen>
+    <dimen name="uid_edittext_password_right_drawable_left_padding">20dp</dimen>
+
+    <!-- alert dialog -->
+    <dimen name="uid_alert_dialog_title_icon_padding">8dp</dimen>
+    <dimen name="uid_alert_dialog_icon_width_height">24dp</dimen>
+    <dimen name="uid_alert_dialog_title_text_size">20sp</dimen>
+    <dimen name="uid_alert_dialog_title_text_line_spacing">4sp</dimen>
+    <dimen name="uid_alert_dialog_title_icon_top_padding">20dp</dimen>
+    <dimen name="uid_alert_dialog_positive_button_margin_end">12dp</dimen>
+    <dimen name="uid_alert_dialog_positive_button_margin_start">8dp</dimen>
+    <dimen name="uid_alert_dialog_control_area_height">64dp</dimen>
+    <dimen name="uid_alert_dialog_content_max_height">133dp</dimen>
+    <dimen name="uid_alert_dialog_message_top_margin">20dp</dimen>
+    <dimen name="uid_alert_dialog_message_top_margin_no_title">24dp</dimen>
+    <dimen name="uid_alert_dialog_message_text_size">16sp</dimen>
+    <dimen name="uid_alert_dialog_message_line_spacing">6sp</dimen>
+    <dimen name="uid_alert_dialog_width">272dp</dimen>
+    <dimen name="uid_dialog_padding">12dp</dimen>
+    <dimen name="uid_dialog_button_margin">8dp</dimen>
+    <integer name="uid_alert_dialog_title_max_lines">2</integer>
+    <integer name="uid_alert_dialog_anim_duration">300</integer>
+    <integer name="uid_alert_dialog_scrollbar_fade_duration">10000</integer>
+    <dimen name="uid_dialog_margins">24dp</dimen>
+
+    <!-- Navigation bar properties-->
+    <dimen name="uid_navigation_bar_padding_left">16dp</dimen>
+    <dimen name="uid_navigation_bar_padding_right">16dp</dimen>
+    <dimen name="uid_navigation_bar_menu_icon_text_spacing_left_right">12dp</dimen>
+    <dimen name="uid_navigation_bar_icon_size">24dp</dimen>
+    <dimen name="uid_navigation_bar_icon_maxsize">48dp</dimen>
+    <dimen name="uid_navigation_bar_height">56dp</dimen>
+    <dimen name="uid_navigation_bar_title_margin_left_right">24dp</dimen>
+    <dimen name="uid_navigation_bar_text_size">20sp</dimen>
+    <dimen name="uid_navigation_bar_text_line_spacing_extra">24sp</dimen>
+    <integer name="uid_navigation_bar_text_line_spacing_multiplier">0</integer>
+
+    <!-- ProgressBar -->
+    <dimen name="uid_progress_bar_min_width">96dp</dimen>
+    <dimen name="uid_progress_bar_height">4dp</dimen>
+    <dimen name="uid_progress_bar_margin_left">22dp</dimen>
+    <dimen name="uid_progress_bar_margin_right">22dp</dimen>
+    <dimen name="uid_progress_bar_circular_small">24dp</dimen>
+    <integer name="uid_progress_bar_circular_small_duration">1000</integer>
+    <dimen name="uid_progress_bar_circular_middle">48dp</dimen>
+    <integer name="uid_progress_bar_circular_middle_duration">1250</integer>
+    <dimen name="uid_progress_bar_circular_big">88dp</dimen>
+    <integer name="uid_progress_bar_circular_big_duration">1500</integer>
+    <item name="uid_progress_bar_circular_small_innerRadiusRatio" format="float" type="dimen">2.4
+    </item>
+    <item name="uid_progress_bar_circular_small_thicknessRatio" format="float" type="dimen">12
+    </item>
+    <item name="uid_progress_bar_circular_middle_innerRadiusRatio" format="float" type="dimen">
+        2.28
+    </item>
+    <item name="uid_progress_bar_circular_middle_thicknessRatio" format="float" type="dimen">16
+    </item>
+    <item name="uid_progress_bar_circular_big_innerRadiusRatio" format="float" type="dimen">2.2
+    </item>
+    <item name="uid_progress_bar_circular_big_thicknessRatio" format="float" type="dimen">22</item>
+
+    <dimen name="uid_circular_progress_indicator_big_label_margin">16dp</dimen>
+    <dimen name="uid_circular_progress_indicator_middle_label_margin">14dp</dimen>
+    <dimen name="uid_circular_progress_indicator_small_label_margin">12dp</dimen>
+    <dimen name="uid_indeterminate_linear_progress_indicator_label_margin">9dp</dimen>
+    <dimen name="uid_determinate_linear_progress_indicator_label_margin">7dp</dimen>
+
+    <!--Labels-->
+    <dimen name="uid_label_text_size">16sp</dimen>
+    <dimen name="uid_label_margin_bottom">8dp</dimen>
+    <dimen name="uid_label_margin_bottom_control">16dp</dimen>
+    <dimen name="uid_label_margin_start_control">12dp</dimen>
+    <dimen name="uid_label_margin_start">12dp</dimen>
+    <dimen name="uid_label_margin_bottom_slider">24dp</dimen>
+    <dimen name="uid_label_margin_left_control">12dp</dimen>
+    <dimen name="uid_label_line_spacing">6dp</dimen>
+    <integer name="uid_label_font_spacing_multiplier">1</integer>
+
+    <!--CheckBox-->
+    <dimen name="uid_checkbox_margin_left_right">12dp</dimen>
+    <dimen name="uid_checkbox_height">48dp</dimen>
+    <dimen name="uid_checkbox_text_size">16sp</dimen>
+    <dimen name="uid_checkbox_border_ripple_radius">20dp</dimen>
+    <dimen name="uid_checkbox_line_spacing">6sp</dimen>
+    <integer name="uid_checkbox_font_spacing_multiplier">1</integer>
+
+    <!--Linear indeterminate progressbar-->
+    <integer name="uid_indeterminate_progressbar_anim_duration">900</integer>
+
+    <!-- Separator -->
+    <dimen name="uid_divider_Height">1dp</dimen>
+
+    <!-- RecyclerView -->
+    <dimen name="uid_recyclerview_margin_left_right">16dp</dimen>
+    <dimen name="uid_recyclerview_header_height">40dp</dimen>
+    <dimen name="uid_recyclerview_header_text_size">14sp</dimen>
+    <dimen name="uid_recyclerview_item_title_text_size">16sp</dimen>
+    <dimen name="uid_recyclerview_item_subtitle_text_size">14sp</dimen>
+    <dimen name="uid_recyclerview_item_description_text_size">14sp</dimen>
+    <dimen name="uid_recyclerview_item_one_line_height">48dp</dimen>
+    <dimen name="uid_recyclerview_item_two_lines_height">72dp</dimen>
+    <dimen name="uid_recyclerview_item_three_lines_height">88dp</dimen>
+    <dimen name="uid_recyclerview_drawable_padding">32dp</dimen>
+    <dimen name="uid_recyclerview_padding_top_bottom">8dp</dimen>
+    <dimen name="uid_recyclerview_lable_height">8dp</dimen>
+    <dimen name="uid_recyclerview_lable_bottom">8dp</dimen>
+    <dimen name="uid_recyclerview_lable_top">20dp</dimen>
+
+    <!--Social Icons-->
+    <dimen name="uid_social_icons_width">32dp</dimen>
+    <dimen name="uid_social_icons_height">32dp</dimen>
+    <dimen name="uid_social_icons_padding">0px</dimen>
+    <dimen name="uid_social_icons_drawable_padding">0dp</dimen>
+
+    <!--date picker-->
+    <dimen name="uid_date_picker_header_text_size">16sp</dimen>
+    <dimen name="uid_date_picker_header_dayofmonth_size">88dp</dimen>
+    <dimen name="uid_date_picker_header_dayofweek_size">14dp</dimen>
+    <dimen name="uid_date_picker_header_year_size">24dp</dimen>
+
+    <!-- GridView -->
+    <dimen name="uid_grid_title_padding">16dp</dimen>
+    <dimen name="uid_grid_title_size">16sp</dimen>
+    <dimen name="uid_grid_descrption_size">12sp</dimen>
+    <dimen name="uid_grid_two_line_text_height">64dp</dimen>
+    <dimen name="uid_grid_single_line_text_height">48dp</dimen>
+    <dimen name="uid_grid_image_height">160dp</dimen>
+    <dimen name="uid_grid_item_size">224dp</dimen>
+    <dimen name="uid_grid_icon_size">24dp</dimen>
+    <dimen name="uid_grid_icon_padding">12dp</dimen>
+    <dimen name="uid_gridview_margin_left_right">16dp</dimen>
+    <dimen name="uid_gridview_header_height">48dp</dimen>
+    <dimen name="uid_gridview_header_text_size">14sp</dimen>
+
+    <!--Inline Vaidation-->
+    <dimen name="uid_inline_validation_icon_size">16dp</dimen>
+    <dimen name="uid_inline_validation_message_margin_top">8dp</dimen>
+    <dimen name="uid_inline_validation_icon_margin_end">4dp</dimen>
+    <dimen name="uid_inline_label_text_size">12sp</dimen>
+
+    <!--Notification Bar-->
+    <dimen name="uid_notification_bar_margin">16dp</dimen>
+    <dimen name="uid_notification_bar_margin_top_content">5dp</dimen>
+    <dimen name="uid_notification_bar_title_text_size">16dp</dimen>
+    <dimen name="uid_notification_bar_content_text_size">14dp</dimen>
+    <dimen name="uid_notification_bar_action_btn_height">56dp</dimen>
+    <dimen name="uid_notification_bar_line_spacing">6sp</dimen>
+    <integer name="uid_notification_bar_line_space_multiplier">1</integer>
+
+    <!--Inline Vaidation-->
+    <dimen name="uid_rating_bar_text">14dp</dimen>
+    <dimen name="uid_rating_bar_display_padding">10dp</dimen>
+    <dimen name="uid_rating_bar_input_width">48dp</dimen>
+    <dimen name="uid_rating_bar_input_height">48dp</dimen>
+    <dimen name="uid_rating_bar_display_width">20dp</dimen>
+    <dimen name="uid_rating_bar_display_height">16dp</dimen>
+
+    <!--Notification Badge-->
+    <dimen name="uid_notificationbadge_small_radius">20dp</dimen>
+    <dimen name="uid_notificationbadge_default_radius">24dp</dimen>
+    <dimen name="uid_notificationbadge_padding">4dp</dimen>
+    <dimen name="uid_notificationbadge_small_textSize">10sp</dimen>
+    <dimen name="uid_notificationbadge_default_textSize">12sp</dimen>
+    <dimen name="uid_notificationbadge_default_margin">12dp</dimen>
+    <dimen name="uid_notificationbadge_small_margin">10dp</dimen>
+    <dimen name="uid_notificationbadge_elevation">3dp</dimen>
+
+    <!--Search Box -->
+    <dimen name="uid_searchbox_height">56dp</dimen>
+    <dimen name="uid_searchbox_button_dimen">24dp</dimen>
+    <dimen name="uid_searchbox_button_margin">20dp</dimen>
+    <dimen name="uid_searchbox_button_padding_end">28dp</dimen>
+    <dimen name="uid_searchbox_search_text_offset">0dp</dimen>
+    <dimen name="uid_searchbox_back_icon_margin">16dp</dimen>
+    <dimen name="uid_searchbox_text_size">20sp</dimen>
+    <dimen name="uid_searchbox_layout_margin">8dp</dimen>
+    <dimen name="uid_searchbox_decoy_height">40dp</dimen>
+    <dimen name="uid_searchbox_button_padding">12dp</dimen>
+
+    <!-- Dot navigation icon size-->
+    <dimen name="uid_dot_navigation_icon_radius">4dp</dimen>
+    <dimen name="uid_dot_navigation_icon_size">8dp</dimen>
+    <dimen name="uid_dot_navigation_icon_margin">4dp</dimen>
+    <dimen name="uid_dot_navigation_indicator_min_height">48dp</dimen>
+
+    <!--RadioButton-->
+    <dimen name="uid_radiobutton_margin_left_right">12dp</dimen>
+    <dimen name="uid_radiobutton_margin_top">16dp</dimen>
+    <dimen name="uid_radiobutton_height">48dp</dimen>
+    <dimen name="uid_radiobutton_text_size">16sp</dimen>
+    <dimen name="uid_radiobutton_border_ripple_radius">20dp</dimen>
+    <dimen name="uid_radiobutton_line_spacing">6sp</dimen>
+    <integer name="uid_radiobutton_font_spacing_multiplier">1</integer>
+
+    <!--UI Picker-->
+    <dimen name="uid_uipicker_item_height">48dp</dimen>
+    <dimen name="uid_uipicker_item_text_size">16sp</dimen>
+    <dimen name="uid_uipicker_item_text_left_right_padding">16dp</dimen>
+    <dimen name="uid_uipicker_divider_height">0dp</dimen>
+    <dimen name="uid_uipicker_incremental_width">56dp</dimen>
+    <dimen name="uid_uipicker_less_left_right_padding">32dp</dimen>
+    <dimen name="uid_uipicker_popup_elevation">1dp</dimen>
+    <dimen name="uid_uipicker_scrollbar_width">5dp</dimen>
+
+    <!--Sidebar-->
+    <dimen name="uid_sidebar_sublayout_min_height">56dp</dimen>
+    <dimen name="uid_sidebar_max_width">320dp</dimen>
+    <dimen name="uid_sidebar_elevation">5dp</dimen>
+
+    <!--Splash Screen-->
+    <dimen name="uid_splash_screen_margin_horizontal">16dp</dimen>
+    <dimen name="uid_splash_screen_app_name_size">24sp</dimen>
+    <dimen name="uid_splash_screen_app_name_spacing">28sp</dimen>
+    <!--About Screen-->
+    <dimen name="uid_about_screen_margin_start_end">16dp</dimen>
+    <dimen name="uid_about_screen_app_name_bottom_margin">40dp</dimen>
+    <dimen name="uid_about_screen_label_bottom_margin">24dp</dimen>
+    <dimen name="uid_about_screen_app_name_size">20sp</dimen>
+    <dimen name="uid_about_screen_label_size">16sp</dimen>
+    <dimen name="uid_about_screen_app_name_spacing">24sp</dimen>
+
+    <!--Slider-->
+    <dimen name="uid_slider_border_ripple_radius">20dp</dimen>
+    <dimen name="uid_slider_progress_bar_height">4dp</dimen>
+    <dimen name="uid_slider_min_width">96dp</dimen>
+
+</resources>

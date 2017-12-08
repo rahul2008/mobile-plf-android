@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="uidTransparent">#0000</color>
+    <color name="uidColorWhite">@color/uid_level_white</color>
+    <color name="uidColorBlack">@color/uid_level_black</color>
+</resources>

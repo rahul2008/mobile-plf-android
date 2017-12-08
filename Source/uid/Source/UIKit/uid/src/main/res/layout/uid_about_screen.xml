@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ (C) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  ~
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/uid_about_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/uidAboutScreenFullScreenBackgroundColor"
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/uid_about_screen_margin_start_end"
+    android:paddingStart="@dimen/uid_about_screen_margin_start_end"
+    android:paddingBottom="@dimen/uid_about_screen_margin_start_end">
+
+    <ImageView
+        android:id="@id/uid_about_screen_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@id/uid_about_screen_app_name"
+        fontPath="fonts/centralesanslight.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/uid_about_screen_app_name_bottom_margin"
+        android:textColor="?attr/uidAboutScreenDefaultTitleColor"
+        android:textSize="@dimen/uid_about_screen_app_name_size" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@id/uid_about_screen_version"
+        fontPath="fonts/centralesansbold.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/uid_about_screen_margin_start_end"
+        android:textColor="?attr/uidAboutScreenDefaultSubtitleColor"
+        android:textSize="@dimen/uid_about_screen_label_size" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@id/uid_about_screen_copyright"
+        fontPath="fonts/centralesansbook.ttf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/uid_about_screen_label_bottom_margin"
+        android:textColor="?attr/uidAboutScreenDefaultTextColor"
+        android:textSize="@dimen/uid_about_screen_label_size" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@id/uid_about_screen_terms"
+        fontPath="fonts/centralesanslight.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/uid_about_screen_label_bottom_margin"
+        android:textSize="@dimen/uid_about_screen_label_size" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@id/uid_about_screen_privacy"
+        fontPath="fonts/centralesanslight.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/uid_about_screen_label_bottom_margin"
+        android:textSize="@dimen/uid_about_screen_label_size" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@id/uid_about_screen_disclosure"
+        fontPath="fonts/centralesansbook.ttf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/uidAboutScreenDefaultTextColor"
+        android:textSize="@dimen/uid_about_screen_label_size" />
+</LinearLayout>

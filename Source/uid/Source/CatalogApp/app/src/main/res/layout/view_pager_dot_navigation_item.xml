@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.philips.platform.catalogapp.dataUtils.PagerItem"/>
+
+        <import type="android.view.View"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/page_icon"
+            android:layout_width="@dimen/dot_navigation_item_icon_size"
+            android:layout_height="@dimen/dot_navigation_item_icon_size"
+            android:src="@{item.resourceId}"/>
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/page_title"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dot_navigation_item_text_height"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+            android:text="@{String.format(@string/page_number, item.number)}"
+            android:textSize="@dimen/dot_navigation_item_text_size"
+            android:gravity="bottom"/>
+
+    </LinearLayout>
+</layout>

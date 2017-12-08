@@ -1,0 +1,49 @@
+[
+  {
+    "sample1": {
+      "ultra-light": {
+        "reference": "only-color-code"
+      },
+      "very-light": {
+        "reference": "color-code-with-opacity"
+      },
+      "light": {
+        "reference": "reference-with-color-code",
+        "opacity": 0.6
+      },
+      "bright": {
+        "reference": "reference-with-offset",
+        "offset": 10
+      }
+    }
+  },
+  {
+    "only-color-code": {
+      "ultra-light": {
+        "color-code": 65
+      }
+    }
+  },
+  {
+    "color-code-with-opacity": {
+      "very-light": {
+        "color-code": 45,
+        "opacity": 0.6
+      }
+    }
+  },
+  {
+    "reference-with-color-code": {
+      "light": {
+        "color-code": 45
+      }
+    }
+  },
+  {
+    "reference-with-offset": {
+      "bright": {
+        "color-code": 55
+      }
+    }
+  }
+]

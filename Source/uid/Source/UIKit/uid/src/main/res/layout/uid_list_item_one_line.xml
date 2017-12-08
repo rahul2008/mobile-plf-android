@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    style="?android:attr/dropDownItemStyle"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
+    android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
+    android:minHeight="@dimen/uid_recyclerview_item_one_line_height"
+    android:ellipsize="marquee"
+    android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
+    android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />

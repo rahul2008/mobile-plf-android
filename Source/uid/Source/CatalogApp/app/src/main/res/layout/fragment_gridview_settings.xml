@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.GridViewSettingsFragment" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/BaseLayoutMargins.Dimens"
+                android:orientation="horizontal">
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel.TestButtonTexts"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/enlarged_gutter" />
+
+                <com.philips.platform.uid.view.widget.Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_weight="1"
+                    android:checked="@={frag.isEnlargedGutterEnabled}"
+                    android:onCheckedChanged="@{(v, isChecked) -> frag.setEnlargedGutterEnabled(isChecked)}" />
+            </LinearLayout>
+
+            <include layout="@layout/divider_layout"/>
+            <LinearLayout
+                style="@style/BaseLayoutMargins.Dimens"
+                android:orientation="horizontal">
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel.TestButtonTexts"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/grid_disabled" />
+
+                <com.philips.platform.uid.view.widget.Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_weight="1"
+                    android:checked="@={frag.isGridDisableEnabled}"
+                    android:onCheckedChanged="@{(v, isChecked) -> frag.setGridDisableEnabled(isChecked)}" />
+            </LinearLayout>
+
+
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.RecyclerViewHeaderText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="@string/template_selection"/>
+
+
+            <com.philips.platform.uid.view.widget.RadioGroup
+                android:id="@+id/radioGroupTemplates"
+                style="@style/TestRadioGroupStyle"
+                android:orientation="vertical">
+
+                <com.philips.platform.uid.view.widget.RadioButton
+                    android:id="@+id/without_secondary_content"
+                    style="@style/TestRadioButtonStyle"
+                    android:checked="@{frag.templateSelection == 1 ? true : false}"
+                    android:text="@string/without_secondary_content"/>
+
+                <com.philips.platform.uid.view.widget.RadioButton
+                    android:id="@+id/double_line_footer"
+                    style="@style/TestRadioButtonStyle"
+                    android:checked="@{frag.templateSelection == 2 ? true : false}"
+                    android:text="@string/double_line_footer"/>
+
+                <com.philips.platform.uid.view.widget.RadioButton
+                    android:id="@+id/single_line_header"
+                    style="@style/TestRadioButtonStyle"
+                    android:checked="@{frag.templateSelection == 3 ? true : false}"
+                    android:text="@string/single_line_header"
+                    />
+            </com.philips.platform.uid.view.widget.RadioGroup>
+        </LinearLayout>
+    </ScrollView>
+</layout>
