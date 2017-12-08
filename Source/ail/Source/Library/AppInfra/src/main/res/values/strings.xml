@@ -1,0 +1,13 @@
+<resources>
+    <string name="library_name" translatable="false">AppInfraLib</string>
+    <string name="localized_commercial_app_name" translatable="false">AppInfra</string>
+    <string name="ail_locale">en</string>
+
+    <string-array name="server_pool" translatable="false">
+        <item>time1.google.com</item>
+        <item>time2.google.com</item>
+        <item>time3.google.com</item>
+        <item>time4.google.com</item>
+    </string-array>
+
+</resources>

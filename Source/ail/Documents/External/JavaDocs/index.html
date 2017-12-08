@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>AppInfra Reference</title>
+
+	<link rel="stylesheet" href="css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="javadoc">
+</head>
+
+<body class="javadoc">
+	<header>
+		<div class="container" >
+			
+			<h1 id="library-title">
+				<a href="index.html">AppInfra </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="index.html">Philips</a>
+			</p>
+			
+		</div>
+	</header>
+  <aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="ail-index.html">Hierarchy</a></li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+	
+
+	<article>
+		<div id="overview-contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">AppInfra Reference</h1>
+
+					
+					<div class="section section-overview index-overview">
+						
+						
+						<h2><a href="#api-references">Jump to API Doc</a></h2>
+
+<p><a href="https://confluence.atlas.philips.com/display/MAIL/How-to+articles">HOW TO USE APPINFRA</a></p>
+
+<h2>Platform Version 3.0.0</h2>
+
+<ul>
+<li>Key manager</li>
+<li>logging config added to app configurations</li>
+<li>proposition specific ab test configurations</li>
+<li>PSRA defect fixes</li>
+<li>bug fixes</li>
+</ul>
+
+
+<h2>Platform Version 2.2.0</h2>
+
+<ul>
+<li>new feature appupdate</li>
+<li>logs component name is now TLA</li>
+<li>appinfra code snippets added to repo</li>
+<li>locale special handling for zh-Hans(zh_CN) &amp; zh-Hant(zh_TW)</li>
+<li>new api in logging for dictionary</li>
+<li>Demo with microapp template</li>
+<li>Timesync issues fixed</li>
+<li>Tagging pagename validations</li>
+<li>Deletion of language pack if locale change</li>
+<li>AppConfig reset api added</li>
+<li>one log to show device name and os</li>
+</ul>
+
+
+<h2>Platform Version 2.1.0</h2>
+
+<ul>
+<li>new feature language pack . activate, refresh and generic api to get localized string</li>
+<li>limiting service discovery environment</li>
+<li>psr defects fixed</li>
+<li>component version added</li>
+<li>mutiple url configs merge in service discovery</li>
+<li>Logging configurations added to appconfig file</li>
+<li>new how to pages in confluence</li>
+<li>isSyncronised api in Time module, also few bugs were fixed</li>
+<li>fixed REST client cache encryption bug</li>
+<li>callback api for tagging</li>
+<li>option to disable proposition microsite id</li>
+<li>new api in tagging to get tracking identifier</li>
+<li>api to detect device is jailbroken</li>
+<li>sd improvements - caching home country</li>
+<li>repos are migrated to tfs</li>
+</ul>
+
+
+<h2>Platform Version 1.1.0</h2>
+
+<p><p></p>
+
+<ul>
+<li>US11828 - Service Discovery inject parameters in the URL</li>
+<li>US13345 - Service Discovery refresh when home country is changed</li>
+<li>App config keys are now case insensitive</li>
+<li>App config cloud support</li>
+<li>Service discovery data persistant across app launches</li>
+<li>Service Discovery server call will be locked for 10 seconds</li>
+<li>PRX dependancy removed from AppInfra</li>
+<li>Service Discovery alternate implementation using CSV available as seperate repo</li>
+<li>Service discovery match by country result filtered based on user preferred languages in case of multiple locales for a country</li>
+<li>Inject parameters to service url in service discovery</li>
+<li>Multiple microsite id support one for proposition one for platform</li>
+<li>Content loader data will be flushed for language change</li>
+<li>content loader limit per instance</li>
+<li>Network reachability is implemented in AppInfra as part of REST client</li>
+<li>Internationalization now returnes the locale that app UI was rendered. Country part may not be there</li>
+</ul>
+
+
+<h2>Descriptions</h2>
+
+<p>App Infra provides a range of modules that are the basis for any mobile application. App Infra is integrated as one single library in the application. App Infra in itself is not an operational entity but only exists in the context of an application. App Infra ensures that all modules provided by App Infra are linked to each other where needed. All modules together are exposed to the application through a single set of well-defined interfaces. App Infra is not only used by the application but also by all common components that are integrated in the application.
+As such App Infra can be seen as a basic layer of functionality in the SW stack that is positioned somewhere between the app and the device’s OS. App Infra is not designed to abstract the operating system; App Infra provides additional functionality on top of the operating system making use of the operating system.
+Some of the App Infra depend on cloud servers to provide the required functionality. In those cases, App Infra abstracts the cloud server such that the users of App Infra are not directly exposed to the typical problems of remote services.</p>
+
+<h2>Modules</h2>
+
+<ul>
+<li><p>Secure storage module - Secure Storage is used to store secret value in device storage with encrypted way using AES Encryption. It uses key value pair concept to store data inside the apps.</p></li>
+<li><p>Service discovery module - Service Discovery reduces the hard dependency between app and cloud services. The main idea is that the list of URLs that are to be used by an application is maintained server side, at the service discovery server. The app only has to download this list from one single global location, this list tells the app where all other cloud services can be found.</p></li>
+<li><p>App tagging module - App tagging is used to track pages and button actions of the propositions or common components with page/action name and several other default values such as timestamps,device info,OS info etc.</p></li>
+<li><p>Logging module - Logging is used to maintain the logs which user access of the propositions or common components with page/action name and several other default values such as UTC timestamps, Log type, Component ID, Event and Message.</p></li>
+<li><p>Time module - feature provides an APIs to retrieve the UTC server time accurately.
+It also perform synchronization for every 24hrs and whenever there is a Data and time change.</p></li>
+<li><p>Internationalization module - provided APIs to fetch Locale from Android settings.</p></li>
+<li><p>App identity module - The App identity feature shall provide an API to get the app release status: development, test, acceptance, production.
+The App identity feature shall obtain the technical app name, app version and app release status automatically from the build application build process.</p></li>
+<li><p>App config module - The app configuration module maintains configuration settings of the app and it’s included common components, in the form of key value pair.</p></li>
+<li><p>REST client module - The REST client module simplifies communication with cloud services that use a REST based interface. Which is built upon AFNetworking Library</p></li>
+<li><p>A/B test module -
+The A/B test client module assists in performing A/B tests in the application. The client communicates with server which distributes users over the test experiences. A test is identified by its test name. when offline, the cached data is used if available instead of the default value to ensure a consistent user experience irrespective of network availability.</p></li>
+<li><p>Content loader module - This feature has a dedicated purpose of caching the articles from the CQ5 server for the application. The articles could be in the form of text, images, document etc. This library will download all the articles available at the application specified URL and store it internally</p></li>
+<li><p>API signing module - Some HSDP services use API signing (and not an oAuth token) to prove the caller is a known app. App Infra is providing an API which can create a signature for a given data blob. The signature is created using an algorithm provided by Philips Security Technologies plus a key. As multiple services may require different signatures, the key may differ per signature created.</p></li>
+<li>Language Pack - All apps contain text which is visualized to the user in some way, mainly this text is shown directly in the UI. A part of this text is more or less static and fundamental to the operation of the app. For that reason, this text is embedded according to the App UI internationalization guidelines. The text is shown in the locale as selected by the user on his device. This module enable to change these texts dynamically from cloud</li>
+</ul>
+
+
+<h2>Installation</h2>
+
+<ul>
+<li>There are two ways to integrate “Mobile App Infrastructure” library with any Android app.
+<ul>1)	Maven repository based: At compile time, machine has to be connected with Philips network. Do follow section 1.</ul>
+<ul>2)	Library Integration: If unable to connect with Philips network then include libraries to your root application. Do follow section 2.</ul></li>
+
+<li>1.  Maven repository (Artifactory based) Integration:
+The easiest and preferred way to use these components is using maven.
+All dependent libraries should be downloaded from artifactory.</li>
+
+
+<p><li>2.	Library Integration:
+Below gradle dependencies are used in library
+
+<ul>dependencies {
+    compile project(':AppInfra')
+}
+</ul>
+<ul>Refer integration document. Integration document is part of appinfra repo (Documents/External/Integration Document_Appinfra) </ul></li>
+<li>Build Config Current Version:
+
+<ul>compileSdkVersion 26</ul>
+<ul>buildToolsVersion ’26.0.2’</ul>
+<ul>minSdkVersion 21</ul>
+<ul>targetSdkVersion 26</ul>
+</li>
+</p>
+
+<li>Proguard rules of AppInfra:
+
+-keep public class com.philips.platform.appinfra.languagepack.model.** { *; }</li>
+</ul>
+
+<h2>Code Example - Quick integration</h2>
+
+<p>Refer integration document. Integration document is part of appinfra repo (Documents/External/Integration Document_Appinfra)</p>
+<p>[How to articles](https://confluence.atlas.philips.com/display/MAIL/How-to+articles)</p>
+
+<h2>Documentation - How to configure AppConfig keys</h2>
+
+<p>Refer <a href="appconfig.html">AppConfig keys</a></p>
+
+<h2><a name="team-members"></a>Team Members</h2>
+
+<ul>
+<li>Deepthi Shivakumar -<a href="mailto:deepthi.shivakumar@philips.com">deepthi.shivakumar@philips.com</a> - Architecture(Mob 9538534742)</li>
+<li>Yogesh HS - <a href="mailto:yogesh.hs@philips.com">yogesh.hs@philips.com</a> - Developer(Mob 9742181076)</li>
+<li>Adarsha Shetty - <a href="mailto:adarsha.shetty@philips.com">adarsha.shetty@philips.com </a>- Developer(Mob 9844898440)</li>
+<li>Sumanth  Bhargav-<a href="mailto:sumant.bhargav@philips.com">sumant.bhargav@philips.com</a> - Product Owner(Mob 9620996153) </li>
+</ul>
+		
+</div>
+					
+					<div class="index-container">
+					<div class="index-column">
+							<h2 class="index-title">API References</h2>
+							<ul>
+								<li><a href="overview-summary.html" target="_top">API Overview</a></li>
+																					
+							</ul>
+						</div>
+						
+
+						
+						
+						
+					</div>
+
+					<footer>
+						<div class="footer-copyright">
+							
+							<h2>License</h2>
+
+<ul>
+<li>Copyright &copy; Koninklijke Philips N.V., 2017 All rights are reserved. Reproduction or dissemination in whole or in part is prohibited without the prior written consent of the copyright holder.*</li>
+</ul>
+							
+						</div>
+					</footer>
+				</main>
+			</div>
+		</div>
+	</article>
+
+	<script src="js/script.js"></script>
+</body>
+</html>

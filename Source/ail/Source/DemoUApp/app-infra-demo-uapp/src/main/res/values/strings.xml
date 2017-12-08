@@ -1,0 +1,308 @@
+<resources>
+    <string name="app_name" translatable="false">AppInfra</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="title_activity_app_infra_main" translatable="false">AppInfra</string>
+    <string name="lanuauge" translatable="false">Langauage :</string>
+    <string name="country" translatable="false">Country :</string>
+
+    <!-- Language -->
+    <string-array name="Language" translatable="false">
+        <item>English (en)</item>
+        <item>Arabic (ar)</item>
+        <item>Bulgarian (bg)</item>
+        <item>Bosnian (bs)</item>
+        <item>Czech (cs)</item>
+        <item>Danish (da)</item>
+        <item>German (de)</item>
+        <item>Greek (el)</item>
+        <item>Spanish (es)</item>
+        <item>Estonian (et)</item>
+        <item>Farsi (fa)</item>
+        <item>French - CA (fe)</item>
+        <item>Finish (fi)</item>
+        <item>French (fr)</item>
+        <item>Gaelic (gd)</item>
+        <item>Hebrew (iw)</item>
+        <item>Hebrew (he)</item>
+        <item>Hindi (hi)</item>
+        <item>Croatian (hr)</item>
+        <item>Hungarian (hu)</item>
+        <item>Indonesian (id)</item>
+        <item>Italian (it)</item>
+        <item>Japnese (ja)</item>
+        <item>Kazakh (kk)</item>
+        <item>Korean (ko)</item>
+        <item>Lithuanian (lt)</item>
+        <item>Latvian (lv)</item>
+        <item>Malay (ms)</item>
+        <item>Macedonian (mk)</item>
+        <item>Norwegian (nb)</item>
+        <item>Dutch (nl)</item>
+        <item>Polish (pl)</item>
+        <item>Portuguese (pt)</item>
+        <item>Romanian (ro)</item>
+        <item>Russian (ru)</item>
+        <item>Slovak (sk)</item>
+        <item>Slovenian (sl)</item>
+        <item>Albanian (sq)</item>
+        <item>Serbian (sr)</item>
+        <item>Swedish (sv)</item>
+        <item>Thai (th)</item>
+        <item>Turkish (tr)</item>
+        <item>Ukrainian (uk)</item>
+        <item>Vietnamese (vi)</item>
+        <item>Chinese (zh)</item>
+        <item>Brazil (br)</item>
+    </string-array>
+
+    <!-- Language code -->
+    <string-array name="Language_code" translatable="false">
+        <item>en</item>
+        <item>ar</item>
+        <item>bg</item>
+        <item>bs</item>
+        <item>cs</item>
+        <item>da</item>
+        <item>de</item>
+        <item>el</item>
+        <item>es</item>
+        <item>et</item>
+        <item>fa</item>
+        <item>fe</item>
+        <item>fi</item>
+        <item>fr</item>
+        <item>gd</item>
+        <item>iw</item>
+        <item>he</item>
+        <item>hi</item>
+        <item>hr</item>
+        <item>hu</item>
+        <item>id</item>
+        <item>it</item>
+        <item>ja</item>
+        <item>kk</item>
+        <item>ko</item>
+        <item>lt</item>
+        <item>lv</item>
+        <item>ms</item>
+        <item>mk</item>
+        <item>nb</item>
+        <item>nl</item>
+        <item>pl</item>
+        <item>pt</item>
+        <item>ro</item>
+        <item>ru</item>
+        <item>sk</item>
+        <item>sl</item>
+        <item>sq</item>
+        <item>sr</item>
+        <item>sv</item>
+        <item>th</item>
+        <item>tr</item>
+        <item>uk</item>
+        <item>vi</item>
+        <item>zh</item>
+        <item>br</item>
+    </string-array>
+
+    <!-- Country -->
+    <string-array name="country" translatable="false">
+        <item>United Kingdom (GB)</item>
+        <item>India (IN)</item>
+        <item>United States (US)</item>
+        <item>Saudi Arabia (SA)</item>
+        <item>Bulgaria (BG)</item>
+        <item>Bosnia (BA)</item>
+        <item>Czech Republic (CZ)</item>
+        <item>Denmark (DK)</item>
+        <item>Germanay (DE)</item>
+        <item>Greece (GR)</item>
+        <item>Spanish Argentina (es-AR)</item>
+        <item>Spain (es-ES)</item>
+        <item>Spanish Mexico (es-MX)</item>
+        <item>Estonia (EE)</item>
+        <item>Iran (IR)</item>
+        <item>Afganistan (AF)</item>
+        <item>Canada (CA)</item>
+        <item>Finland (FI)</item>
+        <item>France (FR)</item>
+        <item>Croatia (HR)</item>
+        <item>Hungary (HU)</item>
+        <item>Indonesia (ID)</item>
+        <item>Italy (IT)</item>
+        <item>South Korea (KR)</item>
+        <item>Luthunia (LT)</item>
+        <item>Latvia (LV)</item>
+        <item>Madgaskar (MG)</item>
+        <item>Macedonia (MK)</item>
+        <item>Norway (NO)</item>
+        <item>Dutch (NL)</item>
+        <item>Poland (PL)</item>
+        <item>Portugal (PT)</item>
+        <item>Portuguese Brazil (pt-BR)</item>
+        <item>Romania (RO)</item>
+        <item>Russia (RU)</item>
+        <item>Slovakia (SK)</item>
+        <item>Slovanian (SI)</item>
+        <item>Albania (AL)</item>
+        <item>Serbia (RS)</item>
+        <item>Serbian Montengaro(sr-ME)</item>
+        <item>Sweden (SE)</item>
+        <item>Thailand (TH)</item>
+        <item>Turkey (TR)</item>
+        <item>Ukraine (UA)</item>
+        <item>Vietnam (VN)</item>
+        <item>Simplified Chinese (zh-CN)</item>
+        <item>Chinese HongKong (zh-HK)</item>
+        <item>Traditional Chinese (zh-TW)</item>
+        <item>Japan (JP)</item>
+        <item>Estonia (EE)</item>
+        <item>Israel (IL)</item>
+        <item>Ireland (IE)</item>
+        <item>Scotland (GD)</item>
+        <item>Kazakhstan (KZ)</item>
+        <item>Malaysia (MY)</item>
+        <item>Brazil (BR)</item>
+        <item>Malaysia (MY)</item>
+    </string-array>
+
+
+    <!-- country code -->
+    <string-array name="country_code" translatable="false">
+        <item>GB</item>
+        <item>IN</item>
+        <item>US</item>
+        <item>SA</item>
+        <item>BG</item>
+        <item>BA</item>
+        <item>CZ</item>
+        <item>DK</item>
+        <item>DE</item>
+        <item>GR</item>
+        <item>AR</item>
+        <item>ES</item>
+        <item>MX</item>
+        <item>EE</item>
+        <item>IR</item>
+        <item>AF</item>
+        <item>CA</item>
+        <item>FI</item>
+        <item>FR</item>
+        <item>HR</item>
+        <item>HU</item>
+        <item>ID</item>
+        <item>IT</item>
+        <item>KR</item>
+        <item>LT</item>
+        <item>LV</item>
+        <item>MG</item>
+        <item>MK</item>
+        <item>NO</item>
+        <item>NL</item>
+        <item>PL</item>
+        <item>PT</item>
+        <item>BR</item>
+        <item>RO</item>
+        <item>RU</item>
+        <item>SK</item>
+        <item>SI</item>
+        <item>AL</item>
+        <item>RS</item>
+        <item>ME</item>
+        <item>SE</item>
+        <item>TH</item>
+        <item>TR</item>
+        <item>UA</item>
+        <item>VN</item>
+        <item>CN</item>
+        <item>HK</item>
+        <item>TW</item>
+        <item>JP</item>
+        <item>EE</item>
+        <item>IL</item>
+        <item>IE</item>
+        <item>GD</item>
+        <item>KZ</item>
+        <item>MY</item>
+        <item>BR</item>
+        <item>MY</item>
+    </string-array>
+
+    <string-array name="ctn_list" translatable="false">
+        <item>SCD888/26</item>
+        <item>RQ1250/16</item>
+        <item>RQ1250/17</item>
+        <item>HD3197/03</item>
+        <item>HX6321_02</item>
+        <item>SC2009/00</item>
+        <item>PR3743/00</item>
+        <item>PR3840/00</item>
+        <item>S9721/84</item>
+        <item>HP6519/01</item>
+        <item>S9711/31</item>
+        <item>S9511/26</item>
+        <item>S9031/12</item>
+        <item>HD8967_01</item>
+        <item>HD9240/90</item>
+        <item>RQ1150/16</item>
+        <item>SC5994/00</item>
+        <item>SC2008/11</item>
+        <item>HR1871_00</item>
+        <item>SC2009/00</item>
+        <item>HX9192/01</item>
+        <item>HX9192/02</item>
+        <item>HX9192/03</item>
+        <item>HX9192/04</item>
+        <item>HX9191/06</item>
+
+        <!--   <item>7894unre</item>
+           <item>893jfd</item>
+           <item>aljsdfk8s</item>-->
+
+    </string-array>
+
+    <string-array name="catalog_list" translatable="false">
+        <item>DEFAULT</item>
+        <item>CONSUMER</item>
+        <item>NONCONSUMER</item>
+        <item>CARE</item>
+        <item>PROFESSIONAL</item>
+        <item>LP_OEM_ATG</item>
+        <item>LP_PROF_ATG</item>
+        <item>HC</item>
+        <item>HHSSHOP</item>
+        <item>MOBILE</item>
+        <item>EXTENDEDCONSENT</item>
+    </string-array>
+
+    <string-array name="sector_list" translatable="false">
+        <item>DEFAULT</item>
+        <item>B2C</item>
+        <item>B2B_LI</item>
+        <item>B2B_HC</item>
+
+    </string-array>
+
+    <string-array name="social_share_list" translatable="false">
+        <item>Share</item>
+        <item>facebook</item>
+        <item>twitter</item>
+        <item>mail</item>
+        <!--Facebook("facebook"),-->
+        <!--Twitter("twitter"),-->
+        <!--Mail("mail"),-->
+        <!--AirDrop("airdrop");-->
+
+
+    </string-array>
+
+    <string-array name="platform_list" translatable="false">
+        <item>DEFAULT</item>
+        <item>PRX</item>
+        <item>JANRAIN</item>
+    </string-array>
+    <string name="title_activity_config" translatable="false">ConfigActivity</string>
+    <string name="experience" translatable="false">Experience</string>
+    <string name="mbox" translatable="false">mBox</string>
+
+</resources>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.philips.platform.appinfra.demo">
+
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> -->
+    <application
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.philips.platform.aildemo.AppInfraMainActivity"
+            android:label="@string/localized_commercial_app_name"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name="com.philips.platform.aildemo.SecureStorageActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.SecureStoragePasswordActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.InternetCheckActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.SecureStorageMenuActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.SecureStorageEncryptDecryptActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.LoggingActivity"
+            android:label="Log Test"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.AIATDemoPage"
+            android:label="Log Test"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.AppIndentityDemoPage"
+            android:label="AppIndentityDemoPage"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.InternationalizationDemoPage"
+            android:label="InternationalizationDemoPage"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.ServiceDiscoveryDemo"
+            android:label="ServiceDiscoveryDemo"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.TimeSyncDemo"
+            android:label="TimeSyncDemo"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.AppConfigurationActivity"
+            android:label="AppConfigurationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.AndroidMediaPlayerExample"
+            android:label="LocalMainDemo"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.RestClientActivity"
+            android:label="LocalMainDemo"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.RestDemo"
+            android:label="RestDemo"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.RestMenuActivity"
+            android:label="LocalMainDemo"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.RestClientServiceIdActivity"
+            android:label="LocalMainDemo"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.AbTestingDemo"
+            android:label="AbTestDemo"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.ContentLoaderCreateActivity"
+            android:label="ContentLoader"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.ContentLoaderList"
+            android:label="ContentLoader"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.ContentLoaderActivity"
+            android:label="ContentLoader"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.LanguagePackActivity"
+            android:label="LanguagePack"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="com.philips.platform.aildemo.WhiteBoxAPIActivity" />
+        <activity
+            android:name="com.philips.platform.aildemo.ResolutionLocaleActivity"
+            android:label="Resolution Locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.AppUpdateActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.KeyBagActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.philips.platform.aildemo.SecureStorageBulkActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="com.philips.platform.aildemo.ServiceDiscoverySelectionActivity"></activity>
+    </application>
+
+</manifest>

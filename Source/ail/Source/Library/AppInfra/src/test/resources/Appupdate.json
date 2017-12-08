@@ -1,0 +1,34 @@
+{
+  "iOS": {
+    "version": {
+      "minimumVersion": "1.0.0",
+      "deprecatedVersion": "2.0.0",
+      "deprecatedDate": "2017-07-12",
+      "currentVersion": "2.1.0"
+    },
+    "messages": {
+      "minimumVersionMessage": "The current version is outdated. Please update the app.",
+      "deprecatedVersionMessage": "The current version will be outdated by 2017-07-12. Please update the app soon.",
+      "currentVersionMessage": "A new version is now available."
+    },
+    "requirements": {
+      "minimumOSVersion": "9.0"
+    }
+  },
+  "android": {
+    "version": {
+      "minimumVersion": "1.0.0",
+      "deprecatedVersion": "2.0.0",
+      "deprecatedDate": "2017-07-12",
+      "currentVersion": "2.1.0"
+    },
+    "messages": {
+      "minimumVersionMessage": "The current version of the Grooming app is outdated. Please update the app.",
+      "deprecatedVersionMessage": "The current version will be outdated by 2017-07-12. Please update the app soon.",
+      "currentVersionMessage": "A new version of the Grooming app is now available."
+    },
+    "requirements": {
+      "minimumOSVersion": "15"
+    }
+  }
+}

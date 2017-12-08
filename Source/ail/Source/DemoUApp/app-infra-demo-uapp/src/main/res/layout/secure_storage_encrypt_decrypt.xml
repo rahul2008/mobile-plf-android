@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_marginLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Secure Storage Encrypt/Decrypt \nIt does byte[] encrypt and decrypt.\nHere text is first converted to byte[] "
+        android:id="@+id/textView3"
+        android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:background="@android:color/darker_gray"
+        android:layout_height="1dp"/>
+
+    <ScrollView
+        android:id="@+id/SCROLLER_ID3"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:scrollbars="vertical"
+
+        android:fillViewport="true">
+        <EditText
+
+            android:hint="Plain text"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:id="@+id/plainText"
+            android:layout_gravity="center_horizontal" />
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="Scroll up"
+            android:id="@+id/buttonEncrypt_scroll_up"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Encrypt Data"
+        android:id="@+id/buttonEncrypt"
+        android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="Scroll bottom"
+            android:id="@+id/buttonEncrypt_scroll_bottom"/>
+
+    </LinearLayout>
+
+
+
+    <ScrollView
+        android:id="@+id/SCROLLER_ID2"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:scrollbars="vertical"
+
+        android:fillViewport="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+
+            android:id="@+id/textViewEncrypted"
+            android:layout_gravity="center_horizontal" />
+    </ScrollView>
+
+    <LinearLayout
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:background="@android:color/darker_gray"
+        android:layout_height="1dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="Scroll up"
+            android:id="@+id/buttonDecrypt_scroll_up"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Decrypt Data"
+            android:id="@+id/buttonDecrypt"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="Scroll bottom"
+            android:id="@+id/buttonDecrypt_scroll_bottom"/>
+
+    </LinearLayout>
+
+
+
+
+    <ScrollView
+        android:id="@+id/SCROLLER_ID1"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:scrollbars="vertical"
+
+        android:fillViewport="true">
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textViewDecrpted"
+            android:layout_gravity="center_horizontal" />
+    </ScrollView>
+    <LinearLayout
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:background="@android:color/darker_gray"
+        android:layout_height="1dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Data Matched:"
+        android:layout_gravity="center_horizontal" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textViewDataMatched"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>

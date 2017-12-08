@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/setGroupKeyID"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:hint="Group" />
+
+        <EditText
+            android:id="@+id/setKeyID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Key" />
+
+        <EditText
+            android:id="@+id/setValueID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Value(s)" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Input Type:"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spinnerDataType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_setValueToDEvice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Set key" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="Get value from Secure Storage"
+            android:textStyle="bold" />
+
+
+        <EditText
+            android:id="@+id/getCocoKeyID"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="Group" />
+
+        <EditText
+            android:id="@+id/getKeyID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Key" />
+
+        <Button
+            android:id="@+id/btn_getValueFromDEvice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Get Key" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="Value(s):" />
+
+        <TextView
+            android:id="@+id/getValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="GET FROM STATIC JSON"
+            android:textStyle="bold" />
+
+
+        <EditText
+            android:id="@+id/getCocoKeyIDDef"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="Group" />
+
+        <EditText
+            android:id="@+id/getKeyIDDef"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Key" />
+
+        <Button
+            android:id="@+id/btn_getValueFromDEviceDef"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Get Key" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="Value(s):" />
+
+        <TextView
+            android:id="@+id/getValueDef"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_fetchCloudConfig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Refresh Cloud Config" />
+
+        <TextView
+            android:id="@+id/cloudConfigResponse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+           />
+
+        <Button
+            android:id="@+id/btn_resetConfig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reset AppConfig"/>
+    </LinearLayout>
+</ScrollView>

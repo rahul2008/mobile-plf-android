@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+    >
+
+    <Button
+        android:id="@+id/secureStorage"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="153dp"
+        android:text="Secure Storage"/>
+
+    <Button
+        android:id="@+id/EncryptDecrypt"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/secureStorage"
+        android:layout_centerVertical="true"
+        android:text="Encrypt and Decrypt"/>
+
+    <Button
+        android:id="@+id/createPaaasword"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/EncryptDecrypt"
+        android:layout_centerHorizontal="true"
+        android:text="Create Password"
+        />
+
+    <TextView
+        android:id="@+id/devicecapable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createPaaasword"
+        android:layout_margin="10dp"
+        android:text="Device Capability :"/>
+
+    <TextView
+        android:id="@+id/devicecapableStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createPaaasword"
+        android:layout_margin="10dp"
+        android:layout_toRightOf="@+id/devicecapable"/>
+
+    <TextView
+        android:id="@+id/devicelock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/devicecapable"
+        android:layout_margin="10dp"
+        android:text="Device Secured by Lock :"/>
+
+    <TextView
+        android:id="@+id/devicelockStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/devicecapable"
+        android:layout_margin="10dp"
+        android:layout_toRightOf="@+id/devicelock"/>
+</RelativeLayout>

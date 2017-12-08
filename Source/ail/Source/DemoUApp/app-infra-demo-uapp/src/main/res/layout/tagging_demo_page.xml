@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/page_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/page_text"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Page/Event name" />
+
+        <EditText
+            android:id="@+id/tagg_page_filed"
+            android:layout_width="192dp"
+            android:layout_height="50dp"
+            android:hint="Enter Value" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/key_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/page_layout"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Key" />
+
+        <EditText
+            android:id="@+id/tagg_key_field"
+            android:layout_width="192dp"
+            android:layout_height="50dp"
+            android:hint="Enter Key" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/value_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/key_layout"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/value_text"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Value" />
+
+        <EditText
+            android:id="@+id/tagg_value_filed"
+            android:layout_width="192dp"
+            android:layout_height="50dp"
+            android:hint="Enter Value" />
+
+    </LinearLayout>
+
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Value"-->
+    <!--android:id="@+id/value_text"-->
+    <!--android:layout_alignBaseline="@+id/tagg_value_filed"-->
+    <!--android:layout_alignBottom="@+id/tagg_value_filed"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:layout_marginStart="33dp" />-->
+
+    <!--<EditText-->
+    <!--android:layout_width="192dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/tagg_value_filed"-->
+    <!--android:hint="Enter Value"-->
+    <!--android:layout_alignStart="@+id/tagg_key_field"-->
+    <!--android:layout_below="@+id/tagg_key_field" />-->
+
+
+    <LinearLayout
+        android:id="@+id/privacy_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/value_layout"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/privacy_text"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Privacy" />
+
+        <Button
+            android:id="@+id/opt_in_btn"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="Opt In" />
+
+        <Button
+            android:id="@+id/opt_out_btn"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="Opt Out" />
+
+        <Button
+            android:id="@+id/opt_unknown_btn"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="Unknown" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/tag_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/privacy_layout"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/tagg_page_button"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="Tagg Page" />
+
+        <Button
+            android:id="@+id/tagg_action_button"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="Tagg Action" />
+
+        <Button
+            android:id="@+id/actionstart"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="Action Start" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/action_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/tag_layout"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/actionend"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="Action End" />
+
+        <Button
+            android:id="@+id/checkssl"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="Check for SSl" />
+
+        <Button
+            android:id="@+id/link_external"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="Link External" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/video_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/action_Layout"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/video_start"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="Video start" />
+
+        <Button
+            android:id="@+id/video_end"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="Video   End" />
+
+
+
+        <Button
+            android:id="@+id/file_download"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="File Download" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/sensitivedata_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/video_Layout"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/setdata"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="Set Data" />
+
+        <Spinner
+            android:id="@+id/Spinner_social_share"
+            android:layout_width="130dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="50dp"
+             />
+
+        <Button
+            android:id="@+id/tracking"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="GetTrackingIdentitfier" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/txt_lay"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/sensitivedata_Layout"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/track"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/social_Layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_below="@+id/sensitivedata_Layout"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginLeft="50dp"-->
+        <!--android:orientation="vertical"-->
+        <!--android:weightSum="1">-->
+
+
+    <!--</LinearLayout>-->
+
+
+
+</RelativeLayout>
