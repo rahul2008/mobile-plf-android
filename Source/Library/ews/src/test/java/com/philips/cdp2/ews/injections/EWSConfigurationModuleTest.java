@@ -42,7 +42,7 @@ public class EWSConfigurationModuleTest {
 
     @Test
     public void provideEWSConfigurationContent() throws Exception {
-        assertEquals(subject.provideEWSConfigurationContent(), mockBaseContentConfiguration);
+        assertEquals(subject.provideBaseContentConfiguration(), mockBaseContentConfiguration);
     }
 
     @Test

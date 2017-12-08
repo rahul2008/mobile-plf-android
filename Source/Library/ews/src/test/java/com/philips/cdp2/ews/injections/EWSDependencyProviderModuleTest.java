@@ -18,7 +18,8 @@ import org.mockito.Mock;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -46,6 +47,8 @@ public class EWSDependencyProviderModuleTest {
         initMocks(this);
         productKeyMap = new HashMap<>();
         productKeyMap.put(EWSUapp.PRODUCT_NAME, "product");
+        when(appInfraInterfaceMock.getTagging()).thenReturn(mockAppTaggingInterface);
+        when(appInfraInterfaceMock.getLogging()).thenReturn(mockLoggingInterface);
         subject = new EWSDependencyProviderModule(appInfraInterfaceMock, productKeyMap);
     }
 
@@ -54,7 +57,8 @@ public class EWSDependencyProviderModuleTest {
     public void itShouldCheckIfProductMapIsNullForEWSDependencyProviderModule() throws Exception {
         thrownException.expect(IllegalArgumentException.class);
         thrownException.expectMessage("productKeyMap does not contain the productName");
-        subject = new EWSDependencyProviderModule(appInfraInterfaceMock, null);
+        productKeyMap = new HashMap<>();
+        subject = new EWSDependencyProviderModule(appInfraInterfaceMock, productKeyMap);
     }
 
 

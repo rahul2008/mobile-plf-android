@@ -26,8 +26,6 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-import javax.inject.Inject;
-
 /*
  * EWSInterface is an entry point for EWS launching,
  * All the initialisation for EWS should be done using it.
@@ -40,8 +38,8 @@ public class EWSUapp implements UappInterface {
     public static final String SCREEN_ORIENTATION = "screen.orientation";
     public static final String PRODUCT_NAME = "productName";
     private static final String TAG = "EWSInterface";
-    @Inject
-    Navigator navigator;
+    @NonNull
+    private Navigator navigator;
 
     @NonNull
     private Context context;

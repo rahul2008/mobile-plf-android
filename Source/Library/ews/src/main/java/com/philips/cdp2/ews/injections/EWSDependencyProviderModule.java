@@ -35,7 +35,7 @@ public class EWSDependencyProviderModule {
         this.productKeyMap = productKeyMap;
         this.ewsTagger = new EWSTagger(appInfraInterface.getTagging().createInstanceForComponent("EasyWifiSetupTagger", "1.0.0"));
         this.ewsLogger = new EWSLogger(appInfraInterface.getLogging().createInstanceForComponent("EasyWifiSetupLogger", "1.0.0"));
-        if (productKeyMap == null || !productKeyMap.containsKey(EWSUapp.PRODUCT_NAME)) {
+        if (!productKeyMap.containsKey(EWSUapp.PRODUCT_NAME)) {
             throw new IllegalArgumentException("productKeyMap does not contain the productName");
         }
     }
