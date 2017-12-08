@@ -25,15 +25,17 @@ public class SetupAccessPointModeTroubleshootingViewModel {
     @NonNull public final ObservableField<String> description;
     @NonNull private StringProvider stringProvider;
     @NonNull public final Drawable setupAccessPointImage;
+    @NonNull private final EWSTagger ewsTagger;
 
     @Inject
     public SetupAccessPointModeTroubleshootingViewModel(@NonNull Navigator navigator, @NonNull StringProvider stringProvider, @NonNull BaseContentConfiguration contentConfiguration,
-                                                   @NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
+                                                   @NonNull TroubleShootContentConfiguration troubleShootContentConfiguration, @NonNull final EWSTagger ewsTagger) {
         this.navigator = navigator;
         this.stringProvider = stringProvider;
         this.title = new ObservableField<>(getTitle(troubleShootContentConfiguration, contentConfiguration));
         this.description = new ObservableField<>(getNote(troubleShootContentConfiguration, contentConfiguration));
         this.setupAccessPointImage = getSetupAccessPointImage(troubleShootContentConfiguration);
+        this.ewsTagger = ewsTagger;
     }
 
     void onDoneButtonClicked() {
@@ -71,7 +73,7 @@ public class SetupAccessPointModeTroubleshootingViewModel {
     }
 
     void trackPageName() {
-        EWSTagger.trackPage(Page.SETUP_ACCESS_POINT_MODE);
+        ewsTagger.trackPage(Page.SETUP_ACCESS_POINT_MODE);
     }
 }
 

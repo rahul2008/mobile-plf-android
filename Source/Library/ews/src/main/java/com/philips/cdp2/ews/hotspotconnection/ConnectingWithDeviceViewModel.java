@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameFetcher;
 import com.philips.cdp2.ews.tagging.EWSTagger;
@@ -61,6 +62,10 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
     @Nullable
     private ConnectingPhoneToHotSpotCallback fragmentCallback;
 
+    @NonNull private final EWSTagger ewsTagger;
+
+    @NonNull private final EWSLogger ewsLogger;
+
     @NonNull
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -91,13 +96,17 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
                                   @NonNull WiFiUtil wiFiUtil,
                                   @NonNull Navigator navigator,
                                   @NonNull @Named("mainLooperHandler") Handler handler,
-                                  @NonNull BaseContentConfiguration baseContentConfiguration) {
+                                  @NonNull BaseContentConfiguration baseContentConfiguration,
+                                  @NonNull final EWSTagger ewsTagger,
+                                  @NonNull final EWSLogger ewsLogger) {
         this.wiFiConnectivityManager = wiFiConnectivityManager;
         this.deviceFriendlyNameFetcher = deviceFriendlyNameFetcher;
         this.wiFiUtil = wiFiUtil;
         this.navigator = navigator;
         this.handler = handler;
         this.baseContentConfiguration = baseContentConfiguration;
+        this.ewsTagger = ewsTagger;
+        this.ewsLogger = ewsLogger;
     }
 
     void connectToHotSpot() {
@@ -120,7 +129,7 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
     }
 
     void onHelpNeeded() {
-        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.USER_NEEDS_HELP);
+        ewsTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.USER_NEEDS_HELP);
         navigator.navigateToResetConnectionTroubleShootingScreen();
     }
 
@@ -189,6 +198,16 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
     }
 
     void trackPageName() {
-        EWSTagger.trackPage(Page.CONNECTING_WITH_DEVICE);
+        ewsTagger.trackPage(Page.CONNECTING_WITH_DEVICE);
+    }
+
+    @NonNull
+    public EWSTagger getEwsTagger() {
+        return ewsTagger;
+    }
+
+    @NonNull
+    public EWSLogger getEwsLogger() {
+        return ewsLogger;
     }
 }

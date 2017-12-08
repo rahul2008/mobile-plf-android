@@ -29,7 +29,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(EWSTagger.class)
@@ -51,11 +50,14 @@ public class ConfirmWifiNetworkViewModelTest {
     @Mock
     private StringProvider mockStringProvider;
 
+    @Mock
+    private EWSTagger mockEWSTagger;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(EWSTagger.class);
-        subject = new ConfirmWifiNetworkViewModel(navigatorMock, wifiUtilMock, mockBaseContentConfig, mockStringProvider);
+        subject = new ConfirmWifiNetworkViewModel(navigatorMock, wifiUtilMock, mockBaseContentConfig, mockStringProvider, mockEWSTagger);
         subject.setViewCallback(mockViewCallback);
         when(mockBaseContentConfig.getDeviceName()).thenReturn(R.string.ews_device_name_default);
     }
@@ -82,14 +84,14 @@ public class ConfirmWifiNetworkViewModelTest {
         when(wifiUtilMock.isHomeWiFiEnabled()).thenReturn(false);
         subject.onYesButtonClicked();
         testChangeNetworkEWSTagger();
-        verify(mockViewCallback).showTroubleshootHomeWifiDialog(mockBaseContentConfig);
+        verify(mockViewCallback).showTroubleshootHomeWifiDialog(mockBaseContentConfig, mockEWSTagger);
     }
 
     @Test
     public void itShouldShowNetworkTroubleShootingScreenOnNoButtonClicked() throws Exception {
         subject.onNoButtonClicked();
         testChangeNetworkEWSTagger();
-        verify(mockViewCallback).showTroubleshootHomeWifiDialog(mockBaseContentConfig);
+        verify(mockViewCallback).showTroubleshootHomeWifiDialog(mockBaseContentConfig, mockEWSTagger);
     }
 
     @Test
@@ -105,14 +107,14 @@ public class ConfirmWifiNetworkViewModelTest {
         when(wifiUtilMock.isHomeWiFiEnabled()).thenReturn(false);
         subject.refresh();
         testChangeNetworkEWSTagger();
-        verify(mockViewCallback).showTroubleshootHomeWifiDialog(mockBaseContentConfig);
+        verify(mockViewCallback).showTroubleshootHomeWifiDialog(mockBaseContentConfig, mockEWSTagger);
     }
 
     @Test
     public void itShouldNotShowTroubleShootingScreenWhenConnectedToHomeWifi() throws Exception {
         when(wifiUtilMock.isHomeWiFiEnabled()).thenReturn(true);
         subject.refresh();
-        verify(mockViewCallback, never()).showTroubleshootHomeWifiDialog(mockBaseContentConfig);
+        verify(mockViewCallback, never()).showTroubleshootHomeWifiDialog(mockBaseContentConfig, mockEWSTagger);
     }
 
     @Test
@@ -152,8 +154,7 @@ public class ConfirmWifiNetworkViewModelTest {
     @Test
     public void itShouldVerifyTrackPageName() throws Exception {
         subject.trackPageName();
-        verifyStatic();
-        EWSTagger.trackPage("confirmWifiNetwork");
+        verify(mockEWSTagger).trackPage("confirmWifiNetwork");
     }
 
     @Test
@@ -172,12 +173,10 @@ public class ConfirmWifiNetworkViewModelTest {
     }
 
     private void testConfirmNetworkEWSTagger() {
-        verifyStatic();
-        EWSTagger.trackActionSendData("specialEvents", "connectToExistingNetwork");
+        verify(mockEWSTagger).trackActionSendData("specialEvents", "connectToExistingNetwork");
     }
 
     private void testChangeNetworkEWSTagger() {
-        verifyStatic();
-        EWSTagger.trackActionSendData("specialEvents", "changeNetworkToConnect");
+        verify(mockEWSTagger).trackActionSendData("specialEvents", "changeNetworkToConnect");
     }
 }

@@ -25,7 +25,7 @@ import javax.inject.Inject;
 public class ConfirmWifiNetworkViewModel extends BaseObservable {
 
     interface ViewCallback {
-        void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
+        void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration, @NonNull EWSTagger ewsTagger);
     }
 
     @NonNull
@@ -42,15 +42,19 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
     @NonNull
     private BaseContentConfiguration baseContentConfiguration;
 
+    @NonNull private final EWSTagger ewsTagger;
+
     @Inject
     public ConfirmWifiNetworkViewModel(@NonNull final Navigator navigator,
                                        @NonNull final WiFiUtil wiFiUtil,
                                        @NonNull BaseContentConfiguration baseConfig,
-                                       @NonNull StringProvider stringProvider) {
+                                       @NonNull StringProvider stringProvider,
+                                       @NonNull final EWSTagger ewsTagger) {
         this.navigator = navigator;
         this.wiFiUtil = wiFiUtil;
         this.stringProvider = stringProvider;
         this.baseContentConfiguration = baseConfig;
+        this.ewsTagger = ewsTagger;
     }
 
     protected void setViewCallback(@Nullable ViewCallback viewCallback) {
@@ -72,14 +76,14 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
         notifyPropertyChanged(BR.note);
         if (viewCallback != null && !wiFiUtil.isHomeWiFiEnabled()) {
             tapToChangeWifi();
-            viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration);
+            viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration, ewsTagger);
         }
     }
 
     public void onNoButtonClicked() {
         if (viewCallback != null) {
             tapToChangeWifi();
-            viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration);
+            viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration, ewsTagger);
         }
     }
 
@@ -90,17 +94,17 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
         } else {
             tapToChangeWifi();
             if (viewCallback != null) {
-                viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration);
+                viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration, ewsTagger);
             }
         }
     }
 
     private void tapToConnect() {
-        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.CONFIRM_NETWORK);
+        ewsTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.CONFIRM_NETWORK);
     }
 
     private void tapToChangeWifi() {
-        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.CHANGE_NETWORK);
+        ewsTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.CHANGE_NETWORK);
     }
 
     @Bindable
@@ -131,7 +135,7 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
     }
 
     public void trackPageName() {
-        EWSTagger.trackPage(Page.CONFIRM_WIFI_NETWORK);
+        ewsTagger.trackPage(Page.CONFIRM_WIFI_NETWORK);
     }
 
 }

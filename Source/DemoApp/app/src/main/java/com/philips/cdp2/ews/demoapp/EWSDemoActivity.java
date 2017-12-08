@@ -8,7 +8,7 @@ import android.view.View;
 import com.philips.cdp2.ews.demoapplication.EWSDemoUActivity;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
-import static com.philips.cdp2.ews.microapp.EWSInterface.SCREEN_ORIENTATION;
+import static com.philips.cdp2.ews.microapp.EWSUapp.SCREEN_ORIENTATION;
 
 public class EWSDemoActivity extends AppCompatActivity implements View.OnClickListener {
 

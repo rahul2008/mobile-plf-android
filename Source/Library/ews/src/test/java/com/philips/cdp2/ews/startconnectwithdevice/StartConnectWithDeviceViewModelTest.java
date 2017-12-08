@@ -24,7 +24,6 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(EWSTagger.class)
@@ -44,19 +43,21 @@ public class StartConnectWithDeviceViewModelTest {
 
     private StartConnectWithDeviceViewModel subject;
 
+    @Mock
+    private EWSTagger mockEWSTagger;
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(EWSTagger.class);
-        subject = new StartConnectWithDeviceViewModel(navigatorMock, stringProviderMock, happyFlowContentConfigurationMock, baseContentConfigurationMock);
+        subject = new StartConnectWithDeviceViewModel(navigatorMock, stringProviderMock,
+                happyFlowContentConfigurationMock, baseContentConfigurationMock, mockEWSTagger);
         when(baseContentConfigurationMock.getDeviceName()).thenReturn(123435);
     }
 
     @Test
     public void itShouldNavigateToHomeWifiScreenIfWifiIsEnabledWhenClickedOnGettingStartedButton() throws Exception {
         stubHomeWiFiStatus();
-        verifyStatic();
-        EWSTagger.trackActionSendData("specialEvents", "getStartedToConnectWiFi");
+        verify(mockEWSTagger).trackActionSendData("specialEvents", "getStartedToConnectWiFi");
         verify(navigatorMock).navigateToHomeNetworkConfirmationScreen();
     }
 
@@ -67,8 +68,7 @@ public class StartConnectWithDeviceViewModelTest {
     @Test
     public void itShouldVerifyTrackPageIsCalledWithCorrectTag() throws Exception {
         subject.trackPageName();
-        verifyStatic();
-        EWSTagger.trackPage("getStarted");
+        verify(mockEWSTagger).trackPage("getStarted");
     }
 
     @Test
@@ -100,8 +100,7 @@ public class StartConnectWithDeviceViewModelTest {
     @Test
     public void itShouldVerifyOnDestroySendTagPauseLifecycleInfo() throws Exception {
         callOnDestroy();
-        verifyStatic();
-        EWSTagger.pauseLifecycleInfo();
+        verify(mockEWSTagger).pauseLifecycleInfo();
     }
 
     public void callOnDestroy() {

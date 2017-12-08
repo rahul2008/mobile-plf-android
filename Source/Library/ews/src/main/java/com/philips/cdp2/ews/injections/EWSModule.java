@@ -20,25 +20,25 @@ import com.philips.cdp2.commlib.core.devicecache.DeviceCache;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
-import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.appliance.EWSGenericAppliance;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
+import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
 import com.philips.cdp2.ews.settingdeviceinfo.ConnectWithPasswordViewModel;
 import com.philips.cdp2.ews.setupsteps.SecondSetupStepsViewModel;
+import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
-import java.io.Serializable;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -67,6 +67,12 @@ public class EWSModule {
     @Provides
     WifiManager providesWiFiManager() {
         return (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+    }
+
+    @Provides
+    @Singleton
+    CommCentral provideCommCentral(){
+        return commCentral;
     }
 
     @Provides
@@ -117,9 +123,10 @@ public class EWSModule {
     ConnectWithPasswordViewModel providesSetDeviceConnectViewModel(@NonNull final WiFiUtil wifiUtil,
                                                                    @NonNull final Navigator navigator,
                                                                    @NonNull BaseContentConfiguration baseContentConfiguration,
-                                                                   @NonNull StringProvider stringProvider) {
+                                                                   @NonNull StringProvider stringProvider,
+                                                                   @NonNull final EWSTagger ewsTagger) {
         return new ConnectWithPasswordViewModel(wifiUtil, navigator,
-                baseContentConfiguration, stringProvider);
+                baseContentConfiguration, stringProvider, ewsTagger);
     }
 
     @Provides
@@ -127,10 +134,12 @@ public class EWSModule {
             @NonNull final Navigator navigator,
             @NonNull final PermissionHandler permissionHandler,
             @NonNull HappyFlowContentConfiguration happyFlowContentConfiguration,
-            @NonNull StringProvider stringProvider, @NonNull BaseContentConfiguration baseContentConfiguration) {
+            @NonNull StringProvider stringProvider, @NonNull BaseContentConfiguration baseContentConfiguration,
+            @NonNull final EWSTagger ewsTagger,
+            @NonNull final EWSLogger ewsLogger) {
 
         return new SecondSetupStepsViewModel(navigator,
-                permissionHandler, stringProvider, happyFlowContentConfiguration, baseContentConfiguration);
+                permissionHandler, stringProvider, happyFlowContentConfiguration, baseContentConfiguration, ewsTagger, ewsLogger);
     }
 
 

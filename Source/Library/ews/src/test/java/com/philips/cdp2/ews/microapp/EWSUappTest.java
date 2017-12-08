@@ -9,12 +9,17 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.ews.configuration.ContentConfiguration;
+import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSComponent;
+import com.philips.cdp2.ews.injections.EWSConfigurationModule;
+import com.philips.cdp2.ews.injections.EWSDependencyProviderModule;
+import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
+import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
@@ -28,7 +33,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -48,17 +52,18 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.withSettings;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({EWSDependencyProvider.class,  EWSLogger.class, CommCentral.class})
-public class EWSInterfaceTest {
+@PrepareForTest({EWSLogger.class, CommCentral.class, DaggerEWSComponent.class})
+public class EWSUappTest {
 
     @Mock
     LoggingInterface mockLoggingInterface;
+    @Mock
+    AppTaggingInterface mockAppTaggingInterface;
     @Rule
     private ExpectedException thrownException = ExpectedException.none();
-    private EWSInterface subject;
+    private EWSUapp subject;
     @Mock
     private AppInfraInterface appInfraInterfaceMock;
     @Mock
@@ -77,31 +82,30 @@ public class EWSInterfaceTest {
     private Map<String, String> productKeyMap;
     @Mock
     private EWSComponent mockEwsComponent;
+    @Mock
+    private EWSTagger mockEWSTagger;
+    @Mock
+    private EWSLogger mockEWSLogger;
 
     @Mock
-    private CommCentral mockCommCentral;
+    DaggerEWSComponent.Builder mockDaggerEWSComponentBuilder;
 
     @Before
     public void setUp() throws Exception {
-        PowerMockito.mock(EWSDependencyProvider.class);
         mockStatic(EWSLogger.class);
         mockStatic(CommCentral.class);
+        mockStatic(DaggerEWSComponent.class);
         initMocks(this);
 
-        subject = spy(new EWSInterface());
+        subject = spy(new EWSUapp());
         productKeyMap = new HashMap<>();
-        productKeyMap.put(EWSInterface.PRODUCT_NAME, "product");
+        productKeyMap.put(EWSUapp.PRODUCT_NAME, "product");
 
-        EWSDependencyProvider.instance = spy(new EWSDependencyProvider());
 
-        doReturn(mockEwsComponent).when(EWSDependencyProvider.getInstance()).getEwsComponent();
-        doReturn(mockLoggingInterface).when(EWSDependencyProvider.getInstance()).getLoggerInterface();
-        doAnswer(new Answer() {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
-                return null;
-            }
-        }).when(EWSDependencyProvider.getInstance()).createEWSComponent(any(FragmentLauncher.class), any(ContentConfiguration.class));
+    }
+
+    private void initComponent() {
+        doReturn(mockEwsComponent).when(subject).createEWSComponent(any(FragmentLauncher.class));
 
         doAnswer(new Answer() {
             @Override
@@ -109,26 +113,16 @@ public class EWSInterfaceTest {
                 subject.navigator = mockNavigator;
                 return null;
             }
-        }).when(mockEwsComponent).inject(any(EWSInterface.class));
-    }
+        }).when(mockEwsComponent).inject(any(EWSUapp.class));
 
-    @Test
-    public void itShouldEnsureEWSDependenciesAreInitializedWhenOnInitIsCalled() throws Exception {
-        verifyStatic();
-
-        EWSDependencyProvider.getInstance().initDependencies(appInfraInterfaceMock, productKeyMap, mockCommCentral);
-    }
-
-    @Test
-    public void itShouldInitEWSDependenciesWhenOnInitIsCalled() throws Exception {
-        initEWS();
-        verifyStatic();
-        EWSDependencyProvider.getInstance().initDependencies(appInfraInterfaceMock, productKeyMap, mockCommCentral);
+        when(mockEwsComponent.getEWSTagger()).thenReturn(mockEWSTagger);
+        when(mockEwsComponent.getEWSLogger()).thenReturn(mockEWSLogger);
     }
 
     @Test
     public void itShouldLaunchEWSActivityIfLauncherConfigurationIsValid() throws Exception {
         initEWS();
+        initComponent();
         subject.launch(activityLauncherMock, new EWSLauncherInput());
         verify(contextMock).startActivity(isA(Intent.class));
     }
@@ -136,6 +130,7 @@ public class EWSInterfaceTest {
     @Test
     public void itShouldLaunchEWSAsFragmentIfLauncherConfigurationIsValid() throws Exception {
         initEWS();
+        initComponent();
         doReturn(mock(FragmentActivity.class, withSettings().extraInterfaces(EWSActionBarListener.class)))
                 .when(fragmentLauncherMock).getFragmentActivity();
         subject.launch(fragmentLauncherMock, new EWSLauncherInput());
@@ -145,22 +140,25 @@ public class EWSInterfaceTest {
     @Test
     public void itShouldLaunchEWSAsFragmentIfLauncherConfigurationIsNotValid() throws Exception {
         thrownException.expect(UnsupportedOperationException.class);
-        thrownException.expectMessage(EWSInterface.ERROR_MSG_INVALID_IMPLEMENTATION);
+        thrownException.expectMessage(EWSUapp.ERROR_MSG_INVALID_IMPLEMENTATION);
         initEWS();
+        initComponent();
         subject.launch(fragmentLauncherMock, new EWSLauncherInput());
         verify(subject).launchAsFragment(any(FragmentLauncher.class), any(UappLaunchInput.class));
     }
 
     @Test
     public void itShouldThrowAnErrorIfLauncherConfigurationIsNotValid() throws Exception {
+        initEWS();
         thrownException.expect(UnsupportedOperationException.class);
-        thrownException.expectMessage(EWSInterface.ERROR_MSG_INVALID_CALL);
+        thrownException.expectMessage(EWSUapp.ERROR_MSG_INVALID_IMPLEMENTATION);
 
         subject.launch(fragmentLauncherMock, new EWSLauncherInput());
     }
 
     @Test
     public void itShouldNavigateToFirstFragmentOnFragmentLauncher() throws Exception {
+        initComponent();
         doReturn(mock(FragmentActivity.class)).when(fragmentLauncherMock).getFragmentActivity();
         doReturn(1).when(fragmentLauncherMock).getParentContainerResourceID();
         subject.launchAsFragment(fragmentLauncherMock, new EWSLauncherInput());
@@ -169,14 +167,32 @@ public class EWSInterfaceTest {
 
     @Test
     public void itShouldVerifyLaunchAsFragmentOnErrorCatchBlockCalled() throws Exception {
+        initComponent();
         doThrow(new IllegalStateException("error")).when(mockNavigator).navigateToGettingStartedScreen();
         subject.launchAsFragment(fragmentLauncherMock, new EWSLauncherInput());
-        verifyStatic();
-        EWSLogger.e(anyString(), anyString());
+        verify(mockEWSLogger).e(anyString(), anyString());
     }
+
+    @Test
+    public void itShouldVerifyEWSComponentCreation() throws Exception{
+        initEWS();
+        when(DaggerEWSComponent.builder()).thenReturn(mockDaggerEWSComponentBuilder);
+
+        doReturn(mock(FragmentActivity.class, withSettings().extraInterfaces(EWSActionBarListener.class)))
+                .when(fragmentLauncherMock).getFragmentActivity();
+
+        when(mockDaggerEWSComponentBuilder.eWSConfigurationModule(any(EWSConfigurationModule.class))).thenReturn(mockDaggerEWSComponentBuilder);
+        when(mockDaggerEWSComponentBuilder.eWSModule(any(EWSModule.class))).thenReturn(mockDaggerEWSComponentBuilder);
+        when(mockDaggerEWSComponentBuilder.eWSDependencyProviderModule((EWSDependencyProviderModule) any())).thenReturn(mockDaggerEWSComponentBuilder);
+        subject.createEWSComponent(fragmentLauncherMock);
+        verify(mockDaggerEWSComponentBuilder).eWSModule(any(EWSModule.class));
+    }
+
 
     private void initEWS() {
         when(ewsDependenciesMock.getAppInfra()).thenReturn(appInfraInterfaceMock);
+        when(ewsDependenciesMock.getAppInfra().getLogging()).thenReturn(mockLoggingInterface);
+        when(ewsDependenciesMock.getAppInfra().getTagging()).thenReturn(mockAppTaggingInterface);
         when(ewsDependenciesMock.getProductKeyMap()).thenReturn(productKeyMap);
         when(uappSettingsMock.getContext()).thenReturn(contextMock);
         subject.init(ewsDependenciesMock, uappSettingsMock);

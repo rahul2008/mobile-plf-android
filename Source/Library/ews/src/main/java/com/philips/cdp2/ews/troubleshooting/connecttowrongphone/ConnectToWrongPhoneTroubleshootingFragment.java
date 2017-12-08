@@ -36,6 +36,7 @@ public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShoot
 
         viewModel = getEWSComponent()
                 .connectToWrongPhoneTroubleshootingViewModel();
+
         connectToWrongPhoneTroubleshootingLayoutBinding.setViewmodel(viewModel);
 
         view.findViewById(R.id.ews_H_03_01_button_yes)

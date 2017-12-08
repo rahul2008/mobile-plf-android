@@ -36,6 +36,7 @@ public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShoo
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = getEWSComponent().setupAccessPointModeTroubleshootingViewModel();
+
         setupAccessPointTroubleshootingLayoutBinding.setViewmodel(viewModel);
 
         view.findViewById(R.id.ews_H_03_04_button_done)

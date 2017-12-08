@@ -24,26 +24,23 @@ import javax.inject.Singleton;
 @Singleton
 public class WiFiUtil {
 
-    private static final String TAG = "WiFiUtil";
     public static final String DEVICE_SSID = "PHILIPS Setup";
     public static final String UNKNOWN_SSID = "<unknown ssid>";
-    @NonNull
-    private WifiManager wifiManager;
-
-    private String lastWifiSSid;
-
     public static final int HOME_WIFI = 1;
     public static final int WRONG_WIFI = 2;
     public static final int UNKNOWN_WIFI = 3;
     public static final int DEVICE_HOTSPOT_WIFI = 4;
-
-    @IntDef({HOME_WIFI, WRONG_WIFI, DEVICE_HOTSPOT_WIFI, UNKNOWN_WIFI})
-    public @interface WiFiState {
-    }
+    private static final String TAG = "WiFiUtil";
+    private static String lastWifiSSid;
+    @NonNull
+    private WifiManager wifiManager;
+    @NonNull
+    private EWSLogger ewsLogger;
 
     @Inject
-    public WiFiUtil(@NonNull WifiManager wifiManager) {
+    public WiFiUtil(@NonNull WifiManager wifiManager, @NonNull EWSLogger ewsLogger) {
         this.wifiManager = wifiManager;
+        this.ewsLogger = ewsLogger;
     }
 
     @Nullable
@@ -55,8 +52,10 @@ public class WiFiUtil {
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         if (wifiInfo.getSupplicantState() == SupplicantState.COMPLETED) {
             return getFormattedSSID(wifiInfo.getSSID());
+        } else {
+            lastWifiSSid = null;
+            return null;
         }
-        return null;
     }
 
     public String getFormattedSSID(@NonNull final String SSID) {
@@ -86,7 +85,7 @@ public class WiFiUtil {
     @WiFiState
     int getCurrentWifiState() {
         String currentWifi = getConnectedWiFiSSID();
-        EWSLogger.d(TAG, "Connected to:" + (currentWifi == null ? "Nothing" : currentWifi));
+        ewsLogger.d(TAG, "Connected to:" + (currentWifi == null ? "Nothing" : currentWifi));
 
         if (lastWifiSSid == null || currentWifi == null || currentWifi
                 .equalsIgnoreCase(UNKNOWN_SSID)) {
@@ -97,7 +96,7 @@ public class WiFiUtil {
             return HOME_WIFI;
         } else if (!lastWifiSSid.equals(currentWifi)
                 && !lastWifiSSid.equals(DEVICE_SSID)) {
-            EWSLogger.d(TAG,
+            ewsLogger.d(TAG,
                     "Connected to wrong wifi, Current wifi " + currentWifi + " Home wifi " +
                             lastWifiSSid);
             return WRONG_WIFI;
@@ -108,14 +107,18 @@ public class WiFiUtil {
     public void forgetHotSpotNetwork(String hotSpotWiFiSSID) {
         List<WifiConfiguration> configs = wifiManager.getConfiguredNetworks();
         for (WifiConfiguration config : configs) {
-            EWSLogger.d(TAG, "Pre configured Wifi ssid " + config.SSID);
+            ewsLogger.d(TAG, "Pre configured Wifi ssid " + config.SSID);
             String cleanSSID = config.SSID;
             cleanSSID = cleanSSID.replaceAll("^\"|\"$", "");
             if (cleanSSID.equals(hotSpotWiFiSSID)) {
                 boolean success = wifiManager.removeNetwork(config.networkId);
                 wifiManager.saveConfiguration();
-                EWSLogger.i(TAG, "Removing network " + success);
+                ewsLogger.i(TAG, "Removing network " + success);
             }
         }
+    }
+
+    @IntDef({HOME_WIFI, WRONG_WIFI, DEVICE_HOTSPOT_WIFI, UNKNOWN_WIFI})
+    public @interface WiFiState {
     }
 }

@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(EWSTagger.class)
@@ -35,7 +34,12 @@ public class ConnectToWrongPhoneTroubleshootingViewModelTest {
     @Mock
     private StringProvider mockStringProvider;
 
+    @Mock
+    private EWSTagger mockEWSTagger;
+
     private ConnectToWrongPhoneTroubleshootingViewModel subject;
+
+
 
     @Before
     public void setUp() throws Exception {
@@ -46,7 +50,8 @@ public class ConnectToWrongPhoneTroubleshootingViewModelTest {
         when(mockTroubleShootContentConfiguration.getConnectWrongPhoneQuestion()).thenReturn(1231233);
         when(mockTroubleShootContentConfiguration.getConnectWrongPhoneImage()).thenReturn(1231234);
         when(mockBaseContentConfiguration.getDeviceName()).thenReturn(1231235);
-        subject = new ConnectToWrongPhoneTroubleshootingViewModel(mockNavigator, mockStringProvider, mockBaseContentConfiguration, mockTroubleShootContentConfiguration);
+        subject = new ConnectToWrongPhoneTroubleshootingViewModel(mockNavigator, mockStringProvider,
+                mockBaseContentConfiguration, mockTroubleShootContentConfiguration, mockEWSTagger);
 
     }
 
@@ -105,8 +110,7 @@ public class ConnectToWrongPhoneTroubleshootingViewModelTest {
     @Test
     public void itShouldVerifyTrackPageName() throws Exception {
         subject.trackPageName();
-        verifyStatic();
-        EWSTagger.trackPage("connectToWrongPhone");
+        verify(mockEWSTagger).trackPage("connectToWrongPhone");
     }
 
 }

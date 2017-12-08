@@ -6,6 +6,7 @@ package com.philips.cdp2.ews.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.VisibleForTesting;
@@ -16,9 +17,14 @@ import android.widget.TextView;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.dialog.EWSAlertDialogFragment;
+import com.philips.cdp2.ews.injections.DependencyHelper;
+import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSComponent;
+import com.philips.cdp2.ews.injections.EWSConfigurationModule;
+import com.philips.cdp2.ews.injections.EWSDependencyProviderModule;
+import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
+import com.philips.cdp2.ews.microapp.EWSLauncherInput;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -32,7 +38,7 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (!EWSDependencyProvider.getInstance().areDependenciesInitialized()){
+        if (!DependencyHelper.areDependenciesInitialized()){
             this.getActivity().finish();
         }
     }
@@ -53,11 +59,12 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     }
 
     public void handleCancelButtonClicked() {
-        showCancelDialog(getEWSComponent().getBaseContentConfiguration().getDeviceName());
+        EWSComponent ewsComponent = getEWSComponent();
+        showCancelDialog(ewsComponent.getBaseContentConfiguration().getDeviceName(), ewsComponent.getEWSTagger());
     }
 
     @VisibleForTesting
-    public void showCancelDialog(@StringRes int deviceName) {
+    void showCancelDialog(@StringRes int deviceName, @NonNull final EWSTagger ewsTagger) {
         Context context = getContext();
         View view = LayoutInflater.from(context).cloneInContext(UIDHelper.getPopupThemedContext(context)).inflate(R.layout.cancel_setup_dialog,
                 null, false);
@@ -72,7 +79,7 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
         alertDialogFragment.setDialogLifeCycleListener(new EWSAlertDialogFragment.DialogLifeCycleListener() {
             @Override
             public void onStart() {
-                EWSTagger.trackPage(Page.CANCEL_WIFI_SETUP);
+                ewsTagger.trackPage(Page.CANCEL_WIFI_SETUP);
             }
         });
 
@@ -106,7 +113,13 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     }
 
     public EWSComponent getEWSComponent() {
-        return EWSDependencyProvider.getInstance().getEwsComponent();
+        return DaggerEWSComponent.builder()
+                .eWSModule(new EWSModule(this.getActivity()
+                        , this.getActivity().getSupportFragmentManager()
+                        , EWSLauncherInput.getContainerFrameId(), DependencyHelper.getCommCentral()))
+                .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), DependencyHelper.getContentConfiguration()))
+                .eWSDependencyProviderModule(new EWSDependencyProviderModule(DependencyHelper.getAppInfraInterface(), DependencyHelper.getProductKeyMap()))
+                .build();
     }
 
     protected abstract void callTrackPageName();

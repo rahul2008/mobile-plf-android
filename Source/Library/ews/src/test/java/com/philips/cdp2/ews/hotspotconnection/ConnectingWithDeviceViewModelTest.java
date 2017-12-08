@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameFetcher;
 import com.philips.cdp2.ews.tagging.EWSTagger;
@@ -33,6 +34,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static com.philips.cdp2.ews.EWSActivity.DEVICE_CONNECTION_TIMEOUT;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
@@ -66,8 +68,6 @@ public class ConnectingWithDeviceViewModelTest {
     private Intent mockIntent;
     @Mock
     private Context mockContext;
-    @Mock
-    private IntentFilter stubIntentFilter = new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION);
     @Captor
     private ArgumentCaptor<BroadcastReceiver> broadcastReceiverArgumentCaptor;
     @Captor
@@ -76,6 +76,10 @@ public class ConnectingWithDeviceViewModelTest {
     private NetworkInfo mockNetworkInfo;
     @Mock
     private BaseContentConfiguration mockBaseContentConfiguration;
+    @Mock
+    private EWSTagger mockEWSTagger;
+    @Mock
+    private EWSLogger mockEWSLogger;
 
 
     @Before
@@ -84,7 +88,7 @@ public class ConnectingWithDeviceViewModelTest {
         mockStatic(EWSTagger.class);
         mockStatic(Log.class);
         subject = new ConnectingWithDeviceViewModel(mockWiFiConnectivityManager, mockDeviceFriendlyNameFetcher,
-                mockWiFiUtil, mockNavigator, mockHandler, mockBaseContentConfiguration);
+                mockWiFiUtil, mockNavigator, mockHandler, mockBaseContentConfiguration, mockEWSTagger, mockEWSLogger);
         subject.setFragmentCallback(mockFragmentCallback);
     }
 
@@ -148,8 +152,7 @@ public class ConnectingWithDeviceViewModelTest {
     @Test
     public void itShouldTagAndNavigateToResetConnectionTroubleShootingScreenOnHelpNeeded() {
         subject.onHelpNeeded();
-        verifyStatic();
-        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.USER_NEEDS_HELP);
+        verify(mockEWSTagger).trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.USER_NEEDS_HELP);
         verify(mockNavigator, times(1)).navigateToResetConnectionTroubleShootingScreen();
     }
 
@@ -176,8 +179,7 @@ public class ConnectingWithDeviceViewModelTest {
     public void itShouldNotShowUnsuccessfulDialogOnConnectionAttemptTimedOutWhenCallbackNull() {
         subject.setFragmentCallback(null);
         subject.onConnectionAttemptTimedOut();
-        verifyStatic(never());
-        EWSTagger.trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
+        verify(mockEWSTagger, never()).trackPage(Page.PHONE_TO_DEVICE_CONNECTION_FAILED);
         verify(mockFragmentCallback, never()).showTroubleshootHomeWifiDialog(mockBaseContentConfiguration);
         verifyStatic();
         Log.e(anyString(), anyString());
@@ -227,8 +229,19 @@ public class ConnectingWithDeviceViewModelTest {
     @Test
     public void itShouldTrackPageOnTrackPageName() {
         subject.trackPageName();
-        verifyStatic();
-        EWSTagger.trackPage(Page.CONNECTING_WITH_DEVICE);
+        verify(mockEWSTagger).trackPage(Page.CONNECTING_WITH_DEVICE);
+    }
+
+    @Test
+    public void itShouldVerifyEWSTaggerNotNull() throws Exception {
+        EWSTagger ewsTagger = subject.getEwsTagger();
+        assertNotNull(ewsTagger);
+    }
+
+    @Test
+    public void itShouldVerifyEWSLoggerNotNull() throws Exception {
+        EWSLogger ewsLogger = subject.getEwsLogger();
+        assertNotNull(ewsLogger);
     }
 
     private void verifyShowingUnsuccessfulDialog() {
