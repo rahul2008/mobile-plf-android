@@ -45,6 +45,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
@@ -473,6 +474,12 @@ public class ConnectingDeviceWithWifiViewModelTest {
     public void itShouldGeneratedErrorLogOnStartConnectionModelIsNullAndFriendlyNameChangingSuccessCalled() throws Exception{
         subject.onFriendlyNameChangingSuccess();
         verify(mockEWSLogger).e(anyString(),anyString());
+    }
+
+    @Test
+    public void itShouldVerifyEWSLoggerShouldNotNull() throws Exception {
+        EWSLogger ewsLogger = subject.getEwsLogger();
+        assertNotNull(ewsLogger);
     }
 
     private void simulateApplianceFound() {

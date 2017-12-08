@@ -6,6 +6,7 @@ import android.net.wifi.WifiConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import java.util.BitSet;
 
@@ -13,6 +14,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+@PrepareForTest(String.class)
 public class ConfigurationSecuritiesTest {
 
     private ConfigurationSecurities subject;
@@ -42,16 +44,30 @@ public class ConfigurationSecuritiesTest {
 
     @Test
     public void itShouldVerifyGetWifiConfigurationSecurityForEAPSecurity() throws Exception{
-
         when(mockWifiConfiguration.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_EAP)).thenReturn(true);
         assertEquals(String.valueOf(ConfigurationSecurities.SECURITY_EAP), subject.getWifiConfigurationSecurity(mockWifiConfiguration));
     }
 
     @Test
     public void itShouldVerifyGetWifiConfigurationSecurityForEAPSecurityForIEEE() throws Exception{
-
         when(mockWifiConfiguration.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.IEEE8021X)).thenReturn(true);
         assertEquals(String.valueOf(ConfigurationSecurities.SECURITY_EAP), subject.getWifiConfigurationSecurity(mockWifiConfiguration));
+    }
+
+    @Test
+    public void itShouldVerifyGetWifiConfigurationSecurityForWEPKeysReturnSecurityNone() throws Exception{
+        mockWifiConfiguration.wepKeys = new String[1];
+        when(mockWifiConfiguration.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_EAP)).thenReturn(false);
+        when(mockWifiConfiguration.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.IEEE8021X)).thenReturn(false);
+        assertEquals(String.valueOf(ConfigurationSecurities.SECURITY_NONE), subject.getWifiConfigurationSecurity(mockWifiConfiguration));
+    }
+
+    @Test
+    public void itShouldVerifyGetWifiConfigurationSecurityForWEPKeysReturnSecurityWEP() throws Exception{
+        mockWifiConfiguration.wepKeys = new String[] {"securityKey",""};
+        when(mockWifiConfiguration.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.WPA_EAP)).thenReturn(false);
+        when(mockWifiConfiguration.allowedKeyManagement.get(WifiConfiguration.KeyMgmt.IEEE8021X)).thenReturn(false);
+        assertEquals(String.valueOf(ConfigurationSecurities.SECURITY_WEP), subject.getWifiConfigurationSecurity(mockWifiConfiguration));
     }
 
     @Test
