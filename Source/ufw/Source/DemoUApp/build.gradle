@@ -165,7 +165,7 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        project(':uikitLib')
+        compile(project(':uikitLib'))
     } else {
         compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
             exclude group: 'com.android.support'	

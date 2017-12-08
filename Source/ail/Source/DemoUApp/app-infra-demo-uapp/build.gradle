@@ -147,7 +147,7 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        project(':uAppFwLib')
+        compile(project(':uAppFwLib'))
     } else {
         compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
             transitive = true
