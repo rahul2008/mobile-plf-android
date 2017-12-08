@@ -15,7 +15,7 @@ include ':IconFont'
 //include ':iapUApp'
 //include ':digitalCare'
 //include ':digitalCareUApp'
-//include ':productselection'
+include ':productselection'
 include ':uAppFwLib'
 include ':uAppFwLibUApp'
 //include ':product-registration-lib'
@@ -61,7 +61,7 @@ project(':IconFont').projectDir = new File('./Source/icf/Source/Library/IconFont
 //project(':iapUApp').projectDir = new File('./Source/iap/Source/DemoUApp')
 //project(':digitalCare').projectDir = new File('./Source/dcc/Source/Library/digitalCare')
 //project(':digitalCareUApp').projectDir = new File('./Source/dcc/Source/DemoUApp/DemoUApp')
-//project(':productselection').projectDir = new File('./Source/pse/Source/Library/productselection')
+project(':productselection').projectDir = new File('./Source/pse/Source/Library/productselection')
 project(':uAppFwLib').projectDir = new File('./Source/ufw/Source/Library/uAppFwLib')
 project(':uAppFwLibUApp').projectDir = new File('./Source/ufw/Source/DemoUApp')
 //project(':product-registration-lib').projectDir = new File('./Source/prg/Source/Library/product-registration-lib')

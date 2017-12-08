@@ -3,7 +3,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
@@ -182,7 +182,7 @@ configurations.all {
 
 dependencies {
 
-   compile project(':pse')
+   compile(project(':pse'))
 
     //compile(group: 'com.philips.cdp', name: 'Tagging', version: '3.0.0', ext: 'aar')
     compile 'com.android.support:appcompat-v7:26.0.2'
