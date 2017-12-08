@@ -1,0 +1,91 @@
+{
+  "appflow": {
+    "firstState": "splash",
+    "states": [
+      {
+        "state": "splash",
+        "events": [
+          {
+            "eventId": "onSplashTimeOut",
+            "nextStates": [
+              {
+                "condition": [
+                  "isDonePressed"
+                ],
+                "nextState": "home"
+              },
+              {
+                "condition": [],
+                "nextState": "welcome"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "welcome",
+        "events": [
+          {
+            "eventId": "welcome_skip",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home"
+              }
+            ]
+          },
+          {
+            "eventId": "welcome_done",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "home",
+        "events": [
+          {
+            "eventId": "home_fragment",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home_fragment"
+              }
+            ]
+          },
+          {
+            "eventId": "about",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "about"
+              }
+            ]
+          },
+          {
+            "eventId": "sample",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "sample"
+              }
+            ]
+          },
+          {
+            "eventId": "dls",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "dls"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

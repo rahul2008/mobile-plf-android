@@ -1,0 +1,40 @@
+{
+  "UserRegistration": {
+    "JanRainConfiguration.RegistrationClientID.Development": "24z7ty7eepty8bbjgkrd8m54twtxz4wa",
+    "JanRainConfiguration.RegistrationClientID.Testing": "bar943vh96bt9cuk5zzy8wxtq2f2hmgd",
+    "JanRainConfiguration.RegistrationClientID.Evaluation": "8d27se4syudd6q3jyk6mnrufd8bdhwa5",
+    "JanRainConfiguration.RegistrationClientID.Staging": "8d27se4syudd6q3jyk6mnrufd8bdhwa5",
+    "JanRainConfiguration.RegistrationClientID.Production": "9z23k3q8bhqyfwx78aru6bz8zksga54u",
+    "PILConfiguration.MicrositeID": "11400",
+    "PILConfiguration.RegistrationEnvironment": "STAGING",
+    "Flow.EmailVerificationRequired": "true",
+    "Flow.TermsAndConditionsAcceptanceRequired": "true",
+    "SigninProviders.default": [
+      "facebook",
+      "googleplus"
+    ],
+    "SigninProviders.NL": [
+      "facebook",
+      "googleplus"
+    ]
+  },
+  "IAP": {
+    "hostport": "acc.occ.shop.philips.com",
+    "propositionid": "Tuscany2016"
+  },
+  "appinfra": {
+    "appidentity.micrositeId": "77000",
+    "appidentity.sector": "b2c",
+    "appidentity.appState": "STAGING",
+    "appidentity.serviceDiscoveryEnvironment": "PRODUCTION",
+    "tagging.sensitiveData": [
+      "bundleId, language"
+    ],
+    "abtest.precache": [
+      "philipsmobileappabtest1content",
+      "philipsmobileappabtest1success"
+    ],
+    "contentLoader.limitSize": 100
+  }
+}
+

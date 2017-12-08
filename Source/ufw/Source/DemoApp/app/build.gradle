@@ -1,0 +1,183 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+
+buildscript {
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    
+    repositories {
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath(builddeps.cdpSCM)
+    }
+}
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment )
+archivesBaseName = "uAppFwLibApp"
+
+
+allprojects {
+    repositories {
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url objcdp.getArtifactoryUrl()
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url 'https://maven.google.com'
+        }
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.cdp'
+
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion(versions.uaf_uAppFwLib)
+
+artifactory {
+    contextUrl = objcdp.getArtifactoryContextUrl()
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications ('apk')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
+            }
+        }
+    }
+    resolve {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+        }
+    }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+publishing {
+    publications {
+        apk(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            artifact("$projectDir/dependencies.lock") {
+                classifier = '1stleveldependencies'
+            }
+
+            artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
+
+            pom.withXml{
+                def dependenciesNode = asNode().appendNode('dependencies')
+                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                }
+            }
+        }
+    }
+}
+
+android {
+    signingConfigs {
+        release
+    }
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
+    defaultConfig {
+        applicationId "com.philips.platform.uappdemo"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName version
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+    def Properties props = new Properties()
+    def propFile = new File('signing.properties')
+    if (propFile.canRead()) {
+        props.load(new FileInputStream(propFile))
+
+        if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+            android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+            android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+            android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+            android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+        } else {
+            println 'signing.properties found but some entries are missing'
+            android.buildTypes.release.signingConfig = null
+        }
+    } else {
+        println 'ufw signing.properties not found'
+        android.buildTypes.release.signingConfig = null
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'adobeMobileLibrary:adobeMobileLibrary:4.8.3'
+    testCompile 'junit:junit:4.12'
+    compile project(':DemoUApp')
+}
+
+tasks.withType(Test) {
+  ignoreFailures = true
+}

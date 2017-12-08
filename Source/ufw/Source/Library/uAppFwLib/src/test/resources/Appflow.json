@@ -1,0 +1,233 @@
+{
+  "appflow": {
+    "firstState": "splash",
+    "states": [
+      {
+        "state": "splash",
+        "events": [
+          {
+            "eventId": "onSplashTimeOut",
+            "nextStates": [
+              {
+                "condition": [
+                  "conditionAppLaunch"
+                ],
+                "nextState": "onBoarding_registration"
+              },
+              {
+                "condition": [
+                  "isLoggedIn"
+                ],
+                "nextState": "home"
+              },
+              {
+                "condition": [
+                  "isDonePressed"
+                ],
+                "nextState": "home"
+              },
+              {
+                "condition": [],
+                "nextState": "welcome"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "onBoarding_registration",
+        "events": [
+          {
+            "eventId": "URComplete",
+            "nextStates": [
+              {
+                "condition": [
+                  "test"
+                ],
+                "nextState": "home"
+              }
+            ]
+          },
+          {
+            "eventId": "back",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "welcome",
+        "events": [
+          {
+            "eventId": "welcome_skip",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "onBoarding_registration"
+              }
+            ]
+          },
+          {
+            "eventId": "welcome_done",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "onBoarding_registration"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "home",
+        "events": [
+          {
+            "eventId": "home_fragment",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home_fragment"
+              }
+            ]
+          },
+          {
+            "eventId": "settings",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "settings"
+              }
+            ]
+          },
+          {
+            "eventId": "support",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "support"
+              }
+            ]
+          },
+          {
+            "eventId": "about",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "about"
+              }
+            ]
+          },
+          {
+            "eventId": "iap",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "iap"
+              }
+            ]
+          },
+          {
+            "eventId": "shopping_cart",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "iap"
+              }
+            ]
+          },
+          {
+            "eventId": "data_sync",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "data_sync"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "settings_registration",
+        "events": [
+          {
+            "eventId": "URComplete",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home"
+              }
+            ]
+          },
+          {
+            "eventId": "logout",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home_fragment"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "support",
+        "events": [
+          {
+            "eventId": "pr",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "pr"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "settings",
+        "events": [
+          {
+            "eventId": "order_history",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "iap"
+              }
+            ]
+          },
+          {
+            "eventId": "back",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "welcome"
+              }
+            ]
+          },
+          {
+            "eventId": "logout",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home_fragment"
+              }
+            ]
+          },
+          {
+            "eventId": "login",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "settings_registration"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

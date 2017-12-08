@@ -1,0 +1,14 @@
+Source/Library/uAppFramework/uAppFwLib/build/
+Source/Library/.idea/
+Source/Library/uAppFwLib/.idea/
+.idea/
+Source/Library/uAppFwLib/uAppFwLib.iml
+Source/Library/uAppFwLib/build/
+*.bin
+Source/Library/build/
+*.iml
+Source/Library/uAppFwLib/local.properties
+Source/Library/local.properties
+Source/DemoApp/.gradle/
+Source/DemoApp/build/
+Source/DemoUApp/build/

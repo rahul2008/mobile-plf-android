@@ -1,0 +1,17 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.philips.platform.uappdemolibrary">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <application 
+        android:supportsRtl="true"
+        android:largeHeap="true">
+        <activity android:name="com.philips.platform.uappdemo.screens.introscreen.LaunchActivity" />
+        <activity android:name="com.philips.platform.uappdemo.screens.homescreen.UappHamburgerActivity" />
+        <activity android:name="com.philips.platform.uappdemo.screens.dls.DLSActivity" />
+    </application>
+
+</manifest>
