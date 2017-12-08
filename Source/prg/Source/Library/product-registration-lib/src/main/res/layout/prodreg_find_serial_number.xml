@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    tools:ignore="MissingPrefix">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        >
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/prg_welcomeScreem_productImage_Layout"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/pr_margintop"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/device_image"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:src="@drawable/product_placeholder"
+                app:layout_constraintDimensionRatio="H,16:9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.ProductRegistrationHeaderTitleTheme"
+            fontPath="fonts/centralesansbold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/pr_margintop"
+            android:text="@string/PPR_Find_Serial_Number"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="@dimen/pr_title_textsize"
+            />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/serial_number_guide_format_text"
+            style="@style/UIDLabel.ProductRegistrationSubTitleTheme"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:text="@string/PPR_find_serial_number_help_message"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="@dimen/pr_connect_title_textsize"/>
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/serial_number_guide_text"
+            style="@style/UIDLabel.ProductRegistrationSubTitleTheme"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="@dimen/pr_connect_title_textsize"/>
+
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/ok_found_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/pr_registration_margin_bottom"
+            android:layout_marginTop="@dimen/pr_margintop"
+            android:text="@string/PPR_ok_i_found_it"
+            android:textAllCaps="false"/>
+
+    </LinearLayout>
+</ScrollView>

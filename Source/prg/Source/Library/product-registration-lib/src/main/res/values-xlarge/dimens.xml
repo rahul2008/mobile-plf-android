@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="pr_first_launch_padding_left">188dp</dimen>
+    <dimen name="pr_first_launch_padding_right">188dp</dimen>
+    <dimen name="pr_first_launch_padding_top">72dp</dimen>
+</resources>

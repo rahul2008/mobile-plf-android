@@ -1,0 +1,16 @@
+*.name
+Source/DemoApp/ProductRegistration/.idea/compiler.xml
+Source/DemoApp/ProductRegistration/.idea/copyright/profiles_settings.xml
+Source/DemoApp/ProductRegistration/.idea/encodings.xml
+Source/DemoApp/ProductRegistration/.idea/gradle.xml
+Source/DemoApp/ProductRegistration/.idea/misc.xml
+Source/DemoApp/ProductRegistration/.idea/modules.xml
+Source/DemoApp/ProductRegistration/.idea/runConfigurations.xml
+Source/DemoApp/ProductRegistration/.idea/vcs.xml
+Source/DemoApp/ProductRegistration/gradle.properties
+Source/DemoApp/ProductRegistration/gradlew
+Source/DemoApp/ProductRegistration/gradlew.bat
+Source/DemoApp/ProductRegistration/settings.gradle
+Source/DemoApp/ProductRegistration/build.gradle
+Source/DemoApp/ProductRegistration/local.properties
+

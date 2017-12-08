@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:paddingRight="@dimen/fab_margin"
+              android:paddingLeft="@dimen/fab_margin"
+              android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/serial_number_title_message"
+        style="@style/UIDLabel.ProductRegistrationHeaderTitleTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/serial_number_registered_message"
+        style="@style/UIDLabel.ProductRegistrationProductSubTitleTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/pr_registration_margin_top"
+        android:visibility="gone"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/serial_number_warranty_message"
+        style="@style/UIDLabel.ProductRegistrationProductSubTitleTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_bottom"
+        >
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/button_continue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/PPR_Continue"
+            />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/closeButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button_continue"
+            android:layout_marginTop="@dimen/pr_margin_8dp"
+            android:text="@string/PRG_Close"
+            android:textAllCaps="false"
+            app:uidComponentType="Secondary"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

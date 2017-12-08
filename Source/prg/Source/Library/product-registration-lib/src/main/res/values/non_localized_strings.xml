@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="zero" translatable="false">0</string>
+    <string name="prod_reg_benefits_conf_text" translatable="false">• Extend your warranty for 24 months.\n• Receive 10% discount in the Philips.\n• Receive free product accessories.</string>
+    <string name="prod_reg_success_conf_text" translatable="false">An email with extended warranty contact has been sent to your email address</string>
+</resources>
