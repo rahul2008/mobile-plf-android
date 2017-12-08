@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/uid_list_item_selector"
+    android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/title"
+        style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
+        android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+        android:layout_alignEnd="@+id/tick"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
+        android:textSize="16dp"/>
+
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/tick"
+        style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
+        android:textColor="?attr/uidNavigationPrimaryBackgroundColor"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+        android:layout_alignParentEnd="true"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
+        android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
+        android:textSize="16dp"/>
+
+</RelativeLayout>
+

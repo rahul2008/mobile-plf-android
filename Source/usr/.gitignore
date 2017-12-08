@@ -1,0 +1,16 @@
+Source/Library/servertime/servertime.iml
+*.iml
+Source/Library/hsdp/build/tmp/packageReleaseJar/MANIFEST.MF
+Source/Library/RegistrationCoppaSampleApp/build/
+Source/Library/RegistrationSampleApp/.idea/
+Source/Library/RegistrationCoppaSampleApp/.idea/
+Source/WebViewClientDemo1/app/build/
+Source/Library/local.properties
+Source/Library/servertime/build/
+/.gtm/
+*.gradle
+*.idea
+Source/Library/servertime/build/
+Source/DemoUApp/DemoUApp/build
+Source/DemoApp/build
+Source/DemoApp/app/build

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ic_reg_close">\uE614</string>
+
+    <string name="ic_reg_question">\uE604</string>
+
+    <string name="ic_reg_plus">\uE613</string>
+
+    <string name="ic_reg_left">\uE60e</string>
+
+    <string name="ic_reg_right">\uE60f</string>
+
+    <string name="ic_reg_up">\uE610</string>
+
+    <string name="ic_reg_down">\uE60d</string>
+
+    <string name="ic_reg_dash">\uE611</string>
+
+    <string name="ic_reg_shield">\uE603</string>
+
+    <string name="ic_reg_heart">\uE602</string>
+
+    <string name="ic_reg_hamburger">\uE615</string>
+
+    <string name="ic_reg_check">\uE60c</string>
+
+    <string name="ic_reg_check2">\uE600</string>
+
+    <string name="ic_reg_exclamation">\uE601</string>
+    <string name="ic_reg_star">\uE612</string>
+
+    <string name="ic_reg_twitter">\uE60a</string>
+
+    <string name="ic_reg_facebook">\uE605</string>
+
+    <string name="ic_reg_youtube">\uE60b</string>
+
+    <string name="ic_reg_googleplus">\uE606</string>
+
+    <string name="ic_reg_pinterest">\uE608</string>
+
+    <string name="ic_reg_stumbleupon">\uE609</string>
+
+    <string name="ic_reg_linkedin">\uE607</string>
+
+    <string name="ic_reg_info">\uE616</string>
+
+    <string name="ic_reg_favoriteStar">\uE618</string>
+
+    <string name="ic_reg_favoriteStarEmpty">\uE617</string>
+
+    <string name="ic_reg_maskPassword">\uE619</string>
+
+    <string name="reg_twitter_ic">\uE61f</string>
+
+    <string name="reg_facebook_ic">\uE61a</string>
+
+    <string name="reg_googleplus_ic">\uE61b</string>
+
+    <string name="reg_wechat_ic">\uE62f</string>
+
+    <string name="reg_sinaweibo_ic">\uE629</string>
+
+    <string name="reg_qq_ic">\uE625</string>
+
+    <string name="uikit_fonticon_tick_light">&#xe600;</string>
+
+</resources>

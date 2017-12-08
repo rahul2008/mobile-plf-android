@@ -1,0 +1,108 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="?attr/uidContentPrimaryBackgroundColor"
+              android:focusable="true"
+              android:focusableInTouchMode="true">
+
+    <ScrollView
+        android:id="@+id/usr_marketingScreen_rootLayout_scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/transparent"
+        android:fillViewport="false">
+
+        <LinearLayout
+            android:id="@+id/usr_marketingScreen_rootContainer_linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/reg_dimen_24dp"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/reg_dimen_12dp"
+            android:layout_marginLeft="@dimen/reg_layout_margin_16"
+            android:layout_marginRight="@dimen/reg_layout_margin_16"
+            android:weightSum="1">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_marketingScreen_headTitle_Lable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
+                android:text="@string/reg_DLS_OptIn_Header_Label"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                android:textSize="@dimen/reg_error_alert_size"
+                fontPath="fonts/centralesansbold.ttf"/>
+
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_marketingScreen_specialOffer_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
+                android:text="@string/reg_Opt_In_Special_Offers"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                android:textSize="@dimen/reg_button_text_size"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_marketingScreen_joinNow_Label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
+                android:text="@string/reg_Opt_In_Join_Now"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                android:textSize="@dimen/reg_button_text_size"/>
+
+            <LinearLayout
+                android:id="@+id/usr_marketingScreen_newsContainer_linearlayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="?attr/uidContentTertiaryBackgroundColor"
+                android:orientation="vertical">
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/usr_marketingScreen_philipsNews_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/reg_dimen_16dp"
+                    android:textSize="@dimen/reg_text_size_12"
+                    android:layout_marginBottom="@dimen/reg_dimen_16dp"
+                    android:layout_marginTop="@dimen/reg_dimen_16dp"
+                    android:text="@string/reg_Receive_Philips_News_lbltxt"
+                    android:textColor="?attr/uidContentItemSecondaryNormalTextColor"/>
+            </LinearLayout>
+
+            <com.philips.platform.uid.view.widget.ProgressBarButton
+                android:id="@+id/usr_marketingScreen_countMe_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_dimen_12dp"
+                android:layout_marginTop="@dimen/reg_dimen_24dp"
+                android:enabled="false"
+                android:textStyle="normal"
+                app:uidIsIndeterminateProgressIndicator="true"
+                app:uidProgressIndicatorButtonText="@string/reg_DLS_OptIn_Button1_Title"/>
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/usr_marketingScreen_maybeLater_button"
+                style="@style/UIDImageTextButton.Center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
+                android:text="@string/reg_DLS_OptIn_Button2_Title"
+                android:textStyle="normal"
+                app:uidComponentType="Secondary"/>
+
+            <com.philips.cdp.registration.ui.customviews.XRegError
+                android:id="@+id/usr_marketingScreen_error_regerror"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_margin_bottom"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

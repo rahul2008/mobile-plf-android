@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="reg_Coppa_Give_Approval_txt">За да се възползвате максимално от приложението, Philips се нуждае от вашето съгласие да събира и използва информация относно използването на Philips Sonicare и приложението от вашето дете.\n\nТази информация ще включва време на четкане, период и честота, събирани от дръжката на четката и приложението.\n\nТази информация ви позволява да наблюдавате и насърчавате навиците за миене на зъби на детето ви и да получавате персонализирана информация за четкането и напомняния, когато трябва да се смени главата на четката.\n\nНяма да събираме или използваме никаква лична информация от детето, ако не предоставите съгласие за това.\n\n</string>
+<string name="reg_Coppa_Give_Approval_US_txt">Ако се съгласите, ще получите заявка за потвърждение на съгласието, когато влезете отново в родителския раздел, след не по-малко от 24 часа.\n\n</string>
+<string name="reg_Coppa_Give_Approval_PrivacyNotes_txt">Прочетете %s за повече информация.</string>
+<string name="reg_Coppa_Confirm_Approval_Title_txt">Потвърждение на одобрението</string>
+<string name="reg_Coppa_Confirm_Approval_Content_txt">Благодарим ви, че се съгласихте да съхраняваме информацията на детето ви .Това е второ съгласие, потвърждаващо вашето одобрение.\n\nЗа да се възползвате максимално от приложението, потвърдете вашето родителско съгласие, за да позволите на Philips да събира и използва информация за използването на Philips Sonicare и приложението от вашето дете. Тази информация ще включва време на четкане, период и честота, събирани от дръжката на четката и приложението.\n\nТази информация ви позволява да наблюдавате и насърчавате навиците за миене на зъби на детето ви и да получавате персонализирана информация за четкането и напомняния, когато трябва да се смени главата на четката.\n\nНяма да събираме или използваме никаква лична информация от детето, ако не предоставите съгласие за това.\n\n</string>
+<string name="reg_Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V. и нейните филиали (\"Philips\") силно вярваме в защитата на поверителността на данните, които споделяте с нас. Ние също вярваме и в това, че е важно да ви информираме за начина, по който използваме вашите лични данни, и да ви дадем избор относно това как ще бъдат използвани данните. Затова ви препоръчваме да прочетете внимателно тази Бележка за поверителност, преди да направите своя избор и да ни дадете правото да използваме информацията ви. Това е бележка за практиките за поверителност на Philips, а не договор или споразумение.</string>
+<string name="reg_Coppa_Privacy_Notice_Content_Title_txt">Бележка за поверителност на приложението</string>
+<string name="reg_Coppa_Privacy_Notice_Screen_Title_txt">Бележка за поверителност</string>
+<string name="reg_Coppa_Consent_Approval_Screen_Title_txt">Одобрение</string>
+<string name="reg_Coppa_Age_Verification_Screen_Title_txt">Родителски достъп</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Txt">Аз съм под %d</string>
+<string name="reg_Coppa_Age_Verification_OverAge_Txt">Аз съм над %d</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Alert_Txt">Това е предназначено за лица над %d. Помоли родител да го направи вместо теб.</string>
+<string name="reg_Coppa_Age_Verification_Year_Of_Birth_Txt">Година на раждане</string>
+<string name="reg_Coppa_Age_Verification_How_Old_Txt">На колко години сте?</string>
+<string name="reg_Coppa_Age_Verification_Alert_Title">Възрастта и годината на раждане не съвпадат</string>
+<string name="reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message">Предоставената възраст не съвпада с годината на раждане. Уверете се, че вашата възраст и година на раждане са въведени правилно.</string>
+<string name="reg_Coppa_Parent_Access_Attempt_Txt">Опитваш се да отвориш раздел, който е предназначен за родители.</string>
+<string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Съгласен съм</string>
+<string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Не приемам</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Благодарим ви за вашето разрешение от родител </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Ако се съгласите, ще получите заявка за потвърждение на съгласието, когато влезете отново в родителския раздел, след не по-малко от 24 часа от вашата първоначална заявка</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Благодарим ви за заинтересоваността и споделянето!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Вие сте дали вашето съгласие на Philips да събира информация за времето на миене на зъбите, периода и честотата, събирана от дръжката на четката и приложението. \n \n Philips взима много насериозно вашата поверителност и лични данни. Ние никога няма да използваме тези данни за други цели, освен да подобрим изживяването на Sonicare For Kids.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Вашето разрешение от родител вече е дадено на Philips за събиране и използване на определена информация от приложението Philips Sonicare Kids.\n\nPhilips поема най-голяма грижа да защити вашата поверителност. За да се уверим, че наистина сте вие, потвърдете отново.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Да, потвърждавам отново</string>
+<string name="reg_Coppa_Reject_Button_Txt">Не, отказвам</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Да, давам съгласие</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Не, не се съгласявам</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Потвърдете повторно вашето разрешение от родител</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Разрешение от родител</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Давате ли вашето разрешение от родител?</string>
+</resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:reglib="http://reg.lib/schema"
+    android:orientation="horizontal"  >
+
+    <ImageView
+        android:id="@+id/reg_row_icon"
+        android:layout_width="@dimen/reg_coppa_button_margin_top"
+        android:layout_height="@dimen/reg_coppa_button_margin_top"
+        android:layout_marginLeft="@dimen/reg_home_tiltle_padding"
+        android:padding="@dimen/reg_home_tiltle_padding" />
+
+
+    <com.philips.cdp.registration.ui.customviews.XTextView
+        android:id="@+id/reg_row_title"
+        style="@style/reg_textStyle"
+        android:text="@string/reg_Country"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        android:padding="@dimen/reg_home_tiltle_padding"
+        android:layout_marginTop="@dimen/reg_input_length"
+        reglib:fontAssetName="CentraleSans-Book.OTF"/>
+
+</LinearLayout>

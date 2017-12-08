@@ -1,0 +1,10 @@
+com.philips.cdp.coppa.registration
+com.philips.cdp.registration
+com.philips.cdp.registration.coppa.utils
+com.philips.cdp.registration.dao
+com.philips.cdp.registration.handlers
+com.philips.cdp.registration.listener
+com.philips.cdp.registration.ui.utils
+com.philips.cdp.registration.update
+com.philips.cdp.registration.wxapi
+com.philips.platform.urdemo

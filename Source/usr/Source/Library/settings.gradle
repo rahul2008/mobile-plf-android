@@ -1,0 +1,7 @@
+include ':hsdp', ':HockeySDK-3.0.2'
+include ':jump'
+include ':RegistrationApi'
+include ':coppa'
+include ':RegistrationCoppaSampleApp'
+
+

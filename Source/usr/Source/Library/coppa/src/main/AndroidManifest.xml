@@ -1,0 +1,13 @@
+<manifest package="com.philips.cdp.registration.coppa"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <application>
+        <activity
+            android:name=".ui.activity.RegistrationCoppaActivity"
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
+            android:exported="false"
+            android:configChanges="orientation|screenSize"/>
+    </application>
+
+</manifest>
