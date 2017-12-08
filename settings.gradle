@@ -11,8 +11,8 @@ include ':registrationApi'
 include ':UserRegistrationUApp'
 include ':jump'
 include ':hsdp'
-//include ':iap'
-//include ':iapUApp'
+include ':iap'
+include ':iapUApp'
 include ':digitalCare'
 include ':digitalCareUApp'
 include ':productselection'
@@ -57,8 +57,8 @@ project(':registrationApi').projectDir = new File('./Source/usr/Source/Library/R
 project(':UserRegistrationUApp').projectDir = new File('./Source/usr/Source/DemoUApp/DemoUApp')
 project(':jump').projectDir = new File('./Source/usr/Source/Library/jump')
 project(':hsdp').projectDir = new File('./Source/usr/Source/Library/hsdp')
-//project(':iap').projectDir = new File('./Source/iap/Source/Library/iap')
-//project(':iapUApp').projectDir = new File('./Source/iap/Source/DemoUApp')
+project(':iap').projectDir = new File('./Source/iap/Source/Library/iap')
+project(':iapUApp').projectDir = new File('./Source/iap/Source/DemoUApp')
 project(':digitalCare').projectDir = new File('./Source/dcc/Source/Library/digitalCare')
 project(':digitalCareUApp').projectDir = new File('./Source/dcc/Source/DemoUApp/DemoUApp')
 project(':productselection').projectDir = new File('./Source/pse/Source/Library/productselection')
