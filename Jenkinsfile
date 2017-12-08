@@ -36,52 +36,52 @@ timestamps {
             }
 
             stage ('reporting') {
-                junit allowEmptyResults: false, testResults: 'Source/Library/icf/Source/Library/**/build/test-results/**/*.xml'
-                junit allowEmptyResults: false, testResults: 'Source/Library/ail/Source/Library/*/build/outputs/androidTest-results/*/*.xml'
-                junit allowEmptyResults: false, testResults: 'Source/Library/ufw/Source/Library/*/build/test-results/*/*.xml'
-                junit allowEmptyResults: false, testResults: 'Source/Library/sdb/Source/Library/**/build/outputs/androidTest-results/*/*.xml'
-                junit allowEmptyResults: false, testResults: 'Source/Library/pse/Source/Library/**/build/outputs/androidTest-results/*/*.xml'
-                junit allowEmptyResults: true,  testResults: 'Source/Library/bll/**/testReleaseUnitTest/*.xml'
-                junit allowEmptyResults: true,  testResults: 'Source/Library/prg/Source/Library/*/build/test-results/**/*.xml'
-                junit allowEmptyResults: false, testResults: 'Source/Library/iap/Source/Library/*/build/test-results/**/*.xml'
-                junit allowEmptyResults: true, testResults: 'Source/Library/dcc/Source/DemoApp/launchDigitalCare/build/reports/lint-results.xml'
-                junit allowEmptyResults: true, testResults: 'Source/Library/dcc/Source/DemoUApp/DemoUApp/build/reports/lint-results.xml'
-                junit allowEmptyResults: true, testResults: 'Source/Library/dcc/Source/Library/digitalCare/build/test-results/**/*.xml'
-                junit allowEmptyResults: true,  testResults: 'Source/Library/cml/**/testReleaseUnitTest/*.xml'
-                junit allowEmptyResults: true,  testResults: 'Source/Library/mya/Source/DemoUApp/DemoUApp/build/test-results/**/*.xml'
-                junit allowEmptyResults: true,  testResults: 'Source/Library/mya/Source/Library/ConsentAccessToolkit/build/test-results/**/*.xml'
-                junit allowEmptyResults: true,  testResults: 'Source/Library/mya/Source/Library/ConsentWidgets/build/test-results/**/*.xml'
-                junit allowEmptyResults: true,  testResults: 'Source/Library/mya/Source/Library/MyAccount/build/test-results/**/*.xml'
-                junit allowEmptyResults: false, testResults: 'Source/Library/dsc/Source/Library/*/build/test-results/**/*.xml'
-                junit allowEmptyResults: true,  testResults: 'Source/Library/dpr/Source/DemoApp/*/build/test-results/*/*.xml'
-                junit allowEmptyResults: true,  testResults: 'Source/Library/dpr/Source/DemoUApp/*/build/test-results/*/*.xml'
+                junit allowEmptyResults: false, testResults: 'Source/icf/Source/Library/**/build/test-results/**/*.xml'
+                junit allowEmptyResults: false, testResults: 'Source/ail/Source/Library/*/build/outputs/androidTest-results/*/*.xml'
+                junit allowEmptyResults: false, testResults: 'Source/ufw/Source/Library/*/build/test-results/*/*.xml'
+                junit allowEmptyResults: false, testResults: 'Source/sdb/Source/Library/**/build/outputs/androidTest-results/*/*.xml'
+                junit allowEmptyResults: false, testResults: 'Source/pse/Source/Library/**/build/outputs/androidTest-results/*/*.xml'
+                junit allowEmptyResults: true,  testResults: 'Source/bll/**/testReleaseUnitTest/*.xml'
+                junit allowEmptyResults: true,  testResults: 'Source/prg/Source/Library/*/build/test-results/**/*.xml'
+                junit allowEmptyResults: false, testResults: 'Source/iap/Source/Library/*/build/test-results/**/*.xml'
+                junit allowEmptyResults: true, testResults: 'Source/dcc/Source/DemoApp/launchDigitalCare/build/reports/lint-results.xml'
+                junit allowEmptyResults: true, testResults: 'Source/dcc/Source/DemoUApp/DemoUApp/build/reports/lint-results.xml'
+                junit allowEmptyResults: true, testResults: 'Source/dcc/Source/Library/digitalCare/build/test-results/**/*.xml'
+                junit allowEmptyResults: true,  testResults: 'Source/cml/**/testReleaseUnitTest/*.xml'
+                junit allowEmptyResults: true,  testResults: 'Source/mya/Source/DemoUApp/DemoUApp/build/test-results/**/*.xml'
+                junit allowEmptyResults: true,  testResults: 'Source/mya/Source/Library/ConsentAccessToolkit/build/test-results/**/*.xml'
+                junit allowEmptyResults: true,  testResults: 'Source/mya/Source/Library/ConsentWidgets/build/test-results/**/*.xml'
+                junit allowEmptyResults: true,  testResults: 'Source/mya/Source/Library/MyAccount/build/test-results/**/*.xml'
+                junit allowEmptyResults: false, testResults: 'Source/dsc/Source/Library/*/build/test-results/**/*.xml'
+                junit allowEmptyResults: true,  testResults: 'Source/dpr/Source/DemoApp/*/build/test-results/*/*.xml'
+                junit allowEmptyResults: true,  testResults: 'Source/dpr/Source/DemoUApp/*/build/test-results/*/*.xml'
 
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/icf/Source/Library/IconFont/icf/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'icf unit test debug'])
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/icf/Source/Library/IconFont/icf/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'icf unit test release'])
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/ail/Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'ail connected tests']) 
-                publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/ail/Source/Library/AppInfra/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'ail coverage tests']) 
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/uid/Source/UIKit/uid/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'uid Unit Tests'])
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/uid/Source/UIKit/uid/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'uid Code Coverage'])
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/ufw/Source/Library/uAppFwLib/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'ufw unit test debug']) 
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/ufw/Source/Library/uAppFwLib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'ufw unit test release']) 
-                publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/sdb/Source/Library/securedblibrary/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'sdb coverage debug']) 
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/sdb/Source/Library/securedblibrary/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'sdb connected tests']) 
-                publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/pse/Source/Library/productselection/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'pse coverage debug']) 
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/pse/Source/Library/productselection/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'pse connected tests']) 
-//                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true,  keepAll: true, reportDir: 'Source/Library/bll/Documents/External/shinelib-api', reportFiles: 'index.html', reportName: 'Bluelib Public API'])
-//                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true,  keepAll: true, reportDir: 'Source/Library/bll/Documents/External/shinelib-plugin-api', reportFiles: 'index.html', reportName: 'Bluelib Plugin API'])
-                step([$class: 'JacocoPublisher', execPattern: 'Source/Library/bll/**/*.exec', classPattern: 'Source/Library/bll/**/classes', sourcePattern: 'Source/Library/bll/**/src/main/java', exclusionPattern: 'Source/Library/bll/**/R.class,Source/Library/bll/**/R$*.class,Source/Library/bll/**/BuildConfig.class,Source/Library/bll/**/Manifest*.*,Source/Library/bll/**/*Activity*.*,Source/Library/bll/**/*Fragment*.*'])
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/prg/Source/Library/product-registration-lib/build/reports/jacoco/jacocoTestReport/html', reportFiles: 'index.html', reportName: 'prg jacocoTestReport']) 
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/prg/Source/Library/product-registration-lib/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'prg unit test debug']) 
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/prg/Source/Library/product-registration-lib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'prg unit test release']) 
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/iap/Source/Library/iap/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'iap unit test release'])
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/dcc/Source/Library/digitalCare/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dcc unit test release'])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/icf/Source/Library/IconFont/icf/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'icf unit test debug'])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/icf/Source/Library/IconFont/icf/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'icf unit test release'])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ail/Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'ail connected tests']) 
+                publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ail/Source/Library/AppInfra/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'ail coverage tests']) 
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/uid/Source/UIKit/uid/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'uid Unit Tests'])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/uid/Source/UIKit/uid/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'uid Code Coverage'])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ufw/Source/Library/uAppFwLib/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'ufw unit test debug']) 
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ufw/Source/Library/uAppFwLib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'ufw unit test release']) 
+                publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/sdb/Source/Library/securedblibrary/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'sdb coverage debug']) 
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/sdb/Source/Library/securedblibrary/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'sdb connected tests']) 
+                publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/pse/Source/Library/productselection/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'pse coverage debug']) 
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/pse/Source/Library/productselection/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'pse connected tests']) 
+//                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true,  keepAll: true, reportDir: 'Source/bll/Documents/External/shinelib-api', reportFiles: 'index.html', reportName: 'Bluelib Public API'])
+//                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true,  keepAll: true, reportDir: 'Source/bll/Documents/External/shinelib-plugin-api', reportFiles: 'index.html', reportName: 'Bluelib Plugin API'])
+                step([$class: 'JacocoPublisher', execPattern: 'Source/bll/**/*.exec', classPattern: 'Source/bll/**/classes', sourcePattern: 'Source/bll/**/src/main/java', exclusionPattern: 'Source/bll/**/R.class,Source/bll/**/R$*.class,Source/bll/**/BuildConfig.class,Source/bll/**/Manifest*.*,Source/bll/**/*Activity*.*,Source/bll/**/*Fragment*.*'])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/prg/Source/Library/product-registration-lib/build/reports/jacoco/jacocoTestReport/html', reportFiles: 'index.html', reportName: 'prg jacocoTestReport']) 
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/prg/Source/Library/product-registration-lib/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'prg unit test debug']) 
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/prg/Source/Library/product-registration-lib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'prg unit test release']) 
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/iap/Source/Library/iap/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'iap unit test release'])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dcc/Source/Library/digitalCare/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dcc unit test release'])
 
-                def cucumber_path = 'Source/Library/cml/Source/Library/build/cucumber-reports'
-                def cucumber_filename = 'Source/Library/cml/cucumber-report-android-commlib.json'
-                step([$class: 'JacocoPublisher', execPattern: 'Source/Library/cml/**/*.exec', classPattern: 'Source/Library/cml/**/classes', sourcePattern: 'Source/Library/cml/**/src/main/java', exclusionPattern: 'Source/Library/cml/**/R.class,Source/Library/cml/**/R$*.class,Source/Library/cml/**/BuildConfig.class,Source/Library/cml/**/Manifest*.*,Source/Library/cml/**/*Activity*.*,Source/Library/cml/**/*Fragment*.*,Source/Library/cml/**/*Test*.*'])
+                def cucumber_path = 'Source/cml/Source/Library/build/cucumber-reports'
+                def cucumber_filename = 'Source/cml/cucumber-report-android-commlib.json'
+                step([$class: 'JacocoPublisher', execPattern: 'Source/cml/**/*.exec', classPattern: 'Source/cml/**/classes', sourcePattern: 'Source/cml/**/src/main/java', exclusionPattern: 'Source/cml/**/R.class,Source/cml/**/R$*.class,Source/cml/**/BuildConfig.class,Source/cml/**/Manifest*.*,Source/cml/**/*Activity*.*,Source/cml/**/*Fragment*.*,Source/cml/**/*Test*.*'])
                 for (lib in ["commlib-lan"]) {
-                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/Library/cml/Documents/External/$lib-api", reportFiles: 'index.html', reportName: "$lib API documentation"])
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/cml/Documents/External/$lib-api", reportFiles: 'index.html', reportName: "$lib API documentation"])
                 }
 
                 if (fileExists("$cucumber_path/report.json")) {
@@ -90,13 +90,13 @@ timestamps {
                     echo 'No Cucumber result found, nothing to publish'
                 }
 
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll:  true, reportDir: 'Source/Library/mya/Source/DemoUApp/DemoUApp/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya DemoUApp - release test'])
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll:  true, reportDir: 'Source/Library/mya/Source/Library/ConsentAccessToolkit/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya ConsentAccessToolkit - release test'])
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll:  true, reportDir: 'Source/Library/mya/Source/Library/ConsentWidgets/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya ConsentWidgets - release test'])
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll:  true, reportDir: 'Source/Library/mya/Source/Library/MyAccount/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya MyAccount - release test'])
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/dsc/Source/Library/dataServices/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dsc unit test release'])
-                publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/dpr/Source/DemoApp/app/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'unit test debug'])
-                publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/dpr/Source/DemoApp/app/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll:  true, reportDir: 'Source/mya/Source/DemoUApp/DemoUApp/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya DemoUApp - release test'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll:  true, reportDir: 'Source/mya/Source/Library/ConsentAccessToolkit/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya ConsentAccessToolkit - release test'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll:  true, reportDir: 'Source/mya/Source/Library/ConsentWidgets/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya ConsentWidgets - release test'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll:  true, reportDir: 'Source/mya/Source/Library/MyAccount/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya MyAccount - release test'])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dsc/Source/Library/dataServices/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dsc unit test release'])
+                publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dpr/Source/DemoApp/app/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'unit test debug'])
+                publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dpr/Source/DemoApp/app/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release'])
             }
 
             stage('Cleaning workspace') {
@@ -184,7 +184,7 @@ timestamps {
                         TIMESTAMP=`date -u +%Y%m%d%H%M%S`
                         TIMESTAMPEXTENSION=".$TIMESTAMP"
                         
-                        cd $BASE_PATH/Source/Library/rap/Source/AppFramework/appFramework/build/outputs/apk
+                        cd $BASE_PATH/Source/rap/Source/AppFramework/appFramework/build/outputs/apk
                         PUBLISH_APK=false
                         APK_NAME="RefApp_LeakCanary_"${TIMESTAMP}".apk"
                         ARTIFACTORY_URL="http://artifactory-ehv.ta.philips.com:8082/artifactory"
@@ -213,7 +213,7 @@ timestamps {
                         then
                             mv referenceApp-leakCanary.apk $APK_NAME
                             curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/referenceApp/LeakCanary/ -T $APK_NAME
-                            echo "$ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/referenceApp/LeakCanary/$APK_NAME" > $BASE_PATH/Source/Library/rap/Source/AppFramework/apkname.txt
+                            echo "$ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/referenceApp/LeakCanary/$APK_NAME" > $BASE_PATH/Source/rap/Source/AppFramework/apkname.txt
                         fi
                         
                         if [ $? != 0 ]
