@@ -15,7 +15,7 @@ def coverageSourceDirs = [
 ]
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {
@@ -245,14 +245,14 @@ dependencies {
 
     def dp = project.ext.has('useprojectdependencies')
     if (dp) {
-        project(':uid')
+        compile(project(':uid'))
     } else {
         compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
                 {
                     transitive = true
                 }
     }
-    compile project(':ConsentAccessToolKit')
+    compile(project(':ConsentAccessToolKit'))
 
     // Tests
     testCompile 'junit:junit:4.12'

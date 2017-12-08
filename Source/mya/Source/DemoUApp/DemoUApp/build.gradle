@@ -6,7 +6,7 @@ apply plugin: 'maven-publish'
 
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {
@@ -213,12 +213,12 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     def dp = project.ext.has('useprojectdependencies')
-    compile(dp ? project(':mya') : project(':MyAccount'))
+    compile(dp ? project(':MyAccount') : project(':MyAccount'))
     compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
                 transitive = true
     }
     if(dp) {
-        project(':usrUApp')
+        compile(project(':UserRegistrationUApp'))
     } else {
         compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     }

@@ -20,8 +20,8 @@ include ':uAppFwLib'
 include ':uAppFwLibUApp'
 include ':product-registration-lib'
 include ':product-registration-libUApp'
-//include ':dataServices'
-//include ':dataServicesUApp'
+include ':dataServices'
+include ':dataServicesUApp'
 //include ':devicepairingUApp'
 //include ':referenceApp'
 //include ':pushnotification'
@@ -39,10 +39,10 @@ include ':product-registration-libUApp'
 //include ':pluginreferenceboard'
 include ':securedblibrary'
 include ':telehealth'
-//include ':MyAccount'
-//include ':ConsentWidgets'
-//include ':ConsentAccessToolKit'
-//include ':MyAccountUApp'
+include ':MyAccount'
+include ':ConsentWidgets'
+include ':ConsentAccessToolKit'
+include ':MyAccountUApp'
 //include ':ews'
 
 //opa archive references:
@@ -85,10 +85,10 @@ project(':dataServicesUApp').projectDir = new File('./Source/dsc/Source/DemoUApp
 //project(':pluginreferenceboard').projectDir = new File('./Source/bll/Source/ShineLib/pluginreferenceboard')
 project(':securedblibrary').projectDir = new File('./Source/sdb/Source/Library/securedblibrary')
 project(':telehealth').projectDir = new File('./Source/ths/Source/Library/thsuapp')
-//project(':MyAccount').projectDir = new File('./Source/mya/Source/Library/MyAccount')
-//project(':ConsentWidgets').projectDir = new File('./Source/mya/Source/Library/ConsentWidgets')
+project(':MyAccount').projectDir = new File('./Source/mya/Source/Library/MyAccount')
+project(':ConsentWidgets').projectDir = new File('./Source/mya/Source/Library/ConsentWidgets')
 project(':ConsentAccessToolKit').projectDir = new File('./Source/mya/Source/Library/ConsentAccessToolKit')
-//project(':MyAccountUApp').projectDir = new File('./Source/mya/Source/DemoUApp/DemoUApp')
+project(':MyAccountUApp').projectDir = new File('./Source/mya/Source/DemoUApp/DemoUApp')
 //project(':ews').projectDir = new File('./Source/ews/Source/Library/ews')
 
 //demoapps

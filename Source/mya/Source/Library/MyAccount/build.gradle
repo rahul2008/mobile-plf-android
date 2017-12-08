@@ -14,7 +14,7 @@ def coverageSourceDirs = [
 ]
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {
@@ -229,15 +229,15 @@ configurations.all {
 
 dependencies {
     //3rd party
-    compile project(':ConsentWidgets')
+    compile(project(':ConsentWidgets'))
     //Coco
     def dp = project.ext.has('useprojectdependencies')
     if (dp) {
-        project(':uit')
+        compile(project(':uikitLib'))
     }
 
     if (dp) {
-        project(':uid')
+        compile(project(':uid'))
     } else {
         compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
             transitive = true
@@ -245,7 +245,7 @@ dependencies {
     }
 
     if (dp) {
-        project(':registrationApi')
+        compile(project(':registrationApi'))
     } else {
         compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
             transitive = true

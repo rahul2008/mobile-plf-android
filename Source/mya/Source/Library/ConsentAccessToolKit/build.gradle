@@ -14,7 +14,7 @@ def coverageSourceDirs = [
 ]
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {
@@ -242,7 +242,7 @@ dependencies {
     // Philips Components
     def dp = project.ext.has('useprojectdependencies')
     if (dp) {
-        project(':registrationApi')
+        compile(project(':registrationApi'))
     } else {
         compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
                 {

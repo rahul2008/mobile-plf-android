@@ -3,7 +3,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {
@@ -235,7 +235,7 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        project(':uid')
+        compile(project(':uid'))
     } else {
         compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
         {
@@ -244,7 +244,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':usrUApp')
+        compile(project(':UserRegistrationUApp'))
     } else {
         compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     }
@@ -264,7 +264,7 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-    compile project(':DemoUApp')
+    compile(project(':MyAccountUApp'))
 
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
