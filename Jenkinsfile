@@ -14,8 +14,8 @@ def MailRecipient = 'DL_CDP2_Callisto@philips.com'
 def errors = []
 
 timestamps {
-    try {
-        node ('android && device') {
+    node ('android && device') {
+        try {
             stage ('Checkout') {
                 checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'LocalBranch' , localBranch: "**"], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'CloneOption', depth: 1, noTags: false, reference: '', shallow: true], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/plf-android']]])
 
@@ -98,13 +98,30 @@ timestamps {
                 publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dpr/Source/DemoApp/app/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'unit test debug'])
                 publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dpr/Source/DemoApp/app/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release'])
             }
+        } catch(err) {
+            errors << "errors found: ${err}"
+        } finally {
+            if (errors.size() > 0) {
+                stage ('error reporting') {
+                    currentBuild.result = 'FAILURE'
+                    for (int i = 0; i < errors.size(); i++) {
+                        echo errors[i];
+                    }
+                }
+            }
 
             stage('Cleaning workspace') {
-                step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
+               step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
+            }
+
+            stage('informing') {
+                step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
             }
         }
+    } //node
 
-        node ('android && docker && localdisk') {
+    node ('android && docker && localdisk') {
+        try {
             stage ('Checkout 3') {
                 checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'LocalBranch' , localBranch: "**"], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'CloneOption', depth: 1, noTags: false, reference: '', shallow: true], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/opa-android']]])
 
@@ -118,7 +135,7 @@ timestamps {
             stage ('build') {
                 sh '''#!/bin/bash -l
                     set -e
-                    chmod -R 755 . 
+                    chmod -R 755 .
                     #do not use -PenvCode=${JENKINS_ENV} since the option 'opa' is hardcoded in the archive
                     ./gradlew --refresh-dependencies clean assembleRelease
                 '''
@@ -127,7 +144,7 @@ timestamps {
             stage ('lint') {
                 sh '''#!/bin/bash -l
                     set -e
-                    #chmod -R 755 . 
+                    #chmod -R 755 .
                     #do not use -PenvCode=${JENKINS_ENV} since the option 'opa' is hardcoded in the archive
                     ./gradlew :IconFont:lint :AppInfra:lint :uikitLib:lint :registrationApi:lint :productselection:lint :bluelib:lintDebug :product-registration-lib:lint :iap:lint :digitalCare:lint :cloudcontroller-api:lintDebug :commlib:lintDebug :dataServices:lintRelease :devicepairingUApp:lint
                     #prx:lint and rap:lintRelease are not working and we are keeping it as known issues
@@ -183,39 +200,39 @@ timestamps {
                         echo $BASE_PATH
                         TIMESTAMP=`date -u +%Y%m%d%H%M%S`
                         TIMESTAMPEXTENSION=".$TIMESTAMP"
-                        
+
                         cd $BASE_PATH/Source/rap/Source/AppFramework/appFramework/build/outputs/apk
                         PUBLISH_APK=false
                         APK_NAME="RefApp_LeakCanary_"${TIMESTAMP}".apk"
                         ARTIFACTORY_URL="http://artifactory-ehv.ta.philips.com:8082/artifactory"
                         ARTIFACTORY_REPO="unknown"
-                        
+
                         if [ '''+MasterBranch+''' = true ]
                         then
                             PUBLISH_APK=true
-//                            ARTIFACTORY_REPO="platform-pkgs-android-release"
+    //                            ARTIFACTORY_REPO="platform-pkgs-android-release"
                             ARTIFACTORY_REPO="platform-pkgs-opa-android-release"
                         elif [ '''+ReleaseBranch+''' = true ]
                         then
                             PUBLISH_APK=true
-//                            ARTIFACTORY_REPO="platform-pkgs-android-stage"
+    //                            ARTIFACTORY_REPO="platform-pkgs-android-stage"
                             ARTIFACTORY_REPO="platform-pkgs-opa-android-stage"
                         elif [ '''+DevelopBranch+''' = true ]
                         then
                             PUBLISH_APK=true
-//                            ARTIFACTORY_REPO="platform-pkgs-android-snapshot"
+    //                            ARTIFACTORY_REPO="platform-pkgs-android-snapshot"
                             ARTIFACTORY_REPO="platform-pkgs-opa-android-snapshot"
                         else
                             echo "Not published as build is not on a master, develop or release branch" . $BranchName
                         fi
-                        
+
                         if [ $PUBLISH_APK = true ]
                         then
                             mv referenceApp-leakCanary.apk $APK_NAME
                             curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/referenceApp/LeakCanary/ -T $APK_NAME
                             echo "$ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/referenceApp/LeakCanary/$APK_NAME" > $BASE_PATH/Source/rap/Source/AppFramework/apkname.txt
                         fi
-                        
+
                         if [ $? != 0 ]
                         then
                             exit 1
@@ -227,46 +244,48 @@ timestamps {
                 }
             }
 
-//            stage('E2E test') {
-//                if (BranchName =~ /master|develop|release\/platform_.*/) {
-//                    APK_NAME = readFile("apkname.txt").trim()
-//                    echo "APK_NAME = ${APK_NAME}"
-//                    if(params.LeakCanarybuild){
-//                        build job: "Platform-Infrastructure/E2E_Tests/Reliability/LeakCanary_Android_develop", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
-//                    } else {
-//                        def jobBranchName = BranchName.replace('/', '_')
-//                        echo "jobBranchName = ${jobBranchName}"
-//                        build job: "Platform-Infrastructure/E2E_Tests/E2E_Android_${jobBranchName}", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
-//                    }
-//                }
-//            }
+    //            stage('E2E test') {
+    //                if (BranchName =~ /master|develop|release\/platform_.*/) {
+    //                    APK_NAME = readFile("apkname.txt").trim()
+    //                    echo "APK_NAME = ${APK_NAME}"
+    //                    if(params.LeakCanarybuild){
+    //                        build job: "Platform-Infrastructure/E2E_Tests/Reliability/LeakCanary_Android_develop", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
+    //                    } else {
+    //                        def jobBranchName = BranchName.replace('/', '_')
+    //                        echo "jobBranchName = ${jobBranchName}"
+    //                        build job: "Platform-Infrastructure/E2E_Tests/E2E_Android_${jobBranchName}", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
+    //                    }
+    //                }
+    //            }
 
             stage ('reporting') {
                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
             }
-    
-            stage('informing') {
-                step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
-            }
-        }
-    } catch(err) {
-        errors << "errors found: ${err}"
-    } finally {
-        if (errors.size() > 0) {
-            stage ('error reporting') {
-                currentBuild.result = 'FAILURE'
-                for (int i = 0; i < errors.size(); i++) {
-                    echo errors[i];
+
+
+
+            } catch(err) {
+                errors << "errors found: ${err}"
+            } finally {
+                if (errors.size() > 0) {
+                    stage ('error reporting') {
+                        currentBuild.result = 'FAILURE'
+                        for (int i = 0; i < errors.size(); i++) {
+                            echo errors[i];
+                        }
+                    }
+                }
+
+                stage('Cleaning workspace') {
+                   step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
+                }
+
+                stage('informing') {
+                    step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
                 }
             }
-        }
-
-        //BENIT: Do not ever remove this from here.
-        stage('Cleaning workspace') {
-           step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
-        }
-    } // end timestamps
-} // end node ('android')
+    } // end node ('android')
+}//timestamp
 
 node('master') {
     stage('Cleaning workspace') {
