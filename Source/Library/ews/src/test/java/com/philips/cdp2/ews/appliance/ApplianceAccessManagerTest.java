@@ -56,14 +56,11 @@ public class ApplianceAccessManagerTest {
 
     private ApplianceAccessManager accessManager;
 
-
-
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(EWSTagger.class);
         mockStatic(EWSLogger.class);
-
         stubAppliancePorts();
         accessManager = new ApplianceAccessManager(applianceMock, mockEWSTagger, mockEWSLogger);
     }
@@ -77,7 +74,6 @@ public class ApplianceAccessManagerTest {
     @Test
     public void itShouldFetchApplianceDevicePortPropertiesWhenAsked() throws Exception {
         accessManager.fetchDevicePortProperties(null);
-
         verify(wifiPortMock).reloadProperties();
         verifyRequestType(ApplianceRequestType.GET_WIFI_PROPS);
     }
@@ -88,41 +84,51 @@ public class ApplianceAccessManagerTest {
         accessManager.fetchDevicePortProperties(null);
         accessManager.fetchDevicePortProperties(null);
         accessManager.fetchDevicePortProperties(null);
-
         verify(wifiPortMock, times(1)).reloadProperties();
     }
 
     @Test
     public void itShouldSaveApplianceWiFIPortSessionDetailsWhenGetWiFIPortPropertiesAreFetched() throws Exception {
         fetchWiFiProperties(GET_WIFI_PROPS);
-
         verifyRequestType(ApplianceRequestType.UNKNOWN);
     }
 
     @Test
     public void itShouldSendEventToShowNextScreenWhenWiFiPortPropertiesAreReadSuccessfully() throws Exception {
         fetchWiFiProperties(GET_WIFI_PROPS);
-
         verify(mockFetchCallback).onDeviceInfoReceived(any(WifiPortProperties.class));
     }
 
     @Test
     public void itShouldSendPairingSuccessEventWhenApplianceIsConnectedToHomeWifi() throws Exception {
         connectApplianceToHomeWiFi();
-
         accessManager.getWifiPortListener().onPortUpdate(wifiPortMock);
-
         verify(wifiPortMock).setWifiNetworkDetails(HOME_WIFI_SSID, HOME_WIFI_PASSWORD);
     }
 
     @Test
     public void itShouldNotifyCallbackWhenInfoIsPutIntoDevice() throws Exception {
         connectApplianceToHomeWiFi();
-
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.PUT_WIFI_PROPS);
         accessManager.getWifiPortListener().onPortUpdate(wifiPortMock);
-
         verify(mockSetPropertiesCallback).onPropertiesSet(any(WifiPortProperties.class));
+    }
+
+    @Test
+    public void itShouldNotifyCallbackWhenInfoApplianceRequestTypeUNKNOWN() throws Exception {
+        connectApplianceToHomeWiFi();
+        accessManager.setApplianceWifiRequestType(ApplianceRequestType.UNKNOWN);
+        accessManager.getWifiPortListener().onPortUpdate(wifiPortMock);
+        verify(mockEWSLogger).e("ApplianceAccessManager","Unknown request type");
+    }
+
+    @Test
+    public void itShouldNotifyCallbackWhenInfoApplianceRequestTypeUNKNOWNAndSetPropertiesCallbackNotNull() throws Exception {
+        connectApplianceToHomeWiFi();
+        accessManager.setApplianceWifiRequestType(ApplianceRequestType.UNKNOWN);
+        accessManager.getWifiPortListener().onPortError(wifiPortMock, Error.UNKNOWN, "");
+        verify(mockEWSTagger).trackActionSendData("technicalError", "EWS:Network:AWSDK:wifiPortError");
+        verify(mockSetPropertiesCallback).onFailedToSetProperties();
     }
 
     private void verifyRequestType(final int requestType) {
@@ -134,40 +140,40 @@ public class ApplianceAccessManagerTest {
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.GET_WIFI_PROPS);
         accessManager.getWifiPortListener().onPortError(wifiPortMock, Error.UNKNOWN, "");
         verify(mockEWSTagger).trackActionSendData("technicalError", "EWS:Network:AWSDK:wifiPortError");
+    }
 
+    @Test
+    public void itShouldSendDeviceConnectionErrorEventWhenGetWifiPropsOnErrorReceivedAndGiveListenBackToFetchDeviceInfo() {
+        accessManager.setApplianceWifiRequestType(ApplianceRequestType.UNKNOWN);
+        accessManager.fetchDevicePortProperties(mockFetchCallback);
+        accessManager.getWifiPortListener().onPortError(wifiPortMock, Error.UNKNOWN, "");
+        verify(mockEWSTagger).trackActionSendData("technicalError", "EWS:Network:AWSDK:wifiPortError");
+        verify(mockFetchCallback).onFailedToFetchDeviceInfo();
     }
 
     @Test
     public void itShouldSendApplianceConnectErrorEventWhenPutDevicePropsOnErrorReceived() {
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.PUT_WIFI_PROPS);
-
         accessManager.getWifiPortListener().onPortError(wifiPortMock, Error.UNKNOWN, "");
-
     }
 
     @Test
     public void itShouldDoNothingWhenWifiPortPropertiesAreNull() {
-
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.PUT_WIFI_PROPS);
-
         accessManager.getWifiPortListener().onPortUpdate(wifiPortMock);
     }
 
     @Test
     public void itShouldDoNothingWhenConnectingToApplianceIsCalledButStateIsNotUnknown() throws Exception {
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.GET_WIFI_PROPS);
-
         connectApplianceToHomeWiFi();
-
         verifyZeroInteractions(wifiPortMock, applianceMock);
     }
 
     @Test
     public void itShouldDoNothingWhenWifiPortErrorReceivedButTypeIsUnknown() throws Exception {
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.UNKNOWN);
-
         accessManager.getWifiPortListener().onPortError(wifiPortMock, Error.UNKNOWN, "hypothetical");
-
         verifyRequestType(ApplianceRequestType.UNKNOWN);
     }
 
@@ -176,7 +182,6 @@ public class ApplianceAccessManagerTest {
         when(wifiPortMock.getPortProperties()).thenReturn(wifiPortProperties);
         accessManager.fetchDevicePortProperties(mockFetchCallback);
         accessManager.setApplianceWifiRequestType(type);
-
         accessManager.getWifiPortListener().onPortUpdate(wifiPortMock);
         return wifiPortProperties;
     }
