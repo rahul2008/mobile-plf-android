@@ -9,7 +9,7 @@ def coverageSourceDirs = [
         '../product-registration-lib/src/main/java'
 ]
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
@@ -218,7 +218,7 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        project(':usr')
+        compile(project(':registrationApi'))
     } else {
         compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar') {            
             transitive = true
@@ -226,7 +226,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':prx')
+        compile(project(':prx'))
     } else {
         compile(group: 'com.philips.cdp', name: 'prx', version: versions.prx_prx + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
             transitive = true
@@ -234,7 +234,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':uid')
+        compile(project(':uid'))
     } else {
         compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid+ objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
             exclude group: 'com.android.support'

@@ -13,7 +13,7 @@ def butterKnifeVer = "7.0.1"
 def eventbusVer = "3.0.0"
 def jUnitVer = 4.12
 buildscript {
-    apply from: projectDir.absolutePath + '/../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
@@ -192,7 +192,7 @@ dependencies {
 
     def dp = project.ext.has('useprojectdependencies')
 
-    compile(dp ? project(':prg') : project(':product-registration-lib'))
+    compile(dp ? project(':product-registration-lib') : project(':product-registration-lib'))
 
     compile("com.android.support:recyclerview-v7:${supportLibraryVer}") {
         exclude module: "com.android.support"

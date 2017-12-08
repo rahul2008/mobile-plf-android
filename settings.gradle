@@ -18,8 +18,8 @@ include ':digitalCareUApp'
 include ':productselection'
 include ':uAppFwLib'
 include ':uAppFwLibUApp'
-//include ':product-registration-lib'
-//include ':product-registration-libUApp'
+include ':product-registration-lib'
+include ':product-registration-libUApp'
 //include ':dataServices'
 //include ':dataServicesUApp'
 //include ':devicepairingUApp'
@@ -64,8 +64,8 @@ project(':digitalCareUApp').projectDir = new File('./Source/dcc/Source/DemoUApp/
 project(':productselection').projectDir = new File('./Source/pse/Source/Library/productselection')
 project(':uAppFwLib').projectDir = new File('./Source/ufw/Source/Library/uAppFwLib')
 project(':uAppFwLibUApp').projectDir = new File('./Source/ufw/Source/DemoUApp')
-//project(':product-registration-lib').projectDir = new File('./Source/prg/Source/Library/product-registration-lib')
-//project(':product-registration-libUApp').projectDir = new File('./Source/prg/Source/DemoUApp')
+project(':product-registration-lib').projectDir = new File('./Source/prg/Source/Library/product-registration-lib')
+project(':product-registration-libUApp').projectDir = new File('./Source/prg/Source/DemoUApp')
 //project(':dataServices').projectDir = new File('./Source/dsc/Source/Library/dataServices')
 //project(':dataServicesUApp').projectDir = new File('./Source/dsc/Source/DemoUApp')
 //project(':devicepairingUApp').projectDir = new File('./Source/dpr/Source/DemoUApp')
