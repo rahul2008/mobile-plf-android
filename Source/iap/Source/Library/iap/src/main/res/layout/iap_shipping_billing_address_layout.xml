@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/checkout_steps"
+            android:id="@+id/tv_checkout_header_steps"
+           />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/tv_shipping_address"
+            style="@style/UIDLabel"
+            android:layout_marginEnd="@dimen/border16_margin_left_right"
+            android:layout_marginStart="@dimen/border16_margin_left_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/iap_shipping_address"
+            android:layout_marginTop="@dimen/border24_margin"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="@dimen/iap_shipping_address_title_size"
+            android:textStyle="bold" />
+
+        <include
+            android:id="@+id/layout_iap_shipping_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/border16_margin_left_right"
+            android:layout_marginStart="@dimen/border16_margin_left_right"
+            layout="@layout/iap_shipping_address_layout_dls" />
+
+        <com.philips.platform.uid.view.widget.CheckBox
+            android:id="@+id/use_this_address_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/border16_margin_left_right"
+            android:layout_marginStart="@dimen/border16_margin_left_right"
+            android:layout_marginTop="@dimen/border12_margin"
+            android:text="Use this address as my billing address" />
+
+        <LinearLayout
+            android:id="@+id/iap_same_as_shipping_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/border16_margin_left_right"
+            android:layout_marginStart="@dimen/border16_margin_left_right"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/tv_billing_address"
+                style="@style/UIDLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/iap_billing_address"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                android:textSize="@dimen/iap_shipping_address_title_size"
+                android:textStyle="bold" />
+
+            <include
+                android:id="@+id/layout_iap_billing_address"
+                layout="@layout/iap_billing_address_layout_dls" />
+        </LinearLayout>
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/btn_continue"
+            style="@style/iapCentralesansBookFont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/border16_margin_left_right"
+            android:layout_marginStart="@dimen/border16_margin_left_right"
+            android:layout_marginTop="@dimen/border8_margin"
+            android:enabled="false"
+            android:text="@string/iap_save"
+            app:uidComponentType="Primary" />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/btn_cancel"
+            style="@style/iapCentralesansBookFont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/border16_margin_left_right"
+            android:layout_marginStart="@dimen/border16_margin_left_right"
+            android:layout_marginBottom="@dimen/border12_margin"
+            android:layout_marginTop="@dimen/border8_margin"
+            android:text="@string/iap_cancel"
+            app:uidComponentType="Secondary" />
+
+    </LinearLayout>
+</ScrollView>

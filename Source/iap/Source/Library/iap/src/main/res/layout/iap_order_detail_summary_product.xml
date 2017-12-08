@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/tv_product_quantity_name"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:layout_marginBottom="@dimen/iap_margin_4dp"
+        android:textSize="@dimen/iap_text_size_12"
+        style="@style/iapCentralesansBookFont"
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+         />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/tv_price_product"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:layout_marginBottom="@dimen/iap_margin_4dp"
+        style="@style/iapCentralesansMediumFont"
+        android:textSize="@dimen/iap_text_size_12"
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+        />
+
+</TableRow>

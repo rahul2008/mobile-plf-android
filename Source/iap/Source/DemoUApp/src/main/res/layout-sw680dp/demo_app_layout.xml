@@ -1,0 +1,112 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/max_width"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:maxWidth="@dimen/max_width">
+
+    <include
+        android:id="@+id/app_actionbar"
+        layout="@layout/action_bar" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/appversion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/demoScreen_toolbar"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal" />
+
+    <LinearLayout
+        android:id="@+id/ll_ctn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/app_actionbar"
+        android:visibility="gone">
+
+        <com.philips.platform.uid.view.widget.EditText
+            android:id="@+id/et_add_ctn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter CTN" />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/btn_add_ctn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Add" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/product_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/btn_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="2dp"
+        android:text="@string/register" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/btn_purchase_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_register"
+        android:layout_marginTop="2dp"
+        android:enabled="false"
+        android:text="@string/order_history"
+        android:visibility="gone" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/btn_shop_now"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_purchase_history"
+        android:layout_marginTop="2dp"
+        android:enabled="false"
+        android:text="@string/shop_now"
+        android:visibility="gone" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/btn_launch_product_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_shop_now"
+        android:layout_marginTop="2dp"
+        android:text="@string/launch_product_detail"
+        android:visibility="gone" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/btn_categorized_shop_now"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_launch_product_detail"
+        android:layout_marginTop="2dp"
+        android:text="@string/categorized_shop_now"
+        android:visibility="gone" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/btn_categorized_shop_now_with_ignore_retailer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_categorized_shop_now"
+        android:layout_marginTop="2dp"
+        android:text="@string/categorized_shop_now_ignore_retailer"
+        android:visibility="gone" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/btn_buy_direct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_categorized_shop_now"
+        android:layout_marginTop="2dp"
+        android:enabled="false"
+        android:text="@string/buy_direct"
+        android:visibility="gone" />
+</RelativeLayout>

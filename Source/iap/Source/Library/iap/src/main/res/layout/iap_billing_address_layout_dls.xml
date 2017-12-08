@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/iap_margin_20dp"
+    android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/tv_billing_address"
+        style="@style/UIDLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/iap_billing_address"
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+        android:textSize="@dimen/iap_shipping_address_title_size"
+        android:textStyle="bold" />
+
+    <!--Personal Detail Linear Layout-->
+    <com.philips.platform.uid.view.widget.Label
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Personal details" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/tv_billing_salutation"
+            style="@style/AddressItemLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/iap_salutation" />
+
+        <com.philips.platform.uid.view.widget.InputValidationLayout
+            android:id="@+id/ll_billing_salutation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+            app:uidTextBoxValidationErrorText="@string/iap_first_name_error">
+
+            <com.philips.platform.uid.view.widget.ValidationEditText
+                android:id="@+id/et_billing_salutation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="@string/iap_salutation_none"
+                android:inputType="none"
+                android:maxLines="1"
+                app:uidInputTextWithClearButton="true" />
+        </com.philips.platform.uid.view.widget.InputValidationLayout>
+        <!--End Salutation-->
+
+        <!--Start First Name-->
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/label_billing_first_name"
+            style="@style/AddressItemLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/iap_first_name" />
+
+        <com.philips.platform.uid.view.widget.InputValidationLayout
+            android:id="@+id/ll_billing_first_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+            app:uidTextBoxValidationErrorText="@string/iap_first_name_error">
+
+            <com.philips.platform.uid.view.widget.ValidationEditText
+                android:id="@+id/et_billing_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/iap_first_name_hint"
+                android:inputType="textCapSentences"
+                android:maxLength="17"
+                android:maxLines="1"
+                app:uidInputTextWithClearButton="true" />
+        </com.philips.platform.uid.view.widget.InputValidationLayout>
+        <!--End First Name-->
+
+        <!--Start Last Name-->
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/AddressItemLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/iap_last_name" />
+
+        <com.philips.platform.uid.view.widget.InputValidationLayout
+            android:id="@+id/ll_billing_last_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+            app:uidTextBoxValidationErrorText="@string/iap_first_name_error">
+
+            <com.philips.platform.uid.view.widget.ValidationEditText
+                android:id="@+id/et_billing_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/iap_last_name_hint"
+                android:inputType="textCapSentences"
+                android:maxLength="17"
+                android:maxLines="1"
+                app:uidInputTextWithClearButton="true" />
+        </com.philips.platform.uid.view.widget.InputValidationLayout>
+        <!--End Last Name-->
+    </LinearLayout>
+
+    <!--Contact Details Linear Layout-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/border_margin_32dp"
+        android:orientation="vertical">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contact details" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--Start Email Name-->
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/label_billing_email"
+                style="@style/AddressItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/iap_email" />
+
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/ll_billing_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="@string/iap_email_error">
+
+                <com.philips.platform.uid.view.widget.ValidationEditText
+                    android:id="@+id/et_billing_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/iap_email_hint"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    app:uidInputTextWithClearButton="true" />
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
+            <!--End Email Name-->
+            <!--Start Phone Name-->
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/AddressItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/iap_phone" />
+
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/ll_billing_phone1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="@string/iap_phone_error">
+
+                <com.philips.platform.uid.view.widget.ValidationEditText
+                    android:id="@+id/et_billing_phone1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/iap_phone_hint"
+                    android:inputType="phone"
+                    android:maxLines="1"
+                    app:uidInputTextWithClearButton="true" />
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
+            <!--End Phone Name-->
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--Contact Details Linear Layout-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/border_margin_32dp"
+        android:orientation="vertical">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Address" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--Start Address 1 Name-->
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/label_billing_address1"
+                style="@style/AddressItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/iap_address_line_one" />
+
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/ll_billing_address_line_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="@string/iap_address_error">
+
+                <com.philips.platform.uid.view.widget.ValidationEditText
+                    android:id="@+id/et_billing_address_line_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/iap_address_line_one_hint"
+                    android:inputType="textCapWords"
+                    android:maxLength="35"
+                    android:maxLines="1"
+                    app:uidInputTextWithClearButton="true" />
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
+            <!--End Address 1 Name-->
+            <!--Start Address 2 Name-->
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/AddressItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/iap_address_line_two" />
+
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/ll_billing_address_line_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="@string/iap_address_error">
+
+                <com.philips.platform.uid.view.widget.ValidationEditText
+                    android:id="@+id/et_billing_address_line_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/iap_address_line_two_hint"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    app:uidInputTextWithClearButton="true" />
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
+            <!--End Address 2 Name-->
+            <!--Start Town / City Name-->
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/AddressItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/iap_town" />
+
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/ll_billing_town"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="@string/iap_town_error">
+
+                <com.philips.platform.uid.view.widget.ValidationEditText
+                    android:id="@+id/et_billing_town"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/iap_town_hint"
+                    android:inputType="textCapWords"
+                    android:maxLength="35"
+                    android:maxLines="1"
+                    app:uidInputTextWithClearButton="true" />
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
+            <!--End Town / City Name-->
+            <!--Start Postal Code-->
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/AddressItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/iap_postal_code" />
+
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/ll_billing_postal_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="@string/iap_postal_code_error">
+
+                <com.philips.platform.uid.view.widget.ValidationEditText
+                    android:id="@+id/et_billing_postal_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/iap_postal_code_hint"
+                    android:inputType="textCapSentences|textNoSuggestions|textVisiblePassword"
+                    android:maxLength="10"
+                    android:maxLines="1"
+                    app:uidInputTextWithClearButton="true" />
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
+            <!--End Postal Code-->
+            <!--Start State-->
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/AddressItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/iap_state" />
+
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/ll_billing_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="@string/iap_state_hint">
+
+                <com.philips.platform.uid.view.widget.ValidationEditText
+                    android:id="@+id/et_billing_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/iap_state_hint"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    app:uidInputTextWithClearButton="true" />
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
+            <!--End State-->
+            <!--Start Country-->
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/AddressItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/iap_country" />
+
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/ll_billing_country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="@string/iap_country_error">
+
+                <com.philips.platform.uid.view.widget.ValidationEditText
+                    android:id="@+id/et_billing_country"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/iap_country_hint"
+                    android:inputType="textCapCharacters|textNoSuggestions|textVisiblePassword"
+                    android:maxLength="2"
+                    android:maxLines="1"
+                    app:uidInputTextWithClearButton="true" />
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
+            <!--End Country-->
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

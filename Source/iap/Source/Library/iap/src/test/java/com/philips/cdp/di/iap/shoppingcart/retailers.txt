@@ -1,0 +1,101 @@
+{
+  "wrbresults": {
+    "storeLocatorUrl": "http://www.usa.philips.com/c-p/HX8071_10/-/store-locator",
+    "EloquaSiteURL": "http://secure.eloqua.com/e/f2.aspx?elqFormName=201210SSFRCaptureBuyButtonClick-1350460856473",
+    "ShowBuyButton": "Y",
+    "Texts": {
+      "Text": [
+        {
+          "Key": "InStockYes",
+          "Value": "Yes"
+        },
+        {
+          "Key": "Previous",
+          "Value": "Previous"
+        },
+        {
+          "Key": "Next",
+          "Value": "Next"
+        },
+        {
+          "Key": "InStock",
+          "Value": "In Stock"
+        },
+        {
+          "Key": "BuyOnline",
+          "Value": "Buy Online"
+        },
+        {
+          "Key": "OfStores",
+          "Value": "of {0} stores"
+        },
+        {
+          "Key": "InStockNo",
+          "Value": "No"
+        },
+        {
+          "Key": "BuyNowRecommendedStore",
+          "Value": "Buy now at this recommended online store."
+        },
+        {
+          "Key": "InStockSeeSite",
+          "Value": "See site"
+        },
+        {
+          "Key": "FindALocalStore",
+          "Value": "Find a local store"
+        },
+        {
+          "Key": "CityOrPostalCode",
+          "Value": "City or postal code"
+        },
+        {
+          "Key": "VisitLocalStoreExperience",
+          "Value": "Visit a local store to experience this Philips product."
+        },
+        {
+          "Key": "DealerPrice",
+          "Value": "Price"
+        },
+        {
+          "Key": "localStoreUrl",
+          "Value": "http://www.usa.philips.com/c/locators/wrb_retail_store_locator_results.jsp?locationType=retailStore&country=US&language=en&catalogType=CONSUMER&productId=HX8071_10_US_CONSUMER"
+        },
+        {
+          "Key": "FindNearbyStore",
+          "Value": "Find a store near you"
+        },
+        {
+          "Key": "OutOfStockInPhilipsShop",
+          "Value": "Unfortunately not in stock in the Philips shop"
+        },
+        {
+          "Key": "Disclaimer",
+          "Value": ""
+        }
+      ]
+    },
+    "Ctn": "HX8071/10",
+    "OnlineStoresForProduct": {
+      "excludePhilipsShopInWTB": "Y",
+      "showPrice": "N",
+      "ctn": "HX8071/10",
+      "Stores": {
+        "Store": [
+          {
+            "name": "Philips Online Shop - US",
+            "availability": "YES",
+            "isPhilipsStore": "Y",
+            "philipsOnlinePrice": "$14.99",
+            "logoHeight": 31,
+            "logoWidth": 88,
+            "buyURL": "https://itrack.where-to-buy.co/wheretobuy/v1/WidgetClicks/?click=FFWmTQCDnHsSrNqp0Hj7lJUcUFLASpDfbw000rGOjIfiiytXnCbBcIcNvVHNi4%2Fvn6loya0gVHI7UXvfWBdyo2dP2ZCzqNpPzYIzrZxOo52Of7rteYIH0xbIQd38edhGObCPXsK8EQCY81Qz9Rh2DzFJfGSNJL%2Bj7JS6EiEL7Ppr8E%2BnJEwoNmC0O9d2%2BJTKyjKWKiheqwZTpc%2Bxyk9UfOl738G%2BUseK6gwD98PMySfyFltDcEl0lzPt8wVtE0H8CiDrpLbOgxIKVz0H4Pwg3NqZgFLL%2B87k7UV5BXJ3Iw6h76IVsmpXvEepeSn8aDI%2FEXj0NcYmpngS%2B2Z5OaN%2FHe3d1BhozBEN7ZwpCTaKwFTL9GxIqxraWw4q%2F4Y0CSTvK7kqyXU1XLJl%2FKrLkbRFHIuHyvEFH3uz%2FhBEG4DaWgntPmIYET3MgdkRptj2Igq%2BY42vtZ1XQhfRUDHjRdvWhtt26LQkncl5RUgOJvQQmdj6QuWEn6J27EGsLrA6fWPg&rUrl=aHR0cDovL3d3dy5waGlsaXBzLXN0b3JlLmNvbS9zdG9yZS9jYXRhbG9nL3Rvbmd1ZWNhcmUtcGx1cy90b25ndWVjYXJlLXBsdXMvc29uaWNhcmUtdG9uZ3VlY2FyZS1wbHVzLXRvbmd1ZS1jbGVhbmluZy1zdGFydGVyLWtpdC9wcm9kdWN0ZGV0YWlsL0hYODA3MV8xMF9VU19TSE9QUFVCL1VTL2VuLz9fcmVmPWNhLXd0YiZfcmVmdj1AdHJhY2tpbmdfY29kZUA%3D&ct=True",
+            "logoURL": "https://where-to-buy.co/content/images/logos/philips176x62.png\t"
+          }
+        ]
+      }
+    },
+    "EloquaSiteId": 1065054172,
+    "RetailStoreAvailableFlag": true
+  }
+}
