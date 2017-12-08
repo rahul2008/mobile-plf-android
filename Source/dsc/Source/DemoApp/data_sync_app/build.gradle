@@ -3,7 +3,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {
@@ -242,7 +242,7 @@ dependencies {
     //Coco
     def dp = project.ext.has('useprojectdependencies')
     def usrUAppModule = module(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    compile(dp ? project(':usrUApp') : usrUAppModule)
+    compile(dp ? project(':UserRegistrationUApp') : usrUAppModule)
 
     //Android Support Libraries
     compile 'com.android.support:support-annotations:26.0.2'
@@ -266,7 +266,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //Module projects
-    compile project(':dscUApp')
+    compile(project(':dataServicesUApp'))
 }
 
 task copyToLib(type: Copy) {

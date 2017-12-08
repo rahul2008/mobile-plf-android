@@ -7,7 +7,7 @@ apply plugin: 'jacoco'
 apply plugin: 'com.neenbedankt.android-apt'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {
@@ -160,7 +160,7 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        project(':usr')
+        compile(project(':registrationApi'))
     } else {
         compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {		   
             transitive = true
@@ -168,7 +168,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':sdb')
+        compile(project(':securedblibrary'))
     } else {
         compile(group: 'com.philips.cdp', name: 'securedblibrary', version: versions.sdb_securedblibrary + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {		   
             transitive = true
@@ -182,7 +182,7 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-android:5.0'  
 	
 	//Module
-	compile(dp ? project(':dsc') : project(':dataServices')) 
+	compile(dp ? project(':dataServices') : project(':dataServices'))
 
     testCompile 'junit:junit:4.12'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
