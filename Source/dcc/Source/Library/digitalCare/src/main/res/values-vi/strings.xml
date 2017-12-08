@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Key"> Vietnamesa </string>
+    <string name="key"> vi </string>
+
+    <!-- Common   null -->
+    <string name="img_description"> mô tả </string>
+    <string name="no_internet"> Không có kết nối internet. Kiểm tra xem kết nối của bạn có đang hoạt động trong cài đặt Wi-Fi hoặc cài đặt dữ liệu trên điện thoại của bạn không </string>
+
+    <!-- Support Home Screen    null -->
+    <string name="how_can_we_help"> Chúng tôi có thể giúp gì? </string>
+    <string name="contact_us"> Liên hệ </string>
+    <string name="view_product_details"> Xem thông tin sản phẩm </string>
+    <string name="view_faq"> Đọc câu hỏi thường gặp </string>
+    <string name="find_philips_near_you"> Tìm Philips gần bạn </string>
+    <string name="feedback"> Cho chúng tôi biết bạn nghĩ gì </string>
+    <string name="registration"> Đăng ký sản phẩm của bạn </string>
+    <string name="actionbar_title_support"> Hỗ trợ </string>
+    <string name="product_info"> thông tin sản phẩm </string>
+    <!-- Locate Near You Screen   null -->
+    <string name="loading"> Đang nạp </string>
+    <string name="please_wait"> Vui lòng đợi &amp;#8230; </string>
+    <string name="get_directions"> Nhận thông tin dẫn hướng </string>
+    <string name="search"> Tìm kiếm </string>
+    <string name="gps_disabled"> GPS đã tắt trên thiết bị của bạn. Bạn có muốn bật nó không? </string>
+    <string name="servicecenters_not_found"> Không có trung tâm dịch vụ tại quốc gia bạn’  </string>
+    <string name="no_data"> Không có sẵn dữ liệu </string>
+    <string name="locate_philips_popup_legal"> Khi bạn dùng chức năng ‘Tìm Philips gần bạn’ trên Trang Hỗ trợ, bạn được yêu cầu chia sẻ dữ liệu vị trí của bạn với Philips. Dựa trên dữ liệu vị trí của bạn, bạn sẽ được chuyển hướng đến cửa hàng nằm gần bạn, hoặc đến thông tin chi tiết liên hệ chăm sóc khách hàng của quốc gia bạn </string>
+
+    <!-- ContactUs Screen   null -->
+    <string name="leave_us_a_message"> Để lại lời nhắn: </string>
+    <string name="contact_us_text"> Liên hệ: </string>
+    <string name="opening_hours"> Giờ làm việc </string>
+    <string name="live_chat"> Trò chuyện trực tiếp </string>
+    <string name="send_email"> Gửi email </string>
+    <string name="call_number"> Cuộc gọi </string>
+    <string name="chat_with_philips"> Trò chuyện với Philips </string>
+    <string name="check_sim"> Không phát hiện thẻ SIM. Kiểm tra xem thẻ SIM có được lắp đúng cách không </string>
+    <string name="no_data_available"> Không có sẵn dữ liệu </string>
+    <string name="send_us_email"> Gửi email cho chúng tôi </string>
+
+    <!-- Live Chat Screen   null -->
+    <string name="can_we_help_you"> Chúng tôi có thể giúp bạn không? </string>
+    <string name="chat_now"> Trò chuyện ngay </string>
+    <string name="no_thanks"> Không, cám ơn </string>
+    <string name="chat_desc"> Bắt đầu trò chuyện trực tiếp với chuyên gia sản phẩm của chúng tôi. 24/7 bằng Tiếng Anh </string>
+
+    <!-- View Product Details Screen   null -->
+    <string name="product_view_videos"> Video sản phẩm </string>
+    <string name="product_open_manual"> Mở tài liệu hướng dẫn tương tác </string>
+    <string name="product_download_manual"> Tải xuống Hướng dẫn sản phẩm </string>
+    <string name="product_information"> Thông tin sản phẩm (trên philips.com) </string>
+
+    <!-- Rate This Application   null -->
+    <string name="rate_playstore_headertext"> Bạn đánh giá ứng dụng này như thế nào? </string>
+    <string name="rate_playstore_buttontext"> Viết đánh giá ứng dụng </string>
+    <string name="rate_philips_headertext"> Gửi đánh giá sản phẩm </string>
+    <string name="rate_philips_description"> Viết đánh giá và giúp người khác lựa chọn đúng </string>
+    <string name="rate_philips_buttontext"> Đăng nhập vào Philips của tôi </string>
+
+    <!-- reviewandrewards   null -->
+
+    <!-- Twitter Screen   null -->
+    <string name="twitter_login_header"> Đăng nhập vào Twitter </string>
+    <string name="twitter_login_hint_username"> Tên đăng nhập </string>
+    <string name="twitter_login_hint_password"> Mật khẩu </string>
+    <string name="twiiter_login_logo_description"> Logo Twitter </string>
+    <string name="twitter_post_progress_message"> Đang gửi lời nhắn của bạn đến Hỗ trợ Twitter của Philips… </string>
+    <string name="twitter_post_char_limitation"> Vui lòng lưu ý rằng lời nhắn của bạn không thể dài hơn 140 ký tự </string>
+
+    <!-- Social post   null -->
+    <string name="social_post_to"> Gửi lời nhắn đến Philips </string>
+    <string name="social_post_desc_text"> Bao gồm thông tin sản phẩm </string>
+    <string name="cancel"> Hủy </string>
+    <string name="take_photo"> Chụp ảnh </string>
+    <string name="choose_from_library"> Chọn từ Thư viện </string>
+    <string name="social_post_failed"> Có gì đó không ổn..  </string>
+    <string name="support_productinformation"> bạn có thể giúp tôi bằng </string>
+    <string name="social_post_success"> Đã nhận được lời nhắn của bạn! </string>
+    <string name="post"> Đăng </string>
+    <string name="send"> Gửi </string>
+    <string name="facebook_login_header"> Đăng nhập vào Facebook </string>
+    <string name="SocialSharingPostTemplateText"> bạn có thể giúp tôi bằng </string>
+
+    <!-- BazzarVoice Screen   null -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Viết đánh giá </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Trước khi bắt đầu, vui lòng đọc các hướng dẫn này: </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Chúng tôi muốn công khai đánh giá của bạn, vì vậy hãy làm theo các hướng dẫn sau: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Đánh giá của bạn phải luôn chú trọng vào sản phẩm. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Tránh viết về dịch vụ khách hàng; thay vào đó hãy liên hệ với chúng tôi nếu bạn gặp các sự cố đòi hỏi sự chú ý ngay lập tức từ chúng tôi. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Không đề cập đến các sản phẩm cạnh tranh hoặc giá tiền cụ thể mà bạn đã mua sản phẩm đó </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Không bao gồm bất kỳ thông tin nhận dạng cá nhân nào, ví dụ như tên đầy đủ. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> OK, nhớ rồi! </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Viết đánh giá </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Vui lòng xếp hạng sản phẩm này </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Đánh giá của bạn </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Tóm tắt đánh giá </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Viết đánh giá của bạn ở đây </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Chọn một biệt danh: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Không phải tên thật </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> Email của bạn </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Đảm bảo bạn có quyền truy cập </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Tôi đã đọc và đồng ý với  </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> Điều khoản và điều kiện </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Xem trước </string>
+    <string name="EmptyField_ErrorMsg"> Trường không được để trống </string>
+    <string name="kemailFieldErrorText"> Vui lòng nhập địa chỉ email hợp lệ. </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Đánh giá của bạn: </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Mọi thứ đúng chứ? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Xếp hạng: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Tóm tắt đánh giá: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Đánh giá: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Biệt danh: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> Email </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Gửi đánh giá của tôi </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Cảm ơn bạn! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Chúng tôi đã nhận được đánh giá của bạn. </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Cám ơn bạn đã dành thời gian để viết đánh giá này. Chúng tôi sẽ xem xét và cho bạn biết ngay khi bài đánh giá được đăng lên! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Quay lại hỗ trợ </string>
+
+    <!-- bazzarvoice_rating_alert   null -->
+
+    <!-- bazzarvoice_terms_conditions_alert   null -->
+
+    <!-- bazzarvoice_description_alert   null -->
+
+    <!-- Registration Screen   null -->
+    <string name="login_to_social_media"> Đăng nhập bằng tài khoản mạng xã hội của bạn? </string>
+    <string name="twitter"> Bằng Twitter </string>
+    <string name="facebook"> Bằng Facebook </string>
+    <string name="linkedin"> Bằng LinkedIn </string>
+    <string name="googleplus"> Bằng Google Plus </string>
+    <string name="login_with_philips_account"> Hoặc đăng nhập bằng tài khoản Philips của tôi </string>
+    <string name="email">  Địa chỉ email </string>
+    <string name="password"> Mật khẩu </string>
+    <string name="sign_into_my_philips"> Đăng nhập vào Philips của tôi </string>
+    <string name="forgot_my_password"> Tôi quên mật khẩu của mình &gt;  </string>
+    <string name="create_account">  Tạo tài khoản &gt; </string>
+
+    <string name="localtephilips_contactus">Đến trang liên hệ</string>
+
+
+    <string name="FAQ_KEY">Câu hỏi thường gặp</string>
+    <string name="QUESTION_KEY">Hỏi và đáp</string>
+    <string name="NO_PRODUCT_KEY">Không có sẵn sản phẩm</string>
+    <string name="NO_SUPPORT_KEY">Không có sẵn hỗ trợ</string>
+    <string name="FAQ_KEY_TABLET">Các câu hỏi thường gặp
+</string>
+
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">facebook</string>
+    <string name="dcc_send_us_message">Hoặc gửi lời nhắn</string>
+    <string name="dcc_get_in_touch">Trò chuyện với một thành viên trong nhóm</string>
+    <string name="dcc_help_and_Answer">Chúng tôi có mặt ở đây để giúp đỡ và trả lời mọi câu hỏi của bạn.</string>
+    <string name="dcc_send_email">Email</string>
+    <string name="dcc_call_number">Gọi cho chúng tôi</string>
+    <string name="dcc_chat_to_us">Trò chuyện với chúng tôi</string>
+    <string name="dcc_chat_desc">Trò chuyện trực tiếp 24h/7 ngày bằng tiếng Anh với một trong các chuyên gia sản phẩm của chúng tôi. </string>
+    <string name="dcc_remove_photo">Xóa ảnh</string>
+    <string name="dcc_continue">Tiếp tục</string>
+    <string name="dcc_characters_left">ký tự còn lại</string>
+    <string name="dcc_your_message">Lời nhắn của bạn</string>
+    <string name="dcc_tellUs_header">Chia sẻ kinh nghiệm của bạn</string>
+    <string name="dcc_tellUs_sub_header">Viết đánh giá hoặc xếp hạng ứng dụng. Phản hồi của bạn rất quan trọng.</string>
+    <string name="dcc_write_review">Viết đánh giá</string>
+    <string name="dcc_rate_this_app">Xếp hạng ứng dụng</string>
+    <string name="dcc_productDownloadManual">Tải xuống hướng dẫn sử dụng</string>
+    <string name="dcc_productInformationOnWebsite">Truy cập vào trang web sản phẩm</string>
+    <string name="dcc_show_all">Hiển thị tất cả</string>
+    <string name="dcc_show_less">Thu hiển thị</string>
+    <string name="dcc_Call_not_Supported">Cuộc gọi không được hỗ trợ</string>
+    <string name="dcc_Turn_On_Location_Service">Để kích hoạt lại, vui lòng đến Cài đặt và bật Dịch vụ định vị cho ứng dụng này.</string>
+    <string name="dcc_No_Service_Url">Không có sẵn url dịch vụ</string>
+    <string name="dcc_No_Product_Information">Không có sẵn thông tin sản phẩm cho kiểu máy này</string>
+    <string name="dcc_Allow_Acess_Twitter">Cho phép người dùng ứng dụng truy cập vào tài khoản twitter của bạn</string>
+    <string name="dcc_No_Facebook_Key">Không có tài khoản Facebook</string>
+    <string name="dcc_About_App">Giới thiệu về ứng dụng này</string>
+    <string name="dcc_Help_Support">Trợ giúp và hỗ trợ</string>
+    <string name="dcc_Call">Cuộc gọi</string>
+    <string name="dcc_Opening_Hours">Giờ làm việc</string>
+
+</resources>

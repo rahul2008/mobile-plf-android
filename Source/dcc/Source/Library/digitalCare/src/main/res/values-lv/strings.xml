@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Key"> Latvian </string>
+    <string name="key"> lv </string>
+
+    <!-- Common   null -->
+    <string name="img_description"> apraksts </string>
+    <string name="no_internet"> Nav interneta savienojuma. Pārbaudiet, vai jūsu savienojums darbojas tālruņa wifi iestatījumos vai datu iestatījumos </string>
+
+    <!-- Support Home Screen    null -->
+    <string name="how_can_we_help"> Kā varam jums palīdzēt? </string>
+    <string name="contact_us"> Sazinieties ar mums </string>
+    <string name="view_product_details"> Skatiet produkta informāciju </string>
+    <string name="view_faq"> Lasiet BUJ </string>
+    <string name="find_philips_near_you"> Atrodiet tuvāko Philips </string>
+    <string name="feedback"> Sniedziet atsauksmes </string>
+    <string name="registration"> Reģistrējiet savu produktu </string>
+    <string name="actionbar_title_support"> Atbalsts </string>
+    <string name="product_info"> informācija par produktu </string>
+    <!-- Locate Near You Screen   null -->
+    <string name="loading"> Ielāde </string>
+    <string name="please_wait"> Lūdzu, uzgaidiet &amp;#8230; </string>
+    <string name="get_directions"> Iegūstiet norādes </string>
+    <string name="search"> Meklēšana </string>
+    <string name="gps_disabled"> GPS ir atspējots jūsu ierīcē. Vai vēlaties to iespējot? </string>
+    <string name="servicecenters_not_found"> Jūsu valstī nav servisa centru  </string>
+    <string name="no_data"> Dati nav pieejami </string>
+    <string name="locate_philips_popup_legal"> Kad izmantojat funkcionalitāti &quot;Atrast tuvāko Philips&quot; atbalsta lapā, jums ir jākopīgo atrašanās vieta ar uzņēmumu Philips. Atkarībā no atrašanās vietas datiem tiksiet novirzīts uz tuvāko veikalu vai uz klientu centra kontaktinformāciju </string>
+
+    <!-- ContactUs Screen   null -->
+    <string name="leave_us_a_message"> Uzraksiet mums ziņojumu: </string>
+    <string name="contact_us_text"> Sazinieties ar mums: </string>
+    <string name="opening_hours"> Darba laiks </string>
+    <string name="live_chat"> Tērzēšana </string>
+    <string name="send_email"> Nosūtīt e-pastu </string>
+    <string name="call_number"> Zvanīt </string>
+    <string name="chat_with_philips"> Tērzējiet ar Philips </string>
+    <string name="check_sim"> Nav SIM kartes. Pārbaudiet, vai tā ir ievietota pareizi </string>
+    <string name="no_data_available"> Dati nav pieejami </string>
+    <string name="send_us_email"> Sūtiet mums e-pastu </string>
+
+    <!-- Live Chat Screen   null -->
+    <string name="can_we_help_you"> Vai varam jums palīdzēt? </string>
+    <string name="chat_now"> Tērzēt tūlīt </string>
+    <string name="no_thanks"> Nē, paldies </string>
+    <string name="chat_desc"> Sāciet tērzēšanu ar mūsu produktu speciālistu. Pieejams 24/7 angļu valodā </string>
+
+    <!-- View Product Details Screen   null -->
+    <string name="product_view_videos"> Produkta videoklipi </string>
+    <string name="product_open_manual"> Atvērt interaktīvo rokasgrāmatu </string>
+    <string name="product_download_manual"> Lejupielādēt rokasgrāmatu </string>
+    <string name="product_information"> Produktu informācija (vietnē philips.com) </string>
+
+    <!-- Rate This Application   null -->
+    <string name="rate_playstore_headertext"> Kā jūs novērtētu šo lietotni? </string>
+    <string name="rate_playstore_buttontext"> Uzrakstiet lietotnes apskatu </string>
+    <string name="rate_philips_headertext"> Iesniegt produkta apskatu </string>
+    <string name="rate_philips_description"> Uzrakstiet apskatu un palīdziet citiem izdarīt pareizu izvēli! </string>
+    <string name="rate_philips_buttontext"> Pierakstīties My Philips </string>
+
+    <!-- reviewandrewards   null -->
+
+    <!-- Twitter Screen   null -->
+    <string name="twitter_login_header"> Pieteikties Twitter </string>
+    <string name="twitter_login_hint_username"> Lietotājvārds </string>
+    <string name="twitter_login_hint_password"> Parole </string>
+    <string name="twiiter_login_logo_description"> Twitter logotips </string>
+    <string name="twitter_post_progress_message"> Sūta ziņojumu Philips Twitter atbalstam… </string>
+    <string name="twitter_post_char_limitation"> Ņemiet vērā, ka ziņojuma garums nevar pārsniegt 140 rakstzīmes </string>
+
+    <!-- Social post   null -->
+    <string name="social_post_to"> Nosūtīt ziņojumu Philips </string>
+    <string name="social_post_desc_text"> Iekļaut produkta informāciju </string>
+    <string name="cancel"> Atcelt </string>
+    <string name="take_photo"> Uzņemt foto </string>
+    <string name="choose_from_library"> Izvēlēties no bibliotēkas </string>
+    <string name="social_post_failed"> Radās nezināma kļūda..  </string>
+    <string name="support_productinformation"> vai varat man palīdzēt </string>
+    <string name="social_post_success"> Jūsu ziņojums tika saņemts! </string>
+    <string name="post"> Postamenta </string>
+    <string name="send"> Sūtīt </string>
+    <string name="facebook_login_header"> Pieteikties Facebook </string>
+    <string name="SocialSharingPostTemplateText"> vai varat man palīdzēt </string>
+
+    <!-- BazzarVoice Screen   null -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Uzrakstiet apskatu </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Pirms sākt, lūdzu, izlasiet mūsu vadlīnijas: </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Mēs vēlamies publicēt jūsu apskatu, tāpēc ievērojiet šīs vadlīnijas: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Koncentrējieties uz produktu. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Nerakstiet par klientu apkalpošanu, tā vietā sazinieties ar mums, ja radušās problēmas, kas tūlīt jārisina. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Izvairieties no konkurentu vai konkrētās produkta cenas pieminēšanas </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Neiekļaujiet personu identificējošu informāciju, piemēram, vārdu un uzvārdu. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> Skaidrs! </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Uzrakstiet apskatu </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Lūdzu, novērtējiet šo produktu </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Jūsu apskats </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Apskata kopsavilkums </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Uzrakstiet savu apskatu šeit </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Izvēlieties segvārdu: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Nevis īsto vārdu </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> Jūsu e-pasts </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Pārliecinieties, ka ir piekļuve </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Esmu izlasījis un piekrītu noteikumiem  </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> un nosacījumiem </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Priekšskatījums </string>
+    <string name="EmptyField_ErrorMsg"> Lauks nevar būt tukšs </string>
+    <string name="kemailFieldErrorText"> Lūdzu, ievadiet derīgu e-pasta adresi. </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Jūsu apskats: </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Vai viss ir pareizi? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Vērtējums: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Apskata kopsavilkums: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Apskats: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Segvārds: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> E-pasts </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Iesniegt apskatu </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Paldies! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Jauki! Mēs saņēmām jūsu apskatu! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Paldies par atvēlēto laiku, lai uzrakstītu apskatu. Mēs to pārskatīsim un informēsim, kad tas būs tiešsaistē! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Atpakaļ uz atbalstu </string>
+
+    <!-- bazzarvoice_rating_alert   null -->
+
+    <!-- bazzarvoice_terms_conditions_alert   null -->
+
+    <!-- bazzarvoice_description_alert   null -->
+
+    <!-- Registration Screen   null -->
+    <string name="login_to_social_media"> Vai pieteikties ar sociālā tīkla kontu? </string>
+    <string name="twitter"> Tīklā Twitter </string>
+    <string name="facebook"> Tīklā Facebook </string>
+    <string name="linkedin"> Tīklā LinkedIn </string>
+    <string name="googleplus"> Tīklā Google Plus </string>
+    <string name="login_with_philips_account"> Vai pieteikties ar My Philips kontu </string>
+    <string name="email">  E-pasta adrese </string>
+    <string name="password"> Parole </string>
+    <string name="sign_into_my_philips"> Pierakstīties My Philips </string>
+    <string name="forgot_my_password"> Esmu aizmirsis savu paroli &gt;  </string>
+    <string name="create_account">  Izveidot kontu &gt; </string>
+
+    <string name="localtephilips_contactus">Doties uz kontaktinf. lapu</string>
+
+    <string name="FAQ_KEY">Bieži uzdotie jautājumi</string>
+    <string name="QUESTION_KEY">Jautājums un atbilde</string>
+    <string name="NO_PRODUCT_KEY">Nav pieejams neviens produkts</string>
+    <string name="NO_SUPPORT_KEY">Atbalsts nav pieejams</string>
+    <string name="FAQ_KEY_TABLET">Bieži uzdotie jautājumi
+</string>
+
+    <string name="dcc_twitter">Twitter</string>
+    <string name="dcc_facebook">facebook</string>
+    <string name="dcc_send_us_message">Vai sūtīt ziņojumu</string>
+    <string name="dcc_get_in_touch">Runājiet ar kādu no komandas</string>
+    <string name="dcc_help_and_Answer">Mēs esam šeit, lai palīdzētu un atbildētu uz jautājumiem.</string>
+    <string name="dcc_send_email">E-pasts</string>
+    <string name="dcc_call_number">Piezvaniet mums</string>
+    <string name="dcc_chat_to_us">Tērzējiet ar mums</string>
+    <string name="dcc_chat_desc">Tērzējiet visu diennakti katru dienu ar kādu no mūsu produktu speciālistiem (angļu valodā). </string>
+    <string name="dcc_remove_photo">Noņemt fotoattēlu</string>
+    <string name="dcc_continue">Turpināt</string>
+    <string name="dcc_characters_left">rakstzīmes atlikušas</string>
+    <string name="dcc_your_message">Jūsu ziņa</string>
+    <string name="dcc_tellUs_header">Dalieties pieredzē</string>
+    <string name="dcc_tellUs_sub_header">Uzrakstiet atsauksmi vai novērtējiet šo aplikāciju. Jūsu atsauksmes ir svarīgas.</string>
+    <string name="dcc_write_review">Rakstīt atsauksmi</string>
+    <string name="dcc_rate_this_app">Novērtēt šo aplikāciju</string>
+    <string name="dcc_productDownloadManual">Lejupielādēt instrukciju</string>
+    <string name="dcc_productInformationOnWebsite">Apmeklēt produkta vietni</string>
+    <string name="dcc_show_all">Rādīt visu</string>
+    <string name="dcc_show_less">Rādīt mazāk</string>
+    <string name="dcc_Call_not_Supported">Zvanīšana nav atbalstīta</string>
+    <string name="dcc_Turn_On_Location_Service">Lai to iespējotu, atveriet sadaļu Iestatījumi un ieslēdziet šai aplikācijai atrašanās vietas pakalpojumu.</string>
+    <string name="dcc_No_Service_Url">Nav pieejams pakalpojuma vietrādis URL</string>
+    <string name="dcc_No_Product_Information">Šim modelim nav pieejama produkta informācija</string>
+    <string name="dcc_Allow_Acess_Twitter">Atļaut piekļuvi aplikācijas lietotājiem, lai izmantotu Twitter kontu</string>
+    <string name="dcc_No_Facebook_Key">Nav Facebook kontu</string>
+    <string name="dcc_About_App">Par šo lietojumprogrammu</string>
+    <string name="dcc_Help_Support">Palīdzība un atbalsts</string>
+    <string name="dcc_Call">Zvanīt</string>
+    <string name="dcc_Opening_Hours">Darba laiks</string>
+
+</resources>

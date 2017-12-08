@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Key"> Hungarian </string>
+    <string name="key"> hu </string>
+
+    <!-- Common   null -->
+    <string name="img_description"> leírás </string>
+    <string name="no_internet"> Nincs internetkapcsolat. Ellenőrizze telefonja wifi beállításainál vagy adatbeállításainál, hogy a csatlakozás megfelelő-e </string>
+
+    <!-- Support Home Screen    null -->
+    <string name="how_can_we_help"> Hogyan segíthetünk? </string>
+    <string name="contact_us"> Kapcsolatfelvétel </string>
+    <string name="view_product_details"> Termékinformáció megtekintése </string>
+    <string name="view_faq"> GYIK </string>
+    <string name="find_philips_near_you"> Philips az Ön közelében </string>
+    <string name="feedback"> Mondja el véleményét </string>
+    <string name="registration"> Regisztrálja a terméket </string>
+    <string name="actionbar_title_support"> Támogatás </string>
+    <string name="product_info"> termékinformációk </string>
+    <!-- Locate Near You Screen   null -->
+    <string name="loading"> Betöltés </string>
+    <string name="please_wait"> Kérem, várjon &amp;#8230; </string>
+    <string name="get_directions"> Útvonal tervezése </string>
+    <string name="search"> Keresés </string>
+    <string name="gps_disabled"> A GPS nincs bekapcsolva az Ön készülékén. Szeretné bekapcsolni? </string>
+    <string name="servicecenters_not_found"> Az Ön országában nincsenek szakszervizek  </string>
+    <string name="no_data"> Nem áll rendelkezésre adat </string>
+    <string name="locate_philips_popup_legal"> Ha használni szeretné a ‘Philips az Ön közelében’ funkciót a Támogatási oldalon, a rendszer kéri, hogy ossza meg helyadatait a Philips-szel, melyek alapján az Ön közelében lévő üzlethez irányítják, vagy országa ügyfélszolgálati kapcsolati adatait kapja meg </string>
+
+    <!-- ContactUs Screen   null -->
+    <string name="leave_us_a_message"> Hagyjon üzenetet: </string>
+    <string name="contact_us_text"> Kapcsolatfelvétel: </string>
+    <string name="opening_hours"> Nyitva tartás </string>
+    <string name="live_chat"> Élő csevegés </string>
+    <string name="send_email"> E-mail küldése </string>
+    <string name="call_number"> Hívás </string>
+    <string name="chat_with_philips"> Csevegés a Philipsszel </string>
+    <string name="check_sim"> Nem érzékelhető SIM-kártya. Ellenőrizze, hogy megfelelően helyezte-e be </string>
+    <string name="no_data_available"> Nem áll rendelkezésre adat </string>
+    <string name="send_us_email"> Küldjön nekünk emailt </string>
+
+    <!-- Live Chat Screen   null -->
+    <string name="can_we_help_you"> Segíthetünk? </string>
+    <string name="chat_now"> Csevegés most </string>
+    <string name="no_thanks"> Köszönöm, nem kérem </string>
+    <string name="chat_desc"> Kezdeményezzen élő csevegést termékszakértőnkkel. Minden nap 24 órában magyarul </string>
+
+    <!-- View Product Details Screen   null -->
+    <string name="product_view_videos"> Termékvideók </string>
+    <string name="product_open_manual"> Interaktív kézik. megnyitása </string>
+    <string name="product_download_manual"> Termék kézik. letöltése </string>
+    <string name="product_information"> Termékinformáció (a philips.com oldalon) </string>
+
+    <!-- Rate This Application   null -->
+    <string name="rate_playstore_headertext"> Hogyan értékeli az alkalmazást? </string>
+    <string name="rate_playstore_buttontext"> Vélemény írása az alk.-ról </string>
+    <string name="rate_philips_headertext"> Termékvélemény elküldése </string>
+    <string name="rate_philips_description"> Írjon véleményt, és segítsen másoknak a megfelelő döntésben </string>
+    <string name="rate_philips_buttontext"> My Philips-bejelentkezés </string>
+
+    <!-- reviewandrewards   null -->
+
+    <!-- Twitter Screen   null -->
+    <string name="twitter_login_header"> Bejelentkezés a Twitterbe </string>
+    <string name="twitter_login_hint_username"> Felhasználónév </string>
+    <string name="twitter_login_hint_password"> Jelszó </string>
+    <string name="twiiter_login_logo_description"> Twitter embléma </string>
+    <string name="twitter_post_progress_message"> Üzenet küldése a Philips Twitter Támogatásnak… </string>
+    <string name="twitter_post_char_limitation"> Ügyeljen rá, hogy az üzenete ne legyen hosszabb 140 karakternél </string>
+
+    <!-- Social post   null -->
+    <string name="social_post_to"> Üzenetküldés a Philips-nek </string>
+    <string name="social_post_desc_text"> Termékinformációval együtt </string>
+    <string name="cancel"> Mégse </string>
+    <string name="take_photo"> Fénykép készítése </string>
+    <string name="choose_from_library"> Válasszon a Könyvtárból </string>
+    <string name="social_post_failed"> Valamilyen hiba történt..  </string>
+    <string name="support_productinformation"> segítségkérés ebben: </string>
+    <string name="social_post_success"> Üzenetét megkaptuk! </string>
+    <string name="post"> Küldés </string>
+    <string name="send"> Küldés </string>
+    <string name="facebook_login_header"> Bejel. a Facebookba </string>
+    <string name="SocialSharingPostTemplateText"> segítségkérés ebben: </string>
+
+    <!-- BazzarVoice Screen   null -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Vélemény írása </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Mielőtt elkezdenénk, olvassa el irányelveinket: </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Szeretnénk közzétenni véleményét, ezért kérjük, kövesse az irányelveket: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Értékelése végig a termékre koncentráljon. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Ne írjon az ügyfélszolgálatról; inkább vegye fel velünk a kapcsolatot, ha a probléma azonnali figyelmünket igényli. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Tartózkodjon a konkurencia vagy az adott termékért kifizetett ár megemlítésétől. </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Ne írjon bele személyazonosításhoz felhasználható információt, pl. teljes nevet. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> OK, megtaláltam! </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Vélemény írása </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Értékelje ezt a terméket </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Az Ön véleménye </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Vélemény összefogl. </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Ide írja véleményét </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Válasszon becenevet: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Ne a valódi nevét </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> Az Ön e-mail címe: </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Ellenőrizze, hogy rendelkezik-e hozzáféréssel </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Elolvastam és elfogadom a  </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> Használati feltételeket </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Előnézet </string>
+    <string name="EmptyField_ErrorMsg"> A mező nem lehet üres </string>
+    <string name="kemailFieldErrorText"> Adjon meg érvényes e-mail címet. </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Az Ön véleménye: </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Minden megfelelő? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Értékelés: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Vélemény összefogl.: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Vélemény: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Becenév: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> E-mail </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Vélemény elküldése </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Köszönjük! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Nagyszerű! Megkaptuk véleményét! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Köszönjük, hogy megírta ezt a véleményt. Átolvassuk, és tudatjuk, ha online megtekinthető lesz! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Vissza a támogatáshoz </string>
+
+    <!-- bazzarvoice_rating_alert   null -->
+
+    <!-- bazzarvoice_terms_conditions_alert   null -->
+
+    <!-- bazzarvoice_description_alert   null -->
+
+    <!-- Registration Screen   null -->
+    <string name="login_to_social_media"> Bejelentkezik közösségioldal-fiókjával? </string>
+    <string name="twitter"> Twitteren </string>
+    <string name="facebook"> Facebookon </string>
+    <string name="linkedin"> LinkedInen </string>
+    <string name="googleplus"> Google Plus-on </string>
+    <string name="login_with_philips_account"> Vagy jelentkezzen be My Philips-fiókkal </string>
+    <string name="email">  E-mail cím </string>
+    <string name="password"> Jelszó </string>
+    <string name="sign_into_my_philips"> My Philips-bejelentkezés </string>
+    <string name="forgot_my_password"> Elfelejtettem a jelszavamat &gt;  </string>
+    <string name="create_account">  Fiók létrehozása &gt; </string>
+
+    <string name="localtephilips_contactus">Lépjen a kapcsolat oldalra</string>
+
+    <string name="FAQ_KEY">Gyakran ismételt kérdések</string>
+    <string name="QUESTION_KEY">Kérdés és válasz</string>
+    <string name="NO_PRODUCT_KEY">Nincsenek elérhető termékek</string>
+    <string name="NO_SUPPORT_KEY">Nem áll rendelkezésre támogatás</string>
+    <string name="FAQ_KEY_TABLET">Gyakran feltett kérdések
+</string>
+
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">facebook</string>
+    <string name="dcc_send_us_message">Vagy küldjön üzenetet</string>
+    <string name="dcc_get_in_touch">Beszéljen a csapat egyik tagjával</string>
+    <string name="dcc_help_and_Answer">Azért vagyunk itt, hogy segítsünk és megválaszoljuk az esetleges kérdéseit.</string>
+    <string name="dcc_send_email">E-mail</string>
+    <string name="dcc_call_number">Hívjon minket</string>
+    <string name="dcc_chat_to_us">Cseteljen velünk</string>
+    <string name="dcc_chat_desc">A hét minden napján, napi 24 órában csetelhet angolul termékszakértőnkkel. </string>
+    <string name="dcc_remove_photo">Fénykép eltávolítása</string>
+    <string name="dcc_continue">Folytatás</string>
+    <string name="dcc_characters_left">hátralévő karakter</string>
+    <string name="dcc_your_message">Az Ön üzenete</string>
+    <string name="dcc_tellUs_header">Ossza meg élményeit</string>
+    <string name="dcc_tellUs_sub_header">Írjon véleményt vagy értékelje az alkalmazást. Visszajelzése fontos.</string>
+    <string name="dcc_write_review">Vélemény írása</string>
+    <string name="dcc_rate_this_app">Az alkalmazás értékelése</string>
+    <string name="dcc_productDownloadManual">Kézikönyv letöltése</string>
+    <string name="dcc_productInformationOnWebsite">Ugrás a termék webhelyére</string>
+    <string name="dcc_show_all">Összes megjelenítése</string>
+    <string name="dcc_show_less">Kevesebb megjelenítése</string>
+    <string name="dcc_Call_not_Supported">A hívás nem támogatott</string>
+    <string name="dcc_Turn_On_Location_Service">Az újbóli engedélyezéshez lépjen a Beállítások lehetőségre, és kapcsolja be a helyalapú szolgáltatást ehhez az alkalmazáshoz.</string>
+    <string name="dcc_No_Service_Url">Nem érhető el a szolgáltatás URL-címe</string>
+    <string name="dcc_No_Product_Information">Nem áll rendelkezésre termékinformáció ehhez a típushoz.</string>
+    <string name="dcc_Allow_Acess_Twitter">Az alkalmazás használója számára hozzáférés engedélyezése az Ön Twitter-fiókjához.</string>
+    <string name="dcc_No_Facebook_Key">Nincs Facebook-fiók</string>
+    <string name="dcc_About_App">Az alkalmazás jellemzői</string>
+    <string name="dcc_Help_Support">Súgó és támogatás</string>
+    <string name="dcc_Call">Hívás</string>
+    <string name="dcc_Opening_Hours">Nyitva tartás</string>
+
+</resources>

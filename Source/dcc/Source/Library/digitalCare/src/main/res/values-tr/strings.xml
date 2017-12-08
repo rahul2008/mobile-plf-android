@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Key"> Turkish </string>
+    <string name="key"> tr </string>
+
+    <!-- Common   null -->
+    <string name="img_description"> açıklama </string>
+    <string name="no_internet"> İnternet bağlantısı yok. Lütfen telefonunuzun wifi ayarları veya veri ayarlarından bağlantınızı kontrol edin </string>
+
+    <!-- Support Home Screen    null -->
+    <string name="how_can_we_help"> Nasıl yardımcı olabiliriz? </string>
+    <string name="contact_us"> Bize ulaşın </string>
+    <string name="view_product_details"> Ürün bilgilerini görüntüle </string>
+    <string name="view_faq"> SSS\'leri okuyun </string>
+    <string name="find_philips_near_you"> Size en yakın Philips\'i bulun </string>
+    <string name="feedback"> Düşüncelerinizi bizimle paylaşın </string>
+    <string name="registration"> Ürününüzü kaydettirin </string>
+    <string name="actionbar_title_support"> Destek </string>
+    <string name="product_info"> ürün bilgileri </string>
+    <!-- Locate Near You Screen   null -->
+    <string name="loading"> Yükleniyor </string>
+    <string name="please_wait"> Lütfen bekleyin &amp;#8230; </string>
+    <string name="get_directions"> Yol tarifi alın </string>
+    <string name="search"> Ara </string>
+    <string name="gps_disabled"> Cihazınızda GPS devre dışı durumda. Etkinleştirmek ister misiniz? </string>
+    <string name="servicecenters_not_found"> Ülkenizde hizmet merkezi bulunmamaktadır’  </string>
+    <string name="no_data"> Veri yok </string>
+    <string name="locate_philips_popup_legal"> Destek Sayfasında &quot;Size en yakın Philips\'i bulun&quot; işlevini kullandığınızda konum verilerinizi Philips ile paylaşmanız istenir. Konum verilerinize göre yakınınızda bulunan bir mağazaya veya ülkenizdeki müşteri desteği iletişim bilgilerine yönlendirilirsiniz </string>
+
+    <!-- ContactUs Screen   null -->
+    <string name="leave_us_a_message"> Bize bir mesaj yazın: </string>
+    <string name="contact_us_text"> Bize ulaşın: </string>
+    <string name="opening_hours"> Açılış saatleri </string>
+    <string name="live_chat"> Canlı sohbet </string>
+    <string name="send_email"> E-posta gönderin </string>
+    <string name="call_number"> Arayın </string>
+    <string name="chat_with_philips"> Philips ile sohbet edin </string>
+    <string name="check_sim"> SIM kart algılanamadı. Lütfen düzgün yerleştirdiğinizden emin olun </string>
+    <string name="no_data_available"> Veri yok </string>
+    <string name="send_us_email"> Bize bir e-posta gönderin </string>
+
+    <!-- Live Chat Screen   null -->
+    <string name="can_we_help_you"> Nasıl yardımcı olabiliriz? </string>
+    <string name="chat_now"> Şimdi sohbet edin </string>
+    <string name="no_thanks"> Hayır, teşekkürler </string>
+    <string name="chat_desc"> Ürün uzmanımızla canlı sohbet başlatın. İngilizce olarak 7/24 müsaittir </string>
+
+    <!-- View Product Details Screen   null -->
+    <string name="product_view_videos"> Ürün videoları </string>
+    <string name="product_open_manual"> İnteraktif kılavuzu aç </string>
+    <string name="product_download_manual"> Ürün kılavuzunu indir </string>
+    <string name="product_information"> Ürün bilgileri (philips.com\'da) </string>
+
+    <!-- Rate This Application   null -->
+    <string name="rate_playstore_headertext"> Bu uygulamayı nasıl puanlarsınız? </string>
+    <string name="rate_playstore_buttontext"> Uyg. değerlendirmesi yazın </string>
+    <string name="rate_philips_headertext"> Bir ürün değerlendirmesi gönderin </string>
+    <string name="rate_philips_description"> Değerlendirme yazarak başkalarının da doğru seçimi yapmalarına yardımcı olun </string>
+    <string name="rate_philips_buttontext"> My Philips\'te oturum açın </string>
+
+    <!-- reviewandrewards   null -->
+
+    <!-- Twitter Screen   null -->
+    <string name="twitter_login_header"> Twitter\'da oturum açın </string>
+    <string name="twitter_login_hint_username"> Kullanıcı adı </string>
+    <string name="twitter_login_hint_password"> Parola </string>
+    <string name="twiiter_login_logo_description"> Twitter Logosu </string>
+    <string name="twitter_post_progress_message"> Mesajınız Philips Twitter Desteğine gönderiliyor… </string>
+    <string name="twitter_post_char_limitation"> Lütfen mesajınızın 140 karakterden uzun olamayacağını unutmayın </string>
+
+    <!-- Social post   null -->
+    <string name="social_post_to"> Philips\'e bir mesaj gönderin </string>
+    <string name="social_post_desc_text"> Ürün bilgilerini ekleyin </string>
+    <string name="cancel"> İptal </string>
+    <string name="take_photo"> Fotoğraf Çek </string>
+    <string name="choose_from_library"> Galeriden seç </string>
+    <string name="social_post_failed"> Bir sorun oluştu..  </string>
+    <string name="support_productinformation"> şu konuda yardım eder misiniz: </string>
+    <string name="social_post_success"> Mesajınız alındı! </string>
+    <string name="post"> Gönder </string>
+    <string name="send"> Gönder </string>
+    <string name="facebook_login_header"> Facebook\'ta oturum aç </string>
+    <string name="SocialSharingPostTemplateText"> şu konuda yardım eder misiniz: </string>
+
+    <!-- BazzarVoice Screen   null -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Değerlendirme yazın </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Başlamadan önce lütfen talimatlarımızı okuyun: </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Değerlendirmenizi yayınlamak istiyoruz; lütfen şu talimatları izleyin: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Değerlendirmeniz ürüne odaklanmış olsun. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Müşteri hizmetleri hakkında yazmaktan kaçının; anında müdahale etmemizi gerektiren bir sorun varsa iletişime geçin. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Rakiplerden veya ürüne ödediğiniz ücretten bahsetmekten kaçının </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Tam adınız gibi kişisel bilgilerinizi eklemeyin. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> Tamam, anladım! </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Değerlendirme yazın </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Lütfen bu ürünü puanlayın </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Değerlendirmeniz </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Değerlendirme Özeti </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Değerlendirmenizi buraya yazın </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Bir takma ad seçin: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Gerçek adınızı değil </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> E-posta adresiniz </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Erişiminiz olduğundan emin olun </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Şartlar ve Koşulları okudum ve  </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> kabul ediyorum </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Önizleme </string>
+    <string name="EmptyField_ErrorMsg"> Alan boş bırakılamaz </string>
+    <string name="kemailFieldErrorText"> Lütfen geçerli bir e-posta adresi girin. </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Değerlendirmeniz: </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Tüm bilgiler doğru mu? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Puan: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Değerlendirme özeti: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Değerlendirme: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Takma Ad: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> E-posta </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Değerlendirmemi gönder </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Teşekkürler! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Harika! Değerlendirmeniz bize ulaştı! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Değerlendirmeye zaman ayırdığınız için teşekkürler. İnceleyeceğiz ve yayınlandığında sizi bilgilendireceğiz! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Desteğe geri dön </string>
+
+    <!-- bazzarvoice_rating_alert   null -->
+
+    <!-- bazzarvoice_terms_conditions_alert   null -->
+
+    <!-- bazzarvoice_description_alert   null -->
+
+    <!-- Registration Screen   null -->
+    <string name="login_to_social_media"> Sosyal hesabınızla mı oturum açmak istiyorsunuz? </string>
+    <string name="twitter"> Twitter ile </string>
+    <string name="facebook"> Facebook ile </string>
+    <string name="linkedin"> LinkedIn ile </string>
+    <string name="googleplus"> Google Plus ile </string>
+    <string name="login_with_philips_account"> Veya My Philips hesabınızla oturum açın </string>
+    <string name="email">  E-posta adresi </string>
+    <string name="password"> Parola </string>
+    <string name="sign_into_my_philips"> My Philips\'te oturum açın </string>
+    <string name="forgot_my_password"> Parolamı unuttum &gt;  </string>
+    <string name="create_account">  Hesap oluştur &gt; </string>
+
+    <string name="localtephilips_contactus">İletişim sayfasına git</string>
+
+
+    <string name="FAQ_KEY">SSS</string>
+    <string name="QUESTION_KEY">Soru ve cevap</string>
+    <string name="NO_PRODUCT_KEY">Ürün mevcut değil</string>
+    <string name="NO_SUPPORT_KEY">Destek mevcut değil</string>
+    <string name="FAQ_KEY_TABLET">Sıkça sorulan sorular
+</string>
+
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">Facebook</string>
+    <string name="dcc_send_us_message">Veya mesaj gönderin</string>
+    <string name="dcc_get_in_touch">Ekipten biriyle iletişime geçin</string>
+    <string name="dcc_help_and_Answer">Yardımcı olmak ve sorularınızı yanıtlamak için buradayız.</string>
+    <string name="dcc_send_email">E-posta</string>
+    <string name="dcc_call_number">Bizi arayın</string>
+    <string name="dcc_chat_to_us">Bizimle sohbet edin</string>
+    <string name="dcc_chat_desc">Ürün uzmanlarımızdan biriyle 7/24, İngilizce dilinde canlı sohbet gerçekleştirebilirsiniz. </string>
+    <string name="dcc_remove_photo">Fotoğrafı kaldır</string>
+    <string name="dcc_continue">Devam et</string>
+    <string name="dcc_characters_left">karakter kaldı</string>
+    <string name="dcc_your_message">Mesajınız</string>
+    <string name="dcc_tellUs_header">Deneyimlerinizi paylaşın</string>
+    <string name="dcc_tellUs_sub_header">Değerlendirme yazın veya bu uygulamayı derecelendirin. Geri bildiriminiz önemlidir.</string>
+    <string name="dcc_write_review">Değerlendirme yazın</string>
+    <string name="dcc_rate_this_app">Bu uygulamayı derecelendirin</string>
+    <string name="dcc_productDownloadManual">Kılavuzu indir</string>
+    <string name="dcc_productInformationOnWebsite">Ürün web sitesine gidin</string>
+    <string name="dcc_show_all">Tümünü göster</string>
+    <string name="dcc_show_less">Daha azını göster</string>
+    <string name="dcc_Call_not_Supported">Arama desteklenmemektedir</string>
+    <string name="dcc_Turn_On_Location_Service">Yeniden etkinleştirmek için lütfen Ayarlar\'a gidip bu uygulama için Konum Hizmetleri\'ni açın.</string>
+    <string name="dcc_No_Service_Url">Hizmet url\'si bulunmamaktadır</string>
+    <string name="dcc_No_Product_Information">Bu model için ürün bilgileri bulunmamaktadır</string>
+    <string name="dcc_Allow_Acess_Twitter">Uygulama kullanıcılarının Twitter hesabınızı kullanmasına izin verin</string>
+    <string name="dcc_No_Facebook_Key">Facebook Hesabı Yok</string>
+    <string name="dcc_About_App">Uygulama hakkında</string>
+    <string name="dcc_Help_Support">Yardım ve destek</string>
+    <string name="dcc_Call">Arama</string>
+    <string name="dcc_Opening_Hours">Açılış saatleri</string>
+
+</resources>

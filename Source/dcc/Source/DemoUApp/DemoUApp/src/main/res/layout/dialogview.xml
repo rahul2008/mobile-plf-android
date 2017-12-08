@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:inputText="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Add Product"
+            android:textColor="?attr/uidLabelDescriptorNormalTextColor"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+    <com.philips.platform.uid.view.widget.EditText
+        android:id="@+id/ctn_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/frameLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="4dp"
+        android:layout_marginTop="37dp"
+        android:hint="Add CTN here" />
+
+    <com.philips.platform.uid.view.widget.EditText
+        android:id="@+id/category_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ctn_editText"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="4dp"
+        android:hint="Add category here" />
+
+    <com.philips.platform.uid.view.widget.EditText
+        android:id="@+id/catalog_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/category_editText"
+        android:layout_margin="4dp"
+        android:hint="Add catalog here" />
+
+    <Button
+        android:id="@+id/dialog_submit"
+        style="@style/fontButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/catalog_editText"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="4dp"
+        android:text="Submit" />
+</RelativeLayout>

@@ -1,0 +1,5 @@
+include ':launchDigitalCare'
+include 'digitalCare'
+include 'dccUApp'
+project(':digitalCare').projectDir = new File('../Library/digitalCare')
+project(':dccUApp').projectDir = new File('../DemoUApp/DemoUApp')

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Key"> Traditional Chinese </string>
+    <string name="key"> zh-rTW </string>
+
+    <!-- Common   null -->
+    <string name="img_description"> 描述 </string>
+    <string name="no_internet"> 沒有網際網路連線。請檢查您手機 wifi 設定或數據 設定是否運作正常 </string>
+
+    <!-- Support Home Screen    null -->
+    <string name="how_can_we_help"> 需要什麼協助？ </string>
+    <string name="contact_us"> 與我們聯絡 </string>
+    <string name="view_product_details"> 檢視產品資訊 </string>
+    <string name="view_faq"> 閱讀常見問答集 </string>
+    <string name="find_philips_near_you"> 尋找附近的飛利浦服務中心 </string>
+    <string name="feedback"> 分享您的想法 </string>
+    <string name="registration"> 註冊您的產品 </string>
+    <string name="actionbar_title_support"> 支援 </string>
+    <string name="product_info"> 產品資訊 </string>
+    <!-- Locate Near You Screen   null -->
+    <string name="loading"> 正在載入 </string>
+    <string name="please_wait"> 請稍候 &amp;#8230; </string>
+    <string name="get_directions"> 取得路線 </string>
+    <string name="search"> 搜尋 </string>
+    <string name="gps_disabled"> 您裝置上的 GPS 已停用。是否要啟用？ </string>
+    <string name="servicecenters_not_found"> 您所在的國家/地區沒有服務中心  </string>
+    <string name="no_data"> 無資料可供使用 </string>
+    <string name="locate_philips_popup_legal"> 使用支援網頁的「Find Philips near you」(尋找附近的飛利浦服務中心) 功能時，系統會要求您與飛利浦分享您的位置資料。根據您的位置資料，您將被導向附近商店，或是您所在國家/地區的客戶服務中心詳細聯絡資訊 </string>
+
+    <!-- ContactUs Screen   null -->
+    <string name="leave_us_a_message"> 請留言： </string>
+    <string name="contact_us_text"> 與我們聯絡： </string>
+    <string name="opening_hours"> 營業時間 </string>
+    <string name="live_chat"> 即時對話 </string>
+    <string name="send_email"> 傳送電子郵件 </string>
+    <string name="call_number"> 通話 </string>
+    <string name="chat_with_philips"> 與飛利浦對話 </string>
+    <string name="check_sim"> 偵測不到 SIM 卡。請檢查是否正確插入 </string>
+    <string name="no_data_available"> 無資料可供使用 </string>
+    <string name="send_us_email"> 寄送電子郵件給我們 </string>
+
+    <!-- Live Chat Screen   null -->
+    <string name="can_we_help_you"> 是否需要協助？ </string>
+    <string name="chat_now"> 立即對話 </string>
+    <string name="no_thanks"> 不了，謝謝 </string>
+    <string name="chat_desc"> 與我們的產品專員即時對話。全年無休的英文服務 </string>
+
+    <!-- View Product Details Screen   null -->
+    <string name="product_view_videos"> 產品影片 </string>
+    <string name="product_open_manual"> 開啟互動手冊 </string>
+    <string name="product_download_manual"> 下載產品手冊 </string>
+    <string name="product_information"> 產品資訊 (philips.com) </string>
+
+    <!-- Rate This Application   null -->
+    <string name="rate_playstore_headertext"> 您會給這個應用程式幾分？ </string>
+    <string name="rate_playstore_buttontext"> 撰寫應用程式評論 </string>
+    <string name="rate_philips_headertext"> 送出產品評論 </string>
+    <string name="rate_philips_description"> 撰寫評論以協助其他人挑選最合適的產品 </string>
+    <string name="rate_philips_buttontext"> 登入 My Philips </string>
+
+    <!-- reviewandrewards   null -->
+
+    <!-- Twitter Screen   null -->
+    <string name="twitter_login_header"> 登入 Twitter </string>
+    <string name="twitter_login_hint_username"> 使用者名稱 </string>
+    <string name="twitter_login_hint_password"> 密碼 </string>
+    <string name="twiiter_login_logo_description"> Twitter 標誌 </string>
+    <string name="twitter_post_progress_message"> 向飛利浦 Twitter 支援傳送您的訊息… </string>
+    <string name="twitter_post_char_limitation"> 請注意您的訊息長度不得超過 140 個字元 </string>
+
+    <!-- Social post   null -->
+    <string name="social_post_to"> 傳訊給飛利浦 </string>
+    <string name="social_post_desc_text"> 納入產品資訊 </string>
+    <string name="cancel"> 取消 </string>
+    <string name="take_photo"> 挑選相片 </string>
+    <string name="choose_from_library"> 從圖庫選擇 </string>
+    <string name="social_post_failed"> 發生問題..  </string>
+    <string name="support_productinformation"> 能否協助我處理 </string>
+    <string name="social_post_success"> 收到您的訊息！ </string>
+    <string name="post"> 張貼 </string>
+    <string name="send"> 傳送 </string>
+    <string name="facebook_login_header"> 登入 Facebook </string>
+    <string name="SocialSharingPostTemplateText"> 能否協助我處理 </string>
+
+    <!-- BazzarVoice Screen   null -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> 撰寫評論 </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> 開始之前，請閱讀我們的準則： </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> 我們打算刊登您的評論，因此請您務必遵循這些準則： </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> 請將評論的重點放在產品本身。 </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> 避免描寫客服相關內容，如果您需要任何立即協助，請與我們聯絡。 </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> 避免提及競爭對手或是您為產品所支付的特定價格 </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> 切勿包含任何可辨識個人身分的資訊，例如全名。 </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> 好，知道了！ </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> 撰寫評論 </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> 請為此產品評分 </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> 您的評論 </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> 評論摘要 </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> 在此處撰寫您的評論 </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> 選擇暱稱： </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> 非真名 </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> 您的電子郵件 </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> 確定可存取 </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> 本人已閱讀並同意該 </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> 條款與條件 </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> 預覽 </string>
+    <string name="EmptyField_ErrorMsg"> 欄位不可空白 </string>
+    <string name="kemailFieldErrorText"> 請輸入有效的電子郵件地址。 </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> 您的評論： </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> 全部正確？ </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> 評分： </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> 評論摘要： </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> 評論： </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> 暱稱： </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> 電子郵件 </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> 提交我的評論 </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> 感謝您！ </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> 很好！我們收到您的評論！ </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> 感謝您撥冗撰寫此評論。我們將會進行審查並通知您評論上線的刊登日期！ </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> 返回支援 </string>
+
+    <!-- bazzarvoice_rating_alert   null -->
+
+    <!-- bazzarvoice_terms_conditions_alert   null -->
+
+    <!-- bazzarvoice_description_alert   null -->
+
+    <!-- Registration Screen   null -->
+    <string name="login_to_social_media"> 以社交媒體帳戶登入？ </string>
+    <string name="twitter"> Twitter </string>
+    <string name="facebook"> Facebook </string>
+    <string name="linkedin"> LinkedIn </string>
+    <string name="googleplus"> Google Plus </string>
+    <string name="login_with_philips_account"> 或以 My Philips 帳戶登入 </string>
+    <string name="email"> 電子郵件地址 </string>
+    <string name="password"> 密碼 </string>
+    <string name="sign_into_my_philips"> 登入 My Philips </string>
+    <string name="forgot_my_password"> 忘記密碼 &gt;  </string>
+    <string name="create_account"> 建立帳戶 &gt; </string>
+
+    <string name="localtephilips_contactus">前往聯絡頁面</string>
+
+    <string name="FAQ_KEY">常見問答集</string>
+    <string name="QUESTION_KEY">問題與解答</string>
+    <string name="NO_PRODUCT_KEY">沒有可用的產品</string>
+    <string name="NO_SUPPORT_KEY">沒有可用的支援</string>
+    <string name="FAQ_KEY_TABLET">常見問答集
+</string>
+
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">facebook</string>
+    <string name="dcc_send_us_message">或傳送訊息</string>
+    <string name="dcc_get_in_touch">與團隊成員交談</string>
+    <string name="dcc_help_and_Answer">我們樂意提供協助並回答您的任何問題。</string>
+    <string name="dcc_send_email">電子郵件</string>
+    <string name="dcc_call_number">與我們聯絡</string>
+    <string name="dcc_chat_to_us">與我們聊天</string>
+    <string name="dcc_chat_desc">與我們的產品專員即時對話，全年無休的英文服務。 </string>
+    <string name="dcc_remove_photo">移除相片</string>
+    <string name="dcc_continue">繼續</string>
+    <string name="dcc_characters_left">個字元可使用</string>
+    <string name="dcc_your_message">您的訊息</string>
+    <string name="dcc_tellUs_header">分享您的體驗</string>
+    <string name="dcc_tellUs_sub_header">撰寫評論或為應用程式評分。我們十分重視您的寶貴意見。</string>
+    <string name="dcc_write_review">撰寫評論</string>
+    <string name="dcc_rate_this_app">為應用程式評分</string>
+    <string name="dcc_productDownloadManual">下載手冊</string>
+    <string name="dcc_productInformationOnWebsite">造訪產品網站</string>
+    <string name="dcc_show_all">顯示全部</string>
+    <string name="dcc_show_less">顯示較少</string>
+    <string name="dcc_Call_not_Supported">不支援通話</string>
+    <string name="dcc_Turn_On_Location_Service">若要重新啟用，請前往「設定」並開啟此應用程式的「定位服務」。</string>
+    <string name="dcc_No_Service_Url">沒有可用的服務 URL</string>
+    <string name="dcc_No_Product_Information">此型號沒有可用的產品資訊</string>
+    <string name="dcc_Allow_Acess_Twitter">允許應用程式使用者存取您的 Twitter 帳戶</string>
+    <string name="dcc_No_Facebook_Key">無 Facebook 帳戶</string>
+    <string name="dcc_About_App">關於本應用程式</string>
+    <string name="dcc_Help_Support">說明與支援</string>
+    <string name="dcc_Call">通話</string>
+    <string name="dcc_Opening_Hours">營業時間</string>
+
+</resources>

@@ -1,0 +1,29 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="contactUsHelpText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center|left</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:textColor">?attr/uidButtonPrimaryFocusBackgroundColor</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textSize">@dimen/title_text_size_medium</item>
+    </style>
+
+    <style name="contactUsBottomText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">left</item>
+        <item name="android:textColor">?attr/uidButtonPrimaryFocusBackgroundColor</item>
+        <item name="android:textSize">@dimen/title_text_size_small</item>
+    </style>
+
+    <style name="contactUsOpeningHoursText" parent="contactUsHelpText">
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+
+</resources>

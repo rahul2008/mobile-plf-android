@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Key"> Arabic </string>
+    <string name="key"> ar </string>
+
+    <!-- Common   null -->
+    <string name="img_description"> الوصف </string>
+    <string name="no_internet"> ما من اتصال بالإنترنت. يرجى التحقق من توفر اتصال في إعدادات wifi أو إعدادات البيانات على الهاتف </string>
+
+    <!-- Support Home Screen    null -->
+    <string name="product_info"> معلومات عن المنتج </string>
+    <string name="how_can_we_help"> كيف يمكننا مساعدتك؟ </string>
+    <string name="contact_us"> اتصل بنا </string>
+    <string name="view_product_details"> عرض معلومات المنتج </string>
+    <string name="view_faq"> قراءة الأسئلة والأجوبة </string>
+    <string name="find_philips_near_you"> اعثر على Philips بالقرب منك </string>
+    <string name="feedback"> أطلعنا على رأيك </string>
+    <string name="registration"> تسجيل منتجك </string>
+    <string name="actionbar_title_support"> الدعم </string>
+
+    <!-- Locate Near You Screen   null -->
+    <string name="loading"> تحميل </string>
+    <string name="please_wait"> يُرجى الانتظار &amp;#8230; </string>
+    <string name="get_directions"> الحصول على الاتجاهات </string>
+    <string name="search"> البحث </string>
+    <string name="gps_disabled"> إن نظام تحديد الموقع العالمي (GPS) معطّل في جهازك. هل تريد تمكينه؟ </string>
+    <string name="servicecenters_not_found"> ما من مراكز خدمة متوفرة في بلدك  </string>
+    <string name="no_data"> ما من بيانات متوفرة </string>
+    <string name="locate_philips_popup_legal"> عند استخدام وظيفة &quot;العثور على متجر Philips بالقرب منك&quot; في صفحة الدعم، تتم مطالبتك بمشاركة بيانات موقعك مع شركة Philips. وبالاستناد إلى بيانات موقعك سيتم توجيهك إلى متجر بالقرب منك أو إلى تفاصيل الاتصال برعاية المستهلك في بلدك </string>
+
+    <!-- ContactUs Screen   null -->
+    <string name="leave_us_a_message"> أرسل لنا رسالة: </string>
+    <string name="contact_us_text"> اتصل بنا: </string>
+    <string name="opening_hours"> ساعات العمل </string>
+    <string name="live_chat"> دردشة مباشرة </string>
+    <string name="send_email"> إرسال بريد إلكتروني </string>
+    <string name="call_number"> المكالمة </string>
+    <string name="chat_with_philips"> الدردشة مع Philips </string>
+    <string name="check_sim"> لم يتم الكشف عن أي بطاقة SIM. يرجى التحقق مما إذا تم إدخالها بشكل صحيح </string>
+    <string name="no_data_available"> ما من بيانات متوفرة </string>
+    <string name="send_us_email"> أرسل لنا بريدًا إلكترونيًا </string>
+
+    <!-- Live Chat Screen   null -->
+    <string name="can_we_help_you"> أيمكننا مساعدتك؟ </string>
+    <string name="chat_now"> دردش الآن </string>
+    <string name="no_thanks"> لا، شكرًا </string>
+    <string name="chat_desc"> ابدأ دردشة مباشرة مع متخصص المنتجات المتوفر على مدار الساعة وطيلة أيام الأسبوع باللغة الإنجليزية </string>
+
+    <!-- View Product Details Screen   null -->
+    <string name="product_view_videos"> مقاطع فيديو حول المنتج </string>
+    <string name="product_open_manual"> فتح الدليل التفاعلي </string>
+    <string name="product_download_manual"> تنزيل دليل المنتج </string>
+    <string name="product_information"> معلومات عن المنتجات (على موقع philips.com) </string>
+
+    <!-- Rate This Application   null -->
+    <string name="rate_playstore_headertext"> كيف تصنّف هذا التطبيق؟ </string>
+    <string name="rate_playstore_buttontext"> كتابة تعليق حول التطبيق </string>
+    <string name="rate_philips_headertext"> إرسال تعليق حول التطبيق </string>
+    <string name="rate_philips_description"> اكتب تعليقًا وساعد الآخرين في اختيار ما يناسبهم </string>
+    <string name="rate_philips_buttontext"> تسجيل الدخول إلى My Philips </string>
+
+    <!-- reviewandrewards   null -->
+
+    <!-- Twitter Screen   null -->
+    <string name="twitter_login_header"> تسجيل الدخول إلى Twitter </string>
+    <string name="twitter_login_hint_username"> اسم المستخدم </string>
+    <string name="twitter_login_hint_password"> كلمة المرور </string>
+    <string name="twiiter_login_logo_description"> شعار Twitter </string>
+    <string name="twitter_post_progress_message"> إرسال الرسالة إلى قسم الدعم الخاص بـ Philips Twitter… </string>
+    <string name="twitter_post_char_limitation"> تجدر الإشارة إلى أن طول الرسالة لا يمكن أن يتخطى 140 حرفًا </string>
+
+    <!-- Social post   null -->
+    <string name="social_post_to"> إرسال رسالة إلى Philips </string>
+    <string name="social_post_desc_text"> يتضمن معلومات عن المنتج </string>
+    <string name="cancel"> إلغاء </string>
+    <string name="take_photo"> التقاط صورة </string>
+    <string name="choose_from_library"> الاختيار من المكتبة </string>
+    <string name="social_post_failed"> حدث خطأ ما..  </string>
+    <string name="support_productinformation"> هل يمكنك مساعدتي في </string>
+    <string name="social_post_success"> تم استلام رسالتك! </string>
+    <string name="post"> نشر </string>
+    <string name="send"> إرسال </string>
+    <string name="facebook_login_header"> تسجيل الدخول إلى Facebook </string>
+    <string name="SocialSharingPostTemplateText"> هل يمكنك مساعدتي في </string>
+
+    <!-- BazzarVoice Screen   null -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> اكتب رأيًا </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> قبل البدء، يرجى قراءة الإرشادات التي نقدّمها: </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> نريد أن ننشر رأيك حول المنتج، لذا يرجى اتباع هذه الإرشادات: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> أبقِ رأيك مركّزًا على المنتج </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> تجنب الكتابة عن خدمة العملاء؛ أو اتصل بنا إذا واجهت مشاكل تتطلب تدخلنا الفوري. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> لا تذكر المنافسين أو السعر المحدد الذي دفعته عند شراء المنتج </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> لا تذكر أي معلومات تعرّف عن الهوية الشخصية، مثل الأسماء. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> حسنًا، وجدته! </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> اكتب رأيًا </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> يرجى تصنيف هذا المنتج </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> رأيك</string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> ملخّص عن الرأي </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> اكتب رأيك هنا </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> اختر لقبًا: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> ليس اسمك الحقيقي </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> بريدك الإلكتروني </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> تأكد من أنك تتمتّع بإمكانية الوصول </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text">  والشروط ووافقت عليها </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> لقد قرأت الأحكام </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> معاينة </string>
+    <string name="EmptyField_ErrorMsg"> لا يمكن أن يكون الحقل فارغًا </string>
+    <string name="kemailFieldErrorText"> يرجى إدخال عنوان بريد إلكتروني صالح. </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> رأيك: </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> هل كل المعلومات صحيحة؟ </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> تصنيف: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> ملخّص عن الرأي: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> الرأي: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> اللقب: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> البريد الإلكتروني </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> إرسال رأيي </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> شكراً لك! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> لقد تلقينا رأيك! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> نشكرك على تخصيص الوقت لكتابة هذا الرأي. سنراجعه ونردّ عليك عبر الإنترنت! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> العودة إلى الدعم </string>
+
+    <!-- bazzarvoice_rating_alert   null -->
+
+    <!-- bazzarvoice_terms_conditions_alert   null -->
+
+    <!-- bazzarvoice_description_alert   null -->
+
+    <!-- Registration Screen   null -->
+    <string name="login_to_social_media"> هل تريد تسجيل الدخول باستخدام حسابك على شبكات التواصل الاجتماعي؟ </string>
+    <string name="twitter"> على Twitter </string>
+    <string name="facebook"> على Facebook </string>
+    <string name="linkedin"> على LinkedIn </string>
+    <string name="googleplus"> على Google Plus </string>
+    <string name="login_with_philips_account"> أو تسجيل الدخول باستخدام حساب My Philips </string>
+    <string name="email"> عنوان البريد الإلكتروني </string>
+    <string name="password"> كلمة المرور </string>
+    <string name="sign_into_my_philips"> تسجيل الدخول إلى My Philips </string>
+    <string name="forgot_my_password"> لقد نسيت كلمة المرور &gt;  </string>
+    <string name="create_account"> إنشاء حساب &gt; </string>
+
+    <string name="localtephilips_contactus">انتقل إلى صفحة الاتصال</string>
+
+
+    <string name="FAQ_KEY">الأسئلة المتداولة</string>
+    <string name="QUESTION_KEY">سؤال وجواب</string>
+    <string name="NO_PRODUCT_KEY">ما من منتجات متوفرة</string>
+    <string name="NO_SUPPORT_KEY">ما من دعم متوفر</string>
+    <string name="FAQ_KEY_TABLET">الأسئلة المتداولة</string>
+
+    <!--DLS-->
+
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">facebook</string>
+    <string name="dcc_send_us_message">أو إرسال رسالة</string>
+    <string name="dcc_get_in_touch">تحدث إلى أحد أعضاء الفريق</string>
+    <string name="dcc_help_and_Answer">نحن هنا لمساعدتك وللإجابة عن أي أسئلة تراودك.</string>
+    <string name="dcc_send_email">البريد الإلكتروني</string>
+    <string name="dcc_call_number">اتصل بنا</string>
+    <string name="dcc_chat_to_us">الدردشة معنا</string>
+    <string name="dcc_chat_desc">دردشة حية على مدار الساعة باللغة الإنجليزية مع أحد المتخصصين في المنتج لدينا. </string>
+    <string name="dcc_remove_photo">إزالة الصورة</string>
+    <string name="dcc_continue">متابعة</string>
+    <string name="dcc_characters_left">من الأحرف المتبقية</string>
+    <string name="dcc_your_message">رسالتك</string>
+    <string name="dcc_tellUs_header">مشاركة تجاربك</string>
+    <string name="dcc_tellUs_sub_header">اكتب رأيك أو قم بتصنيف هذا التطبيق. فملاحظاتك تهمّنا.</string>
+    <string name="dcc_write_review">كتابة رأي</string>
+    <string name="dcc_rate_this_app">تصنيف هذا التطبيق</string>
+    <string name="dcc_productDownloadManual">تنزيل الدليل</string>
+    <string name="dcc_productInformationOnWebsite">زيارة موقع ويب الخاص بالمنتج</string>
+    <string name="dcc_show_all">إظهار الكل</string>
+    <string name="dcc_show_less">إظهار محتوى أقل</string>
+    <string name="dcc_Call_not_Supported">المكالمة غير معتمدة</string>
+    <string name="dcc_Turn_On_Location_Service">لإعادة تمكين الخيار، يرجى الانتقال إلى \"الإعدادات\" وتشغيل \"خدمة الموقع\" لهذا التطبيق.</string>
+    <string name="dcc_No_Service_Url">لا يتوفر url للخدمة</string>
+    <string name="dcc_No_Product_Information">لا تتوفر معلومات حول المنتج لهذا الطراز</string>
+    <string name="dcc_Allow_Acess_Twitter">السماح لمستخدمي التطبيق من الوصول إلى حسابك على twitter</string>
+    <string name="dcc_No_Facebook_Key">ما من حساب Facebook</string>
+    <string name="dcc_About_App">حول هذا التطبيق</string>
+    <string name="dcc_Help_Support">التعليمات والدعم</string>
+    <string name="dcc_Call">المكالمة</string>
+    <string name="dcc_Opening_Hours">ساعات العمل</string>
+
+</resources>

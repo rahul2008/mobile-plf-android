@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Key"> Thai </string>
+    <string name="key"> th </string>
+
+    <!-- Common   null -->
+    <string name="img_description"> คำอธิบาย </string>
+    <string name="no_internet"> ไม่มีการเชื่อมต่ออินเตอร์เน็ต โปรดตรวจสอบว่าการเชื่อมต่อทำงานหรือไม่ในการตั้งค่า Wifi หรือการตั้งค่าข้อมูลของโทรศัพท์ </string>
+
+    <!-- Support Home Screen    null -->
+    <string name="how_can_we_help"> เราจะช่วยคุณได้อย่างไร </string>
+    <string name="contact_us"> ติดต่อเรา </string>
+    <string name="view_product_details"> ดูข้อมูลผลิตภัณฑ์ </string>
+    <string name="view_faq"> อ่านคำถามที่พบบ่อย </string>
+    <string name="find_philips_near_you"> ค้นหา Philips ใกล้บ้านคุณ </string>
+    <string name="feedback"> คุณคิดอย่างไรบ้าง </string>
+    <string name="registration"> ลงทะเบียนผลิตภัณฑ์ของคุณ </string>
+    <string name="actionbar_title_support"> ฝ่ายสนับสนุน </string>
+    <string name="product_info"> ข้อมูลผลิตภัณฑ์ </string>
+    <!-- Locate Near You Screen   null -->
+    <string name="loading"> การโหลดข้อมูล </string>
+    <string name="please_wait"> โปรดรอ &amp;#8230; </string>
+    <string name="get_directions"> Get directions (ขอเส้นทาง) </string>
+    <string name="search"> เมนูหน้าหลัก, ค้นหา </string>
+    <string name="gps_disabled"> อุปกรณ์ของคุณได้ปิดใช้งาน GPS คุณต้องการเปิดใช้งานหรือไม่ </string>
+    <string name="servicecenters_not_found"> ไม่มีศูนย์บริการในประเทศของคุณ  </string>
+    <string name="no_data"> ไม่มีข้อมูล </string>
+    <string name="locate_philips_popup_legal"> เมื่อคุณใช้ฟังก์ชัน ‘ค้นหา Philips ใกล้บ้านคุณ’ ที่หน้าฝ่ายสนับสนุน คุณจะได้รับการร้องขอให้แบ่งปันข้อมูลตำแหน่งของคุณกับ Philips คุณจะได้รับการนำทางไปยังร้านค้าใกล้คุณตามข้อมูลตำแหน่งของคุณ หรือไปยังรายละเอียดการติดต่อฝ่ายดูแลลูกค้าในประเทศ </string>
+
+    <!-- ContactUs Screen   null -->
+    <string name="leave_us_a_message"> ฝากข้อความให้เรา: </string>
+    <string name="contact_us_text"> ติดต่อเรา: </string>
+    <string name="opening_hours"> ชั่วโมงทำงาน </string>
+    <string name="live_chat"> สนทนาสด </string>
+    <string name="send_email"> ส่งอีเมล์ </string>
+    <string name="call_number"> โทร </string>
+    <string name="chat_with_philips"> สนทนากับ Philips </string>
+    <string name="check_sim"> ไม่พบซิมการ์ด โปรดตรวจสอบว่าได้ใส่ซิมการ์ดอย่างถูกต้อง </string>
+    <string name="no_data_available"> ไม่มีข้อมูล </string>
+    <string name="send_us_email"> ส่งอีเมล์ถึงเรา </string>
+
+    <!-- Live Chat Screen   null -->
+    <string name="can_we_help_you"> เราจะช่วยอะไรคุณได้ไหม </string>
+    <string name="chat_now"> สนทนาทันที </string>
+    <string name="no_thanks"> ไม่ ขอบคุณ </string>
+    <string name="chat_desc"> เริ่มการสนทนาสดกับผู้เชี่ยวชาญผลิตภัณฑ์ของเรา พร้อมตลอด 24 ชม. เป็นภาษาอังกฤษ </string>
+
+    <!-- View Product Details Screen   null -->
+    <string name="product_view_videos"> วิดีโอผลิตภัณฑ์ </string>
+    <string name="product_open_manual"> เปิดคู่มือผู้ใช้แบบอินเตอร์แอคทีฟ </string>
+    <string name="product_download_manual"> ดาวน์โหลดคู่มือผู้ใช้ผลิตภัณฑ์ </string>
+    <string name="product_information"> ข้อมูลผลิตภัณฑ์(ที่ philips.com) </string>
+
+    <!-- Rate This Application   null -->
+    <string name="rate_playstore_headertext"> คุณจะให้คะแนน App นี้อย่างไร </string>
+    <string name="rate_playstore_buttontext"> เขียนคำวิจารณ์ App </string>
+    <string name="rate_philips_headertext"> ส่งคำวิจารณ์ผลิตภัณฑ์ </string>
+    <string name="rate_philips_description"> เขียนคำวิจารณ์และช่วยให้ผู้อื่นตัดสินใจเลือกได้อย่างเหมาะสม </string>
+    <string name="rate_philips_buttontext"> เข้าใช้ My Philips </string>
+
+    <!-- reviewandrewards   null -->
+
+    <!-- Twitter Screen   null -->
+    <string name="twitter_login_header"> ล็อกอินเข้าสู่ Twitter </string>
+    <string name="twitter_login_hint_username"> ชื่อผู้ใช้ </string>
+    <string name="twitter_login_hint_password"> รหัส </string>
+    <string name="twiiter_login_logo_description"> โลโก้ Twitter </string>
+    <string name="twitter_post_progress_message"> กำลังส่งข้อความของคุณไปถึงฝ่ายสนับสนุนบน Twitter ของ Philips… </string>
+    <string name="twitter_post_char_limitation"> โปรดทราบว่าข้อความของคุณไม่สามารถมีความยาวเกิน 140 ตัวอักษร </string>
+
+    <!-- Social post   null -->
+    <string name="social_post_to"> ส่งข้อความถึง Philips </string>
+    <string name="social_post_desc_text"> รวมข้อมูลผลิตภัณฑ์ </string>
+    <string name="cancel"> ยกเลิก </string>
+    <string name="take_photo"> ถ่ายภาพ </string>
+    <string name="choose_from_library"> เลือกจากไลบรารี </string>
+    <string name="social_post_failed"> มีข้อผิดพลาดเกิดขึ้น..  </string>
+    <string name="support_productinformation"> คุณช่วยฉันได้หรือไม่เกี่ยวกับ </string>
+    <string name="social_post_success"> เราได้รับข้อความของคุณแล้ว! </string>
+    <string name="post"> โพสต์ </string>
+    <string name="send"> ส่ง </string>
+    <string name="facebook_login_header"> ล็อกอินเข้าสู่ Facebook </string>
+    <string name="SocialSharingPostTemplateText"> คุณช่วยฉันได้หรือไม่เกี่ยวกับ </string>
+
+    <!-- BazzarVoice Screen   null -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> เขียนคำวิจารณ์ </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> ก่อนที่เราจะเริ่ม โปรดอ่านแนวทางของเรา: </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> เราต้องการที่จะเผยแพร่คำวิจารณ์ของคุณ ดังนั้นโปรดปฏิบัติตามแนวทางเหล่านี้: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> ให้คำวิจารณ์คงการเน้นถึงผลิตภัณฑ์ </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> หลีกเลี่ยงการเขียนเกี่ยวกับบริการลูกค้า ให้ติดต่อเราแทนหากคุณมีปัญหาที่ต้องการความช่วยเหลือทันทีจากเรา </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> งดเว้นการกล่าวถึงคู่แข่งหรือราคาเฉพาะที่คุณชำระเงินสำหรับผลิตภัณฑ์ </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> ห้ามมีข้อมูลที่ทำให้สามารถระบุตัวตนใดๆ เช่น ชื่อเต็ม </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> โอเค เข้าใจแล้ว! </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> เขียนคำวิจารณ์ </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> โปรดให้คะแนนผลิตภัณฑ์นี้ </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> คำวิจารณ์ของคุณ </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> สรุปคำวิจารณ์ </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> เขียนคำวิจารณ์ของคุณที่นี่ </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> เลือกชื่อเล่น: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> ที่ไม่ใช่ชื่อจริงของคุณ </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> อีเมล์ของคุณ </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> ตรวจดูให้แน่ใจว่าคุณสามารถเข้าถึงได้ </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> ฉันได้อ่านและยอมรัข้อ </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> กำหนดและเงื่อนไข </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> ดูตัวอย่าง </string>
+    <string name="EmptyField_ErrorMsg"> ฟิลด์ไม่สามารถปล่อยว่างได้ </string>
+    <string name="kemailFieldErrorText"> โปรดป้อนอีเมล์แอดเดรสที่ถูกต้อง </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> คำวิจารณ์ของคุณ: </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> ทุกอย่างถูกต้องหรือไม่ </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> การให้คะแนน: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> สรุปคำวิจารณ์: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> คำวิจารณ์: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> ชื่อเล่น: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> อีเมล์ </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> ส่งคำวิจารณ์ของฉัน </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> ขอบคุณ! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> เยี่ยม! เราได้รับคำวิจารณ์ของคุณแล้ว! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> ขอบคุณสำหรับการสละเวลาเพื่อเขียนคำวิจารณ์นี้ เราจะทำการตรวจสอบและแจ้งให้คุณทราบเมื่อคำวิจารณ์ได้ออนไลน์แล้ว </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> กลับไปยังฝ่ายสนับสนุน </string>
+
+    <!-- bazzarvoice_rating_alert   null -->
+
+    <!-- bazzarvoice_terms_conditions_alert   null -->
+
+    <!-- bazzarvoice_description_alert   null -->
+
+    <!-- Registration Screen   null -->
+    <string name="login_to_social_media"> ล็อกอินด้วยแอคเคาท์สื่อสังคมของคุณหรือไม่ </string>
+    <string name="twitter"> บน Twitter </string>
+    <string name="facebook"> บน Facebook </string>
+    <string name="linkedin"> บน LinkedIn </string>
+    <string name="googleplus"> บน Google Plus </string>
+    <string name="login_with_philips_account"> หรือล็อกอินด้วยแอคเคาท์ My Philips </string>
+    <string name="email">  อีเมล์แอดเดรส </string>
+    <string name="password"> รหัส </string>
+    <string name="sign_into_my_philips"> เข้าใช้ My Philips </string>
+    <string name="forgot_my_password"> ฉันลืมรหัสผ่าน &gt;  </string>
+    <string name="create_account">  สร้างแอคเคาท์ &gt; </string>
+
+    <string name="localtephilips_contactus">ไปที่หน้าติดต่อ</string>
+
+
+    <string name="FAQ_KEY">คำถามที่พบบ่อย</string>
+    <string name="QUESTION_KEY">คำถาามและคำตอบ</string>
+    <string name="NO_PRODUCT_KEY">ไม่มีผลิตภัณฑ์จำหน่าย</string>
+    <string name="NO_SUPPORT_KEY">ไม่มีการสนับสนุนที่ให้บริการ</string>
+    <string name="FAQ_KEY_TABLET">คำถามที่พบบ่อย
+</string>
+
+    <string name="dcc_twitter">Twitter</string>
+    <string name="dcc_facebook">Facebook</string>
+    <string name="dcc_send_us_message">หรือส่งข้อความ</string>
+    <string name="dcc_get_in_touch">คุยกับพนักงานในทีม</string>
+    <string name="dcc_help_and_Answer">เราอยู่ที่นี่เพื่อช่วยเหลือและตอบทุกคำถามที่คุณสงสัย</string>
+    <string name="dcc_send_email">อีเมล์</string>
+    <string name="dcc_call_number">ติดต่อเรา</string>
+    <string name="dcc_chat_to_us">พูดคุยกับเรา</string>
+    <string name="dcc_chat_desc">สนทนา Live chat 24/7 ด้วยภาษาอังกฤษกับผู้เชี่ยวชาญผลิตภัณฑ์ของเรา </string>
+    <string name="dcc_remove_photo">ลบรูปถ่าย</string>
+    <string name="dcc_continue">ดำเนินการต่อ</string>
+    <string name="dcc_characters_left">ตัวอักษรที่เหลือ</string>
+    <string name="dcc_your_message">ข้อความของคุณ</string>
+    <string name="dcc_tellUs_header">แบ่งปันประสบการณ์</string>
+    <string name="dcc_tellUs_sub_header">เขียนคำวิจารณ์หรือให้คะแนนแอพนี้ ความคิดเห็นของคุณเป็นสิ่งสำคัญ</string>
+    <string name="dcc_write_review">เขียนคำวิจารณ์</string>
+    <string name="dcc_rate_this_app">ให้คะแนนแอพนี้</string>
+    <string name="dcc_productDownloadManual">ดาวน์โหลดคู่มือ</string>
+    <string name="dcc_productInformationOnWebsite">เยี่ยมชมเว็บไซต์ผลิตภัณฑ์</string>
+    <string name="dcc_show_all">แสดงทั้งหมด</string>
+    <string name="dcc_show_less">แสดงน้อยลง</string>
+    <string name="dcc_Call_not_Supported">ไม่รองรับการโทร</string>
+    <string name="dcc_Turn_On_Location_Service">หากต้องการเปิดใช้งานอีกครั้ง โปรดไปที่ การตั้งค่า แล้วเปิด บริการอ้างอิงตำแหน่ง สำหรับแอพนี้</string>
+    <string name="dcc_No_Service_Url">ไม่มี URL บริการ</string>
+    <string name="dcc_No_Product_Information">ไม่มีข้อมูลผลิตภัณฑ์สำหรับรุ่นนี้</string>
+    <string name="dcc_Allow_Acess_Twitter">อนุญาตให้ผู้ใช้แอพเข้าถึงบัญชี Twitter ของคุณ</string>
+    <string name="dcc_No_Facebook_Key">ไม่มีบัญชี Facebook</string>
+    <string name="dcc_About_App">เกี่ยวกับแอพนี้</string>
+    <string name="dcc_Help_Support">วิธีใช้และการสนับสนุน</string>
+    <string name="dcc_Call">โทร</string>
+    <string name="dcc_Opening_Hours">ชั่วโมงทำงาน</string>
+
+</resources>
