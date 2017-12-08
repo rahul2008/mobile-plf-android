@@ -6,7 +6,7 @@ apply plugin: 'maven-publish'
 
 buildscript {
     repositories {
-        apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+        apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
     
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
@@ -175,13 +175,13 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        project(':ufw')
+        compile(project(':uAppFwLib'))
     } else {
         compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
     }
     
     if(dp) {
-        project(':ail')
+        compile(project(':AppInfra'))
     } else {
         compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     }
@@ -189,10 +189,10 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
 
-    compile(dp ? project(':usr') : project(':RegistrationApi')) 	
+    compile(dp ? project(':RegistrationApi') : project(':RegistrationApi'))
 
     if(dp) {
-        project(':uid')
+        compile(project(':uid'))
     } else {
         compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
             transitive = true

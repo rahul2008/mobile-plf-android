@@ -5,7 +5,7 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.butterknife'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
@@ -222,7 +222,7 @@ dependencies {
 
 // JUnit4 Rules
     androidTestCompile 'com.android.support.test:rules:0.5'
-    compile project (':jump')
+    compile(project (':jump'))
 
 }
 

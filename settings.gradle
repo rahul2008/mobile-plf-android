@@ -7,10 +7,10 @@ include ':prx'
 include ':uikitLib'
 include ':uid'
 include ':IconFont'
-//include ':registrationApi'
-//include ':UserRegistrationUApp'
-//include ':jump'
-//include ':hsdp'
+include ':registrationApi'
+include ':UserRegistrationUApp'
+include ':jump'
+include ':hsdp'
 //include ':iap'
 //include ':iapUApp'
 include ':digitalCare'
@@ -53,10 +53,10 @@ project(':prx').projectDir = new File('./Source/prx/Source/Library/PrxSample/prx
 project(':uikitLib').projectDir = new File('./Source/uit/Source/UiKit/uikitLib')
 project(':uid').projectDir = new File('./Source/uid/Source/UIKit/uid')
 project(':IconFont').projectDir = new File('./Source/icf/Source/Library/IconFont/icf')
-//project(':registrationApi').projectDir = new File('./Source/usr/Source/Library/RegistrationApi')
-//project(':UserRegistrationUApp').projectDir = new File('./Source/usr/Source/DemoUApp/DemoUApp')
-//project(':jump').projectDir = new File('./Source/usr/Source/Library/jump')
-//project(':hsdp').projectDir = new File('./Source/usr/Source/Library/hsdp')
+project(':registrationApi').projectDir = new File('./Source/usr/Source/Library/RegistrationApi')
+project(':UserRegistrationUApp').projectDir = new File('./Source/usr/Source/DemoUApp/DemoUApp')
+project(':jump').projectDir = new File('./Source/usr/Source/Library/jump')
+project(':hsdp').projectDir = new File('./Source/usr/Source/Library/hsdp')
 //project(':iap').projectDir = new File('./Source/iap/Source/Library/iap')
 //project(':iapUApp').projectDir = new File('./Source/iap/Source/DemoUApp')
 project(':digitalCare').projectDir = new File('./Source/dcc/Source/Library/digitalCare')

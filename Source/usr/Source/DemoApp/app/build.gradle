@@ -5,7 +5,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
@@ -209,13 +209,17 @@ if (propFile.canRead()){
 }
 repositories { flatDir { dirs 'libs' } }
 dependencies {
-
     androidTestCompile "com.android.support:support-annotations:26.0.2"
-
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile(project(':usrUApp'))
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:design:25.3.1'
+    testCompile 'junit:junit:4.12'
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
@@ -244,13 +248,4 @@ task pmd(type: Pmd) {
         xml.enabled = true
         html.enabled = false
     }
-}
-
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':usrUApp')
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:25.3.1'
-    testCompile 'junit:junit:4.12'
 }
