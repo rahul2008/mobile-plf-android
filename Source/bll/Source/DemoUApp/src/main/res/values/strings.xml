@@ -1,0 +1,60 @@
+<resources>
+    <!-- Application -->
+    <string name="bll_unknown">N/A</string>
+    <string name="bll_get">Get</string>
+
+    <!-- Device definitions -->
+    <string name="bll_device_definitions_header">Device definitions</string>
+
+    <!-- Association -->
+    <string name="bll_association_devices_header">Associated devices</string>
+    <string name="bll_association_devices_updated">Association devices updated.</string>
+    <string name="bll_association_failed">"Association failed: "</string>
+    <string name="bll_association_question_remove">Remove association?</string>
+    <string name="bll_association_removed">Association with %1$s removed.</string>
+    <string name="bll_association_started">Association started.</string>
+    <string name="bll_association_stopped">Association stopped.</string>
+    <string name="bll_association_succeeded">Association with %1$s succeeded.</string>
+    <string name="bll_association_title">Associate</string>
+    <string name="bll_connect_title">Connect</string>
+
+    <!-- Connect -->
+    <string name="bll_device_connection">Device connection</string>
+    <string name="bll_connect">Connect</string>
+    <string name="bll_disconnect">Disconnect</string>
+    <string name="bll_connect_status">Status</string>
+    <string name="bll_available_devices_header">Available devices</string>
+
+    <!-- Device details -->
+    <string name="bll_device_detail_rssi">"RSSI: %1$d dBm"</string>
+
+    <!-- Device Information capability -->
+    <string name="bll_device_information">Device information</string>
+    <string name="bll_firmware_version">Firmware revision</string>
+    <string name="bll_hardware_version">Hardware revision</string>
+    <string name="bll_manufacturer_name">Manufacturer name</string>
+    <string name="bll_model_number">Model number</string>
+    <string name="bll_serial_number">Serial number</string>
+    <string name="bll_software_version">Software revision</string>
+    <string name="bll_system_id">System ID</string>
+
+    <!-- Battery capability -->
+    <string name="bll_battery">Battery</string>
+    <string name="bll_battery_level">Battery level</string>
+
+    <!-- Firmware update capability -->
+    <string name="bll_firmware_update">Firmware update</string>
+    <string name="bll_deploy">Deploy</string>
+    <string name="bll_abort">Abort Upload</string>
+    <string name="bll_start_upload">Start Upload</string>
+    <string name="bll_upload_result">Upload Result:</string>
+    <string name="bll_upload_state">Upload State:</string>
+    <string name="bll_firmware_state">Firmware State:</string>
+    <string name="bll_firmware_option">Firmware Version:</string>
+    <string name="bll_finished">onUploadFinished</string>
+    <string name="bll_upload_failed">"onUploadFailed: "</string>
+    <string name="bll_deploy_failed">"onDeployFailed: "</string>
+    <string name="bll_deploy_finished">"onDeployFinished: "</string>
+    <string name="bll_retrieving">Retrieving</string>
+    <string name="bll_error">ERROR</string>
+</resources>

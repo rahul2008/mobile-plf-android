@@ -1,0 +1,18 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
+ * All rights reserved.
+ */
+
+include ':shinelib', ':pluginreferenceboard'
+
+def commonDir = '../common'
+include ':common'
+project(':common').projectDir = new File(commonDir)
+
+def demoAppDir = '../DemoApp'
+include ':bluelib-demoapp'
+project(':bluelib-demoapp').projectDir=new File(demoAppDir)
+
+def demoUAppDir = '../DemoUApp'
+include ':bluelib-demouapp'
+project(':bluelib-demouapp').projectDir=new File(demoUAppDir)

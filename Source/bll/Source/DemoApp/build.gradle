@@ -1,0 +1,91 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+
+apply plugin: 'com.android.application'
+
+buildscript { bs ->
+    project.ext.common = projectDir.absolutePath + '/../common/gradle'
+
+    apply from: "$project.common/project-build.gradle", to: bs
+    apply from: "$project.common/module.gradle"
+
+    repositories {
+        maven {
+            url repos.jcenter
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+}
+
+repositories {
+    maven {
+        url repos.jcenter
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url repos.release
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url repos.stage
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url repos.snapshot
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+}
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+
+        applicationId "com.philips.cdp2.bluelib.demoapp"
+        versionCode 1
+        versionName "0.2.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    debugCompile deps.stetho
+    compile deps.support.appcompatv7
+
+    debugCompile project(path: ':bluelib-demouapp', configuration: 'debug')
+    releaseCompile project(path: ':bluelib-demouapp', configuration: 'release')
+}

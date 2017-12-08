@@ -1,0 +1,280 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+buildscript { bs ->
+    apply from: projectDir.absolutePath + '/../../common/gradle/project-build.gradle', to: bs
+    apply from: projectDir.absolutePath + '/../../common/gradle/module.gradle'
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+
+    repositories {
+        maven {
+            url repos.jcenter
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+
+    dependencies {
+        classpath(builddeps.buildinfoextractor)
+        classpath(builddeps.cdpSCM)
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'pl.droidsonroids.pitest'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+
+apply from: projectDir.absolutePath + '/../../common/gradle/module-tasks.gradle'
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment)
+archivesBaseName = "shinelib"
+
+version = objcdp.getVersion(versions.bll_shinelib)
+
+repositories {
+    maven {
+        url repos.jcenter
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url objcdp.getArtifactoryUrl()
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+}
+
+artifactory {
+    contextUrl = objcdp.getArtifactoryContextUrl()
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications('aar')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
+            }
+        }
+    }
+    resolve {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+        }
+    }
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            artifact zipDocuments
+
+            artifact("$projectDir/dependencies.lock") {
+                classifier = '1stleveldependencies'
+            }
+
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                }
+            }
+        }
+    }
+}
+
+
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+        versionCode 3
+        versionName version
+        buildConfigField "String", "TLA", "\"bll\""
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "String", "LIBRARY_VERSION", "\"${version}(${objcdp.getCommitHash()})\""
+        }
+        release {
+            consumerProguardFiles 'proguard-rules.pro'
+            buildConfigField "String", "LIBRARY_VERSION", "\"${version}\""
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+    publishNonDefault true
+}
+
+dependencies {
+    compile deps.support.annotations
+    compile deps.gson
+
+    testCompile deps.junit
+    testCompile deps.powermock_mockito
+    testCompile deps.powermock_junit
+
+    testCompile deps.assertj
+
+    testCompile 'com.nitorcreations:junit-runners:1.3'
+
+    testCompile("org.robolectric:robolectric:3.3.1") {
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
+    testCompile("org.robolectric:shadows-support-v4:3.0") {
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
+    testCompile 'org.robolectric:robolectric-utils:3.3.1'
+}
+
+task generateJavadocPublicApi(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    destinationDir = file("${project.rootDir}/../../Documents/External/${project.name}-api/")
+
+    include {
+        if (it.isDirectory) {
+            return true
+        }
+        return it.file.text.contains("* @publicApi")
+    }
+
+    options {
+        memberLevel = JavadocMemberLevel.PUBLIC
+        links("http://docs.oracle.com/javase/7/docs/api/");
+        linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference");
+        docEncoding = 'UTF-8'
+        encoding = 'UTF-8'
+        charSet = 'UTF-8'
+    }
+
+    failOnError false
+}
+
+task generateJavadocPluginApi(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    destinationDir = file("${project.rootDir}/../../Documents/External/${project.name}-plugin-api/")
+
+    include {
+        if (it.isDirectory) {
+            return true
+        }
+
+        if (it.file.text.contains("* @publicPluginApi")) {
+            return true
+        }
+
+        if (it.file.text.contains("* @publicApi")) {
+            return true
+        }
+
+        return false
+    }
+
+    options {
+        memberLevel = JavadocMemberLevel.PUBLIC
+        links("http://docs.oracle.com/javase/7/docs/api/");
+        linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference");
+        docEncoding = 'UTF-8'
+        encoding = 'UTF-8'
+        charSet = 'UTF-8'
+    }
+
+    failOnError false
+}
+
+task generateJavadoc()
+
+generateJavadoc.dependsOn {
+    tasks.findAll { task -> task.name.startsWith('generateJavadoc') && task.name != "generateJavadoc" }
+}
+
+pitest {
+    targetClasses = [
+            'com.philips.pins.shinelib.associationprocedures.*',
+            'com.philips.pins.shinelib.bluetoothwrapper.*',
+            'com.philips.pins.shinelib.capabilities.*',
+            'com.philips.pins.shinelib.datatypes.*',
+            'com.philips.pins.shinelib.exceptions.*',
+            'com.philips.pins.shinelib.framework.*',
+            'com.philips.pins.shinelib.services.*',
+            'com.philips.pins.shinelib.utility.*',
+            'com.philips.pins.shinelib.SHNCentral',
+            'com.philips.pins.shinelib.SHNDeviceScanner',
+            'com.philips.pins.shinelib.SHNDeviceScannerInternal',
+            'com.philips.pins.shinelib.SHNService',
+    ]  /* specify target classes to be mutated */
+    excludedClasses = [
+            'com.philips.pins.shinelib.utility.QuickTestConnectionTest',
+            'com.philips.pins.shinelib.capabilities.DiCommFirmwarePortStateWaiterTest',
+            'com.philips.pins.shinelib.bluetoothwrapper.BTGattTest',
+            'com.philips.pins.shinelib.bluetoothwrapper.BTDeviceTest',
+            'com.philips.pins.shinelib.framework.LeScanCallbackProxyTest',
+    ]
+    pitestVersion = versions.pitest
+    avoidCallsTo = [
+            'com.philips.cdp.dicommclient.util.DICommLog',
+            'com.philips.pins.shinelib.utility.SHNLogger',
+    ]
+    threads = 1 /* specify number of threads */
+    outputFormats = ['XML', 'HTML'] /* specify output format */
+    reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
+    timestampedReports = false
+}

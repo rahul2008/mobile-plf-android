@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2015-2017 Koninklijke Philips N.V.
+  ~ All rights reserved.
+  -->
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/bll_card_padding">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/bll_card_padding">
+
+        <TextView
+            style="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/bll_device_information"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/bll_card_padding">
+
+            <TextView
+                android:id="@+id/bll_textViewManufacturer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/bll_manufacturer_name"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/bll_textViewManufacturerValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:text="@string/bll_unknown"/>
+
+
+            <TextView
+                android:id="@+id/bll_textViewModelNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bll_model_number"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/bll_textViewModelNumberValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:text="@string/bll_unknown"/>
+
+            <TextView
+                android:id="@+id/bll_textViewSerialNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/bll_serial_number"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/bll_textViewSerialNumberValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:text="@string/bll_unknown"/>
+
+
+            <TextView
+                android:id="@+id/bll_textViewHardware"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bll_hardware_version"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/bll_textViewHardwareValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:text="@string/bll_unknown"/>
+
+            <TextView
+                android:id="@+id/bll_textViewSoftwareRevision"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bll_software_version"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/bll_textViewSoftwareRevisionValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:text="@string/bll_unknown"/>
+
+
+            <TextView
+                android:id="@+id/bll_textViewFirmware"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bll_firmware_version"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/bll_textViewFirmwareValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:text="@string/bll_unknown"/>
+
+            <TextView
+                android:id="@+id/bll_textViewSystemID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bll_system_id"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/bll_textViewSystemIDValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:text="@string/bll_unknown"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
