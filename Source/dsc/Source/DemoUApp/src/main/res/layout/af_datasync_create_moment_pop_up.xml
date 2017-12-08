@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/data_sync_create_pop_up"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/phase_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/phase"
+        android:maxLength="20" />
+
+    <EditText
+        android:id="@+id/temperature_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/phase_detail"
+        android:layout_marginBottom="10dp"
+        android:digits="0123456789.+-"
+        android:ems="10"
+        android:hint="@string/temperature"
+        android:inputType="numberDecimal|numberSigned"
+        android:maxLength="20" />
+
+    <EditText
+        android:id="@+id/location_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/temperature_detail"
+        android:layout_marginBottom="10dp"
+        android:hint="@string/location_hint"
+        android:maxLength="20" />
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/location_detail"
+        android:layout_centerHorizontal="true"
+        android:text="@string/save" />
+</RelativeLayout>

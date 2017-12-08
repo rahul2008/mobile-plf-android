@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/data_sync_fragment_item"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:layout_marginBottom="4dp"
+    android:layout_marginTop="3dp"
+    android:background="#CACFD2"
+    android:gravity="center_vertical">
+
+    <Button
+        android:id="@+id/delete"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:text="@string/delete" />
+
+    <Button
+        android:id="@+id/update"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/delete"
+        android:layout_marginTop="3dp"
+        android:text="@string/update" />
+
+    <TextView
+        android:id="@+id/time_line_data"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_toLeftOf="@+id/update"
+        android:gravity="left|bottom"
+        android:text="default" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/time_line_data"
+        android:layout_toLeftOf="@id/update"
+        android:background="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/time_line_temperature"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/divider"
+        android:layout_toLeftOf="@+id/delete"
+        android:gravity="left|bottom"
+        android:text="default" />
+
+    <View
+        android:id="@+id/divider_below"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/time_line_temperature"
+        android:layout_toLeftOf="@id/update"
+        android:background="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/phase"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/divider_below"
+        android:layout_toLeftOf="@+id/delete"
+        android:gravity="left|bottom"
+        android:text="default" />
+
+</RelativeLayout>

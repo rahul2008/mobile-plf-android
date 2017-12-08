@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_moment_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et_moment_startDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/calendar"
+            android:drawablePadding="3dp"
+            android:focusable="false"
+            android:hint="@string/moment_start_dateRange"
+            android:inputType="date" />
+
+        <EditText
+            android:id="@+id/et_moment_endDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/calendar"
+            android:drawablePadding="3dp"
+            android:focusable="false"
+            android:hint="@string/moment_end_dateRange"
+            android:inputType="date" />
+
+        <EditText
+            android:id="@+id/et_moment_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/moment_type_label" />
+
+
+        <EditText
+            android:id="@+id/et_moment_pageLimit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/moment_pageLimit_label" />
+
+        <EditText
+            android:id="@+id/et_moment_pageNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/moment_pageNumber_label"
+            android:inputType="number" />
+
+        <LinearLayout
+            android:id="@+id/ll_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="Order By"
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
+
+            <Spinner
+                android:id="@+id/momentOrdering"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_fetch_moment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_moment_type"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_fetch_by_date_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="@string/fetch_moment_by_date_type" />
+
+        <Button
+            android:id="@+id/btn_fetch_by_date_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="@string/fetch_moment_by_data_range" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/moment_dateRange_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ll_fetch_moment"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/tv_moment_date_range"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/no_moment_date_range"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+
+</RelativeLayout>

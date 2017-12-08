@@ -1,0 +1,62 @@
+<resources>
+    <string name="app_name_data_sync">Data Services</string>
+    <!-- Data Sync related Strings-->
+    <string name="data_sync">Data Sync</string>
+    <string name="data_sync_title">Data Sync</string>
+    <string name="add">Add</string>
+    <string name="sync">Sync</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
+    <string name="registration">Registration</string>
+    <string name="phase">Time Of the Day</string>
+    <string name="temperature">Temperature</string>
+    <string name="temperature_hint">Temperature of the Baby</string>
+    <string name="location">Notes</string>
+    <string name="location_hint">Location Name</string>
+    <string name="save">Add</string>
+    <!--Fragment tag -->
+    <string name="af_digital_care">digitalcare</string>
+    <string name="af_prod_reg_vertical_tag">prod_reg_vertical_tag</string>
+    <string name="synced">Not Synced</string>
+    <string name="create_moment">Create moment</string>
+    <string name="invalid_temperature"><![CDATA[<strInvalid temperature entry]]></string>
+    <string name="consent">User Consents</string>
+    <string name="insights">Insights</string>
+    <string name="characteristics">User Characteristics</string>
+    <string name="cancel">CANCEL</string>
+    <string name="ok">OK</string>
+
+    <string name="set_characteristics">User Characteristics</string>
+    <string name="view_characteristics">View Characteristics</string>
+    <string name="hide_characteristics">Hide Characteristics</string>
+    <string name="edit">Edit</string>
+    <string name="settings">User Settings</string>
+    <string name="moments">Moments</string>
+    <string name="logout">logout</string>
+
+    <string-array name="metrics">
+        <item>"metric"</item>
+        <item>"imperial"</item>
+        <item>"us-customary"</item>
+    </string-array>
+
+    <string-array name="locals">
+        <item>"en_AU"</item>
+        <item>"en_GB""</item>
+        <item>"en_CA"</item>
+        <item>"en_HK"</item>
+        <item>"en_ID"</item>
+        <item>"en_IE"</item>
+        <item>"en_IN"</item>
+        <item>"en_MY"</item>
+        <item>"en_NZ"</item>
+        <item>"en_PH"</item>
+        <item>"en_PK"</item>
+        <item>"en_SA"</item>
+        <item>"en_SG"</item>
+        <item>"en_US"</item>
+        <item>"en_ZA"</item>
+
+    </string-array>
+
+</resources>

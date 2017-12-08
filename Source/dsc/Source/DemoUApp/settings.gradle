@@ -1,0 +1,2 @@
+include ':dsc'
+project(':dsc').projectDir =new File('../Library/dataServices')

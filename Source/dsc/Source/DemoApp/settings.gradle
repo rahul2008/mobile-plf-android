@@ -1,0 +1,7 @@
+include ':data_sync_app'
+include ':dscUApp'
+project(':dscUApp').projectDir = new File('../DemoUApp')
+//include ':dsc'
+//project(':dsc').projectDir = new File('../Library/dataServices')
+include ':dataServices'
+project(':dataServices').projectDir = new File('../Library/dataServices')

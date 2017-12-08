@@ -1,0 +1,23 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="centralesansBookFont">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="centralesansBoldFont">
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+    </style>
+
+    <style name="centralesansLightFont">
+        <item name="fontPath">fonts/centralesanslight.ttf</item>
+    </style>
+
+</resources>

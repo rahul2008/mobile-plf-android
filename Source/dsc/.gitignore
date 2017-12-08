@@ -1,0 +1,8 @@
+*.xml
+*.bin
+*.lock
+*.png
+*.iml
+build/
+*.properties
+*.name
