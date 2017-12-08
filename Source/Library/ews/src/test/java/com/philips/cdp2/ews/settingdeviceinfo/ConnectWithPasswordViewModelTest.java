@@ -40,8 +40,6 @@ public class ConnectWithPasswordViewModelTest {
 
     private static final String PRODUCT = "product 001";
     @Mock
-    private ApplianceSessionDetailsInfo sessionInfoMock;
-    @Mock
     private WiFiUtil wifiUtilMock;
     @Mock
     private Navigator navigatorMock;
@@ -60,7 +58,7 @@ public class ConnectWithPasswordViewModelTest {
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(EWSTagger.class);
-        subject = new ConnectWithPasswordViewModel(wifiUtilMock, sessionInfoMock, navigatorMock,
+        subject = new ConnectWithPasswordViewModel(wifiUtilMock, navigatorMock,
                  mockBaseContentConfig, mockStringProvider);
         when(mockBaseContentConfig.getDeviceName()).thenReturn(123435);
     }

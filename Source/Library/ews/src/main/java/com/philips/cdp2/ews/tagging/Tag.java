@@ -12,9 +12,7 @@ public class Tag {
         public static final String IN_APP_NOTIFICATION_RESPONSE = "inAppNotificationResponse";
         public static final String CONNECTED_PRODUCT_NAME = "connectedProductName";
         public static final String TECHNICAL_ERROR = "technicalError";
-        public static final String MACHINE_ID = "machineId";
         public static final String PRODUCT_NAME = "connectedProductName";
-        public static final String PRODUCT_MODEL = "productModel";
 
         public static final String SEND_DATA = "sendData";
         public static final String SPECIAL_EVENTS = "specialEvents";
@@ -38,7 +36,6 @@ public class Tag {
         public static final String WIFI_NOT_BLINKING = "wifiNotBlinking";
 
         public static final String CONNECTION_UNSUCCESSFUL = "connectionUnsuccessful";
-        public static final String CONNECTION_SUCCESS = "successConnection";
         public static final String CONNECTION_START = "startConnection";
         public static final String TIME_TO_CONNECT = "timeToConnect";
 
@@ -48,7 +45,6 @@ public class Tag {
     }
 
     public static class ERROR {
-        public static final String DEVICE_PORT_ERROR = "EWS:Network:AWSDK:devicePortError";
         public static final String WIFI_PORT_ERROR = "EWS:Network:AWSDK:wifiPortError";
 
     }

@@ -6,12 +6,15 @@
 package com.philips.cdp2.ews.connectionsuccessful;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
@@ -41,7 +44,21 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
         viewModel = createViewModel();
         binding.setViewModel(viewModel);
         viewModel.setFragmentCallback(this);
+        startImageAnimation((ImageView) binding.getRoot().findViewById(R.id.ews_04_01_pairing_successful_image));
         return binding.getRoot();
+    }
+
+    private void startImageAnimation(ImageView imageView) {
+        if (imageView != null) {
+            startDrawableAnimation(imageView);
+        }
+    }
+
+    private void startDrawableAnimation(ImageView imageView) {
+        Drawable drawable = imageView.getDrawable();
+        if (drawable != null && drawable instanceof Animatable) {
+            ((Animatable) drawable).start();
+        }
     }
 
     @NonNull

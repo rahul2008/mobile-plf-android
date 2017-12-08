@@ -35,8 +35,7 @@ public class EWSDependencyProvider {
     private static AppTaggingInterface appTaggingInterface;
     private AppInfraInterface appInfraInterface;
     private Map<String, String> productKeyMap;
-
-    @NonNull private CommCentral commCentral;
+    private CommCentral commCentral;
 
     @VisibleForTesting
     static EWSDependencyProvider instance;
@@ -71,7 +70,7 @@ public class EWSDependencyProvider {
 
     /**
      * Set context for EWSDependencyProvider
-     * @param context
+     * @param context Context
      */
     public void setContext(@Nullable Context context) {
         this.context = context;
@@ -84,7 +83,7 @@ public class EWSDependencyProvider {
      * @param productKeyMap     Map<String, String>
      */
     public void initDependencies(@NonNull final AppInfraInterface appInfraInterface,
-                                 @NonNull final Map<String, String> productKeyMap,
+                                 final Map<String, String> productKeyMap,
                                  @NonNull CommCentral commCentral) {
         this.appInfraInterface = appInfraInterface;
         this.productKeyMap = productKeyMap;
@@ -203,6 +202,7 @@ public class EWSDependencyProvider {
      * Return ThemeConfiguration object.
      * @return ThemeConfiguration
      */
+    @Nullable
     public ThemeConfiguration getThemeConfiguration() {
         return themeConfiguration;
     }
