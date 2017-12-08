@@ -9,7 +9,7 @@ jacoco {
 }
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
    
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
@@ -232,7 +232,7 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        project(':pse')
+        compile(project(':productselection'))
     } else {
         compile(group: 'com.philips.cdp', name: 'productselection', version: versions.pse_productselection + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
         {
@@ -241,7 +241,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':uid')
+        compile(project(':uid'))
     } else {
         compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
         {

@@ -13,8 +13,8 @@ include ':IconFont'
 //include ':hsdp'
 //include ':iap'
 //include ':iapUApp'
-//include ':digitalCare'
-//include ':digitalCareUApp'
+include ':digitalCare'
+include ':digitalCareUApp'
 include ':productselection'
 include ':uAppFwLib'
 include ':uAppFwLibUApp'
@@ -59,8 +59,8 @@ project(':IconFont').projectDir = new File('./Source/icf/Source/Library/IconFont
 //project(':hsdp').projectDir = new File('./Source/usr/Source/Library/hsdp')
 //project(':iap').projectDir = new File('./Source/iap/Source/Library/iap')
 //project(':iapUApp').projectDir = new File('./Source/iap/Source/DemoUApp')
-//project(':digitalCare').projectDir = new File('./Source/dcc/Source/Library/digitalCare')
-//project(':digitalCareUApp').projectDir = new File('./Source/dcc/Source/DemoUApp/DemoUApp')
+project(':digitalCare').projectDir = new File('./Source/dcc/Source/Library/digitalCare')
+project(':digitalCareUApp').projectDir = new File('./Source/dcc/Source/DemoUApp/DemoUApp')
 project(':productselection').projectDir = new File('./Source/pse/Source/Library/productselection')
 project(':uAppFwLib').projectDir = new File('./Source/ufw/Source/Library/uAppFwLib')
 project(':uAppFwLibUApp').projectDir = new File('./Source/ufw/Source/DemoUApp')
