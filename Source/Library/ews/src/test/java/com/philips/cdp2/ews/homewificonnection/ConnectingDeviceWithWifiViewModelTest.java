@@ -138,8 +138,6 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-//        mockStatic(EWSTagger.class);
-//        mockStatic(EWSLogger.class);
         mockStatic(LanTransportContext.class);
         mockStatic(CommCentral.class);
 
