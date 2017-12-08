@@ -29,14 +29,14 @@ include ':product-registration-libUApp'
 //include ':cloudcontroller'
 //include ':commlib'
 //include ':commlib-demouapp'
-include ':shinelib'
+//include ':shinelib'
 //include ':commlib-ble'
 //include ':commlib-testutils'
 //include ':commlib-api'
 //include ':commlib-lan'
 //include ':commlib-cloud'
-include ':bluelib-demouapp'
-include ':pluginreferenceboard'
+//include ':bluelib-demouapp'
+//include ':pluginreferenceboard'
 include ':securedblibrary'
 include ':telehealth'
 //include ':MyAccount'
@@ -75,14 +75,14 @@ project(':product-registration-libUApp').projectDir = new File('./Source/prg/Sou
 //project(':cloudcontroller').projectDir = new File('./Source/cml/Source/Library/cloudcontroller')
 //project(':commlib').projectDir = new File('./Source/cml/Source/Library/commlib')
 //project(':commlib-demouapp').projectDir = new File('./Source/cml/Source/DemoUApp')
-project(':shinelib').projectDir = new File('./Source/bll/Source/ShineLib/shinelib')
+//project(':shinelib').projectDir = new File('./Source/bll/Source/ShineLib/shinelib')
 //project(':commlib-ble').projectDir = new File('./Source/cml/Source/Library/commlib-ble')
 //project(':commlib-testutils').projectDir = new File('./Source/cml/Source/Library/commlib-testutils')
 //project(':commlib-api').projectDir = new File('./Source/cml/Source/Library/commlib-api')
 //project(':commlib-lan').projectDir = new File('./Source/cml/Source/Library/commlib-lan')
 //project(':commlib-cloud').projectDir = new File('./Source/cml/Source/Library/commlib-cloud')
-project(':bluelib-demouapp').projectDir = new File('./Source/bll/Source/DemoUApp')
-project(':pluginreferenceboard').projectDir = new File('./Source/bll/Source/ShineLib/pluginreferenceboard')
+//project(':bluelib-demouapp').projectDir = new File('./Source/bll/Source/DemoUApp')
+//project(':pluginreferenceboard').projectDir = new File('./Source/bll/Source/ShineLib/pluginreferenceboard')
 project(':securedblibrary').projectDir = new File('./Source/sdb/Source/Library/securedblibrary')
 project(':telehealth').projectDir = new File('./Source/ths/Source/Library/thsuapp')
 //project(':MyAccount').projectDir = new File('./Source/mya/Source/Library/MyAccount')
