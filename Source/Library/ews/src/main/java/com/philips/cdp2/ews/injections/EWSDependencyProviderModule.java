@@ -6,6 +6,7 @@
 package com.philips.cdp2.ews.injections;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.microapp.EWSUapp;
@@ -27,7 +28,8 @@ import dagger.Provides;
 public class EWSDependencyProviderModule {
 
     private AppInfraInterface appInfraInterface;
-    private Map<String, String> productKeyMap;
+    @VisibleForTesting
+    Map<String, String> productKeyMap;
 
     public EWSDependencyProviderModule(@NonNull final AppInfraInterface appInfraInterface,
                                        @NonNull final Map<String, String> productKeyMap){
