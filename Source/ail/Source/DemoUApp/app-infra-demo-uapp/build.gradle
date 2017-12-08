@@ -147,7 +147,7 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        project(':ufw')
+        project(':uAppFwLib')
     } else {
         compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
             transitive = true
@@ -156,7 +156,7 @@ dependencies {
 
         compile 'com.squareup.leakcanary:leakcanary-android:1.5'
         compile 'com.google.code.gson:gson:2.8.1'
-        compile(dp ? project(':ail') : project(':AppInfra'))
+        compile(dp ? project(':AppInfra') : project(':AppInfra'))
     }
 }
 

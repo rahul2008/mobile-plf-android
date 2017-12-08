@@ -4,7 +4,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 def support_version = '26.0.2'
 buildscript {
-    apply from: projectDir.absolutePath + '/../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {

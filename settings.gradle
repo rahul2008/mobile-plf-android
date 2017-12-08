@@ -5,7 +5,7 @@ include ':AppInfra'
 include ':AppInfraUApp'
 //include ':prx'
 //include ':uikitLib'
-//include ':uid'
+include ':uid'
 include ':IconFont'
 //include ':registrationApi'
 //include ':UserRegistrationUApp'
@@ -16,8 +16,8 @@ include ':IconFont'
 //include ':digitalCare'
 //include ':digitalCareUApp'
 //include ':productselection'
-//include ':uAppFwLib'
-//include ':uAppFwLibUApp'
+include ':uAppFwLib'
+include ':uAppFwLibUApp'
 //include ':product-registration-lib'
 //include ':product-registration-libUApp'
 //include ':dataServices'
@@ -51,7 +51,7 @@ project(':AppInfra').projectDir = new File('./Source/ail/Source/Library/AppInfra
 project(':AppInfraUApp').projectDir = new File('./Source/ail/Source/DemoUApp/app-infra-demo-uapp')
 //project(':prx').projectDir = new File('./Source/prx/Source/Library/PrxSample/prx')
 //project(':uikitLib').projectDir = new File('./Source/uit/Source/UiKit/uikitLib')
-//project(':uid').projectDir = new File('./Source/uid/Source/UIKit/uid')
+project(':uid').projectDir = new File('./Source/uid/Source/UIKit/uid')
 project(':IconFont').projectDir = new File('./Source/icf/Source/Library/IconFont/icf')
 //project(':registrationApi').projectDir = new File('./Source/usr/Source/Library/RegistrationApi')
 //project(':UserRegistrationUApp').projectDir = new File('./Source/usr/Source/DemoUApp/DemoUApp')
@@ -62,8 +62,8 @@ project(':IconFont').projectDir = new File('./Source/icf/Source/Library/IconFont
 //project(':digitalCare').projectDir = new File('./Source/dcc/Source/Library/digitalCare')
 //project(':digitalCareUApp').projectDir = new File('./Source/dcc/Source/DemoUApp/DemoUApp')
 //project(':productselection').projectDir = new File('./Source/pse/Source/Library/productselection')
-//project(':uAppFwLib').projectDir = new File('./Source/ufw/Source/Library/uAppFwLib')
-//project(':uAppFwLibUApp').projectDir = new File('./Source/ufw/Source/DemoUApp')
+project(':uAppFwLib').projectDir = new File('./Source/ufw/Source/Library/uAppFwLib')
+project(':uAppFwLibUApp').projectDir = new File('./Source/ufw/Source/DemoUApp')
 //project(':product-registration-lib').projectDir = new File('./Source/prg/Source/Library/product-registration-lib')
 //project(':product-registration-libUApp').projectDir = new File('./Source/prg/Source/DemoUApp')
 //project(':dataServices').projectDir = new File('./Source/dsc/Source/Library/dataServices')
