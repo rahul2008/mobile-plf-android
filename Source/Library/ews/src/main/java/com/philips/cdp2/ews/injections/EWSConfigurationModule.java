@@ -30,7 +30,7 @@ public class EWSConfigurationModule {
     }
 
     @Provides
-    BaseContentConfiguration provideEWSConfigurationContent(){
+    public BaseContentConfiguration provideBaseContentConfiguration(){
         return contentConfiguration.getBaseContentConfiguration();
     }
 

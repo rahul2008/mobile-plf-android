@@ -17,8 +17,8 @@ import android.widget.TextView;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.dialog.EWSAlertDialogFragment;
-import com.philips.cdp2.ews.injections.DependencyHelper;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
+import com.philips.cdp2.ews.injections.DependencyHelper;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.injections.EWSConfigurationModule;
 import com.philips.cdp2.ews.injections.EWSDependencyProviderModule;
@@ -35,12 +35,30 @@ import com.philips.platform.uid.view.widget.Button;
 
 public abstract class BaseFragment extends Fragment implements BackEventListener {
 
+    @NonNull
+    private EWSComponent ewsComponent;
+    @NonNull
+    private int deviceName;
+    @NonNull
+    private EWSTagger ewsTagger;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (!DependencyHelper.areDependenciesInitialized()){
+        if (!DependencyHelper.areDependenciesInitialized()) {
             this.getActivity().finish();
         }
+        EWSDependencyProviderModule ewsDependencyProviderModule = new EWSDependencyProviderModule(DependencyHelper.getAppInfraInterface(), DependencyHelper.getProductKeyMap());
+        EWSConfigurationModule ewsConfigurationModule = new EWSConfigurationModule(this.getActivity(), DependencyHelper.getContentConfiguration());
+        deviceName = ewsConfigurationModule.provideBaseContentConfiguration().getDeviceName();
+        ewsTagger = ewsDependencyProviderModule.provideEWSTagger();
+        ewsComponent = DaggerEWSComponent.builder()
+                .eWSModule(new EWSModule(this.getActivity()
+                        , this.getActivity().getSupportFragmentManager()
+                        , EWSLauncherInput.getContainerFrameId(), DependencyHelper.getCommCentral()))
+                .eWSConfigurationModule(ewsConfigurationModule)
+                .eWSDependencyProviderModule(ewsDependencyProviderModule)
+                .build();
     }
 
     @Override
@@ -53,14 +71,13 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     public void onStart() {
         super.onStart();
         setToolbarTitle();
-        if (getChildFragmentManager().getFragments().isEmpty()){
+        if (getChildFragmentManager().getFragments().isEmpty()) {
             callTrackPageName();
         }
     }
 
     public void handleCancelButtonClicked() {
-        EWSComponent ewsComponent = getEWSComponent();
-        showCancelDialog(ewsComponent.getBaseContentConfiguration().getDeviceName(), ewsComponent.getEWSTagger());
+        showCancelDialog(deviceName, ewsTagger);
     }
 
     @VisibleForTesting
@@ -112,15 +129,10 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
         ((EWSActionBarListener) getContext()).updateActionBar(R.string.ews_title, true);
     }
 
+    protected abstract void callTrackPageName();
+
     public EWSComponent getEWSComponent() {
-        return DaggerEWSComponent.builder()
-                .eWSModule(new EWSModule(this.getActivity()
-                        , this.getActivity().getSupportFragmentManager()
-                        , EWSLauncherInput.getContainerFrameId(), DependencyHelper.getCommCentral()))
-                .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), DependencyHelper.getContentConfiguration()))
-                .eWSDependencyProviderModule(new EWSDependencyProviderModule(DependencyHelper.getAppInfraInterface(), DependencyHelper.getProductKeyMap()))
-                .build();
+        return ewsComponent;
     }
 
-    protected abstract void callTrackPageName();
 }
