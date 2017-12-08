@@ -83,10 +83,6 @@ public class EWSUappTest {
     @Mock
     private EWSComponent mockEwsComponent;
     @Mock
-    private FragmentActivity mockFragmentActivity;
-    @Mock
-    private CommCentral mockCommCentral;
-    @Mock
     private EWSTagger mockEWSTagger;
     @Mock
     private EWSLogger mockEWSLogger;
