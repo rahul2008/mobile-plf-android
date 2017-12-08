@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2015-2017 Koninklijke Philips N.V.
+  ~ All rights reserved.
+  -->
+
+<resources>
+    <string name="cml_app_name">Commlib Demo uApp</string>
+    <string name="cml_light_state">Light state</string>
+    <string name="cml_set">Set</string>
+    <string name="cml_pair">Pair</string>
+    <string name="cml_unpair">Disengage</string>
+    <string name="cml_my_id">My ID:</string>
+    <string name="cml_userId">user ID</string>
+    <string name="cml_access_token">access token</string>
+    <string name="cml_lblFirmwareState">"State: "</string>
+    <string name="cml_lblFirmwareStatusMsg">"Status: "</string>
+    <string name="cml_lblFirmwareVersion">"Version: "</string>
+    <string name="cml_lblResultPortError">Port error: (%1$s)</string>
+
+    <string name="cml_count_0">Count: 0</string>
+    <string name="cml_last_result">Last result:</string>
+    <string name="cml_switchLoopGet">Continuously get time</string>
+    <string name="cml_switchSubscription">Subscribe</string>
+
+    <string name="cml_choose_firmware_image">Choose firmware image</string>
+    <string name="cml_cancel_firmware">Cancel firmware</string>
+    <string name="cml_checking_firmware">Checking firmware</string>
+    <string name="cml_deploy_firmware">Deploy firmware</string>
+    <string name="cml_deploy_firmware_failed">"Deploying firmware failed: "</string>
+    <string name="cml_firmware_deploy_finished">Firmware deployment finished</string>
+    <string name="cml_lblFirmwareCanUpgrade">Can upgrade:</string>
+    <string name="cml_new_firmware_available">"New firmware available: "</string>
+    <string name="cml_no_firmware_directory_found">No firmware directory found</string>
+    <string name="cml_select_a_firmware_image">Please, select a firmware image</string>
+    <string name="cml_timeout">Timeout</string>
+    <string name="cml_upload_firmware">Upload firmware</string>
+    <string name="cml_upload_firmware_finished">Uploading firmware finished</string>
+    <string name="cml_uploading_firmware_failed">"Uploading firmware failed: "</string>
+    <string name="cml_uploading_firmware_image">Uploading firmware image to device</string>
+    <string name="cml_appliance_name">Appliance name</string>
+    <string name="cml_device_port">Device Port</string>
+    <string name="cml_firmware_upgrade_port">Firmware Upgrade Port</string>
+    <string name="cml_n_a">N/A</string>
+    <string name="cml_dismiss_indefinite_message">OK</string>
+    <string name="cml_pairing_port">Pairing Port</string>
+    <string name="cml_air_port">Air Port</string>
+    <string name="cml_time_port">Time Port</string>
+    <string name="cml_pinning">Pinning</string>
+    <string name="cml_ble_appliance">BLE Appliance</string>
+    <string name="cml_continuous_connection">Continuous connection</string>
+    <string name="cml_ms">milliseconds</string>
+    <string name="cml_get">Get</string>
+
+    <string name="cml_pairing">Pairing</string>
+    <string name="cml_client_provider">clientProvider</string>
+    <string name="cml_client_id">clientId</string>
+    <string name="cml_permissions_comma_separated">permissions (comma separated)</string>
+    <string name="cml_request">Request</string>
+    <string name="cml_type">type</string>
+    <string name="cml_di_comm">di-comm</string>
+    <string name="cml_secretkey">secretKey</string>
+    <string name="cml_secret_key_default">68d1593b1bb341a78576f274</string>
+    <string name="cml_client_id_default">deadddddbeefffff</string>
+    <string name="cml_clienttype">ClientType</string>
+    <string name="cml_clienttype_default">CDP-AND-DEV</string>
+    <string name="cml_client_provider_default">cpp</string>
+
+    <string name="cml_tab_title_discovered_appliances">Discovered</string>
+    <string name="cml_tab_title_mismatched_pin_appliances">Pin mismatch</string>
+
+    <string name="cml_prompt_certificate_mismatch_message">"Certificate doesn't match the stored certificate. This can occur after a factory reset but may also indicate a man-in-the-middle attack.\n\nAccept the new certificate?"</string>
+    <string name="cml_prompt_certificate_mismatch_reject">Reject</string>
+    <string name="cml_prompt_certificate_mismatch_accept">Accept</string>
+    <string name="cml_prompt_certificate_mismatch_cancel">Cancel</string>
+    <string name="cml_prompt_certificate_mismatch_title">Invalid certificate</string>
+    <string name="cml_persistence">Persistence</string>
+    <string name="cml_persist">Persist</string>
+    <string name="cml_forget">Forget</string>
+    <string name="cml_forget_failed">Appliance could not be forgotten</string>
+    <string name="cml_forget_success">Appliance forgotten</string>
+    <string name="cml_persist_success">Appliance persisted</string>
+    <string name="cml_persist_failed">Appliance not persisted</string>
+    <string name="cml_pairing_failed">Pairing failed</string>
+    <string name="cml_paired_success">Pairing successful</string>
+    <string name="cml_unpair_success">Unpaired successfully</string>
+    <string name="cml_cancel">Cancel</string>
+    <string name="cml_perform_discovery">Perform discovery</string>
+    <string name="cml_filter_model_id_hint">Filter on comma separated model id(s)</string>
+
+    <string name="cml_appliance_cppid">"Cpp id: "</string>
+    <string name="cml_appliance_modelid">"Model id: "</string>
+
+    <string name="cml_wakeup_port">Wake-up</string>
+    <string name="cml_wakeup_alarm_state">Wake-up alarm (read only)</string>
+    <string name="cml_pin_to_set">Enter pin to set</string>
+    <string name="base64_pin_error">Please provide a correct base64 encoded pin!</string>
+</resources>

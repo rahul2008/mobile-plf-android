@@ -1,0 +1,21 @@
+rootProject.setName 'commlib-all'
+include ':commlib-all', ':commlib-all-example', ':common', ':testapp', ':commlib-explorer'
+project(':common').projectDir = new File('../common')
+
+def localCommLibDir = rootDir.absolutePath + '/../../../dicomm-android/Source/DICommClient/dicommClientLib/'
+if (new File(localCommLibDir).exists()) {
+    include ':commlib'
+    project(':commlib').projectDir = new File(localCommLibDir)
+}
+
+def localSsdpDir = rootDir.absolutePath + '/../../../dicomm-android/Source/Ssdp/ssdp/'
+if (new File(localSsdpDir).exists()) {
+    include ':ssdp'
+    project(':ssdp').projectDir = new File(localSsdpDir)
+}
+
+def localBlueLibDir = rootDir.absolutePath + '/../../../android-shinelib/Source/ShineLib/shinelib/'
+if (new File(localBlueLibDir).exists()) {
+    include ':bluelib'
+    project(':bluelib').projectDir = new File(localBlueLibDir)
+}

@@ -1,0 +1,233 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+buildscript { bs ->
+    project.ext.common = projectDir.absolutePath + '/../../common/gradle'
+
+    apply from: "$project.common/project-build.gradle", to: bs
+    apply from: "$project.common/module.gradle"
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+
+    repositories {
+        maven {
+            url repos.jcenter
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+
+    dependencies {
+        classpath(builddeps.buildinfoextractor)
+        classpath(builddeps.cdpSCM)
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'pl.droidsonroids.pitest'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+
+apply from: "$project.common/module-tasks.gradle"
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment)
+archivesBaseName = "commlib-ble"
+version = objcdp.getVersion(versions.cml_commlib)
+
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+repositories {
+    maven {
+        url repos.jcenter
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url objcdp.getArtifactoryUrl()
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+}
+
+artifactory {
+    contextUrl = objcdp.getArtifactoryContextUrl()
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications('aar')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
+            }
+        }
+    }
+    resolve {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+        }
+    }
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            artifact zipDocuments
+
+            artifact("$projectDir/dependencies.lock") {
+                classifier = '1stleveldependencies'
+            }
+
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
+                    def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                    resolvedArtifacts.each {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                        dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                        dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                    }
+                }
+            }
+        }
+    }
+}
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+        versionCode 1
+        versionName version
+        buildConfigField "String", "TLA", "\"cba\""
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "String", "LIBRARY_VERSION", "\"${version}(${objcdp.getCommitHash()})\""
+        }
+        release {
+            consumerProguardFiles 'proguard-rules.pro'
+            buildConfigField "String", "LIBRARY_VERSION", "\"${version}\""
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+    publishNonDefault true
+}
+
+task generateJavadocPublicApi(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    destinationDir = file("${project.rootDir}/../Documents/External/${project.name}-api/")
+
+    include {
+        if (it.isDirectory) {
+            return true
+        }
+        return it.file.text.contains("* @publicApi")
+    }
+
+    options {
+        memberLevel = JavadocMemberLevel.PUBLIC
+        links("http://docs.oracle.com/javase/7/docs/api/")
+        linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference")
+        docEncoding = 'UTF-8'
+        encoding = 'UTF-8'
+        charSet = 'UTF-8'
+    }
+
+    failOnError false
+}
+
+dependencies {
+    compile deps.support.supportv4
+    provided deps.support.annotations
+
+    def suffix = objcdp.getVersionSuffix()
+
+    if (findProject(':bluelib')) {
+        debugCompile project(path: ':bluelib', configuration: 'debug')
+        releaseCompile project(path: ':bluelib', configuration: 'release')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'shinelib', version: versions.bll_shinelib + objcdp.getVersionSuffix(), changing: true)
+    }
+
+    for (dep in [':commlib-api']) {
+        if (findProject(dep)) {
+            debugCompile project(path: dep, configuration: 'debug')
+            releaseCompile project(path: dep, configuration: 'release')
+        } else {
+            compile("$group$dep:$versions.cml_commlib$suffix") { changing = true }
+        }
+    }
+
+    def dp = project.ext.has('useprojectdependencies')
+
+	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix())
+	compile(dp ? project(':ail') : ailModule)
+
+    testCompile deps.junit
+    testCompile deps.mockito
+    testCompile deps.powermock_mockito
+    testCompile deps.powermock_junit
+    testCompile deps.assertj
+}
+
+pitest {
+    targetClasses = [
+            'com.philips.cdp2.commlib.ble.communication.*',
+            'com.philips.cdp2.commlib.ble.discovery.*',
+    ]  /* specify target classes to be mutated */
+    pitestVersion = versions.pitest
+    avoidCallsTo = ['com.philips.cdp.dicommclient.util.DICommLog']
+    threads = 1 /* specify number of threads */
+    outputFormats = ['XML', 'HTML'] /* specify output format */
+    reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
+    timestampedReports = false
+}

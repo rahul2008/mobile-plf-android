@@ -1,0 +1,17 @@
+{
+  "name"               : "CloudController",
+  "type"               : "library",
+  "technology"         : "Java",
+  "topic"              : "",
+  "deployment"         : "Android",
+  "deployment details" : "",
+  "med62304"           : "",
+  "medFDA"             : "",
+  "maturity"           : "development",
+  "contact"            : "Joost Westra",
+  "release format"     : "maven",
+  "release url"        : "",
+  "version"            : "1.0.0",
+  "source url"         : "http://tfsemea1.ta.philips.com:8080/tfs/TPC_Region24/CDP2/_git/cml-android-cloudcontroller",
+  "documentation url"  : "",
+}

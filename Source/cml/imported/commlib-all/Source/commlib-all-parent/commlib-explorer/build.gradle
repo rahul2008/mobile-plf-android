@@ -1,0 +1,90 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+
+apply plugin: 'com.android.application'
+
+buildscript { bs ->
+    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
+    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
+    repositories {
+        maven { url repos.jcenter }
+    }
+}
+
+repositories {
+    maven {
+        url repos.jcenter
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url repos.release
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url repos.snapshot
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url repos.stage
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url 'https://dl.bintray.com/rwslinkman/maven/'
+    }
+}
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+    defaultConfig {
+        applicationId "com.philips.cdp2.commlib.explorer"
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.sdk
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // 3rd party
+    compile 'nl.rwslinkman.presentable:presentable:1.7'
+    compile deps.support.appcompatv7
+    compile deps.support.design
+    compile deps.support.supportv4
+
+    // CDPP platform
+    def commlib_ble = findProject(':commlib-ble') ? ':commlib-ble' : ':commlib-all'
+    releaseCompile project(path: commlib_ble, configuration: 'release')
+    debugCompile project(path: commlib_ble, configuration: 'debug')
+
+    testCompile deps.junit
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+}

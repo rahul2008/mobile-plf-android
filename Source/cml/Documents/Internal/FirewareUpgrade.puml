@@ -1,0 +1,62 @@
+@startuml
+
+class App {
+}
+
+class Appliance {
+    + FirmwarePort getFirmwarePort()
+}
+
+class FirmwarePort {
+    + pushLocalFirmware(final byte[] firmwareData, long stateTransitionTimeout)
+    + pullRemoteFirmware(String version, long stateTransitionTimeout)
+    + cancel(long stateTransitionTimeout)
+    + checkForNewerFirmware()
+    + deployFirmware(long stateTransitionTimeout)
+    + addFirmwarePortListener(FirmwarePortListener listener)
+    + removeFirmwarePortListener(FirmwarePortListener listener)
+}
+
+interface FirmwarePortListener {
+    + onCheckingProgress(int progress)
+    + onDownloadProgress(int progress)
+    + onDownloadFailed(FirmwarePortException exception)
+    + onDownloadFinished()
+    + onFirmwareAvailable(String version)
+    + onDeployFailed(FirmwarePortException exception)
+    + onDeployFinished()
+}
+
+interface DICommPortListener {
+    + onPortUpdate(FirmwarePort port)
+    + onPortError(FirmwarePort port, Error error, String errorData)
+}
+
+abstract class CommunicationStrategy {
+    + getProperties()
+    + putProperties()
+    + subscribe()
+    + unsubscribe()
+}
+
+
+class BleCommunicationStrategy {
+}
+note left : Subscriptions should be\nimplemented with polling
+
+class LanCommunicationStrategy {
+}
+note right : Subscriptions should be\nimplemented with udp messages
+
+
+App -down-> Appliance
+App ..|> FirmwarePortListener : implements
+Appliance -down-> FirmwarePort
+FirmwarePort .. FirmwarePortListener
+FirmwarePort .left.> DICommPortListener: has
+DICommPortListener -up-> FirmwarePortListener
+CommunicationStrategy <|-- LanCommunicationStrategy
+CommunicationStrategy <|-- BleCommunicationStrategy
+FirmwarePort --> CommunicationStrategy
+
+@enduml

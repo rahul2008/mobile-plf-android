@@ -1,0 +1,62 @@
+<!--
+  ~ Copyright (c) 2015-2017 Koninklijke Philips N.V.
+  ~ All rights reserved.
+  -->
+
+<resources>
+    <string name="app_name">Commlib BLE Example</string>
+
+    <string name="lblStateDiscovering">Discovering new appliances…</string>
+    <string name="lblStateError">Error</string>
+    <string name="lblStateIdle">Idle</string>
+    <string name="lblStatePermissionError">Permission error</string>
+    <string name="lblStateScanning">Scanning…</string>
+
+    <string name="lblApplianceCppId">Cpp id:</string>
+    <string name="lblApplianceModelId">Model id:</string>
+    <string name="lblFilterModelIdHint">Filter on comma separated model id(s)</string>
+
+    <string name="lblResultDiscoveryFailed">Discovery failed</string>
+    <string name="lblResultGetPropsFailed">GetProps failed: \'%1$s\'</string>
+    <string name="lblResultGetPropsSuccess">GetProps success: \'%1$s\'</string>
+    <string name="lblResultNotApplicable">N/A</string>
+    <string name="lblResultPerformingGetProperties">Performing GetProperties call for \'%1$s\' port…</string>
+
+    <string name="btnStartDiscovery">Start discovery</string>
+    <string name="btnStopDiscovery">Stop discovery</string>
+    <string name="btnSubscribe">Subscribe</string>
+    <string name="btnUnsubscribe">Unsubscribe</string>
+
+    <string name="lblFirmwareState">"State: "</string>
+    <string name="lblFirmwareStatusMsg">"Status: "</string>
+    <string name="lblFirmwareVersion">"Version: "</string>
+    <string name="lblResultPortError">Port error: (%1$s)</string>
+
+    <string name="btnGetTime">Get Time</string>
+    <string name="btnSetTime">Set Time</string>
+
+    <string name="count_0">Count: 0</string>
+    <string name="firmware_upgrade">Firmware upgrade</string>
+    <string name="last_result">Last result:</string>
+    <string name="switchLoopGet">Continuously get time</string>
+    <string name="switchStayConnected">Stay connected</string>
+    <string name="switchSubscription">Subscribe to time port</string>
+
+    <string name="cancel_firmware">Cancel firmware</string>
+    <string name="checking_firmware">Checking firmware</string>
+    <string name="deploy_firmware">Deploy firmware</string>
+    <string name="deploy_firmware_failed">"Deploying firmware failed: "</string>
+    <string name="firmware_deploy_finished">Firmware deployment finished</string>
+    <string name="lblFirmwareCanUpgrade">Can upgrade:</string>
+    <string name="new_firmware_available">"New firmware available: "</string>
+    <string name="no_firmware_directory_found">No firmware directory found</string>
+    <string name="select_a_firmware_image">Please, select a firmware image</string>
+    <string name="timeout">Timeout (in milliseconds, default = 30000)</string>
+    <string name="upload_firmware">Upload firmware</string>
+    <string name="upload_firmware_finished">Uploading firmware finished</string>
+    <string name="uploading_firmware_failed">"Uploading firmware failed: "</string>
+    <string name="uploading_firmware_image">Uploading firmware image to device</string>
+    <string name="appliance_name">Appliance Name</string>
+    <string name="get">Get</string>
+    <string name="set">Set</string>
+</resources>

@@ -1,0 +1,9 @@
+<!--
+  ~ Copyright (c) 2015-2017 Koninklijke Philips N.V.
+  ~ All rights reserved.
+  -->
+
+<resources>
+    <string name="app">commlib-ble</string>
+    <string name="app_name">DEVICE TEST APP</string>
+</resources>

@@ -1,0 +1,88 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+apply plugin: 'com.android.application'
+
+buildscript { bs ->
+    apply from: rootDir.absolutePath + '/common/gradle/project-build.gradle', to: bs
+    apply from: rootDir.absolutePath + '/common/gradle/module.gradle'
+    repositories {
+        maven {
+            url repos.jcenter
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+}
+
+repositories {
+    maven {
+        url repos.jcenter
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url repos.release
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url repos.stage
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url repos.snapshot
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+}
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+
+        applicationId "com.philips.cdp2.commlib.demoapp"
+        versionCode 1
+        versionName "0.0.1"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    debugCompile deps.stetho
+    compile deps.support.design
+
+    debugCompile project(path: ':commlib-demouapp', configuration: 'debug')
+    releaseCompile project(path: ':commlib-demouapp', configuration: 'release')
+
+    testCompile deps.junit
+}
+

@@ -1,0 +1,165 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+apply plugin: 'com.android.application'
+
+buildscript { bs ->
+    project.ext.common = projectDir.absolutePath + '/../../common/gradle'
+
+    apply from: "$project.common/project-build.gradle", to: bs
+    apply from: "$project.common/module.gradle"
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    repositories {
+        maven {
+            url repos.jcenter
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+
+    dependencies {
+        classpath(builddeps.cdpSCM)
+    }
+}
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment)
+
+repositories {
+    maven {
+        url repos.jcenter
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url objcdp.getArtifactoryUrl()
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+}
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+
+        applicationId "com.philips.cdp2.commlib.devicetest"
+        versionCode 1
+        versionName "0.0.1"
+
+        testInstrumentationRunner "com.philips.cdp2.commlib.devicetest.runner.CucumberRunner"
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    packagingOptions {
+        exclude '**/LICENSE'
+        exclude 'META-INF/*'
+        exclude 'META-INF/**/*'
+        exclude '**/*.TXT'
+        exclude '**/*.xml'
+        pickFirst '**/*.properties'
+        pickFirst '**/ErrorMessages*.txt'
+    }
+}
+
+dependencies {
+    provided deps.support.annotations
+
+    compile deps.multidex
+
+    debugCompile project(path: ':commlib', configuration: 'debug')
+    releaseCompile project(path: ':commlib', configuration: 'release')
+    debugCompile project(path: ':cloudcontroller', configuration: 'debug')
+    releaseCompile project(path: ':cloudcontroller', configuration: 'release')
+
+    testCompile deps.junit
+    testCompile deps.mockito
+    testCompile deps.powermock_junit
+    testCompile deps.powermock_mockito
+    testCompile deps.cucumber
+    testCompile deps.cucumber_junit
+    testCompile project(path: ':commlib-testutils', configuration: 'debug')
+
+    androidTestCompile deps.junit
+    androidTestCompile(deps.android_testrunner) {
+        exclude module: 'support-annotations'
+    }
+    androidTestCompile(deps.android_testrunner) {
+        exclude module: 'support-annotations'
+    }
+    androidTestCompile project(path: ':commlib-testutils', configuration: 'debug')
+    androidTestCompile deps.cucumber
+    androidTestCompile deps.cucumber_junit
+    androidTestCompile deps.dexmaker
+
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+}
+
+project.gradle.buildFinished { buildResult ->
+    project.gradle.getStartParameter().taskRequests.get(0).args.each { String argument ->
+        //If the gradle arguments contains 'assembleDebugAndroidTest' for this project, then pre-install APK with permissions.
+        if (argument == ":$project.name:assembleDebugAndroidTest") {
+            println("Installing build app with right permissions..")
+
+            def absolutePath = file('.')
+            def stdout = new ByteArrayOutputStream()
+
+            exec {
+                def rootDir = project.rootDir
+                def localProperties = new File(rootDir, "local.properties")
+                if (localProperties.exists()) {
+                    Properties properties = new Properties()
+                    localProperties.withInputStream { instr ->
+                        properties.load(instr)
+                    }
+
+                    def sdkDir = properties.getProperty('sdk.dir')
+                    def packageName = "com.philips.cdp2.commlib.devicetest"
+                    def apk_name = "commlib-integration-tests-debug"
+
+                    commandLine "$absolutePath/install_with_permissions.sh", sdkDir, packageName, apk_name
+                }
+            }
+
+            print stdout
+        }
+    }
+}

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Commlib Explorer</string>
+    <string name="title_activity_strategy_choice">StrategyChoiceActivity</string>
+    <string name="device_discovery_title_message">Device Discovery</string>
+    <string name="strategy_choice_title_message">Choose Strategy</string>
+    <string name="ports_overview_title_message">Ports</string>
+    <string name="port_detail_title_message">Port properties</string>
+    <string name="strategy_choice_subtitle">Please select a scanning strategy</string>
+    <string name="pairing_port">Pairing port</string>
+    <string name="pairing_port_subtitle">supports user pairing</string>
+    <string name="client_provider">clientProvider</string>
+    <string name="client_id">clientId</string>
+</resources>

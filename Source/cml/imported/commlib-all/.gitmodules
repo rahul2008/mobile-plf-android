@@ -1,0 +1,7 @@
+[submodule "Source/commlib-all-parent/commlib-all/src/test/features/commlib-bdd"]
+	path = Source/commlib-all-parent/commlib-all/src/test/features/commlib-bdd
+url=ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/cml-other-commlib-bdd
+	branch = develop
+[submodule "Source/common"]
+	path = Source/common
+	url = ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/connectivity-other-common
