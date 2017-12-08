@@ -248,10 +248,6 @@ timestamps {
             stage('informing') {
                 step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
             }
-    
-            stage('Cleaning workspace') {
-               step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
-            }
         }
     } catch(err) {
         errors << "errors found: ${err}"
@@ -263,6 +259,11 @@ timestamps {
                     echo errors[i];
                 }
             }
+        }
+
+        //BENIT: Do not ever remove this from here.
+        stage('Cleaning workspace') {
+           step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
         }
     } // end timestamps
 } // end node ('android')
