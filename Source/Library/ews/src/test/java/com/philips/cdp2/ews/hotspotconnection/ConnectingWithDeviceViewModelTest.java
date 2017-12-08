@@ -34,6 +34,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static com.philips.cdp2.ews.EWSActivity.DEVICE_CONNECTION_TIMEOUT;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
@@ -67,8 +68,6 @@ public class ConnectingWithDeviceViewModelTest {
     private Intent mockIntent;
     @Mock
     private Context mockContext;
-    @Mock
-    private IntentFilter stubIntentFilter = new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION);
     @Captor
     private ArgumentCaptor<BroadcastReceiver> broadcastReceiverArgumentCaptor;
     @Captor
@@ -231,6 +230,18 @@ public class ConnectingWithDeviceViewModelTest {
     public void itShouldTrackPageOnTrackPageName() {
         subject.trackPageName();
         verify(mockEWSTagger).trackPage(Page.CONNECTING_WITH_DEVICE);
+    }
+
+    @Test
+    public void itShouldVerifyEWSTaggerNotNull() throws Exception {
+        EWSTagger ewsTagger = subject.getEwsTagger();
+        assertNotNull(ewsTagger);
+    }
+
+    @Test
+    public void itShouldVerifyEWSLoggerNotNull() throws Exception {
+        EWSLogger ewsLogger = subject.getEwsLogger();
+        assertNotNull(ewsLogger);
     }
 
     private void verifyShowingUnsuccessfulDialog() {
