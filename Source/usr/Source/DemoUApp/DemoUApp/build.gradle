@@ -189,7 +189,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
 
-    compile(dp ? project(':RegistrationApi') : project(':RegistrationApi'))
+    compile(dp ? project(':registrationApi') : project(':RegistrationApi'))
 
     if(dp) {
         compile(project(':uid'))

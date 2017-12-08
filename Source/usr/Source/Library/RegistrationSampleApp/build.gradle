@@ -238,7 +238,7 @@ if (propFile.canRead()){
 repositories { flatDir { dirs 'libs' } }
 dependencies {
     compile 'com.android.support:multidex:1.0.1'
-    compile project(':RegistrationApi')
+    compile(project(':registrationApi'))
     compile project(':HockeySDK-3.0.2')
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

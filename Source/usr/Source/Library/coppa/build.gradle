@@ -173,7 +173,7 @@ dependencies {
     compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
 	
 	def dp = project.ext.has('useprojectdependencies')
-    compile(dp ? project(':RegistrationApi') : project(':RegistrationApi'))
+    compile(dp ? project(':registrationApi') : project(':RegistrationApi'))
 
 	
     compile 'com.android.support:appcompat-v7:25.3.1'
