@@ -164,7 +164,6 @@ public class EWSUappTest {
     public void itShouldThrowAnErrorIfLauncherConfigurationIsNotValid() throws Exception {
         initEWS();
         thrownException.expect(UnsupportedOperationException.class);
-        thrownException.expectMessage(EWSUapp.ERROR_MSG_INVALID_CALL);
         thrownException.expectMessage(EWSUapp.ERROR_MSG_INVALID_IMPLEMENTATION);
 
         subject.launch(fragmentLauncherMock, new EWSLauncherInput());
