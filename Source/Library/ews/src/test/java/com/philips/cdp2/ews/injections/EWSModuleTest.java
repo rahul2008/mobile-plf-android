@@ -84,9 +84,7 @@ public class EWSModuleTest {
 
     @Mock
     WiFiUtil mockWiFiUtil;
-
-    @Mock
-    ApplianceSessionDetailsInfo mockApplianceSessionDetailsInfo;
+    
 
     @Mock
     ConnectivityMonitor mockConnectivityMonitor;
@@ -135,7 +133,7 @@ public class EWSModuleTest {
 
     @Test
     public void providesSetDeviceConnectViewModel() throws Exception {
-        assertNotNull(subject.providesSetDeviceConnectViewModel(mockWiFiUtil, mockApplianceSessionDetailsInfo, mockNavigator, mockBaseContentConfiguration, mockStringProvider, mockEWSTagger));
+        assertNotNull(subject.providesSetDeviceConnectViewModel(mockWiFiUtil, mockNavigator, mockBaseContentConfiguration, mockStringProvider, mockEWSTagger));
     }
 
     @Test
