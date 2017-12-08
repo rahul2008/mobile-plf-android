@@ -1,0 +1,77 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/locate_search_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="12dip"
+    android:paddingRight="12dip"
+    android:layout_marginTop="20dp">
+
+    <com.philips.cdp.digitalcare.util.CustomSearchView
+        android:id="@+id/search_box"
+        android:layout_width="match_parent"
+        android:layout_height="43dip"
+        android:paddingLeft="10dp"
+        android:paddingStart="10dp"
+        android:paddingRight="10dp"
+        android:paddingEnd="10dp"
+        android:background="@drawable/consumercare_search_bar"
+        android:drawableLeft="@drawable/uid_search_icon"
+        android:drawableStart="@drawable/uid_search_icon"
+        android:drawableRight="@drawable/uid_texteditbox_clear_icon"
+        android:drawableEnd="@drawable/uid_texteditbox_clear_icon"
+        android:drawablePadding="20dp"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:queryHint="Search"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:hint="@string/search"
+        android:textColorHint="@color/border_disable_color"
+        android:layout_centerVertical="true"
+        android:textColor="?attr/uidSearchBoxAndroidDefaultNormalInputTextColor"
+        android:focusableInTouchMode="true"/>
+
+    <ImageView
+        android:id="@+id/arabic_search_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/search_box"
+        android:layout_alignLeft="@id/search_box"
+        android:layout_alignStart="@id/search_box"
+        android:layout_alignTop="@id/search_box"
+        android:clickable="true"
+        android:contentDescription="@string/img_description"
+        android:padding="8dp"
+        android:src="@drawable/consumercare_ic_menu_search"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/marker_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/search_box"
+        android:layout_alignEnd="@id/search_box"
+        android:layout_alignRight="@id/search_box"
+        android:layout_alignTop="@id/search_box"
+        android:clickable="true"
+        fontPath="fonts/iconfont.ttf"
+        android:text="@string/dls_location"
+        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/arabic_marker_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/search_box"
+        android:layout_alignTop="@id/search_box"
+        android:layout_marginEnd="40dp"
+        android:layout_toRightOf="@+id/arabic_search_icon"
+        android:clickable="true"
+        fontPath="fonts/iconfont.ttf"
+        android:text="@string/dls_location"
+        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/prg_welcomeScreen_header_label"
+        style="@style/UIDLabel.ProductRegistrationHeaderTitleTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/pr_margintop"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:text="@string/PRG_RegYourProduct_Lbltxt"
+        />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/prg_welcomeScreen_benefit_label"
+        style="@style/UIDLabel.ProductRegistrationSubTitleTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/prg_welcomeScreen_yes_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/pr_margintop"
+        android:text="@string/PRG_Yes_Btntxt"
+        android:textAllCaps="false"/>
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/prg_welcomeScreen_no_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginTop="@dimen/pr_b_value_sm"
+        android:text="@string/PPR_RegLater_Btntxt"
+        android:textAllCaps="false"
+        android:layout_marginBottom="@dimen/pr_margintop"
+        app:uidComponentType="Secondary"
+       />
+</LinearLayout>

@@ -1,0 +1,195 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/usr_match_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
+
+    <ScrollView
+        android:id="@+id/sv_root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/usr_StartScreen_privacyNotice_country_LinearLayout">
+
+        <LinearLayout
+            android:id="@+id/usr_startScreen_baseLayout_LinearLayout"
+            android:layout_marginLeft="@dimen/reg_layout_margin_16"
+            android:layout_marginRight="@dimen/reg_layout_margin_16"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/reg_dimen_16dp"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_startScreen_title_label"
+                style="@style/UIDLabel"
+                fontPath="fonts/centralesansbold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_dimen_24dp"
+                android:text="@string/reg_DLS_StratView_Title_Txt"
+                android:textSize="@dimen/reg_text_size_20" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_startScreen_valueAdd_label"
+                style="@style/UIDLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_dimen_16dp"
+                android:text="@string/reg_DLS_StratView_Detail_Txt"
+                android:textSize="@dimen/reg_text_size_16" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_startScreen_orLoginWith_Label"
+                style="@style/UIDLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
+                android:layout_marginTop="@dimen/reg_dimen_24dp"
+                android:text="@string/reg_DLS_OR_With_Label_Text"
+                android:textSize="@dimen/reg_text_size_12" />
+
+            <LinearLayout
+                android:id="@+id/usr_startScreen_Social_Container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_startScreen_Or_Label"
+                style="@style/UIDLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
+                android:layout_marginTop="@dimen/reg_dimen_8dp"
+                android:text="@string/reg_DLS_OR_Label_Text"
+                android:textSize="@dimen/reg_text_size_12" />
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/usr_startScreen_Login_Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
+                android:text="@string/reg_DLS_SigIn_TitleTxt" />
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/usr_startScreen_createAccount_Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
+                android:text="@string/reg_DLS_Create_Account_CreateMyPhilips_btntxt"
+                app:uidComponentType="Secondary" />/>
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/usr_StartScreen_Skip_Button"
+                style="@style/UIDExtraWideIconQuietButton.Center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/reg_dimen_24dp"
+                android:text="@string/reg_DLS_Continue_Without_Account" />
+
+            <com.philips.cdp.registration.ui.customviews.XRegError
+                android:id="@+id/reg_error_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_dimen_16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/usr_StartScreen_Skip_Button"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/usr_StartScreen_privacyNotice_country_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/reg_layout_margin_16"
+        android:layout_marginRight="@dimen/reg_layout_margin_16"
+        android:layout_above="@+id/usr_StartScreen_privacyNotice_country2_LinearLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/reg_dimen_16dp"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/usr_StartScreen_privacyNotice_label"
+            style="@style/UIDLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:lines="1"
+            android:padding="@dimen/reg_dimen_4dp"
+            android:text="@string/reg_PrivacyNoticeText"
+            android:textSize="@dimen/reg_text_size_12" />
+
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/usr_StartScreen_country_label"
+            style="@style/UIDLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:lines="1"
+            android:padding="@dimen/reg_dimen_4dp"
+            android:text="@string/reg_Country"
+            android:textSize="@dimen/reg_text_size_12" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/usr_StartScreen_privacyNotice_country2_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/reg_layout_margin_16"
+        android:layout_marginRight="@dimen/reg_layout_margin_16"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/reg_dimen_16dp"
+        android:visibility="invisible"
+        android:orientation="vertical"
+        >
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/usr_StartScreen_privacyNotice2_label"
+            style="@style/UIDLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/reg_dimen_8dp"
+            android:gravity="center_horizontal"
+            android:lines="1"
+            android:padding="@dimen/reg_dimen_4dp"
+            android:text="@string/reg_PrivacyNoticeText"
+            android:textSize="@dimen/reg_text_size_12" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/usr_StartScreen_country2_label"
+            style="@style/UIDLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/reg_dimen_4dp"
+            android:text="@string/reg_Country"
+            android:textSize="@dimen/reg_text_size_12" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="invisible">
+
+        <com.philips.platform.uid.view.widget.ProgressBar style="@style/UIDProgressBarCircularIndeterminateMiddle" />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="square">0</integer>
+    <integer name="circle">1</integer>
+    <integer name="philips_gradient_angle">315</integer>
+    <integer name="reg_dot_navigation_unselected_alpha">77</integer>
+    <integer name="reg_hamburger_menu_group_layout_alpha">128</integer>
+    <integer name="reg_badge_view_small_size_radius">12</integer>
+    <integer name="reg_badge_view_medium_size_radius">16</integer>
+    <integer name="reg_config_mediumAnimTime">300</integer>
+    <integer name="reg_layout_max_width_648">648</integer>
+    <integer name="reg_layout_margin_16">16</integer>
+</resources>

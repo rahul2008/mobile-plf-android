@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Key"> Norwegian </string>
+    <string name="key"> nb </string>
+
+    <!-- Common   null -->
+    <string name="img_description"> beskrivelse </string>
+    <string name="no_internet"> Ingen Internett-forbindelse. Sjekk forbindelsen på telefonen din i wifi-innstillinger eller data-innstillinger </string>
+
+    <!-- Support Home Screen    null -->
+    <string name="how_can_we_help"> Trenger du hjelp? </string>
+    <string name="contact_us"> Kontakt oss </string>
+    <string name="view_product_details"> Se produktinformasjon </string>
+    <string name="view_faq"> Les spørsmål </string>
+    <string name="find_philips_near_you"> Finn Philips nær deg </string>
+    <string name="feedback"> Fortell oss hva du synes </string>
+    <string name="registration"> Registrer produktet </string>
+    <string name="actionbar_title_support"> Støtte </string>
+    <string name="product_info"> produktinformasjon </string>
+    <!-- Locate Near You Screen   null -->
+    <string name="loading"> Laster </string>
+    <string name="please_wait"> Vent litt &amp;#8230; </string>
+    <string name="get_directions"> Få veibeskrivelser </string>
+    <string name="search"> Søk </string>
+    <string name="gps_disabled"> GPS er deaktivert i enheten din. Vil du aktivere den? </string>
+    <string name="servicecenters_not_found"> Ingen tilgjengelige servicesentre i landet ditt  </string>
+    <string name="no_data"> Ingen informasjon </string>
+    <string name="locate_philips_popup_legal"> Når du bruker funksjonen Finn en Philips-butikk i nærheten på siden for forbrukerstøtte, blir du bedt om å dele opplysninger om plasseringen din med Philips. Basert på disse opplysningene får du veibeskrivelsen til nærmeste butikk eller kontaktinformasjon om forbrukerstøtten i landet ditt </string>
+
+    <!-- ContactUs Screen   null -->
+    <string name="leave_us_a_message"> Legg igjen en beskjed: </string>
+    <string name="contact_us_text"> Kontakt oss: </string>
+    <string name="opening_hours"> Åpningstider </string>
+    <string name="live_chat"> Livechatt </string>
+    <string name="send_email"> Send e-post </string>
+    <string name="call_number"> Ring </string>
+    <string name="chat_with_philips"> Chat med Philips </string>
+    <string name="check_sim"> Ingen SIM-kort oppdaget. Sjekk om det er satt inn riktig </string>
+    <string name="no_data_available"> Ingen informasjon </string>
+    <string name="send_us_email"> Send oss en e-post </string>
+
+    <!-- Live Chat Screen   null -->
+    <string name="can_we_help_you"> Kan vi hjelpe deg? </string>
+    <string name="chat_now"> Chat nå </string>
+    <string name="no_thanks"> Nei takk </string>
+    <string name="chat_desc"> Start livechatt med produktspesialist. Tilgjengelig på engelsk døgnet rundt </string>
+
+    <!-- View Product Details Screen   null -->
+    <string name="product_view_videos"> Produktvideoer </string>
+    <string name="product_open_manual"> Åpne interaktiv håndbok </string>
+    <string name="product_download_manual"> Last ned produkthåndbok </string>
+    <string name="product_information"> Produktinformasjon (på philips.com) </string>
+
+    <!-- Rate This Application   null -->
+    <string name="rate_playstore_headertext"> Hvordan vurderer du denne appen? </string>
+    <string name="rate_playstore_buttontext"> Skriv anmeldelse av app </string>
+    <string name="rate_philips_headertext"> Send inn produktanmeldelse </string>
+    <string name="rate_philips_description"> Skriv en anmeldelse, og hjelp andre å ta riktig avgjørelse </string>
+    <string name="rate_philips_buttontext"> Logg på My Philips </string>
+
+    <!-- reviewandrewards   null -->
+
+    <!-- Twitter Screen   null -->
+    <string name="twitter_login_header"> Logg på Twitter </string>
+    <string name="twitter_login_hint_username"> Brukernavn </string>
+    <string name="twitter_login_hint_password"> Passord </string>
+    <string name="twiiter_login_logo_description"> Twitter-logo </string>
+    <string name="twitter_post_progress_message"> Sender meldingen din til Philips Twitter-støtte ... </string>
+    <string name="twitter_post_char_limitation"> Merk: Meldingen kan ikke være lengre enn 140 tegn </string>
+
+    <!-- Social post   null -->
+    <string name="social_post_to"> Send en melding til Philips </string>
+    <string name="social_post_desc_text"> Legg til produktinformasjon </string>
+    <string name="cancel"> Avbryt </string>
+    <string name="take_photo"> Ta bilde </string>
+    <string name="choose_from_library"> Velg fra kamerarull </string>
+    <string name="social_post_failed"> Noe gikk galt  </string>
+    <string name="support_productinformation"> kan du hjelpe meg med </string>
+    <string name="social_post_success"> Meldingen din er mottatt. </string>
+    <string name="post"> Publiser </string>
+    <string name="send"> Send </string>
+    <string name="facebook_login_header"> Logg inn på Facebook </string>
+    <string name="SocialSharingPostTemplateText"> kan du hjelpe meg med </string>
+
+    <!-- BazzarVoice Screen   null -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Skriv en anmeldelse </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Før du begynner, må du lese retningslinjene. </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Vi ønsker å publisere anmeldelsen din, så følg retningslinjene nedenfor: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Hold fokus på produktet i anmeldelsen din. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Unngå å skrive om kundeservice. Kontakt oss i stedet dersom du har spørsmål som krever vår umiddelbare oppmerksomhet. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Avstå fra å nevne konkurrenter eller den spesifikke prisen du betalte for produktet. </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Ikke ta med noen personlig identifiserbar informasjon, som fullt navn. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> OK, jeg har forstått dette. </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Skriv en anmeldelse </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Vurder dette produktet </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Din anmeldelse </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Gå gjennom sammendraget </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Skriv din anmeldelse her </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Velg et kallenavn: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Ikke det faktiske navnet ditt </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> E-postadresse </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Sørg for at du har tilgang </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Jeg har lest og godtar  </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> vilkår og betingelser </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Forhåndsvisning </string>
+    <string name="EmptyField_ErrorMsg"> Feltet kan ikke stå tomt </string>
+    <string name="kemailFieldErrorText"> Angi en gyldig e-postadresse. </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Din anmeldelse: </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Er alt riktig? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Vurdering: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Gå gjennom sammendraget: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Anmeldelse: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Kallenavn: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> E-post </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Send inn anmeldelsen min </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Tusen takk! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Takk, vi har mottatt anmeldelsen din! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Takk for at du tok deg tid til å skrive denne anmeldelsen. Vi vil vurdere den og gi deg beskjed når den ligger ute på nettet. </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Tilbake til forbrukerstøtte </string>
+
+    <!-- bazzarvoice_rating_alert   null -->
+
+    <!-- bazzarvoice_terms_conditions_alert   null -->
+
+    <!-- bazzarvoice_description_alert   null -->
+
+    <!-- Registration Screen   null -->
+    <string name="login_to_social_media"> Logge på med konto for sosiale medier? </string>
+    <string name="twitter"> På Twitter </string>
+    <string name="facebook"> På Facebook </string>
+    <string name="linkedin"> På LinkedIn </string>
+    <string name="googleplus"> På Google Plus </string>
+    <string name="login_with_philips_account"> Eller logg deg på med My Philips-konto </string>
+    <string name="email">  E-postadresse </string>
+    <string name="password"> Passord </string>
+    <string name="sign_into_my_philips"> Logg på My Philips </string>
+    <string name="forgot_my_password"> Jeg har glemt passordet &gt;  </string>
+    <string name="create_account">  Opprett konto &gt; </string>
+
+    <string name="localtephilips_contactus">Gå til kontaktsiden</string>
+
+    <string name="FAQ_KEY">Vanlige spørsmål</string>
+    <string name="QUESTION_KEY">Spørsmål og svar</string>
+    <string name="NO_PRODUCT_KEY">Ingen produkter tilgjengelig</string>
+    <string name="NO_SUPPORT_KEY">Ingen støtte tilgjengelig</string>
+    <string name="FAQ_KEY_TABLET">Vanlige spørsmål
+</string>
+
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">facebook</string>
+    <string name="dcc_send_us_message">eller send en melding</string>
+    <string name="dcc_get_in_touch">Snakk med en i teamet</string>
+    <string name="dcc_help_and_Answer">Vi er her for å hjelpe deg og svare på spørsmål du har.</string>
+    <string name="dcc_send_email">E-post</string>
+    <string name="dcc_call_number">Ring oss</string>
+    <string name="dcc_chat_to_us">Chat med oss</string>
+    <string name="dcc_chat_desc">Livechat på engelsk med en av våre produktspesialister, hele døgnet alle dager i uken. </string>
+    <string name="dcc_remove_photo">Fjern bilde</string>
+    <string name="dcc_continue">Fortsett</string>
+    <string name="dcc_characters_left">gjenværende tegn</string>
+    <string name="dcc_your_message">Melding</string>
+    <string name="dcc_tellUs_header">Del opplevelsene dine</string>
+    <string name="dcc_tellUs_sub_header">Skriv en anmeldelse eller vurder denne appen. Tilbakemeldingene dine er viktige.</string>
+    <string name="dcc_write_review">Skriv en anmeldelse</string>
+    <string name="dcc_rate_this_app">Vurder denne appen</string>
+    <string name="dcc_productDownloadManual">Last ned håndbok</string>
+    <string name="dcc_productInformationOnWebsite">Gå til produktnettstedet</string>
+    <string name="dcc_show_all">Vis alle</string>
+    <string name="dcc_show_less">Vis mindre</string>
+    <string name="dcc_Call_not_Supported">Telefonsamtale støttes ikke</string>
+    <string name="dcc_Turn_On_Location_Service">For å aktivere det må du gå til Innstillinger og slå på stedstjeneste for denne appen.</string>
+    <string name="dcc_No_Service_Url">Ingen tjeneste-URL er tilgjengelig</string>
+    <string name="dcc_No_Product_Information">Ingen produktinformasjon er tilgjengelig for denne modellen</string>
+    <string name="dcc_Allow_Acess_Twitter">Gi app-brukeren tilgang til twitter-kontoen din</string>
+    <string name="dcc_No_Facebook_Key">Ingen Facebook-kontoer</string>
+    <string name="dcc_About_App">Om denne appen</string>
+    <string name="dcc_Help_Support">Hjelp og støtte</string>
+    <string name="dcc_Call">Ring</string>
+    <string name="dcc_Opening_Hours">Åpningstider</string>
+
+</resources>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/locateDialogParent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/dialogTextViewDesc"
+        style="@style/contactUsHelpText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/servicecenters_not_found"
+        android:textColor="@android:color/black"
+        fontPath="fonts/centralesanslight.ttf" />
+
+    <View
+        android:id="@+id/seperatorOne"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/dialogTextViewDesc"
+        android:background="#cccccc" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/dialogTextViewSupportPage"
+        style="@style/contactUsHelpText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialogTextViewDesc"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="@string/localtephilips_contactus"
+        fontPath="fonts/centralesanslight.ttf" />
+
+    <View
+        android:id="@+id/seperatorTwo"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/dialogTextViewSupportPage"
+        android:background="#cccccc" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/dialogTextViewOk"
+        style="@style/contactUsHelpText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/seperatorTwo"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="@android:string/ok"
+        fontPath="fonts/centralesanslight.ttf" />
+</RelativeLayout>

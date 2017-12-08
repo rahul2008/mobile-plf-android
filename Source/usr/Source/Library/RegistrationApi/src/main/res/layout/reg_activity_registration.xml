@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:reglib="http://reg.lib/schema"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/rl_reg_header"
+        android:layout_width="match_parent"
+        android:elevation="8dp"
+        android:layout_height="@dimen/reg_header_height"
+        android:background="?attr/uidNavigationPrimaryBackgroundColor" >
+
+        <com.philips.cdp.registration.ui.customviews.XIconTextView
+            android:id="@+id/iv_reg_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_margin="5dip"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:text="@string/ic_reg_close"
+            android:textColor="?attr/uidNavigationPrimaryTextColor"
+            android:textSize="@dimen/reg_back_arrow_size" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/tv_reg_header_title"
+            style="@style/reg_style_homescreen_title"
+            android:layout_centerInParent="true"
+            android:text="@string/reg_SigIn_TitleTxt"
+            android:textColor="?attr/uidNavigationPrimaryTextColor"
+            reglib:fontAssetName="CentraleSans-Book.OTF" />
+    </RelativeLayout>
+
+
+    <FrameLayout
+        android:id="@+id/fl_reg_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_reg_header"
+        android:clickable="true"
+        android:orientation="vertical" />
+
+</RelativeLayout>

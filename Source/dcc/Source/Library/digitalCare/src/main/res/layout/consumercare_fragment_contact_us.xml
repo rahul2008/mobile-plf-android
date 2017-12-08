@@ -1,0 +1,105 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/contactUsParent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/contactUsHelpParent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="visible"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/lbl_getintouch"
+                style="@style/UIDLabel"
+                android:layout_width="match_parent"
+                fontPath="fonts/centralesansbold.ttf"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="@string/dcc_get_in_touch"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/contactUsOpeningHours"
+                style="@style/UIDLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:text="@string/dcc_help_and_Answer"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/firstRowText"
+                style="@style/UIDLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text=""/>
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/contactUsCall"
+                style="@style/UIDImageTextButton.Center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginBottom="6dp"
+                android:gravity="center"
+                android:text="@string/dcc_call_number"/>
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/contactUsChat"
+                style="@style/UIDImageTextButton.Center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/live_chat"
+                android:visibility="gone"
+                app:uidComponentType="Secondary"/>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/dividerContactUsSplit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/uid_divider_Height"
+            android:background="?attr/uidSeparatorButtonNormalBackgroundColor"/>
+
+        <LinearLayout
+            android:id="@+id/contactUsSocialParent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/contactUsTitle"
+                style="@style/UIDLabel.RecyclerViewHeaderText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="16sp"
+                android:text="@string/dcc_send_us_message" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/contactUsSocialProvideButtonsParent"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

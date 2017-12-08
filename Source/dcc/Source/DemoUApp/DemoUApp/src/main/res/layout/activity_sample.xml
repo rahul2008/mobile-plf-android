@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sampleParentActivity"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/sample_action_bar"/>
+
+    <RelativeLayout
+        android:id="@+id/sampleMainContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="@dimen/actionbar_height"
+
+        android:orientation="vertical" >
+    </RelativeLayout>
+
+</FrameLayout>

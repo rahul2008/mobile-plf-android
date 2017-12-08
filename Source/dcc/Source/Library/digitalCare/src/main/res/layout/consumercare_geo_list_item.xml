@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:orientation="vertical"
+
+    android:paddingLeft="20dp"
+    android:paddingTop="20dp">
+
+    <LinearLayout
+        android:id="@+id/parent_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:weightSum="3"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="4dip"
+                android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+                android:textSize="30dp"
+                fontPath="fonts/iconfont.ttf"
+                android:text="@string/dls_location"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                android:id="@+id/distance_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="4dip"
+                android:text="5km"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/address_part"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:weightSum="1"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel"
+                android:id="@+id/place_title"
+                android:paddingRight="50dp"
+                android:text="Title"
+                app:uidLabelTextSize="32sp"
+                fontPath="fonts/centralesansbold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold" />
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel"
+                android:id="@+id/place_address"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dip"
+                app:uidLabelTextSize="28sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/place_title"
+                android:paddingRight="50dp"
+                android:text="Manyatha tech prak bangalore - 56790004"
+                fontPath="fonts/centralesansbook.ttf" />
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel"
+                android:id="@+id/place_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/place_address"
+                android:paddingRight="50dp"
+                android:text=""
+                fontPath="fonts/centralesansbook.ttf" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

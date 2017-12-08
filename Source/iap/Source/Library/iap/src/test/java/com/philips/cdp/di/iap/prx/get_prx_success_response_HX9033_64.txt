@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "data": {
+    "locale": "en_US",
+    "ctn": "HX9033/64",
+    "dtn": "HX9033/64",
+    "leafletUrl": "https://www.download.p4c.philips.com/files/h/hx9033_64/hx9033_64_pss_aenus.pdf",
+    "productTitle": "Sonicare ProResults gum health Standard sonic toothbrush heads",
+    "alphanumeric": "HX9033/64",
+    "brandName": "Sonicare",
+    "brand": {
+      "partnerBrandType": "MakersMark",
+      "partnerLogo": "https://images.philips.com/is/image/PhilipsConsumer/SON-BRP-global-001"
+    },
+    "familyName": "ProResults gum health",
+    "productURL": "/c-p/HX9033_64/sonicare-proresults-gum-health-standard-sonic-toothbrush-heads",
+    "productPagePath": "/content/B2C/en_US/product-catalog/HX9033_64",
+    "categoryPath": "/content/B2C/en_US/marketing-catalog/pe/toothbrush-heads/proresults-gum-health",
+    "descriptor": "Standard sonic toothbrush heads",
+    "domain": "http://www.usa.philips.com",
+    "versions": [
+      "3-pack",
+      "Standard size",
+      "Click-on",
+      "Advanced gum health"
+    ],
+    "productStatus": "NORMAL",
+    "imageURL": "http://images.philips.com/is/image/PhilipsConsumer/HX9033_64-IMS-en_US",
+    "sop": "2014-08-04T00:00:00.000+02:00",
+    "somp": "2014-08-04T00:00:00.000+02:00",
+    "eop": "2020-07-20T00:00:00.000+02:00",
+    "isDeleted": false,
+    "priority": 745721,
+    "price": {
+      "productPrice": "29.99",
+      "displayPriceType": "srp",
+      "displayPrice": "29.99",
+      "currencyCode": "USD",
+      "formattedPrice": "$29.99",
+      "formattedDisplayPrice": "$29.99"
+    },
+    "reviewStatistics": {
+      "averageOverallRating": 3.7143,
+      "totalReviewCount": 7
+    },
+    "wow": "Tough on plaque. Extra gentle on gums.",
+    "subWOW": "Exceptional plaque removal for better gum heath",
+    "marketingTextHeader": "The Philips Sonicare ProResults gum health toothbrush head is perfect for those who want to maintain optimal plaque removal, with an extra gentle touch, as part of their everyday oral healthcare routine.",
+    "careSop": "2014-08-04T00:00:00.000+02:00",
+    "filterKeys": [
+      "FK_2_SERIES_PLAQUE_CONTROL",
+      "FK_3_SERIES_GUM_HEALTH",
+      "FK_CLEA_PEC",
+      "FK_DIAMONDCLEAN",
+      "FK_EASYCLEAN",
+      "FK_FLEXCARE",
+      "FK_FLEXCARE_PLATINUM",
+      "FK_FLEXCARE_PLUS",
+      "FK_GENTLE_CLEANING",
+      "FK_HEALTHYWHITE",
+      "FK_PLAQUE_REMOVAL",
+      "FK_REF_PEC",
+      "FK_SOFT",
+      "FK_SONICARE_FOR_KIDS",
+      "FK_STANDARD",
+      "PERSONAL_CARE_GR",
+      "PRORESULTS_GUM_SU",
+      "TOOTHBRUSH_HEADS_CA"
+    ],
+    "subcategory": "PRORESULTS_GUM_SU"
+  }
+}

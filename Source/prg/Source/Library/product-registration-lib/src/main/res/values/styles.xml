@@ -1,0 +1,83 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="UIDLabel.ProductRegistrationHeaderTitleTheme">
+        <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
+        <item name="android:textSize">@dimen/pr_title_textsize</item>
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+    </style>
+    <style name="SuccessRegisterTheme">
+        <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+    </style>
+
+
+    <style name="UIDLabel.ProductRegistrationSubTitleTheme">
+        <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
+        <item name="android:textSize">@dimen/fab_margin</item>
+    </style>
+
+
+
+    <style name="UIDLabel.ProductRegistrationConnectHeaderTitleTheme">
+        <item name="android:textColor">?attr/uidContentItemSecondaryNormalTextColor</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="UIDLabel.ProductRegistrationConnectSubTitleTheme">
+        <item name="android:textColor">?attr/uidContentItemSecondaryNormalTextColor</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="UIDLabel.ProductRegistrationProductHeaderTitleTheme">
+        <item name="android:textColor">?attr/uidContentItemSecondaryNormalTextColor</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="UIDLabel.ProductRegistrationProductSubTitleTheme">
+        <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="UIDLabel.ProductRegistrationCtnTheme">
+        <item name="android:textColor">?attr/uidContentItemTertiaryNormalTextColor</item>
+        <item name="android:textSize">@dimen/pr_c_value_sm</item>
+    </style>
+
+    <style name="UIDLabel.DateOfPurchaseStyle">
+        <item name="android:textColor">?attr/uidContentItemSecondaryNormalTextColor</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="UIDLabel.ButtonTexts">
+        <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
+    </style>
+
+    <!--<style name="DatePickerStyle">-->
+        <!--<item name="android:textColor">#0066a1</item>-->
+        <!--<item name="android:textSize">15sp</item>-->
+        <!--<item name="fontPath">fonts/centralesansbook.ttf</item>-->
+    <!--</style>-->
+
+    <style name="Prod_Reg_Generic_Style">
+        <item name="android:paddingLeft">@dimen/pr_left_padding_sm</item>
+        <item name="android:paddingRight">@dimen/pr_right_padding_sm</item>
+        <item name="android:paddingTop">@dimen/pr_top_padding_sm</item>
+        <item name="android:paddingBottom">@dimen/pr_bottom_padding_sm</item>
+    </style>
+
+</resources>

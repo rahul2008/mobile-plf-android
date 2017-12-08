@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Key"> Japanese </string>
+    <string name="key"> ja </string>
+
+    <!-- Common   null -->
+    <string name="img_description"> 説明 </string>
+    <string name="no_internet"> インターネットに接続されていません。携帯電話の Wi-Fi 設定またはデータ設定で接続が機能していることを確認してください </string>
+
+    <!-- Support Home Screen    null -->
+    <string name="how_can_we_help"> お問い合わせ／サポート </string>
+    <string name="contact_us"> お問い合わせ </string>
+    <string name="view_product_details"> 製品情報を表示 </string>
+    <string name="view_faq"> FAQ を表示 </string>
+    <string name="find_philips_near_you"> お近くのフィリップス </string>
+    <string name="feedback"> ご意見をお聞かせください </string>
+    <string name="registration"> 製品を登録 </string>
+    <string name="actionbar_title_support"> サポート </string>
+
+    <!-- Locate Near You Screen   null -->
+    <string name="loading"> ロード中 </string>
+    <string name="please_wait"> お待ちください&amp;#8230; </string>
+    <string name="get_directions"> 道順を検索 </string>
+    <string name="search"> 検索 </string>
+    <string name="gps_disabled"> お使いのデバイスで GPS が無効になっています。有効にしていただけますか？ </string>
+    <string name="servicecenters_not_found"> お客様がお住まいの国にはサービスセンターがありません  </string>
+    <string name="no_data"> 利用可能なデータなし </string>
+    <string name="locate_philips_popup_legal"> サポートページの「お近くのフィリップス」機能を使用する場合は、お客様の位置データのフィリップスへのシェアをお願いしています。お客様の位置データに基づいて、お近くのフィリップス拠点やお住まいの国のお問い合わせ先詳細をお知らせするためです。 </string>
+    <string name="product_info"> 製品情報 </string>
+    <!-- ContactUs Screen   null -->
+    <string name="leave_us_a_message"> ご意見をお寄せください： </string>
+    <string name="contact_us_text"> お問い合わせ先： </string>
+    <string name="opening_hours"> 営業時間 </string>
+    <string name="live_chat"> ライブチャット </string>
+    <string name="send_email"> メールを送信 </string>
+    <string name="call_number"> 通話 </string>
+    <string name="chat_with_philips"> フィリップス担当者とチャット </string>
+    <string name="check_sim"> SIM カードが検出されません。正しく挿入されていることを確認してください </string>
+    <string name="no_data_available"> 利用可能なデータなし </string>
+    <string name="send_us_email"> メールを送信してください </string>
+
+    <!-- Live Chat Screen   null -->
+    <string name="can_we_help_you"> お問い合わせ／サポート </string>
+    <string name="chat_now"> 今すぐチャット </string>
+    <string name="no_thanks"> いいえ </string>
+    <string name="chat_desc"> 製品担当者とライブチャットを開始します（年中無休、英語のみ） </string>
+
+    <!-- View Product Details Screen   null -->
+    <string name="product_view_videos"> 製品動画 </string>
+    <string name="product_open_manual"> インタラクティブマニュアルを開く </string>
+    <string name="product_download_manual"> 製品マニュアルをダウンロード </string>
+    <string name="product_information"> 製品情報（philips.com） </string>
+
+    <!-- Rate This Application   null -->
+    <string name="rate_playstore_headertext"> このアプリを評価してください </string>
+    <string name="rate_playstore_buttontext"> アプリをレビューする </string>
+    <string name="rate_philips_headertext"> 製品レビューを送信 </string>
+    <string name="rate_philips_description"> レビューをお寄せください。他のお客様が製品を選ぶときの参考になります。 </string>
+    <string name="rate_philips_buttontext"> My Philips にサインイン </string>
+
+    <!-- reviewandrewards   null -->
+
+    <!-- Twitter Screen   null -->
+    <string name="twitter_login_header"> Twitter にログイン </string>
+    <string name="twitter_login_hint_username"> ユーザー名 </string>
+    <string name="twitter_login_hint_password"> パスワード </string>
+    <string name="twiiter_login_logo_description"> Twitter ロゴ </string>
+    <string name="twitter_post_progress_message"> お客様のメッセージをフィリップス Twitter サポートに送信しています... </string>
+    <string name="twitter_post_char_limitation"> メッセージの長さは 140 文字以内に収めてください </string>
+
+    <!-- Social post   null -->
+    <string name="social_post_to"> フィリップスにメッセージを送信 </string>
+    <string name="social_post_desc_text"> 製品情報を含む </string>
+    <string name="cancel"> キャンセル </string>
+    <string name="take_photo"> 写真を撮影 </string>
+    <string name="choose_from_library"> ライブラリから選択 </string>
+    <string name="social_post_failed"> 問題が発生しました...  </string>
+    <string name="support_productinformation"> アドバイス求む： </string>
+    <string name="social_post_success"> お客様のメッセージを受信しました </string>
+    <string name="post"> 投稿 </string>
+    <string name="send"> 送信 </string>
+    <string name="facebook_login_header"> Facebook にログイン </string>
+    <string name="SocialSharingPostTemplateText"> アドバイス求む： </string>
+
+    <!-- BazzarVoice Screen   null -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> レビューを送信する </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> 初めにガイドラインをお読みください： </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> レビューを送信される場合は、以下のガイドラインに従ってください： </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> レビューは製品自体に関する内容にしてください。 </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> カスタマーサービスに関するご意見は、早急に対応させていただくためにもここに入力せず、直接ご連絡ください。 </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> 競合他社・製品や購入金額については言及しないでください。 </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> お名前など、個人を特定できる情報は含めないようにしてください。 </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> わかりました </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> レビューを送信する </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> この製品を評価してください </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> お客様のレビュー </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> レビューサマリー </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> お客様のレビューをここに入力してください </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> ニックネームを使用してください： </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> 本名は入力しないでください </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> メールアドレス </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> アクセスできることを確認してください </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> 利用条件を読み、 </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> 同意しました </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> プレビュー </string>
+    <string name="EmptyField_ErrorMsg"> 入力必須フィールドです </string>
+    <string name="kemailFieldErrorText"> 有効なメールアドレスを入力してください。 </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> お客様のレビュー： </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> 内容は正しいですか？ </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> 評価： </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> レビューサマリー： </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> レビュー： </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> ニックネーム： </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> メール </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> レビューを送信 </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> ありがとうございました </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> お客様のレビューを受信しました </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> レビューを送信いただきありがとうございました。内容を確認させていただき、公開する際にはご連絡差し上げます。 </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> サポートに戻る </string>
+
+    <!-- bazzarvoice_rating_alert   null -->
+
+    <!-- bazzarvoice_terms_conditions_alert   null -->
+
+    <!-- bazzarvoice_description_alert   null -->
+
+    <!-- Registration Screen   null -->
+    <string name="login_to_social_media"> ソーシャルメディアアカウントでログインしますか？ </string>
+    <string name="twitter"> Twitter </string>
+    <string name="facebook"> Facebook </string>
+    <string name="linkedin"> LinkedIn </string>
+    <string name="googleplus"> Google+ </string>
+    <string name="login_with_philips_account"> または My Philips アカウントでログイン </string>
+    <string name="email"> メールアドレス </string>
+    <string name="password"> パスワード </string>
+    <string name="sign_into_my_philips"> My Philips にサインイン </string>
+    <string name="forgot_my_password"> パスワードをお忘れの場合 &gt;  </string>
+    <string name="create_account"> アカウントを作成 &gt; </string>
+
+    <string name="localtephilips_contactus">お問い合わせページに進む</string>
+
+    <string name="FAQ_KEY">FAQ</string>
+    <string name="QUESTION_KEY">質問と回答</string>
+    <string name="NO_PRODUCT_KEY">利用可能な製品なし</string>
+    <string name="NO_SUPPORT_KEY">利用可能なサポートなし</string>
+    <string name="FAQ_KEY_TABLET">よく寄せられるご質問
+</string>
+
+    <string name="dcc_twitter">Twitter</string>
+    <string name="dcc_facebook">Facebook</string>
+    <string name="dcc_send_us_message">またはメッセージを送信</string>
+    <string name="dcc_get_in_touch">チームに問い合わせる</string>
+    <string name="dcc_help_and_Answer">ご質問がございましたらいつでもお問い合わせください。</string>
+    <string name="dcc_send_email">メールでのお問い合わせ</string>
+    <string name="dcc_call_number">電話でのお問い合わせ</string>
+    <string name="dcc_chat_to_us">チャットでのお問い合わせ</string>
+    <string name="dcc_chat_desc">製品担当者が 24 時間いつでもライブチャットでお答えいたします（英語のみ）。 </string>
+    <string name="dcc_remove_photo">写真の削除</string>
+    <string name="dcc_continue">続行</string>
+    <string name="dcc_characters_left">入力可能文字数</string>
+    <string name="dcc_your_message">メッセージ</string>
+    <string name="dcc_tellUs_header">あなたの体験を共有しませんか</string>
+    <string name="dcc_tellUs_sub_header">このアプリに関するお客様の貴重なフィードバックをお寄せください。</string>
+    <string name="dcc_write_review">レビューを送信する</string>
+    <string name="dcc_rate_this_app">このアプリを評価する</string>
+    <string name="dcc_productDownloadManual">マニュアルをダウンロード</string>
+    <string name="dcc_productInformationOnWebsite">製品 Web サイトにアクセス</string>
+    <string name="dcc_show_all">すべて表示</string>
+    <string name="dcc_show_less">表示件数を減らす</string>
+    <string name="dcc_Call_not_Supported">電話によるサポートには対応しておりません</string>
+    <string name="dcc_Turn_On_Location_Service">再有効化するには、［設定］でこのアプリの［位置サービス］を有効にしてください。</string>
+    <string name="dcc_No_Service_Url">サービス URL 利用不可</string>
+    <string name="dcc_No_Product_Information">このモデルの製品情報は参照できません</string>
+    <string name="dcc_Allow_Acess_Twitter">アプリでのお客様の Twitter アカウントの使用を許可する</string>
+    <string name="dcc_No_Facebook_Key">Facebook アカウントがありません</string>
+    <string name="dcc_About_App">このアプリについて</string>
+    <string name="dcc_Help_Support">ヘルプとサポート</string>
+    <string name="dcc_Call">通話</string>
+    <string name="dcc_Opening_Hours">営業時間</string>
+
+</resources>

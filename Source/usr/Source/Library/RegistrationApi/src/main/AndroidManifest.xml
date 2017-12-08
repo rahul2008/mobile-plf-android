@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.philips.cdp.registration"
+    android:versionCode="1"
+   >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="com.tencent.mm.plugin.permission.SEND" />
+    <uses-permission android:name="com.tencent.mm.plugin.permission.RECEIVE" />
+    <uses-permission android:name="com.tencent.mm.plugin.permission.READ"/>
+    <uses-permission android:name="com.tencent.mm.plugin.permission.WRITE"/>
+    <uses-permission android:name="com.tencent.mm.permission.MM_MESSAGE"/>
+
+
+    <application>
+
+        <!-- Regitration Api start -->
+        <activity
+            android:name="com.philips.cdp.registration.ui.traditional.RegistrationActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"/>
+
+        <!-- Janrain specific  start -->
+        <activity
+            android:name="com.janrain.android.engage.ui.JRFragmentHostActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|fontScale|locale|layoutDirection"
+            android:theme="@style/Theme.Janrain.Dialog.Light"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.janrain.android.engage.ui.JRFragmentHostActivity$Fullscreen"
+            android:configChanges="orientation|keyboardHidden|screenSize|fontScale|locale|layoutDirection"
+            android:theme="@style/Theme.Janrain"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <!-- Janrain specific end -->
+
+
+        <service android:name=".HttpClientService"/>
+
+        <!-- Declaring Service in Manifest -->
+        <!--<service-->
+            <!--android:name=".ui.utils.CounterIntentService"/>-->
+        <!-- Regitration Api End -->
+
+    </application>
+
+</manifest>

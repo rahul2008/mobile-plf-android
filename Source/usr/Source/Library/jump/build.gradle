@@ -1,0 +1,257 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.jakewharton.butterknife'
+
+//def libVersionNumber = new File("${projectDir}/../../../VERSION_JUMP").text.trim()
+
+buildscript {
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
+
+    repositories {
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath(builddeps.cdpSCM)
+        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.6.0'}
+}
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment )
+archivesBaseName = "jump"
+
+allprojects {
+    repositories {
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url objcdp.getArtifactoryUrl()
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+    apply plugin: 'com.jfrog.artifactory'
+    group = 'com.philips.cdp'
+}
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion(versions.usr_jump)
+
+artifactory {
+    contextUrl = objcdp.getArtifactoryContextUrl()
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications ('aar')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
+            }
+        }
+    }
+    resolve {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+        }
+    }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            artifact("$projectDir/dependencies.lock") {
+                classifier = '1stleveldependencies'
+            }
+
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+
+            pom.withXml{
+                def dependenciesNode = asNode().appendNode('dependencies')
+                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                }
+            }
+        }
+    }
+}
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionName version
+        multiDexEnabled true
+
+        testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
+        ]
+
+    }
+    lintOptions {
+        abortOnError false
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            consumerProguardFiles 'proguard-rules-jump.pro'
+        }
+        debug {
+            minifyEnabled false
+            debuggable true
+            testCoverageEnabled false
+//            proguardFile 'proguard-rules.pro'
+        }
+    }
+}
+
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'org.apache.http.legacy:org.apache.http.legacy:1.0.0'
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
+    compile 'com.squareup.okhttp:okhttp-apache:2.5.0'
+    androidTestCompile 'junit:junit:4.12'
+   // androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+//    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+
+   def dp = project.ext.has('useprojectdependencies')
+
+   if(dp) {
+        compile(project(':AppInfra'))
+    } else {
+        compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    }
+
+    compile 'com.squareup.okio:okio:1.6.0'
+    //WeChat China
+    compile files('libs/libammsdk.jar')
+    
+
+    
+     compile 'com.squareup.picasso:picasso:2.5.2'
+    //compile 'com.squareup.retrofit:retrofit:1.8.0'
+    compile 'net.openid:appauth:0.4.1'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.6.1'
+    androidTestCompile 'junit:junit:4.12'
+   // androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+  //  androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+    compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.jakewharton:butterknife:8.6.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    annotationProcessor 'org.immutables:value:2.4.4'
+
+
+    compile 'com.google.dagger:dagger:2.11'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
+    annotationProcessor 'com.github.frankiesardo:android-auto-value-processor:0.1'
+    androidTestCompile 'com.github.frankiesardo:android-auto-value:0.1'
+    annotationProcessor 'com.github.frankiesardo:android-auto-value-processor:0.1'
+    testCompile 'com.github.frankiesardo:android-auto-value:0.1'
+
+    provided 'javax.annotation:jsr250-api:1.0'
+    retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.5.1'
+
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    androidTestCompile 'org.mockito:mockito-android:2.7.22'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-all:1.10.17'
+    testCompile "org.robolectric:robolectric:3.1.1"
+
+// Android JUnit Runner
+    androidTestCompile 'com.android.support.test:runner:0.5'
+
+// JUnit4 Rules
+    androidTestCompile 'com.android.support.test:rules:0.5'
+
+    androidTestCompile 'com.android.support.test:runner:0.5'
+
+}
+
+
+
+task copyToLib(type: Copy) {
+    into "$buildDir/outputs/lib"
+    from configurations.compile
+}
+
+tasks.withType(Test) {
+  ignoreFailures = true
+}

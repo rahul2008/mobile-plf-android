@@ -1,0 +1,36 @@
+{
+  "appinfra": {
+    "appidentity.micrositeId": "77000",
+    "appidentity.sector": "b2c",
+    "appidentity.appState": "PRODUCTION",
+    "appidentity.serviceDiscoveryEnvironment": "PRODUCTION",
+    "servicediscovery.platformMicrositeId": "70000",
+    "servicediscovery.platformEnvironment": "PRODUCTION",
+    "logging.releaseConfig": {
+      "fileName": "AppInfraLog",
+      "numberOfFiles": 5,
+      "fileSizeInBytes": 50000,
+      "logLevel": "Warn",
+      "fileLogEnabled": false,
+      "consoleLogEnabled": true,
+      "componentLevelLogEnabled": true,
+      "componentIds": [
+        "dcc",
+        "pse"
+      ]
+    },
+    "logging.debugConfig": {
+      "fileName": "AppInfraLog",
+      "numberOfFiles": 5,
+      "fileSizeInBytes": 50000,
+      "logLevel": "Info",
+      "fileLogEnabled": false,
+      "consoleLogEnabled": true,
+      "componentLevelLogEnabled": true,
+      "componentIds": [
+        "dcc",
+        "pse"
+      ]
+    }
+  }
+}

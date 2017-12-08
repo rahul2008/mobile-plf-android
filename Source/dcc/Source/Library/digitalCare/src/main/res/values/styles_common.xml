@@ -1,0 +1,16 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- This file will contain only common styles. -->
+
+    <style name="fontButton">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/support_btn_height</item>
+        <item name="android:background">@drawable/consumercare_selector_option_button_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/uidColorWhite</item>
+        <item name="android:textSize">@dimen/btn_text_size_large</item>
+        <item name="android:layout_marginTop">@dimen/marginTopButton</item>
+
+    </style>
+
+</resources>

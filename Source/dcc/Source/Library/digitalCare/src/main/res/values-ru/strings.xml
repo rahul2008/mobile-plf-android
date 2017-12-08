@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Key"> Russian </string>
+    <string name="key"> ru </string>
+
+    <!-- Common   null -->
+    <string name="img_description"> описание </string>
+    <string name="no_internet"> Aucune connexion Internet. Vérifiez votre connexion dans les paramètres Wi-Fi ou données de votre téléphone. </string>
+
+    <!-- Support Home Screen    null -->
+    <string name="how_can_we_help"> Как Вам помочь? </string>
+    <string name="contact_us"> Контакты </string>
+    <string name="view_product_details"> См. данные о продукте </string>
+    <string name="view_faq"> См. FAQ </string>
+    <string name="find_philips_near_you"> Ближ. центр Philips </string>
+    <string name="feedback"> Выскажите свое мнение </string>
+    <string name="registration"> Регистрация продукта </string>
+    <string name="actionbar_title_support"> Помощь </string>
+
+    <!-- Locate Near You Screen   null -->
+    <string name="loading"> Загр. </string>
+    <string name="please_wait"> Подождите &amp;#8230; </string>
+    <string name="get_directions"> Itinéraire </string>
+    <string name="search"> Recherche </string>
+    <string name="gps_disabled"> GPS désactivé sur votre appareil. Souhaitez-vous l\'activer ? </string>
+    <string name="servicecenters_not_found"> Aucun centre disponible dans votre pays  </string>
+    <string name="no_data"> Aucune donnée </string>
+    <string name="locate_philips_popup_legal"> При поиске ближайшего центра Philips на странице поддержки вас попросят предоставить Philips данные о вашем местоположении. В зависимости от местоположения вам будут предложены контактные данные ближайшей торговой организации или центра поддержки потребителей </string>
+
+    <!-- ContactUs Screen   null -->
+    <string name="leave_us_a_message"> Отправьте сообщ.: </string>
+    <string name="contact_us_text"> Контакты: </string>
+    <string name="opening_hours"> Часы работы </string>
+    <string name="live_chat"> Чат </string>
+    <string name="send_email"> Отпр. письмо </string>
+    <string name="call_number"> Позвонить </string>
+    <string name="chat_with_philips"> Чат с Philips </string>
+    <string name="check_sim"> Aucune carte SIM détectée. Vérifiez qu\'elle est bien insérée. </string>
+    <string name="no_data_available"> Aucune donnée </string>
+
+    <string name="send_us_email">Электронное сообщение</string>
+    <!-- Live Chat Screen   null -->
+    <string name="can_we_help_you"> Нужна помощь? </string>
+    <string name="chat_now"> Начать чат </string>
+    <string name="no_thanks"> Нет, спасибо </string>
+    <string name="chat_desc"> Пообщайтесь со специалистом по продукции. Доступно на англ. яз. 24/7. </string>
+
+    <!-- View Product Details Screen   null -->
+    <string name="product_view_videos"> Видео о товарах </string>
+    <string name="product_open_manual"> Открыть руководство </string>
+    <string name="product_download_manual"> Загрузить руководство </string>
+    <string name="product_information"> Информация о продукции (philips.com) </string>
+
+    <!-- Rate This Application   null -->
+    <string name="rate_playstore_headertext"> Как вы оцените приложение? </string>
+    <string name="rate_playstore_buttontext"> Отзыв о приложении </string>
+    <string name="rate_philips_headertext"> Загрузить отзыв </string>
+    <string name="rate_philips_description"> Оставьте отзыв и помогите другим сделать правильный выбор </string>
+    <string name="rate_philips_buttontext"> Войти в My Philips </string>
+    <string name="product_info"> сведения о продукте </string>
+    <!-- reviewandrewards   null -->
+
+    <!-- Twitter Screen   null -->
+    <string name="twitter_login_header"> Войти в Twitter </string>
+    <string name="twitter_login_hint_username"> Имя польз. </string>
+    <string name="twitter_login_hint_password"> Пароль </string>
+    <string name="twiiter_login_logo_description"> Логотип Twitter </string>
+    <string name="twitter_post_progress_message"> Envoi du message à l\'assistance Philips via Twitter… </string>
+    <string name="twitter_post_char_limitation"> Veuillez noter que votre message ne doit pas excéder 140 caractères </string>
+
+    <!-- Social post   null -->
+    <string name="social_post_to"> Отправить письмо Philips </string>
+    <string name="social_post_desc_text"> Вкл. информацию о продукте </string>
+    <string name="cancel"> Отмена </string>
+    <string name="take_photo"> Фотоснимок </string>
+    <string name="choose_from_library"> Выбр. из библиотеки </string>
+    <string name="social_post_failed"> Un problème est survenu...  </string>
+    <string name="support_productinformation"> Pouvez-vous m\'aider avec </string>
+    <string name="social_post_success"> Message bien reçu ! </string>
+    <string name="post"> Опубликовать </string>
+    <string name="send"> Отправить </string>
+    <string name="facebook_login_header"> Войти в Facebook </string>
+    <string name="SocialSharingPostTemplateText"> мне нужна помощь по продукции: </string>
+
+    <!-- BazzarVoice Screen   null -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Rédiger un avis </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Avant de commencer, consultez nos directives : </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Nous voulons publier votre avis, alors suivez ces directives : </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Votre avis doit concerner le produit. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Évitez de donner votre avis sur le service client ; contactez-nous directement. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Évitez de mentionner le nom de nos concurrents ou le prix que vous avez payé. </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> N\'incluez aucune information permettant de vous identifier personnellement. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> D\'accord ! </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Rédiger un avis </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Attribuez une note au produit </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Votre avis  </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Résumé de l\'avis </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Écrivez votre avis ici </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Choisissez un pseudo : </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Pas votre vrai nom </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> Votre e-mail </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Vérifiez que vous avez accès </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> J\'ai lu et j\'accepte les  </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> Conditions générales * </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Aperçu </string>
+    <string name="EmptyField_ErrorMsg"> Необходимо заполнить поле </string>
+    <string name="kemailFieldErrorText"> Укажите действующий адрес электронной почты. </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Votre avis : </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Tout est bien correct ? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Note : </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Résumé de l\'avis : </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Avis : </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Pseudo : </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> E-mail </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Soumettre mon avis </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Merci ! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Nous avons bien reçu votre avis ! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Merci d\'avoir pris le temps d\'écrire cet avis. Nous vous préviendrons lorsque nous le publierons. </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Retour à l\'assistance </string>
+
+    <!-- bazzarvoice_rating_alert   null -->
+
+    <!-- bazzarvoice_terms_conditions_alert   null -->
+
+    <!-- bazzarvoice_description_alert   null -->
+
+    <!-- Registration Screen   null -->
+    <string name="login_to_social_media"> Войти в учетную запись соц. сети? </string>
+    <string name="twitter"> Twitter </string>
+    <string name="facebook"> Facebook </string>
+    <string name="linkedin"> LinkedIn </string>
+    <string name="googleplus"> Google Plus </string>
+    <string name="login_with_philips_account"> Или войдите с помощью My Philips </string>
+    <string name="email"> Эл. почта </string>
+    <string name="password"> Пароль </string>
+    <string name="sign_into_my_philips"> Войти в My Philips </string>
+    <string name="forgot_my_password"> Я забыл(-а) пароль &gt;  </string>
+    <string name="create_account"> Создать уч. запись &gt; </string>
+
+    <string name="localtephilips_contactus">Page de contact</string>
+
+    <string name="FAQ_KEY">Ответы на часто задаваемые вопросы</string>
+    <string name="QUESTION_KEY">Вопросы и ответы</string>
+    <string name="NO_PRODUCT_KEY">Нет доступных продуктов</string>
+    <string name="NO_SUPPORT_KEY">Поддержка недоступна</string>
+    <string name="FAQ_KEY_TABLET">Часто задаваемые вопросы</string>
+
+    <string name="ManualDownLoadConfirmMessage">Нажмите OK, чтобы загрузить руководство в %s языке</string>
+    <string name="download_ticker">Скачивая Справочное руководство</string>
+    <string name="download_complete">Скачать Завершен</string>
+    <string name="download_error">Ошибка загрузки</string>
+    <string name="PdfWarningMessage">Пожалуйста, установите Adobe Reader для просмотра руководства в формате PDF.</string>
+
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">Facebook</string>
+    <string name="dcc_send_us_message">Или отправить сообщение</string>
+    <string name="dcc_get_in_touch">Поговорите со специалистом</string>
+    <string name="dcc_help_and_Answer">Мы всегда готовы помочь и ответить на любые ваши вопросы.</string>
+    <string name="dcc_send_email">Электронная почта</string>
+    <string name="dcc_call_number">Позвонить нам</string>
+    <string name="dcc_chat_to_us">Напишите нам</string>
+    <string name="dcc_chat_desc">Круглосуточный чат со специалистом по продукции доступен ежедневно на английском языке. </string>
+    <string name="dcc_remove_photo">Удалить фотографию</string>
+    <string name="dcc_continue">Продолжить</string>
+    <string name="dcc_characters_left">символов осталось</string>
+    <string name="dcc_your_message">Ваше сообщение</string>
+    <string name="dcc_tellUs_header">Поделитесь своими впечатлениями</string>
+    <string name="dcc_tellUs_sub_header">Оставьте отзыв или оцените приложение. Нам важно ваше мнение.</string>
+    <string name="dcc_write_review">Написать отзыв</string>
+    <string name="dcc_rate_this_app">Оценить это приложение</string>
+    <string name="dcc_productDownloadManual">Загрузка инструкции по эксплуатации</string>
+    <string name="dcc_productInformationOnWebsite">Перейти на веб-сайт</string>
+    <string name="dcc_show_all">Показать все</string>
+    <string name="dcc_show_less">Показать меньше данных</string>
+    <string name="dcc_Call_not_Supported">Звонок не поддерживается</string>
+    <string name="dcc_Turn_On_Location_Service">Для активации перейдите в раздел \"Настройки\" и разрешите передачу данных о местоположении для этого приложения.</string>
+    <string name="dcc_No_Service_Url">Нет доступного URL для сервиса</string>
+    <string name="dcc_No_Product_Information">Сведения о продукте недоступны для данной модели</string>
+    <string name="dcc_Allow_Acess_Twitter">Разрешить пользователю приложения доступ к учетной записи Twitter</string>
+    <string name="dcc_No_Facebook_Key">Учетные записи Facebook не найдены</string>
+    <string name="dcc_About_App">Информация о приложении</string>
+    <string name="dcc_Help_Support">Справка и поддержка</string>
+    <string name="dcc_Call">Позвонить</string>
+    <string name="dcc_Opening_Hours">Часы работы</string>
+
+</resources>

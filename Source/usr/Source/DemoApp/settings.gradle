@@ -1,0 +1,15 @@
+include ':app'
+
+include 'usrUApp'
+project (':usrUApp').projectDir=new File('../DemoUApp/DemoUApp')
+include 'hsdp'
+project (':hsdp').projectDir=new File('../Library/hsdp')
+include 'jump'
+project (':jump').projectDir=new File('../Library/jump')
+include 'RegistrationApi'
+project (':RegistrationApi').projectDir=new File('../Library/RegistrationApi')
+include 'coppa'
+project (':coppa').projectDir=new File('../Library/coppa')
+
+include 'RegistrationCoppaSampleApp'
+project (':RegistrationCoppaSampleApp').projectDir=new File('../Library/RegistrationCoppaSampleApp')

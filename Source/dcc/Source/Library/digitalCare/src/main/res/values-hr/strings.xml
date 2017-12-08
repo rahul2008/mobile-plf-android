@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Key"> Croatian </string>
+    <string name="key"> hr </string>
+
+    <!-- Common   null -->
+    <string name="img_description"> opis </string>
+    <string name="no_internet"> Nema internetske veze. Provjerite stanje svoje veze u Wi-Fi postavkama ili podatkovnim postavkama telefona </string>
+
+    <!-- Support Home Screen    null -->
+    <string name="how_can_we_help"> Kako vam možemo pomoći? </string>
+    <string name="contact_us"> Kontaktirajte nas </string>
+    <string name="view_product_details"> Prikaz informacija o proizvodu </string>
+    <string name="view_faq"> Pročitajte najčešća pitanja </string>
+    <string name="find_philips_near_you"> Pronađite Philips u svojoj blizini </string>
+    <string name="feedback"> Dajte nam do znanja što mislite </string>
+    <string name="registration"> Registrirajte svoj proizvod </string>
+    <string name="actionbar_title_support"> Podrška </string>
+    <string name="product_info"> informacije o proizvodu </string>
+    <!-- Locate Near You Screen   null -->
+    <string name="loading"> Učitavanje </string>
+    <string name="please_wait"> Pričekajte &amp;#8230; </string>
+    <string name="get_directions"> Zatražite upute </string>
+    <string name="search"> Traži </string>
+    <string name="gps_disabled"> GPS je onemogućen na vašem uređaju. Želite li ga omogućiti? </string>
+    <string name="servicecenters_not_found"> Nema servisnih centara u vašoj državi  </string>
+    <string name="no_data"> Podaci nisu dostupni </string>
+    <string name="locate_philips_popup_legal"> Kada koristite funkciju &quot;Pronađite Philips u svojoj blizini&quot; na stranici podrške, morate podijeliti svoje podatke o lokaciji s tvrtkom Philips. Na temelju vaših podataka o lokaciji usmjerit ćemo vas u prodavaonicu u vašoj blizini ili na podatke za kontakt službe za korisničku podršku u vašoj državi </string>
+
+    <!-- ContactUs Screen   null -->
+    <string name="leave_us_a_message"> Ostavite nam poruku: </string>
+    <string name="contact_us_text"> Obratite nam se: </string>
+    <string name="opening_hours"> Radno vrijeme </string>
+    <string name="live_chat"> Razgovor uživo </string>
+    <string name="send_email"> Pošaljite poruku e-pošte </string>
+    <string name="call_number"> Pozovi </string>
+    <string name="chat_with_philips"> Razgovarajte s tvrtkom Philips </string>
+    <string name="check_sim"> Nije prepoznata SIM kartica. Provjerite je li pravilno umetnuta </string>
+    <string name="no_data_available"> Podaci nisu dostupni </string>
+    <string name="send_us_email"> Pošaljite nam poruku e-pošte </string>
+
+    <!-- Live Chat Screen   null -->
+    <string name="can_we_help_you"> Možemo li vam pomoći? </string>
+    <string name="chat_now"> Razgovarajte sada </string>
+    <string name="no_thanks"> Ne, hvala </string>
+    <string name="chat_desc"> Započnite razgovor uživo s našim stručnjak za proizvode. Dostupno na engleskom 24/7 </string>
+
+    <!-- View Product Details Screen   null -->
+    <string name="product_view_videos"> Videozapisi o proizvodima </string>
+    <string name="product_open_manual"> Otvori interaktivni priručnik </string>
+    <string name="product_download_manual"> Preuzmi priručnik za proizvod </string>
+    <string name="product_information"> Informacije o proizvodima (na adresi philips.com) </string>
+
+    <!-- Rate This Application   null -->
+    <string name="rate_playstore_headertext"> Kako biste ocijenili ovu aplikaciju? </string>
+    <string name="rate_playstore_buttontext"> Napišite recenziju aplikacije </string>
+    <string name="rate_philips_headertext"> Pošaljite recenziju proizvoda </string>
+    <string name="rate_philips_description"> Napišite recenziju i pomognite drugim ljudima da donesu odgovarajuću odluku </string>
+    <string name="rate_philips_buttontext"> Prijavite se na račun My Philips </string>
+
+    <!-- reviewandrewards   null -->
+
+    <!-- Twitter Screen   null -->
+    <string name="twitter_login_header"> Prijavi se na Twitter </string>
+    <string name="twitter_login_hint_username"> Korisničko ime </string>
+    <string name="twitter_login_hint_password"> Lozinka </string>
+    <string name="twiiter_login_logo_description"> Logotip Twitter </string>
+    <string name="twitter_post_progress_message"> Poruka se šalje u odjel podrške tvrtke Philips za Twitter… </string>
+    <string name="twitter_post_char_limitation"> Napominjemo kako vaša poruka ne može biti dulja od 140 znakova </string>
+
+    <!-- Social post   null -->
+    <string name="social_post_to"> Pošalji poruku tvrtki Philips </string>
+    <string name="social_post_desc_text"> Uključi informacije o proizvodu </string>
+    <string name="cancel"> Odustani </string>
+    <string name="take_photo"> Snimi fotografiju </string>
+    <string name="choose_from_library"> Odaberi iz biblioteke </string>
+    <string name="social_post_failed"> Došlo je do pogreške..  </string>
+    <string name="support_productinformation"> možete li mi pomoći sa sljedećim: </string>
+    <string name="social_post_success"> Vaša je poruka primljena! </string>
+    <string name="post"> Objavi </string>
+    <string name="send"> Pošalji </string>
+    <string name="facebook_login_header"> Prijavite se na Facebook </string>
+    <string name="SocialSharingPostTemplateText"> možete li mi pomoći sa sljedećim: </string>
+
+    <!-- BazzarVoice Screen   null -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Napišite recenziju </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Prije početka pročitajte naše smjernice: </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Želimo objaviti vašu recenziju; slijedite ove smjernice: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Neka vaša recenzija bude fokusirana na proizvod. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Nemojte pisati o službi za korisnike; obratite nam se ako imate problema koji zahtijevaju našu neposrednu pažnju. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Nemojte spominjati konkurentske tvrtke ili točan iznos koji ste platili za proizvod </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Nemojte navoditi osobne podatke, primjerice imena i prezimena. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> U redu, shvaćam! </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Napišite recenziju </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Ocijenite ovaj proizvod </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Vaša recenzija </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Sažetak recenzije </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Ovdje napišite recenziju </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Odaberite nadimak: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Ne pravo ime </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> Vaša adresa e-pošte </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Provjerite imate li pristup </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Pročitao/la sam odredbe i  </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> uvjete i prihvaćam ih </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Pregled </string>
+    <string name="EmptyField_ErrorMsg"> Polje ne smije biti prazno </string>
+    <string name="kemailFieldErrorText"> Unesite valjanu adresu e-pošte. </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Vaša recenzija: </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Je li sve točno? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Ocjena: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Sažetak recenzija: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Recenzija: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Nadimak: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> E-pošta </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Pošalji moju recenziju </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Hvala vam! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Hvala! Primili smo vašu recenziju! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Hvala vam što ste odvojili vrijeme za pisanje ove recenzije. Pregledat ćemo je i obavijestiti vas kada je objavimo! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Natrag na podršku </string>
+
+    <!-- bazzarvoice_rating_alert   null -->
+
+    <!-- bazzarvoice_terms_conditions_alert   null -->
+
+    <!-- bazzarvoice_description_alert   null -->
+
+    <!-- Registration Screen   null -->
+    <string name="login_to_social_media"> Želite li se prijaviti pomoću računa društvene mreže? </string>
+    <string name="twitter"> Na Twitteru </string>
+    <string name="facebook"> Na Facebooku </string>
+    <string name="linkedin"> Na LinkedInu </string>
+    <string name="googleplus"> Na mreži Google Plus </string>
+    <string name="login_with_philips_account"> Ili se prijavite pomoću My Philips računa </string>
+    <string name="email">  Adresa e-pošte </string>
+    <string name="password"> Lozinka </string>
+    <string name="sign_into_my_philips"> Prijavite se na račun My Philips </string>
+    <string name="forgot_my_password"> Zaboravio/la sam svoju lozinku &gt;  </string>
+    <string name="create_account">  Izrada računa &gt; </string>
+
+    <string name="localtephilips_contactus">Idi na stranicu za kontakt</string>
+
+    <string name="FAQ_KEY">Najčešća pitanja</string>
+    <string name="QUESTION_KEY">Pitanje i odgovor</string>
+    <string name="NO_PRODUCT_KEY">Nema dostupnih proizvoda</string>
+    <string name="NO_SUPPORT_KEY">Nema dostupne podrške</string>
+    <string name="FAQ_KEY_TABLET">Česta pitanja
+</string>
+
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">Facebook</string>
+    <string name="dcc_send_us_message">Možete i poslati poruku</string>
+    <string name="dcc_get_in_touch">Porazgovarajte s članom tima</string>
+    <string name="dcc_help_and_Answer">Ovdje smo kako bismo vam pomogli i odgovorili na vaša pitanja.</string>
+    <string name="dcc_send_email">E-pošta</string>
+    <string name="dcc_call_number">Nazovite nas</string>
+    <string name="dcc_chat_to_us">Razgovarajte s nama</string>
+    <string name="dcc_chat_desc">Razgovarajte na engleskom 24/7 s jednim od naših stručnjaka za proizvode. </string>
+    <string name="dcc_remove_photo">Ukloni fotografiju</string>
+    <string name="dcc_continue">Nastavi</string>
+    <string name="dcc_characters_left">preostalo znakova</string>
+    <string name="dcc_your_message">Poruka</string>
+    <string name="dcc_tellUs_header">Podijelite svoja iskustva</string>
+    <string name="dcc_tellUs_sub_header">Napišite recenziju ili ocijenite ovu aplikaciju. Vaše su nam povratne informacije bitne.</string>
+    <string name="dcc_write_review">Napišite recenziju</string>
+    <string name="dcc_rate_this_app">Ocijenite ovu aplikaciju</string>
+    <string name="dcc_productDownloadManual">Preuzmi priručnik</string>
+    <string name="dcc_productInformationOnWebsite">Posjetite web-mjesto proizvoda</string>
+    <string name="dcc_show_all">Prikaži sve</string>
+    <string name="dcc_show_less">Prikaži manje</string>
+    <string name="dcc_Call_not_Supported">Pozivi nisu podržani</string>
+    <string name="dcc_Turn_On_Location_Service">Za ponovno omogućavanje odaberite Postavke i uključite uslugu praćenja lokacije za ovu aplikaciju.</string>
+    <string name="dcc_No_Service_Url">URL usluge nedostupan</string>
+    <string name="dcc_No_Product_Information">Za ovaj model nisu dostupne informacije o proizvodu</string>
+    <string name="dcc_Allow_Acess_Twitter">Za upotrebu svog Twitter računa dopustite pristup korisnika aplikaciji</string>
+    <string name="dcc_No_Facebook_Key">Nema Facebook računa</string>
+    <string name="dcc_About_App">Više informacija o aplikaciji</string>
+    <string name="dcc_Help_Support">Pomoć i podrška</string>
+    <string name="dcc_Call">Pozovi</string>
+    <string name="dcc_Opening_Hours">Radno vrijeme</string>
+
+</resources>

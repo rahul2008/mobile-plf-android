@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/faq_list_item_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/faq_list_item_header_title"
+            style="@style/UIDLabel.RecyclerViewHeaderText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentLeft="true"
+            android:background="?attr/uidContentSecondaryBackgroundColor"
+            android:gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/faq_list_item_header_show_more_less"
+            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/uid_recyclerview_header_height"
+            android:text="@string/dcc_show_all" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/faq_list_item_recycle_view"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

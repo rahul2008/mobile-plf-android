@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
+
+    <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        map:cameraBearing="45"
+        map:cameraTargetLat="12.920102"
+        map:cameraTargetLng="77.571412"
+        map:cameraTilt="0"
+        map:cameraZoom="13"
+        map:mapType="normal"
+        map:uiCompass="true"
+        map:uiRotateGestures="true"
+        map:uiScrollGestures="true"
+        map:uiTiltGestures="true"
+        map:uiZoomControls="false"
+        map:uiZoomGestures="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/consumercare_locate_search" />
+
+        <ListView
+            android:id="@+id/placelistview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="12dip"
+            android:layout_marginRight="12dip"
+            android:background="@android:color/white"
+            android:dividerHeight="@dimen/uid_divider_Height" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/locate_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/locate_near_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:indeterminateOnly="true" />
+
+        <ScrollView
+            android:id="@+id/locationDetailScroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/showLayoutscroll_margin_top">
+
+            <LinearLayout
+                android:id="@+id/showlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:background="?attr/uidContentPrimaryBackgroundColor"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/showlayout_padding_bottom"
+                android:paddingLeft="@dimen/showlayout_padding_left"
+                android:paddingRight="@dimen/showlayout_padding_right"
+                android:paddingTop="@dimen/showlayout_padding_top"
+                android:visibility="gone">
+
+                <!-- Title -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="4">
+
+                    <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/show_place_title"
+                        style="@style/UIDLabel"
+                        fontPath="fonts/centralesansbold.ttf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text=""
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:id="@+id/close_icon"
+                        android:layout_width="29dip"
+                        android:layout_height="20dip"
+                        android:layout_weight="1"
+                        fontPath="fonts/iconfont.ttf"
+                        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+                        android:text="@string/dls_cross_24"/>
+                </LinearLayout>
+
+
+                <!-- Address -->
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/show_place_address"
+                    style="@style/UIDLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:text=""/>
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/shop_details_url"
+                    style="@style/UIDLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp" />
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/getdirection"
+                    style="@style/UIDImageTextButton.Center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="@string/get_directions"/>
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/call"
+                    style="@style/UIDImageTextButton.Center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:gravity="center"
+                    android:text="@string/call"
+                    custom:uidComponentType="Secondary"/>
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/contactUsOpeningHours"
+                    style="@style/UIDLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"/>
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/firstRowText"
+                    style="@style/UIDLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    fontPath="fonts/centralesansbook.ttf" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/secondRowText"
+                    style="@style/UIDLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"
+                    fontPath="fonts/centralesansbook.ttf" />
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+</FrameLayout>

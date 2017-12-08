@@ -1,0 +1,10 @@
+{
+    "errors": [
+    {
+    "message": "No cart created yet.",
+    "subject": "Hybris Error",
+    "reason": "Hybris Server Down",
+    "type": "Hybris"
+    }
+    ]
+    }

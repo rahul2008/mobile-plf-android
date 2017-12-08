@@ -1,0 +1,232 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="reg_style_tab_hint">
+        <item name="android:textSize">@dimen/btn_reg_text_size</item>
+        <item name="android:paddingLeft">@dimen/reg_home_tiltle_padding</item>
+        <item name="android:paddingRight">@dimen/reg_home_tiltle_padding</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <!-- Divider -->
+    <style name="reg_line">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/reg_devider_color</item>
+        <item name="android:layout_marginTop">@dimen/reg_margin_bottom</item>
+        <item name="android:layout_marginBottom">@dimen/reg_margin_bottom</item>
+    </style>
+
+    <style name="reg_textStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center|left</item>
+        <item name="android:layout_marginBottom">@dimen/reg_margin_bottom</item>
+        <item name="android:textColor">@color/reg_text_heading_one_color</item>
+        <item name="android:textSize">@dimen/reg_title_text_size_medium</item>
+    </style>
+
+    <style name="reg_text_description">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center|left</item>
+        <item name="android:textColor">@color/reg_text_desc_color</item>
+        <item name="android:paddingTop">@dimen/reg_margin_bottom</item>
+        <item name="android:paddingBottom">@dimen/reg_margin_bottom</item>
+        <item name="android:paddingLeft">@dimen/reg_layout_margin</item>
+        <item name="android:paddingRight">@dimen/reg_layout_margin</item>
+        <item name="android:textSize">@dimen/reg_title_text_size_small</item>
+    </style>
+
+    <style name="reg_text_background">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/reg_text_desc_bg</item>
+        <item name="android:layout_marginTop">@dimen/reg_common_margin_top</item>
+    </style>
+
+    <style name="reg_titleTextStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center|left</item>
+        <item name="android:textColor">@color/reg_text_heading_one_color</item>
+        <item name="android:textSize">@dimen/reg_dimen_20dp</item>
+        <item name="android:layout_marginTop">@dimen/reg_header_margin_top</item>
+        <item name="android:paddingLeft">@dimen/reg_layout_margin</item>
+        <item name="android:paddingRight">@dimen/reg_layout_margin</item>
+    </style>
+
+    <style name="reg_error_textStyle">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/reg_title_text_size_medium</item>
+    </style>
+
+    <style name="reg_forgot_password">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/reg_btn_secondary_text_selector</item>
+        <item name="android:textSize">@dimen/btn_reg_text_size</item>
+    </style>
+
+    <!-- Header style -->
+    <style name="reg_style_homescreen_title">
+        <item name="android:textSize">@dimen/reg_header_title_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- Small Button Style -->
+    <style name="reg_style_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/reg_btn_selector</item>
+        <item name="android:paddingBottom">@dimen/reg_btn_padding_top</item>
+        <item name="android:paddingTop">@dimen/reg_btn_padding_top</item>
+        <item name="android:paddingLeft">@dimen/reg_btn_padding_left</item>
+        <item name="android:paddingRight">@dimen/reg_btn_padding_left</item>
+        <item name="android:minHeight">@dimen/reg_btn_height</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:textColor">@drawable/reg_btn_text_selector</item>
+        <item name="android:textSize">@dimen/btn_reg_text_size</item>
+    </style>
+
+    <style name="reg_password_hint_text">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">left</item>
+
+        <item name="android:layout_marginBottom">5dip</item>
+        <item name="android:textColor">@color/reg_text_desc_color</item>
+        <item name="android:textSize">@dimen/reg_title_text_size_small</item>
+    </style>
+
+    <style name="reg_password_hint_title_text">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">left</item>
+        <item name="android:layout_marginTop">5dip</item>
+        <item name="android:layout_marginBottom">5dip</item>
+        <item name="android:textColor">@color/reg_text_desc_color</item>
+        <item name="android:textSize">@dimen/reg_title_text_size_small</item>
+    </style>
+
+    <style name="reg_correct_incorrect_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">left</item>
+        <item name="android:layout_marginTop">5dip</item>
+        <item name="android:layout_marginBottom">5dip</item>
+        <item name="android:textSize">@dimen/reg_password_hint_correct_text_size</item>
+    </style>
+
+    <style name="reg_custom_dialog" parent="android:style/Theme.Dialog">
+        <item name="android:alertDialogStyle">@style/reg_custom_alert_dialog_style</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="reg_custom_alert_dialog_style">
+        <item name="android:bottomBright">@color/transparent</item>
+        <item name="android:bottomDark">@color/transparent</item>
+        <item name="android:bottomMedium">@color/transparent</item>
+        <item name="android:centerBright">@color/transparent</item>
+        <item name="android:centerDark">@color/transparent</item>
+        <item name="android:centerMedium">@color/transparent</item>
+        <item name="android:fullBright">@color/transparent</item>
+        <item name="android:fullDark">@color/transparent</item>
+        <item name="android:topBright">@color/transparent</item>
+        <item name="android:topDark">@color/transparent</item>
+    </style>
+
+    <!-- Custom Alert Dialog Style-->
+    <style name="reg_Custom_Dialog_Style">
+        <item name="android:bottomBright">@color/transparent</item>
+        <item name="android:bottomDark">@color/transparent</item>
+        <item name="android:bottomMedium">@color/transparent</item>
+        <item name="android:centerBright">@color/transparent</item>
+        <item name="android:centerDark">@color/transparent</item>
+        <item name="android:centerMedium">@color/transparent</item>
+        <item name="android:fullBright">@color/transparent</item>
+        <item name="android:fullDark">@color/transparent</item>
+        <item name="android:topBright">@color/transparent</item>
+        <item name="android:topDark">@color/transparent</item>
+    </style>
+
+    <style name="reg_Custom_loaderTheme" parent="android:Theme.Holo.Dialog">
+        <item name="android:alertDialogStyle">@style/reg_Custom_Dialog_Style</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <!-- Small Button Style -->
+    <style name="reg_mobile_verfiy_style_btn">
+        <item name="android:layout_width">70dip</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/reg_btn_selector</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:layout_margin">@dimen/reg_coppa_layout_margin</item>
+        <item name="android:textColor">@drawable/reg_btn_text_selector</item>
+        <item name="android:textSize">@dimen/btn_reg_text_size</item>
+    </style>
+
+    <style name="NotificationBarTitle">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="android:textSize">@dimen/uid_notification_bar_title_text_size</item>
+        <item name="android:textColor">@drawable/reg_btn_text_selector</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:layout_marginTop">@dimen/uid_notification_bar_margin</item>
+        <item name="android:layout_marginStart">@dimen/uid_notification_bar_margin</item>
+        <item name="android:layout_marginEnd">@dimen/uid_notification_bar_margin</item>
+        <item name="android:lineSpacingExtra">@dimen/uid_notification_bar_line_spacing</item>
+        <item name="android:lineSpacingMultiplier">
+            @integer/uid_notification_bar_line_space_multiplier
+        </item>
+    </style>
+
+    <style name="NotificationBarContent" >
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textColor">@drawable/reg_btn_text_selector</item>
+        <item name="android:textSize">@dimen/uid_notification_bar_content_text_size</item>
+        <item name="android:layout_marginTop">@dimen/uid_notification_bar_margin_top_content</item>
+    </style>
+    <style name="NotificationBarCloseButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:padding">@dimen/uid_notification_bar_margin</item>
+        <item name="android:tint">@drawable/reg_btn_text_selector</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="line_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dip</item>
+        <item name="android:background">@color/uid_gray_level_10</item>
+    </style>
+
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/parent_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:padding="4dp">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/dialogTitle"
+            style="@style/UIDLabel.ProductRegistrationProductHeaderTitleTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
+            android:textSize="24sp" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/dialogDescription"
+            style="@style/UIDLabel.ProductRegistrationProductSubTitleTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/pr_registration_margin_top"
+            android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
+            android:textSize="16sp" />
+
+        <!--<com.philips.platform.uid.view.widget.Button-->
+            <!--android:id="@+id/dialogButtonOK"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="@dimen/pr_registration_margin_top"-->
+            <!--android:gravity="center"-->
+            <!--android:text="@string/PPR_OK"-->
+            <!--android:textSize="12sp" />-->
+
+    </LinearLayout>
+</FrameLayout>

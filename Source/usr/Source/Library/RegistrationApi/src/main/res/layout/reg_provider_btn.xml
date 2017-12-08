@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:reglib="http://reg.lib/schema"
+    android:id="@+id/fl_reg_provider_bg"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/reg_margin_bottom"
+    android:background="@drawable/reg_btn_social_selector"
+    android:duplicateParentState="true">
+
+    <com.philips.cdp.registration.ui.customviews.XIconTextView
+        android:id="@+id/iv_reg_provider_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:contentDescription="@string/content_desc"
+        android:duplicateParentState="true"
+        android:padding="7dip"
+        android:text="@string/ic_reg_shield"
+        android:textColor="@color/reg_provider_icon_color"
+        android:textSize="@dimen/reg_provider_icon_size" />
+
+    <com.philips.cdp.registration.ui.customviews.XTextView
+        android:id="@+id/tv_reg_provider_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="46dip"
+        android:duplicateParentState="true"
+        android:gravity="left|center_vertical"
+        android:minHeight="@dimen/reg_btn_height"
+        android:minWidth="0dip"
+        android:paddingLeft="2dip"
+        android:paddingRight="2dip"
+        android:text="@string/reg_myphilips"
+        android:textColor="@drawable/reg_btn_text_selector"
+        android:textSize="@dimen/btn_reg_text_size"
+        reglib:fontAssetName="CentraleSans-Light.otf" />
+
+    <ProgressBar
+        android:id="@+id/pb_reg_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/reg_btn_height"
+        android:layout_gravity="center_horizontal"
+        android:padding="@dimen/reg_pb_padding"
+        android:visibility="gone" />
+
+</FrameLayout>

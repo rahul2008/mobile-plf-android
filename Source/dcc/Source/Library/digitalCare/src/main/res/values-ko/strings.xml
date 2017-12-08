@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Key"> Korean </string>
+    <string name="key"> ko </string>
+
+    <!-- Common   null -->
+    <string name="img_description"> 설명 </string>
+    <string name="no_internet"> 인터넷이 연결되지 않았습니다. 휴대폰의 WiFi 설정 또는 데이터 설정에서 연결이 되어 있는지 확인하십시오. </string>
+
+    <!-- Support Home Screen    null -->
+    <string name="how_can_we_help"> 무엇을 도와 드릴까요? </string>
+    <string name="contact_us"> 문의처 </string>
+    <string name="view_product_details"> 제품 정보 보기 </string>
+    <string name="view_faq"> FAQ 읽기 </string>
+    <string name="find_philips_near_you"> 가까운 필립스 찾기 </string>
+    <string name="feedback"> 의견 남기기 </string>
+    <string name="registration"> 제품 등록하기 </string>
+    <string name="actionbar_title_support"> 지원 </string>
+    <string name="product_info"> 제품 정보 </string>
+    <!-- Locate Near You Screen   null -->
+    <string name="loading"> 로딩중 </string>
+    <string name="please_wait"> 잠시 기다려 주십시오. &amp;#8230; </string>
+    <string name="get_directions"> 길 찾기 </string>
+    <string name="search"> 검색 </string>
+    <string name="gps_disabled"> 장치의 GPS가 비활성화되어 있습니다. GPS를 활성화하시겠습니까? </string>
+    <string name="servicecenters_not_found"> 해당 국가에 서비스 센터 없음  </string>
+    <string name="no_data"> 사용 가능한 데이터 없음 </string>
+    <string name="locate_philips_popup_legal"> 지원 페이지의 \'가까운 필립스 위치 찾기\' 기능을 사용하는 경우, 귀하는 필립스와 위치 데이터를 공유하도록 요청 받습니다. 귀하의 위치 데이터에 따라 가까운 상점이 안내되거나 해당 국가의 고객 상담실 연락처 세부 사항이 안내됩니다. </string>
+
+    <!-- ContactUs Screen   null -->
+    <string name="leave_us_a_message"> 메시지 남기기: </string>
+    <string name="contact_us_text"> 문의처: </string>
+    <string name="opening_hours"> 시작 시간 </string>
+    <string name="live_chat"> 실시간 채팅 </string>
+    <string name="send_email"> 이메일 보내기 </string>
+    <string name="call_number"> 통화 </string>
+    <string name="chat_with_philips"> 필립스 담당자와 채팅 </string>
+    <string name="check_sim"> SIM 카드가 감지되지 않았습니다. 카드가 제대로 꽂혀 있는지 확인하십시오. </string>
+    <string name="no_data_available"> 사용 가능한 데이터 없음 </string>
+    <string name="send_us_email"> 이메일을 보내주십시오. </string>
+
+    <!-- Live Chat Screen   null -->
+    <string name="can_we_help_you"> 무엇을 도와드릴까요? </string>
+    <string name="chat_now"> 지금 대화하기 </string>
+    <string name="no_thanks"> 사용 안 함 </string>
+    <string name="chat_desc"> 제품 전문가와 실시간 채팅을 시작하세요. 연중무휴 영어로 지원됩니다. </string>
+
+    <!-- View Product Details Screen   null -->
+    <string name="product_view_videos"> 제품 동영상 </string>
+    <string name="product_open_manual"> 인터액티브 설명서 열기 </string>
+    <string name="product_download_manual"> 제품 설명서 다운로드 </string>
+    <string name="product_information"> 제품 정보(philips.com) </string>
+
+    <!-- Rate This Application   null -->
+    <string name="rate_playstore_headertext"> 이 앱을 어떻게 평가하십니까? </string>
+    <string name="rate_playstore_buttontext"> 앱 리뷰 작성 </string>
+    <string name="rate_philips_headertext"> 제품 리뷰 제출 </string>
+    <string name="rate_philips_description"> 다른 고객들을 위해 리뷰를 작성해 주세요. </string>
+    <string name="rate_philips_buttontext"> My Philips에 로그인 </string>
+
+    <!-- reviewandrewards   null -->
+
+    <!-- Twitter Screen   null -->
+    <string name="twitter_login_header"> Twitter에 로그인 </string>
+    <string name="twitter_login_hint_username"> 아이디 </string>
+    <string name="twitter_login_hint_password"> 암호 </string>
+    <string name="twiiter_login_logo_description"> Twitter 로고 </string>
+    <string name="twitter_post_progress_message"> 필립스 Twitter 지원 센터에 메시지 전송 중… </string>
+    <string name="twitter_post_char_limitation"> 메시지는 140자를 초과할 수 없습니다. </string>
+
+    <!-- Social post   null -->
+    <string name="social_post_to"> 필립스로 메시지 보내기 </string>
+    <string name="social_post_desc_text"> 제품 정보 포함 </string>
+    <string name="cancel"> 취소 </string>
+    <string name="take_photo"> 사진 촬영 </string>
+    <string name="choose_from_library"> 라이브러리에서 선택 </string>
+    <string name="social_post_failed"> 오류가 발생했습니다.  </string>
+    <string name="support_productinformation"> 지원 대상 선택 </string>
+    <string name="social_post_success"> 메시지가 수신되었습니다! </string>
+    <string name="post"> 게시 </string>
+    <string name="send"> 보내기 </string>
+    <string name="facebook_login_header"> Facebook에 로그인 </string>
+    <string name="SocialSharingPostTemplateText"> can you help me with my </string>
+
+    <!-- BazzarVoice Screen   null -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> 리뷰 작성 </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> 시작하기 전에 당사의 지침을 읽어 주십시오. </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> 리뷰가 게시될 수 있도록 다음 지침에 유의해 주시기 바랍니다. </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> 리뷰 내용의 초점을 제품에 맞추십시오. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> 고객 서비스에 대한 내용은 작성하지 마십시오. 즉각적인 조치가 필요한 문제가 있을 경우 당사에 문의해 주십시오. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> 경쟁업체나 제품에 지불한 구체적인 가격은 언급하지 마십시오. </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> 고객님의 전체 이름과 같이 신원 확인이 가능한 정보는 포함하지 마십시오. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> 네, 알겠습니다. </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> 리뷰 작성 </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> 제품을 평가해 주십시오. </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> 리뷰 </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> 리뷰 요약 </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> 여기에 리뷰 작성 </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> 닉네임 선택: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> 실제 이름 아님 </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> 이메일 </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> 액세스 권한이 있는지 확인하십시오. </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> 이용 약관을 읽었으며 이 </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> 에 동의합니다. </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> 미리보기 </string>
+    <string name="EmptyField_ErrorMsg"> 필드 입력 필수 </string>
+    <string name="kemailFieldErrorText"> 유효한 이메일 주소를 입력하십시오. </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> 리뷰: </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> 모든 내용이 정확합니까? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> 평가: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> 리뷰 요약: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> 리뷰: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> 닉네임: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> 이메일 </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> 리뷰 제출 </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> 감사합니다! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> 리뷰가 접수되었습니다. </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> 리뷰를 작성해 주셔서 감사합니다. 검토 후 리뷰를 온라인에서 게시되면 알려드리겠습니다. </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> 지원으로 돌아가기 </string>
+
+    <!-- bazzarvoice_rating_alert   null -->
+
+    <!-- bazzarvoice_terms_conditions_alert   null -->
+
+    <!-- bazzarvoice_description_alert   null -->
+
+    <!-- Registration Screen   null -->
+    <string name="login_to_social_media"> 소셜 미디어 계정으로 로그인합니까? </string>
+    <string name="twitter"> Twitter </string>
+    <string name="facebook"> Facebook </string>
+    <string name="linkedin"> LinkedIn </string>
+    <string name="googleplus"> Google Plus </string>
+    <string name="login_with_philips_account"> 또는 My Philips 계정으로 로그인 </string>
+    <string name="email"> 이메일 주소 </string>
+    <string name="password"> 암호 </string>
+    <string name="sign_into_my_philips"> My Philips에 로그인 </string>
+    <string name="forgot_my_password"> 암호를 잊어버렸습니다 &gt;  </string>
+    <string name="create_account"> 계정 만들기 &gt; </string>
+
+    <string name="localtephilips_contactus">문의 페이지로 이동</string>
+
+
+    <string name="FAQ_KEY">FAQ</string>
+    <string name="QUESTION_KEY">질문 및 답변</string>
+    <string name="NO_PRODUCT_KEY">사용 가능한 제품 없음</string>
+    <string name="NO_SUPPORT_KEY">이용 가능한 지원 없음</string>
+    <string name="FAQ_KEY_TABLET">자주 묻는 질문 (FAQ)
+</string>
+
+    <string name="dcc_twitter">Twitter</string>
+    <string name="dcc_facebook">Facebook</string>
+    <string name="dcc_send_us_message">또는 메시지 보내기</string>
+    <string name="dcc_get_in_touch">팀원과 상의하기</string>
+    <string name="dcc_help_and_Answer">여러분이 가질 수 있는 질문에 답을 드리고 지원을 제공하고자 합니다.</string>
+    <string name="dcc_send_email">이메일</string>
+    <string name="dcc_call_number">전화하기</string>
+    <string name="dcc_chat_to_us">채팅하기</string>
+    <string name="dcc_chat_desc">제품 전문가와 연중무휴 라이브챗(영어)이 가능합니다. </string>
+    <string name="dcc_remove_photo">사진 제거</string>
+    <string name="dcc_continue">계속</string>
+    <string name="dcc_characters_left">자 남음</string>
+    <string name="dcc_your_message">메시지</string>
+    <string name="dcc_tellUs_header">제품 경험 공유하기</string>
+    <string name="dcc_tellUs_sub_header">이 앱에 대한 리뷰와 평가를 남겨주세요. 여러분의 피드백은 소중합니다.</string>
+    <string name="dcc_write_review">리뷰 작성</string>
+    <string name="dcc_rate_this_app">이 앱 평가하기</string>
+    <string name="dcc_productDownloadManual">설명서 다운로드</string>
+    <string name="dcc_productInformationOnWebsite">제품 웹사이트 방문</string>
+    <string name="dcc_show_all">관련 제품 전체 보기</string>
+    <string name="dcc_show_less">접기</string>
+    <string name="dcc_Call_not_Supported">통화 지원 안 됨</string>
+    <string name="dcc_Turn_On_Location_Service">다시 설정하려면 설정으로 이동하여 이 앱의 위치 서비스를 켜십시오.</string>
+    <string name="dcc_No_Service_Url">사용 가능한 서비스 URL 없음</string>
+    <string name="dcc_No_Product_Information">이 모델에 대해 사용 가능한 제품 정보 없음</string>
+    <string name="dcc_Allow_Acess_Twitter">앱 사용자가 귀하의 Twitter 계정을 사용할 수 있도록 접근 허용</string>
+    <string name="dcc_No_Facebook_Key">Facebook 계정 없음</string>
+    <string name="dcc_About_App">이 앱 정보</string>
+    <string name="dcc_Help_Support">도움 및 지원</string>
+    <string name="dcc_Call">통화</string>
+    <string name="dcc_Opening_Hours">시작 시간</string>
+
+</resources>

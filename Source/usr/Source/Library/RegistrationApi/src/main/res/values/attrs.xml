@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="Reg_attr_style">
+        <attr name="reg_baseColor" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="VectorCompat">
+        <attr name="vc_tintMode" format="enum">
+            <enum name="src_over" value="3" />
+            <enum name="src_in" value="5" />
+            <enum name="src_atop" value="9" />
+            <enum name="multiply" value="14" />
+            <enum name="screen" value="15" />
+            <enum name="add" value="16" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="VectorCompatGroup">
+        <attr name="android:name" />
+        <attr name="android:rotation" />
+        <attr name="android:pivotX" />
+        <attr name="android:pivotY" />
+        <attr name="vc_translateX" format="float" />
+        <attr name="vc_translateY" format="float" />
+        <attr name="android:scaleX" />
+        <attr name="android:scaleY" />
+    </declare-styleable>
+    <declare-styleable name="VectorCompatClipPath">
+        <attr name="android:name" />
+        <attr name="vc_pathData" />
+    </declare-styleable>
+
+    <declare-styleable name="VectorCompatPath">
+        <attr name="android:name" />
+        <attr name="vc_strokeWidth" format="float" />
+        <attr name="vc_strokeColor" format="reference|color" />
+        <attr name="vc_strokeAlpha" format="float" />
+        <attr name="vc_fillColor" format="reference|color" />
+        <attr name="vc_fillAlpha" format="float" />
+        <attr name="vc_pathData" format="string" />
+        <attr name="vc_trimPathStart" format="float" />
+        <attr name="vc_trimPathEnd" format="float" />
+        <attr name="vc_trimPathOffset" format="float" />
+        <attr name="vc_strokeLineCap" format="enum">
+            <enum name="butt" value="0" />
+            <enum name="round" value="1" />
+            <enum name="square" value="2" />
+        </attr>
+        <attr name="vc_strokeLineJoin" format="enum">
+            <enum name="miter" value="0" />
+            <enum name="round" value="1" />
+            <enum name="bevel" value="2" />
+        </attr>
+        <attr name="vc_strokeMiterLimit" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="slider">
+        <attr name="discreteValue" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="popover_alert">
+        <attr name="popover_right_icon" format="reference" />
+        <attr name="popover_left_icon" format="reference" />
+        <attr name="popover_title_text" format="reference|string" />
+        <attr name="popover_opacity" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="notification_label">
+        <attr name="notification_label_small" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="Controls">
+        <attr name="controlEntries" format="reference" />
+        <attr name="controlCount" format="integer" />
+        <attr name="controlSelected" format="boolean" />
+        <attr name="controlMultiChoice" format="boolean" />
+        <attr name="controlButtonWidth" format="reference|dimension" />
+        <attr name="controlButtonHeight" format="reference|dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="Registration_CheckBox">
+        <attr name="reg_checked" format="boolean" />
+        <attr name="reg_textValue" format="string" />k
+    </declare-styleable>
+
+</resources>

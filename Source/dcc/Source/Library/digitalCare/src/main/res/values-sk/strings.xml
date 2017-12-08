@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Key"> Slovak </string>
+    <string name="key"> sk </string>
+
+    <!-- Common   null -->
+    <string name="img_description"> popis </string>
+    <string name="no_internet"> Nemáte pripojenie na internet. Skontrolujte funkčnosť pripojenia v telefóne v nastaveniach wifi alebo v nastaveniach údajov </string>
+
+    <!-- Support Home Screen    null -->
+    <string name="how_can_we_help"> Ako môžeme pomôcť? </string>
+    <string name="contact_us"> Kontakty </string>
+    <string name="view_product_details"> Zobraziť informácie o výrobku </string>
+    <string name="view_faq"> Prečítať si časté otázky </string>
+    <string name="find_philips_near_you"> Nájsť predajňu Philips v blízkosti </string>
+    <string name="feedback"> Chceme poznať váš názor </string>
+    <string name="registration"> Zaregistrujte svoj výrobok </string>
+    <string name="actionbar_title_support"> Podpora </string>
+    <string name="product_info"> informácie o výrobku </string>
+    <!-- Locate Near You Screen   null -->
+    <string name="loading"> Načítavanie </string>
+    <string name="please_wait"> Čakajte, prosím &amp;#8230; </string>
+    <string name="get_directions"> Get directions (Získanie smerových pokynov) </string>
+    <string name="search"> Vyhľadávanie </string>
+    <string name="gps_disabled"> Funkcia GPS je vo vašom zariadení zakázaná. Chcete ju povoliť? </string>
+    <string name="servicecenters_not_found"> Vo vašej krajine sa nenachádzajú žiadne servisné centrá  </string>
+    <string name="no_data"> Žiadne údaje nie sú k dispozícii </string>
+    <string name="locate_philips_popup_legal"> Keď používate funkciu „Nájsť Philips v blízkosti“ na stránke podpory, zobrazí sa požiadavka, aby ste zdieľali údaje o svojej polohe so spoločnosťou Philips. Na základe údajov o polohe budete presmerovaní na obchod vo vašom okolí alebo kontaktné informácie strediska starostlivosti o zákazníkov vo vašej krajine </string>
+
+    <!-- ContactUs Screen   null -->
+    <string name="leave_us_a_message"> Nechajte nám odkaz: </string>
+    <string name="contact_us_text"> Kontaktujte nás: </string>
+    <string name="opening_hours"> Otváracie hodiny </string>
+    <string name="live_chat"> Živý rozhovor </string>
+    <string name="send_email"> Poslať e-mail </string>
+    <string name="call_number"> Volať </string>
+    <string name="chat_with_philips"> Komunikovať s Philipsom </string>
+    <string name="check_sim"> Nezistila sa karta SIM. Skontrolujte, či je správne vložená </string>
+    <string name="no_data_available"> Žiadne údaje nie sú k dispozícii </string>
+    <string name="send_us_email"> Pošlite nám e-mail </string>
+
+    <!-- Live Chat Screen   null -->
+    <string name="can_we_help_you"> Ako vám môžeme pomôcť? </string>
+    <string name="chat_now"> Komunikujte teraz </string>
+    <string name="no_thanks"> Nie, ďakujem </string>
+    <string name="chat_desc"> Zahájte živý rozhovor s produktovým špecialistom. K dispozícii nonstop v angličtine </string>
+
+    <!-- View Product Details Screen   null -->
+    <string name="product_view_videos"> Videá o výrobkoch </string>
+    <string name="product_open_manual"> Otvoriť interaktívnu príručku </string>
+    <string name="product_download_manual"> Prevziať príručku k výrobku </string>
+    <string name="product_information"> Informácie o výrobkoch (na stránkach philips.com) </string>
+
+    <!-- Rate This Application   null -->
+    <string name="rate_playstore_headertext"> Ako by ste ohodnotili túto aplikáciu? </string>
+    <string name="rate_playstore_buttontext"> Napíšte recenziu aplikácie </string>
+    <string name="rate_philips_headertext"> Odoslať recenziu výrobku </string>
+    <string name="rate_philips_description"> Napíšte recenziu a pomôžte tak iným vybrať si ten správny výrobok. </string>
+    <string name="rate_philips_buttontext"> Prihlásiť sa do konta My Philips </string>
+
+    <!-- reviewandrewards   null -->
+
+    <!-- Twitter Screen   null -->
+    <string name="twitter_login_header"> Prihlásiť sa do služby Twitter </string>
+    <string name="twitter_login_hint_username"> Meno používateľa </string>
+    <string name="twitter_login_hint_password"> Heslo </string>
+    <string name="twiiter_login_logo_description"> Logo služby Twitter </string>
+    <string name="twitter_post_progress_message"> Správa sa odosiela podpore Philips pre Twitter… </string>
+    <string name="twitter_post_char_limitation"> Správa nemôže obsahovať viac ako 140 znakov </string>
+
+    <!-- Social post   null -->
+    <string name="social_post_to"> Pošlite spoločnosti Philips správu </string>
+    <string name="social_post_desc_text"> Zahrnúť informácie o výrobku </string>
+    <string name="cancel"> Zrušiť </string>
+    <string name="take_photo"> Odfotiť </string>
+    <string name="choose_from_library"> Vybrať z knižnice </string>
+    <string name="social_post_failed"> Vyskytol sa problém...  </string>
+    <string name="support_productinformation"> môžete mi pomôcť s </string>
+    <string name="social_post_success"> Správa bola doručená. </string>
+    <string name="post"> Stĺp </string>
+    <string name="send"> Odoslať </string>
+    <string name="facebook_login_header"> Prihlásiť sa na Facebook </string>
+    <string name="SocialSharingPostTemplateText"> môžete mi pomôcť s </string>
+
+    <!-- BazzarVoice Screen   null -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Napíšte recenziu </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Skôr než začneme, prečítajte si naše pokyny: </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Vašu recenziu chceme publikovať, dodržiavajte preto tieto pokyny: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Recenzia má byť zameraná na výrobok. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Zdržte sa pripomienok týkajúcich sa zákazníckeho servisu. Ak máte problém, ktorý si vyžaduje okamžité riešenie, kontaktujte nás. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Neuvádzajte konkurenčných výrobcov ani konkrétnu cenu, za ktorú ste výrobok kúpili. </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Neuvádzajte žiadne údaje umožňujúce osobnú identifikáciu, napríklad celé mená. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> Rozumiem! </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Napíšte recenziu </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Ohodnoťte tento výrobok </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Vaša recenzia </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Zhrnutie recenzie </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Tu napíšte recenziu </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Vyberte si prezývku: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Neuvádzajte vaše pravé meno </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> Váš e-mail </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Uistite sa, či máte prístup </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Prečítal(a) som si Zmluvné  </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> podmienky a súhlasím s nimi </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Náhľad </string>
+    <string name="EmptyField_ErrorMsg"> Pole nemôže byť prázdne </string>
+    <string name="kemailFieldErrorText"> Zadajte platnú e-mailovú adresu. </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Vaša recenzia: </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Je všetko správne? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Hodnotenie: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Zhrnutie recenzie: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Recenzia: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Prezývka: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> E-mail </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Odoslať recenziu </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Ďakujeme! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Skvelé, dostali sme vašu recenziu! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Ďakujeme, že ste si našli čas na napísanie recenzie. Skontrolujeme ju a o jej zverejnení online vás budeme informovať. </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Späť na podporu </string>
+
+    <!-- bazzarvoice_rating_alert   null -->
+
+    <!-- bazzarvoice_terms_conditions_alert   null -->
+
+    <!-- bazzarvoice_description_alert   null -->
+
+    <!-- Registration Screen   null -->
+    <string name="login_to_social_media"> Chcete sa prihlásiť pomocou účtu sociálnej siete? </string>
+    <string name="twitter"> Twitter </string>
+    <string name="facebook"> Facebook </string>
+    <string name="linkedin"> LinkedIn </string>
+    <string name="googleplus"> Google Plus </string>
+    <string name="login_with_philips_account"> Prihlásiť sa pomocou konta My Philips </string>
+    <string name="email">  E-mailová adresa </string>
+    <string name="password"> Heslo </string>
+    <string name="sign_into_my_philips"> Prihlásiť sa do konta My Philips </string>
+    <string name="forgot_my_password"> Zabudol(-la) som heslo &gt;  </string>
+    <string name="create_account">  Vytvoriť konto &gt; </string>
+
+    <string name="localtephilips_contactus">Prejsť na stránku s kontaktmi</string>
+
+    <string name="FAQ_KEY">Časté otázky</string>
+    <string name="QUESTION_KEY">Otázka a odpoveď</string>
+    <string name="NO_PRODUCT_KEY">Žiadne dostupné produkty</string>
+    <string name="NO_SUPPORT_KEY">Žiadna dostupná podpora</string>
+    <string name="FAQ_KEY_TABLET">Často kladené otázky
+</string>
+
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">Facebooku</string>
+    <string name="dcc_send_us_message">Alebo odošlite správu</string>
+    <string name="dcc_get_in_touch">Hovorte s niektorým členom tímu</string>
+    <string name="dcc_help_and_Answer">Sme tu, aby sme vám pomohli a odpovedali na naše otázky.</string>
+    <string name="dcc_send_email">E-mail</string>
+    <string name="dcc_call_number">Zavolajte nám</string>
+    <string name="dcc_chat_to_us">Četujte s nami</string>
+    <string name="dcc_chat_desc">Nepretržitý živý čet v angličtine s jedným z našich špecialistov na výrobky. </string>
+    <string name="dcc_remove_photo">Odstrániť fotografiu</string>
+    <string name="dcc_continue">Pokračovať</string>
+    <string name="dcc_characters_left">zvyšných znakov</string>
+    <string name="dcc_your_message">Vaša správa</string>
+    <string name="dcc_tellUs_header">Podeľte sa o svoje skúsenosti</string>
+    <string name="dcc_tellUs_sub_header">Napíšte recenziu alebo ohodnoťte túto aplikáciu. Vaša spätná väzba je dôležitá.</string>
+    <string name="dcc_write_review">Napíšte recenziu</string>
+    <string name="dcc_rate_this_app">Ohodnotiť túto aplikáciu</string>
+    <string name="dcc_productDownloadManual">Prevziať príručku</string>
+    <string name="dcc_productInformationOnWebsite">Prejdite na stránku s výrobkami</string>
+    <string name="dcc_show_all">Zobraziť všetky</string>
+    <string name="dcc_show_less">Zobraziť menej</string>
+    <string name="dcc_Call_not_Supported">Hovory nie sú podporované</string>
+    <string name="dcc_Turn_On_Location_Service">Ak to chcete znova povoliť, prejdite do nastavení a zapnite zisťovania službu polohy pre túto aplikáciu.</string>
+    <string name="dcc_No_Service_Url">K dispozícii nie je žiadna adresa URL služby</string>
+    <string name="dcc_No_Product_Information">Pre tento model nie sú k dispozícii žiadne informácie o výrobku</string>
+    <string name="dcc_Allow_Acess_Twitter">Povoliť používateľom aplikácie prístup k vášmu účtu služby Twitter</string>
+    <string name="dcc_No_Facebook_Key">Žiadne účty Facebook</string>
+    <string name="dcc_About_App">O tejto aplikácii</string>
+    <string name="dcc_Help_Support">Pomoc a podpora</string>
+    <string name="dcc_Call">Volať</string>
+    <string name="dcc_Opening_Hours">Otváracie hodiny</string>
+
+</resources>

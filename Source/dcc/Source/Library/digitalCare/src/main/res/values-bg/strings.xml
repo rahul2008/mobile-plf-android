@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Key"> Bulgarian </string>
+    <string name="key"> bg </string>
+
+    <!-- Common   null -->
+    <string name="img_description"> oписание </string>
+    <string name="no_internet"> Няма връзка с интернет. Проверете дали връзката е съвместима с wi-fi настройките или настройките за данни на вашия телефон </string>
+
+    <!-- Support Home Screen    null -->
+    <string name="product_info"> информация за продукта </string>
+    <string name="how_can_we_help"> Как можем да ви помогнем? </string>
+    <string name="contact_us"> Връзка с нас </string>
+    <string name="view_product_details"> Преглед на информация за продукта </string>
+    <string name="view_faq"> Прочетете ЧЗВ </string>
+    <string name="find_philips_near_you"> Открийте Philips край вас </string>
+    <string name="feedback"> Кажете ни какво мислите </string>
+    <string name="registration"> Регистрирайте продукта си </string>
+    <string name="actionbar_title_support"> Помощ </string>
+
+    <!-- Locate Near You Screen   null -->
+    <string name="loading"> Зареждане </string>
+    <string name="please_wait"> Моля, изчакайте &amp;#8230; </string>
+    <string name="get_directions"> Получаване на указания </string>
+    <string name="search"> Търсене </string>
+    <string name="gps_disabled"> GPS е дезактивирано на вашето устройство. Желаете ли да го разрешите? </string>
+    <string name="servicecenters_not_found"> В страната ви няма налични сервизи  </string>
+    <string name="no_data"> Няма налични данни </string>
+    <string name="locate_philips_popup_legal"> Когато се възползвате от &quot;Открийте Philips край вас&quot; на страницата за поддръжка, се изисква споделяне на данните за местоположение с Philips. Въз основа на тези данни ще бъдете насочени към магазин близо до вас или към данни за контакт на обслужването на клиенти във вашата страна </string>
+
+    <!-- ContactUs Screen   null -->
+    <string name="leave_us_a_message"> Оставете ни съобщение: </string>
+    <string name="contact_us_text"> Връзка с нас: </string>
+    <string name="opening_hours"> Работно време </string>
+    <string name="live_chat"> Чат на живо </string>
+    <string name="send_email"> Изпращане на имейл </string>
+    <string name="call_number"> Избери </string>
+    <string name="chat_with_philips"> Чат с Philips </string>
+    <string name="check_sim"> Не е открита SIM карта. Проверете дали е поставена правилно </string>
+    <string name="no_data_available"> Няма налични данни </string>
+    <string name="send_us_email"> Изпратете ни имейл </string>
+
+    <!-- Live Chat Screen   null -->
+    <string name="can_we_help_you"> Как можем да ви помогнем? </string>
+    <string name="chat_now"> Говорете сега </string>
+    <string name="no_thanks"> Не, благодаря </string>
+    <string name="chat_desc"> Започнете чат на живо с продуктовия специалист. Налично на английски денонощно </string>
+
+    <!-- View Product Details Screen   null -->
+    <string name="product_view_videos"> Видеоклипове за продукти </string>
+    <string name="product_open_manual"> Отвори интерактивно ръководство </string>
+    <string name="product_download_manual"> Изтегляне ръководство за продукта </string>
+    <string name="product_information"> Информация за продукти (на philips.com) </string>
+
+    <!-- Rate This Application   null -->
+    <string name="rate_playstore_headertext"> Как бихте оценили това приложение? </string>
+    <string name="rate_playstore_buttontext"> Напиши рецензия на приложение </string>
+    <string name="rate_philips_headertext"> Изпрати рецензия на продукт </string>
+    <string name="rate_philips_description"> Напишете рецензия и помогнете на другите да направят подходящия избор </string>
+    <string name="rate_philips_buttontext"> Влизане в My Philips </string>
+
+    <!-- reviewandrewards   null -->
+
+    <!-- Twitter Screen   null -->
+    <string name="twitter_login_header"> Влизане в Twitter </string>
+    <string name="twitter_login_hint_username"> Потребителско име </string>
+    <string name="twitter_login_hint_password"> Парола </string>
+    <string name="twiiter_login_logo_description"> Емблема на Twitter </string>
+    <string name="twitter_post_progress_message"> Изпращане на съобщение до поддръжка на Philips в Twitter… </string>
+    <string name="twitter_post_char_limitation"> Имайте предвид, че съобщението ви не може да е с дължина над 140 знака </string>
+
+    <!-- Social post   null -->
+    <string name="social_post_to"> Изпращане на съобщение на Philips </string>
+    <string name="social_post_desc_text"> Включване на информация за продукта </string>
+    <string name="cancel"> Отказ </string>
+    <string name="take_photo"> Направете снимка </string>
+    <string name="choose_from_library"> Избор от библиотека </string>
+    <string name="social_post_failed"> Нещо се обърка...  </string>
+    <string name="support_productinformation"> може ли да ми помогнете с </string>
+    <string name="social_post_success"> Съобщението ви беше получено! </string>
+    <string name="post"> Изпрати </string>
+    <string name="send"> Изпрати </string>
+    <string name="facebook_login_header"> Влизане във Facebook </string>
+    <string name="SocialSharingPostTemplateText"> може ли да ми помогнете с </string>
+
+    <!-- BazzarVoice Screen   null -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Напишете рецензия </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Преди да започнем, прочетете указанията ни: </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Искаме да публикуваме рецензията ви, затова следвайте тези указания: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Във фокуса на рецензията ви трябва да е продуктът. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Не пишете за обслужването на клиенти. Вместо това се свържете с нас за въпроси, на които незабавно да обърнем внимание. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Избягвайте да споменавате конкуренцията или конкретна цена, която сте платили за продукта </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Не включвайте информация, с която може да бъдете идентифицирани, като пълно име. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> ОК, разбрах! </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Напишете рецензия </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Оценете този продукт </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Вашата рецензия </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Резюме на рецензията </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Напишете своята рецензия тук </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Изберете псевдоним: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> А не истинското си име </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> Вашият имейл адрес </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Уверете се, че имате достъп </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Прочетох и съм съгласен с  </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> правилата и условията </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Преглед </string>
+
+    <string name="EmptyField_ErrorMsg"> Полето не може да е празно </string>
+    <string name="kemailFieldErrorText"> Въведете валиден имейл адрес. </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Вашата рецензия: </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Вярно ли е всичко? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Оценка: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Резюме на рецензията: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Рецензия: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Псевдоним: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> Е-поща </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Изпрати моята рецензия </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Благодарим ви! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Чудесно! Получихме рецензията ви! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Благодарим ви, че отделихте време за тази рецензия. Ще я прегледаме и ще ви уведомим, щом я качим онлайн! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Назад към поддръжката </string>
+
+    <!-- bazzarvoice_rating_alert   null -->
+
+    <!-- bazzarvoice_terms_conditions_alert   null -->
+
+    <!-- bazzarvoice_description_alert   null -->
+
+    <!-- Registration Screen   null -->
+    <string name="login_to_social_media"> Влизане с акаунта в социална мрежа? </string>
+    <string name="twitter"> В Twitter </string>
+    <string name="facebook"> Във Facebook </string>
+    <string name="linkedin"> В LinkedIn </string>
+    <string name="googleplus"> В Google Plus </string>
+    <string name="login_with_philips_account"> Или влезте с акаунта си в My Philips </string>
+    <string name="email">  Имейл адрес </string>
+    <string name="password"> Парола </string>
+    <string name="sign_into_my_philips"> Влизане в My Philips </string>
+    <string name="forgot_my_password"> Забравена парола &gt;  </string>
+    <string name="create_account">  Създаване на акаунт &gt; </string>
+
+    <string name="localtephilips_contactus">Към страницата за контакти</string>
+
+    <string name="FAQ_KEY">Често задавани въпроси</string>
+    <string name="QUESTION_KEY">Въпрос и отговор</string>
+    <string name="NO_PRODUCT_KEY">Няма налични продукти</string>
+    <string name="NO_SUPPORT_KEY">Няма налична поддръжка</string>
+    <string name="FAQ_KEY_TABLET">Често задавани въпроси</string>
+
+    <!--DLS-->
+
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">facebook</string>
+    <string name="dcc_send_us_message">Или изпращане на съобщение</string>
+    <string name="dcc_get_in_touch">Говорете с член на екипа</string>
+    <string name="dcc_help_and_Answer">Ние сме тук, за да ви помогнем и да отговорим на всички въпроси, които възникнат.</string>
+    <string name="dcc_send_email">Е-поща</string>
+    <string name="dcc_call_number">Обадете ни се</string>
+    <string name="dcc_chat_to_us">Разговаряйте в чат с нас</string>
+    <string name="dcc_chat_desc">Чат на живо 24/7 на английски език с нашите продуктови специалисти. </string>
+    <string name="dcc_remove_photo">Премахване на снимка</string>
+    <string name="dcc_continue">Продължи</string>
+    <string name="dcc_characters_left">символа остават</string>
+    <string name="dcc_your_message">Вашето съобщение</string>
+    <string name="dcc_tellUs_header">Споделете опита си</string>
+    <string name="dcc_tellUs_sub_header">Напишете рецензия или оценете това приложение. Вашето мнение е важно.</string>
+    <string name="dcc_write_review">Напишете рецензия</string>
+    <string name="dcc_rate_this_app">Оценете това приложение</string>
+    <string name="dcc_productDownloadManual">Изтегляне на ръководство</string>
+    <string name="dcc_productInformationOnWebsite">Посетете продуктовия уебсайт</string>
+    <string name="dcc_show_all">Покажи всички</string>
+    <string name="dcc_show_less">Показване на по-малко</string>
+    <string name="dcc_Call_not_Supported">Обаждания не се поддържат</string>
+    <string name="dcc_Turn_On_Location_Service">За да активирате повторно, отидете в \"Настройки\" и включете услугата за местоположение за това приложение.</string>
+    <string name="dcc_No_Service_Url">Няма наличен url за услуга</string>
+    <string name="dcc_No_Product_Information">Няма продуктова информация за този модел</string>
+    <string name="dcc_Allow_Acess_Twitter">Позволете на потребители на приложението достъп до вашия twitter акаунт</string>
+    <string name="dcc_No_Facebook_Key">Няма акаунти във Facebook</string>
+    <string name="dcc_About_App">Информация за приложението</string>
+    <string name="dcc_Help_Support">Помощ и поддръжка</string>
+    <string name="dcc_Call">Избери</string>
+    <string name="dcc_Opening_Hours">Работно време</string>
+
+</resources>

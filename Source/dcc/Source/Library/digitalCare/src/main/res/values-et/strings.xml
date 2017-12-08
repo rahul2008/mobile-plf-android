@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Key"> Estonian </string>
+    <string name="key"> et </string>
+
+    <!-- Common   null -->
+    <string name="img_description"> kirjeldus </string>
+    <string name="no_internet"> Internetiühendus puudub. Palun kontrollige ühenduse seisundit oma telefoni wifi sätetest või andmesidesätetest. </string>
+
+    <!-- Support Home Screen    null -->
+    <string name="how_can_we_help"> Millega saame aidata? </string>
+    <string name="contact_us"> Võtke meiega ühendust </string>
+    <string name="view_product_details"> Vaadake tooteteavet </string>
+    <string name="view_faq"> Lugege KKK-d </string>
+    <string name="find_philips_near_you"> Leidke Philips enda lähedalt </string>
+    <string name="feedback"> Andke meile tagasisidet </string>
+    <string name="registration"> Registreerige oma toode </string>
+    <string name="actionbar_title_support"> Tugi </string>
+    <string name="product_info"> tooteteave </string>
+    <!-- Locate Near You Screen   null -->
+    <string name="loading"> Laadimine </string>
+    <string name="please_wait"> Palun oodake &amp;#8230; </string>
+    <string name="get_directions"> Hankige juhised </string>
+    <string name="search"> Otsing </string>
+    <string name="gps_disabled"> Teie seadme GPS on välja lülitatud. Kas soovite selle sisse lülitada? </string>
+    <string name="servicecenters_not_found"> Teie riigis pole ühtegi teeninduskeskust.  </string>
+    <string name="no_data"> Andmeid pole saadaval </string>
+    <string name="locate_philips_popup_legal"> Kui kasutate kasutajatoe lehel lähima Philipsi esinduse leidmise funktsiooni, palutakse teil oma asukohta Philipsiga jagada. Teie asukohaandmete alusel leitakse teile lähim pood või teie riigi klienditoekeskuse kontaktandmed. </string>
+
+    <!-- ContactUs Screen   null -->
+    <string name="leave_us_a_message"> Jätke meile teade: </string>
+    <string name="contact_us_text"> Võtke meiega ühendust: </string>
+    <string name="opening_hours"> Tööajad </string>
+    <string name="live_chat"> Otsevestlus </string>
+    <string name="send_email"> Saatke e-kiri </string>
+    <string name="call_number"> Helistamine </string>
+    <string name="chat_with_philips"> Vestle Philipsiga </string>
+    <string name="check_sim"> SIM-kaarti ei leitud. Palun kontrollige, kas see on õigesti sisestatud. </string>
+    <string name="no_data_available"> Andmeid pole saadaval </string>
+    <string name="send_us_email"> Saatke meile e-kiri </string>
+
+    <!-- Live Chat Screen   null -->
+    <string name="can_we_help_you"> Kas saame teid aidata? </string>
+    <string name="chat_now"> Vestelge kohe </string>
+    <string name="no_thanks"> Ei, aitäh </string>
+    <string name="chat_desc"> Alustage otsevestlust meie tootespetsialistiga. 24/7 inglise keeles saadaval. </string>
+
+    <!-- View Product Details Screen   null -->
+    <string name="product_view_videos"> Tootevideod </string>
+    <string name="product_open_manual"> Avage interaktiivne juhend </string>
+    <string name="product_download_manual"> Laadige tootejuhend alla </string>
+    <string name="product_information"> Tooteteave (lehel philips.com) </string>
+
+    <!-- Rate This Application   null -->
+    <string name="rate_playstore_headertext"> Kuidas hindaksite seda rakendust? </string>
+    <string name="rate_playstore_buttontext"> Kirjutage rakenduse arvustus </string>
+    <string name="rate_philips_headertext"> Esitage tootearvustus </string>
+    <string name="rate_philips_description"> Kirjutage arvustus ja aidake teistel õiget valikut teha! </string>
+    <string name="rate_philips_buttontext"> Logi sisse My Philipsi kontole </string>
+
+    <!-- reviewandrewards   null -->
+
+    <!-- Twitter Screen   null -->
+    <string name="twitter_login_header"> Logige sisse Twitterisse </string>
+    <string name="twitter_login_hint_username"> Kasutajanimi </string>
+    <string name="twitter_login_hint_password"> Salasõna </string>
+    <string name="twiiter_login_logo_description"> Twitteri logo </string>
+    <string name="twitter_post_progress_message"> Teate saatmine Philips Twitteri klienditoele... </string>
+    <string name="twitter_post_char_limitation"> Palun arvestage, et teate pikkus tohib olla kuni 140 tähemärki. </string>
+
+    <!-- Social post   null -->
+    <string name="social_post_to"> Saatke teade Philipsile </string>
+    <string name="social_post_desc_text"> Lisage teatele tooteteave </string>
+    <string name="cancel"> Tühista </string>
+    <string name="take_photo"> Pildista </string>
+    <string name="choose_from_library"> Valige kogumikust </string>
+    <string name="social_post_failed"> Midagi läks valesti.  </string>
+    <string name="support_productinformation"> kas saaksite mind aidata minu </string>
+    <string name="social_post_success"> Teie teade jõudis kohale! </string>
+    <string name="post"> Postvalgusti </string>
+    <string name="send"> Saada </string>
+    <string name="facebook_login_header"> Logige sisse Facebooki </string>
+    <string name="SocialSharingPostTemplateText"> kas saaksite mind aidata minu </string>
+
+    <!-- BazzarVoice Screen   null -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Kirjuta arvustus </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Enne alustamist lugege palun meie juhiseid. </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Soovime teie arvustuse avaldada, seega palun järgige juhiseid. </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Keskenduge tootele. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Vältige klienditeeninduse arvustamist; kui teil on kohest tähelepanu vajavaid probleeme, võtke meiega otse ühendust. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Vältige konkurentide või toote eest makstud summa mainimist. </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Ärge kirjutage isikuandmeid, näiteks täisnimesid. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> Olgu, selge! </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Kirjuta arvustus </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Palun hinnake seda toodet </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Teie arvustus </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Arvustuste kokkuvõte </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Kirjutage oma arvustus siia </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Valige hüüdnimi: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Mitte teie pärisnimi </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> Teie e-kiri </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Veenduge, et teil on olemas ligipääs </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Olen tingimusi lugenud j </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> a nõustun nendega. </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Eelvaade </string>
+    <string name="EmptyField_ErrorMsg"> Väli ei tohi olla tühi </string>
+    <string name="kemailFieldErrorText"> Palun sisestage kehtiv e-posti aadress. </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Teie arvustus: </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Kas kõik on õigesti? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Hinnang: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Arvustuste kokkuvõte: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Arvustus: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Hüüdnimi: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> E-post </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Esita arvustus </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Täname teid! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Kena! Saime teie arvustuse kätte! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Täname, et kirjutasite arvustuse. Vaatame selle üle ja anname teada, kui selle avaldame! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Tagasi toe lehele </string>
+
+    <!-- bazzarvoice_rating_alert   null -->
+
+    <!-- bazzarvoice_terms_conditions_alert   null -->
+
+    <!-- bazzarvoice_description_alert   null -->
+
+    <!-- Registration Screen   null -->
+    <string name="login_to_social_media"> Kas soovite logida sisse suhtlusvõrgustiku kontoga? </string>
+    <string name="twitter"> Twitter </string>
+    <string name="facebook"> Facebook </string>
+    <string name="linkedin"> LinkedIn </string>
+    <string name="googleplus"> Google Plus </string>
+    <string name="login_with_philips_account"> Või logige sisse My Philipsi kontoga </string>
+    <string name="email">  E-posti aadress </string>
+    <string name="password"> Salasõna </string>
+    <string name="sign_into_my_philips"> Logi sisse My Philipsi kontole </string>
+    <string name="forgot_my_password"> Ma unustasin salasõna &gt;  </string>
+    <string name="create_account">  Loo konto &gt; </string>
+
+    <string name="localtephilips_contactus">Mine kontaktilehele</string>
+    <string name="FAQ_KEY">KKKd</string>
+    <string name="QUESTION_KEY">Küsimus ja vastus</string>
+    <string name="NO_PRODUCT_KEY">Tooted puuduvad</string>
+    <string name="NO_SUPPORT_KEY">Tugi puudub</string>
+    <string name="FAQ_KEY_TABLET">Korduma kippuvad küsimused
+</string>
+
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">facebook</string>
+    <string name="dcc_send_us_message">Või saada sõnum</string>
+    <string name="dcc_get_in_touch">Räägi meeskonna liikmega</string>
+    <string name="dcc_help_and_Answer">Oleme valmis aitama ja teie võimalikele küsimustele vastama.</string>
+    <string name="dcc_send_email">E-post</string>
+    <string name="dcc_call_number">Helistage meile</string>
+    <string name="dcc_chat_to_us">Vestelge meiega</string>
+    <string name="dcc_chat_desc">Reaalajas vestlus 24/7 inglise keeles ühe meie tootespetsialistiga. </string>
+    <string name="dcc_remove_photo">Eemalda foto</string>
+    <string name="dcc_continue">Jätka</string>
+    <string name="dcc_characters_left">järelejäänud tähemärki</string>
+    <string name="dcc_your_message">Teie sõnum</string>
+    <string name="dcc_tellUs_header">Jagage oma kogemusi</string>
+    <string name="dcc_tellUs_sub_header">Kirjutage arvustus või hinnake seda rakendust. Teie tagasiside on oluline.</string>
+    <string name="dcc_write_review">Kirjuta arvustus</string>
+    <string name="dcc_rate_this_app">Hinnake seda rakendust</string>
+    <string name="dcc_productDownloadManual">Laadige alla kasutusjuhend</string>
+    <string name="dcc_productInformationOnWebsite">Külastage toote veebisaiti</string>
+    <string name="dcc_show_all">Näita kõiki</string>
+    <string name="dcc_show_less">Näita vähem</string>
+    <string name="dcc_Call_not_Supported">Helistamist ei toetata</string>
+    <string name="dcc_Turn_On_Location_Service">Taasaktiveerimiseks avage Seaded ja lülitage selle rakenduse puhul asukohateenus sisse.</string>
+    <string name="dcc_No_Service_Url">Teenuse internetiaadressi ei saa kasutada</string>
+    <string name="dcc_No_Product_Information">Selle mudeli kohta ei ole tooteandmed kättesaadavad</string>
+    <string name="dcc_Allow_Acess_Twitter">Andke rakenduse kasutajale juurdepääs teie Twitteri konto kasutamiseks</string>
+    <string name="dcc_No_Facebook_Key">Facebooki kontod puuduvad</string>
+    <string name="dcc_About_App">Selle rakenduse kohta</string>
+    <string name="dcc_Help_Support">Kasutusjuhend ja tugi</string>
+    <string name="dcc_Call">Helistamine</string>
+    <string name="dcc_Opening_Hours">Tööajad</string>
+
+</resources>

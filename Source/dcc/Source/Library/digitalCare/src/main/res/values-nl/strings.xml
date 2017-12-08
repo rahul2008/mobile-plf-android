@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Key"> Dutch </string>
+    <string name="key"> nl </string>
+
+    <!-- Common   null -->
+    <string name="img_description"> descriptie </string>
+    <string name="no_internet"> Geen internetverbinding. Controleer uw verbinding in de Wi-Fi-instellingen of gegevensinstellingen van uw telefoon. </string>
+
+    <!-- Support Home Screen    null -->
+    <string name="how_can_we_help"> Wilt u hulp? </string>
+    <string name="contact_us"> Neem dan contact met ons op </string>
+    <string name="view_product_details"> Bekijk productinformatie </string>
+    <string name="view_faq"> FAQ\'s </string>
+    <string name="find_philips_near_you"> Philips in uw buurt </string>
+    <string name="feedback"> Wat vindt u? </string>
+    <string name="registration"> Registreer je product </string>
+    <string name="actionbar_title_support"> Ondersteuning </string>
+    <string name="product_info"> productinformatie </string>
+    <!-- Locate Near You Screen   null -->
+    <string name="loading"> Bezig met laden </string>
+    <string name="please_wait"> Even geduld &amp;#8230; </string>
+    <string name="get_directions"> Routebeschrijving ophalen </string>
+    <string name="search"> Zoeken </string>
+    <string name="gps_disabled"> GPS is uitgeschakeld op uw apparaat. Wilt u dit inschakelen? </string>
+    <string name="servicecenters_not_found"> Geen servicecentra in uw land  </string>
+    <string name="no_data"> Geen gegevens beschikbaar </string>
+    <string name="locate_philips_popup_legal"> Wanneer u gebruikmaakt van de functie \'Vind Philips bij u in de buurt\' op de ondersteuningspagina, wordt u verzocht uw locatiegegevens met Philips te delen. Op basis van uw locatiegegevens wordt u doorverwezen naar een winkel bij u in de buurt of naar de contactgegevens van de klantenservice in uw land </string>
+
+    <!-- ContactUs Screen   null -->
+    <string name="leave_us_a_message"> Stuur ons bericht: </string>
+    <string name="contact_us_text"> Contact: </string>
+    <string name="opening_hours"> Openingstijden </string>
+    <string name="live_chat"> Live chat </string>
+    <string name="send_email"> E-mail versturen </string>
+    <string name="call_number"> Telefoon </string>
+    <string name="chat_with_philips"> Met Philips chatten </string>
+    <string name="check_sim"> Geen SIM-kaart gevonden. Controleer of deze correct is geplaatst </string>
+    <string name="no_data_available"> Geen gegevens beschikbaar </string>
+    <string name="send_us_email"> Stuur ons een e-mail </string>
+
+    <!-- Live Chat Screen   null -->
+    <string name="can_we_help_you"> Kunnen we u helpen? </string>
+    <string name="chat_now"> Nu chatten </string>
+    <string name="no_thanks"> Nee, bedankt </string>
+    <string name="chat_desc"> Chat live met onze productspecialist. 24/7 beschikbaar in het Engels </string>
+
+    <!-- View Product Details Screen   null -->
+    <string name="product_view_videos"> Productvideo\'s </string>
+    <string name="product_open_manual"> Open interact. handl. </string>
+    <string name="product_download_manual"> Download producthandl. </string>
+    <string name="product_information"> Productinformatie (op philips.com) </string>
+
+    <!-- Rate This Application   null -->
+    <string name="rate_playstore_headertext"> Wat vindt u van deze app? </string>
+    <string name="rate_playstore_buttontext"> Schrijf apprecensie </string>
+    <string name="rate_philips_headertext"> Zend productrecensie in </string>
+    <string name="rate_philips_description"> Schrijf een beoordeling en help anderen de juiste keuze te maken </string>
+    <string name="rate_philips_buttontext"> Aanmelden bij Mijn Philips </string>
+
+    <!-- reviewandrewards   null -->
+
+    <!-- Twitter Screen   null -->
+    <string name="twitter_login_header"> Aanmelden bij Twitter </string>
+    <string name="twitter_login_hint_username"> Gebruikersnaam </string>
+    <string name="twitter_login_hint_password"> Wachtwoord </string>
+    <string name="twiiter_login_logo_description"> Twitter-logo </string>
+    <string name="twitter_post_progress_message"> Bericht wordt verstuurd naar Twitter-ondersteuningsteam van Philips… </string>
+    <string name="twitter_post_char_limitation"> Uw bericht mag niet meer dan 140 tekens bevatten </string>
+
+    <!-- Social post   null -->
+    <string name="social_post_to"> Stuur een bericht naar Philips </string>
+    <string name="social_post_desc_text"> Voeg productinformatie toe </string>
+    <string name="cancel"> Annuleren </string>
+    <string name="take_photo"> Foto maken </string>
+    <string name="choose_from_library"> Kiezen uit de bibliotheek </string>
+    <string name="social_post_failed"> Er is iets misgegaan.  </string>
+    <string name="support_productinformation"> ik zoek hulp voor mijn </string>
+    <string name="social_post_success"> Uw bericht is ontvangen! </string>
+    <string name="post"> Posten </string>
+    <string name="send"> Verzenden </string>
+    <string name="facebook_login_header"> Aanmelden bij Facebook </string>
+    <string name="SocialSharingPostTemplateText"> ik zoek hulp voor mijn </string>
+
+    <!-- BazzarVoice Screen   null -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Een beoordeling schrijven </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Lees onze richtlijnen voordat u begint: </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Wij willen uw beoordeling publiceren, dus volg deze richtlijnen: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Houd uw beoordeling gericht op het product. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Schrijf niet over de klantenservice, maar neem contact met ons op als u ergens niet tevreden over bent. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Vermeld geen concurrenten en noem de prijs die u voor het product hebt betaald niet </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Vermeld geen herleidbare persoonlijke gegevens, zoals uw volledige naam. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> Ik snap het! </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Een beoordeling schrijven </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Beoordeel dit product </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Uw beoordeling </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Samenvatting van de beoordeling </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Schrijf hier uw beoordeling </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Kies een alias: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Niet uw echte naam </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> Uw e-mailadres </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Controleer of u toegang hebt </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Ik heb de algemene voorwaarden  </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> gelezen en ga hiermee akkoord </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Voorbeeld </string>
+    <string name="EmptyField_ErrorMsg"> Veld mag niet leeg zijn </string>
+    <string name="kemailFieldErrorText"> Voer een geldig e-mailadres in. </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Uw beoordeling: </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Is alles correct? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Waardering: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Samenvatting van de beoordeling: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Beoordeling: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Alias: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> E-mail </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Mijn beoordeling verzenden </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Hartelijk bedankt! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> We hebben uw beoordeling ontvangen! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Bedankt voor uw beoordeling. We zullen de beoordeling bekijken en laten het u weten wanneer deze online staat! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Terug naar ondersteuning </string>
+
+    <!-- bazzarvoice_rating_alert   null -->
+
+    <!-- bazzarvoice_terms_conditions_alert   null -->
+
+    <!-- bazzarvoice_description_alert   null -->
+
+    <!-- Registration Screen   null -->
+    <string name="login_to_social_media"> Inloggen met sociale-media-account? </string>
+    <string name="twitter"> Op Twitter </string>
+    <string name="facebook"> Op Facebook </string>
+    <string name="linkedin"> Op LinkedIn </string>
+    <string name="googleplus"> Op Google Plus </string>
+    <string name="login_with_philips_account"> Of log in m. Mijn Philips-account </string>
+    <string name="email"> E-mailadres </string>
+    <string name="password"> Wachtwoord </string>
+    <string name="sign_into_my_philips"> Aanm. Mijn Philips </string>
+    <string name="forgot_my_password"> Wachtwoord vergeten &gt;  </string>
+    <string name="create_account"> Account maken &gt; </string>
+
+    <string name="localtephilips_contactus">Ga naar contactpagina</string>
+
+    <string name="FAQ_KEY">Veelgestelde vragen</string>
+    <string name="QUESTION_KEY">Vraag en antwoord</string>
+    <string name="NO_PRODUCT_KEY">Geen producten beschikbaar</string>
+    <string name="NO_SUPPORT_KEY">Geen ondersteuning beschikbaar</string>
+    <string name="FAQ_KEY_TABLET">Veelgestelde vragen</string>
+
+    <string name="ManualDownLoadConfirmMessage">Druk op OK om de handleiding in het %s</string>
+    <string name="download_ticker">Downloaden Help Manual</string>
+    <string name="download_complete">Download voltooid</string>
+    <string name="download_error">Download Fout</string>
+    <string name="PdfWarningMessage">Installeer Adobe Reader nodig om de PDF-handleiding bekijken.</string>
+
+    <string name="dcc_twitter">Twitter</string>
+    <string name="dcc_facebook">Facebook</string>
+    <string name="dcc_send_us_message">Of stuur ons een bericht</string>
+    <string name="dcc_get_in_touch">Praat met iemand van het team</string>
+    <string name="dcc_help_and_Answer">Wij zijn er om u te helpen en uw vragen te beantwoorden.</string>
+    <string name="dcc_send_email">E-mail</string>
+    <string name="dcc_call_number">Ons bellen</string>
+    <string name="dcc_chat_to_us">Chat met ons</string>
+    <string name="dcc_chat_desc">Chat 24/7 live in het Engels met een van onze productspecialisten. </string>
+    <string name="dcc_remove_photo">Foto verwijderen</string>
+    <string name="dcc_continue">Doorgaan</string>
+    <string name="dcc_characters_left">tekens over</string>
+    <string name="dcc_your_message">Uw bericht</string>
+    <string name="dcc_tellUs_header">Deel je ervaringen</string>
+    <string name="dcc_tellUs_sub_header">Schrijf een recensie of beoordeel deze app. Uw feedback is belangrijk.</string>
+    <string name="dcc_write_review">Een beoordeling schrijven</string>
+    <string name="dcc_rate_this_app">Deze app waarderen</string>
+    <string name="dcc_productDownloadManual">Handleiding downloaden</string>
+    <string name="dcc_productInformationOnWebsite">Ga naar de productpagina van onze website</string>
+    <string name="dcc_show_all">Alles weergeven</string>
+    <string name="dcc_show_less">Minder informatie</string>
+    <string name="dcc_Call_not_Supported">Bellen wordt niet ondersteund</string>
+    <string name="dcc_Turn_On_Location_Service">Om deze optie in te schakelen, gaat u naar Instellingen en schakelt u de locatieservices voor deze app in.</string>
+    <string name="dcc_No_Service_Url">Geen service-url beschikbaar</string>
+    <string name="dcc_No_Product_Information">Voor dit model is geen productinformatie beschikbaar</string>
+    <string name="dcc_Allow_Acess_Twitter">De app toegang geven tot uw Twitteraccount</string>
+    <string name="dcc_No_Facebook_Key">Geen Facebook-accounts</string>
+    <string name="dcc_About_App">Over deze app</string>
+    <string name="dcc_Help_Support">Help en ondersteuning</string>
+    <string name="dcc_Call">Telefoon</string>
+    <string name="dcc_Opening_Hours">Openingstijden</string>
+
+</resources>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Key"> Hebrew </string>
+    <string name="key"> iw </string>
+
+    <!-- Common   null -->
+    <string name="img_description"> תיאור </string>
+    <string name="no_internet"> אין חיבור אינטרנט. בדוק שהחיבור שלך תקין דרך הגדרות Wi-Fi או הגדרות נתונים בטלפון שלך </string>
+
+    <!-- Support Home Screen    null -->
+    <string name="how_can_we_help"> כיצד נוכל לעזור? </string>
+    <string name="contact_us"> צור קשר </string>
+    <string name="view_product_details"> הצג מידע על מוצרים </string>
+    <string name="view_faq"> קרא תשובות לשאלות נפוצות </string>
+    <string name="find_philips_near_you"> אתר את פיליפס בקרבתך </string>
+    <string name="feedback"> ספר לנו מה דעתך </string>
+    <string name="registration"> רשום את המוצר שלך </string>
+    <string name="actionbar_title_support"> תמיכה </string>
+    <string name="product_info"> מידע על מוצרים </string>
+    <!-- Locate Near You Screen   null -->
+    <string name="loading"> טעינה </string>
+    <string name="please_wait"> אנא המתן&amp;#8230; </string>
+    <string name="get_directions"> קבל הנחיות </string>
+    <string name="search"> תפריט הבית, חיפוש </string>
+    <string name="gps_disabled"> ה-GPS במכשיר שלך מושבת. האם ברצונך להפעיל אותו? </string>
+    <string name="servicecenters_not_found"> אין מוקדי שירות זמינים במדינתך  </string>
+    <string name="no_data"> אין נתונים זמינים </string>
+    <string name="locate_philips_popup_legal"> אם תשתמש בפונקציה \'אתר את פיליפס בקרבתך\' בדף התמיכה, תתבקש לשתף עם פיליפס את נתוני המיקום שלך. בהתאם לנתוני המיקום נפנה אותך לחנות הקרובה אליך או אל פרטי הקשר של מערך הטיפול בלקוחות במדינתך </string>
+
+    <!-- ContactUs Screen   null -->
+    <string name="leave_us_a_message"> השאר לנו הודעה: </string>
+    <string name="contact_us_text"> צור קשר: </string>
+    <string name="opening_hours"> שעות פתיחה </string>
+    <string name="live_chat"> צ\'אט חי </string>
+    <string name="send_email"> שלח דוא&quot;ל </string>
+    <string name="call_number"> שיחה </string>
+    <string name="chat_with_philips"> צ\'אט עם פיליפס </string>
+    <string name="check_sim"> לא זוהה כרטיס SIM. ודא שהכרטיס הוכנס למקומו כהלכה </string>
+    <string name="no_data_available"> אין נתונים זמינים </string>
+    <string name="send_us_email"> שלח לנו הודעת דוא&quot;ל </string>
+
+    <!-- Live Chat Screen   null -->
+    <string name="can_we_help_you"> כיצד נוכל לעזור לך? </string>
+    <string name="chat_now"> בצע צ\'אט כעת </string>
+    <string name="no_thanks"> לא, תודה </string>
+    <string name="chat_desc"> התחל צ\'אט חי עם מומחה שלנו למוצר. זמינות 24/7 באנגלית </string>
+
+    <!-- View Product Details Screen   null -->
+    <string name="product_view_videos"> סרטונים על מוצרים </string>
+    <string name="product_open_manual"> פתח את המדריך האינטראקטיבי </string>
+    <string name="product_download_manual"> הורד מדריך למוצר </string>
+    <string name="product_information"> מידע על מוצרים (באתר philips.com) </string>
+
+    <!-- Rate This Application   null -->
+    <string name="rate_playstore_headertext"> כיצד תדרג את האפליקציה הזאת? </string>
+    <string name="rate_playstore_buttontext"> כתוב ביקורת אפליקציה </string>
+    <string name="rate_philips_headertext"> שלח ביקורת מוצר </string>
+    <string name="rate_philips_description"> כתובת ביקורת וסייע לאנשים אחרים לבחור את מה שמתאים להם </string>
+    <string name="rate_philips_buttontext"> כניסה ל\'פיליפס שלי\' </string>
+
+    <!-- reviewandrewards   null -->
+
+    <!-- Twitter Screen   null -->
+    <string name="twitter_login_header"> כניסה לטוויטר </string>
+    <string name="twitter_login_hint_username"> שם משתמש </string>
+    <string name="twitter_login_hint_password"> סיסמה </string>
+    <string name="twiiter_login_logo_description"> הלוגו של טוויטר </string>
+    <string name="twitter_post_progress_message"> שולח את הודעתך אל התמיכה של פיליפס בטוויטר... </string>
+    <string name="twitter_post_char_limitation"> שים לב, שאורך מרבי של הודעה הוא 140 תווים </string>
+
+    <!-- Social post   null -->
+    <string name="social_post_to"> שלח הודעה אל פיליפס </string>
+    <string name="social_post_desc_text"> כלול מידע על המוצר </string>
+    <string name="cancel"> ביטול </string>
+    <string name="take_photo"> צלם תמונה </string>
+    <string name="choose_from_library"> בחר מתוך הספרייה </string>
+    <string name="social_post_failed"> משהו השתבש.  </string>
+    <string name="support_productinformation"> תוכלו לסייע לי ב </string>
+    <string name="social_post_success"> הודעתך התקבלה! </string>
+    <string name="post"> פרסם </string>
+    <string name="send"> שלח </string>
+    <string name="facebook_login_header"> כניסה לפייסבוק </string>
+    <string name="SocialSharingPostTemplateText"> תוכלו לסייע לי ב </string>
+
+    <!-- BazzarVoice Screen   null -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> כתוב ביקורת </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> לפני שנתחיל, אנא קרא את ההנחיות שלנו: </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> אנו מעוניינים לפרסם את הביקורת שלך, לכן נבקשך לפעול פי ההנחיות הבאות: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> מקד את הביקורת שלך במוצר. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> הימנע מכתיבה על שירות לקוחות; בבעיות הדורשות את טיפולנו המידי – פנה אלינו. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> הימנע מאיזכור של מתחרים או את המחיר הספציפי ששילמת בעד המוצר </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> אל תכלול שום מידע אישי מזהה, כמו שמות מלאים. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> אוקיי, יש! </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> כתוב ביקורת </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> אנא דרג מוצר זה </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> הביקורת שלך</string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> עיין בתקציר </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> כתוב את הביקורת שלך כאן </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> בחר כינוי: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> לא שמך האמיתי </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> הדוא&quot;ל שלך </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> ודא שיש לך גישה </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text">  וההתניות ואני מסכים לאמור בהם </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> קראת את התנאים </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> הקודם </string>
+    <string name="EmptyField_ErrorMsg"> השדה אינו יכול להיות ריק </string>
+    <string name="kemailFieldErrorText"> הזן כתובת דוא&quot;ל חוקית </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> הביקורת שלך: </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> האם הכל נכון? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> דירוג: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> תקציר הביקורת: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> ביקורת: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> כינוי: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> דוא&quot;ל </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> שלח את הביקורת שלי </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> תודה לך </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> יפה! קיבלנו את הביקורת שלך! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> תודה על הזמן שהקדשת לכתיבת הביקורת. אנו נעיין בה ונודיע לך כשתתפרסם! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> חזרה לתמיכה </string>
+
+    <!-- bazzarvoice_rating_alert   null -->
+
+    <!-- bazzarvoice_terms_conditions_alert   null -->
+
+    <!-- bazzarvoice_description_alert   null -->
+
+    <!-- Registration Screen   null -->
+    <string name="login_to_social_media"> להתחבר באמצעות חשבון המדיה החברתית שלך? </string>
+    <string name="twitter"> בטוויטר </string>
+    <string name="facebook"> בפייסבוק </string>
+    <string name="linkedin"> ב-LinkedIn </string>
+    <string name="googleplus"> ב-Google Plus </string>
+    <string name="login_with_philips_account"> או התחבר באמצעות פרטי חשבון \'פיליפס שלי\' </string>
+    <string name="email">  כתובת דוא&quot;ל </string>
+    <string name="password"> סיסמה </string>
+    <string name="sign_into_my_philips"> כניסה ל\'פיליפס שלי\' </string>
+    <string name="forgot_my_password"> שכחתי את הסיסמה שלי &gt;  </string>
+    <string name="create_account">  צור חשבון &gt; </string>
+
+    <string name="localtephilips_contactus">עבור אל דף יצירת הקשר</string>
+
+    <string name="FAQ_KEY">שאלות ותשובות</string>
+    <string name="QUESTION_KEY">שאלה ותשובה</string>
+    <string name="NO_PRODUCT_KEY">אין מוצרים זמינים</string>
+    <string name="NO_SUPPORT_KEY">אין תמיכה זמינה</string>
+    <string name="FAQ_KEY_TABLET">שאלות נפוצות
+</string>
+
+    <string name="dcc_twitter">טוויטר</string>
+    <string name="dcc_facebook">פייסבוק</string>
+    <string name="dcc_send_us_message">או שלח הודעה</string>
+    <string name="dcc_get_in_touch">התקשר לאחד מאנשי הצוות</string>
+    <string name="dcc_help_and_Answer">אנחנו כאן כדי לעזור ולענות על כל שאלה שלך.</string>
+    <string name="dcc_send_email">דוא\"ל</string>
+    <string name="dcc_call_number">התקשר אלינו</string>
+    <string name="dcc_chat_to_us">נהל אתנו צ\'אט</string>
+    <string name="dcc_chat_desc">נהל צ\'אט חי באנגלית 24/7 עם אחד ממומחי המוצר שלנו. </string>
+    <string name="dcc_remove_photo">הסר תמונה</string>
+    <string name="dcc_continue">המשך</string>
+    <string name="dcc_characters_left">מספר התווים שנותרו</string>
+    <string name="dcc_your_message">ההודעה שלך</string>
+    <string name="dcc_tellUs_header">שתף אחרים בחוויות שלך</string>
+    <string name="dcc_tellUs_sub_header">כתוב ביקורת או דרג אפליקציה זו; המשוב שלך חשוב.</string>
+    <string name="dcc_write_review">כתוב ביקורת</string>
+    <string name="dcc_rate_this_app">דרג אפליקציה זו</string>
+    <string name="dcc_productDownloadManual">הורד מדריך</string>
+    <string name="dcc_productInformationOnWebsite">בקר באתר המוצר</string>
+    <string name="dcc_show_all">הצג הכול</string>
+    <string name="dcc_show_less">הצג פחות</string>
+    <string name="dcc_Call_not_Supported">אין תמיכה בשיחות</string>
+    <string name="dcc_Turn_On_Location_Service">כדי להפעיל מחדש, עבור אל \'Settings\' (הגדרות) והפעל את \'Location Service\' (שירות המיקום) עבור אפליקציה זו.</string>
+    <string name="dcc_No_Service_Url">לא קיימת כתובת שירות</string>
+    <string name="dcc_No_Product_Information">לא קיימים פרטי מוצר עבור דגם זה</string>
+    <string name="dcc_Allow_Acess_Twitter">אפשר גישה למשתמשי האפליקציה כדי להשתמש בחשבון הטוויטר שלך</string>
+    <string name="dcc_No_Facebook_Key">אין חשבונות פייסבוק</string>
+    <string name="dcc_About_App">אודות אפליקציה זו</string>
+    <string name="dcc_Help_Support">Help and support (עזרה ותמיכה)</string>
+    <string name="dcc_Call">שיחה</string>
+    <string name="dcc_Opening_Hours">שעות פתיחה</string>
+
+</resources>

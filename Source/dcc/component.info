@@ -1,0 +1,17 @@
+{
+  "name"               : "Consumer Care",
+  "type"               : "microApp",
+  "technology"         : "Java",
+  "topic"              : "",
+  "deployment"         : "Android",
+  "deployment details" : "",
+  "med62304"           : "",
+  "medFDA"             : "",
+  "maturity"           : "production",
+  "contact"            : "Aravind Gundumane",
+  "release format"     : "maven",
+  "release url"        : "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/simple/libs-release-local-android/com/philips/cdp/digitalCare/5.0.0",
+  "version"            : "5.0.0",
+  "source url"         : "http://tfsemea1.ta.philips.com:8080/tfs/TPC_Region24/CDP2/_git/dcc-android-consumercare-app",
+  "documentation url"  : "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/simple/libs-release-local-android/com/philips/cdp/digitalCare/5.0.0",
+}

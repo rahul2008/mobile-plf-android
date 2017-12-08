@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
+
+    <LinearLayout
+        android:id="@+id/optionParent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/optionHelp"
+            style="@style/UIDLabel.RecyclerViewHeaderText"
+            android:background="?attr/uidContentSecondaryBackgroundColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textSize="16sp"
+            android:text="@string/how_can_we_help"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/supportMenuContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+</LinearLayout>

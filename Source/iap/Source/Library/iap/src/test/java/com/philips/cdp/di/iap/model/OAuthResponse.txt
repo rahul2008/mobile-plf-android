@@ -1,0 +1,7 @@
+{
+  "access_token": "42047fb8-99b6-4b17-8051-bf0082125fe5",
+  "token_type": "bearer",
+  "refresh_token": "805cf4bf-d570-4a70-bb18-41deae59ab28",
+  "expires_in": 3599,
+  "scope": "basic"
+}

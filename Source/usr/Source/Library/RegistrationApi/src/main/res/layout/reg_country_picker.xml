@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:reglib="http://reg.lib/schema"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/reg_dailog_bg"
+              android:orientation="vertical">
+
+    <com.philips.cdp.registration.ui.customviews.XEditText
+        android:id="@+id/reg_country_picker_search"
+        style="@style/reg_style_tab_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:drawableLeft="@drawable/search_icon"
+        android:hint="@string/reg_Country_Search_Text"
+        reglib:fontAssetName="CentraleSans-Light.otf"/>
+
+
+    <ListView
+        android:id="@+id/reg_country_picker_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+    </ListView>
+
+</LinearLayout>

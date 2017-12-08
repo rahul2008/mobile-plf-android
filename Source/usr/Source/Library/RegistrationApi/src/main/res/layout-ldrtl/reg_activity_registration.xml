@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:reglib="http://reg.lib/schema"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <View
+        android:id="@+id/view_reg_devider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/reg_shadow_title_bar_height"
+        android:layout_above="@android:id/tabs"
+        android:layout_below="@+id/rl_reg_header"
+        android:background="@drawable/reg_shadow_title_bar_view" />
+
+    <FrameLayout
+        android:id="@+id/fl_reg_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/view_reg_devider"
+        android:clickable="true"
+        android:orientation="vertical" />
+
+    <RelativeLayout
+        android:id="@+id/rl_reg_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/reg_header_height"
+        android:background="@drawable/reg_header_bg"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true">
+
+        <com.philips.cdp.registration.ui.customviews.XTextView
+            android:id="@+id/tv_reg_header_title"
+            style="@style/reg_style_homescreen_title"
+            android:layout_marginLeft="@dimen/reg_header_title_margin_right"
+            android:layout_toLeftOf="@+id/iv_reg_back"
+            android:text="@string/reg_SigIn_TitleTxt"
+            android:textColor="@color/reg_header_text_color"
+            reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+        <com.philips.cdp.registration.ui.customviews.XIconTextView
+            android:id="@+id/iv_reg_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dip"
+            android:layout_marginLeft="5dip"
+            android:padding="@dimen/reg_header_iv_back_padding"
+            android:text="@string/ic_reg_right"
+            android:textColor="@color/reg_back_arrow_color"
+            android:textSize="@dimen/reg_back_arrow_size"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
