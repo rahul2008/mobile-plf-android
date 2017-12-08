@@ -123,7 +123,7 @@ timestamps {
     node ('android && docker && localdisk') {
         try {
             stage ('Checkout 3') {
-                checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'LocalBranch' , localBranch: "**"], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'CloneOption', depth: 1, noTags: false, reference: '', shallow: true], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/opa-android']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'LocalBranch' , localBranch: "**"], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'CloneOption', depth: 1, noTags: false, reference: '', shallow: true], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/plf-android']]])
 
                 sh """#!/bin/bash -le
                     echo "---------------------- Printing Environment --------------------------"
@@ -261,29 +261,26 @@ timestamps {
             stage ('reporting') {
                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
             }
-
-
-
-            } catch(err) {
-                errors << "errors found: ${err}"
-            } finally {
-                if (errors.size() > 0) {
-                    stage ('error reporting') {
-                        currentBuild.result = 'FAILURE'
-                        for (int i = 0; i < errors.size(); i++) {
-                            echo errors[i];
-                        }
+        } catch(err) {
+            errors << "errors found: ${err}"
+        } finally {
+            if (errors.size() > 0) {
+                stage ('error reporting') {
+                    currentBuild.result = 'FAILURE'
+                    for (int i = 0; i < errors.size(); i++) {
+                        echo errors[i];
                     }
                 }
-
-                stage('Cleaning workspace') {
-                   step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
-                }
-
-                stage('informing') {
-                    step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
-                }
             }
+
+            stage('Cleaning workspace') {
+               step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
+            }
+
+            stage('informing') {
+                step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
+            }
+        }
     } // end node ('android')
 }//timestamp
 
