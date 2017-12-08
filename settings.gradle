@@ -38,7 +38,7 @@ include ':product-registration-libUApp'
 //include ':bluelib-demouapp'
 //include ':pluginreferenceboard'
 include ':securedblibrary'
-//include ':telehealth'
+include ':telehealth'
 //include ':MyAccount'
 //include ':ConsentWidgets'
 //include ':ConsentAccessToolKit'
@@ -84,7 +84,7 @@ project(':product-registration-libUApp').projectDir = new File('./Source/prg/Sou
 //project(':bluelib-demouapp').projectDir = new File('./Source/bll/Source/DemoUApp')
 //project(':pluginreferenceboard').projectDir = new File('./Source/bll/Source/ShineLib/pluginreferenceboard')
 project(':securedblibrary').projectDir = new File('./Source/sdb/Source/Library/securedblibrary')
-//project(':telehealth').projectDir = new File('./Source/ths/Source/Library/thsuapp')
+project(':telehealth').projectDir = new File('./Source/ths/Source/Library/thsuapp')
 //project(':MyAccount').projectDir = new File('./Source/mya/Source/Library/MyAccount')
 //project(':ConsentWidgets').projectDir = new File('./Source/mya/Source/Library/ConsentWidgets')
 //project(':ConsentAccessToolKit').projectDir = new File('./Source/mya/Source/Library/ConsentAccessToolKit')

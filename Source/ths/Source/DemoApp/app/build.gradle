@@ -9,7 +9,7 @@ jacoco {
 }
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
@@ -273,7 +273,7 @@ dependencies {
     
     def dp = project.ext.has('useprojectdependencies')
     def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix())
-	compile(dp ? project(':ail') : ailModule)
+	compile(dp ? project(':AppInfra') : ailModule)
     {
         exclude group: 'com.android.support'
         transitive = true
@@ -283,7 +283,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.dagger'
     }
- compile project(':thsuapp')
+ compile(project(':telehealth'))
 }
 
 task copyToLib(type: Copy) {
