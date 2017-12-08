@@ -10,20 +10,15 @@ import com.philips.cdp2.ews.tagging.Tag.ACTION;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
-import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.eq;
@@ -44,16 +39,6 @@ public class EWSTaggerTest {
         initMocks(this);
         subject = new EWSTagger(mockTaggingInterface);
 
-    }
-    @Ignore
-    @Deprecated
-    @Test
-    //todo constructor is not private anymore
-    public void itShouldVerifyConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        Constructor<EWSTagger> constructor = EWSTagger.class.getDeclaredConstructor();
-        assertTrue(Modifier.isPrivate(constructor.getModifiers()));
-        constructor.setAccessible(true);
-        constructor.newInstance();
     }
 
     @Test
@@ -92,7 +77,7 @@ public class EWSTaggerTest {
         assertEquals(1, map.size());
         assertEquals(successTagValue, map.get(notificationResopnseKey));
     }
-    
+
     @Test
     public void itShouldTrackInAppNotificationWhenAsked() throws Exception {
         final String pageName = "SomePageName";
@@ -100,7 +85,7 @@ public class EWSTaggerTest {
         final String notificationResponse = "inAppNotification";
         final String dialogTagValue = "dialogTagValue";
 
-        subject.trackInAppNotification(pageName,dialogTagValue);
+        subject.trackInAppNotification(pageName, dialogTagValue);
 
         verify(mockTaggingInterface).trackPageWithInfo(eq(pageName), mapArgumentCaptor.capture());
 
@@ -163,7 +148,7 @@ public class EWSTaggerTest {
     }
 
     @Test
-    public void itShouldStopTimedActionWhenAsked() throws Exception{
+    public void itShouldStopTimedActionWhenAsked() throws Exception {
         String timeActionEnd = "timeActionStart";
         subject.stopTimedAction(timeActionEnd);
         verify(mockTaggingInterface).trackTimedActionEnd(eq(timeActionEnd));

@@ -52,8 +52,10 @@ public class WiFiUtil {
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         if (wifiInfo.getSupplicantState() == SupplicantState.COMPLETED) {
             return getFormattedSSID(wifiInfo.getSSID());
+        } else {
+            lastWifiSSid = null;
+            return null;
         }
-        return null;
     }
 
     public String getFormattedSSID(@NonNull final String SSID) {

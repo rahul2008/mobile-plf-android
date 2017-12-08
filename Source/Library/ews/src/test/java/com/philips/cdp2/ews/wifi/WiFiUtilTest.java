@@ -77,7 +77,7 @@ public class WiFiUtilTest {
     @Test
     public void itShouldReturnNullWiFiIsNotConnected() throws Exception {
         disconnectNetwork();
-
+        subject.getConnectedWiFiSSID();
         assertNull(subject.getHomeWiFiSSD());
     }
 

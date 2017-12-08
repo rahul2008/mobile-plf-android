@@ -8,22 +8,16 @@ package com.philips.cdp2.ews.logger;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.ERROR;
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.INFO;
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.VERBOSE;
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.WARNING;
-import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -43,17 +37,6 @@ public class EWSLoggerTest {
         initMocks(this);
 
         subject = new EWSLogger(mockLoggingInterface);
-    }
-
-    @Deprecated
-    @Ignore
-    @Test
-    //todo: please take a look again, now constructor is not private anymore
-    public void itShouldVerifyConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        Constructor<EWSLogger> constructor = EWSLogger.class.getDeclaredConstructor();
-        assertTrue(Modifier.isPrivate(constructor.getModifiers()));
-        constructor.setAccessible(true);
-        constructor.newInstance();
     }
 
     @Test
