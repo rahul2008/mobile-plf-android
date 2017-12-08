@@ -4,7 +4,7 @@
 include ':AppInfra'
 include ':AppInfraUApp'
 //include ':prx'
-//include ':uikitLib'
+include ':uikitLib'
 include ':uid'
 include ':IconFont'
 //include ':registrationApi'
@@ -50,7 +50,7 @@ include ':uAppFwLibUApp'
 project(':AppInfra').projectDir = new File('./Source/ail/Source/Library/AppInfra')
 project(':AppInfraUApp').projectDir = new File('./Source/ail/Source/DemoUApp/app-infra-demo-uapp')
 //project(':prx').projectDir = new File('./Source/prx/Source/Library/PrxSample/prx')
-//project(':uikitLib').projectDir = new File('./Source/uit/Source/UiKit/uikitLib')
+project(':uikitLib').projectDir = new File('./Source/uit/Source/UiKit/uikitLib')
 project(':uid').projectDir = new File('./Source/uid/Source/UIKit/uid')
 project(':IconFont').projectDir = new File('./Source/icf/Source/Library/IconFont/icf')
 //project(':registrationApi').projectDir = new File('./Source/usr/Source/Library/RegistrationApi')
