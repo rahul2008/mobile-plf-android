@@ -1,0 +1,4 @@
+include ':app'
+
+include ':prx'
+project(':prx').projectDir = new File('./prx')

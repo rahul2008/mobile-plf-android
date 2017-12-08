@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">PrxClientLib</string>
+    <string name="no_internet_message">No internet connection</string>
+    <string name="authFailureError">Error indicating that there was an authentication failure when performing a Request.</string>
+    <string name="networkError">Indicates that there was a network error when performing a Volley request.</string>
+    <string name="parseErrors">Indicates that the server response could not be parsed.</string>
+    <string name="serverErrors">Indicates that the error responded with an error response.</string>
+    <string name="timeoutError">Indicates that the connection or the socket timed out.</string>
+</resources>
