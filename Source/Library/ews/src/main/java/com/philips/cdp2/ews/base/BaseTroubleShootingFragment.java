@@ -27,12 +27,7 @@ public abstract class BaseTroubleShootingFragment extends BaseFragment {
     @Override
     public void handleCancelButtonClicked() {
         BaseTroubleShootingViewModel viewModel =
-                DaggerEWSComponent.builder()
-                        .eWSModule(new EWSModule(this.getActivity()
-                                , EWSLauncherInput.getFragmentManager()
-                                , EWSLauncherInput.getContainerFrameId(), DependencyHelper.getCommCentral()))
-                        .eWSConfigurationModule(new EWSConfigurationModule(this.getActivity(), DependencyHelper.getContentConfiguration()))
-                        .build().baseTroubleShootingViewModel();
+                getEWSComponent().baseTroubleShootingViewModel();
         viewModel.onCancelButtonClicked();
     }
 

@@ -31,7 +31,7 @@ public class WiFiUtil {
     public static final int UNKNOWN_WIFI = 3;
     public static final int DEVICE_HOTSPOT_WIFI = 4;
     private static final String TAG = "WiFiUtil";
-    private String lastWifiSSid;
+    private static String lastWifiSSid;
     @NonNull
     private WifiManager wifiManager;
     @NonNull
