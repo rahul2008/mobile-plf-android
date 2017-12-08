@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
@@ -39,8 +38,6 @@ public class ConnectWithPasswordViewModelTest {
 
     private static final String PRODUCT = "product 001";
     @Mock
-    private ApplianceSessionDetailsInfo sessionInfoMock;
-    @Mock
     private WiFiUtil wifiUtilMock;
     @Mock
     private Navigator navigatorMock;
@@ -62,7 +59,7 @@ public class ConnectWithPasswordViewModelTest {
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(EWSTagger.class);
-        subject = new ConnectWithPasswordViewModel(wifiUtilMock, sessionInfoMock, navigatorMock,
+        subject = new ConnectWithPasswordViewModel(wifiUtilMock, navigatorMock,
                  mockBaseContentConfig, mockStringProvider, mockEWSTagger);
         when(mockBaseContentConfig.getDeviceName()).thenReturn(123435);
     }

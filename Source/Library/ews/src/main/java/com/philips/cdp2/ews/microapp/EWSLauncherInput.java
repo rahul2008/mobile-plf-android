@@ -37,7 +37,7 @@ public class EWSLauncherInput extends UappLaunchInput {
 
     /**
      * Set fragmentManager for Fragment launcher
-     * @param fragManager
+     * @param fragManager FragmentManager
      */
     void setFragmentManager(FragmentManager fragManager) {
         fragmentManager = fragManager;
@@ -45,7 +45,7 @@ public class EWSLauncherInput extends UappLaunchInput {
 
     /**
      * Set containerFrameID for Fragment launcher
-     * @param containerFrmId
+     * @param containerFrmId ContainerFrameId
      */
     void setContainerFrameId(int containerFrmId) {
         containerFrameId = containerFrmId;

@@ -136,7 +136,6 @@ public class ConnectingWithDeviceFragment extends BaseFragment implements
         return true;
     }
 
-    @NonNull
     @Override
     protected void callTrackPageName() {
         if (viewModel != null) {

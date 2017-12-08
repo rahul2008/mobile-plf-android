@@ -15,10 +15,12 @@ import com.philips.cdp2.ews.databinding.FragmentConnectToWrongPhoneTroubleshooti
 public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShootingFragment {
 
     @NonNull
-    FragmentConnectToWrongPhoneTroubleshootingLayoutBinding connectToWrongPhoneTroubleshootingLayoutBinding;
+    @SuppressWarnings("NullableProblems")
+    private FragmentConnectToWrongPhoneTroubleshootingLayoutBinding connectToWrongPhoneTroubleshootingLayoutBinding;
 
     @NonNull
-    ConnectToWrongPhoneTroubleshootingViewModel viewModel;
+    @SuppressWarnings("NullableProblems")
+    private ConnectToWrongPhoneTroubleshootingViewModel viewModel;
 
     @Nullable
     @Override
@@ -53,7 +55,6 @@ public class ConnectToWrongPhoneTroubleshootingFragment extends BaseTroubleShoot
                 });
     }
 
-    @NonNull
     @Override
     protected void callTrackPageName() {
         viewModel.trackPageName();
