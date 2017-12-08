@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/selected_pharmacy_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/uid_grid_title_padding">
+
+    <RelativeLayout
+        android:id="@+id/selected_pharmacy_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/uid_grid_title_padding">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/selected_pharmacy_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="@dimen/ths_body_text" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/selected_pharmacy_address_line_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/selected_pharmacy_name"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+            android:textSize="@dimen/ths_small_body_text" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/selected_pharmacy_address_line_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/selected_pharmacy_name"
+            android:layout_toEndOf="@+id/selected_pharmacy_state"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+            android:textSize="@dimen/ths_small_body_text" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/selected_pharmacy_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/selected_pharmacy_address_line_one"
+            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="12dp"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+            android:textSize="@dimen/ths_small_body_text" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/selected_pharmacy_zip_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/selected_pharmacy_state"
+            android:layout_alignBottom="@+id/selected_pharmacy_state"
+            android:layout_marginBottom="12dp"
+            android:layout_toEndOf="@+id/selected_pharmacy_state"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+            android:textSize="@dimen/ths_small_body_text" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/selected_pharmacy_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/selected_pharmacy_state"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+            android:textSize="@dimen/ths_small_body_text" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/selected_pharmacy_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/selected_pharmacy_phone"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+            android:textSize="@dimen/ths_small_body_text" />
+    </RelativeLayout>
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/choose_pharmacy_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/selected_pharmacy_details"
+        android:text="@string/ths_choose_pharmacy_button_text" />
+</RelativeLayout>

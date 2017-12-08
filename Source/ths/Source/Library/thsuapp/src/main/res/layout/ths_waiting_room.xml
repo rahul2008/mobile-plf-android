@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_waiting_room_title_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="24dp"
+        android:lineSpacingExtra="8sp"
+        android:text="@string/ths_waiting_room_you_are_waiting_to_see"
+        android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:textSize="@dimen/ths_title_text"
+        fontPath="fonts/centralesansbold.ttf" />
+
+    <LinearLayout
+        android:id="@+id/ths_waiting_room_provider_top_grey_boundary"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ths_waiting_room_title_label"
+        android:background="@color/uid_gray_level_10"
+        android:orientation="horizontal" />
+
+    <RelativeLayout
+        android:id="@+id/ths_waiting_room_provider_detail_relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_waiting_room_provider_top_grey_boundary">
+
+        <com.philips.platform.ths.utility.CircularImageView
+            android:id="@+id/details_providerImage"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="18dp"
+            android:layout_marginStart="@dimen/uid_label_margin_start"
+            android:layout_marginTop="18dp" />
+
+        <RelativeLayout
+            android:id="@+id/details_providerDetailLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/uid_label_margin_start"
+            android:layout_marginStart="@dimen/uid_label_margin_start"
+            android:layout_toRightOf="@+id/details_providerImage">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/details_providerNameLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
+                android:layout_marginTop="@dimen/uid_grid_icon_padding"
+                android:textColor="?attr/uidLabelRegularNormalTextColor"
+                android:textSize="24sp" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/details_practiceNameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/details_providerNameLabel"
+                android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ths_waiting_room_provider_bottom_grey_boundary"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ths_waiting_room_provider_detail_relativelayout"
+        android:background="@color/uid_gray_level_10"
+        android:orientation="horizontal" />
+
+    <RelativeLayout
+        android:id="@+id/ths_waiting_room_progressbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ths_waiting_room_cancel_button"
+        android:layout_below="@+id/ths_waiting_room_provider_bottom_grey_boundary"
+        android:gravity="center">
+
+        <com.philips.platform.uid.view.widget.ProgressBarWithLabel
+            android:id="@+id/ths_waiting_room_ProgressBarWithLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:visibility="visible"
+            app:uidCircularProgressBarSize="big"
+            app:uidIsIndeterminateProgressIndicator="true"
+            app:uidLabelPosition="bottom_center" />
+    </RelativeLayout>
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/ths_waiting_room_cancel_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/ths_margin_between_buttons"
+        android:layout_marginLeft="@dimen/ths_fab_margin"
+        android:layout_marginRight="@dimen/ths_fab_margin"
+        android:text="@string/ths_cancel_visit_string" />
+</RelativeLayout>

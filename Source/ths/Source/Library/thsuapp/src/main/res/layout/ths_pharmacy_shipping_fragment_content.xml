@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ps_prescription_sent_label"
+        android:layout_width="match_parent"
+        android:textSize="@dimen/ths_body_text"
+        android:textColor="?attr/uidContentItemSecondaryDisabledTextColor"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor"
+        android:layout_height="@dimen/ths_list_item_height"
+        android:paddingStart="@dimen/ths_fab_margin"
+        android:paddingEnd="@dimen/ths_fab_margin"
+        android:gravity="center_vertical"
+        android:text="@string/ths_pharmacy_prescriptions_sent_to"
+         />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ps_pharmacy_list_layout_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ps_prescription_sent_label"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
+        android:orientation="vertical"
+        android:paddingBottom="12dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="12dp">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ps_pharmacy_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ths_address_bottom_margin"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="@dimen/ths_body_text" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ps_pharmacy_address_line_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ps_pharmacy_name"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+            android:textSize="@dimen/ths_small_body_text"  />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ps_pharmacy_address_line_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/ps_pharmacy_address_line_one"
+            android:layout_alignBottom="@+id/ps_pharmacy_address_line_one"
+            android:layout_toEndOf="@+id/ps_pharmacy_address_line_one"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+            android:textSize="@dimen/ths_small_body_text"  />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ps_pharmacy_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ps_pharmacy_address_line_one"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+            android:textSize="@dimen/ths_small_body_text"  />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ps_pharmacy_zip_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/ps_pharmacy_state"
+            android:layout_alignBottom="@+id/ps_pharmacy_state"
+            android:layout_toEndOf="@+id/ps_pharmacy_state"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+            android:textSize="@dimen/ths_small_body_text"  />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ps_edit_pharmacy"
+            style="@style/ths_font_icon_style"
+            android:layout_marginEnd="@dimen/ths_fab_margin"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@string/dls_edit"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divider_one"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/ps_pharmacy_list_layout_item"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ps_shipped_to_label"
+        android:textSize="@dimen/ths_body_text"
+        android:textColor="?attr/uidContentItemSecondaryDisabledTextColor"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor"
+        android:layout_height="@dimen/ths_list_item_height"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/ths_fab_margin"
+        android:paddingEnd="@dimen/ths_fab_margin"
+        android:layout_width="match_parent"
+        android:layout_alignStart="@+id/ps_prescription_sent_label"
+        android:layout_below="@+id/divider_one"
+        android:text="@string/ths_pharmacy_medications_sent_to_text"
+        />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ps_shipping_layout_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
+        android:orientation="vertical"
+        android:paddingBottom="12dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="12dp"
+        android:layout_below="@+id/ps_shipped_to_label"
+        android:layout_alignParentStart="true">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ps_consumer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ths_address_bottom_margin"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="@dimen/ths_body_text" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ps_consumer_shipping_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/ps_consumer_name"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+            android:textSize="@dimen/ths_small_body_text"  />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ps_consumer_shipping_zip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/ps_consumer_shipping_address"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+            android:textSize="@dimen/ths_small_body_text"  />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ps_consumer_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/ps_consumer_shipping_zip"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+            android:textSize="@dimen/ths_small_body_text"  />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ps_consumer_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/ps_consumer_city"
+            android:layout_alignBottom="@+id/ps_consumer_city"
+            android:layout_toEndOf="@+id/ps_consumer_name"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+            android:textSize="@dimen/ths_small_body_text"  />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ps_edit_consumer_shipping_address"
+            style="@style/ths_font_icon_style"
+            android:layout_marginEnd="@dimen/ths_fab_margin"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@string/dls_edit"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/ps_shipping_layout_item"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+</RelativeLayout>

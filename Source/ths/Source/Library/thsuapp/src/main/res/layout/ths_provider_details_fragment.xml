@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/available_provider_details_container"
+    android:layout_width="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/ths_match_making_ProgressBarWithLabel_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_match_making_ProgressBar_message_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+
+            android:layout_marginTop="130dp"
+            android:gravity="center_horizontal" />
+    </RelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeProviderLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottomLayout"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
+        android:layout_below="@+id/ths_match_making_ProgressBarWithLabel_container">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/dodProviderFound"
+                    fontPath="fonts/centralesansbold.ttf"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@color/uid_signal_green_level_60"
+                    android:gravity="center"
+                    android:text="@string/ths_matchmaking_found_matchmaking"
+                    android:textColor="@color/uid_level_white"
+                    android:textSize="16sp"
+                    android:visibility="gone">
+
+                </com.philips.platform.uid.view.widget.Label>
+
+                <RelativeLayout
+                    android:id="@+id/providerDetailDListLayoutRelativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dodProviderFound">
+
+                    <include
+                        android:id="@+id/providerDetailDListLayout"
+                        layout="@layout/ths_provider_details_c_list" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/horizontalLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/providerDetailDListLayoutRelativeLayout"
+                    android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+                <RelativeLayout
+                    android:id="@+id/visitCostLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/horizontalLine"
+                    android:layout_marginEnd="@dimen/uid_grid_title_padding"
+                    android:layout_marginStart="@dimen/uid_grid_title_padding"
+                    android:paddingBottom="@dimen/uid_grid_title_padding"
+                    android:paddingTop="@dimen/uid_grid_title_padding">
+
+                    <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/visitCostLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:text="Visit cost"
+                        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                        android:textSize="16dp" />
+
+                    <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/priceBeforeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/visitCostLabel"
+                        android:text="Price before insurance"
+                        android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                        android:textSize="14dp" />
+
+                    <com.philips.platform.uid.view.widget.Label
+                        android:id="@+id/visitCostValueLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="22dp"
+                        android:textColor="?attr/uidLabelValueNormalTextColor"
+                        android:textSize="30sp" />
+                </RelativeLayout>
+
+                <include
+                    android:id="@+id/calendar_container_view"
+                    layout="@layout/ths_time_slot_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/visitCostLayout" />
+
+                <View
+                    android:id="@+id/horizontalLineOne"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/calendar_container_view"
+                    android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/profileLabel"
+                    style="@style/ths_list_item_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/horizontalLineOne"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/ths_fab_margin"
+                    android:paddingRight="@dimen/ths_fab_margin"
+                    android:text="Profile" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/ratingLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/profileLabel"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Rating"
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                    android:textSize="16sp" />
+
+                <com.philips.platform.uid.view.widget.RatingBar
+                    android:id="@+id/providerRatingValue"
+                    style="@style/UIDRatingBarStandardDisplay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ratingLabel"
+                    android:layout_marginBottom="@dimen/uid_grid_title_padding"
+                    android:layout_marginEnd="@dimen/uid_grid_title_padding"
+                    android:layout_marginStart="@dimen/uid_grid_title_padding"
+                    android:rating="3.6"
+                    android:stepSize=".1"
+                    android:textColor="?attr/uidLabelValueNormalTextColor"
+                    android:textSize="@dimen/uid_grid_descrption_size" />
+
+                <View
+                    android:id="@+id/horizontalLineTwo"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/providerRatingValue"
+                    android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/spokenLanguageLabel"
+                    style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/horizontalLineTwo"
+                    android:layout_marginBottom="4dp"
+                    android:paddingEnd="@dimen/uid_grid_title_padding"
+                    android:paddingStart="@dimen/uid_grid_title_padding"
+                    android:paddingTop="@dimen/uid_grid_title_padding"
+                    android:text="Spoken Language"
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                    android:textSize="16sp" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/spokenLanguageValueLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/spokenLanguageLabel"
+                    android:paddingBottom="@dimen/uid_grid_title_padding"
+                    android:paddingEnd="@dimen/uid_grid_title_padding"
+                    android:paddingStart="@dimen/uid_grid_title_padding"
+                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                    android:textSize="14sp" />
+
+                <View
+                    android:id="@+id/horizontalLineThree"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/spokenLanguageValueLabel"
+                    android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/yearsOfExpLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/horizontalLineThree"
+                    android:layout_marginBottom="4dp"
+                    android:paddingEnd="@dimen/uid_grid_title_padding"
+                    android:paddingStart="@dimen/uid_grid_title_padding"
+                    android:paddingTop="@dimen/uid_grid_title_padding"
+                    android:text="Years of experience"
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                    android:textSize="16sp" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/yearsOfExpValueLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/yearsOfExpLabel"
+                    android:paddingBottom="@dimen/uid_grid_title_padding"
+                    android:paddingEnd="@dimen/uid_grid_title_padding"
+                    android:paddingStart="@dimen/uid_grid_title_padding"
+                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                    android:textSize="14sp" />
+
+                <View
+                    android:id="@+id/horizontalLineFour"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/yearsOfExpValueLabel"
+                    android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/graduatedLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/horizontalLineFour"
+                    android:layout_marginBottom="4dp"
+                    android:paddingEnd="@dimen/uid_grid_title_padding"
+                    android:paddingStart="@dimen/uid_grid_title_padding"
+                    android:paddingTop="@dimen/uid_grid_title_padding"
+                    android:text="Graduated"
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                    android:textSize="16sp" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/graduatedValueLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/graduatedLabel"
+                    android:paddingBottom="@dimen/uid_grid_title_padding"
+                    android:paddingEnd="@dimen/uid_grid_title_padding"
+                    android:paddingStart="@dimen/uid_grid_title_padding"
+                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                    android:textSize="14sp" />
+
+                <View
+                    android:id="@+id/horizontalLineFive"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/graduatedValueLabel"
+                    android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/aboutMeLabel"
+                    style="@style/ths_list_item_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/horizontalLineFive"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/ths_fab_margin"
+                    android:paddingRight="@dimen/ths_fab_margin"
+                    android:text="About Me" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/aboutMeValueLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/aboutMeLabel"
+                    android:paddingBottom="@dimen/uid_grid_title_padding"
+                    android:paddingEnd="@dimen/uid_grid_title_padding"
+                    android:paddingStart="@dimen/uid_grid_title_padding"
+                    android:paddingTop="@dimen/uid_grid_title_padding"
+                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/uid_grid_title_padding"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingEnd="@dimen/uid_grid_title_padding"
+        android:paddingStart="@dimen/uid_grid_title_padding"
+        android:paddingTop="@dimen/uid_grid_title_padding">
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/detailsButtonOne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ths_list_space"
+            android:visibility="gone" />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/detailsButtonTwo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/detailsButtonOne"
+            android:visibility="gone"
+            app:uidComponentType="Secondary" />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/detailsButtonContinue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/detailsButtonTwo"
+            android:text="@string/ths_continue"
+            android:visibility="gone" />
+    </RelativeLayout>
+</RelativeLayout>

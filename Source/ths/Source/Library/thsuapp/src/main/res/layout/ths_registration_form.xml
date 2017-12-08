@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/registration_container_layout_top"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/registration_container_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ths_shadow">
+
+        <RelativeLayout
+            android:id="@+id/registration_form_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/ths_fab_margin"
+            android:paddingLeft="@dimen/ths_fab_margin"
+            android:paddingRight="@dimen/ths_fab_margin">
+
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_detail"
+                style="@style/ths_title_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="@dimen/ths_fab_margin"
+                android:layout_marginTop="@dimen/ths_margin_top_registration_detail_title"
+                android:text="@string/ths_detail" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_more_detail"
+                style="@style/ths_body_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ths_detail"
+                android:layout_marginBottom="@dimen/ths_margin_bottom_more_details"
+                android:text="@string/ths_more_details" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ths_more_detail"
+                android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
+                android:text="@string/ths_first_name" />
+
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/ths_edit_first_name_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ths_first_name"
+                android:layout_marginBottom="@dimen/ths_fab_margin"
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="@string/ths_inline_error_message">
+
+                <com.philips.platform.uid.view.widget.ValidationEditText
+                    android:id="@+id/ths_edit_first_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="true"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    app:uidInputTextWithClearButton="true" />
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
+
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ths_edit_first_name_container"
+                android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
+                android:text="@string/ths_last_name" />
+
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/ths_edit_last_name_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ths_last_name"
+                android:layout_marginBottom="@dimen/ths_fab_margin"
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="@string/ths_inline_error_message">
+
+                <com.philips.platform.uid.view.widget.ValidationEditText
+                    android:id="@+id/ths_edit_last_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="true"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    app:uidInputTextWithClearButton="true" />
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ths_edit_last_name_container"
+                android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
+                android:text="@string/ths_dob" />
+
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/ths_edit_dob_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ths_dob"
+                android:layout_marginBottom="@dimen/ths_fab_margin"
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="@string/ths_inline_error_message">
+
+                <com.philips.platform.uid.view.widget.ValidationEditText
+                    android:id="@+id/ths_edit_dob"
+                    style="@style/ths_calendar_right"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/ths_dob_format"
+                    android:inputType="none" />
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
+
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ths_edit_dob_container"
+                android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
+                android:text="@string/ths_gender" />
+
+            <com.philips.platform.uid.view.widget.RadioGroup
+                android:id="@+id/radio_group_single_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ths_gender">
+
+                <com.philips.platform.uid.view.widget.RadioButton
+                    android:id="@+id/ths_checkbox_female"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ths_gender"
+                    android:enabled="true"
+                    android:text="@string/ths_female" />
+
+                <com.philips.platform.uid.view.widget.RadioButton
+                    android:id="@+id/ths_checkbox_male"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ths_checkbox_female"
+                    android:layout_marginBottom="@dimen/ths_list_item_height"
+                    android:enabled="true"
+                    android:text="@string/ths_male" />
+            </com.philips.platform.uid.view.widget.RadioGroup>
+
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/radio_group_single_line"
+                android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
+                android:text="@string/ths_location" />
+
+            <RelativeLayout
+                android:id="@+id/ths_edit_location_container_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ths_label">
+
+                <com.philips.platform.uid.view.widget.InputValidationLayout
+                    android:id="@+id/ths_edit_location_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                    app:uidTextBoxValidationErrorText="@string/ths_inline_error_message">
+
+                    <com.philips.platform.uid.view.widget.ValidationEditText
+                        android:id="@+id/ths_edit_location"
+                        style="@style/ths_location_right"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:editable="false"
+                        android:inputType="none"
+                        android:hint="@string/ths_state" />
+
+                </com.philips.platform.uid.view.widget.InputValidationLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/ths_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/ths_fab_margin"
+        android:paddingEnd="@dimen/ths_fab_margin"
+        android:paddingStart="@dimen/ths_fab_margin"
+        android:paddingTop="@dimen/ths_fab_margin">
+
+        <com.philips.platform.uid.view.widget.ProgressBarButton
+            android:id="@+id/ths_continue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:uidIsIndeterminateProgressIndicator="true"
+            app:uidProgressIndicatorButtonProgressText="Loading.."
+            app:uidProgressIndicatorButtonText="Continue" />
+    </RelativeLayout>
+</RelativeLayout>

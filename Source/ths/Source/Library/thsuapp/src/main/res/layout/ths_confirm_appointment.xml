@@ -1,0 +1,110 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:layout_height="match_parent">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/schedule_appointment"
+        style="@style/amwellCentralesansBoldFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/ths_conditions_margin_top"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:paddingTop="@dimen/ths_margin_top_registration_detail_title"
+        android:text="@string/ths_schedule_appointment_for"
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+        android:textSize="20sp" />
+
+    <View
+        android:id="@+id/line_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/schedule_appointment"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/date"
+        style="@style/ths_list_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line_separator"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/reminderTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+        android:textSize="@dimen/uid_grid_descrption_size" />
+
+    <View
+        android:id="@+id/line_separator_1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/reminderTime"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/with"
+        style="@style/ths_list_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line_separator_1"
+        android:paddingBottom="3dp"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:paddingTop="3dp"
+        android:text="@string/ths_with" />
+
+    <include
+        android:id="@+id/providerDetailDListLayout"
+        layout="@layout/ths_provider_details_c_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/with" />
+
+    <View
+        android:id="@+id/horizontalLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/providerDetailDListLayout"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/email_sent"
+        style="@style/ths_body_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/horizontalLine"
+        android:layout_marginBottom="24dp"
+        android:layout_marginTop="16dp"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:text="@string/ths_email_sent" />
+
+    <RelativeLayout
+        android:id="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/uid_grid_title_padding"
+        android:paddingEnd="@dimen/uid_grid_title_padding"
+        android:paddingStart="@dimen/uid_grid_title_padding"
+        android:paddingTop="@dimen/uid_grid_title_padding">
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/ok_got_it"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ths_got_it" />
+    </RelativeLayout>
+
+</RelativeLayout>

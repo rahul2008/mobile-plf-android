@@ -1,0 +1,15 @@
+Source/DemoApp/app/gradle/wrapper/gradle-wrapper.jar
+Source/DemoApp/app/gradle/wrapper/gradle-wrapper.properties
+Source/DemoApp/app/gradlew
+Source/DemoApp/app/gradlew.bat
+Source/DemoApp/app/local.properties
+
+Source/Library/thsuapp/build/
+Source/DemoApp/THS/thsuapp/build
+Source/Library/thsuapp/build/
+Source/Library/thsuapp/thsuapp.iml
+Source/DemoApp/Amwell/amwelluapp/build/
+Source/DemoApp/build
+*.crt
+*.class
+Source/DemoApp/app/.idea/.name

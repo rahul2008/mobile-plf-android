@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/providerListItemLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_number_of_visits"
+        style="@style/ths_list_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:text="@string/ths_number_of_visits_scheduled" />
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/ths_visit_dates_list_swipe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ths_number_of_visits">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ths_visit_dates_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <View
+        android:id="@+id/ths_scheduled_appintment_separator_below"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ths_list_space_normal"
+        android:layout_below="@+id/ths_button_container"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+</RelativeLayout>

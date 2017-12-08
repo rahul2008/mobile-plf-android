@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/searchPharmacyContainerView"
+    android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_pharmacy_search_label"
+        android:layout_width="match_parent"
+        style="@style/UIDLabel.RecyclerViewItemMultipleLinesTitleText"
+        android:layout_margin="@dimen/ths_fab_margin"
+        android:layout_height="wrap_content"
+        android:text="@string/pharmacy_search_label" />
+
+    <com.philips.platform.uid.view.widget.SearchBox
+        android:id="@+id/ths_search_pharmacy_edittext"
+        android:layout_below="@id/ths_pharmacy_search_label"
+        android:layout_width="match_parent"
+        android:inputType="number"
+        app:uidSearchInContentArea="true"
+        android:layout_margin="@dimen/ths_fab_margin"
+        android:hint="@string/pharmacy_search_edittext_hint"
+        android:layout_height="wrap_content"
+        />
+</RelativeLayout>

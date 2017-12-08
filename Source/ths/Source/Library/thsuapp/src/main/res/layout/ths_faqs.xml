@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/hippa_notice_container"
+    android:layout_width="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:layout_height="match_parent">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/ths_appointment_start_time"
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+        style="@style/amwellCentralesansBoldFont"
+        android:textSize="20sp"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:paddingBottom="@dimen/ths_body_text_padding"
+        android:paddingTop="@dimen/ths_body_text_padding" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_ans"
+        android:layout_below="@id/ths_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/ths_body_text"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:text="@string/ths_appointment_fill_details">
+    </com.philips.platform.uid.view.widget.Label>
+</RelativeLayout>

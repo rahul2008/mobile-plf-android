@@ -1,0 +1,19 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/init_fragment_container"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="?attr/uidNavigationSecondaryBackgroundColor" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha=".2"
+        android:background="@drawable/ths_welcome"
+        android:scaleType="centerCrop"
+        />
+</RelativeLayout>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/providerListItemLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:orientation="vertical">
+
+    <com.philips.platform.ths.utility.CircularImageView
+        android:id="@+id/details_providerImage"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/doctor_placeholder" />
+
+    <RelativeLayout
+        android:id="@+id/details_providerDetailLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="@dimen/uid_label_margin_start"
+        android:layout_marginStart="@dimen/uid_label_margin_start"
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@+id/details_providerImage">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/details_providerNameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
+            android:lineSpacingExtra="8sp"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="@dimen/uid_navigation_bar_text_size" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/details_practiceNameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/details_providerNameLabel"
+            android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
+            android:lineSpacingExtra="6sp"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+            android:textSize="@dimen/uid_grid_descrption_size" />
+
+        <RelativeLayout
+            android:id="@+id/isAvailableLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/details_practiceNameLabel">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/details_isAvailableLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="6dp"
+                android:layout_toRightOf="@+id/details_isAvailableImage_layout"
+                android:lineSpacingExtra="6sp"
+                android:text="@string/ths_available_time_slots"
+                android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
+                android:textSize="@dimen/uid_grid_descrption_size" />
+
+            <com.philips.platform.uid.view.widget.NotificationBadge
+                android:id="@+id/notification_badge"
+                style="@style/NotificationBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="16dp"
+                android:enabled="false"
+                android:text="2"
+                android:visibility="gone"
+                app:backgroundTint="?attr/uidColorLevel60" />
+
+            <FrameLayout
+                android:id="@+id/details_isAvailableImage_layout"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="16dp"
+                android:layout_toEndOf="@+id/notification_badge"
+                android:enabled="false"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/details_isAvailableImage"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:enabled="false"
+                    android:gravity="center" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/details_isAvailableImage_text"
+                    android:layout_width="22dp"
+                    android:gravity="center"
+                    android:layout_height="22dp"
+                    android:textColor="?attr/uidButtonPrimaryNormalTextColor"
+                    />
+            </FrameLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

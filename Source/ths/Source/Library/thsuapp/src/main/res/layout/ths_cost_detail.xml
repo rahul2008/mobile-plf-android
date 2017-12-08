@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/cost_container"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/ths_margin_bottom"
+    android:layout_marginLeft="@dimen/ths_fab_margin"
+    android:layout_marginRight="@dimen/ths_fab_margin"
+    android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_cost_summary_title_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ths_margin_between_ui_control"
+        android:layout_marginTop="24dp"
+        android:text="Your visit will cost"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/ths_cost_summary_relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_cost_summary_title_label"
+        android:layout_marginBottom="@dimen/ths_margin_bottom"
+        android:layout_marginRight="16dp">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_cost_summary_cost_big_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+
+            android:textSize="88dp" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_cost_summary_cost_small_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/ths_cost_summary_cost_big_label"
+
+            android:textSize="34dp" />
+
+    </RelativeLayout>
+
+    <com.philips.platform.uid.view.widget.Label
+
+        android:id="@+id/ths_cost_summary_initial_visit_cost_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_cost_summary_relativelayout"
+        android:layout_marginBottom="@dimen/ths_margin_bottom"
+        android:lineSpacingExtra="4dp"
+
+        android:textSize="@dimen/ths_small_body_text"/>
+
+    <LinearLayout
+        android:id="@+id/ths_cost_summary_divider_linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ths_cost_summary_initial_visit_cost_label"
+        android:layout_marginBottom="@dimen/ths_list_space"
+        android:background="@color/uid_gray_level_10"
+        android:orientation="horizontal"/>
+
+    <com.philips.platform.uid.view.widget.Label
+
+        android:id="@+id/ths_cost_summary_promotion_code_title_label"
+        android:layout_below="@+id/ths_cost_summary_divider_linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ths_margin_bottom"
+        android:text="Enter a promotion code here"
+        android:textSize="@dimen/ths_body_text"
+
+        />
+
+    <com.philips.platform.uid.view.widget.EditText
+
+        android:id="@+id/ths_cost_summary_promotion_code_edittext"
+        android:layout_below="@+id/ths_cost_summary_promotion_code_title_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:maxLines="1"
+        android:layout_marginBottom="@dimen/ths_list_space" />
+
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/ths_cost_summary_promotion_code_apply_button"
+        android:layout_below="@+id/ths_cost_summary_promotion_code_edittext"
+        style="@style/UIDImageTextButton.Center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+
+        android:text="Apply"
+
+        />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/ths_cost_summary_continue_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/ths_margin_bottom"
+        android:text="Ok Continue" />
+
+</RelativeLayout>

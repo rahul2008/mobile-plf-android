@@ -1,0 +1,136 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ths_symptoms_relative_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:paddingBottom="12dp">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/wizard_button"
+        style="@style/ths_mobile_wizard"
+        android:text="@string/symptoms" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/continue_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/ths_fab_margin"
+        android:layout_marginEnd="@dimen/ths_fab_margin"
+        android:enabled="false"
+        android:text="@string/ths_continue_button_text" />
+
+    <ScrollView
+        android:id="@+id/scroll_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/continue_btn"
+        android:layout_below="@id/wizard_button"
+        android:layout_marginBottom="24dp">
+
+        <RelativeLayout
+            android:id="@+id/symptoms_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_symptoms_patient_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ths_image_size"
+                android:layout_marginBottom="@dimen/ths_margin_between_buttons"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
+                android:textSize="@dimen/ths_small_body_text"
+                style="@style/UIDLabel.Header"
+                />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/help_visit"
+                style="@style/ths_body_text"
+                android:layout_below="@id/ths_symptoms_patient_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ths_conditions_margin_top"
+                android:paddingLeft="@dimen/ths_fab_margin"
+                android:paddingRight="@dimen/ths_fab_margin"
+                android:text="@string/help_visit" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/visit_reason"
+                style="@style/ths_title_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/help_visit"
+                android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
+                android:text="@string/visit_reason"
+                android:textSize="@dimen/ths_body_text" />
+
+            <LinearLayout
+                android:id="@+id/checkbox_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/visit_reason"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
+                android:orientation="vertical"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/additional_comment"
+                style="@style/ths_list_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/checkbox_container"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
+                android:text="@string/additional_comment" />
+
+            <!-- TODO: Spoorti - Need to check what is text box filled style and change it-->
+            <com.philips.platform.uid.view.widget.EditText
+                android:id="@+id/additional_comments_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@id/additional_comment"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
+                android:enabled="true"
+                android:gravity="top"
+                android:hint="@string/write_here"
+                android:inputType="textMultiLine"
+                android:isScrollContainer="true"
+                android:overScrollMode="always"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical" />
+
+            <RelativeLayout
+                android:id="@+id/ths_camera_image_list_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/additional_comments_edittext"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="@dimen/ths_fab_margin">
+
+                <com.philips.platform.uid.view.widget.ImageButton
+                    android:id="@+id/camera_click_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/reg_circle"
+                    android:gravity="center_horizontal"
+                    app:uidImageButtonDrawableSrc="@mipmap/dls_capture_camera_icon" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/imagelist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/camera_click_button" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

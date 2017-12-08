@@ -1,0 +1,233 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="PTHCircularPBBig">
+        <item name="pth_cirucular_pb">@style/UIDProgressBarCircularIndeterminateBig</item>
+    </style>
+
+    <style name="PTHCircularPBSmall">
+        <item name="pth_cirucular_pb">@style/UIDProgressBarCircularIndeterminateSmall</item>
+    </style>
+
+    <style name="PTHCircularPBMedium">
+        <item name="pth_cirucular_pb">@style/UIDProgressBarCircularIndeterminateMiddle</item>
+    </style>
+
+    <style name="amwellCentralesansBookFont">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="DialogFragmentTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    <style name="amwellCentralesansBoldFont">
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+    </style>
+
+    <style name="ths_list_item">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:background">?attr/uidContentPrimaryBackgroundColor</item>
+        <item name="android:minHeight">@dimen/ths_list_item_height</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/ths_body_text</item>
+        <item name="android:spacing">@dimen/ths_body_text_line_spacing_extra</item>
+        <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
+    </style>
+
+    <style name="ths_list_header">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:background">?attr/uidContentSecondaryBackgroundColor</item>
+        <item name="android:minHeight">@dimen/ths_list_height_height</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/ths_body_text</item>
+        <item name="android:paddingBottom">@dimen/ths_title_padding</item>
+        <item name="android:paddingTop">@dimen/ths_title_padding</item>
+        <item name="android:spacing">@dimen/ths_body_text_line_spacing_extra</item>
+        <item name="android:textColor">?attr/uidContentItemSecondaryNormalTextColor</item>
+    </style>
+
+    <style name="ths_body_text">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:background">?attr/uidContentPrimaryBackgroundColor</item>
+        <item name="android:minHeight">@dimen/ths_list_height_height</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/ths_body_text</item>
+        <item name="android:paddingBottom">@dimen/ths_body_text_padding</item>
+        <item name="android:paddingTop">@dimen/ths_body_text_padding</item>
+        <item name="android:textColor">?attr/uidContentItemSecondaryNormalTextColor</item>
+    </style>
+
+    <style name="ths_body_text_pre_welcome">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:minHeight">@dimen/ths_list_height_height</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/ths_body_text</item>
+        <item name="android:paddingBottom">@dimen/ths_body_text_padding</item>
+        <item name="android:paddingTop">@dimen/ths_body_text_padding</item>
+    </style>
+
+    <style name="ths_body_text_pre_welcome_link" parent="ths_body_text_pre_welcome">
+        <item name="android:textColor">?attr/uidHyperlinkDefaultNormalTextColor</item>
+    </style>
+
+    <style name="ths_body_text_pre_welcome_bold">
+        <item name="fontPath">fonts/centralesanslight.ttf</item>
+        <item name="android:minHeight">@dimen/ths_list_height_height</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/ths_32sp</item>
+        <item name="android:paddingBottom">@dimen/ths_title_padding_pre_welcome_screen</item>
+        <item name="android:paddingTop">@dimen/ths_title_padding_pre_welcome_screen</item>
+        <item name="android:textColor">?attr/uidNotificationBarWhiteNormalBackgroundColor</item>
+    </style>
+
+    <style name="ths_body_text_bold" parent="ths_body_text">
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+    </style>
+
+    <style name="ths_welcome_screen_body_text">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:background">?attr/uidContentPrimaryBackgroundColor</item>
+        <item name="android:minHeight">@dimen/ths_list_height_height</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/ths_body_text</item>
+        <item name="android:paddingBottom">@dimen/ths_body_text_padding</item>
+        <item name="android:paddingTop">@dimen/ths_body_text_padding</item>
+        <item name="android:textColor">?attr/uidContentItemSecondaryNormalTextColor</item>
+    </style>
+
+    <style name="ths_skip_text">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:background">?attr/uidContentPrimaryBackgroundColor</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/ths_body_text</item>
+        <item name="android:paddingBottom">@dimen/ths_body_text_padding</item>
+        <item name="android:paddingTop">@dimen/ths_body_text_padding</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:text">@string/vitals_skip</item>
+    </style>
+
+    <style name="ths_title_text">
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+        <item name="android:background">?attr/uidContentPrimaryBackgroundColor</item>
+        <item name="android:minHeight">@dimen/ths_list_height_height</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/ths_title_text</item>
+        <item name="android:paddingBottom">@dimen/ths_title_padding</item>
+        <item name="android:paddingTop">@dimen/ths_title_padding</item>
+        <item name="android:textColor">?attr/uidContentItemPrimaryNormalTextColor</item>
+    </style>
+
+    <style name="ths_title_text_medium">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:minHeight">@dimen/ths_list_height_height</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/ths_title_text_medium</item>
+        <item name="android:paddingBottom">@dimen/ths_title_padding</item>
+        <item name="android:paddingTop">@dimen/ths_title_padding</item>
+        <item name="android:textColor">?attr/uidNotificationBarWhiteNormalBackgroundColor</item>
+    </style>
+
+    <style name="ths_title_text_bold" parent="ths_title_text">
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+        <item name="android:minHeight">@dimen/ths_list_height_height</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/ths_32sp</item>
+        <item name="android:paddingBottom">@dimen/ths_title_padding</item>
+        <item name="android:paddingTop">@dimen/ths_title_padding</item>
+        <item name="android:textColor">?attr/uidNotificationBarWhiteNormalBackgroundColor</item>
+    </style>
+
+    <style name="ths_calendar_left">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:background">?attr/uidContentPrimaryBackgroundColor</item>
+        <item name="android:layout_height">@dimen/ths_list_item_height</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/ths_body_text</item>
+        <item name="android:textColor">?attr/uidHyperlinkDefaultNormalTextColor</item>
+    </style>
+
+    <style name="ths_calendar_right">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:layout_height">@dimen/ths_list_item_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/ths_body_text</item>
+        <item name="android:textColor">?attr/uidHyperlinkDefaultNormalTextColor</item>
+    </style>
+
+    <style name="ths_location_right">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:layout_height">@dimen/ths_list_item_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/ths_body_text</item>
+        <item name="android:textColor">?attr/uidHyperlinkDefaultNormalTextColor</item>
+    </style>
+
+    <style name="ths_list_item_header">
+        <item name="android:minHeight">@dimen/ths_list_item_height</item>
+        <item name="android:textSize">@dimen/ths_body_text</item>
+        <item name="android:textColor">?attr/uidContentItemSecondaryNormalTextColor</item>
+        <item name="android:background">?attr/uidContentSecondaryBackgroundColor</item>
+    </style>
+
+    <style name="ths_mobile_wizard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingStart">@dimen/ths_fab_margin</item>
+        <item name="android:paddingEnd">@dimen/ths_fab_margin</item>
+        <item name="android:layout_height">@dimen/ths_list_item_height</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:background">?attr/uidButtonPrimaryFocusBackgroundColor</item>
+        <item name="android:textColor">?attr/uidContentPrimaryBackgroundColor</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="ths_alpha">
+        <item name="android:background">@color/uid_blue_level_85</item>
+        <item name="android:alpha">0.6</item>
+    </style>
+
+    <style name="ths_font_icon_style">
+        <item name="fontPath">fonts/iconfont.ttf</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">?attr/uidButtonPrimaryFocusBackgroundColor</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_height">?android:attr/listPreferredItemHeight</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+</resources>

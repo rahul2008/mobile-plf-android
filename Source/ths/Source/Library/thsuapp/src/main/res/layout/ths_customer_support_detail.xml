@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ths_how_it_works_container"
+    android:layout_width="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:layout_height="match_parent"
+    android:paddingTop="24dp"
+    android:paddingBottom="@dimen/ths_fab_margin"
+    android:paddingLeft="@dimen/ths_fab_margin"
+    android:paddingRight="@dimen/ths_fab_margin">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_customer_support_can_we_help_you_with_something_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ths_margin_top"
+        android:layout_alignParentTop="true"
+        android:text="@string/ths_customer_support_can_we_help_you_with_something"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
+        fontPath="fonts/centralesansbold.ttf"
+        android:textSize="20sp"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_customer_support_call_or_mail_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_customer_support_can_we_help_you_with_something_id"
+
+        android:layout_marginTop="24dp"
+        android:text="@string/ths_customer_support_call_or_mail"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
+        android:textSize="@dimen/ths_body_text"
+        fontPath="fonts/centralesansbook.ttf"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_customer_support_for_support_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_customer_support_call_or_mail_id"
+
+        android:layout_marginTop="24dp"
+        android:text="@string/ths_customer_support_for_support"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
+        android:textSize="18sp"
+        fontPath="fonts/centralesansbook.ttf"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_customer_support_phone_number_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_customer_support_for_support_id"
+
+        android:layout_marginTop="4dp"
+        android:text="@string/ths_customer_support_phone_number"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
+        android:autoLink="phone"
+        android:textSize="18sp"
+        fontPath="fonts/centralesansbook.ttf"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_customer_support_mail_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_customer_support_phone_number_id"
+
+        android:layout_marginTop="4dp"
+        android:text="@string/ths_customer_support_mail"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
+        android:textSize="16sp"
+        fontPath="fonts/centralesansbook.ttf"/>
+
+</RelativeLayout>

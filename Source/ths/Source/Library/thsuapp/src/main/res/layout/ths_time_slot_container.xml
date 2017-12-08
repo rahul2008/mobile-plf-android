@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ths_time_slot_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
+
+    <View
+        android:id="@+id/line_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/select_time"
+        style="@style/ths_list_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line_separator"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:text="@string/ths_select_time" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ths_calendar_container_layout"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/select_time"
+        android:layout_marginStart="@dimen/ths_fab_margin"
+        android:layout_marginEnd="@dimen/ths_fab_margin"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:background="@drawable/uid_list_item_selector">
+
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_practice_icon_layout"
+            style="@style/ths_font_icon_style"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="false"
+            android:text="@string/dls_calendar"
+            />
+
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/calendar_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ths_fab_margin"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/ths_practice_icon_layout"
+            android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
+            android:maxLines="3"
+            android:textColor="?attr/uidLabelValueNormalTextColor"
+            android:textSize="@dimen/ths_body_text"
+            android:textStyle="bold" />
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/ths_font_icon_style"
+            android:text="@string/dls_navigationright"
+            />
+
+    </RelativeLayout>
+
+
+    <View
+        android:id="@+id/line_separator_2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ths_calendar_container_layout"
+        android:layout_marginBottom="20dp"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+    <com.philips.platform.ths.providerdetails.THSExpandableHeightGridView
+        android:id="@+id/grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line_separator_2"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:columnWidth="100dp"
+        android:gravity="center"
+        android:horizontalSpacing="8dp"
+        android:numColumns="3"
+        android:verticalSpacing="8dp" />
+
+    <View
+        android:id="@+id/line_separator_3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/grid"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+    <RelativeLayout
+        android:id="@+id/set_reminder_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line_separator_3"
+        android:paddingBottom="@dimen/uid_grid_title_padding"
+        android:paddingEnd="@dimen/uid_grid_title_padding"
+        android:paddingStart="@dimen/uid_grid_title_padding"
+        android:paddingTop="@dimen/uid_grid_title_padding">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/reminderLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="@string/ths_reminder_set"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="16sp" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/reminderValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/reminderLabel"
+            android:text="@string/ths_rb_no_reminder"
+            android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
+            android:textSize="14sp" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_practice_arrow_image"
+            fontPath="fonts/iconfont.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="@string/dls_navigationright"
+            android:textAlignment="center"
+            android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor" />
+
+    </RelativeLayout>
+</RelativeLayout>

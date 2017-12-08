@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ths_pre_welcome_screen"
+    android:layout_width="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/onboarding_tour_two"
+        android:scaleType="centerCrop"
+        />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_terms_and_conditions_cross"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="24dp"
+        android:textSize="32dp"
+        android:paddingStart="@dimen/ths_fab_margin"
+        fontPath="fonts/iconfont.ttf"
+        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+        android:text="@string/dls_cross_bold" />
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_see_a_provider"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/ths_terms_and_conditions_cross"
+        android:layout_height="wrap_content"
+        style="@style/ths_body_text_pre_welcome_bold"
+        android:layout_marginBottom="@dimen/ths_fab_margin"
+        android:textColor="?attr/uidLoginScreenDefaultTextColor"
+        android:paddingTop="@dimen/ths_image_size"
+        android:text="@string/ths_see_provider_pre_welcome"
+        />
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_video_consults"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:layout_below="@id/ths_see_a_provider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/uidLoginScreenDefaultTextColor"
+        android:text="@string/ths_video_consults"
+        style="@style/ths_body_text_pre_welcome"
+        />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_service_provider"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ths_video_consults"
+        android:text="@string/ths_service_provider"
+        android:textColor="?attr/uidLoginScreenDefaultTextColor"
+        style="@style/ths_body_text_pre_welcome"
+        android:layout_marginBottom="@dimen/ths_margin_top"
+        />
+    <ImageView
+        android:id="@+id/ths_amwell_brand"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:layout_below="@id/ths_service_provider"
+        android:layout_width="wrap_content"
+        android:src="@mipmap/amwell_white_logo"
+        android:layout_height="wrap_content" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/ths_go_see_provider"
+        android:layout_marginRight="@dimen/ths_fab_margin"
+        android:layout_marginLeft="@dimen/ths_fab_margin"
+        android:text="@string/ths_agree_continue"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/ths_margin_bottom_more_details"
+        android:layout_marginTop="@dimen/ths_fab_margin"
+        android:layout_height="wrap_content" />
+
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_licence"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:textColor="?attr/uidLoginScreenDefaultTextColor"
+        android:layout_above="@id/ths_go_see_provider"
+        android:text="@string/ths_amwell_philips_licence"
+        style="@style/ths_body_text_pre_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

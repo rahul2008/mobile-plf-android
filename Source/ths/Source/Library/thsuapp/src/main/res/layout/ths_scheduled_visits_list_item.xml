@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ths_scheduled_visits_list_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:orientation="vertical"
+    android:paddingTop="16dp">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_appointment_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/ths_list_item"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:text="@string/ths_select_date_and_time" />
+
+    <View
+        android:id="@+id/ths_scheduled_appointment_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ths_appointment_date"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+    <include
+        android:id="@+id/provider_details_layout_container"
+        layout="@layout/ths_provider_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_scheduled_appointment_separator"
+        />
+
+    <View
+        android:id="@+id/ths_scheduled_appintment_below_provider_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ths_list_space_normal"
+        android:layout_below="@+id/provider_details_layout_container"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+    <LinearLayout
+        android:id="@+id/ths_button_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/ths_scheduled_appintment_below_provider_layout"
+        >
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/ths_cancel_visit"
+            style="@style/UIDQuietButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="@string/ths_cancel_visit"/>
+
+        <View
+            android:id="@+id/ths_scheduled_appintment_button_separator_below"
+            android:layout_width="@dimen/ths_list_space_normal"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/providerDetailLayout"
+            android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/ths_start_visit"
+            style="@style/UIDQuietButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:textColor="?attr/uidColorLevel45"
+            android:gravity="center"
+            android:text="@string/ths_start_visit"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/ths_scheduled_appintment_separator_below"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ths_list_space"
+        android:layout_below="@+id/ths_button_container"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+</RelativeLayout>

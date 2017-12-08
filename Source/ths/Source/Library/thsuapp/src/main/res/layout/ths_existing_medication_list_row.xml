@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    >
+
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pth_existing_medication_list_row_label"
+        style="?android:attr/dropDownItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:layout_toLeftOf="@+id/pth_existing_medication_list_row_delete"
+        android:ellipsize="marquee"
+        android:minHeight="@dimen/uid_recyclerview_item_one_line_height"
+        android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
+        android:paddingStart="@dimen/ths_fab_margin"
+        android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/pth_existing_medication_list_row_delete"
+        style="@style/ths_font_icon_style"
+        android:layout_marginEnd="@dimen/ths_fab_margin"
+        android:layout_height="wrap_content"
+        android:text="@string/dls_cross_bold"
+        android:layout_alignBaseline="@+id/pth_existing_medication_list_row_label"
+        android:layout_alignBottom="@+id/pth_existing_medication_list_row_label"
+        android:layout_alignParentEnd="true" />
+
+
+</RelativeLayout>
+

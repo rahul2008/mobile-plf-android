@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:id="@+id/ths_payment_insurance_summary_container"
+    android:layout_height="match_parent"
+    android:background="?attr/uidSeparatorContentNormalBackgroundColor">
+
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_insurance_title_label"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginStart="16dp"
+        android:text="Insurance" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ths_insurance_relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ths_insurance_title_label"
+        android:orientation="vertical"
+        android:paddingEnd="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:background="@color/uidColorWhite"
+        android:paddingStart="16dp">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_insurance_name_label"
+            style="@style/UIDLabel.RecyclerViewItemMultipleLinesTitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="first line " />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_insurance_member_id_label"
+            android:layout_below="@+id/ths_insurance_name_label"
+            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="12dp"
+            android:text="second line" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_insurance_subscription_type_label"
+            android:layout_below="@+id/ths_insurance_member_id_label"
+            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:text="third line" />
+
+
+
+        <com.philips.platform.uid.view.widget.ImageButton
+            android:id="@+id/ths_edit_insurance_imagebutton"
+            style="@style/UIDQuietIconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            app:uidImageButtonDrawableSrc="@android:drawable/ic_menu_edit"
+            />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divider_one"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/ths_insurance_relativelayout"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_payment_method_title_label"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/ths_insurance_title_label"
+        android:layout_below="@+id/divider_one"
+        android:layout_marginTop="14dp"
+        android:text="Payment Method" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ths_payment_method_relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_payment_method_title_label"
+        android:layout_marginTop="16dp"
+        android:paddingTop="12dp"
+        android:orientation="vertical"
+        android:background="@color/uidColorWhite"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp"
+        android:paddingStart="16dp">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_payment_name_label"
+            style="@style/UIDLabel.RecyclerViewItemMultipleLinesTitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="first" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_card_type_label"
+            android:layout_below="@+id/ths_payment_name_label"
+            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+
+            android:layout_marginBottom="12dp"
+            android:text="second" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_card_number_label"
+            android:layout_below="@+id/ths_card_type_label"
+            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+
+            android:text="third" />
+
+
+
+        <com.philips.platform.uid.view.widget.ImageButton
+            android:id="@+id/ths_edit_payment_imagebutton"
+            style="@style/UIDQuietIconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            app:uidImageButtonDrawableSrc="@android:drawable/ic_menu_edit" />
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/uidColorWhite"
+        android:padding="16dp">
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/ths_payment_insurance_summary_continue_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Continue" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,86 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:paddingBottom="@dimen/ths_margin_bottom">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/wizard_button"
+        style="@style/ths_mobile_wizard"
+        android:text="@string/conditions" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/conditions_skip"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/ths_fab_margin"
+        android:layout_marginEnd="@dimen/ths_fab_margin"
+        app:uidComponentType="Secondary"
+        android:text="@string/vitals_skip"
+        android:layout_height="wrap_content" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/continue_btn"
+        style="@style/UIDImageTextButton.Center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/conditions_skip"
+        android:layout_marginLeft="@dimen/ths_fab_margin"
+        android:layout_marginBottom="@dimen/ths_list_space"
+        android:layout_marginRight="@dimen/ths_fab_margin"
+        android:enabled="false"
+        android:text="Continue" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/continue_btn"
+        android:layout_below="@id/wizard_button"
+        android:layout_marginBottom="24dp">
+
+        <RelativeLayout
+            android:id="@+id/conditions_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_medical_conditions_patient_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ths_image_size"
+                android:layout_marginBottom="@dimen/ths_margin_between_buttons"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
+                android:textSize="@dimen/ths_small_body_text"
+                android:layout_below="@+id/ths_intake_medication_label"
+                style="@style/UIDLabel.Header"
+                />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/help_visit"
+                style="@style/ths_title_text"
+                android:layout_width="wrap_content"
+                android:layout_below="@id/ths_medical_conditions_patient_name"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
+                android:textSize="@dimen/ths_body_text"
+                android:paddingLeft="@dimen/ths_fab_margin"
+                android:paddingRight="@dimen/ths_fab_margin"
+                android:text="@string/ths_medical_conditions" />
+
+            <LinearLayout
+                android:id="@+id/checkbox_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/help_visit"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

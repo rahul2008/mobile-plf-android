@@ -1,0 +1,248 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:paddingBottom="12dp">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/wizard_button"
+        style="@style/ths_mobile_wizard"
+        android:text="@string/vitals" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/vitals_skip"
+        app:uidComponentType="Secondary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/ths_fab_margin"
+        android:layout_marginStart="@dimen/ths_fab_margin"
+        android:text="@string/vitals_skip" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/vitals_continue_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/vitals_skip"
+        android:layout_marginStart="@dimen/ths_fab_margin"
+        android:layout_marginBottom="@dimen/ths_list_space"
+        android:layout_marginEnd="@dimen/ths_fab_margin"
+        android:enabled="true"
+        android:text="@string/ths_continue_button_text"
+        />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/vitals_continue_btn"
+        android:layout_below="@id/wizard_button"
+        android:layout_marginBottom="@dimen/ths_fab_margin">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_vitals_patient_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ths_image_size"
+                android:layout_marginBottom="@dimen/ths_margin_between_buttons"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
+                android:textSize="@dimen/ths_small_body_text"
+                android:layout_alignParentTop="true"
+                style="@style/UIDLabel.Header"
+                />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/help_visit"
+                style="@style/ths_title_text"
+                android:layout_below="@id/ths_vitals_patient_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/ths_fab_margin"
+                android:paddingRight="@dimen/ths_fab_margin"
+                android:text="@string/vitals_want"
+                android:textSize="@dimen/ths_body_text" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/visit_reason"
+                style="@style/ths_body_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/help_visit"
+                android:layout_marginStart="@dimen/ths_fab_margin"
+                android:text="@string/vitals_blood_pressure" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_vitals_weight_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/visit_reason"
+                android:layout_below="@id/help_visit"
+                android:layout_marginBottom="16dp"
+                android:layout_toEndOf="@+id/visit_reason"
+                android:layout_marginEnd="@dimen/ths_fab_margin"
+                android:paddingStart="@dimen/ths_address_bottom_margin"
+                android:text="@string/vitals_blood_pressure_text"
+                android:textColor="?attr/uidContentItemSecondaryNormalTextColor" />
+
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/intake_systolic_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/visit_reason"
+                android:layout_marginBottom="@dimen/ths_fab_margin"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="@string/inline_error_message_systolic_value">
+
+                <com.philips.platform.uid.view.widget.ValidationEditText
+                    android:id="@+id/systolic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="true"
+                    android:hint="@string/vitals_systolic"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    app:uidInputTextWithClearButton="true" />
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
+
+
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/intake_diasystolic_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/intake_systolic_container"
+                android:layout_marginBottom="@dimen/ths_fab_margin"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="@string/inline_error_message_systolic_value">
+
+                <com.philips.platform.uid.view.widget.ValidationEditText
+                    android:id="@+id/diastolic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="true"
+                    android:hint="@string/vitals_diastolic"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    app:uidInputTextWithClearButton="true" />
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
+
+            <View
+                android:id="@+id/divider_bp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/intake_diasystolic_container"
+                android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/additional_comment"
+                style="@style/ths_body_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/divider_bp"
+                android:layout_marginStart="@dimen/ths_fab_margin"
+                android:text="@string/temperature" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_temp_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/additional_comment"
+                android:layout_below="@id/intake_diasystolic_container"
+                android:layout_marginBottom="16dp"
+                android:layout_toEndOf="@+id/additional_comment"
+                android:layout_marginEnd="@dimen/ths_fab_margin"
+                android:paddingStart="@dimen/ths_address_bottom_margin"
+                android:text="@string/vitals_temp_text"
+                android:textColor="?attr/uidContentItemSecondaryNormalTextColor" />
+
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/intake_farenheit_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/additional_comment"
+                android:layout_marginBottom="@dimen/ths_fab_margin"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="@string/inline_error_message_temperature_value">
+
+                <com.philips.platform.uid.view.widget.ValidationEditText
+                    android:id="@+id/edit_farenheit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="true"
+                    android:hint="@string/vitals_faranheit"
+                    android:inputType="numberDecimal"
+                    app:uidInputTextWithClearButton="true" />
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
+
+            <View
+                android:id="@+id/divider_temperature"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/intake_farenheit_container"
+                android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/weight"
+                style="@style/ths_body_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/divider_temperature"
+                android:layout_marginStart="@dimen/ths_fab_margin"
+
+                android:text="@string/weight" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_weight_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/weight"
+                android:layout_below="@id/intake_farenheit_container"
+                android:layout_marginBottom="16dp"
+                android:layout_toEndOf="@+id/weight"
+                android:layout_marginEnd="@dimen/ths_fab_margin"
+                android:paddingStart="@dimen/ths_address_bottom_margin"
+                android:text="@string/vitals_weight_text"
+                android:textColor="?attr/uidContentItemSecondaryNormalTextColor" />
+
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/pounds_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/weight"
+                android:layout_marginBottom="@dimen/ths_fab_margin"
+                android:layout_marginEnd="@dimen/ths_fab_margin"
+                android:layout_marginStart="@dimen/ths_fab_margin"
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="@string/inline_error_message_weight_value">
+
+                <com.philips.platform.uid.view.widget.ValidationEditText
+                    android:id="@+id/ponds"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="true"
+                    android:hint="@string/vitals_ponds"
+                    android:inputType="numberDecimal"
+                    app:uidInputTextWithClearButton="true" />
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
+
+            <View
+                android:id="@+id/divider_weight"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/pounds_container"
+                android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

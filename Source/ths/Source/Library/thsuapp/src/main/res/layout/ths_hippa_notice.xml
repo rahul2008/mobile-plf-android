@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/hippa_notice_container"
+    android:layout_width="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_hippa_notice_header_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            fontPath="fonts/centralesansbold.ttf"
+            android:textSize="20sp"
+            android:paddingBottom="24dp"
+            android:paddingTop="24dp"
+            android:text="Hippa Notice"
+            android:paddingLeft="@dimen/ths_fab_margin"
+            android:paddingRight="@dimen/ths_fab_margin">
+
+
+        </com.philips.platform.uid.view.widget.Label>
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_hippa_notice_body_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ths_hippa_notice_header_label"
+            android:paddingLeft="@dimen/ths_fab_margin"
+            android:paddingRight="@dimen/ths_fab_margin" />
+    </RelativeLayout>
+</ScrollView>

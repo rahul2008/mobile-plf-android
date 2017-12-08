@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:layout_height="match_parent">
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_choose_area_of_medicine_title"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:textStyle="bold"
+        fontPath="fonts/centralesansbold.ttf"
+        android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
+        android:paddingStart="@dimen/ths_fab_margin"
+        android:paddingEnd="@dimen/ths_fab_margin"
+        android:layout_marginTop="@dimen/ths_image_size"
+        android:layout_marginBottom="@dimen/ths_image_size"
+        android:text="@string/ths_choose_area_of_medicine_title"
+        android:textSize="@dimen/ths_title_text" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_choose_area_of_medicine_content"
+        android:layout_marginLeft="@dimen/ths_fab_margin"
+        android:layout_marginRight="@dimen/ths_fab_margin"
+        android:layout_below="@id/ths_choose_area_of_medicine_title"
+        android:text="@string/ths_choose_area_of_medicine_content"
+        style="@style/ths_body_text"
+        android:layout_marginBottom="@dimen/ths_conditions_margin_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/horizontalLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ths_choose_area_of_medicine_content"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ths_recycler_view_practice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/horizontalLine"
+        android:layout_centerInParent="true" />
+
+</RelativeLayout>
+

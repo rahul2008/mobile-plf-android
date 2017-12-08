@@ -1,0 +1,296 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+apply plugin: 'jacoco'
+
+
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+}
+
+buildscript {
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+
+    repositories {
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+
+    dependencies {
+        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
+//        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath(builddeps.cdpSCM)
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+//        compile 'com.android.support:appcompat-v7:25.3.1'
+    }
+}
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment )
+archivesBaseName = rootProject.name + "App"
+
+allprojects {
+    repositories {
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url objcdp.getArtifactoryUrl()
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {url "https://clojars.org/repo/"}
+        group = 'com.philips.cdp'
+    }
+}
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion(versions.ths_telehealth)
+
+artifactory {
+    contextUrl = objcdp.getArtifactoryContextUrl()
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications ('apk')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
+            }
+        }
+    }
+    resolve {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+        }
+    }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+publishing {
+    publications {
+        apk(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            artifact("$projectDir/dependencies.lock") {
+                classifier = '1stleveldependencies'
+            }
+
+            artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
+
+            pom.withXml{
+                def dependenciesNode = asNode().appendNode('dependencies')
+                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                }
+            }
+        }
+    }
+}
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
+    defaultConfig {
+        applicationId 'com.philips.platform.thsdemolaunch'
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 8
+        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        vectorDrawables.useSupportLibrary = true
+        renderscriptTargetApi 26
+        renderscriptSupportModeEnabled true
+        testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
+        multiDexEnabled true
+
+        // replace the below string with your own Google client ID. Make sure this is consistent
+        // with the values used in openid_appauth_idp_configs.xml
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf'
+        ]
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    signingConfigs {
+        release
+    }
+
+    dexOptions {
+        preDexLibraries = false
+        jumboMode = false
+    }
+    buildTypes {
+        def BOOLEAN = "bool"
+        def TRUE = "true"
+        def AWSDK_DEV_SSL_ALLOW_ALL = "awsdk_dev_ssl_allow_all"
+        def AWSDK_ENABLE_CERTIFICATE_PINNING = "awsdk_enable_certificate_pinning"
+        def AWSDK_PINNED_HOSTS = "awsdk_pinned_hosts"
+        def AWSDK_PINNED_CERTIFICATES = "awsdk_pinned_certificates"
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            testCoverageEnabled = true
+            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            proguardFile file('proguard-rules.pro')
+            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
+            AWSDK_ENABLE_CERTIFICATE_PINNING = true
+            AWSDK_PINNED_HOSTS = {"*.amwellintegration.com"}
+            AWSDK_PINNED_CERTIFICATES = {"06 B5 62 EB 37 1B 4E 9A 7B 06 DB 4C 30 07 FC E0 C8 AD BB 21"}
+        }
+    }
+
+    /*
+    This defined for signing the apk -- start
+     */
+    def Properties props = new Properties()
+    def propFile = new File('signing.properties')
+    if (propFile.canRead()) {
+        props.load(new FileInputStream(propFile))
+
+        if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+            println 'signing.properties found and fully filled in'
+            android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+            android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+            android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+            android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+        } else {
+            println 'NOPE - signing.properties NOT found'
+            android.buildTypes.release.signingConfig = null
+        }
+    } else {
+        println 'signing.properties not found'
+        android.buildTypes.release.signingConfig = null
+    }
+    /*
+    This defined for signing the apk -- end
+    */
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+
+        pickFirst 'lib/mips/librsjni.so'
+        pickFirst 'lib/mips/libblasV8.so'
+        pickFirst 'lib/mips/libRSSupport.so'
+
+        pickFirst 'lib/x86/librsjni.so'
+        pickFirst 'lib/x86/libblasV8.so'
+        pickFirst 'lib/x86/libRSSupport.so'
+        pickFirst 'lib/armeabi-v7a/librsjni.so'
+        pickFirst 'lib/armeabi-v7a/libblasV8.so'
+        pickFirst 'lib/armeabi-v7a/libRSSupport.so'
+        pickFirst 'lib/arm64-v8a/libRSSupport.so'
+        pickFirst 'lib/arm64-v8a/librsjni.so'
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/rxjava.properties'
+
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+
+        unitTests.all {
+            // set JVM arguments for the test JVM(s)
+            jvmArgs '-noverify'
+            testLogging {
+                events "started", "passed", "skipped", "failed"
+                outputs.upToDateWhen {false}
+            }
+        }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+//    resolutionStrategy.force  'com.squareup.okhttp3:okhttp:3.8.0'
+
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    
+    def dp = project.ext.has('useprojectdependencies')
+    def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix())
+	compile(dp ? project(':ail') : ailModule)
+    {
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.google.dagger'
+    }
+ compile project(':thsuapp')
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/outputs/lib"
+    from configurations.compile
+}
+
+tasks.withType(Test) {
+    ignoreFailures = true
+}

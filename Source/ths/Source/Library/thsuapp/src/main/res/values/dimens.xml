@@ -1,0 +1,48 @@
+<resources>
+    <dimen name="ths_fab_margin">16dp</dimen>
+
+    <dimen name="ths_title_text">20sp</dimen>
+    <dimen name="ths_title_text_medium">28sp</dimen>
+    <dimen name="ths_title_text_line_spacing_extra">8dp</dimen>
+
+    <dimen name="ths_body_text">16sp</dimen>
+    <dimen name="ths_welcome_screen_body_text">28sp</dimen>
+    <dimen name="ths_body_text_line_spacing_extra">6dp</dimen>
+
+    <dimen name="ths_small_body_text">12sp</dimen>
+    <dimen name="ths_small_body_text_line_spacing_extra">6dp</dimen>
+
+    <dimen name="ths_image_height">84dp</dimen>
+    <dimen name="ths_image_width">84dp</dimen>
+    <dimen name="ths_margin_top">10dp</dimen>
+    <dimen name="ths_margin_bottom">12dp</dimen>
+    <dimen name="ths_margin_top_large">25dp</dimen>
+    <dimen name="ths_margin_between_buttons">16dp</dimen>
+    <dimen name="ths_margin_between_ui_control">10dp</dimen>
+
+    <dimen name="ths_list_item_height">48dp</dimen>
+    <dimen name="ths_list_height_height">40dp</dimen>
+    <dimen name="ths_body_text_padding">3dp</dimen>
+    <dimen name="ths_title_padding">4dp</dimen>
+    <dimen name="ths_conditions_margin_top">20dp</dimen>
+    <dimen name="ths_checkbox_bottom_margin">8dp</dimen>
+    <!-- Registration dimens-->
+    <dimen name="ths_address_bottom_margin">4dp</dimen>
+    <dimen name="ths_image_size">24dp</dimen>
+    <dimen name="ths_margin_top_registration_detail_title">24dp</dimen>
+    <dimen name="ths_margin_bottom_more_details">12dp</dimen>
+    <dimen name="ths_icon_layout_size">56dp</dimen>
+
+    <!-- Settings -->
+    <dimen name="ths_list_space">8dp</dimen>
+    <dimen name="ths_list_space_normal">1dp</dimen>
+
+    <!-- Welcome Screen-->
+    <dimen name="ths_see_provider">28dp</dimen>
+    <dimen name="ths_32dp">32dp</dimen>
+
+    <!-- Pre Welcome Screen -->
+    <dimen name="ths_32sp">32sp</dimen>
+    <dimen name="ths_title_padding_pre_welcome_screen">2dp</dimen>
+    <dimen name="ths_2_dp">2dp</dimen>
+</resources>

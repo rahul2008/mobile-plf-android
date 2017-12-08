@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="12dp"
+    android:layout_marginRight="12dp"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_rating_label"
+        fontPath="fonts/centralesansbold.ttf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/ths_visit_summary_how_was_your_visit"
+        android:textSize="22sp" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_provider_rating_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_rating_label"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:text="Rate your provider"
+        />
+
+    <com.philips.platform.uid.view.widget.RatingBar
+        android:id="@+id/ths_provider_ratingbar"
+        style="@style/UIDRatingBarInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_provider_rating_label"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="12dp"
+
+        android:layout_marginRight="12dp"
+        android:numStars="5"
+        android:stepSize="1.0" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_visit_rating_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_provider_ratingbar"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:text="@string/ths_visit_summary_rate_overall_experience"
+
+        />
+
+    <com.philips.platform.uid.view.widget.RatingBar
+        android:id="@+id/ths_visit_ratingbar"
+        style="@style/UIDRatingBarInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_visit_rating_label"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:numStars="5"
+        android:stepSize="1.0" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/ths_ratingbar_ok_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_visit_ratingbar"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:text="@string/ths_ok" />
+
+
+</RelativeLayout>

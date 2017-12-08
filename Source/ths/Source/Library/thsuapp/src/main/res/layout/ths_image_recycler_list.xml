@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/symptom_image"
+        android:layout_width="40dp"
+        android:layout_marginLeft="6dp"
+        android:layout_height="40dp" />
+
+    <com.philips.platform.uid.view.widget.ProgressBar
+        android:id="@+id/imageUploadProgressBar"
+        style="@style/UIDProgressBarCircularIndeterminateSmall"
+        android:layout_width="40dp"
+        android:layout_marginLeft="6dp"
+        android:padding="@dimen/ths_body_text_line_spacing_extra"
+        android:layout_height="40dp"
+        />
+
+</RelativeLayout>

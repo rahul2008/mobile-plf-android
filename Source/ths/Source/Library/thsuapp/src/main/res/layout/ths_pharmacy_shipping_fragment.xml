@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/ths_shipping_pharmacy_layout"
+    android:layout_height="match_parent"
+    android:background="?attr/uidSeparatorContentNormalBackgroundColor">
+    <include layout="@layout/ths_pharmacy_shipping_fragment_content"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
+        android:paddingStart="@dimen/ths_fab_margin"
+        android:paddingEnd="@dimen/ths_fab_margin"
+        android:paddingTop="@dimen/ths_margin_bottom"
+        android:paddingBottom="@dimen/ths_margin_bottom">
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/ths_ps_continue_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ths_continue_button_text" />
+    </RelativeLayout>
+</RelativeLayout>

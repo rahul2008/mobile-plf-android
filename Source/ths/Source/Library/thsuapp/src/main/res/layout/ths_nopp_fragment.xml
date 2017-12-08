@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nop_container"
+    android:layout_width="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:paddingTop="@dimen/ths_fab_margin"
+        android:layout_height="match_parent">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_intake_nopp_agreement_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/ths_fab_margin"
+            android:paddingRight="@dimen/ths_fab_margin"/>
+    </ScrollView>
+
+</RelativeLayout>

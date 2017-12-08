@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ths_scheduled_visits_list_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:orientation="vertical"
+    android:paddingTop="16dp">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_appointment_date"
+        style="@style/ths_list_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:text="@string/ths_select_date_and_time" />
+
+    <View
+        android:id="@+id/ths_scheduled_appointment_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ths_appointment_date"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/provider_details_layout_relative_layout"
+        android:layout_below="@+id/ths_scheduled_appointment_separator">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/provider_details_layout_container"
+            style="@style/ths_list_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingBottom="5dp"
+            android:paddingStart="@dimen/ths_fab_margin"
+            android:paddingTop="@dimen/ths_fab_margin"
+            android:textSize="16sp" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/provider_details_layout_container_right_arrow"
+            fontPath="fonts/iconfont.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="?android:attr/listPreferredItemHeight"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/ths_fab_margin"
+            android:gravity="center_vertical"
+            android:text="@string/dls_navigationright"
+            android:textAlignment="center"
+            android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor" />
+    </RelativeLayout>
+
+
+    <View
+        android:id="@+id/ths_scheduled_appintment_below_provider_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ths_list_space"
+        android:layout_below="@+id/provider_details_layout_relative_layout"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+</RelativeLayout>

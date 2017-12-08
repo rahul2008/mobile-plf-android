@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="?attr/uidContentSecondaryBackgroundColor"
+    >
+
+
+  <!--  <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/lblListHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:textSize="17dp"
+        android:text="Hellllooo"
+        android:layout_alignParentStart="true"
+         />-->
+
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/lblListHeader"
+        style="@style/ths_list_header"
+        android:layout_width="wrap_content"
+        android:text="@string/ths_number_of_visits_scheduled"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:gravity="left|center_vertical"
+        android:layout_alignParentStart="true"
+        />
+
+  <com.philips.platform.uid.view.widget.Label
+      android:id="@+id/lblshowAll"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerVertical="true"
+      android:gravity="left|center_vertical"
+      android:paddingRight="@dimen/ths_fab_margin"
+      android:layout_alignParentEnd="true"
+      android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
+      android:textSize="@dimen/ths_body_text" />
+
+</RelativeLayout>
