@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/productselection_ratingtheme"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:minHeight="85dp">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="85dp"
+        android:layout_height="75dp"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="5dp"
+        android:scaleType="fitXY"/>
+
+    <RelativeLayout
+        android:id="@+id/product_details_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="13dp"
+        android:layout_toEndOf="@+id/image"
+        android:layout_toRightOf="@+id/image"
+        android:gravity="center_vertical"
+        android:layout_marginRight="@dimen/activity_margin"
+        android:paddingRight="16dp">
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel"
+            android:id="@+id/product_name_view"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:scrollHorizontally="false"
+            android:text=""
+            android:textSize="16sp"/>
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+            android:id="@+id/ctn_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/product_name_view"
+            android:layout_marginTop="7dp"
+            android:layout_toEndOf="@+id/from"
+            android:layout_toRightOf="@+id/from"
+            android:includeFontPadding="false"
+            android:text=""
+            android:textSize="12sp" />
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.SliderMarginBottom"
+            android:id="@+id/from"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/ctn_view"
+            android:layout_marginRight="3dp"
+            android:layout_toEndOf="@+id/image"
+            android:layout_toRightOf="@+id/image"
+            android:includeFontPadding="false"
+            android:text="from"
+            android:visibility="gone"
+            android:textSize="10sp" />
+
+
+
+    </RelativeLayout>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/imageArrowRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="16dp"
+        fontPath="fonts/iconfont.ttf"
+        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+        android:text="@string/dls_navigationright_light"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>

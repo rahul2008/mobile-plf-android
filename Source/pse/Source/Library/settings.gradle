@@ -1,0 +1,4 @@
+include ':app'
+
+include 'pse'
+project(':pse').projectDir = new File('./productselection')

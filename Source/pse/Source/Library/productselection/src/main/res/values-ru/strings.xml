@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Выбор продукта</string>
+<string name="Select_Product_Desc">Сообщите нам, какой продукт вы приобрели, чтобы мы предоставили вам качественную поддержку.</string>
+<string name="Select_Product_Find">Найти продукт</string>
+<string name="Product_Title">Изделия</string>
+<string name="Product_Details_Select">Выбрать этот продукт</string>
+<string name="Change_Selected_Product">Изменить выбранный продукт</string>
+<string name="Confirmation_Title">Подтверждение</string>
+<string name="Confirmation_Selected">Вы выбрали</string>
+<string name="Confirmation_Change">Изменение</string>
+<string name="Confirmation_Change_Selection">Вы можете в любой момент изменить свой выбор.</string>
+<string name="Confirmation_Continue_Support">Получить поддержку</string>
+<string name="Continue_Btntxt">Продолжить</string>
+<string name="No_Internet">Aucune connexion Internet. Vérifiez votre connexion dans les paramètres Wi-Fi ou données de votre téléphone.</string>
+    <string name="myphilips_CC">Учетная запись MyPhilips</string>
+
+    <string name="pse_Selected_Product">Продукт выбран</string>
+    <string name="pse_Selected">Выбрано</string>
+    <string name="pse_Select_Your_Product_Title">Выберите продукт</string>
+    <string name="pse_Find_Your_Product_Title">Найти продукт</string>
+    <string name="pse_No_Result">Найдено 0 результатов по запросу:</string>
+    <string name="pse_No_Result_Desc">Применяется фильтр для списка продуктов. Убедитесь, что запрос не содержит опечаток.</string>
+    <string name="pse_What_Product">Какой продукт вы используете?</string>
+    <string name="pse_Product_Support_Desc">Укажите, каким продуктом вы пользуетесь, чтобы мы смогли предоставить вам лучшую поддержку.</string>
+    <string name="pse_Skip_Registration">Пропустить регистрацию</string>
+    <string name="pse_Change_Product">Если вы хотите изменить выбор продукта, перейдите в раздел \"Моя учетная запись\"</string>
+    <string name="pse_Register_Your_Product">Зарегистрируйте продукт</string>
+    <string name="pse_My_Account">Моя учетная запись</string>
+    <string name="pse_Change_Your_Product">Если вы захотите изменить выбранный продукт, перейдите в раздел \"Моя учетная запись\".</string>
+    <string name="pse_View_Recipes">Смотреть рецепты</string>
+    <string name="pse_Back_My_Account">Назад к разделу \"Моя учетная запись\"</string>
+    <string name="pse_Choose_Product_Register.">Выберите продукт для регистрации.</string>
+    <string name="pse_Skip_Step">Пропустить</string>
+    <string name="pse_Explain_Benefits">Чтобы указать преимущества, выберите нужный продукт.</string>
+    <string name="pse_Product_Register">Какой продукт вы хотите зарегистрировать?</string>
+    <string name="pse_App_Content">Контент приложения теперь подобран для продукта:</string>
+
+    <string name="search"> Recherche </string>
+
+</resources>

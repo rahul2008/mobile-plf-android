@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Вибрати виріб</string>
+<string name="Select_Product_Desc">Щоб надати Вам кращу підтримку, повідомте нам, який виріб Ви маєте?</string>
+<string name="Select_Product_Find">Знайти виріб</string>
+<string name="Product_Title">Вироби</string>
+<string name="Product_Details_Select">Вибрати цей виріб</string>
+<string name="Change_Selected_Product">Змінити вибраний виріб</string>
+<string name="Confirmation_Title">Підтвердження</string>
+<string name="Confirmation_Selected">Ви вибрали</string>
+<string name="Confirmation_Change">Змінити</string>
+<string name="Confirmation_Change_Selection">Ви можете у будь-який момент змінити свій вибір.</string>
+<string name="Confirmation_Continue_Support">Перейти до підтримки</string>
+<string name="Continue_Btntxt">Продовжити</string>
+<string name="No_Internet">Немає Інтернет-зв’язку. Перевірте справність підключення через меню телефону Налаштування wi-fi чи Налаштування даних</string>
+    <string name="myphilips_CC">Обліковий запис MyPhilips</string>
+
+    <string name="pse_Selected_Product">Вибраний виріб</string>
+    <string name="pse_Selected">Вибрано</string>
+    <string name="pse_Select_Your_Product_Title">Виберіть свій виріб</string>
+    <string name="pse_Find_Your_Product_Title">Знайти свій виріб</string>
+    <string name="pse_No_Result">0 результатів знайдено для</string>
+    <string name="pse_No_Result_Desc">Це фільтрує наш список виробів. Перевірте, чи термін фільтра не містить помилок</string>
+    <string name="pse_What_Product">Яким виробом Ви користуєтеся?</string>
+    <string name="pse_Product_Support_Desc">Щоб ми могли надати Вам максимальну підтримку, вкажіть, який у Вас виріб.</string>
+    <string name="pse_Skip_Registration">Пропустити реєстрацію</string>
+    <string name="pse_Change_Product">Якщо Ви бажаєте вибрати інший виріб, це можна зробити на сторінці \"Мій обліковий запис\"</string>
+    <string name="pse_Register_Your_Product">Зареєструйте свій виріб</string>
+    <string name="pse_My_Account">Мій обліковий запис</string>
+    <string name="pse_Change_Your_Product">Якщо Ви коли-небудь захочете змінити вибраний виріб, це можна зробити на сторінці \"Мій обліковий запис\".</string>
+    <string name="pse_View_Recipes">Переглянути рецепти</string>
+    <string name="pse_Back_My_Account">Назад на Мій обліковий запис</string>
+    <string name="pse_Choose_Product_Register.">Виберіть виріб, який бажаєте зареєструвати.</string>
+    <string name="pse_Skip_Step">Пропустити</string>
+    <string name="pse_Explain_Benefits">Щоб дізнатися переваги, виберіть тут відповідний виріб.</string>
+    <string name="pse_Product_Register">Який виріб Ви бажаєте зареєструвати?</string>
+    <string name="pse_App_Content">Вміст цього додатка тепер налаштовано відповідно до</string>
+
+    <string name="search"> Пошук </string>
+
+</resources>

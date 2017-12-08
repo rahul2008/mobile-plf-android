@@ -1,0 +1,57 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/detailed_screen_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/detailed_screen_parent_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/view_padding"
+            android:paddingRight="@dimen/view_padding">
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dip"
+                android:textSize="20sp"
+                fontPath="fonts/centralesansbold.ttf"
+                android:id="@+id/detailed_screen_productname"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_marginTop="4dip"
+                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                android:id="@+id/detailed_screen_productctn"/>
+
+            <include layout="@layout/fragment_detailedscreen_image_navigation" />
+
+            <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDExtraWideButton.Center"
+                android:id="@+id/detailedscreen_select_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:textAllCaps="false"
+                android:text="@string/Product_Details_Select" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/scroll_view_bottom"/>
+
+    </LinearLayout>
+</ScrollView>

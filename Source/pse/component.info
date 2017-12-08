@@ -1,0 +1,17 @@
+{
+  "name"               : "Product Selection",
+  "type"               : "microApp",
+  "technology"         : "Java",
+  "topic"              : "",
+  "deployment"         : "Android",
+  "deployment details" : "",
+  "med62304"           : "",
+  "medFDA"             : "",
+  "maturity"           : "production",
+  "contact"            : "Deepthi Shivakumar Ritesh Jha", 
+  "release format"     : "maven",
+  "release url"        : "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ libs-release-local-android:com/philips/cdp/productselection/1.1.1",
+  "version"            : "1.1.1",
+  "source url"         : "http://tfsemea1.ta.philips.com:8080/tfs/TPC_Region24/CDP2/_git/pse-android-consumercare-app",
+  "documentation url"  : "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ libs-release-local-android:com/philips/cdp/productselection/1.1.1",
+}

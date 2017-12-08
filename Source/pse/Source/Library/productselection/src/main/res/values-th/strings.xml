@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">เลือกผลิตภัณฑ์</string>
+<string name="Select_Product_Desc">เพื่อให้เราสนับสนุนคุณได้ดีขึ้น พอจะบอกให้ทราบได้หรือไม่ว่าคุณมีผลิตภัณฑ์ใด</string>
+<string name="Select_Product_Find">ค้นหาผลิตภัณฑ์</string>
+<string name="Product_Title">ผลิตภัณฑ์</string>
+<string name="Product_Details_Select">เลือกผลิตภัณฑ์นี้</string>
+<string name="Change_Selected_Product">เปลี่ยนผลิตภัณฑ์ที่เลือก</string>
+<string name="Confirmation_Title">การยืนยัน</string>
+<string name="Confirmation_Selected">คุณได้เลือก</string>
+<string name="Confirmation_Change">เปลี่ยน</string>
+<string name="Confirmation_Change_Selection">คุณสามารถเปลี่ยนการเลือกของคุณได้ทุกเมื่อ</string>
+<string name="Confirmation_Continue_Support">ต่อไปยังการสนับสนุน</string>
+<string name="Continue_Btntxt">ดำเนินการต่อ</string>
+<string name="No_Internet">ไม่มีการเชื่อมต่ออินเตอร์เน็ต โปรดตรวจสอบว่าการเชื่อมต่อทำงานหรือไม่ในการตั้งค่า Wifi หรือการตั้งค่าข้อมูลของโทรศัพท์</string>
+    <string name="myphilips_CC">แอคเคาท์ MyPhilips</string>
+
+    <string name="pse_Selected_Product">ผลิตภัณฑ์ที่เลือก</string>
+    <string name="pse_Selected">เลือกแล้ว</string>
+    <string name="pse_Select_Your_Product_Title">เลือกผลิตภัณฑ์ของคุณ</string>
+    <string name="pse_Find_Your_Product_Title">ค้นหาผลิตภัณฑ์ของคุณ</string>
+    <string name="pse_No_Result">ไม่พบผลลัพธ์สำหรับ</string>
+    <string name="pse_No_Result_Desc">นี่เป็นการกรองรายการผลิตภัณฑ์ของเรา โปรดตรวจทานให้ดีว่าคำกรองของคุณไม่มีการพิมพ์ผิด</string>
+    <string name="pse_What_Product">คุณใช้ผลิตภัณฑ์อะไร</string>
+    <string name="pse_Product_Support_Desc">เพื่อให้เราสามารถให้การสนับสนุนช่วยเหลือกับคุณได้ดีที่สุด โปรดบอกให้เราทราบว่าคุณมีผลิตภัณฑ์อะไร</string>
+    <string name="pse_Skip_Registration">ข้ามขั้นตอนการลงทะเบียน</string>
+    <string name="pse_Change_Product">หากคุณต้องการเปลี่ยนการเลือกผลิตภัณฑ์ของคุณ คุณสามารถทำได้ที่ บัญชีของฉัน</string>
+    <string name="pse_Register_Your_Product">ลงทะเบียนผลิตภัณฑ์ของคุณ</string>
+    <string name="pse_My_Account">แอคเคาท์ของฉัน</string>
+    <string name="pse_Change_Your_Product">หากคุณต้องการเปลี่ยนผลิตภัณฑ์ที่คุณเลือก คุณสามารถทำได้ที่ บัญชีของฉัน</string>
+    <string name="pse_View_Recipes">ดูสูตรอาหาร</string>
+    <string name="pse_Back_My_Account">กลับไปที่ บัญชีของฉัน</string>
+    <string name="pse_Choose_Product_Register.">เลือกผลิตภัณฑ์ที่คุณต้องการลงทะเบียน</string>
+    <string name="pse_Skip_Step">ข้ามขั้นตอน</string>
+    <string name="pse_Explain_Benefits">เพื่ออธิบายถึงสิทธิประโยชน์ โปรดเลือกผลิตภัณฑ์ที่เหมาะสมสำหรับคุณที่นี่</string>
+    <string name="pse_Product_Register">ผลิตภัณฑ์ใดที่คุณต้องการจะลงทะเบียน</string>
+    <string name="pse_App_Content">คอนเทนต์ของแอพนี้ได้ปรับเปลี่ยนให้เข้ากับ</string>
+
+    <string name="search"> เมนูหน้าหลัก, ค้นหา </string>
+
+</resources>

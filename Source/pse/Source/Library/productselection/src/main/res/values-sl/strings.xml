@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="Select_Product_Title">Izberite izdelek</string>
+    <string name="Select_Product_Desc">Nam lahko zaupate, kateri izdelek imate, da vam bomo lahko nudili boljšo podporo?</string>
+    <string name="Select_Product_Find">Poiščite izdelek</string>
+    <string name="Product_Title">Izdelki</string>
+    <string name="Product_Details_Select">Izberi ta izdelek</string>
+    <string name="Change_Selected_Product">Zamenjaj izbrani izdelek</string>
+    <string name="Confirmation_Title">Potrditev</string>
+    <string name="Confirmation_Selected">Izbrali ste</string>
+    <string name="Confirmation_Change">Spremeni</string>
+    <string name="Confirmation_Change_Selection">Izbiro lahko spremenite kadarkoli.</string>
+    <string name="Confirmation_Continue_Support">Naprej na podporo</string>
+    <string name="Continue_Btntxt">Naprej</string>
+    <string name="No_Internet">Ni internetne povezave. Vnastavitvah Wi-Fi ali podatkovnih nastavitvah telefona preverite, ali je povezava vzpostavljena.</string>
+    <string name="myphilips_CC">Račun MyPhilips</string>
+
+    <string name="pse_Selected_Product">Izbrani izdelek</string>
+    <string name="pse_Selected">Izbrano</string>
+    <string name="pse_Select_Your_Product_Title">Izberite izdelek</string>
+    <string name="pse_Find_Your_Product_Title">Poiščite izdelek</string>
+    <string name="pse_No_Result">0 rezultatov za</string>
+    <string name="pse_No_Result_Desc">S tem boste filtrirali naš seznam izdelkov. Zagotovite, da v izrazu za filtriranje ni napak</string>
+    <string name="pse_What_Product">Kateri izdelek uporabljate?</string>
+    <string name="pse_Product_Support_Desc">Povejte nam, kateri izdelek ste kupili, da vam lahko zagotovimo najboljšo podporo.</string>
+    <string name="pse_Skip_Registration">Preskoči registracijo</string>
+    <string name="pse_Change_Product">Če želite izbrati drug izdelek, lahko to storite v razdelku Moj račun</string>
+    <string name="pse_Register_Your_Product">Registracija izdelka</string>
+    <string name="pse_My_Account">Moj račun</string>
+    <string name="pse_Change_Your_Product">Če želite izbrati drug izdelek, lahko to storite v razdelku Moj račun.</string>
+    <string name="pse_View_Recipes">Prikaz receptov</string>
+    <string name="pse_Back_My_Account">Nazaj na Moj račun</string>
+    <string name="pse_Choose_Product_Register.">Izberite izdelek, ki ga želite registrirati.</string>
+    <string name="pse_Skip_Step">Preskoči korak</string>
+    <string name="pse_Explain_Benefits">Za predstavitev prednosti tukaj izberite pravi izdelek.</string>
+    <string name="pse_Product_Register">Kateri izdelek želite registrirati?</string>
+    <string name="pse_App_Content">Vsebina te aplikacije je zdaj prilagojena za</string>
+
+    <string name="search"> Iskanje </string>
+
+</resources>

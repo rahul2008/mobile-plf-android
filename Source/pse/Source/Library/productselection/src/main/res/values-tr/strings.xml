@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Ürün seçin</string>
+<string name="Select_Product_Desc">Size daha iyi destek verebilmemiz için hangi ürünlere sahip olduğunuzu bize söyleyebilir misiniz?</string>
+<string name="Select_Product_Find">Ürünü bulun</string>
+<string name="Product_Title">Ürünler</string>
+<string name="Product_Details_Select">Bu ürünü seçin</string>
+<string name="Change_Selected_Product">Seçilen ürünü değiştirin</string>
+<string name="Confirmation_Title">Onay</string>
+<string name="Confirmation_Selected">Seçtiğiniz ürünler:</string>
+<string name="Confirmation_Change">Değiştirme</string>
+<string name="Confirmation_Change_Selection">Seçiminizi her zaman değiştirebilirsiniz.</string>
+<string name="Confirmation_Continue_Support">Destek olmaya devam edin</string>
+<string name="Continue_Btntxt">Devam et</string>
+<string name="No_Internet">İnternet bağlantısı yok. Lütfen telefonunuzun wifi ayarları veya veri ayarlarından bağlantınızı kontrol edin</string>
+    <string name="myphilips_CC">MyPhilips hesabı</string>
+
+    <string name="pse_Selected_Product">Seçili Ürün</string>
+    <string name="pse_Selected">Seçildi</string>
+    <string name="pse_Select_Your_Product_Title">Ürününüzü Seçin</string>
+    <string name="pse_Find_Your_Product_Title">Ürününüzü Bulun</string>
+    <string name="pse_No_Result">Şunun için 0 sonuç bulundu:</string>
+    <string name="pse_No_Result_Desc">Bu, ürün listemizi filtreler. Lütfen filtre teriminizde yazım hatası olmamasına dikkat edin</string>
+    <string name="pse_What_Product">Hangi ürünü kullanıyorsunuz?</string>
+    <string name="pse_Product_Support_Desc">Size en iyi desteği sunabilmemiz için lütfen hangi ürüne sahip olduğunuzu belirtin.</string>
+    <string name="pse_Skip_Registration">Kaydı atla</string>
+    <string name="pse_Change_Product">Ürün seçiminizi değiştirmek istiyorsanız bu işlemi Hesabım bölümünden gerçekleştirebilirsiniz</string>
+    <string name="pse_Register_Your_Product">Ürününüzü kaydettirin</string>
+    <string name="pse_My_Account">Hesabım</string>
+    <string name="pse_Change_Your_Product">Seçili ürününüzü değiştirmek istiyorsanız bu işlemi Hesabım bölümünden gerçekleştirebilirsiniz.</string>
+    <string name="pse_View_Recipes">Tarifleri görüntüle</string>
+    <string name="pse_Back_My_Account">Hesabıma dön</string>
+    <string name="pse_Choose_Product_Register.">Kaydetmek istediğiniz ürünü seçin.</string>
+    <string name="pse_Skip_Step">Adımı atla</string>
+    <string name="pse_Explain_Benefits">Avantajları görmek için lütfen burada doğru ürünü seçin.</string>
+    <string name="pse_Product_Register">Hangi ürünü kaydetmek istiyorsunuz?</string>
+    <string name="pse_App_Content">Bu uygulamanın içeriği seçili ürüne uygun olarak düzenlenmiştir.</string>
+
+    <string name="search"> Ara </string>
+
+</resources>

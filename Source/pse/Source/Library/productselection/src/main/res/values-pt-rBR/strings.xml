@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Selecionar produto</string>
+<string name="Select_Product_Desc">Para podermos oferecer um melhor suporte, poderia informar qual produto possui?</string>
+<string name="Select_Product_Find">Localizar produto</string>
+<string name="Product_Title">Produtos</string>
+<string name="Product_Details_Select">Selecionar este produto</string>
+<string name="Change_Selected_Product">Alterar produto selecionado</string>
+<string name="Confirmation_Title">Confirmação</string>
+<string name="Confirmation_Selected">Você selecionou</string>
+<string name="Confirmation_Change">Mudar</string>
+<string name="Confirmation_Change_Selection">Você pode alterar sua seleção a qualquer momento.</string>
+<string name="Confirmation_Continue_Support">Prosseguir com suporte</string>
+<string name="Continue_Btntxt">Continuar</string>
+    <string name="myphilips_CC">Conta MyPhilips</string>
+
+    <string name="pse_Selected_Product">Produto selecionado</string>
+    <string name="pse_Selected">Selecionado</string>
+    <string name="pse_Select_Your_Product_Title">Selecione o seu produto</string>
+    <string name="pse_Find_Your_Product_Title">Encontre o seu produto</string>
+    <string name="pse_No_Result">Nenhum resultado encontrado para</string>
+    <string name="pse_No_Result_Desc">Essa ação filtrará nossa lista de produtos. Confirme se escreveu corretamente o termo do filtro</string>
+    <string name="pse_What_Product">Qual produto você usa?</string>
+    <string name="pse_Product_Support_Desc">Para proporcionar o melhor suporte, informe-nos qual produto você já tem.</string>
+    <string name="pse_Skip_Registration">Pular registro</string>
+    <string name="pse_Change_Product">Se desejar alterar a seleção do produto, é possível fazê-lo em Minha conta</string>
+    <string name="pse_Register_Your_Product">Registrar o produto</string>
+    <string name="pse_My_Account">Minha conta</string>
+    <string name="pse_Change_Your_Product">Se desejar alterar o produto selecionado, é possível fazê-lo em Minha conta.</string>
+    <string name="pse_View_Recipes">Exibir receitas</string>
+    <string name="pse_Back_My_Account">Voltar para Minha conta</string>
+    <string name="pse_Choose_Product_Register.">Escolha o produto que deseja registrar.</string>
+    <string name="pse_Skip_Step">Pular etapa</string>
+    <string name="pse_Explain_Benefits">Para explicar os benefícios, selecione o produto correto aqui.</string>
+    <string name="pse_Product_Register">Qual produto você deseja registrar?</string>
+    <string name="pse_App_Content">O conteúdo desse aplicativo está personalizado para o produto selecionado</string>
+
+    <string name="search"> Pesquisar </string>
+
+</resources>

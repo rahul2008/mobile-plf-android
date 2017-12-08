@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp">
+
+
+
+    <CheckBox
+        android:id="@+id/ctn_name"
+        style="@style/style_ctnbutton"
+        android:text="mCtn number" />
+
+    <TextView
+        android:id="@+id/t"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ctn_name"
+        android:layout_marginLeft="39dp"
+        android:layout_marginStart="39dp"
+        android:layout_marginTop="5dp"
+        android:text="Category : "
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#000000"/>
+
+    <TextView
+        android:id="@+id/t1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/t"
+        android:layout_alignStart="@+id/t"
+        android:layout_below="@+id/t"
+        android:layout_marginTop="6dp"
+        android:text="Catalog : "
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#000000"
+        android:layout_marginBottom="7dp"/>
+
+    <TextView
+        android:id="@+id/catagory_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/t"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@+id/t"
+        android:layout_toRightOf="@+id/t"
+        android:text="catagory name"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/catalog_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Catalog name"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:layout_alignTop="@+id/t1"
+        android:layout_alignLeft="@+id/catagory_name"
+        android:layout_alignStart="@+id/catagory_name" />
+
+</RelativeLayout>

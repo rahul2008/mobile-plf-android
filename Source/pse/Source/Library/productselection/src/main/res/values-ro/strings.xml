@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Selectează produsul</string>
+<string name="Select_Product_Desc">Pentru a-ţi oferi asistenţă, ne poţi spune ce produs deţii?</string>
+<string name="Select_Product_Find">Căutarea produsului</string>
+<string name="Product_Title">Produse</string>
+<string name="Product_Details_Select">Selectează acest produs</string>
+<string name="Change_Selected_Product">Schimbă produsul selectat</string>
+<string name="Confirmation_Title">Confirmare</string>
+<string name="Confirmation_Selected">Ai selectat</string>
+<string name="Confirmation_Change">Modificare</string>
+<string name="Confirmation_Change_Selection">Poţi schimba selecţia oricând.</string>
+<string name="Confirmation_Continue_Support">Continuă spre asistenţă</string>
+<string name="Continue_Btntxt">Continuă</string>
+<string name="No_Internet">Nu există conexiune la internet. Verifică starea conexiunii din setările de wifi sau setările de date ale telefonului</string>
+    <string name="myphilips_CC">Cont MyPhilips</string>
+
+    <string name="pse_Selected_Product">Produs selectat</string>
+    <string name="pse_Selected">Selectate</string>
+    <string name="pse_Select_Your_Product_Title">Selectează produsul</string>
+    <string name="pse_Find_Your_Product_Title">Găseşte un produs</string>
+    <string name="pse_No_Result">Niciun rezultat găsit pentru</string>
+    <string name="pse_No_Result_Desc">Aceasta ne filtrează lista de produse. Verifică dacă nu sunt greşeli de ortografie în termenul de filtrare</string>
+    <string name="pse_What_Product">Ce produse foloseşti?</string>
+    <string name="pse_Product_Support_Desc">Pentru a-ţi oferi cea mai bună asistenţă, spune-ne ce produse deţii.</string>
+    <string name="pse_Skip_Registration">Omitere înregistrare</string>
+    <string name="pse_Change_Product">Dacă vrei să selectezi alt produs, poţi să faci aceasta în secţiunea Contul meu</string>
+    <string name="pse_Register_Your_Product">Înregistrează-ţi produsul</string>
+    <string name="pse_My_Account">Contul meu</string>
+    <string name="pse_Change_Your_Product">Dacă vrei să schimbi produsul selectat, poţi să faci aceasta în secţiunea Contul meu.</string>
+    <string name="pse_View_Recipes">Vizualizare reţete</string>
+    <string name="pse_Back_My_Account">Înapoi la Contul meu</string>
+    <string name="pse_Choose_Product_Register.">Alege produsul pe care vrei să-l înregistrezi.</string>
+    <string name="pse_Skip_Step">Omitere pas</string>
+    <string name="pse_Explain_Benefits">Pentru o explicaţie a avantajelor, selectează produsul potrivit aici.</string>
+    <string name="pse_Product_Register">Ce produs vrei să înregistrezi?</string>
+    <string name="pse_App_Content">Conţinutul acestei aplicaţii este adaptat la produsul selectat</string>
+
+    <string name="search"> Căutare </string>
+
+</resources>

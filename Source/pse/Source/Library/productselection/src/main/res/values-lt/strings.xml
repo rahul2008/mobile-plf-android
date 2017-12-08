@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Pasirinkite produktą</string>
+<string name="Select_Product_Desc">Ar galite patikslinti, kokį produktą turite, kad galėtume geriau jums padėti?</string>
+<string name="Select_Product_Find">Ieškoti produkto</string>
+<string name="Product_Title">Gaminiai</string>
+<string name="Product_Details_Select">Pasirinkite šį produktą</string>
+<string name="Change_Selected_Product">Pakeiskite pasirinktą produktą</string>
+<string name="Confirmation_Title">Patvirtinimas</string>
+<string name="Confirmation_Selected">Jūs pasirinkote</string>
+<string name="Confirmation_Change">Keisti</string>
+<string name="Confirmation_Change_Selection">Savo pasirinkimą galite pakeisti bet kuriuo metu.</string>
+<string name="Confirmation_Continue_Support">Tęst į klientų aptarnavimo skyrių</string>
+<string name="Continue_Btntxt">Tęsti</string>
+<string name="No_Internet">Nėra interneto ryšio. Ryšio veikimą patikrinkite telefono „wifi“ nustatymuose arba duomenų nustatymuose</string>
+    <string name="myphilips_CC">„MyPhilips“ paskyra</string>
+
+    <string name="pse_Selected_Product">Pasirinkti produktai</string>
+    <string name="pse_Selected">Pasirinktas</string>
+    <string name="pse_Select_Your_Product_Title">Pasirinkite produktą</string>
+    <string name="pse_Find_Your_Product_Title">Raskite produktą</string>
+    <string name="pse_No_Result">Rasta 0 rezultatų pagal užklausą</string>
+    <string name="pse_No_Result_Desc">Tai yra mūsų produktų sąrašo filtras. Patikrinkite, ar filtravimui skirtame termine nėra spausdinimo klaidų</string>
+    <string name="pse_What_Product">Kokį produktą naudojate?</string>
+    <string name="pse_Product_Support_Desc">Nurodykite, kokį produktą turite, kad galėtume suteikti geriausią pagalbą.</string>
+    <string name="pse_Skip_Registration">Praleisti registraciją</string>
+    <string name="pse_Change_Product">Jei norite pasirinkti kitą produktą, galite tai padaryti „Mano paskyroje“</string>
+    <string name="pse_Register_Your_Product">Užregistruokite savo gaminį</string>
+    <string name="pse_My_Account">Mano paskyra</string>
+    <string name="pse_Change_Your_Product">Jei kada norėsite pasirinkti kitą produktą, galėsite tai padaryti „Mano paskyroje“.</string>
+    <string name="pse_View_Recipes">Žiūrėti receptus</string>
+    <string name="pse_Back_My_Account">Grįžti į „Mano paskyrą“</string>
+    <string name="pse_Choose_Product_Register.">Pasirinkite produktą, kurį norite užregistruoti.</string>
+    <string name="pse_Skip_Step">Praleiskite veiksmą</string>
+    <string name="pse_Explain_Benefits">Norėdami sužinoti privalumus, čia pasirinkite reikiamą produktą.</string>
+    <string name="pse_Product_Register">Kokį produktą norite registruoti?</string>
+    <string name="pse_App_Content">Dabar šios programos turinys pritaikytas</string>
+
+    <string name="search"> Paieška </string>
+
+</resources>

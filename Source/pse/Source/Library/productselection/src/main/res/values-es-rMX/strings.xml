@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Seleccionar producto</string>
+<string name="Select_Product_Desc">Con el propósito de entregar el mejor soporte, ¿nos contarías que producto tienes?</string>
+<string name="Select_Product_Find">Buscar producto</string>
+<string name="Product_Title">Productos</string>
+<string name="Product_Details_Select">Seleccionar este producto</string>
+<string name="Change_Selected_Product">Cambiar producto seleccionado</string>
+<string name="Confirmation_Title">Confirmación</string>
+<string name="Confirmation_Selected">Seleccionaste</string>
+<string name="Confirmation_Change">Cambiar</string>
+<string name="Confirmation_Change_Selection">Puedes cambiar tu selección en cualquier momento.</string>
+<string name="Confirmation_Continue_Support">Continuar a soporte</string>
+<string name="Continue_Btntxt">Continuar</string>
+<string name="No_Internet">No hay conexión a Internet. Comprueba que tienes Internet en los ajustes de Wi-Fi o en los ajustes de datos móviles</string>
+    <string name="myphilips_CC">Cuenta MyPhilips</string>
+
+    <string name="pse_Selected_Product">Producto seleccionado</string>
+    <string name="pse_Selected">Seleccionado</string>
+    <string name="pse_Select_Your_Product_Title">Selecciona tu producto</string>
+    <string name="pse_Find_Your_Product_Title">Encuentra tu producto</string>
+    <string name="pse_No_Result">Se encontraron 0 resultados para</string>
+    <string name="pse_No_Result_Desc">Esto se utiliza para filtrar nuestra lista de productos. Verifica que no haya errores tipográficos en tu término del filtro</string>
+    <string name="pse_What_Product">¿Qué producto utilizas?</string>
+    <string name="pse_Product_Support_Desc">Para brindarte la mejor asistencia, dinos qué producto tienes.</string>
+    <string name="pse_Skip_Registration">Omitir el registro</string>
+    <string name="pse_Change_Product">Si deseas cambiar tu selección de producto, puedes hacerlo en Mi cuenta</string>
+    <string name="pse_Register_Your_Product">Registrar producto</string>
+    <string name="pse_My_Account">Mi cuenta</string>
+    <string name="pse_Change_Your_Product">Si alguna vez deseas cambiar tu producto seleccionado, puedes hacerlo en Mi cuenta.</string>
+    <string name="pse_View_Recipes">Ver recetas</string>
+    <string name="pse_Back_My_Account">Volver a Mi cuenta</string>
+    <string name="pse_Choose_Product_Register.">Escoge el producto que deseas registrar.</string>
+    <string name="pse_Skip_Step">Omitir paso</string>
+    <string name="pse_Explain_Benefits">Para explicar los beneficios, selecciona el producto adecuado aquí.</string>
+    <string name="pse_Product_Register">¿Qué producto deseas registrar?</string>
+    <string name="pse_App_Content">El contenido de esta aplicación está personalizado para tu producto seleccionado</string>
+
+    <string name="search"> Buscar </string>
+
+</resources>

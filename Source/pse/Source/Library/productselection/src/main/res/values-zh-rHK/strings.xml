@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">選擇產品</string>
+<string name="Select_Product_Desc">為了給您提供更優質的服務，請告訴我們您需要什麼產品？</string>
+<string name="Select_Product_Find">搜尋產品</string>
+<string name="Product_Title">產品</string>
+<string name="Product_Details_Select">選擇此產品</string>
+<string name="Change_Selected_Product">更換已選擇產品</string>
+<string name="Confirmation_Title">確認</string>
+<string name="Confirmation_Selected">您已經選擇</string>
+<string name="Confirmation_Change">變更</string>
+<string name="Confirmation_Change_Selection">您可以隨時更換已選擇產品。</string>
+<string name="Confirmation_Continue_Support">更多支援</string>
+<string name="Continue_Btntxt">繼續</string>
+<string name="No_Internet">並無網絡連接，請於Wi-Fi 設定 或數據設定中檢查您電話的連接狀態。</string>
+
+    <string name="pse_Selected_Product">已選產品</string>
+    <string name="pse_Selected">已選</string>
+    <string name="pse_Select_Your_Product_Title">挑選產品</string>
+    <string name="pse_Find_Your_Product_Title">搜尋產品</string>
+    <string name="pse_No_Result">此條件找到 0 個結果：</string>
+    <string name="pse_No_Result_Desc">系統將以此資料篩選產品清單，請檢查您要搜尋的字詞拼寫正確</string>
+    <string name="pse_What_Product">您使用哪一產品？</string>
+    <string name="pse_Product_Support_Desc">請告知我們您擁有哪款產品，讓我們為您提供最佳支援服務。</string>
+    <string name="pse_Skip_Registration">跳過註冊</string>
+    <string name="pse_Change_Product">如要更改所選產品，請於「我的帳戶」作出更改</string>
+    <string name="pse_Register_Your_Product">註冊您的產品</string>
+    <string name="pse_My_Account">我的帳戶</string>
+    <string name="pse_Change_Your_Product">如要更改所選產品，請於「我的帳戶」作出更改。</string>
+    <string name="pse_View_Recipes">檢視食譜</string>
+    <string name="pse_Back_My_Account">返回「我的帳戶」</string>
+    <string name="pse_Choose_Product_Register.">請選擇要註冊的產品。</string>
+    <string name="pse_Skip_Step">跳過此步驟</string>
+    <string name="pse_Explain_Benefits">在此選擇合適的產品以說明其優點。</string>
+    <string name="pse_Product_Register">您要註冊什麼產品？</string>
+    <string name="pse_App_Content">本應用程式的內容現已特別為您而設</string>
+
+    <string name="search"> 搜尋 </string>
+
+</resources>

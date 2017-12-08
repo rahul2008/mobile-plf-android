@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="Select_Product_Title">בחר מוצר</string>
+    <string name="Select_Product_Desc">כדי שנוכל להעניק לך תמיכה טובה יותר, תוכל לספר לנו איזה מוצר יש בבעלותך?</string>
+    <string name="Select_Product_Find">מצא את המוצר</string>
+    <string name="Product_Title">מוצרים</string>
+    <string name="Product_Details_Select">בחר מוצר זה</string>
+    <string name="Change_Selected_Product">שנה את המוצר שנבחר</string>
+    <string name="Confirmation_Title">אישור</string>
+    <string name="Confirmation_Selected">בחרת</string>
+    <string name="Confirmation_Change">שנה</string>
+    <string name="Confirmation_Change_Selection">תוכל לשנות את בחירתך בכל עת.</string>
+    <string name="Confirmation_Continue_Support">המשך לתמיכה</string>
+    <string name="Continue_Btntxt">המשך</string>
+    <string name="No_Internet">אין חיבור אינטרנט. בדוק שהחיבור שלך תקין דרך הגדרות Wi-Fi או הגדרות נתונים בטלפון שלך</string>
+    <string name="myphilips_CC">חשבון MyPhilips</string>
+
+    <string name="pse_Selected_Product">המוצר שנבחר</string>
+    <string name="pse_Selected">נבחר</string>
+    <string name="pse_Select_Your_Product_Title">בחר מוצר</string>
+    <string name="pse_Find_Your_Product_Title">חפש את המוצר</string>
+    <string name="pse_No_Result">נמצאו 0 תוצאות עבור</string>
+    <string name="pse_No_Result_Desc">פעולה זו מסננת את רשימת המוצרים שלנו; ודא כי אין שגיאות הקלדה בפריט שבמסנן</string>
+    <string name="pse_What_Product">באיזה מוצר אתה משתמש?</string>
+    <string name="pse_Product_Support_Desc">כדי שנוכל להעניק לך את התמיכה הטובה ביותר, ידע אותנו איזה מוצר נמצא ברשותך.</string>
+    <string name="pse_Skip_Registration">דלג על ההרשמה</string>
+    <string name="pse_Change_Product">אם ברצונך לשנות את המוצר שבחרת, תוכל זאת בחשבון תחת \'My account\' (החשבון שלי)</string>
+    <string name="pse_Register_Your_Product">רשום את המוצר</string>
+    <string name="pse_My_Account">My account (החשבון שלי)</string>
+    <string name="pse_Change_Your_Product">במקרה שתרצה לשנות את המוצר שבחרת, תוכל זאת בחשבון תחת \'My account\' (החשבון שלי)</string>
+    <string name="pse_View_Recipes">הצג מתכונים</string>
+    <string name="pse_Back_My_Account">חזרה אל החשבון שלי</string>
+    <string name="pse_Choose_Product_Register.">בחר במוצר שברצונך לרשום</string>
+    <string name="pse_Skip_Step">דלג על השלב</string>
+    <string name="pse_Explain_Benefits">הסבר את היתרונות שבבחירת המוצר הנכון כאן.</string>
+    <string name="pse_Product_Register">איזה מוצר ברצונך לרשום?</string>
+    <string name="pse_App_Content">כעת תכולתה של אפליקציה זו מותאמת לך אישית</string>
+
+    <string name="search"> תפריט הבית, חיפוש </string>
+
+</resources>
