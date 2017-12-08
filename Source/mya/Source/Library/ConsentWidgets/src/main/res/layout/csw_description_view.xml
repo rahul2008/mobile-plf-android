@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/consentList"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/description"
+        fontPath="fonts/centralesansbook.ttf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+        android:textSize="@dimen/button_toggle_text_size" />
+</ScrollView>

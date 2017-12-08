@@ -1,0 +1,39 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+    dependencies {
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath 'com.android.tools.build:gradle:2.3.3'
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+}
+
+task testAllDebug(type: GradleBuild) {
+    tasks = ['clean', 'assembleDebug', 'MyAccount:testDebugUnitTest', 'DemoUApp:testDebugUnitTest', 'ConsentWidgets:testDebugUnitTest', 'ConsentAccessToolkit:testDebugUnitTest', 'app:testDeviceDebugUnitTest']
+}
+
+task testAllRelease(type: GradleBuild) {
+    tasks = ['clean', 'assembleRelease', 'MyAccount:testReleaseUnitTest', 'DemoUApp:testReleaseUnitTest', 'ConsentWidgets:testReleaseUnitTest', 'ConsentAccessToolkit:testReleaseUnitTest', 'app:testDeviceReleaseUnitTest']
+}
+
+task testAll(type: GradleBuild) {
+    tasks = ['clean', 'build', 'MyAccount:test', 'DemoUApp:test', 'ConsentWidgets:test', 'ConsentAccessToolkit:test', 'app:test']
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mya_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:title="@null">
+
+    <LinearLayout
+        android:id="@+id/mya_toolbar_left_image_layout"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/mya_toolbar_left_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/mya_cross_icon"
+            android:layout_marginStart="@dimen/MYA_start_margin"
+            android:contentDescription="@string/app_name" />
+    </LinearLayout>
+
+    <com.philips.platform.uid.view.widget.ActionBarTextView
+        android:id="@+id/mya_toolbar_title"
+        style="@style/UIDToolbarBarTitleText"
+        android:text="@string/mya_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</android.support.v7.widget.Toolbar>
+
