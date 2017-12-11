@@ -146,7 +146,7 @@ timestamps {
                     set -e
                     #chmod -R 755 .
                     #do not use -PenvCode=${JENKINS_ENV} since the option 'opa' is hardcoded in the archive
-                    ./gradlew :IconFont:lint :AppInfra:lint :uikitLib:lint :registrationApi:lint :productselection:lint :bluelib:lintDebug :product-registration-lib:lint :iap:lint :digitalCare:lint :cloudcontroller-api:lintDebug :commlib:lintDebug :dataServices:lintRelease :devicepairingUApp:lint
+                    ./gradlew :IconFont:lint :AppInfra:lint :uikitLib:lint :securedblibrary:lint :registrationApi:lint :productselection:lint :bluelib:lintDebug :product-registration-lib:lint :iap:lint :digitalCare:lint :cloudcontroller-api:lintDebug :commlib:lintDebug :dataServices:lintRelease :devicepairingUApp:lint
                     #prx:lint and rap:lintRelease are not working and we are keeping it as known issues
                 '''
             }
