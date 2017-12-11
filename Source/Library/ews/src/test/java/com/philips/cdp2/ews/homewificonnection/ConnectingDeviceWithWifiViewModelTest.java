@@ -157,7 +157,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
     @Test
     public void itShouldSendDeviceNameWhenStartingConnection() throws Exception {
-        subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME));
+        subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME), false, HOME_SSID);
         verify(mockDeviceFriendlyNameChanger).changeFriendlyName(eq(DEVICE_FRIENDLY_NAME));
     }
 
@@ -171,7 +171,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
     @Test
     public void itShouldKickOffTimeoutWhenStartingToConnect() throws Exception {
-        subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME));
+        subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME), false, HOME_SSID);
         verify(mockHandler).postDelayed(any(Runnable.class), eq(60000L));
     }
 
@@ -421,7 +421,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
     @Test
     public void itShouldStopDiscoveryWhenTimeout() throws Exception {
-        subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME));
+        subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME), false, HOME_SSID);
         verify(mockHandler).postDelayed(timeoutRunnableCaptor.capture(), anyLong());
         timeoutRunnableCaptor.getValue().run();
 
@@ -430,7 +430,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
     @Test
     public void itShouldUnregisterReceiverWhenTimeout() throws Exception {
-        subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME));
+        subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME), false, HOME_SSID);
         verify(mockHandler).postDelayed(timeoutRunnableCaptor.capture(), anyLong());
         timeoutRunnableCaptor.getValue().run();
 
@@ -530,14 +530,14 @@ public class ConnectingDeviceWithWifiViewModelTest {
     }
 
     private void simulateChangeFriendlyDeviceNameSucceeded() {
-        subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME));
+        subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME), false, HOME_SSID);
         verify(mockDeviceFriendlyNameChanger).setNameChangerCallback(putDeviceFriendlyNameChangerCaptor.capture());
         verify(mockDeviceFriendlyNameChanger).changeFriendlyName(anyString());
         putDeviceFriendlyNameChangerCaptor.getValue().onFriendlyNameChangingSuccess();
     }
 
     private void simulateChangeFriendlyDeviceNameFailed() {
-        subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME));
+        subject.startConnecting(new StartConnectionModel(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME, DEVICE_FRIENDLY_NAME), false, HOME_SSID);
         verify(mockDeviceFriendlyNameChanger).setNameChangerCallback(putDeviceFriendlyNameChangerCaptor.capture());
         verify(mockDeviceFriendlyNameChanger).changeFriendlyName(anyString());
         putDeviceFriendlyNameChangerCaptor.getValue().onFriendlyNameChangingFailed();
