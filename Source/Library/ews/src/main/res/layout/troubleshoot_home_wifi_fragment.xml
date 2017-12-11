@@ -33,7 +33,8 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_cross_icon_dialog"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true" />
+                android:layout_alignParentTop="true"
+                android:contentDescription=""/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/label_ews_home_network_body"

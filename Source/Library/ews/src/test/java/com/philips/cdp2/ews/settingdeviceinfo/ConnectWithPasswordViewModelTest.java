@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
@@ -32,15 +31,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(EWSTagger.class)
 public class ConnectWithPasswordViewModelTest {
 
     private static final String PRODUCT = "product 001";
-    @Mock
-    private ApplianceSessionDetailsInfo sessionInfoMock;
     @Mock
     private WiFiUtil wifiUtilMock;
     @Mock
@@ -56,12 +52,15 @@ public class ConnectWithPasswordViewModelTest {
 
     private ConnectWithPasswordViewModel subject;
 
+    @Mock
+    private EWSTagger mockEWSTagger;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(EWSTagger.class);
-        subject = new ConnectWithPasswordViewModel(wifiUtilMock, sessionInfoMock, navigatorMock,
-                 mockBaseContentConfig, mockStringProvider);
+        subject = new ConnectWithPasswordViewModel(wifiUtilMock, navigatorMock,
+                 mockBaseContentConfig, mockStringProvider, mockEWSTagger);
         when(mockBaseContentConfig.getDeviceName()).thenReturn(123435);
     }
 
@@ -139,8 +138,7 @@ public class ConnectWithPasswordViewModelTest {
     @Test
     public void itShouldVerifyTrackPageName() throws Exception {
         subject.trackPageName();
-        verifyStatic();
-        EWSTagger.trackPage("connectWithPassword");
+        verify(mockEWSTagger).trackPage("connectWithPassword");
     }
 
     @Test

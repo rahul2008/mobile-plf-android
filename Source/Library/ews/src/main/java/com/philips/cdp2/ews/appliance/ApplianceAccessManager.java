@@ -13,14 +13,9 @@ import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.ews.annotations.ApplianceRequestType;
-import com.philips.cdp2.ews.annotations.ConnectionErrorType;
-import com.philips.cdp2.ews.communication.events.ApplianceConnectErrorEvent;
-import com.philips.cdp2.ews.communication.events.DeviceConnectionErrorEvent;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Tag;
-
-import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -31,45 +26,47 @@ import javax.inject.Singleton;
 @Singleton
 public class ApplianceAccessManager {
 
-    private static final String TAG = "ApplianceAccessManager";
-
-    interface FetchCallback {
+    public interface FetchCallback {
         void onDeviceInfoReceived(@NonNull WifiPortProperties properties);
+
         void onFailedToFetchDeviceInfo();
     }
 
     public interface SetPropertiesCallback {
         void onPropertiesSet(@NonNull WifiPortProperties wifiPortProperties);
+
         void onFailedToSetProperties();
     }
 
-    @Nullable private FetchCallback fetchCallback;
-    @Nullable private SetPropertiesCallback putCallback;
-
+    public static final String TAG = "ApplianceAccessManager";
     @ApplianceRequestType
     int requestType = ApplianceRequestType.UNKNOWN;
-    private EventBus eventBus;
+    @Nullable
+    private FetchCallback fetchCallback;
+    @Nullable
+    private SetPropertiesCallback putCallback;
     private EWSGenericAppliance appliance;
-    ApplianceSessionDetailsInfo sessionDetailsInfo;
-    private String homeWiFiSSID;
+    private EWSTagger ewsTagger;
+    private EWSLogger ewsLogger;
+
     private DICommPortListener<WifiPort> wifiPortListener = new DICommPortListener<WifiPort>() {
 
         @Override
         public void onPortUpdate(final WifiPort port) {
             port.removePortListener(wifiPortListener);
-            EWSLogger.d(TAG, "start onPortUpdate for :" + requestType);
+            ewsLogger.d(TAG, "start onPortUpdate for :" + requestType);
             WifiPortProperties wifiPortProperties = port.getPortProperties();
 
             if (wifiPortProperties != null) {
                 switch (requestType) {
                     case ApplianceRequestType.GET_WIFI_PROPS:
-                        EWSLogger.d(TAG, "Step 3 : Got wifi properties, showing the password entry screen");
+                        ewsLogger.d(TAG, "Step 3 : Got wifi properties, showing the password entry screen");
                         if (fetchCallback != null) {
                             fetchCallback.onDeviceInfoReceived(wifiPortProperties);
                         }
                         break;
                     case ApplianceRequestType.PUT_WIFI_PROPS:
-                        EWSLogger.d(TAG, "Step 4.1 : Setting the wifi properties to the device succesfull");
+                        ewsLogger.d(TAG, "Step 4.1 : Setting the wifi properties to the device succesfull");
                         if (putCallback != null) {
                             putCallback.onPropertiesSet(wifiPortProperties);
                         }
@@ -78,24 +75,23 @@ public class ApplianceAccessManager {
                     case ApplianceRequestType.PUT_DEVICE_PROPS:
                     case ApplianceRequestType.UNKNOWN:
                     default:
-                        EWSLogger.e(TAG, "Unknown request type");
+                        ewsLogger.e(TAG, "Unknown request type");
                         break;
                 }
                 requestType = ApplianceRequestType.UNKNOWN;
-                EWSLogger.d("TAG", "stop onPortUpdate for :" + requestType);
+                ewsLogger.d("TAG", "stop onPortUpdate for :" + requestType);
             }
         }
 
         @Override
         public void onPortError(WifiPort wifiPort, Error error, @Nullable String s) {
-            EWSLogger.d(TAG, "Step Failed : Port error " + wifiPort.toString() + " Error : " + error + " data " + error);
-            EWSTagger.trackActionSendData(Tag.KEY.TECHNICAL_ERROR, Tag.ERROR.WIFI_PORT_ERROR);
+            ewsLogger.d(TAG, "Step Failed : Port error " + wifiPort.toString() + " Error : " + error + " data " + error);
+            ewsTagger.trackActionSendData(Tag.KEY.TECHNICAL_ERROR, Tag.ERROR.WIFI_PORT_ERROR);
             onErrorReceived();
             if (fetchCallback != null) {
                 fetchCallback.onFailedToFetchDeviceInfo();
             }
             if (putCallback != null) {
-                //TODO handle failed set
                 putCallback.onFailedToSetProperties();
             }
         }
@@ -103,16 +99,16 @@ public class ApplianceAccessManager {
     };
 
     @Inject
-    public ApplianceAccessManager(@NonNull @Named("ews.event.bus") EventBus eventBus,
-                                  @NonNull final @Named("ews.temporary.appliance") EWSGenericAppliance appliance,
-                                  @NonNull final ApplianceSessionDetailsInfo sessionDetailsInfo) {
-        this.eventBus = eventBus;
+    public ApplianceAccessManager(
+            @NonNull final @Named("ews.temporary.appliance") EWSGenericAppliance appliance,
+            @NonNull final EWSTagger ewsTagger, @NonNull final EWSLogger ewsLogger) {
         this.appliance = appliance;
-        this.sessionDetailsInfo = sessionDetailsInfo;
+        this.ewsTagger = ewsTagger;
+        this.ewsLogger = ewsLogger;
     }
 
     void fetchDevicePortProperties(@NonNull FetchCallback callback) {
-        EWSLogger.d(TAG, "STEP 2 : Appliance found, fetching properties from device");
+        ewsLogger.d(TAG, "STEP 2 : Appliance found, fetching properties from device");
         if (requestType == ApplianceRequestType.UNKNOWN) {
             fetchCallback = callback;
             fetchWiFiPortProperties();
@@ -130,14 +126,12 @@ public class ApplianceAccessManager {
         switch (requestType) {
             case ApplianceRequestType.GET_WIFI_PROPS:
             case ApplianceRequestType.GET_DEVICE_PROPS:
-                EWSLogger.d("TAG", "onPortError for requestType:" + requestType);
-                eventBus.post(new DeviceConnectionErrorEvent());
+                ewsLogger.d("TAG", "onPortError for requestType:" + requestType);
                 break;
             case ApplianceRequestType.PUT_WIFI_PROPS:
-                eventBus.post(new ApplianceConnectErrorEvent(ConnectionErrorType.WRONG_CREDENTIALS));
                 break;
             default:
-                EWSLogger.e(TAG, "Unknown request type in properties");
+                ewsLogger.e(TAG, "Unknown request type in properties");
                 break;
         }
 
@@ -147,14 +141,13 @@ public class ApplianceAccessManager {
         if (requestType == ApplianceRequestType.UNKNOWN) {
             putCallback = callback;
             requestType = ApplianceRequestType.PUT_WIFI_PROPS;
-            this.homeWiFiSSID = homeWiFiSSID;
             WifiPort wifiPort = appliance.getWifiPort();
             wifiPort.addPortListener(wifiPortListener);
 
             wifiPort.setWifiNetworkDetails(homeWiFiSSID, homeWiFiPassword);
-            EWSLogger.d(TAG, "Step 4 : Setting the wifi properties to the device");
+            ewsLogger.d(TAG, "Step 4 : Setting the wifi properties to the device");
         } else {
-            EWSLogger.d("TAG", "PUT_WIFI_PROPS requestType:" + requestType);
+            ewsLogger.d("TAG", "PUT_WIFI_PROPS requestType:" + requestType);
         }
     }
 

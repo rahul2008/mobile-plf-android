@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
+import com.philips.cdp2.ews.injections.DependencyHelper;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -78,7 +78,7 @@ public class DynamicThemeApplyingActivity extends UIDActivity {
     }
 
     private void initTheme() {
-        final ThemeConfiguration themeConfig = EWSDependencyProvider.getInstance().getThemeConfiguration();
+        final ThemeConfiguration themeConfig = DependencyHelper.getThemeConfiguration();
         if (themeConfig != null) {
             for (ThemeConfig config : themeConfig.getConfigurations()) {
                 if (config instanceof ColorRange) {

@@ -31,17 +31,20 @@ public class FirstSetupStepsViewModel {
     private final Navigator navigator;
     @NonNull
     private final StringProvider stringProvider;
+    @NonNull private final EWSTagger ewsTagger;
 
     @Inject
     public FirstSetupStepsViewModel(@NonNull final Navigator navigator,
                                     @NonNull final StringProvider stringProvider,
                                     @NonNull final BaseContentConfiguration baseConfiguration,
-                                    @NonNull final HappyFlowContentConfiguration happyFlowContentConfiguration) {
+                                    @NonNull final HappyFlowContentConfiguration happyFlowContentConfiguration,
+                                    @NonNull final EWSTagger ewsTagger) {
         this.navigator = navigator;
         this.stringProvider = stringProvider;
         this.body = new ObservableField<>(getBody(baseConfiguration, happyFlowContentConfiguration));
         this.title = new ObservableField<>(getTitle(happyFlowContentConfiguration));
         this.image = getImage(happyFlowContentConfiguration);
+        this.ewsTagger = ewsTagger;
     }
 
     @VisibleForTesting
@@ -67,6 +70,6 @@ public class FirstSetupStepsViewModel {
     }
 
     void trackPageName() {
-        EWSTagger.trackPage(Page.SETUP_STEP1);
+        ewsTagger.trackPage(Page.SETUP_STEP1);
     }
 }

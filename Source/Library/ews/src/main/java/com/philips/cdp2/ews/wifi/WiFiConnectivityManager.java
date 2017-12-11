@@ -34,18 +34,22 @@ public class WiFiConnectivityManager {
     @VisibleForTesting
     Handler handler;
 
+    @NonNull private final EWSLogger ewsLogger;
+
     @Inject
     public WiFiConnectivityManager(@NonNull final WifiManager wifiManager,
                                    @NonNull final Wifi wifi,
-                                   @NonNull final WiFiUtil wiFiUtil) {
+                                   @NonNull final WiFiUtil wiFiUtil,
+                                   @NonNull final EWSLogger ewsLogger) {
         this.wifiManager = wifiManager;
         this.wifi = wifi;
         this.wiFiUtil = wiFiUtil;
         handler = new Handler();
+        this.ewsLogger = ewsLogger;
     }
 
     public void connectToHomeWiFiNetwork(@NonNull final String ssid) {
-        EWSLogger.d(EWS_STEPS, "Step 5 : Connecting to home network");
+        ewsLogger.d(EWS_STEPS, "Step 5 : Connecting to home network");
         connectToNetwork(ssid);
     }
 
@@ -59,7 +63,7 @@ public class WiFiConnectivityManager {
     }
 
     private void configureOpenNetwork() {
-        EWSLogger.d(EWS_STEPS, "1.1 Configuring open network");
+        ewsLogger.d(EWS_STEPS, "1.1 Configuring open network");
         WifiConfiguration wfc = new WifiConfiguration();
         wfc.SSID = "\"" + DEVICE_SSID + "\"";
         wfc.status = WifiConfiguration.Status.ENABLED;
@@ -81,7 +85,7 @@ public class WiFiConnectivityManager {
 
 
     private void connectToNetwork(@NonNull final String ssid) {
-        EWSLogger.d(EWS_STEPS, "Trying to connect to network " + ssid);
+        ewsLogger.d(EWS_STEPS, "Trying to connect to network " + ssid);
         attempt = 0;
         tryToConnectToNetwork(ssid);
     }
@@ -96,7 +100,7 @@ public class WiFiConnectivityManager {
                 ScanResult accessPoint = null;
                 accessPoint = findNetworkAccessPoint(ssid);
                 if (accessPoint != null) {
-                    EWSLogger.d(EWS_STEPS, "Found access point ");
+                    ewsLogger.d(EWS_STEPS, "Found access point ");
                 } else {
                     if (attempt < maxAttempts) {
                         wifiManager.startScan();
@@ -106,10 +110,10 @@ public class WiFiConnectivityManager {
                     }
                 }
                 if (accessPoint == null) {
-                    EWSLogger.d(EWS_STEPS, "Unable to connect to access point given ");
+                    ewsLogger.d(EWS_STEPS, "Unable to connect to access point given ");
                     return;
                 }
-                EWSLogger.d(EWS_STEPS, "Connecting to  " + accessPoint);
+                ewsLogger.d(EWS_STEPS, "Connecting to  " + accessPoint);
                 wifi.connectToConfiguredNetwork(wifiManager, accessPoint);
             }
         };
@@ -130,7 +134,7 @@ public class WiFiConnectivityManager {
             }
         }
 
-        EWSLogger.e(EWS_STEPS, "Access point not found ");
+        ewsLogger.e(EWS_STEPS, "Access point not found ");
         return null;
     }
 

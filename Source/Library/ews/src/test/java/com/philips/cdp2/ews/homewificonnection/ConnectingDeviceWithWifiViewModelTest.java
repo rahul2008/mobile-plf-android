@@ -22,8 +22,7 @@ import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.logger.EWSLogger;
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
-import com.philips.cdp2.ews.microapp.EWSInterface;
+import com.philips.cdp2.ews.microapp.EWSUapp;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameChanger;
 import com.philips.cdp2.ews.tagging.EWSTagger;
@@ -46,6 +45,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
@@ -129,11 +129,15 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Mock
     private CommCentral mockCommCentral;
 
+    @Mock
+    private EWSTagger mockEWSTagger;
+
+    @Mock
+    private EWSLogger mockEWSLogger;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        mockStatic(EWSTagger.class);
-        mockStatic(EWSLogger.class);
         mockStatic(LanTransportContext.class);
         mockStatic(CommCentral.class);
 
@@ -141,11 +145,13 @@ public class ConnectingDeviceWithWifiViewModelTest {
         AppTaggingInterface mockTaggingInterface = mock(AppTaggingInterface.class);
         when(mockAppInfraInterface.getTagging()).thenReturn(mockTaggingInterface);
         Map<String, String> mockMap = new HashMap<>();
-        mockMap.put(EWSInterface.PRODUCT_NAME, DEVICE_NAME);
-        EWSDependencyProvider.getInstance().initDependencies(mockAppInfraInterface, mockMap, mockCommCentral);
+        mockMap.put(EWSUapp.PRODUCT_NAME, DEVICE_NAME);
+        //EWSDependencyProvider.getInstance().initDependencies(mockAppInfraInterface, mockMap, mockCommCentral);
         subject = new ConnectingDeviceWithWifiViewModel(mockApplianceAccessManager, mockNavigator,
                 mockWiFiConnectivityManager, mockWiFiUtil, mockDeviceFriendlyNameChanger,
-                mockHandler, mockDiscoveryHelper, mockBaseContentConfiguration, mockStringProvider, mockApplianceSessionDetailInfo);
+                mockHandler, mockDiscoveryHelper, mockBaseContentConfiguration, mockStringProvider, mockApplianceSessionDetailInfo,
+                mockEWSTagger, mockEWSLogger, "Product");
+
         subject.setFragmentCallback(mockFragmentCallback);
     }
 
@@ -239,8 +245,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
         subject.startConnectionModel = null;
         putPropsCallbackCaptor.getValue().onPropertiesSet(mockWifiPortProperties);
-        verifyStatic();
-        EWSLogger.e(anyString(),anyString());
+        verify(mockEWSLogger).e(anyString(),anyString());
     }
 
     @Test
@@ -318,7 +323,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
             Exception {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
 
-        verify(mockDiscoveryHelper).startDiscovery(any(DiscoveryHelper.DiscoveryCallback.class));
+        verify(mockDiscoveryHelper).startDiscovery(any(DiscoveryHelper.DiscoveryCallback.class), eq(mockEWSLogger));
     }
 
     @Test
@@ -460,20 +465,24 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Test
     public void itShouldVerifyTrackPageIsCalledWithCorrectTag() throws Exception{
         subject.trackPageName();
-        verifyStatic();
-        EWSTagger.trackPage("connectingDeviceWithWifi");
+        verify(mockEWSTagger).trackPage("connectingDeviceWithWifi");
     }
 
     @Test
     public void itShouldGeneratedErrorLogOnStartConnectionModelIsNullAndFriendlyNameChangingSuccessCalled() throws Exception{
         subject.onFriendlyNameChangingSuccess();
-        verifyStatic();
-        EWSLogger.e(anyString(),anyString());
+        verify(mockEWSLogger).e(anyString(),anyString());
+    }
+
+    @Test
+    public void itShouldVerifyEWSLoggerShouldNotNull() throws Exception {
+        EWSLogger ewsLogger = subject.getEwsLogger();
+        assertNotNull(ewsLogger);
     }
 
     private void simulateApplianceFound() {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
-        verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture());
+        verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture(), eq(mockEWSLogger));
         when(mockAppliance.getNetworkNode()).thenReturn(mockNetworkNode);
         when(mockAppliance.getNetworkNode().getCppId()).thenReturn("MOCKEDCPPID12345678");
         when(mockApplianceSessionDetailInfo.getAppliancePin()).thenReturn("MOCKEDPIN12345678");
@@ -483,7 +492,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
     private void simulateWrongApplianceFound() {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
-        verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture());
+        verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture(), eq(mockEWSLogger));
         when(mockAppliance.getNetworkNode()).thenReturn(mockNetworkNode);
         when(mockAppliance.getNetworkNode().getCppId()).thenReturn("WorngMOCKEDCPPID12345678");
         discoveryCallbackArgumentCaptor.getValue().onApplianceFound(mockAppliance);

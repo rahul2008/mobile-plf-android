@@ -5,11 +5,8 @@
 package com.philips.cdp2.ews.startconnectwithdevice;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
-import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
@@ -22,14 +19,11 @@ import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(EWSTagger.class)
@@ -47,28 +41,23 @@ public class StartConnectWithDeviceViewModelTest {
     @Mock
     private BaseContentConfiguration baseContentConfigurationMock;
 
-    @Mock
-    private EWSCallbackNotifier ewsCallbackNotifierMock;
-
-    @Mock
-    EventingChannel<EventingChannel.ChannelCallback> mockEWSEventingChannel;
-
     private StartConnectWithDeviceViewModel subject;
 
+    @Mock
+    private EWSTagger mockEWSTagger;
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(EWSTagger.class);
-        subject = new StartConnectWithDeviceViewModel(navigatorMock, stringProviderMock, happyFlowContentConfigurationMock, baseContentConfigurationMock);
-        subject.ewsEventingChannel = mockEWSEventingChannel;
+        subject = new StartConnectWithDeviceViewModel(navigatorMock, stringProviderMock,
+                happyFlowContentConfigurationMock, baseContentConfigurationMock, mockEWSTagger);
         when(baseContentConfigurationMock.getDeviceName()).thenReturn(123435);
     }
 
     @Test
     public void itShouldNavigateToHomeWifiScreenIfWifiIsEnabledWhenClickedOnGettingStartedButton() throws Exception {
         stubHomeWiFiStatus();
-        verifyStatic();
-        EWSTagger.trackActionSendData("specialEvents", "getStartedToConnectWiFi");
+        verify(mockEWSTagger).trackActionSendData("specialEvents", "getStartedToConnectWiFi");
         verify(navigatorMock).navigateToHomeNetworkConfirmationScreen();
     }
 
@@ -77,16 +66,9 @@ public class StartConnectWithDeviceViewModelTest {
     }
 
     @Test
-    public void itShouldVerifyTrackPageIsCalledWithCorrectTag() throws Exception{
+    public void itShouldVerifyTrackPageIsCalledWithCorrectTag() throws Exception {
         subject.trackPageName();
-        verifyStatic();
-        EWSTagger.trackPage("getStarted");
-    }
-
-    @Test
-    public void itShouldVerifyBackPressEventWhenCalled() throws Exception {
-        subject.onBackPressed(ewsCallbackNotifierMock);
-        verify(ewsCallbackNotifierMock).onBackPressed();
+        verify(mockEWSTagger).trackPage("getStarted");
     }
 
     @Test
@@ -111,19 +93,17 @@ public class StartConnectWithDeviceViewModelTest {
     }
 
     @Test
-    public void itShouldVerifyOnDestroyStopEWSEventingChannel() throws Exception{
+    public void itShouldVerifyOnDestroyStopEWSEventingChannel() throws Exception {
         callOnDestroy();
-        verify(mockEWSEventingChannel).stop();
     }
 
     @Test
-    public void itShouldVerifyOnDestroySendTagPauseLifecycleInfo() throws Exception{
+    public void itShouldVerifyOnDestroySendTagPauseLifecycleInfo() throws Exception {
         callOnDestroy();
-        verifyStatic();
-        EWSTagger.pauseLifecycleInfo();
+        verify(mockEWSTagger).pauseLifecycleInfo();
     }
 
-    public void callOnDestroy(){
+    public void callOnDestroy() {
         when(navigatorMock.getFragmentNavigator()).thenReturn(mock(FragmentNavigator.class));
         when(navigatorMock.getFragmentNavigator().shouldFinish()).thenReturn(true);
         subject.onDestroy();

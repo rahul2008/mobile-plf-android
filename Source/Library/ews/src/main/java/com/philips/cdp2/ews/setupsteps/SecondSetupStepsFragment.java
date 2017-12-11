@@ -18,10 +18,10 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
-import com.philips.cdp2.ews.setupsteps.SecondSetupStepsViewModel.LocationPermissionFlowCallback;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentSecondSetupStepsBinding;
 import com.philips.cdp2.ews.dialog.EWSAlertDialogFragment;
+import com.philips.cdp2.ews.setupsteps.SecondSetupStepsViewModel.LocationPermissionFlowCallback;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;

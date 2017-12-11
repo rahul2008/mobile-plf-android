@@ -32,12 +32,12 @@ public class DiscoveryHelper {
 
         @Override
         public void onApplianceUpdated(@NonNull Appliance appliance) {
-            // TODO check if called during our flow
+            // TODO verify if action needed, right now not according to our cases
         }
 
         @Override
         public void onApplianceLost(@NonNull Appliance appliance) {
-            // TODO check if called during our flow
+            // TODO verify if action needed, right now not according to our cases
         }
     };
 
@@ -45,14 +45,14 @@ public class DiscoveryHelper {
         this.commCentral = commCentral;
     }
 
-    public void startDiscovery(@NonNull DiscoveryCallback callback) {
+    public void startDiscovery(@NonNull DiscoveryCallback callback, @NonNull final EWSLogger ewsLogger) {
         this.callback = callback;
         try {
 
             commCentral.getApplianceManager().addApplianceListener(applianceListener);
             commCentral.startDiscovery();
         } catch (MissingPermissionException e) {
-            EWSLogger.e(TAG, "Starting LAN discovery threw MissingPermissionException exception " +
+            ewsLogger.e(TAG, "Starting LAN discovery threw MissingPermissionException exception " +
                     e.getLocalizedMessage());
         }
     }

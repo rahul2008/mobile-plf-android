@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
@@ -32,20 +31,19 @@ public class ConnectWithPasswordViewModel extends BaseObservable {
     @NonNull public final ObservableField<String> title;
     @NonNull public final ObservableField<String> note;
 
-    @NonNull private final ApplianceSessionDetailsInfo sessionDetailsInfo;
     @NonNull private final WiFiUtil wiFiUtil;
     @NonNull private final Navigator navigator;
     @NonNull private final StringProvider stringProvider;
     @NonNull private final BaseContentConfiguration baseContentConfiguration;
+    @NonNull private final EWSTagger ewsTagger;
 
     @Inject
     public ConnectWithPasswordViewModel(@NonNull final WiFiUtil wiFiUtil,
-                                        @NonNull final ApplianceSessionDetailsInfo sessionDetailsInfo,
                                         @NonNull final Navigator navigator,
                                         @NonNull BaseContentConfiguration baseConfig,
-                                        @NonNull StringProvider stringProvider) {
+                                        @NonNull StringProvider stringProvider,
+                                        @NonNull final EWSTagger ewsTagger) {
         this.wiFiUtil = wiFiUtil;
-        this.sessionDetailsInfo = sessionDetailsInfo;
         this.navigator = navigator;
         this.stringProvider = stringProvider;
 
@@ -54,6 +52,7 @@ public class ConnectWithPasswordViewModel extends BaseObservable {
         title = new ObservableField<>(getTitle(baseConfig));
         note = new ObservableField<>(getNote(baseConfig));
         this.baseContentConfiguration = baseConfig;
+        this.ewsTagger = ewsTagger;
 
     }
 
@@ -115,6 +114,6 @@ public class ConnectWithPasswordViewModel extends BaseObservable {
     }
 
     public void trackPageName() {
-        EWSTagger.trackPage(Page.CONNECT_WITH_PASSWORD);
+        ewsTagger.trackPage(Page.CONNECT_WITH_PASSWORD);
     }
 }

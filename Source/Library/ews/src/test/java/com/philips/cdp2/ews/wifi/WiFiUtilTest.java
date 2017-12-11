@@ -14,7 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -47,12 +46,14 @@ public class WiFiUtilTest {
 
     private WiFiUtil subject;
 
+    @Mock
+    private EWSLogger mockEWSLogger;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        PowerMockito.mockStatic(EWSLogger.class);
         when(mockWifiManager.getConnectionInfo()).thenReturn(mockWifiInfo);
-        subject = new WiFiUtil(mockWifiManager);
+        subject = new WiFiUtil(mockWifiManager, mockEWSLogger);
     }
 
     @Test
@@ -76,7 +77,7 @@ public class WiFiUtilTest {
     @Test
     public void itShouldReturnNullWiFiIsNotConnected() throws Exception {
         disconnectNetwork();
-
+        subject.getConnectedWiFiSSID();
         assertNull(subject.getHomeWiFiSSD());
     }
 

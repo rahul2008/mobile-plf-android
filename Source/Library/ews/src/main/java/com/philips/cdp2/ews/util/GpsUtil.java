@@ -20,6 +20,6 @@ public final class GpsUtil {
 
     public static boolean isGPSEnabled(@NonNull final Context context) {
         LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        return lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        return lm != null ? lm.isProviderEnabled(LocationManager.GPS_PROVIDER) : false;
     }
 }

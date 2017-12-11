@@ -11,11 +11,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
-import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
@@ -38,21 +35,23 @@ public class StartConnectWithDeviceViewModel {
     private final Navigator navigator;
     @NonNull
     private final StringProvider stringProvider;
-    @VisibleForTesting
-    @Inject
-    EventingChannel<EventingChannel.ChannelCallback> ewsEventingChannel;
+    @NonNull
+    private final EWSTagger ewsTagger;
+
 
     @Inject
     public StartConnectWithDeviceViewModel(@NonNull final Navigator navigator,
                                            @NonNull final StringProvider stringProvider,
                                            @NonNull final HappyFlowContentConfiguration happyFlowConfig,
-                                           @NonNull final BaseContentConfiguration baseConfig) {
+                                           @NonNull final BaseContentConfiguration baseConfig,
+                                           @NonNull final EWSTagger ewsTagger) {
         this.navigator = navigator;
         this.stringProvider = stringProvider;
         title = new ObservableField<>(getTitle(happyFlowConfig, baseConfig));
         body = new ObservableField<>(getBody(baseConfig));
         description = new ObservableField<>(getDescription(baseConfig));
         image = getImage(happyFlowConfig);
+        this.ewsTagger = ewsTagger;
     }
 
     @VisibleForTesting
@@ -89,22 +88,16 @@ public class StartConnectWithDeviceViewModel {
     }
 
     private void tapGetStarted() {
-        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.GET_STARTED);
-    }
-
-    public void onBackPressed(EWSCallbackNotifier ewsCallbackNotifier) {
-        ewsCallbackNotifier.onBackPressed();
+        ewsTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.GET_STARTED);
     }
 
     public void trackPageName() {
-        EWSTagger.trackPage(Page.GET_STARTED);
+        ewsTagger.trackPage(Page.GET_STARTED);
     }
 
-    public void onDestroy(){
-        if(navigator.getFragmentNavigator().shouldFinish()){
-            EWSTagger.pauseLifecycleInfo();
-            ewsEventingChannel.stop();
-            EWSDependencyProvider.getInstance().clear();
+    public void onDestroy() {
+        if (navigator.getFragmentNavigator().shouldFinish()) {
+            ewsTagger.pauseLifecycleInfo();
         }
 
     }

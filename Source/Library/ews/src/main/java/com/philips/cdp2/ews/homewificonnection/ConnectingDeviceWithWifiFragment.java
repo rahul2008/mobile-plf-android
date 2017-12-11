@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.base.BaseFragment;
 import com.philips.cdp2.ews.databinding.FragmentConnectingDeviceWithWifiBinding;
-import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.cdp2.ews.util.BundleUtils;
 
@@ -123,7 +122,9 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
         try {
             getActivity().unregisterReceiver(receiver);
         } catch (IllegalArgumentException e) {
-            EWSLogger.d(TAG, e.toString());
+            if (viewModel != null){
+                viewModel.getEwsLogger().d(TAG, e.toString());
+            }
         }
     }
 

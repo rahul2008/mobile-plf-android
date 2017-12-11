@@ -26,7 +26,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(EWSTagger.class)
@@ -37,12 +36,13 @@ public class WrongWifiNetworkViewModelTest {
     @Mock private Navigator mockNavigator;
 
     @Mock private BaseContentConfiguration mockBaseContentConfiguration;
+    @Mock private EWSTagger mockEWSTagger;
 
     @Before
     public void setUp() throws Exception {
         mockStatic(EWSTagger.class);
         initMocks(this);
-        subject = new WrongWifiNetworkViewModel(mockNavigator,mockBaseContentConfiguration);
+        subject = new WrongWifiNetworkViewModel(mockNavigator,mockBaseContentConfiguration, mockEWSTagger);
     }
 
     @Test
@@ -93,7 +93,6 @@ public class WrongWifiNetworkViewModelTest {
     @Test
     public void itShouldVerifyTrackPageName() throws Exception {
         subject.trackPageName();
-        verifyStatic();
-        EWSTagger.trackPage("wrongWifiNetwork");
+        verify(mockEWSTagger).trackPage("wrongWifiNetwork");
     }
 }

@@ -6,6 +6,7 @@
 package com.philips.cdp2.ews;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -13,11 +14,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.philips.cdp2.ews.base.BaseFragment;
-import com.philips.cdp2.ews.communication.EventingChannel;
-import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
+import com.philips.cdp2.ews.injections.DaggerEWSComponent;
+import com.philips.cdp2.ews.injections.DependencyHelper;
+import com.philips.cdp2.ews.injections.EWSConfigurationModule;
+import com.philips.cdp2.ews.injections.EWSDependencyProviderModule;
+import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
-import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.BundleUtils;
@@ -26,27 +29,20 @@ import com.philips.platform.uid.view.widget.ActionBarTextView;
 
 import java.util.concurrent.TimeUnit;
 
-import javax.inject.Inject;
-
 public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActionBarListener {
 
     public static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
     public static final String EWS_STEPS = "EWS_STEPS";
     public static final String KEY_CONTENT_CONFIGURATION = "contentConfiguration";
-
-    @Inject
-    EventingChannel<EventingChannel.ChannelCallback> ewsEventingChannel;
-
-    @Inject
-    Navigator navigator;
-
-    @Inject
-    BaseContentConfiguration baseContentConfiguration;
+    @NonNull
+    EWSTagger ewsTagger;
+    @NonNull
+    private Navigator navigator;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!EWSDependencyProvider.getInstance().areDependenciesInitialized()){
+        if (!DependencyHelper.areDependenciesInitialized()) {
             this.finish();
             return;
         }
@@ -73,11 +69,19 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
             contentConfiguration = new ContentConfiguration();
         }
 
-        EWSDependencyProvider.getInstance().createEWSComponent(this, R.id.contentFrame,
-                contentConfiguration);
+        EWSModule ewsModule = new EWSModule(this
+                , this.getSupportFragmentManager()
+                , R.id.contentFrame, DependencyHelper.getCommCentral());
+        EWSDependencyProviderModule ewsDependencyProviderModule = new EWSDependencyProviderModule(DependencyHelper.getAppInfraInterface(), DependencyHelper.getProductKeyMap());
+        EWSConfigurationModule ewsConfigurationModule = new EWSConfigurationModule(this, contentConfiguration);
 
-        EWSDependencyProvider.getInstance().getEwsComponent().inject(this);
-        ewsEventingChannel.start();
+        DaggerEWSComponent.builder()
+                .eWSModule(ewsModule)
+                .eWSConfigurationModule(ewsConfigurationModule)
+                .eWSDependencyProviderModule(ewsDependencyProviderModule)
+                .build();
+        navigator = ewsModule.provideNavigator();
+        ewsTagger = ewsDependencyProviderModule.provideEWSTagger();
     }
 
     @Override
@@ -111,10 +115,6 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
 
     @Override
     protected void onDestroy() {
-        if (ewsEventingChannel != null){
-            ewsEventingChannel.stop();
-        }
-        EWSDependencyProvider.getInstance().clear();
         super.onDestroy();
     }
 
@@ -165,18 +165,18 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
 
     @Override
     public void updateActionBar(String s, boolean b) {
-     setToolbarTitle(s);
+        setToolbarTitle(s);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        EWSTagger.collectLifecycleInfo(this);
+        ewsTagger.collectLifecycleInfo(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        EWSTagger.pauseLifecycleInfo();
+        ewsTagger.pauseLifecycleInfo();
     }
 }

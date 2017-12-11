@@ -22,16 +22,12 @@ import com.philips.cdp2.ews.databinding.FragmentConfirmWifiNetworkBinding;
 import com.philips.cdp2.ews.dialog.EWSAlertDialogFragment;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
-import com.philips.cdp2.ews.util.ColorsUtil;
-import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.util.Locale;
-
-import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class ConfirmWifiNetworkFragment extends BaseFragment
         implements ConfirmWifiNetworkViewModel.ViewCallback {
@@ -75,7 +71,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
     }
 
     @Override
-    public void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration) {
+    public void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration, @NonNull final EWSTagger ewsTagger) {
         if (getChildFragmentManager().findFragmentByTag(AlertDialogFragment.class.getCanonicalName()) == null) {
             Context context = getContext();
             final View view = LayoutInflater.from(context).cloneInContext(UIDHelper.getPopupThemedContext(context)).inflate(R.layout.troubleshoot_home_wifi_fragment,
@@ -90,7 +86,7 @@ public class ConfirmWifiNetworkFragment extends BaseFragment
             alertDialogFragment.setDialogLifeCycleListener(new EWSAlertDialogFragment.DialogLifeCycleListener() {
                 @Override
                 public void onStart() {
-                    EWSTagger.trackPage(Page.SELECT_HOME_WIFI);
+                    ewsTagger.trackPage(Page.SELECT_HOME_WIFI);
                 }
             });
             alertDialogFragment.show(getChildFragmentManager(), AlertDialogFragment.class.getCanonicalName());

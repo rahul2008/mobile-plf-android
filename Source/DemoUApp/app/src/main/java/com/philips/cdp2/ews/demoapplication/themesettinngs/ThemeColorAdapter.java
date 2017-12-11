@@ -45,7 +45,7 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, @NonNull final int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.theme_selector_list_item, parent, false);
         view.setMinimumWidth(colorPickerwidth);
         final ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
@@ -142,9 +142,8 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
     }
 
     private GradientDrawable getItemviewBackground(final int startColor, final int endColor) {
-        GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.TL_BR,
+        return new GradientDrawable(GradientDrawable.Orientation.TL_BR,
                 new int[]{startColor, endColor});
-        return gradientDrawable;
     }
 
     @Override

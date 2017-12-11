@@ -22,7 +22,7 @@ public class ContentConfiguration implements Parcelable {
      * Default Constructor for ContentConfiguration
      */
     public ContentConfiguration() {
-        baseContentConfiguration = new BaseContentConfiguration();
+        baseContentConfiguration = new BaseContentConfiguration.Builder().build();
         happyFlowContentConfiguration = new HappyFlowContentConfiguration.Builder().build();
         troubleShootContentConfiguration = new TroubleShootContentConfiguration.Builder().build();
     }

@@ -7,7 +7,6 @@ package com.philips.cdp2.ews.connectionsuccessful;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
-import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.util.StringProvider;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
@@ -16,7 +15,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -25,11 +23,10 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({EWSCallbackNotifier.class, EWSTagger.class})
+@PrepareForTest({EWSTagger.class})
 
 public class ConnectionSuccessfulViewModelTest {
 
@@ -37,8 +34,7 @@ public class ConnectionSuccessfulViewModelTest {
 
     @Mock
     private FragmentCallback mockFragmentCallback;
-    @Mock
-    private EWSCallbackNotifier callbackNotifierMock;
+
     @Mock
     private BaseContentConfiguration mockBaseContentConfig;
 
@@ -47,22 +43,16 @@ public class ConnectionSuccessfulViewModelTest {
     @Mock
     private WiFiUtil mockWiFiUtil;
 
+    @Mock
+    private EWSTagger mockEWSTagger;
+
     @Before
     public void setup() {
         initMocks(this);
         mockStatic(EWSTagger.class);
-        PowerMockito.mockStatic(EWSCallbackNotifier.class);
-        subject = new ConnectionSuccessfulViewModel(mockBaseContentConfig, mockStringProvider, mockWiFiUtil);
-        when(EWSCallbackNotifier.getInstance()).thenReturn(callbackNotifierMock);
+        subject = new ConnectionSuccessfulViewModel(mockBaseContentConfig, mockStringProvider, mockWiFiUtil, mockEWSTagger);
         when(mockBaseContentConfig.getDeviceName()).thenReturn(R.string.ews_device_name_default);
         subject.setFragmentCallback(mockFragmentCallback);
-    }
-
-    @Test
-    public void itShouldGiveOnSuccessCallbackWhenClickedOnStartButton() throws Exception {
-        subject.onStartClicked();
-
-        verify(callbackNotifierMock).onSuccess();
     }
 
     @Test
@@ -99,8 +89,7 @@ public class ConnectionSuccessfulViewModelTest {
     @Test
     public void itShouldSendPageNameToAnalytics() throws Exception {
         subject.trackPageName();
-        verifyStatic();
-        EWSTagger.trackPage("connectionSuccessful");
+        verify(mockEWSTagger).trackPage("connectionSuccessful");
     }
 
 }

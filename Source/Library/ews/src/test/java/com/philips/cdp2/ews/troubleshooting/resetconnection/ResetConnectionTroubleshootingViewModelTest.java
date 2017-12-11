@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(EWSTagger.class)
@@ -33,13 +32,16 @@ public class ResetConnectionTroubleshootingViewModelTest {
     private BaseContentConfiguration mockBaseContentConfiguration;
     @Mock
     private StringProvider mockStringProvider;
+    @Mock
+    private EWSTagger mockEWSTagger;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         mockStatic(EWSTagger.class);
         when(mockBaseContentConfiguration.getDeviceName()).thenReturn(124234);
-        subject = new ResetConnectionTroubleshootingViewModel(mockNavigator, mockStringProvider, mockBaseContentConfiguration, mockTroubleShootContentConfiguration);
+        subject = new ResetConnectionTroubleshootingViewModel(mockNavigator, mockStringProvider, mockBaseContentConfiguration,
+                mockTroubleShootContentConfiguration, mockEWSTagger);
     }
 
     @Test
@@ -80,8 +82,7 @@ public class ResetConnectionTroubleshootingViewModelTest {
     @Test
     public void itShouldVerifyTrackPageName() throws Exception {
         subject.trackPageName();
-        verifyStatic();
-        EWSTagger.trackPage("resetConnection");
+        verify(mockEWSTagger).trackPage("resetConnection");
     }
 
 
