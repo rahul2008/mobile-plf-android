@@ -30,7 +30,6 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
     private final static String HOME_WIFI_PWD = "homeWiFiPassword";
     private final static String DEVICE_FRIENDLY_NAME = "deviceFriendlyName";
     private final static String FROM_WRONG_WIFI_SCREEN = "deviceFriendlyName";
-    private static boolean fromWrongWifiScreen = false;
     @Nullable
     private ConnectingDeviceWithWifiViewModel viewModel;
 
@@ -43,15 +42,21 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
         data.putString(HOME_WIFI_PWD, homeWiFiPassword);
         data.putString(DEVICE_NAME, deviceName);
         data.putString(DEVICE_FRIENDLY_NAME, deviceFriendlyName);
-        fromWrongWifiScreen = false;
         ConnectingDeviceWithWifiFragment fragment = new ConnectingDeviceWithWifiFragment();
         fragment.setArguments(data);
         return fragment;
     }
 
-    public static Fragment newInstance(@Nullable Bundle bundle) {
-        fromWrongWifiScreen = true;
+    public static Fragment newInstance(@Nullable Bundle bundle, Boolean fromWifiScreen) {
         ConnectingDeviceWithWifiFragment fragment = new ConnectingDeviceWithWifiFragment();
+
+        if (bundle != null) {
+            bundle.putBoolean(FROM_WRONG_WIFI_SCREEN, fromWifiScreen);
+        } else {
+            bundle = new Bundle();
+            bundle.putBoolean(FROM_WRONG_WIFI_SCREEN, fromWifiScreen);
+        }
+
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -72,7 +77,8 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
 
         if (viewModel == null) {
             invokeViewModel();
-            viewModel.startConnecting(createStartConnectionModel(getArguments()), fromWrongWifiScreen, BundleUtils.extractStringFromBundleOrThrow(getBundle(), HOME_WIFI_SSID));
+            viewModel.startConnecting(createStartConnectionModel(getArguments()),
+                    BundleUtils.extractBooleanFromBundleOrThrow(getArguments(), FROM_WRONG_WIFI_SCREEN));
         } else {
             invokeViewModel();
             viewModel.connectToHomeWifi(

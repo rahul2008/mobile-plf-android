@@ -183,7 +183,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         this.fragmentCallback = fragmentCallback;
     }
 
-    void startConnecting(@NonNull final StartConnectionModel startConnectionModel, boolean fromWrongWifiScreen, String wifiSSID) {
+    void startConnecting(@NonNull final StartConnectionModel startConnectionModel, boolean fromWrongWifiScreen) {
         this.startConnectionModel = startConnectionModel;
         tagConnectionStart();
         if (!fromWrongWifiScreen) {
@@ -191,7 +191,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
             deviceFriendlyNameChanger.changeFriendlyName(startConnectionModel.getDeviceFriendlyName());
             handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
         } else {
-            connectToHomeWifi(wifiSSID);
+            connectToHomeWifi(startConnectionModel.getHomeWiFiSSID());
         }
     }
 

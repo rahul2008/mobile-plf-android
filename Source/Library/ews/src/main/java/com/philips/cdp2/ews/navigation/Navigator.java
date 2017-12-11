@@ -23,15 +23,15 @@ import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetwo
 public class Navigator {
 
     @NonNull
-    public FragmentNavigator getFragmentNavigator() {
-        return fragmentNavigator;
-    }
-
-    @NonNull
     private final FragmentNavigator fragmentNavigator;
 
     public Navigator(@NonNull final FragmentNavigator fragmentNavigator) {
         this.fragmentNavigator = fragmentNavigator;
+    }
+
+    @NonNull
+    public FragmentNavigator getFragmentNavigator() {
+        return fragmentNavigator;
     }
 
     public void navigateToGettingStartedScreen() {
@@ -86,8 +86,8 @@ public class Navigator {
         pushFragment(ConnectingDeviceWithWifiFragment.newInstance(homeWiFiSSID, homeWiFiPassword, deviceName, deviceFriendlyName));
     }
 
-    public void navigateToConnectingDeviceWithWifiScreen(@Nullable Bundle bundle) {
-        pushFragment(ConnectingDeviceWithWifiFragment.newInstance(bundle));
+    public void navigateToConnectingDeviceWithWifiScreen(@Nullable Bundle bundle, Boolean fromWifiScreen) {
+        pushFragment(ConnectingDeviceWithWifiFragment.newInstance(bundle, fromWifiScreen));
     }
 
     public void navigateToEWSWiFiPairedScreen() {
@@ -103,6 +103,6 @@ public class Navigator {
     }
 
     private void pushFragment(@NonNull Fragment fragment) {
-        fragmentNavigator.push(fragment,fragmentNavigator.getContainerId());
+        fragmentNavigator.push(fragment, fragmentNavigator.getContainerId());
     }
 }

@@ -160,7 +160,7 @@ public class NavigatorTest {
         when(data.containsKey(anyString())).thenReturn(true);
         when(data.getString(anyString())).thenReturn("dummyValue");
 
-        subject.navigateToConnectingDeviceWithWifiScreen(data);
+        subject.navigateToConnectingDeviceWithWifiScreen(data, true);
 
         verifyFragmentPushed(ConnectingDeviceWithWifiFragment.class);
     }
