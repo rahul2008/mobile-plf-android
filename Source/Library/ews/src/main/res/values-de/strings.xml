@@ -101,10 +101,10 @@
     <string name="button_ews_support_wrong_phone_no">Nein</string>
     <string name="label_ews_support_reset_connection_title">%1$s</string>
     <string name="label_ews_location_permission_title">Standort-Berechtigung</string>
-    <string name="label_ews_location_permission_body">Um %1$s\'s PHILIPS Setup WLAN-Netzwerk zu finden, benötigen wir die Berechtigung, um auf Ihren Standort zuzugreifen.</string>
+    <string name="label_ews_location_permission_body">Um %1$ss PHILIPS Setup WLAN-Netzwerk zu finden, benötigen wir die Berechtigung, um auf Ihren Standort zuzugreifen.</string>
     <string name="label_ews_location_permission_allow">Zulassen</string>
     <string name="label_ews_location_permission_cancel">Einrichtung Abbrechen</string>
     <string name="label_ews_location_services_title">Standortdienste aktivieren</string>
-    <string name="label_ews_location_services_body">Um %1$s\'s PHILIPS Setup WLAN-Netzwerk zu finden, müssen die Standortdienste aktiviert sein. Aktivieren Sie die Standortdienste in den Standorteinstellungen und kehren Sie zur App zurück.</string>
+    <string name="label_ews_location_services_body">Um %1$ss PHILIPS Setup WLAN-Netzwerk zu finden, müssen die Standortdienste aktiviert sein. Aktivieren Sie die Standortdienste in den Standorteinstellungen und kehren Sie zur App zurück.</string>
     <string name="label_ews_location_services_go_to_location_settings">Einstellungen aufrufen</string>
 </resources>
