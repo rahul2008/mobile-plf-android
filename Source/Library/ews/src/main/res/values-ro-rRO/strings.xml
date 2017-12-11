@@ -34,7 +34,7 @@
     <string name="label_ews_verify_ready_title_default">Dispozitivul e în modul de configurare?</string>
     <string name="label_ews_verify_ready_question_default">LED-ul Wi-Fi luminează intermitent?</string>
     <string name="button_ews_verify_ready_yes_default">LED-ul luminează intermitent</string>
-    <string name="button_ews_verify_ready_no_default">Ledul nu luminează intermitent</string>
+    <string name="button_ews_verify_ready_no_default">Nu luminează intermitent</string>
     <string name="label_ews_select_wifi_title">Conectează-te la %1$s</string>
     <string name="label_ews_select_wifi_body">Urmează aceşti paşi pentru a conecta telefonul la PHILIPS Setup.</string>
     <string name="label_ews_select_wifi_step1">1. Accesează Setările de pe telefon şi atinge Wi-Fi</string>

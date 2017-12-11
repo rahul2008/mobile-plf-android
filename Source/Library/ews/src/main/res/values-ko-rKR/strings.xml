@@ -34,7 +34,7 @@
     <string name="label_ews_verify_ready_title_default">기기가 설정 모드 상태입니까?</string>
     <string name="label_ews_verify_ready_question_default">Wi-Fi 표시등이 깜빡입니까?</string>
     <string name="button_ews_verify_ready_yes_default">예, Wi-Fi 표시등이 깜빡입니다.</string>
-    <string name="button_ews_verify_ready_no_default">아니요, Wi-Fi 표시등이 깜박이지 않음</string>
+    <string name="button_ews_verify_ready_no_default">아니요, Wi-Fi 표시 깜박임 없음</string>
     <string name="label_ews_select_wifi_title">%1$s에 연결</string>
     <string name="label_ews_select_wifi_body">다음 단계를 따라 휴대 전화를 필립스 설정에 연결합니다.</string>
     <string name="label_ews_select_wifi_step1">1. 휴대전화에서 설정으로 이동한 후 Wi-Fi를 탭합니다.</string>

@@ -10,7 +10,7 @@
     <string name="label_ews_cancel_setup_title">Наистина ли искате да отмените конфигурирането на Wi-Fi?</string>
     <string name="label_ews_cancel_setup_body">Ако отмените сега, няма да имате достъп до %1$s, като използвате Wi-Fi.</string>
     <string name="button_ews_cancel_setup_yes">Спри настройване</string>
-    <string name="button_ews_cancel_setup_no">Продължи настройване</string>
+    <string name="button_ews_cancel_setup_no">Продължи настройка</string>
     <string name="label_ews_get_started_title">Свързване към Wi-Fi</string>
     <string name="label_ews_get_started_body">Свържете %1$s си към Wi-Fi, за да насладите на това приложение и всичките му функции.</string>
     <string name="label_ews_get_started_description">За да се свържете успешно, поставете %1$s близо до вашия маршрутизатор. Препятствия като стени могат да окажат влияние на силата на сигнала.</string>
