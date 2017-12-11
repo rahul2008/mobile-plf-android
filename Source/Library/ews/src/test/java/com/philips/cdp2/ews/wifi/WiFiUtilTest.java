@@ -48,6 +48,8 @@ public class WiFiUtilTest {
 
     @Mock
     private EWSLogger mockEWSLogger;
+    @Mock
+    private android.net.wifi.SupplicantState mockSupplianceState;
 
     @Before
     public void setUp() throws Exception {
@@ -142,6 +144,7 @@ public class WiFiUtilTest {
 
     @Test
     public void itShouldReturnFalseWhenIsConnectedToWrongHomeWifiAndNotConnected() {
+        when(mockWifiInfo.getSupplicantState()).thenReturn(mockSupplianceState);
         assertFalse(subject.getCurrentWifiState() == WiFiUtil.WRONG_WIFI);
     }
 
