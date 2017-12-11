@@ -4,11 +4,7 @@
  */
 
 buildscript { bs ->
-    project.ext.common = projectDir.absolutePath + '/../../common/gradle'
-
-    apply from: "$project.common/project-build.gradle", to: bs
-    apply from: "$project.common/module.gradle"
-    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {
@@ -37,8 +33,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'pl.droidsonroids.pitest'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-
-apply from: "$project.common/module-tasks.gradle"
 
 def environment = 'production'
 if (project.hasProperty('envCode')) {
@@ -210,7 +204,7 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
 	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix())
-	compile(dp ? project(':ail') : ailModule)
+	compile(dp ? project(':AppInfra') : ailModule)
 
     testCompile deps.junit
     testCompile deps.mockito
@@ -230,4 +224,29 @@ pitest {
     outputFormats = ['XML', 'HTML'] /* specify output format */
     reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
     timestampedReports = false
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+}
+
+/**
+ * Zips external documentation to be included with a release
+ */
+task zipDocuments(type: Zip) {
+    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
+    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
+    from files(docfiles) {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+
+/**
+ * Creates sources.jar for easier debugging
+ */
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
 }
