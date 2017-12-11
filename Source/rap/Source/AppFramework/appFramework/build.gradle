@@ -13,7 +13,7 @@ jacoco {
 }
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {
@@ -242,7 +242,7 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        project(':prg')
+        project(':product-registration-lib')
     } else {
         compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: versions.prg_productRegistrationLib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
             transitive = true
@@ -250,7 +250,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':dcc')
+        project(':digitalCare')
     } else {
         compile(group: 'com.philips.cdp', name: 'digitalCare', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
             transitive = true
@@ -266,7 +266,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':dsc')
+        project(':dataServices')
     } else {
         compile(group: 'com.philips.cdp', name: 'dataServices', version: versions.dsc_dataServices + objcdp.getVersionSuffix(), ext: 'aar') {
             exclude group: 'com.android.support'
@@ -275,7 +275,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':mya')
+        project(':MyAccount')
     } else {
         compile(group: 'com.philips.cdp', name: 'MyAccount', version: versions.mya_myAccount + objcdp.getVersionSuffix(), ext: 'aar')
         {
@@ -294,7 +294,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':commlibUApp')
+        project(':commlib-demouapp')
     } else {
         compile(group: 'com.philips.cdp', name: 'commlib-demouapp', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
             exclude group: 'com.android.support'
@@ -303,7 +303,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':dccUApp')
+        project(':digitalCareUApp')
     } else {
         compile(group: 'com.philips.cdp', name: 'digitalCareUApp', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar') {
             exclude group: 'com.android.support'
@@ -312,7 +312,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':ufwUApp')
+        project(':uAppFwLibUApp')
     } else {
         compile(group: 'com.philips.cdp', name: 'uAppFwLibUApp', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar') {
             exclude group: 'com.android.support'
@@ -330,7 +330,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':dscUApp')
+        project(':dataServicesUApp')
     } else {
         compile(group: 'com.philips.cdp', name: 'dataServicesUApp', version: versions.dsc_dataServices + objcdp.getVersionSuffix(), ext: 'aar') {
             exclude group: 'com.android.support'
@@ -339,7 +339,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':prgUApp')
+        project(':product-registration-libUApp')
     } else {
         compile(group: 'com.philips.cdp', name: 'product-registration-libUApp', version: versions.prg_productRegistrationLib + objcdp.getVersionSuffix(), ext: 'aar') {
             exclude group: 'com.android.support'
@@ -348,7 +348,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':usrUApp')
+        project(':UserRegistrationUApp')
     } else {
         compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar') {
             exclude group: 'com.android.support'
@@ -358,7 +358,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':dprUApp')
+        project(':devicepairingUApp')
     } else {
         compile(group: 'com.philips.cdp', name: 'devicepairingUApp', version: versions.dpr_devicePairing + objcdp.getVersionSuffix(), ext: 'aar') {
             exclude group: 'com.android.support'
@@ -367,7 +367,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':ths')
+        project(':telehealth')
     } else {
         compile(group: 'com.philips.cdp', name: 'telehealth', version: versions.ths_telehealth+ objcdp.getVersionSuffix(), ext: 'aar') {
            transitive = true
@@ -384,7 +384,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':shinelibUApp')
+        project(':shinelibDemoUApp')
     } else {
         compile(group: 'com.philips.cdp', name: 'shinelibDemoUApp', version: versions.bll_shinelib+ objcdp.getVersionSuffix(), ext: 'aar')
         {
