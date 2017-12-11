@@ -5,11 +5,7 @@
 apply plugin: 'com.android.library'
 
 buildscript { bs ->
-    project.ext.common = projectDir.absolutePath + '/../common/gradle'
-
-    apply from: "$project.common/project-build.gradle", to: bs
-    apply from: "$project.common/module.gradle"
-    apply from: projectDir.absolutePath + '/../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {
@@ -37,8 +33,6 @@ buildscript { bs ->
 apply plugin: 'jacoco'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-
-apply from: "$project.common/module-tasks.gradle"
 
 def environment = 'production'
 if (project.hasProperty('envCode')) {
@@ -185,7 +179,7 @@ dependencies {
 
     def dp = project.ext.has('useprojectdependencies')
     if(dp) {
-        project(':ufw')
+        project(':uAppFwLib')
     } else {
         compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {		
         transitive = true
@@ -198,3 +192,26 @@ dependencies {
     testCompile deps.junit
 }
 
+/**
+ * Zips external documentation to be included with a release
+ */
+task zipDocuments(type: Zip) {
+    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
+    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
+    from files(docfiles) {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+
+/**
+ * Creates sources.jar for easier debugging
+ */
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+jacoco {
+    toolVersion = versions.jacoco
+}

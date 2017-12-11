@@ -47,6 +47,10 @@ ext.repos = [
 
 ext.repos.jcenter = ext.repos.base + "/platform-jcenter-remote"
 ext.repos.plugin = ext.repos.base + "/platform-plugins-release-local"
+ext.repos.release = ext.repos.base + "/platform-pkgs-android-release"
+ext.repos.snapshot = ext.repos.base + "/platform-pkgs-android-snapshot"
+ext.repos.stage = ext.repos.base + "/platform-pkgs-android-stage"
+ext.repos.releaseexternal = ext.repos.base + "/platform-plugins-release-local"
 
 ext.deps = [
         support          : [
