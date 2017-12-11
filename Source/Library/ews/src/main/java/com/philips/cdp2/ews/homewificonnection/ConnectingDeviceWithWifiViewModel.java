@@ -56,6 +56,8 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private static final long WIFI_SET_PROPERTIES_TIME_OUT = TimeUnit.SECONDS.toMillis(60);
     private static final String TAG = ConnectingDeviceWithWifiViewModel.class.getCanonicalName();
     @NonNull
+    public  ObservableField<String> title;
+    @NonNull
     private final ApplianceAccessManager applianceAccessManager;
     @NonNull
     private final Navigator navigator;
@@ -69,27 +71,22 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private final DiscoveryHelper discoveryHelper;
     @NonNull
     private final DeviceFriendlyNameChanger deviceFriendlyNameChanger;
-    @Nullable
-    private ConnectingDeviceToWifiCallback fragmentCallback;
+    @NonNull
+    private final StringProvider stringProvider;
+    @NonNull
+    private final ApplianceSessionDetailsInfo applianceSessionDetailsInfo;
+    @NonNull
+    private final EWSTagger ewsTagger;
+    @NonNull
+    private final EWSLogger ewsLogger;
+    @NonNull
+    private final String productNme;
+
     @VisibleForTesting
     @Nullable
     StartConnectionModel startConnectionModel;
-
-    @NonNull
-    public final ObservableField<String> title;
-
-    @NonNull
-    private final StringProvider stringProvider;
-
-    @NonNull
-    private final ApplianceSessionDetailsInfo applianceSessionDetailsInfo;
-
-    @NonNull private final EWSTagger ewsTagger;
-
-    @NonNull private final EWSLogger ewsLogger;
-
-    @NonNull private final String productNme;
-
+    @Nullable
+    private ConnectingDeviceToWifiCallback fragmentCallback;
     @NonNull
     private final Runnable timeoutRunnable = new Runnable() {
         @Override
@@ -102,7 +99,6 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
             clear();
         }
     };
-
     @NonNull
     private final ApplianceAccessManager.SetPropertiesCallback sendingNetworkInfoCallback = new ApplianceAccessManager.SetPropertiesCallback() {
 
@@ -121,23 +117,21 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
             showConnectionUnsuccessful();
         }
     };
-
     @NonNull
     private DiscoveryHelper.DiscoveryCallback discoveryCallback = new DiscoveryHelper.DiscoveryCallback() {
-                @Override
-                public void onApplianceFound(Appliance appliance) {
-                    //TODO remove cppID from networkNode and replace it with wifiPortProperties.cppID once the api will be finalized within commlib
-                    if (appliance.getNetworkNode().getCppId().equalsIgnoreCase(applianceSessionDetailsInfo.getCppId())) {
-                        String appliancePin = applianceSessionDetailsInfo.getAppliancePin();
-                        removeTimeoutRunnable();
-                        discoveryHelper.stopDiscovery();
-                        LanTransportContext.acceptPinFor(appliance, appliancePin);
-                        applianceSessionDetailsInfo.clear();
-                        onDeviceConnectedToWifi();
-                    }
-                }
+        @Override
+        public void onApplianceFound(Appliance appliance) {
+            //TODO remove cppID from networkNode and replace it with wifiPortProperties.cppID once the api will be finalized within commlib
+            if (appliance.getNetworkNode().getCppId().equalsIgnoreCase(applianceSessionDetailsInfo.getCppId())) {
+                String appliancePin = applianceSessionDetailsInfo.getAppliancePin();
+                removeTimeoutRunnable();
+                discoveryHelper.stopDiscovery();
+                LanTransportContext.acceptPinFor(appliance, appliancePin);
+                applianceSessionDetailsInfo.clear();
+                onDeviceConnectedToWifi();
+            }
+        }
     };
-
     @NonNull
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -158,6 +152,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         }
     };
 
+    private BaseContentConfiguration baseContentConfiguration;
     @Inject
     public ConnectingDeviceWithWifiViewModel(@NonNull ApplianceAccessManager applianceAccessManager,
                                              @NonNull Navigator navigator,
@@ -179,23 +174,28 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         this.deviceFriendlyNameChanger = deviceFriendlyNameChanger;
         this.discoveryHelper = discoveryHelper;
         this.stringProvider = stringProvider;
-        this.title = new ObservableField<>(getTitle(baseContentConfiguration));
         this.applianceSessionDetailsInfo = applianceSessionDetailsInfo;
         this.ewsTagger = ewsTagger;
         this.ewsLogger = ewsLogger;
         this.productNme = productName;
+        this.baseContentConfiguration = baseContentConfiguration;
     }
 
     void setFragmentCallback(@Nullable ConnectingDeviceToWifiCallback fragmentCallback) {
         this.fragmentCallback = fragmentCallback;
     }
 
-    void startConnecting(@NonNull final StartConnectionModel startConnectionModel) {
+    void startConnecting(@NonNull final StartConnectionModel startConnectionModel, boolean fromWrongWifiScreen) {
         this.startConnectionModel = startConnectionModel;
+        this.title = new ObservableField<>(getTitle(baseContentConfiguration));
         tagConnectionStart();
-        deviceFriendlyNameChanger.setNameChangerCallback(this);
-        deviceFriendlyNameChanger.changeFriendlyName(startConnectionModel.getDeviceFriendlyName());
-        handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
+        if (!fromWrongWifiScreen) {
+            deviceFriendlyNameChanger.setNameChangerCallback(this);
+            deviceFriendlyNameChanger.changeFriendlyName(startConnectionModel.getDeviceFriendlyName());
+            handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
+        } else {
+            connectToHomeWifi(startConnectionModel.getHomeWiFiSSID());
+        }
     }
 
     void connectToHomeWifi(@NonNull String homeWiFiSSID) {
@@ -282,11 +282,10 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         showConnectionUnsuccessful();
     }
 
-
     @NonNull
     String getTitle(@NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(R.string.label_ews_connecting_device_title,
-                baseConfig.getDeviceName(), getHomeWiFiSSID());
+                baseConfig.getDeviceName(), startConnectionModel.getHomeWiFiSSID());
     }
 
     public void trackPageName() {

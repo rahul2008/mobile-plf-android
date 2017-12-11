@@ -21,6 +21,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -74,7 +75,7 @@ public class WrongWifiNetworkViewModelTest {
             Exception {
         subject.onButtonClick();
 
-        verify(mockNavigator).navigateToConnectingDeviceWithWifiScreen(any(Bundle.class));
+        verify(mockNavigator).navigateToConnectingDeviceWithWifiScreen(any(Bundle.class), eq(true));
     }
 
     @Test

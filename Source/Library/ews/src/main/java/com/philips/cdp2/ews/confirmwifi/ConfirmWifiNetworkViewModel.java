@@ -71,13 +71,14 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
     }
 
     void refresh() {
-        notifyPropertyChanged(BR.homeWiFiSSID);
-        notifyPropertyChanged(BR.title);
-        notifyPropertyChanged(BR.note);
         if (viewCallback != null && !wiFiUtil.isHomeWiFiEnabled()) {
             tapToChangeWifi();
             viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration, ewsTagger);
         }
+
+        notifyPropertyChanged(BR.homeWiFiSSID);
+        notifyPropertyChanged(BR.title);
+        notifyPropertyChanged(BR.note);
     }
 
     public void onNoButtonClicked() {
