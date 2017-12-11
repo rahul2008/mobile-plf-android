@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<GeneralConfiguration>
+  <AppiumConfiguration>
+    <AppiumServer>"http://127.0.0.1:4723/wd/hub"</AppiumServer>
+    <deviceName>S5</deviceName>
+    <platformName>Android</platformName>
+    <apppackage>com.philips.platform.referenceapp</apppackage>
+    <appactivity>com.philips.cdp.di.iapdemo.DemoAppActivity</appactivity>
+  </AppiumConfiguration>
+  
+  <ProductRegister>
+    <ProductReg>//android.widget.Button[@text='Register Your Product']</ProductReg>
+    <PR_shopicon>com.philips.platform.referenceapp:id/af_shoppng_cart_icon</PR_shopicon>
+    <PR_Hamburgericon>com.philips.platform.referenceapp:id/af_hamburger_imageview</PR_Hamburgericon>
+    <PRRegister>com.philips.platform.referenceapp:id/btn_register</PRRegister>
+    <PRheader>com.philips.platform.referenceapp:id/af_actionbar_title</PRheader>
+    <DatePurchase>//android.widget.EditText[@text='YY-MM-DD']</DatePurchase>
+    <PROK>android:id/button1</PROK>
+    <PRCancel>android:id/button2</PRCancel>
+    <PRSuccess>com.philips.platform.referenceapp:id/pr_success_title_textview</PRSuccess>
+    <PRContinue>com.philips.platform.referenceapp:id/continueButton</PRContinue>
+    <PRBack>com.philips.platform.referenceapp:id/back_btn</PRBack>
+    <RepeatPRText>com.philips.platform.referenceapp:id/pr_all_success_textview</RepeatPRText>
+    <AuroraCTN>com.philips.platform.referenceapp:id/product_ctn</AuroraCTN>
+  </ProductRegister>
+  
+  
+</GeneralConfiguration>

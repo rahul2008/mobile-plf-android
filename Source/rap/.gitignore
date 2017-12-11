@@ -1,0 +1,45 @@
+Source/MicroApp/
+testfwk_android/Src/packages/
+testfwk_android/Src/02TestAuthoring API/CDP_TestPlugin/obj/
+testfwk_android/Src/02TestAuthoring API/CDP_ObjectRepository/obj/
+testfwk_android/Src/02TestAuthoring API/CC.Android.TestPlugin/obj/
+testfwk_android/Src/02TestAuthoring API/AppFramework_TestPlugin/obj/
+testfwk_android/Src/02TestAuthoring API/ProdReg.Android.TestPlugin/bin/
+testfwk_android/Src/01Foundation/SIGAutomationPortal/SIGAutomationPortal/obj/
+testfwk_android/Src/01Foundation/MobileTestCore/obj/
+testfwk_android/Src/01Foundation/StatusIndicator/obj/
+testfwk_android/Src/01Foundation/FrameworkCore/obj/
+testfwk_android/Src/01Foundation/Deployment/obj/
+testfwk_android/Src/01Foundation/LoggingUtility/obj/
+testfwk_android/Src/01Foundation/CrashNotifier/obj/
+testfwk_android/Src/01Foundation/TimerNotifier/obj/
+testfwk_android/Src/01Foundation/ConsoleRunner/obj/
+testfwk_android/Src/01Foundation/WinEventHook/obj/
+testfwk_android/Src/01Foundation/Common/obj/
+testfwk_android/Src/02TestAuthoring API/ProdReg.Android.TestPlugin/obj/
+testfwk_android/Bin/adjustments.xml
+testfwk_android/Bin/
+testfwk_android/Src/TestResults/
+testfwk_android/Src/03Test/WorkFlowTests/obj/
+testfwk_android/Src/ST_Nucleo/bin/
+testfwk_android/Src/ST_Nucleo/obj/
+TestReports/
+testfwk_android/Src/bin/
+testfwk_android/Src/02TestAuthoring API/UserRegistration_TestPlugin/obj/
+testfwk_android/Src/02TestAuthoring API/UserRegistration_TestPlugin/bin/
+testfwk_android/Src/.vs/CDPTestPlatform/v14/.suo
+testfwk_android/Src/.vs/config/applicationhost.config
+Source/AppFramework/pluginreferenceboard/build/
+Source/AppFramework/appframeworklib/build/intermediates/exploded-aar/com.android.support.test.espresso/espresso-core/2.2.2/R.txt
+Source/AppFramework/appframeworklib/build/intermediates/exploded-aar/com.android.support.test.espresso/espresso-core/2.2.2/jars/classes.jar
+Source/AppFramework/appframeworklib/build/intermediates/exploded-aar/com.android.support.test.espresso/espresso-idling-resource/2.2.2/jars/classes.jar
+Source/AppFramework/appframeworklib/build/intermediates/exploded-aar/com.android.support.test/exposed-instrumentation-api-publish/0.5/jars/classes.jar
+Source/AppFramework/appframeworklib/build/intermediates/exploded-aar/com.android.support.test/rules/0.5/R.txt
+Source/AppFramework/appframeworklib/build/intermediates/exploded-aar/com.android.support.test/rules/0.5/annotations.zip
+Source/AppFramework/appframeworklib/build/intermediates/exploded-aar/com.android.support.test/rules/0.5/jars/classes.jar
+Source/AppFramework/appframeworklib/build/intermediates/exploded-aar/com.android.support.test/runner/0.5/annotations.zip
+Source/AppFramework/appframeworklib/build/intermediates/exploded-aar/com.android.support.test/runner/0.5/jars/classes.jar
+Source/AppFramework/appframeworklib/build/intermediates/incremental/compileDebugAndroidTestAidl/dependency.store
+Source/AppFramework/appframeworklib/build/intermediates/incremental/packageDebugResources/compile-file-map.properties
+Source/AppFramework/appframeworklibrary/build/
+**/apkname.txt

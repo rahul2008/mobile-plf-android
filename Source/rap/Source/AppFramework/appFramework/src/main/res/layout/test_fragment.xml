@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:background="?attr/uidContentSecondaryBackgroundColor"
+        android:text="@string/chapters"
+        android:textColor="@color/uid_list_item_text_selector"
+        android:textSize="22sp" />
+    <include layout="@layout/uid_horizontal_separator"></include>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/chapter_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

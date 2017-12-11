@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/margin_sixteen"
+    android:padding="@dimen/margin_sixteen">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/RA_DLS_healthy_sleep_title"
+        style="@style/BreakDownTitle"/>
+
+    <TableLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+
+        <!-- Header -->
+        <TableRow style="@style/BreakDownRow">
+            <TextView
+                android:text="@string/RA_DLS_sleep_element"
+                style="@style/BreakDownElement"/>
+            <TextView
+                android:text="@string/RA_DLS_power_sleep_actual"
+                style="@style/BreakDownPoints"/>
+        </TableRow>
+
+        <View android:layout_marginTop="7dp" style="@style/BreakDownDivider.Fat"/>
+
+        <!-- Time Asleep -->
+        <TableRow style="@style/BreakDownRow">
+            <TextView
+                android:text="@string/RA_DLS_power_sleep_time_sleep"
+                style="@style/BreakDownElement"/>
+            <TextView
+                android:id="@+id/sleep_time_value"
+                android:text="@string/RA_DLS_power_sleep_default_data"
+                tools:text="@string/RA_DLS_power_sleep_default_data"
+                style="@style/BreakDownDeduction"/>
+        </TableRow>
+        <TableRow style="@style/BreakDownRow">
+            <TextView
+                android:text="@string/RA_DLS_power_sleep_ideal_sleep_time"
+                style="@style/BreakDownElementSub"/>
+        </TableRow>
+
+        <View style="@style/BreakDownDivider"/>
+
+        <!-- Deep Sleep -->
+        <TableRow style="@style/BreakDownRow">
+            <TextView
+                android:text="@string/RA_DLS_power_sleep_deep_sleep_title"
+                style="@style/BreakDownElement"/>
+            <TextView
+                android:id="@+id/deep_sleep_time_value"
+                android:text="@string/RA_DLS_power_sleep_default_data"
+                tools:text="@string/RA_DLS_power_sleep_default_data"
+                style="@style/BreakDownDeduction"/>
+        </TableRow>
+        <TableRow style="@style/BreakDownRow">
+            <TextView
+                android:text="@string/RA_DLS_power_sleep_ideal_deep_sleep"
+                style="@style/BreakDownElementSub"/>
+        </TableRow>
+
+    </TableLayout>
+
+
+</LinearLayout>

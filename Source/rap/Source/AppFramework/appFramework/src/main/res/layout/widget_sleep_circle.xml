@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) Koninklijke Philips N.V., 2016.
+  ~ All rights reserved.
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sleep_circle_parent"
+    android:layout_width="@dimen/sleep_score_progress_size"
+    android:layout_height="@dimen/sleep_score_progress_size"
+    tools:showIn="@layout/overview_power_sleep">
+
+    <ImageView
+        android:id="@+id/circle_background"
+        android:layout_width="@dimen/sleep_circle_size"
+        android:layout_height="@dimen/sleep_circle_size"
+        android:layout_centerInParent="true"
+        android:background="@drawable/sleepoverview_circle"
+        android:contentDescription="@null" />
+
+    <com.philips.platform.appframework.connectivitypowersleep.SleepScoreProgressView
+        android:id="@+id/arc_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        app:ap_boost_stroke_color="@color/colorAccentBright"
+        app:ap_default_angle="0"
+        app:ap_dot_radius="@dimen/dot_radius"
+        app:ap_reference_circle_size="@dimen/sleep_circle_size"
+        app:ap_regular_stroke_color="?attr/uidNavigationSecondaryBackgroundColor"
+        app:ap_starting_point_color="?attr/uidNavigationSecondaryBackgroundColor"
+        app:ap_starting_point_height="@dimen/starting_point_height"
+        app:ap_starting_point_width="@dimen/starting_point_width"
+        app:ap_stroke_size="@dimen/score_stroke_size" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/session_icon"
+            android:layout_width="@dimen/margin_twenty_four"
+            android:layout_height="@dimen/margin_twenty_four"
+            android:layout_above="@+id/sleepoverview_score"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="4dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_dls_sleepscore_48"
+            app:srcCompat="@drawable/ic_dls_sleepscore_48" />
+
+        <TextView
+            android:id="@+id/sleepoverview_score"
+            style="@style/SleepScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="?attr/uidTextBoxDefaultNormalTextColor"
+            android:text="@string/RA_DLS_power_sleep_default_data"
+            tools:text="@string/RA_DLS_power_sleep_default_data" />
+
+        <TextView
+            android:id="@+id/sleepoverview_score_scale_label"
+            style="@style/SleepScoreLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sleepoverview_score"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:text="@string/RA_DLS_power_sleep_percentage_label"/>
+    </LinearLayout>
+</RelativeLayout>

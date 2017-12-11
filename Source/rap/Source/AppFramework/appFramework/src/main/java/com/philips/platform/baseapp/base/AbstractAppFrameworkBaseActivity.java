@@ -1,0 +1,264 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
+package com.philips.platform.baseapp.base;
+
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.os.Bundle;
+import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+
+import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.cdp2.ews.microapp.EWSActionBarListener;
+import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
+import com.philips.platform.baseapp.screens.homefragment.HomeFragment;
+import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
+import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.baseapp.screens.utility.OverlayDialogFragment;
+import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
+import com.philips.platform.referenceapp.PushNotificationManager;
+import com.philips.platform.themesettings.ThemeHelper;
+import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
+
+import java.util.ArrayList;
+
+/**
+ * AbstractAppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
+ */
+public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity implements ActionBarListener, EWSActionBarListener {
+    private static final String TAG = AbstractAppFrameworkBaseActivity.class.getName();
+
+    public AbstractUIBasePresenter presenter;
+    protected ContentColor contentColor;
+    protected ColorRange colorRange;
+    protected NavigationColor navigationColor;
+    protected SharedPreferences defaultSharedPreferences;
+    protected AccentRange accentColorRange;
+    int containerId;
+    private FragmentTransaction fragmentTransaction;
+    private ProgressDialog progressDialog;
+
+    public abstract int getContainerId();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        initUIKIT();
+        initTheme();
+        super.onCreate(savedInstanceState);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.RA_Settings_Progress_Title));
+        progressDialog.setCancelable(false);
+    }
+
+    public void initUIKIT() {
+        getTheme().applyStyle(R.style.Theme_Philips_DarkBlue_NoActionBar, true);
+    }
+
+    protected void initTheme() {
+        defaultSharedPreferences = new SharedPreferenceUtility(this).getMyPreferences();
+        final ThemeConfiguration themeConfig = getThemeConfig();
+        final int themeResourceId = getThemeResourceId(getResources(), getPackageName(), colorRange, contentColor);
+        themeConfig.add(navigationColor);
+        themeConfig.add(accentColorRange);
+        setTheme(themeResourceId);
+        UIDHelper.init(themeConfig);
+    }
+
+
+    @StyleRes
+    int getThemeResourceId(Resources resources, final String packageName, final ColorRange colorRange, final ContentColor contentColor) {
+        final String themeName = String.format("Theme.DLS.%s.%s", colorRange.getThemeName(), contentColor.getThemeName());
+
+        return resources.getIdentifier(themeName, "style", packageName);
+    }
+
+    public ThemeConfiguration getThemeConfig() {
+        final ThemeHelper themeHelper = new ThemeHelper(defaultSharedPreferences, this);
+        colorRange = themeHelper.initColorRange();
+        navigationColor = themeHelper.initNavigationRange();
+        contentColor = themeHelper.initContentTonalRange();
+        accentColorRange = themeHelper.initAccentRange();
+        return new ThemeConfiguration(this, colorRange, navigationColor, contentColor, accentColorRange);
+    }
+
+    public void handleFragmentBackStack(Fragment fragment, String fragmentTag, int fragmentAddState) {
+        RALog.d(TAG, " handleFragmentBackStack called");
+        containerId = getContainerId();
+        try {
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            switch (fragmentAddState) {
+                case Constants.ADD_HOME_FRAGMENT:
+                    RALog.d(TAG, " Added as ADD_HOME_FRAGMENT");
+                    if (null == getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG)) {
+                        addToBackStack(containerId, fragment, fragmentTag);
+                    } else {
+                        getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
+                    }
+
+                    break;
+                case Constants.ADD_FROM_HAMBURGER:
+                    RALog.d(TAG, " Added as ADD_FROM_HAMBURGER");
+
+                    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    addToBackStack(containerId, new HomeFragment(), HomeFragment.TAG);
+                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    addToBackStack(containerId, fragment, fragmentTag);
+
+                    break;
+                case Constants.CLEAR_TILL_HOME:
+                    RALog.d(TAG, " Added as CLEAR_TILL_HOME");
+
+                    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    addToBackStack(containerId, new HomeFragment(), HomeFragment.TAG);
+
+                    break;
+                case Constants.ADD_FRAGMENT_WITH_BACKSTACK:
+                    addToBackStack(containerId, fragment, fragmentTag);
+                    break;
+            }
+        } catch (Exception e) {
+            RALog.e(TAG, e.getMessage());
+        }
+    }
+
+    public void addFragment(Fragment fragment, String fragmentTag) {
+        RALog.d(TAG, " addFragment called");
+
+        containerId = getContainerId();
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(containerId, fragment, fragmentTag);
+        fragmentTransaction.addToBackStack(fragmentTag);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    private void addToBackStack(int containerID, Fragment fragment, String fragmentTag) {
+        RALog.d(TAG, " addToBackStack called");
+
+        fragmentTransaction.replace(containerID, fragment, fragmentTag);
+        fragmentTransaction.addToBackStack(fragmentTag);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+
+    public abstract void updateActionBarIcon(boolean b);
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        /*
+        * Commenting out earlier implementation. Please find the reason below:
+        * FragmentManager.getFragments can only be called from within the same
+        * library group (groupId=com.android.support). This API has been
+        * flagged with a restriction that has not been met. Examples of
+        * API restrictions: * Method can only be invoked by a subclass
+        * Method can only be accessed from within the same library
+        * (defined by the Gradle library group id) .* Method can only
+        * be accessed from tests. . You can add your own API restrictions
+        * with the `@RestrictTo` annotation.
+        *
+        * List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        */
+        ArrayList<Fragment> fragmentList = new ArrayList<>();
+
+        for (int i = getSupportFragmentManager().getBackStackEntryCount() - 1; i >= 0; i--) {
+            FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(i);
+            String tag = backEntry.getName();
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
+            fragmentList.add(fragment);
+        }
+
+        if (fragmentList != null) {
+            for (Fragment fragment : fragmentList) {
+                if (fragment != null) {
+                    fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        RALog.d(TAG, " onResume called");
+
+        if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
+            startCollectingLifecycleData();
+            startPushNotificationFlow();
+        }
+    }
+
+    public void startCollectingLifecycleData() {
+        AppFrameworkTagging.getInstance().collectLifecycleData(this);
+    }
+
+    public void startPushNotificationFlow() {
+        if (!BaseAppUtil.isDSPollingEnabled(this)) {
+            BaseFlowManager baseFlowManager = ((AppFrameworkApplication) getApplicationContext()).getTargetFlowManager();
+            if (baseFlowManager != null) {
+                BaseState currentState = baseFlowManager.getCurrentState();
+                if (currentState instanceof DemoDataServicesState) {
+                    PushNotificationManager.getInstance().startPushNotificationRegistration(this);
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        RALog.d(TAG, " onPause called");
+        if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
+            AppFrameworkTagging.getInstance().pauseCollectingLifecycleData();
+        }
+    }
+
+    public void showOverlayDialog(@StringRes int overlayTextId, int drawableId, String tag) {
+        OverlayDialogFragment ratingDialogFragment = OverlayDialogFragment.newInstance(getString(overlayTextId), drawableId);
+        ratingDialogFragment.show(getFragmentManager(), tag);
+    }
+
+    public void showProgressBar() {
+        progressDialog.show();
+    }
+
+    public void hideProgressBar() {
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void closeButton(boolean visibility) {
+
+    }
+
+    @Override
+    public void updateActionBar(int i, boolean b) {
+
+    }
+
+    @Override
+    public void updateActionBar(String s, boolean b) {
+
+    }
+
+}

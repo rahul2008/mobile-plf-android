@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+
+    <!-- UiTheme Start -->
+    <drawable name="consumercare_background">@color/uidColorWhite</drawable>
+    <!-- UiTheme End -->
+
+    <!--
+        &lt;!&ndash; List of default features supported by library, verticals can add/delete/modify this list by adding localised resource key name which contains title text, please follow naming conventions &ndash;&gt; -->
+    <array name="main_menu_title">
+        <item>@string/product_info</item>
+        <item>@string/FAQ_KEY</item>
+        <item>@string/contact_us</item>
+        <item>@string/find_philips_near_you</item>
+        <item>@string/dcc_tellUs_header</item>
+        <!--<item>@string/myphilips_CC</item>-->
+        <item>@string/Change_Selected_Product</item>
+        <item>@string/RA_Product_Registration_Text</item>
+
+    </array>
+
+    <!--
+        &lt;!&ndash; List of main menu image names, please follow naming conventions &ndash;&gt;
+    -->
+    <array name="main_menu_resources">
+        <item>@string/dls_information</item>
+        <item>@string/dls_questionmark</item>
+        <item>@string/dls_balloonspeech</item>
+        <item>@string/dls_location</item>
+        <item>@string/dls_conversationspeech</item>
+        <!--<item>@string/dls_revise</item>-->
+        <item>@string/dls_revise</item>
+        <item>@string/dls_revise</item>
+    </array>
+
+    <!-- List of product menu localised resource keys, please follow naming conventions -->
+    <string-array name="product_menu_title" translatable="false">
+        <item>@string/FAQ_KEY</item>
+        <item>@string/dcc_productDownloadManual</item>
+        <item>@string/dcc_productInformationOnWebsite</item>
+    </string-array>
+
+    <!-- List of social service providers localised resource keys, please follow naming conventions -->
+    <string-array name="social_service_provider_menu_title">
+        <item>@string/dcc_twitter</item>
+        <item>@string/dcc_facebook</item>
+    </string-array>
+
+    <!-- List of social service providers image names, please follow naming conventions -->
+    <string-array name="social_service_provider_menu_resources">
+        <item>@string/dls_socialmediatwitter</item>
+        <item>@string/dls_socialmediafacebook</item>
+    </string-array>
+
+    <!-- Do you want Live Chat Option -->
+    <bool name="live_chat_required">true</bool>
+</resources>

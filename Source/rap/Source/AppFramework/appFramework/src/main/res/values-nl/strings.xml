@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="BA_AppFramework">AppFramework </string>
+<string name="RA_You_are_not_LoggedIn">U bent niet aangemeld. Ga naar Instellingen en meld u aan.</string>
+<string name="RA_OK">OK</string>
+<string name="RA_Cancel">Annuleren</string>
+<string name="RA_Warning">WAARSCHUWING</string>
+<string name="RA_HomeScreen_Title">Beginscherm mobiele app</string>
+<string name="RA_SettingsScreen_Title">Accountinstellingen</string>
+<string name="RA_SupportScreen_Title">Ondersteuning</string>
+<string name="RA_DataServicesScreen_Title">Gegevensdiensten</string>
+<string name="RA_DebugAndTestScreen_Title">Fouten opsporen en testen</string>
+<string name="RA_AboutScreen_Title">Over</string>
+<string name="RA_ConnectivityScreen_Title">Connectiviteit</string>
+<string name="RA_SplashScreen_Title">Mobiele apps</string>
+<string name="RA_PhilipsShopScreen_Title">Producten</string>
+<string name="RA_HomeTab_Menu_Title">Thuis</string>
+<string name="RA_Settings_Menu_Title">Instellingen</string>
+<string name="RA_Support_Menu_Title">Ondersteuning</string>
+<string name="RA_DataServices_Menu_Title">Gegevensdiensten</string>
+<string name="RA_About_Menu_Title">Over</string>
+<string name="RA_Debug_and_Test_Menu_Title">Fouten opsporen en testen</string>
+<string name="RA_HomeScreen_Menu_Title">Beginscherm mobiele app</string>
+<string name="RA_ConnectivityScreen_Menu_Title">Connectiviteit</string>
+<string name="RA_Philips_Shop_Menu_Title">Philips Shop</string>
+<string name="RA_Settings_Screen_Header_Title">Instellingen</string>
+<string name="RA_Vertical_App_Setting_A">Verticale appinstelling A</string>
+<string name="RA_Vertical_App_Setting_B">Verticale appinstelling B</string>
+<string name="RA_Vertical_App_Setting_C">Verticale appinstelling C</string>
+<string name="RA_Setting_Philips_Promo_Title">Promotionele berichten van Philips ontvangen gebaseerd op mijn voorkeuren en online gedrag</string>
+<string name="RA_Settings_Promo_Question_Text">Wat betekent dit?</string>
+<string name="RA_Settings_Purchases">Aankopen</string>
+<string name="RA_Settings_OrderHistory">Bestelgeschiedenis</string>
+<string name="RA_Settings_MyAccount">Mijn account</string>
+<string name="RA_Settings_Logout">Afmelden</string>
+<string name="RA_Settings_Logout_Alert">Weet u zeker dat u zich wilt afmelden?</string>
+<string name="RA_Settings_Login">Aanmelden</string>
+<string name="RA_Skip_Button_Text">Overslaan</string>
+<string name="RA_Done_Button_Text">Gereed</string>
+<string name="RA_HomeScreen_Header_Text">Hier komt specifieke concepttitel </string>
+<string name="RA_HomeScreen_Body_Text">In het tekstvak komt specifieke grote concepttekst </string>
+<string name="RA_WelcomeScreen_Title">Titel uitgelijnd met onderkant</string>
+<string name="RA_WelcomeScreen_First_Text">Tekst eerste voordeel is uitgelijnd met onderkant</string>
+<string name="RA_WelcomeScreen_Second_Text">Tekst tweede voordeel is uitgelijnd met onderkant</string>
+<string name="RA_WelcomeScreen_Third_Text">Tekst derde voordeel is uitgelijnd met onderkant</string>
+<string name="BA_Add_Edit_Temp">Temperatuur toevoegen of bewerken </string>
+<string name="BA_HSDP_login_not_available">Aanmelden bij HSDP niet mogelijk</string>
+<string name="BA_Sync_Settings">Synchronisatie-instellingen</string>
+<string name="RA_Connectivity_Measure_Value">Meetwaarde</string>
+<string name="RA_Connectivity_Moment_Value">Momentwaarde</string>
+<string name="RA_Connectivity_Get_Measure_Value">Meetwaarde van apparaat krijgen</string>
+<string name="RA_Connectivity_Connection_Status_Connected">Verbonden</string>
+<string name="RA_Connectivity_Connection_Status_Disconnected">Verbinding verbroken</string>
+<string name="RA_Connectivity_Get_Moment_Value">Momentwaarde van DataCore krijgen</string>
+<string name="RA_About_Description">Philips Design verzoeken om informatie over beschrijvingspagina</string>
+<string name="RA_Empty_Invalid_Data">Gegevensveld is leeg of bevat ongeldige gegevens</string>
+<string name="RA_Invalid_Param_Msg">U hebt ongeldige parameters ingevoerd of geselecteerd. Selecteer de juiste parameters en probeer het opnieuw</string>
+<string name="RA_NO_Order_History">Bestelgeschiedenis niet beschikbaar</string>
+<string name="RA_PR_Benefit_Text">Verleng uw garantie met 24 maanden. 
+Ontvang 10% korting in de Philips Store. 
+Ontvang gratis productaccessoires</string>
+<string name="RA_PR_Extentende_Warranty">Uw garantieperiode is verlengd tot volgend jaar</string>
+<string name="RA_PR_Email_Text">Een e-mail met contract voor uitgebreide garantie is verzonden naar uw e-mailadres</string>
+<string name="RA_UR_Env_Alert">Configuratie wijzigen</string>
+<string name="RA_UR_Env_Alert_Msg">Configuratie kan alleen worden gewijzigd bij het starten van de app. U dient de app opnieuw te starten om de configuratie te wijzigen</string>
+<string name="RA_Update_Userdata_Error">Er is een fout opgetreden bij het bijwerken van de gebruikersgegevens. Probeer het later opnieuw</string>
+<string name="RA_Product_Registration_Text">Registreer uw product</string>
+<string name="RA_About_App_Version">Versie</string>
+<string name="RA_DebugScreen_Title">Fouten opsporen en testen</string>
+<string name="RA_Setting_Philips_Promo_PartTwo">Promotionele communicatie op basis van mijn voorkeuren en online gedrag</string>
+<string name="RA_Settings_Update_Success">Update is voltooid</string>
+<string name="RA_Settings_Update_Fail">Update is mislukt</string>
+<string name="RA_Settings_Progress_Title">Een ogenblik geduld alstublieft.</string>
+<string name="RA_Settings_Progress_Message">Wacht!</string>
+<string name="RA_Logout_Failed">Afmelden mislukt. Probeer het opnieuw</string>
+<string name="RA_CTN_Null">CTN is niet ingevuld. Selecteer een CTN-waarde of voer er een in</string>
+<string name="RA_Change_Configuration">Configuratie wijzigen</string>
+<string name="RA_Current_Configuration">Huidige configuratie</string>
+<string name="RA_Connectivity_DeviceID">Apparaat-ID</string>
+<string name="RA_Connectivity_ExampleID">Voorbeeld: 70:5A:0F:EG:CF:35</string>
+<string name="RA_Connectivity_DataCore_Not_Reachable">Verbinding met DataCore-systeem kan niet tot stand worden gebracht</string>
+<string name="RA_Connectivity_Posting_Data">DataCore-systeem wordt bijgewerkt. Een ogenblik geduld alstublieft</string>
+<string name="RA_Connectivity_Getting_Moment">Momentwaarden worden opgehaald uit DataCore-systeem. Een ogenblik geduld alstublieft.</string>
+<string name="RA_Iap_Server_Error">Serverfout</string>
+<string name="RA_Iap_No_Connection">Geen verbinding</string>
+<string name="RA_Iap_Connection_Time_Out">Verbinding verbroken</string>
+<string name="RA_Iap_Authentication_Failure">Verificatiestoring</string>
+<string name="RA_Iap_Product_Out_Of_Stock">Product niet op voorraad</string>
+<string name="RA_reference_device_scan">Scan referentie-apparaat</string>
+<string name="RA_data_sync">Gegevens synchroniseren</string>
+<string name="RA_add">Toevoegen</string>
+<string name="RA_sync">Synchroniseren</string>
+<string name="RA_update">Bijwerken</string>
+<string name="RA_delete">Verwijderen</string>
+<string name="RA_registration">Registratie</string>
+<string name="RA_phase">Tijd</string>
+<string name="RA_temperature">Temperatuur</string>
+<string name="RA_temparatute_hint">Temperatuur baby</string>
+<string name="RA_location">Opmerkingen</string>
+<string name="RA_location_hint">Locatienaam</string>
+<string name="RA_save">Bespaar</string>
+<string name="RA_synced">Niet gesynchroniseerd</string>
+<string name="RA_create_moment">Moment maken</string>
+<string name="RA_invalid_temperature">Ongeldige temperatuur</string>
+<string name="RA_consent">Toestemmingen</string>
+<string name="RA_set_characteristics">Kenmerken gebruiker</string>
+<string name="RA_view_characteristics">Kenmerken weergeven</string>
+<string name="RA_hide_characteristics">Kenmerken verbergen</string>
+<string name="RA_edit">Bewerken</string>
+<string name="RA_consents">Toestemmingen</string>
+<string name="RA_ble_ref_device">Referentie-apparaat met Bluetooth</string>
+<string name="RA_unknown_device">Onbekend apparaat</string>
+<string name="RA_no_device_found">Geen apparaat gevonden</string>
+<string name="RA_something_wrong">Er is iets misgegaan</string>
+
+<string name="RA_MYA_Consent_Moment_Text" translatable="false">nl-NL I allow Philips to store my data in cloud</string>
+<string name="RA_MYA_Consent_Moment_Help" translatable="false">nl-NL Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Coaching_Text" translatable="false">nl-NL I allow Philips to use my data for Coaching purposes</string>
+<string name="RA_MYA_Consent_Coaching_Help" translatable="false">nl-NL Giving this consent you are allowing Philips to process information related to you</string>
+</resources>

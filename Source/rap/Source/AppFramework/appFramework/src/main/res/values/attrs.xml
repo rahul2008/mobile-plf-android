@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SleepScoreProgressView">
+        <attr name="ap_reference_circle_size" format="dimension" />
+        <attr name="ap_regular_stroke_color" format="color" />
+        <attr name="ap_boost_stroke_color" format="color" />
+        <attr name="ap_stroke_size" format="dimension" />
+        <attr name="ap_starting_point_width" format="dimension" />
+        <attr name="ap_starting_point_height" format="dimension" />
+        <attr name="ap_starting_point_color" format="color" />
+        <attr name="ap_dot_radius" format="dimension" />
+        <attr name="ap_default_angle" format="float" />
+    </declare-styleable>
+</resources>

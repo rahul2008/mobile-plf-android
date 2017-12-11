@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="BA_AppFramework">App-Framework </string>
+<string name="RA_You_are_not_LoggedIn">Sie sind nicht angemeldet. Melden Sie sich unter \"Einstellungen\" an.</string>
+<string name="RA_OK">OK</string>
+<string name="RA_Cancel">Abbrechen</string>
+<string name="RA_Warning">WARNHINWEIS</string>
+<string name="RA_HomeScreen_Title">Startseite der Mobilgeräte-App</string>
+<string name="RA_SettingsScreen_Title">Kontoeinstellungen</string>
+<string name="RA_SupportScreen_Title">Support</string>
+<string name="RA_DataServicesScreen_Title">Datendienste</string>
+<string name="RA_DebugAndTestScreen_Title">Fehlerbehebung und Test</string>
+<string name="RA_AboutScreen_Title">Informationen</string>
+<string name="RA_ConnectivityScreen_Title">Anschlüsse</string>
+<string name="RA_SplashScreen_Title">Mobilgeräte-Apps</string>
+<string name="RA_PhilipsShopScreen_Title">Produkte</string>
+<string name="RA_HomeTab_Menu_Title">Home</string>
+<string name="RA_Settings_Menu_Title">Einstellungen</string>
+<string name="RA_Support_Menu_Title">Support</string>
+<string name="RA_DataServices_Menu_Title">Datendienste</string>
+<string name="RA_About_Menu_Title">Informationen</string>
+<string name="RA_Debug_and_Test_Menu_Title">Fehlerbehebung und Test</string>
+<string name="RA_HomeScreen_Menu_Title">Startseite der Mobilgeräte-App</string>
+<string name="RA_ConnectivityScreen_Menu_Title">Anschlüsse</string>
+<string name="RA_Philips_Shop_Menu_Title">Philips Shop</string>
+<string name="RA_Settings_Screen_Header_Title">Einstellungen</string>
+<string name="RA_Vertical_App_Setting_A">Vertikale App-Einstellung A</string>
+<string name="RA_Vertical_App_Setting_B">Vertikale App-Einstellung B</string>
+<string name="RA_Vertical_App_Setting_C">Vertikale App-Einstellung C</string>
+<string name="RA_Setting_Philips_Promo_Title">Erhalten Sie auf Ihre Interessen und Ihr Online-Verhalten zugeschnittene Werbung von Philips</string>
+<string name="RA_Settings_Promo_Question_Text">Was bedeutet das?</string>
+<string name="RA_Settings_Purchases">Käufe</string>
+<string name="RA_Settings_OrderHistory">Bestellverlauf</string>
+<string name="RA_Settings_MyAccount">Mein Konto</string>
+<string name="RA_Settings_Logout">Abmelden</string>
+<string name="RA_Settings_Logout_Alert">Möchten Sie sich wirklich abmelden?</string>
+<string name="RA_Settings_Login">Anmelden</string>
+<string name="RA_Skip_Button_Text">Skip</string>
+<string name="RA_Done_Button_Text">Fertig</string>
+<string name="RA_HomeScreen_Header_Text">Vorschlag für spezifischen Titel hier eintragen </string>
+<string name="RA_HomeScreen_Body_Text">Vorschlag für spezifischen Langtext in den Textkörper eintragen </string>
+<string name="RA_WelcomeScreen_Title">Unten ausgerichteter Titel</string>
+<string name="RA_WelcomeScreen_First_Text">Erster Produktwerbetext unten ausgerichtet</string>
+<string name="RA_WelcomeScreen_Second_Text">Zweiter Produktwerbetext unten ausgerichtet</string>
+<string name="RA_WelcomeScreen_Third_Text">Dritter Produktwerbetext unten ausgerichtet</string>
+<string name="BA_Add_Edit_Temp">Temperatur hinzufügen oder bearbeiten </string>
+<string name="BA_HSDP_login_not_available">HSDP-Anmeldung nicht verfügbar</string>
+<string name="BA_Sync_Settings">Synch-Einstellungen</string>
+<string name="RA_Connectivity_Measure_Value">Messwert</string>
+<string name="RA_Connectivity_Moment_Value">Momentanwert</string>
+<string name="RA_Connectivity_Get_Measure_Value">Messwert von Gerät abrufen</string>
+<string name="RA_Connectivity_Connection_Status_Connected">Verbunden</string>
+<string name="RA_Connectivity_Connection_Status_Disconnected">Nicht verbunden</string>
+<string name="RA_Connectivity_Get_Moment_Value">Momentanwert von DataCore abrufen</string>
+<string name="RA_About_Description">Philips Design bitten, weitere Informationen auf der Beschreibungsseite bereitzustellen</string>
+<string name="RA_Empty_Invalid_Data">Datenfeld leer oder ungültig</string>
+<string name="RA_Invalid_Param_Msg">Sie haben ungültige Parameterwerte ausgewählt oder eingegeben. Geben Sie passende Parameterwerte ein, und starten Sie die Anwendung erneut.</string>
+<string name="RA_NO_Order_History">Bestellübersicht nicht verfügbar</string>
+<string name="RA_PR_Benefit_Text">Erweitern Sie Ihre Garantie um 24 Monate.
+Erhalten Sie 10 % Rabatt auf Produkte im Philips Online-Shop.
+Erhalten Sie kostenloses Zubehör.</string>
+<string name="RA_PR_Extentende_Warranty">Ihre Garantie wurde bis nächstes Jahr verlängert.</string>
+<string name="RA_PR_Email_Text">Eine E-Mail mit dem Vertrag der erweiterten Garantie wurde an Ihre E-Mail-Adresse gesendet.</string>
+<string name="RA_UR_Env_Alert">Konfiguration ändern</string>
+<string name="RA_UR_Env_Alert_Msg">Die Konfiguration kann nur beim Start geändert werden. Sie müssen die App neustarten, um Änderungen vorzunehmen.</string>
+<string name="RA_Update_Userdata_Error">Fehler beim Aktualisieren der Benutzerdaten. Versuchen Sie es später erneut.</string>
+<string name="RA_Product_Registration_Text">Registrieren Sie Ihr Produkt</string>
+<string name="RA_About_App_Version">Version</string>
+<string name="RA_DebugScreen_Title">Fehlerbehebung und Test</string>
+<string name="RA_Setting_Philips_Promo_PartTwo">Auf meine Interessen und mein Online-Verhalten zugeschnittene Werbung</string>
+<string name="RA_Settings_Update_Success">Update erfolgreich</string>
+<string name="RA_Settings_Update_Fail">Update fehlgeschlagen</string>
+<string name="RA_Settings_Progress_Title">Bitte warten</string>
+<string name="RA_Settings_Progress_Message">Warten</string>
+<string name="RA_Logout_Failed">Abmelden fehlgeschlagen. Versuchen Sie es erneut.</string>
+<string name="RA_CTN_Null">CTN ungültig. Wählen Sie einen CTN-Wert aus oder geben Sie diesen ein.</string>
+<string name="RA_Change_Configuration">Konfiguration ändern</string>
+<string name="RA_Current_Configuration">Aktuelle Konfiguration</string>
+<string name="RA_Connectivity_DeviceID">Geräte-ID</string>
+<string name="RA_Connectivity_ExampleID">Beispiel: 70:5A:0F:EC:CF:35</string>
+<string name="RA_Connectivity_DataCore_Not_Reachable">Verbindung zum DataCore-System konnte nicht hergestellt werden</string>
+<string name="RA_Connectivity_Posting_Data">Das DataCore-System wird derzeit aktualisiert. Bitte warten</string>
+<string name="RA_Connectivity_Getting_Moment">Momentanwerte werden vom DataCore-System abgerufen. Bitte warten</string>
+<string name="RA_Iap_Server_Error">Serverfehler</string>
+<string name="RA_Iap_No_Connection">Keine Verbindung</string>
+<string name="RA_Iap_Connection_Time_Out">Zeitüberschreitung bei der Verbindung.</string>
+<string name="RA_Iap_Authentication_Failure">Authentifizierung fehlgeschlagen</string>
+<string name="RA_Iap_Product_Out_Of_Stock">Produkt nicht lieferbar</string>
+<string name="RA_reference_device_scan">Scannen des Referenzgeräts</string>
+<string name="RA_data_sync">Daten-Synchr.</string>
+<string name="RA_add">Hinzu</string>
+<string name="RA_sync">Synchr.</string>
+<string name="RA_update">Aktual.</string>
+<string name="RA_delete">Löschen</string>
+<string name="RA_registration">Registrierung</string>
+<string name="RA_phase">Tageszeit</string>
+<string name="RA_temperature">Temperatur</string>
+<string name="RA_temparatute_hint">Temperatur des Babys</string>
+<string name="RA_location">Hinweise</string>
+<string name="RA_location_hint">Name des Standorts</string>
+<string name="RA_save">Speich.</string>
+<string name="RA_synced">Nicht synchr.</string>
+<string name="RA_create_moment">Moment erfassen</string>
+<string name="RA_invalid_temperature">Ungültige Temperaturangabe</string>
+<string name="RA_consent">Benutzerzustimmung</string>
+<string name="RA_set_characteristics">Benutzereigenschaften</string>
+<string name="RA_view_characteristics">Eigenschaften anzeigen</string>
+<string name="RA_hide_characteristics">Eigenschaften ausblenden</string>
+<string name="RA_edit">Bearb.</string>
+<string name="RA_consents">Benutzerzustimmung</string>
+<string name="RA_ble_ref_device">Bluetooth-Referenzgerät</string>
+<string name="RA_unknown_device">Unbekanntes Gerät</string>
+<string name="RA_no_device_found">Kein Gerät gefunden</string>
+<string name="RA_something_wrong">Es ist ein Fehler aufgetreten.</string>
+
+<string name="RA_MYA_Consent_Moment_Text" translatable="false">de-DE I allow Philips to store my data in cloud</string>
+<string name="RA_MYA_Consent_Moment_Help" translatable="false">de-DE Giving this consent you are allowing Philips to store information related to you</string>
+<string name="RA_MYA_Consent_Coaching_Text" translatable="false">de-DE I allow Philips to use my data for Coaching purposes</string>
+<string name="RA_MYA_Consent_Coaching_Help" translatable="false">de-DE Giving this consent you are allowing Philips to process information related to you</string>
+</resources>

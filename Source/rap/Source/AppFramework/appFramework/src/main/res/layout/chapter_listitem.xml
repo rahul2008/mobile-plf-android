@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/chapter_item_linear_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/chapter_textview"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:textColor="@color/uid_list_item_text_selector"
+        android:textSize="22sp" />
+   <include layout="@layout/uid_horizontal_separator"></include>
+</LinearLayout>

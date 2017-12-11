@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/uid_adaptive_layout_width"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix">
+
+    <ImageView
+        android:id="@+id/background_image"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="fitXY" />
+
+    <ImageView
+        android:id="@+id/group_image"
+        android:layout_width="@dimen/onboarding_group_icon_size"
+        android:layout_height="@dimen/onboarding_group_icon_size"
+        android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:id="@+id/welcome_slide_fragment_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/welcome_slide_large_text"
+            style="@style/OnBoarding.Title"
+            android:layout_above="@+id/welcome_slide_small_text"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:gravity="left"
+            android:textColor="@color/white"
+            android:textSize="@dimen/intro_large_textfont" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/welcome_slide_small_text"
+            style="@style/OnBoarding.Description"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:gravity="left"
+            android:textColor="@color/white"
+            android:textSize="@dimen/intro_small_text_font" />
+    </LinearLayout>
+</RelativeLayout>
