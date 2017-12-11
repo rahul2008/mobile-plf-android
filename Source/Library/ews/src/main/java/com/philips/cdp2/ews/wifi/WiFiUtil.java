@@ -4,6 +4,7 @@
  */
 package com.philips.cdp2.ews.wifi;
 
+import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -49,20 +50,12 @@ public class WiFiUtil {
 
     public String getConnectedWiFiSSID() {
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        switch (wifiInfo.getSupplicantState()) {
-            case COMPLETED:
-                return getFormattedSSID(wifiInfo.getSSID());
-            case INACTIVE:
-            case INVALID:
-            case DISCONNECTED:
-                return cleanWifiSSID();
+        if (wifiInfo.getSupplicantState() == SupplicantState.COMPLETED) {
+            return getFormattedSSID(wifiInfo.getSSID());
+        } else if (wifiInfo.getSupplicantState() == SupplicantState.DISCONNECTED) {
+            lastWifiSSid = null;
+            return null;
         }
-        return null;
-    }
-
-    @Nullable
-    private String cleanWifiSSID() {
-        lastWifiSSid = null;
         return null;
     }
 
@@ -95,6 +88,9 @@ public class WiFiUtil {
         String currentWifi = getConnectedWiFiSSID();
         ewsLogger.d(TAG, "Connected to:" + (currentWifi == null ? "Nothing" : currentWifi));
 
+        if (lastWifiSSid == null) {
+            lastWifiSSid = getConnectedWiFiSSID();
+        }
         if (lastWifiSSid == null || currentWifi == null || currentWifi
                 .equalsIgnoreCase(UNKNOWN_SSID)) {
             return UNKNOWN_WIFI;

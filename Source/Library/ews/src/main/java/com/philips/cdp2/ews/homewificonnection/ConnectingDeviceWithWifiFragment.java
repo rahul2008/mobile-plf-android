@@ -42,6 +42,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
         data.putString(HOME_WIFI_PWD, homeWiFiPassword);
         data.putString(DEVICE_NAME, deviceName);
         data.putString(DEVICE_FRIENDLY_NAME, deviceFriendlyName);
+        data.putBoolean(FROM_WRONG_WIFI_SCREEN, false);
         ConnectingDeviceWithWifiFragment fragment = new ConnectingDeviceWithWifiFragment();
         fragment.setArguments(data);
         return fragment;

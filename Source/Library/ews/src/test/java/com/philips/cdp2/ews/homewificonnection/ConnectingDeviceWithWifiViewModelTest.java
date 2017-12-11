@@ -135,6 +135,9 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Mock
     private EWSLogger mockEWSLogger;
 
+    @Mock
+    private StartConnectionModel mockStartConnectionModel;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -456,10 +459,11 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
     @Test
     public void itShouldVerifyTitle() throws Exception{
+        subject.startConnectionModel = mockStartConnectionModel;
         when(mockBaseContentConfiguration.getDeviceName()).thenReturn(2131362066);
-        when(mockWiFiUtil.getHomeWiFiSSD()).thenReturn("wifi");
+        when(mockStartConnectionModel.getHomeWiFiSSID()).thenReturn("wifi");
         subject.getTitle(mockBaseContentConfiguration);
-        verify(mockStringProvider).getString(R.string.label_ews_connecting_device_title, mockBaseContentConfiguration.getDeviceName(),mockWiFiUtil.getHomeWiFiSSD());
+        verify(mockStringProvider).getString(R.string.label_ews_connecting_device_title, mockBaseContentConfiguration.getDeviceName(),mockStartConnectionModel.getHomeWiFiSSID());
     }
 
     @Test

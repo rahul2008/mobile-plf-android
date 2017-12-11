@@ -56,7 +56,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private static final long WIFI_SET_PROPERTIES_TIME_OUT = TimeUnit.SECONDS.toMillis(60);
     private static final String TAG = ConnectingDeviceWithWifiViewModel.class.getCanonicalName();
     @NonNull
-    public final ObservableField<String> title;
+    public  ObservableField<String> title;
     @NonNull
     private final ApplianceAccessManager applianceAccessManager;
     @NonNull
@@ -81,6 +81,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private final EWSLogger ewsLogger;
     @NonNull
     private final String productNme;
+
     @VisibleForTesting
     @Nullable
     StartConnectionModel startConnectionModel;
@@ -151,6 +152,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         }
     };
 
+    private BaseContentConfiguration baseContentConfiguration;
     @Inject
     public ConnectingDeviceWithWifiViewModel(@NonNull ApplianceAccessManager applianceAccessManager,
                                              @NonNull Navigator navigator,
@@ -172,11 +174,11 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         this.deviceFriendlyNameChanger = deviceFriendlyNameChanger;
         this.discoveryHelper = discoveryHelper;
         this.stringProvider = stringProvider;
-        this.title = new ObservableField<>(getTitle(baseContentConfiguration));
         this.applianceSessionDetailsInfo = applianceSessionDetailsInfo;
         this.ewsTagger = ewsTagger;
         this.ewsLogger = ewsLogger;
         this.productNme = productName;
+        this.baseContentConfiguration = baseContentConfiguration;
     }
 
     void setFragmentCallback(@Nullable ConnectingDeviceToWifiCallback fragmentCallback) {
@@ -185,6 +187,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
 
     void startConnecting(@NonNull final StartConnectionModel startConnectionModel, boolean fromWrongWifiScreen) {
         this.startConnectionModel = startConnectionModel;
+        this.title = new ObservableField<>(getTitle(baseContentConfiguration));
         tagConnectionStart();
         if (!fromWrongWifiScreen) {
             deviceFriendlyNameChanger.setNameChangerCallback(this);
@@ -282,7 +285,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     @NonNull
     String getTitle(@NonNull BaseContentConfiguration baseConfig) {
         return stringProvider.getString(R.string.label_ews_connecting_device_title,
-                baseConfig.getDeviceName(), getHomeWiFiSSID());
+                baseConfig.getDeviceName(), startConnectionModel.getHomeWiFiSSID());
     }
 
     public void trackPageName() {
