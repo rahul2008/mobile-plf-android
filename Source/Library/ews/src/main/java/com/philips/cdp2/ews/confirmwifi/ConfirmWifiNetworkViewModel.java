@@ -25,7 +25,7 @@ import javax.inject.Inject;
 public class ConfirmWifiNetworkViewModel extends BaseObservable {
 
     interface ViewCallback {
-        void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
+        void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration, @NonNull EWSTagger ewsTagger);
     }
 
     @NonNull
@@ -38,28 +38,33 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
 
     @Nullable
     private ViewCallback viewCallback;
+
     @NonNull
     private BaseContentConfiguration baseContentConfiguration;
+
+    @NonNull private final EWSTagger ewsTagger;
 
     @Inject
     public ConfirmWifiNetworkViewModel(@NonNull final Navigator navigator,
                                        @NonNull final WiFiUtil wiFiUtil,
                                        @NonNull BaseContentConfiguration baseConfig,
-                                       @NonNull StringProvider stringProvider) {
+                                       @NonNull StringProvider stringProvider,
+                                       @NonNull final EWSTagger ewsTagger) {
         this.navigator = navigator;
         this.wiFiUtil = wiFiUtil;
         this.stringProvider = stringProvider;
         this.baseContentConfiguration = baseConfig;
+        this.ewsTagger = ewsTagger;
     }
 
-    public void setViewCallback(@Nullable ViewCallback viewCallback) {
+    protected void setViewCallback(@Nullable ViewCallback viewCallback) {
         this.viewCallback = viewCallback;
     }
 
     @Bindable
     public String getHomeWiFiSSID() {
         if (TextUtil.isEmpty(wiFiUtil.getConnectedWiFiSSID()) ||
-                WiFiUtil.UNKNOWN_SSID.equalsIgnoreCase(wiFiUtil.getConnectedWiFiSSID())){
+                WiFiUtil.UNKNOWN_SSID.equalsIgnoreCase(wiFiUtil.getConnectedWiFiSSID())) {
             return "";
         }
         return wiFiUtil.getConnectedWiFiSSID();
@@ -71,33 +76,35 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
         notifyPropertyChanged(BR.note);
         if (viewCallback != null && !wiFiUtil.isHomeWiFiEnabled()) {
             tapToChangeWifi();
-            viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration);
+            viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration, ewsTagger);
         }
     }
 
     public void onNoButtonClicked() {
         if (viewCallback != null) {
             tapToChangeWifi();
-            viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration);
+            viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration, ewsTagger);
         }
     }
 
     public void onYesButtonClicked() {
-        if(wiFiUtil.isHomeWiFiEnabled()) {
+        if (wiFiUtil.isHomeWiFiEnabled()) {
             tapToConnect();
             navigator.navigateToDevicePoweredOnConfirmationScreen();
-        }else{
+        } else {
             tapToChangeWifi();
-            viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration);
+            if (viewCallback != null) {
+                viewCallback.showTroubleshootHomeWifiDialog(baseContentConfiguration, ewsTagger);
+            }
         }
     }
 
     private void tapToConnect() {
-        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.CONFIRM_NETWORK);
+        ewsTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.CONFIRM_NETWORK);
     }
 
     private void tapToChangeWifi() {
-        EWSTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.CHANGE_NETWORK);
+        ewsTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.CHANGE_NETWORK);
     }
 
     @Bindable
@@ -127,10 +134,8 @@ public class ConfirmWifiNetworkViewModel extends BaseObservable {
                 baseContentConfiguration.getDeviceName());
     }
 
-
-    @NonNull
     public void trackPageName() {
-        EWSTagger.trackPage(Page.CONFIRM_WIFI_NETWORK);
+        ewsTagger.trackPage(Page.CONFIRM_WIFI_NETWORK);
     }
 
 }

@@ -21,15 +21,17 @@ public class ResetDeviceTroubleshootingViewModel {
     @NonNull public final ObservableField<String> description;
     @NonNull private StringProvider stringProvider;
     @NonNull public final Drawable resetDeviceImage;
+    @NonNull private final EWSTagger ewsTagger;
 
     @Inject
     public ResetDeviceTroubleshootingViewModel(@NonNull Navigator navigator, @NonNull StringProvider stringProvider, @NonNull BaseContentConfiguration contentConfiguration,
-                                                   @NonNull TroubleShootContentConfiguration troubleShootContentConfiguration) {
+                                                   @NonNull TroubleShootContentConfiguration troubleShootContentConfiguration, @NonNull final EWSTagger ewsTagger) {
         this.navigator = navigator;
         this.stringProvider = stringProvider;
         title = new ObservableField<>(getTitle(troubleShootContentConfiguration, contentConfiguration));
         description = new ObservableField<>(getNote(troubleShootContentConfiguration, contentConfiguration));
         resetDeviceImage = getResetDeviceImage(troubleShootContentConfiguration);
+        this.ewsTagger = ewsTagger;
     }
 
     @VisibleForTesting
@@ -59,7 +61,7 @@ public class ResetDeviceTroubleshootingViewModel {
     }
 
     void trackPageName() {
-        EWSTagger.trackPage(Page.RESET_DEVICE);
+        ewsTagger.trackPage(Page.RESET_DEVICE);
     }
 
 

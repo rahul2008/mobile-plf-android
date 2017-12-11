@@ -259,7 +259,6 @@ public class TroubleShootContentConfiguration implements Parcelable {
          * Build TroubleShootContent with default strings and drawables.
          */
         public Builder(){
-            //Todo : need to change default text on base on ui
             resetConnectionTitle = R.string.label_ews_support_reset_connection_title_default;
             resetConnectionBody = R.string.label_ews_support_reset_connection_body_default;
             resetConnectionImage = R.drawable.philips_logo_default;

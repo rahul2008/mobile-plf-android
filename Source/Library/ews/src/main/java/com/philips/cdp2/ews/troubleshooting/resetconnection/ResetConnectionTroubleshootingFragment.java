@@ -15,9 +15,11 @@ import com.philips.cdp2.ews.databinding.FragmentResetConnectionTroubleshootingLa
 public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingFragment {
 
     @NonNull
+    @SuppressWarnings("NullableProblems")
     FragmentResetConnectionTroubleshootingLayoutBinding fragmentResetConnectionTroubleshootingLayoutBinding;
 
     @NonNull
+    @SuppressWarnings("NullableProblems")
     ResetConnectionTroubleshootingViewModel viewModel;
 
     @Nullable
@@ -52,7 +54,6 @@ public class ResetConnectionTroubleshootingFragment extends BaseTroubleShootingF
                 });
     }
 
-    @NonNull
     @Override
     protected void callTrackPageName() {
         viewModel.trackPageName();

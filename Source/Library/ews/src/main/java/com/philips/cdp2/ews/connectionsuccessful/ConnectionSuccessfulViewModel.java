@@ -8,12 +8,10 @@ package com.philips.cdp2.ews.connectionsuccessful;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
-import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Page;
 import com.philips.cdp2.ews.util.StringProvider;
@@ -33,13 +31,17 @@ public class ConnectionSuccessfulViewModel {
     @NonNull
     private WiFiUtil wiFiUtil;
 
+    @NonNull private final EWSTagger ewsTagger;
+
     @Inject
     public ConnectionSuccessfulViewModel(@NonNull BaseContentConfiguration baseConfig,
                                          @NonNull StringProvider stringProvider,
-                                         @NonNull WiFiUtil wiFiUtil) {
+                                         @NonNull WiFiUtil wiFiUtil,
+                                         @NonNull final EWSTagger ewsTagger) {
         this.stringProvider = stringProvider;
         this.wiFiUtil = wiFiUtil;
         title = new ObservableField<>(getTitle(baseConfig));
+        this.ewsTagger = ewsTagger;
     }
 
     protected void setFragmentCallback(@NonNull FragmentCallback fragmentCallback) {
@@ -47,7 +49,6 @@ public class ConnectionSuccessfulViewModel {
     }
 
     public void onStartClicked() {
-        EWSCallbackNotifier.getInstance().onSuccess();
         if (fragmentCallback != null) {
             fragmentCallback.finishMicroApp();
         }
@@ -65,6 +66,6 @@ public class ConnectionSuccessfulViewModel {
     }
 
     public void trackPageName() {
-        EWSTagger.trackPage(Page.CONNECTION_SUCCESSFUL);
+        ewsTagger.trackPage(Page.CONNECTION_SUCCESSFUL);
     }
 }

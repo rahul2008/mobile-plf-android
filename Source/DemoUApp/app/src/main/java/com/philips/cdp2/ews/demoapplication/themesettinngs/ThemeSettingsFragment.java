@@ -19,7 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
-import com.philips.cdp2.ews.demoapplication.EWSDemoActivity;
+import com.philips.cdp2.ews.demoapplication.EWSDemoUActivity;
 import com.philips.cdp2.ews.demoapplication.R;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.platform.uid.drawable.SeparatorDrawable;
@@ -47,13 +47,11 @@ public class ThemeSettingsFragment extends Fragment {
 
     private int colorPickerWidth = 48;
 
-    private ThemeColorAdapter colorRangeAdapter;
     private ThemeColorAdapter contentTonalRangeAdapter;
     private ThemeColorAdapter navigationListAdapter;
     private ContentColor contentColor = ContentColor.ULTRA_LIGHT;
 
     private ColorRange colorRange = ColorRange.GROUP_BLUE;
-    private ThemeHelper themeHelper;
     private int colorRangeSelectedPosition;
     private int contentSelectedPosition;
     private int navigationSelectedPosition;
@@ -73,7 +71,7 @@ public class ThemeSettingsFragment extends Fragment {
         accentColorRangeList = view.findViewById(R.id.accentColorRangeList);
         warningText = view.findViewById(R.id.warningText);
         themeColorHelper = new ThemeColorHelper();
-        themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getActivity()), getActivity());
+        ThemeHelper themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getActivity()), getActivity());
 
         colorRange = themeHelper.initColorRange();
         navigationColor = themeHelper.initNavigationRange();
@@ -156,7 +154,7 @@ public class ThemeSettingsFragment extends Fragment {
 
     @NonNull
     private ThemeColorAdapter getColorRangeAdapter() {
-        colorRangeAdapter = new ThemeColorAdapter(themeColorHelper.getColorRangeItemsList(), new ThemeChangedListener() {
+        ThemeColorAdapter colorRangeAdapter = new ThemeColorAdapter(themeColorHelper.getColorRangeItemsList(), new ThemeChangedListener() {
             @Override
             public void onThemeSettingsChanged(final String changedColorRange) {
                 colorRange = ColorRange.valueOf(changedColorRange.toUpperCase());
@@ -164,7 +162,7 @@ public class ThemeSettingsFragment extends Fragment {
                 updateTonalRangeColors();
                 updateNavigationRangeColors();
                 buildAccentColorsList(colorRange);
-                ((EWSDemoActivity) getActivity()).updateColorRange(colorRange);
+                ((EWSDemoUActivity) getActivity()).updateColorRange(colorRange);
             }
         }, colorPickerWidth);
         colorRangeAdapter.setSelected(colorRangeSelectedPosition == 0 ? colorRange.ordinal() : colorRangeSelectedPosition);
@@ -191,7 +189,7 @@ public class ThemeSettingsFragment extends Fragment {
             @Override
             public void onThemeSettingsChanged(final String tonalRangeChanged) {
                 contentColor = getContentTonalRangeByPosition();
-                ((EWSDemoActivity) getActivity()).updateContentColor(contentColor);
+                ((EWSDemoUActivity) getActivity()).updateContentColor(contentColor);
             }
         }, colorPickerWidth);
         contentTonalRangeAdapter.setSelected(getSelectedContentTonalRangePosition());
@@ -232,7 +230,7 @@ public class ThemeSettingsFragment extends Fragment {
     }
 
     private void notifyNavigationSettingsChanged() {
-        ((EWSDemoActivity) getActivity()).updateNavigationColor(navigationColor);
+        ((EWSDemoUActivity) getActivity()).updateNavigationColor(navigationColor);
     }
 
     private void initNavigationColor(final int selectedPosition) {
@@ -282,7 +280,7 @@ public class ThemeSettingsFragment extends Fragment {
     private void initAccentColor(final int selectedPosition) {
         final ColorModel colorModel = accentColorsList.get(selectedPosition);
         accentRange = AccentRange.valueOf(colorModel.getName());
-        ((EWSDemoActivity) getActivity()).updateAccentColor(accentRange);
+        ((EWSDemoUActivity) getActivity()).updateAccentColor(accentRange);
     }
 
     private void setLayoutOrientation(final RecyclerView recyclerView) {

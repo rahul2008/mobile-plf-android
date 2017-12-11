@@ -64,7 +64,6 @@ public class ConnectWithPasswordFragment extends BaseFragment {
         return true;
     }
 
-    @NonNull
     @Override
     protected void callTrackPageName() {
         viewModel.trackPageName();

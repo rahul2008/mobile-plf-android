@@ -43,7 +43,7 @@ public abstract class EWSDependencies extends UappDependencies {
      * @return Product Map
      */
     @NonNull
-    public Map<String, String> getProductKeyMap() {
+    public  Map<String, String> getProductKeyMap() {
         return productKeyMap;
     }
 

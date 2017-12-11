@@ -103,6 +103,7 @@
     <string name="label_ews_support_wrong_phone_question_default">Do you see this?</string>
     <string name="button_ews_support_wrong_phone_yes">Yes</string>
     <string name="button_ews_support_wrong_phone_no">No</string>
+
     <!--EWS_02_02.b_enable_location-->
     <string name="label_ews_location_services_title">Enable in system Location Settings</string>
     <string name="label_ews_location_services_body">To find %1$s’s PHILIPS Setup Wi-Fi network, we need Location Services enabled.  Please enable Location Services in Location Settings and return to the app.</string>

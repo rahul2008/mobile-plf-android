@@ -144,8 +144,6 @@ android {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi versions.target
-        renderscriptSupportModeEnabled true
         multiDexEnabled true
         versionName assignedVersionNumber
         consumerProguardFiles('proguard-rules.txt', 'proguard-rules-lib.txt')
@@ -216,7 +214,7 @@ dependencies {
     if(dp) {
         project(':uikitLib')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar')
+        compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix())
             {
                 transitive = true
             }
@@ -234,7 +232,7 @@ dependencies {
     if(dp) {
         project(':uid')
     } else {
-        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+        compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), changing: true) {
             transitive = true
         }
     }
@@ -250,9 +248,10 @@ dependencies {
     // External
     compile "com.google.dagger:dagger:2.9"
     annotationProcessor "com.google.dagger:dagger-compiler:2.9"
-    compile "org.greenrobot:eventbus:3.0.0"
+
 
     // Test
+
     testCompile "junit:junit:4.12"
     testCompile "org.mockito:mockito-core:1.10.19"
     testCompile "org.powermock:powermock-module-junit4:1.6.5"

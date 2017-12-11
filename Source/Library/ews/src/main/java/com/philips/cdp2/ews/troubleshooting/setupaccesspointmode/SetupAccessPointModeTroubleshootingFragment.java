@@ -15,9 +15,11 @@ import com.philips.cdp2.ews.databinding.FragmentSetupAccessPointTroubleshootingL
 public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShootingFragment {
 
     @NonNull
+    @SuppressWarnings("NullableProblems")
     FragmentSetupAccessPointTroubleshootingLayoutBinding setupAccessPointTroubleshootingLayoutBinding;
 
     @NonNull
+    @SuppressWarnings("NullableProblems")
     SetupAccessPointModeTroubleshootingViewModel viewModel;
 
 
@@ -34,6 +36,7 @@ public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShoo
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = getEWSComponent().setupAccessPointModeTroubleshootingViewModel();
+
         setupAccessPointTroubleshootingLayoutBinding.setViewmodel(viewModel);
 
         view.findViewById(R.id.ews_H_03_04_button_done)
@@ -45,7 +48,6 @@ public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShoo
                 });
     }
 
-    @NonNull
     @Override
     protected void callTrackPageName() {
         viewModel.trackPageName();

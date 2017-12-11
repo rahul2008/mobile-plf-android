@@ -21,6 +21,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -49,39 +50,51 @@ public class DiscoveryHelperTest {
 
     @Test
     public void itShouldAddListenerWhenDiscoveryIsStarted() throws Exception {
-        subject.startDiscovery(mockCallback);
-
+        subject.startDiscovery(mockCallback, mockEWSLogger);
         verify(mockApplianceManager).addApplianceListener(any(ApplianceManager.ApplianceListener.class));
     }
 
     @Test
     public void itShouldStartDiscoveryForCommCentralWhenDiscoveryStarted() throws Exception {
-        subject.startDiscovery(mockCallback);
-
+        subject.startDiscovery(mockCallback, mockEWSLogger);
         verify(mockCommCentral).startDiscovery();
     }
 
     @Test
     public void itShouldStopDiscoveryForCommCentralWhenDiscoveryStops() throws Exception {
         subject.stopDiscovery();
-
         verify(mockCommCentral).stopDiscovery();
     }
 
     @Test
     public void itShouldNotifyCallbackWhenApplianceIsFound() throws Exception {
-        subject.startDiscovery(mockCallback);
-
+        subject.startDiscovery(mockCallback, mockEWSLogger);
         verify(mockApplianceManager).addApplianceListener(captor.capture());
         captor.getValue().onApplianceFound(mockAppliance);
-
         verify(mockCallback).onApplianceFound(any(Appliance.class));
     }
 
     @Test
+    public void itShouldNotifyCallbackWhenApplianceUpdated() throws Exception {
+        subject.startDiscovery(mockCallback, mockEWSLogger);
+        verify(mockApplianceManager).addApplianceListener(captor.capture());
+        captor.getValue().onApplianceUpdated(mockAppliance);
+        verifyZeroInteractions(mockAppliance);
+    }
+
+    @Test
+    public void itShouldNotifyCallbackWhenApplianceLost() throws Exception {
+        subject.startDiscovery(mockCallback, mockEWSLogger);
+        verify(mockApplianceManager).addApplianceListener(captor.capture());
+        captor.getValue().onApplianceLost(mockAppliance);
+        verifyZeroInteractions(mockAppliance);
+    }
+
+
+    @Test
     public void itShouldVerifyMissingPermissionException() throws Exception{
         Mockito.doThrow(new MissingPermissionException("some message")).when(mockCommCentral).startDiscovery();
-        subject.startDiscovery(mockCallback);
+        subject.startDiscovery(mockCallback, mockEWSLogger);
         verify(mockEWSLogger).e(eq("DiscoveryHelper"), anyString());
     }
 }

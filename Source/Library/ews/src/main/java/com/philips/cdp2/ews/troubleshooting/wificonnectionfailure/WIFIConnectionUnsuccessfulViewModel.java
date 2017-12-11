@@ -30,13 +30,16 @@ public class WIFIConnectionUnsuccessfulViewModel {
     @NonNull
     private final Navigator navigator;
 
+    @NonNull private final EWSTagger ewsTagger;
+
     @Inject
-    public WIFIConnectionUnsuccessfulViewModel(@NonNull Navigator navigator) {
+    public WIFIConnectionUnsuccessfulViewModel(@NonNull Navigator navigator, @NonNull final EWSTagger ewsTagger) {
         this.navigator = navigator;
         upperBodyText = new ObservableField<>();
         stepTwoText = new ObservableField<>();
         upperHelperText = new ObservableField<>();
         lowerHelperText = new ObservableField<>();
+        this.ewsTagger = ewsTagger;
     }
 
     public void setUpperBodyText(@NonNull String upperBodyText) {
@@ -60,6 +63,6 @@ public class WIFIConnectionUnsuccessfulViewModel {
     }
 
     void trackPageName() {
-        EWSTagger.trackPage(Page.CONNECTION_UNSUCCESSFUL);
+        ewsTagger.trackPage(Page.CONNECTION_UNSUCCESSFUL);
     }
 }
