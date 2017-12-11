@@ -8,7 +8,7 @@ apply plugin: 'com.neenbedankt.android-apt'
 
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {
@@ -162,7 +162,7 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        project(':usr')
+        project(':registrationApi')
     } else {
         compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
             transitive = true
@@ -170,7 +170,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':ufw')
+        project(':uAppFwLib')
     } else {
         compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {            
             transitive = true
@@ -178,7 +178,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':dscUApp')
+        project(':dataServicesUApp')
     } else {
         compile(group: 'com.philips.cdp', name: 'dataServicesUApp', version: versions.dsc_dataServices + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {            
             exclude group: 'com.android.support'
