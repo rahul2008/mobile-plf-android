@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.philips.cdp2.ews.demoapplication.microapp.UAppDependencyHelper;
 import com.philips.cdp2.ews.demoapplication.themesettinngs.ThemeHelper;
 import com.philips.cdp2.ews.demoapplication.themesettinngs.ThemeSettingsFragment;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
@@ -29,6 +30,7 @@ import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfig;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
@@ -54,6 +56,7 @@ public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListene
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         themeHelper = new ThemeHelper(defaultSharedPreferences);
         updateColorFromPref();
+        initTheme(UAppDependencyHelper.getThemeConfiguration());
         injectNewTheme(colorRange, contentColor, navigationColor, accentColorRange);
         UIDHelper.injectCalligraphyFonts();
         super.onCreate(savedInstanceState);
@@ -63,6 +66,22 @@ public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListene
         this.optionSelectionFragment = new OptionSelectionFragment();
         showConfigurationOptScreen();
         setUpToolBar();
+    }
+
+    private void initTheme(ThemeConfiguration themeConfig) {
+        if (themeConfig != null) {
+            for (ThemeConfig config : themeConfig.getConfigurations()) {
+                if (config instanceof ColorRange) {
+                    colorRange = (ColorRange) config;
+                } else if (config instanceof ContentColor) {
+                    contentColor = (ContentColor) config;
+                } else if (config instanceof AccentRange) {
+                    accentColorRange = (AccentRange) config;
+                } else if (config instanceof NavigationColor) {
+                    navigationColor = (NavigationColor) config;
+                }
+            }
+        }
     }
 
     @Override
