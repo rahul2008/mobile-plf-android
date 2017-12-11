@@ -48,6 +48,8 @@ public class WiFiUtilTest {
 
     @Mock
     private EWSLogger mockEWSLogger;
+    @Mock
+    private android.net.wifi.SupplicantState mockSupplianceState;
 
     @Before
     public void setUp() throws Exception {
@@ -128,6 +130,7 @@ public class WiFiUtilTest {
 
     @Test
     public void itShouldReturnFalseWhenIsConnectedToWrongHomeWifiAndNotConnected() {
+        when(mockWifiInfo.getSupplicantState()).thenReturn(mockSupplianceState);
         assertFalse(subject.getCurrentWifiState() == WiFiUtil.WRONG_WIFI);
     }
 
@@ -182,22 +185,23 @@ public class WiFiUtilTest {
     }
 
     @Test
-    public void itShouldReturnTrueIfDeviceConnectedToPhilipsAppliance() throws Exception{
+    public void itShouldReturnTrueIfDeviceConnectedToPhilipsAppliance() throws Exception {
         stubSSID(DEVICE_SSID);
         assertTrue(subject.isConnectedToPhilipsSetup());
     }
+
     @Test
-    public void itShouldReturnFalseIfDeviceIsNotConnectedToPhilipsAppliance() throws Exception{
+    public void itShouldReturnFalseIfDeviceIsNotConnectedToPhilipsAppliance() throws Exception {
         stubSSID(HOME_SSID);
         assertFalse(subject.isConnectedToPhilipsSetup());
     }
 
     @Test
-    public void itShouldForgetGivenSSID() throws Exception{
+    public void itShouldForgetGivenSSID() throws Exception {
         List<WifiConfiguration> configs = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            WifiConfiguration testWifiConfiguration= new WifiConfiguration();
-            testWifiConfiguration.SSID = HOME_SSID + "Test"+i;
+            WifiConfiguration testWifiConfiguration = new WifiConfiguration();
+            testWifiConfiguration.SSID = HOME_SSID + "Test" + i;
             configs.add(testWifiConfiguration);
         }
         when(mockWifiManager.getConfiguredNetworks()).thenReturn(configs);

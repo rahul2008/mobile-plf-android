@@ -24,14 +24,12 @@ public class WrongWifiNetworkViewModel {
 
     @NonNull
     private final Navigator navigator;
-
+    @NonNull
+    private final EWSTagger ewsTagger;
     @Nullable
     private Bundle bundle;
-
     @NonNull
     private BaseContentConfiguration baseContentConfiguration;
-
-    @NonNull private final EWSTagger ewsTagger;
 
     @Inject
     public WrongWifiNetworkViewModel(@NonNull Navigator navigator, @NonNull BaseContentConfiguration baseContentConfiguration,
@@ -57,17 +55,17 @@ public class WrongWifiNetworkViewModel {
     }
 
     public void onButtonClick() {
-        navigator.navigateToConnectingDeviceWithWifiScreen(bundle);
-    }
-
-    void setBundle(@Nullable Bundle bundle) {
-        this.bundle = bundle;
+        navigator.navigateToConnectingDeviceWithWifiScreen(bundle, true);
     }
 
     @Nullable
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     Bundle getBundle() {
         return bundle;
+    }
+
+    void setBundle(@Nullable Bundle bundle) {
+        this.bundle = bundle;
     }
 
     int getAppName() {

@@ -25,11 +25,11 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
         implements ConnectingDeviceWithWifiViewModel.ConnectingDeviceToWifiCallback {
 
     public final static String HOME_WIFI_SSID = "homeWiFiSSID";
+    public final static String DEVICE_NAME = "deviceName";
     private final static String TAG = "ConnectingDeviceWithWifiFragment";
     private final static String HOME_WIFI_PWD = "homeWiFiPassword";
-    public final static String DEVICE_NAME = "deviceName";
     private final static String DEVICE_FRIENDLY_NAME = "deviceFriendlyName";
-
+    private final static String FROM_WRONG_WIFI_SCREEN = "fromWrongWifiScreen";
     @Nullable
     private ConnectingDeviceWithWifiViewModel viewModel;
 
@@ -42,14 +42,22 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
         data.putString(HOME_WIFI_PWD, homeWiFiPassword);
         data.putString(DEVICE_NAME, deviceName);
         data.putString(DEVICE_FRIENDLY_NAME, deviceFriendlyName);
-
+        data.putBoolean(FROM_WRONG_WIFI_SCREEN, false);
         ConnectingDeviceWithWifiFragment fragment = new ConnectingDeviceWithWifiFragment();
         fragment.setArguments(data);
         return fragment;
     }
 
-    public static Fragment newInstance(@Nullable Bundle bundle) {
+    public static Fragment newInstance(@Nullable Bundle bundle, Boolean fromWifiScreen) {
         ConnectingDeviceWithWifiFragment fragment = new ConnectingDeviceWithWifiFragment();
+
+        if (bundle != null) {
+            bundle.putBoolean(FROM_WRONG_WIFI_SCREEN, fromWifiScreen);
+        } else {
+            bundle = new Bundle();
+            bundle.putBoolean(FROM_WRONG_WIFI_SCREEN, fromWifiScreen);
+        }
+
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -70,7 +78,8 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
 
         if (viewModel == null) {
             invokeViewModel();
-            viewModel.startConnecting(createStartConnectionModel(getArguments()));
+            viewModel.startConnecting(createStartConnectionModel(getArguments()),
+                    BundleUtils.extractBooleanFromBundleOrThrow(getArguments(), FROM_WRONG_WIFI_SCREEN));
         } else {
             invokeViewModel();
             viewModel.connectToHomeWifi(
@@ -122,7 +131,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
         try {
             getActivity().unregisterReceiver(receiver);
         } catch (IllegalArgumentException e) {
-            if (viewModel != null){
+            if (viewModel != null) {
                 viewModel.getEwsLogger().d(TAG, e.toString());
             }
         }

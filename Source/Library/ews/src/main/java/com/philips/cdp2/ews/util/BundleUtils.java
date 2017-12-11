@@ -16,6 +16,13 @@ public final class BundleUtils {
         return bundle.getString(key);
     }
 
+    public static Boolean extractBooleanFromBundleOrThrow(@Nullable Bundle bundle, @NonNull String key) {
+        if (bundle == null || !bundle.containsKey(key)) {
+            throw new IllegalStateException("Key: " + key + " is missing in bundle!");
+        }
+        return bundle.getBoolean(key);
+    }
+
     @SuppressWarnings("unchecked")
     public static <T extends Parcelable> T extractParcelableFromIntentOrNull(@Nullable Bundle extras,
                                                                              @NonNull String key) {

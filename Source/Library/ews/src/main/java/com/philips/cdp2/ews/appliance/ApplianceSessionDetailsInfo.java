@@ -18,7 +18,7 @@ public class ApplianceSessionDetailsInfo {
     private String appliancePin;
 
     @Nullable
-    private String cppId;
+    private static String cppId;
 
     @Inject
     public ApplianceSessionDetailsInfo() {
@@ -30,7 +30,7 @@ public class ApplianceSessionDetailsInfo {
     }
 
     public void setCppId(@NonNull String cppId) {
-        this.cppId = cppId;
+        ApplianceSessionDetailsInfo.cppId = cppId;
     }
 
     @Nullable
@@ -44,6 +44,6 @@ public class ApplianceSessionDetailsInfo {
 
     public void clear() {
         this.appliancePin = null;
-        this.cppId = null;
+        cppId = null;
     }
 }

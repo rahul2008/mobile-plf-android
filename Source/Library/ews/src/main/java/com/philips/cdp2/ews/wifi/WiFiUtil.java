@@ -52,10 +52,11 @@ public class WiFiUtil {
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         if (wifiInfo.getSupplicantState() == SupplicantState.COMPLETED) {
             return getFormattedSSID(wifiInfo.getSSID());
-        } else {
+        } else if (wifiInfo.getSupplicantState() == SupplicantState.DISCONNECTED) {
             lastWifiSSid = null;
             return null;
         }
+        return null;
     }
 
     public String getFormattedSSID(@NonNull final String SSID) {
@@ -87,6 +88,9 @@ public class WiFiUtil {
         String currentWifi = getConnectedWiFiSSID();
         ewsLogger.d(TAG, "Connected to:" + (currentWifi == null ? "Nothing" : currentWifi));
 
+        if (lastWifiSSid == null) {
+            lastWifiSSid = getConnectedWiFiSSID();
+        }
         if (lastWifiSSid == null || currentWifi == null || currentWifi
                 .equalsIgnoreCase(UNKNOWN_SSID)) {
             return UNKNOWN_WIFI;
