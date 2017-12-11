@@ -29,7 +29,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment
     private final static String TAG = "ConnectingDeviceWithWifiFragment";
     private final static String HOME_WIFI_PWD = "homeWiFiPassword";
     private final static String DEVICE_FRIENDLY_NAME = "deviceFriendlyName";
-    private final static String FROM_WRONG_WIFI_SCREEN = "deviceFriendlyName";
+    private final static String FROM_WRONG_WIFI_SCREEN = "fromWrongWifiScreen";
     @Nullable
     private ConnectingDeviceWithWifiViewModel viewModel;
 
