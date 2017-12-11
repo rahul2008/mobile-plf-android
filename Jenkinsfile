@@ -96,7 +96,7 @@ node('Android') {
                      sh """#!/bin/bash -l
                             chmod -R 755 . 
                             cd ./Source/DemoUApp 
-                            ./gradlew :Uapp:artifactoryPublish
+                            ./gradlew :app:artifactoryPublish
                         """
             }
             }
