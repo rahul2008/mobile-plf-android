@@ -21,7 +21,6 @@ import android.view.ViewTreeObserver;
 
 import com.philips.cdp2.ews.demoapplication.EWSDemoUActivity;
 import com.philips.cdp2.ews.demoapplication.R;
-import com.philips.cdp2.ews.demoapplication.microapp.UAppDependencyHelper;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.platform.uid.drawable.SeparatorDrawable;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -72,7 +71,7 @@ public class ThemeSettingsFragment extends Fragment {
         accentColorRangeList = view.findViewById(R.id.accentColorRangeList);
         warningText = view.findViewById(R.id.warningText);
         themeColorHelper = new ThemeColorHelper();
-        ThemeHelper themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getActivity()), UAppDependencyHelper.getThemeConfiguration());
+        ThemeHelper themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getActivity()));
 
         colorRange = themeHelper.initColorRange();
         navigationColor = themeHelper.initNavigationRange();
