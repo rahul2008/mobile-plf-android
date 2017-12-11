@@ -84,20 +84,6 @@ public class WiFiUtilTest {
     }
 
     @Test
-    public void itShouldReturnNullWiFiIsInactive() throws Exception {
-        inactiveNetwork();
-        subject.getConnectedWiFiSSID();
-        assertNull(subject.getHomeWiFiSSD());
-    }
-
-    @Test
-    public void itShouldReturnNullWiFiIsInvalid() throws Exception {
-        invalidNetwork();
-        subject.getConnectedWiFiSSID();
-        assertNull(subject.getHomeWiFiSSD());
-    }
-
-    @Test
     public void itShouldCheckIfPhoneIsConnectedWithDeviceHotspot() throws Exception {
         stubSSID(DEVICE_SSID);
 
@@ -199,22 +185,23 @@ public class WiFiUtilTest {
     }
 
     @Test
-    public void itShouldReturnTrueIfDeviceConnectedToPhilipsAppliance() throws Exception{
+    public void itShouldReturnTrueIfDeviceConnectedToPhilipsAppliance() throws Exception {
         stubSSID(DEVICE_SSID);
         assertTrue(subject.isConnectedToPhilipsSetup());
     }
+
     @Test
-    public void itShouldReturnFalseIfDeviceIsNotConnectedToPhilipsAppliance() throws Exception{
+    public void itShouldReturnFalseIfDeviceIsNotConnectedToPhilipsAppliance() throws Exception {
         stubSSID(HOME_SSID);
         assertFalse(subject.isConnectedToPhilipsSetup());
     }
 
     @Test
-    public void itShouldForgetGivenSSID() throws Exception{
+    public void itShouldForgetGivenSSID() throws Exception {
         List<WifiConfiguration> configs = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            WifiConfiguration testWifiConfiguration= new WifiConfiguration();
-            testWifiConfiguration.SSID = HOME_SSID + "Test"+i;
+            WifiConfiguration testWifiConfiguration = new WifiConfiguration();
+            testWifiConfiguration.SSID = HOME_SSID + "Test" + i;
             configs.add(testWifiConfiguration);
         }
         when(mockWifiManager.getConfiguredNetworks()).thenReturn(configs);
@@ -224,13 +211,5 @@ public class WiFiUtilTest {
 
     private void disconnectNetwork() {
         when(mockWifiInfo.getSupplicantState()).thenReturn(SupplicantState.DISCONNECTED);
-    }
-
-    private void inactiveNetwork() {
-        when(mockWifiInfo.getSupplicantState()).thenReturn(SupplicantState.INACTIVE);
-    }
-
-    private void invalidNetwork() {
-        when(mockWifiInfo.getSupplicantState()).thenReturn(SupplicantState.INVALID);
     }
 }
