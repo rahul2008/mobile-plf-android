@@ -54,6 +54,7 @@ public class DemoUapp implements UappInterface {
      */
     @Override
     public void launch(@NonNull final UiLauncher uiLauncher, @NonNull final UappLaunchInput uappLaunchInput) {
+        uAppDependencyHelper.setThemeConfiguration(((ActivityLauncher) uiLauncher).getDlsThemeConfiguration());
         launchAsActivity(uappLaunchInput);
     }
 

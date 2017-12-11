@@ -71,7 +71,7 @@ public class ThemeSettingsFragment extends Fragment {
         accentColorRangeList = view.findViewById(R.id.accentColorRangeList);
         warningText = view.findViewById(R.id.warningText);
         themeColorHelper = new ThemeColorHelper();
-        ThemeHelper themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getActivity()), getActivity());
+        ThemeHelper themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getActivity()));
 
         colorRange = themeHelper.initColorRange();
         navigationColor = themeHelper.initNavigationRange();

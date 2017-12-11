@@ -5,7 +5,6 @@
 
 package com.philips.cdp2.ews.demoapplication.themesettinngs;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.support.annotation.StyleRes;
@@ -19,7 +18,7 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 public class ThemeHelper {
     final SharedPreferences sharedPreferences;
 
-    public ThemeHelper(final SharedPreferences sharedPreferences, Context context) {
+    public ThemeHelper(final SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
 

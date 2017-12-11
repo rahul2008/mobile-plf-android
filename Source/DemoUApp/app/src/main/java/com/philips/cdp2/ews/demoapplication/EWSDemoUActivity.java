@@ -52,7 +52,7 @@ public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        themeHelper = new ThemeHelper(defaultSharedPreferences, this);
+        themeHelper = new ThemeHelper(defaultSharedPreferences);
         updateColorFromPref();
         injectNewTheme(colorRange, contentColor, navigationColor, accentColorRange);
         UIDHelper.injectCalligraphyFonts();

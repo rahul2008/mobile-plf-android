@@ -29,7 +29,6 @@ public class DemoAppApplication extends Application {
         LanTransportContext lanTransportContext = new LanTransportContext(
                 new RuntimeConfiguration(context, appInfraInterface));
         BEApplianceFactory factory = new BEApplianceFactory(lanTransportContext);
-        CommCentral commCentral = new CommCentral(factory, lanTransportContext);
-        return commCentral;
+        return new CommCentral(factory, lanTransportContext);
     }
 }
