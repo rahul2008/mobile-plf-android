@@ -43,7 +43,7 @@ include ':MyAccount'
 include ':ConsentWidgets'
 include ':ConsentAccessToolKit'
 include ':MyAccountUApp'
-//include ':ews'
+include ':ews'
 
 //opa archive references:
 
@@ -89,7 +89,7 @@ project(':MyAccount').projectDir = new File('./Source/mya/Source/Library/MyAccou
 project(':ConsentWidgets').projectDir = new File('./Source/mya/Source/Library/ConsentWidgets')
 project(':ConsentAccessToolKit').projectDir = new File('./Source/mya/Source/Library/ConsentAccessToolKit')
 project(':MyAccountUApp').projectDir = new File('./Source/mya/Source/DemoUApp/DemoUApp')
-//project(':ews').projectDir = new File('./Source/ews/Source/Library/ews')
+project(':ews').projectDir = new File('./Source/ews/Source/Library/ews')
 
 //demoapps
 //include ':UserRegistrationApp'
