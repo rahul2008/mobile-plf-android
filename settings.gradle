@@ -29,7 +29,7 @@ include ':dataServicesUApp'
 //include ':cloudcontroller'
 //include ':commlib'
 //include ':commlib-demouapp'
-//include ':shinelib'
+include ':bluelib'
 //include ':commlib-ble'
 //include ':commlib-testutils'
 //include ':commlib-api'
@@ -75,7 +75,7 @@ project(':dataServicesUApp').projectDir = new File('./Source/dsc/Source/DemoUApp
 //project(':cloudcontroller').projectDir = new File('./Source/cml/Source/Library/cloudcontroller')
 //project(':commlib').projectDir = new File('./Source/cml/Source/Library/commlib')
 //project(':commlib-demouapp').projectDir = new File('./Source/cml/Source/DemoUApp')
-//project(':shinelib').projectDir = new File('./Source/bll/Source/ShineLib/shinelib')
+project(':bluelib').projectDir = new File('./Source/bll/Source/ShineLib/shinelib')
 //project(':commlib-ble').projectDir = new File('./Source/cml/Source/Library/commlib-ble')
 //project(':commlib-testutils').projectDir = new File('./Source/cml/Source/Library/commlib-testutils')
 //project(':commlib-api').projectDir = new File('./Source/cml/Source/Library/commlib-api')

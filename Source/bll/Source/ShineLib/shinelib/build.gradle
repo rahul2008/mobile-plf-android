@@ -3,10 +3,13 @@
  * All rights reserved.
  */
 
+apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+apply plugin: 'jacoco'
+
 buildscript { bs ->
-    apply from: projectDir.absolutePath + '/../../common/gradle/project-build.gradle', to: bs
-    apply from: projectDir.absolutePath + '/../../common/gradle/module.gradle'
-    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {
@@ -31,12 +34,8 @@ buildscript { bs ->
     }
 }
 
-apply plugin: 'com.android.library'
 apply plugin: 'pl.droidsonroids.pitest'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
 
-apply from: projectDir.absolutePath + '/../../common/gradle/module-tasks.gradle'
 
 def environment = 'production'
 if (project.hasProperty('envCode')) {
@@ -260,7 +259,7 @@ pitest {
             'com.philips.pins.shinelib.SHNDeviceScanner',
             'com.philips.pins.shinelib.SHNDeviceScannerInternal',
             'com.philips.pins.shinelib.SHNService',
-    ]  /* specify target classes to be mutated */
+    ]  // specify target classes to be mutated
     excludedClasses = [
             'com.philips.pins.shinelib.utility.QuickTestConnectionTest',
             'com.philips.pins.shinelib.capabilities.DiCommFirmwarePortStateWaiterTest',
@@ -273,8 +272,42 @@ pitest {
             'com.philips.cdp.dicommclient.util.DICommLog',
             'com.philips.pins.shinelib.utility.SHNLogger',
     ]
-    threads = 1 /* specify number of threads */
-    outputFormats = ['XML', 'HTML'] /* specify output format */
+    threads = 1 // specify number of threads
+    outputFormats = ['XML', 'HTML'] // specify output format
     reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
     timestampedReports = false
 }
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+}
+
+/**
+ * Zips external documentation to be included with a release
+ */
+task zipDocuments(type: Zip) {
+    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
+    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
+    from files(docfiles) {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+
+/**
+ * Creates sources.jar for easier debugging
+ */
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+jacoco {
+    toolVersion = versions.jacoco
+}
+
+/*
+task wrapper(type: Wrapper) {
+    distributionUrl = gradledistributionurl
+}*/

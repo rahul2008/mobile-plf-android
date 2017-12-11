@@ -2,41 +2,75 @@
  * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
- 
+
 ext.versions = [
-		ail_appInfra               : "2017.5.0",
-		bll_shinelib               : "2017.5.0",
-		cml_commlib                : "2017.5.0",
-		ews_ews                    : "2017.5.0",
-		dcc_digitalCare            : "2017.5.0",
-		dsc_dataServices           : "2017.5.0",
-		dpr_devicePairing          : "2017.5.0",
-		iap_iap                    : "2017.5.0",
-		icf_iconFont               : "2017.5.0",
-		mya_myAccount              : "2017.5.0",
-		mya_consentAccessToolKit   : "2017.5.0",
-		prg_productRegistrationLib : "2017.5.0",
-		prx_prx                    : "2017.5.0",
-		pse_productselection       : "2017.5.0",
-		rap_referenceApp           : "2017.5.0",
-		sdb_securedblibrary        : "2017.5.0",
-		ths_telehealth             : "2017.5.0",
-		uaf_uAppFwLib              : "2017.5.0",
-		uid_uid                    : "2017.5.0",
-		uit_uikitLib               : "2017.5.0",
-		usr_registrationApi        : "2017.5.0",
-		usr_jump                   : "2017.5.0",
-		usr_hsdp                   : "2017.5.0",
-		usr_coppa                  : "2017.5.0",
-		sdk                        : 26,
-		target                     : 26,
-		minsdk                     : 21,
-		buildtools                 : "26.0.2",
-		support                    : "26.0.2",
-		jacoco                     : "0.7.6.201602180812"
+        ail_appInfra              : "2017.5.0",
+        bll_shinelib              : "2017.5.0",
+        cml_commlib               : "2017.5.0",
+        ews_ews                   : "2017.5.0",
+        dcc_digitalCare           : "2017.5.0",
+        dsc_dataServices          : "2017.5.0",
+        dpr_devicePairing         : "2017.5.0",
+        iap_iap                   : "2017.5.0",
+        icf_iconFont              : "2017.5.0",
+        mya_myAccount             : "2017.5.0",
+        mya_consentAccessToolKit  : "2017.5.0",
+        prg_productRegistrationLib: "2017.5.0",
+        prx_prx                   : "2017.5.0",
+        pse_productselection      : "2017.5.0",
+        rap_referenceApp          : "2017.5.0",
+        sdb_securedblibrary       : "2017.5.0",
+        ths_telehealth            : "2017.5.0",
+        uaf_uAppFwLib             : "2017.5.0",
+        uid_uid                   : "2017.5.0",
+        uit_uikitLib              : "2017.5.0",
+        usr_registrationApi       : "2017.5.0",
+        usr_jump                  : "2017.5.0",
+        usr_hsdp                  : "2017.5.0",
+        usr_coppa                 : "2017.5.0",
+        sdk                       : 26,
+        target                    : 26,
+        minsdk                    : 21,
+        buildtools                : "26.0.2",
+        support                   : "26.0.2",
+        jacoco                    : "0.7.6.201602180812"
 ]
 
 ext.builddeps = [
-    cdpSCM : [group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true],
-    buildinfoextractor: 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        cdpSCM            : [group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true],
+        buildinfoextractor: 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+]
+
+ext.repos = [
+        base : 'http://artifactory-ehv.ta.philips.com:8082/artifactory'
+]
+
+ext.repos.jcenter = ext.repos.base + "/platform-jcenter-remote"
+ext.repos.plugin = ext.repos.base + "/platform-plugins-release-local"
+
+ext.deps = [
+        support          : [
+                annotations: "com.android.support:support-annotations:${ext.versions.support}",
+                appcompatv7: "com.android.support:appcompat-v7:${ext.versions.support}",
+                design     : "com.android.support:design:${ext.versions.support}",
+                supportv4  : "com.android.support:support-v4:${ext.versions.support}"
+        ],
+        gson                    : 'com.google.code.gson:gson:2.8.1',
+        joda_time               : 'joda-time:joda-time:2.9.9',
+
+        // Testing
+        android_testrunner      : 'com.android.support.test:runner:0.5',
+        assertj                 : 'com.squareup.assertj:assertj-android:1.1.1',
+        cucumber                : 'info.cukes:cucumber-android:1.2.2',
+        cucumber_junit          : 'info.cukes:cucumber-junit:1.2.2',
+        dexmaker                : 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0',
+        espresso_core           : 'com.android.support.test.espresso:espresso-core:2.2.2',
+        junit                   : 'junit:junit:4.12',
+        mockito                 : 'org.mockito:mockito-core:1.10.19', // MAKE VERY SURE YOU UPGRADE TO A VERSION THAT IS COMPATIBLE WITH LATEST POWERMOCK
+        multidex                : 'com.android.support:multidex:1.0.1',
+        powermock_junit         : 'org.powermock:powermock-module-junit4:1.6.6',
+        powermock_mockito       : 'org.powermock:powermock-api-mockito:1.6.6',
+        robolectric             : 'org.robolectric:robolectric:3.3.1',
+        robolectric_shadows     : 'org.robolectric:shadows-support-v4:3.3.1',
+        stetho                  : 'com.facebook.stetho:stetho:1.5.0'
 ]
