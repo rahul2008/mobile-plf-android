@@ -55,6 +55,12 @@ public class WiFiUtil {
         } else if (wifiInfo.getSupplicantState() == SupplicantState.DISCONNECTED) {
             lastWifiSSid = null;
             return null;
+        } else if (wifiInfo.getSupplicantState() == SupplicantState.INACTIVE) {
+            lastWifiSSid = null;
+            return null;
+        } else if (wifiInfo.getSupplicantState() == SupplicantState.INVALID) {
+            lastWifiSSid = null;
+            return null;
         }
         return null;
     }

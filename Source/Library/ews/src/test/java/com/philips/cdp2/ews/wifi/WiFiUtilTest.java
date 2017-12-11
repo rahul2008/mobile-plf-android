@@ -82,6 +82,20 @@ public class WiFiUtilTest {
     }
 
     @Test
+    public void itShouldReturnNullWiFiIsInactive() throws Exception {
+        inactiveNetwork();
+        subject.getConnectedWiFiSSID();
+        assertNull(subject.getHomeWiFiSSD());
+    }
+
+    @Test
+    public void itShouldReturnNullWiFiIsInvalid() throws Exception {
+        invalidNetwork();
+        subject.getConnectedWiFiSSID();
+        assertNull(subject.getHomeWiFiSSD());
+    }
+
+    @Test
     public void itShouldCheckIfPhoneIsConnectedWithDeviceHotspot() throws Exception {
         stubSSID(DEVICE_SSID);
 
@@ -207,5 +221,13 @@ public class WiFiUtilTest {
 
     private void disconnectNetwork() {
         when(mockWifiInfo.getSupplicantState()).thenReturn(SupplicantState.DISCONNECTED);
+    }
+
+    private void inactiveNetwork() {
+        when(mockWifiInfo.getSupplicantState()).thenReturn(SupplicantState.INACTIVE);
+    }
+
+    private void invalidNetwork() {
+        when(mockWifiInfo.getSupplicantState()).thenReturn(SupplicantState.INVALID);
     }
 }
