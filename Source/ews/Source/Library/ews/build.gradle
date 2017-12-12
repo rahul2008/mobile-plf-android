@@ -212,7 +212,7 @@ dependencies {
     def dp = project.ext.has('useprojectdependencies')
 
     if(dp) {
-        project(':uikitLib')
+        compile project(':uikitLib')
     } else {
         compile(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix())
             {
@@ -221,7 +221,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':commlib-lan')
+        compile project(':commlib-lan')
     } else {
         compile(group: 'com.philips.cdp', name: 'commlib-lan', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
         {
@@ -230,7 +230,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':uid')
+        compile project(':uid')
     } else {
         compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), changing: true) {
             transitive = true
@@ -238,7 +238,7 @@ dependencies {
     }
 
     if(dp) {
-        project(':uAppFwLib')
+        compile project(':uAppFwLib')
     } else {
         compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) {
             transitive = true
