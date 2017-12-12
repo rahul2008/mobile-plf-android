@@ -30,9 +30,9 @@ node('Android') {
             stage ('Unit Test') {
                     sh '''#!/bin/bash -l
                     cd ./Source/Library 
-                    ./gradlew :ews:test
+                    ./gradlew :ews-android:test
                             '''
-                step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/ews/build/test-results/*/*.xml'])
+                step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/ews-android/build/test-results/*/*.xml'])
             }
 
             stage ('Jacoco') {
@@ -43,7 +43,7 @@ node('Android') {
 
                 step([$class: 'JacocoPublisher', execPattern: '**/*.exec', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class, **/R$*.class, */BuildConfig.class, **/Manifest*.*, **/*_Factory.class, **/*_*Factory.class , **/Dagger*.class, **/databinding/**/*.class, **/*Activity*.*, **/*Fragment*.*, **/*Service*.*, **/*ContentProvider*.*'])
 
-                publishHTML(target: [keepAll: true, alwaysLinkToLastBuild: false, reportDir:  './Source/Library/ews/build/reports/jacoco/jacoco' + 'TestReleaseUnit'+'TestReport/html', reportFiles:'index.html', reportName: 'Overall code coverage'])
+                publishHTML(target: [keepAll: true, alwaysLinkToLastBuild: false, reportDir:  './Source/Library/ews-android/build/reports/jacoco/jacoco' + 'TestReleaseUnit'+'TestReport/html', reportFiles:'index.html', reportName: 'Overall code coverage'])
 
             }
 
@@ -67,7 +67,7 @@ node('Android') {
             sh """#!/bin/bash -l
             	        chmod -R 775 . 
             	        cd ./Source/Library 
-                        ./gradlew -PbuildNumber=${env.BUILD_NUMBER} :ews:saveResDep :ews:saveAllResolvedDependencies :ews:saveAllResolvedDependenciesGradleFormat
+                        ./gradlew -PbuildNumber=${env.BUILD_NUMBER} :ews-android:saveResDep :ews-android:saveAllResolvedDependencies :ews-android:saveAllResolvedDependenciesGradleFormat
                     """
             }
                 
@@ -77,7 +77,7 @@ node('Android') {
 
                 archiveArtifacts artifacts: 'Source/DemoApp/app/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
                 archiveArtifacts artifacts: 'Source/DemoUApp/app/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
-                archiveArtifacts artifacts: 'Source/Library/ews/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
+                archiveArtifacts artifacts: 'Source/Library/ews-android/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
                 archiveArtifacts '**/*dependencies*.lock'
             }
 
@@ -88,7 +88,7 @@ node('Android') {
                      sh """#!/bin/bash -l
                             chmod -R 755 . 
                             cd ./Source/Library 
-                            ./gradlew :ews:artifactoryPublish
+                            ./gradlew :ews-android:artifactoryPublish
                         """
             }
                     stage('Publish Library on Artifactory') {
@@ -106,7 +106,7 @@ node('Android') {
                         BranchName = BranchName.replaceAll('/','%2F')
                         echo "BranchName changed to ${BranchName}"
                     }
-                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ews'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ews-android'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
                 }            
             }
         } catch(err) {
