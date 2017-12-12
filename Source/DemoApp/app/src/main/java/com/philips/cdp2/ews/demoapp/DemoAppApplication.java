@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdp2.ews.demoapp;
 
 import android.app.Application;
@@ -9,10 +13,6 @@ import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.cdp2.ews.appliance.BEApplianceFactory;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
-
-/**
- * Created by salvatorelafiura on 11/12/2017.
- */
 
 public class DemoAppApplication extends Application {
     public AppInfraInterface appInfraInterface;
