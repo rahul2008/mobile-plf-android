@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name" translatable="false">Device Pairing</string>
+
+    <string name="pairing_fragment_title" translatable="false">Pair Device</string>
+    <string name="consent_fragment_title" translatable="false">Consents</string>
+    <string name="subject_profile_fragment_title" translatable="false">Subject Profile</string>
+
+    <string name="available_devices">Available Devices</string>
+    <string name="paired_devices">Paired Devices</string>
+    <string name="no_appliances_found" translatable="false">No Appliances Found</string>
+    <string name="get_paired_device" translatable="false">Fetching Paired Devices</string>
+    <string name="pairing_device" translatable="false">Pairing Device</string>
+    <string name="pairing_failed" translatable="false">Pairing Failed</string>
+    <string name="unpairing_device" translatable="false">UnPairing Device</string>
+    <string name="pairing_success" translatable="false">Device Paired Successfully</string>
+    <string name="un_pairing_success" translatable="false">Device UnPaired Successfully</string>
+    <string name="get_consents" translatable="false">Fetching Consents</string>
+    <string name="accept_consents" translatable="false">Please accept all the consents to pair device</string>
+    <string name="update_consents" translatable="false">Updating Consents</string>
+    <string name="creating_profile" translatable="false">Creating Subject Profile</string>
+    <string name="enter_valid_input" translatable="false">Please enter valid input</string>
+    <string name="profile_creation_failed" translatable="false">Profile Creation UnSuccess</string>
+    <string name="check_connection" translatable="false">Please check your connection and try again</string>
+
+    <!-- Subject Profile Fields-->
+    <string name="first_name">First Name</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="gender">Gender</string>
+    <string name="weight">Weight</string>
+    <string name="creation_date">Creation Date</string>
+    <string name="create_profile">Create Profile</string>
+
+    <string name="first_name_value">Test User</string>
+    <string name="gender_value">Male</string>
+    <string name="weight_value">78.88</string>
+
+    <!-- Dialog -->
+    <string name="consent_detail_type">ConsentsDetailType</string>
+    <string name="ok_text">OK</string>
+    <string name="cancel_text">Cancel</string>
+
+    <string name="logout_text">Logout</string>
+    <string name="logout_success">Logout Success</string>
+    <string name="logout_failed">Logout Failed</string>
+</resources>

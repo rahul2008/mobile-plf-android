@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.philips.platform.appframework">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <permission
+        android:name="com.philips.platform.referenceapp.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <application
+        android:name="com.philips.platform.baseapp.base.AppFrameworkApplication"
+        android:allowBackup="false"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/app_icon"
+        android:label="@string/af_app_name"
+        android:largeHeap="true"
+        android:resizeableActivity="true"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
+
+        tools:replace="android:theme,android:label,android:allowBackup,android:icon,android:name,android:supportsRtl">
+
+        <activity
+            android:name="com.philips.platform.baseapp.screens.introscreen.LaunchActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection"
+            android:theme="@style/Theme.DLS.GroupBlue.Bright">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:host="telehealth.com"
+                    android:scheme="philips"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".homescreen.HamburgerActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection"
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight"/>
+
+        <activity
+            android:name="com.philips.platform.referenceapp.wxapi.WXEntryActivity"
+            android:exported="true"></activity>
+
+        <!--<receiver-->
+        <!--android:name="NetworkReceiver"-->
+        <!--android:exported="false">-->
+        <!--<intent-filter android:priority="999">-->
+        <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+        <!--</intent-filter>-->
+        <!--</receiver>-->
+
+        <!--Credentials For LocatePhilips Near you feature(Google Map)-->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <!-- AIzaSyCMHfSC_TqL_PNqJX7pbaIyl154VnFrhec-->
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyABLxPKwgjrCBnnLvP55yAYnhpAHZmhLvY" />
+
+        <!--<receiver android:name="com.philips.platform.baseapp.screens.dataservices.reciever.ScheduleSyncReceiver           <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="ACTION_USER_DATA_FETCH"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.LOCALE_CHANGED"/>
+            </intent-filter>
+        </receiver>-->
+
+        <!--
+  This activity declaration is merged with the version from the library manifest.
+  It demonstrates how an https redirect can be captured, in addition to or instead of
+  a custom scheme.
+
+  Generally, this should be done in conjunction with an app link declaration for Android M
+  and above, for additional security and an improved user experience. See:
+
+  https://developer.android.com/training/app-links/index.html
+
+  The declaration from the library can be completely replaced by adding
+
+  tools:node="replace"
+
+  To the list of attributes on the activity element.
+  -->
+        <activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf"
+                    android:path="/oauth2redirect"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.janrain.android.engage.OpenIDAppAuthTokenActivity"
+            android:label="SimpleDemoApplication"
+            android:theme="@style/Theme.Janrain.Dialog.Light"
+            android:windowSoftInputMode="stateHidden"></activity>
+
+        <activity
+            android:name="com.janrain.android.engage.OpenIDAppAuthCancelledActivity"
+            android:label="SimpleDemoApplication"
+            android:theme="@style/Theme.Janrain.Dialog.Light"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name="com.philips.platform.baseapp.screens.webview.WebViewActivity" android:theme="@style/Theme.Philips.DarkBlue.Gradient"/>
+
+    </application>
+
+</manifest>

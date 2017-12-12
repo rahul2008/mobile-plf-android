@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<GeneralConfiguration>
+  <HomeScreen>
+    <AccountSetting>com.philips.platform.referenceapp:id/btn_registration_with_account</AccountSetting>
+    <Registration>com.philips.platform.referenceapp:id/btn_registration_without_account</Registration>
+    <HSDP_Refresh>com.philips.platform.referenceapp:id/btn_parental_consent</HSDP_Refresh>
+    <Refresh_User>com.philips.platform.referenceapp:id/btn_refresh_user</Refresh_User>
+    <Header>com.philips.platform.referenceapp:id/af_actionbar_title</Header>
+  </HomeScreen>
+  <Name>
+    <LogoutName>Log Out</LogoutName>
+    <PhilipsAccountName>Philips account</PhilipsAccountName>
+    <FacebookName>Facebook</FacebookName>
+    <GoogleName>Google+</GoogleName>
+    <EmailEnterText>Please enter your email address</EmailEnterText>
+    <AOL>AOL</AOL>
+    <Yahoo>Yahoo!</Yahoo>
+    <OpenID>OpenID</OpenID>
+    <LinkedIn>LinkedIn</LinkedIn>
+    <Flickr>Flickr</Flickr>
+    <SignInAndAllow>Sign in and allow</SignInAndAllow>
+    <SigninName>Sign in</SigninName>
+    <AllowName>Allow</AllowName>
+    <Signout>Sign out</Signout>
+    <GoogleSignIn>android.widget.Button</GoogleSignIn>
+  </Name>
+  
+  <ClassName>
+    <LogintoGoogle>android.widget.Button</LogintoGoogle>
+    <EditTextClass>android.widget.EditText</EditTextClass>
+    <LogInHeader>Log In</LogInHeader>
+    <WelcomeTextMerge>Welcome!</WelcomeTextMerge>
+    <EnterEmail>Enter your email</EnterEmail>
+    <NextEmail>Next</NextEmail>
+    <GetMergeHeader>Merge your accounts</GetMergeHeader>
+    <SignInText>signIn</SignInText>
+  </ClassName>
+  <LoginScreen>
+    <countrycode>com.philips.platform.referenceapp:id/tv_country_displat</countrycode>
+    <countrypicker>com.philips.platform.referenceapp:id/reg_country_picker_search</countrypicker>
+    <countryenter>com.philips.platform.referenceapp:id/reg_row_title</countryenter>
+    <SocialMergeGoogle>//android.widget.TextView[@text='Google+']</SocialMergeGoogle>
+    <Login_Title>com.philips.platform.referenceapp:id/home_action_bar_text</Login_Title>    
+    <CreatePhilipsAccount>com.philips.platform.referenceapp:id/btn_reg_create_account</CreatePhilipsAccount>
+    <LoginPhilipsAccount>com.philips.platform.referenceapp:id/tv_reg_provider_name</LoginPhilipsAccount>
+    <LoginFaceBook>com.philips.platform.referenceapp:id/tv_reg_provider_name</LoginFaceBook>
+    <LoginGooglePlus>com.philips.platform.referenceapp:id/tv_reg_provider_name</LoginGooglePlus>
+    <Login_Back>com.philips.platform.referenceapp:id/iv_reg_back</Login_Back>
+    <Philips_Email>com.philips.platform.referenceapp:id/et_reg_email</Philips_Email>
+    <Philips_Password>com.philips.platform.referenceapp:id/et_reg_password</Philips_Password>
+    <Login>com.philips.platform.referenceapp:id/btn_reg_sign_in</Login>
+    <Forgotten_Password>com.philips.platform.referenceapp:id/btn_reg_forgot_password</Forgotten_Password>
+    <Back_Up>com.philips.platform.referenceapp:id/iv_reg_back</Back_Up>
+    <Welcome_Text>com.philips.platform.referenceapp:id/reg_welcome_id</Welcome_Text>
+    <Forgot_Title>com.philips.platform.referenceapp:id/tv_reg_forgot_password</Forgot_Title>
+    <Enter_Email>com.philips.platform.referenceapp:id/et_reg_email</Enter_Email>
+    <Continue>com.philips.platform.referenceapp:id/reg_btn_continue</Continue>
+    <Merge>com.philips.platform.referenceapp:id/btn_reg_merg</Merge>
+    <Cancel>com.philips.platform.referenceapp:id/btn_reg_cancel</Cancel>
+    <LogOut>com.philips.platform.referenceapp:id/btn_reg_sign_out</LogOut>
+    <LoogedIn_Continue>com.philips.platform.referenceapp:id/btn_reg_continue</LoogedIn_Continue>
+    <EmailError>com.philips.cdp.registration:id/tv_reg_email_err</EmailError>
+    <EmailInvalidErrorMsg>com.philips.cdp.registration:id/tv_reg_email_err</EmailInvalidErrorMsg>
+    <PasswordErrMsg>com.philips.cdp.registration:id/tv_reg_password_err</PasswordErrMsg>
+    <Terms_ConditionsErrorMsg>com.philips.cdp.registration:id/tv_reg_error_message</Terms_ConditionsErrorMsg>
+    <User_LoginConfirm>com.philips.cdp.registration:id/tv_reg_welcome</User_LoginConfirm>
+    <GetMergeTxt>com.philips.platform.referenceapp:id/tv_reg_account_merge_sign_in</GetMergeTxt>
+    <SwitchAccount>com.philips.platform.referenceapp:id/jr_landing_switch_account_button</SwitchAccount>
+    <FacebookSign>com.philips.platform.referenceapp:id/jr_landing_small_signin_button</FacebookSign>
+  </LoginScreen>
+  <CreateAccount>
+    <CreateAccount_Title>com.philips.platform.referenceapp:id/home_action_bar_text</CreateAccount_Title>
+    <Back_Login>com.philips.platform.referenceapp:id/home_action_bar_arrow_left</Back_Login>
+    <URFirstName>com.philips.platform.referenceapp:id/rl_reg_name_field</URFirstName>
+    <UREmail>com.philips.platform.referenceapp:id/rl_reg_email_field</UREmail>
+    <URPassword>com.philips.platform.referenceapp:id/rl_reg_password_field</URPassword>
+    <Check_box>com.philips.platform.referenceapp:id/rl_x_checkbox</Check_box>
+    <Create_Button>com.philips.platform.referenceapp:id/btn_reg_register</Create_Button>
+    <Activated_Button>com.philips.platform.referenceapp:id/btn_reg_activate_acct</Activated_Button>
+    <Resend>com.philips.platform.referenceapp:id/btn_reg_resend</Resend>
+    <Verification_Title>com.philips.platform.referenceapp:id/tv_reg_veify_email</Verification_Title>
+    <URContinue>com.philips.platform.referenceapp:id/btn_reg_continue</URContinue>
+  </CreateAccount>
+  <Dialogs>
+    <Continue_Button>com.philips.platform.referenceapp:id/btn_reg_continue</Continue_Button>
+    <Resent_Confirm>com.philips.platform.referenceapp:id/tv_reg_header_dialog_title</Resent_Confirm>
+    <Reset_Password>com.philips.platform.referenceapp:id/tv_reg_header_dialog_title</Reset_Password>
+    <OK>com.philips.platform.referenceapp:id/btn_reg_continue</OK>
+    <Parental_message>com.philips.platform.referenceapp:id/tv_reg_dialog_content</Parental_message>
+    <Picker_text>com.philips.platform.referenceapp:id/tv_reg_selected_age</Picker_text>
+    <Picker_text_birth>com.philips.platform.referenceapp:id/tv_reg_selected_birth_year</Picker_text_birth>
+    <Coppa_Ok>com.philips.platform.referenceapp:id/reg_btn_ok</Coppa_Ok>
+    <Coppa_Cancel>com.philips.platform.referenceapp:id/reg_btn_cancel</Coppa_Cancel>
+    <Enter_Digit>android:id/numberpicker_input</Enter_Digit>
+    <Age_year_mismatch>com.philips.platform.referenceapp:id/tv_reg_header_dialog_title</Age_year_mismatch>
+
+  </Dialogs>
+  <AccountSetting>
+    <AccountSetting_Title>com.philips.platform.referenceapp:id/tv_reg_header_title</AccountSetting_Title>
+    <Back_To_home>com.philips.platform.referenceapp:id/iv_reg_back</Back_To_home>
+    <Welcome_Title>com.philips.platform.referenceapp:id/tv_reg_welcome</Welcome_Title>
+  </AccountSetting>
+  <PanrentalConsent>
+    <Under_16>com.philips.platform.referenceapp:id/btn_reg_under_age</Under_16>
+    <Above_16>com.philips.platform.referenceapp:id/btn_reg_over_age</Above_16>
+    <Backto_home>com.philips.platform.referenceapp:id/iv_reg_back</Backto_home>
+    <Parental_Title>com.philips.platform.referenceapp:id/tv_reg_header_title</Parental_Title>
+    <How_Old>com.philips.platform.referenceapp:id/tv_reg_how_old</How_Old>
+    <Birth_Year>com.philips.platform.referenceapp:id/tv_reg_birth_year</Birth_Year>
+    <Parental_Continue>com.philips.platform.referenceapp:id/coppa_reg_btn_dashboard</Parental_Continue>
+    <Parental_Access_Continue>com.philips.platform.referenceapp:id/btn_reg_continue</Parental_Access_Continue>
+    <Agree>com.philips.platform.referenceapp:id/reg_btn_agree</Agree>
+    <DisAgree>com.philips.platform.referenceapp:id/reg_btn_dis_agree</DisAgree>
+  </PanrentalConsent>
+  <Philips_Registration>
+    <Heading>android:id/action_bar_title</Heading>
+    <Back_toLogin>android:id/up</Back_toLogin>
+  </Philips_Registration>
+</GeneralConfiguration>

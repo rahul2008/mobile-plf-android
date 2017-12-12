@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="uidTransparent">#0000</color>
+    <color name="uid_level_white">@android:color/white</color>
+    <color name="uidColorWhite">@color/uid_level_white</color>
+    <color name="uidColorBlack">@android:color/black</color>
+</resources>

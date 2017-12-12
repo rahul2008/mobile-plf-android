@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ews_activity_launch">EWS Activity Launch!</string>
+    <string name="ews_fragment_launch">EWS Fragment Launch!</string>
+    <string name="select_configuration">Select Configuration:</string>
+    <string name="app_name">DemoApp</string>
+
+    <string name="color_ranges_label">Color range</string>
+    <string name="tonal_range_label">Content tonal range</string>
+    <string name="for_content_area_text">For Contents Area</string>
+    <string name="for_navigation_area_text">For Navigation Area</string>
+    <string name="accent_color_range_text">Accent color range</string>
+    <string name="content_desc_close">close</string>
+    <string name="warning_text">This color is not selectable with current theme combination. Please re-select alternatives above to use this color.</string>
+    <string name="page_title_theme_settings">Theme Setting</string>
+    <string name="set_theme_settings">Set</string>
+    <string name="change_theme">Change Theme</string>
+
+</resources>

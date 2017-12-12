@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  -->
+
+<resources>
+    <integer name="animation_duration">666</integer>
+    <integer name="ews_open_app_animation_width">524</integer>
+    <integer name="ews_open_app_animation_height">294</integer>
+    <integer name="animation_circle_duration">35</integer>
+</resources>

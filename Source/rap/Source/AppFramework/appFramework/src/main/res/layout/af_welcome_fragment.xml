@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/uidContentSecondaryBackgroundColor"
+    tools:ignore="MissingPrefix">
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/environment_selection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="@dimen/margin_eight"
+        android:background="@android:color/transparent"
+        android:padding="@dimen/margin_eight" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/welcome_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <View
+        android:id="@+id/indicator_seperator"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_above="@+id/welcome_indicator_layout"
+        android:alpha="0.1"
+        android:background="@color/uidColorWhite" />
+
+    <RelativeLayout
+        android:id="@+id/welcome_indicator_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:background="@null">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/welcome_skip_button"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/welcome_indicator"
+            android:layout_alignTop="@+id/welcome_indicator"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/margin_sixteen"
+            android:paddingRight="5dip"
+            android:text="@string/RA_Skip_Button_Text"
+            android:textSize="@dimen/on_boarding_description_text_size" />
+
+        <com.philips.platform.uid.view.widget.DotNavigationIndicator
+            android:id="@+id/welcome_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:paddingBottom="@dimen/margin_twelve"
+            android:paddingTop="@dimen/margin_twelve" />
+
+        <ImageView
+            android:id="@+id/welcome_rightarrow"
+            style="@style/FontIcon.WelcomeArrow"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="@dimen/margin_twelve"
+            android:paddingRight="@dimen/margin_sixteen"
+            android:paddingTop="@dimen/margin_twelve"
+            android:src="@drawable/ic_right_arrow" />
+
+        <ImageView
+            android:id="@+id/welcome_leftarrow"
+            style="@style/FontIcon.WelcomeArrow"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="@dimen/margin_twelve"
+            android:paddingRight="@dimen/margin_sixteen"
+            android:paddingTop="@dimen/margin_twelve"
+            android:visibility="gone" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/welcome_start_registration_button"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/welcome_indicator"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/welcome_indicator"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingRight="@dimen/margin_sixteen"
+            android:text="@string/RA_Done_Button_Text"
+            android:textSize="@dimen/on_boarding_description_text_size"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

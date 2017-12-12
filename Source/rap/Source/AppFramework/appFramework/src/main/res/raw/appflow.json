@@ -1,0 +1,478 @@
+{
+  "appflow": {
+    "states": [
+      {
+        "state": "splash",
+        "events": [
+          {
+            "eventId": "onSplashTimeOut",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "welcome"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "about",
+        "events": [
+          {
+            "eventId": "TermsAndConditions",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "power_sleep_connectivity",
+        "events": [
+          {
+            "eventId": "insights",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "insights"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "insights",
+        "events": [
+          {
+            "eventId": "article",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "onBoarding_registration",
+        "events": [
+          {
+            "eventId": "URComplete",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home"
+              }
+            ]
+          },
+          {
+            "eventId": "TermsAndConditions",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          },
+          {
+            "eventId": "back",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "welcome",
+        "events": [
+          {
+            "eventId": "welcome_skip",
+            "nextStates": [
+              {
+                "condition": [
+                  "isLoggedIn"
+                ],
+                "nextState": "home"
+              },
+              {
+                "condition": [],
+                "nextState": "onBoarding_registration"
+              }
+            ]
+          },
+          {
+            "eventId": "welcome_done",
+            "nextStates": [
+              {
+                "condition": [
+                  "isLoggedIn"
+                ],
+                "nextState": "home"
+              },
+              {
+                "condition": [],
+                "nextState": "onBoarding_registration"
+              }
+            ]
+          },
+          {
+            "eventId": "debug",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "debug"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "home",
+        "events": [
+          {
+            "eventId": "home_fragment",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home_fragment"
+              }
+            ]
+          },
+          {
+            "eventId": "settings",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "settings"
+              }
+            ]
+          },
+          {
+            "eventId": "support",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "support"
+              }
+            ]
+          },
+          {
+            "eventId": "about",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "about"
+              }
+            ]
+          },
+          {
+            "eventId": "iap",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "iap"
+              }
+            ]
+          },
+          {
+            "eventId": "shopping_cart",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "iap"
+              }
+            ]
+          },
+          {
+            "eventId": "telehealthservices",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "telehealthservices"
+              }
+            ]
+          },
+          {
+            "eventId": "power_sleep_connectivity",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "power_sleep_connectivity"
+              }
+            ]
+          },
+          {
+            "eventId": "testmicroapp",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "testmicroapp"
+              }
+            ]
+          },
+          {
+            "eventId": "logout",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home_fragment"
+              }
+            ]
+          },
+          {
+            "eventId": "login",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "settings_registration"
+              }
+            ]
+          },
+          {
+            "eventId": "my_account",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_account"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "settings_registration",
+        "events": [
+          {
+            "eventId": "URComplete",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home"
+              }
+            ]
+          },
+          {
+            "eventId": "logout",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home_fragment"
+              }
+            ]
+          },
+          {
+            "eventId": "TermsAndConditions",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "support",
+        "events": [
+          {
+            "eventId": "pr",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "pr"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "settings",
+        "events": [
+          {
+            "eventId": "order_history",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "iap"
+              }
+            ]
+          },
+          {
+            "eventId": "logout",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home_fragment"
+              }
+            ]
+          },
+          {
+            "eventId": "login",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "settings_registration"
+              }
+            ]
+          },
+          {
+            "eventId": "TermsAndConditions",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "testmicroapp",
+        "events": [
+          {
+            "eventId": "TestDataServicesEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoDataService"
+              }
+            ]
+          },
+          {
+            "eventId": "TestInAppPurhcaseEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoInAppState"
+              }
+            ]
+          },
+          {
+            "eventId": "TestConArtistEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoConnectvityState"
+              }
+            ]
+          },
+          {
+            "eventId": "TestDLSEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoPhilipsDLSKit"
+              }
+            ]
+          },
+          {
+            "eventId": "AppInfra",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "AppInfra"
+              }
+            ]
+          },
+          {
+            "eventId": "DLS",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "DLS"
+              }
+            ]
+          },
+          {
+            "eventId": "TestConsumerCareEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoConsumerCare"
+              }
+            ]
+          },
+          {
+            "eventId": "TestProductRegistrationEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoProductRegistration"
+              }
+            ]
+          },
+          {
+            "eventId": "TestUserRegistrationEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoUserRegistration"
+              }
+            ]
+          },
+          {
+            "eventId": "TestUAPPFrameworkEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoUAPPFramework"
+              }
+            ]
+          },
+          {
+            "eventId": "TestDicommClientEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoDicommClient"
+              }
+            ]
+          },
+          {
+            "eventId": "TestBlueLibEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoBlueLib"
+              }
+            ]
+          },
+          {
+            "eventId": "connectivity",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "connectivity"
+              }
+            ]
+          },
+          {
+            "eventId": "ews",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "ews"
+              }
+            ]
+          },
+          {
+            "eventId": "device_pairing",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "device_pairing"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

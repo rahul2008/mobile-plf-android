@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--This 'transparent' is required, bcz consumer care is using this keywork-->
+    <color name="transparent">@android:color/transparent</color>
+    <color name="overlay_background">#343434</color>
+    <color name="overlay_got_it_button_bg">#696969</color>
+    <color name="colorAccentBright">#57f2e6</color>
+</resources>

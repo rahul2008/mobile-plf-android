@@ -1,0 +1,7 @@
+include ':app'
+
+include 'UApp'
+project(':UApp').projectDir=new File('../DemoUApp/app')
+
+include 'ews'
+project(':ews').projectDir=new File('../Library/ews')

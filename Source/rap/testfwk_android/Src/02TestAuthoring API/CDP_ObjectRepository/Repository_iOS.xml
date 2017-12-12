@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+ 
+<GeneralConfiguration>
+  <AppiumConfiguration>
+    <AppiumServer>"http://127.0.0.1:4723/wd/hub"</AppiumServer>
+    <deviceName>Rakesh’s iPhone</deviceName>
+    <platformName>iOS</platformName>
+    <apppackage>com.philips.cdp.di.iapdemo</apppackage>
+    <appactivity>com.philips.cdp.di.iapdemo.DemoAppActivity</appactivity>
+  </AppiumConfiguration>
+ 
+  <LoginScreen>
+    <LoginPhilips>//UIAApplication[1]/UIAWindow[1]/UIAElement[1]/UIAScrollView[1]/UIATableView[1]/UIATableCell[1]</LoginPhilips>
+    <LoginFacebook>//UIAApplication[1]/UIAWindow[1]/UIAElement[1]/UIAScrollView[1]/UIATableView[1]/UIATableCell[2]</LoginFacebook>
+    <LoginGoogleplus>//UIAApplication[1]/UIAWindow[1]/UIAElement[1]/UIAScrollView[1]/UIATableView[1]/UIATableCell[3]</LoginGoogleplus>
+    <CreatePhilipsAcc>//UIAApplication[1]/UIAWindow[1]/UIAElement[1]/UIAScrollView[1]/UIAButton[1]</CreatePhilipsAcc>
+    <LoginSubTitle>//UIAApplication[1]/UIAWindow[1]/UIAElement[1]/UIAScrollView[1]/UIAStaticText[1]</LoginSubTitle>
+    <Username>//UIAApplication[1]/UIAWindow[1]/UIAElement[1]/UIAScrollView[1]/UIATextField[1]</Username>
+    <Password>//UIAApplication[1]/UIAWindow[1]/UIAElement[1]/UIAScrollView[1]/UIASecureTextField[1]</Password>
+    <ShowPassword>//UIAApplication[1]/UIAWindow[1]/UIAElement[1]/UIAScrollView[1]/UIASecureTextField[1]/UIAButton[1]</ShowPassword>
+    <Signin>//UIAApplication[1]/UIAWindow[1]/UIAElement[1]/UIAScrollView[1]/UIAButton[1]</Signin>
+    <ForgotPassword>//UIAApplication[1]/UIAWindow[1]/UIAElement[1]/UIAScrollView[1]/UIAButton[2]</ForgotPassword>
+    <AcceptTermsToggle>//UIAApplication[1]/UIAWindow[1]/UIAElement[1]/UIAScrollView[1]/UIAElement[1]</AcceptTermsToggle>
+    <Continue>//UIAApplication[1]/UIAWindow[1]/UIAElement[1]/UIAScrollView[1]/UIAButton[1]</Continue>
+    <SignOut>//UIAApplication[1]/UIAWindow[1]/UIAElement[1]/UIAScrollView[1]/UIAButton[2]</SignOut>
+    <ForgotPswdEmailField>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[1]</ForgotPswdEmailField>
+    <ForgotPswdContinueButton>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAButton[1]</ForgotPswdContinueButton>
+    <ForgotPswdDoneButton>//UIAApplication[1]/UIAWindow[2]/UIAToolbar[1]/UIAButton[1]</ForgotPswdDoneButton>
+    <ForgotPswdResetAlert>//UIAApplication[1]/UIAWindow[1]/UIAButton[1]</ForgotPswdResetAlert>
+    <!--Check ids-->
+    <LoginTitle>//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAStaticText[1]</LoginTitle>
+    <LoginMainBack>//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAButton[2]</LoginMainBack>
+    <SignInBack>//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAButton[2]/UIAImage[1]</SignInBack>
+    <CreateAccBack>//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAButton[2]</CreateAccBack>
+  </LoginScreen>
+ 
+  <homeScreen>
+    <DemoTitle>//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAStaticText[1]</DemoTitle>
+    <Logout>//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAButton[1]</Logout>
+    <ProductList>//UIAApplication[1]/UIAWindow[1]/UIATableView[1]</ProductList>
+    <ImageCart>//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAButton[3]</ImageCart>
+    <ShopNow>//UIAApplication[1]/UIAWindow[1]/UIAButton[1]</ShopNow>
+    <SelectStore>//UIAApplication[1]/UIAWindow[1]/UIAButton[2]</SelectStore>
+    <Register>//UIAApplication[1]/UIAWindow[1]/UIAButton[3]</Register>
+  </homeScreen>
+
+  <ShoppingCartScreen>
+    <UpButton>//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAButton[1]</UpButton>  
+    <Checkout>//UIAApplication[1]/UIAWindow[1]/UIAButton[1]</Checkout>
+    <ContinueShopping>//UIAApplication[1]/UIAWindow[1]/UIAButton[2]</ContinueShopping>
+    <shippingCost>//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[3]</shippingCost>
+  </ShoppingCartScreen>
+
+  <ShoppingCartItem>
+    <ArrowButton>//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAButton[2]</ArrowButton>
+    <BuyFromRetailer>//UIAApplication[1]/UIAWindow[1]/UIAButton[3]</BuyFromRetailer>
+    <AddToCart>//UIAApplication[1]/UIAWindow[1]/UIAButton[2]</AddToCart>
+    <Delete>//UIAApplication[1]/UIAWindow[1]/UIAButton[1]</Delete>
+    <View>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]</View>
+    <image>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAScrollView[1]/UIAImage[1]</image>
+    <ProductDescription>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAStaticText[1]</ProductDescription>
+    <CTN>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAStaticText[2]</CTN>
+    <ProductOverview>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAStaticText[5]</ProductOverview>
+    <NewPrice>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAStaticText[3]</NewPrice>
+    <OriginalPrice>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAStaticText[4]</OriginalPrice>
+    <DeleteOkButton>//UIAApplication[1]/UIAWindow[1]/UIAButton[4]</DeleteOkButton>
+    <DeleteCancelButton>//UIAApplication[1]/UIAWindow[1]/UIAButton[5]</DeleteCancelButton>
+    <DeleteCartItem>//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[1]/UIAButton[3]</DeleteCartItem>
+  </ShoppingCartItem>
+
+  <ShippingScreen>
+    <DeliverButton>//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[2]/UIAButton[2]</DeliverButton>
+    <NewAddressButton>//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[2]/UIAButton[3]</NewAddressButton>
+    <CancelButton>//UIAApplication[1]/UIAWindow[1]/UIAButton[1]</CancelButton>
+    <RadioButton>//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[2]/UIAButton[1]</RadioButton>
+    <Name>//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[2]/UIAStaticText[1]</Name>
+    <ContextMenu_Dots>//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[2]/UIAButton[4]</ContextMenu_Dots>
+  </ShippingScreen>
+
+  <ShippingScreen>
+    <ShippingAddressesList>//UIAApplication[1]/UIAWindow[1]/UIATableView[1]</ShippingAddressesList>
+    <CancelButton>//UIAApplication[1]/UIAWindow[1]/UIAButton[1]</CancelButton>
+  </ShippingScreen>
+  
+  <AddressScreen>
+    <FirstName>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[2]</FirstName>
+    <LastName>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[3]</LastName>
+    <AddressLine1>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[4]</AddressLine1>
+    <AddressLine2>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[5]</AddressLine2>
+    <Salutation>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[1]</Salutation>
+    <City>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[6]</City>
+    <PostalCode>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[7]</PostalCode>
+    <Country>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[8]</Country>
+    <State>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[9]</State>
+    <AddrEmail>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[10]</AddrEmail>
+    <Phone>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[11]</Phone>
+    <Save>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAButton[1]</Save>
+    <Cancel>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAButton[2]</Cancel>
+    <ScrollView>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]</ScrollView>
+    <ErrorText>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAStaticText[23]</ErrorText>
+    <Title>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAStaticText[1]</Title>
+    <ShippingAddrTitle>//UIAApplication[1]/UIAWindow[1]/UIAStaticText[1]</ShippingAddrTitle>
+    <SalutationPopOver>//UIAApplication[1]/UIAWindow[1]/UIAPopover[1]</SalutationPopOver>
+    <StatePopOver>//UIAApplication[1]/UIAWindow[1]/UIAPopover[1]/UIATableView[1]</StatePopOver>
+    <ContinueButton>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAButton[1]</ContinueButton>
+    <Switch>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAImage[1]</Switch>
+  </AddressScreen>
+
+  <SummaryScreen>
+    <PayNow>//UIAApplication[1]/UIAWindow[1]/UIAButton[1]</PayNow>
+    <SummaryCancel>//UIAApplication[1]/UIAWindow[1]/UIAButton[2]</SummaryCancel>
+    <SummaryScreenTitle>//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableGroup[1]/UIAStaticText[1]</SummaryScreenTitle>
+  </SummaryScreen>
+  
+  <PaymentScreen>
+    <cardNumber>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIATextField[1]</cardNumber>
+    <cardholderName>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIATextField[2]</cardholderName>
+    <expiryMonth>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIAElement[3]</expiryMonth>
+    <expiryYear>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIAElement[4]</expiryYear>
+    <securityCode>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIATextField[3]</securityCode>
+    <MakePaymemt>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIAButton[1]</MakePaymemt>
+    <CancelPayment>//UIAApplication[1]/UIAWindow[1]/UIAButton[1]</CancelPayment>
+    <closeButton>//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIALink[1]/UIAStaticText[1]</closeButton>
+    <PaymentHeader> //UIAApplication[1]/UIAWindow[1]/UIAStaticText[1]</PaymentHeader>
+    <Warning>
+      <okWarning>//UIAApplication[1]/UIAWindow[1]/UIAButton[2]</okWarning>
+      <cancelWarning>//UIAApplication[1]/UIAWindow[1]/UIAButton[3]</cancelWarning>
+    </Warning>
+   </PaymentScreen>
+ 
+  <Confirmation>
+    <Thankyou_TV>//UIAApplication[1]/UIAWindow[1]/UIAStaticText[1]</Thankyou_TV>
+    <OrderNumber>//UIAApplication[1]/UIAWindow[1]/UIAStaticText[3]</OrderNumber>
+    <ConfirmEmail>//UIAApplication[1]/UIAWindow[1]/UIAStaticText[4]</ConfirmEmail>
+    <OKButton> //UIAApplication[1]/UIAWindow[1]/UIAButton[1]</OKButton>
+  </Confirmation>
+</GeneralConfiguration>

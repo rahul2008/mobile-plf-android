@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ScrollView
+        android:layout_above="@+id/insights"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:id="@+id/parent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <!-- Sync date & Sync Button -->
+            <RelativeLayout
+                android:id="@+id/powersleep_sync_wrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="@dimen/margin_sixteen">
+
+                <TextView
+                    android:id="@+id/powersleep_updated"
+                    style="@style/SleepOverviewSync"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:alpha="1"
+                    android:text="@string/label_last_synced_default"
+                    tools:text="@string/label_last_synced_default" />
+
+                <ImageButton
+                    android:id="@+id/powersleep_sync"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/powersleep_updated"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="@dimen/margin_sixteen"
+                    app:srcCompat="@drawable/ic_dls_refresh_48" />
+
+            </RelativeLayout>
+
+            <include
+                android:id="@+id/sleep_progress"
+                layout="@layout/widget_sleep_circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/powersleep_sync_wrapper"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical" />
+
+            <include
+                android:id="@+id/includeBreakdown"
+                layout="@layout/include_breakdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sleep_progress"
+                android:layout_marginTop="@dimen/margin_sixteen" />
+
+        </RelativeLayout>
+    </ScrollView>
+    <Button
+        android:id="@+id/insights"
+        android:gravity="center"
+        android:text="@string/label_sleep_tips"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="?attr/uikit_baseColor"
+        android:textColor="@color/white"
+        style="@style/BreakDownDeduction"
+        android:layout_marginBottom="@dimen/margin_sixteen"/>
+</RelativeLayout>

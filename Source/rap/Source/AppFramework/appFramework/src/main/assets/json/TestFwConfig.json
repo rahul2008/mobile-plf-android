@@ -1,0 +1,69 @@
+{
+  "chapters": [
+    {
+      "chapterName": "Chapter Mobile",
+      "commonComponents": [
+        {
+          "coconame": "Test User Registration Demo"
+        },
+        {
+          "coconame": "Test Product Registration Demo"
+        },
+        {
+          "coconame": "Test In App Purchase Demo"
+        },
+        {
+          "coconame": "Test Consumer Care Demo"
+        },
+        {
+          "coconame": "Test App Infra Demo"
+        },
+        {
+          "coconame": "Test DLS Demo"
+        },
+        {
+          "coconame": "Test uApp Demo"
+        }/*,
+        {
+          "coconame": "Data Services"
+        }*/
+      ]
+    },
+    {
+      "chapterName":"Chapter OneBackend",
+      "commonComponents":[
+        {
+          "coconame":"Test Device Pairing Demo"
+        },
+        {
+          "coconame": "Test Data Services Demo"
+        },
+        {
+          "coconame": "Test My Account Service Demo"
+        }
+      ]
+    },
+    {
+      "chapterName":"Chapter Connectivity",
+      "commonComponents":[
+        {
+          "coconame":"Test ConArtist Demo"
+        },
+        {
+          "coconame":"Test ShineLib Demo"
+        },
+        {
+          "coconame":"Reference Node Connectivity"
+        },
+        {
+          "coconame":"Easy Wifi Setup"
+        }
+      ]
+    },
+    {
+      "chapterName":"App Info",
+      "commonComponents":[
+      ]
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingPrefix"
+    android:fillViewport="false">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.philips.platform.appframework.homescreen.HomeActivity">
+
+        <LinearLayout
+            android:id="@+id/top_ui_elements"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/measurement_value_label"
+                fontPath="fonts/centralesansbold.ttf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/RA_Connectivity_Measure_Value"
+                android:textColor="@color/uikit_philips_blue"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/measurement_value_editbox"
+                fontPath="fonts/centralesansbold.ttf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/uikit_philips_blue"
+                android:textSize="17sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom_ui_elements"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/top_ui_elements"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/charge_value_label"
+                fontPath="fonts/centralesansbold.ttf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/RA_Connectivity_Moment_Value"
+                android:textColor="@color/uikit_philips_blue"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/moment_value_editbox"
+                fontPath="fonts/centralesansbold.ttf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/uikit_philips_blue"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/start_connectivity_button"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bottom_ui_elements"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="@string/RA_Connectivity_Get_Measure_Value"
+            android:textColor="@color/uikit_philips_blue"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/connectionState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/start_connectivity_button"
+            android:layout_below="@+id/start_connectivity_button"
+            android:text="@string/RA_Connectivity_Connection_Status_Disconnected"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/get_momentumvalue_button"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/connectionState"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:text="@string/RA_Connectivity_Get_Moment_Value"
+            android:textColor="@color/uikit_philips_blue"
+            android:textSize="14sp" />
+
+
+
+
+    </RelativeLayout>
+</ScrollView>
