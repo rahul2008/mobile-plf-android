@@ -31,7 +31,7 @@ timestamps {
                     set -e
                     chmod -R 755 . 
                     #do not use -PenvCode=${JENKINS_ENV} since the option 'opa' is hardcoded in the archive
-                    ./gradlew clean :IconFont:test :AppInfra:cC :uid:createDebugCoverageReport :uAppFwLib:test :securedblibrary:cC :registrationApi:cC :registrationApi:test :productselection:cC :telehealth:testReleaseUnitTest :bluelib:generateJavadoc :bluelib:test :product-registration-lib:test :product-registration-lib:jacocoTestReport :iap:test :digitalCareUApp:cC :digitalCareUApp:testRelease :digitalCare:cC :digitalCare:testRelease :commlib-api:generateJavadocPublicApi :commlib-ble:generateJavadocPublicApi :commlib-lan:generateJavadocPublicApi :commlib-cloud:generateJavadocPublicApi :commlib:test :commlib-testutils:testReleaseUnitTest :commlib-ble:testReleaseUnitTest :commlib-lan:testReleaseUnitTest :commlib-cloud:testReleaseUnitTest :commlib-api:testReleaseUnitTest :MyAccount:cC :MyAccount:testRelease :MyAccountUApp:cC :MyAccountUApp:testRelease :dataServices:testReleaseUnitTest :dataServicesUApp:testReleaseUnitTest
+                    ./gradlew clean :IconFont:test :AppInfra:cC :uid:createDebugCoverageReport :uAppFwLib:test :securedblibrary:cC :registrationApi:cC :registrationApi:test :productselection:cC :telehealth:testReleaseUnitTest :bluelib:generateJavadoc :bluelib:test :product-registration-lib:test :product-registration-lib:jacocoTestReport :iap:test :digitalCareUApp:cC :digitalCareUApp:testRelease :digitalCare:cC :digitalCare:testRelease :commlib-api:generateJavadocPublicApi :commlib-ble:generateJavadocPublicApi :commlib-lan:generateJavadocPublicApi :commlib-cloud:generateJavadocPublicApi :commlib:test :commlib-testutils:testReleaseUnitTest :commlib-ble:testReleaseUnitTest :commlib-lan:testReleaseUnitTest :commlib-cloud:testReleaseUnitTest :commlib-api:testReleaseUnitTest :MyAccount:cC :MyAccount:testRelease :MyAccountUApp:cC :MyAccountUApp:testRelease :dataServices:testReleaseUnitTest :dataServicesUApp:testReleaseUnitTest :devicepairingUApp:test
                 '''
             }
 
@@ -57,8 +57,8 @@ timestamps {
                 junit allowEmptyResults: true,  testResults: 'Source/mya/Source/Library/ConsentWidgets/build/test-results/**/*.xml'
                 junit allowEmptyResults: true,  testResults: 'Source/mya/Source/Library/MyAccount/build/test-results/**/*.xml'
                 junit allowEmptyResults: false, testResults: 'Source/dsc/Source/Library/*/build/test-results/**/*.xml'
-//                junit allowEmptyResults: true,  testResults: 'Source/dpr/Source/DemoApp/*/build/test-results/*/*.xml'
-//                junit allowEmptyResults: true,  testResults: 'Source/dpr/Source/DemoUApp/*/build/test-results/*/*.xml'
+                junit allowEmptyResults: true,  testResults: 'Source/dpr/Source/DemoApp/*/build/test-results/*/*.xml'
+                junit allowEmptyResults: true,  testResults: 'Source/dpr/Source/DemoUApp/*/build/test-results/*/*.xml'
 
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/icf/Source/Library/IconFont/icf/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'icf unit test debug'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/icf/Source/Library/IconFont/icf/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'icf unit test release'])
@@ -109,8 +109,8 @@ timestamps {
                 // DexCount
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/DemoApp/app/build/outputs/dexcount/deviceDebugChart', reportFiles: 'index.html', reportName: 'mya DexCount'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dsc/Source/Library/dataServices/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dsc unit test release'])
-//                publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dpr/Source/DemoApp/app/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'dpr unit test debug'])
-//                publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dpr/Source/DemoApp/app/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dpr unit test release'])
+                publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dpr/Source/DemoApp/app/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'dpr unit test debug'])
+                publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dpr/Source/DemoApp/app/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dpr unit test release'])
             }
         } catch(err) {
             errors << "errors found: ${err}"
@@ -160,7 +160,7 @@ timestamps {
                     set -e
                     #chmod -R 755 .
                     #do not use -PenvCode=${JENKINS_ENV} since the option 'opa' is hardcoded in the archive
-                    ./gradlew :IconFont:lint :AppInfra:lint :uikitLib:lint :securedblibrary:lint :registrationApi:lint :productselection:lint :telehealth:lintRelease :bluelib:lintDebug :product-registration-lib:lint :iap:lint :digitalCare:lint :cloudcontroller-api:lintDebug :commlib:lintDebug :MyAccount:lint :MyAccountUApp:lint :dataServices:lintRelease
+                    ./gradlew :IconFont:lint :AppInfra:lint :uikitLib:lint :securedblibrary:lint :registrationApi:lint :productselection:lint :telehealth:lintRelease :bluelib:lintDebug :product-registration-lib:lint :iap:lint :digitalCare:lint :cloudcontroller-api:lintDebug :commlib:lintDebug :MyAccount:lint :MyAccountUApp:lint :dataServices:lintRelease :devicepairingUApp:lint
                     #prx:lint and rap:lintRelease are not working and we are keeping it as known issues
                 '''
             }
