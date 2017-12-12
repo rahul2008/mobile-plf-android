@@ -21,10 +21,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.philips.platform.ews.demoapplication.microapp.UAppActionBarListener;
 import com.philips.platform.ews.demoapplication.microapp.UAppDependencyHelper;
 import com.philips.platform.ews.demoapplication.themesettinngs.ThemeHelper;
 import com.philips.platform.ews.demoapplication.themesettinngs.ThemeSettingsFragment;
-import com.philips.platform.ews.microapp.EWSActionBarListener;
 import com.philips.platform.ews.microapp.EWSLauncherInput;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;

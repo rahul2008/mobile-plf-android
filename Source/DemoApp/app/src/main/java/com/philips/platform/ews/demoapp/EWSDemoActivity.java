@@ -5,9 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.ews.demoapplication.microapp.UAppActionBarListener;
 import com.philips.platform.ews.demoapplication.microapp.DemoUapp;
 import com.philips.platform.ews.demoapplication.microapp.DemoUappDependencies;
+import com.philips.platform.ews.demoapplication.microapp.UAppActionBarListener;
 import com.philips.platform.ews.microapp.EWSLauncherInput;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
