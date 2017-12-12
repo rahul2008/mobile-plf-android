@@ -5,7 +5,6 @@
 
 package com.philips.cdp2.ews.demoapplication;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,17 +16,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
-import com.philips.cdp2.commlib.lan.context.LanTransportContext;
-import com.philips.cdp2.ews.appliance.BEApplianceFactory;
 import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
+import com.philips.cdp2.ews.demoapplication.microapp.UAppDependencyHelper;
 import com.philips.cdp2.ews.microapp.EWSActionBarListener;
 import com.philips.cdp2.ews.microapp.EWSDependencies;
 import com.philips.cdp2.ews.microapp.EWSUapp;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -48,10 +44,6 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
     private static final String WAKEUP_LIGHT = "Wakeup Light";
     private static final String AIRPURIFIER = "Air Purifier";
     private static final String DEFAULT = "Default";
-    private AppInfraInterface appInfra;
-
-    @Nullable
-    private static CommCentral commCentral;
 
     @Nullable
     @Override
@@ -60,7 +52,6 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
         view.findViewById(R.id.btnLaunchEws).setOnClickListener(this);
         view.findViewById(R.id.btnTheme).setOnClickListener(this);
         view.findViewById(R.id.btnLaunchFragmentEws).setOnClickListener(this);
-        appInfra = new AppInfra.Builder().build(getActivity());
         configSpinner = view.findViewById(R.id.configurationSelection);
         ArrayAdapter aa = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item,
                 getResources().getStringArray(R.array.configurations));
@@ -71,8 +62,6 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
     }
 
     @Override
-
-
     public void onResume() {
         super.onResume();
         ((EWSActionBarListener) getActivity()).updateActionBar(getString(R.string.app_name), true);
@@ -92,7 +81,7 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
 
     private void launchEwsUApp() {
         EWSUapp ewsUapp = new EWSUapp();
-        ewsUapp.init(createUappDependencies(appInfra, createProductMap()), new UappSettings(getActivity()));
+        ewsUapp.init(createUappDependencies(UAppDependencyHelper.getAppInfraInterface(), createProductMap()), new UappSettings(getActivity()));
         //its up to proposition to pass theme or not, if not passing theme then it will show default theme of library
         ewsUapp.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, ((EWSDemoUActivity) getActivity()).getThemeConfig(), -1, null),
                 ((EWSDemoUActivity) getActivity()).getEwsLauncherInput());
@@ -100,33 +89,17 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
 
     private void launchEWSFragmentUApp() {
         EWSUapp ewsUapp = new EWSUapp();
-        ewsUapp.init(createUappDependencies(appInfra, createProductMap()), new UappSettings(getActivity()));
+        ewsUapp.init(createUappDependencies(UAppDependencyHelper.getAppInfraInterface(), createProductMap()), new UappSettings(getActivity()));
         FragmentLauncher fragmentLauncher = new FragmentLauncher
                 (getActivity(), R.id.mainContainer, ((ActionBarListener) getActivity()));
         ewsUapp.launch(fragmentLauncher, ((EWSDemoUActivity) getActivity()).getEwsLauncherInput());
     }
 
-    /**
-     *
-     * Singleton instance for commCentral is necessary as only one instance is allowed for CommCentral.
-     * @param context
-     * @param appInfraInterface
-     * @return Singleton commCental to be passed to micro app
-     */
-    @NonNull
-    private CommCentral createCommCentral(Context context, AppInfraInterface appInfraInterface) {
-        if (commCentral == null){
-            LanTransportContext lanTransportContext = new LanTransportContext(
-                    new RuntimeConfiguration(context, appInfraInterface));
-            BEApplianceFactory factory = new BEApplianceFactory(lanTransportContext);
-            commCentral =  new CommCentral(factory, lanTransportContext);
-        }
-        return commCentral;
-    }
 
     /**
      * create uApp dependency from proposition for EWS microapp.
      * commCentral should be created and passed from proposition.
+     *
      * @param appInfra
      * @param productKeyMap
      * @return
@@ -140,7 +113,7 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
                         createTroubleShootingConfiguration())) {
             @Override
             public CommCentral getCommCentral() {
-                return  createCommCentral(getActivity(), appInfra);
+                return UAppDependencyHelper.getCommCentral();
             }
         };
     }
@@ -149,7 +122,7 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
     @NonNull
     private Map<String, String> createProductMap() {
         Map<String, String> productKeyMap = new HashMap<>();
-        switch ((String)configSpinner.getSelectedItem()){
+        switch ((String) configSpinner.getSelectedItem()) {
             case DEFAULT:
                 productKeyMap.put(EWSUapp.PRODUCT_NAME, getString(R.string.ews_device_name_default));
                 break;
@@ -184,7 +157,7 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
 
     @NonNull
     private HappyFlowContentConfiguration createHappyFlowConfiguration() {
-        switch ((String)configSpinner.getSelectedItem()){
+        switch ((String) configSpinner.getSelectedItem()) {
             case WAKEUP_LIGHT:
                 return new HappyFlowContentConfiguration.Builder()
                         .setGettingStartedScreenTitle(R.string.label_ews_get_started_title_wl)
@@ -219,7 +192,7 @@ public class OptionSelectionFragment extends Fragment implements View.OnClickLis
 
     @NonNull
     private TroubleShootContentConfiguration createTroubleShootingConfiguration() {
-        switch ((String)configSpinner.getSelectedItem()){
+        switch ((String) configSpinner.getSelectedItem()) {
             case WAKEUP_LIGHT:
                 return new TroubleShootContentConfiguration.Builder()
                         .setResetConnectionTitle(R.string.label_ews_support_reset_connection_title_wl)
