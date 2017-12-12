@@ -56,7 +56,9 @@ public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListene
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         themeHelper = new ThemeHelper(defaultSharedPreferences);
         updateColorFromPref();
-        initTheme(UAppDependencyHelper.getThemeConfiguration());
+        if (themeHelper.initAccentRange() == null && themeHelper.initContentTonalRange() == null && themeHelper.initColorRange() == null && themeHelper.initNavigationRange() == null) {
+            initTheme(UAppDependencyHelper.getThemeConfiguration());
+        }
         injectNewTheme(colorRange, contentColor, navigationColor, accentColorRange);
         UIDHelper.injectCalligraphyFonts();
         super.onCreate(savedInstanceState);
@@ -80,6 +82,7 @@ public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListene
                 } else if (config instanceof NavigationColor) {
                     navigationColor = (NavigationColor) config;
                 }
+                saveThemeSettings();
             }
         }
     }
@@ -198,10 +201,19 @@ public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListene
 
 
     private void updateColorFromPref() {
-        colorRange = themeHelper.initColorRange();
-        navigationColor = themeHelper.initNavigationRange();
-        contentColor = themeHelper.initContentTonalRange();
-        accentColorRange = themeHelper.initAccentRange();
+        if (themeHelper.initColorRange() != null) {
+            colorRange = themeHelper.initColorRange();
+        }
+        if (themeHelper.initNavigationRange() != null) {
+            navigationColor = themeHelper.initNavigationRange();
+        }
+        if (themeHelper.initContentTonalRange() != null) {
+            contentColor = themeHelper.initContentTonalRange();
+        }
+        if (themeHelper.initAccentRange() != null) {
+            accentColorRange = themeHelper.initAccentRange();
+        }
+
     }
 
     public ThemeConfiguration getThemeConfig() {
