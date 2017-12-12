@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiViewModel" />
+            type="com.philips.platform.ews.homewificonnection.ConnectingDeviceWithWifiViewModel" />
 
     </data>
 

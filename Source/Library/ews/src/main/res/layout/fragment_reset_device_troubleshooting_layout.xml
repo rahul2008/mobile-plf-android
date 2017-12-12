@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingViewModel" />
+            type="com.philips.platform.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingViewModel" />
     </data>
 
 

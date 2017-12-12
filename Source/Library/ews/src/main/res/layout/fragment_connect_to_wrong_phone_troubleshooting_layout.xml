@@ -10,7 +10,7 @@
 
         <variable
             name="viewmodel"
-            type="com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingViewModel" />
+            type="com.philips.platform.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingViewModel" />
     </data>
 
     <android.support.v4.widget.NestedScrollView

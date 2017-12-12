@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.philips.cdp2.ews.hotspotconnection.ConnectingWithDeviceViewModel" />
+            type="com.philips.platform.ews.hotspotconnection.ConnectingWithDeviceViewModel" />
 
     </data>
 
