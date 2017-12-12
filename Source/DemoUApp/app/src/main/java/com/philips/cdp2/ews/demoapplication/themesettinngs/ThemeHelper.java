@@ -23,44 +23,34 @@ public class ThemeHelper {
     }
 
     public NavigationColor initNavigationRange() {
-        String navigation = sharedPreferences.getString(UIDHelper.NAVIGATION_RANGE, NavigationColor.BRIGHT.name());
-        return NavigationColor.valueOf(navigation);
+        String navigationColor = sharedPreferences.getString(UIDHelper.NAVIGATION_RANGE, "");
+        if (navigationColor.isEmpty()) {
+            return null;
+        }
+        return NavigationColor.valueOf(navigationColor);
     }
 
     public ColorRange initColorRange() {
-        String color = sharedPreferences.getString(UIDHelper.COLOR_RANGE, ColorRange.GROUP_BLUE.name());
-        return ColorRange.valueOf(color);
+        String colorRange = sharedPreferences.getString(UIDHelper.COLOR_RANGE, "");
+        if (colorRange.isEmpty()) {
+            return null;
+        }
+        return ColorRange.valueOf(colorRange);
     }
 
     public ContentColor initContentTonalRange() {
-        String tonalRange = sharedPreferences.getString(UIDHelper.CONTENT_TONAL_RANGE, ContentColor.ULTRA_LIGHT.name());
+        String tonalRange = sharedPreferences.getString(UIDHelper.CONTENT_TONAL_RANGE, "");
+        if (tonalRange.isEmpty()) {
+            return null;
+        }
         return ContentColor.valueOf(tonalRange);
     }
 
     public AccentRange initAccentRange() {
-        String accentRangeString = sharedPreferences.getString(UIDHelper.ACCENT_RANGE, AccentRange.ORANGE.name());
-        return AccentRange.valueOf(accentRangeString);
-    }
-
-    @StyleRes
-    int getColorResourceId(final Resources resources, final String colorRange, final String tonalRange, final String packageName) {
-        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange), toCamelCase(tonalRange));
-
-        return resources.getIdentifier(themeName, "style", packageName);
-    }
-
-    String toCamelCase(String s) {
-        String[] parts = s.split("_");
-        String camelCaseString = "";
-        for (String part : parts) {
-            camelCaseString = camelCaseString + toProperCase(part);
+        String accentRange = sharedPreferences.getString(UIDHelper.ACCENT_RANGE, "");
+        if (accentRange.isEmpty()) {
+            return null;
         }
-        return camelCaseString;
+        return AccentRange.valueOf(accentRange);
     }
-
-    String toProperCase(String s) {
-        return s.substring(0, 1).toUpperCase() +
-                s.substring(1).toLowerCase();
-    }
-
 }
