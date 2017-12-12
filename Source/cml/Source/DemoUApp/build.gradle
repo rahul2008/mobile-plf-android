@@ -4,9 +4,7 @@
  */
 
 buildscript { bs ->
-    apply from: projectDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
-    apply from: projectDir.absolutePath + '/../common/gradle/module.gradle'
-    apply from: projectDir.absolutePath + '/../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven {
@@ -35,8 +33,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-apply from: projectDir.absolutePath + '/../common/gradle/module-tasks.gradle'
-
 def environment = 'production'
 if (project.hasProperty('envCode')) {
     environment = envCode
@@ -50,6 +46,18 @@ objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "commlib-demouapp"
 version = objcdp.getVersion(versions.cml_commlib)
+
+allprojects {
+    repositories {
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+}
 
 repositories {
     maven {
@@ -190,7 +198,7 @@ dependencies {
     if (useProjectDependencies) {
         compile project(':commlib')
         compile project(':cloudcontroller')
-        compile project(':ufw')
+        compile project(':uAppFwLib')
     } else {
         if (findProject(':commlib')) {
             debugCompile project(path: ':commlib', configuration: 'debug')
@@ -206,8 +214,33 @@ dependencies {
             compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
         }
 
-        compile (group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
     }
 
     compile deps.joda_time
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+}
+
+/**
+ * Zips external documentation to be included with a release
+ */
+task zipDocuments(type: Zip) {
+    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
+    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
+    from files(docfiles) {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+
+/**
+ * Creates sources.jar for easier debugging
+ */
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
 }
