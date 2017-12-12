@@ -1,1 +1,1 @@
-include ':ews'
+include ':ews-android'
