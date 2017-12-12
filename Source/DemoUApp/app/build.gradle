@@ -173,7 +173,7 @@ def getMyVersionCode() {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // Philips Dependencies
-    compile project(':ews')
+    compile project(':ews-android')
     compile "com.android.support:support-annotations:${versions.support}"
     compile "com.android.support:animated-vector-drawable:${versions.support}"
     compile 'com.android.support:multidex:1.0.2'
