@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.ews.demoapplication.microapp.UAppActionBarListener;
 import com.philips.platform.ews.demoapplication.microapp.DemoUapp;
 import com.philips.platform.ews.demoapplication.microapp.DemoUappDependencies;
 import com.philips.platform.ews.microapp.EWSLauncherInput;
@@ -18,7 +19,7 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import static com.philips.platform.uappframework.launcher.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT;
 
-public class EWSDemoActivity extends AppCompatActivity implements View.OnClickListener {
+public class EWSDemoActivity extends AppCompatActivity implements View.OnClickListener, UAppActionBarListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,5 +52,20 @@ public class EWSDemoActivity extends AppCompatActivity implements View.OnClickLi
         //its up to proposition to pass theme or not, if not passing theme then it will show default theme of library
         demoUapp.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, AccentRange.ORANGE, NavigationColor.BRIGHT), -1, null),
                 (new EWSLauncherInput()));
+    }
+
+    @Override
+    public void closeButton(boolean visibility) {
+        //user can override close button visibility
+    }
+
+    @Override
+    public void updateActionBar(int i, boolean b) {
+        //user can override actionbar behaviour
+    }
+
+    @Override
+    public void updateActionBar(String s, boolean b) {
+        //user can override actionbar behaviour
     }
 }

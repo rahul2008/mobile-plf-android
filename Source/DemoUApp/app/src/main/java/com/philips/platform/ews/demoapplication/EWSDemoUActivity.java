@@ -38,7 +38,7 @@ import com.philips.platform.uid.view.widget.ActionBarTextView;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListener {
+public class EWSDemoUActivity extends UIDActivity implements UAppActionBarListener {
 
     private final int TOOLBAR_UPDATE_TIMER = 100;
     private SharedPreferences defaultSharedPreferences;
