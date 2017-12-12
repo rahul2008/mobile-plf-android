@@ -22,7 +22,7 @@ include ':product-registration-lib'
 include ':product-registration-libUApp'
 include ':dataServices'
 include ':dataServicesUApp'
-//include ':devicepairingUApp'
+include ':devicepairingUApp'
 //include ':referenceApp'
 //include ':pushnotification'
 include ':cloudcontroller-api'
@@ -68,7 +68,7 @@ project(':product-registration-lib').projectDir = new File('./Source/prg/Source/
 project(':product-registration-libUApp').projectDir = new File('./Source/prg/Source/DemoUApp')
 project(':dataServices').projectDir = new File('./Source/dsc/Source/Library/dataServices')
 project(':dataServicesUApp').projectDir = new File('./Source/dsc/Source/DemoUApp')
-//project(':devicepairingUApp').projectDir = new File('./Source/dpr/Source/DemoUApp')
+project(':devicepairingUApp').projectDir = new File('./Source/dpr/Source/DemoUApp')
 //project(':referenceApp').projectDir = new File('./Source/rap/Source/AppFramework/appFramework')
 //project(':pushnotification').projectDir = new File('./Source/rap/Source/AppFramework/pushnotification')
 project(':cloudcontroller-api').projectDir = new File('./Source/cml/Source/Library/cloudcontroller-api')
