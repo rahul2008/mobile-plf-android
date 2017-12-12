@@ -53,6 +53,18 @@ artifacts {
     archives zipDoc
 }
 
+allprojects {
+    repositories {
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+}
+
 repositories {
     maven {
         url repos.jcenter
