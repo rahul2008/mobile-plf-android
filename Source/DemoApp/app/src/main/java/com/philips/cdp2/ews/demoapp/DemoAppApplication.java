@@ -11,7 +11,8 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 
 /**
- * Created by salvatorelafiura on 11/12/2017.
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
  */
 
 public class DemoAppApplication extends Application {
