@@ -110,3 +110,5 @@ project(':MyAccountUApp').projectDir = new File('./Source/mya/Source/DemoUApp/De
 //project(':prxApp').projectDir = new File('./Source/prx/Source/Library/PrxSample/app')
 //include ':MyAccountDemoapp'
 //project(':MyAccountDemoapp').projectDir = new File('./Source/mya/Source/DemoApp/app')
+include ':commlib-demoapp'
+project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')

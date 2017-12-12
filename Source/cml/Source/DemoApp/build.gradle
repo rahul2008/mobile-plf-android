@@ -6,11 +6,22 @@
 apply plugin: 'com.android.application'
 
 buildscript { bs ->
-    apply from: rootDir.absolutePath + '/common/gradle/project-build.gradle', to: bs
-    apply from: rootDir.absolutePath + '/common/gradle/module.gradle'
+    apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
     repositories {
         maven {
             url repos.jcenter
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
