@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.philips.cdp2.ews.demoapplication.microapp.UAppActionBarListener;
 import com.philips.cdp2.ews.demoapplication.microapp.UAppDependencyHelper;
 import com.philips.cdp2.ews.demoapplication.themesettinngs.ThemeHelper;
 import com.philips.cdp2.ews.demoapplication.themesettinngs.ThemeSettingsFragment;
@@ -38,7 +39,7 @@ import com.philips.platform.uid.view.widget.ActionBarTextView;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListener {
+public class EWSDemoUActivity extends UIDActivity implements UAppActionBarListener {
 
     private final int TOOLBAR_UPDATE_TIMER = 100;
     private SharedPreferences defaultSharedPreferences;
