@@ -96,13 +96,6 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
         return cswLaunchInput;
     }
 
-    CatkInputs initConsentToolKit(Context context, AppInfraInterface appInfra) {
-        CatkInputs catkInputs = new CatkInputs();
-        catkInputs.setContext(context);
-        catkInputs.setAppInfra(appInfra);
-        return catkInputs;
-    }
-
     private Map<String, SettingsModel> getSettingsMap(AppInfraInterface appInfraInterface, AppConfigurationInterface.AppConfigurationError error) {
         String profileItems = "settings.menuItems";
         try {

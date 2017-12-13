@@ -113,7 +113,7 @@ public class ConsentAccessToolKit {
         return catkComponent;
     }
 
-    public void getConsentDetails(final ConsentResponseListener consentListener) {
+    void getConsentDetails(final ConsentResponseListener consentListener) {
 
         validateAppNameAndPropName();
 
@@ -146,7 +146,7 @@ public class ConsentAccessToolKit {
         });
     }
 
-    public void createConsent(final List<BackendConsent> consents, final CreateConsentListener consentListener) {
+    void createConsent(final List<BackendConsent> consents, final CreateConsentListener consentListener) {
 
         validateAppNameAndPropName();
 
@@ -182,7 +182,7 @@ public class ConsentAccessToolKit {
         });
     }
 
-    public void getStatusForConsentType(final String consentType, int version, final ConsentResponseListener consentListener) {
+    void getStatusForConsentType(final String consentType, int version, final ConsentResponseListener consentListener) {
 
         getConsentDetails(new ConsentResponseListener() {
 
@@ -204,12 +204,8 @@ public class ConsentAccessToolKit {
         });
     }
 
-    public List<ConsentDefinition> getConsentDefinitions() {
+    List<ConsentDefinition> getConsentDefinitions() {
         return consentDefinitions;
-    }
-
-    void setConsentDefinitions(List<ConsentDefinition> consentDefinitions) {
-        this.consentDefinitions = consentDefinitions;
     }
 
     interface ConfigCompletionListener {
@@ -241,7 +237,7 @@ public class ConsentAccessToolKit {
         controller.sendConsentRequest(model);
     }
 
-    public void setNetworkController(NetworkController networkController) {
+    void setNetworkController(NetworkController networkController) {
         controller = networkController;
     }
 }

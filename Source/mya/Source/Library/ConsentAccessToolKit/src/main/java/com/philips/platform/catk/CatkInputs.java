@@ -26,7 +26,10 @@ public class CatkInputs {
 
     private List<ConsentDefinition> consentDefinitions;
 
-    public void setContext(Context context) {
+    CatkInputs() {
+    }
+
+    void setContext(Context context) {
         this.context = context;
     }
 
@@ -38,15 +41,15 @@ public class CatkInputs {
         return appInfra;
     }
 
-    public void setAppInfra(AppInfraInterface appInfra) {
+    void setAppInfra(AppInfraInterface appInfra) {
         this.appInfra = appInfra;
     }
 
-    public List<ConsentDefinition> getConsentDefinitions() {
+    List<ConsentDefinition> getConsentDefinitions() {
         return consentDefinitions;
     }
 
-    public void setConsentDefinitions(List<ConsentDefinition> consentDefinitions) {
+    void setConsentDefinitions(List<ConsentDefinition> consentDefinitions) {
         this.consentDefinitions = consentDefinitions;
     }
 
