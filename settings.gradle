@@ -25,6 +25,7 @@ include ':dataServicesUApp'
 include ':devicepairingUApp'
 //include ':referenceApp'
 //include ':pushnotification'
+//include ':themesettings'
 include ':cloudcontroller-api'
 include ':cloudcontroller'
 include ':commlib'
@@ -71,6 +72,7 @@ project(':dataServicesUApp').projectDir = new File('./Source/dsc/Source/DemoUApp
 project(':devicepairingUApp').projectDir = new File('./Source/dpr/Source/DemoUApp')
 //project(':referenceApp').projectDir = new File('./Source/rap/Source/AppFramework/appFramework')
 //project(':pushnotification').projectDir = new File('./Source/rap/Source/AppFramework/pushnotification')
+//project(':themesettings').projectDir = new File('./Source/rap/Source/AppFramework/themesettings')
 project(':cloudcontroller-api').projectDir = new File('./Source/cml/Source/Library/cloudcontroller-api')
 project(':cloudcontroller').projectDir = new File('./Source/cml/Source/Library/cloudcontroller')
 project(':commlib').projectDir = new File('./Source/cml/Source/Library/commlib')
@@ -91,9 +93,11 @@ project(':ConsentAccessToolKit').projectDir = new File('./Source/mya/Source/Libr
 project(':MyAccountUApp').projectDir = new File('./Source/mya/Source/DemoUApp/DemoUApp')
 project(':ews').projectDir = new File('./Source/ews/Source/Library/ews')
 
-//demoapps
-//include ':UserRegistrationApp'
-//project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
+//demoapps to be published to artifactory
+include ':UserRegistrationApp'
+project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
+
+//demoapps NOT to be published to artifactory
 //include ':securedblibraryApp'
 //project(':securedblibraryApp').projectDir = new File('./Source/sdb/Source/DemoApp/app')
 //include ':digitalCareApp'
@@ -110,7 +114,7 @@ project(':ews').projectDir = new File('./Source/ews/Source/Library/ews')
 //project(':prxApp').projectDir = new File('./Source/prx/Source/Library/PrxSample/app')
 //include ':MyAccountDemoapp'
 //project(':MyAccountDemoapp').projectDir = new File('./Source/mya/Source/DemoApp/app')
-include ':commlib-demoapp'
-project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
-include ':bluelib-demoapp'
-project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
+//include ':commlib-demoapp'
+//project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
+//include ':bluelib-demoapp'
+//project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
