@@ -204,8 +204,8 @@ public class ConsentAccessToolKit {
         });
     }
 
-    List<ConsentDefinition> getConsentDefinitions() {
-        return consentDefinitions;
+    public List<ConsentDefinition> getConsentDefinitions() {
+        return Collections.unmodifiableList(consentDefinitions);
     }
 
     interface ConfigCompletionListener {
