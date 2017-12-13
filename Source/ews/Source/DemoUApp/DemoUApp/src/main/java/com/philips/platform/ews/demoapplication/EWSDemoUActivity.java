@@ -62,7 +62,7 @@ public class EWSDemoUActivity extends UIDActivity implements UAppActionBarListen
         injectNewTheme(colorRange, contentColor, navigationColor, accentColorRange);
         UIDHelper.injectCalligraphyFonts();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.ews_demo_u_activity_main);
         closeImageView = findViewById(R.id.ic_close);
         ewsLauncherInput = new EWSLauncherInput();
         this.optionSelectionFragment = new OptionSelectionFragment();
