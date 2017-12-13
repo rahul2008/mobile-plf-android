@@ -384,9 +384,9 @@ dependencies {
     }
 
     if(dp) {
-        compile project(':shinelibDemoUApp')
+        compile project(':bluelib-demouapp')
     } else {
-        compile(group: 'com.philips.cdp', name: 'shinelibDemoUApp', version: versions.bll_shinelib+ objcdp.getVersionSuffix(), ext: 'aar')
+        compile(group: 'com.philips.cdp', name: 'bluelib-demouapp', version: versions.bll_shinelib+ objcdp.getVersionSuffix(), ext: 'aar')
         {
             transitive = true
         }
