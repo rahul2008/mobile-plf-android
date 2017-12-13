@@ -10,7 +10,6 @@ package com.philips.platform.catk;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
@@ -22,7 +21,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.philips.platform.catk.listener.CreateConsentListener;
-import com.philips.platform.catk.model.Consent;
+import com.philips.platform.catk.model.BackendConsent;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.ConsentDefinitionException;
 
@@ -33,7 +32,7 @@ public class CreateConsentInteractorTest {
     private ConsentAccessToolKit mockCatk;
     private ConsentDefinition givenConsentDefinition;
     @Captor
-    private ArgumentCaptor<Consent> captorConsent;
+    private ArgumentCaptor<BackendConsent> captorConsent;
     @Mock
     private CreateConsentInteractor.Callback mockCallback;
 

@@ -5,7 +5,7 @@ import com.philips.platform.catk.CreateConsentInteractor;
 import com.philips.platform.catk.GetConsentInteractor;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.RequiredConsent;
+import com.philips.platform.catk.model.Consent;
 import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 
 import org.junit.Before;
@@ -33,7 +33,7 @@ public class PermissionPresenterTest {
     @Mock
     private PermissionAdapter mockAdapter;
     @Mock
-    private RequiredConsent mockRequiredConsent;
+    private Consent mockRequiredConsent;
     @Mock
     private ConsentDefinition mockConsentDefinition;
 
@@ -64,7 +64,7 @@ public class PermissionPresenterTest {
 
     @Test
     public void testHideProgressDialog_onSuccess() throws Exception {
-        mPermissionPresenter.onGetConsentRetrieved(new ArrayList<RequiredConsent>());
+        mPermissionPresenter.onGetConsentRetrieved(new ArrayList<Consent>());
         verify(mockPermissionInterface).hideProgressDialog();
     }
 

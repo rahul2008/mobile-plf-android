@@ -15,7 +15,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
 
 import static org.junit.Assert.*;
 
-public class RequiredConsentTest {
+public class ConsentTest {
 
     @Test
     public void isAccepted_trueIfHigherVersionBackendConsentIsActive () {
@@ -80,7 +80,7 @@ public class RequiredConsentTest {
     }
 
     private void givenInactiveBackendConsentOfVersion(int version) {
-        backendConsent = new Consent(Locale.US, ConsentStatus.inactive, TYPE, version);
+        backendConsent = new BackendConsent(Locale.US, ConsentStatus.inactive, TYPE, version);
     }
 
     private void givenConsentDefinitionOfVersion(int version) {
@@ -88,11 +88,11 @@ public class RequiredConsentTest {
     }
 
     private void givenActiveBackendConsentOfVersion(int version) {
-        backendConsent = new Consent(Locale.US, ConsentStatus.active, TYPE, version);
+        backendConsent = new BackendConsent(Locale.US, ConsentStatus.active, TYPE, version);
     }
 
     private void whenRequiredConsentIsCreated() {
-        requiredConsent = new RequiredConsent(backendConsent, consentDefinition);
+        requiredConsent = new Consent(backendConsent, consentDefinition);
     }
 
     private void thenRequiredConsentIsActive() {
@@ -111,9 +111,9 @@ public class RequiredConsentTest {
         assertFalse(requiredConsent.isChangeable());
     }
 
-    private RequiredConsent requiredConsent;
+    private Consent requiredConsent;
     private ConsentDefinition consentDefinition;
-    private Consent backendConsent;
+    private BackendConsent backendConsent;
     private final String TYPE = "type1";
 
 }
