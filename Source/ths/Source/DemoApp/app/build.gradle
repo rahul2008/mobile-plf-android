@@ -190,7 +190,7 @@ android {
     This defined for signing the apk -- start
      */
     def Properties props = new Properties()
-    def propFile = new File('signing.properties')
+	def propFile = new File("${project.projectDir}/../signing.properties")
     if (propFile.canRead()) {
         props.load(new FileInputStream(propFile))
 
