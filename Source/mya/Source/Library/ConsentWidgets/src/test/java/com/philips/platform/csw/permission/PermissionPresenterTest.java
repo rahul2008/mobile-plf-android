@@ -4,6 +4,7 @@ import com.android.volley.VolleyError;
 import com.philips.platform.catk.CreateConsentInteractor;
 import com.philips.platform.catk.GetConsentInteractor;
 import com.philips.platform.catk.error.ConsentNetworkError;
+import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.RequiredConsent;
 import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 
@@ -31,6 +32,10 @@ public class PermissionPresenterTest {
     private CreateConsentInteractor mockCreateInteractor;
     @Mock
     private PermissionAdapter mockAdapter;
+    @Mock
+    private RequiredConsent mockRequiredConsent;
+    @Mock
+    private ConsentDefinition mockConsentDefinition;
 
     @Before
     public void setUp() throws Exception {
@@ -67,14 +72,34 @@ public class PermissionPresenterTest {
     public void testShouldShowToastWhenGetConsentFails() throws Exception {
         givenConsentError();
         whenGetConsentFailed();
-        thenToastIsShown();
+        thenErrorIsShown();
     }
 
     @Test
-    public void testShouldShowToastWhenCreateConsentFails() throws Exception {
+    public void testShouldShowErrorWhenCreateConsentFails() throws Exception {
         givenConsentError();
         whenCreateConsentFailed();
-        thenToastIsShown();
+        thenErrorIsShown();
+    }
+
+    @Test
+    public void testShouldShowLoaderWhenTogglingConsent() throws Exception {
+        whenTogglingConsentTo(true);
+        thenProgressIsShown();
+    }
+
+    @Test
+    public void testShouldHideLoaderWhenCreateConsentFails() throws Exception {
+        whenTogglingConsentTo(true);
+        whenCreateConsentFailed();
+        thenProgressIsHidden();
+    }
+
+    @Test
+    public void testShouldHideLoaderWhenCreateConsentSucceeds() throws Exception {
+        whenTogglingConsentTo(false);
+        whenCreateConsentSucceeds();
+        thenProgressIsHidden();
     }
 
     private void givenConsentError() {
@@ -89,7 +114,23 @@ public class PermissionPresenterTest {
         mPermissionPresenter.onCreateConsentFailed(null, givenError);
     }
 
-    private void thenToastIsShown() {
+    private void whenCreateConsentSucceeds() {
+        mPermissionPresenter.onCreateConsentSuccess(mockRequiredConsent);
+    }
+
+    private void whenTogglingConsentTo(boolean toggled) {
+        mPermissionPresenter.onToggledConsent(mockConsentDefinition, toggled);
+    }
+
+    private void thenErrorIsShown() {
         verify(mockPermissionInterface).showErrorDialog(givenError);
+    }
+
+    private void thenProgressIsShown() {
+        verify(mockPermissionInterface).showProgressDialog();
+    }
+
+    private void thenProgressIsHidden() {
+        verify(mockPermissionInterface).hideProgressDialog();
     }
 }

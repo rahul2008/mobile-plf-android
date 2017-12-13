@@ -7,11 +7,7 @@
 
 package com.philips.platform.csw.permission;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
+import android.support.annotation.NonNull;
 
 import com.philips.platform.catk.CreateConsentInteractor;
 import com.philips.platform.catk.GetConsentInteractor;
@@ -20,7 +16,11 @@ import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.RequiredConsent;
 import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 
-import android.support.annotation.NonNull;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
 
 public class PermissionPresenter implements GetConsentInteractor.Callback, ConsentToggleListener, CreateConsentInteractor.Callback {
 
@@ -57,6 +57,7 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
     @Override
     public void onToggledConsent(ConsentDefinition definition, boolean consentGiven) {
         createConsentInteractor.createConsentStatus(definition, this, consentGiven);
+        permissionInterface.showProgressDialog();
     }
 
     @Override
@@ -84,10 +85,12 @@ public class PermissionPresenter implements GetConsentInteractor.Callback, Conse
     public void onCreateConsentFailed(ConsentDefinition definition, ConsentNetworkError error) {
         adapter.onCreateConsentFailed(definition, error);
         permissionInterface.showErrorDialog(error);
+        permissionInterface.hideProgressDialog();
     }
 
     @Override
     public void onCreateConsentSuccess(RequiredConsent consent) {
         adapter.onCreateConsentSuccess(consent);
+        permissionInterface.hideProgressDialog();
     }
 }
