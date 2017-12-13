@@ -87,18 +87,10 @@ node('Android') {
                     echo "Publish Library on Artifactory"
                      sh """#!/bin/bash -l
                             chmod -R 755 . 
-                            cd ./Source/Library 
-                            ./gradlew :ews-android:artifactoryPublish
+                            cd ./Source/DemoApp 
+                            ./gradlew :ews-android:artifactoryPublish :ewsUApp:artifactoryPublish
                         """
-            }
-                    stage('Publish Library on Artifactory') {
-                    echo "Publish Library on Artifactory"
-                     sh """#!/bin/bash -l
-                            chmod -R 755 . 
-                            cd ./Source/DemoUApp 
-                            ./gradlew :app:artifactoryPublish
-                        """
-            }
+                }
             }
         if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release\/platform_.*/)) {
                 stage ('callIntegrationPipeline') {
