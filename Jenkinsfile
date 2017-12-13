@@ -76,7 +76,7 @@ node('Android') {
                  androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
 
                 archiveArtifacts artifacts: 'Source/DemoApp/app/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
-                archiveArtifacts artifacts: 'Source/DemoUApp/app/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
+                archiveArtifacts artifacts: 'Source/DemoUApp/DemoUApp/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
                 archiveArtifacts artifacts: 'Source/Library/ews-android/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
                 archiveArtifacts '**/*dependencies*.lock'
             }
