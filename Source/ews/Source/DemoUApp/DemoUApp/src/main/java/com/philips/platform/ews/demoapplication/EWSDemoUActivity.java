@@ -97,7 +97,7 @@ public class EWSDemoUActivity extends UIDActivity implements UAppActionBarListen
     }
 
     private void setUpToolBar() {
-        Toolbar toolbar = findViewById(com.philips.platform.ews.R.id.ews_toolbar);
+        Toolbar toolbar = findViewById(R.id.ews_demo_toolbar_view);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -105,15 +105,17 @@ public class EWSDemoUActivity extends UIDActivity implements UAppActionBarListen
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setDisplayShowCustomEnabled(true);
         }
-        toolbar.inflateMenu(R.menu.option_menu);
-        closeImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ewsLauncherInput != null) {
-                    ewsLauncherInput.handleCloseButtonClick();
+        if (toolbar != null) {
+            toolbar.inflateMenu(R.menu.option_menu);
+            closeImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (ewsLauncherInput != null) {
+                        ewsLauncherInput.handleCloseButtonClick();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private void hideShowImageView() {
@@ -247,8 +249,8 @@ public class EWSDemoUActivity extends UIDActivity implements UAppActionBarListen
     }
 
     public void setToolbarTitle(String title) {
-        Toolbar toolbar = findViewById(R.id.ews_toolbar);
-        ((ActionBarTextView) toolbar.findViewById(R.id.toolbar_title)).setText(title);
+        Toolbar toolbar = findViewById(R.id.ews_demo_toolbar_view);
+        ((ActionBarTextView) toolbar.findViewById(R.id.toolbar_demo_title)).setText(title);
     }
 
     @Override

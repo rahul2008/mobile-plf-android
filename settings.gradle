@@ -104,8 +104,8 @@ project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app
 //demoapps NOT to be published to artifactory
 //include ':securedblibraryApp'
 //project(':securedblibraryApp').projectDir = new File('./Source/sdb/Source/DemoApp/app')
-//include ':digitalCareApp'
-//project(':digitalCareApp').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
+//include ':launchDigitalCare'
+//project(':launchDigitalCare').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
 //include(':iapApp')
 //project(':iapApp').projectDir = new File('./Source/iap/Source/DemoApp/app')
 //include ':productselectionApp'
