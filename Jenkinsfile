@@ -31,7 +31,7 @@ timestamps {
                     set -e
                     chmod -R 755 . 
                     #do not use -PenvCode=${JENKINS_ENV} since the option 'opa' is hardcoded in the archive
-                    ./gradlew clean :IconFont:test :AppInfra:cC :uid:createDebugCoverageReport :uAppFwLib:test :securedblibrary:cC :registrationApi:cC :registrationApi:test :jump:cC :jump:test :hsdp:cC :hsdp:test :productselection:cC :telehealth:testReleaseUnitTest :bluelib:generateJavadoc :bluelib:test :product-registration-lib:test :product-registration-lib:jacocoTestReport :iap:test :digitalCareUApp:cC :digitalCareUApp:testRelease :digitalCare:cC :digitalCare:testRelease :commlib-api:generateJavadocPublicApi :commlib-ble:generateJavadocPublicApi :commlib-lan:generateJavadocPublicApi :commlib-cloud:generateJavadocPublicApi :commlib:test :commlib-testutils:testReleaseUnitTest :commlib-ble:testReleaseUnitTest :commlib-lan:testReleaseUnitTest :commlib-cloud:testReleaseUnitTest :commlib-api:testReleaseUnitTest :MyAccount:cC :MyAccount:testRelease :MyAccountUApp:cC :MyAccountUApp:testRelease :dataServices:testReleaseUnitTest :dataServicesUApp:testReleaseUnitTest :devicepairingUApp:test
+                    ./gradlew clean :IconFont:test :AppInfra:cC :uid:createDebugCoverageReport :uAppFwLib:test :securedblibrary:cC :registrationApi:cC :registrationApi:test :jump:cC :jump:test :hsdp:cC :hsdp:test :productselection:cC :telehealth:testReleaseUnitTest :bluelib:generateJavadoc :bluelib:test :product-registration-lib:test :product-registration-lib:jacocoTestReport :iap:test :digitalCareUApp:cC :digitalCareUApp:testRelease :digitalCare:cC :digitalCare:testRelease :commlib-api:generateJavadocPublicApi :commlib-ble:generateJavadocPublicApi :commlib-lan:generateJavadocPublicApi :commlib-cloud:generateJavadocPublicApi :commlib:test :commlib-testutils:testReleaseUnitTest :commlib-ble:testReleaseUnitTest :commlib-lan:testReleaseUnitTest :commlib-cloud:testReleaseUnitTest :commlib-api:testReleaseUnitTest :MyAccount:cC :MyAccount:testRelease :MyAccountUApp:cC :MyAccountUApp:testRelease :dataServices:testReleaseUnitTest :dataServicesUApp:testReleaseUnitTest :devicepairingUApp:test :ews-android:test :ews-android:jacocoTestReport
                 '''
             }
 
@@ -59,6 +59,7 @@ timestamps {
                 junit allowEmptyResults: false, testResults: 'Source/dsc/Source/Library/*/build/test-results/**/*.xml'
                 junit allowEmptyResults: true,  testResults: 'Source/dpr/Source/DemoApp/*/build/test-results/*/*.xml'
                 junit allowEmptyResults: true,  testResults: 'Source/dpr/Source/DemoUApp/*/build/test-results/*/*.xml'
+                step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/ews-android/build/test-results/*/*.xml'])
 
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/icf/Source/Library/IconFont/icf/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'icf unit test debug'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/icf/Source/Library/IconFont/icf/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'icf unit test release'])
@@ -81,6 +82,8 @@ timestamps {
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: true,  keepAll: true, reportDir: 'Source/bll/Documents/External/bluelib-api', reportFiles: 'index.html', reportName: 'bll Bluelib Public API'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: true,  keepAll: true, reportDir: 'Source/bll/Documents/External/bluelib-plugin-api', reportFiles: 'index.html', reportName: 'bll Bluelib Plugin API'])
                 step([$class: 'JacocoPublisher', execPattern: 'Source/bll/**/*.exec', classPattern: 'Source/bll/**/classes', sourcePattern: 'Source/bll/**/src/main/java', exclusionPattern: 'Source/bll/**/R.class,Source/bll/**/R$*.class,Source/bll/**/BuildConfig.class,Source/bll/**/Manifest*.*,Source/bll/**/*Activity*.*,Source/bll/**/*Fragment*.*'])
+                step([$class: 'JacocoPublisher', execPattern: 'Source/ews/**/*.exec', sourcePattern: 'Source/ews/**/src/main/java', exclusionPattern: 'Source/ews/**/R.class, Source/ews/**/R$*.class, Source/ews/*/BuildConfig.class, Source/ews/**/Manifest*.*, Source/ews/**/*_Factory.class, Source/ews/**/*_*Factory.class , Source/ews/**/Dagger*.class, Source/ews/**/databinding/**/*.class, Source/ews/**/*Activity*.*, Source/ews/**/*Fragment*.*, Source/ews/**/*Service*.*, Source/ews/**/*ContentProvider*.*'])
+                publishHTML(target: [keepAll: true, alwaysLinkToLastBuild: false, reportDir:  './Source/Library/ews-android/build/reports/jacoco/jacoco' + 'TestReleaseUnit'+'TestReport/html', reportFiles:'index.html', reportName: 'ews Overall code coverage'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/prg/Source/Library/product-registration-lib/build/reports/jacoco/jacocoTestReport/html', reportFiles: 'index.html', reportName: 'prg jacocoTestReport']) 
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/prg/Source/Library/product-registration-lib/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'prg unit test debug']) 
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/prg/Source/Library/product-registration-lib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'prg unit test release'])
@@ -160,7 +163,7 @@ timestamps {
                     set -e
                     #chmod -R 755 .
                     #do not use -PenvCode=${JENKINS_ENV} since the option 'opa' is hardcoded in the archive
-                    ./gradlew :IconFont:lint :AppInfra:lint :uikitLib:lint :securedblibrary:lint :registrationApi:lint :productselection:lint :telehealth:lintRelease :bluelib:lintDebug :product-registration-lib:lint :iap:lint :digitalCare:lint :cloudcontroller-api:lintDebug :commlib:lintDebug :MyAccount:lint :MyAccountUApp:lint :dataServices:lintRelease :devicepairingUApp:lint
+                    ./gradlew :IconFont:lint :AppInfra:lint :uikitLib:lint :securedblibrary:lint :registrationApi:lint :productselection:lint :telehealth:lintRelease :bluelib:lintDebug :product-registration-lib:lint :iap:lint :digitalCare:lint :cloudcontroller-api:lintDebug :commlib:lintDebug :MyAccount:lint :MyAccountUApp:lint :dataServices:lintRelease :devicepairingUApp:lint :ews-android:lint :ewsUApp:lint
                     #prx:lint and rap:lintRelease are not working and we are keeping it as known issues
                 '''
             }

@@ -5,7 +5,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
 
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
