@@ -190,7 +190,7 @@ android {
     This defined for signing the apk -- start
      */
     def Properties props = new Properties()
-    def propFile = new File('signing.properties')
+	def propFile = new File("${project.projectDir}/../signing.properties")
     if (propFile.canRead()) {
         props.load(new FileInputStream(propFile))
 
@@ -272,11 +272,14 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.0.2'
     
     def dp = project.ext.has('useprojectdependencies')
-    def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix())
-	compile(dp ? project(':AppInfra') : ailModule)
-    {
-        exclude group: 'com.android.support'
-        transitive = true
+
+    if(dp) {
+        compile(project(':AppInfra'))
+    } else {
+        compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix()) {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
     }
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
