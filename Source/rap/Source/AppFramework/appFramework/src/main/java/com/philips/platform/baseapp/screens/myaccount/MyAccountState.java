@@ -100,17 +100,17 @@ public class MyAccountState extends BaseState {
     @VisibleForTesting
     List<ConsentDefinition> createConsentDefinitions(Context context, Locale currentLocale) {
         final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Moment_Text), context.getString(R.string.RA_MYA_Consent_Moment_Help), Collections.singletonList("moment"), 1, currentLocale));
-        definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Coaching_Text), context.getString(R.string.RA_MYA_Consent_Coaching_Help), Collections.singletonList("coaching"), 1, currentLocale));
+        definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Moment_Text), context.getString(R.string.RA_MYA_Consent_Moment_Help), Collections.singletonList("moment"), 2, currentLocale));
+        definitions.add(new ConsentDefinition(context.getString(R.string.RA_MYA_Consent_Coaching_Text), context.getString(R.string.RA_MYA_Consent_Coaching_Help), Collections.singletonList("coaching"), 2, currentLocale));
         return definitions;
     }
 
     @Override
-    public void init(Context context) {
-        CatkInputs catkInputs = new CatkInputs();
-        catkInputs.setContext(context);
-        catkInputs.setAppInfra(((AppFrameworkApplication) context.getApplicationContext()).appInfra);
-        ConsentAccessToolKit.getInstance().init(catkInputs);
+    public void init(AppFrameworkApplication application) {
+        ConsentAccessToolKit.getInstance().init(new CatkInputs.Builder()
+                .setContext(context)
+                .setAppInfraInterface(application.appInfra)
+                .setConsentDefinitions(createConsentDefinitions(context, getLocale(application))).build());
     }
 
 
