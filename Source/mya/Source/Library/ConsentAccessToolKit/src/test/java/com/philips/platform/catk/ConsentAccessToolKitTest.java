@@ -40,6 +40,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -76,9 +77,12 @@ public class ConsentAccessToolKitTest {
 
     @Captor
     ArgumentCaptor<NetworkAbstractModel> captorNetworkAbstractModel;
-    @Mock private AppInfraInterface mockAppInfra;
-    @Mock private Context mockContext;
-    @Mock private AppConfigurationInterface mockConfigInterface;
+    @Mock
+    private AppInfraInterface mockAppInfra;
+    @Mock
+    private Context mockContext;
+    @Mock
+    private AppConfigurationInterface mockConfigInterface;
 
     @Before
     public void setUp() throws Exception {
@@ -163,7 +167,7 @@ public class ConsentAccessToolKitTest {
     public void shouldCallNetworkHelperSendRequestMethodWhenCreateConsentDetailsMethodISCalled() {
         givenInitWasCalled("myApplication", "myProposition");
         BackendConsent consent = new BackendConsent(new Locale("nl", "NL"), ConsentStatus.active, "moment", 1);
-        consentAccessToolKit.createConsent(consent, mockCreateConsentListener);
+        consentAccessToolKit.createConsent(Collections.singletonList(consent), mockCreateConsentListener);
         verify(mockNetworkController).sendConsentRequest(captorNetworkAbstractModel.capture());
         assertTrue(captorNetworkAbstractModel.getValue() instanceof CreateConsentModelRequest);
         thenServiceInfoProviderWasCalled();
@@ -195,7 +199,7 @@ public class ConsentAccessToolKitTest {
         when(mockConfigInterface.getPropertyForKey(eq("appName"), eq("hsdp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(appName);
         when(mockConfigInterface.getPropertyForKey(eq("propositionName"), eq("hsdp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(propName);
 
-        consentAccessToolKit.setComponentProvider(new ComponentProvider(){
+        consentAccessToolKit.setComponentProvider(new ComponentProvider() {
 
             @Override
             public CatkComponent getComponent(CatkInputs catkInputs) {
@@ -227,8 +231,8 @@ public class ConsentAccessToolKitTest {
     private List<GetConsentDto> consentDtos = Arrays.asList(momentConsentDto, coachingConsentDto);
     private BackendConsent momentConsent = new BackendConsent(new Locale("en", "GB"), ConsentStatus.active, "moment", 0, new DateTime(momentConsentTimestamp));
     private List<BackendConsent> consents = Arrays.asList(momentConsent);
-    private ConsentDefinition consentDefinitionWith1Type = new ConsentDefinition("someText","helpText", Arrays.asList("type1"), 1, Locale.US);
-    private ConsentDefinition consentDefinitionWith2Types = new ConsentDefinition("someText","helpText", Arrays.asList("type2", "type3"), 1, Locale.US);
+    private ConsentDefinition consentDefinitionWith1Type = new ConsentDefinition("someText", "helpText", Arrays.asList("type1"), 1, Locale.US);
+    private ConsentDefinition consentDefinitionWith2Types = new ConsentDefinition("someText", "helpText", Arrays.asList("type2", "type3"), 1, Locale.US);
     private List<ConsentDefinition> consentDefinitions = Arrays.asList(consentDefinitionWith1Type, consentDefinitionWith2Types);
 
 
