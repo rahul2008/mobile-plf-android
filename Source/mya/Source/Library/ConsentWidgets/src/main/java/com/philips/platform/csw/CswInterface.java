@@ -60,14 +60,10 @@ public class CswInterface implements UappInterface {
             CswFragment cswFragment = new CswFragment();
             cswFragment.setOnUpdateTitleListener(fragmentLauncher.
                     getActionbarListener());
-            if (uappLaunchInput.getConfig() == null) {
-                Log.i("Deepthi", "config = null ");
+            if (cswFragment.getArguments() == null) {
+                cswFragment.setArguments(new Bundle());
             }
-            Log.i("Deepthi", "config List name = " + uappLaunchInput.getConfig().getConsentDefinitions().toString());
-
-            Bundle fragmentConfig = uappLaunchInput.getConfig().toBundle();
-            fragmentConfig.putBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK, uappLaunchInput.isAddtoBackStack());
-            cswFragment.setArguments(fragmentConfig);
+            cswFragment.getArguments().putBoolean(CatkConstants.BUNDLE_KEY_ADDTOBACKSTACK, uappLaunchInput.isAddtoBackStack());
 
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
@@ -87,14 +83,7 @@ public class CswInterface implements UappInterface {
     private void launchAsActivity(ActivityLauncher uiLauncher, CswLaunchInput uappLaunchInput) {
         if (null != uiLauncher && uappLaunchInput != null) {
             Intent cswIntent = new Intent(uappLaunchInput.getContext(), CswActivity.class);
-            if (uappLaunchInput.getConfig() == null) {
-                Log.i("Deepthi", "Activity config = null ");
-            }
-            Log.i("Deepthi", "Activity config List name = " + uappLaunchInput.getConfig().getConsentDefinitions().toString());
-
             cswIntent.putExtra(CswConstants.DLS_THEME, uiLauncher.getUiKitTheme());
-            cswIntent.putExtras(uappLaunchInput.getConfig().toBundle());
-
             cswIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             uappLaunchInput.getContext().startActivity(cswIntent);
         }

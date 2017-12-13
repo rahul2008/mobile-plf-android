@@ -7,24 +7,25 @@
 
 package com.philips.platform.catk;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.mapper.LocaleMapper;
-import com.philips.platform.catk.model.Consent;
+import com.philips.platform.catk.model.BackendConsent;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.ConsentStatus;
-import com.philips.platform.catk.model.RequiredConsent;
+import com.philips.platform.catk.model.Consent;
 import com.philips.platform.catk.utils.CatkLogger;
-
-import java.util.Locale;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class CreateConsentInteractor {
 
     public interface Callback {
         void onCreateConsentFailed(ConsentDefinition definition, ConsentNetworkError error);
 
-        void onCreateConsentSuccess(RequiredConsent consent);
+        void onCreateConsentSuccess(Consent consent);
     }
 
     private final ConsentAccessToolKit consentAccessToolKit;
@@ -35,36 +36,41 @@ public class CreateConsentInteractor {
 
     public void createConsentStatus(ConsentDefinition definition, Callback callback, boolean switchChecked) {
         ConsentStatus consentStatus = switchChecked ? ConsentStatus.active : ConsentStatus.rejected;
-        Consent consent = createConsent(definition, consentStatus);
-        consentAccessToolKit.createConsent(consent, new CreateConsentResponseListener(definition, consent, callback));
+        List<BackendConsent> backendConsents = createConsents(definition, consentStatus);
+        consentAccessToolKit.createConsent(backendConsents, new CreateConsentResponseListener(definition, backendConsents, callback));
     }
 
-    private Consent createConsent(ConsentDefinition definition, ConsentStatus status) {
+    private List<BackendConsent> createConsents(ConsentDefinition definition, ConsentStatus status) {
         Locale locale = LocaleMapper.toLocale(definition.getLocale());
-        return new Consent(locale, status, definition.getTypes().get(0), definition.getVersion());
+        List<BackendConsent> backendConsents = new ArrayList<>();
+        List<String> types = definition.getTypes();
+        for (String type:types) {
+            backendConsents.add(new BackendConsent(locale, status, type, definition.getVersion()));
+        }
+        return backendConsents;
     }
 
     static class CreateConsentResponseListener implements CreateConsentListener {
 
         private final ConsentDefinition definition;
-        private final Consent consent;
+        private final List<BackendConsent> backendConsents;
         private final Callback callback;
 
-        CreateConsentResponseListener(ConsentDefinition definition, Consent consent, Callback callback) {
+        CreateConsentResponseListener(ConsentDefinition definition, List<BackendConsent> backendConsents, Callback callback) {
             this.definition = definition;
-            this.consent = consent;
+            this.backendConsents = backendConsents;
             this.callback = callback;
         }
 
         @Override
         public void onSuccess() {
-            CatkLogger.d(" Create Consent: ", "Success");
-            callback.onCreateConsentSuccess(new RequiredConsent(consent, definition));
+            CatkLogger.d(" Create BackendConsent: ", "Success");
+            callback.onCreateConsentSuccess(new Consent(backendConsents, definition));
         }
 
         @Override
         public void onFailure(ConsentNetworkError error) {
-            CatkLogger.d(" Create Consent: ", "Failed : " + error.getCatkErrorCode());
+            CatkLogger.d(" Create BackendConsent: ", "Failed : " + error.getCatkErrorCode());
             callback.onCreateConsentFailed(definition, error);
         }
     }

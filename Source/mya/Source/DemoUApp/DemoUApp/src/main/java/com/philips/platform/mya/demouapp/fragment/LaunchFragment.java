@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Locale;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.catk.CatkInputs;
+import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.mya.demouapp.DemoAppActivity;
 import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
@@ -91,6 +93,7 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        initCatk();
         MyaDependencies uappDependencies = new MyaDependencies(MyAccountDemoUAppInterface.getAppInfra());
         MyaLaunchInput launchInput = new MyaLaunchInput(getActivity(), getMyaListener());
         launchInput.setConsentDefinitions(createConsentDefinitions(Locale.US));
@@ -114,6 +117,14 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
                 }
             }), launchInput);
         }
+    }
+
+    private void initCatk() {
+        CatkInputs.Builder builder = new CatkInputs.Builder();
+        ConsentAccessToolKit.getInstance().init(builder.setContext(getActivity()
+                                                    .getApplicationContext()).setConsentDefinitions(createConsentDefinitions(Locale.US))
+                                                    .setAppInfraInterface(MyAccountDemoUAppInterface.getAppInfra())
+                                                    .build());
     }
 
     @NonNull
