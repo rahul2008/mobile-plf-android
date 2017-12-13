@@ -1,10 +1,10 @@
 package com.philips.platform.catk.model;
 
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import android.support.annotation.NonNull;
 
 public class Consent {
 
@@ -28,8 +28,15 @@ public class Consent {
     }
 
     public boolean isAccepted() {
-        BackendConsent consent = getRepresentingConsent();
-        return consent != null && consent.getStatus().equals(ConsentStatus.active) && definition.getVersion() <= consent.getVersion();
+        if (consents == null || consents.size() == 0) {
+            return false;
+        }
+        for (BackendConsent consent : consents) {
+            if (consent == null || !isConsentActive(consent)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public String getType() {
@@ -37,9 +44,15 @@ public class Consent {
         return consent != null ? consent.getType() : null;
     }
 
-    public ConsentDefinition getDefinition() { return definition; }
+    public ConsentDefinition getDefinition() {
+        return definition;
+    }
 
     private BackendConsent getRepresentingConsent() {
         return (consents != null) && (consents.size() > 0) ? consents.get(0) : null;
+    }
+
+    private boolean isConsentActive(BackendConsent consent) {
+        return consent.getStatus().equals(ConsentStatus.active) && definition.getVersion() <= consent.getVersion();
     }
 }

@@ -7,11 +7,10 @@
 
 package com.philips.platform.catk;
 
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.verify;
-
-import java.util.Collections;
-import java.util.Locale;
+import com.philips.platform.catk.listener.CreateConsentListener;
+import com.philips.platform.catk.model.BackendConsent;
+import com.philips.platform.catk.model.ConsentDefinition;
+import com.philips.platform.catk.model.ConsentDefinitionException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,10 +19,11 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.philips.platform.catk.listener.CreateConsentListener;
-import com.philips.platform.catk.model.BackendConsent;
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.ConsentDefinitionException;
+import java.util.Collections;
+import java.util.Locale;
+
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.verify;
 
 public class CreateConsentInteractorTest {
 
@@ -78,7 +78,7 @@ public class CreateConsentInteractorTest {
     }
 
     private void thenCreateConsentIsCalledOnTheCatk() {
-        verify(mockCatk).createConsent(captorConsent.capture(), isA(CreateConsentListener.class));
+        verify(mockCatk).createConsent(Collections.singletonList(captorConsent.capture()), isA(CreateConsentListener.class));
     }
 
 }
