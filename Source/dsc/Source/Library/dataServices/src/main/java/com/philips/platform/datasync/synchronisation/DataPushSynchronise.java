@@ -7,13 +7,10 @@ package com.philips.platform.datasync.synchronisation;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.util.Log;
 
-import com.philips.platform.catk.ConsentAccessToolKit;
+import com.philips.platform.catk.GetConsentInteractor;
 import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.listener.ConsentResponseListener;
-import com.philips.platform.catk.model.BackendConsent;
-import com.philips.platform.catk.model.ConsentStatus;
+import com.philips.platform.catk.model.Consent;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
@@ -75,6 +72,9 @@ public class DataPushSynchronise extends EventMonitor {
     @NonNull
     List<? extends DataSender> senders;
 
+    @Inject
+    GetConsentInteractor getConsentInteractor;
+
     List<? extends DataSender> configurableSenders;
 
     private DataServicesManager mDataServicesManager;
@@ -119,8 +119,7 @@ public class DataPushSynchronise extends EventMonitor {
                 public void run() {
                     if (sender instanceof MomentsDataSender) {
                         try {
-                            final ConsentAccessToolKit toolkit = ConsentAccessToolKit.getInstance();
-                            syncMoments(sender, nonSynchronizedData, toolkit, countDownLatch);
+                            syncMoments(sender, nonSynchronizedData, countDownLatch);
                         } catch (Exception ex) {
                             countDownLatch.countDown();
                         }
@@ -144,38 +143,31 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     @VisibleForTesting
-    void syncMoments(@NonNull final DataSender sender, @NonNull final GetNonSynchronizedDataResponse nonSynchronizedData, @NonNull final ConsentAccessToolKit accessToolKit, final CountDownLatch countDownLatch) {
-        accessToolKit.getStatusForConsentType(CONSENT_TYPE_MOMENT, version, new ConsentResponseListener() {
+    void syncMoments(@NonNull final DataSender sender, @NonNull final GetNonSynchronizedDataResponse nonSynchronizedData, final CountDownLatch countDownLatch) {
 
+
+        getConsentInteractor.getStatusForConsentType(CONSENT_TYPE_MOMENT, new GetConsentInteractor.ConsentCallback() {
             @Override
-            public void onResponseSuccessConsent(List<BackendConsent> responseData) {
-                if (responseData != null && !responseData.isEmpty()) {
-                    BackendConsent consentModel = responseData.get(0);
-                    Log.d(" Consent : ", "status :" + consentModel.getStatus());
-                    if (consentModel.getStatus().equals(ConsentStatus.active)) {
-                        executor.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    syncOthers(sender, nonSynchronizedData);
-                                } finally {
-                                    countDownLatch.countDown();
-                                }
+            public void onGetConsentRetrieved(@NonNull Consent consent) {
+                if (consent.isAccepted()) {
+                    executor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                syncOthers(sender, nonSynchronizedData);
+                            } finally {
+                                countDownLatch.countDown();
                             }
-                        });
-                    } else {
-                        countDownLatch.countDown();
-                    }
-
+                        }
+                    });
                 } else {
                     countDownLatch.countDown();
-                    Log.d(" Consent : ", "no consent for type found on server");
                 }
+
             }
 
             @Override
-            public void onResponseFailureConsent(ConsentNetworkError consentNetworkError) {
-                Log.d(" Consent : ", "onResponseFailureConsent  :" + consentNetworkError.getMessage());
+            public void onGetConsentFailed(ConsentNetworkError error) {
                 countDownLatch.countDown();
             }
         });

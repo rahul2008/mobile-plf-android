@@ -7,9 +7,7 @@
 
 package com.philips.platform.catk;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import android.support.annotation.NonNull;
 
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -30,15 +28,17 @@ import com.philips.platform.catk.provider.ComponentProvider;
 import com.philips.platform.catk.provider.ServiceInfoProvider;
 import com.philips.platform.catk.utils.CatkLogger;
 
-import android.support.annotation.NonNull;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ConsentAccessToolKit {
 
     private static final String PROPOSITION_CONFIG_ERROR = "Missing '%s' -> Please add the following section to AppConfig.json:\n\"hsdp\":\n" +
-                                                           "{\n" +
-                                                           "    \"appName\": \"<appName>\",\n" +
-                                                           "    \"propositionName\": \"<propName>\"\n" +
-                                                           "}";
+            "{\n" +
+            "    \"appName\": \"<appName>\",\n" +
+            "    \"propositionName\": \"<propName>\"\n" +
+            "}";
     private static final String PROPOSITION_INIT_ERROR = "ConsentAccessToolKit is not initialized. Call ConsentAccessToolKit.getInstance().init(catkInputs); before using it";
 
     private static volatile ConsentAccessToolKit sSoleInstance;
@@ -161,7 +161,7 @@ public class ConsentAccessToolKit {
             public void onConfigurationCompletion(@NonNull String cssUrl) {
                 ConsentToDtoMapper mapper = new ConsentToDtoMapper(catkComponent.getUser().getHsdpUUID(), catkComponent.getUser().getCountryCode(), propositionName,
                         applicationName);
-                for (BackendConsent consent:consents) {
+                for (BackendConsent consent : consents) {
                     CreateConsentDto consentDto = mapper.map(consent);
                     CreateConsentModelRequest model = new CreateConsentModelRequest(cssUrl, consentDto, new NetworkAbstractModel.DataLoadListener() {
                         @Override
