@@ -12,7 +12,7 @@ import android.util.Log;
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.listener.ConsentResponseListener;
-import com.philips.platform.catk.model.Consent;
+import com.philips.platform.catk.model.BackendConsent;
 import com.philips.platform.catk.model.ConsentStatus;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
@@ -146,10 +146,11 @@ public class DataPushSynchronise extends EventMonitor {
     @VisibleForTesting
     void syncMoments(@NonNull final DataSender sender, @NonNull final GetNonSynchronizedDataResponse nonSynchronizedData, @NonNull final ConsentAccessToolKit accessToolKit, final CountDownLatch countDownLatch) {
         accessToolKit.getStatusForConsentType(CONSENT_TYPE_MOMENT, version, new ConsentResponseListener() {
+
             @Override
-            public void onResponseSuccessConsent(List<Consent> responseData) {
+            public void onResponseSuccessConsent(List<BackendConsent> responseData) {
                 if (responseData != null && !responseData.isEmpty()) {
-                    Consent consentModel = responseData.get(0);
+                    BackendConsent consentModel = responseData.get(0);
                     Log.d(" Consent : ", "status :" + consentModel.getStatus());
                     if (consentModel.getStatus().equals(ConsentStatus.active)) {
                         executor.execute(new Runnable() {
