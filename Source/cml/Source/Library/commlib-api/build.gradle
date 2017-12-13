@@ -171,7 +171,7 @@ android {
 task generateJavadocPublicApi(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("${project.rootDir}/../Documents/External/${project.name}-api/")
+    destinationDir = file("${projectDir}/../../../Documents/External/${project.name}-api/")
 
     include {
         if (it.isDirectory) {

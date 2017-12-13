@@ -98,6 +98,8 @@ project(':ewsUApp').projectDir = new File('./Source/ews/Source/DemoUApp/DemoUApp
 //demoapps to be published to artifactory
 include ':UserRegistrationApp'
 project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
+include ':telehealthApp'
+project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app')
 
 //demoapps NOT to be published to artifactory
 //include ':securedblibraryApp'
@@ -120,3 +122,4 @@ project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoA
 //project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
 //include ':bluelib-demoapp'
 //project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
+
