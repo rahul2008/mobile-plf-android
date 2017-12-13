@@ -198,7 +198,8 @@ timestamps {
                     echo "Publish to artifactory"
                     sh '''#!/bin/bash -l
                         set -e
-                        ./gradlew artifactoryPublish :referenceApp:printArtifactoryApkPath
+                        ./gradlew artifactoryPublish 
+                        #:referenceApp:printArtifactoryApkPath
                     '''
                 }
             }
