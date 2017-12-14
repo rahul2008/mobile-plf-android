@@ -3,22 +3,7 @@
  * All rights reserved.
  */
 
-buildscript { bs ->
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url repos.jcenter
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
+buildscript {
     dependencies {
         classpath builddeps.buildinfoextractor
         classpath builddeps.cdpSCM
