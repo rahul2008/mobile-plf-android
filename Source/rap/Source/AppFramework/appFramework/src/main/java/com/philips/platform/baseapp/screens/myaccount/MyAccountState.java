@@ -105,12 +105,15 @@ public class MyAccountState extends BaseState {
         return definitions;
     }
 
+    
+    
     @Override
-    public void init(AppFrameworkApplication application) {
+    public void init(Context context) {
+        AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
         ConsentAccessToolKit.getInstance().init(new CatkInputs.Builder()
                 .setContext(context)
-                .setAppInfraInterface(application.appInfra)
-                .setConsentDefinitions(createConsentDefinitions(context, getLocale(application))).build());
+                .setAppInfraInterface(app.getAppInfra())
+                .setConsentDefinitions(createConsentDefinitions(context, getLocale(app))).build());
     }
 
 
