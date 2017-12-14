@@ -106,11 +106,6 @@ public class MyaSettingsPresenterTest {
                 return cswLaunchInput;
             }
 
-            @Override
-            CatkInputs initConsentToolKit(Context context, AppInfraInterface appInfra) {
-                return catkInputs;
-            }
-
         };
         String key = "Mya_Privacy_Settings";
         assertTrue(myaSettingsPresenter.handleOnClickSettingsItem(key, fragmentLauncher));
