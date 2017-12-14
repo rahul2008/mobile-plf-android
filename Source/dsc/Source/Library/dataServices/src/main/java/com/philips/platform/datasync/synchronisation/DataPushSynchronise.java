@@ -8,7 +8,7 @@ package com.philips.platform.datasync.synchronisation;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import com.philips.platform.catk.GetConsentInteractor;
+import com.philips.platform.catk.ConsentInteractor;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.core.Eventing;
@@ -73,7 +73,7 @@ public class DataPushSynchronise extends EventMonitor {
     List<? extends DataSender> senders;
 
     @Inject
-    GetConsentInteractor getConsentInteractor;
+    ConsentInteractor consentInteractor;
 
     List<? extends DataSender> configurableSenders;
 
@@ -146,7 +146,7 @@ public class DataPushSynchronise extends EventMonitor {
     void syncMoments(@NonNull final DataSender sender, @NonNull final GetNonSynchronizedDataResponse nonSynchronizedData, final CountDownLatch countDownLatch) {
 
 
-        getConsentInteractor.getStatusForConsentType(CONSENT_TYPE_MOMENT, new GetConsentInteractor.ConsentCallback() {
+        consentInteractor.getStatusForConsentType(CONSENT_TYPE_MOMENT, new ConsentInteractor.ConsentCallback() {
             @Override
             public void onGetConsentRetrieved(@NonNull Consent consent) {
                 if (consent.isAccepted()) {

@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.GetConsentInteractor;
+import com.philips.platform.catk.ConsentInteractor;
 import com.philips.platform.core.BaseAppCore;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.ErrorHandlingInterface;
@@ -321,7 +321,7 @@ public class BackendModule {
 
     @Provides
     @Singleton
-    public static GetConsentInteractor providesGetConsentInteractor(@NonNull final ConsentAccessToolKit consentAccessToolKit) {
-        return new GetConsentInteractor(consentAccessToolKit);
+    public static ConsentInteractor providesGetConsentInteractor(@NonNull final ConsentAccessToolKit consentAccessToolKit) {
+        return new ConsentInteractor(consentAccessToolKit);
     }
 }

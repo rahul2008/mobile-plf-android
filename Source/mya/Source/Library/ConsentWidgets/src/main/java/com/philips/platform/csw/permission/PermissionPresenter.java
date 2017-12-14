@@ -10,7 +10,7 @@ package com.philips.platform.csw.permission;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.catk.CreateConsentInteractor;
-import com.philips.platform.catk.GetConsentInteractor;
+import com.philips.platform.catk.ConsentInteractor;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.Consent;
@@ -22,12 +22,12 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-public class PermissionPresenter implements GetConsentInteractor.ConsentListCallback, ConsentToggleListener, CreateConsentInteractor.Callback {
+public class PermissionPresenter implements ConsentInteractor.ConsentListCallback, ConsentToggleListener, CreateConsentInteractor.Callback {
 
     @NonNull
     private final PermissionInterface permissionInterface;
     @NonNull
-    private final GetConsentInteractor getConsentInteractor;
+    private final ConsentInteractor consentInteractor;
     @NonNull
     private final CreateConsentInteractor createConsentInteractor;
     @NonNull
@@ -35,10 +35,10 @@ public class PermissionPresenter implements GetConsentInteractor.ConsentListCall
 
     @Inject
     PermissionPresenter(
-            @NonNull final PermissionInterface permissionInterface, @NonNull final GetConsentInteractor getConsentInteractor,
+            @NonNull final PermissionInterface permissionInterface, @NonNull final ConsentInteractor consentInteractor,
             @NonNull final CreateConsentInteractor createConsentInteractor, @NonNull final PermissionAdapter adapter) {
         this.permissionInterface = permissionInterface;
-        this.getConsentInteractor = getConsentInteractor;
+        this.consentInteractor = consentInteractor;
         this.createConsentInteractor = createConsentInteractor;
         this.adapter = adapter;
         this.adapter.setConsentToggleListener(this);
@@ -51,7 +51,7 @@ public class PermissionPresenter implements GetConsentInteractor.ConsentListCall
 
     void getConsentStatus() {
         permissionInterface.showProgressDialog();
-        getConsentInteractor.fetchLatestConsents(this);
+        consentInteractor.fetchLatestConsents(this);
     }
 
     @Override

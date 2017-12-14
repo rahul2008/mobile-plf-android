@@ -1,8 +1,8 @@
 package com.philips.platform.csw.permission;
 
 import com.android.volley.VolleyError;
+import com.philips.platform.catk.ConsentInteractor;
 import com.philips.platform.catk.CreateConsentInteractor;
-import com.philips.platform.catk.GetConsentInteractor;
 import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.Consent;
@@ -27,7 +27,7 @@ public class PermissionPresenterTest {
     @Mock
     private PermissionInterface mockPermissionInterface;
     @Mock
-    private GetConsentInteractor mockGetInteractor;
+    private ConsentInteractor mockGetInteractor;
     @Mock
     private CreateConsentInteractor mockCreateInteractor;
     @Mock

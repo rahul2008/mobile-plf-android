@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.philips.platform.catk.ConsentAccessToolKit;
 import com.philips.platform.catk.CreateConsentInteractor;
-import com.philips.platform.catk.GetConsentInteractor;
+import com.philips.platform.catk.ConsentInteractor;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 
@@ -58,8 +58,8 @@ public class PermissionModule {
     }
 
     @Provides
-    static GetConsentInteractor provideConsentInteractor(ConsentAccessToolKit consentAccessToolKit) {
-        return new GetConsentInteractor(consentAccessToolKit);
+    static ConsentInteractor provideConsentInteractor(ConsentAccessToolKit consentAccessToolKit) {
+        return new ConsentInteractor(consentAccessToolKit);
     }
 
     @Provides

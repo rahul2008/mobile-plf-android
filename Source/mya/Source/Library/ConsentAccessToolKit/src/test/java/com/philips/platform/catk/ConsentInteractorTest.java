@@ -40,16 +40,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class GetConsentInteractorTest {
+public class ConsentInteractorTest {
 
-    GetConsentInteractor subject;
+    ConsentInteractor subject;
 
     @Mock
     private ConsentAccessToolKit mockContentAccessToolkit;
     @Mock
-    private GetConsentInteractor.ConsentListCallback mockConsentListCallback;
+    private ConsentInteractor.ConsentListCallback mockConsentListCallback;
     @Captor
-    private ArgumentCaptor<GetConsentInteractor.GetConsentsResponseListener> captorConsentDetails;
+    private ArgumentCaptor<ConsentInteractor.GetConsentsResponseListener> captorConsentDetails;
     @Captor
     private ArgumentCaptor<List<Consent>> captorRequired;
     @Captor
@@ -126,7 +126,7 @@ public class GetConsentInteractorTest {
         List<ConsentDefinition> givenConsentDefinitions = new ArrayList<>(consentDefinitions.length);
         Collections.addAll(givenConsentDefinitions, consentDefinitions);
         when(mockContentAccessToolkit.getConsentDefinitions()).thenReturn(Arrays.asList(consentDefinitions));
-        subject = new GetConsentInteractor(mockContentAccessToolkit);
+        subject = new ConsentInteractor(mockContentAccessToolkit);
     }
 
     private void whenFetchLatestConsentsCalled() {
@@ -152,7 +152,7 @@ public class GetConsentInteractorTest {
     }
 
     private void thenGetConsentDetailsIsCalled() {
-        verify(mockContentAccessToolkit).getConsentDetails(isA(GetConsentInteractor.GetConsentsResponseListener.class));
+        verify(mockContentAccessToolkit).getConsentDetails(isA(ConsentInteractor.GetConsentsResponseListener.class));
     }
 
     private void thenConsentFailedIsReported() {
@@ -168,7 +168,7 @@ public class GetConsentInteractorTest {
     }
 
 
-    private GetConsentInteractor.ConsentCallback consentCallback = new GetConsentInteractor.ConsentCallback() {
+    private ConsentInteractor.ConsentCallback consentCallback = new ConsentInteractor.ConsentCallback() {
 
         public Consent receivedRequiredConsent;
         public ConsentNetworkError receivedError;

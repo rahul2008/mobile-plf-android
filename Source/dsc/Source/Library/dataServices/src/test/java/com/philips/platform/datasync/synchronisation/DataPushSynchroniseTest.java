@@ -1,7 +1,7 @@
 package com.philips.platform.datasync.synchronisation;
 
 import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.GetConsentInteractor;
+import com.philips.platform.catk.ConsentInteractor;
 import com.philips.platform.catk.model.Consent;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
@@ -76,7 +76,7 @@ public class DataPushSynchroniseTest {
     @Mock
     ConsentAccessToolKit consentAccessToolKitMock;
 
-    GetConsentInteractorMock getConsentInteractorMock;
+    ConsentInteractorMock getConsentInteractorMock;
 
     @Mock
     Moment moment;
@@ -85,7 +85,7 @@ public class DataPushSynchroniseTest {
     Consent consent;
 
     @Captor
-    private ArgumentCaptor<GetConsentInteractor.ConsentCallback> consentCallbackCaptor;
+    private ArgumentCaptor<ConsentInteractor.ConsentCallback> consentCallbackCaptor;
 
 
     @Before
@@ -108,8 +108,8 @@ public class DataPushSynchroniseTest {
         synchronise.userAccessProvider = userAccessProviderSpy;
         synchronise.eventing = eventingSpy;
         synchronise.synchronisationManager = synchronisationManagerMock;
-        getConsentInteractorMock = new GetConsentInteractorMock(consentAccessToolKitMock);
-        synchronise.getConsentInteractor = getConsentInteractorMock;
+        getConsentInteractorMock = new ConsentInteractorMock(consentAccessToolKitMock);
+        synchronise.consentInteractor = getConsentInteractorMock;
     }
 
     @Test

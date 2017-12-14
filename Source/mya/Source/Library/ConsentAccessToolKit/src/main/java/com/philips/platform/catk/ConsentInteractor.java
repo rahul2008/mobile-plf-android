@@ -23,14 +23,14 @@ import java.util.Collection;
 import java.util.Set;
 
 
-public class GetConsentInteractor {
+public class ConsentInteractor {
 
     @NonNull
     private final ConsentAccessToolKit consentAccessToolKit;
 
     private Map<String, ConsentDefinition> definitionsByType;
 
-    public GetConsentInteractor(@NonNull final ConsentAccessToolKit consentAccessToolKit) {
+    public ConsentInteractor(@NonNull final ConsentAccessToolKit consentAccessToolKit) {
         this.consentAccessToolKit = consentAccessToolKit;
         setupConsentDefinitions(consentAccessToolKit.getConsentDefinitions());
     }
