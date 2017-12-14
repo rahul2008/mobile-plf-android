@@ -1,13 +1,12 @@
 package com.philips.platform.csw.permission;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.philips.platform.catk.ConsentAccessToolKit;
-import com.philips.platform.catk.CreateConsentInteractor;
 import com.philips.platform.catk.ConsentInteractor;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.permission.adapter.PermissionAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import dagger.Module;
 import dagger.Provides;
@@ -50,11 +49,6 @@ public class PermissionModule {
     @Provides
     static ConsentAccessToolKit provideConsentAccessToolkit() {
         return ConsentAccessToolKit.getInstance();
-    }
-
-    @Provides
-    static CreateConsentInteractor provideCreateConsentInteractor(ConsentAccessToolKit consentAccessToolKit) {
-        return new CreateConsentInteractor(consentAccessToolKit);
     }
 
     @Provides

@@ -2,10 +2,9 @@ package com.philips.platform.csw.permission;
 
 import com.android.volley.VolleyError;
 import com.philips.platform.catk.ConsentInteractor;
-import com.philips.platform.catk.CreateConsentInteractor;
 import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.model.Consent;
+import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 
 import org.junit.Before;
@@ -27,9 +26,7 @@ public class PermissionPresenterTest {
     @Mock
     private PermissionInterface mockPermissionInterface;
     @Mock
-    private ConsentInteractor mockGetInteractor;
-    @Mock
-    private CreateConsentInteractor mockCreateInteractor;
+    private ConsentInteractor mockInteractor;
     @Mock
     private PermissionAdapter mockAdapter;
     @Mock
@@ -40,7 +37,7 @@ public class PermissionPresenterTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, mockGetInteractor, mockCreateInteractor, mockAdapter);
+        mPermissionPresenter = new PermissionPresenter(mockPermissionInterface, mockInteractor, mockAdapter);
     }
 
     @Test
@@ -52,7 +49,7 @@ public class PermissionPresenterTest {
     @Test
     public void testGetConsentsIsCalledOnInteractor() throws Exception {
         mPermissionPresenter.getConsentStatus();
-        verify(mockGetInteractor).fetchLatestConsents(mPermissionPresenter);
+        verify(mockInteractor).fetchLatestConsents(mPermissionPresenter);
     }
 
     @Test
