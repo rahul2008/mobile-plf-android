@@ -100,6 +100,8 @@ include ':telehealthApp'
 project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app')
 include ':uidApp'
 project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
+include ':uAppFwLibApp'
+project(':uAppFwLibApp').projectDir = new File('./Source/ufw/Source/DemoApp/app')
 //demoapps NOT to be published to artifactory
 //include ':securedblibraryApp'
 //project(':securedblibraryApp').projectDir = new File('./Source/sdb/Source/DemoApp/app')
