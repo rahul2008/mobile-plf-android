@@ -1,9 +1,10 @@
+rootProject.setName 'MyAccount'
 include ':app'
-include 'DemoUApp'
-project(':DemoUApp').projectDir = new File('../DemoUApp/DemoUApp')
-include 'MyAccount'
+include ':MyAccountUApp'
+project(':MyAccountUApp').projectDir = new File('../DemoUApp/DemoUApp')
+include ':MyAccount'
 project(':MyAccount').projectDir = new File('../Library/MyAccount')
-include 'ConsentWidgets'
+include ':ConsentWidgets'
 project(':ConsentWidgets').projectDir = new File('../Library/ConsentWidgets')
-include 'ConsentAccessToolKit'
+include ':ConsentAccessToolKit'
 project(':ConsentAccessToolKit').projectDir = new File('../Library/ConsentAccessToolKit')

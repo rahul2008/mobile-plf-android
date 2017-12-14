@@ -47,7 +47,6 @@ include ':MyAccountUApp'
 include ':ews'
 
 //opa archive references:
-
 project(':AppInfra').projectDir = new File('./Source/ail/Source/Library/AppInfra')
 project(':AppInfraUApp').projectDir = new File('./Source/ail/Source/DemoUApp/app-infra-demo-uapp')
 project(':prx').projectDir = new File('./Source/prx/Source/Library/PrxSample/prx')
@@ -98,7 +97,8 @@ include ':UserRegistrationApp'
 project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
 include ':telehealthApp'
 project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app')
-
+include ':uidApp'
+project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
 //demoapps NOT to be published to artifactory
 //include ':securedblibraryApp'
 //project(':securedblibraryApp').projectDir = new File('./Source/sdb/Source/DemoApp/app')
@@ -114,10 +114,9 @@ project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app
 //project(':dataServicesApp').projectDir = new File('./Source/dsc/Source/DemoApp/data_sync_app')
 //include ':prxApp'
 //project(':prxApp').projectDir = new File('./Source/prx/Source/Library/PrxSample/app')
-//include ':MyAccountDemoapp'
-//project(':MyAccountDemoapp').projectDir = new File('./Source/mya/Source/DemoApp/app')
-//include ':commlib-demoapp'
-//project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
-//include ':bluelib-demoapp'
-//project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
-
+include ':MyAccountApp'
+project(':MyAccountApp').projectDir = new File('./Source/mya/Source/DemoApp/app')
+include ':commlib-demoapp'
+project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
+include ':bluelib-demoapp'
+project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
