@@ -375,7 +375,7 @@ dependencies {
     }
 
     if (dp) {
-        project(':ewsUApp')
+        compile project(':ewsUApp')
     } else {
         compile(group: 'com.philips.cdp', name: 'ewsUApp', version: versions.ews_ews + objcdp.getVersionSuffix())
 
