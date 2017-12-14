@@ -47,7 +47,6 @@ include ':MyAccountUApp'
 include ':ews'
 
 //opa archive references:
-
 project(':AppInfra').projectDir = new File('./Source/ail/Source/Library/AppInfra')
 project(':AppInfraUApp').projectDir = new File('./Source/ail/Source/DemoUApp/app-infra-demo-uapp')
 project(':prx').projectDir = new File('./Source/prx/Source/Library/PrxSample/prx')
@@ -121,4 +120,3 @@ include ':commlib-demoapp'
 project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
 include ':bluelib-demoapp'
 project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
-
