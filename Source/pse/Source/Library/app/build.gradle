@@ -182,7 +182,7 @@ configurations.all {
 
 dependencies {
 
-   compile(project(':pse'))
+   compile(project(':productselection'))
 
     //compile(group: 'com.philips.cdp', name: 'Tagging', version: '3.0.0', ext: 'aar')
     compile 'com.android.support:appcompat-v7:26.0.2'

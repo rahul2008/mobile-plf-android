@@ -1,5 +1,5 @@
 .idea/*
 .gradle/
 build/
-plf-android.iml
-Source/ths/Source/Library/thsuapp/telehealth-telehealth.iml
+local.properties
+*.iml

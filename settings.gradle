@@ -22,19 +22,20 @@ include ':product-registration-lib'
 include ':product-registration-libUApp'
 include ':dataServices'
 include ':dataServicesUApp'
-//include ':devicepairingUApp'
+include ':devicepairingUApp'
 //include ':referenceApp'
 //include ':pushnotification'
-//include ':cloudcontroller-api'
-//include ':cloudcontroller'
-//include ':commlib'
-//include ':commlib-demouapp'
+//include ':themesettings'
+include ':cloudcontroller-api'
+include ':cloudcontroller'
+include ':commlib'
+include ':commlib-demouapp'
 include ':bluelib'
-//include ':commlib-ble'
-//include ':commlib-testutils'
-//include ':commlib-api'
-//include ':commlib-lan'
-//include ':commlib-cloud'
+include ':commlib-ble'
+include ':commlib-testutils'
+include ':commlib-api'
+include ':commlib-lan'
+include ':commlib-cloud'
 include ':bluelib-demouapp'
 include ':pluginreferenceboard'
 include ':securedblibrary'
@@ -43,7 +44,7 @@ include ':MyAccount'
 include ':ConsentWidgets'
 include ':ConsentAccessToolKit'
 include ':MyAccountUApp'
-//include ':ews'
+include ':ews'
 
 //opa archive references:
 
@@ -68,19 +69,20 @@ project(':product-registration-lib').projectDir = new File('./Source/prg/Source/
 project(':product-registration-libUApp').projectDir = new File('./Source/prg/Source/DemoUApp')
 project(':dataServices').projectDir = new File('./Source/dsc/Source/Library/dataServices')
 project(':dataServicesUApp').projectDir = new File('./Source/dsc/Source/DemoUApp')
-//project(':devicepairingUApp').projectDir = new File('./Source/dpr/Source/DemoUApp')
+project(':devicepairingUApp').projectDir = new File('./Source/dpr/Source/DemoUApp')
 //project(':referenceApp').projectDir = new File('./Source/rap/Source/AppFramework/appFramework')
 //project(':pushnotification').projectDir = new File('./Source/rap/Source/AppFramework/pushnotification')
-//project(':cloudcontroller-api').projectDir = new File('./Source/cml/Source/Library/cloudcontroller-api')
-//project(':cloudcontroller').projectDir = new File('./Source/cml/Source/Library/cloudcontroller')
-//project(':commlib').projectDir = new File('./Source/cml/Source/Library/commlib')
-//project(':commlib-demouapp').projectDir = new File('./Source/cml/Source/DemoUApp')
+//project(':themesettings').projectDir = new File('./Source/rap/Source/AppFramework/themesettings')
+project(':cloudcontroller-api').projectDir = new File('./Source/cml/Source/Library/cloudcontroller-api')
+project(':cloudcontroller').projectDir = new File('./Source/cml/Source/Library/cloudcontroller')
+project(':commlib').projectDir = new File('./Source/cml/Source/Library/commlib')
+project(':commlib-demouapp').projectDir = new File('./Source/cml/Source/DemoUApp')
 project(':bluelib').projectDir = new File('./Source/bll/Source/ShineLib/shinelib')
-//project(':commlib-ble').projectDir = new File('./Source/cml/Source/Library/commlib-ble')
-//project(':commlib-testutils').projectDir = new File('./Source/cml/Source/Library/commlib-testutils')
-//project(':commlib-api').projectDir = new File('./Source/cml/Source/Library/commlib-api')
-//project(':commlib-lan').projectDir = new File('./Source/cml/Source/Library/commlib-lan')
-//project(':commlib-cloud').projectDir = new File('./Source/cml/Source/Library/commlib-cloud')
+project(':commlib-ble').projectDir = new File('./Source/cml/Source/Library/commlib-ble')
+project(':commlib-testutils').projectDir = new File('./Source/cml/Source/Library/commlib-testutils')
+project(':commlib-api').projectDir = new File('./Source/cml/Source/Library/commlib-api')
+project(':commlib-lan').projectDir = new File('./Source/cml/Source/Library/commlib-lan')
+project(':commlib-cloud').projectDir = new File('./Source/cml/Source/Library/commlib-cloud')
 project(':bluelib-demouapp').projectDir = new File('./Source/bll/Source/DemoUApp')
 project(':pluginreferenceboard').projectDir = new File('./Source/bll/Source/ShineLib/pluginreferenceboard')
 project(':securedblibrary').projectDir = new File('./Source/sdb/Source/Library/securedblibrary')
@@ -89,11 +91,16 @@ project(':MyAccount').projectDir = new File('./Source/mya/Source/Library/MyAccou
 project(':ConsentWidgets').projectDir = new File('./Source/mya/Source/Library/ConsentWidgets')
 project(':ConsentAccessToolKit').projectDir = new File('./Source/mya/Source/Library/ConsentAccessToolKit')
 project(':MyAccountUApp').projectDir = new File('./Source/mya/Source/DemoUApp/DemoUApp')
-//project(':ews').projectDir = new File('./Source/ews/Source/Library/ews')
+project(':ews').projectDir = new File('./Source/ews/Source/Library/ews')
 
-//demoapps
-//include ':UserRegistrationApp'
-//project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
+//demoapps to be published to artifactory
+include ':UserRegistrationApp'
+project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
+include ':telehealthApp'
+project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app')
+include ':uidApp'
+project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
+//demoapps NOT to be published to artifactory
 //include ':securedblibraryApp'
 //project(':securedblibraryApp').projectDir = new File('./Source/sdb/Source/DemoApp/app')
 //include ':digitalCareApp'
@@ -108,5 +115,10 @@ project(':MyAccountUApp').projectDir = new File('./Source/mya/Source/DemoUApp/De
 //project(':dataServicesApp').projectDir = new File('./Source/dsc/Source/DemoApp/data_sync_app')
 //include ':prxApp'
 //project(':prxApp').projectDir = new File('./Source/prx/Source/Library/PrxSample/app')
-//include ':MyAccountDemoapp'
-//project(':MyAccountDemoapp').projectDir = new File('./Source/mya/Source/DemoApp/app')
+include ':MyAccountApp'
+project(':MyAccountApp').projectDir = new File('./Source/mya/Source/DemoApp/app')
+include ':commlib-demoapp'
+project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
+include ':bluelib-demoapp'
+project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
+
