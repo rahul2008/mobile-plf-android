@@ -114,8 +114,8 @@ project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app
 //project(':dataServicesApp').projectDir = new File('./Source/dsc/Source/DemoApp/data_sync_app')
 //include ':prxApp'
 //project(':prxApp').projectDir = new File('./Source/prx/Source/Library/PrxSample/app')
-//include ':MyAccountDemoapp'
-//project(':MyAccountDemoapp').projectDir = new File('./Source/mya/Source/DemoApp/app')
+include ':MyAccountApp'
+project(':MyAccountApp').projectDir = new File('./Source/mya/Source/DemoApp/app')
 //include ':commlib-demoapp'
 //project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
 //include ':bluelib-demoapp'
