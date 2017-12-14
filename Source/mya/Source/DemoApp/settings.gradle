@@ -1,4 +1,4 @@
-rootProject.Name 'MyAccount'
+rootProject.setName 'MyAccount'
 include ':app'
 include ':MyAccountUApp'
 project(':MyAccountUApp').projectDir = new File('../DemoUApp/DemoUApp')
