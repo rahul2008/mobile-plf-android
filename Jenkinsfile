@@ -281,7 +281,7 @@ timestamps {
     //            }
 
             stage ('reporting') {
-               androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
+           //    androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
             }
         } catch(err) {
             errors << "errors found: ${err}"
