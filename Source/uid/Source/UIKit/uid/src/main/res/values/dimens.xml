@@ -282,4 +282,21 @@
     <dimen name="uid_slider_progress_bar_height">4dp</dimen>
     <dimen name="uid_slider_min_width">96dp</dimen>
 
+    <!--Bottom Tab Bar-->
+    <dimen name="uid_tab_min_width">72dp</dimen>
+    <dimen name="uid_tab_layout_height_without_title">48dp</dimen>
+    <dimen name="uid_tab_layout_height_with_title">56dp</dimen>
+    <dimen name="uid_tab_padding">0dp</dimen>
+    <dimen name="uid_tab_indicator_height">0dp</dimen>
+    <dimen name="uid_tab_layout_elevation">30dp</dimen>
+    <dimen name="uid_tab_item_margin_top_bottom">12dp</dimen>
+    <dimen name="uid_tab_icon_height_width">24dp</dimen>
+    <dimen name="uid_tab_icon_margin_top">8dp</dimen>
+    <dimen name="uid_tab_label_margin_top_bottom">4dp</dimen>
+    <dimen name="uid_tab_label_margin_start_end">12dp</dimen>
+    <dimen name="uid_tab_label_text_size">12sp</dimen>
+    <dimen name="uid_tab_notification_margin_start">14dp</dimen>
+    <dimen name="uid_tab_notification_margin_bottom">10dp</dimen>
+    <bool name="uid_is_tablet">false</bool>
+
 </resources>

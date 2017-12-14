@@ -340,4 +340,19 @@
     <string name="slider_icon_start_label">Min</string>
     <string name="slider_icon_end_label">Max</string>
 
+    <!--Bottom tab bar-->
+    <string name="page_title_bottom_tab_bar">Bottom tab bar</string>
+    <string name="page_title_bottom_tab_settings">Bottom tab bar Settings</string>
+    <string name="icon_only">Icon only</string>
+    <string name="items">Items</string>
+    <string name="four_items">4 items</string>
+    <string name="more_items">More than 5 items</string>
+    <string name="show_bottom_tab_bar">Show bottom tab bar</string>
+    <string name="search">Search</string>
+    <string name="cart">Cart</string>
+    <string name="alerts">Alerts</string>
+    <string name="profile">Profile</string>
+    <string name="capture">Capture</string>
+    <string name="speech">Speech</string>
+
 </resources>

@@ -68,4 +68,8 @@
     <item name="uid_about_screen_terms" type="id"/>
     <item name="uid_about_screen_privacy" type="id"/>
     <item name="uid_about_screen_disclosure" type="id"/>
+    <item name="uid_tab_icon" type="id"/>
+    <item name="uid_tab_label" type="id"/>
+    <item name="uid_tab_frame_layout" type="id"/>
+    <item name="uid_tab_notification_badge" type="id"/>
 </resources>
