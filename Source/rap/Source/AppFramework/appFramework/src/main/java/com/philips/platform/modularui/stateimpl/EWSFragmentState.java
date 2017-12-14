@@ -9,7 +9,7 @@ import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.configuration.TroubleShootContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSDependencies;
-import com.philips.cdp2.ews.microapp.EWSInterface;
+//import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.microapp.EWSLauncherInput;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
@@ -46,15 +46,15 @@ public class EWSFragmentState extends BaseState {
     @Override
     public void navigate(UiLauncher uiLauncher) {
         RALog.d(TAG, " navigate to EWS Launcher called");
-        EWSInterface ewsInterface = getEwsApp();
-        ewsInterface.init(getUappDependencies(), getUappSettings());
-        ewsInterface.launch(getFragmentLauncher(uiLauncher), new EWSLauncherInput());
+//        EWSInterface ewsInterface = getEwsApp();
+//        ewsInterface.init(getUappDependencies(), getUappSettings());
+//        ewsInterface.launch(getFragmentLauncher(uiLauncher), new EWSLauncherInput());
     }
 
-    @NonNull
-    protected EWSInterface getEwsApp() {
-        return new EWSInterface();
-    }
+//    @NonNull
+//    protected EWSInterface getEwsApp() {
+//        return new EWSInterface();
+//    }
 
     @NonNull
     protected FragmentLauncher getFragmentLauncher(UiLauncher uiLauncher) {
@@ -76,7 +76,7 @@ public class EWSFragmentState extends BaseState {
         */
 
         return new EWSDependencies(appInfra, createProductMap(),
-                new ContentConfiguration(new BaseContentConfiguration(),
+                new ContentConfiguration(new BaseContentConfiguration.Builder().build(),
                         new HappyFlowContentConfiguration.Builder().build(),
                         new TroubleShootContentConfiguration.Builder().build())) {
             @Override
@@ -91,7 +91,7 @@ public class EWSFragmentState extends BaseState {
     @NonNull
     protected Map<String, String> createProductMap() {
         Map<String, String> productKeyMap = new HashMap<>();
-        productKeyMap.put(EWSInterface.PRODUCT_NAME, context.getString(R.string.ews_device_name_default));
+//        productKeyMap.put(EWSInterface.PRODUCT_NAME, context.getString(R.string.ews_device_name_default));
         return productKeyMap;
     }
 
