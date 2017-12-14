@@ -158,13 +158,13 @@ timestamps {
             }
 
             stage ('lint') {
-                sh '''#!/bin/bash -l
+/*                 sh '''#!/bin/bash -l
                     set -e
                     #chmod -R 755 .
                     #do not use -PenvCode=${JENKINS_ENV} since the option 'opa' is hardcoded in the archive
                     ./gradlew :IconFont:lint :AppInfra:lint :uikitLib:lint :securedblibrary:lint :registrationApi:lint :productselection:lint :telehealth:lintRelease :bluelib:lintDebug :product-registration-lib:lint :iap:lint :digitalCare:lint :cloudcontroller-api:lintDebug :commlib:lintDebug :MyAccount:lint :MyAccountUApp:lint :dataServices:lintRelease :devicepairingUApp:lint
                     #prx:lint and rap:lintRelease are not working and we are keeping it as known issues
-                '''
+                ''' */
             }
 
             if (params.PSRAbuild && (BranchName =~ /master|release\/platform_.*/))  {
