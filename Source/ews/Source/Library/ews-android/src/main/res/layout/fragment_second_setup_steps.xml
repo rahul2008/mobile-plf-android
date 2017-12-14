@@ -1,0 +1,81 @@
+<!--
+  ~ Copyright (c) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.philips.platform.ews.setupsteps.SecondSetupStepsViewModel" />
+
+    </data>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/default_screen_bottom_margin"
+            android:paddingEnd="@dimen/default_body_labels_margin"
+            android:paddingStart="@dimen/default_body_labels_margin">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ews_02_02_label_verify_ready_title"
+                style="@style/Txt.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_screen_top_margin"
+                android:text="@{viewModel.title}" />
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/Txt.Body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_body_labels_margin"
+                android:text="@{viewModel.question}" />
+
+            <ImageView
+                android:id="@+id/ews_press_and_play_icon"
+                style="@style/EWS.ImageScale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_image_top_margin"
+                android:adjustViewBounds="true"
+                android:src="@{viewModel.image}"
+                android:contentDescription="@null" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/ews_02_02_button_verify_ready_yes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewModel.onNextButtonClicked()}"
+                android:layout_marginTop="@dimen/default_main_button_top_margin"
+                android:text="@{viewModel.yesButton}"
+                app:uidComponentType="Primary" />
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/ews_02_02_button_verify_ready_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_between_button_margin"
+                android:onClick="@{() -> viewModel.onNoButtonClicked()}"
+                android:text="@{viewModel.noButton}"
+                app:uidComponentType="Secondary" />
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</layout>
