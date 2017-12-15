@@ -45,6 +45,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -156,6 +157,25 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
         boolean startScanning = shnDeviceScannerInternal.startScanning(null, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
         assertThat(startScanning).isTrue();
+        verify(bleUtilitiesMock).startLeScan(any(ScanCallback.class));
+    }
+
+    @Test
+    public void givenScanning_WhenBluetoothIsTurnedOff_ThenScannerIsNotRestarted() throws InterruptedException {
+        whenScanning_ThenStartLeScanOnTheBluetoothAdapterIsCalled();
+        reset(bleUtilitiesMock);
+        doReturn(false).when(shnCentralMock).isBluetoothAdapterEnabled();
+        shnDeviceScannerInternal.onStateUpdated(shnCentralMock);
+        verify(bleUtilitiesMock, never()).stopLeScan(any(ScanCallback.class));
+        verify(bleUtilitiesMock, never()).startLeScan(any(ScanCallback.class));
+    }
+    @Test
+    public void givenScanning_AndBluetoothIsTurnedOff_WhenBluetoothIsTurnedOfn_ThenScannerIsRestarted() throws InterruptedException {
+        givenScanning_WhenBluetoothIsTurnedOff_ThenScannerIsNotRestarted();
+        reset(bleUtilitiesMock);
+        doReturn(true).when(shnCentralMock).isBluetoothAdapterEnabled();
+        shnDeviceScannerInternal.onStateUpdated(shnCentralMock);
+        verify(bleUtilitiesMock).stopLeScan(any(ScanCallback.class));
         verify(bleUtilitiesMock).startLeScan(any(ScanCallback.class));
     }
 

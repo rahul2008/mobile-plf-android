@@ -53,7 +53,10 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
     private final ModificationListener<String> deviceCacheListener = new ModificationListener<String>() {
         @Override
         public void onRemoved(String cppId) {
-            isAvailable = false;
+            if (isAvailable) {
+                isAvailable = false;
+                notifyAvailabilityChanged();
+            }
         }
 
         @Override

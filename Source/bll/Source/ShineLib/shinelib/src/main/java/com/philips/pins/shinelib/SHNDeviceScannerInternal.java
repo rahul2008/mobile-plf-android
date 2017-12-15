@@ -30,10 +30,10 @@ import static com.philips.pins.shinelib.SHNDeviceScanner.ScannerSettingDuplicate
  *
  * @publicPluginApi
  */
-public class SHNDeviceScannerInternal {
+public class SHNDeviceScannerInternal implements SHNCentral.SHNCentralListener {
     private static final String TAG = SHNDeviceScannerInternal.class.getSimpleName();
 
-    static final long SCANNING_RESTART_INTERVAL_MS = 30000L;
+    static final long SCANNING_RESTART_INTERVAL_MS = 30_000L;
 
     @Nullable
     private LeScanCallbackProxy leScanCallbackProxy;
@@ -48,7 +48,16 @@ public class SHNDeviceScannerInternal {
     SHNDeviceScannerInternal(@NonNull final SHNCentral shnCentral, @NonNull final List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
         SHNDeviceFoundInfo.setSHNCentral(shnCentral);
         this.shnCentral = shnCentral;
+        this.shnCentral.registerShnCentralListener(this);
         this.registeredDeviceDefinitions = registeredDeviceDefinitions;
+    }
+
+    @Override
+    public void onStateUpdated(@NonNull SHNCentral shnCentral) {
+        if (leScanCallbackProxy != null && shnCentral.isBluetoothAdapterEnabled()) {
+            leScanCallbackProxy.stopLeScan(leScanCallback);
+            leScanCallbackProxy.startLeScan(leScanCallback);
+        }
     }
 
     /**
@@ -57,8 +66,7 @@ public class SHNDeviceScannerInternal {
      *
      * @param shnDeviceScannerListener Callback listener
      * @param scannerSettingDuplicates Scan settings
-     * @param stopScanningAfterMS Stop scanning after time in Ms
-     *
+     * @param stopScanningAfterMS      Stop scanning after time in Ms
      * @return Scan successfully stated
      */
     public boolean startScanning(@NonNull SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener, ScannerSettingDuplicates scannerSettingDuplicates, long stopScanningAfterMS) {
@@ -69,7 +77,6 @@ public class SHNDeviceScannerInternal {
      * Start scanning for devices
      *
      * @param SHNInternalScanRequest Contains scan settings and callback
-     *
      * @return Scan successfully stated
      */
     public boolean startScanning(@NonNull final SHNInternalScanRequest SHNInternalScanRequest) {
