@@ -23,9 +23,9 @@ include ':product-registration-libUApp'
 include ':dataServices'
 include ':dataServicesUApp'
 include ':devicepairingUApp'
-//include ':referenceApp'
-//include ':pushnotification'
-//include ':themesettings'
+include ':referenceApp'
+include ':pushnotification'
+include ':themesettings'
 include ':cloudcontroller-api'
 include ':cloudcontroller'
 include ':commlib'
@@ -44,10 +44,10 @@ include ':MyAccount'
 include ':ConsentWidgets'
 include ':ConsentAccessToolKit'
 include ':MyAccountUApp'
-include ':ews'
+include ':ews-android'
+include ':ewsUApp'
 
 //opa archive references:
-
 project(':AppInfra').projectDir = new File('./Source/ail/Source/Library/AppInfra')
 project(':AppInfraUApp').projectDir = new File('./Source/ail/Source/DemoUApp/app-infra-demo-uapp')
 project(':prx').projectDir = new File('./Source/prx/Source/Library/PrxSample/prx')
@@ -70,9 +70,9 @@ project(':product-registration-libUApp').projectDir = new File('./Source/prg/Sou
 project(':dataServices').projectDir = new File('./Source/dsc/Source/Library/dataServices')
 project(':dataServicesUApp').projectDir = new File('./Source/dsc/Source/DemoUApp')
 project(':devicepairingUApp').projectDir = new File('./Source/dpr/Source/DemoUApp')
-//project(':referenceApp').projectDir = new File('./Source/rap/Source/AppFramework/appFramework')
-//project(':pushnotification').projectDir = new File('./Source/rap/Source/AppFramework/pushnotification')
-//project(':themesettings').projectDir = new File('./Source/rap/Source/AppFramework/themesettings')
+project(':referenceApp').projectDir = new File('./Source/rap/Source/AppFramework/appFramework')
+project(':pushnotification').projectDir = new File('./Source/rap/Source/AppFramework/pushnotification')
+project(':themesettings').projectDir = new File('./Source/rap/Source/AppFramework/themesettings')
 project(':cloudcontroller-api').projectDir = new File('./Source/cml/Source/Library/cloudcontroller-api')
 project(':cloudcontroller').projectDir = new File('./Source/cml/Source/Library/cloudcontroller')
 project(':commlib').projectDir = new File('./Source/cml/Source/Library/commlib')
@@ -91,7 +91,8 @@ project(':MyAccount').projectDir = new File('./Source/mya/Source/Library/MyAccou
 project(':ConsentWidgets').projectDir = new File('./Source/mya/Source/Library/ConsentWidgets')
 project(':ConsentAccessToolKit').projectDir = new File('./Source/mya/Source/Library/ConsentAccessToolKit')
 project(':MyAccountUApp').projectDir = new File('./Source/mya/Source/DemoUApp/DemoUApp')
-project(':ews').projectDir = new File('./Source/ews/Source/Library/ews')
+project(':ews-android').projectDir = new File('./Source/ews/Source/Library/ews-android')
+project(':ewsUApp').projectDir = new File('./Source/ews/Source/DemoUApp/DemoUApp')
 
 //demoapps to be published to artifactory
 include ':UserRegistrationApp'
@@ -103,8 +104,8 @@ project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
 //demoapps NOT to be published to artifactory
 //include ':securedblibraryApp'
 //project(':securedblibraryApp').projectDir = new File('./Source/sdb/Source/DemoApp/app')
-//include ':digitalCareApp'
-//project(':digitalCareApp').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
+//include ':launchDigitalCare'
+//project(':launchDigitalCare').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
 //include(':iapApp')
 //project(':iapApp').projectDir = new File('./Source/iap/Source/DemoApp/app')
 //include ':productselectionApp'
@@ -121,4 +122,3 @@ include ':commlib-demoapp'
 project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
 include ':bluelib-demoapp'
 project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
-

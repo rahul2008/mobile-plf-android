@@ -50,7 +50,7 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.SPLASH, new SplashState());
         uiStateMap.put(AppStates.WEB_VIEW_STATE,new WebViewState());
         uiStateMap.put(AppStates.CONNECTIVITY, new ConnectivityFragmentState());
-        uiStateMap.put(AppStates.EWS, new EWSFragmentState());
+        //uiStateMap.put(AppStates.EWS, new EWSFragmentState());
         uiStateMap.put(AppStates.POWER_SLEEP_CONNECTIVITY, new PowerSleepConnectivityFragmentState());
         uiStateMap.put(AppStates.INSIGHTS, new InsightsFragmentState());
         uiStateMap.put(AppStates.COCO_VERSION_INFO, new CocoVersionState());
