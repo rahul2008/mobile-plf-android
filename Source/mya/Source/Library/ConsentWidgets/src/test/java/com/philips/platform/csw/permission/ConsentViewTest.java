@@ -1,9 +1,9 @@
 package com.philips.platform.csw.permission;
 
-import com.philips.platform.catk.model.BackendConsent;
-import com.philips.platform.catk.model.ConsentStatus;
+import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentStatus;
 import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.Consent;
+import com.philips.platform.consenthandlerinterface.datamodel.Consent;
 
 import org.junit.Before;
 import org.junit.Test;

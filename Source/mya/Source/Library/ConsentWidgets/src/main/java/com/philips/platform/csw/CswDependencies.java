@@ -8,12 +8,19 @@
 package com.philips.platform.csw;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 public class CswDependencies extends UappDependencies {
 
-    public CswDependencies(AppInfraInterface appInfra) {
+    private final ConsentHandlerInterface consentHandlerInterface;
+
+    public CswDependencies(AppInfraInterface appInfra, ConsentHandlerInterface consentHandlerInterface) {
         super(appInfra);
+        this.consentHandlerInterface = consentHandlerInterface;
     }
 
+    public ConsentHandlerInterface getConsentHandlerInterface() {
+        return consentHandlerInterface;
+    }
 }

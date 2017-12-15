@@ -43,6 +43,7 @@ include ':telehealth'
 include ':MyAccount'
 include ':ConsentWidgets'
 include ':ConsentAccessToolKit'
+include ':ConsentHandlerInterface'
 include ':MyAccountUApp'
 include ':ews-android'
 include ':ewsUApp'
@@ -90,6 +91,7 @@ project(':telehealth').projectDir = new File('./Source/ths/Source/Library/thsuap
 project(':MyAccount').projectDir = new File('./Source/mya/Source/Library/MyAccount')
 project(':ConsentWidgets').projectDir = new File('./Source/mya/Source/Library/ConsentWidgets')
 project(':ConsentAccessToolKit').projectDir = new File('./Source/mya/Source/Library/ConsentAccessToolKit')
+project(':ConsentHandlerInterface').projectDir = new File('./Source/mya/Source/Library/ConsentHandlerInterface')
 project(':MyAccountUApp').projectDir = new File('./Source/mya/Source/DemoUApp/DemoUApp')
 project(':ews-android').projectDir = new File('./Source/ews/Source/Library/ews-android')
 project(':ewsUApp').projectDir = new File('./Source/ews/Source/DemoUApp/DemoUApp')

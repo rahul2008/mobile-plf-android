@@ -232,6 +232,7 @@ dependencies {
     compile 'com.android.support:support-annotations:26.0.2'
     compile 'joda-time:joda-time:2.9.7'
     compile 'com.google.code.gson:gson:2.7'
+    compile(project(':ConsentHandlerInterface'))
 
     def daggerVer = 2.11
     compile "com.google.dagger:dagger:$daggerVer"

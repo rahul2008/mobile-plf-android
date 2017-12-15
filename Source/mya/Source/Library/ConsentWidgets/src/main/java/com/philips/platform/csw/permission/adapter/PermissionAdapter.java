@@ -14,8 +14,9 @@ import javax.inject.Inject;
 
 import com.philips.platform.catk.CatkConstants;
 import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.Consent;
+import com.philips.platform.consenthandlerinterface.ConsentError;
+import com.philips.platform.consenthandlerinterface.datamodel.Consent;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 import com.philips.platform.csw.permission.ConsentToggleListener;
 import com.philips.platform.csw.permission.ConsentView;
 import com.philips.platform.csw.permission.HelpClickListener;
@@ -89,22 +90,22 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
         notifyItemRangeChanged(HEADER_COUNT, consentViews.size() + HEADER_COUNT);
     }
 
-    public void onGetConsentFailed(ConsentNetworkError error) {
+    public void onGetConsentFailed(ConsentError error) {
         for (ConsentView consentView : items) {
             consentView.setError(true);
             consentView.setIsLoading(false);
-            consentView.setOnline(error.getCatkErrorCode() != CatkConstants.CONSENT_ERROR_NO_CONNECTION);
+            consentView.setOnline(error.getErrorCode() != CatkConstants.CONSENT_ERROR_NO_CONNECTION);
         }
         notifyItemRangeChanged(HEADER_COUNT, items.size() + HEADER_COUNT);
     }
 
-    public void onCreateConsentFailed(ConsentDefinition definition, ConsentNetworkError error) {
+    public void onCreateConsentFailed(ConsentDefinition definition, ConsentError error) {
         int position = getIndexOfViewWithDefinition(definition);
         if (position != NOT_FOUND) {
             ConsentView consentView = items.get(position);
             consentView.setError(true);
             consentView.setIsLoading(false);
-            consentView.setOnline(error.getCatkErrorCode() != CatkConstants.CONSENT_ERROR_NO_CONNECTION);
+            consentView.setOnline(error.getErrorCode() != CatkConstants.CONSENT_ERROR_NO_CONNECTION);
             notifyItemChanged(position + HEADER_COUNT);
         }
     }

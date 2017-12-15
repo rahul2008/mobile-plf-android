@@ -7,8 +7,8 @@
 
 package com.philips.platform.csw.permission;
 
-import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.Consent;
+import com.philips.platform.consenthandlerinterface.datamodel.Consent;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 
 import android.support.annotation.Nullable;
 

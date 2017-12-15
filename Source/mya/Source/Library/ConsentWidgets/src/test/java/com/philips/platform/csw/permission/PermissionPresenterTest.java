@@ -3,7 +3,7 @@ package com.philips.platform.csw.permission;
 import com.android.volley.VolleyError;
 import com.philips.platform.catk.ConsentInteractor;
 import com.philips.platform.catk.error.ConsentNetworkError;
-import com.philips.platform.catk.model.Consent;
+import com.philips.platform.consenthandlerinterface.datamodel.Consent;
 import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 

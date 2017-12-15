@@ -248,7 +248,20 @@ dependencies {
                     transitive = true
                 }
     }
-    compile(project(':ConsentAccessToolKit'))
+
+    if (dp) {
+        compile(project(':registrationApi'))
+    } else {
+        compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+                {
+                    transitive = true
+                    exclude group: 'com.android.support', module: 'customtabs'
+                    exclude group: 'com.google.dagger'
+                }
+    }
+
+
+    compile(project(':ConsentHandlerInterface'))
 
     // Tests
     testCompile 'junit:junit:4.12'

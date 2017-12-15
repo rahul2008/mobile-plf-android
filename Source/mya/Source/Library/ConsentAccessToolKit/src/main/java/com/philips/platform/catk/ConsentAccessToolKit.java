@@ -21,16 +21,19 @@ import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.mapper.ConsentToDtoMapper;
 import com.philips.platform.catk.mapper.DtoToConsentMapper;
-import com.philips.platform.catk.model.BackendConsent;
-import com.philips.platform.catk.model.ConsentDefinition;
 import com.philips.platform.catk.provider.AppInfraInfo;
 import com.philips.platform.catk.provider.ComponentProvider;
 import com.philips.platform.catk.provider.ServiceInfoProvider;
 import com.philips.platform.catk.utils.CatkLogger;
+import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
+import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class ConsentAccessToolKit {
 
@@ -49,7 +52,7 @@ public class ConsentAccessToolKit {
     private String propositionName;
     private ComponentProvider componentProvider;
     private ServiceInfoProvider serviceInfoProvider;
-    private List<ConsentDefinition> consentDefinitions;
+    private Map<ConsentHandlerInterface, ConsentConfiguration> consentConfigurations;
 
     ConsentAccessToolKit() {
     }
@@ -67,7 +70,7 @@ public class ConsentAccessToolKit {
         catkComponent = componentProvider.getComponent(catkInputs);
         initLogging();
         extractContextNames(catkInputs);
-        this.consentDefinitions = catkInputs.getConsentDefinitions();
+        this.consentConfigurations = catkInputs.getConfigurations();
         validateAppNameAndPropName();
     }
 
@@ -205,7 +208,11 @@ public class ConsentAccessToolKit {
     }
 
     public List<ConsentDefinition> getConsentDefinitions() {
-        return Collections.unmodifiableList(consentDefinitions);
+        final List<ConsentDefinition> definitions = new ArrayList<>();
+        for(ConsentConfiguration config : consentConfigurations.values()){
+            definitions.addAll(config.getConsentDefinitionList());
+        }
+        return Collections.unmodifiableList(definitions);
     }
 
     interface ConfigCompletionListener {

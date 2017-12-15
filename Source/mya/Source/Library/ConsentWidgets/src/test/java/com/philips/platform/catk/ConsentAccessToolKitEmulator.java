@@ -3,7 +3,7 @@ package com.philips.platform.catk;
 
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
-import com.philips.platform.catk.model.BackendConsent;
+import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
 
 import java.util.List;
 

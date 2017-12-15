@@ -7,12 +7,16 @@
 
 package com.philips.platform.catk;
 
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.catk.model.ConsentDefinition;
-
 import android.content.Context;
 
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.consenthandlerinterface.ConsentConfiguration;
+import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class is used to provide input parameters and customizations for BackendConsent access tool kit.
@@ -24,7 +28,7 @@ public class CatkInputs {
 
     private Context context;
 
-    private List<ConsentDefinition> consentDefinitions;
+    private Map<ConsentHandlerInterface, ConsentConfiguration> consentConfigurations;
 
     CatkInputs() {
     }
@@ -45,12 +49,12 @@ public class CatkInputs {
         this.appInfra = appInfra;
     }
 
-    List<ConsentDefinition> getConsentDefinitions() {
-        return consentDefinitions;
+    Map<ConsentHandlerInterface, ConsentConfiguration> getConfigurations() {
+        return consentConfigurations;
     }
 
-    void setConsentDefinitions(List<ConsentDefinition> consentDefinitions) {
-        this.consentDefinitions = consentDefinitions;
+    void setConsentConfigurations(Map<ConsentHandlerInterface, ConsentConfiguration> consentConfigurations) {
+        this.consentConfigurations = consentConfigurations;
     }
 
     public static class Builder {
@@ -71,14 +75,14 @@ public class CatkInputs {
             return this;
         }
 
-        public Builder setConsentDefinitions(List<ConsentDefinition> consentDefinitions) {
-            catkInputs.setConsentDefinitions(consentDefinitions);
+        public Builder setConfigurations(Map<ConsentHandlerInterface, ConsentConfiguration> consentConfigurations) {
+            catkInputs.setConsentConfigurations(consentConfigurations);
             return this;
         }
 
         public CatkInputs build() {
-            if (catkInputs.getConsentDefinitions() == null) {
-                throw new InvalidInputException("consent definitions were not given");
+            if (catkInputs.getConfigurations() == null) {
+                throw new InvalidInputException("consent configurations were not given");
             }
             return catkInputs;
         }

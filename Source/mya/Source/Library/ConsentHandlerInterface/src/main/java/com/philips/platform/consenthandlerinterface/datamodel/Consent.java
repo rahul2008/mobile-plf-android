@@ -1,4 +1,4 @@
-package com.philips.platform.catk.model;
+package com.philips.platform.consenthandlerinterface.datamodel;
 
 
 import android.support.annotation.NonNull;

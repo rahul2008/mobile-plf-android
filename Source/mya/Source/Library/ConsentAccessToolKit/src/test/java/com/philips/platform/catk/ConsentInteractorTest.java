@@ -14,11 +14,13 @@ import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.catk.listener.ConsentResponseListener;
 import com.philips.platform.catk.listener.CreateConsentListener;
 import com.philips.platform.catk.mock.LoggingInterfaceMock;
-import com.philips.platform.catk.model.BackendConsent;
+import com.philips.platform.consenthandlerinterface.ConsentCallback;
+import com.philips.platform.consenthandlerinterface.ConsentListCallback;
+import com.philips.platform.consenthandlerinterface.datamodel.BackendConsent;
 import com.philips.platform.catk.model.ConsentDefinition;
-import com.philips.platform.catk.model.ConsentDefinitionException;
-import com.philips.platform.catk.model.ConsentStatus;
-import com.philips.platform.catk.model.Consent;
+import com.philips.platform.consenthandlerinterface.ConsentDefinitionException;
+import com.philips.platform.consenthandlerinterface.datamodel.ConsentStatus;
+import com.philips.platform.consenthandlerinterface.datamodel.Consent;
 import com.philips.platform.catk.utils.CatkLogger;
 
 import org.junit.Before;
@@ -50,7 +52,7 @@ public class ConsentInteractorTest {
     @Mock
     private ConsentAccessToolKit mockContentAccessToolkit;
     @Mock
-    private ConsentInteractor.ConsentListCallback mockConsentListCallback;
+    private ConsentListCallback mockConsentListCallback;
     @Captor
     private ArgumentCaptor<ConsentInteractor.GetConsentsResponseListener> captorConsentDetails;
     @Captor
@@ -219,7 +221,7 @@ public class ConsentInteractorTest {
     }
 
 
-    private ConsentInteractor.ConsentCallback consentCallback = new ConsentInteractor.ConsentCallback() {
+    private ConsentCallback consentCallback = new ConsentCallback() {
 
         public Consent receivedRequiredConsent;
         public ConsentNetworkError receivedError;
