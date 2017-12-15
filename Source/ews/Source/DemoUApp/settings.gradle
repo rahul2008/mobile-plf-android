@@ -1,3 +1,3 @@
-include ':app'
-include 'ews'
-project(':ews').projectDir=new File('../Library/ews')
+include ':DemoUApp'
+include 'ews-android'
+project(':ews-android').projectDir=new File('../Library/ews-android')
