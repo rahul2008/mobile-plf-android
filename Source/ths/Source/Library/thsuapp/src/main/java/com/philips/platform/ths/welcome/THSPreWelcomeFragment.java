@@ -34,7 +34,7 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
     private Label mLabelSeeHowItWorks;
     private Label mLabelTermsAndConditions;
     private RelativeLayout mRelativeLayoutContainer;
-    private ImageView ths_terms_and_conditions_cross;
+    private Label ths_terms_and_conditions_cross;
 
     @Nullable
     @Override
