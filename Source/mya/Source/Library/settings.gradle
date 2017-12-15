@@ -1,4 +1,3 @@
-rootProject.Name 'MyAccount
 include ':app'
 include 'DemoUApp'
 project(':DemoUApp').projectDir = new File('../DemoUApp')
@@ -6,3 +5,5 @@ include 'ConsentAccessToolKit'
 project(':ConsentAccessToolKit').projectDir = new File('../Library/ConsentAccessToolKit')
 include 'ConsentWidgets'
 project(':ConsentWidgets').projectDir = new File('../Library/ConsentWidgets')
+include 'ConsentHandlerInterface'
+project(':ConsentHandlerInterface').projectDir = new File('../Library/ConsentHandlerInterface')

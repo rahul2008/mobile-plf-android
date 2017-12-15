@@ -214,10 +214,6 @@ android {
         exclude 'lib/x86/librsjni.so'
         exclude 'lib/x86/libRSSupport.so'
     }
-
-    lintOptions {
-        abortOnError false
-    }
 }
 
 configurations {
