@@ -149,7 +149,7 @@ android {
         abortOnError false
     }
     def Properties props = new Properties()
-    def propFile = new File('signing.properties')
+	def propFile = new File("${project.projectDir}/../signing.properties")
     if (propFile.canRead()) {
         props.load(new FileInputStream(propFile))
 
@@ -175,7 +175,7 @@ dependencies {
     })
     compile 'adobeMobileLibrary:adobeMobileLibrary:4.8.3'
     testCompile 'junit:junit:4.12'
-    compile project(':DemoUApp')
+    compile project(':uAppFwLibUApp')
 }
 
 tasks.withType(Test) {
