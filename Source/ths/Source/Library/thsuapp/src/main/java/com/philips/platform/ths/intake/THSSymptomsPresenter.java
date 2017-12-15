@@ -23,11 +23,9 @@ import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -36,8 +34,6 @@ import java.util.Map;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_CREATE_VISIT_CONTEXT;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_ON_DEMAND_SPECIALITIES;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT;
-import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
-import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCallBack<THSVisitContext, THSSDKError>, THSUploadDocumentCallback {
     protected THSBaseFragment thsBaseView;
@@ -92,7 +88,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     public void onResponse(THSVisitContext THSVisitContext, THSSDKError thssdkError) {
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
             if (null != thssdkError.getSdkError()) {
-                thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CREATE_VISIT_CONTEXT,thssdkError.getSdkError()), true);
+                thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CREATE_VISIT_CONTEXT,thssdkError.getSdkError()), true, false);
             } else {
                 updateSymptoms(THSVisitContext);
             }
@@ -142,7 +138,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
             public void onResponse(THSVisitContext pthVisitContext, THSSDKError thssdkError) {
                 if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
                     if (null != thssdkError.getSdkError()) {
-                        thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_ON_DEMAND_SPECIALITIES,thssdkError.getSdkError()), true);
+                        thsBaseView.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_ON_DEMAND_SPECIALITIES,thssdkError.getSdkError()), true, false);
                     } else {
                         updateSymptoms(pthVisitContext);
                     }

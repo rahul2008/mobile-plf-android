@@ -31,7 +31,6 @@ import com.philips.platform.ths.visit.THSWaitingRoomFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_APPLY_PROMOCODE;
@@ -145,7 +144,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
                     mTHSCostSummaryFragment.doTagging(ANALYTICS_ESTIMATED_VISIT_COST, mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_provider_offline), false);
                     showCreateVisitError(true, true, mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_provider_offline));
                 } else {
-                    mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CREATE_VISIT, tHSSDKError.getSdkError()), true);
+                    mTHSCostSummaryFragment.showError(THSSDKErrorFactory.getErrorType(ANALYTICS_CREATE_VISIT, tHSSDKError.getSdkError()), true, false);
                 }
             } else if (null != tHSVisit) {
                 String couponCode = null;
@@ -171,6 +170,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
             mTHSCostSummaryFragment.costBigLabel.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_free_visit_text));
             mTHSCostSummaryFragment.costSmallLabel.setText(null);
             String initialCostString = String.format(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_initial_Full_cover_cost), "$" + String.valueOf(thsVisit.getInitialVisitCost()));
+            mTHSCostSummaryFragment.mInitialVisitCostLabel.setVisibility(View.VISIBLE);
             mTHSCostSummaryFragment.mInitialVisitCostLabel.setText(initialCostString);
             //if (null == mTHSCostSummaryFragment.mTHSPaymentMethod || null == mTHSCostSummaryFragment.mTHSPaymentMethod.getPaymentMethod()) {
                 // if payment is not yet added then show Payment not required with continue button

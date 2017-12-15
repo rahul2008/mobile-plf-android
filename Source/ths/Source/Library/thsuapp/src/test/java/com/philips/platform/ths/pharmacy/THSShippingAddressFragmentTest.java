@@ -27,6 +27,7 @@ import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.view.widget.UIPicker;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -81,7 +82,7 @@ public class THSShippingAddressFragmentTest {
     Address addressMock;
 
     @Mock
-    THSShippingAddressFragment thsShippingAddressFragmentMock;
+    THSShippingAddressFragmentMock thsShippingAddressFragmentMock;
 
     @Mock
     FragmentActivity activityMock;
@@ -92,7 +93,7 @@ public class THSShippingAddressFragmentTest {
     @Mock
     FragmentLauncher fragmentLauncherMock;
 
-    THSShippingAddressFragment thsShippingAddressFragment;
+    THSShippingAddressFragmentMock thsShippingAddressFragment;
 
     @Mock
     List<State> stateListMock;
@@ -124,6 +125,9 @@ public class THSShippingAddressFragmentTest {
     @Mock
     THSConsumer thsConsumerMock;
 
+    @Mock
+    UIPicker UIPickerMock;
+
     @Before
     public void setUp() throws  Exception{
         MockitoAnnotations.initMocks(this);
@@ -140,7 +144,7 @@ public class THSShippingAddressFragmentTest {
         when(thsConsumerWrapper.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
 
-        thsShippingAddressFragment = new THSShippingAddressFragment();
+        thsShippingAddressFragment = new THSShippingAddressFragmentMock();
         when(thsShippingAddressFragmentMock.getActivity()).thenReturn(activityMock);
         when(thsShippingAddressFragmentMock.getActivity().getApplicationContext()).thenReturn(applicationContextMock);
         when(thsShippingAddressFragmentMock.getSupportedCountries()).thenReturn(countryListMock);
@@ -163,6 +167,8 @@ public class THSShippingAddressFragmentTest {
         thsShippingAddressFragment.supportedCountries = countryListMock;
         when(awsdkMock.getSupportedCountries()).thenReturn(countryListMock);
         when(consumerManagerMock.getValidShippingStates(countryMock)).thenReturn(stateListMock);
+        //when(thsShippingAddressFragment.getUiPicker()).thenReturn(UIPickerMock);
+       // when(thsShippingAddressFragmentMock.getUiPicker()).thenReturn(UIPickerMock);
     }
 
     @Test

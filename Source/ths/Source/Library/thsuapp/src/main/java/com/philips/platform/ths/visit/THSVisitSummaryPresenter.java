@@ -1,14 +1,8 @@
 package com.philips.platform.ths.visit;
 
-import android.view.View;
-
-import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.pharmacy.Pharmacy;
-import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.visit.VisitReport;
-import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
@@ -106,7 +100,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
         AmwellLog.d("Send rating", "failure");
         if (null != mTHSVisitSummaryFragment && mTHSVisitSummaryFragment.isFragmentAttached()) {
             mTHSVisitSummaryFragment.doTagging(ANALYTICS_RATING,mTHSVisitSummaryFragment.getResources().getString(R.string.ths_se_server_error_toast_message),true);
-            mTHSVisitSummaryFragment.showError(mTHSVisitSummaryFragment.getResources().getString(R.string.ths_se_server_error_toast_message),true);
+            mTHSVisitSummaryFragment.showError(mTHSVisitSummaryFragment.getResources().getString(R.string.ths_se_server_error_toast_message),true, false);
         }
     }
 

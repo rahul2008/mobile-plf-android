@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.philips.platform.ths.R;
@@ -33,7 +34,7 @@ public class THSPreWelcomeFragment extends THSBaseFragment implements View.OnCli
     private Label mLabelSeeHowItWorks;
     private Label mLabelTermsAndConditions;
     private RelativeLayout mRelativeLayoutContainer;
-    private Label ths_terms_and_conditions_cross;
+    private ImageView ths_terms_and_conditions_cross;
 
     @Nullable
     @Override

@@ -58,6 +58,10 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
             if(themeConfigurationExists((ActivityLauncher) uiLauncher)) {
                 intent.putExtras(getThemeConfigsIntent((ActivityLauncher) uiLauncher));
             }
+            if(null != ((ActivityLauncher) uiLauncher).getScreenOrientation()) {
+                ActivityLauncher.ActivityOrientation activityOrientation = ((ActivityLauncher) uiLauncher).getScreenOrientation();
+                intent.putExtra(THSConstants.KEY_ORIENTATION, activityOrientation);
+            }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } else {

@@ -157,14 +157,14 @@ public class THSVisitHistoryPresenterTest {
         list.add(visitReportMock);
 
         mThsVisitHistoryPresenter.onResponse(list,sdkErrorMock);
-        verify(thsVisitHistoryFragmentMock).showError(anyString(),anyBoolean());
+        verify(thsVisitHistoryFragmentMock).showError(anyString(),anyBoolean(), anyBoolean());
 
     }
 
     @Test(expected = IllegalStateException.class)
     public void onFailure() throws Exception {
         mThsVisitHistoryPresenter.onFailure(throwableMock);
-        verify(thsVisitHistoryFragmentMock).showError(anyString(),anyBoolean());
+        verify(thsVisitHistoryFragmentMock).showError(anyString(),anyBoolean(), false);
     }
 
     @Test
