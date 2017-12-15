@@ -43,7 +43,6 @@ println "Working branch: ${objcdp.getWorkingBranch()}"
 
 
 subprojects {
-
     buildscript {
         apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
@@ -60,6 +59,8 @@ subprojects {
             }
         }
     }
+
+    group = 'com.philips.cdp'
 
     if (!it.projectDir.exists()) {
         throw new GradleException("Project not found ${it}")

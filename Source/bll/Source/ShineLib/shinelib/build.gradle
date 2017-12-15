@@ -8,6 +8,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'jacoco'
 apply plugin: 'pl.droidsonroids.pitest'
+apply plugin: 'cdpSCM'
 
 buildscript {
     dependencies {
@@ -21,7 +22,6 @@ if (project.hasProperty('envCode')) {
     environment = envCode
 }
 
-apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
 
 def objcdp = new cdpSCM()
@@ -32,13 +32,6 @@ archivesBaseName = "shinelib"
 version = objcdp.getVersion(versions.bll_shinelib)
 
 repositories {
-    maven {
-        url repos.jcenter
-        credentials {
-            username = "readonly"
-            password = "123qweasdzxc"
-        }
-    }
     maven {
         url objcdp.getArtifactoryUrl()
         credentials {
@@ -285,8 +278,3 @@ task sourceJar(type: Jar) {
 jacoco {
     toolVersion = versions.jacoco
 }
-
-/*
-task wrapper(type: Wrapper) {
-    distributionUrl = gradledistributionurl
-}*/

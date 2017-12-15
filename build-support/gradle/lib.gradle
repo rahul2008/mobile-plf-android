@@ -6,3 +6,11 @@ configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
+
+/**
+ * Creates sources.jar for easier debugging
+ */
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
