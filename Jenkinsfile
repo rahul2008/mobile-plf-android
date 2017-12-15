@@ -16,12 +16,14 @@ def errors = []
 stage('Build+test') {
     node('android && device') {
           checkout scm
+          //Build + test
           sh '''#!/bin/bash -l
                     set -e
                     chmod -R 755 .
                     #do not use -PenvCode=${JENKINS_ENV} since the option 'opa' is hardcoded in the archive
                     ./gradlew --refresh-dependencies clean assembleRelease :IconFont:test :AppInfra:cC :uid:createDebugCoverageReport :uAppFwLib:test :securedblibrary:cC :registrationApi:cC :registrationApi:test :jump:cC :jump:test :hsdp:cC :hsdp:test :productselection:cC :telehealth:testReleaseUnitTest :bluelib:generateJavadoc :bluelib:testReleaseUnitTest :product-registration-lib:test :product-registration-lib:jacocoTestReport :iap:test :digitalCareUApp:cC :digitalCareUApp:testRelease :digitalCare:cC :digitalCare:testRelease :commlib-api:generateJavadocPublicApi :commlib-ble:generateJavadocPublicApi :commlib-lan:generateJavadocPublicApi :commlib-cloud:generateJavadocPublicApi :commlib:test :commlib-testutils:testReleaseUnitTest :commlib-ble:testReleaseUnitTest :commlib-lan:testReleaseUnitTest :commlib-cloud:testReleaseUnitTest :commlib-api:testReleaseUnitTest :MyAccount:cC :MyAccount:testRelease :MyAccountUApp:cC :MyAccountUApp:testRelease :dataServices:testReleaseUnitTest :dataServicesUApp:testReleaseUnitTest :devicepairingUApp:test :ews-android:test :ews-android:jacocoTestReport :referenceApp:testAppFrameworkHamburgerReleaseUnitTest
             ''' 
+            // publish test results
             junit allowEmptyResults: false, testResults: 'Source/icf/Source/Library/**/build/test-results/**/*.xml'
             junit allowEmptyResults: false, testResults: 'Source/ail/Source/Library/*/build/outputs/androidTest-results/*/*.xml'
             junit allowEmptyResults: false, testResults: 'Source/ufw/Source/Library/*/build/test-results/*/*.xml'
@@ -105,6 +107,92 @@ stage('Build+test') {
             publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dpr/Source/DemoApp/app/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dpr unit test release'])
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/rap/Source/AppFramework/appFramework/build/reports/tests/testAppFrameworkHamburgerReleaseUnitTest', reportFiles: 'index.html', reportName: 'rap AppFramework Hamburger Release UnitTest'])  
               
+            if (params.PSRAbuild && (BranchName =~ /master|release\/platform_.*/))  {
+                    sh '''#!/bin/bash -l
+                        chmod -R 775 .
+                        cd ./Source/AppFramework
+                        ./gradlew -PenvCode=${JENKINS_ENV} assemblePsraRelease
+                    '''
+            } else {
+                if (params.PSRAbuild) {
+                    echo "PSRA build is not supported for Branch: ${BranchName}"
+                }
+
+                if (params.LeakCanarybuild && (BranchName =~ /master|release\/platform_.*/))  {
+                        sh '''#!/bin/bash -l
+                            chmod -R 775 .
+                            cd ./Source/AppFramework
+                            ./gradlew -PenvCode=${JENKINS_ENV} assembleLeakCanary
+                       '''
+                } else {
+                    if (params.LeakCanarybuild) {
+                        echo "Leak Canary build is not supported for Branch: ${BranchName}"
+                    }
+                }
+            }
+
+            if (BranchName =~ /master|develop|release\/platform_.*/) {
+                    echo "Publish to artifactory"
+                    sh '''#!/bin/bash -l
+                        set -e
+                        ./gradlew saveResDep zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath
+                    '''
+            }
+
+            if (params.LeakCanarybuild) {
+                    boolean MasterBranch = (BranchName ==~ /master.*/)
+                    boolean ReleaseBranch = (BranchName ==~ /release\/platform_.*/)
+                    boolean DevelopBranch = (BranchName ==~ /develop.*/)
+
+                    def shellcommand = '''#!/bin/bash -l
+                        export BASE_PATH=`pwd`
+                        echo $BASE_PATH
+                        TIMESTAMP=`date -u +%Y%m%d%H%M%S`
+                        TIMESTAMPEXTENSION=".$TIMESTAMP"
+
+                        cd $BASE_PATH/Source/rap/Source/AppFramework/appFramework/build/outputs/apk
+                        PUBLISH_APK=false
+                        APK_NAME="RefApp_LeakCanary_"${TIMESTAMP}".apk"
+                        ARTIFACTORY_URL="http://artifactory-ehv.ta.philips.com:8082/artifactory"
+                        ARTIFACTORY_REPO="unknown"
+
+                        if [ '''+MasterBranch+''' = true ]
+                        then
+                            PUBLISH_APK=true
+    //                            ARTIFACTORY_REPO="platform-pkgs-android-release"
+                            ARTIFACTORY_REPO="platform-pkgs-opa-android-release"
+                        elif [ '''+ReleaseBranch+''' = true ]
+                        then
+                            PUBLISH_APK=true
+    //                            ARTIFACTORY_REPO="platform-pkgs-android-stage"
+                            ARTIFACTORY_REPO="platform-pkgs-opa-android-stage"
+                        elif [ '''+DevelopBranch+''' = true ]
+                        then
+                            PUBLISH_APK=true
+    //                            ARTIFACTORY_REPO="platform-pkgs-android-snapshot"
+                            ARTIFACTORY_REPO="platform-pkgs-opa-android-snapshot"
+                        else
+                            echo "Not published as build is not on a master, develop or release branch" . $BranchName
+                        fi
+
+                        if [ $PUBLISH_APK = true ]
+                        then
+                            mv referenceApp-leakCanary.apk $APK_NAME
+                            curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/referenceApp/LeakCanary/ -T $APK_NAME
+                            echo "$ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/referenceApp/LeakCanary/$APK_NAME" > $BASE_PATH/Source/rap/Source/AppFramework/apkname.txt
+                        fi
+
+                        if [ $? != 0 ]
+                        then
+                            exit 1
+                        else
+                            cd $BASE_PATH
+                        fi
+                    '''
+                    sh shellcommand
+            }
+
+
         }
 }
 
