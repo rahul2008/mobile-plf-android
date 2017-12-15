@@ -113,7 +113,7 @@ artifacts {
 }
 
 task zipDocuments(type: Zip) {
-    from files(objcdp.getExternalDocPath()) {
+    from files(projectDir.toString() + "/../../../Documents/External/") {
         baseName = project.name
         classifier 'docs'
     }
