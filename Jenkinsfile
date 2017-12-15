@@ -14,7 +14,7 @@ def MailRecipient = 'DL_CDP2_Callisto@philips.com'
 def errors = []
 
 stage('Build') {
-    node('linux') {
+    node('android && device') {
                 checkout scm
                  sh '''#!/bin/bash -l
                     set -e
