@@ -282,6 +282,7 @@ timestamps {
 
             stage ('reporting') {
            //    androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
+				 echo "Reporting errors"
             }
         } catch(err) {
             errors << "errors found: ${err}"
