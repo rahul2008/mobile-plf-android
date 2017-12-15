@@ -28,6 +28,7 @@ ext.versions = [
         usr_jump                  : "2017.5.0",
         usr_hsdp                  : "2017.5.0",
         usr_coppa                 : "2017.5.0",
+        mya_marketingConsent      : "2017.5.0",
         sdk                       : 26,
         target                    : 26,
         minsdk                    : 21,

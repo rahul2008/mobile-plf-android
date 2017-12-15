@@ -46,6 +46,7 @@ include ':ConsentAccessToolKit'
 include ':MyAccountUApp'
 include ':ews-android'
 include ':ewsUApp'
+include ':marketingconsenthandler'
 
 //opa archive references:
 project(':AppInfra').projectDir = new File('./Source/ail/Source/Library/AppInfra')
@@ -93,6 +94,7 @@ project(':ConsentAccessToolKit').projectDir = new File('./Source/mya/Source/Libr
 project(':MyAccountUApp').projectDir = new File('./Source/mya/Source/DemoUApp/DemoUApp')
 project(':ews-android').projectDir = new File('./Source/ews/Source/Library/ews-android')
 project(':ewsUApp').projectDir = new File('./Source/ews/Source/DemoUApp/DemoUApp')
+project(':marketingconsenthandler').projectDir = new File('./Source/mya/Source/Library/marketingconsenthandler')
 
 //demoapps to be published to artifactory
 include ':UserRegistrationApp'
