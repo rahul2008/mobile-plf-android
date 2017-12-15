@@ -163,11 +163,6 @@ android {
 
 }
 
-configurations.all {
-    // check for updates every build
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-}
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -188,6 +183,4 @@ dependencies {
     androidTestCompile deps.junit
 }
 
-tasks.withType(Test) {
-    ignoreFailures = true
-}
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'

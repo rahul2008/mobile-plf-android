@@ -7,35 +7,14 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'jacoco'
-
-buildscript { bs ->
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
-    dependencies {
-        classpath(builddeps.buildinfoextractor)
-        classpath(builddeps.cdpSCM)
-    }
-}
-
 apply plugin: 'pl.droidsonroids.pitest'
 
+buildscript {
+    dependencies {
+        classpath builddeps.buildinfoextractor
+        classpath builddeps.cdpSCM
+    }
+}
 
 def environment = 'production'
 if (project.hasProperty('envCode')) {

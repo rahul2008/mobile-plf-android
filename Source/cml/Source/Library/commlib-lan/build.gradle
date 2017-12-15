@@ -3,17 +3,17 @@
  * All rights reserved.
  */
 
+apply plugin: 'com.android.library'
+apply plugin: 'pl.droidsonroids.pitest'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+
 buildscript {
     dependencies {
         classpath builddeps.buildinfoextractor
         classpath builddeps.cdpSCM
     }
 }
-
-apply plugin: 'com.android.library'
-apply plugin: 'pl.droidsonroids.pitest'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
 
 def environment = 'production'
 if (project.hasProperty('envCode')) {
