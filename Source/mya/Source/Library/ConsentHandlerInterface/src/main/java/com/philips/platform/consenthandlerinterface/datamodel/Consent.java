@@ -1,8 +1,6 @@
 package com.philips.platform.consenthandlerinterface.datamodel;
 
 
-import android.support.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,13 +9,13 @@ public class Consent {
     private ConsentDefinition definition;
     private List<BackendConsent> consents;
 
-    public Consent(BackendConsent consent, @NonNull ConsentDefinition definition) {
+    public Consent(BackendConsent consent, ConsentDefinition definition) {
         this.consents = new ArrayList<>();
         this.consents.add(consent);
         this.definition = definition;
     }
 
-    public Consent(List<BackendConsent> consent, @NonNull ConsentDefinition definition) {
+    public Consent(List<BackendConsent> consent, ConsentDefinition definition) {
         this.consents = consent;
         this.definition = definition;
     }

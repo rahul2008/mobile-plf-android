@@ -1,5 +1,6 @@
 package com.philips.platform.csw.permission;
 
+import com.philips.platform.consenthandlerinterface.ConsentHandlerInterface;
 import com.philips.platform.csw.permission.adapter.PermissionAdapter;
 
 import java.util.List;
@@ -26,6 +27,12 @@ public class PermissionModule {
     @Provides
     HelpClickListener provideHelpClickListener() {
         return helpClickListener;
+    }
+
+    @Provides
+    ConsentHandlerInterface provideConsentHandlerInterface() {
+        // TODO: Provide Interface
+        return null;
     }
 
     @Provides

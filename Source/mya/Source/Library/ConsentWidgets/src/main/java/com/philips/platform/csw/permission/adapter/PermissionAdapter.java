@@ -12,8 +12,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import com.philips.platform.catk.CatkConstants;
-import com.philips.platform.catk.error.ConsentNetworkError;
 import com.philips.platform.consenthandlerinterface.ConsentError;
 import com.philips.platform.consenthandlerinterface.datamodel.Consent;
 import com.philips.platform.consenthandlerinterface.datamodel.ConsentDefinition;
@@ -94,7 +92,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
         for (ConsentView consentView : items) {
             consentView.setError(true);
             consentView.setIsLoading(false);
-            consentView.setOnline(error.getErrorCode() != CatkConstants.CONSENT_ERROR_NO_CONNECTION);
+            consentView.setOnline(error.getErrorCode() != 2);
         }
         notifyItemRangeChanged(HEADER_COUNT, items.size() + HEADER_COUNT);
     }
@@ -105,7 +103,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<BasePermissionViewHo
             ConsentView consentView = items.get(position);
             consentView.setError(true);
             consentView.setIsLoading(false);
-            consentView.setOnline(error.getErrorCode() != CatkConstants.CONSENT_ERROR_NO_CONNECTION);
+            consentView.setOnline(error.getErrorCode() != 2);
             notifyItemChanged(position + HEADER_COUNT);
         }
     }
