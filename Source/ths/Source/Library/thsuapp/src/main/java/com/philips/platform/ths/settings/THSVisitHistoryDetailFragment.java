@@ -67,8 +67,8 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment {
     private Label consumerShippingAddress;
     private Label consumerState;
     protected Label consumerShippingZip;
-    ImageButton mImageButtonPharmacyEdit;
-    ImageButton mImageButtonShippingAddressEdit;
+    Label mImageButtonPharmacyEdit;
+    Label mImageButtonShippingAddressEdit;
 
     protected Label medicationShippingLabel;
     protected RelativeLayout medicationShippingRelativeLayout;
@@ -97,10 +97,10 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment {
         mLabelAppointmentDate.setVisibility(View.VISIBLE);
 
         mLabelCreditCardCharge = (Label) view.findViewById(R.id.ths_wrap_up_payment_cost);
-        mImageButtonPharmacyEdit = (ImageButton) view.findViewById(R.id.ps_edit_pharmacy);
+        mImageButtonPharmacyEdit = view.findViewById(R.id.ps_edit_pharmacy);
         mImageButtonPharmacyEdit.setVisibility(View.GONE);
 
-        mImageButtonShippingAddressEdit = (ImageButton) view.findViewById(R.id.ps_edit_consumer_shipping_address);
+        mImageButtonShippingAddressEdit = view.findViewById(R.id.ps_edit_consumer_shipping_address);
         mImageButtonShippingAddressEdit.setVisibility(View.GONE);
 
         Label prescriptionLabel = (Label) view.findViewById(R.id.ps_prescription_sent_label);

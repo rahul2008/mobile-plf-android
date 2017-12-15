@@ -34,7 +34,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     private Label pharmacyName, pharmacyZip, pharmacyState, pharmacyAddressLineOne, pharmacyAddressLIneTwo,
             consumerName, consumerCity, consumerShippingAddress, consumerState, consumerShippingZip, ps_shipped_to_label;
     private THSConsumerWrapper thsConsumerWrapper;
-    private ImageButton editPharmacy, ps_edit_consumer_shipping_address;
+    private Label editPharmacy, ps_edit_consumer_shipping_address;
     private RelativeLayout ths_shipping_pharmacy_layout, ps_shipping_layout_item;
     private Address address;
     private Pharmacy pharmacy;
@@ -64,8 +64,8 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         ths_shipping_pharmacy_layout = (RelativeLayout) view.findViewById(R.id.ths_shipping_pharmacy_layout);
         ps_shipping_layout_item = (RelativeLayout) view.findViewById(R.id.ps_shipping_layout_item);
         ps_shipped_to_label = (Label) view.findViewById(R.id.ps_shipped_to_label);
-        editPharmacy = (ImageButton) view.findViewById(R.id.ps_edit_pharmacy);
-        ps_edit_consumer_shipping_address = (ImageButton) view.findViewById(R.id.ps_edit_consumer_shipping_address);
+        editPharmacy = view.findViewById(R.id.ps_edit_pharmacy);
+        ps_edit_consumer_shipping_address =  view.findViewById(R.id.ps_edit_consumer_shipping_address);
         ps_edit_consumer_shipping_address.setOnClickListener(this);
         consumerCity = (Label) view.findViewById(R.id.ps_consumer_city);
         consumerName = (Label) view.findViewById(R.id.ps_consumer_name);
